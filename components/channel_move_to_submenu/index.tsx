@@ -93,6 +93,16 @@ const ChannelMoveToSubmenu = (props: Props) => {
         filteredCategories = categories.filter((category) => category.type !== CategoryTypes.DIRECT_MESSAGES);
     }
 
+    function getCategoryDisplayName(categoryType: ChannelCategory['type'], categoryDisplayName: ChannelCategory['display_name']) {
+        if (categoryType === CategoryTypes.FAVORITES) {
+            return formatMessage({id: 'sidebar_left.sidebar_channel_menu.favorites', defaultMessage: 'Favorites'});
+        }
+        if (categoryType === CategoryTypes.CHANNELS) {
+            return formatMessage({id: 'sidebar_left.sidebar_channel_menu.channels', defaultMessage: 'Channels'});
+        }
+        return categoryDisplayName;
+    }
+
     return (
         <SubMenu
             anchorId={`moveTo-${props.channel.id}`}
@@ -100,7 +110,6 @@ const ChannelMoveToSubmenu = (props: Props) => {
                 <>
                     <FolderMoveOutlineIcon
                         size={16}
-                        color='currentColor'
                     />
                     {formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
                 </>
@@ -115,17 +124,13 @@ const ChannelMoveToSubmenu = (props: Props) => {
                     {category.type === CategoryTypes.FAVORITES ? (
                         <StarOutlineIcon
                             size={16}
-                            color='currentColor'
                         />
                     ) : (
                         <FolderOutlineIcon
                             size={16}
-                            color='currentColor'
                         />
                     )}
-                    {category.type === CategoryTypes.FAVORITES && formatMessage({id: 'sidebar_left.sidebar_channel_menu.favorites', defaultMessage: 'Favorites'})}
-                    {category.type === CategoryTypes.CHANNELS && formatMessage({id: 'sidebar_left.sidebar_channel_menu.channels', defaultMessage: 'Channels'})}
-                    {(category.type !== CategoryTypes.FAVORITES && category.type !== CategoryTypes.CHANNELS) && category.display_name}
+                    {getCategoryDisplayName(category.type, category.display_name)}
                 </MenuItem>
             ))}
             <MenuDivider/>
@@ -135,7 +140,6 @@ const ChannelMoveToSubmenu = (props: Props) => {
             >
                 <FolderMoveOutlineIcon
                     size={16}
-                    color='currentColor'
                 />
                 {formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'New Category'})}
             </MenuItem>

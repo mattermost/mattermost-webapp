@@ -47,34 +47,48 @@ export function MenuComponent(props: Props) {
         setAnchorElement(null);
     };
 
+    function renderAnchorNode() {
+        const anchorNode = (
+            <button
+                id={props.anchorId}
+                aria-controls={isMenuOpen ? props.menuId : undefined}
+                aria-haspopup='true'
+                aria-expanded={isMenuOpen ? 'true' : undefined}
+                aria-label={props.anchorAriaLabel}
+                className={props.anchorClassName}
+                onClick={handleMenuOpen}
+                tabIndex={isMenuOpen ? 0 : -1}
+            >
+                {props.anchorNode}
+            </button>
+        );
+
+        if (props.tooltipText) {
+            return (
+                <OverlayTrigger
+                    delayShow={OVERLAY_TIME_DELAY}
+                    placement={props?.tooltipPlacement ?? 'top'}
+                    overlay={
+                        <Tooltip
+                            id={props.tooltipId}
+                            className={props.tooltipClassName}
+                        >
+                            {props.tooltipText}
+                        </Tooltip>
+                    }
+                    disabled={!props.tooltipText || isMenuOpen}
+                >
+                    {anchorNode}
+                </OverlayTrigger>
+            );
+        }
+
+        return anchorNode;
+    }
+
     return (
         <CompassDesignProvider theme={props.theme}>
-            <OverlayTrigger
-                delayShow={OVERLAY_TIME_DELAY}
-                placement={props?.tooltipPlacement ?? 'top'}
-                overlay={
-                    <Tooltip
-                        id={props.tooltipId}
-                        className={props.tooltipClassName}
-                    >
-                        {props.tooltipText}
-                    </Tooltip>
-                }
-                disabled={!props.tooltipText || isMenuOpen}
-            >
-                <button
-                    id={props.anchorId}
-                    aria-controls={isMenuOpen ? props.menuId : undefined}
-                    aria-haspopup='true'
-                    aria-expanded={isMenuOpen ? 'true' : undefined}
-                    aria-label={props.anchorAriaLabel}
-                    className={props.anchorClassName}
-                    onClick={handleMenuOpen}
-                    tabIndex={isMenuOpen ? 0 : -1}
-                >
-                    {props.anchorNode}
-                </button>
-            </OverlayTrigger>
+            {renderAnchorNode()}
             <Menu
                 id={props.menuId}
                 anchorEl={anchorElement}

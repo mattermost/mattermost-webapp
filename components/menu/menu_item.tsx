@@ -16,13 +16,9 @@ interface Props {
 export function MenuItem(props: Props) {
     return (
         <MuiMenuItem
-            id={props.id}
             component='li'
             disableRipple={true}
-            disabled={props.disabled}
-            onClick={props.onClick}
-            onMouseEnter={props.onMouseEnter}
-            onMouseLeave={props.onMouseLeave}
+            {...props}
         >
             {props.children}
         </MuiMenuItem>

@@ -53,7 +53,6 @@ const SidebarCategoryMenu = (props: Props) => {
             >
                 <BellOutlineIcon
                     size={16}
-                    color='currentColor'
                 />
                 {props.category.muted ? formatMessage({id: 'sidebar_left.sidebar_category_menu.unmuteCategory', defaultMessage: 'Unmute Category'}) : formatMessage({id: 'sidebar_left.sidebar_category_menu.muteCategory', defaultMessage: 'Mute Category'})}
             </MenuItem>
@@ -84,7 +83,6 @@ const SidebarCategoryMenu = (props: Props) => {
             >
                 <TrashCanOutlineIcon
                     size={16}
-                    color='currentColor'
                 />
                 {formatMessage({id: 'sidebar_left.sidebar_category_menu.deleteCategory', defaultMessage: 'Delete Category'})}
             </MenuItem>
@@ -110,7 +108,6 @@ const SidebarCategoryMenu = (props: Props) => {
             >
                 <PencilOutlineIcon
                     size={16}
-                    color='currentColor'
                 />
                 {formatMessage({id: 'sidebar_left.sidebar_category_menu.renameCategory', defaultMessage: 'Rename Category'})}
             </MenuItem>
@@ -128,7 +125,6 @@ const SidebarCategoryMenu = (props: Props) => {
     let sortChannelsIcon = (
         <FormatListBulletedIcon
             size={16}
-            color='currentColor'
         />
     );
     if (props.category.sorting === CategorySorting.Alphabetical) {
@@ -136,7 +132,6 @@ const SidebarCategoryMenu = (props: Props) => {
         sortChannelsIcon = (
             <SortAlphabeticalAscendingIcon
                 size={16}
-                color='currentColor'
             />
         );
     } else if (props.category.sorting === CategorySorting.Recency) {
@@ -144,7 +139,6 @@ const SidebarCategoryMenu = (props: Props) => {
         sortChannelsIcon = (
             <ClockOutlineIcon
                 size={16}
-                color='currentColor'
             />
         );
     }
@@ -168,7 +162,6 @@ const SidebarCategoryMenu = (props: Props) => {
             anchorNode={
                 <DotsVerticalIcon
                     size={16}
-                    color='currentColor'
                 />
             }
             anchorAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Edit category menu'})}
@@ -214,7 +207,6 @@ const SidebarCategoryMenu = (props: Props) => {
             >
                 <FolderPlusOutlineIcon
                     size={16}
-                    color='currentColor'
                 />
                 {formatMessage({id: 'sidebar_left.sidebar_category_menu.createCategory', defaultMessage: 'Create New Category'})}
             </MenuItem>

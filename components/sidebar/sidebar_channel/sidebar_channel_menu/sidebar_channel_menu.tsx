@@ -50,7 +50,6 @@ const SidebarChannelMenu = (props: Props) => {
             >
                 <MarkAsUnreadIcon
                     size={16}
-                    color='currentColor'
                 />
                 {formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsRead', defaultMessage: 'Mark as Read'})}
             </MenuItem>
@@ -71,7 +70,6 @@ const SidebarChannelMenu = (props: Props) => {
             >
                 <MarkAsUnreadIcon
                     size={16}
-                    color='currentColor'
                 />
                 {formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsUnread', defaultMessage: 'Mark as Unread'})}
             </MenuItem>
@@ -94,7 +92,6 @@ const SidebarChannelMenu = (props: Props) => {
             >
                 <StarIcon
                     size={16}
-                    color='currentColor'
                 />
                 {formatMessage({id: 'sidebar_left.sidebar_channel_menu.unfavorite', defaultMessage: 'Remove from Favorites'})}
             </MenuItem>
@@ -114,7 +111,6 @@ const SidebarChannelMenu = (props: Props) => {
             >
                 <StarOutlineIcon
                     size={16}
-                    color='currentColor'
                 />
                 {formatMessage({id: 'sidebar_left.sidebar_channel_menu.favorite', defaultMessage: 'Add to Favorites'})}
             </MenuItem>
@@ -141,7 +137,6 @@ const SidebarChannelMenu = (props: Props) => {
             >
                 <BellOffOutlineIcon
                     size={16}
-                    color='currentColor'
                 />
                 {muteChannelText}
             </MenuItem>
@@ -165,7 +160,6 @@ const SidebarChannelMenu = (props: Props) => {
             >
                 <BellOutlineIcon
                     size={16}
-                    color='currentColor'
                 />
                 {muteChannelText}
             </MenuItem>
@@ -187,7 +181,6 @@ const SidebarChannelMenu = (props: Props) => {
             >
                 <LinkVariantIcon
                     size={16}
-                    color='currentColor'
                 />
                 {formatMessage({id: 'sidebar_left.sidebar_channel_menu.copyLink', defaultMessage: 'Copy Link'})}
             </MenuItem>
@@ -214,7 +207,6 @@ const SidebarChannelMenu = (props: Props) => {
             >
                 <AccountOutlineIcon
                     size={16}
-                    color='currentColor'
                 />
                 {formatMessage({id: 'sidebar_left.sidebar_channel_menu.addMembers', defaultMessage: 'Add Members'})}
             </MenuItem>
@@ -252,7 +244,6 @@ const SidebarChannelMenu = (props: Props) => {
             >
                 <CloseIcon
                     size={16}
-                    color='currentColor'
                 />
                 {leaveChannelText}
             </MenuItem>
@@ -268,7 +259,6 @@ const SidebarChannelMenu = (props: Props) => {
             anchorNode={
                 <DotsVerticalIcon
                     size={16}
-                    color='currentColor'
                 />
             }
             anchorAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}

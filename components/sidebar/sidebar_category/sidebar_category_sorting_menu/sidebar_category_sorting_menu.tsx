@@ -61,7 +61,6 @@ const SidebarCategorySortingMenu = (props: Props) => {
             anchorNode={
                 <DotsVerticalIcon
                     size={16}
-                    color='currentColor'
                 />
             }
             anchorAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Edit category menu'})}
@@ -96,7 +95,6 @@ const SidebarCategorySortingMenu = (props: Props) => {
                     <>
                         <AccountMultipleOutlineIcon
                             size={16}
-                            color='currentColor'
                         />
                         {formatMessage({id: 'sidebar.show', defaultMessage: 'Show'})}
                     </>
@@ -126,7 +124,6 @@ const SidebarCategorySortingMenu = (props: Props) => {
             >
                 <AccountPlusOutlineIcon
                     size={16}
-                    color='currentColor'
                 />
                 {formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}
             </MenuItem>
