@@ -6,10 +6,10 @@ import {useSelector, useDispatch} from 'react-redux';
 import {NavLink, useRouteMatch} from 'react-router-dom';
 import {useIntl} from 'react-intl';
 
-import {getDrafts} from 'mattermost-redux/actions/drafts';
-
 import {localDraftsAreEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
+import {getDrafts} from 'actions/views/drafts';
 
 import {makeGetDraftsCount} from 'selectors/drafts';
 
