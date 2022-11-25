@@ -9,7 +9,7 @@ import {Constants, Preferences} from 'utils/constants';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 
-import {TourTip, useMeasurePunchouts} from '@mattermost/components';
+import {TourTip} from '@mattermost/components';
 
 const translate = {x: 2, y: 25};
 
@@ -60,14 +60,15 @@ const CRTThreadsPaneTutorialTip = () => {
         dispatch(savePreferences(currentUserId, preferences));
     };
 
-    const overlayPunchOut = useMeasurePunchouts(['rhsContainer'], []);
+    // TODO: Update overlay behavior to handle expand/contract & handle unnecessary resizing MM-48647 & MM-48412
+    // const overlayPunchOut = useMeasurePunchouts(['sidebar-right'], []);
 
     return (
         <TourTip
             show={true}
             screen={screen}
             title={title}
-            overlayPunchOut={overlayPunchOut}
+            overlayPunchOut={null}
             placement='left'
             pulsatingDotPlacement='top-start'
             pulsatingDotTranslate={translate}
