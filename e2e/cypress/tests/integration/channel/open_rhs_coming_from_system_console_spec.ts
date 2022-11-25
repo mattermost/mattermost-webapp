@@ -58,7 +58,7 @@ describe('Channel RHS', () => {
         verifyRHSisOpenAndHasTitle('Info');
     });
 
-    it('MM-XX - should be able to open recent mentions, visit the system console and come back without issues', () => {
+    it('MM-T5311 - should be able to open recent mentions, visit the system console and come back without issues', () => {
         // # Click on the recent mentions button
         cy.uiGetRecentMentionButton().click();
 
@@ -72,7 +72,7 @@ describe('Channel RHS', () => {
         verifyRHSisOpenAndHasTitle('Recent Mentions');
     });
 
-    it('MM-XX - should be able to open saved posts, visit the system console and come back without issues', () => {
+    it('MM-T5312 - should be able to open saved posts, visit the system console and come back without issues', () => {
         // # Click on the saved posts button
         cy.uiGetSavedPostButton().click();
 
@@ -86,7 +86,7 @@ describe('Channel RHS', () => {
         verifyRHSisOpenAndHasTitle('Saved Posts');
     });
 
-    it('MM-XX - should be able to open pinned posts, visit the system console and come back without issues', () => {
+    it('MM-T5313 - should be able to open pinned posts, visit the system console and come back without issues', () => {
         // # Click on the pinned posts button
         cy.uiGetChannelPinButton().click();
 
@@ -100,7 +100,7 @@ describe('Channel RHS', () => {
         verifyRHSisOpenAndHasTitle('Pinned Posts');
     });
 
-    it('MM-XX - should be able to open channel members, visit the system console and come back without issues', () => {
+    it('MM-T5314 - should be able to open channel members, visit the system console and come back without issues', () => {
         // # Click on the channel members button
         cy.uiGetChannelMemberButton().click();
 
@@ -114,7 +114,7 @@ describe('Channel RHS', () => {
         verifyRHSisOpenAndHasTitle('Members');
     });
 
-    it('MM-XX - should be able to open channel files, visit the system console and come back without issues', () => {
+    it('MM-T5315 - should be able to open channel files, visit the system console and come back without issues', () => {
         // # Click on the channel files button
         cy.uiGetChannelFileButton().click();
 
@@ -128,7 +128,7 @@ describe('Channel RHS', () => {
         verifyRHSisOpenAndHasTitle('Recent files');
     });
 
-    it('MM-XX - should be able to open search results, visit the system console and come back without issues', () => {
+    it('MM-T5316 - should be able to open search results, visit the system console and come back without issues', () => {
         // # Post a message
         cy.postMessage(MESSAGES.SMALL);
 
@@ -145,7 +145,7 @@ describe('Channel RHS', () => {
         verifyRHSisOpenAndHasTitle('Search Results');
     });
 
-    it('MM-XX - should be able to open thread reply, visit the system console and come back without issues', () => {
+    it('MM-T5317 - should be able to open thread reply, visit the system console and come back without issues', () => {
         // # Post a message
         cy.postMessage(MESSAGES.SMALL);
 
@@ -164,7 +164,7 @@ describe('Channel RHS', () => {
         verifyRHSisOpenAndHasTitle('Thread');
     });
 
-    it('MM-XX - should be able to open thread reply with CRT, visit the system console and come back without issues', () => {
+    it('MM-T5318 - should be able to open thread reply with CRT, visit the system console and come back without issues', () => {
         // # Enable CRT
         cy.apiSaveCRTPreference(testAdmin.id, 'on');
 
