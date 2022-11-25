@@ -43,8 +43,6 @@ import Badge from 'components/widgets/badges/badge';
 
 import './profile_popover.scss';
 
-// todo sinan write test when current user and/ or other is in call
-// todo sinan write test when config settings are false
 interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'> {
 
     /**
@@ -81,12 +79,12 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     hide?: () => void;
 
     /**
-      * Function to call to return focus to the previously focused element when the popover closes.
-      * If not provided, the popover will automatically determine the previously focused element
-      * and focus that on close. However, if the previously focused element is not correctly detected
-      * by the popover, or the previously focused element will disappear after the popover opens,
-      * it is necessary to provide this function to focus the correct element.
-      */
+     * Function to call to return focus to the previously focused element when the popover closes.
+     * If not provided, the popover will automatically determine the previously focused element
+     * and focus that on close. However, if the previously focused element is not correctly detected
+     * by the popover, or the previously focused element will disappear after the popover opens,
+     * it is necessary to provide this function to focus the correct element.
+     */
     returnFocus?: () => void;
 
     /**
@@ -194,6 +192,7 @@ type ChannelCallsState = {
  * The profile popover, or hovercard, that appears with user information when clicking
  * on the username or profile picture of a user.
  */
+
 class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePopoverState> {
     titleRef: React.RefObject<HTMLDivElement>;
     returnFocus: () => void;
@@ -222,11 +221,11 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             this.returnFocus = () => {
                 document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
                     A11yCustomEventTypes.FOCUS, {
-                    detail: {
-                        target: previouslyFocused as HTMLElement,
-                        keyboardOnly: true,
+                        detail: {
+                            target: previouslyFocused as HTMLElement,
+                            keyboardOnly: true,
+                        },
                     },
-                },
                 ));
             };
         }
@@ -299,8 +298,8 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         };
         this.props.actions.openModal(customStatusInputModalData);
     };
-    handleAddToChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
+    handleAddToChannel = () => {
+        this.props.hide?.();
         this.handleCloseModals();
     };
     handleCloseModals = () => {
@@ -674,7 +673,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                         modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
                         role='menuitem'
                         dialogType={AddUserToChannelModal}
-                        dialogProps={{user: this.props.user}}
+                        dialogProps={{user: this.props.user, onExited: this.returnFocus}}
                         onClick={this.props.hide}
                     >
                         <AccountPlusOutlineIcon
@@ -855,6 +854,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 onFocus={(e) => (e.relatedTarget as HTMLElement).focus()}
             />
         );
+
         return (
             <Popover
                 {...popoverProps}
@@ -863,7 +863,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 {tabCatcher}
                 <div
                     role='dialog'
-                    aria-label={Utils.localizeAndFormatMessage('profile_popover.profileLabel', 'Profile for {name}', { name: displayName })}
+                    aria-label={Utils.localizeAndFormatMessage('profile_popover.profileLabel', 'Profile for {name}', {name: displayName})}
                     onKeyDown={this.handleKeyDown}
                     className={A11yClassNames.POPUP}
                 >
@@ -879,7 +879,6 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     </div>
                 </div>
                 {tabCatcher}
-                {dataContent}
             </Popover>
         );
     }

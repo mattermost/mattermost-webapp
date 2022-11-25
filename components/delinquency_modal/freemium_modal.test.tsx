@@ -155,24 +155,10 @@ describe('components/delinquency_modal/freemium_modal', () => {
         expect(screen.getByText('Some of your workspace\'s files are no longer accessible. Upgrade to a paid plan and get unlimited access to your files.')).toBeInTheDocument();
     });
 
-    it('should display integrations text when only integrations is surpassed', () => {
-        const planName = 'Testing';
-
-        (useGetMultiplesExceededCloudLimit as jest.Mock).mockReturnValue([LimitTypes.enabledIntegrations]);
-        renderComponent({
-            props: {
-                planName,
-            },
-        });
-
-        expect(screen.queryByText(`Re-activate ${planName}`)).toBeInTheDocument();
-        expect(screen.getByText('You have reached the limit of enabled integrations in your workspace. Upgrade to a paid plan to remove restrictions.')).toBeInTheDocument();
-    });
-
     it('should display update to paid plan text when only multiples limits is surpassed', () => {
         const planName = 'Testing';
 
-        (useGetMultiplesExceededCloudLimit as jest.Mock).mockReturnValue([LimitTypes.messageHistory, LimitTypes.enabledIntegrations]);
+        (useGetMultiplesExceededCloudLimit as jest.Mock).mockReturnValue([LimitTypes.messageHistory, LimitTypes.boardsCards]);
         renderComponent({
             props: {
                 planName,

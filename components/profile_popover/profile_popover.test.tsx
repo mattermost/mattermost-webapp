@@ -3,6 +3,7 @@
 
 import React from 'react';
 
+import {General} from 'mattermost-redux/constants';
 import {CustomStatusDuration} from '@mattermost/types/users';
 
 import ProfilePopover from 'components/profile_popover/profile_popover';
@@ -48,6 +49,7 @@ describe('components/ProfilePopover', () => {
         ],
         isCallsEnabled: true,
         isCallsDefaultEnabledOnAllChannels: true,
+        teammateNameDisplay: General.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
     };
 
     test('should match snapshot', () => {

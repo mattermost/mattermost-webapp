@@ -18,6 +18,7 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {getCallsConfig, getCalls} from 'mattermost-redux/selectors/entities/common';
 import {Action} from 'mattermost-redux/types/actions';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions';
 import {getMembershipForEntities} from 'actions/views/profile_popover';
@@ -121,6 +122,7 @@ function makeMapStateToProps() {
             isCallsDefaultEnabledOnAllChannels: callsConfig?.DefaultEnabled,
             isCallsCanBeDisabledOnSpecificChannels: callsConfig?.AllowEnableCalls,
             dMChannelId: getChannelByName(state, getDirectChannelName(currentUserId, userId))?.id,
+            teammateNameDisplay: getTeammateNameDisplaySetting(state),
         };
     };
 }
