@@ -53,9 +53,10 @@ export function actionOnGlobalItemsWithPrefix(prefix, action) {
 }
 
 export function cleanLocalStorage() {
+    const userProfileColorPattern = /^[a-z0-9.\-_]+-#[a-z0-9]{6}$/i;
+
     for (const key of Object.keys(localStorage)) {
         // Remove all keys added for user profile colours before MM-47782
-        const userProfileColorPattern = /^[a-z0-9.\-_]+-#[a-z0-9]{6}$/i;
         if (userProfileColorPattern.test(key)) {
             localStorage.removeItem(key);
         }
