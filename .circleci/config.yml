@@ -194,10 +194,10 @@ jobs:
             curl -f -o server.tar.gz https://pr-builds.mattermost.com/mattermost-server/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || true
 
             if [[ -f server.tar.gz ]]; then
-                echo "Downloaded server bundle from ${CIRCLE_BRANCH} branch"
+                echo "Downloaded server bundle for ${CIRCLE_BRANCH} branch from pr-builds.mattermost.com"
             else
                 curl -f -o server.tar.gz https://s3.amazonaws.com/releases.mattermost.com/gitlab/bundle/master/mattermost-enterprise-linux-amd64.tar.gz
-                echo "Downloaded server bundle from master branch"
+                echo "Downloaded server bundle for master from releases.mattermost.com"
             fi
 
             tar xf server.tar.gz
@@ -277,10 +277,22 @@ workflows:
           context: mattermost-ci-pr-builds-s3
           requires:
             - upload-s3
+          filters:
+            branches:
+              ignore:
+                - master
+                - /^release-.*/
+                - /^cloud-.*/
       - build-docker:
           context: matterbuild-docker
           requires:
             - prepare-docker-build
+          filters:
+            branches:
+              ignore:
+                - master
+                - /^release-.*/
+                - /^cloud-.*/
       - test:
           requires:
             - type-check
