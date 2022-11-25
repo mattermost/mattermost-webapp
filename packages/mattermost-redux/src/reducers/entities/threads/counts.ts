@@ -23,6 +23,7 @@ function handleAllTeamThreadsRead(state: ThreadsState['counts'], action: Generic
             ...counts,
             total_unread_mentions: 0,
             total_unread_threads: 0,
+            total_unread_urgent_mentions: 0,
         },
     };
 }
@@ -34,11 +35,13 @@ function isEqual(state: ThreadsState['counts'], action: GenericAction, unreads: 
         total,
         total_unread_threads: totalUnreadThreads,
         total_unread_mentions: totalUnreadMentions,
+        total_unread_urgent_mentions: totalUnreadUrgentMentions,
     } = action.data;
 
     if (
         totalUnreadMentions !== counts.total_unread_mentions ||
-        totalUnreadThreads !== counts.total_unread_threads
+        totalUnreadThreads !== counts.total_unread_threads ||
+        totalUnreadUrgentMentions !== counts.total_unread_urgent_mentions
     ) {
         return false;
     }
@@ -53,7 +56,7 @@ function isEqual(state: ThreadsState['counts'], action: GenericAction, unreads: 
     return true;
 }
 
-function handleReadChangedThread(state: ThreadsState['counts'], action: GenericAction, teamId: string): ThreadsState['counts'] {
+function handleReadChangedThread(state: ThreadsState['counts'], action: GenericAction, teamId: string, isUrgent: boolean): ThreadsState['counts'] {
     const {
         prevUnreadMentions = 0,
         newUnreadMentions = 0,
@@ -66,11 +69,15 @@ function handleReadChangedThread(state: ThreadsState['counts'], action: GenericA
         total_unread_threads: prevUnreadReplies,
         total: 0,
         total_unread_mentions: prevUnreadMentions,
+        total_unread_urgent_mentions: isUrgent ? prevUnreadMentions : 0,
     };
 
     const unreadMentionDiff = newUnreadMentions - prevUnreadMentions;
 
     counts.total_unread_mentions = Math.max(counts.total_unread_mentions + unreadMentionDiff, 0);
+    if (isUrgent) {
+        counts.total_unread_urgent_mentions = Math.max(counts.total_unread_urgent_mentions + unreadMentionDiff, 0);
+    }
 
     if (newUnreadReplies > 0 && prevUnreadReplies === 0) {
         counts.total_unread_threads += 1;
@@ -108,13 +115,14 @@ function handleLeaveChannel(state: ThreadsState['counts'] = {}, action: GenericA
         return state;
     }
 
-    const {unreadMentions, unreadThreads} = extra.threadsToDelete.reduce((curr, item: UserThread) => {
+    const {unreadMentions, unreadThreads, unreadUrgentMentions} = extra.threadsToDelete.reduce((curr, item: UserThread) => {
         curr.unreadMentions += item.unread_mentions;
         curr.unreadThreads = item.unread_replies > 0 ? curr.unreadThreads + 1 : curr.unreadThreads;
+        curr.unreadUrgentMentions = item.is_urgent ? curr.unreadUrgentMentions + item.unread_mentions : curr.unreadUrgentMentions;
         return curr;
-    }, {unreadMentions: 0, unreadThreads: 0});
+    }, {unreadMentions: 0, unreadThreads: 0, unreadUrgentMentions: 0});
 
-    const {total, total_unread_mentions: totalUnreadMentions, total_unread_threads: totalUnreadThreads} = state[teamId];
+    const {total, total_unread_mentions: totalUnreadMentions, total_unread_threads: totalUnreadThreads, total_unread_urgent_mentions: totalUnreadUrgentMentions} = state[teamId];
 
     return {
         ...state,
@@ -122,6 +130,7 @@ function handleLeaveChannel(state: ThreadsState['counts'] = {}, action: GenericA
             total: Math.max(total - extra.threadsToDelete.length, 0),
             total_unread_mentions: Math.max(totalUnreadMentions - unreadMentions, 0),
             total_unread_threads: Math.max(totalUnreadThreads - unreadThreads, 0),
+            total_unread_urgent_mentions: Math.max((totalUnreadUrgentMentions || 0) - unreadUrgentMentions, 0),
         },
     };
 }
@@ -148,7 +157,7 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
     case ThreadTypes.ALL_TEAM_THREADS_READ:
         return handleAllTeamThreadsRead(state, action);
     case ThreadTypes.READ_CHANGED_THREAD: {
-        const {teamId, channelType} = action.data;
+        const {teamId, channelType, isUrgent} = action.data;
         if (isDmGmChannel(channelType)) {
             const teamIds = new Set(Object.keys(state));
 
@@ -159,13 +168,13 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
 
             let newState = {...state};
             teamIds.forEach((id) => {
-                newState = handleReadChangedThread(newState, action, id);
+                newState = handleReadChangedThread(newState, action, id, isUrgent);
             });
 
             return newState;
         }
 
-        return handleReadChangedThread(state, action, teamId);
+        return handleReadChangedThread(state, action, teamId, isUrgent);
     }
     case ThreadTypes.FOLLOW_CHANGED_THREAD: {
         const {team_id: teamId, following} = action.data;
@@ -199,6 +208,7 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
                 total: action.data.total,
                 total_unread_threads: action.data.total_unread_threads,
                 total_unread_mentions: action.data.total_unread_mentions,
+                total_unread_urgent_mentions: action.data.total_unread_urgent_mentions,
             },
         };
     case ThreadTypes.DECREMENT_THREAD_COUNTS:
@@ -217,7 +227,7 @@ export function countsReducer(state: ThreadsState['counts'] = {}, action: Generi
         if (isDmGmChannel(action.data.channelType)) {
             return state;
         }
-        return handleReadChangedThread(state, action, action.data.teamId);
+        return handleReadChangedThread(state, action, action.data.teamId, action.data.isUrgent);
     case TeamTypes.LEAVE_TEAM:
         return handleLeaveTeam(state, action);
     case UserTypes.LOGOUT_SUCCESS:
@@ -234,6 +244,7 @@ export function countsReducer(state: ThreadsState['counts'] = {}, action: Generi
                     ...state[member.team_id],
                     total_unread_threads: member.thread_count || 0,
                     total_unread_mentions: member.thread_mention_count || 0,
+                    total_unread_urgent_mentions: member.thread_urgent_mention_count || 0,
                 };
 
                 return result;

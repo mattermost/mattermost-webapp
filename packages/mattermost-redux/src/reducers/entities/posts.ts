@@ -3,16 +3,19 @@
 
 import {ChannelTypes, GeneralTypes, PostTypes, UserTypes, ThreadTypes, InsightTypes, CloudTypes} from 'mattermost-redux/action_types';
 
+import {comparePosts, isPermalink, shouldUpdatePost} from 'mattermost-redux/utils/post_utils';
 import {Posts} from 'mattermost-redux/constants';
 import {PostTypes as PostConstant} from 'utils/constants';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
+
 import {
     OpenGraphMetadata,
     Post,
     PostsState,
     PostOrderBlock,
     MessageHistory,
+    PostAcknowledgement,
 } from '@mattermost/types/posts';
 import {UserProfile} from '@mattermost/types/users';
 import {Reaction} from '@mattermost/types/reactions';
@@ -22,7 +25,6 @@ import {
     RelationOneToMany,
 } from '@mattermost/types/utilities';
 
-import {comparePosts, isPermalink, shouldUpdatePost} from 'mattermost-redux/utils/post_utils';
 import {TopThread} from '@mattermost/types/insights';
 
 export function removeUnneededMetadata(post: Post) {
@@ -46,6 +48,11 @@ export function removeUnneededMetadata(post: Post) {
 
     if (metadata.reactions) {
         Reflect.deleteProperty(metadata, 'reactions');
+        changed = true;
+    }
+
+    if (metadata.reactions) {
+        Reflect.deleteProperty(metadata, 'acknowledgements');
         changed = true;
     }
 
@@ -1209,6 +1216,83 @@ export function reactions(state: RelationOneToOne<Post, Record<string, Reaction>
     }
 }
 
+export function acknowledgements(state: RelationOneToOne<Post, Record<UserProfile['id'], number>> = {}, action: GenericAction) {
+    switch (action.type) {
+    case PostTypes.CREATE_ACK_POST_SUCCESS: {
+        const ack = action.data as PostAcknowledgement;
+
+        if (!state[ack.post_id]) {
+            return {
+                ...state,
+                [ack.post_id]: ack.acknowledged_at,
+            };
+        }
+
+        return {
+            ...state,
+            [ack.post_id]: {
+                ...state[ack.post_id],
+                [ack.user_id]: ack.acknowledged_at,
+            },
+        };
+    }
+    case PostTypes.DELETE_ACK_POST_SUCCESS: {
+        const ack = action.data;
+
+        if (!state[ack.post_id] || !state[ack.post_id][ack.user_id]) {
+            return state;
+        }
+
+        // avoid a race condition
+        const acknowledgedAt = state[ack.post_id][ack.user_id];
+        if (acknowledgedAt > ack.acknowledged_at) {
+            return state;
+        }
+
+        const nextState = {...(state[ack.post_id])};
+        Reflect.deleteProperty(nextState, ack.user_id);
+
+        return {
+            ...state,
+            [ack.post_id]: {
+                ...nextState,
+            },
+        };
+    }
+
+    case PostTypes.RECEIVED_POST: {
+        const post = action.data;
+
+        return storeAcknowledgementsForPost(state, post);
+    }
+
+    case PostTypes.RECEIVED_POSTS: {
+        const posts: Post[] = Object.values(action.data.posts);
+
+        return posts.reduce(storeAcknowledgementsForPost, state);
+    }
+
+    case PostTypes.POST_DELETED:
+    case PostTypes.POST_REMOVED: {
+        const post = action.data;
+
+        if (post && state[post.id]) {
+            const nextState = {...state};
+            Reflect.deleteProperty(nextState, post.id);
+
+            return nextState;
+        }
+
+        return state;
+    }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    default:
+        return state;
+    }
+}
+
 function storeReactionsForPost(state: any, post: Post) {
     if (!post.metadata || !post.metadata.reactions || post.delete_at > 0) {
         return state;
@@ -1224,6 +1308,29 @@ function storeReactionsForPost(state: any, post: Post) {
     return {
         ...state,
         [post.id]: reactionsForPost,
+    };
+}
+
+function storeAcknowledgementsForPost(state: any, post: Post) {
+    if (
+        !post.metadata ||
+        !post.metadata.acknowledgements ||
+        !post.metadata.acknowledgements.length ||
+        post.delete_at > 0
+    ) {
+        return state;
+    }
+
+    const acknowledgementsForPost: Record<UserProfile['id'], number> = {};
+    if (post?.metadata?.acknowledgements && post.metadata.acknowledgements.length > 0) {
+        for (const ack of post.metadata.acknowledgements) {
+            acknowledgementsForPost[ack.user_id] = ack.acknowledged_at;
+        }
+    }
+
+    return {
+        ...state,
+        [post.id]: acknowledgementsForPost,
     };
 }
 
@@ -1502,6 +1609,8 @@ export default function reducer(state: Partial<PostsState> = {}, action: Generic
 
         expandedURLs: expandedURLs(state.expandedURLs, action),
 
+        acknowledgements: acknowledgements(state.acknowledgements, action),
+
         // For cloud instances with a message limit,
         // whether this particular view has messages that are hidden
         // because of the cloud workspace limit.
@@ -1514,6 +1623,7 @@ export default function reducer(state: Partial<PostsState> = {}, action: Generic
         state.selectedPostId === nextState.selectedPostId &&
         state.currentFocusedPostId === nextState.currentFocusedPostId &&
         state.reactions === nextState.reactions &&
+        state.acknowledgements === nextState.acknowledgements &&
         state.openGraph === nextState.openGraph &&
         state.messagesHistory === nextState.messagesHistory &&
         state.expandedURLs === nextState.expandedURLs &&
