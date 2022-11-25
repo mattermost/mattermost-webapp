@@ -21,7 +21,7 @@ const mime = require('mime-types');
 require('dotenv').config();
 
 const maxRetry = 5;
-const timeout = 10 * 1000;
+const timeout = 300 * 1000;
 
 axiosRetry(axios, {
     retries: maxRetry,
