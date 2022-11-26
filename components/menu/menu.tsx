@@ -48,54 +48,73 @@ export function Menu(props: Props) {
     const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
     const isMenuOpen = Boolean(anchorElement);
 
-    function MenuModalComponent() {
-        if (!isMobileView) {
-            return null;
+    if (isMobileView) {
+        function MenuModalComponent() {
+            function handleModalExited() {
+                dispatch(closeModal(props.menuId));
+            }
+
+            function handleModalClickCapture(event: MouseEvent<HTMLUListElement>) {
+                if (event && event.currentTarget.contains(event.target as Node)) {
+                    for (const currentElement of event.currentTarget.children) {
+                        if (currentElement.contains(event.target as Node) && !currentElement.ariaHasPopup) {
+                            // We check for property ariaHasPopup because we don't want to close the menu
+                            // if the user clicks on a submenu item. And let submenu component handle the click.
+                            handleModalExited();
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return (
+                <CompassDesignProvider theme={theme}>
+                    <GenericModal
+                        id={props.menuId}
+                        ariaLabel={props.menuAriaLabel}
+                        onExited={handleModalExited}
+                        backdrop={true}
+                        className='menuModal'
+                    >
+                        <MuiMenuList
+                            aria-labelledby={props.anchorId}
+                            onClick={handleModalClickCapture}
+                        >
+                            {props.children}
+                        </MuiMenuList>
+                    </GenericModal>
+
+                </CompassDesignProvider>
+            );
         }
 
-        function handleModalExited() {
-            dispatch(closeModal(props.menuId));
+        function handleAnchorButtonClickOnMobile(event: MouseEvent<HTMLButtonElement>) {
+            event.preventDefault();
+
+            dispatch(openModal({
+                modalId: props.menuId,
+                dialogType: MenuModalComponent,
+            }));
         }
 
         return (
-            <CompassDesignProvider theme={theme}>
-                <GenericModal
-                    id={props.menuId}
-                    ariaLabel={props.menuAriaLabel}
-                    onExited={handleModalExited}
-                    backdrop={true}
-                    className='menuModal'
-                >
-                    {props.children}
-                </GenericModal>
-
-            </CompassDesignProvider>
+            <button
+                id={props.anchorId}
+                aria-controls={props.menuId}
+                aria-haspopup='true'
+                aria-label={props.anchorAriaLabel}
+                className={props.anchorClassName}
+                onClick={handleAnchorButtonClickOnMobile}
+            >
+                {props.anchorNode}
+            </button>
         );
     }
 
     function handleAnchorButtonClick(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
-        if (isMobileView) {
-            dispatch(openModal({
-                modalId: props.menuId,
-                dialogType: MenuModalComponent,
 
-                // dialogProps: {
-                //     widgetType: props.widgetType,
-                //     title: localizeMessage('insights.newTeamMembers.title', 'New team members'),
-                //     subtitle: '',
-                //     filterType: props.filterType,
-                //     timeFrame: props.timeFrame,
-                // },
-            }));
-        } else {
-            setAnchorElement(event.currentTarget);
-        }
-    }
-
-    function handleMenuClose(event: MouseEvent<HTMLDivElement | HTMLUListElement>) {
-        event.preventDefault();
-        setAnchorElement(null);
+        setAnchorElement(event.currentTarget);
     }
 
     function renderAnchorNode() {
@@ -137,8 +156,9 @@ export function Menu(props: Props) {
         return anchorNode;
     }
 
-    if (isMobileView) {
-        return renderAnchorNode();
+    function handleMenuClose(event: MouseEvent<HTMLDivElement | HTMLUListElement>) {
+        event.preventDefault();
+        setAnchorElement(null);
     }
 
     return (

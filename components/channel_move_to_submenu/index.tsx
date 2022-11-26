@@ -114,6 +114,7 @@ const ChannelMoveToSubmenu = (props: Props) => {
                     {formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
                 </>
             }
+            menuId={`SidebarChannelMenu-ChannelMoveToSubmenu-${props.channel.id}`}
         >
             {filteredCategories.map((category: ChannelCategory) => (
                 <MenuItem

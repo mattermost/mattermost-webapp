@@ -2,10 +2,20 @@
 // See LICENSE.txt for license information.
 
 import React, {ReactNode, useState, MouseEvent} from 'react';
-import {Menu, MenuList, MenuItem, PopoverOrigin} from '@mui/material';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
+import {Menu as MuiMenu, MenuList as MuiMenuList, MenuItem as MuiMenuItem, PopoverOrigin} from '@mui/material';
 
 import {ArrowForwardIosIcon} from '@mattermost/compass-icons/components';
+
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+
+import {getIsMobileView} from 'selectors/views/browser';
+
+import {openModal, closeModal} from 'actions/views/modals';
+
+import CompassDesignProvider from 'components/compass_design_provider';
+import GenericModal from 'components/generic_modal';
 
 interface Props {
 
@@ -15,7 +25,7 @@ interface Props {
     anchorAriaLabel?: string;
 
     // Menu props
-    menuId?: string;
+    menuId: string;
     menuAriaLabel?: string;
     openAt?: 'right' | 'left';
 
@@ -26,6 +36,12 @@ interface Props {
 export function SubMenu(props: Props) {
     const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
     const isSubMenuOpen = Boolean(anchorElement);
+
+    const isMobileView = useSelector(getIsMobileView);
+
+    const theme = useSelector(getTheme);
+
+    const dispatch = useDispatch();
 
     const handleSubMenuOpen = (event: MouseEvent<HTMLLIElement>) => {
         event.preventDefault();
@@ -42,8 +58,62 @@ export function SubMenu(props: Props) {
         return null;
     }
 
+    if (isMobileView) {
+        function MenuModalComponent() {
+            function handleModalExited() {
+                dispatch(closeModal(props.menuId));
+            }
+
+            function handleModalClickCapture() {
+                handleModalExited();
+            }
+
+            return (
+                <CompassDesignProvider theme={theme}>
+                    <GenericModal
+                        id={props.menuId}
+                        ariaLabel={props.menuAriaLabel}
+                        onExited={handleModalExited}
+                        backdrop={true}
+                        className='menuModal'
+                    >
+                        <MuiMenuList
+                            aria-labelledby={props.anchorId}
+                            onClick={handleModalClickCapture}
+                        >
+                            {props.children}
+                        </MuiMenuList>
+                    </GenericModal>
+                </CompassDesignProvider>
+            );
+        }
+
+        function handleAnchorButtonClickOnMobile(event: MouseEvent<HTMLLIElement>) {
+            event.preventDefault();
+
+            dispatch(openModal({
+                modalId: props.menuId,
+                dialogType: MenuModalComponent,
+            }));
+        }
+
+        return (
+            <MuiMenuItem
+                id={props.anchorId}
+                disableRipple={true}
+                aria-controls={props.menuId}
+                aria-haspopup='true'
+                onClick={handleAnchorButtonClickOnMobile}
+            >
+                <MenuItemAnchor>
+                    {props.anchorNode}
+                </MenuItemAnchor>
+            </MuiMenuItem>
+        );
+    }
+
     return (
-        <MenuItem
+        <MuiMenuItem
             id={props.anchorId}
             aria-controls={isSubMenuOpen ? props.menuId : undefined}
             aria-haspopup='true'
@@ -54,15 +124,13 @@ export function SubMenu(props: Props) {
             onMouseLeave={handleSubMenuClose}
         >
             <MenuItemAnchor>
-                <>
-                    {props.anchorNode}
-                    <ArrowForwardIosIcon
-                        size={16}
-                        color='currentColor'
-                    />
-                </>
+                {props.anchorNode}
+                <ArrowForwardIosIcon
+                    size={16}
+                    color='currentColor'
+                />
             </MenuItemAnchor>
-            <Menu
+            <MuiMenu
                 id={props.menuId}
                 anchorEl={anchorElement}
                 open={isSubMenuOpen}
@@ -70,14 +138,14 @@ export function SubMenu(props: Props) {
                 style={{pointerEvents: 'none'}} // disables the menu background wrapper
                 {...getOriginOfAnchorAndTransform(props.openAt)}
             >
-                <MenuList
+                <MuiMenuList
                     aria-labelledby={props.anchorId}
                     style={{pointerEvents: 'auto'}} // reset pointer events to default from here on
                 >
                     {props.children}
-                </MenuList>
-            </Menu>
-        </MenuItem>
+                </MuiMenuList>
+            </MuiMenu>
+        </MuiMenuItem>
 
     );
 }

@@ -75,6 +75,7 @@ const SidebarCategorySortingMenu = (props: Props) => {
                         {formatMessage({id: 'sidebar.sort', defaultMessage: 'Sort'})}
                     </>
                 }
+                menuId={`sortDM-subMenu-${props.category.id}`}
             >
                 <MenuItem
                     id={`sortAlphabetical-${props.category.id}`}
@@ -99,6 +100,7 @@ const SidebarCategorySortingMenu = (props: Props) => {
                         {formatMessage({id: 'sidebar.show', defaultMessage: 'Show'})}
                     </>
                 }
+                menuId={`messagesCount-subMenu-${props.category.id}`}
             >
                 <MenuItem
                     id={`showAllDms-${props.category.id}`}

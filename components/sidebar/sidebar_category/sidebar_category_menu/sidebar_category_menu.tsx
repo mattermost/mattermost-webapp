@@ -180,6 +180,7 @@ const SidebarCategoryMenu = (props: Props) => {
                         {formatMessage({id: 'sidebar.sort', defaultMessage: 'Sort'})}
                     </>
                 }
+                menuId={`SidebarCategoryMenu-SortSubmenu-${props.category.id}`}
             >
                 <MenuItem
                     id={`sortAlphabetical-${props.category.id}`}
