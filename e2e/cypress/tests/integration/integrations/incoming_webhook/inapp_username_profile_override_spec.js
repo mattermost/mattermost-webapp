@@ -162,7 +162,7 @@ function verifyProfilePopover(owner, username, iconUrl) {
     // * Verify that the profile popover is shown
     cy.get('#user-profile-popover').should('be.visible').within(() => {
         // * Verify username from payload
-        // todo sinan fix 
+        // todo sinan fix
         cy.get('.user-popover__username').should('be.visible').and('have.text', username);
 
         // * Verify icon URL from payload

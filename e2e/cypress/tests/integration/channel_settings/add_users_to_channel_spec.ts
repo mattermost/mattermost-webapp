@@ -162,7 +162,7 @@ function verifyMentionedUserAndProfilePopover(postId: string) {
         cy.get('#user-profile-popover').should('be.visible');
 
         // * The username in the popover the same as the username link for each user
-        cy.get(`#userPopoverUsername`).should('contain', userName);
+        cy.get('#userPopoverUsername').should('contain', userName);
 
         // Click anywhere to close profile popover
         cy.get('#channelHeaderInfo').click();
