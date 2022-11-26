@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @custom_status1
+// Group: @custom_status
 
 import dayjs from 'dayjs';
 

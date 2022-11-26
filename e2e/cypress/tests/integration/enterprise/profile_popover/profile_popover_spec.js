@@ -448,10 +448,10 @@ const verifyAddToChannel = (user, visible = true) => {
 
     if (visible) {
         // * Add to a Channel should not be visible
-        cy.findByText('Add to a Channel').should('be.visible');
+        cy.get('#addToChannelButton').should('be.visible');
     } else {
         // * Add to a Channel should not be visible
-        cy.findByText('Add to a Channel').should('not.exist');
+        cy.get('#addToChannelButton').should('not.exist');
     }
 };
 
@@ -462,7 +462,7 @@ const clickAddToChannel = (user) => {
     });
 
     // * Add to a Channel should not be visible
-    cy.findByText('Add to a Channel').should('be.visible').click();
+    cy.get('#addToChannelButton').should('be.visible').click();
 };
 
 const promoteToChannelOrTeamAdmin = (user, id, channelsOrTeams = 'channels') => {

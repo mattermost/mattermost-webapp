@@ -668,6 +668,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             >
                 <a>
                     <ToggleModalButton
+                        id='addToChannelButton'
                         className='btn icon-btn'
                         ariaLabel={addToChannelMessage}
                         modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
