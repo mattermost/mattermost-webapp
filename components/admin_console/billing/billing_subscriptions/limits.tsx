@@ -63,13 +63,12 @@ const Limits = (props: Props): JSX.Element | null => {
         description = intl.formatMessage(
             {
                 id: 'workspace_limits.upgrade_reasons.free',
-                defaultMessage: '{planName} is restricted to {messagesLimit} message history, {storageLimit} file storage, {appsLimit} apps, and {boardsCardsLimit} board cards.  You can delete items to free up space or upgrade to a paid plan.',
+                defaultMessage: '{planName} is restricted to {messagesLimit} message history, {storageLimit} file storage, and {boardsCardsLimit} board cards.  You can delete items to free up space or upgrade to a paid plan.',
             },
             {
                 planName: subscriptionProduct.name,
                 messagesLimit: intl.formatNumber(cloudLimits?.messages?.history || fallbackStarterLimits.messages.history),
                 storageLimit: asGBString(cloudLimits?.files?.total_storage || fallbackStarterLimits.files.totalStorage, intl.formatNumber),
-                appsLimit: cloudLimits?.integrations?.enabled || fallbackStarterLimits.integrations.enabled,
                 boardsCardsLimit: cloudLimits?.boards?.cards || fallbackStarterLimits.boards.cards,
             },
         );
@@ -143,30 +142,6 @@ const Limits = (props: Props): JSX.Element | null => {
                         )}
                         percent={Math.floor((usage.boards.cards / cloudLimits.boards.cards) * 100)}
                         icon='icon-product-boards'
-                    />
-
-                )}
-                {cloudLimits?.integrations?.enabled && (
-                    <LimitCard
-                        name={
-                            <FormattedMessage
-                                id='workspace_limits.integrations_enabled'
-                                defaultMessage='Enabled Integrations'
-                            />
-                        }
-                        status={(
-                            <FormattedMessage
-                                id='workspace_limits.integrations_enabled.usage'
-                                defaultMessage='{actual} of {limit} integrations ({percent}%)'
-                                values={{
-                                    actual: usage.integrations.enabled,
-                                    limit: cloudLimits.integrations.enabled,
-                                    percent: Math.floor((usage.integrations.enabled / cloudLimits.integrations.enabled) * 100),
-                                }}
-                            />
-                        )}
-                        percent={Math.floor((usage.integrations.enabled / cloudLimits.integrations.enabled) * 100)}
-                        icon='icon-apps'
                     />
 
                 )}

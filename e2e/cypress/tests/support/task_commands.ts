@@ -116,8 +116,7 @@ function postIncomingWebhook({url, data, waitFor}: {
 Cypress.Commands.add('postIncomingWebhook', postIncomingWebhook);
 
 interface ExternalRequestArg<T> {
-    user: {
-    };
+    user: Record<string, unknown>;
     method: string;
     path: string;
     data?: T;

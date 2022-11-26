@@ -1,243 +1,201 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {IntlShape, injectIntl} from 'react-intl';
+import React, {useState, memo} from 'react';
+import {useIntl} from 'react-intl';
 
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {
+    BellOutlineIcon,
+    TrashCanOutlineIcon,
+    PencilOutlineIcon,
+    FormatListBulletedIcon,
+    SortAlphabeticalAscendingIcon,
+    ClockOutlineIcon,
+    FolderPlusOutlineIcon,
+} from '@mattermost/compass-icons/components';
+
 import {ChannelCategory, CategorySorting} from '@mattermost/types/channel_categories';
 
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+
+import {Menu as SubMenu} from 'types/store/plugins';
+
 import {trackEvent} from 'actions/telemetry_actions';
+
+import {ModalIdentifiers} from 'utils/constants';
+
 import DeleteCategoryModal from 'components/delete_category_modal';
 import EditCategoryModal from 'components/edit_category_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
-import {ModalIdentifiers} from 'utils/constants';
-import {ModalData} from 'types/actions';
-import {Menu as SubMenu} from 'types/store/plugins';
 
-type Props = {
-    currentTeamId: string;
+import type {PropsFromRedux} from './index';
+
+type OwnProps = {
     category: ChannelCategory;
     isMenuOpen: boolean;
     onToggleMenu: (open: boolean) => void;
-    intl: IntlShape;
-    actions: {
-        openModal: <P>(modalData: ModalData<P>) => void;
-        setCategoryMuted: (categoryId: string, muted: boolean) => void;
-        setCategorySorting: (categoryId: string, sorting: CategorySorting) => void;
-    };
 };
 
-type State = {
-    showDeleteCategoryModal: boolean;
-    openUp: boolean;
-}
+type Props = OwnProps & PropsFromRedux;
 
-class SidebarCategoryMenu extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
+const SidebarCategoryMenu = (props: Props) => {
+    const [openUp, setOpenUp] = useState(false);
 
-        this.state = {
-            showDeleteCategoryModal: false,
-            openUp: false,
-        };
+    const {formatMessage} = useIntl();
+
+    let muteUnmuteCategoryMenuItem: JSX.Element | null = null;
+    if (props.category.type !== CategoryTypes.DIRECT_MESSAGES) {
+        function toggleCategoryMute() {
+            props.setCategoryMuted(props.category.id, !props.category.muted);
+        }
+
+        muteUnmuteCategoryMenuItem = (
+            <Menu.ItemAction
+                id={`mute-${props.category.id}`}
+                onClick={toggleCategoryMute}
+                icon={<BellOutlineIcon size={16}/>}
+                text={props.category.muted ? formatMessage({id: 'sidebar_left.sidebar_category_menu.unmuteCategory', defaultMessage: 'Unmute Category'}) : formatMessage({id: 'sidebar_left.sidebar_category_menu.muteCategory', defaultMessage: 'Mute Category'})
+                }
+            />
+        );
     }
 
-    toggleCategoryMute = () => {
-        this.props.actions.setCategoryMuted(this.props.category.id, !this.props.category.muted);
+    let deleteCategoryMenuItem: JSX.Element | null = null;
+    let renameCategoryMenuItem: JSX.Element | null = null;
+    if (props.category.type === CategoryTypes.CUSTOM) {
+        function handleDeleteCategory() {
+            props.openModal({
+                modalId: ModalIdentifiers.DELETE_CATEGORY,
+                dialogType: DeleteCategoryModal,
+                dialogProps: {
+                    category: props.category,
+                },
+            });
+        }
+
+        deleteCategoryMenuItem = (
+            <Menu.ItemAction
+                isDangerous={true}
+                id={`delete-${props.category.id}`}
+                onClick={handleDeleteCategory}
+                icon={<TrashCanOutlineIcon size={16}/>}
+                text={formatMessage({id: 'sidebar_left.sidebar_category_menu.deleteCategory', defaultMessage: 'Delete Category'})}
+            />
+        );
+
+        function handleRenameCategory() {
+            props.openModal({
+                modalId: ModalIdentifiers.EDIT_CATEGORY,
+                dialogType: EditCategoryModal,
+                dialogProps: {
+                    categoryId: props.category.id,
+                    initialCategoryName: props.category.display_name,
+                },
+            });
+        }
+
+        renameCategoryMenuItem = (
+            <Menu.ItemAction
+                id={`rename-${props.category.id}`}
+                onClick={handleRenameCategory}
+                icon={<PencilOutlineIcon size={16}/>}
+                text={formatMessage({id: 'sidebar_left.sidebar_category_menu.renameCategory', defaultMessage: 'Rename Category'})}
+            />
+        );
     }
 
-    deleteCategory = () => {
-        this.props.actions.openModal({
-            modalId: ModalIdentifiers.DELETE_CATEGORY,
-            dialogType: DeleteCategoryModal,
-            dialogProps: {
-                category: this.props.category,
-            },
-        });
-    }
-
-    renameCategory = () => {
-        this.props.actions.openModal({
-            modalId: ModalIdentifiers.EDIT_CATEGORY,
-            dialogType: EditCategoryModal,
-            dialogProps: {
-                categoryId: this.props.category.id,
-                initialCategoryName: this.props.category.display_name,
-            },
-        });
-    }
-
-    createCategory = () => {
-        this.props.actions.openModal({
-            modalId: ModalIdentifiers.EDIT_CATEGORY,
-            dialogType: EditCategoryModal,
-        });
-        trackEvent('ui', 'ui_sidebar_category_menu_createCategory');
-    }
-
-    handleSortChannels = (sorting: CategorySorting) => {
-        const {category} = this.props;
-
-        this.props.actions.setCategorySorting(category.id, sorting);
+    function handleSortChannels(sorting: CategorySorting) {
+        props.setCategorySorting(props.category.id, sorting);
         trackEvent('ui', `ui_sidebar_sort_dm_${sorting}`);
     }
 
-    onToggleMenu = (open: boolean) => {
-        this.props.onToggleMenu(open);
+    const sortMenuItems: SubMenu[] = [{
+        id: 'sortAlphabetical',
+        direction: 'right' as any,
+        text: formatMessage({id: 'user.settings.sidebar.sortAlpha', defaultMessage: 'Alphabetically'}),
+        action: () => handleSortChannels(CategorySorting.Alphabetical),
+    },
+    {
+        id: 'sortByMostRecent',
+        direction: 'right' as any,
+        text: formatMessage({id: 'sidebar.sortedByRecencyLabel', defaultMessage: 'Recent Activity'}),
+        action: () => handleSortChannels(CategorySorting.Recency),
+    },
+    {
+        id: 'sortManual',
+        direction: 'right' as any,
+        text: formatMessage({id: 'sidebar.sortedManually', defaultMessage: 'Manually'}),
+        action: () => handleSortChannels(CategorySorting.Manual),
+    }];
+
+    let sortChannelsSelectedValue = formatMessage({id: 'sidebar.sortedManually', defaultMessage: 'Manually'});
+    let sortChannelsIcon = <FormatListBulletedIcon size={16}/>;
+    if (props.category.sorting === CategorySorting.Alphabetical) {
+        sortChannelsSelectedValue = formatMessage({id: 'user.settings.sidebar.sortAlpha', defaultMessage: 'Alphabetically'});
+        sortChannelsIcon = <SortAlphabeticalAscendingIcon size={16}/>;
+    } else if (props.category.sorting === CategorySorting.Recency) {
+        sortChannelsSelectedValue = formatMessage({id: 'user.settings.sidebar.recent', defaultMessage: 'Recent Activity'});
+        sortChannelsIcon = <ClockOutlineIcon size={16}/>;
+    }
+
+    function handleOpenDirectionChange(openUp: boolean) {
+        setOpenUp(openUp);
+    }
+
+    function handleToggleMenu(open: boolean) {
+        props.onToggleMenu(open);
 
         if (open) {
             trackEvent('ui', 'ui_sidebar_category_menu_opened');
         }
     }
 
-    renderDropdownItems = () => {
-        const {intl, category} = this.props;
-
-        let muteUnmuteCategory;
-        if (category.type !== CategoryTypes.DIRECT_MESSAGES) {
-            let text;
-            if (category.muted) {
-                text = intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.unmuteCategory', defaultMessage: 'Unmute Category'});
-            } else {
-                text = intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.muteCategory', defaultMessage: 'Mute Category'});
-            }
-
-            muteUnmuteCategory = (
-                <Menu.ItemAction
-                    id={`mute-${category.id}`}
-                    onClick={this.toggleCategoryMute}
-                    icon={<i className='icon-bell-outline'/>}
-                    text={text}
-                />
-            );
-        }
-
-        const sortMenuItems: SubMenu[] = [{
-            id: 'sortAlphabetical',
-            direction: 'right' as any,
-            text: intl.formatMessage({id: 'user.settings.sidebar.sortAlpha', defaultMessage: 'Alphabetically'}),
-            action: () => this.handleSortChannels(CategorySorting.Alphabetical),
-        },
-        {
-            id: 'sortByMostRecent',
-            direction: 'right' as any,
-            text: intl.formatMessage({id: 'sidebar.sortedByRecencyLabel', defaultMessage: 'Recent Activity'}),
-            action: () => this.handleSortChannels(CategorySorting.Recency),
-        },
-        {
-            id: 'sortManual',
-            direction: 'right' as any,
-            text: intl.formatMessage({id: 'sidebar.sortedManually', defaultMessage: 'Manually'}),
-            action: () => this.handleSortChannels(CategorySorting.Manual),
-        }];
-
-        let deleteCategory;
-        let renameCategory;
-        if (category.type === CategoryTypes.CUSTOM) {
-            deleteCategory = (
-                <Menu.ItemAction
-                    isDangerous={true}
-                    id={`delete-${category.id}`}
-                    onClick={this.deleteCategory}
-                    icon={<i className='icon-trash-can-outline'/>}
-                    text={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.deleteCategory', defaultMessage: 'Delete Category'})}
-                />
-            );
-
-            renameCategory = (
-                <Menu.ItemAction
-                    id={`rename-${category.id}`}
-                    onClick={this.renameCategory}
-                    icon={<i className='icon-pencil-outline'/>}
-                    text={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.renameCategory', defaultMessage: 'Rename Category'})}
-                />
-            );
-        }
-
-        let selectedValueText;
-
-        switch (category.sorting) {
-        case CategorySorting.Alphabetical:
-            selectedValueText = intl.formatMessage({id: 'user.settings.sidebar.sortAlpha', defaultMessage: 'Alphabetically'});
-            break;
-        case CategorySorting.Recency:
-            selectedValueText = intl.formatMessage({id: 'user.settings.sidebar.recent', defaultMessage: 'Recent Activity'});
-            break;
-        default:
-            selectedValueText = intl.formatMessage({id: 'sidebar.sortedManually', defaultMessage: 'Manually'});
-        }
-
-        let icon;
-
-        switch (category.sorting) {
-        case CategorySorting.Alphabetical:
-            icon = <i className='icon-sort-alphabetical-ascending'/>;
-            break;
-        case CategorySorting.Recency:
-            icon = <i className='icon-clock-outline'/>;
-            break;
-        default:
-            icon = <i className='icon-format-list-bulleted'/>;
-        }
-
-        return (
-            <React.Fragment>
-                <Menu.Group>
-                    {muteUnmuteCategory}
-                    {renameCategory}
-                    {deleteCategory}
-                </Menu.Group>
-                <Menu.Group>
-                    <Menu.ItemSubMenu
-                        id={'sortChannels'}
-                        subMenu={sortMenuItems}
-                        text={intl.formatMessage({id: 'sidebar.sort', defaultMessage: 'Sort'})}
-                        selectedValueText={selectedValueText}
-                        icon={icon}
-                        direction={'right' as any}
-                        openUp={this.state.openUp}
-                        styleSelectableItem={true}
-                    />
-                </Menu.Group>
-                <Menu.Group>
-                    <Menu.ItemAction
-                        id={`create-${category.id}`}
-                        onClick={this.createCategory}
-                        icon={<i className='icon-folder-plus-outline'/>}
-                        text={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.createCategory', defaultMessage: 'Create New Category'})}
-                    />
-                </Menu.Group>
-            </React.Fragment>
-        );
-    }
-
-    handleOpenDirectionChange = (openUp: boolean) => {
-        this.setState({
-            openUp,
+    function handleCreateCategory() {
+        props.openModal({
+            modalId: ModalIdentifiers.EDIT_CATEGORY,
+            dialogType: EditCategoryModal,
         });
+        trackEvent('ui', 'ui_sidebar_category_menu_createCategory');
     }
 
-    render() {
-        const {intl, category} = this.props;
+    return (
+        <SidebarMenu
+            id={`SidebarCategoryMenu-${props.category.id}`}
+            ariaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+            buttonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+            isMenuOpen={props.isMenuOpen}
+            onOpenDirectionChange={handleOpenDirectionChange}
+            onToggleMenu={handleToggleMenu}
+            tooltipText={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
+        >
+            <Menu.Group>
+                {muteUnmuteCategoryMenuItem}
+                {renameCategoryMenuItem}
+                {deleteCategoryMenuItem}
+            </Menu.Group>
+            <Menu.Group>
+                <Menu.ItemSubMenu
+                    id={'sortChannels'}
+                    subMenu={sortMenuItems}
+                    text={formatMessage({id: 'sidebar.sort', defaultMessage: 'Sort'})}
+                    selectedValueText={sortChannelsSelectedValue}
+                    icon={sortChannelsIcon}
+                    direction={'right' as any}
+                    openUp={openUp}
+                    styleSelectableItem={true}
+                />
+            </Menu.Group>
+            <Menu.Group>
+                <Menu.ItemAction
+                    id={`create-${props.category.id}`}
+                    onClick={handleCreateCategory}
+                    icon={<FolderPlusOutlineIcon size={16}/>}
+                    text={formatMessage({id: 'sidebar_left.sidebar_category_menu.createCategory', defaultMessage: 'Create New Category'})}
+                />
+            </Menu.Group>
+        </SidebarMenu>
+    );
+};
 
-        return (
-            <React.Fragment>
-                <SidebarMenu
-                    id={`SidebarCategoryMenu-${category.id}`}
-                    ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
-                    buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
-                    isMenuOpen={this.props.isMenuOpen}
-                    onOpenDirectionChange={this.handleOpenDirectionChange}
-                    onToggleMenu={this.onToggleMenu}
-                    tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
-                >
-                    {this.renderDropdownItems()}
-                </SidebarMenu>
-            </React.Fragment>
-        );
-    }
-}
-
-export default injectIntl(SidebarCategoryMenu);
+export default memo(SidebarCategoryMenu);

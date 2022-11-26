@@ -78,6 +78,7 @@ const state: GlobalState = {
                 },
             },
             limitedViews: zeroStateLimitedViews,
+            acknowledgements: {},
         },
         threads: {
             threadsInTeam: {},
@@ -228,10 +229,6 @@ const state: GlobalState = {
                 cards: 0,
                 cardsLoaded: false,
             },
-            integrations: {
-                enabled: 0,
-                enabledLoaded: false,
-            },
         },
         insights: {
             topReactions: {},
@@ -349,6 +346,7 @@ const state: GlobalState = {
         connected: false,
         lastConnectAt: 0,
         lastDisconnectAt: 0,
+        connectionId: '',
     },
 };
 export default state;

@@ -5,17 +5,17 @@ import React, {memo} from 'react';
 import {Overlay} from 'react-bootstrap';
 import memoize from 'memoize-one';
 
-import {PostPriority} from '@mattermost/types/posts';
-
 import {popOverOverlayPosition} from 'utils/position_utils';
+
+import {PostPriorityMetadata} from '@mattermost/types/posts';
 
 import PostPriorityPicker from './post_priority_picker';
 
 type Props = {
     show: boolean;
-    priority?: PostPriority;
+    settings?: PostPriorityMetadata;
     target: () => React.RefObject<HTMLButtonElement> | React.ReactInstance | null;
-    onApply: (props: {priority?: PostPriority}) => void;
+    onApply: (props: PostPriorityMetadata) => void;
     onHide: () => void;
     defaultHorizontalPosition: 'left'|'right';
 };
@@ -25,7 +25,7 @@ const SPACE_REQUIRED_BELOW = 497;
 
 function PostPriorityPickerOverlay({
     show,
-    priority,
+    settings,
     target,
     onApply,
     onHide,
@@ -64,7 +64,7 @@ function PostPriorityPickerOverlay({
             animation={false}
         >
             <PostPriorityPicker
-                priority={priority}
+                settings={settings}
                 leftOffset={offset}
                 onApply={onApply}
                 topOffset={-7}
