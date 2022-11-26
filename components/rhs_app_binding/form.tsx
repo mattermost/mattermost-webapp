@@ -14,7 +14,7 @@ export function AppBindingForm(props: CommonProps) {
                 hideCancel={true}
                 isEmbedded={true}
                 onExited={() => {
-                    alert('exited');
+                    // noop
                 }}
 
                 // context={props.context}

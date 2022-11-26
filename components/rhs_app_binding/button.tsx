@@ -32,7 +32,7 @@ export function AppBindingButton(props: CommonProps) {
                 hideCancel={true}
                 isEmbedded={true}
                 onExited={() => {
-                    alert('exited');
+                    // noop
                 }}
                 context={props.context}
                 form={form}

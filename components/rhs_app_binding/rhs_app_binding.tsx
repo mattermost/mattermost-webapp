@@ -67,7 +67,6 @@ type RhsAppBindingInnerProps = {
     setRhsBinding: (binding: AppBinding) => void;
 }
 
-
 export function RhsAppBindingInner(props: RhsAppBindingInnerProps) {
     const {tree, setRhsBinding} = props;
     const intl = useIntl();
@@ -116,7 +115,6 @@ export function RhsAppBindingInner(props: RhsAppBindingInnerProps) {
             }
             break;
         }
-
         }
 
         return res.data;

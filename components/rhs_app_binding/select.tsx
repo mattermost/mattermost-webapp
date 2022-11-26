@@ -1,22 +1,22 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import ReactSelect from 'react-select';
 
 import classNames from 'classnames';
+
+import {AppBinding} from '@mattermost/types/apps';
 
 import ActionsMenu from './actions_menu';
 import {CommonProps} from './common_props';
 import Icon from './icon';
-import {AppBinding} from '@mattermost/types/apps';
 
 export default function Select(props: CommonProps) {
-    let variantComponent;
-
     const variants: Record<string, React.ElementType> = {
-        'categories': CategoriesSelect,
-        'button_select': ButtonSelect,
-        'select': NormalSelect,
+        categories: CategoriesSelect,
+        button_select: ButtonSelect,
+        select: NormalSelect,
     };
 
     let variant = props.binding.subtype;
@@ -24,26 +24,26 @@ export default function Select(props: CommonProps) {
         variant = 'select';
     }
 
-    const Variant = variants[variant];
-    if (!Variant) {
-        return <span>{'unknown variant ' + variant}</span>
+    const SelectVariant = variants[variant];
+    if (!SelectVariant) {
+        return <span>{'unknown variant ' + variant}</span>;
     }
 
     return (
         <div className='mm-app-bar-rhs-binding-select'>
-            <Variant {...props}/>
+            <SelectVariant {...props}/>
         </div>
     );
 }
 
 export function SelectOption(props: CommonProps) {
     let actionsMenu;
-    const actions = props.binding.bindings?.find((b) => b.type === 'actions');
-    if (actions) {
+    const actionsBinding = props.binding.bindings?.find((b) => b.type === 'actions');
+    if (actionsBinding) {
         actionsMenu = (
             <ActionsMenu
                 {...props}
-                binding={actions}
+                binding={actionsBinding}
             />
         );
     }
@@ -119,9 +119,12 @@ function CategoriesSelect(props: CommonProps) {
     const options = props.binding.bindings;
 
     useEffect(() => {
-        const options = props.binding.bindings;
+        if (selected) {
+            return;
+        }
 
-        if (!options) {
+        const options = props.binding.bindings;
+        if (!options?.length) {
             return;
         }
 
@@ -133,62 +136,67 @@ function CategoriesSelect(props: CommonProps) {
         }
 
         setSelected(options[0]);
-    }, [options]);
+    }, [options, selected]);
 
-    const onSelect = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-        const optionValue = e.target.value;
-        const option = options?.find((opt) => opt.location === optionValue);
-
+    const onSelect = useCallback((value) => {
+        const option = options?.find((opt) => opt.location === value.value);
         if (!option) {
             return;
         }
+
         setSelected(option);
 
         props.handleBindingClick(option);
     }, [options, props.handleBindingClick]);
 
+    const selectOptions = useMemo(() => {
+        if (!options) {
+            return [];
+        }
+
+        return options.map((b) => ({
+            value: b.location,
+            label: b.label,
+        }));
+    }, [options]);
 
     if (!options?.length) {
         return <span>{'No select options provided'}</span>;
     }
 
-    if (!selected) {
-        return <span>{'No option selected'}</span>;
-    }
-
-    const label = selected.label;
-
-    const optionComponents = options.map((option) => (
-        <option
-            key={option.location}
-            value={option.location} // need to make sure we have generated ids for these
-        >
-            {option.icon}
-            {option.label}
-        </option>
-    ));
+    const selectedOption = selectOptions.find((opt) => opt.value === selected?.location);
 
     return (
         <div>
-            <p>
-                {label}
-            </p>
             <div>
-                <select
+                <ReactSelect
+                    className='react-select react-select-top'
+                    classNamePrefix='react-select'
+                    id='displayTimezone'
+                    menuPortalTarget={document.body}
+                    styles={reactStyles}
+                    options={selectOptions}
+                    clearable={false}
                     onChange={onSelect}
-                    value={selected.location}
-                >
-                    {optionComponents}
-                </select>
+                    value={selectedOption}
+                />
             </div>
         </div>
-    )
+    );
 }
 
-function ButtonSelect(props: {}) {
+function ButtonSelect() {
     return <div/>;
 }
 
-function NormalSelect(props: {}) {
+function NormalSelect() {
     return <div/>;
 }
+
+const reactStyles = {
+    menuPortal: (provided: React.CSSProperties) => ({
+        ...provided,
+        zIndex: 9999,
+    }),
+
+};

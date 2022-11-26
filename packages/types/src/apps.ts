@@ -57,6 +57,7 @@ export type AppBinding = {
     type?: string;
     subtype?: string; // rename to subtype. otherwise it sounds like covid
     location?: string;
+    selected?: boolean;
     supported_product_ids?: ProductScope;
     icon?: string;
 

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {closeRightHandSide, selectPostById} from 'actions/views/rhs';
+import {closeRightHandSide, selectPostById, showRHSAppBinding} from 'actions/views/rhs';
 import {getSelectedPostId, getIsRhsOpen} from 'selectors/rhs';
 
 import messageHtmlToComponent from 'utils/message_html_to_component';
@@ -9,7 +9,7 @@ import {formatText} from 'utils/text_formatting';
 import {getHistory} from 'utils/browser_history';
 
 import {openModal} from 'actions/views/modals';
-import {showRHSAppBinding} from 'actions/views/rhs';
+
 import {ModalIdentifiers} from 'utils/constants';
 import {useWebSocket, useWebSocketClient, WebSocketContext} from 'utils/use_websocket';
 import {imageURLForUser} from 'utils/utils';

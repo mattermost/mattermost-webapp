@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {AppBinding} from '@mattermost/types/apps';
+
 import {lookForBindingLocation, treeReplace} from './partial_refresh';
 
 const initialBinding: AppBinding = {
@@ -29,7 +30,7 @@ const initialBinding: AppBinding = {
             },
         },
         {
-            location: 'root',
+            location: 'data-parent',
             bindings: [
                 {
                     location: 'nested',
@@ -41,7 +42,7 @@ const initialBinding: AppBinding = {
                 },
             ],
         },
-    ]
+    ],
 } as AppBinding;
 
 describe('components/PartialRefresh', () => {

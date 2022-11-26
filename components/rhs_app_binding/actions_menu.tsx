@@ -4,15 +4,17 @@
 import React, {useRef, useState} from 'react';
 
 import {FormattedMessage} from 'react-intl';
+
+import {DotsVerticalIcon} from '@mattermost/compass-icons/components';
+
+import classNames from 'classnames';
+
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import Constants from 'utils/constants';
-import {DotsVerticalIcon} from '@mattermost/compass-icons/components';
-
-import classNames from 'classnames';
 
 import {AppBinding} from '@mattermost/types/apps';
 

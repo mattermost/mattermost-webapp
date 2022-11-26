@@ -13,7 +13,7 @@ export const lookForBindingLocation = (binding: AppBinding, location: string, pa
     }
 
     for (let i = 0; i < binding.bindings.length; i++) {
-        const newPath = [...path, i]
+        const newPath = [...path, i];
         const found = lookForBindingLocation(binding.bindings[i], location, newPath);
         if (found) {
             return found;
@@ -21,7 +21,7 @@ export const lookForBindingLocation = (binding: AppBinding, location: string, pa
     }
 
     return null;
-}
+};
 
 export const treeReplace = (tree: AppBinding, newChild: AppBinding, path: number[]): AppBinding => {
     if (!path.length) {
@@ -37,4 +37,4 @@ export const treeReplace = (tree: AppBinding, newChild: AppBinding, path: number
     });
 
     return {...tree, bindings: newBindings};
-}
+};

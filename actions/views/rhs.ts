@@ -211,11 +211,26 @@ export function showRHSPlugin(pluggableId: string) {
     };
 }
 
+const generateIdsForAppBinding = (binding: AppBinding): AppBinding => {
+    let copy = binding;
+    if (!copy.location) {
+        copy = {...copy, location: Utils.generateId()};
+    }
+
+    if (copy.bindings?.length) {
+        copy = {...copy, bindings: copy.bindings.map(generateIdsForAppBinding)};
+    }
+
+    return copy;
+};
+
 export function showRHSAppBinding(binding: AppBinding) {
+    const withIds = generateIdsForAppBinding(binding);
+
     return {
         type: ActionTypes.UPDATE_RHS_STATE,
         state: RHSStates.APP_BINDING,
-        binding,
+        binding: withIds,
     };
 }
 

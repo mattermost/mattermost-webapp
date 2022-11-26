@@ -14,10 +14,10 @@ import {CommonProps} from './common_props';
 import Select from './select';
 
 export function AppBindingView(props: CommonProps) {
-    const subviews = props.binding.bindings?.map((b, i) => {
+    const subviews = props.binding.bindings?.map((b) => {
         const subviewProps = {
             ...props,
-            key: i,
+            key: b.location,
             binding: b,
             viewComponent: AppBindingView,
         };
@@ -35,26 +35,34 @@ export function AppBindingView(props: CommonProps) {
             return <ListBlock {...subviewProps}/>;
         case 'divider':
             return (
-                <div style={styles.containerSpacing}>
+                <div
+                    key={b.location}
+                    style={styles.containerSpacing}
+                >
                     <hr/>
                 </div>
             );
         case 'markdown':
             return (
-                <div style={styles.containerSpacing}>
+                <div
+                    key={b.location}
+                    style={styles.containerSpacing}
+                >
                     <Markdown message={b.label}/>
                 </div>
             );
         case 'select':
             return (
-                <div style={styles.containerSpacing}>
+                <div
+                    key={b.location}
+                    style={styles.containerSpacing}
+                >
                     <Select {...subviewProps}/>
                 </div>
             );
-
         }
 
-        return <p key={b.location || b.label}>{'Unsupported binding type: ' + b.type}</p>;
+        return <p key={b.location}>{'Unsupported binding type: ' + b.type}</p>;
     });
 
     return (
