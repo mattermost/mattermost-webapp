@@ -518,12 +518,6 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             );
         }
         dataContent.push(
-            <hr
-                key='user-popover-hr'
-                className='divider divider--expanded'
-            />,
-        );
-        dataContent.push(
             <Pluggable
                 key='profilePopoverPluggable2'
                 pluggableName='PopoverUserAttributes'
@@ -539,6 +533,10 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             !haveOverrideProp
         ) {
             dataContent.push(
+                <hr
+                    key='user-popover-hr'
+                    className='divider divider--expanded'
+                />,
                 <div
                     key='user-popover-local-time'
                     className='user-popover__time-status-container'
