@@ -494,6 +494,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         const userName: React.ReactNode = `@${this.props.user.username}`;
         dataContent.push(
             <div
+                id='userPopoverUsername'
                 className={userNameClass}
                 key='user-popover-username'
             >
