@@ -1,0 +1,39 @@
+.app__body .modal.DraftActions__confirmation-modal {
+    .modal-dialog {
+        width: 400px;
+    }
+
+    .modal-content {
+        border-radius: 8px;
+    }
+
+    .modal-header {
+        min-height: 64px;
+        padding: 20px;
+        border: 0;
+        background: var(--center-channel-bg);
+        border-radius: 8px 8px 0 0;
+
+        .modal-title {
+            color: var(--center-channel-color);
+            font-size: 20px;
+        }
+    }
+
+    .modal-body {
+        padding: 0 20px;
+    }
+
+    .modal-footer {
+        min-height: 80px;
+        padding: 20px;
+        border: 0;
+        border-radius: 0 0 8px 8px;
+
+        button {
+            font-size: 15px;
+            font-weight: bold;
+            outline: none;
+        }
+    }
+}

@@ -17,8 +17,8 @@ import CloudTrialEndAnnouncementBar from './cloud_trial_ended_announcement_bar';
 import AutoStartTrialModal from './show_start_trial_modal/show_start_trial_modal';
 import CloudDelinquencyAnnouncementBar from './cloud_delinquency';
 import ShowThreeDaysLeftTrialModal from './show_tree_days_left_trial_modal/show_three_days_left_trial_modal';
-import LegacyMattermostCloudBar from './legacy_mattermost_cloud_bar';
 import NotifyAdminDowngradeDelinquencyBar from './notify_admin_downgrade_delinquency_bar';
+import OverageUsersBanner from './overage_users_banner';
 
 type Props = {
     license?: ClientLicense;
@@ -68,7 +68,6 @@ class AnnouncementBarController extends React.PureComponent<Props> {
         let cloudTrialAnnouncementBar = null;
         let cloudTrialEndAnnouncementBar = null;
         let cloudDelinquencyAnnouncementBar = null;
-        let legacyMattermostCloudBar = null;
         let notifyAdminDowngradeDelinquencyBar = null;
         if (this.props.license?.Cloud === 'true') {
             paymentAnnouncementBar = (
@@ -83,9 +82,6 @@ class AnnouncementBarController extends React.PureComponent<Props> {
             cloudDelinquencyAnnouncementBar = (
                 <CloudDelinquencyAnnouncementBar/>
             );
-            legacyMattermostCloudBar = (
-                <LegacyMattermostCloudBar/>
-            );
             notifyAdminDowngradeDelinquencyBar = (
                 <NotifyAdminDowngradeDelinquencyBar/>
             );
@@ -99,8 +95,8 @@ class AnnouncementBarController extends React.PureComponent<Props> {
                 {cloudTrialAnnouncementBar}
                 {cloudTrialEndAnnouncementBar}
                 {cloudDelinquencyAnnouncementBar}
-                {legacyMattermostCloudBar}
                 {notifyAdminDowngradeDelinquencyBar}
+                {this.props.license?.Cloud !== 'true' && <OverageUsersBanner/>}
                 <AutoStartTrialModal/>
                 <ShowThreeDaysLeftTrialModal/>
                 <VersionBar/>

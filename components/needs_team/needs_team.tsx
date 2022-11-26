@@ -26,6 +26,7 @@ import {UserProfile, UserStatus} from '@mattermost/types/users';
 import {Group} from '@mattermost/types/groups';
 import {Team, TeamMembership} from '@mattermost/types/teams';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {NeedsTeamComponent} from 'types/store/plugins';
 
 const BackstageController = makeAsyncComponent('BackstageController', LazyBackstageController);
 
@@ -60,7 +61,7 @@ type Props = {
         getAllGroupsAssociatedToChannelsInTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
         getAllGroupsAssociatedToTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
         getGroupsByUserIdPaginated: (userId: string, filterAllowReference: boolean, page: number, perPage: number, includeMemberCount: boolean) => Promise<{data: Group[]}>;
-        getGroups: (filterAllowReference: boolean, page: number, perPage: number) => Promise<{data: Group[]}>;
+        getGroups: (filterAllowReference: boolean, page: number, perPage: number, includeMemberCount: boolean) => Promise<{data: Group[]}>;
     };
     mfaRequired: boolean;
     match: {
@@ -74,9 +75,8 @@ type Props = {
     };
     teamsList: Team[];
     collapsedThreads: ReturnType<typeof isCollapsedThreadsEnabled>;
-    plugins?: any;
+    plugins?: NeedsTeamComponent[];
     selectedThreadId: string | null;
-    shouldShowAppBar: boolean;
     isCustomGroupsEnabled: boolean;
 }
 
@@ -259,7 +259,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             if (team.group_constrained && this.props.license.LDAPGroups === 'true') {
                 this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
             } else {
-                this.props.actions.getGroups(false, 0, 60);
+                this.props.actions.getGroups(false, 0, 60, true);
             }
         }
 
@@ -283,18 +283,13 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
     onShortcutKeyDown = (e: KeyboardEvent) => {
         if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
-            const sidebar = document.getElementById('sidebar-right');
-            if (sidebar) {
-                if (sidebar.className.match('sidebar--right sidebar--right--expanded move--left')) {
-                    const replyTextbox = document.getElementById('reply_textbox');
-                    if (replyTextbox) {
-                        replyTextbox.focus();
-                    }
-                } else {
-                    const postTextbox = document.getElementById('post_textbox');
-                    if (postTextbox) {
-                        postTextbox.focus();
-                    }
+            const replyTextbox = document.querySelector<HTMLElement>('#sidebar-right.is-open.expanded #reply_textbox');
+            if (replyTextbox) {
+                replyTextbox.focus();
+            } else {
+                const postTextbox = document.getElementById('post_textbox');
+                if (postTextbox) {
+                    postTextbox.focus();
                 }
             }
         }
@@ -315,7 +310,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                     path={'/:team/emoji'}
                     component={BackstageController}
                 />
-                {this.props.plugins?.map((plugin: any) => (
+                {this.props.plugins?.map((plugin) => (
                     <Route
                         key={plugin.id}
                         path={'/:team/' + plugin.route}
@@ -323,6 +318,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                             <Pluggable
                                 pluggableName={'NeedsTeamComponent'}
                                 pluggableId={plugin.id}
+                                css={{gridArea: 'center'}}
                             />
                         )}
                     />
@@ -330,7 +326,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 <Route
                     render={() => (
                         <ChannelController
-                            shouldShowAppBar={this.props.shouldShowAppBar}
                             fetchingChannels={!this.state.finishedFetchingChannels}
                         />
                     )}

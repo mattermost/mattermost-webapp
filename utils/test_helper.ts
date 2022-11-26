@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {Channel, ChannelMembership, ChannelNotifyProps, ChannelWithTeamData} from '@mattermost/types/channels';
 import {Bot} from '@mattermost/types/bots';
 import {Role} from '@mattermost/types/roles';
@@ -169,6 +170,7 @@ export class TestHelper {
             last_update_at: 0,
             scheme_user: true,
             scheme_admin: false,
+            urgent_mention_count: 0,
         };
         return Object.assign({}, defaultMembership, override);
     }
@@ -366,6 +368,8 @@ export class TestHelper {
             headerCentreComponent: () => null,
             headerRightComponent: () => null,
             showTeamSidebar: false,
+            showAppBar: false,
+            wrapped: true,
         };
     }
 

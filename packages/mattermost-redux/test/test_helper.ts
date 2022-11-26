@@ -362,6 +362,7 @@ class TestHelper {
             msg_count_root: 0,
             mention_count: 0,
             mention_count_root: 0,
+            urgent_mention_count: 0,
             scheme_user: false,
             scheme_admin: false,
             last_update_at: 0,

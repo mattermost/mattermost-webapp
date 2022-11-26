@@ -9,7 +9,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {Channel} from '@mattermost/types/channels';
 
 import {makeGetGlobalItem} from 'selectors/storage';
-import {PostTypes} from 'utils/constants';
+import {PostTypes, StoragePrefixes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 import {GlobalState} from 'types/store';
 import {RhsState, FakePost, SearchType} from 'types/store/rhs';
@@ -57,16 +57,10 @@ export function getPluggableId(state: GlobalState) {
     return state.views.rhs.pluggableId;
 }
 
-export function getActivePluginId(state: GlobalState) {
+export function getActiveRhsComponent(state: GlobalState) {
     const pluggableId = getPluggableId(state);
     const components = state.plugins.components.RightHandSidebarComponent;
-    const component = components.find((c) => c.id === pluggableId);
-
-    if (component) {
-        return component.pluginId;
-    }
-
-    return '';
+    return components.find((c) => c.id === pluggableId);
 }
 
 function getRealSelectedPost(state: GlobalState) {
@@ -136,7 +130,11 @@ export function getIsSearchGettingMore(state: GlobalState): boolean {
 }
 
 export function getPostDraft(state: GlobalState, prefixId: string, suffixId: string): PostDraft {
-    const defaultDraft = {message: '', fileInfos: [], uploadsInProgress: []};
+    const defaultDraft = {message: '', fileInfos: [], uploadsInProgress: [], createAt: 0, updateAt: 0, channelId: '', rootId: ''};
+
+    if (prefixId === StoragePrefixes.COMMENT_DRAFT) {
+        defaultDraft.rootId = suffixId;
+    }
     const draft = makeGetGlobalItem(prefixId + suffixId, defaultDraft)(state);
 
     if (
