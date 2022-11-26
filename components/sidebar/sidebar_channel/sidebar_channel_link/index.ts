@@ -53,6 +53,7 @@ function makeMapStateToProps() {
             unreadMsgs: unreadCount.messages,
             isUnread: unreadCount.showUnread,
             isMuted: isChannelMuted(member),
+            hasUrgent: unreadCount.hasUrgent,
             isChannelSelected: isChannelSelected(state, ownProps.channel.id),
             firstChannelName: showChannelsTutorialStep ? firstChannelName : '',
             showChannelsTutorialStep,

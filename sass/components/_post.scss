@@ -884,7 +884,8 @@
             width: 16px;
             padding-top: 1px;
 
-            img {
+            img,
+            button {
                 display: none;
             }
         }
@@ -1503,6 +1504,12 @@
         width: 100%;
         padding: 0 0 0.2em;
         word-wrap: break-word;
+
+        &-reactions-acks {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
 
         &.post--ephemeral {
             padding-right: 20px !important;
