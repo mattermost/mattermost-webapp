@@ -106,7 +106,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
             confirmButton = (
                 <button
                     type='submit'
-                    className={classNames(`GenericModal__button ${isConfirmOrDeleteClassName} ${this.props.confirmButtonClassName}`, {
+                    className={classNames('GenericModal__button', isConfirmOrDeleteClassName, this.props.confirmButtonClassName, {
                         disabled: this.props.isConfirmDisabled,
                     })}
                     onClick={this.handleConfirm}

@@ -221,24 +221,23 @@
                     @include button-medium;
 
                     border-color: transparent;
-                    background: $delete-color;
-                    color: $white;
+                    background: var(--dnd-indicator);
+                    color: var(--button-color);
 
                     .app__body & {
-                        color: $white;
+                        color: var(--button-color);
 
                         &:hover,
                         &:focus,
                         &:active {
-                            color: $white;
+                            color: var(--button-color);
                         }
                     }
 
                     &:hover,
                     &:focus,
                     &:active {
-                        background: $delete-color--hover !important;
-                        color: $white;
+                        background: linear-gradient(0deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.08)), var(--dnd-indicator) !important;
                     }
                 }
 
