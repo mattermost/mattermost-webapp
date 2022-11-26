@@ -665,27 +665,23 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     </Tooltip>
                 }
             >
-                <a
+                <ToggleModalButton
                     className='btn icon-btn text-nowrap'
+                    ariaLabel={addToChannelMessage}
+                    modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
+                    role='menuitem'
+                    dialogType={AddUserToChannelModal}
+                    dialogProps={{user: this.props.user, onExited: this.returnFocus}}
                     onClick={this.handleAddToChannel}
                 >
-                    <ToggleModalButton
-                        ariaLabel={addToChannelMessage}
-                        modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
-                        role='menuitem'
-                        dialogType={AddUserToChannelModal}
-                        dialogProps={{user: this.props.user, onExited: this.returnFocus}}
-                        onClick={this.props.hide}
-                    >
-                        <AccountPlusOutlineIcon
-                            size={18}
-                            aria-label={formatMessage({
-                                id: t('user_profile.add_user_to_channel.icon'),
-                                defaultMessage: 'Add User to Channel Icon',
-                            })}
-                        />
-                    </ToggleModalButton>
-                </a>
+                    <AccountPlusOutlineIcon
+                        size={18}
+                        aria-label={formatMessage({
+                            id: t('user_profile.add_user_to_channel.icon'),
+                            defaultMessage: 'Add User to Channel Icon',
+                        })}
+                    />
+                </ToggleModalButton>
             </OverlayTrigger>
         );
 
