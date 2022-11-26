@@ -25,15 +25,15 @@ const packageJson = require('./package.json');
 
 const NPM_TARGET = process.env.npm_lifecycle_event;
 
-const targetIsRun = NPM_TARGET?.startsWith('run');
+const targetIsRun = NPM_TARGET.startsWith('run');
 const targetIsTest = NPM_TARGET === 'test';
 const targetIsStats = NPM_TARGET === 'stats';
-const targetIsDevServer = NPM_TARGET?.startsWith('dev-server');
+const targetIsDevServer = NPM_TARGET.startsWith('dev-server');
 const targetIsEslint = NPM_TARGET === 'check' || NPM_TARGET === 'fix' || process.env.VSCODE_CWD;
 
 const DEV = targetIsRun || targetIsStats || targetIsDevServer;
 
-const boardsDevServerUrl = process.env.MM_BOARDS_DEV_SERVER_URL ?? 'http://localhost:9006';
+const boardsDevServerUrl = process.env.MM_BOARDS_DEV_SERVER_URL || 'http://localhost:9006';
 
 const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
@@ -501,7 +501,7 @@ if (targetIsTest) {
 if (targetIsDevServer) {
     const proxyToServer = {
         logLevel: 'silent',
-        target: process.env.MM_SERVICESETTINGS_SITEURL ?? 'http://localhost:8065',
+        target: process.env.MM_SERVICESETTINGS_SITEURL || 'http://localhost:8065',
         xfwd: true,
     };
 

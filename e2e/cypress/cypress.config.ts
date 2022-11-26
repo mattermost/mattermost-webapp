@@ -50,7 +50,7 @@ export default defineConfig({
         setupNodeEvents(on, config) {
             return require('./tests/plugins/index.js')(on, config); // eslint-disable-line global-require
         },
-        baseUrl: 'http://localhost:8065',
+        baseUrl: 'https://8065-mattermost-mattermostgi-g9x7me5m1i1.ws-eu77.gitpod.io',
         excludeSpecPattern: '**/node_modules/**/*',
         specPattern: 'tests/integration/**/*_spec.{js,ts}',
         supportFile: 'tests/support/index.js',
