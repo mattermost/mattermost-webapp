@@ -99,6 +99,7 @@ exports[`components/ProfilePopover should disable start call button when user is
       </div>
       <div
         className="overflow--ellipsis pb-1 user-profile-popover__heading"
+        id="userPopoverUsername"
         key="user-popover-username"
       >
         @some_username
@@ -244,10 +245,10 @@ exports[`components/ProfilePopover should disable start call button when user is
                     "$$typeof": Symbol(react.memo),
                     "WrappedComponent": [Function],
                     "compare": null,
-                    "displayName": "Connect(AddUserToChannelModal)",
                     "type": [Function],
                   }
                 }
+                id="addToChannelButton"
                 modalId="add_user_to_channel"
                 onClick={[Function]}
               >
@@ -442,6 +443,7 @@ exports[`components/ProfilePopover should disable start call button when user is
       </div>
       <div
         className="overflow--ellipsis pb-1 user-profile-popover__heading"
+        id="userPopoverUsername"
         key="user-popover-username"
       >
         @some_username
@@ -587,10 +589,10 @@ exports[`components/ProfilePopover should disable start call button when user is
                     "$$typeof": Symbol(react.memo),
                     "WrappedComponent": [Function],
                     "compare": null,
-                    "displayName": "Connect(AddUserToChannelModal)",
                     "type": [Function],
                   }
                 }
+                id="addToChannelButton"
                 modalId="add_user_to_channel"
                 onClick={[Function]}
               >
@@ -784,6 +786,7 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
       </div>
       <div
         className="overflow--ellipsis pb-1 user-profile-popover__heading"
+        id="userPopoverUsername"
         key="user-popover-username"
       >
         @some_username
@@ -1047,6 +1050,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       </div>
       <div
         className="overflow--ellipsis pb-1 user-profile-popover__heading"
+        id="userPopoverUsername"
         key="user-popover-username"
       >
         @some_username
@@ -1192,10 +1196,10 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
                     "$$typeof": Symbol(react.memo),
                     "WrappedComponent": [Function],
                     "compare": null,
-                    "displayName": "Connect(AddUserToChannelModal)",
                     "type": [Function],
                   }
                 }
+                id="addToChannelButton"
                 modalId="add_user_to_channel"
                 onClick={[Function]}
               >
@@ -1408,6 +1412,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
       </div>
       <div
         className="overflow--ellipsis pb-1"
+        id="userPopoverUsername"
         key="user-popover-username"
       >
         @shared_user
@@ -1555,10 +1560,10 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
                     "$$typeof": Symbol(react.memo),
                     "WrappedComponent": [Function],
                     "compare": null,
-                    "displayName": "Connect(AddUserToChannelModal)",
                     "type": [Function],
                   }
                 }
+                id="addToChannelButton"
                 modalId="add_user_to_channel"
                 onClick={[Function]}
               >
@@ -1757,6 +1762,7 @@ exports[`components/ProfilePopover should match snapshot when calls are disabled
       </div>
       <div
         className="overflow--ellipsis pb-1 user-profile-popover__heading"
+        id="userPopoverUsername"
         key="user-popover-username"
       >
         @some_username
@@ -1902,10 +1908,10 @@ exports[`components/ProfilePopover should match snapshot when calls are disabled
                     "$$typeof": Symbol(react.memo),
                     "WrappedComponent": [Function],
                     "compare": null,
-                    "displayName": "Connect(AddUserToChannelModal)",
                     "type": [Function],
                   }
                 }
+                id="addToChannelButton"
                 modalId="add_user_to_channel"
                 onClick={[Function]}
               >
@@ -2077,6 +2083,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
       </div>
       <div
         className="overflow--ellipsis pb-1 user-profile-popover__heading"
+        id="userPopoverUsername"
         key="user-popover-username"
       >
         @some_username
@@ -2260,10 +2267,10 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
                     "$$typeof": Symbol(react.memo),
                     "WrappedComponent": [Function],
                     "compare": null,
-                    "displayName": "Connect(AddUserToChannelModal)",
                     "type": [Function],
                   }
                 }
+                id="addToChannelButton"
                 modalId="add_user_to_channel"
                 onClick={[Function]}
               >
@@ -2468,6 +2475,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
       </div>
       <div
         className="overflow--ellipsis pb-1 user-profile-popover__heading"
+        id="userPopoverUsername"
         key="user-popover-username"
       >
         @some_username
@@ -2613,10 +2621,10 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
                     "$$typeof": Symbol(react.memo),
                     "WrappedComponent": [Function],
                     "compare": null,
-                    "displayName": "Connect(AddUserToChannelModal)",
                     "type": [Function],
                   }
                 }
+                id="addToChannelButton"
                 modalId="add_user_to_channel"
                 onClick={[Function]}
               >
@@ -2814,6 +2822,7 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
       </div>
       <div
         className="overflow--ellipsis pb-1 user-profile-popover__heading"
+        id="userPopoverUsername"
         key="user-popover-username"
       >
         @some_username
@@ -3103,6 +3112,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
       </div>
       <div
         className="overflow--ellipsis pb-1 user-profile-popover__heading"
+        id="userPopoverUsername"
         key="user-popover-username"
       >
         @some_username
@@ -3248,10 +3258,10 @@ exports[`components/ProfilePopover should match snapshot with last active displa
                     "$$typeof": Symbol(react.memo),
                     "WrappedComponent": [Function],
                     "compare": null,
-                    "displayName": "Connect(AddUserToChannelModal)",
                     "type": [Function],
                   }
                 }
+                id="addToChannelButton"
                 modalId="add_user_to_channel"
                 onClick={[Function]}
               >
@@ -3424,6 +3434,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
       </div>
       <div
         className="overflow--ellipsis pb-1 user-profile-popover__heading"
+        id="userPopoverUsername"
         key="user-popover-username"
       >
         @some_username
@@ -3569,10 +3580,10 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
                     "$$typeof": Symbol(react.memo),
                     "WrappedComponent": [Function],
                     "compare": null,
-                    "displayName": "Connect(AddUserToChannelModal)",
                     "type": [Function],
                   }
                 }
+                id="addToChannelButton"
                 modalId="add_user_to_channel"
                 onClick={[Function]}
               >
@@ -3771,6 +3782,7 @@ exports[`components/ProfilePopover should not show the start call button when is
       </div>
       <div
         className="overflow--ellipsis pb-1 user-profile-popover__heading"
+        id="userPopoverUsername"
         key="user-popover-username"
       >
         @some_username
@@ -3916,10 +3928,10 @@ exports[`components/ProfilePopover should not show the start call button when is
                     "$$typeof": Symbol(react.memo),
                     "WrappedComponent": [Function],
                     "compare": null,
-                    "displayName": "Connect(AddUserToChannelModal)",
                     "type": [Function],
                   }
                 }
+                id="addToChannelButton"
                 modalId="add_user_to_channel"
                 onClick={[Function]}
               >
