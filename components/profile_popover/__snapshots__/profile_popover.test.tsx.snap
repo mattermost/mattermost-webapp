@@ -36,7 +36,7 @@ exports[`components/ProfilePopover should disable start call button when user is
     role="dialog"
   >
     <div
-      className="popover-title"
+      className="popover-title popover-title_height"
     >
       <span
         data-testid="profilePopoverTitle_some_username"
@@ -193,12 +193,10 @@ exports[`components/ProfilePopover should disable start call button when user is
               ]
             }
           >
-            <a
-              className="btn icon-btn text-nowrap"
-              onClick={[Function]}
-            >
+            <a>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
+                className="btn icon-btn"
                 dialogProps={
                   Object {
                     "onExited": [Function],
@@ -251,8 +249,7 @@ exports[`components/ProfilePopover should disable start call button when user is
                   }
                 }
                 modalId="add_user_to_channel"
-                onClick={[MockFunction]}
-                role="menuitem"
+                onClick={[Function]}
               >
                 <AccountPlusOutlineIcon
                   aria-label="Add User to Channel Icon"
@@ -382,7 +379,7 @@ exports[`components/ProfilePopover should disable start call button when user is
     role="dialog"
   >
     <div
-      className="popover-title"
+      className="popover-title popover-title_height"
     >
       <span
         data-testid="profilePopoverTitle_some_username"
@@ -539,12 +536,10 @@ exports[`components/ProfilePopover should disable start call button when user is
               ]
             }
           >
-            <a
-              className="btn icon-btn text-nowrap"
-              onClick={[Function]}
-            >
+            <a>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
+                className="btn icon-btn"
                 dialogProps={
                   Object {
                     "onExited": [Function],
@@ -597,8 +592,7 @@ exports[`components/ProfilePopover should disable start call button when user is
                   }
                 }
                 modalId="add_user_to_channel"
-                onClick={[MockFunction]}
-                role="menuitem"
+                onClick={[Function]}
               >
                 <AccountPlusOutlineIcon
                   aria-label="Add User to Channel Icon"
@@ -727,7 +721,7 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
     role="dialog"
   >
     <div
-      className="popover-title"
+      className="popover-title popover-title_height"
     >
       <span
         data-testid="profilePopoverTitle_some_username"
@@ -990,7 +984,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
     role="dialog"
   >
     <div
-      className="popover-title"
+      className="popover-title popover-title_height"
     >
       <span
         data-testid="profilePopoverTitle_some_username"
@@ -1147,12 +1141,10 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
               ]
             }
           >
-            <a
-              className="btn icon-btn text-nowrap"
-              onClick={[Function]}
-            >
+            <a>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
+                className="btn icon-btn"
                 dialogProps={
                   Object {
                     "onExited": [Function],
@@ -1205,8 +1197,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
                   }
                 }
                 modalId="add_user_to_channel"
-                onClick={[MockFunction]}
-                role="menuitem"
+                onClick={[Function]}
               >
                 <AccountPlusOutlineIcon
                   aria-label="Add User to Channel Icon"
@@ -1339,7 +1330,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
     role="dialog"
   >
     <div
-      className="popover-title"
+      className="popover-title popover-title_height"
     >
       <span
         data-testid="profilePopoverTitle_shared_user"
@@ -1512,12 +1503,10 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
               ]
             }
           >
-            <a
-              className="btn icon-btn text-nowrap"
-              onClick={[Function]}
-            >
+            <a>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
+                className="btn icon-btn"
                 dialogProps={
                   Object {
                     "onExited": [Function],
@@ -1571,8 +1560,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
                   }
                 }
                 modalId="add_user_to_channel"
-                onClick={[MockFunction]}
-                role="menuitem"
+                onClick={[Function]}
               >
                 <AccountPlusOutlineIcon
                   aria-label="Add User to Channel Icon"
@@ -1706,7 +1694,7 @@ exports[`components/ProfilePopover should match snapshot when calls are disabled
     role="dialog"
   >
     <div
-      className="popover-title"
+      className="popover-title popover-title_height"
     >
       <span
         data-testid="profilePopoverTitle_some_username"
@@ -1863,12 +1851,10 @@ exports[`components/ProfilePopover should match snapshot when calls are disabled
               ]
             }
           >
-            <a
-              className="btn icon-btn text-nowrap"
-              onClick={[Function]}
-            >
+            <a>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
+                className="btn icon-btn"
                 dialogProps={
                   Object {
                     "onExited": [Function],
@@ -1921,8 +1907,7 @@ exports[`components/ProfilePopover should match snapshot when calls are disabled
                   }
                 }
                 modalId="add_user_to_channel"
-                onClick={[MockFunction]}
-                role="menuitem"
+                onClick={[Function]}
               >
                 <AccountPlusOutlineIcon
                   aria-label="Add User to Channel Icon"
@@ -2029,7 +2014,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
     role="dialog"
   >
     <div
-      className="popover-title"
+      className="popover-title popover-title_height"
     >
       <span
         data-testid="profilePopoverTitle_some_username"
@@ -2224,12 +2209,10 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
               ]
             }
           >
-            <a
-              className="btn icon-btn text-nowrap"
-              onClick={[Function]}
-            >
+            <a>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
+                className="btn icon-btn"
                 dialogProps={
                   Object {
                     "onExited": [Function],
@@ -2282,8 +2265,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
                   }
                 }
                 modalId="add_user_to_channel"
-                onClick={[MockFunction]}
-                role="menuitem"
+                onClick={[Function]}
               >
                 <AccountPlusOutlineIcon
                   aria-label="Add User to Channel Icon"
@@ -2423,7 +2405,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
     role="dialog"
   >
     <div
-      className="popover-title"
+      className="popover-title popover-title_height"
     >
       <span
         data-testid="profilePopoverTitle_some_username"
@@ -2580,12 +2562,10 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
               ]
             }
           >
-            <a
-              className="btn icon-btn text-nowrap"
-              onClick={[Function]}
-            >
+            <a>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
+                className="btn icon-btn"
                 dialogProps={
                   Object {
                     "onExited": [Function],
@@ -2638,8 +2618,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
                   }
                 }
                 modalId="add_user_to_channel"
-                onClick={[MockFunction]}
-                role="menuitem"
+                onClick={[Function]}
               >
                 <AccountPlusOutlineIcon
                   aria-label="Add User to Channel Icon"
@@ -2772,7 +2751,7 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
     role="dialog"
   >
     <div
-      className="popover-title"
+      className="popover-title popover-title_height"
     >
       <span
         data-testid="profilePopoverTitle_some_username"
@@ -3061,7 +3040,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
     role="dialog"
   >
     <div
-      className="popover-title"
+      className="popover-title popover-title_height"
     >
       <span
         data-testid="profilePopoverTitle_some_username"
@@ -3218,12 +3197,10 @@ exports[`components/ProfilePopover should match snapshot with last active displa
               ]
             }
           >
-            <a
-              className="btn icon-btn text-nowrap"
-              onClick={[Function]}
-            >
+            <a>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
+                className="btn icon-btn"
                 dialogProps={
                   Object {
                     "onExited": [Function],
@@ -3276,8 +3253,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
                   }
                 }
                 modalId="add_user_to_channel"
-                onClick={[MockFunction]}
-                role="menuitem"
+                onClick={[Function]}
               >
                 <AccountPlusOutlineIcon
                   aria-label="Add User to Channel Icon"
@@ -3410,7 +3386,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
     role="dialog"
   >
     <div
-      className="popover-title"
+      className="popover-title popover-title_height"
     >
       <span
         data-testid="profilePopoverTitle_some_username"
@@ -3542,12 +3518,10 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
               ]
             }
           >
-            <a
-              className="btn icon-btn text-nowrap"
-              onClick={[Function]}
-            >
+            <a>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
+                className="btn icon-btn"
                 dialogProps={
                   Object {
                     "onExited": [Function],
@@ -3600,8 +3574,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
                   }
                 }
                 modalId="add_user_to_channel"
-                onClick={[MockFunction]}
-                role="menuitem"
+                onClick={[Function]}
               >
                 <AccountPlusOutlineIcon
                   aria-label="Add User to Channel Icon"
@@ -3735,7 +3708,7 @@ exports[`components/ProfilePopover should not show the start call button when is
     role="dialog"
   >
     <div
-      className="popover-title"
+      className="popover-title popover-title_height"
     >
       <span
         data-testid="profilePopoverTitle_some_username"
@@ -3892,12 +3865,10 @@ exports[`components/ProfilePopover should not show the start call button when is
               ]
             }
           >
-            <a
-              className="btn icon-btn text-nowrap"
-              onClick={[Function]}
-            >
+            <a>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
+                className="btn icon-btn"
                 dialogProps={
                   Object {
                     "onExited": [Function],
@@ -3950,8 +3921,7 @@ exports[`components/ProfilePopover should not show the start call button when is
                   }
                 }
                 modalId="add_user_to_channel"
-                onClick={[MockFunction]}
-                role="menuitem"
+                onClick={[Function]}
               >
                 <AccountPlusOutlineIcon
                   aria-label="Add User to Channel Icon"

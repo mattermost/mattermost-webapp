@@ -39,8 +39,14 @@
     .popover-title {
         max-width: 110%;
         padding: 0;
+        border-bottom: none;
         margin-top: 8px;
         margin-right: -8px;
+
+        &.popover-title_height {
+            overflow: visible;
+            height: 22px;
+        }
 
         .user-popover__role {
             padding: 0 4px;

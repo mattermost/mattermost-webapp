@@ -665,23 +665,24 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     </Tooltip>
                 }
             >
-                <ToggleModalButton
-                    className='btn icon-btn text-nowrap'
-                    ariaLabel={addToChannelMessage}
-                    modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
-                    role='menuitem'
-                    dialogType={AddUserToChannelModal}
-                    dialogProps={{user: this.props.user, onExited: this.returnFocus}}
-                    onClick={this.handleAddToChannel}
-                >
-                    <AccountPlusOutlineIcon
-                        size={18}
-                        aria-label={formatMessage({
-                            id: t('user_profile.add_user_to_channel.icon'),
-                            defaultMessage: 'Add User to Channel Icon',
-                        })}
-                    />
-                </ToggleModalButton>
+                <a>
+                    <ToggleModalButton
+                        className='btn icon-btn'
+                        ariaLabel={addToChannelMessage}
+                        modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
+                        dialogType={AddUserToChannelModal}
+                        dialogProps={{user: this.props.user, onExited: this.returnFocus}}
+                        onClick={this.handleAddToChannel}
+                    >
+                        <AccountPlusOutlineIcon
+                            size={18}
+                            aria-label={formatMessage({
+                                id: t('user_profile.add_user_to_channel.icon'),
+                                defaultMessage: 'Add User to Channel Icon',
+                            })}
+                        />
+                    </ToggleModalButton>
+                </a>
             </OverlayTrigger>
         );
 
@@ -846,6 +847,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         );
 
         const displayName = displayUsername(this.props.user, this.props.teammateNameDisplay);
+        const titleClassName = classNames('popover-title', {'popover-title_height': !roleTitle});
 
         const tabCatcher = (
             <span
@@ -866,7 +868,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     onKeyDown={this.handleKeyDown}
                     className={A11yClassNames.POPUP}
                 >
-                    <div className='popover-title'>
+                    <div className={titleClassName}>
                         {title}
                     </div>
                     <div className='user-profile-popover__content'>
