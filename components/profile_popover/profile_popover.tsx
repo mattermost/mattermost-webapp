@@ -43,6 +43,8 @@ import Badge from 'components/widgets/badges/badge';
 
 import './profile_popover.scss';
 
+// todo sinan test github created by XX
+
 interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'> {
 
     /**
@@ -457,7 +459,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             );
         }
 
-        const fullname = Utils.getFullName(this.props.user);
+        const fullname = this.props.overwriteName ? this.props.overwriteName : Utils.getFullName(this.props.user);
         const haveOverrideProp = this.props.overwriteIcon || this.props.overwriteName;
         if (fullname && !haveOverrideProp) {
             let sharedIcon;
