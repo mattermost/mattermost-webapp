@@ -104,10 +104,6 @@ exports[`components/ProfilePopover should disable start call button when user is
       >
         @some_username
       </div>
-      <hr
-        className="divider divider--expanded"
-        key="user-popover-hr"
-      />
       <Connect(Pluggable)
         hide={[MockFunction]}
         key="profilePopoverPluggable2"
@@ -448,10 +444,6 @@ exports[`components/ProfilePopover should disable start call button when user is
       >
         @some_username
       </div>
-      <hr
-        className="divider divider--expanded"
-        key="user-popover-hr"
-      />
       <Connect(Pluggable)
         hide={[MockFunction]}
         key="profilePopoverPluggable2"
@@ -791,10 +783,6 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
       >
         @some_username
       </div>
-      <hr
-        className="divider divider--expanded"
-        key="user-popover-hr"
-      />
       <Connect(Pluggable)
         hide={[MockFunction]}
         key="profilePopoverPluggable2"
@@ -1055,10 +1043,6 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       >
         @some_username
       </div>
-      <hr
-        className="divider divider--expanded"
-        key="user-popover-hr"
-      />
       <Connect(Pluggable)
         hide={[MockFunction]}
         key="profilePopoverPluggable2"
@@ -1417,10 +1401,6 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
       >
         @shared_user
       </div>
-      <hr
-        className="divider divider--expanded"
-        key="user-popover-hr"
-      />
       <Connect(Pluggable)
         hide={[MockFunction]}
         key="profilePopoverPluggable2"
@@ -1767,10 +1747,6 @@ exports[`components/ProfilePopover should match snapshot when calls are disabled
       >
         @some_username
       </div>
-      <hr
-        className="divider divider--expanded"
-        key="user-popover-hr"
-      />
       <Connect(Pluggable)
         hide={[MockFunction]}
         key="profilePopoverPluggable2"
@@ -2088,10 +2064,6 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
       >
         @some_username
       </div>
-      <hr
-        className="divider divider--expanded"
-        key="user-popover-hr"
-      />
       <Connect(Pluggable)
         hide={[MockFunction]}
         key="profilePopoverPluggable2"
@@ -2480,10 +2452,6 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
       >
         @some_username
       </div>
-      <hr
-        className="divider divider--expanded"
-        key="user-popover-hr"
-      />
       <Connect(Pluggable)
         hide={[MockFunction]}
         key="profilePopoverPluggable2"
@@ -2827,10 +2795,6 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
       >
         @some_username
       </div>
-      <hr
-        className="divider divider--expanded"
-        key="user-popover-hr"
-      />
       <Connect(Pluggable)
         hide={[MockFunction]}
         key="profilePopoverPluggable2"
@@ -3117,10 +3081,6 @@ exports[`components/ProfilePopover should match snapshot with last active displa
       >
         @some_username
       </div>
-      <hr
-        className="divider divider--expanded"
-        key="user-popover-hr"
-      />
       <Connect(Pluggable)
         hide={[MockFunction]}
         key="profilePopoverPluggable2"
@@ -3439,10 +3399,6 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
       >
         @some_username
       </div>
-      <hr
-        className="divider divider--expanded"
-        key="user-popover-hr"
-      />
       <Connect(Pluggable)
         hide={[MockFunction]}
         key="profilePopoverPluggable2"
@@ -3787,10 +3743,6 @@ exports[`components/ProfilePopover should not show the start call button when is
       >
         @some_username
       </div>
-      <hr
-        className="divider divider--expanded"
-        key="user-popover-hr"
-      />
       <Connect(Pluggable)
         hide={[MockFunction]}
         key="profilePopoverPluggable2"

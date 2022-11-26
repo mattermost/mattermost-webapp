@@ -43,8 +43,6 @@ import Badge from 'components/widgets/badges/badge';
 
 import './profile_popover.scss';
 
-// todo sinan test github created by XX
-
 interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'> {
 
     /**
