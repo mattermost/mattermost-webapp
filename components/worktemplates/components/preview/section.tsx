@@ -4,15 +4,14 @@
 import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import classnames from 'classnames';
-
-import {useSelector} from 'react-redux';
-
 import styled from 'styled-components';
 
-import {getMySystemPermissions} from 'mattermost-redux/selectors/entities/roles';
+import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
+
+import store from 'stores/redux_store';
 
 interface GenericPreviewSectionProps {
-    items: Array<{id: string; name?: string; illustration?: string}>;
+    items: Array<{ id: string; name?: string; illustration?: string }>;
     onUpdateIllustration?: (illustration: string) => void;
     className?: string;
     message?: string;
@@ -20,12 +19,16 @@ interface GenericPreviewSectionProps {
 }
 
 type IntegrationPreviewSectionItemsProps = {id: string; name?: string; category?: string; description?: string; icon?: string; installed?: boolean}
+
 interface IntegrationPreviewSectionProps {
     items: IntegrationPreviewSectionItemsProps[];
     className?: string;
     message?: string;
     id?: string;
 }
+
+const SYSCONSOLE_WRITE_PLUGINS = 'sysconsole_write_plugins';
+const getState = store.getState;
 
 const viewPreview = (props: GenericPreviewSectionProps | IntegrationPreviewSectionProps) => {
     if (props.id === 'integrations') {
@@ -50,26 +53,32 @@ const PreviewSection = (props: GenericPreviewSectionProps | IntegrationPreviewSe
             <p>
                 {props.message}
             </p>
-            <span className='included-title'>{formatMessage({id: 'worktemplates.preview.section.included', defaultMessage: 'Included'})}</span>
-            { viewPreview(props) }
+            <span className='included-title'>
+                {
+                    formatMessage({
+                        id: 'worktemplates.preview.section.included',
+                        defaultMessage: 'Included',
+                    })
+                }
+            </span>
+            {viewPreview(props)}
 
         </div>
     );
 };
 
 const IntegrationsPreview = ({items}: IntegrationPreviewSectionProps) => {
-    const systemPermissions = useSelector(getMySystemPermissions);
+    const state = getState();
+    const {formatMessage} = useIntl();
+
+    const haveIWritePluginPermission = haveISystemPermission(state, {permission: SYSCONSOLE_WRITE_PLUGINS});
     const [pluginInstallationPossible, setPluginInstallationPossible] = useState(false);
 
     useEffect(() => {
-        for (const systemPermission of [...systemPermissions]) {
-            if (systemPermission.includes('sysconsole_write_plugins')) {
-                setPluginInstallationPossible(true);
-            }
+        if (haveIWritePluginPermission) {
+            setPluginInstallationPossible(true);
         }
-    }, [systemPermissions]);
-
-    const {formatMessage} = useIntl();
+    }, [haveIWritePluginPermission]);
 
     const createWarningMessage = () => {
         const uninstalledPlugins = items.reduce((acc: IntegrationPreviewSectionItemsProps[], curr: IntegrationPreviewSectionItemsProps) => {
@@ -92,7 +101,10 @@ const IntegrationsPreview = ({items}: IntegrationPreviewSectionProps) => {
                     plugin: uninstalledPlugins[0].name,
                 });
         } else if (uninstalledPlugins.length > 1) {
-            return formatMessage({id: 'worktemplates.preview.integrations.admin_install.multiple_plugin', defaultMessage: 'Integrations will not be added until admin installs them.'});
+            return formatMessage({
+                id: 'worktemplates.preview.integrations.admin_install.multiple_plugin',
+                defaultMessage: 'Integrations will not be added until admin installs them.',
+            });
         }
         return '';
     };
@@ -113,12 +125,13 @@ const IntegrationsPreview = ({items}: IntegrationPreviewSectionProps) => {
                             <div className='preview-integrations-plugins-item__name'>
                                 {item.name}
                             </div>
-                            {item.installed && <div className='icon-check-circle preview-integrations-plugins-item__icon_blue'/>}
+                            {item.installed &&
+                                <div className='icon-check-circle preview-integrations-plugins-item__icon_blue'/>}
                             {!item.installed && <div className='icon-download-outline'/>}
                         </div>);
                 })}
             </div>
-            { warningMessage && <div className='preview-integrations-warning'>
+            {warningMessage && <div className='preview-integrations-warning'>
                 <div className='icon-alert-outline'/>
                 <div className='preview-integrations-warning-message'> {warningMessage} </div>
             </div>}

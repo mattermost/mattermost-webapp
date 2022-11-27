@@ -13,13 +13,13 @@ import {AccordionItemType} from 'components/common/accordion/accordion';
 
 import {fetchListing} from 'actions/marketplace';
 
+import {GlobalState} from 'types/store';
+
 import {getTemplateDefaultIllustration} from '../utils';
 
 import {Board, Channel, Integration, Playbook, WorkTemplate} from '@mattermost/types/worktemplates';
 
 import {MarketplacePlugin} from '@mattermost/types/marketplace';
-
-import {GlobalState} from '../../../types/store';
 
 import Accordion from './preview/accordion';
 import Chip from './preview/chip';
