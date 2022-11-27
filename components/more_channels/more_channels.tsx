@@ -12,8 +12,6 @@ import Permissions from 'mattermost-redux/constants/permissions';
 
 import {RelationOneToOne} from '@mattermost/types/utilities';
 
-import BrowserStore from 'stores/browser_store';
-
 import NewChannelModal from 'components/new_channel_modal/new_channel_modal';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import GenericModal from 'components/generic_modal';
@@ -33,7 +31,7 @@ const CHANNELS_CHUNK_SIZE = 50;
 const CHANNELS_PER_PAGE = 50;
 const SEARCH_TIMEOUT_MILLISECONDS = 100;
 
-type Actions = {
+export type Actions = {
     getChannels: (teamId: string, page: number, perPage: number) => void;
     getArchivedChannels: (teamId: string, page: number, channelsPerPage: number) => void;
     joinChannel: (currentUserId: string, teamId: string, channelId: string) => Promise<ActionResult>;
@@ -41,6 +39,11 @@ type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
     closeModal: (modalId: string) => void;
     getChannelStats: (channelId: string) => void;
+
+    /*
+     * Function to set a key-value pair in the local storage
+     */
+    setGlobalItem: (name: string, value: string) => void;
 }
 
 export type Props = {
@@ -54,6 +57,7 @@ export type Props = {
     morePublicChannelsModalType?: string;
     myChannelMemberships: RelationOneToOne<Channel, ChannelMembership>;
     allChannelStats: RelationOneToOne<Channel, ChannelStats>;
+    shouldHideJoinedChannels: boolean;
     actions: Actions;
 }
 
@@ -65,7 +69,6 @@ type State = {
     searching: boolean;
     searchTerm: string;
     loading: boolean;
-    shouldHideJoinedChannels: boolean;
 }
 
 export default class MoreChannels extends React.PureComponent<Props, State> {
@@ -85,7 +88,6 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             searching: false,
             searchTerm: '',
             loading: true,
-            shouldHideJoinedChannels: BrowserStore.getItem(StoragePrefixes.HIDE_JOINED_CHANNELS, 'false') === 'true',
         };
     }
 
@@ -162,7 +164,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         const searchTimeoutId = window.setTimeout(
             async () => {
                 try {
-                    const {data} = await this.props.actions.searchMoreChannels(term, this.state.shouldShowArchivedChannels, this.state.shouldHideJoinedChannels);
+                    const {data} = await this.props.actions.searchMoreChannels(term, this.state.shouldShowArchivedChannels, this.props.shouldHideJoinedChannels);
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
                     }
@@ -199,7 +201,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
     handleShowJoinedChannelsPreference = (shouldHideJoinedChannels: boolean) => {
         // search again when switching channels to update search results
         this.search(this.state.searchTerm);
-        this.setState({shouldHideJoinedChannels});
+        this.props.actions.setGlobalItem(StoragePrefixes.HIDE_JOINED_CHANNELS, shouldHideJoinedChannels.toString());
     }
 
     otherChannelsWithoutJoined = this.props.channels.filter((channel) => !this.isMemberOfChannel(channel.id));
@@ -211,6 +213,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             archivedChannels,
             teamId,
             channelsRequestStarted,
+            shouldHideJoinedChannels,
         } = this.props;
 
         const {
@@ -219,7 +222,6 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             serverError: serverErrorState,
             searching,
             shouldShowArchivedChannels,
-            shouldHideJoinedChannels,
         } = this.state;
 
         const otherChannelsWithoutJoined = channels.filter((channel) => !this.isMemberOfChannel(channel.id));

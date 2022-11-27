@@ -89,6 +89,7 @@ describe('components/MoreChannels', () => {
             }),
         },
         allChannelStats: {},
+        shouldHideJoinedChannels: false,
         actions: {
             getChannels: jest.fn(),
             getArchivedChannels: jest.fn(),
@@ -97,6 +98,7 @@ describe('components/MoreChannels', () => {
             openModal: jest.fn(),
             closeModal: jest.fn(),
             getChannelStats: jest.fn(),
+            setGlobalItem: jest.fn(),
         },
     };
 
@@ -316,12 +318,15 @@ describe('components/MoreChannels', () => {
         });
     });
 
-    test('should hide joined channels from channels props when shouldHideJoinedChannels state is true', () => {
+    test('should hide joined channels from channels props when shouldHideJoinedChannels prop is true', () => {
+        const props = {
+            ...baseProps,
+            shouldHideJoinedChannels: true
+        }
         const wrapper = shallow<MoreChannels>(
-            <MoreChannels {...baseProps}/>,
+            <MoreChannels {...props}/>,
         );
 
-        wrapper.setState({shouldHideJoinedChannels: true});
         expect(wrapper.instance().activeChannels).not.toContain(baseProps.channels[1]);
     });
 });
