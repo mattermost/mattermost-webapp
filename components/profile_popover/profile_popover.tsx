@@ -388,9 +388,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
 
         return {customStatusContent, expiryContent};
     }
-    handleClose = () => {
-        this.props.hide?.();
-    }
+    handleClose = () => this.props.hide?.();
     getCallsChannelState(channelId: string): Promise<ChannelCallsState> {
         let data: Promise<ChannelCallsState>;
         try {
