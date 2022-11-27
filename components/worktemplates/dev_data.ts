@@ -21,8 +21,9 @@ export const worktemplates: WorkTemplate[] = [
                 message: 'This is the playbooks section description',
             },
             integration: {
-                message: 'This is the integrations section description',
+                message: 'Increase productivity in your channel by integrating a Jira bot and Github bot.',
                 illustration: 'https://via.placeholder.com/509x352.png?text=Integrations',
+
             },
         },
         content: [
@@ -53,6 +54,31 @@ export const worktemplates: WorkTemplate[] = [
                     id: 'playbook_id_1',
                     name: 'Feature release',
                     illustration: 'https://via.placeholder.com/509x352.png?text=Playbook+feature+release',
+                },
+            },
+            {
+                integration: {
+                    id: 'github',
+                },
+            },
+            {
+                integration: {
+                    id: 'jira',
+                },
+            },
+            {
+                integration: {
+                    id: 'com.github.mattermost.plugin-circleci',
+                },
+            },
+            {
+                integration: {
+                    id: 'com.mattermost.confluence',
+                },
+            },
+            {
+                integration: {
+                    id: 'jenkins',
                 },
             },
         ],

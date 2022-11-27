@@ -9,7 +9,7 @@ const Modal = styled(GenericModal)`
     width: 960px;
 
     .modal-body {
-        min-height: 431px;
+        min-height: 450px;
     }
 
     &.work-template-modal--customize, &.work-template-modal--preview {

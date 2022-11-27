@@ -7,11 +7,19 @@ import styled from 'styled-components';
 
 import {CSSTransition} from 'react-transition-group';
 
+import {useDispatch, useSelector} from 'react-redux';
+
 import {AccordionItemType} from 'components/common/accordion/accordion';
+
+import {fetchListing} from 'actions/marketplace';
+
+import {GlobalState} from 'types/store';
 
 import {getTemplateDefaultIllustration} from '../utils';
 
 import {Board, Channel, Integration, Playbook, WorkTemplate} from '@mattermost/types/worktemplates';
+
+import {MarketplacePlugin} from '@mattermost/types/marketplace';
 
 import Accordion from './preview/accordion';
 import Chip from './preview/chip';
@@ -41,8 +49,14 @@ const ANIMATE_TIMEOUTS = {
 
 const Preview = ({template, className}: PreviewProps) => {
     const {formatMessage} = useIntl();
+    const dispatch = useDispatch();
+
     const nodeRefForPrior = useRef(null);
     const nodeRefForCurrent = useRef(null);
+
+    const [integrations, setIntegrations] = useState<Integration[]>();
+
+    const plugins: MarketplacePlugin[] = useSelector((state: GlobalState) => state.views.marketplace.plugins);
 
     const [illustrationDetails, setIllustrationDetails] = useState<IllustrationAnimations>(() => {
         const defaultIllustration = getTemplateDefaultIllustration(template);
@@ -57,6 +71,10 @@ const Preview = ({template, className}: PreviewProps) => {
             },
         };
     });
+
+    useEffect(() => {
+        dispatch(fetchListing());
+    }, []);
 
     useEffect(() => {
         if (illustrationDetails.prior.animateIn) {
@@ -81,11 +99,11 @@ const Preview = ({template, className}: PreviewProps) => {
         },
     });
 
-    const [channels, boards, playbooks, integrations] = useMemo(() => {
+    const [channels, boards, playbooks, availableIntegrations] = useMemo(() => {
         const channels: Channel[] = [];
         const boards: Board[] = [];
         const playbooks: Playbook[] = [];
-        const integrations: Integration[] = [];
+        const availableIntegrations: Integration[] = [];
         template.content.forEach((c) => {
             if (c.channel) {
                 channels.push(c.channel);
@@ -97,11 +115,36 @@ const Preview = ({template, className}: PreviewProps) => {
                 playbooks.push(c.playbook);
             }
             if (c.integration) {
-                integrations.push(c.integration);
+                availableIntegrations.push(c.integration);
             }
         });
-        return [channels, boards, playbooks, integrations];
+        return [channels, boards, playbooks, availableIntegrations];
     }, [template.content]);
+
+    useEffect(() => {
+        const intg =
+            availableIntegrations?.
+                flatMap((integration) => {
+                    return plugins.reduce((acc: Integration[], curr) => {
+                        if (curr.manifest.id === integration.id) {
+                            acc.push({
+                                ...integration,
+                                name: curr.manifest.name,
+                                icon: curr.icon_data,
+                                installed: curr.installed_version !== '',
+                            });
+
+                            return acc;
+                        }
+                        return acc;
+                    }, [] as Integration[]);
+                }).sort((first: Integration) => {
+                    return first.installed ? -1 : 1;
+                });
+        if (intg?.length) {
+            setIntegrations(intg);
+        }
+    }, [plugins, availableIntegrations]);
 
     // building accordion items
     const accordionItemsData: AccordionItemType[] = [];
@@ -113,6 +156,7 @@ const Preview = ({template, className}: PreviewProps) => {
             items: [(
                 <PreviewSection
                     key={'channels'}
+                    id={'channels'}
                     message={template.description.channel.message}
                     items={channels}
                     onUpdateIllustration={(illustration) => handleIllustrationUpdate(illustration)}
@@ -128,6 +172,7 @@ const Preview = ({template, className}: PreviewProps) => {
             items: [(
                 <PreviewSection
                     key={'boards'}
+                    id={'boards'}
                     message={template.description.board.message}
                     items={boards}
                     onUpdateIllustration={(illustration) => handleIllustrationUpdate(illustration)}
@@ -143,6 +188,7 @@ const Preview = ({template, className}: PreviewProps) => {
             items: [(
                 <PreviewSection
                     key={'playbooks'}
+                    id={'playbooks'}
                     message={template.description.playbook.message}
                     items={playbooks}
                     onUpdateIllustration={(illustration) => handleIllustrationUpdate(illustration)}
@@ -150,12 +196,19 @@ const Preview = ({template, className}: PreviewProps) => {
             )],
         });
     }
-    if (integrations.length > 0) {
+    if (integrations?.length) {
         accordionItemsData.push({
             id: 'integrations',
             title: 'Integrations',
             extraContent: <Chip>{integrations.length}</Chip>,
-            items: [<h1 key='integrations'>{'todo: integrations'}</h1>],
+            items: [(
+                <PreviewSection
+                    key={'integrations'}
+                    id={'integrations'}
+                    message={template.description.integration.message}
+                    items={integrations}
+                />
+            )],
         });
     }
 
@@ -200,6 +253,7 @@ const Preview = ({template, className}: PreviewProps) => {
         <div className={className}>
             <div className='content-side'>
                 <strong>{formatMessage({id: 'worktemplates.preview.included_in_template_title', defaultMessage: 'Included in template'})}</strong>
+
                 <Accordion
                     accordionItemsData={accordionItemsData}
                     openFirstElement={true}
