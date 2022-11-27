@@ -140,17 +140,21 @@ describe('System Console - Billing History', () => {
         // * Check the first row where payment is pending
         cy.get('@tableRows').eq(0).find('td').eq(0).should('have.text', '10/01/2022');
         cy.get('@tableRows').eq(0).find('td.BillingHistory__table-total').should('have.text', '$0.65');
-        cy.get('@tableRows').eq(0).find('div.BillingHistory__paymentStatus').should('have.text', 'Pending');
+        cy.get('@tableRows').eq(0).find('div.BillingHistory__paymentStatus').as('invoiceRecord').should('have.text', 'Pending');
+        cy.get('@invoiceRecord').find('.icon-check-circle-outline').should('be.visible');
 
         // * Check the first row where payment has failed
         cy.get('@tableRows').eq(1).find('td').eq(0).should('have.text', '09/01/2022');
         cy.get('@tableRows').eq(1).find('td.BillingHistory__table-total').should('have.text', '$7.33');
-        cy.get('@tableRows').eq(1).find('div.BillingHistory__paymentStatus').should('have.text', 'Payment failed');
+        cy.get('@tableRows').eq(1).find('div.BillingHistory__paymentStatus').as('invoiceRecord').should('have.text', 'Payment failed')
+        cy.get('@invoiceRecord').find('.icon-alert-outline').should('be.visible');
 
         // * Check the first row where payment was successfull
         cy.get('@tableRows').eq(2).find('td').eq(0).should('have.text', '09/01/2022');
         cy.get('@tableRows').eq(2).find('td.BillingHistory__table-total').should('have.text', '$7.33');
-        cy.get('@tableRows').eq(2).find('div.BillingHistory__paymentStatus').should('have.text', 'Paid');
+        cy.get('@tableRows').eq(2).find('div.BillingHistory__paymentStatus').as('invoiceRecord').should('have.text', 'Paid');
+        cy.get('@invoiceRecord').find('.icon-check-circle-outline').should('be.visible');
+
     });
 
     it('MM-T3491_2 Validate the contents of downloaded PDF invoice', () => {
@@ -159,7 +163,8 @@ describe('System Console - Billing History', () => {
         // * Check for default record's length in grid
         cy.get('@tableRows').should('have.length', 3);
 
-        // * Check the invoice lins
+        // * Check the invoice line
+        cy.get('@tableRows').eq(1).find('td').eq(4).find('a').should('have.attr', 'href').and('include', 'invoices/in_1LntnKI67GP2qpb4VObu3NgP/pdf');
         cy.get('@tableRows').eq(2).find('td').eq(4).find('a').should('have.attr', 'href').and('include', 'invoices/in_1LntnKI67GP2qpb4VObu3NgV/pdf');
     });
 });
