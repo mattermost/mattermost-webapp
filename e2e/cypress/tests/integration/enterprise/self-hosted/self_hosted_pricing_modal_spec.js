@@ -39,7 +39,7 @@ describe('Self hosted Pricing modal', () => {
             urlL = url;
             createdUser = user;
             cy.apiAdminLogin();
-            cy.apiDeleteLicense('Cloud');
+            cy.apiDeleteLicense();
             cy.visit(url);
         });
     });
