@@ -146,7 +146,7 @@ describe('System Console - Billing History', () => {
         // * Check the first row where payment has failed
         cy.get('@tableRows').eq(1).find('td').eq(0).should('have.text', '09/01/2022');
         cy.get('@tableRows').eq(1).find('td.BillingHistory__table-total').should('have.text', '$7.33');
-        cy.get('@tableRows').eq(1).find('div.BillingHistory__paymentStatus').as('invoiceRecord').should('have.text', 'Payment failed')
+        cy.get('@tableRows').eq(1).find('div.BillingHistory__paymentStatus').as('invoiceRecord').should('have.text', 'Payment failed');
         cy.get('@invoiceRecord').find('.icon-alert-outline').should('be.visible');
 
         // * Check the first row where payment was successfull
@@ -154,7 +154,6 @@ describe('System Console - Billing History', () => {
         cy.get('@tableRows').eq(2).find('td.BillingHistory__table-total').should('have.text', '$7.33');
         cy.get('@tableRows').eq(2).find('div.BillingHistory__paymentStatus').as('invoiceRecord').should('have.text', 'Paid');
         cy.get('@invoiceRecord').find('.icon-check-circle-outline').should('be.visible');
-
     });
 
     it('MM-T3491_2 Validate the contents of downloaded PDF invoice', () => {
