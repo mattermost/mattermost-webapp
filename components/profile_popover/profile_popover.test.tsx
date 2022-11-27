@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {Provider} from 'react-redux';
+
 import {General} from 'mattermost-redux/constants';
 import {CustomStatusDuration} from '@mattermost/types/users';
 
@@ -10,9 +12,10 @@ import ProfilePopover from 'components/profile_popover/profile_popover';
 
 import Pluggable from 'plugins/pluggable';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {TestHelper} from 'utils/test_helper';
+import {mockStore} from 'tests/test_store';
 
 describe('components/ProfilePopover', () => {
     const baseProps = {
@@ -50,6 +53,40 @@ describe('components/ProfilePopover', () => {
         isCallsEnabled: true,
         isCallsDefaultEnabledOnAllChannels: true,
         teammateNameDisplay: General.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
+    };
+
+    const initialState = {
+        entities: {
+            teams: {},
+            channels: {
+                channels: {},
+                myMembers: {},
+            },
+            general: {
+                config: {},
+            },
+            users: {},
+            preferences: {
+                myPreferences: {},
+            },
+            groups: {
+                groups: {},
+                myGroups: [],
+            },
+            emojis: {
+                customEmoji: {},
+            },
+        },
+        plugins: {
+            components: {
+                CallButton: [],
+            },
+        },
+        views: {
+            rhs: {
+                isSidebarOpen: false,
+            },
+        },
     };
 
     test('should match snapshot', () => {
@@ -227,30 +264,20 @@ describe('components/ProfilePopover', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should disable start call button when user is in another call', () => {
+    test('should not show the start call button when isCallsDefaultEnabledOnAllChannels and isCallsCanBeDisabledOnSpecificChannels is false', () => {
+        const mock = mockStore(initialState);
         const props = {
             ...baseProps,
-            isCurrentUserInCall: true,
-        };
-
-        const wrapper = shallowWithIntl(
-            <ProfilePopover {...props}/>,
-        );
-        expect(wrapper.find('#startCallButton').hasClass('icon-btn-disabled')).toBe(true);
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should not show the start call button when isCallsDefaultEnabledOnAllChannels is false', () => {
-        const props = {
-            ...baseProps,
-            isUserInCall: true,
             isCallsDefaultEnabledOnAllChannels: false,
+            isCallsCanBeDisabledOnSpecificChannels: false,
         };
 
-        const wrapper = shallowWithIntl(
-            <ProfilePopover {...props}/>,
+        const wrapper = mountWithIntl(
+            <Provider store={mock.store}>
+                <ProfilePopover {...props}/>
+            </Provider>,
         );
-        expect(wrapper.find('#startCallButton').exists()).toBe(false);
+        expect(wrapper.find('CallButton').exists()).toBe(false);
         expect(wrapper).toMatchSnapshot();
     });
 });

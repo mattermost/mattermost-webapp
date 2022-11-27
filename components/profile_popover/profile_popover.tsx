@@ -196,6 +196,7 @@ type ChannelCallsState = {
 class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePopoverState> {
     closeButtonRef: React.RefObject<HTMLButtonElement>;
     returnFocus: () => void;
+    callsChannelState?: ChannelCallsState;
 
     static getComponentName() {
         return 'ProfilePopover';
@@ -206,7 +207,6 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         status: UserStatuses.OFFLINE,
         customStatus: null,
     };
-    callsChannelState?: ChannelCallsState;
     constructor(props: ProfilePopoverProps) {
         super(props);
         this.state = {
@@ -516,6 +516,12 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             );
         }
         dataContent.push(
+            <hr
+                key='user-popover-hr'
+                className='divider divider--expanded'
+            />,
+        );
+        dataContent.push(
             <Pluggable
                 key='profilePopoverPluggable2'
                 pluggableName='PopoverUserAttributes'
@@ -531,10 +537,6 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             !haveOverrideProp
         ) {
             dataContent.push(
-                <hr
-                    key='user-popover-hr'
-                    className='divider divider--expanded'
-                />,
                 <div
                     key='user-popover-local-time'
                     className='user-popover__time-status-container'
@@ -687,7 +689,12 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         );
 
         const renderCallButton = () => {
-            if (!this.props.isCallsEnabled || !this.props.isCallsDefaultEnabledOnAllChannels || (this.props.isCallsCanBeDisabledOnSpecificChannels && this.callsChannelState?.enabled === false)) {
+            const {isCallsEnabled, isCallsDefaultEnabledOnAllChannels, isCallsCanBeDisabledOnSpecificChannels} = this.props;
+            if (
+                !isCallsEnabled ||
+                !this.callsChannelState?.enabled === false ||
+                (!isCallsDefaultEnabledOnAllChannels && !isCallsCanBeDisabledOnSpecificChannels)
+            ) {
                 return null;
             }
 
