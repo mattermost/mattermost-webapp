@@ -459,7 +459,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
 
         const fullname = this.props.overwriteName ? this.props.overwriteName : Utils.getFullName(this.props.user);
         const haveOverrideProp = this.props.overwriteIcon || this.props.overwriteName;
-        if (fullname && !haveOverrideProp) {
+        if (fullname) {
             let sharedIcon;
             if (this.props.user.remote_id) {
                 sharedIcon = (
