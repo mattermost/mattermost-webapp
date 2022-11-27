@@ -321,8 +321,8 @@ describe('components/MoreChannels', () => {
     test('should hide joined channels from channels props when shouldHideJoinedChannels prop is true', () => {
         const props = {
             ...baseProps,
-            shouldHideJoinedChannels: true
-        }
+            shouldHideJoinedChannels: true,
+        };
         const wrapper = shallow<MoreChannels>(
             <MoreChannels {...props}/>,
         );
