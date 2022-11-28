@@ -3,16 +3,21 @@
 
 import React, {useCallback} from 'react';
 import {useSelector} from 'react-redux';
+import {FormattedMessage} from 'react-intl';
 
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
-import type {UserProfile, UserStatus} from '@mattermost/types/users';
-import type {PostDraft} from 'types/store/draft';
-
+import {CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
 import Markdown from 'components/markdown';
 import FilePreview from 'components/file_preview';
 import ProfilePicture from 'components/profile_picture';
+import PriorityLabel from 'components/post_priority/post_priority_label';
 import {imageURLForUser, handleFormattedTextClick} from 'utils/utils';
+
+import type {PostDraft} from 'types/store/draft';
+
+import type {UserProfile, UserStatus} from '@mattermost/types/users';
+import {PostPriorityMetadata} from '@mattermost/types/posts';
 
 import './panel_body.scss';
 
@@ -21,6 +26,7 @@ type Props = {
     displayName: string;
     fileInfos: PostDraft['fileInfos'];
     message: string;
+    priority?: PostPriorityMetadata;
     status: UserStatus['status'];
     uploadsInProgress: PostDraft['uploadsInProgress'];
     userId: UserProfile['id'];
@@ -37,6 +43,7 @@ function PanelBody({
     displayName,
     fileInfos,
     message,
+    priority,
     status,
     uploadsInProgress,
     userId,
@@ -68,6 +75,25 @@ function PanelBody({
                 <div className='DraftPanelBody__right'>
                     <div className='post__header'>
                         <strong>{displayName}</strong>
+                        <div className='DraftPanelBody__priority'>
+                            {priority?.priority && (
+                                <PriorityLabel
+                                    size='xs'
+                                    priority={priority.priority}
+                                />
+                            )}
+                            {priority?.requested_ack && (
+                                <div className='DraftPanelBody__priority-ack'>
+                                    <CheckCircleOutlineIcon size={14}/>
+                                    {!priority.priority && (
+                                        <FormattedMessage
+                                            id={'post_priority.request_acknowledgement'}
+                                            defaultMessage={'Request acknowledgement'}
+                                        />
+                                    )}
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <div className='post__body'>
                         <Markdown

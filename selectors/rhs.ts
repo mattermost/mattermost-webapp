@@ -129,6 +129,23 @@ export function getIsSearchGettingMore(state: GlobalState): boolean {
     return state.entities.search.isSearchGettingMore;
 }
 
+export function makeGetChannelDraft() {
+    const defaultDraft = Object.freeze({message: '', fileInfos: [], uploadsInProgress: [], createAt: 0, updateAt: 0, channelId: '', rootId: ''});
+
+    return (state: GlobalState, channelId: string): PostDraft => {
+        const draft = makeGetGlobalItem(StoragePrefixes.DRAFT + channelId, defaultDraft)(state);
+        if (
+            typeof draft.message !== 'undefined' &&
+            typeof draft.uploadsInProgress !== 'undefined' &&
+            typeof draft.fileInfos !== 'undefined'
+        ) {
+            return draft;
+        }
+
+        return defaultDraft;
+    };
+}
+
 export function getPostDraft(state: GlobalState, prefixId: string, suffixId: string): PostDraft {
     const defaultDraft = {message: '', fileInfos: [], uploadsInProgress: [], createAt: 0, updateAt: 0, channelId: '', rootId: ''};
 
