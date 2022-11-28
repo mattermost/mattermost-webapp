@@ -43,6 +43,7 @@ describe('plugins/Pluggable', () => {
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('#pluginId').text()).toBe('ProfilePopoverPlugin');
+        expect(wrapper.find(ProfilePopoverPlugin).exists()).toBe(true);
     });
 
     test('should match snapshot with extended component with pluggableName', () => {
@@ -56,6 +57,7 @@ describe('plugins/Pluggable', () => {
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('#pluginId').text()).toBe('ProfilePopoverPlugin');
+        expect(wrapper.find(ProfilePopoverPlugin).exists()).toBe(true);
     });
 
     test('should return null if neither pluggableName nor children is is defined in props', () => {
@@ -66,7 +68,7 @@ describe('plugins/Pluggable', () => {
             />,
         );
 
-        expect(wrapper.children().length).toBe(0);
+        expect(wrapper.find(ProfilePopoverPlugin).exists()).toBe(false);
     });
 
     test('should return null if with pluggableName but no children', () => {
@@ -90,7 +92,7 @@ describe('plugins/Pluggable', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.children().length).toBe(0);
+        expect(wrapper.find(ProfilePopoverPlugin).exists()).toBe(false);
     });
 
     test('should match snapshot with null pluggableId', () => {
@@ -103,7 +105,7 @@ describe('plugins/Pluggable', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.children().length).toBe(1);
+        expect(wrapper.find(ProfilePopoverPlugin).exists()).toBe(true);
     });
 
     test('should match snapshot with valid pluggableId', () => {
@@ -117,7 +119,6 @@ describe('plugins/Pluggable', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.children().length).toBe(1);
-        expect(wrapper.childAt(0).type()).toBe(ProfilePopoverPlugin);
+        expect(wrapper.find(ProfilePopoverPlugin).exists()).toBe(true);
     });
 });

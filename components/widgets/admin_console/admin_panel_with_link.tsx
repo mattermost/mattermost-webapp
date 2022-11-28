@@ -34,7 +34,6 @@ const AdminPanelWithLink = (props: Props) => {
             <FormattedMessage
                 id={props.linkTextId}
                 defaultMessage={props.linkTextDefault}
-                values={props.subtitleValues}
             />
         </Link>
     );
@@ -48,6 +47,7 @@ const AdminPanelWithLink = (props: Props) => {
             titleDefault={props.titleDefault}
             subtitleId={props.subtitleId}
             subtitleDefault={props.subtitleDefault}
+            subtitleValues={props.subtitleValues}
             button={button}
         >
             {props.children}

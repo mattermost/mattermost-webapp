@@ -43,6 +43,7 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
             {key: 'clock', label: 'Clock Display', type: 'radio'},
             {key: 'name_format', label: 'Teammate Name Display', type: 'none'},
             {key: 'availabilityStatus', label: 'Show online availability on profile images', type: 'radio'},
+            {key: 'lastactive', label: 'Share last active time', type: 'radio'},
             {key: 'timezone', label: 'Timezone', type: 'none'},
             {key: 'collapse', label: 'Default Appearance of Image Previews', type: 'radio'},
             {key: 'message_display', label: 'Message Display', type: 'radio'},

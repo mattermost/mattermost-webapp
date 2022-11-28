@@ -36,6 +36,8 @@ export type Group = {
     member_count: number;
     scheme_admin: boolean;
     allow_reference: boolean;
+    channel_member_count?: number;
+    channel_member_timezones_count?: number;
 };
 
 export type GroupTeam = {
@@ -147,6 +149,8 @@ export type GroupSearachParams = {
     per_page: number;
     include_member_count: boolean;
     user_id?: string;
+    include_timezones?: string;
+    include_channel_member_count?: string;
 }
 
 export type GroupMembership = {

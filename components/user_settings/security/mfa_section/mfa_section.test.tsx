@@ -8,7 +8,7 @@ import React from 'react';
 
 import MfaSection from 'components/user_settings/security/mfa_section/mfa_section';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 describe('MfaSection', () => {
     const baseProps = {
@@ -109,7 +109,7 @@ describe('MfaSection', () => {
 
             (wrapper.instance() as MfaSection).setupMfa(mockEvent);
 
-            expect(browserHistory.push).toHaveBeenCalledWith('/mfa/setup');
+            expect(getHistory().push).toHaveBeenCalledWith('/mfa/setup');
         });
     });
 
@@ -127,7 +127,7 @@ describe('MfaSection', () => {
 
             expect(baseProps.updateSection).toHaveBeenCalledWith('');
             expect(wrapper.state('serverError')).toEqual(null);
-            expect(browserHistory.push).not.toHaveBeenCalled();
+            expect(getHistory().push).not.toHaveBeenCalled();
         });
 
         it('on success, should send to setup page if MFA enforcement is enabled', async () => {
@@ -145,7 +145,7 @@ describe('MfaSection', () => {
             await (wrapper.instance() as MfaSection).removeMfa(mockEvent);
 
             expect(baseProps.updateSection).not.toHaveBeenCalled();
-            expect(browserHistory.push).toHaveBeenCalledWith('/mfa/setup');
+            expect(getHistory().push).toHaveBeenCalledWith('/mfa/setup');
         });
 
         it('on error, should show error', async () => {

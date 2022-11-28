@@ -43,6 +43,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
             promoteGuestToUser: jest.fn().mockResolvedValue({data: true}),
             demoteUserToGuest: jest.fn().mockResolvedValue({data: true}),
             loadBots: jest.fn(() => Promise.resolve([])),
+            createGroupTeamsAndChannels: jest.fn().mockResolvedValue({data: true}),
         },
         config: {
             GuestAccountsSettings: {

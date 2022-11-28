@@ -7,8 +7,8 @@ exports[`Components/AlertBanner should match snapshot 1`] = `
   <div
     className="AlertBanner__icon"
   >
-    <i
-      className="icon-alert-circle-outline"
+    <InformationOutlineIcon
+      size={24}
     />
   </div>
   <div
@@ -35,8 +35,8 @@ exports[`Components/AlertBanner should match snapshot for app variant 1`] = `
   <div
     className="AlertBanner__icon"
   >
-    <i
-      className="icon-alert-circle-outline"
+    <InformationOutlineIcon
+      size={24}
     />
   </div>
   <div

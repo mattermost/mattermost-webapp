@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
@@ -15,7 +16,7 @@ import {Emoji} from '@mattermost/types/emojis';
 import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import GenericModal from 'components/generic_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import RenderEmoji from 'components/emoji/render_emoji';
 import QuickInput, {MaxLengthInput} from 'components/quick_input';
 import {makeGetCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatingDot, isCustomStatusExpired} from 'selectors/views/custom_status';
@@ -345,7 +346,6 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                                 target={getCustomStatusControlRef}
                                 show={showEmojiPicker}
                                 onHide={handleEmojiClose}
-                                onEmojiClose={handleEmojiClose}
                                 onEmojiClick={handleEmojiClick}
                                 rightOffset={calculateRightOffSet()}
                                 leftOffset={3}

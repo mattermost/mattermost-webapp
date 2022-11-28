@@ -13,7 +13,7 @@ exports[`component/add_user_to_group_multiselect should match snapshot with diff
   handleSubmit={[Function]}
   key="addUsersToGroupKey"
   loading={true}
-  maxValues={30}
+  numRemainingText={null}
   optionRenderer={[Function]}
   options={
     Array [
@@ -59,7 +59,7 @@ exports[`component/add_user_to_group_multiselect should match snapshot with prof
   handleSubmit={[Function]}
   key="addUsersToGroupKey"
   loading={true}
-  maxValues={30}
+  numRemainingText={null}
   optionRenderer={[Function]}
   options={
     Array [
@@ -105,7 +105,7 @@ exports[`component/add_user_to_group_multiselect should match snapshot without a
   handleSubmit={[Function]}
   key="addUsersToGroupKey"
   loading={true}
-  maxValues={30}
+  numRemainingText={null}
   optionRenderer={[Function]}
   options={Array []}
   perPage={50}

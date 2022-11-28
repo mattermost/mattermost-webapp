@@ -29,6 +29,17 @@
         }
     }
 
+    &__author {
+        @include clearfix;
+
+        overflow: hidden;
+        min-width: 0;
+        text-align: left;
+        text-overflow: ellipsis;
+        -moz-user-select: all; /* Firefox all */
+        white-space: nowrap;
+    }
+
     &.is-selected {
         background: rgba(var(--button-bg-rgb), 0.04);
 
@@ -96,7 +107,7 @@
         font-family: 'Open Sans', sans-serif;
         font-size: 14px;
         font-weight: 600;
-        grid-template-columns: min-content 1fr min-content;
+        grid-template-columns: minmax(0, min-content) 1fr min-content;
         line-height: 20px;
         white-space: nowrap;
     }

@@ -28,6 +28,16 @@ const LazyGlobalThreads = makeAsyncComponent(
     ),
 );
 
+const LazyDrafts = makeAsyncComponent(
+    'LazyDrafts',
+    React.lazy(() => import('components/drafts')),
+    (
+        <div className='app__content'>
+            <LoadingScreen/>
+        </div>
+    ),
+);
+
 const LazyActivityAndInsights = makeAsyncComponent(
     'LazyActivityAndInsights',
     React.lazy(() => import('components/activity_and_insights/activity_and_insights')),
@@ -115,6 +125,10 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                                 component={LazyGlobalThreads}
                             />
                         ) : null}
+                        <Route
+                            path='/:team/drafts'
+                            component={LazyDrafts}
+                        />
                         {insightsAreEnabled ? (
                             <Route
                                 path='/:team/activity-and-insights'

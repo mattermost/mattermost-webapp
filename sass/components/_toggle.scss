@@ -48,10 +48,10 @@ $toggle-default-font-size: 0.75rem;
 
     > .handle {
         position: absolute;
-        top: 0.4rem;
-        left: 0.4rem;
-        width: 2rem;
-        height: 2rem;
+        top: $size/7;
+        left: $size/7;
+        width: $size - (2 * ($size/7));
+        height: $size - (2 * ($size/7));
         background: #fff;
         border-radius: 1rem;
         transition: left 0.25s;
@@ -61,7 +61,7 @@ $toggle-default-font-size: 0.75rem;
         transition: background-color 0.25s;
 
         > .handle {
-            right: 0.4rem;
+            right: $size/7;
             left: inherit;
             transition: left 0.25s;
         }

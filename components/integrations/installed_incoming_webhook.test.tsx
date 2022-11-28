@@ -5,10 +5,10 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {shallow} from 'enzyme';
 
-import {IncomingWebhook} from '@mattermost/types/integrations';
-
 import DeleteIntegrationLink from 'components/integrations/delete_integration_link';
-import InstalledIncomingWebhook from 'components/integrations/installed_incoming_webhook.jsx';
+import InstalledIncomingWebhook from 'components/integrations/installed_incoming_webhook';
+
+import {IncomingWebhook} from '@mattermost/types/integrations';
 
 describe('components/integrations/InstalledIncomingWebhook', () => {
     const incomingWebhook: IncomingWebhook = {
@@ -43,10 +43,36 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 team={{
                     id: teamId,
                     name: 'test',
+                    create_at: 1502455422406,
+                    delete_at: 0,
+                    update_at: 1502455422406,
+                    type: 'O',
+                    display_name: 'name',
+                    scheme_id: 'id',
+                    allow_open_invite: false,
+                    group_constrained: false,
+                    description: '',
+                    email: '',
+                    company_name: '',
+                    allowed_domains: '',
+                    invite_id: '',
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
                     name: 'town-square',
+                    create_at: 1502455422406,
+                    delete_at: 0,
+                    update_at: 1502455422406,
+                    team_id: teamId,
+                    type: 'O',
+                    display_name: 'name',
+                    header: 'header',
+                    purpose: 'purpose',
+                    last_post_at: 0,
+                    last_root_post_at: 0,
+                    creator_id: 'id',
+                    scheme_id: 'id',
+                    group_constrained: false,
                 }}
             />,
         );
@@ -67,10 +93,36 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 team={{
                     id: teamId,
                     name: 'test',
+                    create_at: 1502455422406,
+                    delete_at: 0,
+                    update_at: 1502455422406,
+                    type: 'O',
+                    display_name: 'name',
+                    scheme_id: 'id',
+                    allow_open_invite: false,
+                    group_constrained: false,
+                    description: '',
+                    email: '',
+                    company_name: '',
+                    allowed_domains: '',
+                    invite_id: '',
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
                     name: 'town-square',
+                    create_at: 1502455422406,
+                    delete_at: 0,
+                    update_at: 1502455422406,
+                    team_id: teamId,
+                    type: 'O',
+                    display_name: 'name',
+                    header: 'header',
+                    purpose: 'purpose',
+                    last_post_at: 0,
+                    last_root_post_at: 0,
+                    creator_id: 'id',
+                    scheme_id: 'id',
+                    group_constrained: false,
                 }}
             />,
         );
@@ -91,10 +143,36 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 team={{
                     id: teamId,
                     name: 'test',
+                    create_at: 1502455422406,
+                    delete_at: 0,
+                    update_at: 1502455422406,
+                    type: 'O',
+                    display_name: 'name',
+                    scheme_id: 'id',
+                    allow_open_invite: false,
+                    group_constrained: false,
+                    description: '',
+                    email: '',
+                    company_name: '',
+                    allowed_domains: '',
+                    invite_id: '',
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
                     name: 'town-square',
+                    create_at: 1502455422406,
+                    delete_at: 0,
+                    update_at: 1502455422406,
+                    team_id: teamId,
+                    type: 'O',
+                    display_name: 'name',
+                    header: 'header',
+                    purpose: 'purpose',
+                    last_post_at: 0,
+                    last_root_post_at: 0,
+                    creator_id: 'id',
+                    scheme_id: 'id',
+                    group_constrained: false,
                 }}
             />,
         );
@@ -116,10 +194,36 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 team={{
                     id: teamId,
                     name: 'test',
+                    create_at: 1502455422406,
+                    delete_at: 0,
+                    update_at: 1502455422406,
+                    type: 'O',
+                    display_name: 'name',
+                    scheme_id: 'id',
+                    allow_open_invite: false,
+                    group_constrained: false,
+                    description: '',
+                    email: '',
+                    company_name: '',
+                    allowed_domains: '',
+                    invite_id: '',
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
                     name: 'town-square',
+                    create_at: 1502455422406,
+                    delete_at: 0,
+                    update_at: 1502455422406,
+                    team_id: teamId,
+                    type: 'O',
+                    display_name: 'name',
+                    header: 'header',
+                    purpose: 'purpose',
+                    last_post_at: 0,
+                    last_root_post_at: 0,
+                    creator_id: 'id',
+                    scheme_id: 'id',
+                    group_constrained: false,
                 }}
             />,
         );
@@ -142,10 +246,36 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 team={{
                     id: teamId,
                     name: 'test',
+                    create_at: 1502455422406,
+                    delete_at: 0,
+                    update_at: 1502455422406,
+                    type: 'O',
+                    display_name: 'name',
+                    scheme_id: 'id',
+                    allow_open_invite: false,
+                    group_constrained: false,
+                    description: '',
+                    email: '',
+                    company_name: '',
+                    allowed_domains: '',
+                    invite_id: '',
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
                     name: 'town-square',
+                    create_at: 1502455422406,
+                    delete_at: 0,
+                    update_at: 1502455422406,
+                    team_id: teamId,
+                    type: 'O',
+                    display_name: 'name',
+                    header: 'header',
+                    purpose: 'purpose',
+                    last_post_at: 0,
+                    last_root_post_at: 0,
+                    creator_id: 'id',
+                    scheme_id: 'id',
+                    group_constrained: false,
                 }}
             />,
         );
@@ -166,10 +296,36 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 team={{
                     id: teamId,
                     name: 'test',
+                    create_at: 1502455422406,
+                    delete_at: 0,
+                    update_at: 1502455422406,
+                    type: 'O',
+                    display_name: 'name',
+                    scheme_id: 'id',
+                    allow_open_invite: false,
+                    group_constrained: false,
+                    description: '',
+                    email: '',
+                    company_name: '',
+                    allowed_domains: '',
+                    invite_id: '',
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
                     name: 'town-square',
+                    create_at: 1502455422406,
+                    delete_at: 0,
+                    update_at: 1502455422406,
+                    team_id: teamId,
+                    type: 'O',
+                    display_name: 'name',
+                    header: 'header',
+                    purpose: 'purpose',
+                    last_post_at: 0,
+                    last_root_post_at: 0,
+                    creator_id: 'id',
+                    scheme_id: 'id',
+                    group_constrained: false,
                 }}
             />,
         );
@@ -190,10 +346,36 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 team={{
                     id: teamId,
                     name: 'test',
+                    create_at: 1502455422406,
+                    delete_at: 0,
+                    update_at: 1502455422406,
+                    type: 'O',
+                    display_name: 'name',
+                    scheme_id: 'id',
+                    allow_open_invite: false,
+                    group_constrained: false,
+                    description: '',
+                    email: '',
+                    company_name: '',
+                    allowed_domains: '',
+                    invite_id: '',
                 }}
                 channel={{
                     id: '1jiw9kphbjrntfyrm7xpdcya4o',
                     name: 'town-square',
+                    create_at: 1502455422406,
+                    delete_at: 0,
+                    update_at: 1502455422406,
+                    team_id: teamId,
+                    type: 'O',
+                    display_name: 'name',
+                    header: 'header',
+                    purpose: 'purpose',
+                    last_post_at: 0,
+                    last_root_post_at: 0,
+                    creator_id: 'id',
+                    scheme_id: 'id',
+                    group_constrained: false,
                 }}
             />,
         );

@@ -77,6 +77,7 @@ const state: GlobalState = {
                 },
             },
             limitedViews: zeroStateLimitedViews,
+            acknowledgements: {},
         },
         threads: {
             threadsInTeam: {},
@@ -207,6 +208,7 @@ const state: GlobalState = {
                 limits: {},
                 limitsLoaded: false,
             },
+            errors: {},
         },
         usage: {
             files: {
@@ -225,10 +227,6 @@ const state: GlobalState = {
             boards: {
                 cards: 0,
                 cardsLoaded: false,
-            },
-            integrations: {
-                enabled: 0,
-                enabledLoaded: false,
             },
         },
         insights: {
@@ -342,29 +340,12 @@ const state: GlobalState = {
                 error: null,
             },
         },
-        jobs: {
-            createJob: {
-                status: 'not_started',
-                error: null,
-            },
-            getJob: {
-                status: 'not_started',
-                error: null,
-            },
-            getJobs: {
-                status: 'not_started',
-                error: null,
-            },
-            cancelJob: {
-                status: 'not_started',
-                error: null,
-            },
-        },
     },
     websocket: {
         connected: false,
         lastConnectAt: 0,
         lastDisconnectAt: 0,
+        connectionId: '',
     },
 };
 export default state;
