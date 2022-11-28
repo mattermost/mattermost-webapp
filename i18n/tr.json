@@ -2822,6 +2822,7 @@
   "channel_info_rhs.edit_link": "Düzenle",
   "channel_info_rhs.header.title": "Bilgiler",
   "channel_info_rhs.menu.files": "Dosyalar",
+  "channel_info_rhs.menu.files.filter": "Filtrele",
   "channel_info_rhs.menu.members": "Üyeler",
   "channel_info_rhs.menu.notification_preferences": "Bildirim ayarları",
   "channel_info_rhs.menu.pinned": "Sabitlenmiş iletiler",
