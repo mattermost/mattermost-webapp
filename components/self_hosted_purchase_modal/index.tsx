@@ -427,18 +427,18 @@ function inferNames(user: UserProfile, cardName: string): [string, string] {
     return [names[0], names.slice(1).join(' ')];
 }
 
-// Card has a bunch of props needed for monthly/yearly payments that 
+// Card has a bunch of props needed for monthly/yearly payments that
 // do not apply to self-hosted.
 const dummyCardProps = {
     annualSubscription: false,
     usersCount: 0,
-    yearlyPrice:0,
-    monthlyPrice:0,
+    yearlyPrice: 0,
+    monthlyPrice: 0,
     isInitialPlanMonthly: false,
     updateIsMonthly: () => {},
     updateInputUserCount: () => {},
     setUserCountError: () => {},
-}
+};
 
 export default function SelfHostedPurchaseModal(props: Props) {
     useFetchStandardAnalytics();
