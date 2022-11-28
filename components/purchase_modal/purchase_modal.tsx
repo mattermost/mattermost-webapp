@@ -81,6 +81,7 @@ type CardProps = {
     planLabel?: JSX.Element;
     seeHowBillingWorks?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
     hideBillingCycle?: boolean;
+    preButtonContent?: React.ReactNode;
     afterButtonContent?: React.ReactNode;
 }
 
@@ -201,6 +202,7 @@ export function Card(props: CardProps) {
                     <p>{props.rate}</p>
                 </div>
                 {props.planBriefing}
+                {props.preButtonContent}
                 <div>
                     <button
                         className={'plan_action_btn ' + props.buttonDetails.customClass}

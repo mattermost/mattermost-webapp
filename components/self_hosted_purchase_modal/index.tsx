@@ -67,6 +67,7 @@ import useFetchStandardAnalytics from 'components/common/hooks/useFetchStandardA
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import SuccessPage from './success_page';
+import SeatsCalculator, {Seats, errorInvalidNumber} from './seats_calculator';
 
 import './self_hosted_purchase_modal.scss';
 
@@ -82,7 +83,7 @@ interface State {
     waitingOnNetwork: boolean;
     agreedTerms: boolean;
     cardFilled: boolean;
-    seats: number;
+    seats: Seats;
     submitting: boolean;
     succeeded: boolean;
     progressBar: number;
@@ -146,7 +147,7 @@ interface UpdateCardFilled {
 
 interface UpdateSeats {
     type: 'update_seats';
-    data: number;
+    data: Seats;
 }
 
 interface UpdateSubmitting {
@@ -207,7 +208,10 @@ const initialState: State = {
     waitingOnNetwork: false,
     agreedTerms: true,
     cardFilled: false,
-    seats: 0,
+    seats: {
+        quantity: '0',
+        error: errorInvalidNumber,
+    },
     submitting: false,
     succeeded: false,
     progressBar: 0,
@@ -320,7 +324,7 @@ function canSubmit(state: State, progress: ValueOf<typeof SelfHostedSignupProgre
             state.country &&
 
             // product/license
-            state.seats &&
+            !state.seats.error &&
             state.organization &&
 
             // legal
@@ -328,7 +332,7 @@ function canSubmit(state: State, progress: ValueOf<typeof SelfHostedSignupProgre
         );
     }
 
-    if (progress === SelfHostedSignupProgress.START) {
+    if (progress === SelfHostedSignupProgress.START || progress === SelfHostedSignupProgress.CREATED_CUSTOMER) {
         return Boolean(
 
             // card
@@ -343,7 +347,7 @@ function canSubmit(state: State, progress: ValueOf<typeof SelfHostedSignupProgre
             state.country &&
 
             // product/license
-            state.seats &&
+            !state.seats.error &&
             state.organization &&
 
             // legal
@@ -434,7 +438,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
     const desiredProduct = useSelector(getSelfHostedProducts)[props.productId];
     const desiredProductName = desiredProduct?.name || '';
     const desiredPlanName = getPlanNameFromProductName(desiredProductName);
-    const totalUsers = analytics[StatTypes.TOTAL_USERS];
+    const currentUsers = analytics[StatTypes.TOTAL_USERS] as number;
     const openPricingModal = useOpenPricingModal();
     const waitingExplanation = useConvertProgressToWaitingExplanation(progress, desiredPlanName);
 
@@ -453,10 +457,14 @@ export default function SelfHostedPurchaseModal(props: Props) {
     const showForm = progress !== SelfHostedSignupProgress.PAID && progress !== SelfHostedSignupProgress.CREATED_LICENSE && !state.submitting && !state.error;
 
     useEffect(() => {
-        if (typeof totalUsers === 'number' && totalUsers > state.seats) {
-            dispatch({type: 'update_seats', data: totalUsers});
+        if (typeof currentUsers === 'number' && (currentUsers > parseInt(state.seats.quantity, 10) || !parseInt(state.seats.quantity, 10))) {
+            dispatch({type: 'update_seats',
+                data: {
+                    quantity: currentUsers.toString(),
+                    error: null,
+                }});
         }
-    }, [totalUsers]);
+    }, [currentUsers]);
     useEffect(() => {
         pageVisited(
             TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
@@ -566,7 +574,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                 {
                     product_id: props.productId,
                     add_ons: [],
-                    seats: Math.max(state.seats, 200),
+                    seats: parseInt(state.seats.quantity, 10),
                 },
             ));
             if (finished.data) {
@@ -727,17 +735,6 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                             required={true}
                                         />
                                     </div>
-                                    <div className='form-row'>
-                                        <input
-                                            type='number'
-                                            value={state.seats}
-                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                dispatch({type: 'update_seats', data: parseInt(e.target.value, 10) || 42});
-                                            }}
-                                            min={1}
-                                            max={9999999999999}
-                                        />
-                                    </div>
                                     <div className='section-title'>
                                         <FormattedMessage
                                             id='payment_form.billing_address'
@@ -844,8 +841,18 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                     plan={desiredPlanName}
                                     price={`$${desiredProduct?.price_per_seat?.toString()}`}
                                     seeHowBillingWorks={seeHowBillingWorks}
-                                    rate='/user'
+                                    rate='/user/month'
                                     planBriefing={<></>}
+                                    preButtonContent={(
+                                        <SeatsCalculator
+                                            price={desiredProduct?.price_per_seat}
+                                            seats={state.seats}
+                                            existingUsers={currentUsers}
+                                            onChange={(seats: Seats) => {
+                                                dispatch({type: 'update_seats', data: seats});
+                                            }}
+                                        />
+                                    )}
                                     afterButtonContent={
                                         <div className='signup-consequences'>
                                             <FormattedMessage

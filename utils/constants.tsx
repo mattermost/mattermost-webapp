@@ -1917,6 +1917,7 @@ export const Constants = {
     CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT: 1000,
     DEFAULT_DM_NUMBER: 40,
     FIRST_ADMIN_ROLE: 'first_admin',
+    MAX_PURCHASE_SEATS: 1000000,
 };
 
 export const ValidationErrors = {
