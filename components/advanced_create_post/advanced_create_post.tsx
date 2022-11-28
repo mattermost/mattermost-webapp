@@ -36,8 +36,6 @@ import {getTable, hasHtmlLink, formatMarkdownMessage, formatGithubCodePaste, isG
 import * as UserAgent from 'utils/user_agent';
 import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
-import EmojiMap from 'utils/emoji_map';
-import {applyMarkdown, ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 
 import Tooltip from 'components/tooltip';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -50,6 +48,8 @@ import ResetStatusModal from 'components/reset_status_modal';
 import TextboxClass from 'components/textbox/textbox';
 import PostPriorityPickerOverlay from 'components/post_priority/post_priority_picker_overlay';
 import PriorityLabel from 'components/post_priority/post_priority_label';
+import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
+import EmojiMap from 'utils/emoji_map';
 
 import {PostDraft} from 'types/store/draft';
 
