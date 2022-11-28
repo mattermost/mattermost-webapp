@@ -3,7 +3,7 @@
 
 import {ChannelType} from './channels';
 import {Post} from './posts';
-import { UserProfile } from './users';
+import {UserProfile} from './users';
 
 export enum InsightsWidgetTypes {
     TOP_CHANNELS = 'TOP_CHANNELS',
