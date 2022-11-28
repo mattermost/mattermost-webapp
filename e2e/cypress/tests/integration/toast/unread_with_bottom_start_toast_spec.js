@@ -55,6 +55,7 @@ describe('unread_with_bottom_start_toast', () => {
         cy.uiClickSidebarItem(testChannelName);
 
         cy.uiClickSidebarItem('off-topic');
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Add enough messages
         for (let index = 0; index < 30; index++) {

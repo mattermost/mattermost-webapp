@@ -19,6 +19,9 @@ type OwnProps = {
     required?: boolean;
     forwardedRef?: any;
     theme: Theme;
+    onBlur?: () => void;
+    onFocus?: () => void;
+    className?: string;
 
     // Stripe doesn't give type exports
     [propName: string]: any; //eslint-disable-line @typescript-eslint/no-explicit-any

@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @collapsed_reply_threads
 
 describe('Collapsed Reply Threads', () => {
@@ -264,7 +263,7 @@ describe('Collapsed Reply Threads', () => {
         });
     });
 
-    it('MM-T4448 CRT - L16 - Use “Mark all as read” button', () => {
+    it('MM-T4448_1 CRT - L16 - Use “Mark all as read” button', () => {
         cy.uiWaitUntilMessagePostedIncludes(rootPost.data.message);
 
         // # Thread footer should not exist
@@ -301,6 +300,15 @@ describe('Collapsed Reply Threads', () => {
             // # Get the "mark all as read" button (the selector is pretty ambiguous here, but should work for now)
             cy.get('#threads-list__mark-all-as-read').click();
 
+            // * mark_all_threads_as_read_modal is open
+            cy.get('#mark-all-threads-as-read-modal').should('exist');
+
+            // # Click confirm button
+            cy.get('button.confirm').contains('Mark all as read').click();
+
+            // * mark_all_threads_as_read_modal is closed
+            cy.get('#mark-all-threads-as-read-modal').should('not.exist');
+
             // * The unreads tab button does NOT have a blue dot (unread indicator)
             cy.get('#threads-list-unread-button .dot').should('not.exist');
 
@@ -319,5 +327,89 @@ describe('Collapsed Reply Threads', () => {
             // # Cleanup for next test
             cy.apiDeletePost(rootPost.id);
         });
+    });
+
+    it('MM-T4448_2 CRT - L16 - Cancel “Mark all as unread” modal', () => {
+        cy.uiWaitUntilMessagePostedIncludes(rootPost.data.message);
+
+        // # Thread footer should not exist
+        cy.uiGetPostThreadFooter(rootPost.id).should('not.exist');
+
+        // # Post a reply post as current user
+        cy.postMessageAs({sender: user2, message: messages.REPLY1, channelId: testChannel.id, rootId: rootPost.id}).then((post) => {
+            replyPost1 = post;
+
+            // # Visit global threads
+            cy.uiClickSidebarItem('threads');
+
+            // * The unreads tab button has a blue dot (unread indicator)
+            cy.get('#threads-list-unread-button .dot').should('have.lengthOf', 1);
+
+            // * There should be a single thread item
+            cy.get('article.ThreadItem').should('have.lengthOf', 1).within(() => {
+                // * The unread indicator (blue dot) should be present
+                cy.get('.dot-unreads').should('have.lengthOf', 1);
+
+                // * Activity section in ThreadItem should say '1 new reply'
+                cy.get('.activity').should('have.text', '1 new reply');
+            });
+
+            // # Get the "mark all as read" button
+            cy.get('#threads-list__mark-all-as-read').click();
+
+            // * Verify mark_all_threads_as_read_modal is open
+            cy.get('#mark-all-threads-as-read-modal').should('exist');
+
+            // # Click cancel button
+            cy.get('button.cancel').contains('Cancel').click();
+
+            // * Verify mark_all_threads_as_read_modal is closed
+            cy.get('#mark-all-threads-as-read-modal').should('not.exist');
+
+            // * Verify the unreads tab button still has a blue dot
+            cy.get('#threads-list-unread-button .dot').should('exist');
+
+            // # Click on “Mark all as unread” button again
+            cy.get('#threads-list__mark-all-as-read').click();
+
+            // * Verify mark_all_threads_as_read_modal is open
+            cy.get('#mark-all-threads-as-read-modal').should('exist');
+
+            // # Click close button
+            cy.get('button.close').click();
+
+            // * Verify mark_all_threads_as_read_modal is closed
+            cy.get('#mark-all-threads-as-read-modal').should('not.exist');
+
+            // * Verify the unreads tab button still has a blue dot
+            cy.get('#threads-list-unread-button .dot').should('exist');
+
+            // # Click on “Mark all as unread” button again
+            cy.get('#threads-list__mark-all-as-read').click();
+
+            // # Press ESC key to close the modal
+            cy.get('body').type('{esc}');
+
+            // * Verify mark_all_threads_as_read_modal is closed
+            cy.get('#mark-all-threads-as-read-modal').should('not.exist');
+
+            // * Verify the unreads tab button still has a blue dot
+            cy.get('#threads-list-unread-button .dot').should('exist');
+
+            // * There should be a single thread item
+            cy.get('article.ThreadItem').should('have.lengthOf', 1).within(() => {
+                // * The unread indicator (blue dot) should be present
+                cy.get('.dot-unreads').should('have.lengthOf', 1);
+
+                // * Activity section in ThreadItem should say '1 new reply'
+                cy.get('.activity').should('have.text', '1 new reply');
+            });
+        });
+
+        // * Assert that the RHS shows the correct view
+        cy.get('.no-results__holder').should('not.contain.text', 'Looks like you’re all caught up');
+
+        // # Cleanup for next test
+        cy.apiDeletePost(rootPost.id);
     });
 });
