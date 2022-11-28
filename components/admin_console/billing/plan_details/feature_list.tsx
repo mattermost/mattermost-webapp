@@ -30,15 +30,6 @@ const FeatureList = (props: FeatureListProps) => {
         ),
         intl.formatMessage(
             {
-                id: 'admin.billing.subscription.planDetails.features.limitedIntegrationsEnabled',
-                defaultMessage: 'Limited to {limit} Apps and Plugins',
-            },
-            {
-                limit: intl.formatNumber(limits.integrations?.enabled ?? fallbackStarterLimits.integrations.enabled),
-            },
-        ),
-        intl.formatMessage(
-            {
                 id: 'admin.billing.subscription.planDetails.features.limitedFileStorage',
                 defaultMessage: 'Limited to {limit} File Storage',
             },

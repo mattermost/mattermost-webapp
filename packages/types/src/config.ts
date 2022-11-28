@@ -7,6 +7,7 @@ export type ClientConfig = {
     AboutLink: string;
     AllowBannerDismissal: string;
     AllowCustomThemes: string;
+    AllowSyncedDrafts: string;
     AllowedThemes: string;
     AndroidAppDownloadLink: string;
     AndroidLatestVersion: string;
@@ -190,6 +191,7 @@ export type ClientConfig = {
     EnableComplianceExport: string;
     PostPriority: string;
     ReduceOnBoardingTaskList: string;
+    PostAcknowledgements: string;
 };
 
 export type License = {
@@ -355,6 +357,7 @@ export type ServiceSettings = {
     DebugSplit: boolean;
     ManagedResourcePaths: string;
     EnableCustomGroups: boolean;
+    AllowSyncedDrafts: boolean;
 };
 
 export type TeamSettings = {

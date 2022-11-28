@@ -25,6 +25,7 @@ import './style.scss';
 
 type Props = {
     onHide?: () => void;
+    backButtonAction?: () => void;
 };
 
 function ErrorModal(props: Props) {
@@ -35,6 +36,13 @@ function ErrorModal(props: Props) {
     const isSuccessModalOpen = useSelector((state: GlobalState) =>
         isModalOpen(state, ModalIdentifiers.ERROR_MODAL),
     );
+
+    const onBackButtonPress = () => {
+        if (props.backButtonAction) {
+            props.backButtonAction();
+        }
+        dispatch(closeModal(ModalIdentifiers.ERROR_MODAL));
+    };
 
     const onHide = () => {
         dispatch(closeModal(ModalIdentifiers.ERROR_MODAL));
@@ -90,7 +98,7 @@ function ErrorModal(props: Props) {
                         />
                     }
                     tertiaryButtonHandler={openContactUs}
-                    buttonHandler={onHide}
+                    buttonHandler={onBackButtonPress}
                     className={'success'}
                 />
             </div>
