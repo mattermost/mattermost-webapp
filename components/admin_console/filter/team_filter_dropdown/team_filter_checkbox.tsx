@@ -8,6 +8,7 @@ type Props = {
     name: string;
     checked: boolean;
     label: string;
+    disabled: boolean;
     updateOption: (checked: boolean, name: string) => void;
 };
 
@@ -23,6 +24,7 @@ class TeamFilterCheckbox extends React.PureComponent<Props> {
             id,
             label,
             name,
+            disabled,
         } = this.props;
 
         return (
@@ -34,6 +36,7 @@ class TeamFilterCheckbox extends React.PureComponent<Props> {
                         name={name}
                         checked={checked}
                         onChange={this.toggleOption}
+                        disabled={disabled}
                     />
 
                     {label}

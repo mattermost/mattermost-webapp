@@ -27,6 +27,7 @@ type Props = {
 
     teams: Team[];
     total: number;
+    maxSelectable?: number;
     actions: {
         getData: (page: number, perPage: number) => Promise<{ data: any }>;
         searchTeams: (term: string, opts: TeamSearchOpts) => Promise<{ data: any }>;
@@ -259,11 +260,17 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
         const {buttonText, buttonMore} = this.generateButtonText();
 
         const createFilterCheckbox = (team: Team) => {
+            let isDisabled = false;
+            let isSelected = selectedTeamIds.includes(team.id);
+            if (this.props.maxSelectable && selectedTeamIds.length >= this.props.maxSelectable && !isSelected) {
+                isDisabled = true;
+            }
             return (
                 <TeamFilterCheckbox
                     id={team.id}
                     name={team.id}
-                    checked={selectedTeamIds.includes(team.id)}
+                    checked={isSelected}
+                    disabled={isDisabled}
                     updateOption={this.toggleTeam}
                     label={team.display_name}
                     key={team.id}

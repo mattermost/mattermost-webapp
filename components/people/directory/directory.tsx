@@ -9,22 +9,25 @@ import classNames from 'classnames';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {getProfiles as fetchProfiles, searchProfiles} from 'mattermost-redux/actions/users';
-import {getProfiles} from 'mattermost-redux/selectors/entities/users';
+import {getProfiles, getProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
+import {GlobalState} from '@mattermost/types/store';
 
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import Input from 'components/widgets/inputs/input/input';
+import TeamFilterDropdown from 'components/admin_console/filter/team_filter_dropdown';
+import {FilterValues} from 'components/admin_console/filter/filter';
 
 import PeopleList from './people_list';
 
 import './directory.scss';
-import TeamFilterDropdown from 'components/admin_console/filter/team_filter_dropdown';
-import { FilterValues } from 'components/admin_console/filter/filter';
 
 const Directory = () => {
     const dispatch = useDispatch();
+
+    const [teamId, setTeamId] = useState('');
 
     const [searchTerm, setSearchTerm] = useState('');
     const [searchPeople, setSearchPeople] = useState([]);
@@ -37,7 +40,7 @@ const Directory = () => {
                     defaultMessage='Teams'
                 />
             ),
-            value: [], // Use a state variable for values here
+            value: [],
         },
     });
 
@@ -46,6 +49,7 @@ const Directory = () => {
     const [isNextPageLoading, setIsNextPageLoading] = useState(false);
 
     const people = useSelector(getProfiles);
+    const peopleInTeam = useSelector((state: GlobalState) => getProfilesInTeam(state, teamId));
 
     const searchOnChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
@@ -58,12 +62,23 @@ const Directory = () => {
     const initialLoad = useCallback(async () => {
         setPage(0);
         setIsNextPageLoading(false);
-        const {data: response} = await dispatch(fetchProfiles(0, 60, {include_total_count: true, exclude_bots: true})) as ActionResult;
+        let options = {
+            include_total_count: true, 
+            exclude_bots: true
+        };
+
+        if (teamId) {
+            options = {
+                ...options,
+                team_id: teamId,
+            };
+        }
+        const {data: response} = await dispatch(fetchProfiles(0, 60, options)) as ActionResult;
 
         if (response.total_count) {
             setTotalCount(response.total_count);
         }
-    }, []);
+    }, [teamId]);
 
     useEffect(() => {
         initialLoad();
@@ -100,6 +115,9 @@ const Directory = () => {
             ...values,
         };
         setFilterValues(options);
+        if (Array.isArray(options.team_ids.value) && options.team_ids.value.length > 0) {
+            setTeamId(options.team_ids.value[0]);
+        }
     }
 
     return (
@@ -134,11 +152,12 @@ const Directory = () => {
                         }}
                         optionKey='team'
                         updateValues={updateValues}
+                        maxSelectable={1}
                     />
                 </div>
             </header>
             <PeopleList
-                people={searchTerm ? searchPeople : people}
+                people={searchTerm ? searchPeople : peopleInTeam || people}
                 hasNextPage={people.length < totalCount}
                 isNextPageLoading={isNextPageLoading}
                 searchTerms={searchTerm}
