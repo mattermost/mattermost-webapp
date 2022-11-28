@@ -76,25 +76,27 @@ function PanelBody({
                 <div className='DraftPanelBody__right'>
                     <div className='post__header'>
                         <strong>{displayName}</strong>
-                        <div className='DraftPanelBody__priority'>
-                            {priority?.priority && (
-                                <PriorityLabel
-                                    size='xs'
-                                    priority={priority.priority}
-                                />
-                            )}
-                            {priority?.requested_ack && (
-                                <div className='DraftPanelBody__priority-ack'>
-                                    <CheckCircleOutlineIcon size={14}/>
-                                    {!priority.priority && (
-                                        <FormattedMessage
-                                            id={'post_priority.request_acknowledgement'}
-                                            defaultMessage={'Request acknowledgement'}
-                                        />
-                                    )}
-                                </div>
-                            )}
-                        </div>
+                        {priority && (
+                            <div className='DraftPanelBody__priority'>
+                                {priority?.priority && (
+                                    <PriorityLabel
+                                        size='xs'
+                                        priority={priority.priority}
+                                    />
+                                )}
+                                {priority?.requested_ack && (
+                                    <div className='DraftPanelBody__priority-ack'>
+                                        <CheckCircleOutlineIcon size={14}/>
+                                        {!priority.priority && (
+                                            <FormattedMessage
+                                                id={'post_priority.request_acknowledgement'}
+                                                defaultMessage={'Request acknowledgement'}
+                                            />
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
                     <div className='post__body'>
                         <Markdown
