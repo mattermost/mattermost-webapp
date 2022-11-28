@@ -7,17 +7,16 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
-import {GlobalState} from '@mattermost/types/store';
-import {retryFailedCloudFetches} from 'mattermost-redux/actions/cloud';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
+
+import {retryFailedCloudFetches} from 'actions/cloud';
 
 import './cloud_fetch_error.scss';
 
 export default function CloudFetchError() {
     const dispatch = useDispatch<DispatchFunc>();
-    const globalState = useSelector((x: GlobalState) => x);
     return (<div className='CloudFetchError '>
         <div className='CloudFetchError__header '>
             <FormattedMessage
@@ -28,7 +27,7 @@ export default function CloudFetchError() {
         <button
             className='btn btn-primary'
             onClick={() => {
-                retryFailedCloudFetches()(dispatch, () => globalState);
+                dispatch(retryFailedCloudFetches());
             }}
         >
             <FormattedMessage
