@@ -250,7 +250,6 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                     ],
                                     "staticRulesId": "",
                                   },
-                                  "displayName": "NoShrink",
                                   "foldedComponentIds": Array [],
                                   "render": [Function],
                                   "shouldForwardProp": undefined,
