@@ -169,6 +169,7 @@ const defaultServerConfig: AdminConfig = {
         ManagedResourcePaths: '',
         EnableCustomGroups: true,
         SelfHostedFirstTimePurchase: false,
+        AllowSyncedDrafts: true,
     },
     TeamSettings: {
         SiteName: 'Mattermost',
@@ -664,7 +665,6 @@ const defaultServerConfig: AdminConfig = {
         CallsMobile: false,
         CallsEnabled: true,
         BoardsFeatureFlags: '',
-        CustomGroups: true,
         BoardsDataRetention: false,
         NormalizeLdapDNs: false,
         EnableInactivityCheckJob: true,

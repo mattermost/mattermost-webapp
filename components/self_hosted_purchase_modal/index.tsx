@@ -427,6 +427,19 @@ function inferNames(user: UserProfile, cardName: string): [string, string] {
     return [names[0], names.slice(1).join(' ')];
 }
 
+// Card has a bunch of props needed for monthly/yearly payments that 
+// do not apply to self-hosted.
+const dummyCardProps = {
+    annualSubscription: false,
+    usersCount: 0,
+    yearlyPrice:0,
+    monthlyPrice:0,
+    isInitialPlanMonthly: false,
+    updateIsMonthly: () => {},
+    updateInputUserCount: () => {},
+    setUserCountError: () => {},
+}
+
 export default function SelfHostedPurchaseModal(props: Props) {
     useFetchStandardAnalytics();
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.SELF_HOSTED_PURCHASE));
@@ -837,6 +850,8 @@ export default function SelfHostedPurchaseModal(props: Props) {
                             <div className='rhs'>
                                 {comparePlanWrapper}
                                 <Card
+                                    {...dummyCardProps}
+                                    intl={intl}
                                     topColor='#4A69AC'
                                     plan={desiredPlanName}
                                     price={`$${desiredProduct?.price_per_seat?.toString()}`}

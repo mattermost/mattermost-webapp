@@ -7,7 +7,7 @@ import {batchActions} from 'redux-batched-actions';
 import {FetchPaginatedThreadOptions} from '@mattermost/types/client4';
 import {ChannelUnread} from '@mattermost/types/channels';
 import {GlobalState} from '@mattermost/types/store';
-import {Post, PostList} from '@mattermost/types/posts';
+import {Post, PostList, PostAcknowledgement} from '@mattermost/types/posts';
 import {Reaction} from '@mattermost/types/reactions';
 import {UserProfile} from '@mattermost/types/users';
 
@@ -1057,17 +1057,27 @@ export function getProfilesAndStatusesForPosts(postsArrayOrMap: Post[]|PostList[
     postsArray.forEach((post) => {
         const userId = post.user_id;
 
-        if (post.metadata && post.metadata.embeds) {
-            post.metadata.embeds.forEach((embed: any) => {
-                if (embed.type === 'permalink' && embed.data) {
-                    if (embed.data.post?.user_id && !profiles[embed.data.post.user_id] && embed.data.post.user_id !== currentUserId) {
-                        userIdsToLoad.add(embed.data.post.user_id);
+        if (post.metadata) {
+            if (post.metadata.embeds) {
+                post.metadata.embeds.forEach((embed: any) => {
+                    if (embed.type === 'permalink' && embed.data) {
+                        if (embed.data.post?.user_id && !profiles[embed.data.post.user_id] && embed.data.post.user_id !== currentUserId) {
+                            userIdsToLoad.add(embed.data.post.user_id);
+                        }
+                        if (embed.data.post?.user_id && !statuses[embed.data.post.user_id]) {
+                            statusesToLoad.add(embed.data.post.user_id);
+                        }
                     }
-                    if (embed.data.post?.user_id && !statuses[embed.data.post.user_id]) {
-                        statusesToLoad.add(embed.data.post.user_id);
+                });
+            }
+
+            if (post.metadata.acknowledgements) {
+                post.metadata.acknowledgements.forEach((ack: any) => {
+                    if (ack.acknowledged_at > 0) {
+                        userIdsToLoad.add(ack.user_id);
                     }
-                }
-            });
+                });
+            }
         }
 
         if (!statuses[userId]) {
@@ -1332,5 +1342,54 @@ export function resetReloadPostsInChannel() {
             dispatch(selectChannel(currentChannelId));
         }
         return {data: true};
+    };
+}
+
+export function acknowledgePost(postId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const userId = getCurrentUserId(getState());
+
+        let data;
+        try {
+            data = await Client4.acknowledgePost(postId, userId);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch({
+            type: PostTypes.CREATE_ACK_POST_SUCCESS,
+            data,
+        });
+
+        return {data};
+    };
+}
+
+export function unacknowledgePost(postId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const userId = getCurrentUserId(getState());
+
+        try {
+            await Client4.unacknowledgePost(postId, userId);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        const data = {
+            post_id: postId,
+            user_id: userId,
+            acknowledged_at: 0,
+        } as PostAcknowledgement;
+
+        dispatch({
+            type: PostTypes.DELETE_ACK_POST_SUCCESS,
+            data,
+        });
+
+        return {data};
     };
 }

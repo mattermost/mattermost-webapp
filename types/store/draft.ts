@@ -10,9 +10,15 @@ export type PostDraft = {
     uploadsInProgress: string[];
     props?: any;
     caretPosition?: number;
+    channelId: string;
+    rootId: string;
+    createAt: number;
+    updateAt: number;
+    show?: boolean;
+    remote?: boolean;
     metadata?: {
         priority?: {
-            priority?: PostPriority;
+            priority: PostPriority|'';
             requested_ack?: boolean;
             persistent_notifications?: boolean;
         };

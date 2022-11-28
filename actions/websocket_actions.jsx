@@ -66,6 +66,9 @@ import {
     getUser as loadUser,
 } from 'mattermost-redux/actions/users';
 import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
+import {setGlobalItem} from 'actions/storage';
+import {transformServerDraft} from 'actions/views/drafts';
+
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -85,6 +88,7 @@ import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
 import {fetchAppBindings, fetchRHSAppsBindings} from 'mattermost-redux/actions/apps';
 
+import {getConnectionId} from 'selectors/general';
 import {getSelectedChannelId, getSelectedPost} from 'selectors/rhs';
 import {isThreadOpen, isThreadManuallyUnread} from 'selectors/views/threads';
 
@@ -558,6 +562,19 @@ export function handleEvent(msg) {
         break;
     case SocketEvents.APPS_FRAMEWORK_PLUGIN_DISABLED:
         dispatch(handleAppsPluginDisabled());
+        break;
+    case SocketEvents.POST_ACKNOWLEDGEMENT_ADDED:
+        dispatch(handlePostAcknowledgementAdded(msg));
+        break;
+    case SocketEvents.POST_ACKNOWLEDGEMENT_REMOVED:
+        dispatch(handlePostAcknowledgementRemoved(msg));
+        break;
+    case SocketEvents.DRAFT_CREATED:
+    case SocketEvents.DRAFT_UPDATED:
+        dispatch(handleUpsertDraftEvent(msg));
+        break;
+    case SocketEvents.DRAFT_DELETED:
+        dispatch(handleDeleteDraftEvent(msg));
         break;
     default:
     }
@@ -1221,6 +1238,7 @@ function handleStatusChangedEvent(msg) {
 
 function handleHelloEvent(msg) {
     setServerVersion(msg.data.server_version)(dispatch, getState);
+    dispatch(setConnectionId(msg.data.connection_id));
 }
 
 function handleReactionAddedEvent(msg) {
@@ -1232,6 +1250,13 @@ function handleReactionAddedEvent(msg) {
         type: PostTypes.RECEIVED_REACTION,
         data: reaction,
     });
+}
+
+function setConnectionId(connectionId) {
+    return {
+        type: GeneralTypes.SET_CONNECTION_ID,
+        payload: {connectionId},
+    };
 }
 
 function handleAddEmoji(msg) {
@@ -1642,5 +1667,52 @@ function handleThreadFollowChanged(msg) {
             await doDispatch(fetchThread(getCurrentUserId(state), getCurrentTeamId(state), msg.data.thread_id, true));
         }
         handleFollowChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, msg.data.state);
+    };
+}
+
+function handlePostAcknowledgementAdded(msg) {
+    const data = JSON.parse(msg.data.acknowledgement);
+
+    return {
+        type: PostTypes.CREATE_ACK_POST_SUCCESS,
+        data,
+    };
+}
+
+function handlePostAcknowledgementRemoved(msg) {
+    const data = JSON.parse(msg.data.acknowledgement);
+
+    return {
+        type: PostTypes.DELETE_ACK_POST_SUCCESS,
+        data,
+    };
+}
+
+function handleUpsertDraftEvent(msg) {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const connectionId = getConnectionId(state);
+
+        const draft = JSON.parse(msg.data.draft);
+        const {key, value} = transformServerDraft(draft);
+        value.show = true;
+        value.remote = false;
+
+        if (msg.broadcast.omit_connection_id !== connectionId) {
+            value.remote = true;
+        }
+
+        localStorage.setItem(key, JSON.stringify(value));
+        doDispatch(setGlobalItem(key, value));
+    };
+}
+
+function handleDeleteDraftEvent(msg) {
+    return async (doDispatch) => {
+        const draft = JSON.parse(msg.data.draft);
+        const {key} = transformServerDraft(draft);
+
+        localStorage.removeItem(key);
+        doDispatch(setGlobalItem(key, {message: '', fileInfos: [], uploadsInProgress: [], remote: true}));
     };
 }
