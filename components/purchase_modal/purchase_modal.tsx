@@ -244,6 +244,8 @@ function Card(props: CardProps) {
 
     const updateDisplayPage = (isMonthly: boolean) => {
         setIsMonthly(isMonthly);
+        props.updateIsMonthly(isMonthly);
+
         if (isMonthly) {
             // Reset userCount to the number of users in the workspace
             setUsersCount(props.usersCount.toString());
@@ -674,10 +676,10 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     handleSubmitClick = async () => {
         const callerInfo = this.props.callerCTA + '> purchase_modal > upgrade_button_click';
         const update = {
-            processing: true,
+            selectedProduct: this.state.selectedProduct,
             paymentInfoIsValid: false,
             buttonClickedInfo: callerInfo,
-            selectedProduct: this.state.selectedProduct,
+            processing: true,
         } as unknown as Pick<State, keyof State>;
 
         if (!this.state.isMonthly && this.state.selectedProduct?.recurring_interval === RecurringIntervals.MONTH) {
