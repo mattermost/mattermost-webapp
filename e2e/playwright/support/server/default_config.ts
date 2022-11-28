@@ -10,9 +10,10 @@ import {
     TeamSettings,
     PluginSettings,
     ClusterSettings,
-} from '@mattermost/types/lib/config';
+    CollapsedThreads,
+} from '@mattermost/types/config';
 
-import testConfig from '@test.config';
+import testConfig from '@e2e-test.config';
 
 export function getOnPremServerConfig(): AdminConfig {
     return merge<AdminConfig>(defaultServerConfig, onPremServerConfig() as AdminConfig);
@@ -63,7 +64,7 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
 };
 
 // Should be based only from the generated default config from mattermost-server via "make config-reset"
-// Based on v7.3 server
+// Based on v7.5 server
 const defaultServerConfig: AdminConfig = {
     ServiceSettings: {
         SiteURL: '',
@@ -145,6 +146,7 @@ const defaultServerConfig: AdminConfig = {
         ExperimentalEnableDefaultChannelLeaveJoinMessages: true,
         ExperimentalGroupUnreadChannels: 'disabled',
         EnableAPITeamDeletion: false,
+        EnableAPITriggerAdminNotifications: false,
         EnableAPIUserDeletion: false,
         ExperimentalEnableHardenedMode: false,
         ExperimentalStrictCSRFEnforcement: false,
@@ -154,6 +156,7 @@ const defaultServerConfig: AdminConfig = {
         EnableSVGs: false,
         EnableLatex: false,
         EnableInlineLatex: true,
+        PostPriority: false,
         EnableAPIChannelDeletion: false,
         EnableLocalMode: false,
         LocalModeSocketLocation: '/var/tmp/mattermost_local.socket',
@@ -162,7 +165,7 @@ const defaultServerConfig: AdminConfig = {
         FeatureFlagSyncIntervalSeconds: 30,
         DebugSplit: false,
         ThreadAutoFollow: true,
-        CollapsedThreads: 'always_on',
+        CollapsedThreads: CollapsedThreads.ALWAYS_ON,
         ManagedResourcePaths: '',
         EnableCustomGroups: true,
     },
@@ -178,6 +181,7 @@ const defaultServerConfig: AdminConfig = {
         CustomBrandText: '',
         CustomDescriptionText: '',
         RestrictDirectMessage: 'any',
+        EnableLastActiveTime: true,
         UserStatusAwayTimeout: 300,
         MaxChannelsPerTeam: 2000,
         MaxNotificationsPerChannel: 1000,
@@ -589,6 +593,9 @@ const defaultServerConfig: AdminConfig = {
         CleanupJobsThresholdDays: -1,
         CleanupConfigThresholdDays: -1,
     },
+    ProductSettings: {
+        EnablePublicSharedBoards: false,
+    },
     PluginSettings: {
         Enable: true,
         EnableUploads: false,
@@ -608,7 +615,7 @@ const defaultServerConfig: AdminConfig = {
                 Enable: true,
             },
             focalboard: {
-                Enable: false,
+                Enable: true,
             },
             playbooks: {
                 Enable: true,
@@ -664,8 +671,10 @@ const defaultServerConfig: AdminConfig = {
         GraphQL: false,
         InsightsEnabled: true,
         CommandPalette: false,
-        PostForwarding: true,
-        BoardsProduct: true,
+        BoardsProduct: false,
+        SendWelcomePost: true,
+        PostPriority: false,
+        PeopleProduct: false,
     },
     ImportSettings: {
         Directory: './import',

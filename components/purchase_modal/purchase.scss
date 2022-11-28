@@ -14,9 +14,9 @@
         flex-direction: row;
         flex-grow: 1;
         flex-wrap: wrap;
-        align-content: center;
+        align-content: flex-start;
         justify-content: center;
-        padding: 77px 107px;
+        padding: 20px 107px;
         color: var(--center-channel-color);
         font-family: "Open Sans";
         font-size: 16px;
@@ -206,8 +206,8 @@
                 }
 
                 .bottom {
-                    &:not(.delinquency) {
-                        height: 390px;
+                    &:not(.delinquency, .bottom-monthly-yearly) {
+                        height: 363px;
                     }
 
                     padding-right: 24px;
@@ -217,7 +217,7 @@
                     border-radius: 0 0 4px 4px;
 
                     .enable_annual_sub {
-                        margin-top: 16px;
+                        margin-top: 12px;
                     }
 
                     .save_text {
@@ -226,7 +226,7 @@
                         font-family: 'Metropolis';
                         font-size: 14px;
                         font-style: normal;
-                        font-weight: 600;
+                        font-weight: 700;
                         line-height: 18px;
                         text-align: center;
                     }
@@ -398,6 +398,7 @@
                         }
 
                         margin-top: 16px;
+                        margin-bottom: 24px;
                         color: rgba(var(--center-channel-color-rgb), 0.72);
                         font-size: 12px;
                         font-style: normal;
@@ -410,13 +411,13 @@
                         border-collapse: collapse;
 
                         .yearly_savings {
-                            padding-top: 8px;
-                            padding-bottom: 8px;
+                            padding-top: 12px;
+                            padding-bottom: 12px;
                             color: var(--denim-status-online);
                             font-family: 'Open Sans';
                             font-size: 14px;
                             font-style: normal;
-                            font-weight: 600;
+                            font-weight: 700;
                             line-height: 20px;
                         }
 
@@ -427,6 +428,16 @@
                             font-style: normal;
                             font-weight: 700;
                             line-height: 24px;
+                        }
+
+                        .monthly_price {
+                            color: var(--sys-denim-center-channel-text);
+                            font-family: 'Open Sans';
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 400;
+                            letter-spacing: 0.02em;
+                            line-height: 20px;
                         }
                     }
 
@@ -440,10 +451,15 @@
 
                         .user_seats_container {
                             width: 100px;
+                            margin-bottom: 24px;
 
                             .user_seats {
                                 height: 24px;
                             }
+                        }
+
+                        .user_seats_container.error {
+                            margin-bottom: 5px;
                         }
 
                         .icon {
@@ -457,11 +473,6 @@
                             }
                         }
 
-                        .monthly-price {
-                            flex: 1;
-                            align-items: right;
-                        }
-
                         .Input___customMessage {
                             width: 250px;
 
@@ -472,8 +483,10 @@
                     }
                 }
 
-                .bottom.bottom-yearly {
-                    height: 470px;
+                .bottom.bottom-monthly-yearly {
+                    display: block;
+                    overflow: auto;
+                    border-radius: 4px;
                 }
             }
         }

@@ -27,6 +27,8 @@ import LeastActiveChannels from './least_active_channels/least_active_channels';
 import TopPlaybooks from './top_playbooks/top_playbooks';
 import TopDMsAndNewMembers from './top_dms_and_new_members/top_dms_and_new_members';
 
+import {useLicenseChecks} from './hooks';
+
 import './../activity_and_insights.scss';
 
 type SelectOption = {
@@ -37,10 +39,14 @@ type SelectOption = {
 const Insights = () => {
     const dispatch = useDispatch();
 
-    const [filterType, setFilterType] = useGlobalState(InsightsScopes.TEAM, 'insightsScope');
-    const [timeFrame, setTimeFrame] = useGlobalState(TimeFrames.INSIGHTS_7_DAYS as string, 'insightsTimeFrame');
     const focalboardEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.focalboard);
     const playbooksEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.playbooks);
+    const currentUserId = useSelector(getCurrentUserId);
+    const currentTeamId = useSelector(getCurrentTeamId);
+
+    const [filterType, setFilterType] = useGlobalState(InsightsScopes.TEAM, 'insightsScope');
+    const [timeFrame, setTimeFrame] = useGlobalState(TimeFrames.INSIGHTS_7_DAYS as string, 'insightsTimeFrame');
+    const [isStarterFree] = useLicenseChecks();
 
     const setFilterTypeTeam = useCallback(() => {
         trackEvent('insights', 'change_scope_to_team_insights');
@@ -56,9 +62,6 @@ const Insights = () => {
         setTimeFrame(value.value);
     }, []);
 
-    const currentUserId = useSelector(getCurrentUserId);
-    const currentTeamId = useSelector(getCurrentTeamId);
-
     useEffect(() => {
         dispatch(selectChannel(''));
         dispatch(suppressRHS);
@@ -67,6 +70,10 @@ const Insights = () => {
         if (penultimateType !== PreviousViewedTypes.INSIGHTS) {
             LocalStorageStore.setPenultimateViewedType(currentUserId, currentTeamId, penultimateType);
             LocalStorageStore.setPreviousViewedType(currentUserId, currentTeamId, PreviousViewedTypes.INSIGHTS);
+        }
+
+        if (isStarterFree) {
+            setFilterType(InsightsScopes.MY);
         }
 
         return () => {

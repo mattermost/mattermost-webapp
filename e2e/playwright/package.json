@@ -1,22 +1,23 @@
 {
     "scripts": {
+        "codegen": "playwright codegen $PW_BASE_URL",
         "test": "PW_SNAPSHOT_ENABLE=true playwright test",
         "lint": "eslint . --ext .js,.ts",
         "applitools": "APPLITOOLS_API_KEY=$APPLITOOLS_API_KEY PW_APPLITOOLS_ENABLE=true playwright test --project=chrome",
         "percy": "PERCY_TOKEN=$PERCY_TOKEN PW_PERCY_ENABLE=true percy exec -- playwright test --project=chrome --project=iphone --project=ipad",
-        "prettier": "prettier --write ."
+        "prettier": "prettier --write .",
+        "check-types": "tsc -b"
     },
     "devDependencies": {
         "@applitools/eyes-playwright": "1.12.7",
-        "@mattermost/client": "7.3.0",
-        "@mattermost/types": "7.3.0",
-        "@percy/cli": "1.11.0",
+        "@percy/cli": "1.13.0",
         "@percy/playwright": "1.0.4",
         "@playwright/test": "1.27.1",
-        "@typescript-eslint/eslint-plugin": "5.40.1",
-        "@typescript-eslint/parser": "5.40.1",
+        "@types/uuid": "8.3.4",
+        "@typescript-eslint/eslint-plugin": "5.42.0",
+        "@typescript-eslint/parser": "5.42.0",
         "deepmerge": "4.2.2",
-        "eslint": "8.25.0",
+        "eslint": "8.26.0",
         "form-data": "4.0.0",
         "isomorphic-unfetch": "3.1.0",
         "prettier": "2.7.1",

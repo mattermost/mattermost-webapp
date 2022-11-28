@@ -4,7 +4,7 @@
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
-import {GroupTypes, UserTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, GroupTypes, UserTypes} from 'mattermost-redux/action_types';
 import {General, Groups} from '../constants';
 import {Client4} from 'mattermost-redux/client';
 
@@ -409,6 +409,9 @@ export function searchGroups(params: GroupSearachParams): ActionFunc {
         if (params.user_id) {
             dispatches.push({type: GroupTypes.RECEIVED_MY_GROUPS, data});
         }
+        if (params.include_channel_member_count) {
+            dispatches.push({type: ChannelTypes.RECEIVED_CHANNEL_MEMBER_COUNTS_FROM_GROUPS_LIST, data, channelId: params.include_channel_member_count});
+        }
         dispatch(batchActions(dispatches));
 
         return {data: true};
@@ -433,5 +436,17 @@ export function archiveGroup(groupId: string): ActionFunc {
         );
 
         return {data};
+    };
+}
+
+export function createGroupTeamsAndChannels(userID: string): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        try {
+            await Client4.createGroupTeamsAndChannels(userID);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+        return {user_id: userID};
     };
 }
