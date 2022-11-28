@@ -51,7 +51,7 @@ const Text = styled.div`
 `;
 
 const Description = styled.div`
-    padding: 0 44px;
+    padding: 0 44px 6px;
     font-size: 12px;
     color: rgba(var(--center-channel-color-rgb), 0.56);
 `;
