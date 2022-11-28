@@ -433,6 +433,12 @@ describe('Notify Admin', () => {
     });
 
     it('should test upgrade notifications', () => {
+        cy.intercept('GET', '**/api/v4/usage/posts', {
+            statusCode: 200,
+            body:{
+                count: 7000
+            }
+        });
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_1',
@@ -441,7 +447,7 @@ describe('Notify Admin', () => {
 
         const limits = {
             messages: {
-                history: 500,
+                history: 7500,
             },
             teams: {
                 active: 0, // no extra teams allowed to be created
@@ -460,9 +466,15 @@ describe('Notify Admin', () => {
             trial_end_at: 0, // never trialed before
         };
 
+        cy.intercept('GET', '**/api/v4/usage/posts', {
+            statusCode: 200,
+            body:{
+                count: 4500
+            }
+        });
         const limits = {
             messages: {
-                history: 7000, // test server seeded with around 4k messages
+                history: 8000,
             },
             teams: {
                 active: 0,
