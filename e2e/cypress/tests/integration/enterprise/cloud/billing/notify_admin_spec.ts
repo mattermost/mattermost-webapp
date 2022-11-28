@@ -14,7 +14,20 @@ import {getAdminAccount} from '../../../../support/env';
 
 const admin = getAdminAccount();
 
-function simulateFilesLimitReached(fileStorageUsageBytes) {
+interface Subscription{
+    id: string;
+    product_id: string;
+    is_free_trial: string;
+    trial_end_at: number;
+}
+
+interface Limits {
+    messages?: { history: number };
+    teams?: { active: number; teamsLoaded: boolean };
+    files?: { total_storage: number };
+}
+
+function simulateFilesLimitReached(fileStorageUsageBytes: number) {
     cy.intercept('GET', '**/api/v4/usage/storage', {
         statusCode: 200,
         body: {
@@ -33,7 +46,7 @@ function simulateFilesLimitReached(fileStorageUsageBytes) {
 }
 
 // Move to utils
-function simulateSubscription(subscription, withLimits = {}) {
+function simulateSubscription(subscription: Subscription, withLimits = {}) {
     cy.intercept('GET', '**/api/v4/cloud/subscription', {
         statusCode: 200,
         body: subscription,
@@ -71,9 +84,9 @@ function simulateSubscription(subscription, withLimits = {}) {
     }
 }
 
-function createUsersProcess(team, channel, times) {
+function createUsersProcess(team: { id: string }, channel: { id: string }, times: number) {
     const users = [];
-    for (var i = 0; i < times; i++) {
+    for (let i = 0; i < times; i++) {
         cy.apiCreateUser({prefix: 'other'}).then(({user}) => {
             users.push(user);
             cy.apiAddUserToTeam(team.id, user.id).then(() => {
@@ -161,7 +174,7 @@ function triggerNotifications(url, trial = false, _failOnStatusCode = true) {
     }
 }
 
-function mapFeatureIdToId(id) {
+function mapFeatureIdToId(id: any) {
     switch (id) {
     case 'mattermost.feature.custom_user_groups':
         return 'Custom User groups';
@@ -186,8 +199,6 @@ function deletePost() {
     });
 }
 function assertNotification(featureId, minimumPlan, totalRequests, requestsCount, teamName, trial = false) {
-    // # Explicit wait for system bot to ping
-    cy.wait(3000);
     // # Open system-bot and admin DM
     cy.visit(`/${teamName}/messages/@system-bot`);
 
@@ -225,7 +236,7 @@ function assertNotification(featureId, minimumPlan, totalRequests, requestsCount
     });
 }
 
-function assertUpgradeMessageButton(onlyProfessionalFeatures) {
+function assertUpgradeMessageButton(onlyProfessionalFeatures?: boolean) {
     cy.get('#view_upgrade_options').contains('View upgrade options');
     cy.get('#view_upgrade_options').click();
     cy.get('#pricingModal').should('exist');
@@ -251,7 +262,7 @@ function assertTrialMessageButton() {
 function testTrialNotifications(subscription, limits) {
     let myTeam;
     let myChannel;
-    let myUrl;
+    let myUrl: string;
     let myAllProfessionalUsers = [];
     let myAllEnterpriseUsers = [];
     const ALL_PROFESSIONAL_FEATURES_REQUESTS = 5;
@@ -305,7 +316,7 @@ function testTrialNotifications(subscription, limits) {
     deletePost();
 }
 
-function testFilesNotifications(subscription, limits) {
+function testFilesNotifications(subscription: Subscription, limits: Limits) {
     let myTeam;
     let myChannel;
     let myUrl;
@@ -349,7 +360,7 @@ function testFilesNotifications(subscription, limits) {
 function testUpgradeNotifications(subscription, limits) {
     let myTeam;
     let myChannel;
-    let myUrl;
+    let myUrl: string;
     let myMessageLimitUsers = [];
     let myUnlimitedTeamsUsers = [];
     let myUserGroupsUsers = [];
