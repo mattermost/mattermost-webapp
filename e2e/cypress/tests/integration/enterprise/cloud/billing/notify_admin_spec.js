@@ -435,9 +435,9 @@ describe('Notify Admin', () => {
     it('should test upgrade notifications', () => {
         cy.intercept('GET', '**/api/v4/usage/posts', {
             statusCode: 200,
-            body:{
-                count: 7000
-            }
+            body: {
+                count: 7000,
+            },
         });
         const subscription = {
             id: 'sub_test1',
@@ -468,9 +468,9 @@ describe('Notify Admin', () => {
 
         cy.intercept('GET', '**/api/v4/usage/posts', {
             statusCode: 200,
-            body:{
-                count: 4500
-            }
+            body: {
+                count: 4500,
+            },
         });
         const limits = {
             messages: {
