@@ -2142,7 +2142,6 @@
   "analytics.system.totalReadDbConnections": "Replica DB Conns",
   "analytics.system.totalSessions": "مجموع جلسات",
   "analytics.system.totalTeams": "مجموع تیم ها",
-  "analytics.system.totalUsers": "مجموع کاربران فعال",
   "analytics.system.totalWebsockets": "Conns WebSocket",
   "analytics.team.activeUsers": "کاربران فعال با پست",
   "analytics.team.newlyCreated": "کاربران تازه ایجاد شده",

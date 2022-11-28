@@ -136,11 +136,11 @@
                     color: rgba(var(--secondary-blue-rgb), 0.4);
                     font-weight: 600;
 
-                    &--warning-overage-purchased {
+                    &--warning-over-seats-purchased {
                         color: var(--warning-text);
                     }
 
-                    &--overage-purchased {
+                    &--over-seats-purchased {
                         color: var(--error-text);
                     }
                 }
@@ -149,12 +149,12 @@
                     margin-left: 10px;
                     color: var(--secondary-blue);
 
-                    &--warning-overage-purchased {
+                    &--warning-over-seats-purchased {
                         color: var(--warning-text);
                         font-weight: 600;
                     }
 
-                    &--overage-purchased {
+                    &--over-seats-purchased {
                         color: var(--error-text);
                         font-weight: 600;
                     }
