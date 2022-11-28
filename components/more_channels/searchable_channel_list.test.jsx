@@ -15,6 +15,7 @@ describe('components/SearchableChannelList', () => {
         search: jest.fn(),
         handleJoin: jest.fn(),
         loading: true,
+        rememberHideJoinedChannelsChecked: false,
         toggleArchivedChannels: jest.fn(),
         shouldShowArchivedChannels: false,
         canShowArchivedChannels: false,

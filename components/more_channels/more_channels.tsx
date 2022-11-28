@@ -296,6 +296,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                     allChannelStats={this.props.allChannelStats}
                     closeModal={this.props.actions.closeModal}
                     hideJoinedChannelsPreference={this.handleShowJoinedChannelsPreference}
+                    rememberHideJoinedChannelsChecked={shouldHideJoinedChannels}
                 />
                 {serverError}
             </React.Fragment>

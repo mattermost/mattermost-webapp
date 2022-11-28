@@ -22,13 +22,11 @@ import MagnifyingGlassSVG from 'components/common/svg_images_components/magnifyi
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
-import BrowserStore from 'stores/browser_store';
-
 import {t} from 'utils/i18n';
 import * as UserAgent from 'utils/user_agent';
 import {localizeMessage, localizeAndFormatMessage} from 'utils/utils';
 import {isArchivedChannel} from 'utils/channel_utils';
-import {ModalIdentifiers, StoragePrefixes} from 'utils/constants';
+import {ModalIdentifiers} from 'utils/constants';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
@@ -46,7 +44,6 @@ export default class SearchableChannelList extends React.PureComponent {
             joiningChannel: '',
             page: 0,
             nextDisabled: false,
-            rememberHideJoinedChannelsChecked: BrowserStore.getItem(StoragePrefixes.HIDE_JOINED_CHANNELS, 'false') === 'true',
             channelSearchValue: '',
         };
 
@@ -205,14 +202,11 @@ export default class SearchableChannelList extends React.PureComponent {
 
     handleChecked = () => {
         // If it was checked, and now we're unchecking it, clear the preference
-        if (this.state.rememberHideJoinedChannelsChecked) {
-            BrowserStore.setItem(StoragePrefixes.HIDE_JOINED_CHANNELS, 'false');
+        if (this.props.rememberHideJoinedChannelsChecked) {
             this.props.hideJoinedChannelsPreference(false);
         } else {
-            BrowserStore.setItem(StoragePrefixes.HIDE_JOINED_CHANNELS, 'true');
             this.props.hideJoinedChannelsPreference(true);
         }
-        this.setState({rememberHideJoinedChannelsChecked: !this.state.rememberHideJoinedChannelsChecked});
     }
 
     render() {
@@ -356,14 +350,14 @@ export default class SearchableChannelList extends React.PureComponent {
             );
         }
 
-        const hideJoinedButtonClass = classNames('get-app__checkbox', {checked: this.state.rememberHideJoinedChannelsChecked});
+        const hideJoinedButtonClass = classNames('get-app__checkbox', {checked: this.props.rememberHideJoinedChannelsChecked});
         const hideJoinedPreferenceCheckbox = (
             <div
                 id={'hideJoinedPreferenceCheckbox'}
                 onClick={this.handleChecked}
             >
                 <button className={hideJoinedButtonClass}>
-                    {this.state.rememberHideJoinedChannelsChecked ? <CheckboxCheckedIcon/> : null}
+                    {this.props.rememberHideJoinedChannelsChecked ? <CheckboxCheckedIcon/> : null}
                 </button>
                 <FormattedMessage
                     id='more_channels.hide_joined'
@@ -439,5 +433,6 @@ SearchableChannelList.propTypes = {
     allChannelStats: PropTypes.object.isRequired,
     closeModal: PropTypes.func.isRequired,
     hideJoinedChannelsPreference: PropTypes.func.isRequired,
+    rememberHideJoinedChannelsChecked: PropTypes.bool.isRequired,
 };
 /* eslint-enable react/no-string-refs */
