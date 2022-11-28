@@ -91,8 +91,8 @@ export const PlanDetailsTopElements = ({
             className='RecurringIntervalBadge'
         >
             <FormattedMessage
-                id='pricing_modal.monthly'
-                defaultMessage='Month'
+                id='admin.billing.subscription.cloudMonthlyBadge'
+                defaultMessage='Monthly'
             />
         </Badge>
     );
@@ -102,8 +102,8 @@ export const PlanDetailsTopElements = ({
             className='RecurringIntervalBadge'
         >
             <FormattedMessage
-                id='pricing_modal.yearly'
-                defaultMessage='Year'
+                id='admin.billing.subscription.cloudYearlyBadge'
+                defaultMessage='Yearly'
             />
         </Badge>
     );
