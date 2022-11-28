@@ -245,7 +245,7 @@ export function isGroupChannelManuallyVisible(state: GlobalState, channelId: str
 }
 
 export function isCustomGroupsEnabled(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'CustomGroups') === 'true' && getConfig(state).EnableCustomGroups === 'true';
+    return getConfig(state).EnableCustomGroups === 'true';
 }
 
 export function getUseCaseOnboarding(state: GlobalState): boolean {
