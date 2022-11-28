@@ -7,12 +7,12 @@ import {ThreadsState, UserThread} from '@mattermost/types/threads';
 import {Team, TeamUnread} from '@mattermost/types/teams';
 import {Channel} from '@mattermost/types/channels';
 
-import Constants from 'utils/constants';
+import {General} from 'mattermost-redux/constants';
 
 import {ExtraData} from './types';
 
 function isDmGmChannel(channelType: Channel['type']) {
-    return channelType === Constants.DM_CHANNEL || channelType === Constants.GM_CHANNEL;
+    return channelType === General.DM_CHANNEL || channelType === General.GM_CHANNEL;
 }
 
 function handleAllTeamThreadsRead(state: ThreadsState['counts'], action: GenericAction): ThreadsState['counts'] {

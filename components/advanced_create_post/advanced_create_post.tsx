@@ -61,7 +61,7 @@ import {Post, PostMetadata, PostPriorityMetadata} from '@mattermost/types/posts'
 import {PreferenceType} from '@mattermost/types/preferences';
 import {ServerError} from '@mattermost/types/errors';
 import {CommandArgs} from '@mattermost/types/integrations';
-import {Group} from '@mattermost/types/groups';
+import {Group, GroupSource} from '@mattermost/types/groups';
 import {FileInfo} from '@mattermost/types/files';
 import {Emoji} from '@mattermost/types/emojis';
 
@@ -632,10 +632,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             if (mentionGroups.length > 0) {
                 mentionGroups.
                     forEach((group) => {
-                        if (group.source === 'ldap' && !useLDAPGroupMentions) {
+                        if (group.source === GroupSource.Ldap && !useLDAPGroupMentions) {
                             return;
                         }
-                        if (group.source === 'custom' && !useCustomGroupMentions) {
+                        if (group.source === GroupSource.Custom && !useCustomGroupMentions) {
                             return;
                         }
                         const mappedValue = channelMemberCountsByGroup[group.id];
