@@ -32,6 +32,7 @@ export function shouldTrackPerformance(state = store.getState()) {
 
 export function trackEvent(category, event, props) {
     const state = store.getState();
+
     if (
         isPerformanceDebuggingEnabled(state) &&
         getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_TELEMETRY)
@@ -39,7 +40,10 @@ export function trackEvent(category, event, props) {
         return;
     }
 
-    Client4.trackEvent(category, event, props);
+    // Getting the latest user id just in case, we missed earlier.
+    const userId = state.entities.users.currentUserId;
+
+    Client4.trackEvent(category, event, props, userId);
 
     if (isDevMode() && category === 'performance' && props) {
         // eslint-disable-next-line no-console
