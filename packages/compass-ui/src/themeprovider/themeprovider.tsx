@@ -3,23 +3,22 @@
 
 import React from 'react';
 import {createTheme} from '@mui/material/styles';
-import MUIThemeProvider, {ThemeProviderProps as MUIThemeProviderProps} from '@mui/material/styles/ThemeProvider';
+import MUIThemeProvider, {ThemeProviderProps} from '@mui/material/styles/ThemeProvider';
 
 import componentOverrides from './component-overrides';
 import typographyOverrides from './typography';
 
-export type ThemeProviderProps = Omit<MUIThemeProviderProps, 'theme'>;
-
-const Themeprovider = (props: ThemeProviderProps) => {
-    const theme = createTheme({
+const Themeprovider = ({theme, ...rest}: ThemeProviderProps) => {
+    const combinedTheme = createTheme({
+        ...theme,
         typography: typographyOverrides,
         components: componentOverrides,
     });
 
     return (
         <MUIThemeProvider
-            {...props}
-            theme={theme}
+            {...rest}
+            theme={combinedTheme}
         />
     );
 };
