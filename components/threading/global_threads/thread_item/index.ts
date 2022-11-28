@@ -5,7 +5,7 @@ import {memo} from 'react';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 
-import {getPost, makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, isPostPriorityEnabled, makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 import {getThread} from 'mattermost-redux/selectors/entities/threads';
@@ -32,6 +32,7 @@ function makeMapStateToProps() {
             displayName: getDisplayName(state, post.user_id, true),
             postsInThread: getPostsForThread(state, post.id),
             thread: getThread(state, threadId),
+            isPostPriorityEnabled: isPostPriorityEnabled(state),
         };
     };
 }

@@ -8,15 +8,20 @@ exports[`components/threading/global_threads/thread_item should report total num
   tabIndex={0}
 >
   <h1>
-    <span>
-      Someone
-    </span>
-    <Memo(Badge)
-      className=""
-      onClick={[Function]}
+    <div
+      className="ThreadItem__author"
     >
-      Team name
-    </Memo(Badge)>
+      Someone
+    </div>
+    <div
+      className="d-flex align-items-center"
+    >
+      <Memo(Badge)
+        onClick={[Function]}
+      >
+        Team name
+      </Memo(Badge)>
+    </div>
     <Connect(injectIntl(Timestamp))
       className="alt-hidden"
       day="numeric"
@@ -127,15 +132,20 @@ exports[`components/threading/global_threads/thread_item should report unread me
         2
       </div>
     </div>
-    <span>
-      Someone
-    </span>
-    <Memo(Badge)
-      className=""
-      onClick={[Function]}
+    <div
+      className="ThreadItem__author"
     >
-      Team name
-    </Memo(Badge)>
+      Someone
+    </div>
+    <div
+      className="d-flex align-items-center"
+    >
+      <Memo(Badge)
+        onClick={[Function]}
+      >
+        Team name
+      </Memo(Badge)>
+    </div>
     <Connect(injectIntl(Timestamp))
       className="alt-hidden"
       day="numeric"
@@ -244,15 +254,20 @@ exports[`components/threading/global_threads/thread_item should report unread me
         className="dot-unreads"
       />
     </div>
-    <span>
-      Someone
-    </span>
-    <Memo(Badge)
-      className=""
-      onClick={[Function]}
+    <div
+      className="ThreadItem__author"
     >
-      Team name
-    </Memo(Badge)>
+      Someone
+    </div>
+    <div
+      className="d-flex align-items-center"
+    >
+      <Memo(Badge)
+        onClick={[Function]}
+      >
+        Team name
+      </Memo(Badge)>
+    </div>
     <Connect(injectIntl(Timestamp))
       className="alt-hidden"
       day="numeric"
