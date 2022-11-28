@@ -2456,6 +2456,7 @@
   "admin.user_grid.team_admin": "Teambeheerder",
   "admin.user_item.authServiceEmail": "**Aanmeldmethode:** E-mail",
   "admin.user_item.authServiceNotEmail": "**Aanmeldmethode:** {service}",
+  "admin.user_item.createGroupTeamChannelMemberships": "Gebruikers opnieuw synchroniseren via LDAP-groepen",
   "admin.user_item.demoteToGuest": "Verlagen naar gast",
   "admin.user_item.emailTitle": "**E-mail:** {email}",
   "admin.user_item.guest": "Gastgebruiker",
