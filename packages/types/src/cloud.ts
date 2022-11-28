@@ -8,6 +8,7 @@ export type CloudState = {
     products?: Record<string, Product>;
     customer?: CloudCustomer;
     invoices?: Record<string, Invoice>;
+    subscriptionStatus?: GetExpandableStatus;
     limits: {
         limitsLoaded: boolean;
         limits: Limits;
@@ -81,6 +82,10 @@ export type CloudCustomer = {
     company_address: Address;
     payment_method: PaymentMethod;
 } & CustomerMetadataGatherWireTransfer
+
+export type GetExpandableStatus = {
+    is_expandable: boolean;
+}
 
 // CustomerPatch model represents a customer patch on the system.
 export type CloudCustomerPatch = {
