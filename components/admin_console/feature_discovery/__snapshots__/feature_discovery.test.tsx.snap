@@ -28,7 +28,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
       btnClass="btn btn-primary"
       message="Start trial"
       renderAsButton={true}
-      telemetryId="start_cloud_trial_feature_discovery"
+      telemetryId="start_self_hosted_trial_from_test"
       trackingPage="test"
     />
     <a

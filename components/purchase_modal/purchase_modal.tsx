@@ -901,7 +901,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             }
 
             const crossSellsToProduct = findProductByID(this.props.products || {}, this.state.selectedProduct.cross_sells_to);
-            return crossSellsToProduct ? crossSellsToProduct.price_per_seat / 12 : 0;
+            return crossSellsToProduct ? crossSellsToProduct.price_per_seat / 12 : this.state.selectedProduct.price_per_seat;
         };
 
         return (

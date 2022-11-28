@@ -18,7 +18,8 @@ import {subscribeCloudSubscription} from 'actions/cloud';
 import {
     getCloudSubscription as selectCloudSubscription,
     getSubscriptionProduct as selectSubscriptionProduct,
-    getCloudProducts as selectCloudProducts} from 'mattermost-redux/selectors/entities/cloud';
+    getCloudProducts as selectCloudProducts,
+} from 'mattermost-redux/selectors/entities/cloud';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import useGetUsage from 'components/common/hooks/useGetUsage';
@@ -33,6 +34,8 @@ import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurch
 import YearlyMonthlyToggle from 'components/yearly_monthly_toggle';
 
 import {isAnnualSubscriptionEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
@@ -55,6 +58,7 @@ function Content(props: ContentProps) {
     const dispatch = useDispatch();
     const usage = useGetUsage();
     const [limits] = useGetLimits();
+    const openPricingModalBackAction = useOpenPricingModal();
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
@@ -118,10 +122,15 @@ function Content(props: ContentProps) {
                 }),
             );
         } else {
+            dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
+            dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
             dispatch(
                 openModal({
                     modalId: ModalIdentifiers.ERROR_MODAL,
                     dialogType: ErrorModal,
+                    dialogProps: {
+                        backButtonAction: openPricingModalBackAction,
+                    },
                 }),
             );
             return;
@@ -136,7 +145,6 @@ function Content(props: ContentProps) {
         formatMessage({id: 'pricing_modal.briefing.free.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board cards'}, {messages: formatNumber(fallbackStarterLimits.messages.history), boards: fallbackStarterLimits.boards.cards}),
         formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackStarterLimits.files.totalStorage, formatNumber)}),
         formatMessage({id: 'pricing_modal.briefing.free.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
-        formatMessage({id: 'pricing_modal.briefing.free.integrations', defaultMessage: '{integrations} integrations with other apps like GitHub, Jira and Jenkins'}, {integrations: fallbackStarterLimits.integrations.enabled}),
         formatMessage({id: 'pricing_modal.extra_briefing.free.calls', defaultMessage: '1:1 voice calls and screen share'}),
     ];
 
@@ -280,7 +288,8 @@ function Content(props: ContentProps) {
                                 notifyRequestData={{
                                     required_feature: PaidFeatures.ALL_PROFESSIONAL_FEATURES,
                                     required_plan: LicenseSkus.Professional,
-                                    trial_notification: isPreTrial}}
+                                    trial_notification: isPreTrial,
+                                }}
                                 callerInfo='professional_plan_pricing_modal_card'
                             />) : undefined}
                         buttonDetails={{
@@ -292,7 +301,7 @@ function Content(props: ContentProps) {
                         briefing={{
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: [
-                                formatMessage({id: 'pricing_modal.briefing.professional.messageBoardsIntegrationsCalls', defaultMessage: 'Unlimited access to messages and boards history, teams, integrations and calls'}),
+                                formatMessage({id: 'pricing_modal.briefing.professional.messageBoardsIntegrationsCalls', defaultMessage: 'Unlimited access to messages and boards history, teams, and calls'}),
                                 formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackProfessionalLimits.files.totalStorage, formatNumber)}),
                                 formatMessage({id: 'pricing_modal.briefing.professional.advancedPlaybook', defaultMessage: 'Advanced Playbook workflows with retrospectives'}),
                                 formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin and ADFS'}),
@@ -335,7 +344,8 @@ function Content(props: ContentProps) {
                                 notifyRequestData={{
                                     required_feature: PaidFeatures.ALL_ENTERPRISE_FEATURES,
                                     required_plan: LicenseSkus.Enterprise,
-                                    trial_notification: isPreTrial}}
+                                    trial_notification: isPreTrial,
+                                }}
                             />) : undefined}
                         buttonDetails={(isPostTrial || !isAdmin) ? {
                             action: () => {
