@@ -2775,7 +2775,11 @@
   "channelHeader.unmute": "Desilenciar",
   "channelHeader.viewInfo": "Ver Info",
   "channelView.login.successfull": "Inicio de sesión exitoso",
+<<<<<<< HEAD
   "channel_header.addChannelHeader": "Agregar un encabezado de canal",
+=======
+  "channel_header.addChannelHeader": "Agregar una descripción del canal",
+>>>>>>> f64275a44c (Translated using Weblate (Spanish))
   "channel_header.channelFiles": "Archivos del canal",
   "channel_header.channelHasGuests": "Este canal tiene huéspedes",
   "channel_header.channelMembers": "Miembros",
@@ -3051,7 +3055,11 @@
   "create_post.send_message": "Enviar mensaje",
   "create_post.shortcutsNotSupported": "Los Accesos rápidos de teclado no son compatibles con su dispositivo.",
   "create_post.write": "Escribir en {channelDisplayName}",
+<<<<<<< HEAD
   "create_team.agreement": "Al proceder con la creación de tu cuenta y utilizar {siteName}, estás de acuerdo con nuestros [Términos de Uso]({TermsOfServiceLink}) y [Políticas de Privacidad]({PrivacyPolicyLink}). Si no estás de acuerdo, no puedes utilizar {siteName}.",
+=======
+  "create_team.agreement": "Al proceder con la creación de tu cuenta y utilizar {siteName}, estás de acuerdo con nuestros [Términos de Servicio]({TermsOfServiceLink}) y [Políticas de Privacidad]({PrivacyPolicyLink}). Si no estás de acuerdo, no puedes utilizar {siteName}.",
+>>>>>>> f64275a44c (Translated using Weblate (Spanish))
   "create_team.createTeamRestricted.title": "característica Professional",
   "create_team.display_name.charLength": "El nombre debe ser {min} o más caracteres hasta un máximo de {max}. Puedes agregar una descripción mas larga al equipo más adelante.",
   "create_team.display_name.nameHelp": "Nombre de tu equipo en cualquier idioma. El nombre del equipo se muestra en menús y encabezados.",
@@ -3173,7 +3181,11 @@
   "email_verify.notVerifiedBody": "Por favor verifica tu correo electrónico. Revisa tu bandeja de entrada, hemos enviado un correo de verificación.",
   "email_verify.resend": "Reenviar Correo",
   "email_verify.sending": "Enviando correo…",
+<<<<<<< HEAD
   "email_verify.sent": "Correo de verificación enviado",
+=======
+  "email_verify.sent": " Correo de verificación enviado.",
+>>>>>>> f64275a44c (Translated using Weblate (Spanish))
   "emoji_list.actions": "Acciones",
   "emoji_list.add": "Agregar Emoticon Personalizado",
   "emoji_list.creator": "Creado por",
@@ -5151,6 +5163,10 @@
   "workspace_limits.file_storage.usage": "{actual} de {limit} ({percent}%)",
   "workspace_limits.menu_limit.board_card": "Límite de tarjeta de tablero",
   "workspace_limits.menu_limit.file_storage": "Límite de almacenamiento de archivos",
+<<<<<<< HEAD
+=======
+  "workspace_limits.menu_limit.integrations": "Límiete de integraciones",
+>>>>>>> f64275a44c (Translated using Weblate (Spanish))
   "workspace_limits.menu_limit.messages": "Mensajes totales",
   "workspace_limits.menu_limit.notify_admin": "Notificar al administrador",
   "workspace_limits.menu_limit.reached.files_storage": "Has alcanzado el límite de almacenamiento de archivos {limit}. Sólo puedes acceder a los {limit} más recientes. <a>{callToAction}</a>",
