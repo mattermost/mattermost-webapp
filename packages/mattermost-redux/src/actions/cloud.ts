@@ -5,10 +5,7 @@ import {CloudTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 
 import {DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
-import {
-    Address,
-    CloudCustomerPatch,
-} from '@mattermost/types/cloud';
+import {Address, CloudCustomerPatch} from '@mattermost/types/cloud';
 
 import {getCloudErrors} from 'mattermost-redux/selectors/entities/cloud';
 import {getCloudLimits} from 'actions/cloud';
