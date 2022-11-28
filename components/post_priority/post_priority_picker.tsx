@@ -220,7 +220,7 @@ function PostPriorityPicker({
                         <MenuGroup>
                             <ToggleItem
                                 disabled={false}
-                                onToggle={handleAck}
+                                onClick={handleAck}
                                 toggled={requestedAck}
                                 icon={<AcknowledgementIcon size={18}/>}
                                 text={formatMessage({
