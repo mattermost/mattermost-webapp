@@ -307,6 +307,7 @@
   "admin.billing.subscription.creditCardHasExpired.description": "Please <link>update your payment information</link> to avoid any disruption.",
   "admin.billing.subscription.downgradedSuccess": "You're now subscribed to {productName}",
   "admin.billing.subscription.downgrading": "Downgrading your workspace",
+  "admin.billing.subscription.featuresAvailable": "{productName} features are now available and ready to use.",
   "admin.billing.subscription.freeTrial.description": "Your free trial will expire in {daysLeftOnTrial} days. Add your payment information to continue after the trial ends.",
   "admin.billing.subscription.freeTrial.lastDay.description": "Your free trial has ended. Add payment information to continue enjoying the benefits of Cloud Professional.",
   "admin.billing.subscription.freeTrial.lastDay.title": "Your free trial ends today",
