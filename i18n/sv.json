@@ -5449,11 +5449,6 @@
   "workspace_limits.file_storage.short.usage": "{actual} / {limit}",
   "workspace_limits.file_storage.single_usage": "{actual} av {limit}",
   "workspace_limits.file_storage.usage": "{actual} av {limit} ({percent}%)",
-<<<<<<< HEAD
-=======
-  "workspace_limits.integrations_enabled.short": "Aktiverade integrationer",
-  "workspace_limits.integrations_enabled.usage.short": "{actual} / {limit} Integrationer",
->>>>>>> 7cf3f4e6d9 (Update translation files)
   "workspace_limits.menu_limit.board_card": "Board-kortbegränsning",
   "workspace_limits.menu_limit.critical.boards_cards": "Du närmar dig gränsen {limit} för Board-kort. <a>{callToAction}</a>",
   "workspace_limits.menu_limit.critical.files_storage": "Du närmar dig gränsen {limit} för fillagring. <a>{callToAction}</a>",

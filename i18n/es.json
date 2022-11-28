@@ -5149,7 +5149,6 @@
   "workspace_limits.file_storage.short.usage": "{actual} / {limit}",
   "workspace_limits.file_storage.single_usage": "{actual} de {limit}",
   "workspace_limits.file_storage.usage": "{actual} de {limit} ({percent}%)",
-  "workspace_limits.integrations_enabled.usage.short": "Integraciones {actual} / {limit}",
   "workspace_limits.menu_limit.board_card": "Límite de tarjeta de tablero",
   "workspace_limits.menu_limit.file_storage": "Límite de almacenamiento de archivos",
   "workspace_limits.menu_limit.messages": "Mensajes totales",
