@@ -120,28 +120,38 @@ exports[`components/drafts/panel/panel_body should have called handleFormattedTe
                 ]
               }
             >
-              <button
-                className="status-wrapper style--none "
+              <span
+                className="status-wrapper  "
                 onClick={[Function]}
-                tabIndex={-1}
               >
-                <span
-                  className="profile-icon "
+                <RoundButton
+                  className="style--none"
+                  size="md"
                 >
-                  <Memo(Avatar)
+                  <button
+                    className="RoundButton-dvlhqG gfRzmz style--none"
                     size="md"
-                    url="/api/v4/users/user_id/image?_=0"
-                    username="username"
                   >
-                    <img
-                      alt="username profile image"
-                      className="Avatar Avatar-md"
-                      onError={[Function]}
-                      src="/api/v4/users/user_id/image?_=0"
-                      tabIndex={0}
-                    />
-                  </Memo(Avatar)>
-                </span>
+                    <span
+                      className="profile-icon "
+                    >
+                      <Memo(Avatar)
+                        size="md"
+                        tabIndex={-1}
+                        url="/api/v4/users/user_id/image?_=0"
+                        username="username"
+                      >
+                        <img
+                          alt="username profile image"
+                          className="Avatar Avatar-md"
+                          onError={[Function]}
+                          src="/api/v4/users/user_id/image?_=0"
+                          tabIndex={-1}
+                        />
+                      </Memo(Avatar)>
+                    </span>
+                  </button>
+                </RoundButton>
                 <StatusIcon
                   button={false}
                   className=""
@@ -176,7 +186,7 @@ exports[`components/drafts/panel/panel_body should have called handleFormattedTe
                     </span>
                   </StatusOfflineIcon>
                 </StatusIcon>
-              </button>
+              </span>
             </OverlayTrigger>
           </OverlayTrigger>
         </ProfilePicture>
