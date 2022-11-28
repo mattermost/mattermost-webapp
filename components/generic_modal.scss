@@ -218,21 +218,9 @@
 
                 &.delete {
                     @include primary-button;
-                    @include button-medium;
 
                     border-color: transparent;
                     background: var(--dnd-indicator);
-                    color: var(--button-color);
-
-                    .app__body & {
-                        color: var(--button-color);
-
-                        &:hover,
-                        &:focus,
-                        &:active {
-                            color: var(--button-color);
-                        }
-                    }
 
                     &:hover,
                     &:focus,
