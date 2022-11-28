@@ -186,6 +186,8 @@ function deletePost() {
     });
 }
 function assertNotification(featureId, minimumPlan, totalRequests, requestsCount, teamName, trial = false) {
+    // # Explicit wait for system bot to ping
+    cy.wait(3000);
     // # Open system-bot and admin DM
     cy.visit(`/${teamName}/messages/@system-bot`);
 
@@ -432,32 +434,6 @@ describe('Notify Admin', () => {
         triggerNotifications('', false, false);
     });
 
-    it('should test upgrade notifications', () => {
-        cy.intercept('GET', '**/api/v4/usage/posts', {
-            statusCode: 200,
-            body: {
-                count: 7000,
-            },
-        });
-        const subscription = {
-            id: 'sub_test1',
-            product_id: 'prod_1',
-            is_free_trial: 'false',
-        };
-
-        const limits = {
-            messages: {
-                history: 7500,
-            },
-            teams: {
-                active: 0, // no extra teams allowed to be created
-                teamsLoaded: true,
-            },
-        };
-
-        testUpgradeNotifications(subscription, limits);
-    });
-
     it('should test trial notifications', () => {
         const subscription = {
             id: 'sub_test1',
@@ -510,5 +486,31 @@ describe('Notify Admin', () => {
 
         simulateFilesLimitReached(fileStorageUsageBytes);
         testFilesNotifications(subscription, limits);
+    });
+
+    it('should test upgrade notifications', () => {
+        cy.intercept('GET', '**/api/v4/usage/posts', {
+            statusCode: 200,
+            body: {
+                count: 7000,
+            },
+        });
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_1',
+            is_free_trial: 'false',
+        };
+
+        const limits = {
+            messages: {
+                history: 7500,
+            },
+            teams: {
+                active: 0, // no extra teams allowed to be created
+                teamsLoaded: true,
+            },
+        };
+
+        testUpgradeNotifications(subscription, limits);
     });
 });
