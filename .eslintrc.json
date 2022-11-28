@@ -11,7 +11,8 @@
     "import",
     "cypress",
     "no-only-tests",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "formatjs"
   ],
   "parser": "@typescript-eslint/parser",
   "env": {
@@ -86,7 +87,8 @@
         {"name": "react-bootstrap", "importNames": ["OverlayTrigger"], "message": "Please use OverlayTrigger from '/components/overlay_trigger' instead"}
       ]
     }],
-    "max-lines": ["warn", {"max": 800, "skipBlankLines": true, "skipComments": true}]
+    "max-lines": ["warn", {"max": 800, "skipBlankLines": true, "skipComments": true}],
+    "formatjs/no-multiple-whitespaces": ["error"]
   },
   "overrides": [
     {
