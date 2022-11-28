@@ -5,9 +5,10 @@ import React, {useCallback} from 'react';
 import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 
+import {CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
+
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
-import {CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
 import Markdown from 'components/markdown';
 import FilePreview from 'components/file_preview';
 import ProfilePicture from 'components/profile_picture';
