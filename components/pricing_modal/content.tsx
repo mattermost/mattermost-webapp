@@ -35,6 +35,8 @@ import YearlyMonthlyToggle from 'components/yearly_monthly_toggle';
 
 import {isAnnualSubscriptionEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
@@ -56,6 +58,7 @@ function Content(props: ContentProps) {
     const dispatch = useDispatch();
     const usage = useGetUsage();
     const [limits] = useGetLimits();
+    const openPricingModalBackAction = useOpenPricingModal();
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
@@ -89,13 +92,13 @@ function Content(props: ContentProps) {
     const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
         isDelinquencyModal: true,
     });
-    const openPurchaseModal = (callerInfo: string) => {
+    const openPurchaseModal = (callerInfo: string, isMonthlyPlan: boolean) => {
         props.onHide();
         const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
         if (subscription?.delinquent_since) {
             openCloudDelinquencyModal({trackingLocation: telemetryInfo});
         }
-        openCloudPurchaseModal({trackingLocation: telemetryInfo});
+        openCloudPurchaseModal({trackingLocation: telemetryInfo}, isMonthlyPlan);
     };
 
     const closePricingModal = () => {
@@ -118,10 +121,15 @@ function Content(props: ContentProps) {
                 }),
             );
         } else {
+            dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
+            dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
             dispatch(
                 openModal({
                     modalId: ModalIdentifiers.ERROR_MODAL,
                     dialogType: ErrorModal,
+                    dialogProps: {
+                        backButtonAction: openPricingModalBackAction,
+                    },
                 }),
             );
             return;
@@ -149,13 +157,16 @@ function Content(props: ContentProps) {
     // Default professional price
     const defaultProfessionalPrice = monthlyProfessionalProduct ? monthlyProfessionalProduct.price_per_seat : 0;
     const [professionalPrice, setProfessionalPrice] = useState(defaultProfessionalPrice);
+    const [isMonthlyPlan, setIsMonthlyPlan] = useState(true);
 
     // Set professional price
     const updateProfessionalPrice = (newIsMonthly: boolean) => {
         if (newIsMonthly && monthlyProfessionalProduct) {
             setProfessionalPrice(monthlyProfessionalProduct.price_per_seat);
+            setIsMonthlyPlan(true);
         } else if (!newIsMonthly && yearlyProfessionalProduct) {
             setProfessionalPrice(yearlyProfessionalProduct.price_per_seat / 12);
+            setIsMonthlyPlan(false);
         }
     };
 
@@ -183,7 +194,11 @@ function Content(props: ContentProps) {
                             <div className='save-text'>
                                 {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
                             </div>
-                            <YearlyMonthlyToggle updatePrice={updateProfessionalPrice}/>
+                            <YearlyMonthlyToggle
+                                updatePrice={updateProfessionalPrice}
+                                isPurchases={false}
+                                isInitialPlanMonthly={true}
+                            />
                         </>
                     }
                     <div className='alert-option-container'>
@@ -257,7 +272,7 @@ function Content(props: ContentProps) {
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
                         price={`$${professionalPrice}`}
-                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
+                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month'})}
                         planLabel={
                             isProfessional ? (
                                 <PlanLabel
@@ -277,7 +292,7 @@ function Content(props: ContentProps) {
                                 callerInfo='professional_plan_pricing_modal_card'
                             />) : undefined}
                         buttonDetails={{
-                            action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button'),
+                            action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button', isMonthlyPlan),
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: !isAdmin || isProfessional || (isEnterprise && !isEnterpriseTrial),
                             customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
@@ -333,7 +348,7 @@ function Content(props: ContentProps) {
                             />) : undefined}
                         buttonDetails={(isPostTrial || !isAdmin) ? {
                             action: () => {
-                                trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
+                                trackEvent(TELEMETRY_CATEGORIES.CLOUD_PRICING, 'click_enterprise_contact_sales');
                                 window.open(contactSalesLink, '_blank');
                             },
                             text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),

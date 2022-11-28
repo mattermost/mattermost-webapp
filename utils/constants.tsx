@@ -700,6 +700,7 @@ export const AdvancedTextEditor = {
 
 export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
+    CLOUD_PRICING: 'cloud_pricing',
     SELF_HOSTED_PURCHASING: 'self_hosted_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
     CLOUD_DELINQUENCY: 'cloud_delinquency',
@@ -1919,6 +1920,7 @@ export const Constants = {
     DEFAULT_SITE_URL: 'http://localhost:8065',
     CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT: 1000,
     FIRST_ADMIN_ROLE: 'first_admin',
+    MAX_PURCHASE_SEATS: 1000000,
 };
 
 export const ValidationErrors = {
