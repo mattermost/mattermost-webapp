@@ -40,13 +40,13 @@ describe('Channel switch performance test', () => {
             });
 
             // * Expect that the user has switched teams
-            expectActiveTeamToBe(testTeam2.display_name, testTeam2.name);
+            return expectActiveTeamToBe(testTeam2.display_name, testTeam2.name);
         },
 
         // # Reset test run so we can start on the initially specified team
         () => {
             cy.visit(`/${testTeam1.name}/channels/town-square`);
-        }, 3,
+        },
         );
     });
 });
@@ -61,5 +61,5 @@ const expectActiveTeamToBe = (title, url) => {
     cy.get('#app-content').should('be.visible');
 
     // * Expect url to match url passed in argument
-    cy.url().should('contain', url);
+    return cy.url().should('contain', url);
 };

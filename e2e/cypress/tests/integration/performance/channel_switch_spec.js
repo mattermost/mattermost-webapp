@@ -35,13 +35,13 @@ describe('Channel switch performance test', () => {
             cy.get('#sidebarItem_off-topic').click({force: true});
 
             // * Expect that the user is now in Off-Topic
-            expectActiveChannelToBe('Off-Topic', '/off-topic');
+            return expectActiveChannelToBe('Off-Topic', '/off-topic');
         },
 
         // # Reset test run so we can start on the initially specified channel
         () => {
             cy.visit(`/${teamName.name}/channels/town-square`);
-        }, 3,
+        },
         );
     });
 });
@@ -56,5 +56,5 @@ const expectActiveChannelToBe = (title, url) => {
     cy.get('#app-content').should('be.visible');
 
     // * Expect url to match url passed in argument
-    cy.url().should('contain', url);
+    return cy.url().should('contain', url);
 };
