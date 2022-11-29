@@ -78,13 +78,13 @@ function PanelBody({
                         <strong>{displayName}</strong>
                         {priority && (
                             <div className='DraftPanelBody__priority'>
-                                {priority?.priority && (
+                                {priority.priority && (
                                     <PriorityLabel
                                         size='xs'
                                         priority={priority.priority}
                                     />
                                 )}
-                                {priority?.requested_ack && (
+                                {priority.requested_ack && (
                                     <div className='DraftPanelBody__priority-ack'>
                                         <CheckCircleOutlineIcon size={14}/>
                                         {!priority.priority && (

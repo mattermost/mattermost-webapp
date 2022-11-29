@@ -1518,6 +1518,61 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             return null;
         }
 
+        const priorityLabels = (
+            this.hasPrioritySet() ? (
+                <div className='AdvancedTextEditor__priority'>
+                    {this.props.draft.metadata!.priority!.priority && (
+                        <PriorityLabel
+                            size='xs'
+                            priority={this.props.draft.metadata!.priority!.priority}
+                        />
+                    )}
+                    {this.props.draft.metadata!.priority!.requested_ack && (
+                        <div className='AdvancedTextEditor__priority-ack'>
+                            <CheckCircleOutlineIcon size={14}/>
+                            {!(this.props.draft.metadata!.priority!.priority) && (
+                                <FormattedMessage
+                                    id={'post_priority.request_acknowledgement'}
+                                    defaultMessage={'Request acknowledgement'}
+                                />
+                            )}
+                        </div>
+                    )}
+                    {!this.props.shouldShowPreview && (
+                        <OverlayTrigger
+                            placement='top'
+                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+                            overlay={(
+                                <Tooltip id='post-priority-picker-tooltip'>
+                                    <FormattedMessage
+                                        id={'post_priority.remove'}
+                                        defaultMessage={'Remove {priority}'}
+                                        values={{priority: this.props.draft.metadata!.priority!.priority}}
+                                    />
+                                </Tooltip>
+                            )}
+                        >
+                            <button
+                                type='button'
+                                className='close'
+                                onClick={this.handleRemovePriority}
+                            >
+                                <span aria-hidden='true'>{'×'}</span>
+                                <span className='sr-only'>
+                                    <FormattedMessage
+                                        id={'post_priority.remove'}
+                                        defaultMessage={'Remove {priority}'}
+                                        values={{priority: this.props.draft.metadata!.priority!.priority}}
+                                    />
+                                </span>
+                            </button>
+                        </OverlayTrigger>
+                    )}
+                </div>
+            ) : undefined
+        );
+
         return (
             <form
                 id='create_post'
@@ -1538,7 +1593,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     showEmojiPicker={this.state.showEmojiPicker}
                     uploadsProgressPercent={this.state.uploadsProgressPercent}
                     currentChannel={this.state.currentChannel}
-                    postId=''
+                    postId={''}
                     channelId={this.props.currentChannel.id}
                     errorClass={this.state.errorClass}
                     serverError={this.state.serverError}
@@ -1579,60 +1634,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     fileUploadRef={this.fileUploadRef}
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}
-                    labels={(
-                        this.hasPrioritySet() ? (
-                            <div className='AdvancedTextEditor__priority'>
-                                {this.props.draft.metadata!.priority!.priority && (
-                                    <PriorityLabel
-                                        size='xs'
-                                        priority={this.props.draft.metadata!.priority!.priority}
-                                    />
-                                )}
-                                {this.props.draft.metadata!.priority!.requested_ack && (
-                                    <div className='AdvancedTextEditor__priority-ack'>
-                                        <CheckCircleOutlineIcon size={14}/>
-                                        {!(this.props.draft.metadata!.priority!.priority) && (
-                                            <FormattedMessage
-                                                id={'post_priority.request_acknowledgement'}
-                                                defaultMessage={'Request acknowledgement'}
-                                            />
-                                        )}
-                                    </div>
-                                )}
-                                {!this.props.shouldShowPreview && (
-                                    <OverlayTrigger
-                                        placement='top'
-                                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                                        trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
-                                        overlay={(
-                                            <Tooltip id='post-priority-picker-tooltip'>
-                                                <FormattedMessage
-                                                    id={'post_priority.remove'}
-                                                    defaultMessage={'Remove {priority}'}
-                                                    values={{priority: this.props.draft.metadata!.priority!.priority}}
-                                                />
-                                            </Tooltip>
-                                        )}
-                                    >
-                                        <button
-                                            type='button'
-                                            className='close'
-                                            onClick={this.handleRemovePriority}
-                                        >
-                                            <span aria-hidden='true'>{'×'}</span>
-                                            <span className='sr-only'>
-                                                <FormattedMessage
-                                                    id={'post_priority.remove'}
-                                                    defaultMessage={'Remove {priority}'}
-                                                    values={{priority: this.props.draft.metadata!.priority!.priority}}
-                                                />
-                                            </span>
-                                        </button>
-                                    </OverlayTrigger>
-                                )}
-                            </div>
-                        ) : undefined
-                    )}
+                    labels={priorityLabels}
                     additionalControls={[
                         this.props.isPostPriorityEnabled ? (
                             <React.Fragment key='PostPriorityPicker'>

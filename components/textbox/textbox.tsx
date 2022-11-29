@@ -3,6 +3,7 @@
 
 import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import {Channel} from '@mattermost/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -272,19 +273,14 @@ export default class Textbox extends React.PureComponent<Props> {
             textboxClassName += ' textarea--has-labels';
         }
         if (this.props.preview) {
-            let previewClassName = 'form-control custom-textarea textbox-preview-area';
             textboxClassName += ' custom-textarea--preview';
             textWrapperClass += ' textarea-wrapper--preview';
-
-            if (this.props.hasLabels) {
-                previewClassName += ' textarea--has-labels';
-            }
 
             preview = (
                 <div
                     tabIndex={this.props.tabIndex || 0}
                     ref={this.preview}
-                    className={previewClassName}
+                    className={classNames('form-control custom-textarea textbox-preview-area', {'textarea--has-labels': this.props.hasLabels})}
                     onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
                     onBlur={this.handleBlur}
