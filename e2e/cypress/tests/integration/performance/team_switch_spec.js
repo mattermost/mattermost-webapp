@@ -13,14 +13,17 @@ import {measurePerformance} from './utils.js';
 
 describe('Channel switch performance test', () => {
     let testUser;
+    let testTeam1;
     let testTeam2;
-    before(() => {
+
+    beforeEach(() => {
         cy.apiInitSetup().then(({team, user}) => {
             testUser = user;
+            testTeam1 = team;
 
             // # Login as test user and go to town square
             cy.apiLogin(testUser);
-            cy.visit(`/${team.name}/channels/town-square`);
+            cy.visit(`/${testTeam1.name}/channels/town-square`);
         });
 
         cy.apiCreateTeam('team-b', 'Team B').then(({team}) => {
@@ -33,12 +36,18 @@ describe('Channel switch performance test', () => {
         measurePerformance('teamLoad', 5000, () => {
             // # Switch to Team 2
             cy.get('#teamSidebarWrapper').within(() => {
-                cy.get(`#${testTeam2.name}TeamButton`).click();
+                cy.get(`#${testTeam2.name}TeamButton`).should('be.visible').click();
             });
 
             // * Expect that the user has switched teams
             expectActiveTeamToBe(testTeam2.display_name, testTeam2.name);
-        });
+        },
+
+        // # Reset test run so we can start on the initially specified team
+        () => {
+            cy.visit(`/${testTeam1.name}/channels/town-square`);
+        }, 3,
+        );
     });
 });
 

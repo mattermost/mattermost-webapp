@@ -14,10 +14,12 @@ import {measurePerformance} from './utils.js';
 
 describe('Channel switch performance test', () => {
     let testUser;
+    let teamName;
 
-    before(() => {
+    beforeEach(() => {
         cy.apiInitSetup().then(({team, user}) => {
             testUser = user;
+            teamName = team;
 
             // # Login as test user and go to town square
             cy.apiLogin(testUser);
@@ -34,7 +36,13 @@ describe('Channel switch performance test', () => {
 
             // * Expect that the user is now in Off-Topic
             expectActiveChannelToBe('Off-Topic', '/off-topic');
-        });
+        },
+
+        // # Reset test run so we can start on the initially specified channel
+        () => {
+            cy.visit(`/${teamName.name}/channels/town-square`);
+        }, 3,
+        );
     });
 });
 
