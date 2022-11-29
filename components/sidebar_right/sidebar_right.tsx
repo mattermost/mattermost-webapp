@@ -200,6 +200,8 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             postCardVisible,
             previousRhsState,
             searchVisible,
+            isPinnedPosts,
+            isChannelFiles,
             isPluginView,
             isOpen,
             isChannelInfo,
@@ -208,9 +210,6 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             channel,
             team,
         } = this.props;
-
-        // Sometimes the channel/team is not loaded yet, so we need to wait for it
-        const isLoading = !channel || !team;
 
         if (!isOpen) {
             return null;
@@ -238,6 +237,10 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             );
         }
 
+        // Sometimes the channel/team is not loaded yet, so we need to wait for it
+        const isChannelSpecificRHS = postRightVisible || postCardVisible || isPinnedPosts || isChannelFiles || isChannelInfo || isChannelMembers;
+        const isChannelSpecificRHSLoading = (!channel || !team) && (isChannelSpecificRHS);
+
         const channelDisplayName = rhsChannel ? rhsChannel.display_name : '';
 
         const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible) && isExpanded;
@@ -255,9 +258,9 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
                     ref={this.sidebarRight}
                 >
                     <div className='sidebar-right-container'>
-                        {isLoading ? (
+                        {isChannelSpecificRHSLoading ? (
                             <div className='sidebar-right__body'>
-                                <LoadingScreen inMiddle={true}/>
+                                <LoadingScreen centered={true}/>
                             </div>
                         ) : (
                             <Search

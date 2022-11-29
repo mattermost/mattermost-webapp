@@ -5,7 +5,7 @@ exports[`components/post_view/post_view should match snapshot for channel loadin
   id="post-list"
 >
   <LoadingScreen
-    inMiddle={true}
+    centered={true}
   />
 </div>
 `;
@@ -15,7 +15,7 @@ exports[`components/post_view/post_view should match snapshot for loaderForChang
   id="post-list"
 >
   <LoadingScreen
-    inMiddle={true}
+    centered={true}
   />
 </div>
 `;

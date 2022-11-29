@@ -354,7 +354,7 @@ export default class PostList extends React.PureComponent<Props, State> {
     render() {
         if (!this.props.postListIds) {
             return (
-                <LoadingScreen inMiddle={true}/>
+                <LoadingScreen centered={true}/>
             );
         }
 

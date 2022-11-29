@@ -82,9 +82,7 @@ export default class PostView extends React.PureComponent<Props, State> {
         if (this.props.channelLoading || this.state.loaderForChangeOfPostsChunk) {
             return (
                 <div id='post-list'>
-                    <LoadingScreen
-                        inMiddle={true}
-                    />
+                    <LoadingScreen centered={true}/>
                 </div>
             );
         }

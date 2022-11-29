@@ -42,7 +42,7 @@ export default function ChannelController({fetchingChannels}: Props) {
                 <FaviconTitleHandler/>
                 <ProductNoticesModal/>
                 <div className={classNames('container-fluid channel-view-inner')}>
-                    {fetchingChannels ? <LoadingScreen inMiddle={true}/> : <CenterChannel/>}
+                    {fetchingChannels ? <LoadingScreen centered={true}/> : <CenterChannel/>}
                     <Pluggable pluggableName='Root'/>
                     <ResetStatusModal/>
                 </div>

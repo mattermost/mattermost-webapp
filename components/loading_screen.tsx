@@ -10,16 +10,16 @@ type Props = {
     style?: CSSProperties;
     message?: ReactNode;
     className?: string;
-    inMiddle?: boolean;
+    centered?: boolean;
 }
 
-function LoadingScreen({message, position = 'relative', style, className = '', inMiddle = false}: Props) {
+function LoadingScreen({message, position = 'relative', style, className = '', centered = false}: Props) {
     const {formatMessage} = useIntl();
 
     return (
         <div
             className={classNames('loading-screen', className, {
-                'loading-screen--in-middle': inMiddle,
+                'loading-screen--in-middle': centered,
             })}
             style={{position, ...style}}
         >
