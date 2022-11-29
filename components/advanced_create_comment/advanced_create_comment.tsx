@@ -30,7 +30,7 @@ import NotifyConfirmModal from 'components/notify_confirm_modal';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import PostDeletedModal from 'components/post_deleted_modal';
 import {PostDraft} from 'types/store/draft';
-import {Group} from '@mattermost/types/groups';
+import {Group, GroupSource} from '@mattermost/types/groups';
 import {ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {Emoji} from '@mattermost/types/emojis';
@@ -558,10 +558,10 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             if (mentionGroups.length > 0) {
                 mentionGroups.
                     forEach((group) => {
-                        if (group.source === 'ldap' && !useLDAPGroupMentions) {
+                        if (group.source === GroupSource.Ldap && !useLDAPGroupMentions) {
                             return;
                         }
-                        if (group.source === 'custom' && !useCustomGroupMentions) {
+                        if (group.source === GroupSource.Custom && !useCustomGroupMentions) {
                             return;
                         }
                         const mappedValue = channelMemberCountsByGroup[group.id];

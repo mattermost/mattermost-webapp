@@ -3907,10 +3907,10 @@ export default class Client4 {
         );
     }
 
-    subscribeCloudProduct = (productId: string) => {
+    subscribeCloudProduct = (productId: string, seats = 0) => {
         return this.doFetch<CloudCustomer>(
             `${this.getCloudRoute()}/subscription`,
-            {method: 'put', body: JSON.stringify({product_id: productId})},
+            {method: 'put', body: JSON.stringify({product_id: productId, seats})},
         );
     }
 
