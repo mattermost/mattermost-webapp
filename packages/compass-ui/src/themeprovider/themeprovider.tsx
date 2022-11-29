@@ -5,14 +5,15 @@ import React from 'react';
 import {createTheme} from '@mui/material/styles';
 import MUIThemeProvider, {ThemeProviderProps} from '@mui/material/styles/ThemeProvider';
 
+import {defaultTheme} from './themes';
 import componentOverrides from './component-overrides';
-import typographyOverrides from './typography';
+import typographyOverrides from './typography-overrides';
 
-const Themeprovider = ({theme, ...rest}: ThemeProviderProps) => {
+const Themeprovider = ({theme = defaultTheme, ...rest}: ThemeProviderProps) => {
     const combinedTheme = createTheme({
         ...theme,
-        typography: typographyOverrides,
         components: componentOverrides,
+        typography: typographyOverrides,
     });
 
     return (

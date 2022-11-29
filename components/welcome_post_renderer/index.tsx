@@ -15,9 +15,9 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 import {PostDraft} from 'types/store/draft';
 import {localizeMessage} from 'utils/utils';
 
-import {Typography, Themeprovider} from '@mattermost/compass-ui';
-
 import {Post} from '@mattermost/types/posts';
+
+import {Typography, Themeprovider} from '@mattermost/compass-ui';
 
 import './index.scss';
 

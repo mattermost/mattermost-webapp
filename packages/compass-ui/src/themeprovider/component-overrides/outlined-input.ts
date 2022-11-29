@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import type { ComponentsOverrides } from '@mui/material/styles/overrides';
-import type { DefaultTheme } from '@mui/private-theming';
+import type {ComponentsOverrides} from '@mui/material/styles/overrides';
+import type {DefaultTheme} from '@mui/private-theming';
 
 const componentName = 'MuiOutlinedInput';
 
@@ -10,6 +10,7 @@ const outlinedInputStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof comp
     root: {
         backgroundColor: 'var(--center-channel-bg)',
         fontSize: '1.6rem',
+        padding: 0,
 
         '.MuiOutlinedInput-notchedOutline': {
             borderColor: 'rgba(var(--center-channel-text-rgb), 0.16)',
@@ -32,11 +33,6 @@ const outlinedInputStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof comp
                 borderColor: 'var(--button-bg)',
             },
         },
-    },
-    input: {
-        height: 'unset',
-        padding: '12px 24px 12px 0',
-        lineHeight: '2.4rem',
     },
 };
 

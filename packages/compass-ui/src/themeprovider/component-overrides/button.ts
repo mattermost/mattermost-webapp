@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import type { ComponentsOverrides } from '@mui/material/styles/overrides';
-import type { DefaultTheme } from '@mui/private-theming/defaultTheme';
+import type {ComponentsOverrides} from '@mui/material/styles/overrides';
+import type {DefaultTheme} from '@mui/private-theming/defaultTheme';
 
 declare module '@mui/material/Button' {
     interface ButtonPropsVariantOverrides {
+
         // disable MUI variant names and instead ...
         text: false;
         contained: false;

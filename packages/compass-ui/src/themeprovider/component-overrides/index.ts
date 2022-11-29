@@ -3,36 +3,38 @@
 
 import {ThemeOptions} from '@mui/material/styles/createTheme';
 
-import MuiButtonOverrides from './button';
-import MuiButtonBaseOverrides from './button-base';
-import MuiIconButtonOverrides from './icon-button';
-import MuiListItemOverrides from './list-item';
-import MuiListItemTextOverrides from './list-item-text';
-import MuiListItemIconOverrides from './list-item-icon';
-import MuiListItemButtonOverrides from './list-item-button';
-import MuiListItemSecondaryActionOverrides from './list-item-secondary-action';
-import MuiMenuOverrides from './menu';
-import MuiMenuItemOverrides from './menu-item';
-import MuiSelectOverrides from './select';
-import MuiInputOverrides from './input';
-import MuiInputLabelOverrides from './input-label';
-import MuiOutlinedInputOverrides from './outlined-input';
+import MuiButton from './button';
+import MuiButtonBase from './button-base';
+import MuiIconButton from './icon-button';
+import MuiListItem from './list-item';
+import MuiListItemText from './list-item-text';
+import MuiListItemIcon from './list-item-icon';
+import MuiListItemButton from './list-item-button';
+import MuiListItemSecondaryAction from './list-item-secondary-action';
+import MuiMenu from './menu';
+import MuiMenuItem from './menu-item';
+import MuiSelect from './select';
+import MuiInput from './input';
+import MuiInputLabel from './input-label';
+import MuiOutlinedInput from './outlined-input';
+import MuiInputBase from './input-base';
 
 const componentOverrides: ThemeOptions['components'] = {
-    MuiInput: MuiInputOverrides,
-    MuiInputLabel: MuiInputLabelOverrides,
-    MuiOutlinedInput: MuiOutlinedInputOverrides,
-    MuiSelect: MuiSelectOverrides,
-    MuiMenu: MuiMenuOverrides,
-    MuiMenuItem: MuiMenuItemOverrides,
-    MuiListItem: MuiListItemOverrides,
-    MuiListItemText: MuiListItemTextOverrides,
-    MuiListItemIcon: MuiListItemIconOverrides,
-    MuiListItemButton: MuiListItemButtonOverrides,
-    MuiButton: MuiButtonOverrides,
-    MuiButtonBase: MuiButtonBaseOverrides,
-    MuiIconButton: MuiIconButtonOverrides,
-    MuiListItemSecondaryAction: MuiListItemSecondaryActionOverrides,
+    MuiInput,
+    MuiInputLabel,
+    MuiOutlinedInput,
+    MuiSelect,
+    MuiMenu,
+    MuiMenuItem,
+    MuiListItem,
+    MuiListItemText,
+    MuiListItemIcon,
+    MuiListItemButton,
+    MuiButton,
+    MuiButtonBase,
+    MuiIconButton,
+    MuiListItemSecondaryAction,
+    MuiInputBase,
 };
 
 export default componentOverrides;

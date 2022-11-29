@@ -42,22 +42,13 @@ const TextField = ({startIcon, endIcon, value, onFocus, onBlur, ...props}: TextF
         onBlur?.(e);
     };
 
-    const InputLabelProps: MUITextFieldProps['InputLabelProps'] = {
-        shrink,
-        sx: {
-            '&.MuiInputLabel-root:not(.MuiInputLabel-shrink)': {
-                transform: startIcon ? 'translate(40px, 0.8rem)' : 'translate(24px, 0.8rem)',
-            },
-        },
-    };
-
     return (
         <MUITextField
             {...props}
             onFocus={makeFocusHandler(true)}
             onBlur={makeFocusHandler(false)}
             InputProps={InputProps}
-            InputLabelProps={InputLabelProps}
+            InputLabelProps={{shrink, withStartIcon: Boolean(startIcon)}}
         />
     );
 };
