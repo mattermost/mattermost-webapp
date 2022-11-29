@@ -33,9 +33,6 @@ export const fallbackStarterLimits = {
     teams: {
         active: 1,
     },
-    integrations: {
-        enabled: 5,
-    },
     boards: {
         cards: 500,
         views: 5,
@@ -80,6 +77,5 @@ export const limitThresholds = Object.freeze({
 export const LimitTypes = {
     messageHistory: 'messageHistory',
     fileStorage: 'fileStorage',
-    enabledIntegrations: 'enabledIntegrations',
     boardsCards: 'boardsCards',
 } as const;

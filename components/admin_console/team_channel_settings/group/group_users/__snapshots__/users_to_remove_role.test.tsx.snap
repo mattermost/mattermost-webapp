@@ -104,6 +104,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
       "roles": "channel_user",
       "scheme_admin": true,
       "scheme_user": true,
+      "urgent_mention_count": 0,
       "user_id": "user_id",
     }
   }
@@ -194,6 +195,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
       "roles": "channel_user",
       "scheme_admin": true,
       "scheme_user": true,
+      "urgent_mention_count": 0,
       "user_id": "user_id",
     }
   }
@@ -284,6 +286,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
       "roles": "channel_user",
       "scheme_admin": false,
       "scheme_user": true,
+      "urgent_mention_count": 0,
       "user_id": "user_id",
     }
   }

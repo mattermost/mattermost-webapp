@@ -9,8 +9,9 @@ import {UserProfile} from '@mattermost/types/users';
 
 import {Channel, ChannelType} from '@mattermost/types/channels';
 
+import {TestHelper} from 'utils/test_helper';
+
 import ChannelIntroMessage from './channel_intro_message';
-import { TestHelper } from 'utils/test_helper';
 
 describe('components/post_view/ChannelIntroMessages', () => {
     const channel = {
@@ -56,7 +57,7 @@ describe('components/post_view/ChannelIntroMessages', () => {
         actions: {
             getTotalUsersStats: jest.fn().mockResolvedValue([]),
             favoriteChannel: jest.fn().mockResolvedValue([]),
-            unfavoriteChannel: jest.fn().mockResolvedValue([])
+            unfavoriteChannel: jest.fn().mockResolvedValue([]),
         },
     };
 
