@@ -5,8 +5,6 @@ import React, {memo} from 'react';
 import {Overlay} from 'react-bootstrap';
 import memoize from 'memoize-one';
 
-import {popOverOverlayPosition} from 'utils/position_utils';
-
 import {PostPriorityMetadata} from '@mattermost/types/posts';
 
 import PostPriorityPicker from './post_priority_picker';
