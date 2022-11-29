@@ -126,6 +126,7 @@ function ToggleItem({
                         disabled={disabled}
                         onToggle={onClick}
                         toggled={toggled}
+                        toggleClassName='btn-toggle-primary'
                     />
                 </ToggleWrapper>
             </ToggleMain>
