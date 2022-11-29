@@ -431,6 +431,7 @@ export const ModalIdentifiers = {
     MARK_ALL_THREADS_AS_READ: 'mark_all_threads_as_read_modal',
     DELINQUENCY_MODAL_DOWNGRADE: 'delinquency_modal_downgrade',
     CLOUD_LIMITS_DOWNGRADE: 'cloud_limits_downgrade',
+    AIR_GAPPED_SELF_HOSTED_PURCHASE: 'air_gapped_self_hosted_purchase',
 };
 
 export const UserStatuses = {
