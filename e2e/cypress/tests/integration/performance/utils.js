@@ -25,10 +25,10 @@ export const measurePerformance = (name, upperLimit, callback, reset, runs = 5) 
             const avgDuration = Math.round(durations.reduce((a, b) => a + b) / runs);
             cy.log(`[PERFORMANCE] ${name}: ${avgDuration}ms` + avgDuration <= upperLimit ? ' within upper limit' : ' outside upper limit', ` of ${upperLimit}ms`);
             assert.isAtMost(avgDuration, upperLimit);
-        });
 
-        // Clean the marks
-        performance.clearMarks();
-        performance.clearMeasures();
+            // Clean the marks
+            performance.clearMarks();
+            performance.clearMeasures();
+        });
     });
 };
