@@ -18,6 +18,8 @@
     "@mattermost/compass-icons": "0.1.30",
     "@mattermost/components": "*",
     "@mattermost/types": "*",
+    "@mui/material": "5.10.16",
+    "@mui/styled-engine-sc": "5.10.16",
     "@stripe/react-stripe-js": "1.13.0",
     "@stripe/stripe-js": "1.41.0",
     "@tippyjs/react": "4.2.6",
