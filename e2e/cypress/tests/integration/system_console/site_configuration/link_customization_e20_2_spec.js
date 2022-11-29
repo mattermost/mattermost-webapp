@@ -98,7 +98,7 @@ describe('SupportSettings', () => {
         cy.findByText('Privacy Policy').should('not.exist');
 
         // # Visit signup page
-        cy.findByText('Create an account', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
+        cy.findByText('Don\'t have an account?', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
 
         // * Verify no privacy link
         cy.get('.hfroute-footer').scrollIntoView().should('be.visible').within(() => {

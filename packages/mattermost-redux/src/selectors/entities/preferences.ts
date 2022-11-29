@@ -245,7 +245,7 @@ export function isGroupChannelManuallyVisible(state: GlobalState, channelId: str
 }
 
 export function isCustomGroupsEnabled(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'CustomGroups') === 'true' && getConfig(state).EnableCustomGroups === 'true';
+    return getConfig(state).EnableCustomGroups === 'true';
 }
 
 export function getUseCaseOnboarding(state: GlobalState): boolean {
@@ -263,6 +263,38 @@ export function isGraphQLEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'GraphQL') === 'true';
 }
 
+export function isAnnualSubscriptionEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'AnnualSubscription') === 'true';
+}
+
 export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): boolean {
     return getBool(state, Preferences.CATEGORY_UPGRADE_CLOUD, Preferences.SYSTEM_CONSOLE_LIMIT_REACHED, false);
+}
+
+export function syncedDraftsAreAllowed(state: GlobalState): boolean {
+    const isFeatureEnabled = getFeatureFlagValue(state, 'GlobalDrafts') === 'true';
+    const isConfiguredForFeature = getConfig(state).AllowSyncedDrafts === 'true';
+
+    return isFeatureEnabled && isConfiguredForFeature;
+}
+
+export function syncedDraftsAreAllowedAndEnabled(state: GlobalState): boolean {
+    const isFeatureEnabled = getFeatureFlagValue(state, 'GlobalDrafts') === 'true';
+    const isConfiguredForFeature = getConfig(state).AllowSyncedDrafts === 'true';
+    const isConfiguredForUser = getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.ADVANCED_SYNC_DRAFTS, true);
+
+    return isFeatureEnabled && isConfiguredForFeature && isConfiguredForUser;
+}
+
+export function localDraftsAreEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'GlobalDrafts') === 'true';
+}
+
+export function isReduceOnBoardingTaskList(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'ReduceOnBoardingTaskList') === 'true';
+}
+
+export function getVisibleDmGmLimit(state: GlobalState) {
+    const defaultLimit = 40;
+    return getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, defaultLimit);
 }

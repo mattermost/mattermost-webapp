@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import classNames from 'classnames';
 import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -9,6 +10,8 @@ type Props = {
     icon: string;
     count?: number;
     id?: string;
+    children?: React.ReactNode;
+    status?: 'warning' | 'error';
 }
 
 export default class StatisticCount extends React.PureComponent<Props> {
@@ -21,22 +24,36 @@ export default class StatisticCount extends React.PureComponent<Props> {
         );
 
         return (
-            <div className='col-lg-3 col-md-4 col-sm-6'>
-                <div className='total-count'>
+            <div className='grid-statistics__card'>
+                <div
+                    className={classNames({
+                        'total-count': true,
+                        'total-count--has-message': Boolean(this.props.status),
+                    })}
+                >
                     <div
                         data-testid={`${this.props.id}Title`}
-                        className='title'
+                        className={classNames({
+                            title: true,
+                            'team_statistics--warning': this.props.status === 'warning',
+                            'team_statistics--error': this.props.status === 'error',
+                        })}
                     >
                         {this.props.title}
                         <i className={'fa ' + this.props.icon}/>
                     </div>
                     <div
                         data-testid={this.props.id}
-                        className='content'
+                        className={classNames({
+                            content: true,
+                            'team_statistics--warning': this.props.status === 'warning',
+                            'team_statistics--error': this.props.status === 'error',
+                        })}
                     >
                         {typeof this.props.count === 'undefined' || isNaN(this.props.count) ? loading : this.props.count}
                     </div>
                 </div>
+                {this.props.children}
             </div>
         );
     }

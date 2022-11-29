@@ -42,6 +42,7 @@ import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
 import OpenPricingModalPost from 'components/custom_open_pricing_modal_post_renderer';
+import AccessProblem from 'components/access_problem';
 
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
@@ -310,7 +311,7 @@ export default class Root extends React.PureComponent<Props, State> {
             landing = desktopAppDownloadLink;
         }
 
-        if (landing && !this.props.isCloud && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen && !this.props.location.pathname.includes('/landing') && !window.location.hostname?.endsWith('.test.mattermost.com') && !UserAgent.isDesktopApp()) {
+        if (landing && !this.props.isCloud && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen && !this.props.location.pathname.includes('/landing') && !window.location.hostname?.endsWith('.test.mattermost.com') && !UserAgent.isDesktopApp() && !UserAgent.isChromebook()) {
             this.props.history.push('/landing#' + this.props.location.pathname + this.props.location.search);
             BrowserStore.setLandingPageSeen(true);
         }
@@ -537,6 +538,10 @@ export default class Root extends React.PureComponent<Props, State> {
                     <HFRoute
                         path={'/login'}
                         component={Login}
+                    />
+                    <HFRoute
+                        path={'/access_problem'}
+                        component={AccessProblem}
                     />
                     <HFTRoute
                         path={'/reset_password'}
