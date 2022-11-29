@@ -3,8 +3,6 @@
 
 import React, {useState} from 'react';
 
-import ThemeProvider from '../../themeprovider/themeprovider';
-
 import Textfield from './textfield';
 
 export default {
@@ -19,12 +17,10 @@ export const Primary = () => {
     const [value, setValue] = useState('');
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
     return (
-        <ThemeProvider>
-            <Textfield
-                value={value}
-                onChange={handleOnChange}
-                label={'example label'}
-            />
-        </ThemeProvider>
+        <Textfield
+            value={value}
+            onChange={handleOnChange}
+            label={'example label'}
+        />
     );
 };

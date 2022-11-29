@@ -10,45 +10,48 @@
     "mattermost"
   ],
   "author": "Michel Engelen",
-  "main": "lib/index.js",
-  "module": "lib/index.esm.js",
-  "types": "lib/index.d.ts",
+  "main": "./src/index.ts",
   "scripts": {
     "test": "test",
     "storybook": "start-storybook -p 6006",
     "build": "rollup -c",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "clean": "rm -rf node_modules dist"
   },
   "devDependencies": {
     "@babel/core": "7.20.2",
     "@mui/material": "5.10.15",
-    "@mui/styled-engine-sc": "5.10.14",
+    "@mui/styled-engine": "5.10.16",
     "@rollup/plugin-commonjs": "18.1.0",
     "@rollup/plugin-node-resolve": "15.0.1",
-    "@storybook/addon-actions": "^6.5.13",
-    "@storybook/addon-docs": "^6.5.13",
-    "@storybook/addon-essentials": "^6.5.13",
-    "@storybook/addon-interactions": "^6.5.13",
-    "@storybook/addon-links": "^6.5.13",
-    "@storybook/addon-viewport": "^6.5.13",
-    "@storybook/builder-webpack4": "^6.5.13",
-    "@storybook/manager-webpack4": "^6.5.13",
-    "@storybook/react": "^6.5.13",
-    "@storybook/testing-library": "^0.0.13",
+    "@rollup/plugin-typescript": "10.0.1",
+    "@storybook/addon-actions": "6.5.13",
+    "@storybook/addon-docs": "6.5.13",
+    "@storybook/addon-essentials": "6.5.13",
+    "@storybook/addon-interactions": "6.5.13",
+    "@storybook/addon-links": "6.5.13",
+    "@storybook/addon-viewport": "6.5.13",
+    "@storybook/builder-webpack4": "6.5.13",
+    "@storybook/manager-webpack4": "6.5.13",
+    "@storybook/react": "6.5.13",
+    "@storybook/testing-library": "0.0.13",
     "@types/react": "17.0.52",
     "babel-loader": "8.3.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "rollup": "3.4.0",
+    "rollup": "3.5.0",
     "rollup-plugin-peer-deps-external": "2.2.4",
     "rollup-plugin-postcss": "4.0.2",
     "rollup-plugin-typescript2": "0.34.1",
-    "storybook-addon-themes": "^6.1.0",
+    "storybook-addon-themes": "6.1.0",
     "styled-components": "5.3.6",
     "typescript": "4.9.3"
   },
   "peerDependencies": {
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0"
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "exports": {
+    ".": "./src"
   }
 }

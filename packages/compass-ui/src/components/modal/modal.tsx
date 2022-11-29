@@ -10,8 +10,6 @@ import DialogActions from '@mui/material/DialogActions';
 import Slide from '@mui/material/Slide';
 import {TransitionProps} from '@mui/material/transitions';
 
-import ThemeProvider from '../../themeprovider/themeprovider';
-
 const Transition = React.forwardRef((
     {children, ...props}: TransitionProps & {
         children: React.ReactElement<any, any>;
@@ -61,27 +59,25 @@ const Modal = ({children, isOpen, onClose, onConfirm, onCancel, dialogClassName 
     };
 
     return (
-        <ThemeProvider>
-            <Dialog
-                open={isOpen}
-                TransitionComponent={Transition}
-                PaperComponent={Paper}
-                keepMounted={true}
-                onClose={onClose}
-                aria-describedby='alert-dialog-slide-description'
-                role='dialog'
-                className={dialogClassName}
-                id={dialogId}
-            >
-                {children}
-                {hasActions && (
-                    <DialogActions>
-                        {onCancel && <Button onClick={handleCancelAction}>{'Cancel'}</Button>}
-                        {onConfirm && <Button onClick={handleConfirmAction}>{'Confirm'}</Button>}
-                    </DialogActions>
-                )}
-            </Dialog>
-        </ThemeProvider>
+        <Dialog
+            open={isOpen}
+            TransitionComponent={Transition}
+            PaperComponent={Paper}
+            keepMounted={true}
+            onClose={onClose}
+            aria-describedby='alert-dialog-slide-description'
+            role='dialog'
+            className={dialogClassName}
+            id={dialogId}
+        >
+            {children}
+            {hasActions && (
+                <DialogActions>
+                    {onCancel && <Button onClick={handleCancelAction}>{'Cancel'}</Button>}
+                    {onConfirm && <Button onClick={handleConfirmAction}>{'Confirm'}</Button>}
+                </DialogActions>
+            )}
+        </Dialog>
     );
 };
 

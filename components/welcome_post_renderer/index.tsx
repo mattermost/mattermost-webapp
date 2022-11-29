@@ -7,7 +7,6 @@ import {useIntl} from 'react-intl';
 
 import {useDispatch, useSelector} from 'react-redux';
 
-import {Post} from '@mattermost/types/posts';
 import {submitCommand} from 'actions/views/create_comment';
 import PostMarkdown from 'components/post_markdown';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
@@ -15,6 +14,10 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 
 import {PostDraft} from 'types/store/draft';
 import {localizeMessage} from 'utils/utils';
+
+import {Typography, Themeprovider} from '@mattermost/compass-ui';
+
+import {Post} from '@mattermost/types/posts';
 
 import './index.scss';
 
@@ -81,26 +84,36 @@ export default function WelcomePostRenderer(props: {post: Post}) {
     }
     actions.push(helpButton);
 
+    const testMessage = (
+        <>
+            <Typography variant={'h300'}>{localizeMessage('welcome_post_renderer.user_message.title', 'Welcome to Mattermost! :rocket:')}</Typography>
+            <Typography variant={'b100'}>{localizeMessage('welcome_post_renderer.user_message.first_paragraph', 'Mattermost is an open source platform for secure communication, collaboration, and orchestration of work across tools and teams.')}</Typography>
+        </>
+    );
+
     return (
-        <div className='WelcomePostRenderer'>
-            <PostMarkdown
-                message={message}
-                isRHS={false}
-                post={props.post}
-                channelId={props.post.channel_id}
-                mentionKeys={[]}
-            />
-            {actions.length > 0 && (
-                <div className='WelcomePostRenderer__ActionsContainer'>
-                    {actions.map((action, idx) => (
-                        <div
-                            key={'action-' + idx}
-                        >
-                            {action}
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
+        <Themeprovider theme={{}}>
+            <div className='WelcomePostRenderer'>
+                <PostMarkdown
+                    message={message}
+                    isRHS={false}
+                    post={props.post}
+                    channelId={props.post.channel_id}
+                    mentionKeys={[]}
+                />
+                {testMessage}
+                {actions.length > 0 && (
+                    <div className='WelcomePostRenderer__ActionsContainer'>
+                        {actions.map((action, idx) => (
+                            <div
+                                key={'action-' + idx}
+                            >
+                                {action}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        </Themeprovider>
     );
 }

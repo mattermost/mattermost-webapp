@@ -1,14 +1,14 @@
 {
     "compilerOptions": {
-        "target": "es6",
-        "outDir": "lib",
+        "target": "es5",
+        "outDir": "dist",
         "lib": [
             "dom",
             "dom.iterable",
             "esnext"
         ],
         "declaration": true,
-        "declarationDir": "lib",
+        "declarationDir": "dist",
         "allowJs": true,
         "skipLibCheck": true,
         "esModuleInterop": true,
@@ -20,13 +20,14 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        "jsx": "react"
+        "jsx": "react",
     },
     "include": [
         "src"
     ],
     "exclude": [
         "node_modules",
-        "lib"
+        "lib",
+        "dist"
     ]
-  }
+}
