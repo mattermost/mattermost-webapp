@@ -10,7 +10,7 @@ export type WorkTemplatesState = {
 
 export interface WorkTemplate {
     id: string;
-    category: Category;
+    category: string;
     useCase: string;
     description: Description;
     illustration: string;

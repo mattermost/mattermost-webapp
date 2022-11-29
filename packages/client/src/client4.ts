@@ -118,6 +118,8 @@ import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
 import {LeastActiveChannelsResponse, TopChannelResponse, TopReactionResponse, TopThreadResponse, TopDMsResponse} from '@mattermost/types/insights';
 
+import {Category, WorkTemplate} from '@mattermost/types/worktemplates';
+
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
 import {TelemetryHandler} from './telemetry';
@@ -336,6 +338,24 @@ export default class Client4 {
 
     getPreferencesRoute(userId: string) {
         return `${this.getUserRoute(userId)}/preferences`;
+    }
+
+    getBaseWorkTemplateRoute() {
+        return `${this.getBaseRoute()}/worktemplates`;
+    }
+
+    getWorkTemplateCategoriesRoute = () => {
+        return this.doFetch<Category[]>(
+            `${this.getBaseWorkTemplateRoute()}/categories`,
+            {method: 'get'},
+        );
+    }
+
+    getWorkTemplatesRoute = (categoryId: string) => {
+        return this.doFetch<WorkTemplate[]>(
+            `${this.getBaseWorkTemplateRoute()}/categories/${categoryId}/templates`,
+            {method: 'get'},
+        );
     }
 
     getIncomingHooksRoute() {
@@ -3963,7 +3983,6 @@ export default class Client4 {
             {method: 'get'},
         );
     }
-
     teamMembersMinusGroupMembers = (teamID: string, groupIDs: string[], page: number, perPage: number) => {
         const query = `group_ids=${groupIDs.join(',')}&page=${page}&per_page=${perPage}`;
         return this.doFetch<UsersWithGroupsAndCount>(

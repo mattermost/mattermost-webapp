@@ -7,11 +7,10 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {injectDevData} from 'mattermost-redux/actions/worktemplates';
+import {getWorkTemplateCategories, getWorkTemplates} from 'mattermost-redux/actions/worktemplates';
+
 import {Category, WorkTemplate} from '@mattermost/types/worktemplates';
 import {GlobalState} from '@mattermost/types/store';
-
-import {worktemplates as workTemplateDevData} from '../dev_data';
 
 import UseCaseMenuItem from './menu/use_case';
 
@@ -70,21 +69,23 @@ const Menu = (props: MenuProps) => {
     const worktemplates = useSelector((state: GlobalState) => state.entities.worktemplates.templatesInCategory);
 
     useEffect(() => {
-        // DEV - REMOVE ME WHEN SERVER RETURNS DATA
-        // allows us to load the dev work templates from the store
-        dispatch(injectDevData(workTemplateDevData));
+        if (categories?.length) {
+            return;
+        }
+        dispatch(getWorkTemplateCategories());
     }, []);
 
     useEffect(() => {
         if (categories?.length === 0 || selectedCategory !== '') {
             return;
         }
-
         setSelectedCategory(categories[0].id);
-    }, [categories, selectedCategory]);
+        dispatch(getWorkTemplates(categories[0].id));
+    }, [categories]);
 
     const changeCategory = (category: Category) => {
         setSelectedCategory(category.id);
+        dispatch(getWorkTemplates(category.id));
     };
 
     const quickUse = (template: WorkTemplate) => {
