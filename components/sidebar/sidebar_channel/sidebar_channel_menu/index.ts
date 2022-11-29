@@ -4,7 +4,7 @@
 import {connect, ConnectedProps} from 'react-redux';
 
 import {Channel} from '@mattermost/types/channels';
-import {favoriteChannel, unfavoriteChannel, markChannelAsRead, markMostRecentPostInChannelAsUnread} from 'mattermost-redux/actions/channels';
+import {favoriteChannel, unfavoriteChannel, markChannelAsRead} from 'mattermost-redux/actions/channels';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {isFavoriteChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships, getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
@@ -14,6 +14,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {unmuteChannel, muteChannel} from 'actions/channel_actions';
+import {markMostRecentPostInChannelAsUnread} from 'actions/post_actions';
 import {addChannelsInSidebar} from 'actions/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
 

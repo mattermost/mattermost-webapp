@@ -13,7 +13,7 @@ import Constants from 'utils/constants';
 
 import * as Utils from 'utils/utils';
 import LoadingScreen from 'components/loading_screen';
-import {Group} from '@mattermost/types/groups';
+import {Group, GroupSource} from '@mattermost/types/groups';
 
 import './view_user_group_modal.scss';
 import {debounce} from 'mattermost-redux/actions/helpers';
@@ -176,7 +176,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                 <div className='group-mention-name'>
                     <span className='group-name'>{`@ ${group.name}`}</span>
                     {
-                        group.source.toLowerCase() === 'ldap' &&
+                        group.source.toLowerCase() === GroupSource.Ldap &&
                         <span className='group-source'>
                             <FormattedMessage
                                 id='view_user_group_modal.ldapSynced'
