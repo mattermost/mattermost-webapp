@@ -20,16 +20,12 @@ type Props = {
     defaultHorizontalPosition: 'left'|'right';
 };
 
-const SPACE_REQUIRED_ABOVE = 476;
-const SPACE_REQUIRED_BELOW = 497;
-
 function PostPriorityPickerOverlay({
     show,
     settings,
     target,
     onApply,
     onHide,
-    defaultHorizontalPosition,
 }: Props) {
     const pickerPosition = memoize((trigger, show) => {
         if (show && trigger) {
@@ -37,27 +33,12 @@ function PostPriorityPickerOverlay({
         }
         return 0;
     });
-
-    const getPlacement = memoize((target, defaultHorizontalPosition, show) => {
-        if (!show) {
-            return 'top';
-        }
-
-        if (target) {
-            const targetBounds = target.getBoundingClientRect();
-            return popOverOverlayPosition(targetBounds, window.innerHeight, SPACE_REQUIRED_ABOVE, SPACE_REQUIRED_BELOW, defaultHorizontalPosition);
-        }
-
-        return 'top';
-    });
-
     const offset = pickerPosition(target(), show);
-    const placement = getPlacement(target(), defaultHorizontalPosition, show);
 
     return (
         <Overlay
             show={show}
-            placement={placement}
+            placement={'top'}
             rootClose={true}
             onHide={onHide}
             target={target}
@@ -68,7 +49,7 @@ function PostPriorityPickerOverlay({
                 leftOffset={offset}
                 onApply={onApply}
                 topOffset={-7}
-                placement={placement}
+                placement={'top'}
                 onClose={onHide}
             />
         </Overlay>

@@ -78,7 +78,6 @@ const Picker = styled.div`
     position: absolute;
     z-index: 1100;
     display: flex;
-    width: 220px;
     flex-direction: column;
     border: solid 1px rgba(var(--center-channel-color-rgb), 0.16);
     margin-right: 3px;
@@ -156,10 +155,6 @@ function PostPriorityPicker({
         if (pickerStyle.right) {
             pickerStyle.right = Number(pickerStyle.right) + rightOffset;
         }
-
-        if (postAcknowledgementsEnabled) {
-            pickerStyle.width = 324;
-        }
     }
 
     return (
@@ -167,7 +162,7 @@ function PostPriorityPicker({
             ref={ref}
             tabIndex={-1}
             style={pickerStyle}
-            className={classNames({PostPriorityPicker: true, bottom: placement === 'bottom'})}
+            className={classNames({PostPriorityPicker: true, bottom: placement === 'bottom', 'PostPriorityPicker--large': postAcknowledgementsEnabled})}
         >
             <Header className='modal-title mr-2'>
                 {formatMessage({
