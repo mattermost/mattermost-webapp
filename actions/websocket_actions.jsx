@@ -66,8 +66,8 @@ import {
     getUser as loadUser,
 } from 'mattermost-redux/actions/users';
 import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
-import {transformServerDraft} from 'mattermost-redux/actions/drafts';
 import {setGlobalItem} from 'actions/storage';
+import {transformServerDraft} from 'actions/views/drafts';
 
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
