@@ -30,15 +30,14 @@ import {addChannelsInSidebar} from 'actions/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
 
 import EditCategoryModal from 'components/edit_category_modal';
-import Menu from 'components/widgets/menu/menu';
+import {SubMenu, MenuItem, MenuDivider} from 'components/menu';
 
 type Props = {
     channel: Channel;
-    openUp: boolean;
-    location?: string | 'sidebar' | 'channel';
+    inSidebar?: boolean;
 };
 
-const CategoryMenuItems = (props: Props) => {
+const ChannelMoveToSubmenu = (props: Props) => {
     const {formatMessage} = useIntl();
 
     const dispatch = useDispatch<DispatchFunc>();
@@ -58,14 +57,14 @@ const CategoryMenuItems = (props: Props) => {
         return null;
     }
 
-    const handleMoveToCategory = (categoryId: string) => {
+    function handleMoveToCategory(categoryId: string) {
         if (currentCategory?.id !== categoryId) {
             dispatch(addChannelsInSidebar(categoryId, props.channel.id));
             trackEvent('ui', 'ui_sidebar_channel_menu_moveToExistingCategory');
         }
-    };
+    }
 
-    const handleMoveToNewCategory = () => {
+    function handleMoveToNewCategory() {
         dispatch(openModal({
             modalId: ModalIdentifiers.EDIT_CATEGORY,
             dialogType: EditCategoryModal,
@@ -74,11 +73,10 @@ const CategoryMenuItems = (props: Props) => {
             },
         }));
         trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
-    };
+    }
 
-    let filteredCategories = categories.filter((category) => category.type !== CategoryTypes.DIRECT_MESSAGES);
-
-    if (props.location === 'sidebar') {
+    let filteredCategories: ChannelCategory[] = [];
+    if (props.inSidebar) {
         const selectedChannels = multiSelectedChannelIds.indexOf(props.channel.id) === -1 ? [props.channel] : displayedChannels.filter((c) => multiSelectedChannelIds.indexOf(c.id) !== -1);
         const allChannelsAreDMs = selectedChannels.every((selectedChannel) => selectedChannel.type === Constants.DM_CHANNEL || selectedChannel.type === Constants.GM_CHANNEL);
         const allChannelsAreNotDMs = selectedChannels.every((selectedChannel) => selectedChannel.type !== Constants.DM_CHANNEL && selectedChannel.type !== Constants.GM_CHANNEL);
@@ -91,58 +89,63 @@ const CategoryMenuItems = (props: Props) => {
             }
             return true;
         });
+    } else {
+        filteredCategories = categories.filter((category) => category.type !== CategoryTypes.DIRECT_MESSAGES);
     }
 
-    const categoryMenuItems = filteredCategories.map((category: ChannelCategory) => {
-        let text = category.display_name;
-
-        if (category.type === CategoryTypes.FAVORITES) {
-            text = formatMessage({id: 'sidebar_left.sidebar_channel_menu.favorites', defaultMessage: 'Favorites'});
+    function getCategoryDisplayName(categoryType: ChannelCategory['type'], categoryDisplayName: ChannelCategory['display_name']) {
+        if (categoryType === CategoryTypes.FAVORITES) {
+            return formatMessage({id: 'sidebar_left.sidebar_channel_menu.favorites', defaultMessage: 'Favorites'});
         }
-        if (category.type === CategoryTypes.CHANNELS) {
-            text = formatMessage({id: 'sidebar_left.sidebar_channel_menu.channels', defaultMessage: 'Channels'});
+        if (categoryType === CategoryTypes.CHANNELS) {
+            return formatMessage({id: 'sidebar_left.sidebar_channel_menu.channels', defaultMessage: 'Channels'});
         }
-
-        return {
-            id: `moveToCategory-${props.channel.id}-${category.id}`,
-            icon: category.type === CategoryTypes.FAVORITES ? (<StarOutlineIcon size={16}/>) : (<FolderOutlineIcon size={16}/>),
-            direction: 'right' as any,
-            text,
-            action: () => handleMoveToCategory(category.id),
-        } as any;
-    });
-
-    categoryMenuItems.push(
-        {
-            id: 'ChannelMenu-moveToDivider',
-            text: (<span className='MenuGroup menu-divider'/>),
-        },
-        {
-            id: `moveToNewCategory-${props.channel.id}`,
-            icon: (<FolderMoveOutlineIcon size={16}/>),
-            direction: 'right' as any,
-            text: formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'New Category'}),
-            action: handleMoveToNewCategory,
-        },
-    );
+        return categoryDisplayName;
+    }
 
     return (
-        <React.Fragment>
-            <Menu.Group>
-                <Menu.ItemSubMenu
-                    id={`moveTo-${props.channel.id}`}
-                    subMenu={categoryMenuItems}
-                    text={formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
-                    direction={'right' as any}
-                    icon={props.location === 'sidebar' ? <FolderMoveOutlineIcon size={16}/> : null}
-                    openUp={props.openUp}
-                    styleSelectableItem={true}
-                    selectedValueText={currentCategory?.display_name}
-                    renderSelected={false}
+        <SubMenu
+            anchorId={`moveTo-${props.channel.id}`}
+            anchorNode={
+                <>
+                    <FolderMoveOutlineIcon
+                        size={16}
+                    />
+                    {formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
+                </>
+            }
+            menuId={`SidebarChannelMenu-ChannelMoveToSubmenu-${props.channel.id}`}
+        >
+            {filteredCategories.map((category: ChannelCategory) => (
+                <MenuItem
+                    id={`moveToCategory-${props.channel.id}-${category.id}`}
+                    key={`moveToCategory-${props.channel.id}-${category.id}`}
+                    onClick={() => handleMoveToCategory(category.id)}
+                >
+                    {category.type === CategoryTypes.FAVORITES ? (
+                        <StarOutlineIcon
+                            size={16}
+                        />
+                    ) : (
+                        <FolderOutlineIcon
+                            size={16}
+                        />
+                    )}
+                    {getCategoryDisplayName(category.type, category.display_name)}
+                </MenuItem>
+            ))}
+            <MenuDivider/>
+            <MenuItem
+                id={`moveToNewCategory-${props.channel.id}`}
+                onClick={handleMoveToNewCategory}
+            >
+                <FolderMoveOutlineIcon
+                    size={16}
                 />
-            </Menu.Group>
-        </React.Fragment>
+                {formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'New Category'})}
+            </MenuItem>
+        </SubMenu>
     );
 };
 
-export default CategoryMenuItems;
+export default ChannelMoveToSubmenu;
