@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -22,6 +22,8 @@ import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 import ContactSalesCTA from './contact_sales_cta';
 import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
+import useCWSHealthCheck from 'components/common/hooks/useCWSHealthCheck';
+import useOpenAirGappedSelfHostedPurchaseModal from 'components/common/hooks/useOpenAirGappedSelfHostedPurchaseModal';
 
 import './content.scss';
 
@@ -32,10 +34,19 @@ type ContentProps = {
 function SelfHostedContent(props: ContentProps) {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
+    const [cwsAvailable, setCwsAvailable] = useState<boolean>(false);
 
     useEffect(() => {
         dispatch(getPrevTrialLicense());
+        checkCWS();
     }, []);
+
+    async function checkCWS() {
+        const {cwsHealthCheck} = useCWSHealthCheck();
+        cwsHealthCheck().then((result) => {
+            setCwsAvailable(result.status === 'OK');
+        }).catch(() => setCwsAvailable(false));
+    }
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
 
@@ -48,6 +59,8 @@ function SelfHostedContent(props: ContentProps) {
     const isProfessional = license.SkuShortName === LicenseSkus.Professional;
     const isEnterprise = license.SkuShortName === LicenseSkus.Enterprise;
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
+
+    const openAirGappedPurchaseModal = useOpenAirGappedSelfHostedPurchaseModal();
 
     const closePricingModal = () => {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
@@ -181,7 +194,12 @@ function SelfHostedContent(props: ContentProps) {
                         buttonDetails={{
                             action: () => {
                                 trackEvent('self_hosted_pricing', 'click_upgrade_button');
-                                window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
+                                if (cwsAvailable) {
+                                    window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
+                                } else {
+                                    closePricingModal();
+                                    openAirGappedPurchaseModal();
+                                }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: !isAdmin || isProfessional,
