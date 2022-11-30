@@ -979,11 +979,16 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                     error={true}
                                     buttonText={t('self_hosted_signup.retry')}
                                     buttonHandler={() => {
-                                        Client4.bootstrapSelfHostedSignup(true).
-                                            then((data) => {
-                                                reduxDispatch({type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS, data: data.progress});
-                                                dispatch({type: 'set_error', data: ''});
-                                            });
+                                        try {
+                                            Client4.bootstrapSelfHostedSignup(true).
+                                                then((data) => {
+                                                    reduxDispatch({type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS, data: data.progress});
+                                                }).finally(() => {
+                                                    dispatch({type: 'set_error', data: ''});
+                                                });
+                                        } catch (e) {
+                                            dispatch({type: 'set_error', data: ''});
+                                        }
                                     }}
                                     linkText={t('admin.billing.subscription.privateCloudCard.contactSupport')}
                                     linkURL={contactSupportLink}

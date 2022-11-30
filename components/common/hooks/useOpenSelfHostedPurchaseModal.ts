@@ -22,23 +22,28 @@ interface CallbackArguments {
 export default function useOpenSelfHostedPurchaseModal(options: HookOptions) {
     const dispatch = useDispatch();
     return async (args: CallbackArguments) => {
-        if (options.onClick) {
-            options.onClick();
-        }
-        const result = await Client4.bootstrapSelfHostedSignup();
         trackEvent(TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING, 'click_open_purchase_modal', {
             callerInfo: args.trackingLocation,
         });
-        dispatch({
-            type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
-            data: result.progress,
-        });
-        dispatch(openModal({
-            modalId: ModalIdentifiers.SELF_HOSTED_PURCHASE,
-            dialogType: SelfHostedPurchaseModal,
-            dialogProps: {
-                productId: args.productId,
-            },
-        }));
+        if (options.onClick) {
+            options.onClick();
+        }
+        try {
+            const result = await Client4.bootstrapSelfHostedSignup();
+            dispatch({
+                type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
+                data: result.progress,
+            });
+            dispatch(openModal({
+                modalId: ModalIdentifiers.SELF_HOSTED_PURCHASE,
+                dialogType: SelfHostedPurchaseModal,
+                dialogProps: {
+                    productId: args.productId,
+                },
+            }));
+        } catch (e) {
+            // eslint-disable-next-line no-console
+            console.error('error bootstrapping self hosted purchase modal');
+        }
     };
 }
