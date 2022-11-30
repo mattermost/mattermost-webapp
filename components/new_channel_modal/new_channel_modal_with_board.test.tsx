@@ -83,6 +83,10 @@ jest.mock('react-redux', () => ({
 }));
 
 describe('components/new_channel_modal', () => {
+    const props = {
+        onExited: jest.fn(),
+    };
+
     beforeEach(() => {
         mockState = {
             entities: {
@@ -179,7 +183,9 @@ describe('components/new_channel_modal', () => {
         const store = await mockStore(mockState);
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <NewChannelModal/>
+                <NewChannelModal
+                    {...props}
+                />
             </Provider>,
         );
         const showTemplatesCheck = wrapper.find('.add-board-to-channel input');
@@ -197,7 +203,9 @@ describe('components/new_channel_modal', () => {
         const store = await mockStore(mockState);
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <NewChannelModal/>
+                <NewChannelModal
+                    {...props}
+                />
             </Provider>,
         );
         const showTemplatesCheck = wrapper.find('.add-board-to-channel input');
@@ -235,7 +243,9 @@ describe('components/new_channel_modal', () => {
 
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <NewChannelModal/>
+                <NewChannelModal
+                    {...props}
+                />
             </Provider>,
         );
 
@@ -285,7 +295,9 @@ describe('components/new_channel_modal', () => {
         const storeNoPlugins = await mockStore(mockState);
         const wrapper = mountWithIntl(
             <Provider store={storeNoPlugins}>
-                <NewChannelModal/>
+                <NewChannelModal
+                    {...props}
+                />
             </Provider>,
         );
         const showTemplatesCheck = wrapper.find('.add-board-to-channel input');

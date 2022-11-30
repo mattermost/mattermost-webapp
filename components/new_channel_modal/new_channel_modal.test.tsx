@@ -34,6 +34,9 @@ jest.mock('react-redux', () => ({
 }));
 
 describe('components/new_channel_modal', () => {
+    const props = {
+        onExited: jest.fn(),
+    };
     beforeEach(() => {
         mockState = {
             entities: {
@@ -116,7 +119,9 @@ describe('components/new_channel_modal', () => {
     test('should match snapshot', () => {
         expect(
             shallow(
-                <NewChannelModal/>,
+                <NewChannelModal
+                    {...props}
+                />,
             ),
         ).toMatchSnapshot();
     });
@@ -131,7 +136,9 @@ describe('components/new_channel_modal', () => {
         } as unknown as React.ChangeEvent<HTMLInputElement>;
 
         const wrapper = shallow(
-            <NewChannelModal/>,
+            <NewChannelModal
+                {...props}
+            />,
         );
 
         // Change display name
@@ -171,7 +178,9 @@ describe('components/new_channel_modal', () => {
         } as unknown as React.ChangeEvent<HTMLInputElement>;
 
         const wrapper = shallow(
-            <NewChannelModal/>,
+            <NewChannelModal
+                {...props}
+            />,
         );
 
         // Change display name
@@ -203,7 +212,9 @@ describe('components/new_channel_modal', () => {
         const typePrivate = Constants.PRIVATE_CHANNEL as ChannelType;
 
         const wrapper = shallow(
-            <NewChannelModal/>,
+            <NewChannelModal
+                {...props}
+            />,
         );
 
         // Change type to private
@@ -233,7 +244,9 @@ describe('components/new_channel_modal', () => {
         } as unknown as React.ChangeEvent<HTMLTextAreaElement>;
 
         const wrapper = shallow(
-            <NewChannelModal/>,
+            <NewChannelModal
+                {...props}
+            />,
         );
 
         // Change purpose
@@ -254,7 +267,9 @@ describe('components/new_channel_modal', () => {
         } as unknown as React.ChangeEvent<HTMLInputElement>;
 
         const wrapper = shallow(
-            <NewChannelModal/>,
+            <NewChannelModal
+                {...props}
+            />,
         );
 
         // Confirm button should be disabled
@@ -289,7 +304,9 @@ describe('components/new_channel_modal', () => {
         } as unknown as React.ChangeEvent<HTMLInputElement>;
 
         const wrapper = shallow(
-            <NewChannelModal/>,
+            <NewChannelModal
+                {...props}
+            />,
         );
 
         // Change display name
@@ -328,7 +345,9 @@ describe('components/new_channel_modal', () => {
         } as unknown as React.ChangeEvent<HTMLInputElement>;
 
         const wrapper = shallow(
-            <NewChannelModal/>,
+            <NewChannelModal
+                {...props}
+            />,
         );
 
         // Change display name
@@ -361,7 +380,9 @@ describe('components/new_channel_modal', () => {
         } as unknown as React.ChangeEvent<HTMLInputElement>;
 
         const wrapper = shallow(
-            <NewChannelModal/>,
+            <NewChannelModal
+                {...props}
+            />,
         );
 
         // Confirm button should be disabled
@@ -398,7 +419,9 @@ describe('components/new_channel_modal', () => {
         } as unknown as React.ChangeEvent<HTMLInputElement>;
 
         const wrapper = mountWithIntl(
-            <NewChannelModal/>,
+            <NewChannelModal
+                {...props}
+            />,
         );
 
         const genericModal = wrapper.find('GenericModal');

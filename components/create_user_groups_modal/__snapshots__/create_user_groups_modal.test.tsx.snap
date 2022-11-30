@@ -24,7 +24,7 @@ exports[`component/create_user_groups_modal should match snapshot with back butt
       "remove": [Function],
     }
   }
-  onExited={[MockFunction]}
+  onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -159,7 +159,7 @@ exports[`component/create_user_groups_modal should match snapshot without back b
       "remove": [Function],
     }
   }
-  onExited={[MockFunction]}
+  onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}

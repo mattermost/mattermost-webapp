@@ -11,12 +11,6 @@ exports[`components/sidebar should match snapshot 1`] = `
     canCreateChannel={true}
     canCreateCustomGroups={true}
     canJoinPublicChannel={true}
-    handleOpenDirectMessagesModal={[Function]}
-    invitePeopleModal={[Function]}
-    showCreateCategoryModal={[Function]}
-    showCreateUserGroupModal={[Function]}
-    showMoreChannelsModal={[Function]}
-    showNewChannelModal={[Function]}
     unreadFilterEnabled={false}
     userGroupsEnabled={false}
   />
@@ -65,12 +59,6 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
     canCreateChannel={true}
     canCreateCustomGroups={true}
     canJoinPublicChannel={true}
-    handleOpenDirectMessagesModal={[Function]}
-    invitePeopleModal={[Function]}
-    showCreateCategoryModal={[Function]}
-    showCreateUserGroupModal={[Function]}
-    showMoreChannelsModal={[Function]}
-    showNewChannelModal={[Function]}
     unreadFilterEnabled={false}
     userGroupsEnabled={false}
   />
@@ -123,12 +111,6 @@ exports[`components/sidebar should match snapshot when more channels modal is op
     canCreateChannel={true}
     canCreateCustomGroups={true}
     canJoinPublicChannel={true}
-    handleOpenDirectMessagesModal={[Function]}
-    invitePeopleModal={[Function]}
-    showCreateCategoryModal={[Function]}
-    showCreateUserGroupModal={[Function]}
-    showMoreChannelsModal={[Function]}
-    showNewChannelModal={[Function]}
     unreadFilterEnabled={false}
     userGroupsEnabled={false}
   />
