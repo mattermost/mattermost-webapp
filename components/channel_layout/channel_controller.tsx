@@ -62,7 +62,7 @@ export default function ChannelController() {
                 <FaviconTitleHandler/>
                 <ProductNoticesModal/>
                 <div className={classNames('container-fluid channel-view-inner')}>
-                    {shouldRenderCenterChannel ? <CenterChannel/> : <LoadingScreen/>}
+                    {shouldRenderCenterChannel ? <CenterChannel/> : <LoadingScreen centered={true}/>}
                     <Pluggable pluggableName='Root'/>
                     <ResetStatusModal/>
                 </div>

@@ -10,7 +10,7 @@ import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {getChannelMessageCounts, getCurrentChannelId, getMyChannelMemberships, makeGetChannelsForIds} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserLocale} from 'mattermost-redux/selectors/entities/i18n';
-import {getMyPreferences, getTeammateNameDisplaySetting, getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getMyPreferences, getTeammateNameDisplaySetting, getVisibleDmGmLimit, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {Channel, ChannelMembership, ChannelMessageCount} from '@mattermost/types/channels';
@@ -26,7 +26,6 @@ import {
 } from 'mattermost-redux/utils/channel_utils';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
-import Constants from 'utils/constants';
 
 export function getAllCategoriesByIds(state: GlobalState) {
     return state.entities.channelCategories.byId;
@@ -105,7 +104,7 @@ export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channe
         getCurrentUserId,
         getMyChannelMemberships,
         getChannelMessageCounts,
-        (state: GlobalState) => getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, Constants.DEFAULT_DM_NUMBER),
+        getVisibleDmGmLimit,
         getMyPreferences,
         isCollapsedThreadsEnabled,
         (channels, categoryType, currentChannelId, profiles, currentUserId, myMembers, messageCounts, limitPref, myPreferences, collapsedThreads) => {

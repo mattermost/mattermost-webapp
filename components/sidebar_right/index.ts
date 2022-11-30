@@ -9,7 +9,7 @@ import {withRouter, RouteComponentProps} from 'react-router-dom';
 import {memo} from 'react';
 
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {setRhsExpanded, showChannelInfo, showPinnedPosts, showChannelFiles, openRHSSearch, closeRightHandSide, openAtPrevious, updateSearchTerms} from 'actions/views/rhs';
 import {
@@ -32,7 +32,7 @@ import SidebarRight from './sidebar_right';
 function mapStateToProps(state: GlobalState, props: RouteComponentProps) {
     const rhsState = getRhsState(state);
     const channel = getCurrentChannel(state);
-    const teamId = getCurrentTeamId(state);
+    const team = getCurrentTeam(state);
     const productId = selectCurrentProductId(state, props.location.pathname);
 
     const selectedPostId = getSelectedPostId(state);
@@ -54,7 +54,7 @@ function mapStateToProps(state: GlobalState, props: RouteComponentProps) {
         rhsChannel: getSelectedChannel(state),
         selectedPostId,
         selectedPostCardId,
-        teamId,
+        team,
         productId,
     };
 }
