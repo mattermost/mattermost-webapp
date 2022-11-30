@@ -4184,8 +4184,8 @@ export default class Client4 {
     cwsHealthCheck = () => {
         return this.doFetch<StatusOK>(
             `${this.getCloudRoute()}/cws-health-check`,
-            {method: 'get'}
-        )
+            {method: 'get'},
+        );
     }
 }
 
