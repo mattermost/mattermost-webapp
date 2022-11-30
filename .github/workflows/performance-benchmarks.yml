@@ -1,0 +1,65 @@
+name: Performance Benchmarks
+on:
+  push:
+    branches:
+      - master
+      - release-**
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-20.04
+    name: Run Cypress benchmarks
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: mostest
+          POSTGRES_USER: mmuser
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    steps:
+      - name: Check out web app
+        uses: actions/checkout@v3
+
+      - name: Download and install Cypress
+        uses: cypress-io/github-action@v4
+        with:
+          runTests: false
+          working-directory: e2e/cypress
+
+      - name: Wait for PR branch to be built
+        uses: lewagon/wait-on-check-action@v1.2.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          check-name: untagged-build
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
+          verbose: true
+
+      - name: Download the thing
+        working-directory: e2e/cypress
+        run: |
+          curl https://pr-builds.mattermost.com/mattermost-webapp/commit/${{ github.event.pull_request.head.sha || github.sha }}/mattermost-enterprise-linux-amd64.tar.gz > mattermost.tar.gz
+          tar -xvf mattermost.tar.gz
+
+      - name: Run the E2E tests
+        uses: cypress-io/github-action@v4
+        with:
+          browser: chrome
+          install: false
+          spec: |
+            ./tests/integration/channel_sidebar/category_muting_spec.ts
+          start: npm run benchmarks:run-server
+          wait-on: http://localhost:8065
+          working-directory: e2e/cypress
+        env:
+          MM_LOGSETTINGS_ENABLECONSOLE: false
+          MM_SQLSETTINGS_DATASOURCE: postgres://mmuser:mostest@localhost/postgres?sslmode=disable&connect_timeout=10&binary_parameters=yes

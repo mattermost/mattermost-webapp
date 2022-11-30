@@ -120,14 +120,18 @@ function makeMapStateToProps() {
     };
 }
 
-function makeOnUpdateCommentDraft(rootId: string) {
-    return (draft?: PostDraft) => updateCommentDraft(rootId, draft);
+function makeOnUpdateCommentDraft(rootId: string, channelId: string) {
+    return (draft?: PostDraft, save = false) => updateCommentDraft(rootId, draft ? {...draft, channelId, remote: false} : draft, save);
+}
+
+function makeUpdateCommentDraftWithRootId(channelId: string) {
+    return (rootId: string, draft?: PostDraft, save = false) => updateCommentDraft(rootId, draft ? {...draft, channelId, remote: false} : draft, save);
 }
 
 type Actions = {
     clearCommentDraftUploads: () => void;
-    onUpdateCommentDraft: (draft?: PostDraft) => void;
-    updateCommentDraftWithRootId: (rootID: string, draft: PostDraft) => void;
+    onUpdateCommentDraft: (draft?: PostDraft, save?: boolean) => void;
+    updateCommentDraftWithRootId: (rootID: string, draft: PostDraft, save?: boolean) => void;
     onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => void;
     onResetHistoryIndex: () => void;
     onMoveHistoryIndexBack: () => void;
@@ -144,7 +148,8 @@ type Actions = {
 };
 
 function makeMapDispatchToProps() {
-    let onUpdateCommentDraft: (draft?: PostDraft) => void;
+    let onUpdateCommentDraft: (draft?: PostDraft, save?: boolean) => void;
+    let updateCommentDraftWithRootId: (rootID: string, draft: PostDraft, save?: boolean) => void;
     let onSubmit: (
         draft: PostDraft,
         options: {ignoreSlash: boolean},
@@ -169,9 +174,13 @@ function makeMapDispatchToProps() {
 
     return (dispatch: Dispatch, ownProps: OwnProps) => {
         if (rootId !== ownProps.rootId) {
-            onUpdateCommentDraft = makeOnUpdateCommentDraft(ownProps.rootId);
+            onUpdateCommentDraft = makeOnUpdateCommentDraft(ownProps.rootId, ownProps.channelId);
             onMoveHistoryIndexBack = makeOnMoveHistoryIndex(ownProps.rootId, -1);
             onMoveHistoryIndexForward = makeOnMoveHistoryIndex(ownProps.rootId, 1);
+        }
+
+        if (channelId !== ownProps.channelId) {
+            updateCommentDraftWithRootId = makeUpdateCommentDraftWithRootId(ownProps.channelId);
         }
 
         if (rootId !== ownProps.rootId) {
@@ -190,7 +199,7 @@ function makeMapDispatchToProps() {
             {
                 clearCommentDraftUploads,
                 onUpdateCommentDraft,
-                updateCommentDraftWithRootId: updateCommentDraft,
+                updateCommentDraftWithRootId,
                 onSubmit,
                 onResetHistoryIndex,
                 onMoveHistoryIndexBack,
