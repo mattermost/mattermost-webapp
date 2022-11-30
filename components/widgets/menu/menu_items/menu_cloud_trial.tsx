@@ -52,6 +52,9 @@ const MenuCloudTrial = ({id}: Props): JSX.Element | null => {
         await dispatch(openModal({
             modalId: ModalIdentifiers.LEARN_MORE_TRIAL_MODAL,
             dialogType: LearnMoreTrialModal,
+            dialogProps: {
+                launchedBy: 'main_menu_cloud_trial',
+            },
         }));
     };
 

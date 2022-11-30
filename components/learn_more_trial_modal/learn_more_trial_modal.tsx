@@ -30,12 +30,14 @@ import './learn_more_trial_modal.scss';
 type Props = {
     onClose?: () => void;
     onExited: () => void;
+    launchedBy?: string;
 }
 
 const LearnMoreTrialModal = (
     {
         onClose,
         onExited,
+        launchedBy = '',
     }: Props): JSX.Element | null => {
     const {formatMessage} = useIntl();
     const [embargoed, setEmbargoed] = useState(false);
@@ -60,7 +62,7 @@ const LearnMoreTrialModal = (
         <StartTrialBtn
             message={startTrialBtnMsg}
             handleEmbargoError={handleEmbargoError}
-            telemetryId='start_trial_from_learn_more_about_trial_modal'
+            telemetryId={`start_trial__learn_more_modal__${launchedBy}`}
             onClick={dismissAction}
         />
     );
@@ -71,7 +73,7 @@ const LearnMoreTrialModal = (
         startTrialBtn = (
             <CloudStartTrialButton
                 message={startTrialBtnMsg}
-                telemetryId={'start_cloud_trial_from_learn_more_about_trial_modal'}
+                telemetryId={`start_cloud_trial__learn_more_modal__${launchedBy}`}
                 onClick={dismissAction}
                 extraClass={'btn btn-primary start-cloud-trial-btn'}
             />
