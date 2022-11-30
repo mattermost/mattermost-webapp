@@ -37,14 +37,14 @@ function SelfHostedContent(props: ContentProps) {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
     const [cwsAvailable, setCwsAvailable] = useState<boolean>(false);
+    const {cwsHealthCheck} = useCwsHealthCheck();
 
     useEffect(() => {
         dispatch(getPrevTrialLicense());
         checkCWS();
     }, []);
 
-    async function checkCWS() {
-        const {cwsHealthCheck} = useCwsHealthCheck();
+    function checkCWS() {
         cwsHealthCheck().then((result) => {
             setCwsAvailable(result.status === 'OK');
         }).catch(() => setCwsAvailable(false));

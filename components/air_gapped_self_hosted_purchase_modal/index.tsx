@@ -4,13 +4,13 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {useDispatch} from 'react-redux';
+import {FormattedMessage} from 'react-intl';
 
 import {CloudLinks, ModalIdentifiers} from 'utils/constants';
 import {closeModal} from 'actions/views/modals';
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 
 import './content.scss';
-import { FormattedMessage } from 'react-intl';
 
 export default function AirGappedSelfHostedPurhcaseModal() {
     const dispatch = useDispatch();
