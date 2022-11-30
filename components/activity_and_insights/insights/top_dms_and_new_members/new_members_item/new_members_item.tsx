@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, useEffect, useState} from 'react';
+import React, {memo, useCallback} from 'react';
 import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
@@ -33,20 +33,18 @@ type Props = {
 const NewMembersItem = ({newMember, team}: Props) => {
     const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
     const user = useSelector((state: GlobalState) => getUser(state, newMember.id)) as UserProfile;
-    const [member, setMember] = useState<UserProfile>(newMember as UserProfile);
 
-    useEffect(() => {
-        if (user) {
-            setMember({
-                ...member,
-                username: user.username,
-                first_name: user.first_name,
-                last_name: user.last_name,
-                nickname: user.nickname,
-                last_picture_update: user.last_picture_update,
-            });
-        }
-    }, [user]);
+    let member = newMember;
+    if (user) {
+        member = {
+            ...member,
+            username: user.username,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            nickname: user.nickname,
+            last_picture_update: user.last_picture_update,
+        };
+    }
 
     const trackClick = useCallback(() => {
         trackEvent('insights', 'open_new_members_from_new_members_widget');
@@ -64,7 +62,7 @@ const NewMembersItem = ({newMember, team}: Props) => {
             />
             <div className='dm-info'>
                 <div className='dm-name'>
-                    {displayUsername(member, teammateNameDisplaySetting)}
+                    {displayUsername(member as UserProfile, teammateNameDisplaySetting)}
                 </div>
                 <span className='dm-role'>{member.position}</span>
                 <div className='channel-message-count'>
