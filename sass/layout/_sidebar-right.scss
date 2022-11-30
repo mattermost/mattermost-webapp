@@ -89,16 +89,6 @@
         border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
         background: v(center-channel-bg);
 
-        .loading-screen {
-            position: relative;
-            height: 40px;
-            padding: 0;
-
-            .loading__content {
-                height: 40px;
-            }
-        }
-
         .info-card {
             padding: 5px 15px 60px 15px;
         }

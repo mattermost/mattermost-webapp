@@ -166,9 +166,6 @@ export type InvoiceLineItem = {
 }
 
 export type Limits = {
-    integrations?: {
-        enabled?: number;
-    };
     messages?: {
         history?: number;
     };
@@ -198,12 +195,6 @@ export interface CloudUsage {
         cardsLoaded: boolean;
     };
     teams: TeamsUsage;
-    integrations: IntegrationsUsage;
-}
-
-export interface IntegrationsUsage {
-    enabled: number;
-    enabledLoaded: boolean;
 }
 
 export type TeamsUsage = {

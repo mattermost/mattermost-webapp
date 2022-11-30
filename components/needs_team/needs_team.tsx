@@ -139,6 +139,11 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
     public componentDidMount() {
         startPeriodicStatusUpdates();
+
+        if (this.state.team) {
+            this.initTeam(this.state.team);
+        }
+
         this.fetchAllTeams();
 
         // Set up tracking for whether the window is active
@@ -275,7 +280,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         // for the current url.
         const team = props.teamsList ? props.teamsList.find((teamObj) => teamObj.name === props.match.params.team) : null;
         if (team) {
-            this.initTeam(team);
             return team;
         }
         return null;

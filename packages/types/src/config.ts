@@ -7,6 +7,7 @@ export type ClientConfig = {
     AboutLink: string;
     AllowBannerDismissal: string;
     AllowCustomThemes: string;
+    AllowSyncedDrafts: string;
     AllowedThemes: string;
     AndroidAppDownloadLink: string;
     AndroidLatestVersion: string;
@@ -116,6 +117,7 @@ export type ClientConfig = {
     FileLevel: string;
     FeatureFlagBoardsProduct: string;
     FeatureFlagGraphQL: string;
+    FeatureFlagAnnualSubscription: string;
     GfycatAPIKey: string;
     GfycatAPISecret: string;
     GoogleDeveloperKey: string;
@@ -189,6 +191,7 @@ export type ClientConfig = {
     EnableComplianceExport: string;
     PostPriority: string;
     ReduceOnBoardingTaskList: string;
+    PostAcknowledgements: string;
 };
 
 export type License = {
@@ -355,6 +358,7 @@ export type ServiceSettings = {
     ManagedResourcePaths: string;
     EnableCustomGroups: boolean;
     SelfHostedFirstTimePurchase: boolean;
+    AllowSyncedDrafts: boolean;
 };
 
 export type TeamSettings = {

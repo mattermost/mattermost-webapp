@@ -20,9 +20,6 @@ import {Subscription} from '@mattermost/types/cloud';
 import CloudUsageModal, {Props} from './index';
 
 const freeLimits = {
-    integrations: {
-        enabled: 10,
-    },
     messages: {
         history: 10000,
     },
@@ -61,10 +58,6 @@ function setupStore(hasLimits: boolean) {
                 boards: {
                     cards: 0,
                     cardsLoaded: true,
-                },
-                integrations: {
-                    enabled: 0,
-                    enabledLoaded: true,
                 },
                 teams: {
                     active: 0,

@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {BillingSchemes, CloudProducts, CloudLinks} from 'utils/constants';
+import {BillingSchemes, CloudProducts, CloudLinks, RecurringIntervals} from 'utils/constants';
 import {Product} from '@mattermost/types/cloud';
 
 import './plan_pricing.scss';
@@ -20,10 +20,17 @@ const PlanPricing = ({
         return null;
     }
 
+    const getPrice = (product: Product) => {
+        if (product.recurring_interval === RecurringIntervals.YEAR) {
+            return (product.price_per_seat / 12).toFixed(2);
+        }
+        return product.price_per_seat.toFixed(2);
+    };
+
     return (
         <div className='PlanPricing'>
             <div className='PlanDetails__paid-tier'>
-                {`$${product.price_per_seat.toFixed(2)}`}
+                {`$${getPrice(product)}`}
                 {product.billing_scheme === BillingSchemes.FLAT_FEE ? (
                     <FormattedMessage
                         id='admin.billing.subscription.planDetails.flatFeePerMonth'
