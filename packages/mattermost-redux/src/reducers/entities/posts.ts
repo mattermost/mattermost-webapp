@@ -5,7 +5,7 @@ import {ChannelTypes, GeneralTypes, PostTypes, UserTypes, ThreadTypes, InsightTy
 
 import {comparePosts, isPermalink, shouldUpdatePost} from 'mattermost-redux/utils/post_utils';
 import {Posts} from 'mattermost-redux/constants';
-import {PostTypes as PostConstant} from 'utils/constants';
+import {PostTypes as PostConstant} from 'mattermost-redux/constants/posts';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 

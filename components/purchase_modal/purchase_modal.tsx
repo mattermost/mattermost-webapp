@@ -27,6 +27,7 @@ import {
     ItemStatus,
     RecurringIntervals,
 } from 'utils/constants';
+import {findProductByID} from 'utils/products';
 import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
 import Input from 'components/widgets/inputs/input/input';
@@ -90,6 +91,8 @@ type CardProps = {
     yearlyPrice: number;
     intl: IntlShape;
     isInitialPlanMonthly: boolean;
+    updateIsMonthly: (isMonthly: boolean) => void;
+    updateInputUserCount: (userCount: number) => void;
     setUserCountError: (hasError: boolean) => void;
 }
 
@@ -125,7 +128,8 @@ type Props = {
             isDevMode: boolean
         ) => Promise<boolean | null>;
         subscribeCloudSubscription: (
-            productId: string
+            productId: string,
+            seats?: number,
         ) => Promise<boolean | null>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
@@ -145,6 +149,9 @@ type State = {
     buttonClickedInfo: string;
     selectedProductPrice: string | null;
     userCountError: boolean;
+    isMonthly: boolean;
+    usersCount: number;
+    inputUserCount: number;
 }
 
 /**
@@ -182,6 +189,7 @@ function findProductInDictionary(products: Record<string, Product> | undefined, 
 function getSelectedProduct(
     products: Record<string, Product> | undefined,
     productId?: string | null,
+    isMonthly?: boolean | null,
     isDelinquencyModal?: boolean,
     isCloudDelinquencyGreaterThan90Days?: boolean) {
     const currentProduct = findProductInDictionary(products, productId);
@@ -189,7 +197,9 @@ function getSelectedProduct(
         return currentProduct;
     }
     let nextSku = CloudProducts.PROFESSIONAL;
-    if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
+
+    // Don't switch the product to enterprise if the recurring interval of the selected product is yearly. This means that it can only be the yearly professional product.
+    if (currentProduct?.sku === CloudProducts.PROFESSIONAL && isMonthly) {
         nextSku = CloudProducts.ENTERPRISE;
     }
     return findProductInDictionary(products, null, nextSku, RecurringIntervals.MONTH);
@@ -221,20 +231,31 @@ function Card(props: CardProps) {
         const numValue = Number(value);
         if (value === '' || (numValue && checkValidNumber(numValue))) {
             if (value === '') {
-                setUsersCount(value);
+                setUsersCount('');
             } else {
                 setUsersCount(numValue.toString());
             }
             setMonthlyPrice(numValue * props.monthlyPrice);
             setYearlyPrice(numValue * props.yearlyPrice);
             setPriceDifference((props.monthlyPrice - props.yearlyPrice) * numValue);
+            props.updateInputUserCount(numValue);
         }
     };
 
     const updateDisplayPage = (isMonthly: boolean) => {
         setIsMonthly(isMonthly);
+        props.updateIsMonthly(isMonthly);
+
         if (isMonthly) {
+            // Reset userCount to the number of users in the workspace
+            setUsersCount(props.usersCount.toString());
+            props.updateInputUserCount(props.usersCount);
+
+            // Update display prices
             setDisplayPrice(props.monthlyPrice);
+            setMonthlyPrice(props.usersCount * props.monthlyPrice);
+            setYearlyPrice(props.usersCount * props.yearlyPrice);
+            setPriceDifference((props.monthlyPrice - props.yearlyPrice) * props.usersCount);
         } else {
             setDisplayPrice(props.yearlyPrice);
         }
@@ -590,13 +611,17 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             selectedProduct: getSelectedProduct(
                 props.products,
                 props.productId,
+                props.isInitialPlanMonthly,
                 props.isDelinquencyModal,
                 props.isCloudDelinquencyGreaterThan90Days,
             ),
             isUpgradeFromTrial: props.isFreeTrial,
             buttonClickedInfo: '',
-            selectedProductPrice: getSelectedProduct(props.products, props.productId)?.price_per_seat.toString() || null,
+            selectedProductPrice: getSelectedProduct(props.products, props.productId, props.isInitialPlanMonthly)?.price_per_seat.toString() || null,
             userCountError: false,
+            isMonthly: this.props.isInitialPlanMonthly,
+            usersCount: this.props.usersCount,
+            inputUserCount: this.props.usersCount,
         };
     }
 
@@ -606,8 +631,8 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
                 currentProduct: findProductInDictionary(this.props.products, this.props.productId),
-                selectedProduct: getSelectedProduct(this.props.products, this.props.productId, this.props.isDelinquencyModal, this.props.isCloudDelinquencyGreaterThan90Days),
-                selectedProductPrice: getSelectedProduct(this.props.products, this.props.productId)?.price_per_seat.toString() ?? null,
+                selectedProduct: getSelectedProduct(this.props.products, this.props.productId, this.props.isInitialPlanMonthly, this.props.isDelinquencyModal, this.props.isCloudDelinquencyGreaterThan90Days),
+                selectedProductPrice: getSelectedProduct(this.props.products, this.props.productId, this.props.isInitialPlanMonthly)?.price_per_seat.toString() ?? null,
             });
         }
 
@@ -650,7 +675,25 @@ class PurchaseModal extends React.PureComponent<Props, State> {
 
     handleSubmitClick = async () => {
         const callerInfo = this.props.callerCTA + '> purchase_modal > upgrade_button_click';
-        this.setState({processing: true, paymentInfoIsValid: false, buttonClickedInfo: callerInfo});
+        const update = {
+            selectedProduct: this.state.selectedProduct,
+            paymentInfoIsValid: false,
+            buttonClickedInfo: callerInfo,
+            processing: true,
+        } as unknown as Pick<State, keyof State>;
+
+        if (!this.state.isMonthly && this.state.selectedProduct?.recurring_interval === RecurringIntervals.MONTH) {
+            const yearlyProduct = findProductByID(this.props.products || {}, this.state.selectedProduct.cross_sells_to);
+            if (yearlyProduct) {
+                update.selectedProduct = yearlyProduct;
+            }
+        } else if ((this.state.isMonthly && this.state.selectedProduct?.recurring_interval === RecurringIntervals.YEAR)) {
+            const monthlyProduct = findProductByID(this.props.products || {}, this.state.selectedProduct.cross_sells_to);
+            if (monthlyProduct) {
+                update.selectedProduct = monthlyProduct;
+            }
+        }
+        this.setState(update);
     }
 
     setIsUpgradeFromTrialToFalse = () => {
@@ -852,19 +895,13 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     CloudProducts.PROFESSIONAL && !this.props.annualSubscription;
         const {formatMessage} = this.props.intl;
 
-        const findProductByID = (id: string) => {
-            return Object.values(this.props.products || {}).find(((product) => {
-                return product.id === id;
-            }));
-        };
-
         const getYearlyPrice = () => {
             if (!this.state.selectedProduct) {
                 return 0;
             }
 
-            const crossSellsToProduct = findProductByID(this.state.selectedProduct.cross_sells_to);
-            return crossSellsToProduct ? crossSellsToProduct.price_per_seat / 12 : 0;
+            const crossSellsToProduct = findProductByID(this.props.products || {}, this.state.selectedProduct.cross_sells_to);
+            return crossSellsToProduct ? crossSellsToProduct.price_per_seat / 12 : this.state.selectedProduct.price_per_seat;
         };
 
         return (
@@ -909,12 +946,14 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         ) : undefined
                     }
                     annualSubscription={this.props.annualSubscription}
-                    usersCount={this.props.usersCount}
+                    usersCount={this.state.usersCount}
                     monthlyPrice={this.state.selectedProduct?.price_per_seat ?? 0}
                     yearlyPrice={getYearlyPrice()}
                     intl={this.props.intl}
                     isInitialPlanMonthly={this.props.isInitialPlanMonthly}
                     setUserCountError={(hasError: boolean) => this.setState({userCountError: hasError})}
+                    updateIsMonthly={(newIsMonthly: boolean) => this.setState({isMonthly: newIsMonthly})}
+                    updateInputUserCount={(newUsersCount: number) => this.setState({inputUserCount: newUsersCount})}
                 />
             </>
         );
@@ -1056,6 +1095,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                         telemetryProps={{
                                             callerInfo: this.state.buttonClickedInfo,
                                         }}
+                                        usersCount={this.state.inputUserCount}
                                     />
                                 </div>
                             ) : null}
