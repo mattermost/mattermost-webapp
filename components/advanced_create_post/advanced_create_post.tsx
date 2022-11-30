@@ -266,7 +266,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     private draftsForChannel: {[channelID: string]: PostDraft | null} = {};
     private lastOrientation?: string;
     private saveDraftFrame?: number | null;
-    private isDraftSubmitting = false;
 
     private topDiv: React.RefObject<HTMLFormElement>;
     private textboxRef: React.RefObject<TextboxClass>;
@@ -573,7 +572,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             clearTimeout(this.saveDraftFrame);
         }
 
-        this.isDraftSubmitting = false;
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
         this.draftsForChannel[channelId] = null;
     }
@@ -621,7 +619,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         } = this.props;
 
         this.setShowPreview(false);
-        this.isDraftSubmitting = true;
 
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         let memberNotifyCount = 0;
@@ -671,7 +668,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         if (memberNotifyCount > 0) {
             this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
-            this.isDraftSubmitting = false;
             return;
         }
 
@@ -686,7 +682,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.props.actions.openModal(resetStatusModalData);
 
             this.setState({message: ''});
-            this.isDraftSubmitting = false;
             return;
         }
 
@@ -700,7 +695,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.props.actions.openModal(editChannelHeaderModalData);
 
             this.setState({message: ''});
-            this.isDraftSubmitting = false;
             return;
         }
 
@@ -716,7 +710,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.props.actions.openModal(editChannelPurposeModalData);
 
             this.setState({message: ''});
-            this.isDraftSubmitting = false;
             return;
         }
 
@@ -767,7 +760,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 submitting: false,
             });
 
-            this.isDraftSubmitting = false;
             return hookResult;
         }
 
@@ -776,8 +768,9 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         actions.onSubmitPost(post, draft.fileInfos);
         actions.scrollPostListToBottom();
 
-        this.setState({submitting: false});
-        this.isDraftSubmitting = false;
+        this.setState({
+            submitting: false,
+        });
 
         return {data: true};
     }
@@ -838,7 +831,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 e.persist();
             }
             if (this.textboxRef.current) {
-                this.isDraftSubmitting = true;
                 this.textboxRef.current.blur();
             }
 
@@ -1370,10 +1362,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     handleBlur = () => {
-        if (!this.isDraftSubmitting) {
-            this.saveDraftWithShow();
-        }
-
+        this.saveDraftWithShow();
         this.lastBlurAt = Date.now();
     }
 

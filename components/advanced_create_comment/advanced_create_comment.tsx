@@ -212,8 +212,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
     private saveDraftFrame?: number | null;
 
-    private isDraftSubmitting = false;
-
     private readonly textboxRef: React.RefObject<TextboxClass>;
     private readonly fileUploadRef: React.RefObject<FileUploadClass>;
 
@@ -534,7 +532,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     handleSubmit = async (e: React.FormEvent | React.MouseEvent) => {
         e.preventDefault();
         this.setShowPreview(false);
-        this.isDraftSubmitting = true;
 
         const {
             channelMembersCount,
@@ -622,7 +619,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
         if (memberNotifyCount > 0) {
             this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
-            this.isDraftSubmitting = false;
             return;
         }
 
@@ -638,12 +634,10 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         const enableAddButton = this.shouldEnableAddButton();
 
         if (!enableAddButton) {
-            this.isDraftSubmitting = false;
             return;
         }
 
         if (draft.uploadsInProgress.length > 0) {
-            this.isDraftSubmitting = false;
             return;
         }
 
@@ -652,13 +646,11 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             setTimeout(() => {
                 this.setState({errorClass: null});
             }, Constants.ANIMATION_TIMEOUT);
-            this.isDraftSubmitting = false;
             return;
         }
 
         if (this.props.rootDeleted) {
             this.showPostDeletedModal();
-            this.isDraftSubmitting = false;
             return;
         }
 
@@ -688,15 +680,12 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             }
             err.submittedMessage = draft.message;
             this.setState({serverError: err});
-            this.isDraftSubmitting = false;
             return;
         }
 
         if (this.saveDraftFrame) {
             clearTimeout(this.saveDraftFrame);
         }
-
-        this.isDraftSubmitting = false;
         this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
         this.draftsForPost[this.props.rootId] = null;
     }
@@ -717,7 +706,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         if (allowSending) {
             e.persist?.();
 
-            this.isDraftSubmitting = true;
             this.textboxRef.current?.blur();
             this.handleSubmit(e);
 
@@ -1143,9 +1131,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     }
 
     handleBlur = () => {
-        if (!this.isDraftSubmitting) {
-            this.saveDraftWithShow();
-        }
+        this.saveDraftWithShow();
         this.lastBlurAt = Date.now();
     }
 
