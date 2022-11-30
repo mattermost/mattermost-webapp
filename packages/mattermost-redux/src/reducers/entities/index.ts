@@ -24,6 +24,7 @@ import bots from './bots';
 import channelCategories from './channel_categories';
 import apps from './apps';
 import cloud from './cloud';
+import hostedCustomer from './hosted_customer';
 import usage from './usage';
 import threads from './threads';
 import insights from './insights';
@@ -53,4 +54,5 @@ export default combineReducers({
     cloud,
     insights,
     usage,
+    hostedCustomer,
 });

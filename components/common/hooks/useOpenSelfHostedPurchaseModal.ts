@@ -8,34 +8,37 @@ import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import SelfHostedPurchaseModal from 'components/self_hosted_purchase_modal';
 import {Client4} from 'mattermost-redux/client';
-import CloudTypes from 'mattermost-redux/action_types/cloud';
+import {HostedCustomerTypes} from 'mattermost-redux/action_types';
 
-interface OpenPurchaseModalOptions{
+interface HookOptions{
     onClick?: () => void;
+}
+
+interface CallbackArguments {
+    productId: string;
     trackingLocation?: string;
 }
-type TelemetryProps = Pick<OpenPurchaseModalOptions, 'trackingLocation'>
 
-export default function useOpenCloudPurchaseModal(options: OpenPurchaseModalOptions) {
+export default function useOpenSelfHostedPurchaseModal(options: HookOptions) {
     const dispatch = useDispatch();
-    return async (telemetryProps: TelemetryProps) => {
+    return async (args: CallbackArguments) => {
         if (options.onClick) {
             options.onClick();
         }
         const result = await Client4.bootstrapSelfHostedSignup();
         trackEvent(TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING, 'click_open_purchase_modal', {
-            callerInfo: telemetryProps.trackingLocation,
+            callerInfo: args.trackingLocation,
         });
         dispatch({
-            type: CloudTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
+            type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
             data: result.progress,
         });
         dispatch(openModal({
             modalId: ModalIdentifiers.SELF_HOSTED_PURCHASE,
             dialogType: SelfHostedPurchaseModal,
             dialogProps: {
+                productId: args.productId,
             },
         }));
     };
 }
-

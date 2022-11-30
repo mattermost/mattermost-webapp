@@ -9,7 +9,6 @@ import FormData from 'form-data';
 import {SystemSetting} from '@mattermost/types/general';
 import {ClusterInfo, AnalyticsRow, SchemaMigration} from '@mattermost/types/admin';
 import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/types/apps';
-import type {ValueOf} from '@mattermost/types/utilities';
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
@@ -20,15 +19,16 @@ import {
     CloudCustomerPatch,
     Invoice,
     Limits,
-    IntegrationsUsage,
     NotifyAdminRequest,
     Subscription,
     ValidBusinessEmail,
+    CreateSubscriptionRequest,
+} from '@mattermost/types/cloud';
+import {
     SelfHostedSignupForm,
     SelfHostedSignupCustomerResponse,
-    CreateSubscriptionRequest,
     SelfHostedSignupProgress,
-} from '@mattermost/types/cloud';
+} from '@mattermost/types/hosted_customer';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -93,7 +93,8 @@ import type {
     MarketplaceApp,
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
-import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse} from '@mattermost/types/posts';
+import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse, PostAcknowledgement} from '@mattermost/types/posts';
+import {Draft} from '@mattermost/types/drafts';
 import {BoardPatch, BoardsUsageResponse, BoardTemplate, Board, CreateBoardResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
@@ -121,7 +122,7 @@ import {
     GetFilteredUsersStatsOpts,
     UserCustomStatus,
 } from '@mattermost/types/users';
-import {DeepPartial, RelationOneToOne} from '@mattermost/types/utilities';
+import {DeepPartial, RelationOneToOne, ValueOf} from '@mattermost/types/utilities';
 import {ProductNotices} from '@mattermost/types/product_notices';
 import {
     DataRetentionCustomPolicies,
@@ -476,6 +477,10 @@ export default class Client4 {
 
     getSystemRoute(): string {
         return `${this.getBaseRoute()}/system`;
+    }
+
+    getDraftsRoute() {
+        return `${this.getBaseRoute()}/drafts`;
     }
 
     getCSRFFromCookie() {
@@ -2357,6 +2362,24 @@ export default class Client4 {
         );
     }
 
+    acknowledgePost = (postId: string, userId: string) => {
+        this.trackEvent('api', 'api_posts_ack');
+
+        return this.doFetch<PostAcknowledgement>(
+            `${this.getUserRoute(userId)}/posts/${postId}/ack`,
+            {method: 'post'},
+        );
+    };
+
+    unacknowledgePost = (postId: string, userId: string) => {
+        this.trackEvent('api', 'api_posts_unack');
+
+        return this.doFetch<null>(
+            `${this.getUserRoute(userId)}/posts/${postId}/ack`,
+            {method: 'delete'},
+        );
+    };
+
     // Preference Routes
 
     savePreferences = (userId: string, preferences: PreferenceType[]) => {
@@ -3769,6 +3792,13 @@ export default class Client4 {
         );
     }
 
+    createGroupTeamsAndChannels = (userID: string) => {
+        return this.doFetch<Group>(
+            `${this.getBaseRoute()}/ldap/users/${userID}/group_sync_memberships`,
+            {method: 'post'},
+        );
+    }
+
     // Redirect Location
     getRedirectLocation = (urlParam: string) => {
         if (!urlParam.length) {
@@ -3856,18 +3886,31 @@ export default class Client4 {
         );
     };
 
-    getIntegrationsUsage = () => {
-        return this.doFetch<IntegrationsUsage>(
-            `${this.getUsageRoute()}/integrations`, {method: 'get'},
-        );
-    };
+    bootstrapSelfHostedSignup = (reset?: boolean) => {
+        let query = '';
 
-    bootstrapSelfHostedSignup = () => {
+        // reset will drop the old token
+        if (reset) {
+            query = '?reset=true';
+        }
         return this.doFetch<{progress: ValueOf<typeof SelfHostedSignupProgress>}>(
-            `${this.getHostedCustomerRoute()}/bootstrap`,
+            `${this.getHostedCustomerRoute()}/bootstrap${query}`,
             {method: 'post'},
         );
     };
+
+    getAvailabilitySelfHostedSignup = () => {
+        return this.doFetch<void>(
+            `${this.getHostedCustomerRoute()}/signup_available`,
+            {method: 'get'},
+        );
+    }
+
+    getSelfHostedProducts = () => {
+        return this.doFetch<Product[]>(
+            `${this.getCloudRoute()}/products/selfhosted`, {method: 'get'},
+        );
+    }
 
     createCustomerSelfHostedSignup = (form: SelfHostedSignupForm) => {
         return this.doFetch<SelfHostedSignupCustomerResponse>(
@@ -3924,10 +3967,10 @@ export default class Client4 {
         );
     }
 
-    subscribeCloudProduct = (productId: string) => {
+    subscribeCloudProduct = (productId: string, seats = 0) => {
         return this.doFetch<CloudCustomer>(
             `${this.getCloudRoute()}/subscription`,
-            {method: 'put', body: JSON.stringify({product_id: productId})},
+            {method: 'put', body: JSON.stringify({product_id: productId, seats})},
         );
     }
 
@@ -4091,7 +4134,7 @@ export default class Client4 {
 
     // Client Helpers
 
-    private doFetch = async <ClientDataResponse>(url: string, options: Options): Promise<ClientDataResponse> => {
+    protected doFetch = async <ClientDataResponse>(url: string, options: Options): Promise<ClientDataResponse> => {
         const {data} = await this.doFetchWithResponse<ClientDataResponse>(url, options);
 
         return data;
@@ -4158,6 +4201,45 @@ export default class Client4 {
             this.telemetryHandler.pageVisited(this.userId, this.userRoles, category, name);
         }
     }
+
+    upsertDraft = async (draft: Draft, connectionId: string) => {
+        const result = await this.doFetch<Draft>(
+            `${this.getDraftsRoute()}`,
+            {
+                method: 'post',
+                body: JSON.stringify(draft),
+                headers: {
+                    'Connection-Id': `${connectionId}`,
+                },
+            },
+        );
+
+        return result;
+    };
+
+    getUserDrafts = (teamId: Team['id']) => {
+        return this.doFetch<Draft[]>(
+            `${this.getUserRoute('me')}/teams/${teamId}/drafts`,
+            {method: 'get'},
+        );
+    };
+
+    deleteDraft = (channelId: Channel['id'], rootId = '', connectionId: string) => {
+        let endpoint = `${this.getUserRoute('me')}/channels/${channelId}/drafts`;
+        if (rootId !== '') {
+            endpoint += `/${rootId}`;
+        }
+
+        return this.doFetch<null>(
+            endpoint,
+            {
+                method: 'delete',
+                headers: {
+                    'Connection-Id': `${connectionId}`,
+                },
+            },
+        );
+    };
 }
 
 export function parseAndMergeNestedHeaders(originalHeaders: any) {

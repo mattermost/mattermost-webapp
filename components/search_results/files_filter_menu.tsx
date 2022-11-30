@@ -2,11 +2,17 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
+
+import {FilterVariantIcon} from '@mattermost/compass-icons/components';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import Tooltip from 'components/tooltip';
+import OverlayTrigger from 'components/overlay_trigger';
 
 import {SearchFilterType} from '../search/types';
+import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_icon';
 
 import './files_filter_menu.scss';
 
@@ -16,13 +22,39 @@ type Props = {
 };
 
 export default function FilesFilterMenu(props: Props): JSX.Element {
+    const toolTip = (
+        <Tooltip
+            id='files-filter-tooltip'
+            className='hidden-xs'
+        >
+            <FormattedMessage
+                id='channel_info_rhs.menu.files.filter'
+                defaultMessage='Filter'
+            />
+        </Tooltip>
+    );
     return (
         <div className='FilesFilterMenu'>
             <MenuWrapper>
-                <span className='action-icon dots-icon'>
-                    {props.selectedFilter !== 'all' && <i className='icon-dot'/>}
-                    <i className='icon icon-filter-variant'/>
-                </span>
+                <OverlayTrigger
+                    className='hidden-xs'
+                    delayShow={500}
+                    placement='top'
+                    overlay={toolTip}
+                    rootClose={true}
+                >
+                    <IconContainer
+                        id='filesFilterButton'
+                        className='action-icon dots-icon'
+                        type='button'
+                    >
+                        {props.selectedFilter !== 'all' && <i className='icon-dot'/>}
+                        <FilterVariantIcon
+                            size={18}
+                            color='currentColor'
+                        />
+                    </IconContainer>
+                </OverlayTrigger>
                 <Menu
                     ariaLabel={'file menu'}
                     openLeft={true}

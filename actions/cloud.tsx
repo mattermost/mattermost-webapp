@@ -4,11 +4,10 @@
 import {Stripe} from '@stripe/stripe-js';
 import {getCode} from 'country-list';
 
-import {CreateSubscriptionRequest, SelfHostedSignupProgress} from '@mattermost/types/cloud';
-import {ValueOf} from '@mattermost/types/utilities';
-
+import {getCloudCustomer, getCloudProducts, getCloudSubscription, getInvoices} from 'mattermost-redux/actions/cloud';
 import {Client4} from 'mattermost-redux/client';
-import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
+import {getCloudErrors} from 'mattermost-redux/selectors/entities/cloud';
+import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {getConfirmCardSetup} from 'components/payment_form/stripe';
 
@@ -16,87 +15,6 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
 import {CloudTypes} from 'mattermost-redux/action_types';
-
-function selfHostedNeedsConfirmation(progress: ValueOf<typeof SelfHostedSignupProgress>): boolean {
-    switch (progress) {
-    case SelfHostedSignupProgress.START:
-    case SelfHostedSignupProgress.CREATED_CUSTOMER:
-    case SelfHostedSignupProgress.CREATED_INTENT:
-        return true;
-    default:
-        return false;
-    }
-}
-
-export function confirmSelfHostedSignup(
-    stripe: Stripe,
-    stripeSetupIntent: StripeSetupIntent,
-    isDevMode: boolean,
-    billingDetails: BillingDetails,
-    initialProgress: ValueOf<typeof SelfHostedSignupProgress>,
-    subscriptionRequest: CreateSubscriptionRequest,
-): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        const cardSetupFunction = getConfirmCardSetup(isDevMode);
-        const confirmCardSetup = cardSetupFunction(stripe.confirmCardSetup);
-
-        const shouldConfirmCard = selfHostedNeedsConfirmation(initialProgress);
-        if (shouldConfirmCard) {
-            const result = await confirmCardSetup(
-                stripeSetupIntent.client_secret,
-                {
-                    payment_method: {
-                        card: billingDetails.card,
-                        billing_details: {
-                            name: billingDetails.name,
-                            address: {
-                                line1: billingDetails.address,
-                                line2: billingDetails.address2,
-                                city: billingDetails.city,
-                                state: billingDetails.state,
-                                country: getCode(billingDetails.country),
-                                postal_code: billingDetails.postalCode,
-                            },
-                        },
-                    },
-                },
-            );
-            if (!result) {
-                return {data: false};
-            }
-
-            const {setupIntent, error: stripeError} = result;
-
-            if (stripeError) {
-                return {data: false};
-            }
-
-            if (setupIntent == null) {
-                return {data: false};
-            }
-
-            if (setupIntent.status !== 'succeeded') {
-                return {data: false};
-            }
-            dispatch({
-                type: CloudTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
-                data: SelfHostedSignupProgress.CONFIRMED_INTENT,
-            });
-        }
-
-        try {
-            const result = await Client4.confirmSelfHostedSignup(stripeSetupIntent.id, subscriptionRequest);
-            dispatch({
-                type: CloudTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
-                data: result.progress,
-            });
-        } catch (error) {
-            return {data: false};
-        }
-
-        return {data: true};
-    };
-}
 
 // Returns true for success, and false for any error
 export function completeStripeAddPaymentMethod(
@@ -161,10 +79,10 @@ export function completeStripeAddPaymentMethod(
     };
 }
 
-export function subscribeCloudSubscription(productId: string) {
+export function subscribeCloudSubscription(productId: string, seats = 0) {
     return async () => {
         try {
-            await Client4.subscribeCloudProduct(productId);
+            await Client4.subscribeCloudProduct(productId, seats);
         } catch (error) {
             return error;
         }
@@ -272,18 +190,6 @@ export function getFilesUsage(): ActionFunc {
     };
 }
 
-export function getIntegrationsUsage(): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        const data = await Client4.getIntegrationsUsage();
-        dispatch({
-            type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE,
-            data: data.enabled,
-        });
-
-        return {data: true};
-    };
-}
-
 export function getBoardsUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         try {
@@ -318,5 +224,36 @@ export function getTeamsUsage(): ActionFunc {
             return error;
         }
         return {data: false};
+    };
+}
+
+export function retryFailedCloudFetches() {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const errors = getCloudErrors(getState());
+        if (Object.keys(errors).length === 0) {
+            return {data: true};
+        }
+
+        if (errors.subscription) {
+            dispatch(getCloudSubscription());
+        }
+
+        if (errors.products) {
+            dispatch(getCloudProducts());
+        }
+
+        if (errors.customer) {
+            dispatch(getCloudCustomer());
+        }
+
+        if (errors.invoices) {
+            dispatch(getInvoices());
+        }
+
+        if (errors.limits) {
+            getCloudLimits()(dispatch, getState);
+        }
+
+        return {data: true};
     };
 }

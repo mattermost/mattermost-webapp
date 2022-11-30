@@ -7,14 +7,7 @@ import type {ValueOf} from '@mattermost/types/utilities';
 import {CloudTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {
-    Product,
-    Subscription,
-    CloudCustomer,
-    Invoice,
-    Limits,
-    SelfHostedSignupProgress,
-} from '@mattermost/types/cloud';
+import {Product, Subscription, CloudCustomer, Invoice, Limits, SelfHostedSignupProgress} from '@mattermost/types/cloud';
 
 export function subscription(state: Subscription | null = null, action: GenericAction) {
     switch (action.type) {
@@ -213,5 +206,7 @@ export default combineReducers({
 
     // network errors, used to show errors in ui instead of blowing up and showing nothing
     errors,
+
+    // state related to self-hosted workspaces purchasing a license not tied to a customer-web-server user.
     selfHostedSignup,
 });

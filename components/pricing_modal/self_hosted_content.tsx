@@ -6,20 +6,25 @@ import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloudLinks, LicenseLinks, ModalIdentifiers, LicenseSkus, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, LicenseLinks, ModalIdentifiers, SelfHostedProducts, LicenseSkus, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {findSelfHostedProductBySku} from 'utils/hosted_customer';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal} from 'actions/views/modals';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from 'mattermost-redux/selectors/entities/admin';
 import {GlobalState} from '@mattermost/types/store';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 
+import useFetchAdminConfig from 'components/common/hooks/useFetchAdminConfig';
+import useGetSelfHostedProducts from 'components/common/hooks/useGetSelfHostedProducts';
+import useOpenSelfHostedPurchaseModal from 'components/common/hooks/useOpenSelfHostedPurchaseModal';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 
-import useCwsHealthCheck from 'components/common/hooks/useCWSHealthCheck';
+import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
 
 import useOpenAirGappedSelfHostedPurchaseModal from 'components/common/hooks/useOpenAirGappedSelfHostedPurchaseModal';
 
@@ -34,21 +39,18 @@ type ContentProps = {
 }
 
 function SelfHostedContent(props: ContentProps) {
+    useFetchAdminConfig();
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
-    const [cwsAvailable, setCwsAvailable] = useState<boolean>(false);
-    const {cwsHealthCheck} = useCwsHealthCheck();
+    const canUseSelfHostedSignup = useCanSelfHostedSignup();
+
+    const [products, productsLoaded] = useGetSelfHostedProducts();
+    const openSelfHostedPurchaseModal = useOpenSelfHostedPurchaseModal({});
+    const isSelfHostedPurchaseEnabled = useSelector(getConfig)?.ServiceSettings?.SelfHostedPurchase;
 
     useEffect(() => {
         dispatch(getPrevTrialLicense());
-        checkCWS();
     }, []);
-
-    function checkCWS() {
-        cwsHealthCheck().then((result) => {
-            setCwsAvailable(result.status === 'OK');
-        }).catch(() => setCwsAvailable(false));
-    }
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
 
@@ -130,7 +132,7 @@ function SelfHostedContent(props: ContentProps) {
     };
 
     return (
-        <div className='Content'>
+        <div className='Content Content--self-hosted'>
             <Modal.Header className='PricingModal__header'>
                 <div className='header_lhs'>
                     <h1 className='title'>
@@ -184,7 +186,7 @@ function SelfHostedContent(props: ContentProps) {
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
                         price='$10'
-                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
+                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month'})}
                         planLabel={
                             isProfessional ? (
                                 <PlanLabel
@@ -196,11 +198,17 @@ function SelfHostedContent(props: ContentProps) {
                         buttonDetails={{
                             action: () => {
                                 trackEvent('self_hosted_pricing', 'click_upgrade_button');
-                                if (cwsAvailable) {
-                                    window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
-                                } else {
+                                const professionalProduct = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL);
+                                if (isSelfHostedPurchaseEnabled && productsLoaded && professionalProduct) {
                                     closePricingModal();
-                                    openAirGappedPurchaseModal();
+                                    openSelfHostedPurchaseModal({productId: professionalProduct.id});
+                                } else {
+                                    if (canUseSelfHostedSignup) {
+                                        window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
+                                    } else {
+                                        closePricingModal();
+                                        openAirGappedPurchaseModal();
+                                    }
                                 }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),

@@ -166,9 +166,6 @@ export type InvoiceLineItem = {
 }
 
 export type Limits = {
-    integrations?: {
-        enabled?: number;
-    };
     messages?: {
         history?: number;
     };
@@ -198,12 +195,6 @@ export interface CloudUsage {
         cardsLoaded: boolean;
     };
     teams: TeamsUsage;
-    integrations: IntegrationsUsage;
-}
-
-export interface IntegrationsUsage {
-    enabled: number;
-    enabledLoaded: boolean;
 }
 
 export type TeamsUsage = {
@@ -223,16 +214,3 @@ export interface CreateSubscriptionRequest {
     internal_purchase_order?: string;
 }
 
-export interface SelfHostedSignupForm {
-    first_name: string;
-    last_name: string;
-    billing_address: Address;
-    organization: string;
-}
-
-export interface SelfHostedSignupCustomerResponse {
-    customer_id: string;
-    setup_intent_id: string;
-    setup_intent_secret: string;
-    progress: ValueOf<typeof SelfHostedSignupProgress>;
-}

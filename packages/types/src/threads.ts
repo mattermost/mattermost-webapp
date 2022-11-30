@@ -20,6 +20,7 @@ export type UserThread = {
     unread_replies: number;
     unread_mentions: number;
     is_following: boolean;
+    is_urgent?: boolean;
     type?: UserThreadType;
 
     // TODO consider flattening, removing post from UserThreads in-store
@@ -48,6 +49,7 @@ export type UserThreadList = {
     total: number;
     total_unread_threads: number;
     total_unread_mentions: number;
+    total_unread_urgent_mentions?: number;
     threads: UserThreadWithPost[];
 }
 
@@ -59,10 +61,12 @@ export type ThreadsState = {
         total: number;
         total_unread_threads: number;
         total_unread_mentions: number;
+        total_unread_urgent_mentions?: number;
     }>;
     countsIncludingDirect: RelationOneToOne<Team, {
         total: number;
         total_unread_threads: number;
         total_unread_mentions: number;
+        total_unread_urgent_mentions?: number;
     }>;
 };

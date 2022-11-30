@@ -190,13 +190,14 @@ export default class SuggestionList extends React.PureComponent {
     }
 
     renderDivider(type) {
+        const id = type ? 'suggestion.' + type : 'suggestion.default';
         return (
             <div
                 key={type + '-divider'}
                 className='suggestion-list__divider'
             >
                 <span>
-                    <FormattedMessage id={'suggestion.' + type}/>
+                    <FormattedMessage id={id}/>
                 </span>
             </div>
         );
