@@ -186,7 +186,7 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
             <IconButton
                 className='edit-post-history__icon__button restore-icon'
                 size={'sm'}
-                icon={'refresh'} // todo update with correct icon. Restore icon is recently added to compass
+                icon={'restore'}
                 onClick={openRestorePostModal}
                 compact={true}
                 aria-label='Select to restore an old message.'
