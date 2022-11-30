@@ -43,7 +43,7 @@ export default function AirGappedSelfHostedPurhcaseModal() {
                             defaultMessage={'It appears that your instance is air-gapped, or it may not be connected to the internet. To purchase a license, please visit'}
                         />
                     </span>
-                    <a href={CloudLinks.SELF_HOSTED_SIGNUP}>{CloudLinks.SELF_HOSTED_SIGNUP}</a>
+                    <a href={CloudLinks.SELF_HOSTED_PRICING}>{CloudLinks.SELF_HOSTED_PRICING}</a>
                 </div>
             </Modal.Body>
         </Modal>
