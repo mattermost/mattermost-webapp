@@ -27,6 +27,7 @@ describe('components/team_controller/actions', () => {
             },
             general: {
                 license: {},
+                config: {},
             },
         },
         requests: {
@@ -48,7 +49,7 @@ describe('components/team_controller/actions', () => {
             const testStore = await mockStore(initialState);
             await testStore.dispatch(initializeTeam(testTeam));
 
-            expect(testStore.getActions()[1].type).toEqual(ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_SUCCESS);
+            expect(testStore.getActions()[1].type).toEqual(ChannelTypes.GET_CHANNELS_AND_CHANNEL_MEMBERS_SUCCESS);
         });
 
         test('should fire off failure of getChannelsMembersCategories when fetch call passes', async () => {
@@ -58,7 +59,7 @@ describe('components/team_controller/actions', () => {
             const testStore = mockStore(initialState);
             await testStore.dispatch(initializeTeam(testTeam));
 
-            expect(testStore.getActions()[1].type).toEqual(ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_FAILURE);
+            expect(testStore.getActions()[1].type).toEqual(ChannelTypes.GET_CHANNELS_AND_CHANNEL_MEMBERS_FAILURE);
         });
     });
 

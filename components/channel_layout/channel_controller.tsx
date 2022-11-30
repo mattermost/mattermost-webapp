@@ -30,7 +30,7 @@ export default function ChannelController() {
     const dispatch = useDispatch<DispatchFunc>();
 
     const shouldRenderCenterChannel = useSelector((state: GlobalState) =>
-        state.requests.channels.getChannelsMembersCategories.status === RequestStatus.SUCCESS);
+        state.requests.channels.getChannelsAndChannelMembers.status === RequestStatus.SUCCESS);
 
     useEffect(() => {
         const isMsBrowser = isInternetExplorer() || isEdge();

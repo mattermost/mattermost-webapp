@@ -60,11 +60,11 @@ function getAllChannels(state: RequestStatusType = initialRequestState(), action
     );
 }
 
-function getChannelsMembersCategories(state: RequestStatusType = initialRequestState(), action: GenericAction): RequestStatusType {
+function getChannelsAndChannelMembers(state: RequestStatusType = initialRequestState(), action: GenericAction): RequestStatusType {
     return handleRequest(
-        ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_REQUEST,
-        ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_SUCCESS,
-        ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_FAILURE,
+        ChannelTypes.GET_CHANNELS_AND_CHANNEL_MEMBERS_REQUEST,
+        ChannelTypes.GET_CHANNELS_AND_CHANNEL_MEMBERS_SUCCESS,
+        ChannelTypes.GET_CHANNELS_AND_CHANNEL_MEMBERS_FAILURE,
         state,
         action,
     );
@@ -76,5 +76,5 @@ export default (combineReducers({
     myChannels,
     createChannel,
     updateChannel,
-    getChannelsMembersCategories,
+    getChannelsAndChannelMembers,
 }) as (b: ChannelsRequestsStatuses, a: GenericAction) => ChannelsRequestsStatuses);

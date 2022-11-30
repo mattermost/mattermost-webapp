@@ -257,7 +257,7 @@ const state: GlobalState = {
                 status: 'not_started',
                 error: null,
             },
-            getChannelsMembersCategories: {
+            getChannelsAndChannelMembers: {
                 status: 'not_started',
                 error: null,
             },

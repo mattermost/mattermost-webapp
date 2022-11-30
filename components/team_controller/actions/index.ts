@@ -31,7 +31,7 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
         dispatch(batchActions([
             selectTeam(team.id),
             {
-                type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_REQUEST,
+                type: ChannelTypes.GET_CHANNELS_AND_CHANNEL_MEMBERS_REQUEST,
                 data: null,
             },
         ]));
@@ -42,7 +42,7 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
 
         if (isGuest(currentUser.roles)) {
             // Will be fixed in MM-48260
-            dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_FAILURE, error: null});
+            dispatch({type: ChannelTypes.GET_CHANNELS_AND_CHANNEL_MEMBERS_FAILURE, error: null});
         }
 
         const graphQLEnabled = isGraphQLEnabled(state);
@@ -53,9 +53,9 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
                 await dispatch(fetchMyChannelsAndMembersREST(team.id));
             }
 
-            await dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_SUCCESS, data: null});
+            await dispatch({type: ChannelTypes.GET_CHANNELS_AND_CHANNEL_MEMBERS_SUCCESS, data: null});
         } catch (error) {
-            dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_FAILURE, error});
+            dispatch({type: ChannelTypes.GET_CHANNELS_AND_CHANNEL_MEMBERS_FAILURE, error});
             forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             dispatch(logError(error as ServerError));
             return {error: error as ServerError};

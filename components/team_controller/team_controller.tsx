@@ -11,7 +11,6 @@ import {ServerError} from '@mattermost/types/errors';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {reconnect} from 'actions/websocket_actions.jsx';
-import {emitCloseRightHandSide} from 'actions/global_actions';
 
 import Constants from 'utils/constants';
 import {isIosSafari} from 'utils/user_agent';
@@ -158,6 +157,8 @@ function TeamController(props: Props) {
     }
 
     async function joinTeamOrRedirect(teamNameParam: string, joinedOnFirstLoad: boolean) {
+        setTeam(null);
+
         try {
             // skip reserved team names
             if (Constants.RESERVED_TEAM_NAMES.includes(teamNameParam)) {
@@ -179,25 +180,18 @@ function TeamController(props: Props) {
 
     // Effect to run when url for team or teamsList changes
     useEffect(() => {
-        // Prevents the RHS from closing when clicking on a global permalink.
-        emitCloseRightHandSide();
-
-        const teamFromURLParam = getTeamFromTeamList(props.teamsList, teamNameParam);
-        if (teamFromURLParam) {
-            // Team switch
-            initTeamOrRedirect(teamFromURLParam);
-            return;
-        }
-
-        if (teamNameParam && !team) {
-            // Team join on first load
-            joinTeamOrRedirect(teamNameParam, true);
-            return;
-        }
-
-        if (teamNameParam && team && team.name !== teamNameParam) {
-            // Team join by going through a link
-            joinTeamOrRedirect(teamNameParam, false);
+        if (teamNameParam) {
+            const teamFromTeamNameParam = getTeamFromTeamList(props.teamsList, teamNameParam);
+            if (teamFromTeamNameParam) {
+                // If the team is already in the teams list, initialize it when we switch teams
+                initTeamOrRedirect(teamFromTeamNameParam);
+            } else if (team && team.name !== teamNameParam) {
+                // When we are already in a team and the new team is not in the teams list, attempt to join it
+                joinTeamOrRedirect(teamNameParam, false);
+            } else if (!team) {
+                // When we are not in a team and the new team is not in the teams list, attempt to join it
+                joinTeamOrRedirect(teamNameParam, true);
+            }
         }
     }, [teamNameParam, teamsListDependency]);
 

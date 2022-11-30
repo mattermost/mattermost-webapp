@@ -75,6 +75,7 @@ const channelMembersFragment = `
         msg_count_root: msgCountRoot
         mention_count: mentionCount
         mention_count_root: mentionCountRoot
+        urgent_mention_count: urgentMentionCount
         notify_props: notifyProps
         last_update_at: lastUpdateAt
         scheme_admin: schemeAdmin
@@ -149,8 +150,8 @@ export function transformToReceivedChannelMembersReducerPayload(
         msg_count_root: channelMember?.msg_count_root ?? 0,
         mention_count: channelMember?.mention_count ?? 0,
         mention_count_root: channelMember?.mention_count_root ?? 0,
-        notify_props:
-            channelMember && channelMember.notify_props ? {...channelMember.notify_props} : {},
+        urgent_mention_count: channelMember?.urgent_mention_count ?? 0,
+        notify_props: channelMember && channelMember.notify_props ? {...channelMember.notify_props} : {},
         last_update_at: channelMember?.last_update_at ?? 0,
         scheme_admin: channelMember?.scheme_admin ?? false,
         scheme_user: channelMember?.scheme_user ?? false,
