@@ -241,7 +241,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
 
         // Sometimes the channel/team is not loaded yet, so we need to wait for it
         const isChannelSpecificRHS = postRightVisible || postCardVisible || isPinnedPosts || isChannelFiles || isChannelInfo || isChannelMembers;
-        const isChannelSpecificRHSLoading = (!channel || !team) && (isChannelSpecificRHS);
+        const isChannelSpecificRHSLoading = !(channel || team) && isChannelSpecificRHS;
 
         const channelDisplayName = rhsChannel ? rhsChannel.display_name : '';
 
