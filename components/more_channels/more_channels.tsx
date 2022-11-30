@@ -42,6 +42,7 @@ export type Props = {
     canShowArchivedChannels?: boolean;
     morePublicChannelsModalType?: string;
     actions: Actions;
+    returnFocus?: () => void;
 }
 
 type State = {
@@ -56,11 +57,15 @@ type State = {
 
 export default class MoreChannels extends React.PureComponent<Props, State> {
     public searchTimeoutId: number;
+    private handleReturn = () => {};
 
     constructor(props: Props) {
         super(props);
 
         this.searchTimeoutId = 0;
+        if (props.returnFocus) {
+            this.handleReturn = props.returnFocus;
+        }
 
         this.state = {
             show: true,
@@ -89,10 +94,14 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.NEW_CHANNEL_MODAL,
             dialogType: NewChannelModal,
+            dialogProps: {
+                returnFocus: this.props.returnFocus,
+            },
         });
     }
 
     handleExit = () => {
+        this.handleReturn();
         this.props.actions.closeModal(ModalIdentifiers.MORE_CHANNELS);
     }
 
@@ -119,6 +128,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             this.setState({serverError: result.error.message});
         } else {
             getHistory().push(getRelativeChannelURL(teamName, channel.name));
+            this.handleReturn = () => {};
             this.handleHide();
         }
 

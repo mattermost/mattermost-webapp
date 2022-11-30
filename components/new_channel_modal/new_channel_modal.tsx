@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
@@ -38,7 +38,7 @@ import {sendGenericPostMessage} from 'actions/global_actions';
 
 import {GlobalState} from 'types/store';
 
-import Constants, {ItemStatus, ModalIdentifiers, suitePluginIds} from 'utils/constants';
+import Constants, {A11yCustomEventTypes, A11yFocusEventDetail, ItemStatus, ModalIdentifiers, suitePluginIds} from 'utils/constants';
 import {cleanUpUrlable, validateChannelUrl, getSiteURL} from 'utils/url';
 import {localizeMessage} from 'utils/utils';
 
@@ -83,7 +83,12 @@ const enum ServerErrorId {
     CHANNEL_PURPOSE_SIZE = 'model.channel.is_valid.purpose.app_error',
 }
 
-const NewChannelModal = () => {
+type Props = {
+    returnFocus?: () => void;
+    onExited: () => void;
+}
+
+const NewChannelModal = (props: Props) => {
     const intl = useIntl();
     const {formatMessage} = intl;
 
@@ -224,7 +229,9 @@ const NewChannelModal = () => {
     };
 
     const handleOnModalCancel = () => {
-        dispatch(closeModal(ModalIdentifiers.NEW_CHANNEL_MODAL));
+        if (props.returnFocus) {
+            props.returnFocus();
+        }
     };
 
     // eslint-disable-next-line @typescript-eslint/naming-convention

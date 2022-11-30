@@ -2,26 +2,30 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {useDispatch} from 'react-redux';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
+import {openModal} from 'actions/views/modals';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import {CreateAndJoinChannelsTour, InvitePeopleTour} from 'components/tours/onboarding_tour';
+import NewChannelModal from 'components/new_channel_modal/new_channel_modal';
+import CreateUserGroupsModal from 'components/create_user_groups_modal';
+
+import { A11yCustomEventTypes, A11yFocusEventDetail, ModalIdentifiers } from 'utils/constants';
+import MoreChannels from 'components/more_channels';
+import EditCategoryModal from 'components/edit_category_modal';
+import InvitationModal from 'components/invitation_modal';
+import MoreDirectChannels from 'components/more_direct_channels';
 
 type Props = {
     canCreateChannel: boolean;
     canJoinPublicChannel: boolean;
     userGroupsEnabled: boolean;
-    showMoreChannelsModal: () => void;
-    showCreateUserGroupModal: () => void;
-    invitePeopleModal: () => void;
-    showNewChannelModal: () => void;
-    showCreateCategoryModal: () => void;
-    handleOpenDirectMessagesModal: (e: Event) => void;
     unreadFilterEnabled: boolean;
     showCreateTutorialTip: boolean;
     showInviteTutorialTip: boolean;
@@ -33,11 +37,6 @@ type Props = {
 const AddChannelDropdown = ({
     canCreateChannel,
     canJoinPublicChannel,
-    showMoreChannelsModal,
-    showCreateUserGroupModal,
-    invitePeopleModal,
-    showNewChannelModal,
-    showCreateCategoryModal,
     handleOpenDirectMessagesModal,
     unreadFilterEnabled,
     showCreateTutorialTip,
@@ -47,6 +46,89 @@ const AddChannelDropdown = ({
     canCreateCustomGroups,
 }: Props) => {
     const intl = useIntl();
+    const dispatch = useDispatch();
+
+    const fallbackFocus = document.activeElement;
+
+    const returnFocus = () => {
+        console.log(fallbackFocus);
+        document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+            A11yCustomEventTypes.FOCUS, {
+                detail: {
+                    target: fallbackFocus as HTMLElement,
+                    keyboardOnly: true,
+                },
+            },
+        ));
+    };
+
+    const openNewChannelModal = () => {
+        dispatch(openModal({
+            modalId: ModalIdentifiers.NEW_CHANNEL_MODAL,
+            dialogType: NewChannelModal,
+            dialogProps: {
+                returnFocus,
+            },
+        }));
+        trackEvent('ui', 'ui_channels_create_channel_v2');
+    }
+
+    const showCreateUserGroupModal = () => {
+        dispatch(openModal({
+            modalId: ModalIdentifiers.USER_GROUPS_CREATE,
+            dialogType: CreateUserGroupsModal,
+            dialogProps: {
+                returnFocus,
+            },
+        }));
+        trackEvent('ui', 'ui_channels_create_user_group');
+    }
+
+    const showMoreChannelsModal = () => {
+        dispatch(openModal({
+            modalId: ModalIdentifiers.MORE_CHANNELS,
+            dialogType: MoreChannels,
+            dialogProps: {
+                morePublicChannelsModalType: 'public',
+                returnFocus,
+            },
+        }));
+        trackEvent('ui', 'ui_channels_more_public_v2');
+    }
+
+    const showCreateCategoryModal = () => {
+        dispatch(openModal({
+            modalId: ModalIdentifiers.EDIT_CATEGORY,
+            dialogType: EditCategoryModal,
+            dialogProps: {
+                returnFocus,
+            },
+        }));
+        trackEvent('ui', 'ui_sidebar_menu_createCategory');
+    }
+
+    const invitePeopleModal = () => {
+        dispatch(openModal({
+            modalId: ModalIdentifiers.INVITATION,
+            dialogType: InvitationModal,
+            dialogProps: {
+                returnFocus,
+            },
+        }));
+        trackEvent('ui', 'ui_channels_dropdown_invite_people');
+    }
+
+    const showDmChannelsModal = () => {
+        dispatch(openModal({
+            modalId: ModalIdentifiers.MORE_DM_CHANNELS,
+            dialogType: MoreDirectChannels,
+            dialogProps: {
+                isExistingChannel: false,
+                returnFocus,
+            },
+        }));
+        trackEvent('ui', 'ui_channels_dropdown_invite_people');
+    }
 
     const renderDropdownItems = () => {
         const invitePeople = (
@@ -79,7 +161,7 @@ const AddChannelDropdown = ({
             createChannel = (
                 <Menu.ItemAction
                     id='showNewChannel'
-                    onClick={showNewChannelModal}
+                    onClick={openNewChannelModal}
                     icon={<i className='icon-plus'/>}
                     text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.createNewChannel', defaultMessage: 'Create New Channel'})}
                 />
@@ -102,7 +184,7 @@ const AddChannelDropdown = ({
         const createDirectMessage = (
             <Menu.ItemAction
                 id={'openDirectMessageMenuItem'}
-                onClick={handleOpenDirectMessagesModal}
+                onClick={showDmChannelsModal}
                 icon={<i className='icon-account-outline'/>}
                 text={intl.formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}
             />

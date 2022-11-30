@@ -45,6 +45,7 @@ export type Props = {
     restrictDirectMessage?: string;
     onModalDismissed?: () => void;
     onExited?: () => void;
+    returnFocus?: () => void;
     actions: {
         getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;
         getProfilesInTeam: (teamId: string, page: number, perPage?: number | undefined, sort?: string | undefined, options?: any) => Promise<any>;
@@ -75,12 +76,17 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
     exitToChannel?: string;
     multiselect: React.RefObject<MultiSelect<OptionValue>>;
     selectedItemRef: React.RefObject<HTMLDivElement>;
+    private handleReturn = () => {};
+
     constructor(props: Props) {
         super(props);
 
         this.searchTimeoutId = 0;
         this.multiselect = React.createRef();
         this.selectedItemRef = React.createRef();
+        if (props.returnFocus) {
+            this.handleReturn = props.returnFocus;
+        }
 
         const values: OptionValue[] = [];
 
@@ -168,7 +174,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         if (this.exitToChannel) {
             getHistory().push(this.exitToChannel);
         }
-
+        this.handleReturn();
         this.props.onModalDismissed?.();
         this.props.onExited?.();
     }
@@ -191,6 +197,7 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
             this.setState({saving: false});
 
             if (!error) {
+                this.handleReturn = () => {};
                 this.exitToChannel = '/' + this.props.currentTeamName + '/channels/' + data.name;
                 this.handleHide();
             }

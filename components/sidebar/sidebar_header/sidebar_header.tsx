@@ -85,14 +85,8 @@ const SidebarHeading = styled(Heading).attrs(() => ({
 `;
 
 export type Props = {
-    showNewChannelModal: () => void;
-    showMoreChannelsModal: () => void;
-    showCreateUserGroupModal: () => void;
-    invitePeopleModal: () => void;
-    showCreateCategoryModal: () => void;
     canCreateChannel: boolean;
     canJoinPublicChannel: boolean;
-    handleOpenDirectMessagesModal: (e: Event) => void;
     unreadFilterEnabled: boolean;
     userGroupsEnabled: boolean;
     canCreateCustomGroups: boolean;
@@ -145,20 +139,14 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                     </MenuWrapper>
                 </OverlayTrigger>
                 <AddChannelDropdown
-                    showNewChannelModal={props.showNewChannelModal}
-                    showMoreChannelsModal={props.showMoreChannelsModal}
-                    invitePeopleModal={props.invitePeopleModal}
-                    showCreateCategoryModal={props.showCreateCategoryModal}
                     canCreateChannel={props.canCreateChannel}
                     canJoinPublicChannel={props.canJoinPublicChannel}
-                    handleOpenDirectMessagesModal={props.handleOpenDirectMessagesModal}
                     unreadFilterEnabled={props.unreadFilterEnabled}
                     showCreateTutorialTip={showCreateTutorialTip}
                     showInviteTutorialTip={showInviteTutorialTip}
                     isAddChannelOpen={isAddChannelOpen}
                     openAddChannelOpen={openAddChannelOpen}
                     canCreateCustomGroups={props.canCreateCustomGroups}
-                    showCreateUserGroupModal={props.showCreateUserGroupModal}
                     userGroupsEnabled={props.userGroupsEnabled}
                 />
             </SidebarHeaderContainer>

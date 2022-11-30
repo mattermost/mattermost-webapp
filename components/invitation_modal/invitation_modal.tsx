@@ -73,6 +73,7 @@ export type Props = {
     channelToInvite?: Channel;
     initialValue?: string;
     inviteAsGuest?: boolean;
+    returnFocus?: () => void;
 }
 
 export const View = {
@@ -356,6 +357,13 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         return true;
     }
 
+    handleOnExited = () => {
+        if (this.props.returnFocus) {
+            this.props.returnFocus();
+        }
+        this.props.onExited();
+    }
+
     render() {
         let view = (
             <InviteView
@@ -415,7 +423,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
                 className='InvitationModal'
                 show={this.state.show}
                 onHide={this.handleHide}
-                onExited={this.props.onExited}
+                onExited={this.handleOnExited}
                 role='dialog'
                 backdrop={this.getBackdrop()}
                 aria-modal='true'

@@ -21,6 +21,7 @@ type Props = {
     categoryId?: string;
     initialCategoryName?: string;
     channelIdsToAdd?: string[];
+    returnFocus?: () => void;
     actions: {
         createCategory: (teamId: string, displayName: string, channelIds?: string[] | undefined) => {data: ChannelCategory};
         renameCategory: (categoryId: string, newName: string) => void;
@@ -112,6 +113,13 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
         };
     }
 
+    handleOnExited = () => {
+        if (this.props.returnFocus) {
+            this.props.returnFocus();
+        }
+        this.props.onExited();
+    }
+
     render() {
         const {
             modalHeaderText,
@@ -122,7 +130,7 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
         return (
             <GenericModal
                 ariaLabel={localizeMessage('rename_category_modal.renameCategory', 'Rename Category')}
-                onExited={this.props.onExited}
+                onExited={this.handleOnExited}
                 modalHeaderText={modalHeaderText}
                 handleConfirm={this.handleConfirm}
                 handleEnterKeyPress={this.handleConfirm}

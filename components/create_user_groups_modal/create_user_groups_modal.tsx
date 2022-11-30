@@ -26,6 +26,7 @@ import Constants, {ItemStatus} from 'utils/constants';
 export type Props = {
     onExited: () => void;
     backButtonCallback?: () => void;
+    returnFocus?: () => void;
     actions: {
         createGroupWithUserIds: (group: GroupCreateWithUserIds) => Promise<ActionResult>;
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -101,6 +102,13 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
         }
     }
 
+    onExited = () => {
+        if (this.props.returnFocus) {
+            this.props.returnFocus();
+        }
+        this.props.onExited();
+    }
+
     createGroup = async (users?: UserProfile[]) => {
         this.setState({showUnknownError: false, mentionInputErrorText: '', nameInputErrorText: '', saving: true});
         let mention = this.state.mention;
@@ -169,7 +177,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
                 dialogClassName='a11y__modal user-groups-modal-create'
                 show={this.state.show}
                 onHide={this.doHide}
-                onExited={this.props.onExited}
+                onExited={this.onExited}
                 role='dialog'
                 aria-labelledby='createUserGroupsModalLabel'
                 id='createUserGroupsModal'

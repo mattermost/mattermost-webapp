@@ -231,14 +231,8 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             >
                 {this.props.isMobileView ? <MobileSidebarHeader/> : (
                     <SidebarHeader
-                        showNewChannelModal={this.showNewChannelModal}
-                        showMoreChannelsModal={this.showMoreChannelsModal}
-                        showCreateUserGroupModal={this.showCreateUserGroupModal}
-                        invitePeopleModal={this.invitePeopleModal}
-                        showCreateCategoryModal={this.showCreateCategoryModal}
                         canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
                         canJoinPublicChannel={this.props.canJoinPublicChannel}
-                        handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
                         unreadFilterEnabled={this.props.unreadFilterEnabled}
                         userGroupsEnabled={this.props.userGroupsEnabled}
                         canCreateCustomGroups={this.props.canCreateCustomGroups}
