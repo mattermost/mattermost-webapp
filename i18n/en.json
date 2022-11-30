@@ -3204,7 +3204,7 @@
   "drafts.heading": "Drafts",
   "drafts.info.sync": "Updated from another device",
   "drafts.sidebarLink": "Drafts",
-  "drafts.subtitle": "All messages you've started will show here",
+  "drafts.subtitle": "Any messages you've started will show here",
   "drafts.title": "{prefix}Drafts - {displayName} {siteName}",
   "edit_category_modal.helpText": "Drag channels into this category to organize your sidebar.",
   "edit_category_modal.placeholder": "Name your category",
