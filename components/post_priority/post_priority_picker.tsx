@@ -7,7 +7,7 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import styled from 'styled-components';
 
-import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
+import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckCircleOutlineIcon, BellRingOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities/posts';
 
@@ -48,6 +48,10 @@ const StandardIcon = styled(MessageTextOutlineIcon)`
 `;
 
 const AcknowledgementIcon = styled(CheckCircleOutlineIcon)`
+    fill: rgba(var(--center-channel-color-rgb), 0.56);
+`;
+
+const PersistentNotificationsIcon = styled(BellRingOutlineIcon)`
     fill: rgba(var(--center-channel-color-rgb), 0.56);
 `;
 
@@ -102,6 +106,7 @@ function PostPriorityPicker({
     const {formatMessage} = useIntl();
     const [priority, setPriority] = useState<PostPriority|''>(settings?.priority || '');
     const [requestedAck, setRequestedAck] = useState<boolean>(settings?.requested_ack || false);
+    const [persistentNotifications, setPersistentNotifications] = useState<boolean>(settings?.persistent_notifications || false);
 
     const ref = useRef<HTMLDivElement>(null);
 
@@ -118,10 +123,13 @@ function PostPriorityPicker({
             onApply({
                 priority: type || '',
                 requested_ack: false,
+                persistent_notifications: false,
             });
             onClose();
         } else if (type === PostPriority.URGENT) {
             setRequestedAck(true);
+        } else {
+            setPersistentNotifications(false);
         }
     }, [onApply, onClose, postAcknowledgementsEnabled]);
 
@@ -129,10 +137,15 @@ function PostPriorityPicker({
         setRequestedAck(!requestedAck);
     }, [requestedAck]);
 
+    const handlePersistentNotifications = useCallback(() => {
+        setPersistentNotifications(!persistentNotifications);
+    }, [persistentNotifications]);
+
     const handleApply = () => {
         onApply({
             priority,
             requested_ack: requestedAck,
+            persistent_notifications: persistentNotifications,
         });
         onClose();
     };
@@ -212,22 +225,40 @@ function PostPriorityPicker({
                         />
                     </MenuGroup>
                     {postAcknowledgementsEnabled && (
-                        <MenuGroup>
-                            <ToggleItem
-                                disabled={false}
-                                onClick={handleAck}
-                                toggled={requestedAck}
-                                icon={<AcknowledgementIcon size={18}/>}
-                                text={formatMessage({
-                                    id: 'post_priority.requested_ack.text',
-                                    defaultMessage: 'Request acknowledgement',
-                                })}
-                                description={formatMessage({
-                                    id: 'post_priority.requested_ack.description',
-                                    defaultMessage: 'An acknowledgement button will appear with your message',
-                                })}
-                            />
-                        </MenuGroup>
+                        <>
+                            <MenuGroup>
+                                <ToggleItem
+                                    disabled={false}
+                                    onClick={handleAck}
+                                    toggled={requestedAck}
+                                    icon={<AcknowledgementIcon size={18}/>}
+                                    text={formatMessage({
+                                        id: 'post_priority.requested_ack.text',
+                                        defaultMessage: 'Request acknowledgement',
+                                    })}
+                                    description={formatMessage({
+                                        id: 'post_priority.requested_ack.description',
+                                        defaultMessage: 'An acknowledgement button will appear with your message',
+                                    })}
+                                />
+                            </MenuGroup>
+                            <MenuGroup>
+                                <ToggleItem
+                                    disabled={priority !== PostPriority.URGENT}
+                                    onClick={handlePersistentNotifications}
+                                    toggled={persistentNotifications}
+                                    icon={<PersistentNotificationsIcon size={18}/>}
+                                    text={formatMessage({
+                                        id: 'post_priority.persistent_notifications.text',
+                                        defaultMessage: 'Send persistent notifications',
+                                    })}
+                                    description={formatMessage({
+                                        id: 'post_priority.persistent_notifications.description',
+                                        defaultMessage: 'Recipients will be notified every 5 mins until they acknowledge or reply',
+                                    })}
+                                />
+                            </MenuGroup>
+                        </>
                     )}
                 </Menu>
             </div>

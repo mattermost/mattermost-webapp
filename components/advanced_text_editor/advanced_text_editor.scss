@@ -66,6 +66,7 @@
         padding: 14px 16px 0;
         gap: 6px;
 
+        &-persistent-notifications,
         &-ack {
             display: flex;
             align-items: center;
@@ -76,6 +77,10 @@
                 font-size: 11px;
                 font-weight: 600;
             }
+        }
+
+        &-persistent-notifications {
+            color: var(--dnd-indicator);
         }
 
         button.close {

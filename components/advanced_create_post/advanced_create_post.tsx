@@ -7,7 +7,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import {AlertCircleOutlineIcon, CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
+import {AlertCircleOutlineIcon, CheckCircleOutlineIcon, BellRingOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -1520,6 +1520,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     render() {
+        const {draft, canPost} = this.props;
+
         let centerClass = '';
         if (!this.props.fullWidthTextBox) {
             centerClass = 'center';
@@ -1532,16 +1534,35 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         const priorityLabels = (
             this.hasPrioritySet() ? (
                 <div className='AdvancedTextEditor__priority'>
-                    {this.props.draft.metadata!.priority!.priority && (
+                    {draft.metadata!.priority!.priority && (
                         <PriorityLabel
                             size='xs'
-                            priority={this.props.draft.metadata!.priority!.priority}
+                            priority={draft.metadata!.priority!.priority}
                         />
                     )}
-                    {this.props.draft.metadata!.priority!.requested_ack && (
+                    {draft.metadata!.priority!.persistent_notifications && (
+                        <OverlayTrigger
+                            placement='top'
+                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+                            overlay={(
+                                <Tooltip id='post-priority-picker-persistent-notifications-tooltip'>
+                                    <FormattedMessage
+                                        id={'post_priority.persistent_notifications.tooltip'}
+                                        defaultMessage={'Persistent notifications will be sent'}
+                                    />
+                                </Tooltip>
+                            )}
+                        >
+                            <div className='AdvancedTextEditor__priority-persistent-notifications'>
+                                <BellRingOutlineIcon size={14}/>
+                            </div>
+                        </OverlayTrigger>
+                    )}
+                    {draft.metadata!.priority!.requested_ack && (
                         <div className='AdvancedTextEditor__priority-ack'>
                             <CheckCircleOutlineIcon size={14}/>
-                            {!(this.props.draft.metadata!.priority!.priority) && (
+                            {!(draft.metadata!.priority!.priority) && (
                                 <FormattedMessage
                                     id={'post_priority.request_acknowledgement'}
                                     defaultMessage={'Request acknowledgement'}
@@ -1559,7 +1580,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                     <FormattedMessage
                                         id={'post_priority.remove'}
                                         defaultMessage={'Remove {priority}'}
-                                        values={{priority: this.props.draft.metadata!.priority!.priority}}
+                                        values={{priority: draft.metadata!.priority!.priority}}
                                     />
                                 </Tooltip>
                             )}
@@ -1574,7 +1595,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                     <FormattedMessage
                                         id={'post_priority.remove'}
                                         defaultMessage={'Remove {priority}'}
-                                        values={{priority: this.props.draft.metadata!.priority!.priority}}
+                                        values={{priority: draft.metadata!.priority!.priority}}
                                     />
                                 </span>
                             </button>
@@ -1591,11 +1612,9 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 className={centerClass}
                 onSubmit={this.handleSubmit}
             >
-                {
-                    this.props.canPost &&
-                    (this.props.draft.fileInfos.length > 0 || this.props.draft.uploadsInProgress.length > 0) &&
+                {canPost && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0) && (
                     <FileLimitStickyBanner/>
-                }
+                )}
                 <AdvanceTextEditor
                     location={Locations.CENTER}
                     currentUserId={this.props.currentUserId}
@@ -1609,14 +1628,14 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     errorClass={this.state.errorClass}
                     serverError={this.state.serverError}
                     isFormattingBarHidden={this.state.isFormattingBarHidden}
-                    draft={this.props.draft}
+                    draft={draft}
                     showSendTutorialTip={this.props.showSendTutorialTip}
                     handleSubmit={this.handleSubmit}
                     removePreview={this.removePreview}
                     setShowPreview={this.setShowPreview}
                     shouldShowPreview={this.props.shouldShowPreview}
                     maxPostSize={this.props.maxPostSize}
-                    canPost={this.props.canPost}
+                    canPost={canPost}
                     applyMarkdown={this.applyMarkdown}
                     useChannelMentions={this.props.useChannelMentions}
                     badConnection={this.props.badConnection}
@@ -1650,7 +1669,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                         this.props.isPostPriorityEnabled ? (
                             <React.Fragment key='PostPriorityPicker'>
                                 <PostPriorityPickerOverlay
-                                    settings={this.props.draft?.metadata?.priority}
+                                    settings={draft?.metadata?.priority}
                                     show={this.state.showPostPriorityPicker}
                                     target={this.getPostPriorityPickerRef}
                                     onApply={this.handlePostPriorityApply}
