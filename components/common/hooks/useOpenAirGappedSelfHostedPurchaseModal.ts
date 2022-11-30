@@ -3,10 +3,9 @@
 
 import {useDispatch} from 'react-redux';
 
-import {trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
-import AirGappedSelfHostedPurchaseModal from 'components/air_gapped_self_hosted_purchase_modal'
+import AirGappedSelfHostedPurchaseModal from 'components/air_gapped_self_hosted_purchase_modal';
 
 export default function useOpenAirGappedSelfHostedPurchaseModal() {
     const dispatch = useDispatch();

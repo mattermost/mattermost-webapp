@@ -19,11 +19,13 @@ import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 
+import useCwsHealthCheck from 'components/common/hooks/useCWSHealthCheck';
+
+import useOpenAirGappedSelfHostedPurchaseModal from 'components/common/hooks/useOpenAirGappedSelfHostedPurchaseModal';
+
 import ContactSalesCTA from './contact_sales_cta';
 import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
-import useCWSHealthCheck from 'components/common/hooks/useCWSHealthCheck';
-import useOpenAirGappedSelfHostedPurchaseModal from 'components/common/hooks/useOpenAirGappedSelfHostedPurchaseModal';
 
 import './content.scss';
 
@@ -42,7 +44,7 @@ function SelfHostedContent(props: ContentProps) {
     }, []);
 
     async function checkCWS() {
-        const {cwsHealthCheck} = useCWSHealthCheck();
+        const {cwsHealthCheck} = useCwsHealthCheck();
         cwsHealthCheck().then((result) => {
             setCwsAvailable(result.status === 'OK');
         }).catch(() => setCwsAvailable(false));
