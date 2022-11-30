@@ -225,7 +225,6 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
             inputComponent={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
-                "displayName": "LocalizedInput",
                 "render": [Function],
               }
             }
@@ -253,10 +252,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
           eventKey="allListing"
           title="All"
         >
-          <LoadingScreen
-            position="relative"
-            style={Object {}}
-          />
+          <LoadingScreen />
         </Tab>
         <Tab
           eventKey="installed"
@@ -306,7 +302,6 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
             inputComponent={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
-                "displayName": "LocalizedInput",
                 "render": [Function],
               }
             }
@@ -334,10 +329,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
           eventKey="allListing"
           title="All"
         >
-          <LoadingScreen
-            position="relative"
-            style={Object {}}
-          />
+          <LoadingScreen />
         </Tab>
         <Tab
           eventKey="installed"
@@ -387,7 +379,6 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
             inputComponent={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
-                "displayName": "LocalizedInput",
                 "render": [Function],
               }
             }
@@ -415,10 +406,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
           eventKey="allListing"
           title="All"
         >
-          <LoadingScreen
-            position="relative"
-            style={Object {}}
-          />
+          <LoadingScreen />
         </Tab>
         <Tab
           eventKey="installed"

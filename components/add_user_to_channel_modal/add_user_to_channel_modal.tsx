@@ -24,9 +24,9 @@ import {RelationOneToOne} from '@mattermost/types/utilities';
 export type Props = {
 
     /**
-    * Function that's called when modal is closed
+    * Function that's called after modal is closed
     */
-    onHide: () => void;
+    onExited: () => void;
 
     /**
     * The user that is being added to a channel
@@ -136,7 +136,10 @@ export default class AddUserToChannelModal extends React.PureComponent<Props, St
 
     onHide = () => {
         this.setState({show: false});
-        this.props.onHide();
+    }
+
+    onExited = () => {
+        this.props.onExited();
     }
 
     setSearchBoxRef = (input: SuggestionBoxComponent) => {
@@ -281,7 +284,7 @@ export default class AddUserToChannelModal extends React.PureComponent<Props, St
                 dialogClassName='a11y__modal modal--overflow'
                 show={this.state.show}
                 onHide={this.onHide}
-                onExited={this.props.onHide}
+                onExited={this.onExited}
                 ref='modal'
                 enforceFocus={true}
                 role='dialog'

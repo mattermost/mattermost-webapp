@@ -61,7 +61,7 @@ type Props = {
         getAllGroupsAssociatedToChannelsInTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
         getAllGroupsAssociatedToTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
         getGroupsByUserIdPaginated: (userId: string, filterAllowReference: boolean, page: number, perPage: number, includeMemberCount: boolean) => Promise<{data: Group[]}>;
-        getGroups: (filterAllowReference: boolean, page: number, perPage: number) => Promise<{data: Group[]}>;
+        getGroups: (filterAllowReference: boolean, page: number, perPage: number, includeMemberCount: boolean) => Promise<{data: Group[]}>;
     };
     mfaRequired: boolean;
     match: {
@@ -139,6 +139,11 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
     public componentDidMount() {
         startPeriodicStatusUpdates();
+
+        if (this.state.team) {
+            this.initTeam(this.state.team);
+        }
+
         this.fetchAllTeams();
 
         // Set up tracking for whether the window is active
@@ -259,7 +264,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             if (team.group_constrained && this.props.license.LDAPGroups === 'true') {
                 this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
             } else {
-                this.props.actions.getGroups(false, 0, 60);
+                this.props.actions.getGroups(false, 0, 60, true);
             }
         }
 
@@ -275,7 +280,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         // for the current url.
         const team = props.teamsList ? props.teamsList.find((teamObj) => teamObj.name === props.match.params.team) : null;
         if (team) {
-            this.initTeam(team);
             return team;
         }
         return null;
