@@ -8,7 +8,7 @@ export type CloudState = {
     products?: Record<string, Product>;
     customer?: CloudCustomer;
     invoices?: Record<string, Invoice>;
-    subscriptionStatus?: GetExpandableStatus;
+    subscriptionStats?: LicenseExpandStats;
     limits: {
         limitsLoaded: boolean;
         limits: Limits;
@@ -83,7 +83,7 @@ export type CloudCustomer = {
     payment_method: PaymentMethod;
 } & CustomerMetadataGatherWireTransfer
 
-export type GetExpandableStatus = {
+export type LicenseExpandStats = {
     is_expandable: boolean;
 }
 

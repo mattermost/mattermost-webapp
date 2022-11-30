@@ -12,7 +12,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {Product, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest, Subscription, ValidBusinessEmail, GetExpandableStatus} from '@mattermost/types/cloud';
+import {Product, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest, Subscription, ValidBusinessEmail, LicenseExpandStats} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -3855,9 +3855,9 @@ export default class Client4 {
         );
     }
 
-    getExpandableStatus = (licenseId: string) => {
-        return this.doFetch<GetExpandableStatus>(
-            `${this.getCloudRoute()}/subscription/expandable?licenseID=${licenseId}`, {method: 'get'},
+    getLicenseExpandStats = (licenseId: string) => {
+        return this.doFetch<LicenseExpandStats>(
+            `${this.getCloudRoute()}/subscription/expand?licenseID=${licenseId}`, {method: 'get'},
         );
     }
 

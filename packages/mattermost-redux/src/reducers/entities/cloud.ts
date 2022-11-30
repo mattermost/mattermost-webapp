@@ -6,7 +6,7 @@ import {combineReducers} from 'redux';
 import {CloudTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Product, Subscription, CloudCustomer, Invoice, Limits, GetExpandableStatus} from '@mattermost/types/cloud';
+import {Product, Subscription, CloudCustomer, Invoice, Limits, LicenseExpandStats} from '@mattermost/types/cloud';
 
 export function subscription(state: Subscription | null = null, action: GenericAction) {
     switch (action.type) {
@@ -28,9 +28,9 @@ function customer(state: CloudCustomer | null = null, action: GenericAction) {
     }
 }
 
-export function subscriptionStatus(state: GetExpandableStatus | null = null, action: GenericAction) {
+export function subscriptionStats(state: LicenseExpandStats | null = null, action: GenericAction) {
     switch (action.type) {
-    case CloudTypes.RECEIVED_CLOUD_EXPANDABLE_STATUS: {
+    case CloudTypes.RECEIVED_CLOUD_EXPAND_STATS: {
         return action.data;
     }
     default:
@@ -199,5 +199,5 @@ export default combineReducers({
     errors,
 
     // Subscription expansion status
-    subscriptionStatus,
+    subscriptionStats,
 });

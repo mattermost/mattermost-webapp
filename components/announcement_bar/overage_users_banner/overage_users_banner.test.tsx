@@ -10,7 +10,7 @@ import {General} from 'mattermost-redux/constants';
 import {OverActiveUserLimits, Preferences, StatTypes} from 'utils/constants';
 import {renderWithIntlAndStore} from 'tests/react_testing_utils';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getExpandableStatus} from 'mattermost-redux/actions/cloud';
+import {getLicenseExpandStats} from 'mattermost-redux/actions/cloud';
 import {TestHelper} from 'utils/test_helper';
 import {generateId} from 'utils/utils';
 
@@ -33,7 +33,7 @@ jest.mock('mattermost-redux/actions/preferences', () => ({
 }));
 
 jest.mock('mattermost-redux/actions/cloud', () => ({
-    getExpandableStatus: jest.fn(),
+    getLicenseExpandStats: jest.fn(),
 }));
 
 const seatsPurchased = 40;
@@ -97,7 +97,7 @@ describe('components/overage_users_banner', () => {
                 myPreferences: {},
             },
             cloud: {
-                subscriptionStatus: {
+                subscriptionStats: {
                     is_expandable: false,
                 },
             },
@@ -124,7 +124,7 @@ describe('components/overage_users_banner', () => {
         renderComponent();
 
         expect(screen.queryByText('Your workspace user count has exceeded your paid license seat count by', {exact: false})).not.toBeInTheDocument();
-        expect(getExpandableStatus).not.toBeCalled();
+        expect(getLicenseExpandStats).not.toBeCalled();
     });
 
     it('should not render the banner because we are not admins', () => {
@@ -146,7 +146,7 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.queryByText('Your workspace user count has exceeded your paid license seat count by', {exact: false})).not.toBeInTheDocument();
-        expect(getExpandableStatus).not.toBeCalled();
+        expect(getLicenseExpandStats).not.toBeCalled();
     });
 
     it('should not render the banner because it\'s cloud licenese', () => {
@@ -162,7 +162,7 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.queryByText('Your workspace user count has exceeded your paid license seat count by', {exact: false})).not.toBeInTheDocument();
-        expect(getExpandableStatus).not.toBeCalled();
+        expect(getLicenseExpandStats).not.toBeCalled();
     });
 
     it('should not render the 5% banner because we have dissmised it', () => {
@@ -190,7 +190,7 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.queryByText(text5PercentageState)).not.toBeInTheDocument();
-        expect(getExpandableStatus).not.toBeCalled();
+        expect(getLicenseExpandStats).not.toBeCalled();
     });
 
     it('should render the banner because we are over 5% and we don\'t have any preferences', () => {
@@ -280,7 +280,7 @@ describe('components/overage_users_banner', () => {
 
         expect(screen.getByText(text10PercentageState)).toBeInTheDocument();
         expect(screen.getByText(contactSalesTextLink)).toBeInTheDocument();
-        expect(getExpandableStatus).toBeCalledTimes(1);
+        expect(getLicenseExpandStats).toBeCalledTimes(1);
     });
 
     it('should render the  warning banner with expansion seats CTA if the license is expensable', () => {
@@ -288,8 +288,8 @@ describe('components/overage_users_banner', () => {
 
         store.entities.cloud = {
             ...store.entities.cloud,
-            subscriptionStatus: {
-                ...store.entities.cloud.subscriptionStatus,
+            subscriptionStats: {
+                ...store.entities.cloud.subscriptionStats,
                 is_expandable: true,
             },
         };
@@ -313,8 +313,8 @@ describe('components/overage_users_banner', () => {
 
         store.entities.cloud = {
             ...store.entities.cloud,
-            subscriptionStatus: {
-                ...store.entities.cloud.subscriptionStatus,
+            subscriptionStats: {
+                ...store.entities.cloud.subscriptionStats,
                 is_expandable: true,
             },
         };

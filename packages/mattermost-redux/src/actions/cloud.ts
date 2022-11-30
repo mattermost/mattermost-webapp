@@ -40,11 +40,11 @@ export function getCloudCustomer(): ActionFunc {
     });
 }
 
-export function getExpandableStatus(licenseId: string): ActionFunc {
+export function getLicenseExpandStats(licenseId: string): ActionFunc {
     return bindClientFunc({
-        clientFunc: Client4.getExpandableStatus,
-        onSuccess: [CloudTypes.RECEIVED_CLOUD_EXPANDABLE_STATUS],
-        onFailure: CloudTypes.CLOUD_EXPANDABLE_STATUS_FAILED,
+        clientFunc: Client4.getLicenseExpandStats,
+        onSuccess: [CloudTypes.RECEIVED_CLOUD_EXPAND_STATS],
+        onFailure: CloudTypes.CLOUD_EXPAND_STATS_FAILED,
         params: [
             licenseId,
         ],
