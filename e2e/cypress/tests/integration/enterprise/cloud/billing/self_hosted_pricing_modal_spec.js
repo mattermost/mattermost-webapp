@@ -170,10 +170,15 @@ describe('Self hosted Pricing modal', () => {
         cy.get('#start_trial_btn').should('not.be.disabled');
     });
 
-    it('Upgrade button should open air gapped modal when hosted signup is not availabe', () => {
+    it('Upgrade button should open air gapped modal when hosted signup is not available', () => {
         cy.apiAdminLogin();
 
-        cy.intercept({method: 'GET', url: '/signup_available'}).as('airGappedCheck')
+        cy.intercept('GET', '/signup_available', {
+            statusCode: 501,
+            body: {
+                message: "An unknown error occurred. Please try again or contact support."
+            }
+        }).as('airGappedCheck')
 
         // * Open pricing modal
         cy.get('#UpgradeButton').should('exist').click();
