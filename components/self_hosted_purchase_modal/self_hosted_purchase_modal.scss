@@ -44,6 +44,10 @@
                 z-index: 999999;
                 height: 36px;
                 margin-bottom: 24px;
+
+                .Input_fieldset {
+                    height: 42px;
+                }
             }
 
             .form-row-third-2 {
@@ -316,6 +320,20 @@
             top: 0;
             left: 0;
         }
+    }
+
+    .self-hosted-agreed-terms {
+        label {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        input[type=checkbox] {
+            margin-right: 12px;
+        }
+
+        font-size: 16px;
     }
 }
 

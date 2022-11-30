@@ -7,24 +7,34 @@
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
+        padding-bottom: 12px;
+        font-weight: 400;
 
         fieldset {
             max-width: 110px;
         }
+
+        &--input {
+            padding-bottom: 20px;
+        }
     }
 
-    &__seats-value {
+    &__seats-label {
+        position: relative;
+    }
+
+    &__seats-tooltip {
         position: absolute;
-        top: 12px;
-        right: 0;
-        font-weight: 600;
+        top: 11px;
+        // to the right of the input
+        left: 118px;
     }
 
     &__total {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding-top: 8px;
+        padding-bottom: 8px;
         font-weight: 600;
     }
 }

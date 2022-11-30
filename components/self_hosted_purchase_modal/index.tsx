@@ -206,7 +206,7 @@ const initialState: State = {
     cardName: '',
     organization: '',
     waitingOnNetwork: false,
-    agreedTerms: true,
+    agreedTerms: false,
     cardFilled: false,
     seats: {
         quantity: '0',
@@ -845,7 +845,40 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                             />
                                         </div>
                                     </div>
-                                </div >
+                                    <div className='form-row'>
+                                        <div className='self-hosted-agreed-terms'>
+                                            <label>
+                                                <input
+                                                    id='self_hosted_purchase_terms'
+                                                    type='checkbox'
+                                                    checked={state.agreedTerms}
+                                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                        dispatch({type: 'update_agreed_terms', data: e.target.checked});
+                                                    }}
+                                                />
+                                                <div>
+                                                    <FormattedMessage
+                                                        id='self_hosted_signup.disclaimer'
+                                                        defaultMessage='I have read and agree to the <a>Enterprise Edition Subscription Terms</a>'
+                                                        values={{
+                                                            a: (chunks: React.ReactNode) => {
+                                                                return (
+                                                                    <a
+                                                                        href={HostedCustomerLinks.TERMS_AND_CONDITIONS}
+                                                                        target='_blank'
+                                                                        rel='noreferrer'
+                                                                    >
+                                                                        {chunks}
+                                                                    </a>
+                                                                );
+                                                            },
+                                                        }}
+                                                    />
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div className='rhs'>
                                 {comparePlanWrapper}

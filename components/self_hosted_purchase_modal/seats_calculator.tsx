@@ -4,8 +4,13 @@
 import React from 'react';
 import {useIntl, FormattedMessage, FormattedNumber} from 'react-intl';
 
+import {InformationOutlineIcon} from '@mattermost/compass-icons/components';
+
+import {Constants, ItemStatus} from 'utils/constants';
+
 import Input from 'components/widgets/inputs/input/input';
-import {ItemStatus} from 'utils/constants';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import './seats_calculator.scss';
 
@@ -100,6 +105,11 @@ export default function SeatsCalculator(props: Props) {
         const {value} = event.target;
         const numValue = parseInt(value, 10);
         if ((value && !numValue && numValue !== 0) || !reDigits.test(value)) {
+            // We force through an onChange becuase the underlying input component
+            // nulls out the customMessage. By forcefully creating a new react element error,
+            // it will trigger the error still existing, and the error will keep being shown
+            // in the input component
+            props.onChange(validateSeats(props.seats.quantity, annualPricePerSeat, props.existingUsers));
             return;
         }
         props.onChange(validateSeats(value, annualPricePerSeat, props.existingUsers));
@@ -107,10 +117,30 @@ export default function SeatsCalculator(props: Props) {
 
     const maxSeats = calculateMaxUsers(annualPricePerSeat);
     const total = '$' + intl.formatNumber((parseInt(props.seats.quantity, 10) || 0) * annualPricePerSeat, {maximumFractionDigits: 2});
+    const userCountTooltip = (
+        <Tooltip
+            id='userCount__tooltip'
+            className='self-hosted-user-count-tooltip'
+        >
+            <div className='tooltipTitle'>
+                <FormattedMessage
+                    defaultMessage={'Current User Count'}
+                    id={'admin.billing.subscription.userCount.tooltipTitle'}
+                />
+            </div>
+            <div className='tooltipText'>
+                <FormattedMessage
+                    defaultMessage={'You must purchase at least the current number of active users.'}
+                    id={'admin.billing.subscription.userCount.tooltipText'}
+                />
+            </div>
+        </Tooltip>
+    );
+
     return (
         <div className='SeatsCalculator'>
             <div className='SeatsCalculator__table'>
-                <div className='SeatsCalculator__seats-item'>
+                <div className='SeatsCalculator__seats-item SeatsCalculator__seats-item--input'>
                     <div className='SeatsCalculator__seats-label'>
                         <Input
                             name='UserSeats'
@@ -127,7 +157,31 @@ export default function SeatsCalculator(props: Props) {
                             } : null}
                             autoComplete='off'
                         />
-
+                    </div>
+                    <div className='SeatsCalculator__seats-tooltip'>
+                        <div className='icon'>
+                            <OverlayTrigger
+                                delayShow={Constants.OVERLAY_TIME_DELAY}
+                                placement='right'
+                                overlay={userCountTooltip}
+                            >
+                                <InformationOutlineIcon
+                                    size={18}
+                                    color={'rgba(var(--center-channel-text-rgb), 0.72)'}
+                                />
+                            </OverlayTrigger>
+                        </div>
+                    </div>
+                </div>
+                <div className='SeatsCalculator__seats-item'>
+                    <div className='SeatsCalculator__seats-label'>
+                        <FormattedMessage
+                            id='self_hosted_signup.line_item_subtotal'
+                            defaultMessage='{num} users × 12 mo.'
+                            values={{
+                                num: props.seats.quantity || '0',
+                            }}
+                        />
                     </div>
                     <div className='SeatsCalculator__seats-value'>
                         {total}
