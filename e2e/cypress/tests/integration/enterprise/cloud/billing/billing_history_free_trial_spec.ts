@@ -24,7 +24,7 @@ function simulateSubscription() {
                 description: '',
                 period_start: 1664582400000,
                 period_end: 1667260800000,
-                subscription_id: 'prod_K0AxuWCDoDD9Qq',
+                subscription_id: 'sub_K0AxuWCDoDD9Qq',
                 line_items: [
                     {
                         price_id: 'price_1KLUYiI67GP2qpb48DXFukcJ',
@@ -46,7 +46,7 @@ function simulateSubscription() {
                 description: '',
                 period_start: 1661990400000,
                 period_end: 1664582400000,
-                subscription_id: 'prod_K0AxuWCDoDD9Qq',
+                subscription_id: 'sub_K0AxuWCDoDD9Qq',
                 line_items: [
                     {
                         price_id: 'price_1KLUZ2I67GP2qpb45uTS89eb',
@@ -68,7 +68,7 @@ function simulateSubscription() {
                 description: '',
                 period_start: 1661990400000,
                 period_end: 1664582400000,
-                subscription_id: 'prod_K0AxuWCDoDD9Qq',
+                subscription_id: 'sub_K0AxuWCDoDD9Qq',
                 line_items: [
                     {
                         price_id: 'price_1KLUZ2I67GP2qpb45uTS89eb',
