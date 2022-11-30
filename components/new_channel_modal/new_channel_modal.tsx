@@ -233,6 +233,13 @@ const NewChannelModal = (props: Props) => {
         }
     };
 
+    const handleOnExited = () => {
+        if (props.returnFocus) {
+            props.returnFocus();
+        }
+        props.onExited();
+    };
+
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const onCreateChannelError = ({server_error_id, message}: ServerError) => {
         switch (server_error_id) {
@@ -390,7 +397,7 @@ const NewChannelModal = (props: Props) => {
             handleConfirm={handleOnModalConfirm}
             handleEnterKeyPress={handleOnModalConfirm}
             handleCancel={handleOnModalCancel}
-            onExited={handleOnModalCancel}
+            onExited={handleOnExited}
         >
             <div className='new-channel-modal-body'>
                 <Input
