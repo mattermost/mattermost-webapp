@@ -21,12 +21,12 @@ function DeleteDraftModal({
 
     const title = formatMessage({
         id: 'drafts.confirm.delete.title',
-        defaultMessage: 'Delete Draft',
+        defaultMessage: 'Delete draft',
     });
 
     const confirmButtonText = formatMessage({
         id: 'drafts.confirm.delete.button',
-        defaultMessage: 'Yes, Delete',
+        defaultMessage: 'Yes, delete',
     });
 
     const message = (
@@ -42,12 +42,13 @@ function DeleteDraftModal({
 
     return (
         <GenericModal
-            confirmButtonClassName='delete'
             confirmButtonText={confirmButtonText}
             handleCancel={() => {}}
             handleConfirm={onConfirm}
             modalHeaderText={title}
             onExited={onExited}
+            compassDesign={true}
+            isDeleteModal={true}
         >
             {message}
         </GenericModal>

@@ -13,6 +13,7 @@ import {PostDraft} from 'types/store/draft';
 import {getGlobalItem} from 'selectors/storage';
 
 import type {UserProfile} from '@mattermost/types/users';
+import {PostPriorityMetadata} from '@mattermost/types/posts';
 
 export function removeDraft(key: string, channelId: string, rootId = '') {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -66,6 +67,7 @@ function upsertDraft(draft: PostDraft, userId: UserProfile['id'], rootId = '', c
         message: draft.message,
         props: draft.props,
         file_ids: fileIds,
+        priority: draft.metadata?.priority as PostPriorityMetadata,
     };
 
     return Client4.upsertDraft(newDraft, connectionId);
