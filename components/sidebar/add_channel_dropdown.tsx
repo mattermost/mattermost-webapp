@@ -16,7 +16,7 @@ import {CreateAndJoinChannelsTour, InvitePeopleTour} from 'components/tours/onbo
 import NewChannelModal from 'components/new_channel_modal/new_channel_modal';
 import CreateUserGroupsModal from 'components/create_user_groups_modal';
 
-import { A11yCustomEventTypes, A11yFocusEventDetail, ModalIdentifiers } from 'utils/constants';
+import {A11yCustomEventTypes, A11yFocusEventDetail, ModalIdentifiers} from 'utils/constants';
 import MoreChannels from 'components/more_channels';
 import EditCategoryModal from 'components/edit_category_modal';
 import InvitationModal from 'components/invitation_modal';
@@ -37,7 +37,6 @@ type Props = {
 const AddChannelDropdown = ({
     canCreateChannel,
     canJoinPublicChannel,
-    handleOpenDirectMessagesModal,
     unreadFilterEnabled,
     showCreateTutorialTip,
     showInviteTutorialTip,
@@ -51,7 +50,6 @@ const AddChannelDropdown = ({
     const fallbackFocus = document.activeElement;
 
     const returnFocus = () => {
-        console.log(fallbackFocus);
         document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
             A11yCustomEventTypes.FOCUS, {
                 detail: {
@@ -71,7 +69,7 @@ const AddChannelDropdown = ({
             },
         }));
         trackEvent('ui', 'ui_channels_create_channel_v2');
-    }
+    };
 
     const showCreateUserGroupModal = () => {
         dispatch(openModal({
@@ -82,7 +80,7 @@ const AddChannelDropdown = ({
             },
         }));
         trackEvent('ui', 'ui_channels_create_user_group');
-    }
+    };
 
     const showMoreChannelsModal = () => {
         dispatch(openModal({
@@ -94,7 +92,7 @@ const AddChannelDropdown = ({
             },
         }));
         trackEvent('ui', 'ui_channels_more_public_v2');
-    }
+    };
 
     const showCreateCategoryModal = () => {
         dispatch(openModal({
@@ -105,7 +103,7 @@ const AddChannelDropdown = ({
             },
         }));
         trackEvent('ui', 'ui_sidebar_menu_createCategory');
-    }
+    };
 
     const invitePeopleModal = () => {
         dispatch(openModal({
@@ -116,7 +114,7 @@ const AddChannelDropdown = ({
             },
         }));
         trackEvent('ui', 'ui_channels_dropdown_invite_people');
-    }
+    };
 
     const showDmChannelsModal = () => {
         dispatch(openModal({
@@ -128,7 +126,7 @@ const AddChannelDropdown = ({
             },
         }));
         trackEvent('ui', 'ui_channels_dropdown_invite_people');
-    }
+    };
 
     const renderDropdownItems = () => {
         const invitePeople = (
