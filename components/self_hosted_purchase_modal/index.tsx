@@ -854,7 +854,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                     intl={intl}
                                     topColor='#4A69AC'
                                     plan={desiredPlanName}
-                                    price={`$${desiredProduct?.price_per_seat?.toString()}`}
+                                    price={`${desiredProduct?.price_per_seat?.toString()}`}
                                     seeHowBillingWorks={seeHowBillingWorks}
                                     rate='/user/month'
                                     planBriefing={<></>}
