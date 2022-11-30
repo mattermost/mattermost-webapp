@@ -169,4 +169,22 @@ describe('Self hosted Pricing modal', () => {
         cy.get('#enterprise').should('be.visible');
         cy.get('#start_trial_btn').should('not.be.disabled');
     });
+
+    it('Upgrade button should open air gapped modal when hosted signup is not availabe', () => {
+        cy.apiAdminLogin();
+
+        cy.intercept({method: 'GET', url: '/signup_available'}).as('airGappedCheck')
+
+        // * Open pricing modal
+        cy.get('#UpgradeButton').should('exist').click();
+
+        cy.wait('@airGappedCheck')
+
+        // * Click the upgrade button to open the modal
+        cy.get('#professional_action').should('exist').click();
+
+        cy.get('.air-gapped-purhcase-modal').should('exist');
+
+        cy.findByText('https://mattermost.com/pricing/#self-hosted').last().should('exist');
+    });
 });
