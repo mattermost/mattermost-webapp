@@ -149,7 +149,7 @@ const NewChannelModal = (props: Props) => {
                 return;
             }
 
-            handleOnModalCancel();
+            props.onExited();
 
             // If template selected, create a new board from this template
             if (addBoard && selectedBoardTemplate) {
