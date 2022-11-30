@@ -37,7 +37,7 @@ function Button({
                     {prepend}
                 </span>
             )}
-            <span className={marginExtra ? 'Button_label_margin_extra' : 'Button_label'}>
+            <span className={classNames('Button_label', {margin_extra: marginExtra})}>
                 {children}
                 {hasDot && <span className='dot'/>}
             </span>
