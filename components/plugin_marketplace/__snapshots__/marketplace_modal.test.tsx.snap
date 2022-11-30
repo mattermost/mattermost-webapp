@@ -252,10 +252,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
           eventKey="allListing"
           title="All"
         >
-          <LoadingScreen
-            position="relative"
-            style={Object {}}
-          />
+          <LoadingScreen />
         </Tab>
         <Tab
           eventKey="installed"
@@ -332,10 +329,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
           eventKey="allListing"
           title="All"
         >
-          <LoadingScreen
-            position="relative"
-            style={Object {}}
-          />
+          <LoadingScreen />
         </Tab>
         <Tab
           eventKey="installed"
@@ -412,10 +406,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
           eventKey="allListing"
           title="All"
         >
-          <LoadingScreen
-            position="relative"
-            style={Object {}}
-          />
+          <LoadingScreen />
         </Tab>
         <Tab
           eventKey="installed"
