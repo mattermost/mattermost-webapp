@@ -105,7 +105,7 @@ exports[`components/post_edit_history/edited_post_item should match snapshot 1`]
           aria-label="Select to restore an old message."
           className="edit-post-history__icon__button restore-icon"
           compact={true}
-          icon="refresh"
+          icon="restore"
           onClick={[Function]}
           size="sm"
         />

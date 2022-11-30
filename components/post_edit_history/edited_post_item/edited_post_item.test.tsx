@@ -44,9 +44,8 @@ describe('components/post_edit_history/edited_post_item', () => {
     test('clicking on the restore button should call openRestorePostModal', () => {
         const wrapper = shallow(<EditedPostItem {...baseProps}/>);
 
-        // find the button with refresh icon and click it
-        // todo update refresh with proper icon name
-        wrapper.find('ForwardRef').filterWhere((button) => button.prop('icon') === 'refresh').simulate('click');
+        // find the button with restore icon and click it
+        wrapper.find('ForwardRef').filterWhere((button) => button.prop('icon') === 'restore').simulate('click');
         expect(baseProps.actions.openModal).toHaveBeenCalledWith(
             expect.objectContaining({
                 modalId: ModalIdentifiers.RESTORE_POST_MODAL,

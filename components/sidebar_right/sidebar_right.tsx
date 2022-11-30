@@ -241,10 +241,10 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             content = (
                 <ChannelMembersRhs/>
             );
-            break;
-        case isPostEditHistory:
-            content = <PostEditHistory/>;
-            break;
+        } else if (isPostEditHistory) {
+            content = (
+                <PostEditHistory/>
+            );
         }
 
         // Sometimes the channel/team is not loaded yet, so we need to wait for it
