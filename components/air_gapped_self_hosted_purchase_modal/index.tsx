@@ -33,13 +33,13 @@ export default function AirGappedSelfHostedPurhcaseModal() {
                     />
                     <span id='air-gapped-modal-title'>
                         <FormattedMessage
-                            id={'air_gapped_purchase_modal.title.purchase_through_portal'}
+                            id={'self_hosted_signup.air_gapped_title'}
                             defaultMessage={'Purchase through the customer portal'}
                         />
                     </span>
                     <span id='air-gapped-modal-content'>
                         <FormattedMessage
-                            id={'air_gapped_purchase_modal.content.appear_to_be_air_gapped'}
+                            id={'self_hosted_signup.air_gapped_content'}
                             defaultMessage={'It appears that your instance is air-gapped, or it may not be connected to the internet. To purchase a license, please visit'}
                         />
                     </span>
