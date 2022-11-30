@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {GlobalState} from '@mattermost/types/store';
+import {SelfHostedSignupProgress} from '@mattermost/types/cloud';
 
 import {zeroStateLimitedViews} from '../reducers/entities/posts';
 
@@ -209,6 +210,9 @@ const state: GlobalState = {
                 limitsLoaded: false,
             },
             errors: {},
+            selfHostedSignup: {
+                progress: SelfHostedSignupProgress.START,
+            },
         },
         usage: {
             files: {

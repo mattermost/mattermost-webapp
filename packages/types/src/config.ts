@@ -357,6 +357,7 @@ export type ServiceSettings = {
     DebugSplit: boolean;
     ManagedResourcePaths: string;
     EnableCustomGroups: boolean;
+    SelfHostedFirstTimePurchase: boolean;
     AllowSyncedDrafts: boolean;
 };
 
