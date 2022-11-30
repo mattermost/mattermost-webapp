@@ -3,6 +3,7 @@
 
 import {SelfHostedSignupProgress} from '@mattermost/types/hosted_customer';
 import {GlobalState} from '@mattermost/types/store';
+import {SelfHostedSignupProgress} from '@mattermost/types/cloud';
 
 import {zeroStateLimitedViews} from '../reducers/entities/posts';
 
@@ -210,6 +211,9 @@ const state: GlobalState = {
                 limitsLoaded: false,
             },
             errors: {},
+            selfHostedSignup: {
+                progress: SelfHostedSignupProgress.START,
+            },
         },
         hostedCustomer: {
             signupProgress: SelfHostedSignupProgress.START,
@@ -262,6 +266,10 @@ const state: GlobalState = {
                 error: null,
             },
             updateChannel: {
+                status: 'not_started',
+                error: null,
+            },
+            getChannelsAndChannelMembers: {
                 status: 'not_started',
                 error: null,
             },

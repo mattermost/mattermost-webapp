@@ -52,7 +52,7 @@ import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {setShowPreviewOnCreatePost} from 'actions/views/textbox';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
-import {getPostDraft, getIsRhsExpanded, getIsRhsOpen} from 'selectors/rhs';
+import {makeGetChannelDraft, getIsRhsExpanded, getIsRhsOpen} from 'selectors/rhs';
 import {showPreviewOnCreatePost} from 'selectors/views/textbox';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
@@ -69,13 +69,14 @@ import AdvancedCreatePost from './advanced_create_post';
 
 function makeMapStateToProps() {
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST as any);
+    const getChannelDraft = makeGetChannelDraft();
 
     return (state: GlobalState) => {
         const config = getConfig(state);
         const license = getLicense(state);
         const currentChannel = getCurrentChannel(state) || {};
         const currentChannelTeammateUsername = getUser(state, currentChannel.teammate_id || '')?.username;
-        const draft = getPostDraft(state, StoragePrefixes.DRAFT, currentChannel.id);
+        const draft = getChannelDraft(state, currentChannel.id);
         const latestReplyablePostId = getLatestReplyablePostId(state);
         const currentChannelMembersCount = getCurrentChannelStats(state) ? getCurrentChannelStats(state).member_count : 1;
         const enableEmojiPicker = config.EnableEmojiPicker === 'true';
