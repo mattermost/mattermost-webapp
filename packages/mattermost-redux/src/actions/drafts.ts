@@ -13,6 +13,7 @@ import {Client4} from 'mattermost-redux/client';
 import {setGlobalItem} from 'actions/storage';
 import {StoragePrefixes} from 'utils/constants';
 
+import {PostMetadata} from '@mattermost/types/posts';
 import type {Draft as ServerDraft} from '@mattermost/types/drafts';
 import {FileInfo} from '@mattermost/types/files';
 
@@ -34,6 +35,11 @@ export function transformServerDraft(draft: ServerDraft): Draft {
         fileInfos = draft.metadata.files;
     }
 
+    const metadata = (draft.metadata || {}) as PostMetadata;
+    if (draft.priority) {
+        metadata.priority = draft.priority;
+    }
+
     return {
         key,
         timestamp: new Date(draft.update_at),
@@ -46,6 +52,7 @@ export function transformServerDraft(draft: ServerDraft): Draft {
             rootId: draft.root_id,
             createAt: draft.create_at,
             updateAt: draft.update_at,
+            metadata,
             show: true,
         },
     };

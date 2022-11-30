@@ -1702,7 +1702,6 @@ function handleUpsertDraftEvent(msg) {
             value.remote = true;
         }
 
-        localStorage.setItem(key, JSON.stringify(value));
         doDispatch(setGlobalItem(key, value));
     };
 }
@@ -1712,7 +1711,6 @@ function handleDeleteDraftEvent(msg) {
         const draft = JSON.parse(msg.data.draft);
         const {key} = transformServerDraft(draft);
 
-        localStorage.removeItem(key);
         doDispatch(setGlobalItem(key, {message: '', fileInfos: [], uploadsInProgress: [], remote: true}));
     };
 }
