@@ -41,7 +41,7 @@ function SelfHostedContent(props: ContentProps) {
 
     const [products, productsLoaded] = useGetSelfHostedProducts();
     const openSelfHostedPurchaseModal = useOpenSelfHostedPurchaseModal({});
-    const isSelfHostedPurchaseEnabled = useSelector(getConfig)?.ServiceSettings?.SelfHostedFirstTimePurchase;
+    const isSelfHostedPurchaseEnabled = useSelector(getConfig)?.ServiceSettings?.SelfHostedPurchase;
 
     useEffect(() => {
         dispatch(getPrevTrialLicense());
