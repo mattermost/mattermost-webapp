@@ -25,4 +25,6 @@ export default keyMirror({
     CLOUD_LIMITS_REQUEST: null,
     CLOUD_PRODUCTS_REQUEST: null,
     CLOUD_SUBSCRIPTION_REQUEST: null,
+
+    RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS: null,
 });

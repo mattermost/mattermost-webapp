@@ -59,7 +59,7 @@ function Drafts({
                 })}
                 subtitle={formatMessage({
                     id: 'drafts.subtitle',
-                    defaultMessage: 'All messages you\'ve started will show here',
+                    defaultMessage: 'Any messages you\'ve started will show here',
                 })}
             />
             <div className='Drafts__main'>
