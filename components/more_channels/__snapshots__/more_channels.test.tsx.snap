@@ -38,9 +38,6 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
   onExited={[Function]}
   show={true}
 >
-  <LoadingScreen
-    position="relative"
-    style={Object {}}
-  />
+  <LoadingScreen />
 </GenericModal>
 `;

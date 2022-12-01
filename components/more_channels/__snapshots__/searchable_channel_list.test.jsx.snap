@@ -22,7 +22,6 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
       inputComponent={
         Object {
           "$$typeof": Symbol(react.forward_ref),
-          "displayName": "LocalizedInput",
           "render": [Function],
         }
       }
@@ -69,10 +68,7 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
     <div
       id="moreChannelsList"
     >
-      <LoadingScreen
-        position="relative"
-        style={Object {}}
-      />
+      <LoadingScreen />
     </div>
   </div>
   <div
