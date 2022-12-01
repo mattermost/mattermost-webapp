@@ -326,7 +326,6 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
                   useModal={false}
                 />
               }
-              tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="OpenID Connect"
@@ -4882,7 +4881,6 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               definitionKey="authentication.oauth"
               key="authentication.oauth"
               name="authentication/oauth"
-              tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="OAuth 2.0"
@@ -4907,7 +4905,6 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
                   useModal={false}
                 />
               }
-              tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="OpenID Connect"
