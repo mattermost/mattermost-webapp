@@ -156,7 +156,7 @@ const CloudStartTrialButton = ({
 
         trackEvent(
             TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_BUTTON,
-            {telemetryId},
+            telemetryId,
         );
 
         // on click will execute whatever action is sent from the invoking place, if nothing is sent, open the trial benefits modal
