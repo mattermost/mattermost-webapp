@@ -66,7 +66,7 @@ export class ChannelFilter extends React.PureComponent<Props> {
             tooltipMessage = intl.formatMessage({id: 'sidebar_left.channel_filter.showAllChannels', defaultMessage: 'Show all channels'});
         }
 
-        const unreadsAriaLabel = intl.formatMessage({id: 'sidebar_left.channel_filter.filterUnreadAria', defaultMessage: 'unreads filter button'});
+        const unreadsAriaLabel = intl.formatMessage({id: 'sidebar_left.channel_filter.filterUnreadAria', defaultMessage: 'unreads filter'});
 
         const tooltip = (
             <Tooltip
