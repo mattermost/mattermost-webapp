@@ -274,7 +274,7 @@ const renderRemoveButton = (
     let removeButtonText = (
         <FormattedMessage
             id='admin.license.keyRemove'
-            defaultMessage='Remove License and Downgrade Server'
+            defaultMessage='Remove license and downgrade to Mattermost Free'
         />
     );
     if (removing) {
