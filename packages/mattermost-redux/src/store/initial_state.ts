@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {GlobalState} from '@mattermost/types/store';
+import {SelfHostedSignupProgress} from '@mattermost/types/cloud';
 
 import {zeroStateLimitedViews} from '../reducers/entities/posts';
 
@@ -77,6 +78,7 @@ const state: GlobalState = {
                 },
             },
             limitedViews: zeroStateLimitedViews,
+            acknowledgements: {},
         },
         threads: {
             threadsInTeam: {},
@@ -208,6 +210,9 @@ const state: GlobalState = {
                 limitsLoaded: false,
             },
             errors: {},
+            selfHostedSignup: {
+                progress: SelfHostedSignupProgress.START,
+            },
         },
         usage: {
             files: {
@@ -226,10 +231,6 @@ const state: GlobalState = {
             boards: {
                 cards: 0,
                 cardsLoaded: false,
-            },
-            integrations: {
-                enabled: 0,
-                enabledLoaded: false,
             },
         },
         insights: {
@@ -257,6 +258,10 @@ const state: GlobalState = {
                 error: null,
             },
             updateChannel: {
+                status: 'not_started',
+                error: null,
+            },
+            getChannelsAndChannelMembers: {
                 status: 'not_started',
                 error: null,
             },
@@ -348,6 +353,7 @@ const state: GlobalState = {
         connected: false,
         lastConnectAt: 0,
         lastDisconnectAt: 0,
+        connectionId: '',
     },
 };
 export default state;

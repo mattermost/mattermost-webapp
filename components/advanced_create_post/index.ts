@@ -10,7 +10,7 @@ import {Post} from '@mattermost/types/posts.js';
 
 import {FileInfo} from '@mattermost/types/files.js';
 
-import {ActionResult} from 'mattermost-redux/types/actions.js';
+import {ActionResult, GetStateFunc, DispatchFunc} from 'mattermost-redux/types/actions.js';
 
 import {CommandArgs} from '@mattermost/types/integrations.js';
 
@@ -21,7 +21,7 @@ import {PostDraft} from 'types/store/draft';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, getStatusForUserId, getUser, isCurrentUserGuestUser} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
@@ -46,16 +46,18 @@ import {Permissions, Posts, Preferences as PreferencesRedux} from 'mattermost-re
 import {connectionErrorCount} from 'selectors/views/system';
 
 import {addReaction, createPost, setEditingPost, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
+import {searchAssociatedGroupsForReference} from 'actions/views/group';
 import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {setShowPreviewOnCreatePost} from 'actions/views/textbox';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
-import {getPostDraft, getIsRhsExpanded, getIsRhsOpen} from 'selectors/rhs';
+import {makeGetChannelDraft, getIsRhsExpanded, getIsRhsOpen} from 'selectors/rhs';
 import {showPreviewOnCreatePost} from 'selectors/views/textbox';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
-import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
+import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
+import {removeDraft, updateDraft} from 'actions/views/drafts';
 import {openModal} from 'actions/views/modals';
 import {AdvancedTextEditor, Constants, Preferences, StoragePrefixes, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
@@ -67,13 +69,14 @@ import AdvancedCreatePost from './advanced_create_post';
 
 function makeMapStateToProps() {
     const getMessageInHistoryItem = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST as any);
+    const getChannelDraft = makeGetChannelDraft();
 
     return (state: GlobalState) => {
         const config = getConfig(state);
         const license = getLicense(state);
         const currentChannel = getCurrentChannel(state) || {};
         const currentChannelTeammateUsername = getUser(state, currentChannel.teammate_id || '')?.username;
-        const draft = getPostDraft(state, StoragePrefixes.DRAFT, currentChannel.id);
+        const draft = getChannelDraft(state, currentChannel.id);
         const latestReplyablePostId = getLatestReplyablePostId(state);
         const currentChannelMembersCount = getCurrentChannelStats(state) ? getCurrentChannelStats(state).member_count : 1;
         const enableEmojiPicker = config.EnableEmojiPicker === 'true';
@@ -170,6 +173,27 @@ type Actions = {
     emitShortcutReactToLastPostFrom: (emittedFrom: string) => void;
     getChannelMemberCountsByGroup: (channelId: string, includeTimezones: boolean) => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
+    searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
+}
+
+function setDraft(key: string, value: PostDraft, save = false) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const channelId = getCurrentChannelId(getState());
+        let updatedValue = null;
+        if (value) {
+            updatedValue = {...value};
+            updatedValue = {
+                ...value,
+                channelId,
+                remote: false,
+            };
+        }
+        if (updatedValue) {
+            return dispatch(updateDraft(key, updatedValue, '', save));
+        }
+
+        return dispatch(removeDraft(key, channelId));
+    };
 }
 
 function clearDraftUploads() {
@@ -191,7 +215,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             moveHistoryIndexForward,
             addReaction,
             removeReaction,
-            setDraft: setGlobalItem,
+            setDraft,
             clearDraftUploads,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,
@@ -205,6 +229,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             setShowPreview: setShowPreviewOnCreatePost,
             getChannelMemberCountsByGroup,
             savePreferences,
+            searchAssociatedGroupsForReference,
         }, dispatch),
     };
 }

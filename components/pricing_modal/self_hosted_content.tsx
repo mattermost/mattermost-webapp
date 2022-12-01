@@ -115,7 +115,7 @@ function SelfHostedContent(props: ContentProps) {
     };
 
     return (
-        <div className='Content'>
+        <div className='Content Content--self-hosted'>
             <Modal.Header className='PricingModal__header'>
                 <div className='header_lhs'>
                     <h1 className='title'>
@@ -169,7 +169,7 @@ function SelfHostedContent(props: ContentProps) {
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
                         price='$10'
-                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
+                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month'})}
                         planLabel={
                             isProfessional ? (
                                 <PlanLabel

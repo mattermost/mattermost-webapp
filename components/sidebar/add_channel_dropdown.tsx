@@ -101,7 +101,7 @@ const AddChannelDropdown = ({
 
         const createDirectMessage = (
             <Menu.ItemAction
-                id={'browseDirectMessages'}
+                id={'openDirectMessageMenuItem'}
                 onClick={handleOpenDirectMessagesModal}
                 icon={<i className='icon-account-outline'/>}
                 text={intl.formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}

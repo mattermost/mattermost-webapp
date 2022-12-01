@@ -19,6 +19,7 @@ export type Props = {
     cancelButtonText?: React.ReactNode;
     cancelButtonClassName?: string;
     isConfirmDisabled?: boolean;
+    isDeleteModal?: boolean;
     id: string;
     autoCloseOnCancelButton?: boolean;
     autoCloseOnConfirmButton?: boolean;
@@ -92,6 +93,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
     render() {
         let confirmButton;
         if (this.props.handleConfirm) {
+            const isConfirmOrDeleteClassName = this.props.isDeleteModal ? 'delete' : 'confirm';
             let confirmButtonText: React.ReactNode = (
                 <FormattedMessage
                     id='generic_modal.confirm'
@@ -105,7 +107,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
             confirmButton = (
                 <button
                     type='submit'
-                    className={classNames(`GenericModal__button confirm ${this.props.confirmButtonClassName}`, {
+                    className={classNames('GenericModal__button', isConfirmOrDeleteClassName, this.props.confirmButtonClassName, {
                         disabled: this.props.isConfirmDisabled,
                     })}
                     onClick={this.handleConfirm}

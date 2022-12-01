@@ -47,6 +47,7 @@ type Props = {
     currentTeam: Team;
     currentTeammate: Channel | null;
     inGlobalThreads: boolean;
+    inDrafts: boolean;
     inActivityAndInsights: boolean;
 };
 
@@ -82,6 +83,7 @@ export class FaviconTitleHandlerClass extends React.PureComponent<Props> {
             currentTeammate,
             unreadStatus,
             inGlobalThreads,
+            inDrafts,
             inActivityAndInsights,
         } = this.props;
         const {formatMessage} = this.props.intl;
@@ -105,6 +107,15 @@ export class FaviconTitleHandlerClass extends React.PureComponent<Props> {
             document.title = formatMessage({
                 id: 'globalThreads.title',
                 defaultMessage: '{prefix}Threads - {displayName} {siteName}',
+            }, {
+                prefix: `${mentionTitle}${unreadTitle}`,
+                displayName: currentTeam.display_name,
+                siteName: currentSiteName,
+            });
+        } else if (currentTeam && inDrafts) {
+            document.title = formatMessage({
+                id: 'drafts.title',
+                defaultMessage: '{prefix}Drafts - {displayName} {siteName}',
             }, {
                 prefix: `${mentionTitle}${unreadTitle}`,
                 displayName: currentTeam.display_name,
