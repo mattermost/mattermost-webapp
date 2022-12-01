@@ -18,10 +18,12 @@ import {ChannelCategory} from '@mattermost/types/channel_categories';
 import {getCategoryInTeamWithChannel} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 
 import {GlobalState} from 'types/store';
+import type {Menu as MenuType} from 'types/store/plugins';
 
-import {getCategoriesForCurrentTeam, getDisplayedChannels} from 'selectors/views/channel_sidebar';
+import {getCategoriesForCurrentTeam} from 'selectors/views/channel_sidebar';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
@@ -35,7 +37,7 @@ import Menu from 'components/widgets/menu/menu';
 type Props = {
     channel: Channel;
     openUp: boolean;
-    location?: string | 'sidebar' | 'channel';
+    inHeaderDropdown?: boolean;
 };
 
 const CategoryMenuItems = (props: Props) => {
@@ -43,7 +45,7 @@ const CategoryMenuItems = (props: Props) => {
 
     const dispatch = useDispatch<DispatchFunc>();
 
-    const displayedChannels = useSelector(getDisplayedChannels);
+    const allChannels = useSelector(getAllChannels);
     const multiSelectedChannelIds = useSelector((state: GlobalState) => state.views.channelSidebar.multiSelectedChannelIds);
 
     const currentTeam = useSelector(getCurrentTeam);
@@ -54,18 +56,14 @@ const CategoryMenuItems = (props: Props) => {
         return currentTeam ? getCategoryInTeamWithChannel(state, currentTeam?.id || '', props.channel.id) : undefined;
     });
 
-    if (!categories) {
-        return null;
-    }
-
-    const handleMoveToCategory = (categoryId: string) => {
+    function handleMoveToCategory(categoryId: string) {
         if (currentCategory?.id !== categoryId) {
             dispatch(addChannelsInSidebar(categoryId, props.channel.id));
             trackEvent('ui', 'ui_sidebar_channel_menu_moveToExistingCategory');
         }
-    };
+    }
 
-    const handleMoveToNewCategory = () => {
+    function handleMoveToNewCategory() {
         dispatch(openModal({
             modalId: ModalIdentifiers.EDIT_CATEGORY,
             dialogType: EditCategoryModal,
@@ -74,67 +72,97 @@ const CategoryMenuItems = (props: Props) => {
             },
         }));
         trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
-    };
-
-    let filteredCategories = categories.filter((category) => category.type !== CategoryTypes.DIRECT_MESSAGES);
-
-    if (props.location === 'sidebar') {
-        const selectedChannels = multiSelectedChannelIds.indexOf(props.channel.id) === -1 ? [props.channel] : displayedChannels.filter((c) => multiSelectedChannelIds.indexOf(c.id) !== -1);
-        const allChannelsAreDMs = selectedChannels.every((selectedChannel) => selectedChannel.type === Constants.DM_CHANNEL || selectedChannel.type === Constants.GM_CHANNEL);
-        const allChannelsAreNotDMs = selectedChannels.every((selectedChannel) => selectedChannel.type !== Constants.DM_CHANNEL && selectedChannel.type !== Constants.GM_CHANNEL);
-
-        filteredCategories = categories?.filter((category) => {
-            if (allChannelsAreDMs) {
-                return category.type !== CategoryTypes.CHANNELS;
-            } else if (allChannelsAreNotDMs) {
-                return category.type !== CategoryTypes.DIRECT_MESSAGES;
-            }
-            return true;
-        });
     }
 
-    const categoryMenuItems = filteredCategories.map((category: ChannelCategory) => {
-        let text = category.display_name;
+    function createSubmenuItemsForCategoryArray(categories: ChannelCategory[]): MenuType[] {
+        const allCategories = categories.map((category: ChannelCategory) => {
+            let text = category.display_name;
 
-        if (category.type === CategoryTypes.FAVORITES) {
-            text = formatMessage({id: 'sidebar_left.sidebar_channel_menu.favorites', defaultMessage: 'Favorites'});
+            if (category.type === CategoryTypes.FAVORITES) {
+                text = formatMessage({id: 'sidebar_left.sidebar_channel_menu.favorites', defaultMessage: 'Favorites'});
+            }
+            if (category.type === CategoryTypes.CHANNELS) {
+                text = formatMessage({id: 'sidebar_left.sidebar_channel_menu.channels', defaultMessage: 'Channels'});
+            }
+
+            return {
+                id: `moveToCategory-${props.channel.id}-${category.id}`,
+                icon: category.type === CategoryTypes.FAVORITES ? (<StarOutlineIcon size={16}/>) : (<FolderOutlineIcon size={16}/>),
+                direction: 'right',
+                text,
+                action: () => handleMoveToCategory(category.id),
+            };
+        });
+
+        const dividerAndNewCategory = [
+            {
+                id: 'ChannelMenu-moveToDivider',
+                text: (<span className='MenuGroup menu-divider'/>),
+            },
+            {
+                id: `moveToNewCategory-${props.channel.id}`,
+                icon: (<FolderMoveOutlineIcon size={16}/>),
+                direction: 'right' as any,
+                text: formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'New Category'}),
+                action: handleMoveToNewCategory,
+            },
+        ];
+
+        return [...allCategories, ...dividerAndNewCategory];
+    }
+
+    function filterCategoriesBasedOnChannelType(categories: ChannelCategory[], isDmOrGm = false) {
+        if (isDmOrGm) {
+            return categories.filter((category) => category.type !== CategoryTypes.CHANNELS);
         }
-        if (category.type === CategoryTypes.CHANNELS) {
-            text = formatMessage({id: 'sidebar_left.sidebar_channel_menu.channels', defaultMessage: 'Channels'});
+
+        return categories.filter((category) => category.type !== CategoryTypes.DIRECT_MESSAGES);
+    }
+
+    function getMoveToCategorySubmenuItems() {
+        if (!categories) {
+            return [];
         }
 
-        return {
-            id: `moveToCategory-${props.channel.id}-${category.id}`,
-            icon: category.type === CategoryTypes.FAVORITES ? (<StarOutlineIcon size={16}/>) : (<FolderOutlineIcon size={16}/>),
-            direction: 'right' as any,
-            text,
-            action: () => handleMoveToCategory(category.id),
-        } as any;
-    });
+        const isSubmenuOneOfSelectedChannels = multiSelectedChannelIds.includes(props.channel.id);
 
-    categoryMenuItems.push(
-        {
-            id: 'ChannelMenu-moveToDivider',
-            text: (<span className='MenuGroup menu-divider'/>),
-        },
-        {
-            id: `moveToNewCategory-${props.channel.id}`,
-            icon: (<FolderMoveOutlineIcon size={16}/>),
-            direction: 'right' as any,
-            text: formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'New Category'}),
-            action: handleMoveToNewCategory,
-        },
-    );
+        // If sub menu is in channel header dropdown OR If multiple channels are selected but the menu is open outside of those selected channels
+        if (props.inHeaderDropdown || !isSubmenuOneOfSelectedChannels) {
+            const isDmOrGm = props.channel.type === Constants.DM_CHANNEL || props.channel.type === Constants.GM_CHANNEL;
+            const filteredCategories = filterCategoriesBasedOnChannelType(categories, isDmOrGm);
+            return createSubmenuItemsForCategoryArray(filteredCategories);
+        }
+
+        const areAllSelectedChannelsDMorGM = multiSelectedChannelIds.every((channelId) => allChannels[channelId].type === Constants.DM_CHANNEL || allChannels[channelId].type === Constants.GM_CHANNEL);
+        if (areAllSelectedChannelsDMorGM) {
+            const filteredCategories = filterCategoriesBasedOnChannelType(categories, true);
+            return createSubmenuItemsForCategoryArray(filteredCategories);
+        }
+
+        const areAllSelectedChannelsAreNotDMorGM = multiSelectedChannelIds.every((channelId) => allChannels[channelId].type !== Constants.DM_CHANNEL && allChannels[channelId].type !== Constants.GM_CHANNEL);
+        if (areAllSelectedChannelsAreNotDMorGM) {
+            const filteredCategories = filterCategoriesBasedOnChannelType(categories, false);
+            return createSubmenuItemsForCategoryArray(filteredCategories);
+        }
+
+        // If we have a mix of channel types, we need to filter out both the DM and Channel categories
+        const filteredCategories = categories.filter((category) => category.type !== CategoryTypes.CHANNELS && category.type !== CategoryTypes.DIRECT_MESSAGES);
+        return createSubmenuItemsForCategoryArray(filteredCategories);
+    }
+
+    if (!categories) {
+        return null;
+    }
 
     return (
         <React.Fragment>
             <Menu.Group>
                 <Menu.ItemSubMenu
                     id={`moveTo-${props.channel.id}`}
-                    subMenu={categoryMenuItems}
+                    subMenu={getMoveToCategorySubmenuItems()}
                     text={formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
-                    direction={'right' as any}
-                    icon={props.location === 'sidebar' ? <FolderMoveOutlineIcon size={16}/> : null}
+                    direction={'right'}
+                    icon={props.inHeaderDropdown ? null : <FolderMoveOutlineIcon size={16}/>}
                     openUp={props.openUp}
                     styleSelectableItem={true}
                     selectedValueText={currentCategory?.display_name}

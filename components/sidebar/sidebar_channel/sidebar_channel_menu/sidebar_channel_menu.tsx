@@ -247,7 +247,6 @@ const SidebarChannelMenu = (props: Props) => {
                     <CategoryMenuItems
                         channel={props.channel}
                         openUp={openUp}
-                        location={'sidebar'}
                     />
                     <Menu.Group>
                         {copyLinkMenuItem}

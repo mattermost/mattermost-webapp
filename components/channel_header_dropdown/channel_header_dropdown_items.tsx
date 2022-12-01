@@ -111,7 +111,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent<Props> {
                 <CategoryMenuItems
                     channel={channel}
                     openUp={false}
-                    location={'channel'}
+                    inHeaderDropdown={true}
                 />
                 <Menu.Group divider={divider}>
                     <MenuItemToggleFavoriteChannel
