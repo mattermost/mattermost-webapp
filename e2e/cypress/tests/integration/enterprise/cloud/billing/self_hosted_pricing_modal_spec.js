@@ -176,14 +176,14 @@ describe('Self hosted Pricing modal', () => {
         cy.intercept('GET', '/signup_available', {
             statusCode: 501,
             body: {
-                message: "An unknown error occurred. Please try again or contact support."
-            }
-        }).as('airGappedCheck')
+                message: 'An unknown error occurred. Please try again or contact support.',
+            },
+        }).as('airGappedCheck');
 
         // * Open pricing modal
         cy.get('#UpgradeButton').should('exist').click();
 
-        cy.wait('@airGappedCheck')
+        cy.wait('@airGappedCheck');
 
         // * Click the upgrade button to open the modal
         cy.get('#professional_action').should('exist').click();

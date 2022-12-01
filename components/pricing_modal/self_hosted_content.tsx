@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -207,7 +207,6 @@ function SelfHostedContent(props: ContentProps) {
                                     openAirGappedPurchaseModal();
                                 } else if (!isSelfHostedPurchaseEnabled) {
                                     window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
-                                    return;
                                 }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
