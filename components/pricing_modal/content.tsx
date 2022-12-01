@@ -44,6 +44,7 @@ import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
 
 import './content.scss';
+import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
 
 type ContentProps = {
     onHide: () => void;
@@ -93,6 +94,7 @@ function Content(props: ContentProps) {
     const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
         isDelinquencyModal: true,
     });
+    const openDowngradeModal = useOpenDowngradeModal();
     const openPurchaseModal = (callerInfo: string, isMonthlyPlan: boolean) => {
         props.onHide();
         const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
@@ -106,16 +108,19 @@ function Content(props: ContentProps) {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
     };
 
-    const downgrade = async () => {
+    const downgrade = async (callerInfo: string) => {
         if (!starterProduct) {
             return;
         }
 
-        setProcessing(true);
+        const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
+        openDowngradeModal({trackingLocation: telemetryInfo});
+        dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
 
         const result = await dispatch(subscribeCloudSubscription(starterProduct.id));
 
         if (typeof result === 'boolean' && result) {
+            dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
             dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
             dispatch(
                 openModal({
@@ -124,8 +129,10 @@ function Content(props: ContentProps) {
                 }),
             );
         } else {
+            dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
             dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
             dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
+
             dispatch(
                 openModal({
                     modalId: ModalIdentifiers.ERROR_MODAL,
@@ -137,7 +144,9 @@ function Content(props: ContentProps) {
             );
             return;
         }
+
         setProcessing(false);
+
         props.onHide();
     };
 
@@ -258,7 +267,7 @@ function Content(props: ContentProps) {
                                         }),
                                     );
                                 } else {
-                                    downgrade();
+                                    downgrade('click_pricing_modal_free_card_downgrade_button');
                                 }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
