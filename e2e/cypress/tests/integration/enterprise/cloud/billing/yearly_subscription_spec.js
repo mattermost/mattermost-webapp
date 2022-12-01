@@ -10,7 +10,6 @@
 // Group: @cloud_only @cloud_trial
 // Skip:  @headless @electron // run on Chrome (headed) only
 
-import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import billing from '../../../../fixtures/client_billing.json';
 
 function simulateSubscription() {
@@ -140,7 +139,7 @@ describe('System Console - Subscriptions section', () => {
             });
         });
     });
-    
+
     it('MM-T5128 User can switch between Yearly and Monthly Subscription in Purchase modal', () => {
         const professionalMonthlySubscription = {
             id: 'prod_K0AxuWCDoDD9Qq',
@@ -185,10 +184,11 @@ describe('System Console - Subscriptions section', () => {
                 cy.get('.RHS').get('.plan_price_rate_section').contains(professionalYearlySubscription.price_per_seat / 12);
                 cy.get('.RHS').get('#input_UserSeats').should('have.value', count);
 
-                const numMonths = 12
+                const numMonths = 12;
+
                 // * check that the yearly, monthly, and saving prices are correct
                 cy.get('.RHS').get('.monthly_price').contains(Number(count) * professionalMonthlySubscription.price_per_seat * numMonths);
-                cy.get('.RHS').get('.yearly_savings').contains(Number(count) * (professionalMonthlySubscription.price_per_seat - (professionalYearlySubscription.price_per_seat / numMonths))  * numMonths);
+                cy.get('.RHS').get('.yearly_savings').contains(Number(count) * (professionalMonthlySubscription.price_per_seat - (professionalYearlySubscription.price_per_seat / numMonths)) * numMonths);
                 cy.get('.RHS').get('.total_price').contains(Number(count) * professionalYearlySubscription.price_per_seat);
 
                 // # Enter card details and user details
@@ -236,48 +236,4 @@ describe('System Console - Subscriptions section', () => {
             });
         });
     });
-
-    it('MM-TXXXX Subscribe to a yearly professional plan and reach the success modal', () => {
-        // * Check for Subscription header
-        cy.contains('.admin-console__header', 'Subscription').should('be.visible');
-
-        // # Click Update Now button
-        cy.contains('span', 'Upgrade Now').parent().click();
-
-        // # Click on Upgrade Now button on plans modal
-        cy.get('#professional_action').click();
-
-        // * Check for "Provide Your Payment Details" label
-        cy.get('.title').find('span', 'Provide Your Payment Details').should('be.visible');
-
-        // # click on the "Yearly" label
-        cy.get('.RHS').get('#text-unselected').click();
-
-        cy.intercept('POST', '/api/v4/cloud/payment/confirm').as('confirm');
-
-        cy.intercept('GET', '/api/v4/cloud/subscription').as('subscribe');
-
-        // # Enter card details
-        cy.uiGetPaymentCardInput().within(() => {
-            cy.get('[name="cardnumber"]').should('be.enabled').clear().type(billing.visa.cardNumber);
-            cy.get('[name="exp-date"]').should('be.enabled').clear().type(billing.visa.expDate);
-            cy.get('[name="cvc"]').should('be.enabled').clear().type(billing.visa.cvc);
-        });
-        cy.get('#input_name').clear().type('test name');
-        cy.findByText('Country').parent().find('.icon-chevron-down').click();
-        cy.findByText('Country').parent().find("input[type='text']").type('India{enter}', {force: true});
-        cy.get('#input_address').clear().type('123 testaddress st');
-        cy.get('#input_city').clear().type('testcity');
-        cy.get('#input_state').clear().type('teststate');
-        cy.get('#input_postalCode').clear().type('4444');
-
-        // # Click Subscribe button
-        cy.get('.RHS').find('button').last().should('be.enabled').click();
-
-        cy.wait(['@confirm', '@subscribe']);
-
-        // * Check for success message
-        cy.findByText('You are now subscribed to Cloud Professional', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
-        cy.findByText('Cloud Professional features are now available and ready to use.', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
-    })
-})
+});
