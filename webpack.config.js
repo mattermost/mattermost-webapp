@@ -112,30 +112,11 @@ var config = {
                 ],
             },
             {
-                test: /\.(png|eot|tiff|svg|woff2|woff|ttf|gif|mp3|jpg)$/,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: 'files/[contenthash].[ext]',
-                        },
-                    },
-                    {
-                        loader: 'image-webpack-loader',
-                        options: {},
-                    },
-                ],
-            },
-            {
-                test: /\.apng$/,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: 'files/[contenthash].[ext]',
-                        },
-                    },
-                ],
+                test: /\.(png|eot|tiff|svg|woff2|woff|ttf|gif|mp3|jpg|apng)$/,
+                type: 'asset/resource',
+                generator: {
+                    filename: 'files/[contenthash][ext]',
+                },
             },
             {
                 test: /\.html$/,
