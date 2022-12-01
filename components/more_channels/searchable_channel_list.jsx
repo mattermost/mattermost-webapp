@@ -143,6 +143,7 @@ export default class SearchableChannelList extends React.PureComponent {
                 key={channel.id}
                 id={`ChannelRow-${channel.name}`}
                 onClick={(e) => this.handleJoin(channel, e)}
+                tabIndex='0'
             >
                 <div className='more-modal__details'>
                     <div
