@@ -33,6 +33,7 @@ function mapStateToProps(state: GlobalState, props: RouteComponentProps) {
     const rhsState = getRhsState(state);
     const channel = getCurrentChannel(state);
     const team = getCurrentTeam(state);
+    const teamId = team?.id ?? '';
     const productId = selectCurrentProductId(state, props.location.pathname);
 
     const selectedPostId = getSelectedPostId(state);
@@ -55,6 +56,7 @@ function mapStateToProps(state: GlobalState, props: RouteComponentProps) {
         selectedPostId,
         selectedPostCardId,
         team,
+        teamId,
         productId,
     };
 }
