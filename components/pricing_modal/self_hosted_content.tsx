@@ -198,12 +198,12 @@ function SelfHostedContent(props: ContentProps) {
                         buttonDetails={{
                             action: () => {
                                 trackEvent('self_hosted_pricing', 'click_upgrade_button');
-                                
+
                                 if (!canUseSelfHostedSignup) {
                                     closePricingModal();
                                     openAirGappedPurchaseModal();
                                     return;
-                                } 
+                                }
 
                                 if (!isSelfHostedPurchaseEnabled) {
                                     window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
@@ -214,7 +214,7 @@ function SelfHostedContent(props: ContentProps) {
                                 if (isSelfHostedPurchaseEnabled && productsLoaded && professionalProduct) {
                                     closePricingModal();
                                     openSelfHostedPurchaseModal({productId: professionalProduct.id});
-                                } 
+                                }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: !isAdmin || isProfessional,
