@@ -4,6 +4,8 @@
 import {Theme} from '@mui/material';
 import type {ComponentsOverrides} from '@mui/material/styles/overrides';
 
+import {iconSizeMap} from '../../components/textfield/textfield';
+
 const componentName = 'MuiInputLabel';
 
 declare module '@mui/material/InputLabel' {
@@ -19,24 +21,21 @@ const inputLabelStyleOverrides: ComponentsOverrides<Theme>[typeof componentName]
             return {};
         }
 
-        let iconSize;
+        const iconSize = iconSizeMap[ownerState.$inputSize];
         let shiftX;
         let shiftY;
 
         switch (ownerState.$inputSize) {
         case 'small':
-            iconSize = 12;
             shiftY = '0.8rem';
             shiftX = 12 + (ownerState.$withStartIcon ? (iconSize + 8) : 0);
             break;
         case 'large':
-            iconSize = 20;
             shiftY = '1.2rem';
             shiftX = 16 + (ownerState.$withStartIcon ? (iconSize + 8) : 0);
             break;
         case 'medium':
         default:
-            iconSize = 16;
             shiftY = '1rem';
             shiftX = 14 + (ownerState.$withStartIcon ? (iconSize + 8) : 0);
         }
@@ -58,16 +57,16 @@ const inputLabelStyleOverrides: ComponentsOverrides<Theme>[typeof componentName]
         switch (ownerState.$inputSize) {
         case 'small':
             shiftY = -6;
-            shiftX = 12;
+            shiftX = 14;
             break;
         case 'large':
-            shiftY = -8;
-            shiftX = 16;
+            shiftY = -9;
+            shiftX = 18;
             break;
         case 'medium':
         default:
             shiftY = -7;
-            shiftX = 14;
+            shiftX = 16;
         }
 
         return {

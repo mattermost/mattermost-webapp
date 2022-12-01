@@ -52,6 +52,9 @@ const outlinedInputStyleOverrides: ComponentsOverrides<Theme>[typeof componentNa
             borderColor: alpha(theme.palette.text.primary, 0.16),
         },
     }),
+    inputAdornedStart: {
+        paddingLeft: 0,
+    },
 };
 
 const overrides = {

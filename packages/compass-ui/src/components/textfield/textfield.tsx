@@ -1,37 +1,44 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import IconProps from '@mattermost/compass-icons/components/props';
 import React from 'react';
 import {InputAdornment} from '@mui/material';
 import MUITextField, {TextFieldProps as MUITextFieldProps} from '@mui/material/TextField';
 
 type TextFieldProps = Omit<MUITextFieldProps, 'InputProps'> & {
-    startIcon?: React.ReactNode;
-    endIcon?: React.ReactNode;
+    StartIcon?: React.FC<IconProps>;
+    EndIcon?: React.FC<IconProps>;
 }
 
-const TextField = ({startIcon, endIcon, value, onFocus, onBlur, ...props}: TextFieldProps) => {
+export const iconSizeMap = {
+    small: 12,
+    medium: 16,
+    large: 20,
+};
+
+const TextField = ({StartIcon, EndIcon, value, onFocus, onBlur, size = 'medium', ...props}: TextFieldProps) => {
     const [shrink, setShrink] = React.useState(Boolean(value));
 
     const InputProps: MUITextFieldProps['InputProps'] = {};
     const InputLabelProps: MUITextFieldProps['InputLabelProps'] = {
         shrink,
-        $withStartIcon: Boolean(startIcon),
-        $inputSize: props.size,
+        $withStartIcon: Boolean(StartIcon),
+        $inputSize: size,
     };
 
-    if (startIcon) {
+    if (StartIcon) {
         InputProps.startAdornment = (
             <InputAdornment position='start'>
-                {startIcon}
+                <StartIcon size={iconSizeMap[size]}/>
             </InputAdornment>
         );
     }
 
-    if (endIcon) {
+    if (EndIcon) {
         InputProps.endAdornment = (
             <InputAdornment position='end'>
-                {endIcon}
+                <EndIcon size={iconSizeMap[size]}/>
             </InputAdornment>
         );
     }
@@ -50,6 +57,7 @@ const TextField = ({startIcon, endIcon, value, onFocus, onBlur, ...props}: TextF
     return (
         <MUITextField
             {...props}
+            size={size}
             onFocus={makeFocusHandler(true)}
             onBlur={makeFocusHandler(false)}
             InputProps={InputProps}

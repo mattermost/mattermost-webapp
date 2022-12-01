@@ -1,10 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {MagnifyIcon, AccountOutlineIcon} from '@mattermost/compass-icons/components';
 import {ComponentStory} from '@storybook/react';
 import React, {useState} from 'react';
 
 import Textfield from './textfield';
+
+const icons = {
+    MagnifyIcon,
+    AccountOutlineIcon,
+};
 
 export default {
     title: 'Textfield',
@@ -41,5 +47,16 @@ Outlined.argTypes = {
     },
     fullWidth: {
         control: 'boolean',
+    },
+    StartIcon: {
+        options: Object.keys(icons),
+        mapping: icons,
+        control: {
+            type: 'select',
+            labels: {
+                MagnifyIcon: 'Search',
+                AccountOutlineIcon: 'Account',
+            },
+        },
     },
 };
