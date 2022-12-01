@@ -4,8 +4,8 @@ exports[`components/drafts/draft_actions/delete_draft_modal should have called o
 <GenericModal
   autoCloseOnCancelButton={true}
   autoCloseOnConfirmButton={true}
-  confirmButtonClassName="delete"
-  confirmButtonText="Yes, Delete"
+  compassDesign={true}
+  confirmButtonText="Yes, delete"
   enforceFocus={true}
   handleCancel={[Function]}
   handleConfirm={
@@ -22,7 +22,8 @@ exports[`components/drafts/draft_actions/delete_draft_modal should have called o
     }
   }
   id="genericModal"
-  modalHeaderText="Delete Draft"
+  isDeleteModal={true}
+  modalHeaderText="Delete draft"
   onExited={[MockFunction]}
   show={true}
 >
@@ -43,13 +44,14 @@ exports[`components/drafts/draft_actions/delete_draft_modal should have called o
 <GenericModal
   autoCloseOnCancelButton={true}
   autoCloseOnConfirmButton={true}
-  confirmButtonClassName="delete"
-  confirmButtonText="Yes, Delete"
+  compassDesign={true}
+  confirmButtonText="Yes, delete"
   enforceFocus={true}
   handleCancel={[Function]}
   handleConfirm={[MockFunction]}
   id="genericModal"
-  modalHeaderText="Delete Draft"
+  isDeleteModal={true}
+  modalHeaderText="Delete draft"
   onExited={
     [MockFunction] {
       "calls": Array [

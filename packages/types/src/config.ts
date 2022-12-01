@@ -117,6 +117,7 @@ export type ClientConfig = {
     FileLevel: string;
     FeatureFlagBoardsProduct: string;
     FeatureFlagGraphQL: string;
+    FeatureFlagAnnualSubscription: string;
     GfycatAPIKey: string;
     GfycatAPISecret: string;
     GoogleDeveloperKey: string;
@@ -356,6 +357,7 @@ export type ServiceSettings = {
     DebugSplit: boolean;
     ManagedResourcePaths: string;
     EnableCustomGroups: boolean;
+    SelfHostedFirstTimePurchase: boolean;
     AllowSyncedDrafts: boolean;
 };
 

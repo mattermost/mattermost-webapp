@@ -86,26 +86,6 @@ describe('Channel Info RHS', () => {
         ensureRHSIsOpenOnChannelInfo(testChannel);
     });
 
-    it('MM-44435 - should be able to open RHS, visit the system console and come back without issues -- KNOWN ISSUE: MM-47226', () => {
-        // # Go to test channel
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-
-        // # Click on the channel info button
-        cy.get('#channel-info-btn').click();
-
-        // * RHS Container shoud exist
-        ensureRHSIsOpenOnChannelInfo(testChannel);
-
-        // # visit the system console...
-        cy.uiOpenProductMenu('System Console');
-
-        // # ...and leave it
-        cy.get('.backstage-navbar__back').click();
-
-        // * RHS Container shoud exist again
-        ensureRHSIsOpenOnChannelInfo(testChannel);
-    });
-
     describe('regular channel', () => {
         describe('top buttons', () => {
             it('should be able to toggle favorite on a channel', () => {

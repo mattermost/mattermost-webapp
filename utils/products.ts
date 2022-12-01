@@ -58,3 +58,9 @@ export const findProductBySkuAndInterval = (products: Record<string, Product>, s
         return product.sku === sku && product.recurring_interval === interval;
     }));
 };
+
+export const findProductByID = (products: Record<string, Product>, id: string) => {
+    return Object.values(products).find(((product) => {
+        return product.id === id;
+    }));
+};

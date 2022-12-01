@@ -390,6 +390,7 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_MODAL: 'new_channel_modal',
     CLOUD_PURCHASE: 'cloud_purchase',
+    SELF_HOSTED_PURCHASE: 'self_hosted_purchase',
     CLOUD_DOWNGRADE_CHOOSE_TEAM: 'cloud_downgrade_choose_team',
     SUCCESS_MODAL: 'success_modal',
     ERROR_MODAL: 'error_modal',
@@ -700,6 +701,7 @@ export const AdvancedTextEditor = {
 
 export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
+    CLOUD_PRICING: 'cloud_pricing',
     SELF_HOSTED_PURCHASING: 'self_hosted_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
     CLOUD_DELINQUENCY: 'cloud_delinquency',
@@ -1919,8 +1921,8 @@ export const Constants = {
     TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
     DEFAULT_SITE_URL: 'http://localhost:8065',
     CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT: 1000,
-    DEFAULT_DM_NUMBER: 40,
     FIRST_ADMIN_ROLE: 'first_admin',
+    MAX_PURCHASE_SEATS: 1000000,
 };
 
 export const ValidationErrors = {
