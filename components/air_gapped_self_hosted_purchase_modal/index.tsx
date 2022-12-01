@@ -4,6 +4,7 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
+
 import {GenericModal} from '@mattermost/components';
 import {CloudLinks, ModalIdentifiers} from 'utils/constants';
 import {closeModal} from 'actions/views/modals';
