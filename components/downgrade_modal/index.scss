@@ -6,23 +6,22 @@
     position: absolute;
     z-index: -1;
     top: 0;
+    width: 100%;
+    height: 100%;
 
     >div {
         position: absolute;
         top: 0;
         left: 0;
     }
-
-    height: 100%;
-    width: 100%;
 }
 
 .ProcessPayment-progress {
+    width: 387px;
+    height: 4px;
     margin: 0 auto;
     margin-top: 60px;
-    height: 4px;
-    width: 387px;
-    background: rgba(34,64,109, 0.12);
+    background: rgba(34, 64, 109, 0.12);
     border-radius: 4px;
 }
 

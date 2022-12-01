@@ -36,6 +36,7 @@ import YearlyMonthlyToggle from 'components/yearly_monthly_toggle';
 import {isAnnualSubscriptionEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
 
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
@@ -44,7 +45,6 @@ import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
 
 import './content.scss';
-import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
 
 type ContentProps = {
     onHide: () => void;

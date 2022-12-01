@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { useCallback, useEffect, useState } from 'react';
-import {injectIntl} from 'react-intl';
+import React, {useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
 
 import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
@@ -11,30 +11,18 @@ import BackgroundSvg from 'components/common/svg_images_components/background_sv
 import 'components/payment_form/payment_form.scss';
 
 import IconMessage from '../purchase_modal/icon_message';
-import { t } from 'utils/i18n';
+import {t} from 'utils/i18n';
 
 import './index.scss';
-import { useDispatch } from 'react-redux';
-import { closeModal } from 'actions/views/modals';
-import { ModalIdentifiers } from 'utils/constants';
+
+import {closeModal} from 'actions/views/modals';
+import {ModalIdentifiers} from 'utils/constants';
 import GettingStartedSVG from 'components/common/svg_images_components/getting_started_svg';
-
-enum ButtonCustomiserClasses {
-    grayed = 'grayed',
-    active = 'active',
-    special = 'special',
-}
-
-type Props = {
-    text: string;
-    disabled?: boolean;
-    customClass?: ButtonCustomiserClasses;
-}
 
 const MIN_PROCESSING_MILLISECONDS = 5000;
 const MAX_FAKE_PROGRESS = 95;
 
-export default function DowngradeModal(props: Props) {
+export default function DowngradeModal() {
     const modal = React.createRef();
     const dispatch = useDispatch();
     const [progress, setProgress] = useState(0);
@@ -49,40 +37,39 @@ export default function DowngradeModal(props: Props) {
     );
 
     useEffect(() => {
-        const updateProgress = () => setProgress(progress + 1)
+        const updateProgress = () => setProgress(progress + 1);
         if (progress < MAX_FAKE_PROGRESS) {
-            setTimeout(updateProgress, MIN_PROCESSING_MILLISECONDS / MAX_FAKE_PROGRESS)
-            return;
+            setTimeout(updateProgress, MIN_PROCESSING_MILLISECONDS / MAX_FAKE_PROGRESS);
         }
-    }, [progress])
+    }, [progress]);
 
     return (
-            <RootPortal>
-                <FullScreenModal
-                    show={true}
-                    onClose={() => dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL))}
-                    ref={modal}
-                    ariaLabelledBy='purchase_modal_title'
-                    overrideTargetEvent={false}
-                >
-                    <div className='DowngradeModal'>
-                        <IconMessage
-                            title={t('admin.billing.subscription.downgrading')}
-                            subtitle={''}
-                            icon={
-                                <GettingStartedSVG
-                                    width={444}
-                                    height={313}
-                                />
-                            }
-                            footer={progressBar}
-                            className={'processing'}
-                        />
-                        <div className='background-svg'>
-                            <BackgroundSvg/>
-                        </div>
+        <RootPortal>
+            <FullScreenModal
+                show={true}
+                onClose={() => dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL))}
+                ref={modal}
+                ariaLabelledBy='purchase_modal_title'
+                overrideTargetEvent={false}
+            >
+                <div className='DowngradeModal'>
+                    <IconMessage
+                        title={t('admin.billing.subscription.downgrading')}
+                        subtitle={''}
+                        icon={
+                            <GettingStartedSVG
+                                width={444}
+                                height={313}
+                            />
+                        }
+                        footer={progressBar}
+                        className={'processing'}
+                    />
+                    <div className='background-svg'>
+                        <BackgroundSvg/>
                     </div>
-                </FullScreenModal>
-            </RootPortal>
+                </div>
+            </FullScreenModal>
+        </RootPortal>
     );
 }
