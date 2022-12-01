@@ -14,6 +14,11 @@ const TextField = ({startIcon, endIcon, value, onFocus, onBlur, ...props}: TextF
     const [shrink, setShrink] = React.useState(Boolean(value));
 
     const InputProps: MUITextFieldProps['InputProps'] = {};
+    const InputLabelProps: MUITextFieldProps['InputLabelProps'] = {
+        shrink,
+        $withStartIcon: Boolean(startIcon),
+        $inputSize: props.size,
+    };
 
     if (startIcon) {
         InputProps.startAdornment = (
@@ -48,7 +53,7 @@ const TextField = ({startIcon, endIcon, value, onFocus, onBlur, ...props}: TextF
             onFocus={makeFocusHandler(true)}
             onBlur={makeFocusHandler(false)}
             InputProps={InputProps}
-            InputLabelProps={{shrink, withStartIcon: Boolean(startIcon)}}
+            InputLabelProps={InputLabelProps}
         />
     );
 };

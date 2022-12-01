@@ -24,7 +24,8 @@ export const Outlined: ComponentStory<typeof Textfield> = (args) => {
 };
 Outlined.args = {
     label: 'example Label',
-    size: 'small',
+    size: 'medium',
+    fullWidth: false,
 };
 Outlined.argTypes = {
     label: {
@@ -35,6 +36,10 @@ Outlined.argTypes = {
         options: [
             'small',
             'medium',
+            'large',
         ],
+    },
+    fullWidth: {
+        control: 'boolean',
     },
 };

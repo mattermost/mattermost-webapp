@@ -4,11 +4,13 @@ import {createTheme} from '@mui/material/styles';
 import {GlobalStyles} from '@mui/material';
 
 import ThemeProvider from '../src/themeprovider/themeprovider';
+import {defaultTheme} from "../src/themeprovider/themes";
 
-const CanvasThemeProvider = ({children = null, theme = {}}): JSX.Element => {
+const CanvasThemeProvider = ({children = null, theme = defaultTheme}): JSX.Element => {
     const [selectedTheme, setSelectedTheme] = useState(createTheme(theme));
 
     useEffect(() => {
+        console.log('### theme', createTheme(theme));
         setSelectedTheme(createTheme(theme));
     }, [theme]);
 
@@ -40,7 +42,7 @@ const CanvasThemeProvider = ({children = null, theme = {}}): JSX.Element => {
     );
 };
 
-const DocumentationThemeProvider = ({children = null, theme = {}}): JSX.Element => {
+const DocumentationThemeProvider = ({children = null, theme = defaultTheme}): JSX.Element => {
     const selectedTheme = createTheme(theme);
 
     const docStyles = {

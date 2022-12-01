@@ -1,29 +1,32 @@
-import { addParameters, addDecorator } from '@storybook/react';
-import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
-import { DocsContainer } from '@storybook/addon-docs/blocks';
-import { withThemes } from 'storybook-addon-themes/react';
+import {addParameters, addDecorator} from '@storybook/react';
+import {INITIAL_VIEWPORTS} from '@storybook/addon-viewport';
+import {DocsContainer} from '@storybook/addon-docs/blocks';
+import {withThemes} from 'storybook-addon-themes/react';
+
+addDecorator(withThemes);
 
 import {CanvasThemeProvider, DocumentationThemeProvider} from './sb-themeprovider';
-
-const CustomDecorator = (props) => <CanvasThemeProvider {...props} />;
+import {defaultTheme} from '../src/themeprovider/themes';
 
 const themes = [
     {
         name: 'light',
         class: 'compass-light',
         color: "#FFF",
-        definition: {},
+        definition: defaultTheme,
         default: true,
     },
     {
         name: 'dark',
         class: 'compass-dark',
-        color: '#000',
-        definition: {},
+        color: "#000",
+        default: false,
     },
 ];
 
-addDecorator(withThemes);
+const CustomDecorator = ({ theme, children }) => (
+    <CanvasThemeProvider theme={theme.definition} children={children} />
+);
 
 addParameters({
     dependencies: {
