@@ -30,6 +30,7 @@ type Props = {
     isOpen: boolean;
     channel: Channel;
     team: Team;
+    teamId: Team['id'];
     productId: ProductIdentifier;
     postRightVisible: boolean;
     postCardVisible: boolean;
@@ -161,8 +162,9 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             this.props.actions.setRhsExpanded(false);
         }
 
-        // close when changing products
+        // close when changing products or teams
         if (
+            (prevProps.teamId && this.props.teamId !== prevProps.teamId) ||
             this.props.productId !== prevProps.productId
         ) {
             this.props.actions.closeRightHandSide();
