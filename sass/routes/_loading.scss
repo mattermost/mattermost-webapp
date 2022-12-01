@@ -17,6 +17,13 @@
     padding: 60px;
     text-align: center;
 
+    &.loading-screen--in-middle {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+
     .loading__content {
         display: flex;
         align-items: center;

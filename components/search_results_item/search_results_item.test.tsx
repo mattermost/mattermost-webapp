@@ -11,7 +11,7 @@ import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 
-import {PostState, PostType} from '@mattermost/types/posts';
+import {PostMetadata, PostState, PostType} from '@mattermost/types/posts';
 import CommentIcon from '../common/comment_icon';
 
 jest.mock('utils/utils', () => ({
@@ -349,10 +349,12 @@ describe('components/SearchResultsItem', () => {
             isPostPriorityEnabled: true,
             post: {
                 ...post,
-                props: {
-                    ...post.props,
-                    priority: 'important',
-                },
+                metadata: {
+                    ...post.metadata,
+                    priority: {
+                        priority: 'important',
+                    },
+                } as PostMetadata,
             },
         };
 

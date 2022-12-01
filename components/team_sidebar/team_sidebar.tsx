@@ -220,6 +220,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                     showOrder={this.state.showOrder}
                     unread={this.props.unreadTeamsSet.has(team.id)}
                     mentions={this.props.mentionsInTeamMap.has(team.id) ? this.props.mentionsInTeamMap.get(team.id) : 0}
+                    hasUrgent={this.props.teamHasUrgentMap.has(team.id) ? this.props.teamHasUrgentMap.get(team.id) : false}
                     teamIconUrl={Utils.imageURLForTeam(team)}
                     switchTeam={(url: string) => this.props.actions.switchTeam(url, currentProduct ? team : undefined)}
                     isDraggable={true}
