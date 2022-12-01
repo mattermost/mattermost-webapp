@@ -140,7 +140,7 @@ describe('System Console - Subscriptions section', () => {
         });
     });
 
-    it('MM-T5128 User can switch between Yearly and Monthly Subscription in Purchase modal', () => {
+    it('MM-T5128 Updating the Usercount input field updates the prices accordingly in the Purchase modal', () => {
         const professionalMonthlySubscription = {
             id: 'prod_K0AxuWCDoDD9Qq',
             sku: 'cloud-professional',
