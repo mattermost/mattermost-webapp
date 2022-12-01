@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {memo} from 'react';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -40,7 +40,7 @@ type Props = {
     inHeaderDropdown?: boolean;
 };
 
-const CategoryMenuItems = (props: Props) => {
+const ChannelMoveToSubMenu = (props: Props) => {
     const {formatMessage} = useIntl();
 
     const dispatch = useDispatch<DispatchFunc>();
@@ -119,11 +119,7 @@ const CategoryMenuItems = (props: Props) => {
         return categories.filter((category) => category.type !== CategoryTypes.DIRECT_MESSAGES);
     }
 
-    function getMoveToCategorySubmenuItems() {
-        if (!categories) {
-            return [];
-        }
-
+    function getMoveToCategorySubmenuItems(categories: ChannelCategory[]) {
         const isSubmenuOneOfSelectedChannels = multiSelectedChannelIds.includes(props.channel.id);
 
         // If sub menu is in channel header dropdown OR If multiple channels are selected but the menu is open outside of those selected channels
@@ -159,7 +155,7 @@ const CategoryMenuItems = (props: Props) => {
             <Menu.Group>
                 <Menu.ItemSubMenu
                     id={`moveTo-${props.channel.id}`}
-                    subMenu={getMoveToCategorySubmenuItems()}
+                    subMenu={getMoveToCategorySubmenuItems(categories)}
                     text={formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
                     direction={'right'}
                     icon={props.inHeaderDropdown ? null : <FolderMoveOutlineIcon size={16}/>}
@@ -173,4 +169,4 @@ const CategoryMenuItems = (props: Props) => {
     );
 };
 
-export default CategoryMenuItems;
+export default memo(ChannelMoveToSubMenu);
