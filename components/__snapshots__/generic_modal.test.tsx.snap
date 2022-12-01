@@ -59,6 +59,10 @@ exports[`components/GenericModal should match snapshot for base case 1`] = `
       />
     </ModalBody>
   </div>
+  <span
+    onFocus={[Function]}
+    tabIndex={0}
+  />
 </Modal>
 `;
 
@@ -146,6 +150,10 @@ exports[`components/GenericModal should match snapshot with both buttons 1`] = `
       </button>
     </ModalFooter>
   </div>
+  <span
+    onFocus={[Function]}
+    tabIndex={0}
+  />
 </Modal>
 `;
 
@@ -224,5 +232,9 @@ exports[`components/GenericModal should match snapshot with disabled confirm but
       </button>
     </ModalFooter>
   </div>
+  <span
+    onFocus={[Function]}
+    tabIndex={0}
+  />
 </Modal>
 `;
