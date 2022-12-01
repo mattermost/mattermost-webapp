@@ -364,6 +364,7 @@ const PostComponent = (props: Props): JSX.Element => {
         </PostBodyAdditionalContent>
     ) : (
         <MessageWithAdditionalContent
+            id={props.location === 'RHS_ROOT' ? `rhsPostMessageText_${post.id}` : `postMessageText_${post.id}`}
             post={post}
             isEmbedVisible={props.isEmbedVisible}
             pluginPostTypes={props.pluginPostTypes}
@@ -382,7 +383,7 @@ const PostComponent = (props: Props): JSX.Element => {
             <PostAriaLabelDiv
                 ref={postRef}
                 role='listitem'
-                id={'rhsPost_' + post.id}
+                id={props.location === 'RHS_ROOT' ? `rhsPost_${post.id}` : `postVi`}
                 tabIndex={-1}
                 post={post}
                 className={getClassName()}
@@ -394,6 +395,7 @@ const PostComponent = (props: Props): JSX.Element => {
                 {isSearchResultItem &&
                     <div
                         className='search-channel__name__container'
+                        data-testid='search-item-container'
                         aria-hidden='true'
                     >
                         <span className='search-channel__name'>

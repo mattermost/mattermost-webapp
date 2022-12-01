@@ -13,6 +13,7 @@ import {PluginsState} from 'types/store/plugins';
 import {Post} from '@mattermost/types/posts';
 
 type Props = {
+    id?: string;
     post: Post;
     isEmbedVisible?: boolean;
     pluginPostTypes?: PluginsState['postTypes'];
