@@ -13,16 +13,12 @@ declare module '@mui/material/FormControl' {
 }
 
 const styleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
-    root: ({ownerState, theme}) => {
-        console.log('#### formcontrol ownerstate', ownerState);
-        return ({
-            ...(ownerState.size === 'small' && theme.typography.b75),
-            ...(ownerState.size === 'medium' && theme.typography.b100),
-            ...(ownerState.size === 'large' && theme.typography.b200),
-            color: 'red',
-            margin: 0,
-        });
-    },
+    root: ({ownerState, theme}) => ({
+        ...(ownerState.size === 'small' && theme.typography.b75),
+        ...(ownerState.size === 'medium' && theme.typography.b100),
+        ...(ownerState.size === 'large' && theme.typography.b200),
+        margin: 0,
+    }),
 };
 
 const overrides = {

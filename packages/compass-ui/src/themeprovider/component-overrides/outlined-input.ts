@@ -19,9 +19,6 @@ const outlinedInputStyleOverrides: ComponentsOverrides<Theme>[typeof componentNa
             ...(ownerState.size === 'large' && {
                 paddingLeft: '11px',
             }),
-            '> legend': {
-                fontSize: '0.8rem',
-            },
         },
 
         '&:hover:not(.Mui-focused) .MuiOutlinedInput-notchedOutline': {

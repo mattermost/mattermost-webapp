@@ -54,29 +54,26 @@ const inputLabelStyleOverrides: ComponentsOverrides<Theme>[typeof componentName]
 
         let shiftX;
         let shiftY;
-        let fontSize;
 
         switch (ownerState.$inputSize) {
         case 'small':
             shiftY = -6;
             shiftX = 12;
-            fontSize = 10;
             break;
         case 'large':
-            shiftY = -6;
+            shiftY = -8;
             shiftX = 16;
-            fontSize = 12;
             break;
         case 'medium':
         default:
-            shiftY = -6;
+            shiftY = -7;
             shiftX = 14;
-            fontSize = 10;
         }
 
         return {
-            fontSize: `${fontSize}px`,
-            transform: `translate(${shiftX}px, ${shiftY}px)  scale(0.8)`,
+            fontSize: 'inherit',
+            lineHeight: 'inherit',
+            transform: `translate(${shiftX}px, ${shiftY}px) scale(0.75)`,
         };
     },
 };
