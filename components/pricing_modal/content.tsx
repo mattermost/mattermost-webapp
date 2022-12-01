@@ -111,6 +111,8 @@ function Content(props: ContentProps) {
             return;
         }
 
+        setProcessing(true);
+
         const result = await dispatch(subscribeCloudSubscription(starterProduct.id));
 
         if (typeof result === 'boolean' && result) {
@@ -135,7 +137,7 @@ function Content(props: ContentProps) {
             );
             return;
         }
-
+        setProcessing(false);
         props.onHide();
     };
 
@@ -159,6 +161,8 @@ function Content(props: ContentProps) {
     const defaultProfessionalPrice = monthlyProfessionalProduct ? monthlyProfessionalProduct.price_per_seat : 0;
     const [professionalPrice, setProfessionalPrice] = useState(defaultProfessionalPrice);
     const [isMonthlyPlan, setIsMonthlyPlan] = useState(true);
+
+    const [processing, setProcessing] = useState(false);
 
     // Set professional price
     const updateProfessionalPrice = (newIsMonthly: boolean) => {
@@ -265,6 +269,7 @@ function Content(props: ContentProps) {
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: hasLimits ? starterBriefing : legacyStarterBriefing,
                         }}
+                        processing={processing}
                     />
 
                     <Card

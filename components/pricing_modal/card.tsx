@@ -5,6 +5,8 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+
 import BuildingSvg from './building.svg';
 import TadaSvg from './tada.svg';
 
@@ -47,6 +49,7 @@ type CardProps = {
     briefing: PlanBriefing;
     planAddonsInfo?: PlanAddonsInfo;
     planTrialDisclaimer?: JSX.Element;
+    processing?: boolean | false;
 }
 
 type StyledProps = {
@@ -90,7 +93,7 @@ function Card(props: CardProps) {
                                 disabled={props.buttonDetails?.disabled}
                                 onClick={props.buttonDetails?.action}
                             >
-                                {props.buttonDetails?.text}
+                                {props.processing ? <LoadingSpinner/> : props.buttonDetails?.text}
                             </button>
                         )}
                     </div>
