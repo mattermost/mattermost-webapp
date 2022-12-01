@@ -168,7 +168,8 @@ const defaultServerConfig: AdminConfig = {
         CollapsedThreads: CollapsedThreads.ALWAYS_ON,
         ManagedResourcePaths: '',
         EnableCustomGroups: true,
-        AllowSyncedDrafts: true
+        SelfHostedFirstTimePurchase: false,
+        AllowSyncedDrafts: true,
     },
     TeamSettings: {
         SiteName: 'Mattermost',

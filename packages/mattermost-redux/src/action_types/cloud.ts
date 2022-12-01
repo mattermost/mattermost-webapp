@@ -13,7 +13,6 @@ export default keyMirror({
     RECEIVED_FILES_USAGE: null,
     RECEIVED_BOARDS_USAGE: null,
     RECEIVED_TEAMS_USAGE: null,
-    RECEIVED_INTEGRATIONS_USAGE: null,
     RECEIVED_CLOUD_EXPAND_STATS: null,
 
     CLOUD_CUSTOMER_FAILED: null,
@@ -29,4 +28,5 @@ export default keyMirror({
     CLOUD_PRODUCTS_REQUEST: null,
     CLOUD_SUBSCRIPTION_REQUEST: null,
     CLOUD_EXPAND_STATS_REQUEST: null,
+    RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS: null,
 });
