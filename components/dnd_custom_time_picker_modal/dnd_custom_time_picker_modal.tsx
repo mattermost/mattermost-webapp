@@ -13,7 +13,7 @@ import {UserStatus} from '@mattermost/types/users';
 
 import GenericModal from 'components/generic_modal';
 
-import {UserStatuses} from 'utils/constants';
+import {A11yCustomEventTypes, A11yFocusEventDetail, UserStatuses} from 'utils/constants';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
@@ -43,6 +43,7 @@ type State = {
 }
 
 export default class DndCustomTimePicker extends React.PureComponent<Props, State> {
+    private buttonRef = React.createRef<HTMLButtonElement>();
     constructor(props: Props) {
         super(props);
 
@@ -183,6 +184,14 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                         this.setState({
                             selectedTime: time,
                         });
+                        document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+                            A11yCustomEventTypes.FOCUS, {
+                                detail: {
+                                    target: this.buttonRef.current,
+                                    keyboardOnly: true,
+                                },
+                            },
+                        ));
                     }}
                 >
                     {time}
@@ -242,6 +251,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                         <button
                             className='DndModal__input'
                             type='button'
+                            ref={this.buttonRef}
                         >
                             <div className='DndModal__input__label'>
                                 <FormattedMessage

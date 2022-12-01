@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState, useCallback, useRef} from 'react';
 import {useSelector} from 'react-redux';
 import {DayModifiers} from 'react-day-picker';
 import {useIntl} from 'react-intl';
@@ -12,12 +12,13 @@ import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Input from 'components/widgets/inputs/input/input';
+import DatePicker from 'components/date_picker';
 import Menu from 'components/widgets/menu/menu';
 import Timestamp from 'components/timestamp';
 import {getCurrentLocale} from 'selectors/i18n';
 import {localizeMessage} from 'utils/utils';
 import {getCurrentMomentForTimezone} from 'utils/timezone';
-import DatePicker from 'components/date_picker';
+import {A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
 
 const CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES = 30;
 
@@ -57,6 +58,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
     const [timeOptions, setTimeOptions] = useState<Date[]>([]);
     const [isPopperOpen, setIsPopperOpen] = useState(false);
     const {formatMessage} = useIntl();
+    const timeButtonRef = useRef<HTMLButtonElement>(null);
 
     const setTimeAndOptions = () => {
         const currentTime = getCurrentMomentForTimezone(timezone);
@@ -84,9 +86,21 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
     const handleTimeChange = useCallback((time: Date, e: React.MouseEvent) => {
         e.preventDefault();
         handleChange(moment(time));
+        focusTimeButton();
     }, [handleChange]);
 
     const currentTime = getCurrentMomentForTimezone(timezone).toDate();
+
+    const focusTimeButton = useCallback(() => {
+        document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+            A11yCustomEventTypes.FOCUS, {
+                detail: {
+                    target: timeButtonRef.current,
+                    keyboardOnly: true,
+                },
+            },
+        ));
+    }, []);
 
     const handlePopperClosed = useCallback(() => {
         setIsPopperOpen(false);
@@ -144,6 +158,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                 >
                     <button
                         className='style--none'
+                        ref={timeButtonRef}
                     >
                         <span className='dateTime__input-title'>{formatMessage({id: 'custom_status.expiry.time_picker.title', defaultMessage: 'Time'})}</span>
                         <span className='dateTime__time-icon'>
