@@ -432,6 +432,7 @@ export const ModalIdentifiers = {
     MARK_ALL_THREADS_AS_READ: 'mark_all_threads_as_read_modal',
     DELINQUENCY_MODAL_DOWNGRADE: 'delinquency_modal_downgrade',
     CLOUD_LIMITS_DOWNGRADE: 'cloud_limits_downgrade',
+    AIR_GAPPED_SELF_HOSTED_PURCHASE: 'air_gapped_self_hosted_purchase',
 };
 
 export const UserStatuses = {
@@ -1033,6 +1034,7 @@ export const CloudLinks = {
     CLOUD_SIGNUP_PAGE: 'https://mattermost.com/sign-up/',
     SELF_HOSTED_SIGNUP: 'https://customers.mattermost.com/signup',
     DELINQUENCY_DOCS: 'https://docs.mattermost.com/about/cloud-subscriptions.html#failed-or-late-payments',
+    SELF_HOSTED_PRICING: 'https://mattermost.com/pricing/#self-hosted',
 };
 
 export const HostedCustomerLinks = {

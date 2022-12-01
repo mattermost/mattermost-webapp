@@ -24,6 +24,10 @@ import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 
+import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
+
+import useOpenAirGappedSelfHostedPurchaseModal from 'components/common/hooks/useOpenAirGappedSelfHostedPurchaseModal';
+
 import ContactSalesCTA from './contact_sales_cta';
 import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
@@ -38,6 +42,7 @@ function SelfHostedContent(props: ContentProps) {
     useFetchAdminConfig();
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
+    const canUseSelfHostedSignup = useCanSelfHostedSignup();
 
     const [products, productsLoaded] = useGetSelfHostedProducts();
     const openSelfHostedPurchaseModal = useOpenSelfHostedPurchaseModal({});
@@ -58,6 +63,8 @@ function SelfHostedContent(props: ContentProps) {
     const isProfessional = license.SkuShortName === LicenseSkus.Professional;
     const isEnterprise = license.SkuShortName === LicenseSkus.Enterprise;
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
+
+    const openAirGappedPurchaseModal = useOpenAirGappedSelfHostedPurchaseModal();
 
     const closePricingModal = () => {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
@@ -191,12 +198,22 @@ function SelfHostedContent(props: ContentProps) {
                         buttonDetails={{
                             action: () => {
                                 trackEvent('self_hosted_pricing', 'click_upgrade_button');
+
+                                if (!canUseSelfHostedSignup) {
+                                    closePricingModal();
+                                    openAirGappedPurchaseModal();
+                                    return;
+                                }
+
+                                if (!isSelfHostedPurchaseEnabled) {
+                                    window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
+                                    return;
+                                }
+
                                 const professionalProduct = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL);
                                 if (isSelfHostedPurchaseEnabled && productsLoaded && professionalProduct) {
                                     closePricingModal();
                                     openSelfHostedPurchaseModal({productId: professionalProduct.id});
-                                } else {
-                                    window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
                                 }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
