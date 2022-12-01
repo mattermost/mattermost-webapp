@@ -26,15 +26,9 @@ jest.mock('react-redux', () => ({
 describe('Components/SidebarHeader', () => {
     beforeEach(() => {
         props = {
-            showNewChannelModal: jest.fn(),
-            showMoreChannelsModal: jest.fn(),
-            invitePeopleModal: jest.fn(),
-            showCreateCategoryModal: jest.fn(),
             canCreateChannel: true,
             canJoinPublicChannel: true,
-            handleOpenDirectMessagesModal: jest.fn(),
             unreadFilterEnabled: true,
-            showCreateUserGroupModal: jest.fn(),
             userGroupsEnabled: false,
             canCreateCustomGroups: true,
         };
