@@ -3,12 +3,18 @@
 
 import {ThemeOptions} from '@mui/material/styles/createTheme';
 
+import MuiButton from './button';
+import MuiButtonBase from './button-base';
+import MuiIconButton from './icon-button';
 import MuiFormControl from './form-control';
 import MuiInputBase from './input-base';
 import MuiInputLabel from './input-label';
 import MuiOutlinedInput from './outlined-input';
 
 const componentOverrides: ThemeOptions['components'] = {
+    MuiButton,
+    MuiButtonBase,
+    MuiIconButton,
     MuiFormControl,
     MuiInputBase,
     MuiInputLabel,

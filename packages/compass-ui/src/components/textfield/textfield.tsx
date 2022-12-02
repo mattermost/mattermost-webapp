@@ -6,7 +6,7 @@ import React from 'react';
 import {InputAdornment} from '@mui/material';
 import MUITextField, {TextFieldProps as MUITextFieldProps} from '@mui/material/TextField';
 
-type TextFieldProps = Omit<MUITextFieldProps, 'InputProps'> & {
+export type TextFieldProps = Omit<MUITextFieldProps, 'InputProps'> & {
     StartIcon?: React.FC<IconProps>;
     EndIcon?: React.FC<IconProps>;
 }
@@ -17,6 +17,14 @@ export const iconSizeMap = {
     large: 20,
 };
 
+/**
+ * This component consists of several lower level components which receive their own overrides.
+ * These are the components used to build the textfield:
+ * - FormControl ({@link ../../themeprovider/component-overrides/form-control.ts})
+ * - InputBase ({@link ../../themeprovider/component-overrides/input-base.ts})
+ * - InputLabel ({@link ../../themeprovider/component-overrides/input-label.ts})
+ * - OutlinedInput ({@link ../../themeprovider/component-overrides/outlined-input.ts})
+ * */
 const TextField = ({StartIcon, EndIcon, value, onFocus, onBlur, size = 'medium', ...props}: TextFieldProps) => {
     const [shrink, setShrink] = React.useState(Boolean(value));
 

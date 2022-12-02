@@ -13,7 +13,10 @@ const Themeprovider = ({theme = defaultTheme, ...rest}: ThemeProviderProps) => {
     const combinedTheme = createTheme({
         ...theme,
         components: componentOverrides,
-        typography: typographyOverrides,
+        typography: {
+            ...typographyOverrides,
+            htmlFontSize: 10,
+        },
     });
 
     return (

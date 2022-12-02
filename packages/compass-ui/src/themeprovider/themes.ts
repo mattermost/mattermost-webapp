@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import createPalette from '@mui/material/styles/createPalette';
+
 declare module '@mui/material/styles' {
     interface Palette {
         mention?: Palette['primary'];
@@ -50,7 +52,7 @@ declare module '@mui/material/styles' {
 // --title-color-indigo-500: #1e325c;
 
 const defaultTheme = {
-    palette: {
+    palette: createPalette({
         primary: {main: '#166de0'},
         secondary: {main: '#0043ad'},
         error: {main: '#d24b4e'},
@@ -64,7 +66,8 @@ const defaultTheme = {
         background: {
             default: '#fff',
         },
-    },
+        tonalOffset: 0.05,
+    }),
 };
 
 export {
