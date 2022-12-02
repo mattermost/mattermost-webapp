@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
 
 import RootPortal from 'components/root_portal';
@@ -24,6 +24,7 @@ const MAX_FAKE_PROGRESS = 95;
 
 export default function DowngradeModal() {
     const modal = React.createRef();
+    const mounted = useRef(false);
     const dispatch = useDispatch();
     const [progress, setProgress] = useState(0);
 
@@ -37,11 +38,23 @@ export default function DowngradeModal() {
     );
 
     useEffect(() => {
-        const updateProgress = () => setProgress(progress + 1);
+        const updateProgress = () => {
+            if (mounted.current) {
+                setProgress(progress + 1);
+            }
+        };
         if (progress < MAX_FAKE_PROGRESS) {
             setTimeout(updateProgress, MIN_PROCESSING_MILLISECONDS / MAX_FAKE_PROGRESS);
         }
     }, [progress]);
+
+    useEffect(() => {
+        mounted.current = true;
+
+        return () => {
+            mounted.current = false;
+        };
+    }, []);
 
     return (
         <RootPortal>

@@ -16,7 +16,7 @@ type TelemetryProps = Pick<OpenDowngradeModalOptions, 'trackingLocation'>
 export default function useOpenDowngradeModal() {
     const dispatch = useDispatch();
     return (telemetryProps: TelemetryProps) => {
-        trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_open_dongrade_modal', {
+        trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_open_downgrade_modal', {
             callerInfo: telemetryProps.trackingLocation,
         });
         dispatch(openModal({
