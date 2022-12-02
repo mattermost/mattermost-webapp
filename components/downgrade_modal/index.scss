@@ -15,7 +15,7 @@
     height: 4px;
     margin: 0 auto;
     margin-top: 60px;
-    background: rgba(34, 64, 109, 0.12);
+    background: rgba(var(--secondary-blue-rgb), 0.12);
     border-radius: 4px;
 }
 
