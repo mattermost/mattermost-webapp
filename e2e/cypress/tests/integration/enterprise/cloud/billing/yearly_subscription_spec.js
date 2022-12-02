@@ -126,7 +126,7 @@ describe('System Console - Subscriptions section', () => {
                 cy.get('.RHS').get('.plan_price_rate_section').contains(professionalYearlySubscription.price_per_seat / 12);
                 cy.get('.RHS').get('#input_UserSeats').should('have.value', count);
 
-                // * check that the save with yearly text exists
+                // * check that the "save with yearly" text exists
                 cy.get('.RHS').get('.save_text').contains('Save 20% with Yearly!');
 
                 // # click on the "Monthly" label
@@ -164,7 +164,15 @@ describe('System Console - Subscriptions section', () => {
                 const userCount = response.body.find((obj) => obj.name === 'unique_user_count');
                 expect(text).to.contain(userCount.value);
 
-                const count = userCount.value;
+                const count = Number(userCount.value);
+
+                const numMonths = 12;
+
+                const checkValues = (currentCount) => {
+                    cy.get('.RHS').get('.monthly_price').contains(currentCount * professionalMonthlySubscription.price_per_seat * numMonths);
+                    cy.get('.RHS').get('.yearly_savings').contains(currentCount * (professionalMonthlySubscription.price_per_seat - (professionalYearlySubscription.price_per_seat / numMonths)) * numMonths);
+                    cy.get('.RHS').get('.total_price').contains(currentCount * professionalYearlySubscription.price_per_seat);
+                };
 
                 // # Click on Upgrade Now button
                 cy.contains('span', 'Upgrade Now').parent().click();
@@ -184,12 +192,8 @@ describe('System Console - Subscriptions section', () => {
                 cy.get('.RHS').get('.plan_price_rate_section').contains(professionalYearlySubscription.price_per_seat / 12);
                 cy.get('.RHS').get('#input_UserSeats').should('have.value', count);
 
-                const numMonths = 12;
-
                 // * check that the yearly, monthly, and saving prices are correct
-                cy.get('.RHS').get('.monthly_price').contains(Number(count) * professionalMonthlySubscription.price_per_seat * numMonths);
-                cy.get('.RHS').get('.yearly_savings').contains(Number(count) * (professionalMonthlySubscription.price_per_seat - (professionalYearlySubscription.price_per_seat / numMonths)) * numMonths);
-                cy.get('.RHS').get('.total_price').contains(Number(count) * professionalYearlySubscription.price_per_seat);
+                checkValues(count);
 
                 // # Enter card details and user details
                 cy.uiGetPaymentCardInput().within(() => {
@@ -210,26 +214,22 @@ describe('System Console - Subscriptions section', () => {
                 cy.get('.RHS').find('button').should('be.enabled');
 
                 // # Change the user seats field to a value smaller than the current number of users
-                const lessThanUserCount = Number(count) - 5;
+                const lessThanUserCount = count - 5;
                 cy.get('#input_UserSeats').clear().type(lessThanUserCount);
 
                 // * Ensure that the yearly, monthly, and yearly saving prices match the new user seats value entered
-                cy.get('.RHS').get('.monthly_price').contains(lessThanUserCount * professionalMonthlySubscription.price_per_seat * numMonths);
-                cy.get('.RHS').get('.yearly_savings').contains(lessThanUserCount * (professionalMonthlySubscription.price_per_seat - (professionalYearlySubscription.price_per_seat / 12)) * numMonths);
-                cy.get('.RHS').get('.total_price').contains(lessThanUserCount * professionalYearlySubscription.price_per_seat);
+                checkValues(lessThanUserCount);
                 cy.get('.RHS').get('.Input___customMessage').contains(`Your workspace currently has ${count} users`);
 
                 // * Check that Upgrade button is not enabled
                 cy.get('.RHS').find('button').should('be.disabled');
 
                 // # Change the user seats field to a value bigger than the current number of users
-                const greaterThanUserCount = Number(count) + 5;
+                const greaterThanUserCount = count + 5;
                 cy.get('#input_UserSeats').clear().type(greaterThanUserCount);
 
                 // * Ensure that the yearly, monthly, and yearly saving prices match the new user seats value entered
-                cy.get('.RHS').get('.monthly_price').contains(greaterThanUserCount * professionalMonthlySubscription.price_per_seat * numMonths);
-                cy.get('.RHS').get('.yearly_savings').contains(greaterThanUserCount * (professionalMonthlySubscription.price_per_seat - (professionalYearlySubscription.price_per_seat / 12)) * numMonths);
-                cy.get('.RHS').get('.total_price').contains(greaterThanUserCount * (professionalYearlySubscription.price_per_seat));
+                checkValues(greaterThanUserCount);
 
                 // * Check for enable status of Upgrade button
                 cy.get('.RHS').find('button').should('be.enabled');
