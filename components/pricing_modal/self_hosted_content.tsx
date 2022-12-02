@@ -199,19 +199,19 @@ function SelfHostedContent(props: ContentProps) {
                             action: () => {
                                 trackEvent('self_hosted_pricing', 'click_upgrade_button');
 
+                                if (!isSelfHostedPurchaseEnabled) {
+                                    window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
+                                    return;
+                                }
+
                                 if (!canUseSelfHostedSignup) {
                                     closePricingModal();
                                     openAirGappedPurchaseModal();
                                     return;
                                 }
 
-                                if (!isSelfHostedPurchaseEnabled) {
-                                    window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
-                                    return;
-                                }
-
                                 const professionalProduct = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL);
-                                if (isSelfHostedPurchaseEnabled && productsLoaded && professionalProduct) {
+                                if (productsLoaded && professionalProduct) {
                                     closePricingModal();
                                     openSelfHostedPurchaseModal({productId: professionalProduct.id});
                                 }
