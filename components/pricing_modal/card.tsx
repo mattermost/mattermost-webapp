@@ -5,8 +5,6 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
-import LoadingSpinner from 'components/widgets/loading/loading_spinner';
-
 import BuildingSvg from './building.svg';
 import TadaSvg from './tada.svg';
 
