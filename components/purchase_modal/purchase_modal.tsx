@@ -94,6 +94,7 @@ type CardProps = {
     updateIsMonthly: (isMonthly: boolean) => void;
     updateInputUserCount: (userCount: number) => void;
     setUserCountError: (hasError: boolean) => void;
+    isCurrentPlanMonthlyProfessional: boolean;
 }
 
 type Props = {
@@ -488,17 +489,21 @@ function Card(props: CardProps) {
     const monthlyYearlyPlan = (
         <div className='PlanCard'>
             <div className='bottom bottom-monthly-yearly'>
-                <div className='save_text'>
-                    <FormattedMessage
-                        defaultMessage={'Save 20% with Yearly.'}
-                        id={'pricing_modal.saveWithYearly'}
-                    />
-                </div>
-                <YearlyMonthlyToggle
-                    updatePrice={updateDisplayPage}
-                    isPurchases={true}
-                    isInitialPlanMonthly={props.isInitialPlanMonthly}
-                />
+                {!props.isCurrentPlanMonthlyProfessional && (
+                    <>
+                        <div className='save_text'>
+                            <FormattedMessage
+                                defaultMessage={'Save 20% with Yearly.'}
+                                id={'pricing_modal.saveWithYearly'}
+                            />
+                        </div>
+                        <YearlyMonthlyToggle
+                            updatePrice={updateDisplayPage}
+                            isPurchases={true}
+                            isInitialPlanMonthly={props.isInitialPlanMonthly}
+                        />
+                    </>
+                )}
                 {/* the style below will eventually be added to the plan_price_rate_section once the annualSubscription feature flag is removed*/}
                 <div
                     className='plan_price_rate_section'
@@ -904,6 +909,10 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             return crossSellsToProduct ? crossSellsToProduct.price_per_seat / 12 : this.state.selectedProduct.price_per_seat;
         };
 
+        const checkIsMonthlyProfessionalProduct = (product: Product) => {
+            return product.recurring_interval === RecurringIntervals.MONTH && product.sku === CloudProducts.PROFESSIONAL;
+        };
+
         return (
             <>
                 <div
@@ -954,6 +963,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     setUserCountError={(hasError: boolean) => this.setState({userCountError: hasError})}
                     updateIsMonthly={(newIsMonthly: boolean) => this.setState({isMonthly: newIsMonthly})}
                     updateInputUserCount={(newUsersCount: number) => this.setState({inputUserCount: newUsersCount})}
+                    isCurrentPlanMonthlyProfessional={this.state.currentProduct ? checkIsMonthlyProfessionalProduct(this.state.currentProduct) : false}
                 />
             </>
         );
