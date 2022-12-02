@@ -52,7 +52,7 @@ export default function DowngradeModal() {
                 ariaLabelledBy='purchase_modal_title'
                 overrideTargetEvent={false}
             >
-                <div className='DowngradeModal'>
+                <div id='DowngradeModal'>
                     <IconMessage
                         title={t('admin.billing.subscription.downgrading')}
                         subtitle={''}
