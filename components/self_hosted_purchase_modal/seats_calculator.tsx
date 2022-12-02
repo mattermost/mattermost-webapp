@@ -23,7 +23,7 @@ interface Props {
 
 export interface Seats {
     quantity: string;
-    error: React.ReactNode;
+    error: null | React.ReactNode;
 }
 
 const MAX_TRANSACTION_VALUE = 1_000_000 - 1;

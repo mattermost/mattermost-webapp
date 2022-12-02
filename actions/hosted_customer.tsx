@@ -61,21 +61,21 @@ export function confirmSelfHostedSignup(
                 },
             );
             if (!result) {
-                return {data: false};
+                return {data: false, error: 'failed to confirm card with Stripe'};
             }
 
             const {setupIntent, error: stripeError} = result;
 
             if (stripeError) {
-                return {data: false};
+                return {data: false, error: stripeError.message || 'Stripe failed to confirm payment method'};
             }
 
-            if (setupIntent == null) {
-                return {data: false};
+            if (setupIntent === null || setupIntent === undefined) {
+                return {data: false, error: 'Stripe did not return successful setup intent'};
             }
 
             if (setupIntent.status !== 'succeeded') {
-                return {data: false};
+                return {data: false, error: `Stripe setup intent status was: ${setupIntent.status}`};
             }
             dispatch({
                 type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,

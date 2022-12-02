@@ -591,19 +591,19 @@ export default function SelfHostedPurchaseModal(props: Props) {
                 },
             ));
             if (finished.data) {
-                // eslint-disable-next-line
-                console.log('redirect to license page or something. data:', finished.data);
                 dispatch({type: 'succeeded'});
                 reduxDispatch({
                     type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
                     data: SelfHostedSignupProgress.CREATED_LICENSE,
                 });
             } else if (finished.error) {
-                dispatch({type: 'update_submitting', data: false});
+                dispatch({type: 'set_error', data: finished.error});
             }
             dispatch({type: 'update_submitting', data: false});
-        } catch {
-            dispatch({type: 'update_submitting', data: false});
+        } catch(e) {
+            // eslint-disable-next-line
+            console.error(e);
+            dispatch({type: 'set_error', data: 'unable to complete signup'})
         }
     }
     const canSubmitForm = canSubmit(state, progress);
