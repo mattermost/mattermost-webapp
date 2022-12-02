@@ -1308,7 +1308,7 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal with Call
                         "id": "shortcuts.calls.join_call",
                       },
                       "mac": Object {
-                        "defaultMessage": "Join call in current channel:	⌘|⌥||S",
+                        "defaultMessage": "Join call in current channel:	⌘|⌥|S",
                         "id": "shortcuts.calls.join_call.mac",
                       },
                     }

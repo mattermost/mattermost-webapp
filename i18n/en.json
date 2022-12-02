@@ -4603,7 +4603,7 @@
   "shortcuts.calls.global.header": "Global",
   "shortcuts.calls.header": "Calls",
   "shortcuts.calls.join_call": "Join call in current channel:\tCtrl|Alt|S",
-  "shortcuts.calls.join_call.mac": "Join call in current channel:\t⌘|⌥||S",
+  "shortcuts.calls.join_call.mac": "Join call in current channel:\t⌘|⌥|S",
   "shortcuts.calls.leave_call": "Leave current call:\tCtrl|Shift|L",
   "shortcuts.calls.leave_call.mac": "Leave current call:\t⌘|Shift|L",
   "shortcuts.calls.mute_toggle": "Mute or unmute:\tCtrl|Shift|Space",
