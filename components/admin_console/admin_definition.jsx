@@ -4799,10 +4799,10 @@ const AdminDefinition = {
             isHidden: it.any(
                 it.any(
                     it.not(it.licensed),
-                    it.all(it.licensedForSku('starter')),
+                    it.licensedForSku('starter'),
                 ),
                 it.all(
-                    it.all(it.licensedForFeature('OpenId')),
+                    it.licensedForFeature('OpenId'),
                     it.not(usesLegacyOauth),
                 ),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
