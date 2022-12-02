@@ -68,7 +68,7 @@ describe('Global Info Banner overage users', () => {
         });
     });
 
-    it('should show the banner with CTA Contact Sales because the license is sales type', () => {
+    it('should show the banner with Contact Sales CTA because the license is sales type', () => {
         withEmailLicense(createdUser.email);
         withSubscriptionExpendable(false);
         cy.apiLogout();
@@ -123,7 +123,7 @@ describe('Global Error Banner overage users', () => {
         });
     });
 
-    it('should show the banner with CTA because it\'s the admin who purchased the license', () => {
+    it('should show the banner with Contact Sales CTA because it\'s the admin who purchased the license', () => {
         withEmailLicense(createdUser.email);
         withSubscriptionExpendable(false);
         cy.apiLogout();

@@ -283,7 +283,7 @@ describe('components/overage_users_banner', () => {
         expect(getLicenseExpandStats).toBeCalledTimes(1);
     });
 
-    it('should render the  warning banner with expansion seats CTA if the license is expensable', () => {
+    it('should render the  warning banner with expansion seats CTA if the license is expendable', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
         store.entities.cloud = {
@@ -308,7 +308,7 @@ describe('components/overage_users_banner', () => {
         expect(screen.getByText(expandSeatsTextLink)).toBeInTheDocument();
     });
 
-    it('should render the error banner with expansion seats CTA if the license is be expensable', () => {
+    it('should render the error banner with expansion seats CTA if the license is be expendable', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
         store.entities.cloud = {

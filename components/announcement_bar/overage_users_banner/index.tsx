@@ -70,7 +70,7 @@ const OverageUsersBanner = () => {
 
     useEffect(() => {
         const shouldRequest = hasPermission && !adminHasDismissed({isWarningBanner: isBetween5PercerntAnd10PercentPurchasedSeats, overagePreferences, preferenceName});
-        if (shouldRequest && license.Id !== null && license.Id !== undefined) {
+        if (shouldRequest && license.Id) {
             dispatch(getLicenseExpandStats(license.Id));
         }
     }, [hasPermission, license.Id, dispatch, isBetween5PercerntAnd10PercentPurchasedSeats, overagePreferences, preferenceName]);
