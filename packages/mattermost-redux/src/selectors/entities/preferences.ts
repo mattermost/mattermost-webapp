@@ -227,7 +227,7 @@ export function getCollapsedThreadsPreference(state: GlobalState): string {
 }
 
 export function isCollapsedThreadsAllowed(state: GlobalState): boolean {
-    return getConfig(state) && getConfig(state).CollapsedThreads !== undefined && getConfig(state).CollapsedThreads !== CollapsedThreads.DISABLED;
+    return !!getConfig(state) && getConfig(state).CollapsedThreads !== undefined && getConfig(state).CollapsedThreads !== CollapsedThreads.DISABLED;
 }
 
 export function isCollapsedThreadsEnabled(state: GlobalState): boolean {
