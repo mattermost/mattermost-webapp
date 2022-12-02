@@ -10,8 +10,8 @@ type SvgProps = {
 
 const PublicChannelIntroSvg = (props: SvgProps) => (
     <svg
-        width={props.width ?? '220'}
-        height={props.height ?? '218'}
+        width={props.width ?? '151'}
+        height={props.height ?? '149'}
         viewBox='0 0 220 218'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'

@@ -48,7 +48,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     className="channel-intro__content"
   >
     <MemoizedFormattedMessage
-      defaultMessage="Welcome to {display_name}. Post messages here that you want everyone to see. Everyone \\\\n automatically becomes a permanent member of this channel when they join the team."
+      defaultMessage="Welcome to {display_name}. Post messages here that you want everyone to see. Everyone \\\\n automatically becomes a member of this channel when they join the team."
       id="intro_messages.default"
       values={
         Object {
@@ -418,7 +418,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     className="channel-intro__content"
   >
     <MemoizedFormattedMessage
-      defaultMessage="Welcome to {display_name}. Post messages here that you want everyone to see. Everyone \\\\n automatically becomes a permanent member of this channel when they join the team."
+      defaultMessage="Welcome to {display_name}. Post messages here that you want everyone to see. Everyone \\\\n automatically becomes a member of this channel when they join the team."
       id="intro_messages.default"
       values={
         Object {
@@ -638,7 +638,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     className="channel-intro__content"
   >
     <MemoizedFormattedMessage
-      defaultMessage="Welcome to {display_name}. Post messages here that you want everyone to see. Everyone \\\\n automatically becomes a permanent member of this channel when they join the team."
+      defaultMessage="Welcome to {display_name}. Post messages here that you want everyone to see. Everyone \\\\n automatically becomes a member of this channel when they join the team."
       id="intro_messages.default"
       values={
         Object {
@@ -858,7 +858,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     className="channel-intro__content"
   >
     <MemoizedFormattedMessage
-      defaultMessage="Welcome to {display_name}. Post messages here that you want everyone to see. Everyone \\\\n automatically becomes a permanent member of this channel when they join the team."
+      defaultMessage="Welcome to {display_name}. Post messages here that you want everyone to see. Everyone \\\\n automatically becomes a member of this channel when they join the team."
       id="intro_messages.default"
       values={
         Object {
@@ -1704,222 +1704,10 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
 
 exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should match snapshot, with boards 1`] = `
 <div
-  className="channel-intro d-flex flex-column "
-  id="channelIntro"
->
-  <SvgComponent />
-  <h2
-    className="channel-intro__title"
-  >
-    test channel
-  </h2>
-  <p
-    className="channel-intro__content"
-  >
-    <MemoizedFormattedMessage
-      defaultMessage="This is the start of {display_name}, a channel for non-work-related conversations."
-      id="intro_messages.offTopic"
-      values={
-        Object {
-          "display_name": "test channel",
-        }
-      }
-    />
-  </p>
-  <Memo(AddMembersButton)
-    channel={
-      Object {
-        "create_at": 1508265709607,
-        "creator_id": "creator_id",
-        "delete_at": 0,
-        "display_name": "test channel",
-        "header": "test",
-        "id": "channel_id",
-        "last_post_at": 1508265709635,
-        "name": "off-topic",
-        "purpose": "test",
-        "team_id": "team-id",
-        "type": "O",
-        "update_at": 1508265709607,
-      }
-    }
-    createBoard={
-      <button
-        aria-label="Create a board"
-        className="intro-links color--link channelIntroButton style--none"
-        onClick={[Function]}
-      >
-        <Memo(MemoizedFormattedMessage)
-          defaultMessage="Create a board"
-          id="intro_messages.createBoard"
-        />
-      </button>
-    }
-    setHeader={
-      <Memo(Connect(ChannelPermissionGate))
-        channelId="channel_id"
-        permissions={
-          Array [
-            "manage_public_channel_properties",
-          ]
-        }
-        teamId="team-id"
-      >
-        <Memo(Connect(ToggleModalButton))
-          ariaLabel="Edit header"
-          className="intro-links undefined"
-          dialogProps={
-            Object {
-              "channel": Object {
-                "create_at": 1508265709607,
-                "creator_id": "creator_id",
-                "delete_at": 0,
-                "display_name": "test channel",
-                "header": "test",
-                "id": "channel_id",
-                "last_post_at": 1508265709635,
-                "name": "off-topic",
-                "purpose": "test",
-                "team_id": "team-id",
-                "type": "O",
-                "update_at": 1508265709607,
-              },
-            }
-          }
-          dialogType={
-            Object {
-              "$$typeof": Symbol(react.memo),
-              "WrappedComponent": [Function],
-              "compare": null,
-              "type": [Function],
-            }
-          }
-          modalId="edit_channel_header"
-          noTransparent={true}
-        >
-          <PencilOutlineIcon
-            size={24}
-          />
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Edit header"
-            id="intro_messages.editHeader"
-          />
-        </Memo(Connect(ToggleModalButton))>
-      </Memo(Connect(ChannelPermissionGate))>
-    }
-    usersLimit={10}
-  />
-</div>
-`;
-
-exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should match snapshot, without boards 1`] = `
-<div
-  className="channel-intro d-flex flex-column "
-  id="channelIntro"
->
-  <SvgComponent />
-  <h2
-    className="channel-intro__title"
-  >
-    test channel
-  </h2>
-  <p
-    className="channel-intro__content"
-  >
-    <MemoizedFormattedMessage
-      defaultMessage="This is the start of {display_name}, a channel for non-work-related conversations."
-      id="intro_messages.offTopic"
-      values={
-        Object {
-          "display_name": "test channel",
-        }
-      }
-    />
-  </p>
-  <Memo(AddMembersButton)
-    channel={
-      Object {
-        "create_at": 1508265709607,
-        "creator_id": "creator_id",
-        "delete_at": 0,
-        "display_name": "test channel",
-        "header": "test",
-        "id": "channel_id",
-        "last_post_at": 1508265709635,
-        "name": "off-topic",
-        "purpose": "test",
-        "team_id": "team-id",
-        "type": "O",
-        "update_at": 1508265709607,
-      }
-    }
-    createBoard={null}
-    setHeader={
-      <Memo(Connect(ChannelPermissionGate))
-        channelId="channel_id"
-        permissions={
-          Array [
-            "manage_public_channel_properties",
-          ]
-        }
-        teamId="team-id"
-      >
-        <Memo(Connect(ToggleModalButton))
-          ariaLabel="Edit header"
-          className="intro-links undefined"
-          dialogProps={
-            Object {
-              "channel": Object {
-                "create_at": 1508265709607,
-                "creator_id": "creator_id",
-                "delete_at": 0,
-                "display_name": "test channel",
-                "header": "test",
-                "id": "channel_id",
-                "last_post_at": 1508265709635,
-                "name": "off-topic",
-                "purpose": "test",
-                "team_id": "team-id",
-                "type": "O",
-                "update_at": 1508265709607,
-              },
-            }
-          }
-          dialogType={
-            Object {
-              "$$typeof": Symbol(react.memo),
-              "WrappedComponent": [Function],
-              "compare": null,
-              "type": [Function],
-            }
-          }
-          modalId="edit_channel_header"
-          noTransparent={true}
-        >
-          <PencilOutlineIcon
-            size={24}
-          />
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Edit header"
-            id="intro_messages.editHeader"
-          />
-        </Memo(Connect(ToggleModalButton))>
-      </Memo(Connect(ChannelPermissionGate))>
-    }
-    usersLimit={10}
-  />
-</div>
-`;
-
-exports[`components/post_view/ChannelIntroMessages test Open Channel should match snapshot, with boards 1`] = `
-<div
   className="channel-intro  d-flex flex-column "
   id="channelIntro"
 >
-  <PublicChannelIntroSvg
-    height={218}
-    width={220}
-  />
+  <PublicChannelIntroSvg />
   <h2
     className="channel-intro__title"
   >
@@ -1928,8 +1716,462 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
   <p
     className="channel-intro__desc"
   >
-    <i
-      className="icon icon-globe"
+    <_StyledLockOutlineIcon
+      size={14}
+    />
+    <span>
+      <MemoizedFormattedMessage
+        defaultMessage="Public channel {name} created by {creator} {date}."
+        id="intro_messages.creator"
+        values={
+          Object {
+            "creator": "creatorName",
+            "date": <FormattedDate
+              day="2-digit"
+              month="long"
+              value={1508265709607}
+              year="numeric"
+            />,
+            "name": "test channel",
+          }
+        }
+      />
+    </span>
+  </p>
+  <p
+    className="channel-intro__content"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Welcome to the {name} channel. Add some more team members to the channel or start a conversation below."
+      id="intro_messages.anyMember"
+      values={
+        Object {
+          "name": "test channel",
+        }
+      }
+    />
+  </p>
+  <div
+    className="channel-intro__actions"
+  >
+    <span
+      className="d-flex flex-row"
+    >
+      <Connect(ToggleModalButton)
+        ariaLabel="Add people"
+        className="intro-links channelIntroButton"
+        dialogProps={
+          Object {
+            "channel": Object {
+              "create_at": 1508265709607,
+              "creator_id": "creator_id",
+              "delete_at": 0,
+              "display_name": "test channel",
+              "header": "test",
+              "id": "channel_id",
+              "last_post_at": 1508265709635,
+              "name": "off-topic",
+              "purpose": "test",
+              "team_id": "team-id",
+              "type": "O",
+              "update_at": 1508265709607,
+            },
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "type": [Function],
+          }
+        }
+        modalId="channel_invite"
+        noTransparent={true}
+      >
+        <AccountPlusOutlineIcon
+          size={24}
+        />
+        <MemoizedFormattedMessage
+          defaultMessage="Add people"
+          id="channel_info_rhs.top_buttons.add_people"
+        />
+      </Connect(ToggleModalButton)>
+      <Connect(ChannelPermissionGate)
+        channelId="channel_id"
+        permissions={
+          Array [
+            "manage_public_channel_properties",
+          ]
+        }
+        teamId="team-id"
+      >
+        <Connect(ToggleModalButton)
+          ariaLabel="Edit header"
+          className="intro-links channelIntroButton"
+          dialogProps={
+            Object {
+              "channel": Object {
+                "create_at": 1508265709607,
+                "creator_id": "creator_id",
+                "delete_at": 0,
+                "display_name": "test channel",
+                "header": "test",
+                "id": "channel_id",
+                "last_post_at": 1508265709635,
+                "name": "off-topic",
+                "purpose": "test",
+                "team_id": "team-id",
+                "type": "O",
+                "update_at": 1508265709607,
+              },
+            }
+          }
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "type": [Function],
+            }
+          }
+          modalId="edit_channel_header"
+          noTransparent={true}
+        >
+          <PencilOutlineIcon
+            size={24}
+          />
+          <MemoizedFormattedMessage
+            defaultMessage="Edit header"
+            id="intro_messages.editHeader"
+          />
+        </Connect(ToggleModalButton)>
+      </Connect(ChannelPermissionGate)>
+      <Connect(ToggleModalButton)
+        ariaLabel="Notifications"
+        className="intro-links channelIntroButton"
+        dialogProps={
+          Object {
+            "channel": Object {
+              "create_at": 1508265709607,
+              "creator_id": "creator_id",
+              "delete_at": 0,
+              "display_name": "test channel",
+              "header": "test",
+              "id": "channel_id",
+              "last_post_at": 1508265709635,
+              "name": "off-topic",
+              "purpose": "test",
+              "team_id": "team-id",
+              "type": "O",
+              "update_at": 1508265709607,
+            },
+            "currentUser": Object {
+              "auth_service": "",
+              "bot_description": "",
+              "create_at": 0,
+              "delete_at": 0,
+              "email": "",
+              "first_name": "",
+              "id": "id1",
+              "is_bot": false,
+              "last_activity_at": 0,
+              "last_name": "",
+              "last_password_update": 0,
+              "last_picture_update": 0,
+              "locale": "",
+              "mfa_active": false,
+              "nickname": "",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "never",
+                "desktop": "default",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "offline",
+              },
+              "password": "",
+              "position": "",
+              "props": Object {},
+              "roles": "",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 0,
+              "username": "some-user",
+            },
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "type": [Function],
+          }
+        }
+        modalId="notifications"
+        noTransparent={true}
+      >
+        <BellOutlineIcon
+          size={24}
+        />
+        <MemoizedFormattedMessage
+          defaultMessage="Notifications"
+          id="intro_messages.notifications"
+        />
+      </Connect(ToggleModalButton)>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should match snapshot, without boards 1`] = `
+<div
+  className="channel-intro  d-flex flex-column "
+  id="channelIntro"
+>
+  <PublicChannelIntroSvg />
+  <h2
+    className="channel-intro__title"
+  >
+    test channel
+  </h2>
+  <p
+    className="channel-intro__desc"
+  >
+    <_StyledLockOutlineIcon
+      size={14}
+    />
+    <span>
+      <MemoizedFormattedMessage
+        defaultMessage="Public channel {name} created by {creator} {date}."
+        id="intro_messages.creator"
+        values={
+          Object {
+            "creator": "creatorName",
+            "date": <FormattedDate
+              day="2-digit"
+              month="long"
+              value={1508265709607}
+              year="numeric"
+            />,
+            "name": "test channel",
+          }
+        }
+      />
+    </span>
+  </p>
+  <p
+    className="channel-intro__content"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Welcome to the {name} channel. Add some more team members to the channel or start a conversation below."
+      id="intro_messages.anyMember"
+      values={
+        Object {
+          "name": "test channel",
+        }
+      }
+    />
+  </p>
+  <div
+    className="channel-intro__actions"
+  >
+    <span
+      className="d-flex flex-row"
+    >
+      <Connect(ToggleModalButton)
+        ariaLabel="Add people"
+        className="intro-links channelIntroButton"
+        dialogProps={
+          Object {
+            "channel": Object {
+              "create_at": 1508265709607,
+              "creator_id": "creator_id",
+              "delete_at": 0,
+              "display_name": "test channel",
+              "header": "test",
+              "id": "channel_id",
+              "last_post_at": 1508265709635,
+              "name": "off-topic",
+              "purpose": "test",
+              "team_id": "team-id",
+              "type": "O",
+              "update_at": 1508265709607,
+            },
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "type": [Function],
+          }
+        }
+        modalId="channel_invite"
+        noTransparent={true}
+      >
+        <AccountPlusOutlineIcon
+          size={24}
+        />
+        <MemoizedFormattedMessage
+          defaultMessage="Add people"
+          id="channel_info_rhs.top_buttons.add_people"
+        />
+      </Connect(ToggleModalButton)>
+      <Connect(ChannelPermissionGate)
+        channelId="channel_id"
+        permissions={
+          Array [
+            "manage_public_channel_properties",
+          ]
+        }
+        teamId="team-id"
+      >
+        <Connect(ToggleModalButton)
+          ariaLabel="Edit header"
+          className="intro-links channelIntroButton"
+          dialogProps={
+            Object {
+              "channel": Object {
+                "create_at": 1508265709607,
+                "creator_id": "creator_id",
+                "delete_at": 0,
+                "display_name": "test channel",
+                "header": "test",
+                "id": "channel_id",
+                "last_post_at": 1508265709635,
+                "name": "off-topic",
+                "purpose": "test",
+                "team_id": "team-id",
+                "type": "O",
+                "update_at": 1508265709607,
+              },
+            }
+          }
+          dialogType={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "type": [Function],
+            }
+          }
+          modalId="edit_channel_header"
+          noTransparent={true}
+        >
+          <PencilOutlineIcon
+            size={24}
+          />
+          <MemoizedFormattedMessage
+            defaultMessage="Edit header"
+            id="intro_messages.editHeader"
+          />
+        </Connect(ToggleModalButton)>
+      </Connect(ChannelPermissionGate)>
+      <Connect(ToggleModalButton)
+        ariaLabel="Notifications"
+        className="intro-links channelIntroButton"
+        dialogProps={
+          Object {
+            "channel": Object {
+              "create_at": 1508265709607,
+              "creator_id": "creator_id",
+              "delete_at": 0,
+              "display_name": "test channel",
+              "header": "test",
+              "id": "channel_id",
+              "last_post_at": 1508265709635,
+              "name": "off-topic",
+              "purpose": "test",
+              "team_id": "team-id",
+              "type": "O",
+              "update_at": 1508265709607,
+            },
+            "currentUser": Object {
+              "auth_service": "",
+              "bot_description": "",
+              "create_at": 0,
+              "delete_at": 0,
+              "email": "",
+              "first_name": "",
+              "id": "id1",
+              "is_bot": false,
+              "last_activity_at": 0,
+              "last_name": "",
+              "last_password_update": 0,
+              "last_picture_update": 0,
+              "locale": "",
+              "mfa_active": false,
+              "nickname": "",
+              "notify_props": Object {
+                "channel": "false",
+                "comments": "never",
+                "desktop": "default",
+                "desktop_sound": "false",
+                "email": "false",
+                "first_name": "false",
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "offline",
+              },
+              "password": "",
+              "position": "",
+              "props": Object {},
+              "roles": "",
+              "terms_of_service_create_at": 0,
+              "terms_of_service_id": "",
+              "update_at": 0,
+              "username": "some-user",
+            },
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "type": [Function],
+          }
+        }
+        modalId="notifications"
+        noTransparent={true}
+      >
+        <BellOutlineIcon
+          size={24}
+        />
+        <MemoizedFormattedMessage
+          defaultMessage="Notifications"
+          id="intro_messages.notifications"
+        />
+      </Connect(ToggleModalButton)>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/ChannelIntroMessages test Open Channel should match snapshot, with boards 1`] = `
+<div
+  className="channel-intro  d-flex flex-column "
+  id="channelIntro"
+>
+  <PublicChannelIntroSvg />
+  <h2
+    className="channel-intro__title"
+  >
+    test channel
+  </h2>
+  <p
+    className="channel-intro__desc"
+  >
+    <_StyledLockOutlineIcon
+      size={14}
     />
     <span>
       <MemoizedFormattedMessage
@@ -2146,10 +2388,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
   className="channel-intro  d-flex flex-column "
   id="channelIntro"
 >
-  <PublicChannelIntroSvg
-    height={218}
-    width={220}
-  />
+  <PublicChannelIntroSvg />
   <h2
     className="channel-intro__title"
   >
@@ -2158,8 +2397,8 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
   <p
     className="channel-intro__desc"
   >
-    <i
-      className="icon icon-globe"
+    <_StyledLockOutlineIcon
+      size={14}
     />
     <span>
       <MemoizedFormattedMessage

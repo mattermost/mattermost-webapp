@@ -27,7 +27,8 @@
         font-weight: 600;
         line-height: 16px;
 
-        span {
+        span,
+        i {
             color: var(--button-color);
             font-size: 14px;
             font-weight: 600;
@@ -122,4 +123,5 @@
     margin-bottom: 15px;
     color: rgba(63, 67, 80, 0.64);
     font-size: 11px;
+    text-align: center;
 }

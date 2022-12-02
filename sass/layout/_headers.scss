@@ -513,6 +513,7 @@
     flex-direction: column;
     align-items: center;
     padding: 110px 15px 0;
+    max-width: 648px;
     margin: 0 auto 10px;
 
     &.channel-intro--centered {
@@ -524,6 +525,10 @@
         align-items: center;
         margin-bottom: 10px;
 
+        &.padding-extra {
+            padding: 12px 20px;
+        }
+
         .fa,
         i {
             margin-right: 5px;
@@ -531,10 +536,9 @@
     }
 
     .channel-intro-profile {
-        margin: 0 0 4px;
+        margin: 15px 0 0 4px;
 
         .user-popover {
-            overflow: hidden;
             max-width: calc(100% - 100px);
             font-family: Metropolis, sans-serif;
             font-size: 28px;
@@ -544,15 +548,14 @@
     }
 
     .channel-intro-img {
-        display: flex;
-
         .status-wrapper {
             height: 72px;
-            margin: 0 -8px 3px 0;
+            margin: 0 64px 3px 0;
         }
 
         .status-wrapper-DM {
             height: 96px;
+            margin: 0 88px 3px 0;
         }
 
         img {

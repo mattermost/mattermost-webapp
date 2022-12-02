@@ -5,7 +5,7 @@ import {FormattedDate, FormattedMessage} from 'react-intl';
 
 import React from 'react';
 
-import {BellOutlineIcon, GlobeIcon, PencilOutlineIcon, StarOutlineIcon, AccountPlusOutlineIcon} from '@mattermost/compass-icons/components';
+import {BellOutlineIcon, GlobeIcon, PencilOutlineIcon, StarOutlineIcon, AccountPlusOutlineIcon, LockOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -35,6 +35,7 @@ import TownSquareIntroSvg from 'components/common/svg_images_components/town_squ
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import AddMembersButton from './add_members_button';
 type Props = {
@@ -54,9 +55,9 @@ type Props = {
     stats: any;
     usersLimit: number;
     actions: {
-        getTotalUsersStats: () => any;
-        favoriteChannel: (channelId: string) => any;
-        unfavoriteChannel: (channelId: string) => any;
+        getTotalUsersStats: () => ActionFunc;
+        favoriteChannel: (channelId: string) => ActionFunc;
+        unfavoriteChannel: (channelId: string) => ActionFunc;
     };
     boardComponent?: PluginComponent;
     theme?: Theme;
@@ -123,8 +124,6 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             return createGMIntroMessage(channel, centeredIntro, channelProfiles, currentUserId, currentUser, boardComponent, createClasses);
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
             return createDefaultIntroMessage(channel, centeredIntro, stats, usersLimit, locale, creatorName, currentUser, this.props.isFavorite, this.toggleFavorite, enableUserCreation, isReadOnly, teamIsGroupConstrained, boardComponent, createClasses);
-        } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
-            return createOffTopicIntroMessage(channel, centeredIntro, stats, usersLimit, boardComponent);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
             return createStandardIntroMessage(channel, centeredIntro, stats, usersLimit, currentUser, locale, creatorName, boardComponent, this.props.theme, createClasses);
         }
@@ -259,58 +258,6 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, isFavorit
     );
 }
 
-function createOffTopicIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number, boardComponent?: PluginComponent) {
-    const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
-    const boardCreateButton = createBoardsButton(channel, boardComponent);
-    const children = createSetHeaderButton(channel);
-    const totalUsers = stats.total_users_count;
-
-    let setHeaderButton = null;
-    if (children) {
-        setHeaderButton = (
-            <ChannelPermissionGate
-                teamId={channel.team_id}
-                channelId={channel.id}
-                permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
-            >
-                {children}
-            </ChannelPermissionGate>
-        );
-    }
-
-    const channelInviteButton = (
-        <AddMembersButton
-            setHeader={setHeaderButton}
-            totalUsers={totalUsers}
-            usersLimit={usersLimit}
-            channel={channel}
-            createBoard={boardCreateButton}
-        />
-    );
-
-    return (
-        <div
-            id='channelIntro'
-            className={'channel-intro d-flex flex-column ' + centeredIntro}
-        >
-            <TownSquareIntroSvg/>
-            <h2 className='channel-intro__title'>
-                {channel.display_name}
-            </h2>
-            <p className='channel-intro__content'>
-                <FormattedMessage
-                    id='intro_messages.offTopic'
-                    defaultMessage='This is the start of {display_name}, a channel for non-work-related conversations.'
-                    values={{
-                        display_name: channel.display_name,
-                    }}
-                />
-            </p>
-            {channelInviteButton}
-        </div>
-    );
-}
-
 export function createDefaultIntroMessage(
     channel: Channel,
     centeredIntro: string,
@@ -406,7 +353,7 @@ export function createDefaultIntroMessage(
                     }
                     {teamIsGroupConstrained &&
                     <ToggleModalButton
-                        className='intro-links color--link'
+                        className='intro-links padding-extra color--link'
                         modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
                         dialogType={AddGroupsToTeamModal}
                         dialogProps={{channel}}
@@ -461,7 +408,7 @@ export function createDefaultIntroMessage(
                 {!isReadOnly &&
                     <FormattedMessage
                         id='intro_messages.default'
-                        defaultMessage='Welcome to {display_name}. Post messages here that you want everyone to see. Everyone \n automatically becomes a permanent member of this channel when they join the team.'
+                        defaultMessage='Welcome to {display_name}. Post messages here that you want everyone to see. Everyone \n automatically becomes a member of this channel when they join the team.'
                         values={{
                             display_name: channel.display_name,
                         }}
@@ -613,26 +560,36 @@ function createStandardIntroMessage(channel: Channel, centeredIntro: string, sta
     );
 
     const actionsLayout = totalUsers < usersLimit ? channelInviteButton : headerAndNotification;
+    let describingIcon;
+    if (isPrivate) {
+        describingIcon =
+        (
+            <GlobeIcon
+                size={14}
+                css={{marginRight: 5}}
+            />
+        );
+    } else {
+        describingIcon =
+        (
+            <LockOutlineIcon
+                size={14}
+                css={{marginRight: 5}}
+            />
+        );
+    }
     return (
         <div
             id='channelIntro'
             className={'channel-intro  d-flex flex-column ' + centeredIntro}
         >
-            {isPrivate ?
-                <PrivateChannelIntroSvg
-                    width={220}
-                    height={218}
-                /> :
-                <PublicChannelIntroSvg
-                    width={220}
-                    height={218}
-                />
+            {isPrivate ? <PrivateChannelIntroSvg/> : <PublicChannelIntroSvg/>
             }
             <h2 className='channel-intro__title'>
                 {uiName}
             </h2>
             <p className='channel-intro__desc'>
-                <i className={isPrivate ? 'icon icon-lock-outline' : 'icon icon-globe'}/>
+                {describingIcon}
                 {createMessage}
             </p>
             <p className='channel-intro__content'>

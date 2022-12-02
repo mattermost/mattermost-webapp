@@ -39,11 +39,6 @@ function mapStateToProps(state: GlobalState) {
 
     const usersLimit = 10;
 
-    // let usersLimit = parseInt(getConfig(state).ExperimentalCloudUserLimit! || '10', 10);
-    // if (usersLimit === 0) {
-    //     usersLimit = 10;
-    // }
-
     const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
 
     return {

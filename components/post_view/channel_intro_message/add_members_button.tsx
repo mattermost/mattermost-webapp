@@ -75,7 +75,7 @@ const LessThanMaxFreeUsers = ({createBoard}: {setHeader: React.ReactNode; create
                     <ToggleModalButton
                         ariaLabel={localizeMessage('intro_messages.inviteOthers', 'Invite others to the workspace')}
                         id='introTextInvite'
-                        className='intro-links color--link cursor--pointer'
+                        className='intro-links padding-extra color--link cursor--pointer'
                         modalId={ModalIdentifiers.INVITATION}
                         dialogType={InvitationModal}
                     >
@@ -116,13 +116,15 @@ const MoreThanMaxFreeUsers = ({channel, setHeader, createBoard}: {channel: Chann
                     permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
                 >
                     <ToggleModalButton
-                        className='intro-links color--link'
+                        className='intro-links padding-extra color--link'
                         modalId={modalId}
                         dialogType={modal}
                         dialogProps={{channel}}
                     >
-                        <i
-                            className='icon-account-plus-outline'
+                        <EmailOutlineIcon
+                            size={14}
+                            css={{marginRight: 7}}
+                            color={'white'}
                             title={formatMessage({id: 'generic_icons.add', defaultMessage: 'Add Icon'})}
                         />
                         {isPrivate && channel.group_constrained &&
