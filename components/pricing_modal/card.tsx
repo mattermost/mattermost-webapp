@@ -49,7 +49,6 @@ type CardProps = {
     briefing: PlanBriefing;
     planAddonsInfo?: PlanAddonsInfo;
     planTrialDisclaimer?: JSX.Element;
-    processing?: boolean | false;
 }
 
 type StyledProps = {
@@ -93,7 +92,7 @@ function Card(props: CardProps) {
                                 disabled={props.buttonDetails?.disabled}
                                 onClick={props.buttonDetails?.action}
                             >
-                                {props.processing ? <LoadingSpinner/> : props.buttonDetails?.text}
+                                {props.buttonDetails?.text}
                             </button>
                         )}
                     </div>
