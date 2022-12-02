@@ -37,8 +37,6 @@ function VirtualizedThreadList({
     const startIndexRef = React.useRef<number>(0);
     const stopIndexRef = React.useRef<number>(0);
 
-    const itemKey = useCallback((index) => ids[index], [ids]);
-
     useEffect(() => {
         if (ids.length > 0 && selectedThreadId) {
             const index = ids.indexOf(selectedThreadId);
@@ -64,6 +62,8 @@ function VirtualizedThreadList({
         ),
         [ids, selectedThreadId, isLoading, addNoMoreResultsItem, total],
     );
+
+    const itemKey = useCallback((index, data) => data.ids[index], []);
 
     const isItemLoaded = useCallback((index) => {
         return ids.length === total || index < ids.length;

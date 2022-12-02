@@ -3,10 +3,11 @@
 
 import {combineReducers} from 'redux';
 
+import type {ValueOf} from '@mattermost/types/utilities';
 import {CloudTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Product, Subscription, CloudCustomer, Invoice, Limits} from '@mattermost/types/cloud';
+import {Product, Subscription, CloudCustomer, Invoice, Limits, SelfHostedSignupProgress} from '@mattermost/types/cloud';
 
 export function subscription(state: Subscription | null = null, action: GenericAction) {
     switch (action.type) {
@@ -168,6 +169,24 @@ export function errors(state: ErrorsReducer = emptyErrors, action: GenericAction
     }
 }
 
+interface SelfHostedSignupReducer {
+    progress: ValueOf<typeof SelfHostedSignupProgress>;
+}
+const initialSelfHostedSignup = {
+    progress: SelfHostedSignupProgress.START,
+};
+function selfHostedSignup(state: SelfHostedSignupReducer = initialSelfHostedSignup, action: GenericAction): SelfHostedSignupReducer {
+    switch (action.type) {
+    case CloudTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS:
+        return {
+            ...state,
+            progress: action.data,
+        };
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
 
     // represents the current cloud customer
@@ -187,4 +206,7 @@ export default combineReducers({
 
     // network errors, used to show errors in ui instead of blowing up and showing nothing
     errors,
+
+    // state related to self-hosted workspaces purchasing a license not tied to a customer-web-server user.
+    selfHostedSignup,
 });

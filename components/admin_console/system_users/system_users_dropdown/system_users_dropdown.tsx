@@ -46,6 +46,7 @@ export type Props = {
         promoteGuestToUser: (id: string) => Promise<{error: ServerError}>;
         demoteUserToGuest: (id: string) => Promise<{error: ServerError}>;
         loadBots: (page?: number, size?: number) => Promise<unknown>;
+        createGroupTeamsAndChannels: (userId: string) => Promise<{error: ServerError}>;
     };
     doPasswordReset: (user: UserProfile) => void;
     doEmailReset: (user: UserProfile) => void;
@@ -60,6 +61,7 @@ type State = {
     showRevokeSessionsModal: boolean;
     showPromoteToUserModal: boolean;
     showDemoteToGuestModal: boolean;
+    showCreateGroupMembershipsModal: boolean;
     user: UserProfile | null;
     role: string | null;
 }
@@ -73,6 +75,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
             showRevokeSessionsModal: false,
             showPromoteToUserModal: false,
             showDemoteToGuestModal: false,
+            showCreateGroupMembershipsModal: false,
             user: null,
             role: null,
         };
@@ -283,6 +286,24 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         this.setState({showRevokeSessionsModal: true});
     }
 
+    handleShowCreateGroupSyncableMembershipsModal = (e: {preventDefault: () => void}) => {
+        e.preventDefault();
+        this.setState({showCreateGroupMembershipsModal: true});
+    }
+
+    handleCreateGroupSyncableMemberships = async () => {
+        const {error} = await this.props.actions.createGroupTeamsAndChannels(this.props.user.id);
+        if (error) {
+            this.props.onError(error);
+        }
+
+        this.setState({showCreateGroupMembershipsModal: false});
+    }
+
+    handleCreateGroupSyncableMembershipsCancel = () => {
+        this.setState({showCreateGroupMembershipsModal: false});
+    }
+
     handleRevokeSessions = async () => {
         const me = this.props.currentUser;
 
@@ -456,6 +477,55 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         );
     }
 
+    renderCreateGroupSyncablesMembershipsModal = () => {
+        const title = (
+            <FormattedMessage
+                id='create_group_memberships_modal.title'
+                defaultMessage='Re-add {username} to teams and channels'
+                values={{
+                    username: this.props.user.username,
+                }}
+            />
+        );
+
+        const message = (
+            <FormattedMessage
+                id='create_group_memberships_modal.desc'
+                defaultMessage="You're about to add or re-add {username} to teams and channels based on their LDAP group membership. You can revert this change at any time."
+                values={{
+                    username: this.props.user.username,
+                }}
+            />
+        );
+
+        const createGroupMembershipsButton = (
+            <FormattedMessage
+                id='create_group_memberships_modal.create'
+                defaultMessage='Yes'
+            />
+        );
+
+        const cancelGroupMembershipsButton = (
+            <FormattedMessage
+                id='create_group_memberships_modal.cancel'
+                defaultMessage='No'
+            />
+        );
+
+        return (
+            <ConfirmModal
+                show={this.state.showCreateGroupMembershipsModal}
+                title={title}
+                message={message}
+                confirmButtonClass='btn btn-danger'
+                cancelButtonText={cancelGroupMembershipsButton}
+                confirmButtonText={createGroupMembershipsButton}
+                onConfirm={this.handleCreateGroupSyncableMemberships}
+                onCancel={this.handleCreateGroupSyncableMembershipsCancel}
+            />
+        );
+    }
+
     renderAccessToken = () => {
         const userAccessTokensEnabled = this.props.enableUserAccessTokens;
         if (!userAccessTokensEnabled) {
@@ -554,6 +624,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         const revokeSessionsModal = this.renderRevokeSessionsModal();
         const promoteToUserModal = this.renderPromoteToUserModal();
         const demoteToGuestModal = this.renderDemoteToGuestModal();
+        const createGroupSyncablesMembershipsModal = this.renderCreateGroupSyncablesMembershipsModal();
 
         const {index, totalUsers} = this.props;
         return (
@@ -562,6 +633,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                 {revokeSessionsModal}
                 {promoteToUserModal}
                 {demoteToGuestModal}
+                {createGroupSyncablesMembershipsModal}
                 <MenuWrapper
                     isDisabled={this.props.isDisabled}
                 >
@@ -639,6 +711,13 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                                 show={showRevokeSessions}
                                 onClick={this.handleShowRevokeSessionsModal}
                                 text={Utils.localizeMessage('admin.user_item.revokeSessions', 'Revoke Sessions')}
+                            />
+                        </SystemPermissionGate>
+                        <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_USERMANAGEMENT_GROUPS]}>
+                            <Menu.ItemAction
+                                show={user.auth_service === Constants.LDAP_SERVICE}
+                                onClick={this.handleShowCreateGroupSyncableMembershipsModal}
+                                text={Utils.localizeMessage('admin.user_item.createGroupTeamChannelMemberships', 'Re-sync user via LDAP groups')}
                             />
                         </SystemPermissionGate>
                     </Menu>
