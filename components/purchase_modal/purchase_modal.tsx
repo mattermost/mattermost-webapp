@@ -489,20 +489,18 @@ function Card(props: CardProps) {
     const monthlyYearlyPlan = (
         <div className='PlanCard'>
             <div className='bottom bottom-monthly-yearly'>
+                <div className='save_text'>
+                    <FormattedMessage
+                        defaultMessage={'Save 20% with Yearly.'}
+                        id={'pricing_modal.saveWithYearly'}
+                    />
+                </div>
                 {!props.isCurrentPlanMonthlyProfessional && (
-                    <>
-                        <div className='save_text'>
-                            <FormattedMessage
-                                defaultMessage={'Save 20% with Yearly.'}
-                                id={'pricing_modal.saveWithYearly'}
-                            />
-                        </div>
-                        <YearlyMonthlyToggle
-                            updatePrice={updateDisplayPage}
-                            isPurchases={true}
-                            isInitialPlanMonthly={props.isInitialPlanMonthly}
-                        />
-                    </>
+                    <YearlyMonthlyToggle
+                        updatePrice={updateDisplayPage}
+                        isPurchases={true}
+                        isInitialPlanMonthly={props.isInitialPlanMonthly}
+                    />
                 )}
                 {/* the style below will eventually be added to the plan_price_rate_section once the annualSubscription feature flag is removed*/}
                 <div
