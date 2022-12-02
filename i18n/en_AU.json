@@ -4348,7 +4348,7 @@
   "pricing_modal.addons.USSupport": "United States-only based support",
   "pricing_modal.addons.dedicatedDB": "Dedicated database",
   "pricing_modal.addons.dedicatedDeployment": "Dedicated virtual secure cloud deployment (Cloud)",
-  "pricing_modal.addons.dedicatedEncryption": "Dedicated encryption keys 99%",
+  "pricing_modal.addons.dedicatedEncryption": "Dedicated encryption keys",
   "pricing_modal.addons.dedicatedK8sCluster": "Dedicated Kubernetes cluster",
   "pricing_modal.addons.missionCritical": "Mission-critical 24x7",
   "pricing_modal.addons.premiumSupport": "Premium Support",
