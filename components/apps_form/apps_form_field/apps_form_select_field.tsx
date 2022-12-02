@@ -106,7 +106,7 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
             channelsSearchResults = data;
         }, () => {});
 
-        return channelsSearchResults.map((channel) => ({...channel, label: channel.name, value: channel.id}));
+        return channelsSearchResults.map((channel) => ({...channel, label: channel.display_name, value: channel.id}));
     }
 
     renderDynamicSelect() {
@@ -133,21 +133,21 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
     }
 
     renderUserSelect() {
-        const {field} = this.props;
-        const placeholder = field.hint || '';
+        const {hint, name, multiselect, readonly} = this.props.field;
+        const placeholder = hint || '';
         const value = this.props.value;
 
         return (
             <div className={'react-select'}>
                 <AsyncSelect
-                    id={`MultiInput_${field.name}`}
+                    id={`MultiInput_${name}`}
                     loadOptions={this.loadDynamicUserOptions}
                     defaultOptions={true}
-                    isMulti={field.multiselect || false}
+                    isMulti={multiselect || false}
                     placeholder={placeholder}
                     value={value}
                     onChange={this.onChange as any} // types are not working correctly for multiselect
-                    isDisabled={field.readonly}
+                    isDisabled={readonly}
                     components={{...commonComponents, Option: SelectUserOption}}
                     {...commonProps}
                 />
@@ -156,21 +156,21 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
     }
 
     renderChannelSelect() {
-        const {field} = this.props;
-        const placeholder = field.hint || '';
+        const {hint, name, multiselect, readonly} = this.props.field;
+        const placeholder = hint || '';
         const value = this.props.value;
 
         return (
             <div className={'react-select'}>
                 <AsyncSelect
-                    id={`MultiInput_${field.name}`}
+                    id={`MultiInput_${name}`}
                     loadOptions={this.loadDynamicChannelOptions}
                     defaultOptions={true}
-                    isMulti={field.multiselect || false}
+                    isMulti={multiselect || false}
                     placeholder={placeholder}
                     value={value}
                     onChange={this.onChange as any} // types are not working correctly for multiselect
-                    isDisabled={field.readonly}
+                    isDisabled={readonly}
                     components={{...commonComponents, Option: SelectChannelOption}}
                     {...commonProps}
                 />
@@ -203,12 +203,9 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
         );
     }
 
-    render() {
-        const {field, label, helpText} = this.props;
-
+    getAppFieldRenderer(type: string) {
         let selectComponent;
-
-        switch (field.type) {
+        switch (type) {
         case AppFieldTypes.DYNAMIC_SELECT:
             selectComponent = this.renderDynamicSelect();
             break;
@@ -222,6 +219,13 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
             selectComponent = this.renderChannelSelect();
             break;
         }
+        return selectComponent;
+    }
+
+    render() {
+        const {field, label, helpText} = this.props;
+
+        const selectComponent = this.getAppFieldRenderer(field.type);
 
         return (
             <div
