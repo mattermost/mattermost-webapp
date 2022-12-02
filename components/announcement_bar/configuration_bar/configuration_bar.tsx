@@ -10,7 +10,7 @@ import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes, Preferen
 import {t} from 'utils/i18n';
 
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
-import {getSkuDisplayName} from 'components/admin_console/license_settings/enterprise_edition/enterprise_edition_left_panel';
+import {getSkuDisplayName} from 'utils/subscription';
 
 import ackIcon from 'images/icons/check-circle-outline.svg';
 import alertIcon from 'images/icons/round-white-info-icon.svg';

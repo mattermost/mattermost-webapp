@@ -10,7 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import RenewalLink from 'components/announcement_bar/renewal_link/';
-import {getSkuDisplayName} from '../enterprise_edition/enterprise_edition_left_panel';
+import {getSkuDisplayName} from 'utils/subscription';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 

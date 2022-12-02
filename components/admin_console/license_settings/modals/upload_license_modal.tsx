@@ -24,12 +24,11 @@ import WomanArmOnTable from 'components/common/svg_images_components/woman_arm_o
 import HandsSvg from 'components/common/svg_images_components/hands_svg';
 import FileSvg from 'components/common/svg_images_components/file_svg';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
+import {getSkuDisplayName} from 'utils/subscription';
 
 import {FileTypes, ModalIdentifiers} from 'utils/constants';
 
 import {closeModal} from 'actions/views/modals';
-
-import {getSkuDisplayName} from '../enterprise_edition/enterprise_edition_left_panel';
 
 import {fileSizeToString, localizeMessage} from 'utils/utils';
 import {getMonthLong} from 'utils/i18n';
