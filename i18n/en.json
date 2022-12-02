@@ -4706,6 +4706,7 @@
   "sidebar_left.add_channel_dropdown.invitePeople": "Invite People",
   "sidebar_left.add_channel_dropdown.invitePeopleExtraText": "Add people to the team",
   "sidebar_left.channel_filter.filterByUnread": "Filter by unread",
+  "sidebar_left.channel_filter.filterUnreadAria": "unreads filter",
   "sidebar_left.channel_filter.showAllChannels": "Show all channels",
   "sidebar_left.channel_navigator.channelSwitcherLabel": "Find Channels",
   "sidebar_left.channel_navigator.goBackLabel": "Back",
