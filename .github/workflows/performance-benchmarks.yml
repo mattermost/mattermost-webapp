@@ -56,7 +56,7 @@ jobs:
             echo "Using server build from releases.mattermost.com with web app build from pr-builds.mattermost.com"
 
             # Note that the server commit might not be the latest if we merge server and web app branches at the same time
-            curl https://s3.amazonaws.com/releases.mattermost.com/gitlab/bundle/master/mattermost-enterprise-linux-amd64.tar.gz > mattermost-server.tar.gz
+            curl https://s3.amazonaws.com/releases.mattermost.com/gitlab/bundle/${{ github.ref_name }}/mattermost-enterprise-linux-amd64.tar.gz > mattermost-server.tar.gz
             curl https://pr-builds.mattermost.com/mattermost-webapp/commit/${{ github.sha }}/mattermost-webapp.tar.gz > mattermost-webapp.tar.gz
 
             # Unzip the server, replace the web app, and re-add product files
