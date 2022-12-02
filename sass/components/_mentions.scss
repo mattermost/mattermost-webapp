@@ -1,5 +1,13 @@
 @charset 'UTF-8';
 
+del .mention-link {
+    text-decoration: line-through;
+}
+
+del .mention-link:hover {
+    text-decoration: line-through underline;
+}
+
 .mention {
     position: relative;
     z-index: 10;
