@@ -383,7 +383,8 @@ const PostComponent = (props: Props): JSX.Element => {
             <PostAriaLabelDiv
                 ref={postRef}
                 role='listitem'
-                id={props.location === 'RHS_ROOT' ? `rhsPost_${post.id}` : 'postView'}
+                id={props.location === 'RHS_ROOT' ? `rhsPost_${post.id}` : `post_${post.id}`}
+                data-testid='postView'
                 tabIndex={-1}
                 post={post}
                 className={getClassName()}
@@ -427,6 +428,7 @@ const PostComponent = (props: Props): JSX.Element => {
                 <div
                     role='application'
                     className='post__content'
+                    data-testid='postContent'
                 >
                     <div className='post__img'>
                         <PostProfilePicture
