@@ -545,7 +545,7 @@ describe('Pricing modal', () => {
         // * Pricing modal should be open
         cy.get('#pricingModal').should('exist');
 
-        // * Check that Trial button is disabled on enterprise trial
+        // * Click the free action (downgrade).
         cy.get('#pricingModal').get('#free').get('#free_action').should('be.enabled').click();
 
         // * Check that the downgrade modal has appeard.
