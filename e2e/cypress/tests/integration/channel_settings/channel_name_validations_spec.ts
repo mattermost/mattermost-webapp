@@ -64,7 +64,27 @@ describe('Channel routing', () => {
 
             // * Assert the error occured with the appropriate message
             cy.get('.genericModalError').should('be.visible').within(() => {
-                cy.get('span').should('have.text', 'Invalid channel name. User ids are not permitted in channel name for non-direct message channels.');
+                cy.get('span').should('have.text', 'Channel names can\'t be in a hexadecimal format. Please enter a different channel name.');
+            });
+
+            // # close the create channel modal
+            cy.findByText('Cancel').click();
+        });
+    });
+
+    it('MM-T884_3 Creating a new channel validates against gm-like names being used as channel name', () => {
+        // # click on create public channel
+        cy.uiBrowseOrCreateChannel('Create New Channel').click();
+
+        // * Verify that the new channel modal is visible
+        cy.get('#new-channel-modal').should('be.visible').within(() => {
+            // # Add the new channel name with invalid name and press Create Channel
+            cy.get('#input_new-channel-modal-name').type('71b03afcbb2d503d49f87f057549c43db4e19f92', {force: true}).wait(TIMEOUTS.HALF_SEC);
+            cy.findByText('Create channel').should('be.visible').click();
+
+            // * Assert the error occured with the appropriate message
+            cy.get('.genericModalError').should('be.visible').within(() => {
+                cy.get('span').should('have.text', 'Channel names can\'t be in a hexadecimal format. Please enter a different channel name.');
             });
 
             // # close the create channel modal
