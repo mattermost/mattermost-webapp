@@ -7,7 +7,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {appsEnabled, makeGetPostOptionBinding} from 'mattermost-redux/selectors/entities/apps';
+import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
@@ -27,6 +27,7 @@ import {openModal} from 'actions/views/modals';
 import {makeFetchBindings, postEphemeralCallResponseForPost, handleBindingClick, openAppsModal} from 'actions/apps';
 
 import ActionsMenu from './actions_menu';
+import {makeGetPostOptionBinding} from './selectors';
 
 type Props = {
     post: Post;

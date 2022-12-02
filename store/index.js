@@ -10,6 +10,7 @@ import {persistStore, REHYDRATE} from 'redux-persist';
 import {General, RequestStatus} from 'mattermost-redux/constants';
 import configureServiceStore from 'mattermost-redux/store';
 
+import {cleanLocalStorage} from 'actions/storage';
 import {clearUserCookie} from 'actions/views/cookie';
 import appReducers from 'reducers';
 import {getBasePath} from 'selectors/general';
@@ -96,6 +97,7 @@ export default function configureStore(preloadedState) {
                 purging = true;
 
                 persistor.purge().then(() => {
+                    cleanLocalStorage();
                     clearUserCookie();
 
                     // Preserve any query string parameters on logout, including parameters

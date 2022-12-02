@@ -14,12 +14,10 @@ import {
     isCollapsedThreadsEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {isPostPriorityEnabled} from 'mattermost-redux/selectors/entities/posts';
+import {isPostPriorityEnabled, isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities/posts';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Emoji} from '@mattermost/types/emojis';
-import {Post} from '@mattermost/types/posts';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
@@ -32,6 +30,9 @@ import {GlobalState} from 'types/store';
 import {shouldShowActionsMenu} from 'utils/post_utils';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
+
+import {Emoji} from '@mattermost/types/emojis';
+import {Post} from '@mattermost/types/posts';
 
 import RhsRootPost from './rhs_root_post.jsx';
 
@@ -81,6 +82,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isPostBeingEdited: getIsPostBeingEditedInRHS(state, ownProps.post.id),
         isMobileView: getIsMobileView(state),
         isPostPriorityEnabled: isPostPriorityEnabled(state),
+        isPostAcknowledgementsEnabled: isPostAcknowledgementsEnabled(state),
     };
 }
 

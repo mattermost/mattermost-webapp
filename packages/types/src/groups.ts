@@ -5,7 +5,10 @@ import {UserProfile} from './users';
 
 import {RelationOneToOne} from './utilities';
 
-export type SyncableType = 'team' | 'channel';
+export enum SyncableType {
+    Team = 'team',
+    Channel = 'channel'
+}
 
 export type SyncablePatch = {
     scheme_admin: boolean;
@@ -36,7 +39,14 @@ export type Group = {
     member_count: number;
     scheme_admin: boolean;
     allow_reference: boolean;
+    channel_member_count?: number;
+    channel_member_timezones_count?: number;
 };
+
+export enum GroupSource {
+    Ldap = 'ldap',
+    Custom = 'custom',
+}
 
 export type GroupTeam = {
     team_id: string;
@@ -147,6 +157,8 @@ export type GroupSearachParams = {
     per_page: number;
     include_member_count: boolean;
     user_id?: string;
+    include_timezones?: string;
+    include_channel_member_count?: string;
 }
 
 export type GroupMembership = {
