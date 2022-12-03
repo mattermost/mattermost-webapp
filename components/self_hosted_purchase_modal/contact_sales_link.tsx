@@ -28,7 +28,7 @@ export default function ContactSalesLink() {
             href={contactSupportLink}
             target='_blank'
             rel='noopener noreferrer'
-          >
+        >
             {intl.formatMessage({id: 'self_hosted_signup.contact_sales', defaultMessage: 'Contact Sales'})}
         </a>
     );

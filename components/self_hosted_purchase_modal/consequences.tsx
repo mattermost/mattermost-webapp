@@ -20,22 +20,22 @@ export function seeHowBillingWorks(e: React.MouseEvent<HTMLAnchorElement, MouseE
 }
 
 export default function Consequences() {
-  return (
-      <div className='signup-consequences'>
-          <FormattedMessage
-              defaultMessage={'You will be billed {today}. Your license will be applied automatically. <a>See how billing works.</a>'}
-              id={'self_hosted_signup.signup_consequences'}
-              values={{
-                  today: getToday(),
-                  a: (chunks: React.ReactNode) => (
-                      <a
-                          onClick={seeHowBillingWorks}
-                      >
-                          {chunks}
-                      </a>
-                  ),
-              }}
-          />
-      </div>
-  );
+    return (
+        <div className='signup-consequences'>
+            <FormattedMessage
+                defaultMessage={'You will be billed {today}. Your license will be applied automatically. <a>See how billing works.</a>'}
+                id={'self_hosted_signup.signup_consequences'}
+                values={{
+                    today: getToday(),
+                    a: (chunks: React.ReactNode) => (
+                        <a
+                            onClick={seeHowBillingWorks}
+                        >
+                            {chunks}
+                        </a>
+                    ),
+                }}
+            />
+        </div>
+    );
 }

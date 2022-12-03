@@ -9,8 +9,7 @@ interface Props {
     setAgreed: (agreed: boolean) => void;
 }
 
-import { HostedCustomerLinks } from 'utils/constants';
-;
+import {HostedCustomerLinks} from 'utils/constants';
 
 export default function Terms(props: Props) {
     return (
@@ -46,6 +45,6 @@ export default function Terms(props: Props) {
                     </div>
                 </label>
             </div>
-        </div> 
-  );
+        </div>
+    );
 }

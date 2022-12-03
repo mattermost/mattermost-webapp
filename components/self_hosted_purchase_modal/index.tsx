@@ -35,7 +35,6 @@ import {COUNTRIES} from 'utils/countries';
 
 import {
     ModalIdentifiers,
-    SelfHostedProducts,
     StatTypes,
     TELEMETRY_CATEGORIES,
 } from 'utils/constants';
@@ -44,27 +43,22 @@ import {STRIPE_CSS_SRC} from 'components/payment_form/stripe';
 import CardInput, {CardInputType} from 'components/payment_form/card_input';
 import StateSelector from 'components/payment_form/state_selector';
 import DropdownInput from 'components/dropdown_input';
-import PlanLabel from 'components/common/plan_label';
 import BackgroundSvg from 'components/common/svg_images_components/background_svg';
 import UpgradeSvg from 'components/common/svg_images_components/upgrade_svg';
-import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 
 import Input from 'components/widgets/inputs/input/input';
-
-import {Card, ButtonCustomiserClasses} from 'components/purchase_modal/purchase_modal';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
 import useLoadStripe from 'components/common/hooks/useLoadStripe';
 import useFetchStandardAnalytics from 'components/common/hooks/useFetchStandardAnalytics';
-import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
+import SelfHostedCard from './self_hosted_card';
 import SuccessPage from './success_page';
 import ContactSalesLink from './contact_sales_link';
 import Submitting, {convertProgressToBar} from './submitting';
 import ErrorPage from './error';
-import SeatsCalculator, {Seats, errorInvalidNumber} from './seats_calculator';
-import Consequences, {seeHowBillingWorks} from './consequences';
+import {Seats, errorInvalidNumber} from './seats_calculator';
 import Terms from './terms';
 import useNoEscape from './useNoEscape';
 
@@ -79,7 +73,6 @@ interface State {
     postalCode: string;
     cardName: string;
     organization: string;
-    waitingOnNetwork: boolean;
     agreedTerms: boolean;
     cardFilled: boolean;
     seats: Seats;
@@ -129,11 +122,6 @@ interface UpdateCardName {
     data: string;
 }
 
-interface UpdateWaitingOnNetwork {
-    type: 'update_waiting_on_network';
-    data: boolean;
-}
-
 interface UpdateAgreedTerms {
     type: 'update_agreed_terms';
     data: boolean;
@@ -178,7 +166,6 @@ type Action =
     | UpdateCountry
     | UpdatePostalCode
     | UpdateOrganization
-    | UpdateWaitingOnNetwork
     | UpdateAgreedTerms
     | UpdateCardFilled
     | UpdateCardName
@@ -198,7 +185,6 @@ const initialState: State = {
     postalCode: '',
     cardName: '',
     organization: '',
-    waitingOnNetwork: false,
     agreedTerms: false,
     cardFilled: false,
     seats: {
@@ -224,7 +210,6 @@ function getPlanNameFromProductName(productName: string): string {
     return productName;
 }
 
-
 function reducer(state: State, action: Action): State {
     switch (action.type) {
     case 'update_address':
@@ -239,8 +224,6 @@ function reducer(state: State, action: Action): State {
         return {...state, postalCode: action.data};
     case 'update_state':
         return {...state, state: action.data};
-    case 'update_waiting_on_network':
-        return {...state, waitingOnNetwork: action.data};
     case 'update_agreed_terms':
         return {...state, agreedTerms: action.data};
     case 'card_filled':
@@ -354,19 +337,6 @@ function inferNames(user: UserProfile, cardName: string): [string, string] {
     return [names[0], names.slice(1).join(' ')];
 }
 
-// Card has a bunch of props needed for monthly/yearly payments that
-// do not apply to self-hosted.
-const dummyCardProps = {
-    annualSubscription: false,
-    usersCount: 0,
-    yearlyPrice: 0,
-    monthlyPrice: 0,
-    isInitialPlanMonthly: false,
-    updateIsMonthly: () => {},
-    updateInputUserCount: () => {},
-    setUserCountError: () => {},
-};
-
 export default function SelfHostedPurchaseModal(props: Props) {
     useFetchStandardAnalytics();
     useNoEscape();
@@ -379,7 +349,6 @@ export default function SelfHostedPurchaseModal(props: Props) {
     const desiredProductName = desiredProduct?.name || '';
     const desiredPlanName = getPlanNameFromProductName(desiredProductName);
     const currentUsers = analytics[StatTypes.TOTAL_USERS] as number;
-    const openPricingModal = useOpenPricingModal();
 
     const intl = useIntl();
     const fakeProgressRef = useRef<FakeProgress>({
@@ -534,35 +503,6 @@ export default function SelfHostedPurchaseModal(props: Props) {
     const closeModalSuccess = () => {
         reduxDispatch(closeModal(ModalIdentifiers.SELF_HOSTED_PURCHASE));
     };
-
-    let buttonAction: () => void = submit;
-    if (progress === SelfHostedSignupProgress.CREATED_LICENSE) {
-        buttonAction = closeModalSuccess;
-    }
-
-    const comparePlan = (
-        <button
-            className='ml-1'
-            onClick={() => {
-                trackEvent('self_hosted_pricing', 'click_compare_plans');
-                openPricingModal({trackingLocation: 'purchase_modal_compare_plans_click'});
-            }}
-        >
-            <FormattedMessage
-                id='cloud_subscribe.contact_support'
-                defaultMessage='Compare plans'
-            />
-        </button>
-    );
-
-    const showPlanLabel = desiredProduct.sku === SelfHostedProducts.PROFESSIONAL;
-    const comparePlanWrapper = (
-        <div
-            className={showPlanLabel ? 'plan_comparison show_label' : 'plan_comparison'}
-        >
-            {comparePlan}
-        </div>
-    );
 
     const title = (
         <FormattedMessage
@@ -744,54 +684,24 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                         </div>
                                     </div>
                                     <Terms
-                                         agreed={state.agreedTerms}
-                                         setAgreed={(data: boolean) => {dispatch({type: 'update_agreed_terms', data})}}
+                                        agreed={state.agreedTerms}
+                                        setAgreed={(data: boolean) => {
+                                            dispatch({type: 'update_agreed_terms', data});
+                                        }}
                                     />
                                 </div>
                             </div>
                             <div className='rhs'>
-                                {comparePlanWrapper}
-                                <Card
-                                    {...dummyCardProps}
-                                    intl={intl}
-                                    topColor='#4A69AC'
-                                    plan={desiredPlanName}
-                                    price={`${desiredProduct?.price_per_seat?.toString()}`}
-                                    seeHowBillingWorks={seeHowBillingWorks}
-                                    rate='/user/month'
-                                    planBriefing={<></>}
-                                    preButtonContent={(
-                                        <SeatsCalculator
-                                            price={desiredProduct?.price_per_seat}
-                                            seats={state.seats}
-                                            existingUsers={currentUsers}
-                                            onChange={(seats: Seats) => {
-                                                dispatch({type: 'update_seats', data: seats});
-                                            }}
-                                        />
-                                    )}
-                                    afterButtonContent={<Consequences />}
-                                    buttonDetails={{
-                                        action: buttonAction,
-                                        disabled: !canSubmitForm,
-                                        text: intl.formatMessage({id: 'self_hosted_signup.cta', defaultMessage: 'Upgrade'}),
-                                        customClass: canSubmitForm ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.grayed,
+                                <SelfHostedCard
+                                    desiredPlanName={desiredPlanName}
+                                    desiredProduct={desiredProduct}
+                                    seats={state.seats}
+                                    currentUsers={currentUsers}
+                                    updateSeats={(seats: Seats) => {
+                                        dispatch({type: 'update_seats', data: seats});
                                     }}
-                                    planLabel={
-                                        showPlanLabel ? (
-                                            <PlanLabel
-                                                text={intl.formatMessage({
-                                                    id: 'pricing_modal.planLabel.mostPopular',
-                                                    defaultMessage: 'MOST POPULAR',
-                                                })}
-                                                bgColor='var(--title-color-indigo-500)'
-                                                color='var(--button-color)'
-                                                firstSvg={<StarMarkSvg/>}
-                                                secondSvg={<StarMarkSvg/>}
-                                            />
-                                        ) : undefined
-                                    }
-                                    hideBillingCycle={true}
+                                    canSubmit={canSubmitForm}
+                                    submit={submit}
                                 />
                             </div>
                         </div>}
@@ -807,7 +717,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                 progressBar={state.progressBar}
                             />
                         )}
-                        {state.error && (<ErrorPage clearError={() => dispatch({type: 'set_error', data: ''})} />)}
+                        {state.error && (<ErrorPage clearError={() => dispatch({type: 'set_error', data: ''})}/>)}
                         <div className='background-svg'>
                             <BackgroundSvg/>
                         </div>

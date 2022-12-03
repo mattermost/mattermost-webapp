@@ -20,10 +20,10 @@ function makeDisallowEscape() {
 
 export default function useNoEscape() {
     useEffect(() => {
-      const disallowEscape = makeDisallowEscape();
-      document.addEventListener('keydown', disallowEscape, true);
-      return () => {
-          document.removeEventListener('keydown', disallowEscape, true);
-      };
+        const disallowEscape = makeDisallowEscape();
+        document.addEventListener('keydown', disallowEscape, true);
+        return () => {
+            document.removeEventListener('keydown', disallowEscape, true);
+        };
     }, []);
 }
