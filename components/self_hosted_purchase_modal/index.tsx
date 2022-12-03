@@ -457,7 +457,8 @@ export default function SelfHostedPurchaseModal(props: Props) {
                 const message = 'Failed to get card when it was expected';
                 // eslint-disable-next-line no-console
                 console.error(message);
-                throw new Error(message);
+                dispatch({type: 'set_error', data: message});
+                return;
             }
             const finished = await reduxDispatch(confirmSelfHostedSignup(
                 stripeRef.current,
