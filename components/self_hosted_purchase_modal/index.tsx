@@ -30,10 +30,7 @@ import {confirmSelfHostedSignup} from 'actions/hosted_customer';
 import {GlobalState} from 'types/store';
 
 import {isModalOpen} from 'selectors/views/modals';
-import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
-import {t} from 'utils/i18n';
-import {getToday} from 'utils/utils';
 import {COUNTRIES} from 'utils/countries';
 
 import {
@@ -41,7 +38,6 @@ import {
     SelfHostedProducts,
     StatTypes,
     TELEMETRY_CATEGORIES,
-    HostedCustomerLinks,
 } from 'utils/constants';
 
 import {STRIPE_CSS_SRC} from 'components/payment_form/stripe';
@@ -50,14 +46,11 @@ import StateSelector from 'components/payment_form/state_selector';
 import DropdownInput from 'components/dropdown_input';
 import PlanLabel from 'components/common/plan_label';
 import BackgroundSvg from 'components/common/svg_images_components/background_svg';
-import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 import UpgradeSvg from 'components/common/svg_images_components/upgrade_svg';
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
-import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
 
 import Input from 'components/widgets/inputs/input/input';
 
-import IconMessage from 'components/purchase_modal/icon_message';
 import {Card, ButtonCustomiserClasses} from 'components/purchase_modal/purchase_modal';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
@@ -67,7 +60,13 @@ import useFetchStandardAnalytics from 'components/common/hooks/useFetchStandardA
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import SuccessPage from './success_page';
+import ContactSalesLink from './contact_sales_link';
+import Submitting, {convertProgressToBar} from './submitting';
+import ErrorPage from './error';
 import SeatsCalculator, {Seats, errorInvalidNumber} from './seats_calculator';
+import Consequences, {seeHowBillingWorks} from './consequences';
+import Terms from './terms';
+import useNoEscape from './useNoEscape';
 
 import './self_hosted_purchase_modal.scss';
 
@@ -159,11 +158,6 @@ interface UpdateSucceeded {
     type: 'succeeded';
 }
 
-interface StartOver {
-    type: 'start_over';
-    data?: Partial<State>;
-}
-
 interface UpdateProgressBar {
     type: 'update_progress_bar';
     data: number;
@@ -193,7 +187,6 @@ type Action =
     | UpdateSeats
     | UpdateSubmitting
     | UpdateSucceeded
-    | StartOver
     | SetError
 
 const initialState: State = {
@@ -231,11 +224,6 @@ function getPlanNameFromProductName(productName: string): string {
     return productName;
 }
 
-function seeHowBillingWorks(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    e.preventDefault();
-    trackEvent(TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING, 'click_see_how_billing_works');
-    window.open(HostedCustomerLinks.BILLING_DOCS, '_blank');
-}
 
 function reducer(state: State, action: Action): State {
     switch (action.type) {
@@ -276,16 +264,6 @@ function reducer(state: State, action: Action): State {
         return {...state, submitting: false, succeeded: true};
     case 'update_seats':
         return {...state, seats: action.data};
-    case 'start_over': {
-        let newState = {...initialState, seats: state.seats};
-        if (action.data) {
-            newState = {
-                ...newState,
-                ...action.data,
-            };
-        }
-        return newState;
-    }
     case 'set_error': {
         return {
             ...state,
@@ -361,57 +339,6 @@ interface Props {
     productId: string;
 }
 
-function convertProgressToBar(progress: ValueOf<typeof SelfHostedSignupProgress>): number {
-    switch (progress) {
-    case SelfHostedSignupProgress.START:
-        return 0;
-    case SelfHostedSignupProgress.CREATED_CUSTOMER:
-        return 10;
-    case SelfHostedSignupProgress.CREATED_INTENT:
-        return 20;
-    case SelfHostedSignupProgress.CONFIRMED_INTENT:
-        return 30;
-    case SelfHostedSignupProgress.CREATED_SUBSCRIPTION:
-        return 50;
-    case SelfHostedSignupProgress.PAID:
-        return 90;
-    case SelfHostedSignupProgress.CREATED_LICENSE:
-        return 100;
-    default:
-        return 0;
-    }
-}
-
-function useConvertProgressToWaitingExplanation(progress: ValueOf<typeof SelfHostedSignupProgress>, planName: string): React.ReactNode {
-    const intl = useIntl();
-    switch (progress) {
-    case SelfHostedSignupProgress.START:
-    case SelfHostedSignupProgress.CREATED_CUSTOMER:
-    case SelfHostedSignupProgress.CREATED_INTENT:
-        return intl.formatMessage({
-            id: 'self_hosted_signup.progress_step.submitting_payment',
-            defaultMessage: 'Submitting payment information',
-        });
-    case SelfHostedSignupProgress.CONFIRMED_INTENT:
-    case SelfHostedSignupProgress.CREATED_SUBSCRIPTION:
-        return intl.formatMessage({
-            id: 'self_hosted_signup.progress_step.verifying_payment',
-            defaultMessage: 'Verifying payment details',
-        });
-    case SelfHostedSignupProgress.PAID:
-    case SelfHostedSignupProgress.CREATED_LICENSE:
-        return intl.formatMessage({
-            id: 'self_hosted_signup.progress_step.applying_license',
-            defaultMessage: 'Applying your {planName} license to your Mattermost instance',
-        }, {planName});
-    default:
-        return intl.formatMessage({
-            id: 'self_hosted_signup.progress_step.submitting_payment',
-            defaultMessage: 'Submitting payment information',
-        });
-    }
-}
-
 interface FakeProgress {
     intervalId?: NodeJS.Timeout;
 }
@@ -442,18 +369,17 @@ const dummyCardProps = {
 
 export default function SelfHostedPurchaseModal(props: Props) {
     useFetchStandardAnalytics();
+    useNoEscape();
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.SELF_HOSTED_PURCHASE));
     const progress = useSelector(getSelfHostedSignupProgress);
     const user = useSelector(getCurrentUser);
     const theme = useSelector(getTheme);
-    const contactSupportLink = useSelector((state: GlobalState) => getCloudContactUsLink(state)(InquiryType.Technical));
     const analytics = useSelector(getAdminAnalytics) || {};
     const desiredProduct = useSelector(getSelfHostedProducts)[props.productId];
     const desiredProductName = desiredProduct?.name || '';
     const desiredPlanName = getPlanNameFromProductName(desiredProductName);
     const currentUsers = analytics[StatTypes.TOTAL_USERS] as number;
     const openPricingModal = useOpenPricingModal();
-    const waitingExplanation = useConvertProgressToWaitingExplanation(progress, desiredPlanName);
 
     const intl = useIntl();
     const fakeProgressRef = useRef<FakeProgress>({
@@ -535,13 +461,11 @@ export default function SelfHostedPurchaseModal(props: Props) {
                 organization: state.organization,
             });
         } catch (e) {
-            dispatch({type: 'update_submitting', data: false});
             dispatch({type: 'set_error', data: 'Failed to submit payment information'});
             return;
         }
 
         if (signupCustomerResult === null || !signupCustomerResult.progress) {
-            dispatch({type: 'update_submitting', data: false});
             dispatch({type: 'set_error', data: 'Failed to submit payment information'});
             return;
         }
@@ -600,10 +524,10 @@ export default function SelfHostedPurchaseModal(props: Props) {
                 dispatch({type: 'set_error', data: finished.error});
             }
             dispatch({type: 'update_submitting', data: false});
-        } catch(e) {
+        } catch (e) {
             // eslint-disable-next-line
             console.error(e);
-            dispatch({type: 'set_error', data: 'unable to complete signup'})
+            dispatch({type: 'set_error', data: 'unable to complete signup'});
         }
     }
     const canSubmitForm = canSubmit(state, progress);
@@ -615,15 +539,6 @@ export default function SelfHostedPurchaseModal(props: Props) {
     if (progress === SelfHostedSignupProgress.CREATED_LICENSE) {
         buttonAction = closeModalSuccess;
     }
-
-    const progressBar: JSX.Element | null = (
-        <div className='ProcessPayment-progress'>
-            <div
-                className='ProcessPayment-progress-fill'
-                style={{width: `${state.progressBar}%`}}
-            />
-        </div>
-    );
 
     const comparePlan = (
         <button
@@ -656,23 +571,6 @@ export default function SelfHostedPurchaseModal(props: Props) {
         />
     );
 
-    const contactSalesLink = (
-        <a
-            className='footer-text'
-            onClick={() => {
-                trackEvent(
-                    TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING,
-                    'click_contact_sales',
-                );
-            }}
-            href={contactSupportLink}
-            target='_blank'
-            rel='noopener noreferrer'
-        >
-            {intl.formatMessage({id: 'self_hosted_signup.contact_sales', defaultMessage: 'Contact Sales'})}
-        </a>
-    );
-
     return (
         <Elements
             options={{fonts: [{cssSrc: STRIPE_CSS_SRC}]}}
@@ -700,7 +598,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                     height={227}
                                 />
                                 <div className='footer-text'>{'Questions?'}</div>
-                                {contactSalesLink}
+                                <ContactSalesLink/>
                             </div>
                             <div className='center'>
                                 <div className='form'>
@@ -720,7 +618,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                     </div>
                                     <div className='form-row'>
                                         <Input
-                                            name='company'
+                                            name='organization'
                                             type='text'
                                             value={state.organization}
                                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -845,39 +743,10 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                             />
                                         </div>
                                     </div>
-                                    <div className='form-row'>
-                                        <div className='self-hosted-agreed-terms'>
-                                            <label>
-                                                <input
-                                                    id='self_hosted_purchase_terms'
-                                                    type='checkbox'
-                                                    checked={state.agreedTerms}
-                                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                        dispatch({type: 'update_agreed_terms', data: e.target.checked});
-                                                    }}
-                                                />
-                                                <div>
-                                                    <FormattedMessage
-                                                        id='self_hosted_signup.disclaimer'
-                                                        defaultMessage='I have read and agree to the <a>Enterprise Edition Subscription Terms</a>'
-                                                        values={{
-                                                            a: (chunks: React.ReactNode) => {
-                                                                return (
-                                                                    <a
-                                                                        href={HostedCustomerLinks.TERMS_AND_CONDITIONS}
-                                                                        target='_blank'
-                                                                        rel='noreferrer'
-                                                                    >
-                                                                        {chunks}
-                                                                    </a>
-                                                                );
-                                                            },
-                                                        }}
-                                                    />
-                                                </div>
-                                            </label>
-                                        </div>
-                                    </div>
+                                    <Terms
+                                         agreed={state.agreedTerms}
+                                         setAgreed={(data: boolean) => {dispatch({type: 'update_agreed_terms', data})}}
+                                    />
                                 </div>
                             </div>
                             <div className='rhs'>
@@ -901,24 +770,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                             }}
                                         />
                                     )}
-                                    afterButtonContent={
-                                        <div className='signup-consequences'>
-                                            <FormattedMessage
-                                                defaultMessage={'You will be billed {today}. Your license will be applied automatically. <a>See how billing works.</a>'}
-                                                id={'self_hosted_signup.signup_consequences'}
-                                                values={{
-                                                    today: getToday(),
-                                                    a: (chunks: React.ReactNode) => (
-                                                        <a
-                                                            onClick={seeHowBillingWorks}
-                                                        >
-                                                            {chunks}
-                                                        </a>
-                                                    ),
-                                                }}
-                                            />
-                                        </div>
-                                    }
+                                    afterButtonContent={<Consequences />}
                                     buttonDetails={{
                                         action: buttonAction,
                                         disabled: !canSubmitForm,
@@ -950,51 +802,12 @@ export default function SelfHostedPurchaseModal(props: Props) {
                             />
                         )}
                         {state.submitting && (
-                            <div className='submitting'>
-                                <IconMessage
-                                    title={t('admin.billing.subscription.verifyPaymentInformation')}
-                                    formattedSubtitle={waitingExplanation}
-                                    icon={
-                                        <CreditCardSvg
-                                            width={444}
-                                            height={313}
-                                        />
-                                    }
-                                    footer={progressBar}
-                                    className={'processing'}
-                                />
-                            </div>
+                            <Submitting
+                                desiredPlanName={desiredPlanName}
+                                progressBar={state.progressBar}
+                            />
                         )}
-                        {state.error && (
-                            <div className='failed'>
-                                <IconMessage
-                                    title={t('admin.billing.subscription.paymentVerificationFailed')}
-                                    subtitle={t('admin.billing.subscription.paymentFailed')}
-                                    icon={
-                                        <PaymentFailedSvg
-                                            width={444}
-                                            height={313}
-                                        />
-                                    }
-                                    error={true}
-                                    buttonText={t('self_hosted_signup.retry')}
-                                    buttonHandler={() => {
-                                        try {
-                                            Client4.bootstrapSelfHostedSignup(true).
-                                                then((data) => {
-                                                    reduxDispatch({type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS, data: data.progress});
-                                                }).finally(() => {
-                                                    dispatch({type: 'set_error', data: ''});
-                                                });
-                                        } catch (e) {
-                                            dispatch({type: 'set_error', data: ''});
-                                        }
-                                    }}
-                                    linkText={t('admin.billing.subscription.privateCloudCard.contactSupport')}
-                                    linkURL={contactSupportLink}
-                                />
-                            </div>
-                        )}
+                        {state.error && (<ErrorPage clearError={() => dispatch({type: 'set_error', data: ''})} />)}
                         <div className='background-svg'>
                             <BackgroundSvg/>
                         </div>
