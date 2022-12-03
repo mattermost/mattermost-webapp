@@ -4,8 +4,6 @@
 /* eslint-disable max-lines */
 
 import {PreferenceType} from '@mattermost/types/preferences';
-import FormData from 'form-data';
-
 import {SystemSetting} from '@mattermost/types/general';
 import {ClusterInfo, AnalyticsRow, SchemaMigration} from '@mattermost/types/admin';
 import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/types/apps';
@@ -126,7 +124,6 @@ import {
     GetDataRetentionCustomPoliciesRequest,
 } from '@mattermost/types/data_retention';
 import {CompleteOnboardingRequest} from '@mattermost/types/setup';
-
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
 import {LeastActiveChannelsResponse, TopChannelResponse, TopReactionResponse, TopThreadResponse, TopDMsResponse} from '@mattermost/types/insights';
 
@@ -677,12 +674,6 @@ export default class Client4 {
             method: 'post',
             body: formData,
         };
-
-        if (formData.getBoundary) {
-            request.headers = {
-                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-            };
-        }
 
         return this.doFetch<StatusOK>(
             `${this.getUserRoute(userId)}/image`,
@@ -1500,12 +1491,6 @@ export default class Client4 {
             method: 'post',
             body: formData,
         };
-
-        if (formData.getBoundary) {
-            request.headers = {
-                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-            };
-        }
 
         return this.doFetch<StatusOK>(
             `${this.getTeamRoute(teamId)}/image`,
@@ -2329,18 +2314,12 @@ export default class Client4 {
         return url;
     }
 
-    uploadFile = (fileFormData: any, formBoundary: string) => {
+    uploadFile = (fileFormData: any) => {
         this.trackEvent('api', 'api_files_upload');
         const request: any = {
             method: 'post',
             body: fileFormData,
         };
-
-        if (formBoundary) {
-            request.headers = {
-                'Content-Type': `multipart/form-data; boundary=${formBoundary}`,
-            };
-        }
 
         return this.doFetch<FileUploadResponse>(
             `${this.getFilesRoute()}`,
@@ -2785,12 +2764,6 @@ export default class Client4 {
             body: formData,
         };
 
-        if (formData.getBoundary) {
-            request.headers = {
-                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-            };
-        }
-
         return this.doFetch<CustomEmoji>(
             `${this.getEmojisRoute()}`,
             request,
@@ -3097,12 +3070,6 @@ export default class Client4 {
             body: formData,
         };
 
-        if (formData.getBoundary) {
-            request.headers = {
-                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-            };
-        }
-
         return this.doFetch<StatusOK>(
             `${this.getBrandRoute()}/image`,
             request,
@@ -3301,12 +3268,6 @@ export default class Client4 {
             body: formData,
         };
 
-        if (formData.getBoundary) {
-            request.headers = {
-                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-            };
-        }
-
         return this.doFetch<License>(
             `${this.getBaseRoute()}/license`,
             request,
@@ -3443,12 +3404,6 @@ export default class Client4 {
             method: 'post',
             body: formData,
         };
-
-        if (formData.getBoundary) {
-            request.headers = {
-                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-            };
-        }
 
         return this.doFetch<PluginManifest>(
             this.getPluginsRoute(),
