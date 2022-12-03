@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentType} from 'react';
 import {isValidElementType} from 'react-is';
 import {Reducer} from 'redux';
 
@@ -37,6 +37,8 @@ import {GlobalState} from 'types/store';
 import {FileInfo} from '@mattermost/types/files';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {reArg} from 'utils/func';
+import {fileAttachmentConnector} from '../components/file_attachment';
+import {FileAttachmentProps} from '../components/file_attachment/file_attachment';
 
 const defaultShouldRender = () => true;
 
@@ -336,6 +338,29 @@ export default class PluginRegistry {
                 component,
                 match,
                 toggleable,
+            },
+        });
+
+        return id;
+    });
+
+    // Register a component to render a custom file attachments in posts.
+    // Accepts the following:
+    // - match - A function that receives fileInfo and returns a
+    //   boolean indicating if the plugin is able to process it.
+    // - component - The component that renders the attachment preview
+    // Returns a unique identifier.
+    registerFileAttachmentPluginComponent = reArg(['component', 'match'], ({match, component}) => {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'FileAttachmentPluginComponent',
+            data: {
+                id,
+                pluginId: this.id,
+                component: fileAttachmentConnector(component as ComponentType<FileAttachmentProps>),
+                match,
             },
         });
 

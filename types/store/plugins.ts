@@ -5,6 +5,8 @@ import React from 'react';
 
 import {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
 
+import {GlobalState} from 'types/store';
+
 import {ProductScope} from '@mattermost/types/products';
 
 import {ClientPluginManifest} from '@mattermost/types/plugins';
@@ -16,7 +18,7 @@ import {TopBoardResponse} from '@mattermost/types/insights';
 
 import {WebSocketClient} from '@mattermost/client';
 
-import {GlobalState} from 'types/store';
+import type FileAttachment from '../../components/file_attachment';
 
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 
@@ -146,6 +148,13 @@ export type PostWillRenderEmbedPluginComponent = {
     component: React.ComponentType<{ embed: PostEmbed; webSocketClient?: WebSocketClient }>;
     match: (arg: PostEmbed) => boolean;
     toggleable: boolean;
+}
+
+export type FileAttachmentPluginComponent = {
+    id: string;
+    pluginId: string;
+    component: typeof FileAttachment;
+    match: (arg: FileInfo) => boolean;
 }
 
 export type ProductComponent = {

@@ -36,8 +36,8 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+export const fileAttachmentConnector = connect(mapStateToProps, mapDispatchToProps);
 
-export type PropsFromRedux = ConnectedProps<typeof connector>;
+export type PropsFromRedux = ConnectedProps<typeof fileAttachmentConnector>;
 
-export default connector(FileAttachment);
+export default fileAttachmentConnector(FileAttachment);

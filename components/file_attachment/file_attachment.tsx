@@ -35,7 +35,7 @@ import FileThumbnail from './file_thumbnail';
 
 import type {PropsFromRedux} from './index';
 
-interface Props extends PropsFromRedux {
+export interface FileAttachmentProps extends PropsFromRedux {
 
     /*
     * File detailed information
@@ -59,7 +59,7 @@ interface Props extends PropsFromRedux {
     handleFileDropdownOpened?: (open: boolean) => void;
 }
 
-export default function FileAttachment(props: Props) {
+export default function FileAttachment(props: FileAttachmentProps) {
     const mounted = useRef(true);
     const intl = useIntl();
     const [loaded, setLoaded] = useState(getFileType(props.fileInfo.extension) !== FileTypes.IMAGE);

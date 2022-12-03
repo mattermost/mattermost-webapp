@@ -6,7 +6,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {makeGetFilesForPost} from 'mattermost-redux/selectors/entities/files';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {Post} from '@mattermost/types/posts';
+
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
@@ -15,6 +15,9 @@ import {getCurrentLocale} from 'selectors/i18n';
 import {isEmbedVisible} from 'selectors/posts';
 
 import {openModal} from 'actions/views/modals';
+
+import {Post} from '@mattermost/types/posts';
+import {FileAttachmentPluginComponent} from '../../types/store/plugins';
 
 import FileAttachmentList from './file_attachment_list';
 
@@ -46,6 +49,7 @@ function makeMapStateToProps() {
             fileInfos,
             fileCount,
             isEmbedVisible: isEmbedVisible(state, ownProps.post.id),
+            pluginFileAttachmentComponents: state.plugins.components.FileAttachmentPluginComponent as unknown as FileAttachmentPluginComponent[],
             locale: getCurrentLocale(state),
         };
     };

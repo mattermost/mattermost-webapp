@@ -63,15 +63,17 @@ export default function FileAttachmentList(props: Props) {
     if (sortedFileInfos && sortedFileInfos.length > 0) {
         for (let i = 0; i < sortedFileInfos.length; i++) {
             const fileInfo = sortedFileInfos[i];
+            const fileAttachmentProps = {
+                key: fileInfo.id,
+                fileInfo,
+                index: i,
+                handleImageClick,
+                compactDisplay,
+                handleFileDropdownOpened: props.handleFileDropdownOpened,
+            };
+            const Component = props.pluginFileAttachmentComponents.find((p) => p.match(fileInfo))?.component ?? FileAttachment;
             postFiles.push(
-                <FileAttachment
-                    key={fileInfo.id}
-                    fileInfo={sortedFileInfos[i]}
-                    index={i}
-                    handleImageClick={handleImageClick}
-                    compactDisplay={compactDisplay}
-                    handleFileDropdownOpened={props.handleFileDropdownOpened}
-                />,
+                <Component {...fileAttachmentProps}/>,
             );
         }
     } else if (fileCount > 0) {
