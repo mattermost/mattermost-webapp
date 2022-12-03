@@ -45,10 +45,16 @@ export default class AppsFormField extends React.PureComponent<Props> {
     };
 
     handleSelected = (selected: AppSelectOption | UserProfile | Channel) => {
-        const {name, onChange} = this.props;
+        const {name, onChange, field} = this.props;
 
         const option = selected as AppSelectOption;
-        onChange(name, option);
+        if (field.type === AppFieldTypes.USER) {
+            onChange(name, {label: option.label, value: option.value});
+        } else if (field.type === AppFieldTypes.CHANNEL) {
+            onChange(name, {label: option.label, value: option.value});
+        } else {
+            onChange(name, option);
+        }
     }
 
     render() {
