@@ -21,15 +21,15 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
+    <div
       aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -251,15 +251,15 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
+    <div
       aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -562,15 +562,15 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
+    <div
       aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -825,15 +825,15 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
+    <div
       aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -1088,15 +1088,15 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
+    <div
       aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -1356,15 +1356,15 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
       size="sm"
       url="http://localhost:8065/api/v4/users/jsx5jmdiyjyuzp9rzwfaf5pwjo/image?_=1590519110944"
     />
-    <button
+    <div
       aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -1590,15 +1590,15 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
+    <div
       aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -1820,15 +1820,15 @@ exports[`components/StatusDropdown should not show clear status button when cust
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
+    <div
       aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -2083,15 +2083,15 @@ exports[`components/StatusDropdown should show clear status button when custom s
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
+    <div
       aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"

@@ -428,7 +428,7 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
                     />
                     {this.renderProfilePicture('sm')}
                     <div
-                        className='status style--none'
+                        className='status'
                         aria-label={menuAriaLabeltext}
                     >
                         <StatusIcon
