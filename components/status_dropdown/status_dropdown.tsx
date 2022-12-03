@@ -427,7 +427,7 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
                         onClick={this.handleCustomStatusEmojiClick as () => void}
                     />
                     {this.renderProfilePicture('sm')}
-                    <button
+                    <div
                         className='status style--none'
                         aria-label={menuAriaLabeltext}
                     >
@@ -435,7 +435,7 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
                             size={'sm'}
                             status={(this.props.status || 'offline') as TUserStatus}
                         />
-                    </button>
+                    </div>
                 </button>
                 <Menu
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
