@@ -2,6 +2,7 @@
 
 .user-popover__set-custom-status-btn {
     display: flex;
+    width: max-content;
     align-items: center;
     padding: 2px 0;
     border: none;
@@ -37,6 +38,7 @@
     max-width: 248px;
 
     .popover-title {
+        overflow: unset;
         max-width: 110%;
         padding: 0;
         border-bottom: none;
@@ -50,6 +52,7 @@
 
         .user-popover__role {
             padding: 0 4px;
+            margin-left: 0;
             background-color: rgba(var(--center-channel-text-rgb), 0.08) !important;
             color: var(--center-channel-text-rgb);
             font-family: Open Sans, sans-serif;

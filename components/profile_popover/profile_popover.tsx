@@ -388,7 +388,10 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
 
         return {customStatusContent, expiryContent};
     }
-    handleClose = () => this.props.hide?.();
+    handleClose = () => {
+        this.props.hide?.();
+        this.returnFocus();
+    };
     getCallsChannelState(channelId: string): Promise<ChannelCallsState> {
         let data: Promise<ChannelCallsState>;
         try {
@@ -719,6 +722,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     <button
                         id='startCallButton'
                         type='button'
+                        aria-disabled={disabled}
                         className={iconButtonClassname}
                     >
                         <PhoneInTalkIcon
@@ -839,7 +843,6 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             <span data-testid={`profilePopoverTitle_${this.props.user.username}`}>
                 {roleTitle}
                 <button
-                    tabIndex={-1}
                     ref={this.closeButtonRef}
                     className='user-popover__close'
                     onClick={this.handleClose}
