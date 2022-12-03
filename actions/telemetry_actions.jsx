@@ -10,7 +10,11 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import store from 'stores/redux_store.jsx';
 
-import {isDevMode} from 'utils/utils';
+// this is temporary here until this file's functions are converted to redux actions
+function isDevMode(state = store.getState()) {
+    const config = getConfig(state);
+    return config.EnableDeveloper === 'true';
+}
 
 const SUPPORTS_CLEAR_MARKS = isSupported([performance.clearMarks]);
 const SUPPORTS_MARK = isSupported([performance.mark]);
