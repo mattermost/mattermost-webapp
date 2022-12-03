@@ -5,7 +5,6 @@ import fs from 'fs';
 
 import assert from 'assert';
 
-import FormData from 'form-data';
 import nock from 'nock';
 
 import {FileTypes} from 'mattermost-redux/action_types';
