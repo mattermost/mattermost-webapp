@@ -205,7 +205,8 @@
             }
         }
 
-        .more-modal__row:hover {
+        .more-modal__row:hover,
+        .more-modal__row:focus {
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
             cursor: pointer;
 

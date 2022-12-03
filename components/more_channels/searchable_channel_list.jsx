@@ -24,9 +24,10 @@ import Menu from 'components/widgets/menu/menu';
 
 import {t} from 'utils/i18n';
 import * as UserAgent from 'utils/user_agent';
-import {localizeMessage, localizeAndFormatMessage} from 'utils/utils';
+import Constants, {ModalIdentifiers} from 'utils/constants';
+import {isKeyPressed, localizeMessage, localizeAndFormatMessage} from 'utils/utils';
+
 import {isArchivedChannel} from 'utils/channel_utils';
-import {ModalIdentifiers} from 'utils/constants';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
@@ -55,6 +56,21 @@ export default class SearchableChannelList extends React.PureComponent {
         // only focus the search box on desktop so that we don't cause the keyboard to open on mobile
         if (!UserAgent.isMobile() && this.filter.current) {
             this.filter.current.focus();
+        }
+        document.addEventListener('keydown', this.onKeyDown);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.onKeyDown);
+    }
+
+    onKeyDown = (e) => {
+        const target = e.target;
+        if (isKeyPressed(e, Constants.KeyCodes.ENTER) && (e.shiftKey || e.ctrlKey || e.altKey)) {
+            return;
+        }
+        if (isKeyPressed(e, Constants.KeyCodes.ENTER) && target.classList.contains('more-modal__row')) {
+            target.click();
         }
     }
 
