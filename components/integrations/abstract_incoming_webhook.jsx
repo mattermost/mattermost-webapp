@@ -254,7 +254,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_incoming_webhook.channel.help'
-                                        defaultMessage='This is the default public or private channel that receives the webhook payloads.  When setting up the webhook, you must belong to the private channel.'
+                                        defaultMessage='This is the default public or private channel that receives the webhook payloads. When setting up the webhook, you must belong to the private channel.'
                                     />
                                 </div>
                             </div>
