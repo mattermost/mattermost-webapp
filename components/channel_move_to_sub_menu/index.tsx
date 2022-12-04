@@ -151,21 +151,19 @@ const ChannelMoveToSubMenu = (props: Props) => {
     }
 
     return (
-        <React.Fragment>
-            <Menu.Group>
-                <Menu.ItemSubMenu
-                    id={`moveTo-${props.channel.id}`}
-                    subMenu={getMoveToCategorySubmenuItems(categories)}
-                    text={formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
-                    direction={'right'}
-                    icon={props.inHeaderDropdown ? null : <FolderMoveOutlineIcon size={16}/>}
-                    openUp={props.openUp}
-                    styleSelectableItem={true}
-                    selectedValueText={currentCategory?.display_name}
-                    renderSelected={false}
-                />
-            </Menu.Group>
-        </React.Fragment>
+        <Menu.Group>
+            <Menu.ItemSubMenu
+                id={`moveTo-${props.channel.id}`}
+                subMenu={getMoveToCategorySubmenuItems(categories)}
+                text={formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
+                direction={'right'}
+                icon={props.inHeaderDropdown ? null : <FolderMoveOutlineIcon size={16}/>}
+                openUp={props.openUp}
+                styleSelectableItem={true}
+                selectedValueText={currentCategory?.display_name}
+                renderSelected={false}
+            />
+        </Menu.Group>
     );
 };
 
