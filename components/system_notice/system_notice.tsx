@@ -34,13 +34,13 @@ type Props = {
 }
 export default class SystemNotice extends React.PureComponent<Props> {
     componentDidMount() {
-        if (this.props.isSystemAdmin) {
+        if (this.props.isSystemAdmin && !this.props.analytics) {
             this.props.actions.getStandardAnalytics();
         }
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (prevProps.isSystemAdmin !== this.props.isSystemAdmin && this.props.isSystemAdmin) {
+        if ((prevProps.isSystemAdmin !== this.props.isSystemAdmin && this.props.isSystemAdmin && !this.props.analytics)) {
             this.props.actions.getStandardAnalytics();
         }
     }

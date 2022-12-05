@@ -87,6 +87,13 @@ class AnnouncementBarController extends React.PureComponent<Props> {
             );
         }
 
+        let autoStartTrialModal = null;
+        if (this.props.userIsAdmin) {
+            autoStartTrialModal = (
+                <AutoStartTrialModal/>
+            );
+        }
+
         return (
             <>
                 {adminConfiguredAnnouncementBar}
@@ -97,7 +104,7 @@ class AnnouncementBarController extends React.PureComponent<Props> {
                 {cloudDelinquencyAnnouncementBar}
                 {notifyAdminDowngradeDelinquencyBar}
                 {this.props.license?.Cloud !== 'true' && <OverageUsersBanner/>}
-                <AutoStartTrialModal/>
+                {autoStartTrialModal}
                 <ShowThreeDaysLeftTrialModal/>
                 <VersionBar/>
                 <ConfigurationAnnouncementBar
