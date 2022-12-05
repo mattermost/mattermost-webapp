@@ -113,10 +113,7 @@ exports[`component/view_user_group_modal should match snapshot 1`] = `
           }
         }
       />
-      <LoadingScreen
-        position="relative"
-        style={Object {}}
-      />
+      <LoadingScreen />
     </div>
   </ModalBody>
 </Modal>

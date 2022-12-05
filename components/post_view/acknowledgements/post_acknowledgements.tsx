@@ -81,7 +81,10 @@ function PostAcknowledgements({
                 open: 300,
                 close: 0,
             },
-            handleClose: safePolygon(),
+            handleClose: safePolygon({
+                blockPointerEvents: false,
+                restMs: 100,
+            }),
         }),
         useRole(context),
     ]);

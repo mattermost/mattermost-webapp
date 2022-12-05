@@ -2,51 +2,37 @@
 // See LICENSE.txt for license information.
 
 import React, {ReactNode, CSSProperties} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {useIntl} from 'react-intl';
+import classNames from 'classnames';
 
 type Props = {
-    position: 'absolute' | 'fixed' | 'relative' | 'static' | 'inherit';
+    position?: 'absolute' | 'fixed' | 'relative' | 'static' | 'inherit';
     style?: CSSProperties;
     message?: ReactNode;
+    className?: string;
+    centered?: boolean;
 }
 
-export default class LoadingScreen extends React.PureComponent<Props> {
-    public static defaultProps: Partial<Props> = {
-        position: 'relative',
-        style: {},
-    }
+function LoadingScreen({message, position = 'relative', style, className = '', centered = false}: Props) {
+    const {formatMessage} = useIntl();
 
-    public constructor(props: Props) {
-        super(props);
-        this.state = {};
-    }
-
-    public render(): JSX.Element {
-        let message: ReactNode = (
-            <FormattedMessage
-                id='loading_screen.loading'
-                defaultMessage='Loading'
-            />
-        );
-
-        if (this.props.message) {
-            message = this.props.message;
-        }
-
-        return (
-            <div
-                className='loading-screen'
-                style={{position: this.props.position, ...this.props.style}}
-            >
-                <div className='loading__content'>
-                    <p>
-                        {message}
-                    </p>
-                    <div className='round round-1'/>
-                    <div className='round round-2'/>
-                    <div className='round round-3'/>
-                </div>
+    return (
+        <div
+            className={classNames('loading-screen', className, {
+                'loading-screen--in-middle': centered,
+            })}
+            style={{position, ...style}}
+        >
+            <div className='loading__content'>
+                <p>
+                    {message || formatMessage({id: 'loading_screen.loading', defaultMessage: 'Loading'})}
+                </p>
+                <div className='round round-1'/>
+                <div className='round round-2'/>
+                <div className='round round-3'/>
             </div>
-        );
-    }
+        </div>
+    );
 }
+
+export default LoadingScreen;
