@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
 import {FormattedMessage, useIntl} from 'react-intl';
@@ -25,7 +25,7 @@ import {GlobalState} from 'types/store';
 import {getCurrentMomentForTimezone} from 'utils/timezone';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
-import {localizeMessage} from 'utils/utils';
+import {isKeyPressed, localizeMessage} from 'utils/utils';
 
 import CustomStatusSuggestion from 'components/custom_status/custom_status_suggestion';
 import ExpiryMenu from 'components/custom_status/expiry_menu';
@@ -120,6 +120,21 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
         initialCustomExpiryTime = moment(currentCustomStatus.expires_at);
     }
     const [customExpiryTime, setCustomExpiryTime] = useState<Moment>(initialCustomExpiryTime);
+    const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isDatePickerOpen]);
+
+    const handleKeyDown = useCallback((event: KeyboardEvent) => {
+        if (isKeyPressed(event, Constants.KeyCodes.ESCAPE) && !isDatePickerOpen) {
+            props.onExited();
+        }
+    }, [isDatePickerOpen]);
 
     const handleCustomStatusInitializationState = () => {
         if (firstTimeModalOpened) {
@@ -340,6 +355,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
             handleCancel={handleClearStatus}
             confirmButtonClassName='btn btn-primary'
             ariaLabel={localizeMessage('custom_status.set_status', 'Set a status')}
+            keyboardEscape={false}
             tabIndex={-1}
         >
             <div className='StatusModal__body'>
@@ -398,6 +414,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         time={customExpiryTime}
                         handleChange={setCustomExpiryTime}
                         timezone={timezone}
+                        setIsDatePickerOpen={setIsDatePickerOpen}
                     />
                 )}
             </div>

@@ -16,9 +16,9 @@ import DatePicker from 'components/date_picker';
 import Menu from 'components/widgets/menu/menu';
 import Timestamp from 'components/timestamp';
 import {getCurrentLocale} from 'selectors/i18n';
-import {localizeMessage} from 'utils/utils';
+import {isKeyPressed, localizeMessage} from 'utils/utils';
 import {getCurrentMomentForTimezone} from 'utils/timezone';
-import {A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
+import Constants, {A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
 
 const CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES = 30;
 
@@ -50,6 +50,7 @@ type Props = {
     time: Moment;
     handleChange: (date: Moment) => void;
     timezone?: string;
+    setIsDatePickerOpen?: (isDatePickerOpen: boolean) => void;
 }
 
 const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
@@ -59,6 +60,20 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
     const [isPopperOpen, setIsPopperOpen] = useState(false);
     const {formatMessage} = useIntl();
     const timeButtonRef = useRef<HTMLButtonElement>(null);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isPopperOpen]);
+
+    const handleKeyDown = useCallback((event: KeyboardEvent) => {
+        if (isKeyPressed(event, Constants.KeyCodes.ESCAPE) && isPopperOpen) {
+            handlePopperClosed();
+        }
+    }, [isPopperOpen]);
 
     const setTimeAndOptions = () => {
         const currentTime = getCurrentMomentForTimezone(timezone);
@@ -104,10 +119,12 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
 
     const handlePopperClosed = useCallback(() => {
         setIsPopperOpen(false);
+        props.setIsDatePickerOpen?.(false);
     }, []);
 
     const handlePopperOpen = useCallback(() => {
         setIsPopperOpen(true);
+        props.setIsDatePickerOpen?.(true);
     }, []);
 
     const formatDate = (date: Date): string => {

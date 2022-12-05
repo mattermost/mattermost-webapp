@@ -629,6 +629,10 @@ export default class SuggestionBox extends React.PureComponent {
         }
     }
 
+    focusInputOnEscape = () => {
+        this.inputRef.current.focus();
+    }
+
     handleReceivedSuggestions = (suggestions) => {
         let newComponents = [];
         const newPretext = [];
@@ -858,6 +862,7 @@ export default class SuggestionBox extends React.PureComponent {
                         matchedPretext={this.state.matchedPretext}
                         onCompleteWord={this.handleCompleteWord}
                         preventClose={this.preventSuggestionListClose}
+                        handleEscape={this.focusInputOnEscape}
                     />
                 }
             </div>

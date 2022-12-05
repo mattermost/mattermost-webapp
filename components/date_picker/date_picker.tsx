@@ -9,6 +9,7 @@ import {usePopper} from 'react-popper';
 
 import type {Locale} from 'date-fns';
 
+import 'react-day-picker/dist/style.css';
 import './date_picker.scss';
 
 type Props = {
@@ -66,6 +67,7 @@ const DatePicker = ({children, datePickerProps, isPopperOpen, closePopper, local
                         allowOutsideClick: true,
                         clickOutsideDeactivates: true,
                         onDeactivate: closePopper,
+                        escapeDeactivates: false,
                     }}
                 >
                     <div

@@ -12,6 +12,7 @@ type SuggestionItem = {
     term: string;
     matchedPretext: string;
     preventClose: () => void;
+    handleEscape: () => void;
     isSelection: boolean;
     onClick: (term: string, matchedPretext: string[], e?: React.MouseEvent<HTMLDivElement>) => boolean;
 }
@@ -22,6 +23,7 @@ type Props = {
     items: SuggestionItem[];
     terms: string[];
     preventClose: () => void;
+    handleEscape: () => void;
     components: Array<React.ComponentType<SuggestionItem>>;
 }
 
@@ -47,6 +49,7 @@ export default class SuggestionDate extends React.PureComponent<Props> {
                 isSelection={false}
                 onClick={this.props.onCompleteWord}
                 preventClose={this.props.preventClose}
+                handleEscape={this.props.handleEscape}
             />
         );
 

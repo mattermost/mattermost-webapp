@@ -33,6 +33,8 @@ export default class SearchDateSuggestion extends Suggestion {
     handleKeyDown = (e: KeyboardEvent) => {
         if (Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) && document.activeElement?.id === 'searchBox') {
             this.setState({datePickerFocused: true});
+        } else if (Utils.isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
+            this.props.handleEscape();
         }
     };
 

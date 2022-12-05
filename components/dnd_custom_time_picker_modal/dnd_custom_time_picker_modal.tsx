@@ -13,13 +13,13 @@ import {UserStatus} from '@mattermost/types/users';
 
 import GenericModal from 'components/generic_modal';
 
-import {A11yCustomEventTypes, A11yFocusEventDetail, UserStatuses} from 'utils/constants';
+import Constants, {A11yCustomEventTypes, A11yFocusEventDetail, UserStatuses} from 'utils/constants';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import './dnd_custom_time_picker_modal.scss';
 import {toUTCUnix} from 'utils/datetime';
-import {localizeMessage} from 'utils/utils';
+import {isKeyPressed, localizeMessage} from 'utils/utils';
 import Input from 'components/widgets/inputs/input/input';
 import DatePicker from 'components/date_picker';
 
@@ -63,6 +63,24 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             popperElement: null,
         };
     }
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown);
+    }
+
+    handleKeyDown = (event: KeyboardEvent) => {
+        if (isKeyPressed(event, Constants.KeyCodes.ESCAPE)) {
+            if (this.state.isPopperOpen) {
+                this.handlePopperClosed();
+            } else {
+                this.props.onExited();
+            }
+        }
+    };
 
     formatDate = (date: Date): string => {
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -210,6 +228,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                 id='dndCustomTimePickerModal'
                 className={'DndModal modal-overflow'}
                 tabIndex={-1}
+                keyboardEscape={false}
             >
                 <div className='DndModal__content'>
                     <DatePicker
