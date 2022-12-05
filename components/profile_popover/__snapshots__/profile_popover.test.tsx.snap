@@ -193,7 +193,7 @@ exports[`components/ProfilePopover should disable start call button when user is
               ]
             }
           >
-            <a>
+            <div>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
                 className="btn icon-btn"
@@ -256,7 +256,7 @@ exports[`components/ProfilePopover should disable start call button when user is
                   size={18}
                 />
               </Connect(ToggleModalButton)>
-            </a>
+            </div>
           </OverlayTrigger>
           <OverlayTrigger
             defaultOverlayShown={false}
@@ -799,7 +799,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
               ]
             }
           >
-            <a>
+            <div>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
                 className="btn icon-btn"
@@ -862,7 +862,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
                   size={18}
                 />
               </Connect(ToggleModalButton)>
-            </a>
+            </div>
           </OverlayTrigger>
           <Connect(CallButton)
             customButton={
@@ -1161,7 +1161,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
               ]
             }
           >
-            <a>
+            <div>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
                 className="btn icon-btn"
@@ -1225,7 +1225,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
                   size={18}
                 />
               </Connect(ToggleModalButton)>
-            </a>
+            </div>
           </OverlayTrigger>
           <Connect(CallButton)
             customButton={
@@ -1509,7 +1509,7 @@ exports[`components/ProfilePopover should match snapshot when calls are disabled
               ]
             }
           >
-            <a>
+            <div>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
                 className="btn icon-btn"
@@ -1572,7 +1572,7 @@ exports[`components/ProfilePopover should match snapshot when calls are disabled
                   size={18}
                 />
               </Connect(ToggleModalButton)>
-            </a>
+            </div>
           </OverlayTrigger>
         </div>
       </div>
@@ -1867,7 +1867,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
               ]
             }
           >
-            <a>
+            <div>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
                 className="btn icon-btn"
@@ -1930,7 +1930,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
                   size={18}
                 />
               </Connect(ToggleModalButton)>
-            </a>
+            </div>
           </OverlayTrigger>
           <Connect(CallButton)
             customButton={
@@ -2220,7 +2220,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
               ]
             }
           >
-            <a>
+            <div>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
                 className="btn icon-btn"
@@ -2283,7 +2283,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
                   size={18}
                 />
               </Connect(ToggleModalButton)>
-            </a>
+            </div>
           </OverlayTrigger>
           <Connect(CallButton)
             customButton={
@@ -2855,7 +2855,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
               ]
             }
           >
-            <a>
+            <div>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
                 className="btn icon-btn"
@@ -2918,7 +2918,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
                   size={18}
                 />
               </Connect(ToggleModalButton)>
-            </a>
+            </div>
           </OverlayTrigger>
           <Connect(CallButton)
             customButton={
@@ -3176,7 +3176,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
               ]
             }
           >
-            <a>
+            <div>
               <Connect(ToggleModalButton)
                 ariaLabel="Add to a Channel"
                 className="btn icon-btn"
@@ -3239,7 +3239,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
                   size={18}
                 />
               </Connect(ToggleModalButton)>
-            </a>
+            </div>
           </OverlayTrigger>
           <Connect(CallButton)
             customButton={
@@ -4097,7 +4097,7 @@ exports[`components/ProfilePopover should not show the start call button when is
                             ]
                           }
                         >
-                          <a
+                          <div
                             onBlur={[Function]}
                             onClick={null}
                             onFocus={[Function]}
@@ -4257,7 +4257,7 @@ exports[`components/ProfilePopover should not show the start call button when is
                                 </button>
                               </ToggleModalButton>
                             </Connect(ToggleModalButton)>
-                          </a>
+                          </div>
                         </OverlayTrigger>
                       </OverlayTrigger>
                     </div>

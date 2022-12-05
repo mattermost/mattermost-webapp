@@ -667,7 +667,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     </Tooltip>
                 }
             >
-                <a>
+                <div>
                     <ToggleModalButton
                         id='addToChannelButton'
                         className='btn icon-btn'
@@ -685,7 +685,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                             })}
                         />
                     </ToggleModalButton>
-                </a>
+                </div>
             </OverlayTrigger>
         );
 
