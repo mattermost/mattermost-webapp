@@ -3,14 +3,11 @@
 
 import React, {ReactNode, useState, MouseEvent} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import styled from 'styled-components';
 import MuiMenu, {MenuProps as MuiMenuProps} from '@mui/material/Menu';
 import MuiMenuList from '@mui/material/MenuList';
-import MuiMenuItem from '@mui/material/MenuItem';
+import MuiMenuItem, {MenuItemProps} from '@mui/material/MenuItem';
 import {PopoverOrigin} from '@mui/material/Popover';
 import {styled as muiStyled} from '@mui/material/styles';
-
-import {ArrowForwardIosIcon} from '@mattermost/compass-icons/components';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -102,22 +99,20 @@ export function SubMenu(props: Props) {
         }
 
         return (
-            <MuiMenuItem
+            <MuiMenuItemStyled
                 id={props.triggerId}
                 disableRipple={true}
                 aria-controls={props.menuId}
                 aria-haspopup='true'
                 onClick={handleAnchorButtonClickOnMobile}
             >
-                <MenuItemAnchor>
-                    {props.triggerElement}
-                </MenuItemAnchor>
-            </MuiMenuItem>
+                {props.triggerElement}
+            </MuiMenuItemStyled>
         );
     }
 
     return (
-        <MuiMenuItem
+        <MuiMenuItemStyled
             id={props.triggerId}
             aria-controls={isSubMenuOpen ? props.menuId : undefined}
             aria-haspopup='true'
@@ -127,13 +122,7 @@ export function SubMenu(props: Props) {
             onMouseEnter={handleSubMenuOpen}
             onMouseLeave={handleSubMenuClose}
         >
-            <MenuItemAnchor>
-                {props.triggerElement}
-                <ArrowForwardIosIcon
-                    size={16}
-                    color='currentColor'
-                />
-            </MenuItemAnchor>
+            {props.triggerElement}
             <MuiMenuStyled
                 id={props.menuId}
                 anchorEl={anchorElement}
@@ -149,24 +138,29 @@ export function SubMenu(props: Props) {
                     {props.children}
                 </MuiMenuList>
             </MuiMenuStyled>
-        </MuiMenuItem>
+        </MuiMenuItemStyled>
 
     );
 }
 
-const MenuItemAnchor = styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: row;
-    & > div {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        flex-direction: row;
-    }
-`;
+const MuiMenuItemStyled = muiStyled(MuiMenuItem)<MenuItemProps>(() => ({
+    '&.MuiMenuItem-root': {
+        color: 'var(--center-channel-color)',
+        padding: '0',
+        '&:hover': {
+            backgroundColor: 'transparent',
+        },
+        '&:active': {
+            'background-color': 'transparent',
+        },
+        '&.Mui-disabled': {
+            color: 'rgba(var(--center-channel-color-rgb), 0.32)',
+        },
+        '&.Mui-focusVisible': {
+            boxShadow: '0 0 0 2px var(--denim-sidebar-active-border) inset',
+        },
+    },
+}));
 
 const MuiMenuStyled = muiStyled(MuiMenu)<MuiMenuProps>(() => ({
     '&.MuiPaper-root': {

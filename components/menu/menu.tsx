@@ -194,4 +194,7 @@ const MuiMenuStyled = muiStyled(MuiMenu)<MuiMenuProps>(() => ({
         maxWidth: '496px',
         maxHeight: '80vh',
     },
+    '& .MuiMenu-list': {
+        padding: '0',
+    },
 }));

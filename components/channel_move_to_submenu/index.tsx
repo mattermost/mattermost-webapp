@@ -31,6 +31,8 @@ import {openModal} from 'actions/views/modals';
 
 import EditCategoryModal from 'components/edit_category_modal';
 import {SubMenu, MenuItem, MenuDivider} from 'components/menu';
+import {PopoverMenuItem} from 'components/menu_item_types/popover_menu_item';
+import {PopoverSubMenuItem} from 'components/menu_item_types/popover_sub_menu_item';
 
 type Props = {
     channel: Channel;
@@ -107,12 +109,10 @@ const ChannelMoveToSubmenu = (props: Props) => {
         <SubMenu
             triggerId={`moveTo-${props.channel.id}`}
             triggerElement={
-                <>
-                    <FolderMoveOutlineIcon
-                        size={18}
-                    />
-                    {formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
-                </>
+                <PopoverSubMenuItem
+                    leadingElement={<FolderMoveOutlineIcon size={18}/>}
+                    primaryLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
+                />
             }
             menuId={`SidebarChannelMenu-ChannelMoveToSubmenu-${props.channel.id}`}
         >
@@ -139,10 +139,10 @@ const ChannelMoveToSubmenu = (props: Props) => {
                 id={`moveToNewCategory-${props.channel.id}`}
                 onClick={handleMoveToNewCategory}
             >
-                <FolderMoveOutlineIcon
-                    size={16}
+                <PopoverMenuItem
+                    leadingElement={<FolderOutlineIcon size={16}/>}
+                    primaryLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'New Category'})}
                 />
-                {formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'New Category'})}
             </MenuItem>
         </SubMenu>
     );

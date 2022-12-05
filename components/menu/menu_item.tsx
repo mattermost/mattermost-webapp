@@ -34,26 +34,20 @@ interface MenuItemProps extends MuiMenuItemProps {
 /* eslint-disable no-negated-condition */
 const MuiMenuItemStyled = muiStyled(MuiMenuItem)<MenuItemProps>(({destructive = false}) => ({
     '&.MuiMenuItem-root': {
-        fontFamily: '"Open Sans", sans-serif',
-        fontSize: '14px',
-        lineHeight: '20px',
-        fontWeight: 400,
         color: !destructive ? 'var(--center-channel-color)' : 'var(--error-text)',
-        padding: '8px 16px',
+        padding: '0',
         '&:hover': {
-            backgroundColor: !destructive ? 'rgba(var(--center-channel-color-rgb), 0.08)' : 'var(--error-text)',
-            color: destructive && 'var(--button-color)',
+            backgroundColor: 'transparent',
         },
         '&:active': {
-            'background-color': !destructive ? 'rgba(var(--button-bg-rgb), 0.08)' : 'rgba(var(--error-text-rgb), 0.16',
+            'background-color': 'transparent',
         },
         '&.Mui-disabled': {
             color: 'rgba(var(--center-channel-color-rgb), 0.32)',
         },
         '&.Mui-focusVisible': {
             boxShadow: !destructive ? '0 0 0 2px var(--denim-sidebar-active-border) inset' : '0 0 0 2px rgba(var(--button-color-rgb), 0.16) inset',
-            backgroundColor: destructive && 'var(--error-text)',
-            color: destructive && 'var(--button-color)',
+            backgroundColor: destructive && 'rgba(var(--error-text-rgb), 0.08)',
         },
     },
 }));

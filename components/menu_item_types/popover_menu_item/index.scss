@@ -1,0 +1,86 @@
+.popover-menu-item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-items: flex-start;
+    font-family: "Open Sans", sans-serif;
+    color:var(--center-channel-color);
+    padding: 8px 16px;
+    width: 100%;
+
+    &.destructive {
+        color: var(--error-text);
+    }
+
+    & > .leading-element {
+        max-width: 18px;
+        max-height: 18px;
+        align-self: flex-start;
+    }
+
+    & > .label-elements {
+        display: flex;
+        flex: 1 0 auto;
+        align-self: stretch;
+        flex-direction: column;
+        font-weight: 400;
+        text-align: start;
+        padding-inline-start: 8px;
+        gap: 4px;
+
+        & > .primary-label {
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        & > .secondary-label {
+            font-size: 12px;
+            line-height: 16px;
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+        }
+    }
+
+    & > .trailing-elements {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        margin-inline-start: 24px;
+        gap: 4px;
+
+        & > .sub-menu-detail {
+            font-size: 12px;
+            line-height: 14px;
+        }
+        & > .end-element {
+            font-size: 12px;
+            line-height: 16px ;
+        }
+    }
+
+    &:hover {
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
+        &.destructive {
+            background-color: var(--error-text);
+            color: var(--button-color);
+
+            .secondary-label {
+                color: var(--button-color);
+            }
+
+            .trailing-elements {
+                color: var(--button-color);
+            }
+        }
+    }
+
+    &:active {
+        background-color: rgba(var(--button-bg-rgb), 0.08);
+        &.destructive {
+            background-color: rgba(var(--error-text-rgb), 0.16);
+        }
+    }
+}

@@ -21,6 +21,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import {Menu, MenuItem, MenuDivider} from 'components/menu';
 import ChannelMoveToSubmenu from 'components/channel_move_to_submenu';
+import {PopoverMenuItem} from 'components/menu_item_types/popover_menu_item';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import {copyToClipboard} from 'utils/utils';
@@ -48,10 +49,10 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`markAsRead-${props.channel.id}`}
                 onClick={handleMarkAsRead}
             >
-                <MarkAsUnreadIcon
-                    size={18}
+                <PopoverMenuItem
+                    leadingElement={<MarkAsUnreadIcon size={18}/>}
+                    primaryLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsRead', defaultMessage: 'Mark as Read'})}
                 />
-                {formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsRead', defaultMessage: 'Mark as Read'})}
             </MenuItem>
 
         );
@@ -68,10 +69,10 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`markAsUnread-${props.channel.id}`}
                 onClick={handleMarkAsUnread}
             >
-                <MarkAsUnreadIcon
-                    size={18}
+                <PopoverMenuItem
+                    leadingElement={<MarkAsUnreadIcon size={18}/>}
+                    primaryLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsUnread', defaultMessage: 'Mark as Unread'})}
                 />
-                {formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsUnread', defaultMessage: 'Mark as Unread'})}
             </MenuItem>
         );
     }
@@ -90,10 +91,10 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`unfavorite-${props.channel.id}`}
                 onClick={handleUnfavoriteChannel}
             >
-                <StarIcon
-                    size={18}
+                <PopoverMenuItem
+                    leadingElement={<StarIcon size={18}/>}
+                    primaryLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.unfavorite', defaultMessage: 'Remove from Favorites'})}
                 />
-                {formatMessage({id: 'sidebar_left.sidebar_channel_menu.unfavorite', defaultMessage: 'Remove from Favorites'})}
             </MenuItem>
         );
     } else {
@@ -109,10 +110,10 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`favorite-${props.channel.id}`}
                 onClick={handleFavoriteChannel}
             >
-                <StarOutlineIcon
-                    size={18}
+                <PopoverMenuItem
+                    leadingElement={<StarOutlineIcon size={18}/>}
+                    primaryLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.favorite', defaultMessage: 'Add to Favorites'})}
                 />
-                {formatMessage({id: 'sidebar_left.sidebar_channel_menu.favorite', defaultMessage: 'Add to Favorites'})}
             </MenuItem>
         );
     }
@@ -135,10 +136,10 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`unmute-${props.channel.id}`}
                 onClick={handleUnmuteChannel}
             >
-                <BellOffOutlineIcon
-                    size={18}
+                <PopoverMenuItem
+                    leadingElement={<BellOffOutlineIcon size={18}/>}
+                    primaryLabel={muteChannelText}
                 />
-                {muteChannelText}
             </MenuItem>
         );
     } else {
@@ -158,10 +159,10 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`mute-${props.channel.id}`}
                 onClick={handleMuteChannel}
             >
-                <BellOutlineIcon
-                    size={18}
+                <PopoverMenuItem
+                    leadingElement={<BellOutlineIcon size={18}/>}
+                    primaryLabel={muteChannelText}
                 />
-                {muteChannelText}
             </MenuItem>
         );
     }
@@ -179,10 +180,10 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`copyLink-${props.channel.id}`}
                 onClick={handleCopyLink}
             >
-                <LinkVariantIcon
-                    size={18}
+                <PopoverMenuItem
+                    leadingElement={<LinkVariantIcon size={18}/>}
+                    primaryLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.copyLink', defaultMessage: 'Copy Link'})}
                 />
-                {formatMessage({id: 'sidebar_left.sidebar_channel_menu.copyLink', defaultMessage: 'Copy Link'})}
             </MenuItem>
         );
     }
@@ -206,10 +207,10 @@ const SidebarChannelMenu = (props: Props) => {
                 onClick={handleAddMembers}
                 destructive={true}
             >
-                <AccountOutlineIcon
-                    size={18}
+                <PopoverMenuItem
+                    leadingElement={<AccountOutlineIcon size={18}/>}
+                    primaryLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.addMembers', defaultMessage: 'Add Members'})}
                 />
-                {formatMessage({id: 'sidebar_left.sidebar_channel_menu.addMembers', defaultMessage: 'Add Members'})}
             </MenuItem>
         );
     }
@@ -244,12 +245,13 @@ const SidebarChannelMenu = (props: Props) => {
                 <MenuItem
                     id={`leave-${props.channel.id}`}
                     onClick={handleLeaveChannel}
-                    disabled={true}
+                    destructive={true}
                 >
-                    <CloseIcon
-                        size={18}
+                    <PopoverMenuItem
+                        leadingElement={<CloseIcon size={18}/>}
+                        primaryLabel={leaveChannelText}
+                        isDestructive={true}
                     />
-                    {leaveChannelText}
                 </MenuItem>
             </>
         );
