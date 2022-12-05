@@ -267,13 +267,13 @@ const SidebarChannelMenu = (props: Props) => {
             tooltipId={`SidebarChannelMenuTooltip-${props.channel.id}`}
             tooltipClassName='hidden-xs'
             tooltipText={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
-            anchorClassName='SidebarMenu_menuButton'
-            anchorNode={
+            triggerClassName='SidebarMenu_menuButton'
+            triggerElement={
                 <DotsVerticalIcon
                     size={16}
                 />
             }
-            anchorAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
+            triggerAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
             menuId={`SidebarChannelMenu-${props.channel.id}`}
             menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
         >

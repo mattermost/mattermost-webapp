@@ -21,10 +21,10 @@ const OVERLAY_TIME_DELAY = 500;
 interface Props {
 
     // Anchor button props
-    anchorId?: string;
-    anchorNode?: ReactNode;
-    anchorClassName?: string;
-    anchorAriaLabel?: string;
+    triggerId?: string;
+    triggerElement?: ReactNode;
+    triggerClassName?: string;
+    triggerAriaLabel?: string;
 
     // Menu props
     menuId: string;
@@ -78,7 +78,7 @@ export function Menu(props: Props) {
                         className='menuModal'
                     >
                         <MuiMenuList
-                            aria-labelledby={props.anchorId}
+                            aria-labelledby={props.triggerId}
                             onClick={handleModalClickCapture}
                         >
                             {props.children}
@@ -100,14 +100,14 @@ export function Menu(props: Props) {
 
         return (
             <button
-                id={props.anchorId}
+                id={props.triggerId}
                 aria-controls={props.menuId}
                 aria-haspopup='true'
-                aria-label={props.anchorAriaLabel}
-                className={props.anchorClassName}
+                aria-label={props.triggerAriaLabel}
+                className={props.triggerClassName}
                 onClick={handleAnchorButtonClickOnMobile}
             >
-                {props.anchorNode}
+                {props.triggerElement}
             </button>
         );
     }
@@ -118,19 +118,19 @@ export function Menu(props: Props) {
         setAnchorElement(event.currentTarget);
     }
 
-    function renderAnchorNode() {
-        const anchorNode = (
+    function rendertriggerElement() {
+        const triggerElement = (
             <button
-                id={props.anchorId}
+                id={props.triggerId}
                 aria-controls={isMenuOpen ? props.menuId : undefined}
                 aria-haspopup='true'
                 aria-expanded={isMenuOpen ? 'true' : undefined}
-                aria-label={props.anchorAriaLabel}
-                className={props.anchorClassName}
+                aria-label={props.triggerAriaLabel}
+                className={props.triggerClassName}
                 onClick={handleAnchorButtonClick}
                 tabIndex={isMenuOpen ? 0 : -1}
             >
-                {props.anchorNode}
+                {props.triggerElement}
             </button>
         );
 
@@ -149,12 +149,12 @@ export function Menu(props: Props) {
                     }
                     disabled={!props.tooltipText || isMenuOpen}
                 >
-                    {anchorNode}
+                    {triggerElement}
                 </OverlayTrigger>
             );
         }
 
-        return anchorNode;
+        return triggerElement;
     }
 
     function handleMenuClose(event: MouseEvent<HTMLDivElement | HTMLUListElement>) {
@@ -164,7 +164,7 @@ export function Menu(props: Props) {
 
     return (
         <CompassDesignProvider theme={theme}>
-            {renderAnchorNode()}
+            {rendertriggerElement()}
             <MuiMenu
                 id={props.menuId}
                 anchorEl={anchorElement}
@@ -173,7 +173,7 @@ export function Menu(props: Props) {
                 aria-label={props.menuAriaLabel}
             >
                 <MuiMenuList
-                    aria-labelledby={props.anchorId}
+                    aria-labelledby={props.triggerId}
                     onClick={handleMenuClose}
                 >
                     {props.children}

@@ -20,9 +20,9 @@ import GenericModal from 'components/generic_modal';
 interface Props {
 
     // Anchor button props
-    anchorId?: string;
-    anchorNode?: ReactNode;
-    anchorAriaLabel?: string;
+    triggerId?: string;
+    triggerElement?: ReactNode;
+    triggerAriaLabel?: string;
 
     // Menu props
     menuId: string;
@@ -78,7 +78,7 @@ export function SubMenu(props: Props) {
                         className='menuModal'
                     >
                         <MuiMenuList
-                            aria-labelledby={props.anchorId}
+                            aria-labelledby={props.triggerId}
                             onClick={handleModalClickCapture}
                         >
                             {props.children}
@@ -99,14 +99,14 @@ export function SubMenu(props: Props) {
 
         return (
             <MuiMenuItem
-                id={props.anchorId}
+                id={props.triggerId}
                 disableRipple={true}
                 aria-controls={props.menuId}
                 aria-haspopup='true'
                 onClick={handleAnchorButtonClickOnMobile}
             >
                 <MenuItemAnchor>
-                    {props.anchorNode}
+                    {props.triggerElement}
                 </MenuItemAnchor>
             </MuiMenuItem>
         );
@@ -114,17 +114,17 @@ export function SubMenu(props: Props) {
 
     return (
         <MuiMenuItem
-            id={props.anchorId}
+            id={props.triggerId}
             aria-controls={isSubMenuOpen ? props.menuId : undefined}
             aria-haspopup='true'
             aria-expanded={isSubMenuOpen ? 'true' : undefined}
-            aria-label={props.anchorAriaLabel}
+            aria-label={props.triggerAriaLabel}
             disableRipple={true}
             onMouseEnter={handleSubMenuOpen}
             onMouseLeave={handleSubMenuClose}
         >
             <MenuItemAnchor>
-                {props.anchorNode}
+                {props.triggerElement}
                 <ArrowForwardIosIcon
                     size={16}
                     color='currentColor'
@@ -139,7 +139,7 @@ export function SubMenu(props: Props) {
                 {...getOriginOfAnchorAndTransform(props.openAt)}
             >
                 <MuiMenuList
-                    aria-labelledby={props.anchorId}
+                    aria-labelledby={props.triggerId}
                     style={{pointerEvents: 'auto'}} // reset pointer events to default from here on
                 >
                     {props.children}
