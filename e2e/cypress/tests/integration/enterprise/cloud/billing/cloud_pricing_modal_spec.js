@@ -527,4 +527,29 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').get('#text-unselected').contains('Yearly');
         cy.get('#pricingModal').get('#professional').get('.plan_price_rate_section').contains(professionalMonthlySubscription.price_per_seat);
     });
+
+    it('Should display downgrade modal when downgrading from professional to free', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_2',
+            is_free_trial: 'false',
+        };
+        simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit(urlL);
+
+        // # Open the pricing modal
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+
+        // * Click the free action (downgrade).
+        cy.get('#free').should('exist');
+        cy.get('#free_action').should('be.enabled').click();
+
+        // * Check that the downgrade modal has appeard.
+        cy.get('#DowngradeModal').should('exist');
+    });
 });

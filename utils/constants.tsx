@@ -390,6 +390,7 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_MODAL: 'new_channel_modal',
     CLOUD_PURCHASE: 'cloud_purchase',
+    SELF_HOSTED_PURCHASE: 'self_hosted_purchase',
     CLOUD_DOWNGRADE_CHOOSE_TEAM: 'cloud_downgrade_choose_team',
     SUCCESS_MODAL: 'success_modal',
     ERROR_MODAL: 'error_modal',
@@ -431,6 +432,7 @@ export const ModalIdentifiers = {
     MARK_ALL_THREADS_AS_READ: 'mark_all_threads_as_read_modal',
     DELINQUENCY_MODAL_DOWNGRADE: 'delinquency_modal_downgrade',
     CLOUD_LIMITS_DOWNGRADE: 'cloud_limits_downgrade',
+    DOWNGRADE_MODAL: 'downgrade_modal',
 };
 
 export const UserStatuses = {
