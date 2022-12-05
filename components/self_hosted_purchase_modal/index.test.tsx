@@ -6,7 +6,8 @@ import React from 'react';
 import {screen, fireEvent, waitFor} from '@testing-library/react';
 
 import {GlobalState} from 'types/store';
-import {SelfHostedSignupProgress} from '@mattermost/types/hosted_customer';
+
+import {SelfHostedSignupForm, SelfHostedSignupProgress} from '@mattermost/types/hosted_customer';
 
 import {renderWithIntlAndStore} from 'tests/react_testing_utils';
 import {TestHelper as TH} from 'utils/test_helper';
@@ -34,8 +35,6 @@ function MockCardInput(props: MockCardInputProps) {
                 if (e.target.value === successCardNumber) {
                     props.onCardInputChange({complete: true});
                 }
-
-                // props.onCardInputChange({complete: false});
             }}
         />
     );
@@ -67,6 +66,7 @@ jest.mock('components/common/hooks/useLoadStripe', () => {
 
 const mockCreatedIntent = SelfHostedSignupProgress.CREATED_INTENT;
 const mockCreatedLicense = SelfHostedSignupProgress.CREATED_LICENSE;
+const failOrg = 'failorg';
 
 jest.mock('mattermost-redux/client', () => {
     const original = jest.requireActual('mattermost-redux/client');
@@ -77,9 +77,14 @@ jest.mock('mattermost-redux/client', () => {
             ...original.Client4,
             pageVisited: jest.fn(),
             setAcceptLanguage: jest.fn(),
-            createCustomerSelfHostedSignup: () => Promise.resolve({
-                progress: mockCreatedIntent,
-            }),
+            createCustomerSelfHostedSignup: (form: SelfHostedSignupForm) => {
+                if (form.organization === failOrg) {
+                    throw new Error('error creating customer');
+                }
+                return Promise.resolve({
+                    progress: mockCreatedIntent,
+                });
+            },
             confirmSelfHostedSignup: () => Promise.resolve({
                 progress: mockCreatedLicense,
             }),
@@ -247,6 +252,25 @@ describe('SelfHostedPurchaseModal', () => {
         expect(upgradeButton).toBeEnabled();
         upgradeButton.click();
         await waitFor(() => expect(screen.getByText(`You're now subscribed to ${productName}`)).toBeTruthy(), {timeout: 1234});
+    });
+
+    it('sad path submit shows error screen', async () => {
+        renderWithIntlAndStore(<div id='root-portal'><SelfHostedPurchaseModal productId={'prod_professional'}/></div>, initialState);
+        expect(screen.getByText('Upgrade')).toBeDisabled();
+        changeByPlaceholder('Card number', successCardNumber);
+        changeByPlaceholder('Organization Name', failOrg);
+        changeByPlaceholder('Name on Card', 'The Cardholder');
+        selectDropdownValue('selfHostedPurchaseCountrySelector', 'United States of America');
+        changeByPlaceholder('Address', '123 Main Street');
+        changeByPlaceholder('City', 'Minneapolis');
+        selectDropdownValue('selfHostedPurchaseStateSelector', 'MN');
+        changeByPlaceholder('Zip/Postal Code', '55423');
+        fireEvent.click(screen.getByText('I have read and agree', {exact: false}));
+
+        const upgradeButton = screen.getByText('Upgrade');
+        expect(upgradeButton).toBeEnabled();
+        upgradeButton.click();
+        await waitFor(() => expect(screen.getByText('Sorry, the payment verification failed')).toBeTruthy(), {timeout: 1234});
     });
 });
 
