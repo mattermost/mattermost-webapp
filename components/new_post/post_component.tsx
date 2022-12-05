@@ -320,7 +320,7 @@ const PostComponent = (props: Props): JSX.Element => {
     } = props;
 
     const isSystemMessage = PostUtils.isSystemMessage(post);
-    const postClass = classNames('post__body', {'post--edited': PostUtils.isEdited(props.post)});
+    const postClass = classNames('post__body', {'post--edited': PostUtils.isEdited(props.post), 'search-item-snippet': isSearchResultItem});
 
     let visibleMessage = null;
 
@@ -364,7 +364,6 @@ const PostComponent = (props: Props): JSX.Element => {
         </PostBodyAdditionalContent>
     ) : (
         <MessageWithAdditionalContent
-            id={props.location === 'RHS_ROOT' ? `rhsPostMessageText_${post.id}` : `postMessageText_${post.id}`}
             post={post}
             isEmbedVisible={props.isEmbedVisible}
             pluginPostTypes={props.pluginPostTypes}
@@ -524,7 +523,7 @@ const PostComponent = (props: Props): JSX.Element => {
                         </div>
                         <div
                             className={postClass}
-                            id={`${post.id}_message`}
+                            id={props.location === 'RHS_ROOT' ? `rhsPostMessageText_${post.id}` : `postMessageText_${post.id}`}
                         >
                             {post.failed && <FailedPostOptions post={props.post}/>}
                             <AutoHeightSwitcher
