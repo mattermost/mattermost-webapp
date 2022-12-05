@@ -341,3 +341,15 @@
         white-space: nowrap;
     }
 }
+
+.suggestion-list__group-count {
+    display: flex;
+    flex-grow: 1;
+    justify-content: end;
+
+    @media screen and (max-width: 480px) {
+        .Badge__box span {
+            display: none;
+        }
+    }
+}
