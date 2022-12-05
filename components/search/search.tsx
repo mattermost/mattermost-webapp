@@ -300,7 +300,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             setKeepInputFocused(true);
             actions.updateSearchType(highlightedSearchItemIndex === 0 ? 'messages' : 'files');
             setHighlightedSearchItemIndex(-1);
-            props.actions.getRecentSearches();
         } else if (indexChangedViaKeyPress) {
             if (highlightedSearchItemIndex < visibleSearchHintOptions.length) {
                 e.preventDefault();
