@@ -40,7 +40,7 @@ exports[`components/sidebar/channel_filter should match snapshot 1`] = `
     }
   >
     <a
-      aria-label="Filter by unread"
+      aria-label="unreads filter"
       className="SidebarFilters_filterButton"
       href="#"
       onClick={[Function]}
@@ -93,7 +93,7 @@ exports[`components/sidebar/channel_filter should match snapshot if the unread f
     }
   >
     <a
-      aria-label="Show all channels"
+      aria-label="unreads filter"
       className="SidebarFilters_filterButton active"
       href="#"
       onClick={[Function]}

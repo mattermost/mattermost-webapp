@@ -14,9 +14,9 @@
         flex-direction: row;
         flex-grow: 1;
         flex-wrap: wrap;
-        align-content: center;
+        align-content: flex-start;
         justify-content: center;
-        padding: 77px 107px;
+        padding: 20px 107px;
         color: var(--center-channel-color);
         font-family: "Open Sans";
         font-size: 16px;
@@ -206,7 +206,7 @@
                 }
 
                 .bottom {
-                    &:not(.delinquency) {
+                    &:not(.delinquency, .bottom-monthly-yearly) {
                         height: 363px;
                     }
 
@@ -215,6 +215,21 @@
                     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
                     background-color: var(--center-channel-bg);
                     border-radius: 0 0 4px 4px;
+
+                    .enable_annual_sub {
+                        margin-top: 12px;
+                    }
+
+                    .save_text {
+                        margin: 20px auto 10px;
+                        color: var(--denim-status-online);
+                        font-family: 'Metropolis';
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 700;
+                        line-height: 18px;
+                        text-align: center;
+                    }
 
                     .plan_action_btn {
                         width: 100%;
@@ -335,7 +350,13 @@
                             line-height: 30px;
                         }
 
+                        h4.plan_name {
+                            margin-top: 16px;
+                            margin-bottom: 0;
+                        }
+
                         h1 {
+                            margin: 0;
                             color: var(--center-channel-color);
                             font-family: 'Metropolis';
                             font-size: 52px;
@@ -355,6 +376,10 @@
                             font-style: normal;
                             line-height: 20px;
                         }
+
+                        p.plan_text {
+                            margin-bottom: 0;
+                        }
                     }
 
                     .plan_payment_commencement {
@@ -372,13 +397,96 @@
                             margin-bottom: 24px;
                         }
 
-                        margin-top: 24px;
+                        margin-top: 16px;
+                        margin-bottom: 24px;
                         color: rgba(var(--center-channel-color-rgb), 0.72);
                         font-size: 12px;
                         font-style: normal;
                         font-weight: 400;
                         line-height: 16px;
                     }
+
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+
+                        .yearly_savings {
+                            padding-top: 12px;
+                            padding-bottom: 12px;
+                            color: var(--denim-status-online);
+                            font-family: 'Open Sans';
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 700;
+                            line-height: 20px;
+                        }
+
+                        .total_price {
+                            color: var(--sys-denim-center-channel-text);
+                            font-family: 'Open Sans';
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 700;
+                            line-height: 24px;
+                        }
+
+                        .monthly_price {
+                            color: var(--sys-denim-center-channel-text);
+                            font-family: 'Open Sans';
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 400;
+                            letter-spacing: 0.02em;
+                            line-height: 20px;
+                        }
+                    }
+
+                    table tr td:nth-child(2) {
+                        text-align: right;
+                    }
+
+                    .flex-grid {
+                        display: flex;
+                        margin-top: 20px;
+
+                        .user_seats_container {
+                            width: 100px;
+                            margin-bottom: 24px;
+
+                            .user_seats {
+                                height: 24px;
+                            }
+                        }
+
+                        .user_seats_container.error {
+                            margin-bottom: 5px;
+                        }
+
+                        .icon {
+                            flex: 1;
+                            align-self: flex-start;
+                            justify-content: left;
+
+                            .icon-information-outline {
+                                margin: 0;
+                                color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
+                            }
+                        }
+
+                        .Input___customMessage {
+                            width: 250px;
+
+                            .icon.error {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+
+                .bottom.bottom-monthly-yearly {
+                    display: block;
+                    overflow: auto;
+                    border-radius: 4px;
                 }
             }
         }
