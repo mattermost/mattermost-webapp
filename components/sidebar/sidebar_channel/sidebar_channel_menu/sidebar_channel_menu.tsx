@@ -76,7 +76,7 @@ const SidebarChannelMenu = (props: Props) => {
         );
     }
 
-    let favoriteUnfavoriteMenuItem: JSX.Element | null = null;    
+    let favoriteUnfavoriteMenuItem: JSX.Element | null = null;
     if (props.isFavorite) {
         function handleUnfavoriteChannel(event: MouseEvent<HTMLLIElement>) {
             event.preventDefault();
@@ -238,42 +238,33 @@ const SidebarChannelMenu = (props: Props) => {
         }
 
         leaveChannelMenuItem = (
-            <MenuItem
-                id={`leave-${props.channel.id}`}
-                onClick={handleLeaveChannel}
-            >
-                <CloseIcon
-                    size={16}
-                />
-                {leaveChannelText}
-            </MenuItem>
+            <>
+                <MenuDivider/>
+                <MenuItem
+                    id={`leave-${props.channel.id}`}
+                    onClick={handleLeaveChannel}
+                >
+                    <CloseIcon
+                        size={16}
+                    />
+                    {leaveChannelText}
+                </MenuItem>
+            </>
         );
-    }
-
-    function handleOpenDirectionChange(openUp: boolean) {
-        setOpenUp(openUp);
-    }
-
-    function onToggleMenu(open: boolean) {
-        props.onToggleMenu(open);
-
-        if (open) {
-            trackEvent('ui', 'ui_sidebar_channel_menu_opened');
-        }
     }
 
     return (
         <Menu
-            tooltipId={`SidebarChannelMenuTooltip-${props.channel.id}`}
-            tooltipClassName='hidden-xs'
-            tooltipText={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
-            anchorClassName='SidebarMenu_menuButton'
-            anchorNode={
+            triggerElement={
                 <DotsVerticalIcon
                     size={16}
                 />
             }
-            anchorAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
+            triggerClassName='SidebarMenu_menuButton'
+            triggerAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
+            triggerTooltipId={`SidebarChannelMenuTooltip-${props.channel.id}`}
+            triggerTooltipClassName='hidden-xs'
+            triggerTooltipText={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
             menuId={`SidebarChannelMenu-${props.channel.id}`}
             menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
         >
@@ -285,10 +276,9 @@ const SidebarChannelMenu = (props: Props) => {
                 channel={props.channel}
                 inSidebar={true}
             />
-            <MenuDivider/>
+            {(copyLinkMenuItem || addMembersMenuItem) && <MenuDivider/>}
             {copyLinkMenuItem}
             {addMembersMenuItem}
-            {leaveChannelMenuItem && <MenuDivider/>}
             {leaveChannelMenuItem}
         </Menu>
     );

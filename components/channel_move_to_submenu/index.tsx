@@ -105,8 +105,8 @@ const ChannelMoveToSubmenu = (props: Props) => {
 
     return (
         <SubMenu
-            anchorId={`moveTo-${props.channel.id}`}
-            anchorNode={
+            triggerId={`moveTo-${props.channel.id}`}
+            triggerElement={
                 <>
                     <FolderMoveOutlineIcon
                         size={16}
