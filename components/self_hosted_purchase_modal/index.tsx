@@ -496,7 +496,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
             dispatch({type: 'update_submitting', data: false});
         } catch (e) {
             // eslint-disable-next-line
-            console.error(e);
+            console.error('could not complete setup', e);
             dispatch({type: 'set_error', data: 'unable to complete signup'});
         }
     }

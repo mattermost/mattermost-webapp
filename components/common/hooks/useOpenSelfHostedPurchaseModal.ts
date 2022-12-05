@@ -43,7 +43,7 @@ export default function useOpenSelfHostedPurchaseModal(options: HookOptions) {
             }));
         } catch (e) {
             // eslint-disable-next-line no-console
-            console.error('error bootstrapping self hosted purchase modal');
+            console.error('error bootstrapping self hosted purchase modal', e);
         }
     };
 }
