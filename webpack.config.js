@@ -86,7 +86,7 @@ var config = {
                 ],
             },
             {
-                test: /\.s?css$/,
+                test: /\.(css|scss)$/,
                 use: [
                     DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
                     {
