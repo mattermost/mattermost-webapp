@@ -16,10 +16,12 @@ import {getGlobalItem} from 'selectors/storage';
 
 import {StoragePrefixes} from 'utils/constants';
 
+import type {Draft as InfoDraft} from 'selectors/drafts';
 import type {Draft as ServerDraft} from '@mattermost/types/drafts';
 import type {UserProfile} from '@mattermost/types/users';
 import {PostMetadata, PostPriorityMetadata} from '@mattermost/types/posts';
 import {FileInfo} from '@mattermost/types/files';
+import {makeGetLegacyDrafts} from 'selectors/drafts';
 
 type Draft = {
     key: keyof GlobalState['storage']['storage'];
@@ -28,12 +30,32 @@ type Draft = {
 }
 
 export function getDrafts(teamId: string) {
-    return async (dispatch: DispatchFunc) => {
-        let drafts: ServerDraft[] = [];
-        drafts = await Client4.getUserDrafts(teamId);
-        const actions = (drafts || []).map((draft) => {
-            const {key, value} = transformServerDraft(draft);
-            return setGlobalItem(key, value);
+    const getLegacyDrafts = makeGetLegacyDrafts();
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
+
+        let serverDrafts: Draft[] = [];
+        if (syncedDraftsAreAllowedAndEnabled(state)) {
+            serverDrafts = (await Client4.getUserDrafts(teamId) || []).map((draft) => transformServerDraft(draft));
+        }
+
+        const legacyDrafts = (getLegacyDrafts(state) || []).map((draft) => transformLegacyDraft(draft));
+        const drafts = [...serverDrafts, ...legacyDrafts];
+
+        if (drafts === null) {
+            return;
+        }
+
+        const draftsMap = new Map((drafts || []).map((draft) => [draft.key, draft]));
+        drafts.forEach((draft) => {
+            const currentDraft = draftsMap.get(draft.key);
+            if (currentDraft && draft.timestamp > currentDraft.timestamp) {
+                draftsMap.set(draft.key, draft);
+            }
+        });
+
+        const actions = Array.from(draftsMap || []).map(([key, draft]) => {
+            return setGlobalItem(key, draft.value);
         });
 
         dispatch(batchActions(actions));
@@ -74,7 +96,12 @@ export function updateDraft(key: string, value: PostDraft|null, rootId = '', sav
         if (syncedDraftsAreAllowedAndEnabled(state) && save && updatedValue) {
             const connectionId = getConnectionId(state);
             const userId = getCurrentUserId(state);
-            await upsertDraft(updatedValue, userId, rootId, connectionId);
+
+            try {
+                await upsertDraft(updatedValue, userId, rootId, connectionId);
+            } catch (error) {
+                return error;
+            }
         }
         return {data: true};
     };
@@ -129,6 +156,34 @@ export function transformServerDraft(draft: ServerDraft): Draft {
             updateAt: draft.update_at,
             metadata,
             show: true,
+        },
+    };
+}
+
+function transformLegacyDraft(draft: InfoDraft) {
+    let rootId = '';
+    let channelId = '';
+
+    if (draft.type === 'channel') {
+        channelId = draft.id;
+    } else {
+        rootId = draft.id;
+    }
+
+    return {
+        key: draft.key,
+        timestamp: draft.timestamp,
+        value: {
+            message: draft.value.message,
+            fileInfos: draft.value.fileInfos || [],
+            props: draft.value.props || {},
+            uploadsInProgress: draft.value.uploadsInProgress || [],
+            channelId,
+            rootId,
+            createAt: draft.value.createAt > 0 ? draft.value.createAt : draft.timestamp.getTime(),
+            updateAt: draft.value.updateAt > 0 ? draft.value.updateAt : draft.timestamp.getTime(),
+            show: true,
+            remote: false,
         },
     };
 }

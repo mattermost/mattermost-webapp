@@ -6,7 +6,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {NavLink, useRouteMatch} from 'react-router-dom';
 import {useIntl} from 'react-intl';
 
-import {localDraftsAreEnabled, syncedDraftsAreAllowedAndEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {localDraftsAreEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {getDrafts} from 'actions/views/drafts';
@@ -22,7 +22,6 @@ const getDraftsCount = makeGetDraftsCount();
 function DraftsLink() {
     const dispatch = useDispatch();
     const localDraftsEnabled = useSelector(localDraftsAreEnabled);
-    const syncDraftsEnabled = useSelector(syncedDraftsAreAllowedAndEnabled);
     const {formatMessage} = useIntl();
     const {url} = useRouteMatch();
     const match = useRouteMatch('/:team/drafts');
@@ -30,10 +29,10 @@ function DraftsLink() {
     const teamId = useSelector(getCurrentTeamId);
 
     useEffect(() => {
-        if (syncDraftsEnabled) {
+        if (localDraftsEnabled) {
             dispatch(getDrafts(teamId));
         }
-    }, [teamId, syncDraftsEnabled, dispatch]);
+    }, [teamId, dispatch, localDraftsEnabled]);
 
     if (!localDraftsEnabled || (!count && !match)) {
         return null;

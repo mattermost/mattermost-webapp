@@ -43,7 +43,7 @@ function getInfoFromKey(key: string, prefix: string): Info|null {
     return null;
 }
 
-export function makeGetDraftsByPrefix(prefix: string): DraftSelector {
+export function makeGetDraftsByPrefix(prefix: string, includeLegacyDrafts = false): DraftSelector {
     return createSelector(
         'makeGetDraftsByPrefix',
         (state: GlobalState) => state.storage?.storage,
@@ -54,12 +54,14 @@ export function makeGetDraftsByPrefix(prefix: string): DraftSelector {
 
             return Object.keys(storage).flatMap((key) => {
                 const item = storage[key];
+                const isCorrectDraftType = includeLegacyDrafts ? typeof item.value?.channelId === 'undefined' : item.value?.show;
+
                 if (
                     key.startsWith(prefix) &&
                     item != null &&
                     item.value != null &&
                     (item.value.message || item.value.fileInfos?.length > 0) &&
-                    item.value.show
+                    isCorrectDraftType
                 ) {
                     const info = getInfoFromKey(key, prefix);
 
@@ -95,6 +97,16 @@ export function makeGetDrafts(): DraftSelector {
             filter((draft) => myChannels.indexOf(draft.value.channelId) !== -1).
             sort((a, b) => b.value.updateAt - a.value.updateAt),
     );
+}
+
+export function makeGetLegacyDrafts(): DraftSelector {
+    const getLegacyChannelDrafts = makeGetDraftsByPrefix(StoragePrefixes.DRAFT, true);
+
+    return createSelector(
+        'makeGetLegacyDrafts',
+        getLegacyChannelDrafts,
+        (channelDrafts) =>
+            channelDrafts.sort((a, b) => b.value.updateAt - a.value.updateAt));
 }
 
 export function makeGetDraftsCount(): DraftCountSelector {
