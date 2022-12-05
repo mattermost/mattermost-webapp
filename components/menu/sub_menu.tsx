@@ -4,7 +4,11 @@
 import React, {ReactNode, useState, MouseEvent} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
-import {Menu as MuiMenu, MenuList as MuiMenuList, MenuItem as MuiMenuItem, PopoverOrigin} from '@mui/material';
+import MuiMenu, {MenuProps as MuiMenuProps} from '@mui/material/Menu';
+import MuiMenuList from '@mui/material/MenuList';
+import MuiMenuItem from '@mui/material/MenuItem';
+import {PopoverOrigin} from '@mui/material/Popover';
+import {styled as muiStyled} from '@mui/material/styles';
 
 import {ArrowForwardIosIcon} from '@mattermost/compass-icons/components';
 
@@ -130,7 +134,7 @@ export function SubMenu(props: Props) {
                     color='currentColor'
                 />
             </MenuItemAnchor>
-            <MuiMenu
+            <MuiMenuStyled
                 id={props.menuId}
                 anchorEl={anchorElement}
                 open={isSubMenuOpen}
@@ -144,7 +148,7 @@ export function SubMenu(props: Props) {
                 >
                     {props.children}
                 </MuiMenuList>
-            </MuiMenu>
+            </MuiMenuStyled>
         </MuiMenuItem>
 
     );
@@ -163,6 +167,16 @@ const MenuItemAnchor = styled.div`
         flex-direction: row;
     }
 `;
+
+const MuiMenuStyled = muiStyled(MuiMenu)<MuiMenuProps>(() => ({
+    '& .MuiPaper-root': {
+        border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
+        boxShadow: 'var(--elevation-5)',
+        minWidth: '114px',
+        maxWidth: '496px',
+        maxHeight: '80vh',
+    },
+}));
 
 function getOriginOfAnchorAndTransform(openAt = 'right'): {anchorOrigin: PopoverOrigin; transformOrigin: PopoverOrigin} {
     if (openAt === 'left') {

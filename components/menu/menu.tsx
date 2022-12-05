@@ -3,7 +3,9 @@
 
 import React, {ReactNode, useState, MouseEvent} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Menu as MuiMenu, MenuList as MuiMenuList} from '@mui/material';
+import MuiMenu, {MenuProps as MuiMenuProps} from '@mui/material/Menu';
+import MuiMenuList from '@mui/material/MenuList';
+import {styled as muiStyled} from '@mui/material/styles';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -20,24 +22,34 @@ const OVERLAY_TIME_DELAY = 500;
 
 interface Props {
 
-    // Anchor button props
+    // Trigger button props
     triggerId?: string;
-    triggerElement?: ReactNode;
+    triggerElement: ReactNode;
     triggerClassName?: string;
     triggerAriaLabel?: string;
+
+    // Tooltip of Trigger button props
+    triggerTooltipPlacement?: 'top' | 'bottom' | 'left' | 'right';
+    triggerTooltipId?: string;
+    triggerTooltipText?: string;
+    triggerTooltipClassName?: string;
 
     // Menu props
     menuId: string;
     menuAriaLabel?: string;
 
-    // Tooltip props
-    tooltipPlacement?: 'top' | 'bottom' | 'left' | 'right';
-    tooltipId?: string;
-    tooltipText?: string;
-    tooltipClassName?: string;
-
     children: ReactNode[];
 }
+
+const MuiMenuStyled = muiStyled(MuiMenu)<MuiMenuProps>(() => ({
+    '& .MuiPaper-root': {
+        border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
+        boxShadow: 'var(--elevation-4)',
+        minWidth: '114px',
+        maxWidth: '496px',
+        maxHeight: '80vh',
+    },
+}));
 
 export function Menu(props: Props) {
     const theme = useSelector(getTheme);
@@ -134,20 +146,20 @@ export function Menu(props: Props) {
             </button>
         );
 
-        if (props.tooltipText) {
+        if (props.triggerTooltipText) {
             return (
                 <OverlayTrigger
                     delayShow={OVERLAY_TIME_DELAY}
-                    placement={props?.tooltipPlacement ?? 'top'}
+                    placement={props?.triggerTooltipPlacement ?? 'top'}
                     overlay={
                         <Tooltip
-                            id={props.tooltipId}
-                            className={props.tooltipClassName}
+                            id={props.triggerTooltipId}
+                            className={props.triggerTooltipClassName}
                         >
-                            {props.tooltipText}
+                            {props.triggerTooltipText}
                         </Tooltip>
                     }
-                    disabled={!props.tooltipText || isMenuOpen}
+                    disabled={!props.triggerTooltipText || isMenuOpen}
                 >
                     {triggerElement}
                 </OverlayTrigger>
@@ -165,12 +177,13 @@ export function Menu(props: Props) {
     return (
         <CompassDesignProvider theme={theme}>
             {rendertriggerElement()}
-            <MuiMenu
+            <MuiMenuStyled
                 id={props.menuId}
                 anchorEl={anchorElement}
                 open={isMenuOpen}
                 onClose={handleMenuClose}
                 aria-label={props.menuAriaLabel}
+                elevation={24}
             >
                 <MuiMenuList
                     aria-labelledby={props.triggerId}
@@ -178,7 +191,7 @@ export function Menu(props: Props) {
                 >
                     {props.children}
                 </MuiMenuList>
-            </MuiMenu>
+            </MuiMenuStyled>
         </CompassDesignProvider>
     );
 }
