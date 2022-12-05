@@ -23,6 +23,7 @@ exports[`components/drafts/draft_actions/delete_draft_modal should have called o
   }
   id="genericModal"
   isDeleteModal={true}
+  keyboardEscape={true}
   modalHeaderText="Delete draft"
   onExited={[MockFunction]}
   show={true}
@@ -51,6 +52,7 @@ exports[`components/drafts/draft_actions/delete_draft_modal should have called o
   handleConfirm={[MockFunction]}
   id="genericModal"
   isDeleteModal={true}
+  keyboardEscape={true}
   modalHeaderText="Delete draft"
   onExited={
     [MockFunction] {
