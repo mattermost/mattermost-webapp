@@ -245,7 +245,7 @@ export function isGroupChannelManuallyVisible(state: GlobalState, channelId: str
 }
 
 export function isCustomGroupsEnabled(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'CustomGroups') === 'true' && getConfig(state).EnableCustomGroups === 'true';
+    return getConfig(state).EnableCustomGroups === 'true';
 }
 
 export function getUseCaseOnboarding(state: GlobalState): boolean {
@@ -292,4 +292,9 @@ export function localDraftsAreEnabled(state: GlobalState): boolean {
 
 export function isReduceOnBoardingTaskList(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'ReduceOnBoardingTaskList') === 'true';
+}
+
+export function getVisibleDmGmLimit(state: GlobalState) {
+    const defaultLimit = 40;
+    return getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, defaultLimit);
 }

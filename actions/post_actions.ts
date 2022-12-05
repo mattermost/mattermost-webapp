@@ -278,6 +278,23 @@ export function markPostAsUnread(post: Post, location: string) {
     };
 }
 
+export function markMostRecentPostInChannelAsUnread(channelId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let state = getState();
+        let postId = PostSelectors.getMostRecentPostIdInChannel(state, channelId);
+        if (!postId) {
+            await dispatch(PostActions.getPosts(channelId));
+            state = getState();
+            postId = PostSelectors.getMostRecentPostIdInChannel(state, channelId);
+        }
+        if (postId) {
+            const lastPost = PostSelectors.getPost(state, postId);
+            dispatch(markPostAsUnread(lastPost, 'CENTER'));
+        }
+        return {data: true};
+    };
+}
+
 export function deleteAndRemovePost(post: Post) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const {error} = await dispatch(PostActions.deletePost(post));

@@ -22,7 +22,7 @@ type ToggleProps = {
     description: React.ReactNode;
     disabled: boolean;
     icon: React.ReactNode;
-    onToggle: () => void;
+    onClick: () => void;
     text: React.ReactNode;
     toggled: boolean;
 }
@@ -33,6 +33,14 @@ const ItemButton = styled.button`
 `;
 
 const Wrapper = styled.div`
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgba(var(--center-channel-color-rgb), 0.1);
+    }
+`;
+
+const ToggleMain = styled.div`
     display: flex !important;
     align-items: center !important;
     padding: 8px 16px 4px;
@@ -43,7 +51,7 @@ const Text = styled.div`
 `;
 
 const Description = styled.div`
-    padding: 0 44px;
+    padding: 0 44px 6px;
     font-size: 12px;
     color: rgba(var(--center-channel-color-rgb), 0.56);
 `;
@@ -97,13 +105,16 @@ function ToggleItem({
     description,
     disabled,
     icon,
-    onToggle,
+    onClick,
     text,
     toggled,
 }: ToggleProps) {
     return (
-        <div>
-            <Wrapper>
+        <Wrapper
+            onClick={onClick}
+            role='button'
+        >
+            <ToggleMain>
                 {icon}
                 <Text>
                     {text}
@@ -113,15 +124,16 @@ function ToggleItem({
                         aria-label={ariaLabel}
                         size='btn-sm'
                         disabled={disabled}
-                        onToggle={onToggle}
+                        onToggle={onClick}
                         toggled={toggled}
+                        toggleClassName='btn-toggle-primary'
                     />
                 </ToggleWrapper>
-            </Wrapper>
+            </ToggleMain>
             <Description>
                 {description}
             </Description>
-        </div>
+        </Wrapper>
     );
 }
 
