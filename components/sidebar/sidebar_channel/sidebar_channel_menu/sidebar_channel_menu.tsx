@@ -49,7 +49,7 @@ const SidebarChannelMenu = (props: Props) => {
                 onClick={handleMarkAsRead}
             >
                 <MarkAsUnreadIcon
-                    size={16}
+                    size={18}
                 />
                 {formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsRead', defaultMessage: 'Mark as Read'})}
             </MenuItem>
@@ -69,7 +69,7 @@ const SidebarChannelMenu = (props: Props) => {
                 onClick={handleMarkAsUnread}
             >
                 <MarkAsUnreadIcon
-                    size={16}
+                    size={18}
                 />
                 {formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsUnread', defaultMessage: 'Mark as Unread'})}
             </MenuItem>
@@ -91,7 +91,7 @@ const SidebarChannelMenu = (props: Props) => {
                 onClick={handleUnfavoriteChannel}
             >
                 <StarIcon
-                    size={16}
+                    size={18}
                 />
                 {formatMessage({id: 'sidebar_left.sidebar_channel_menu.unfavorite', defaultMessage: 'Remove from Favorites'})}
             </MenuItem>
@@ -110,7 +110,7 @@ const SidebarChannelMenu = (props: Props) => {
                 onClick={handleFavoriteChannel}
             >
                 <StarOutlineIcon
-                    size={16}
+                    size={18}
                 />
                 {formatMessage({id: 'sidebar_left.sidebar_channel_menu.favorite', defaultMessage: 'Add to Favorites'})}
             </MenuItem>
@@ -136,7 +136,7 @@ const SidebarChannelMenu = (props: Props) => {
                 onClick={handleUnmuteChannel}
             >
                 <BellOffOutlineIcon
-                    size={16}
+                    size={18}
                 />
                 {muteChannelText}
             </MenuItem>
@@ -159,7 +159,7 @@ const SidebarChannelMenu = (props: Props) => {
                 onClick={handleMuteChannel}
             >
                 <BellOutlineIcon
-                    size={16}
+                    size={18}
                 />
                 {muteChannelText}
             </MenuItem>
@@ -180,7 +180,7 @@ const SidebarChannelMenu = (props: Props) => {
                 onClick={handleCopyLink}
             >
                 <LinkVariantIcon
-                    size={16}
+                    size={18}
                 />
                 {formatMessage({id: 'sidebar_left.sidebar_channel_menu.copyLink', defaultMessage: 'Copy Link'})}
             </MenuItem>
@@ -204,9 +204,10 @@ const SidebarChannelMenu = (props: Props) => {
             <MenuItem
                 id={`addMembers-${props.channel.id}`}
                 onClick={handleAddMembers}
+                destructive={true}
             >
                 <AccountOutlineIcon
-                    size={16}
+                    size={18}
                 />
                 {formatMessage({id: 'sidebar_left.sidebar_channel_menu.addMembers', defaultMessage: 'Add Members'})}
             </MenuItem>
@@ -243,9 +244,10 @@ const SidebarChannelMenu = (props: Props) => {
                 <MenuItem
                     id={`leave-${props.channel.id}`}
                     onClick={handleLeaveChannel}
+                    disabled={true}
                 >
                     <CloseIcon
-                        size={16}
+                        size={18}
                     />
                     {leaveChannelText}
                 </MenuItem>
@@ -257,7 +259,7 @@ const SidebarChannelMenu = (props: Props) => {
         <Menu
             triggerElement={
                 <DotsVerticalIcon
-                    size={16}
+                    size={18}
                 />
             }
             triggerClassName='SidebarMenu_menuButton'

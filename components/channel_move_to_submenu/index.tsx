@@ -109,7 +109,7 @@ const ChannelMoveToSubmenu = (props: Props) => {
             triggerElement={
                 <>
                     <FolderMoveOutlineIcon
-                        size={16}
+                        size={18}
                     />
                     {formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
                 </>

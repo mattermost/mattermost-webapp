@@ -169,7 +169,8 @@ const MenuItemAnchor = styled.div`
 `;
 
 const MuiMenuStyled = muiStyled(MuiMenu)<MuiMenuProps>(() => ({
-    '& .MuiPaper-root': {
+    '&.MuiPaper-root': {
+        backgroundColor: 'var(--center-channel-bg)',
         border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
         boxShadow: 'var(--elevation-5)',
         minWidth: '114px',

@@ -41,16 +41,6 @@ interface Props {
     children: ReactNode[];
 }
 
-const MuiMenuStyled = muiStyled(MuiMenu)<MuiMenuProps>(() => ({
-    '& .MuiPaper-root': {
-        border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
-        boxShadow: 'var(--elevation-4)',
-        minWidth: '114px',
-        maxWidth: '496px',
-        maxHeight: '80vh',
-    },
-}));
-
 export function Menu(props: Props) {
     const theme = useSelector(getTheme);
 
@@ -195,3 +185,13 @@ export function Menu(props: Props) {
         </CompassDesignProvider>
     );
 }
+
+const MuiMenuStyled = muiStyled(MuiMenu)<MuiMenuProps>(() => ({
+    '& .MuiPaper-root': {
+        backgroundColor: 'var(--center-channel-bg)',
+        boxShadow: 'var(--elevation-4) , 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.08) inset',
+        minWidth: '114px',
+        maxWidth: '496px',
+        maxHeight: '80vh',
+    },
+}));
