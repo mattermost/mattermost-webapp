@@ -383,7 +383,7 @@ const PostComponent = (props: Props): JSX.Element => {
             <PostAriaLabelDiv
                 ref={postRef}
                 role='listitem'
-                id={props.location === 'RHS_ROOT' ? `rhsPost_${post.id}` : `post_${post.id}`}
+                id={(props.location === 'RHS_ROOT' || props.location === 'RHS_COMMENT') ? `rhsPost_${post.id}` : `post_${post.id}`}
                 data-testid='postView'
                 tabIndex={-1}
                 post={post}
@@ -500,7 +500,10 @@ const PostComponent = (props: Props): JSX.Element => {
                             />
                             }
                         </div>
-                        <div className={postClass} >
+                        <div
+                            className={postClass}
+                            id={`${post.id}_message`}
+                        >
                             {post.failed && <FailedPostOptions post={props.post}/>}
                             <AutoHeightSwitcher
                                 showSlot={showSlot}
