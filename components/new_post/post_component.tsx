@@ -375,6 +375,28 @@ const PostComponent = (props: Props): JSX.Element => {
     const threadFooter = props.location !== Locations.RHS_ROOT && props.isCollapsedThreadsEnabled && !post.root_id && (props.hasReplies || post.is_following) ? <ThreadFooter threadId={post.id}/> : null;
     const currentPostDay = getDateForUnixTicks(post.create_at);
     const channelDisplayName = getChannelName();
+
+    const getTestId = () => {
+        let idPrefix: string;
+        switch (props.location) {
+        case 'CENTER':
+            idPrefix = 'post';
+            break;
+        case 'RHS_ROOT':
+        case 'RHS_COMMENT':
+            idPrefix = 'rhsPost';
+            break;
+        case 'SEARCH':
+            idPrefix = 'searchResult';
+            break;
+
+        default:
+            idPrefix = 'post';
+        }
+
+        return idPrefix + `_${props.post.id}`;
+    };
+
     return (
         <div
             className={isSearchResultItem ? 'search-item__container' : ''}
@@ -383,7 +405,7 @@ const PostComponent = (props: Props): JSX.Element => {
             <PostAriaLabelDiv
                 ref={postRef}
                 role='listitem'
-                id={(props.location === 'RHS_ROOT' || props.location === 'RHS_COMMENT') ? `rhsPost_${post.id}` : `post_${post.id}`}
+                id={getTestId()}
                 data-testid='postView'
                 tabIndex={-1}
                 post={post}
