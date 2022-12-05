@@ -51,6 +51,7 @@ export function completeStripeAddPaymentMethod(
                 },
             },
         );
+
         if (!result) {
             return false;
         }
