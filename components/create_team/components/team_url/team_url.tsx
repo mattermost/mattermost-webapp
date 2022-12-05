@@ -46,7 +46,7 @@ type Props = {
         /*
          * Action creator to check if a team already exists
          */
-        checkIfTeamExists: (teamName: string) => Promise<{exists: boolean}>;
+        checkIfTeamExists: (teamName: string) => Promise<{data: boolean}>;
 
         /*
      * Action creator to create a new team
@@ -152,8 +152,8 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
         teamSignup.team.type = 'O';
         teamSignup.team.name = name;
 
-        const checkIfTeamExistsData: { exists: boolean } = await checkIfTeamExists(name);
-        const exists = checkIfTeamExistsData.exists;
+        const checkIfTeamExistsData: { data: boolean } = await checkIfTeamExists(name);
+        const exists = checkIfTeamExistsData.data;
 
         if (exists) {
             this.setState({nameError: (
