@@ -181,6 +181,8 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
 }
 type ProfilePopoverState = {
     loadingDMChannel?: string;
+    callsChannelState?: ChannelCallsState;
+    callsDMChannelState?: ChannelCallsState;
 };
 
 type ChannelCallsState = {
@@ -196,7 +198,6 @@ type ChannelCallsState = {
 class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePopoverState> {
     closeButtonRef: React.RefObject<HTMLButtonElement>;
     returnFocus: () => void;
-    callsChannelState?: ChannelCallsState;
 
     static getComponentName() {
         return 'ProfilePopover';
@@ -241,7 +242,13 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         }
         if (this.props.isCallsEnabled && this.props.dMChannelId) {
             this.getCallsChannelState(this.props.dMChannelId).then((data) => {
-                this.callsChannelState = data;
+                this.setState({callsDMChannelState: data});
+            });
+        }
+
+        if (this.props.isCallsEnabled && this.props.channelId) {
+            this.getCallsChannelState(this.props.channelId).then((data) => {
+                this.setState({callsChannelState: data});
             });
         }
 
@@ -693,8 +700,8 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             const {isCallsEnabled, isCallsDefaultEnabledOnAllChannels, isCallsCanBeDisabledOnSpecificChannels} = this.props;
             if (
                 !isCallsEnabled ||
-                !this.callsChannelState?.enabled === false ||
-                (!isCallsDefaultEnabledOnAllChannels && !isCallsCanBeDisabledOnSpecificChannels)
+                this.state.callsDMChannelState?.enabled === false ||
+                (!isCallsDefaultEnabledOnAllChannels && !isCallsCanBeDisabledOnSpecificChannels && this.state.callsChannelState?.enabled === false)
             ) {
                 return null;
             }

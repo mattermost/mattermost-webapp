@@ -264,7 +264,7 @@ describe('components/ProfilePopover', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should not show the start call button when isCallsDefaultEnabledOnAllChannels and isCallsCanBeDisabledOnSpecificChannels is false', () => {
+    test('should show the start call button when isCallsDefaultEnabledOnAllChannels, isCallsCanBeDisabledOnSpecificChannels is false and callsChannelState.enabled is true', () => {
         const mock = mockStore(initialState);
         const props = {
             ...baseProps,
@@ -277,7 +277,7 @@ describe('components/ProfilePopover', () => {
                 <ProfilePopover {...props}/>
             </Provider>,
         );
-        expect(wrapper.find('CallButton').exists()).toBe(false);
+        expect(wrapper.find('CallButton').exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
 });

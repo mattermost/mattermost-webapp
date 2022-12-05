@@ -3330,7 +3330,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
 </Popover>
 `;
 
-exports[`components/ProfilePopover should not show the start call button when isCallsDefaultEnabledOnAllChannels and isCallsCanBeDisabledOnSpecificChannels is false 1`] = `
+exports[`components/ProfilePopover should show the start call button when isCallsDefaultEnabledOnAllChannels, isCallsCanBeDisabledOnSpecificChannels is false and callsChannelState.enabled is true 1`] = `
 <Provider
   store={
     Object {
@@ -4260,6 +4260,76 @@ exports[`components/ProfilePopover should not show the start call button when is
                           </div>
                         </OverlayTrigger>
                       </OverlayTrigger>
+                      <Connect(CallButton)
+                        customButton={
+                          <OverlayTrigger
+                            defaultOverlayShown={false}
+                            delayShow={400}
+                            overlay={
+                              <Tooltip
+                                id="startCallTooltip"
+                              >
+                                Start Call
+                              </Tooltip>
+                            }
+                            placement="top"
+                            trigger={
+                              Array [
+                                "hover",
+                                "focus",
+                              ]
+                            }
+                          >
+                            <button
+                              className="btn icon-btn"
+                              id="startCallButton"
+                              type="button"
+                            >
+                              <PhoneInTalkIcon
+                                aria-label="Start Call"
+                                size={18}
+                              />
+                            </button>
+                          </OverlayTrigger>
+                        }
+                      >
+                        <CallButton
+                          customButton={
+                            <OverlayTrigger
+                              defaultOverlayShown={false}
+                              delayShow={400}
+                              overlay={
+                                <Tooltip
+                                  id="startCallTooltip"
+                                >
+                                  Start Call
+                                </Tooltip>
+                              }
+                              placement="top"
+                              trigger={
+                                Array [
+                                  "hover",
+                                  "focus",
+                                ]
+                              }
+                            >
+                              <button
+                                className="btn icon-btn"
+                                id="startCallButton"
+                                type="button"
+                              >
+                                <PhoneInTalkIcon
+                                  aria-label="Start Call"
+                                  size={18}
+                                />
+                              </button>
+                            </OverlayTrigger>
+                          }
+                          dispatch={[Function]}
+                          pluginCallComponents={Array []}
+                          sidebarOpen={false}
+                        />
+                      </Connect(CallButton)>
                     </div>
                   </div>
                   <Connect(Pluggable)
