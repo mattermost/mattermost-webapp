@@ -2980,7 +2980,7 @@
   "cloud_delinquency.banner.buttonText": "Update billing now",
   "cloud_delinquency.banner.end_user_notify_admin_button": "Notify admin",
   "cloud_delinquency.banner.end_user_notify_admin_title": "Your workspace has been downgraded. Notify your admin to fix billing issues",
-  "cloud_delinquency.banner.title": "Update your billing information now to keep paid features.",
+  "cloud_delinquency.banner.title": "Update your billing information now to re-activate paid features.",
   "cloud_delinquency.cc_modal.card.reactivate": "Re-activate",
   "cloud_delinquency.cc_modal.card.totalOwed": "Total Owed",
   "cloud_delinquency.cc_modal.card.viewBreakdown": "View Breakdown",

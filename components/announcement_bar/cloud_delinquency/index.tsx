@@ -51,7 +51,7 @@ const CloudDelinquencyAnnouncementBar = () => {
     const message = {
         id: t('cloud_delinquency.banner.title'),
         defaultMessage:
-            'Update your billing information now to keep paid features.',
+            'Update your billing information now to re-activate paid features.',
     };
 
     return (
