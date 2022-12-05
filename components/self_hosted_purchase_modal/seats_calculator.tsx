@@ -144,6 +144,7 @@ export default function SeatsCalculator(props: Props) {
                     <div className='SeatsCalculator__seats-label'>
                         <Input
                             name='UserSeats'
+                            data-testid='selfHostedPurchaseSeatsInput'
                             type='text'
                             value={props.seats.quantity}
                             onChange={onChange}

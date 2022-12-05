@@ -40,6 +40,7 @@ export default function SuccessPage(props: Props) {
             className={'SelfHostedPurchaseModal__success'}
             formattedTitle={title}
             formattedSubtitle={formattedSubtitle}
+            testId='selfHostedPurchaseSuccess'
             icon={
                 <PaymentSuccessStandardSvg
                     width={444}

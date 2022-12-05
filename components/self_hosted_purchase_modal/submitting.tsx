@@ -3,15 +3,13 @@
 
 import React from 'react';
 
-import {useIntl} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import {useSelector} from 'react-redux';
 
 import {getSelfHostedSignupProgress} from 'mattermost-redux/selectors/entities/hosted_customer';
 import {SelfHostedSignupProgress} from '@mattermost/types/hosted_customer';
 import {ValueOf} from '@mattermost/types/utilities';
-
-import {t} from 'utils/i18n';
 
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 import IconMessage from 'components/purchase_modal/icon_message';
@@ -88,7 +86,12 @@ export default function Submitting(props: Props) {
 
         <div className='submitting'>
             <IconMessage
-                title={t('admin.billing.subscription.verifyPaymentInformation')}
+                formattedTitle={(
+                    <FormattedMessage
+                        id='admin.billing.subscription.verifyPaymentInformation'
+                        defaultMessage='Verifying your payment information'
+                    />
+                )}
                 formattedSubtitle={waitingExplanation}
                 icon={
                     <CreditCardSvg

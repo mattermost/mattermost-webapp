@@ -7,7 +7,6 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import classNames from 'classnames';
 import {StripeCardElementChangeEvent} from '@stripe/stripe-js';
-import {Elements} from '@stripe/react-stripe-js';
 
 import {
     SelfHostedSignupProgress,
@@ -16,6 +15,7 @@ import {
 import {UserProfile} from '@mattermost/types/users';
 import {ValueOf} from '@mattermost/types/utilities';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {getSelfHostedProducts, getSelfHostedSignupProgress} from 'mattermost-redux/selectors/entities/hosted_customer';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -39,7 +39,6 @@ import {
     TELEMETRY_CATEGORIES,
 } from 'utils/constants';
 
-import {STRIPE_CSS_SRC} from 'components/payment_form/stripe';
 import CardInput, {CardInputType} from 'components/payment_form/card_input';
 import StateSelector from 'components/payment_form/state_selector';
 import DropdownInput from 'components/dropdown_input';
@@ -53,6 +52,7 @@ import RootPortal from 'components/root_portal';
 import useLoadStripe from 'components/common/hooks/useLoadStripe';
 import useFetchStandardAnalytics from 'components/common/hooks/useFetchStandardAnalytics';
 
+import StripeProvider from './stripe_provider';
 import SelfHostedCard from './self_hosted_card';
 import SuccessPage from './success_page';
 import ContactSalesLink from './contact_sales_link';
@@ -349,6 +349,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
     const desiredProductName = desiredProduct?.name || '';
     const desiredPlanName = getPlanNameFromProductName(desiredProductName);
     const currentUsers = analytics[StatTypes.TOTAL_USERS] as number;
+    const isDevMode = useSelector(getConfig).EnableDeveloper === 'true';
 
     const intl = useIntl();
     const fakeProgressRef = useRef<FakeProgress>({
@@ -362,7 +363,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
     const [stripeLoadHint, setStripeLoadHint] = useState(Math.random());
 
     const stripeRef = useLoadStripe(stripeLoadHint);
-    const showForm = progress !== SelfHostedSignupProgress.PAID && progress !== SelfHostedSignupProgress.CREATED_LICENSE && !state.submitting && !state.error;
+    const showForm = progress !== SelfHostedSignupProgress.PAID && progress !== SelfHostedSignupProgress.CREATED_LICENSE && !state.submitting && !state.error && !state.succeeded;
 
     useEffect(() => {
         if (typeof currentUsers === 'number' && (currentUsers > parseInt(state.seats.quantity, 10) || !parseInt(state.seats.quantity, 10))) {
@@ -445,7 +446,6 @@ export default function SelfHostedPurchaseModal(props: Props) {
             });
             submitProgress = signupCustomerResult.progress;
         }
-        const isDevMode = false;
         if (stripeRef.current === null) {
             setStripeLoadHint(Math.random());
             dispatch({type: 'update_submitting', data: false});
@@ -513,9 +513,8 @@ export default function SelfHostedPurchaseModal(props: Props) {
     );
 
     return (
-        <Elements
-            options={{fonts: [{cssSrc: STRIPE_CSS_SRC}]}}
-            stripe={stripeRef.current}
+        <StripeProvider
+            stripeRef={stripeRef}
         >
             <RootPortal>
                 <FullScreenModal
@@ -542,7 +541,10 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                 <ContactSalesLink/>
                             </div>
                             <div className='center'>
-                                <div className='form'>
+                                <div
+                                    className='form'
+                                    data-testid='shpm-form'
+                                >
                                     <div className='section-title'>
                                         <FormattedMessage
                                             id='payment_form.credit_card'
@@ -594,6 +596,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                         />
                                     </div>
                                     <DropdownInput
+                                        testId='selfHostedPurchaseCountrySelector'
                                         onChange={(option: {value: string}) => {
                                             dispatch({type: 'update_country', data: option.value});
                                         }}
@@ -661,6 +664,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                     <div className='form-row'>
                                         <div className='form-row-third-1'>
                                             <StateSelector
+                                                testId='selfHostedPurchaseStateSelector'
                                                 country={state.country}
                                                 state={state.state}
                                                 onChange={(state: string) => {
@@ -706,7 +710,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                 />
                             </div>
                         </div>}
-                        {progress === SelfHostedSignupProgress.CREATED_LICENSE && (
+                        {(state.succeeded || progress === SelfHostedSignupProgress.CREATED_LICENSE) && (
                             <SuccessPage
                                 onClose={closeModalSuccess}
                                 planName={desiredPlanName}
@@ -725,6 +729,6 @@ export default function SelfHostedPurchaseModal(props: Props) {
                     </div>
                 </FullScreenModal>
             </RootPortal>
-        </Elements>
+        </StripeProvider>
     );
 }
