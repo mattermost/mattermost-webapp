@@ -546,7 +546,8 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').should('exist');
 
         // * Click the free action (downgrade).
-        cy.get('#pricingModal').get('#free').get('#free_action').should('be.enabled').click();
+        cy.get('#free').should('exist');
+        cy.get('#free_action').should('be.enabled').click();
 
         // * Check that the downgrade modal has appeard.
         cy.get('#DowngradeModal').should('exist');
