@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {cloneDeep} from 'lodash';
 
-import {Groups, Permissions} from 'mattermost-redux/constants';
+import {Permissions} from 'mattermost-redux/constants';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from '@mattermost/types/users';
 import {Scheme} from '@mattermost/types/schemes';
@@ -445,19 +445,19 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             filter((g) => {
                 return origGroups.some((group) => group.id === g.id && group.scheme_admin !== g.scheme_admin);
             }).
-            map((g) => actions.patchGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: g.scheme_admin}));
+            map((g) => actions.patchGroupSyncable(g.id, channelID, SyncableType.Channel, {scheme_admin: g.scheme_admin}));
 
         const unlink = origGroups.
             filter((g) => {
                 return !groups.some((group) => group.id === g.id);
             }).
-            map((g) => actions.unlinkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
+            map((g) => actions.unlinkGroupSyncable(g.id, channelID, SyncableType.Channel));
 
         const link = groups.
             filter((g) => {
                 return !origGroups.some((group) => group.id === g.id);
             }).
-            map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true, scheme_admin: g.scheme_admin}));
+            map((g) => actions.linkGroupSyncable(g.id, channelID, SyncableType.Channel, {auto_add: true, scheme_admin: g.scheme_admin}));
 
         const groupActions = [...promises, ...patchChannelSyncable, ...unlink, ...link];
         if (groupActions.length > 0) {

@@ -2922,6 +2922,21 @@ const AdminDefinition = {
                         isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.AllowSyncedDrafts',
+                        label: t('admin.customization.allowSyncedDrafts'),
+                        label_default: 'Enable server syncing of message drafts:',
+                        help_text: t('admin.customization.allowSyncedDraftsDesc'),
+                        help_text_default: 'When enabled, users message drafts will sync with the server so they can be accessed from any device. Users may opt out of this behaviour in Account settings.',
+                        help_text_markdown: false,
+                        isHidden: it.any(
+                            it.configIsFalse('FeatureFlags', 'GlobalDrafts'),
+                        ),
+                        isDisabled: it.any(
+                            it.configIsFalse('FeatureFlags', 'GlobalDrafts'),
+                        ),
+                    },
                 ],
             },
         },
@@ -4779,14 +4794,6 @@ const AdminDefinition = {
             url: 'authentication/oauth',
             title: t('admin.sidebar.oauth'),
             title_default: 'OAuth 2.0',
-            tag: {
-                value: (
-                    <FormattedMessage
-                        id='admin.sidebar.oauth.tag'
-                        defaultMessage='deprecated'
-                    />
-                ),
-            },
             isHidden: it.any(
                 it.not(usesLegacyOauth),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),

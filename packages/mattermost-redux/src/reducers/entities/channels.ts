@@ -393,6 +393,7 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
             channelId,
             amount,
             amountRoot,
+            amountUrgent,
             fetchedChannelMember,
         } = action.data;
 
@@ -418,11 +419,13 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
                 ...member,
                 mention_count: member.mention_count + amount,
                 mention_count_root: member.mention_count_root + amountRoot,
+                urgent_mention_count: member.urgent_mention_count + amountUrgent,
+
             },
         };
     }
     case ChannelTypes.DECREMENT_UNREAD_MENTION_COUNT: {
-        const {channelId, amount, amountRoot} = action.data;
+        const {channelId, amount, amountRoot, amountUrgent} = action.data;
 
         if (amount === 0 && amountRoot === 0) {
             return state;
@@ -441,6 +444,7 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
                 ...member,
                 mention_count: Math.max(member.mention_count - amount, 0),
                 mention_count_root: Math.max(member.mention_count_root - amountRoot, 0),
+                urgent_mention_count: Math.max(member.urgent_mention_count - amountUrgent, 0),
             },
         };
     }
@@ -490,6 +494,7 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
                 mention_count: data.mentionCount,
                 msg_count_root: data.msgCountRoot,
                 mention_count_root: data.mentionCountRoot,
+                urgent_mention_count: data.urgentMentionCount,
                 last_viewed_at: data.lastViewedAt,
             },
         };
@@ -524,6 +529,7 @@ function receiveChannelMember(state: RelationOneToOne<Channel, ChannelMembership
             msg_count: Math.max(existingChannelMember.msg_count, received.msg_count),
             msg_count_root: Math.max(existingChannelMember.msg_count_root, received.msg_count_root),
             mention_count: Math.min(existingChannelMember.mention_count, received.mention_count),
+            urgent_mention_count: Math.min(existingChannelMember.urgent_mention_count, received.urgent_mention_count),
             mention_count_root: Math.min(existingChannelMember.mention_count_root, received.mention_count_root),
         };
     }

@@ -80,7 +80,6 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               "background": "rgb(240, 240, 241)",
             }
           }
-          tabIndex={0}
           userId="5"
         >
           <OverlayTrigger
@@ -237,39 +236,47 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                       ]
                     }
                   >
-                    <button
+                    <RoundButton
                       className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
                       onMouseOut={[Function]}
                       onMouseOver={[Function]}
-                      tabIndex={-1}
                     >
-                      <Memo(Avatar)
-                        size="sm"
-                        style={
-                          Object {
-                            "background": "rgb(240, 240, 241)",
-                          }
-                        }
-                        tabIndex={0}
-                        url="/api/v4/users/5/image?_=0"
+                      <button
+                        className="RoundButton-dvlhqG gHOQXq style--none"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
                       >
-                        <img
-                          alt="user profile image"
-                          className="Avatar Avatar-sm"
-                          onError={[Function]}
-                          src="/api/v4/users/5/image?_=0"
+                        <Memo(Avatar)
+                          size="sm"
                           style={
                             Object {
                               "background": "rgb(240, 240, 241)",
                             }
                           }
-                          tabIndex={0}
-                        />
-                      </Memo(Avatar)>
-                    </button>
+                          tabIndex={-1}
+                          url="/api/v4/users/5/image?_=0"
+                        >
+                          <img
+                            alt="user profile image"
+                            className="Avatar Avatar-sm"
+                            onError={[Function]}
+                            src="/api/v4/users/5/image?_=0"
+                            style={
+                              Object {
+                                "background": "rgb(240, 240, 241)",
+                              }
+                            }
+                            tabIndex={-1}
+                          />
+                        </Memo(Avatar)>
+                      </button>
+                    </RoundButton>
                   </OverlayTrigger>
                 </OverlayTrigger>
               </SimpleTooltip>
@@ -292,7 +299,6 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               "background": "rgb(240, 240, 241)",
             }
           }
-          tabIndex={0}
           userId="4"
         >
           <OverlayTrigger
@@ -449,39 +455,47 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                       ]
                     }
                   >
-                    <button
+                    <RoundButton
                       className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
                       onMouseOut={[Function]}
                       onMouseOver={[Function]}
-                      tabIndex={-1}
                     >
-                      <Memo(Avatar)
-                        size="sm"
-                        style={
-                          Object {
-                            "background": "rgb(240, 240, 241)",
-                          }
-                        }
-                        tabIndex={0}
-                        url="/api/v4/users/4/image?_=0"
+                      <button
+                        className="RoundButton-dvlhqG gHOQXq style--none"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
                       >
-                        <img
-                          alt="user profile image"
-                          className="Avatar Avatar-sm"
-                          onError={[Function]}
-                          src="/api/v4/users/4/image?_=0"
+                        <Memo(Avatar)
+                          size="sm"
                           style={
                             Object {
                               "background": "rgb(240, 240, 241)",
                             }
                           }
-                          tabIndex={0}
-                        />
-                      </Memo(Avatar)>
-                    </button>
+                          tabIndex={-1}
+                          url="/api/v4/users/4/image?_=0"
+                        >
+                          <img
+                            alt="user profile image"
+                            className="Avatar Avatar-sm"
+                            onError={[Function]}
+                            src="/api/v4/users/4/image?_=0"
+                            style={
+                              Object {
+                                "background": "rgb(240, 240, 241)",
+                              }
+                            }
+                            tabIndex={-1}
+                          />
+                        </Memo(Avatar)>
+                      </button>
+                    </RoundButton>
                   </OverlayTrigger>
                 </OverlayTrigger>
               </SimpleTooltip>
@@ -504,7 +518,6 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               "background": "rgb(240, 240, 241)",
             }
           }
-          tabIndex={0}
           userId="3"
         >
           <OverlayTrigger
@@ -661,39 +674,47 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                       ]
                     }
                   >
-                    <button
+                    <RoundButton
                       className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
                       onMouseOut={[Function]}
                       onMouseOver={[Function]}
-                      tabIndex={-1}
                     >
-                      <Memo(Avatar)
-                        size="sm"
-                        style={
-                          Object {
-                            "background": "rgb(240, 240, 241)",
-                          }
-                        }
-                        tabIndex={0}
-                        url="/api/v4/users/3/image?_=0"
+                      <button
+                        className="RoundButton-dvlhqG gHOQXq style--none"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
                       >
-                        <img
-                          alt="user profile image"
-                          className="Avatar Avatar-sm"
-                          onError={[Function]}
-                          src="/api/v4/users/3/image?_=0"
+                        <Memo(Avatar)
+                          size="sm"
                           style={
                             Object {
                               "background": "rgb(240, 240, 241)",
                             }
                           }
-                          tabIndex={0}
-                        />
-                      </Memo(Avatar)>
-                    </button>
+                          tabIndex={-1}
+                          url="/api/v4/users/3/image?_=0"
+                        >
+                          <img
+                            alt="user profile image"
+                            className="Avatar Avatar-sm"
+                            onError={[Function]}
+                            src="/api/v4/users/3/image?_=0"
+                            style={
+                              Object {
+                                "background": "rgb(240, 240, 241)",
+                              }
+                            }
+                            tabIndex={-1}
+                          />
+                        </Memo(Avatar)>
+                      </button>
+                    </RoundButton>
                   </OverlayTrigger>
                 </OverlayTrigger>
               </SimpleTooltip>
@@ -1187,7 +1208,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               "background": "rgb(240, 240, 241)",
             }
           }
-          tabIndex={0}
           userId="5"
         >
           <OverlayTrigger
@@ -1344,39 +1364,47 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                       ]
                     }
                   >
-                    <button
+                    <RoundButton
                       className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
                       onMouseOut={[Function]}
                       onMouseOver={[Function]}
-                      tabIndex={-1}
                     >
-                      <Memo(Avatar)
-                        size="sm"
-                        style={
-                          Object {
-                            "background": "rgb(240, 240, 241)",
-                          }
-                        }
-                        tabIndex={0}
-                        url="/api/v4/users/5/image?_=0"
+                      <button
+                        className="RoundButton-dvlhqG gHOQXq style--none"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
                       >
-                        <img
-                          alt="user profile image"
-                          className="Avatar Avatar-sm"
-                          onError={[Function]}
-                          src="/api/v4/users/5/image?_=0"
+                        <Memo(Avatar)
+                          size="sm"
                           style={
                             Object {
                               "background": "rgb(240, 240, 241)",
                             }
                           }
-                          tabIndex={0}
-                        />
-                      </Memo(Avatar)>
-                    </button>
+                          tabIndex={-1}
+                          url="/api/v4/users/5/image?_=0"
+                        >
+                          <img
+                            alt="user profile image"
+                            className="Avatar Avatar-sm"
+                            onError={[Function]}
+                            src="/api/v4/users/5/image?_=0"
+                            style={
+                              Object {
+                                "background": "rgb(240, 240, 241)",
+                              }
+                            }
+                            tabIndex={-1}
+                          />
+                        </Memo(Avatar)>
+                      </button>
+                    </RoundButton>
                   </OverlayTrigger>
                 </OverlayTrigger>
               </SimpleTooltip>
@@ -1399,7 +1427,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               "background": "rgb(240, 240, 241)",
             }
           }
-          tabIndex={0}
           userId="4"
         >
           <OverlayTrigger
@@ -1556,39 +1583,47 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                       ]
                     }
                   >
-                    <button
+                    <RoundButton
                       className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
                       onMouseOut={[Function]}
                       onMouseOver={[Function]}
-                      tabIndex={-1}
                     >
-                      <Memo(Avatar)
-                        size="sm"
-                        style={
-                          Object {
-                            "background": "rgb(240, 240, 241)",
-                          }
-                        }
-                        tabIndex={0}
-                        url="/api/v4/users/4/image?_=0"
+                      <button
+                        className="RoundButton-dvlhqG gHOQXq style--none"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
                       >
-                        <img
-                          alt="user profile image"
-                          className="Avatar Avatar-sm"
-                          onError={[Function]}
-                          src="/api/v4/users/4/image?_=0"
+                        <Memo(Avatar)
+                          size="sm"
                           style={
                             Object {
                               "background": "rgb(240, 240, 241)",
                             }
                           }
-                          tabIndex={0}
-                        />
-                      </Memo(Avatar)>
-                    </button>
+                          tabIndex={-1}
+                          url="/api/v4/users/4/image?_=0"
+                        >
+                          <img
+                            alt="user profile image"
+                            className="Avatar Avatar-sm"
+                            onError={[Function]}
+                            src="/api/v4/users/4/image?_=0"
+                            style={
+                              Object {
+                                "background": "rgb(240, 240, 241)",
+                              }
+                            }
+                            tabIndex={-1}
+                          />
+                        </Memo(Avatar)>
+                      </button>
+                    </RoundButton>
                   </OverlayTrigger>
                 </OverlayTrigger>
               </SimpleTooltip>
@@ -1611,7 +1646,6 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               "background": "rgb(240, 240, 241)",
             }
           }
-          tabIndex={0}
           userId="3"
         >
           <OverlayTrigger
@@ -1768,39 +1802,47 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                       ]
                     }
                   >
-                    <button
+                    <RoundButton
                       className="style--none"
                       onBlur={[Function]}
                       onClick={[Function]}
                       onFocus={[Function]}
                       onMouseOut={[Function]}
                       onMouseOver={[Function]}
-                      tabIndex={-1}
                     >
-                      <Memo(Avatar)
-                        size="sm"
-                        style={
-                          Object {
-                            "background": "rgb(240, 240, 241)",
-                          }
-                        }
-                        tabIndex={0}
-                        url="/api/v4/users/3/image?_=0"
+                      <button
+                        className="RoundButton-dvlhqG gHOQXq style--none"
+                        onBlur={[Function]}
+                        onClick={[Function]}
+                        onFocus={[Function]}
+                        onMouseOut={[Function]}
+                        onMouseOver={[Function]}
                       >
-                        <img
-                          alt="user profile image"
-                          className="Avatar Avatar-sm"
-                          onError={[Function]}
-                          src="/api/v4/users/3/image?_=0"
+                        <Memo(Avatar)
+                          size="sm"
                           style={
                             Object {
                               "background": "rgb(240, 240, 241)",
                             }
                           }
-                          tabIndex={0}
-                        />
-                      </Memo(Avatar)>
-                    </button>
+                          tabIndex={-1}
+                          url="/api/v4/users/3/image?_=0"
+                        >
+                          <img
+                            alt="user profile image"
+                            className="Avatar Avatar-sm"
+                            onError={[Function]}
+                            src="/api/v4/users/3/image?_=0"
+                            style={
+                              Object {
+                                "background": "rgb(240, 240, 241)",
+                              }
+                            }
+                            tabIndex={-1}
+                          />
+                        </Memo(Avatar)>
+                      </button>
+                    </RoundButton>
                   </OverlayTrigger>
                 </OverlayTrigger>
               </SimpleTooltip>

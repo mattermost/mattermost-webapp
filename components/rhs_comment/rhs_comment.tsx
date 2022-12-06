@@ -519,7 +519,6 @@ export default class RhsComment extends React.PureComponent<Props, State> {
                     postId={post.id}
                     teamId={this.props.teamId}
                     emojis={this.props.recentEmojis}
-                    getDotMenuRef={this.getDotMenuRef}
                     size={this.props.isExpanded ? 3 : 1}
                 />
             );

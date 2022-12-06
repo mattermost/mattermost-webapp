@@ -4,8 +4,10 @@
 import {createSelector} from 'reselect';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
 import {GlobalState} from '@mattermost/types/store';
 import {Team} from '@mattermost/types/teams';
+import {Channel} from '@mattermost/types/channels';
 import {UserThread, ThreadsState, UserThreadType, UserThreadSynthetic} from '@mattermost/types/threads';
 import {Post} from '@mattermost/types/posts';
 import {IDMappedObjects, RelationOneToMany} from '@mattermost/types/utilities';
@@ -180,5 +182,19 @@ export const getThreadsInChannel: (
     (state: GlobalState, channelID: string) => channelID,
     (allThreads: IDMappedObjects<UserThread>, channelID: string) => {
         return Object.keys(allThreads).filter((id) => allThreads[id].post.channel_id === channelID);
+    },
+);
+
+export const getThreadItemsInChannel: (
+    state: GlobalState,
+    channelID: string,
+) => UserThread[] = createSelector(
+    'getThreadItemsInChannel',
+    getThreads,
+    (state: GlobalState, channelID: string) => channelID,
+    (allThreads: IDMappedObjects<UserThread>, channelID: Channel['id']) => {
+        return Object.keys(allThreads).
+            map((id) => allThreads[id]).
+            filter((item) => item.post.channel_id === channelID);
     },
 );

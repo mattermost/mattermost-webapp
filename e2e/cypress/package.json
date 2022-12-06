@@ -74,6 +74,7 @@
     "cypress:run:edge:enterprise": "cross-env TZ=Etc/UTC cypress run --browser edge --spec='tests/integration/enterprise/**/*_spec.{js,ts}'",
     "cypress:run:electron": "cross-env TZ=Etc/UTC cypress run --browser electron --config ignoreTestFiles='**/enterprise/**/*.{js,ts}'",
     "cypress:run:electron:enterprise": "cross-env TZ=Etc/UTC cypress run --browser electron --spec='tests/integration/enterprise/**/*_spec.{js,ts}'",
+    "benchmarks:run-server": "cd mattermost && bin/mattermost",
     "start:webhook": "node webhook_serve.js",
     "test": "start-test start:webhook 3000 test:ci",
     "test:ci": "node run_tests.js",

@@ -12,7 +12,18 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {Product, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, NotifyAdminRequest, Subscription, ValidBusinessEmail} from '@mattermost/types/cloud';
+import {
+    Product,
+    CloudCustomer,
+    Address,
+    CloudCustomerPatch,
+    Invoice,
+    Limits,
+    NotifyAdminRequest,
+    Subscription,
+    ValidBusinessEmail,
+    SelfHostedSignupProgress,
+} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -77,7 +88,8 @@ import type {
     MarketplaceApp,
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
-import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse} from '@mattermost/types/posts';
+import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse, PostAcknowledgement} from '@mattermost/types/posts';
+import {Draft} from '@mattermost/types/drafts';
 import {BoardPatch, BoardsUsageResponse, BoardTemplate, Board, CreateBoardResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
@@ -105,7 +117,7 @@ import {
     GetFilteredUsersStatsOpts,
     UserCustomStatus,
 } from '@mattermost/types/users';
-import {DeepPartial, RelationOneToOne} from '@mattermost/types/utilities';
+import {DeepPartial, RelationOneToOne, ValueOf} from '@mattermost/types/utilities';
 import {ProductNotices} from '@mattermost/types/product_notices';
 import {
     DataRetentionCustomPolicies,
@@ -438,6 +450,10 @@ export default class Client4 {
         return `${this.getBaseRoute()}/cloud`;
     }
 
+    getHostedCustomerRoute() {
+        return `${this.getBaseRoute()}/hosted_customer`;
+    }
+
     getUsageRoute() {
         return `${this.getBaseRoute()}/usage`;
     }
@@ -456,6 +472,10 @@ export default class Client4 {
 
     getSystemRoute(): string {
         return `${this.getBaseRoute()}/system`;
+    }
+
+    getDraftsRoute() {
+        return `${this.getBaseRoute()}/drafts`;
     }
 
     getCSRFFromCookie() {
@@ -2337,6 +2357,24 @@ export default class Client4 {
         );
     }
 
+    acknowledgePost = (postId: string, userId: string) => {
+        this.trackEvent('api', 'api_posts_ack');
+
+        return this.doFetch<PostAcknowledgement>(
+            `${this.getUserRoute(userId)}/posts/${postId}/ack`,
+            {method: 'post'},
+        );
+    };
+
+    unacknowledgePost = (postId: string, userId: string) => {
+        this.trackEvent('api', 'api_posts_unack');
+
+        return this.doFetch<null>(
+            `${this.getUserRoute(userId)}/posts/${postId}/ack`,
+            {method: 'delete'},
+        );
+    };
+
     // Preference Routes
 
     savePreferences = (userId: string, preferences: PreferenceType[]) => {
@@ -3843,6 +3881,13 @@ export default class Client4 {
         );
     };
 
+    bootstrapSelfHostedSignup = () => {
+        return this.doFetch<{progress: ValueOf<typeof SelfHostedSignupProgress>}>(
+            `${this.getHostedCustomerRoute()}/bootstrap`,
+            {method: 'post'},
+        );
+    };
+
     createPaymentMethod = async () => {
         return this.doFetch(
             `${this.getCloudRoute()}/payment`,
@@ -3884,10 +3929,10 @@ export default class Client4 {
         );
     }
 
-    subscribeCloudProduct = (productId: string) => {
+    subscribeCloudProduct = (productId: string, seats = 0) => {
         return this.doFetch<CloudCustomer>(
             `${this.getCloudRoute()}/subscription`,
-            {method: 'put', body: JSON.stringify({product_id: productId})},
+            {method: 'put', body: JSON.stringify({product_id: productId, seats})},
         );
     }
 
@@ -4118,6 +4163,45 @@ export default class Client4 {
             this.telemetryHandler.pageVisited(this.userId, this.userRoles, category, name);
         }
     }
+
+    upsertDraft = async (draft: Draft, connectionId: string) => {
+        const result = await this.doFetch<Draft>(
+            `${this.getDraftsRoute()}`,
+            {
+                method: 'post',
+                body: JSON.stringify(draft),
+                headers: {
+                    'Connection-Id': `${connectionId}`,
+                },
+            },
+        );
+
+        return result;
+    };
+
+    getUserDrafts = (teamId: Team['id']) => {
+        return this.doFetch<Draft[]>(
+            `${this.getUserRoute('me')}/teams/${teamId}/drafts`,
+            {method: 'get'},
+        );
+    };
+
+    deleteDraft = (channelId: Channel['id'], rootId = '', connectionId: string) => {
+        let endpoint = `${this.getUserRoute('me')}/channels/${channelId}/drafts`;
+        if (rootId !== '') {
+            endpoint += `/${rootId}`;
+        }
+
+        return this.doFetch<null>(
+            endpoint,
+            {
+                method: 'delete',
+                headers: {
+                    'Connection-Id': `${connectionId}`,
+                },
+            },
+        );
+    };
 }
 
 export function parseAndMergeNestedHeaders(originalHeaders: any) {

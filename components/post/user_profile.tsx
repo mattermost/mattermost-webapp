@@ -18,17 +18,15 @@ type Props = {
     post: Post;
     compactDisplay?: boolean;
     colorizeUsernames?: boolean;
-    isBusy?: boolean;
     enablePostUsernameOverride?: boolean;
     isConsecutivePost?: boolean;
     isBot: boolean;
     isSystemMessage: boolean;
-    isPostBeingEdited?: boolean;
     isMobileView: boolean;
 };
 
 const PostUserProfile = (props: Props): JSX.Element | null => {
-    const {post, compactDisplay, isMobileView, isConsecutivePost, isBusy, enablePostUsernameOverride, isBot, isSystemMessage, colorizeUsernames} = props;
+    const {post, compactDisplay, isMobileView, isConsecutivePost, enablePostUsernameOverride, isBot, isSystemMessage, colorizeUsernames} = props;
     const isFromAutoResponder = fromAutoResponder(post);
     const colorize = compactDisplay && colorizeUsernames;
 
@@ -48,7 +46,6 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
             <UserProfile
                 userId={post.user_id}
                 channelId={post.channel_id}
-                isBusy={isBusy}
                 isRHS={true}
                 hasMention={true}
                 colorize={colorize}
@@ -61,7 +58,6 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
             <UserProfile
                 userId={post.user_id}
                 channelId={post.channel_id}
-                isBusy={isBusy}
                 isRHS={true}
                 hasMention={true}
                 colorize={colorize}
@@ -89,7 +85,6 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
                         userId={post.user_id}
                         channelId={post.channel_id}
                         hideStatus={true}
-                        isBusy={isBusy}
                         isRHS={true}
                         hasMention={true}
                         colorize={colorize}
