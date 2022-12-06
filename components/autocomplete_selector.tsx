@@ -13,7 +13,7 @@ type Props = {
     onSelected?: (selected: Selected) => void;
     value: string;
     providers: Provider[];
-    placeholder?: string ;
+    placeholder?: string;
     footer?: string;
     label?: React.ReactNode;
     labelClassName: string;
@@ -24,13 +24,13 @@ type Props = {
     listPosition: string;
     toggleFocus?: ((opened: boolean) => void) | null;
     id: string;
-}
+};
 
 type State = {
-    target?: {value: string};
+    target?: { value: string };
     focused?: boolean;
     input?: string;
-}
+};
 
 export type Selected = {
     id?: string;
@@ -38,9 +38,12 @@ export type Selected = {
     display_name?: string;
     value: string;
     text: string;
-}
+};
 
-export default class AutocompleteSelector extends React.PureComponent <Props, State> {
+export default class AutocompleteSelector extends React.PureComponent<
+Props,
+State
+> {
     static defaultProps = {
         value: '',
         id: '',
@@ -65,7 +68,7 @@ export default class AutocompleteSelector extends React.PureComponent <Props, St
         }
 
         this.setState({input: e.target.value});
-    }
+    };
 
     handleSelected = (selected: Selected) => {
         this.setState({input: ''});
@@ -75,16 +78,16 @@ export default class AutocompleteSelector extends React.PureComponent <Props, St
         requestAnimationFrame(() => {
             this.suggestionRef?.current?.blur();
         });
-    }
+    };
 
     setSuggestionRef = (ref: RefObject<HTMLDivElement>) => {
         this.suggestionRef = ref;
-    }
+    };
 
     onFocus = () => {
         this.setState({focused: true});
         this.props.toggleFocus?.(true);
-    }
+    };
 
     onBlur = () => {
         this.setState({focused: false});
@@ -92,7 +95,7 @@ export default class AutocompleteSelector extends React.PureComponent <Props, St
         if (this.props.toggleFocus) {
             this.props.toggleFocus(false);
         }
-    }
+    };
 
     render() {
         const {
@@ -119,9 +122,7 @@ export default class AutocompleteSelector extends React.PureComponent <Props, St
         let labelContent;
         if (label) {
             labelContent = (
-                <label
-                    className={'control-label ' + labelClassName}
-                >
+                <label className={'control-label ' + labelClassName}>
                     {label}
                 </label>
             );
@@ -129,11 +130,7 @@ export default class AutocompleteSelector extends React.PureComponent <Props, St
 
         let helpTextContent;
         if (helpText) {
-            helpTextContent = (
-                <div className='help-text'>
-                    {helpText}
-                </div>
-            );
+            helpTextContent = <div className='help-text'>{helpText}</div>;
         }
 
         return (
