@@ -132,10 +132,7 @@ exports[`components/AccessHistoryModal should match snapshot when no audits exis
     bsClass="modal-body"
     componentClass="div"
   >
-    <LoadingScreen
-      position="relative"
-      style={Object {}}
-    />
+    <LoadingScreen />
   </ModalBody>
   <ModalFooter
     bsClass="modal-footer"

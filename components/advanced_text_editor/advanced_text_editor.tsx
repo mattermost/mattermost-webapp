@@ -173,7 +173,7 @@ const AdvanceTextEditor = ({
 
     const input = textboxRef.current?.getInputBox();
 
-    const handleHeightChange = (height: number, maxHeight: number) => {
+    const handleHeightChange = useCallback((height: number, maxHeight: number) => {
         setRenderScrollbar(height > maxHeight);
 
         window.requestAnimationFrame(() => {
@@ -181,7 +181,7 @@ const AdvanceTextEditor = ({
                 setScrollbarWidth(Utils.scrollbarWidth(textboxRef.current.getInputBox()));
             }
         });
-    };
+    }, [textboxRef.current]);
 
     const handleShowFormat = useCallback(() => {
         setShowPreview(!shouldShowPreview);
