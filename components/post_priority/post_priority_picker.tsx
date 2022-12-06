@@ -1,28 +1,34 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useEffect, useRef, memo} from 'react';
-import {useIntl} from 'react-intl';
+import React, {useCallback, useEffect, useRef, useState, memo} from 'react';
+import {useSelector} from 'react-redux';
+import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import styled from 'styled-components';
 
-import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon} from '@mattermost/compass-icons/components';
+import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
-import {PostPriority} from '@mattermost/types/posts';
+import {isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities/posts';
 
 import BetaTag from '../widgets/tag/beta_tag';
 
-import Menu, {MenuItem} from './post_priority_picker_item';
+import {PostPriority, PostPriorityMetadata} from '@mattermost/types/posts';
+
+import Menu, {MenuGroup, MenuItem, ToggleItem} from './post_priority_picker_item';
+import './post_priority_picker.scss';
 
 type Props = {
-    priority?: PostPriority;
+    settings?: PostPriorityMetadata;
     onClose: () => void;
-    onApply: (props: {priority?: PostPriority}) => void;
+    onApply: (props: PostPriorityMetadata) => void;
     placement: string;
     rightOffset?: number;
     topOffset?: number;
     leftOffset?: number;
     style?: React.CSSProperties;
+    requestedAck?: boolean;
+    persistentNotifications?: boolean;
 }
 
 const UrgentIcon = styled(AlertOutlineIcon)`
@@ -34,34 +40,43 @@ const ImportantIcon = styled(AlertCircleOutlineIcon)`
 `;
 
 const StandardIcon = styled(MessageTextOutlineIcon)`
-    fill: var(--center-channel-color-56);
+    fill: rgba(var(--center-channel-color-rgb), 0.56);
+`;
+
+const AcknowledgementIcon = styled(CheckCircleOutlineIcon)`
+    fill: rgba(var(--center-channel-color-rgb), 0.56);
 `;
 
 const Header = styled.h4`
-    display: flex;
     align-items: center;
-    padding: 14px 20px;
-    margin-right: 4px;
+    display: flex;
     gap: 8px;
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 20px;
+    margin-right: 4px;
+    padding: 14px 20px 6px;
     text-align: left;
 `;
 
-const Body = styled.div`
-    border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
+const Footer = styled.div`
+    align-items: center;
+    border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+    display: flex;
+    font-family: Open Sans;
+    justify-content: flex-end;
+    padding: 16px;
+    gap: 8px;
 `;
 
 const Picker = styled.div`
     position: absolute;
     z-index: 1100;
     display: flex;
-    width: 220px;
     flex-direction: column;
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    border: solid 1px rgba(var(--center-channel-color-rgb), 0.16);
     margin-right: 3px;
     background: var(--center-channel-bg);
     border-radius: 4px;
@@ -72,26 +87,52 @@ const Picker = styled.div`
 `;
 
 function PostPriorityPicker({
-    priority,
-    onClose,
+    leftOffset = 0,
     onApply,
+    onClose,
     placement,
     rightOffset = 0,
-    topOffset = 0,
-    leftOffset = 0,
+    settings,
     style,
+    topOffset = 0,
 }: Props) {
     const {formatMessage} = useIntl();
+    const [priority, setPriority] = useState<PostPriority|''>(settings?.priority || '');
+    const [requestedAck, setRequestedAck] = useState<boolean>(settings?.requested_ack || false);
+
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         ref.current?.focus();
     }, [ref.current]);
 
-    const makeSelectionHandler = useCallback((type?: PostPriority) => () => {
-        onApply({priority: type});
+    const postAcknowledgementsEnabled = useSelector(isPostAcknowledgementsEnabled);
+
+    const makeOnSelectPriority = useCallback((type?: PostPriority) => () => {
+        setPriority(type || '');
+
+        if (!postAcknowledgementsEnabled) {
+            onApply({
+                priority: type || '',
+                requested_ack: false,
+            });
+            onClose();
+        } else if (type === PostPriority.URGENT) {
+            setRequestedAck(true);
+        }
+    }, [onApply, onClose, postAcknowledgementsEnabled]);
+
+    const handleAck = useCallback(() => {
+        setRequestedAck(!requestedAck);
+    }, [requestedAck]);
+
+    const handleApply = () => {
+        onApply({
+            priority,
+            requested_ack: requestedAck,
+        });
         onClose();
-    }, [onApply, onClose]);
+    };
 
     let pickerStyle: React.CSSProperties = {};
     if (style && !(style.left === 0 && style.top === 0)) {
@@ -118,7 +159,7 @@ function PostPriorityPicker({
             ref={ref}
             tabIndex={-1}
             style={pickerStyle}
-            className={classNames({PostPriorityPicker: true, bottom: placement === 'bottom'})}
+            className={classNames({PostPriorityPicker: true, bottom: placement === 'bottom', 'PostPriorityPicker--large': postAcknowledgementsEnabled})}
         >
             <Header className='modal-title'>
                 {formatMessage({
@@ -127,40 +168,84 @@ function PostPriorityPicker({
                 })}
                 <BetaTag/>
             </Header>
-            <Body role='application'>
+            <div role='application'>
                 <Menu className='Menu'>
-                    <MenuItem
-                        id='menu-item-priority-standard'
-                        onClick={makeSelectionHandler()}
-                        isSelected={!priority}
-                        icon={<StandardIcon size={18}/>}
-                        text={formatMessage({
-                            id: 'post_priority.priority.standard',
-                            defaultMessage: 'Standard',
-                        })}
-                    />
-                    <MenuItem
-                        id='menu-item-priority-important'
-                        onClick={makeSelectionHandler(PostPriority.IMPORTANT)}
-                        isSelected={priority === PostPriority.IMPORTANT}
-                        icon={<ImportantIcon size={18}/>}
-                        text={formatMessage({
-                            id: 'post_priority.priority.important',
-                            defaultMessage: 'Important',
-                        })}
-                    />
-                    <MenuItem
-                        id='menu-item-priority-urgent'
-                        onClick={makeSelectionHandler(PostPriority.URGENT)}
-                        isSelected={priority === PostPriority.URGENT}
-                        icon={<UrgentIcon size={18}/>}
-                        text={formatMessage({
-                            id: 'post_priority.priority.urgent',
-                            defaultMessage: 'Urgent',
-                        })}
-                    />
+                    <MenuGroup>
+                        <MenuItem
+                            id='menu-item-priority-standard'
+                            onClick={makeOnSelectPriority()}
+                            isSelected={!priority}
+                            icon={<StandardIcon size={18}/>}
+                            text={formatMessage({
+                                id: 'post_priority.priority.standard',
+                                defaultMessage: 'Standard',
+                            })}
+                        />
+                        <MenuItem
+                            id='menu-item-priority-important'
+                            onClick={makeOnSelectPriority(PostPriority.IMPORTANT)}
+                            isSelected={priority === PostPriority.IMPORTANT}
+                            icon={<ImportantIcon size={18}/>}
+                            text={formatMessage({
+                                id: 'post_priority.priority.important',
+                                defaultMessage: 'Important',
+                            })}
+                        />
+                        <MenuItem
+                            id='menu-item-priority-urgent'
+                            onClick={makeOnSelectPriority(PostPriority.URGENT)}
+                            isSelected={priority === PostPriority.URGENT}
+                            icon={<UrgentIcon size={18}/>}
+                            text={formatMessage({
+                                id: 'post_priority.priority.urgent',
+                                defaultMessage: 'Urgent',
+                            })}
+                        />
+                    </MenuGroup>
+                    {postAcknowledgementsEnabled && (
+                        <MenuGroup>
+                            <ToggleItem
+                                disabled={false}
+                                onClick={handleAck}
+                                toggled={requestedAck}
+                                icon={<AcknowledgementIcon size={18}/>}
+                                text={formatMessage({
+                                    id: 'post_priority.requested_ack.text',
+                                    defaultMessage: 'Request acknowledgement',
+                                })}
+                                description={formatMessage({
+                                    id: 'post_priority.requested_ack.description',
+                                    defaultMessage: 'An acknowledgement button will appear with your message',
+                                })}
+                            />
+                        </MenuGroup>
+                    )}
                 </Menu>
-            </Body>
+            </div>
+            {postAcknowledgementsEnabled && (
+                <Footer>
+                    <button
+                        type='button'
+                        className='PostPriorityPicker__cancel'
+                        onClick={onClose}
+                    >
+                        <FormattedMessage
+                            id={'post_priority.picker.cancel'}
+                            defaultMessage={'Cancel'}
+                        />
+                    </button>
+                    <button
+                        type='button'
+                        className='PostPriorityPicker__apply'
+                        onClick={handleApply}
+                    >
+                        <FormattedMessage
+                            id={'post_priority.picker.apply'}
+                            defaultMessage={'Apply'}
+                        />
+                    </button>
+                </Footer>
+            )}
         </Picker>
     );
 }

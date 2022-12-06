@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
+import SearchSuggestionList from 'components/suggestion/search_suggestion_list';
 
 describe('components/SearchSuggestionList', () => {
     const baseProps = {

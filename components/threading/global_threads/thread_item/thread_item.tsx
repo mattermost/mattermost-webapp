@@ -25,9 +25,10 @@ import SimpleTooltip from 'components/widgets/simple_tooltip';
 import CRTListTutorialTip from 'components/tours/crt_tour/crt_list_tutorial_tip';
 import Markdown from 'components/markdown';
 import Tag from 'components/widgets/tag/tag';
+import PriorityBadge from 'components/post_priority/post_priority_badge';
 
 import {Channel} from '@mattermost/types/channels';
-import {Post} from '@mattermost/types/posts';
+import {Post, PostPriority} from '@mattermost/types/posts';
 import {UserThread} from '@mattermost/types/threads';
 
 import {THREADING_TIME} from '../../common/options';
@@ -51,6 +52,7 @@ type Props = {
     post: Post;
     postsInThread: Post[];
     thread: UserThread;
+    isPostPriorityEnabled: boolean;
 };
 
 const markdownPreviewOptions = {
@@ -70,6 +72,7 @@ function ThreadItem({
     thread,
     threadId,
     isFirstThreadInList,
+    isPostPriorityEnabled,
 }: Props & OwnProps): React.ReactElement|null {
     const dispatch = useDispatch();
     const {select, goToInChannel, currentTeamId} = useThreadRouting();
@@ -185,13 +188,23 @@ function ThreadItem({
                         )}
                     </div>
                 )}
-                <span>{postAuthor}</span>
-                {Boolean(channel) && postAuthor !== channel?.display_name && (
-                    <Tag
-                        onClick={goToInChannelHandler}
-                        text={channel.display_name}
-                    />
-                )}
+                <div className='ThreadItem__author'>{postAuthor}</div>
+                <div className='d-flex align-items-center'>
+                    {channel && postAuthor !== channel?.display_name && (
+                        <Tag
+                            onClick={goToInChannelHandler}
+                            text={channel?.display_name}
+                        />
+                    )}
+                    {isPostPriorityEnabled && (
+                        thread.is_urgent && (
+                            <PriorityBadge
+                                className={postAuthor === channel?.display_name ? 'ml-2' : ''}
+                                priority={PostPriority.URGENT}
+                            />
+                        )
+                    )}
+                </div>
                 <Timestamp
                     {...THREADING_TIME}
                     className='alt-hidden'

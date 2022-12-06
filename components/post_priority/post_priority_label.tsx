@@ -4,12 +4,12 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {PostPriority} from '@mattermost/types/posts';
-
 import Tag, {TagSize} from 'components/widgets/tag/tag';
 
+import {PostPriority} from '@mattermost/types/posts';
+
 type Props = {
-    priority?: PostPriority;
+    priority?: PostPriority|'';
     size?: TagSize;
     uppercase?: boolean;
 }

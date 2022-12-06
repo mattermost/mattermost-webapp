@@ -216,6 +216,23 @@
                     }
                 }
 
+                &.delete {
+                    @include primary-button;
+
+                    border-color: transparent;
+                    background: var(--dnd-indicator);
+
+                    &:focus {
+                        padding: 11px 18px;
+                    }
+
+                    &:hover,
+                    &:focus,
+                    &:active {
+                        background: linear-gradient(0deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.08)), var(--dnd-indicator) !important;
+                    }
+                }
+
                 &.confirm {
                     @include primary-button;
                     @include button-medium;

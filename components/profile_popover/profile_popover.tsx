@@ -12,10 +12,11 @@ import Tooltip from 'components/tooltip';
 import UserSettingsModal from 'components/user_settings/modal';
 import {getHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions';
-import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
+import Constants, {A11yClassNames, A11yCustomEventTypes, A11yFocusEventDetail, ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
-import {isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
+import {shouldFocusMainTextbox} from 'utils/post_utils';
+import {displayUsername, isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import Pluggable from 'plugins/pluggable';
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
 import LocalizedIcon from 'components/localized_icon';
@@ -70,6 +71,15 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
      * Function to call to hide the popover
      */
     hide?: () => void;
+
+    /**
+     * Function to call to return focus to the previously focused element when the popover closes.
+     * If not provided, the popover will automatically determine the previously focused element
+     * and focus that on close. However, if the previously focused element is not correctly detected
+     * by the popover, or the previously focused element will disappear after the popover opens,
+     * it is necessary to provide this function to focus the correct element.
+     */
+    returnFocus?: () => void;
 
     /**
      * Set to true if the popover was opened from the right-hand
@@ -133,6 +143,11 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     canManageAnyChannelMembersInCurrentTeam: boolean;
 
     /**
+     * @internal
+     */
+    teammateNameDisplay: string;
+
+    /**
      * The overwritten username that should be shown at the top of the popover
      */
     overwriteName?: React.ReactNode;
@@ -167,6 +182,9 @@ class ProfilePopover extends React.PureComponent<
 ProfilePopoverProps,
 ProfilePopoverState
 > {
+    titleRef: React.RefObject<HTMLDivElement>;
+    returnFocus: () => void;
+
     static getComponentName() {
         return 'ProfilePopover';
     }
@@ -181,6 +199,23 @@ ProfilePopoverState
         this.state = {
             loadingDMChannel: undefined,
         };
+        this.titleRef = React.createRef();
+
+        if (this.props.returnFocus) {
+            this.returnFocus = this.props.returnFocus;
+        } else {
+            const previouslyFocused = document.activeElement;
+            this.returnFocus = () => {
+                document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+                    A11yCustomEventTypes.FOCUS, {
+                        detail: {
+                            target: previouslyFocused as HTMLElement,
+                            keyboardOnly: true,
+                        },
+                    },
+                ));
+            };
+        }
     }
     componentDidMount() {
         const {currentTeamId, userId, channelId} = this.props;
@@ -191,6 +226,16 @@ ProfilePopoverState
                 channelId,
             );
         }
+
+        // Focus the title when the popover first opens, to bring the focus into the popover.
+        document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+            A11yCustomEventTypes.FOCUS, {
+                detail: {
+                    target: this.titleRef.current,
+                    keyboardOnly: true,
+                },
+            },
+        ));
     }
     handleShowDirectChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
         const {actions} = this.props;
@@ -217,8 +262,7 @@ ProfilePopoverState
         });
         this.handleCloseModals();
     };
-    handleMentionKeyClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
+    handleMentionKeyClick = () => {
         if (!this.props.user) {
             return;
         }
@@ -232,8 +276,7 @@ ProfilePopoverState
         );
         this.handleCloseModals();
     };
-    handleEditAccountSettings = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
+    handleEditAccountSettings = () => {
         if (!this.props.user) {
             return;
         }
@@ -243,23 +286,23 @@ ProfilePopoverState
         this.props.actions.openModal({
             modalId: ModalIdentifiers.USER_SETTINGS,
             dialogType: UserSettingsModal,
-            dialogProps: {isContentProductSettings: false},
+            dialogProps: {isContentProductSettings: false, onExited: this.returnFocus},
         });
         this.handleCloseModals();
     };
-    showCustomStatusModal = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+    showCustomStatusModal = () => {
         if (this.props.hide) {
             this.props.hide();
         }
         const customStatusInputModalData = {
             modalId: ModalIdentifiers.CUSTOM_STATUS,
             dialogType: CustomStatusModal,
+            dialogProps: {onExited: this.returnFocus},
         };
         this.props.actions.openModal(customStatusInputModalData);
     };
-    handleAddToChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
+    handleAddToChannel = () => {
+        this.props.hide?.();
         this.handleCloseModals();
     };
     handleCloseModals = () => {
@@ -273,6 +316,13 @@ ProfilePopoverState
             }
         }
     };
+    handleKeyDown = (e: React.KeyboardEvent) => {
+        if (shouldFocusMainTextbox(e, document.activeElement)) {
+            this.props.hide?.();
+        } else if (Utils.isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
+            this.returnFocus();
+        }
+    }
     renderCustomStatus() {
         const {
             customStatus,
@@ -365,6 +415,7 @@ ProfilePopoverState
                     size='xxl'
                     username={this.props.user?.username || ''}
                     url={urlSrc}
+                    tabIndex={-1}
                 />
                 <StatusIcon
                     className='status user-popover-status'
@@ -555,8 +606,8 @@ ProfilePopoverState
                     key='user-popover-settings'
                     className='popover__row first'
                 >
-                    <a
-                        href='#'
+                    <button
+                        className='style--link'
                         onClick={this.handleEditAccountSettings}
                     >
                         <LocalizedIcon
@@ -570,7 +621,7 @@ ProfilePopoverState
                             id='user_profile.account.editProfile'
                             defaultMessage='Edit Profile'
                         />
-                    </a>
+                    </button>
                 </div>,
             );
         }
@@ -585,9 +636,11 @@ ProfilePopoverState
                         id='user_profile.account.post_was_created'
                         defaultMessage='This post was created by an integration from'
                     />
-                    <a
+                    {' '}
+                    <button
+                        className='style--link'
                         onClick={this.handleMentionKeyClick}
-                    >{` @${this.props.user.username}`}</a>
+                    >{`@${this.props.user.username}`}</button>
                 </div>,
             );
         }
@@ -631,29 +684,24 @@ ProfilePopoverState
                         className='popover__row first'
                         key='user-popover-add-to-channel'
                     >
-                        <a
-                            href='#'
-                            className='text-nowrap'
+                        <ToggleModalButton
+                            ariaLabel={addToChannelMessage}
+                            modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
+                            role='menuitem'
+                            dialogType={AddUserToChannelModal}
+                            dialogProps={{user: this.props.user, onExited: this.returnFocus}}
                             onClick={this.handleAddToChannel}
+                            className='style--link'
                         >
-                            <ToggleModalButton
-                                ariaLabel={addToChannelMessage}
-                                modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
-                                role='menuitem'
-                                dialogType={AddUserToChannelModal}
-                                dialogProps={{user: this.props.user}}
-                                onClick={this.props.hide}
-                            >
-                                <LocalizedIcon
-                                    className='fa fa-user-plus'
-                                    title={{
-                                        id: t('user_profile.add_user_to_channel.icon'),
-                                        defaultMessage: 'Add User to Channel Icon',
-                                    }}
-                                />
-                                {addToChannelMessage}
-                            </ToggleModalButton>
-                        </a>
+                            <LocalizedIcon
+                                className='fa fa-user-plus'
+                                title={{
+                                    id: t('user_profile.add_user_to_channel.icon'),
+                                    defaultMessage: 'Add User to Channel Icon',
+                                }}
+                            />
+                            {addToChannelMessage}
+                        </ToggleModalButton>
                     </div>,
                 );
             }
@@ -708,21 +756,56 @@ ProfilePopoverState
             title = this.props.overwriteName;
             roleTitle = null;
         } else if (this.props.hasMention) {
-            title = <a onClick={this.handleMentionKeyClick}>{title}</a>;
+            title = (
+                <button
+                    className='style--link user-popover__username'
+                    onClick={this.handleMentionKeyClick}
+                >
+                    {title}
+                </button>);
+        } else {
+            title = <span className='user-popover__username'>{title}</span>;
         }
         title = (
             <span data-testid={`profilePopoverTitle_${this.props.user.username}`}>
-                <span className='user-popover__username'>{title}</span>
+                {title}
                 {roleTitle}
             </span>
         );
+
+        const displayName = displayUsername(this.props.user, this.props.teammateNameDisplay);
+
+        const tabCatcher = (
+            <span
+                tabIndex={0}
+                onFocus={(e) => (e.relatedTarget as HTMLElement).focus()}
+            />
+        );
+
         return (
             <Popover
                 {...popoverProps}
-                title={title}
                 id='user-profile-popover'
             >
-                {dataContent}
+                {tabCatcher}
+                <div
+                    role='dialog'
+                    aria-label={Utils.localizeAndFormatMessage('profile_popover.profileLabel', 'Profile for {name}', {name: displayName})}
+                    onKeyDown={this.handleKeyDown}
+                    className={A11yClassNames.POPUP}
+                >
+                    <div
+                        tabIndex={-1}
+                        className='popover-title'
+                        ref={this.titleRef}
+                    >
+                        {title}
+                    </div>
+                    <div className='user-profile-popover__content'>
+                        {dataContent}
+                    </div>
+                </div>
+                {tabCatcher}
             </Popover>
         );
     }

@@ -16,7 +16,7 @@ import {useSelector} from 'react-redux';
 
 import {components, IndicatorProps, OptionProps, SingleValueProps, ValueType} from 'react-select';
 
-import {Props as AsyncSelectProps} from 'react-select/src/Async';
+import AsyncSelect from 'react-select/async';
 
 import BotTag from 'components/widgets/tag/bot_tag';
 import GuestTag from 'components/widgets/tag/guest_tag';
@@ -39,8 +39,6 @@ import {ProviderResult} from 'components/suggestion/provider';
 import {Channel} from '@mattermost/types/channels';
 
 import {getBaseStyles} from './forward_post_channel_select_styles';
-
-const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<ChannelOption>>; // eslint-disable-line global-require
 
 type ChannelTypeFromProvider = Channel & {
     userId?: string;
