@@ -1286,7 +1286,7 @@
   "admin.license.freeEdition.title": "Free",
   "admin.license.key": "License Key: ",
   "admin.license.keyAddNew": "Add a new license",
-  "admin.license.keyRemove": "Remove License and Downgrade Server",
+  "admin.license.keyRemove": "Remove license and downgrade to Mattermost Free",
   "admin.license.modal.done": "Done",
   "admin.license.modal.upload": "Upload",
   "admin.license.modal.uploading": "Uploading",
