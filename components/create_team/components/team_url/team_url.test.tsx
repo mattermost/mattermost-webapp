@@ -21,7 +21,7 @@ describe('/components/create_team/components/display_name', () => {
             wizard: 'display_name',
         },
         actions: {
-            checkIfTeamExists: jest.fn().mockResolvedValue({exists: true}),
+            checkIfTeamExists: jest.fn().mockResolvedValue({data: true}),
             createTeam: jest.fn().mockResolvedValue({data: {name: 'test-team'}}),
             trackEvent: jest.fn(),
         },
@@ -57,8 +57,8 @@ describe('/components/create_team/components/display_name', () => {
 
     test('should successfully submit', async () => {
         const checkIfTeamExists = jest.fn().
-            mockResolvedValueOnce({exists: true}).
-            mockResolvedValue({exists: false});
+            mockResolvedValueOnce({data: true}).
+            mockResolvedValue({data: false});
 
         const actions = {...defaultProps.actions, checkIfTeamExists};
         const props = {...defaultProps, actions};

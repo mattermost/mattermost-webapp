@@ -59,7 +59,8 @@ export function mapStateToProps() {
         const channel = getChannel(state, post.channel_id) || {delete_at: 0};
 
         const currentTeam = getCurrentTeam(state);
-        let teamName = currentTeam.name;
+        const teamId = currentTeam?.id ?? '';
+        let teamName = currentTeam?.name ?? '';
         let teamDisplayName = '';
 
         const memberships = getTeamMemberships(state);
@@ -75,7 +76,7 @@ export function mapStateToProps() {
             teamName = team?.name || currentTeam.name;
         }
 
-        const canReply = isDMorGM || (channel.team_id === currentTeam.id);
+        const canReply = isDMorGM || (channel.team_id === teamId);
         const directTeammate = getDirectTeammate(state, channel.id);
 
         return {

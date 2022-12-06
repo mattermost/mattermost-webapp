@@ -8,23 +8,59 @@ import Constants from 'utils/constants';
 
 import Popover from 'components/widgets/popover';
 
-import SuggestionList from './suggestion_list.jsx';
+import SuggestionList from './suggestion_list';
+import {UserProfile} from './command_provider/app_command_parser/app_command_parser_dependencies';
+
+interface Item extends UserProfile {
+    type: string;
+    display_name: string;
+    name: string;
+}
+
+interface Props {
+    ariaLiveRef?: React.Ref<HTMLDivElement>;
+    open: boolean;
+    position?: 'top' | 'bottom';
+    renderDividers?: string[];
+    renderNoResults?: boolean;
+    onCompleteWord: (term: string, matchedPretext: string, e?: React.MouseEvent<HTMLDivElement>) => boolean;
+    preventClose?: () => void;
+    onItemHover: (term: string) => void;
+    pretext: string;
+    cleared: boolean;
+    matchedPretext: string[];
+    items: any[];
+    terms: string[];
+    selection: string;
+    components: Array<React.FunctionComponent<any>>;
+    wrapperHeight?: number;
+
+    // suggestionBoxAlgn is an optional object that can be passed to align the SuggestionList with the keyboard caret
+    // as the user is typing.
+    suggestionBoxAlgn?: {
+        lineHeight: number;
+        pixelsToMoveX: number;
+        pixelsToMoveY: number;
+    };
+}
 
 export default class SearchSuggestionList extends SuggestionList {
-    static propTypes = {
-        ...SuggestionList.propTypes,
-    };
+    popoverRef: React.RefObject<Popover>;
+    itemsContainerRef: React.RefObject<HTMLDivElement>;
+    suggestionReadOut: React.RefObject<HTMLDivElement>;
+    currentLabel: string;
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.itemRefs = new Map();
         this.popoverRef = React.createRef();
         this.itemsContainerRef = React.createRef();
         this.suggestionReadOut = React.createRef();
+        this.currentLabel = '';
     }
 
-    generateLabel(item) {
+    generateLabel(item: Item) {
         if (item.username) {
             this.currentLabel = item.username;
             if ((item.first_name || item.last_name) && item.nickname) {
@@ -51,7 +87,7 @@ export default class SearchSuggestionList extends SuggestionList {
         return this.itemsContainerRef.current?.parentNode;
     }
 
-    renderChannelDivider(type) {
+    renderChannelDivider(type: string) {
         let text;
         if (type === Constants.OPEN_CHANNEL) {
             text = (
@@ -91,10 +127,10 @@ export default class SearchSuggestionList extends SuggestionList {
             return null;
         }
 
-        const items = [];
+        const items: JSX.Element[] = [];
         let haveDMDivider = false;
         for (let i = 0; i < this.props.items.length; i++) {
-            const item = this.props.items[i];
+            const item: any = this.props.items[i];
             const term = this.props.terms[i];
             const isSelection = term === this.props.selection;
 
@@ -124,7 +160,7 @@ export default class SearchSuggestionList extends SuggestionList {
             items.push(
                 <Component
                     key={term}
-                    ref={(ref) => this.itemRefs.set(term, ref)}
+                    ref={(ref: React.RefObject<HTMLDivElement>) => this.itemRefs.set(term, ref)}
                     item={item}
                     term={term}
                     matchedPretext={this.props.matchedPretext[i]}

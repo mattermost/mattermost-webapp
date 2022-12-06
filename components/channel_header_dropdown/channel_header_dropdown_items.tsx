@@ -11,7 +11,7 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 
-import CategoryMenuItems from 'components/category_menu_items';
+import ChannelMoveToSubMenu from 'components/channel_move_to_sub_menu';
 import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
@@ -108,10 +108,10 @@ export default class ChannelHeaderDropdown extends React.PureComponent<Props> {
                     show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
                     channel={channel}
                 />
-                <CategoryMenuItems
+                <ChannelMoveToSubMenu
                     channel={channel}
                     openUp={false}
-                    location={'channel'}
+                    inHeaderDropdown={true}
                 />
                 <Menu.Group divider={divider}>
                     <MenuItemToggleFavoriteChannel

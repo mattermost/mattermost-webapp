@@ -41,12 +41,7 @@ describe('components/logged_in/LoggedIn', () => {
 
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
-        expect(wrapper).toMatchInlineSnapshot(`
-            <LoadingScreen
-              position="relative"
-              style={Object {}}
-            />
-        `);
+        expect(wrapper).toMatchInlineSnapshot('<LoadingScreen />');
     });
 
     it('should redirect to mfa when required and not on /mfa/setup', () => {
