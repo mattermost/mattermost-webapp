@@ -839,7 +839,7 @@ describe('components/advanced_create_post', () => {
         };
 
         instance.handleUploadStart(clientIds, currentChannelProp.id);
-        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft);
+        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft, currentChannelProp.id);
     });
 
     it('check for handleFileUploadComplete callback', () => {
@@ -879,7 +879,9 @@ describe('components/advanced_create_post', () => {
         };
 
         instance.handleFileUploadComplete(fileInfos, clientIds, currentChannelProp.id);
-        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft);
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
+        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft, currentChannelProp.id);
     });
 
     it('check for handleUploadError callback', () => {
@@ -908,7 +910,7 @@ describe('components/advanced_create_post', () => {
         instance.draftsForChannel[currentChannelProp.id] = uploadsInProgressDraft;
         instance.handleUploadError('error message', 'a', currentChannelProp.id);
 
-        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp);
+        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp, currentChannelProp.id);
     });
 
     /**
@@ -956,8 +958,10 @@ describe('components/advanced_create_post', () => {
         const instance = wrapper.instance();
         instance.handleFileUploadChange = jest.fn();
         instance.removePreview('a');
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(setDraft).toHaveBeenCalledTimes(1);
-        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp);
+        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp, currentChannelProp.id, false);
         expect(instance.handleFileUploadChange).toHaveBeenCalledTimes(1);
     });
 
@@ -1508,7 +1512,7 @@ describe('components/advanced_create_post', () => {
         };
 
         wrapper.instance().handlePostPasteDraft(testMessage);
-        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft);
+        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft, currentChannelProp.id);
     });
 
     /**
@@ -1638,7 +1642,13 @@ describe('components/advanced_create_post', () => {
     });
 
     it('should match snapshot, post priority enabled, with priority important', () => {
-        const wrapper = shallow(advancedCreatePost({draft: {...draftProp, metadata: {priority: {priority: 'important'}}}}));
+        const wrapper = shallow(advancedCreatePost({isPostPriorityEnabled: true, draft: {...draftProp, metadata: {priority: {priority: 'important'}}}}));
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot, post priority disabled, with priority important', () => {
+        const wrapper = shallow(advancedCreatePost({isPostPriorityEnabled: false, draft: {...draftProp, metadata: {priority: {priority: 'important'}}}}));
 
         expect(wrapper).toMatchSnapshot();
     });

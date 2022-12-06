@@ -37,6 +37,7 @@ describe('ProductNoticesModal', () => {
         currentTeamId: 'currentTeamId',
         socketStatus: {
             connected: true,
+            connectionId: '',
             lastConnectAt: 1599760193593,
             lastDisconnectAt: 0,
         },

@@ -11,6 +11,26 @@ import BotDefaultIcon from 'images/bot_default_icon.png';
 
 export type TAvatarSizeToken = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
+export const getAvatarWidth = (size: TAvatarSizeToken) => {
+    switch (size) {
+    case 'xxs':
+        return 16;
+    case 'xs':
+        return 20;
+    case 'sm':
+        return 24;
+    case 'md':
+        return 32;
+    case 'lg':
+        return 36;
+    case 'xl':
+        return 50;
+    case 'xxl':
+        return 128;
+    }
+    return 0;
+};
+
 type Props = {
     url?: string;
     username?: string;

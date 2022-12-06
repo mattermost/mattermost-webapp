@@ -208,6 +208,9 @@ export default function OpenPricingModalPost(props: {post: Post}) {
         dispatch(openModal({
             modalId: ModalIdentifiers.LEARN_MORE_TRIAL_MODAL,
             dialogType: LearnMoreTrialModal,
+            dialogProps: {
+                launchedBy: 'pricing_modal',
+            },
         }));
     };
 

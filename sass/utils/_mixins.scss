@@ -213,6 +213,13 @@
     }
 }
 
+@mixin button-xsmall {
+    height: 24px;
+    padding: 4px 6px;
+    font-size: 11px;
+    line-height: 16px;
+}
+
 @mixin button-small {
     height: 32px;
     padding: 0 16px;
