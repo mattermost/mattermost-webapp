@@ -717,6 +717,7 @@ export type ExperimentalSettings = {
     EnableSharedChannels: boolean;
     EnableRemoteClusterService: boolean;
     EnableAppBar: boolean;
+    PatchPluginsReactDOM: boolean;
 };
 
 export type AnalyticsSettings = {
