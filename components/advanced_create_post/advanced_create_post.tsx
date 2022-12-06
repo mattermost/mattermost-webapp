@@ -7,7 +7,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import {AlertCircleOutlineIcon, CheckCircleOutlineIcon, CloseIcon} from '@mattermost/compass-icons/components';
+import {AlertCircleOutlineIcon, CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
