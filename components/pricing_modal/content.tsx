@@ -36,6 +36,7 @@ import YearlyMonthlyToggle from 'components/yearly_monthly_toggle';
 import {isAnnualSubscriptionEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
 
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
@@ -93,6 +94,7 @@ function Content(props: ContentProps) {
     const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
         isDelinquencyModal: true,
     });
+    const openDowngradeModal = useOpenDowngradeModal();
     const openPurchaseModal = (callerInfo: string, isMonthlyPlan: boolean) => {
         props.onHide();
         const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
@@ -106,14 +108,19 @@ function Content(props: ContentProps) {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
     };
 
-    const downgrade = async () => {
+    const downgrade = async (callerInfo: string) => {
         if (!starterProduct) {
             return;
         }
 
+        const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
+        openDowngradeModal({trackingLocation: telemetryInfo});
+        dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
+
         const result = await dispatch(subscribeCloudSubscription(starterProduct.id));
 
         if (typeof result === 'boolean' && result) {
+            dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
             dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
             dispatch(
                 openModal({
@@ -122,8 +129,10 @@ function Content(props: ContentProps) {
                 }),
             );
         } else {
+            dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
             dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
             dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
+
             dispatch(
                 openModal({
                     modalId: ModalIdentifiers.ERROR_MODAL,
@@ -254,7 +263,7 @@ function Content(props: ContentProps) {
                                         }),
                                     );
                                 } else {
-                                    downgrade();
+                                    downgrade('click_pricing_modal_free_card_downgrade_button');
                                 }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
@@ -387,7 +396,7 @@ function Content(props: ContentProps) {
                                 {title: formatMessage({id: 'pricing_modal.addons.dedicatedDeployment', defaultMessage: 'Dedicated virtual secure cloud deployment (Cloud)'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.dedicatedK8sCluster', defaultMessage: 'Dedicated Kubernetes cluster'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.dedicatedDB', defaultMessage: 'Dedicated database'})},
-                                {title: formatMessage({id: 'pricing_modal.addons.dedicatedEncryption', defaultMessage: 'Dedicated encryption keys 99%'})},
+                                {title: formatMessage({id: 'pricing_modal.addons.dedicatedEncryption', defaultMessage: 'Dedicated encryption keys'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.uptimeGuarantee', defaultMessage: '99% uptime guarantee'})},
                             ],
                         }}
