@@ -13,6 +13,7 @@ export type ChannelsRequestsStatuses = {
     myChannels: RequestStatusType;
     createChannel: RequestStatusType;
     updateChannel: RequestStatusType;
+    getChannelsAndChannelMembers: RequestStatusType;
 };
 
 export type GeneralRequestsStatuses = {
@@ -62,13 +63,6 @@ export type RolesRequestsStatuses = {
     getRoleByName: RequestStatusType;
     getRole: RequestStatusType;
     editRole: RequestStatusType;
-};
-
-export type JobsRequestsStatuses = {
-    createJob: RequestStatusType;
-    getJob: RequestStatusType;
-    getJobs: RequestStatusType;
-    cancelJob: RequestStatusType;
 };
 
 export type SearchRequestsStatuses = {

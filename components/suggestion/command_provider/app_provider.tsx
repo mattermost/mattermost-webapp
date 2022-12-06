@@ -10,6 +10,8 @@ import globalStore from 'stores/redux_store';
 import Provider from '../provider';
 import {GlobalState} from 'types/store';
 
+import {Constants} from 'utils/constants';
+
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
 import AtMentionSuggestion from '../at_mention_provider/at_mention_suggestion';
@@ -75,16 +77,17 @@ export default class AppCommandProvider extends Provider {
                 switch (suggestion.type) {
                 case COMMAND_SUGGESTION_USER:
                     element.push(AtMentionSuggestion);
-                    return suggestion.item! as UserProfile;
+                    return {...suggestion.item! as UserProfile, type: Constants.Integrations.COMMAND};
                 case COMMAND_SUGGESTION_CHANNEL:
                     element.push(ChannelMentionSuggestion);
-                    return {channel: suggestion.item! as Channel};
+                    return {channel: suggestion.item! as Channel, type: Constants.Integrations.COMMAND};
                 default:
                     element.push(CommandSuggestion);
                     return {
                         ...suggestion,
                         Complete: '/' + suggestion.Complete,
                         Suggestion: '/' + suggestion.Suggestion,
+                        type: Constants.Integrations.COMMAND,
                     };
                 }
             });

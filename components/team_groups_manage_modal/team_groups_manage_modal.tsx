@@ -4,15 +4,13 @@
 import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
-import {Groups} from 'mattermost-redux/constants';
-
 import ConfirmModal from 'components/confirm_modal';
 
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
 import {ModalIdentifiers} from 'utils/constants';
 
-import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
+import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal';
 
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 
@@ -81,7 +79,7 @@ class TeamGroupsManageModal extends React.PureComponent<Props, State> {
     handleDeleteConfirmed = () => {
         this.setState({showConfirmModal: false});
         const {item, listModal} = this.state;
-        this.props.actions.unlinkGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM).then(async () => {
+        this.props.actions.unlinkGroupSyncable(item.id, this.props.team.id, SyncableType.Team).then(async () => {
             if (listModal) {
                 listModal.setState({loading: true});
                 const {items, totalCount} = await listModal.props.loadItems(listModal.state.page, listModal.state.searchTerm);
@@ -95,7 +93,7 @@ class TeamGroupsManageModal extends React.PureComponent<Props, State> {
         this.setState({showConfirmModal: true, item, listModal});
     };
 
-    onClickConfirmRemoveGroup = (item: Group, listModal: ListModal) => this.props.actions.unlinkGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM).then(async () => {
+    onClickConfirmRemoveGroup = (item: Group, listModal: ListModal) => this.props.actions.unlinkGroupSyncable(item.id, this.props.team.id, SyncableType.Team).then(async () => {
         listModal.setState({loading: true});
         const {items, totalCount} = await listModal.props.loadItems(listModal.state.page, listModal.state.searchTerm);
         listModal.setState({loading: false, items, totalCount});
@@ -111,7 +109,7 @@ class TeamGroupsManageModal extends React.PureComponent<Props, State> {
     };
 
     setTeamMemberStatus = async (item: Group, listModal: ListModal, isTeamAdmin: boolean) => {
-        this.props.actions.patchGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM, {scheme_admin: isTeamAdmin}).then(async () => {
+        this.props.actions.patchGroupSyncable(item.id, this.props.team.id, SyncableType.Team, {scheme_admin: isTeamAdmin}).then(async () => {
             listModal.setState({loading: true});
             const {items, totalCount} = await listModal.props.loadItems(listModal.state.page, listModal.state.searchTerm);
 

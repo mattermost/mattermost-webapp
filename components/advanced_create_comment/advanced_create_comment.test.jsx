@@ -22,6 +22,7 @@ describe('components/AdvancedCreateComment', () => {
         window.requestAnimationFrame.mockRestore();
     });
 
+    const currentTeamId = 'current-team-id';
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
     const rootId = '';
     const latestPostId = '3498nv24823948v23m4nv34';
@@ -29,6 +30,7 @@ describe('components/AdvancedCreateComment', () => {
 
     const baseProps = {
         channelId,
+        currentTeamId,
         currentUserId,
         rootId,
         rootDeleted: false,
@@ -52,6 +54,7 @@ describe('components/AdvancedCreateComment', () => {
         onEditLatestPost: jest.fn(),
         resetCreatePostRequest: jest.fn(),
         setShowPreview: jest.fn(),
+        searchAssociatedGroupsForReference: jest.fn(),
         shouldShowPreview: false,
         enableEmojiPicker: true,
         enableGifPicker: true,
@@ -73,12 +76,14 @@ describe('components/AdvancedCreateComment', () => {
         openModal: jest.fn(),
     };
 
+    const emptyDraft = {
+        message: '',
+        uploadsInProgress: [],
+        fileInfos: [],
+    };
+
     test('should match snapshot, empty comment', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
+        const draft = emptyDraft;
         const enableAddButton = false;
         const ctrlSend = true;
         const props = {...baseProps, draft, enableAddButton, ctrlSend};
@@ -113,17 +118,51 @@ describe('components/AdvancedCreateComment', () => {
         expect(onResetHistoryIndex).toHaveBeenCalled();
 
         // should load channel member counts on mount
-        expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
+        expect(getChannelMemberCountsByGroup).not.toHaveBeenCalled();
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should call searchAssociatedGroupsForReference if there is one mention in the draft', () => {
+        const draft = {
+            message: '@group',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+
+        const searchAssociatedGroupsForReference = jest.fn();
+        const props = {...baseProps, draft, searchAssociatedGroupsForReference};
+
+        shallow(<AdvancedCreateComment {...props}/>);
+
+        expect(searchAssociatedGroupsForReference).toHaveBeenCalled();
+    });
+
+    test('should call getChannelMemberCountsByGroup if there is more than one mention in the draft', () => {
+        const draft = {
+            message: '@group @othergroup',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+        const getChannelMemberCountsByGroup = jest.fn();
+        const props = {...baseProps, draft, getChannelMemberCountsByGroup};
+
+        shallow(<AdvancedCreateComment {...props}/>);
+
+        expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
     });
 
     test('should not call getChannelMemberCountsByGroup, without group mentions permission or license', () => {
         const useLDAPGroupMentions = false;
         const useCustomGroupMentions = false;
+        const draft = {
+            message: '@group @othergroup',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
 
         const getChannelMemberCountsByGroup = jest.fn();
-        const props = {...baseProps, useLDAPGroupMentions, useCustomGroupMentions, getChannelMemberCountsByGroup};
+        const props = {...baseProps, useLDAPGroupMentions, useCustomGroupMentions, getChannelMemberCountsByGroup, draft};
 
         shallow(<AdvancedCreateComment {...props}/>);
 
@@ -169,11 +208,7 @@ describe('components/AdvancedCreateComment', () => {
 
     test('should correctly update draft when handleEmojiClick is called', () => {
         const onUpdateCommentDraft = jest.fn();
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
+        const draft = emptyDraft;
         const enableAddButton = false;
         const props = {...baseProps, draft, onUpdateCommentDraft, enableAddButton};
 
@@ -196,6 +231,8 @@ describe('components/AdvancedCreateComment', () => {
         wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()};
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft).toHaveBeenCalled();
 
         // Empty message case
@@ -210,6 +247,7 @@ describe('components/AdvancedCreateComment', () => {
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
         // Message with no space at the end
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
             expect.objectContaining({message: 'test :smile:  '}),
         );
@@ -221,6 +259,7 @@ describe('components/AdvancedCreateComment', () => {
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
         // Message with space at the end
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft.mock.calls[2][0]).toEqual(
             expect.objectContaining({message: 'test  :smile:  '}),
         );
@@ -336,6 +375,8 @@ describe('components/AdvancedCreateComment', () => {
         const uploadCompleteFileInfo = [{id: '3', name: 'ccc', create_at: 300}];
         const expectedNewFileInfos = fileInfos.concat(uploadCompleteFileInfo);
         instance.handleFileUploadComplete(uploadCompleteFileInfo, [3], null, props.rootId);
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(updateCommentDraftWithRootId).toHaveBeenCalled();
         expect(updateCommentDraftWithRootId.mock.calls[0][0]).toEqual(props.rootId);
         expect(updateCommentDraftWithRootId.mock.calls[0][1]).toEqual(
@@ -475,7 +516,7 @@ describe('components/AdvancedCreateComment', () => {
         expect(baseProps.onUpdateCommentDraft).not.toHaveBeenCalled();
 
         jest.runOnlyPendingTimers();
-
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(baseProps.onUpdateCommentDraft).toHaveBeenCalled();
         expect(baseProps.onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({message: testMessage}),
@@ -1051,6 +1092,8 @@ describe('components/AdvancedCreateComment', () => {
         wrapper.setState({draft});
 
         wrapper.instance().removePreview(3);
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft).toHaveBeenCalled();
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({fileInfos: [{id: 1}, {id: 2}]}),
@@ -1058,6 +1101,8 @@ describe('components/AdvancedCreateComment', () => {
         expect(wrapper.state().draft.fileInfos).toEqual([{id: 1}, {id: 2}]);
 
         wrapper.instance().removePreview(5);
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
             expect.objectContaining({uploadsInProgress: [4, 6]}),
         );
@@ -1221,12 +1266,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     test('should the RHS thread scroll to bottom one time after mount when props.draft.message is not empty', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
-
+        const draft = emptyDraft;
         const scrollToBottom = jest.fn();
         const wrapper = shallow(
             <AdvancedCreateComment
@@ -1250,12 +1290,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     test('should the RHS thread scroll to bottom when state.draft.uploadsInProgress increases but not when it decreases', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
-
+        const draft = emptyDraft;
         const scrollToBottom = jest.fn();
         const wrapper = shallow(
             <AdvancedCreateComment
@@ -1278,12 +1313,50 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     it('should be able to format a pasted markdown table', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
+        const draft = emptyDraft;
+        const wrapper = shallow(
+            <AdvancedCreateComment
+                {...baseProps}
+                draft={draft}
+            />,
+        );
+
+        const mockTop = () => {
+            return document.createElement('div');
         };
 
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                getBoundingClientRect: jest.fn(mockTop),
+                focus: jest.fn(),
+            };
+        };
+
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
+
+        const event = {
+            target: {
+                id: 'reply_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
+                    return '<table><tr><th>test</th><th>test</th></tr><tr><td>test</td><td>test</td></tr></table>';
+                },
+            },
+        };
+
+        const markdownTable = '| test | test |\n| --- | --- |\n| test | test |';
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('draft').message).toBe(markdownTable);
+    });
+
+    it('should be able to format a pasted markdown table without headers', () => {
+        const draft = emptyDraft;
         const wrapper = shallow(
             <AdvancedCreateComment
                 {...baseProps}
@@ -1319,19 +1392,57 @@ describe('components/AdvancedCreateComment', () => {
             },
         };
 
-        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
+        const markdownTable = '| test | test |\n| --- | --- |\n| test | test |\n';
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('draft').message).toBe(markdownTable);
     });
 
-    it('should be able to format a github codeblock (pasted as a table)', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
+    it('should be able to format a pasted hyperlink', () => {
+        const draft = emptyDraft;
+        const wrapper = shallow(
+            <AdvancedCreateComment
+                {...baseProps}
+                draft={draft}
+            />,
+        );
+
+        const mockTop = () => {
+            return document.createElement('div');
         };
 
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                getBoundingClientRect: jest.fn(mockTop),
+                focus: jest.fn(),
+            };
+        };
+
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
+
+        const event = {
+            target: {
+                id: 'reply_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
+                    return '<a href="https://test.domain">link text</a>';
+                },
+            },
+        };
+
+        const markdownLink = '[link text](https://test.domain)';
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('draft').message).toBe(markdownLink);
+    });
+
+    it('should be able to format a github codeblock (pasted as a table)', () => {
+        const draft = emptyDraft;
         const wrapper = shallow(
             <AdvancedCreateComment
                 {...baseProps}
@@ -1377,12 +1488,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     it('should be able to format a github codeblock (pasted as a table) with with existing draft post', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
-
+        const draft = emptyDraft;
         const wrapper = shallow(
             <AdvancedCreateComment
                 {...baseProps}

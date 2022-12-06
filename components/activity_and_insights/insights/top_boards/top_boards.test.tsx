@@ -98,7 +98,7 @@ describe('components/activity_and_insights/insights/top_boards', () => {
                                 icon: '📅',
                                 title: 'Test calendar ',
                                 activityCount: 32,
-                                activeUsers: '9qobtrxa93dhfg1fqmhcq5wj4o',
+                                activeUsers: ['9qobtrxa93dhfg1fqmhcq5wj4o'],
                                 createdBy: '9qobtrxa93dhfg1fqmhcq5wj4o',
                             },
                             {
@@ -106,7 +106,7 @@ describe('components/activity_and_insights/insights/top_boards', () => {
                                 icon: '📅',
                                 title: 'Content Calendar ',
                                 activityCount: 24,
-                                activeUsers: '9qobtrxa93dhfg1fqmhcq5wj4o,9x4to68xqiyfzb8dxwfpbqopie',
+                                activeUsers: ['9qobtrxa93dhfg1fqmhcq5wj4o', '9x4to68xqiyfzb8dxwfpbqopie'],
                                 createdBy: '9qobtrxa93dhfg1fqmhcq5wj4o',
                             },
                         ],

@@ -18,8 +18,7 @@ import * as Utils from 'utils/utils';
 
 import Pluggable from 'plugins/pluggable';
 
-import {getCurrentProduct} from 'selectors/products';
-
+import {getCurrentProduct} from 'utils/products';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamButton from 'components/team_sidebar/components/team_button';
 
@@ -39,7 +38,8 @@ export function renderView(props: Props) {
         <div
             {...props}
             className='scrollbar--view'
-        />);
+        />
+    );
 }
 
 export function renderThumbHorizontal(props: Props) {
@@ -47,7 +47,8 @@ export function renderThumbHorizontal(props: Props) {
         <div
             {...props}
             className='scrollbar--horizontal'
-        />);
+        />
+    );
 }
 
 export function renderThumbVertical(props: Props) {
@@ -55,7 +56,8 @@ export function renderThumbVertical(props: Props) {
         <div
             {...props}
             className='scrollbar--vertical'
-        />);
+        />
+    );
 }
 
 export default class TeamSidebar extends React.PureComponent<Props, State> {
@@ -218,6 +220,7 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
                     showOrder={this.state.showOrder}
                     unread={this.props.unreadTeamsSet.has(team.id)}
                     mentions={this.props.mentionsInTeamMap.has(team.id) ? this.props.mentionsInTeamMap.get(team.id) : 0}
+                    hasUrgent={this.props.teamHasUrgentMap.has(team.id) ? this.props.teamHasUrgentMap.get(team.id) : false}
                     teamIconUrl={Utils.imageURLForTeam(team)}
                     switchTeam={(url: string) => this.props.actions.switchTeam(url, currentProduct ? team : undefined)}
                     isDraggable={true}

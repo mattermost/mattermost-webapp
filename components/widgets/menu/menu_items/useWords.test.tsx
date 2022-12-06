@@ -8,9 +8,10 @@ import {Provider} from 'react-redux';
 import {renderWithIntl} from 'tests/react_testing_utils';
 import mockStore from 'tests/test_store';
 
-import {LimitTypes, LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
+import {LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 
 import {FileSizes} from 'utils/file_utils';
+import {LimitTypes} from 'utils/limits';
 
 import useWords from './useWords';
 
@@ -83,6 +84,15 @@ describe('useWords', () => {
             },
         },
         {
+            label: 'shows message history reached',
+            props: asAdmin(mkLimit(LimitTypes.messageHistory, 10000, 10000)),
+            expects: {
+                title: 'Total messages',
+                description: /reached.*message history.*only.*last.*10K.*messages/,
+                status: '10K',
+            },
+        },
+        {
             label: 'shows message history exceeded',
             props: asAdmin(mkLimit(LimitTypes.messageHistory, 11000, 10000)),
             expects: {
@@ -110,39 +120,21 @@ describe('useWords', () => {
             },
         },
         {
+            label: 'shows file storage reached',
+            props: asAdmin(mkLimit(LimitTypes.fileStorage, 10 * FileSizes.Gigabyte, tenGb)),
+            expects: {
+                title: 'File storage limit',
+                description: /reached.*10GB.*limit/,
+                status: '10GB',
+            },
+        },
+        {
             label: 'shows file storage exceeded',
             props: asAdmin(mkLimit(LimitTypes.fileStorage, 11 * FileSizes.Gigabyte, tenGb)),
             expects: {
                 title: 'File storage limit',
                 description: /over.*10GB.*limit/,
                 status: '11GB',
-            },
-        },
-        {
-            label: 'shows integrations warn',
-            props: asAdmin(mkLimit(LimitTypes.enabledIntegrations, 3, 5)),
-            expects: {
-                title: 'Integrations limit',
-                description: /closer.*5.*enabled/,
-                status: '3',
-            },
-        },
-        {
-            label: 'shows integrations critical',
-            props: asAdmin(mkLimit(LimitTypes.enabledIntegrations, 4, 5)),
-            expects: {
-                title: 'Integrations limit',
-                description: /closer.*5.*enabled/,
-                status: '4',
-            },
-        },
-        {
-            label: 'shows integrations exceeded',
-            props: asAdmin(mkLimit(LimitTypes.enabledIntegrations, 6, 5)),
-            expects: {
-                title: 'Integrations limit',
-                description: /reached.*5.*enabled.*can’t enable additional/,
-                status: '6',
             },
         },
         {
@@ -164,7 +156,16 @@ describe('useWords', () => {
             },
         },
         {
-            label: 'shows boards critical',
+            label: 'shows boards exceeded',
+            props: asAdmin(mkLimit(LimitTypes.boardsCards, 500, 500)),
+            expects: {
+                title: 'Board card limit',
+                description: /reached the.*500.*board card limit/,
+                status: '500',
+            },
+        },
+        {
+            label: 'shows boards exceeded',
             props: asAdmin(mkLimit(LimitTypes.boardsCards, 501, 500)),
             expects: {
                 title: 'Board card limit',

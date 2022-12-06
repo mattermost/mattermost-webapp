@@ -1,12 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useIntl} from 'react-intl';
 
 import Icon from '@mattermost/compass-components/foundations/icon';
 
-import {UserProfile} from '@mattermost/types/users';
 import {Permissions} from 'mattermost-redux/constants';
 
 import AboutBuildModal from 'components/about_build_modal';
@@ -24,6 +23,8 @@ import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 
 import {ModalData} from 'types/actions';
+
+import {UserProfile} from '@mattermost/types/users';
 
 import './product_menu_list.scss';
 
@@ -50,6 +51,7 @@ export type Props = {
     enableCustomUserGroups?: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
+        getPrevTrialLicense: () => void;
     };
 };
 
@@ -77,6 +79,10 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
         enableCustomUserGroups,
     } = props;
     const {formatMessage} = useIntl();
+
+    useEffect(() => {
+        props.actions.getPrevTrialLicense();
+    }, []);
 
     if (!currentUser) {
         return null;

@@ -1,9 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Limits, Subscription, Product, CloudCustomer} from '@mattermost/types/cloud';
+import {
+    Limits,
+    Subscription,
+    Product,
+    CloudCustomer,
+    CloudState,
+    SelfHostedSignupProgress,
+} from '@mattermost/types/cloud';
 import {GlobalState} from '@mattermost/types/store';
-import {LegacyFreeProductIds} from 'utils/constants';
+import {ValueOf} from '@mattermost/types/utilities';
 
 import {getLicense} from './general';
 
@@ -14,7 +21,6 @@ export function getCloudLimits(state: GlobalState): Limits {
 export function getCloudSubscription(state: GlobalState): Subscription | undefined {
     return state.entities.cloud.subscription;
 }
-
 export function getCloudCustomer(state: GlobalState): CloudCustomer | undefined {
     return state.entities.cloud.customer;
 }
@@ -25,6 +31,14 @@ export function getCloudProducts(state: GlobalState): Record<string, Product> | 
 
 export function getCloudLimitsLoaded(state: GlobalState): boolean {
     return state.entities.cloud.limits.limitsLoaded;
+}
+
+export function getCloudErrors(state: GlobalState): CloudState['errors'] {
+    return state.entities.cloud.errors;
+}
+
+export function getCloudInvoices(state: GlobalState): CloudState['invoices'] {
+    return state.entities.cloud.invoices;
 }
 
 export function getSubscriptionProduct(state: GlobalState): Product | undefined {
@@ -40,8 +54,8 @@ export function getSubscriptionProduct(state: GlobalState): Product | undefined 
     return products[subscription.product_id];
 }
 
-export function checkSubscriptionIsLegacyFree(state: GlobalState): boolean {
-    return Boolean(LegacyFreeProductIds[getCloudSubscription(state)?.product_id || '']);
+export function getSubscriptionProductName(state: GlobalState): string {
+    return getSubscriptionProduct(state)?.name || '';
 }
 
 export function checkHadPriorTrial(state: GlobalState): boolean {
@@ -52,4 +66,8 @@ export function checkHadPriorTrial(state: GlobalState): boolean {
 export function isCurrentLicenseCloud(state: GlobalState): boolean {
     const license = getLicense(state);
     return license?.Cloud === 'true';
+}
+
+export function getSelfHostedSignupProgress(state: GlobalState): ValueOf<typeof SelfHostedSignupProgress> {
+    return state.entities.cloud.selfHostedSignup.progress;
 }

@@ -4,9 +4,7 @@
 import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
-import Groups from 'mattermost-redux/constants/groups';
-
-import {Group} from '@mattermost/types/groups';
+import {Group, SyncableType} from '@mattermost/types/groups';
 
 import {Channel} from '@mattermost/types/channels';
 
@@ -14,7 +12,7 @@ import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 
 import {ModalIdentifiers} from 'utils/constants';
 
-import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
+import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal';
 
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 
@@ -49,7 +47,7 @@ class ChannelGroupsManageModal extends React.PureComponent<Props> {
         };
     };
 
-    public onClickRemoveGroup = (item: Group, listModal: any) => this.props.actions.unlinkGroupSyncable(item.id, this.props.channel.id, Groups.SYNCABLE_TYPE_CHANNEL).then(async () => {
+    public onClickRemoveGroup = (item: Group, listModal: any) => this.props.actions.unlinkGroupSyncable(item.id, this.props.channel.id, SyncableType.Channel).then(async () => {
         listModal.setState({loading: true});
         const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
         listModal.setState({loading: false, items, totalCount});
@@ -65,7 +63,7 @@ class ChannelGroupsManageModal extends React.PureComponent<Props> {
     };
 
     public setChannelMemberStatus = async (item: Group, listModal: any, isChannelAdmin: boolean) => {
-        this.props.actions.patchGroupSyncable(item.id, this.props.channel.id, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: isChannelAdmin}).then(async () => {
+        this.props.actions.patchGroupSyncable(item.id, this.props.channel.id, SyncableType.Channel, {scheme_admin: isChannelAdmin}).then(async () => {
             listModal.setState({loading: true});
             const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
             await this.props.actions.getMyChannelMember(this.props.channel.id);

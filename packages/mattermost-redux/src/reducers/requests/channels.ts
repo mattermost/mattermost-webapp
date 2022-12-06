@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {combineReducers} from 'redux';
 
-import {ChannelTypes} from 'mattermost-redux/action_types';
-
-import {GenericAction} from 'mattermost-redux/types/actions';
 import {ChannelsRequestsStatuses, RequestStatusType} from '@mattermost/types/requests';
+
+import {ChannelTypes} from 'mattermost-redux/action_types';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {handleRequest, initialRequestState} from './helpers';
 
@@ -59,10 +60,21 @@ function getAllChannels(state: RequestStatusType = initialRequestState(), action
     );
 }
 
+function getChannelsAndChannelMembers(state: RequestStatusType = initialRequestState(), action: GenericAction): RequestStatusType {
+    return handleRequest(
+        ChannelTypes.GET_CHANNELS_AND_CHANNEL_MEMBERS_REQUEST,
+        ChannelTypes.GET_CHANNELS_AND_CHANNEL_MEMBERS_SUCCESS,
+        ChannelTypes.GET_CHANNELS_AND_CHANNEL_MEMBERS_FAILURE,
+        state,
+        action,
+    );
+}
+
 export default (combineReducers({
     getChannels,
     getAllChannels,
     myChannels,
     createChannel,
     updateChannel,
+    getChannelsAndChannelMembers,
 }) as (b: ChannelsRequestsStatuses, a: GenericAction) => ChannelsRequestsStatuses);

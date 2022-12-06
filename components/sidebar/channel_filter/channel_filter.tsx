@@ -4,12 +4,17 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import {injectIntl, IntlShape} from 'react-intl';
+
 import {trackEvent} from 'actions/telemetry_actions';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import {localizeMessage} from 'utils/utils';
+import * as Utils from 'utils/utils';
+import Constants from 'utils/constants';
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 type Props = {
+    intl: IntlShape;
     hasMultipleTeams: boolean;
     unreadFilterEnabled: boolean;
     actions: {
@@ -17,14 +22,30 @@ type Props = {
     };
 };
 
-type State = {
+export class ChannelFilter extends React.PureComponent<Props> {
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleUnreadFilterKeyPress);
+    }
 
-};
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleUnreadFilterKeyPress);
+    }
 
-export default class ChannelFilter extends React.PureComponent<Props, State> {
-    toggleUnreadFilter = (e?: React.MouseEvent) => {
+    handleUnreadFilterClick = (e?: React.MouseEvent) => {
         e?.preventDefault();
+        e?.stopPropagation();
+        this.toggleUnreadFilter();
+    }
 
+    handleUnreadFilterKeyPress = (e: KeyboardEvent) => {
+        if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.U)) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.toggleUnreadFilter();
+        }
+    }
+
+    toggleUnreadFilter = () => {
         const {unreadFilterEnabled} = this.props;
 
         if (unreadFilterEnabled) {
@@ -37,13 +58,15 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {unreadFilterEnabled, hasMultipleTeams} = this.props;
+        const {intl, unreadFilterEnabled, hasMultipleTeams} = this.props;
 
-        let tooltipMessage = localizeMessage('sidebar_left.channel_filter.filterByUnread', 'Filter by unread');
+        let tooltipMessage = intl.formatMessage({id: 'sidebar_left.channel_filter.filterByUnread', defaultMessage: 'Filter by unread'});
 
         if (unreadFilterEnabled) {
-            tooltipMessage = localizeMessage('sidebar_left.channel_filter.showAllChannels', 'Show all channels');
+            tooltipMessage = intl.formatMessage({id: 'sidebar_left.channel_filter.showAllChannels', defaultMessage: 'Show all channels'});
         }
+
+        const unreadsAriaLabel = intl.formatMessage({id: 'sidebar_left.channel_filter.filterUnreadAria', defaultMessage: 'unreads filter'});
 
         const tooltip = (
             <Tooltip
@@ -51,6 +74,11 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
                 className='hidden-xs'
             >
                 {tooltipMessage}
+                <KeyboardShortcutSequence
+                    shortcut={KEYBOARD_SHORTCUTS.navToggleUnreads}
+                    hideDescription={true}
+                    isInsideTooltip={true}
+                />
             </Tooltip>
         );
 
@@ -67,7 +95,7 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
                             active: unreadFilterEnabled,
                         })}
                         onClick={this.toggleUnreadFilter}
-                        aria-label={tooltipMessage}
+                        aria-label={unreadsAriaLabel}
                     >
                         <i className='icon icon-filter-variant'/>
                     </a>
@@ -76,3 +104,5 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
         );
     }
 }
+
+export default injectIntl(ChannelFilter);

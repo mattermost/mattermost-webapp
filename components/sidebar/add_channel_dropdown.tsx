@@ -10,7 +10,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import {CreateAndJoinChannelsTour, InvitePeopleTour} from 'components/onboarding_tour';
+import {CreateAndJoinChannelsTour, InvitePeopleTour} from 'components/tours/onboarding_tour';
 
 type Props = {
     canCreateChannel: boolean;
@@ -101,7 +101,7 @@ const AddChannelDropdown = ({
 
         const createDirectMessage = (
             <Menu.ItemAction
-                id={'browseDirectMessages'}
+                id={'openDirectMessageMenuItem'}
                 onClick={handleOpenDirectMessagesModal}
                 icon={<i className='icon-account-outline'/>}
                 text={intl.formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}

@@ -6,11 +6,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AccountMultipleOutlineIcon, ChartBarIcon, CogOutlineIcon, CreditCardOutlineIcon, FlaskOutlineIcon, FormatListBulletedIcon, InformationOutlineIcon, PowerPlugOutlineIcon, ServerVariantIcon, ShieldOutlineIcon, SitemapIcon} from '@mattermost/compass-icons/components';
+import {AccountMultipleOutlineIcon, ChartBarIcon, CogOutlineIcon, CreditCardOutlineIcon, FlaskOutlineIcon, FormatListBulletedIcon, InformationOutlineIcon, PowerPlugOutlineIcon, ServerVariantIcon, ShieldOutlineIcon, SitemapIcon, ProductsIcon} from '@mattermost/compass-icons/components';
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
-import {Constants, LegacyFreeProductIds, CloudProducts, LicenseSkus} from 'utils/constants';
+import {Constants, CloudProducts, LicenseSkus} from 'utils/constants';
 import {isCloudFreePlan} from 'utils/cloud_utils';
 import {isCloudLicense} from 'utils/license_utils';
 import {getSiteURL} from 'utils/url';
@@ -76,7 +76,6 @@ import WorkspaceOptimizationDashboard from './workspace-optimization/dashboard';
 import {
     LDAPFeatureDiscovery,
     SAMLFeatureDiscovery,
-    OpenIDFeatureDiscovery,
     AnnouncementBannerFeatureDiscovery,
     ComplianceExportFeatureDiscovery,
     CustomTermsOfServiceFeatureDiscovery,
@@ -209,8 +208,7 @@ export const it = {
         const limits = cloud?.limits;
         const subscriptionProduct = cloud?.products?.[productId];
         const isCloudFreeProduct = isCloudFreePlan(subscriptionProduct, limits);
-        const isLegacyFreeUnpaid = Boolean(LegacyFreeProductIds[productId]) && !cloud.subscription?.is_legacy_cloud_paid_tier;
-        return isLegacyFreeUnpaid || cloud?.subscription?.is_free_trial === 'true' || isCloudFreeProduct;
+        return cloud?.subscription?.is_free_trial === 'true' || isCloudFreeProduct;
     },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasReadPermissionOnSomeResources: (key) => Object.values(key).some((resource) => it.userHasReadPermissionOnResource(resource)),
@@ -252,14 +250,15 @@ const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess,
     )(config, state, license, enterpriseReady, consoleAccess, cloud);
 };
 
-const getRestrictedIndicator = (displayBlocked = false) => ({
+const getRestrictedIndicator = (displayBlocked = false, minimumPlanRequiredForFeature = LicenseSkus.Professional) => ({
     value: (cloud) => (
         <RestrictedIndicator
             useModal={false}
             blocked={displayBlocked || !(cloud?.subscription?.is_free_trial === 'true')}
+            minimumPlanRequiredForFeature={minimumPlanRequiredForFeature}
             tooltipMessageBlocked={{
                 id: t('admin.sidebar.restricted_indicator.tooltip.message.blocked'),
-                defaultMessage: 'This is a professional feature, available with an upgrade or free {trialLength}-day trial',
+                defaultMessage: 'This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial',
             }}
         />
     ),
@@ -315,7 +314,6 @@ const AdminDefinition = {
         sectionTitleDefault: 'Billing & Account',
         isHidden: it.any(
             it.not(it.licensedForFeature('Cloud')),
-            it.configIsFalse('ExperimentalSettings', 'CloudBilling'),
             it.not(it.userHasReadPermissionOnResource('billing')),
         ),
         subscription: {
@@ -561,7 +559,7 @@ const AdminDefinition = {
                     },
                 ],
             },
-            restrictedIndicator: getRestrictedIndicator(true),
+            restrictedIndicator: getRestrictedIndicator(true, LicenseSkus.Enterprise),
         },
         team_detail: {
             url: 'user_management/teams/:team_id',
@@ -699,7 +697,7 @@ const AdminDefinition = {
                     },
                 ],
             },
-            restrictedIndicator: getRestrictedIndicator(true),
+            restrictedIndicator: getRestrictedIndicator(true, LicenseSkus.Enterprise),
         },
     },
     environment: {
@@ -919,7 +917,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/install/desktop-managed-resources.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -1131,7 +1128,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://www.mattermost.com/file-content-extraction'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -1208,7 +1204,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -1275,7 +1270,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/configure/configuration-settings.html#session-lengths'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -1352,7 +1346,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/deploy/image-proxy.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -1834,7 +1827,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://mattermost.com/privacy-policy/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -1911,7 +1903,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/deployment/metrics.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -1989,7 +1980,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://mattermost.com/pl/default-allow-untrusted-internal-connections'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -2208,7 +2198,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='http://translate.mattermost.com/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -2327,6 +2316,7 @@ const AdminDefinition = {
                         help_text: t('admin.viewArchivedChannelsHelpText'),
                         help_text_default: 'When true, allows users to view, share and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2353,6 +2343,15 @@ const AdminDefinition = {
                         label_default: 'Enable Custom Statuses: ',
                         help_text: t('admin.team.customUserStatusesDescription'),
                         help_text_default: 'When true, users can set a descriptive status message and status emoji visible to all users.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'TeamSettings.EnableLastActiveTime',
+                        label: t('admin.team.lastActiveTimeTitle'),
+                        label_default: 'Enable last active time: ',
+                        help_text: t('admin.team.lastActiveTimeDescription'),
+                        help_text_default: 'When enabled, last active time allows users to see when someone was last online.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
                     },
                     {
@@ -2398,6 +2397,7 @@ const AdminDefinition = {
                         help_text: t('admin.environment.notifications.enable.help'),
                         help_text_default: 'Typically set to true in production. When true, Mattermost attempts to send email notifications. When false, email invitations and user account setting change emails are still sent as long as the SMTP server is configured. Developers may set this field to false to skip email setup for faster development.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2410,6 +2410,7 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                             it.stateIsTrue('EmailSettings.SendEmailNotifications'),
                         ),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2424,6 +2425,7 @@ const AdminDefinition = {
                             it.configIsTrue('ClusterSettings', 'Enable'),
                             it.configIsFalse('ServiceSettings', 'SiteURL'),
                         ),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -2740,7 +2742,6 @@ const AdminDefinition = {
                             linkKnownIssues: (msg) => (
                                 <a
                                     href='ttps://support.mattermost.com/hc/en-us/articles/4413183568276'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -2750,7 +2751,6 @@ const AdminDefinition = {
                             linkCommunityChannel: (msg) => (
                                 <a
                                     href='https://community-daily.mattermost.com/core/channels/folded-reply-threads'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -2795,7 +2795,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://mattermost.com/pl/message-priority/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -2841,7 +2840,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/messaging/sharing-messages.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -2881,7 +2879,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/messaging/formatting-text.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -2914,7 +2911,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://www.youtube.com/watch?v=Im69kzhpR3I'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -2926,6 +2922,21 @@ const AdminDefinition = {
                         isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.AllowSyncedDrafts',
+                        label: t('admin.customization.allowSyncedDrafts'),
+                        label_default: 'Enable server syncing of message drafts:',
+                        help_text: t('admin.customization.allowSyncedDraftsDesc'),
+                        help_text_default: 'When enabled, users message drafts will sync with the server so they can be accessed from any device. Users may opt out of this behaviour in Account settings.',
+                        help_text_markdown: false,
+                        isHidden: it.any(
+                            it.configIsFalse('FeatureFlags', 'GlobalDrafts'),
+                        ),
+                        isDisabled: it.any(
+                            it.configIsFalse('FeatureFlags', 'GlobalDrafts'),
+                        ),
+                    },
                 ],
             },
         },
@@ -2934,7 +2945,6 @@ const AdminDefinition = {
             title: t('admin.sidebar.fileSharingDownloads'),
             title_default: 'File Sharing and Downloads',
             isHidden: it.any(
-                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.SITE.FILE_SHARING_AND_DOWNLOADS)),
             ),
             schema: {
@@ -3029,7 +3039,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/manage/in-product-notices.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -3051,7 +3060,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/manage/in-product-notices.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -3140,6 +3148,7 @@ const AdminDefinition = {
                         help_text: t('admin.team.emailInvitationsDescription'),
                         help_text_default: 'When true users can invite others to the system using email.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
@@ -3185,6 +3194,7 @@ const AdminDefinition = {
                         help_text: t('admin.email.requireVerificationDescription'),
                         help_text_default: 'Typically set to true in production. When true, Mattermost requires email verification after account creation prior to allowing login. Developers may set this field to false to skip sending verification emails for faster development.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.EMAIL)),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3251,7 +3261,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/deployment/auth.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -3282,7 +3291,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/deployment/auth.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -3636,7 +3644,6 @@ const AdminDefinition = {
                                     link: (msg) => (
                                         <a
                                             href='https://docs.mattermost.com/manage/command-line-tools.html#mattermost-ldap-idmigrate'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -3903,7 +3910,6 @@ const AdminDefinition = {
                                     link: (msg) => (
                                         <a
                                             href='https://mattermost.com/default-ldap-docs'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -3942,7 +3948,6 @@ const AdminDefinition = {
                                     link: (msg) => (
                                         <a
                                             href='https://mattermost.com/default-ldap-docs'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -4127,7 +4132,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='http://docs.mattermost.com/deployment/sso-saml.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -4148,7 +4152,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/onboard/ad-ldap.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -4188,7 +4191,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/deployment/sso-saml-ldapsync.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -4792,24 +4794,8 @@ const AdminDefinition = {
             url: 'authentication/oauth',
             title: t('admin.sidebar.oauth'),
             title_default: 'OAuth 2.0',
-            tag: {
-                value: (
-                    <FormattedMessage
-                        id='admin.sidebar.oauth.tag'
-                        defaultMessage='deprecated'
-                    />
-                ),
-                shouldDisplay: (license) => license.IsLicensed && license.OpenId === 'true',
-            },
             isHidden: it.any(
-                it.any(
-                    it.not(it.licensed),
-                    it.licensedForSku('starter'),
-                ),
-                it.all(
-                    it.licensedForFeature('OpenId'),
-                    it.not(usesLegacyOauth),
-                ),
+                it.not(usesLegacyOauth),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
             ),
             schema: {
@@ -4862,10 +4848,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: OpenIdConvert,
                         key: 'OpenIdConvert',
-                        isHidden: it.any(
-                            it.not(it.licensedForFeature('OpenId')),
-                            it.not(usesLegacyOauth),
-                        ),
+                        isHidden: it.not(usesLegacyOauth),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
@@ -4891,81 +4874,77 @@ const AdminDefinition = {
                                 value: Constants.GOOGLE_SERVICE,
                                 display_name: t('admin.oauth.google'),
                                 display_name_default: 'Google Apps',
-                                isHidden: it.not(it.licensedForFeature('GoogleOAuth')),
                                 help_text: t('admin.google.EnableMarkdownDesc'),
                                 help_text_default: '1. <linkLogin>Log in</linkLogin> to your Google account.\n2. Go to <linkConsole>https://console.developers.google.com</linkConsole>, click <strong>Credentials</strong> in the left hand sidebar and enter "Mattermost - your-company-name" as the <strong>Project Name</strong>, then click <strong>Create</strong>.\n3. Click the <strong>OAuth consent screen</strong> header and enter "Mattermost" as the <strong>Product name shown to users</strong>, then click <strong>Save</strong>.\n4. Under the <strong>Credentials</strong> header, click <strong>Create credentials</strong>, choose <strong>OAuth client ID</strong> and select <strong>Web Application</strong>.\n5. Under <strong>Restrictions</strong> and <strong>Authorized redirect URIs</strong> enter <strong>your-mattermost-url/signup/google/complete</strong> (example: http://localhost:8065/signup/google/complete). Click <strong>Create</strong>.\n6. Paste the <strong>Client ID</strong> and <strong>Client Secret</strong> to the fields below, then click <strong>Save</strong>.\n7. Go to the <linkAPI>Google People API</linkAPI> and click <strong>Enable</strong>.',
                                 help_text_markdown: false,
-                                linkLogin: (msg) => (
-                                    <a
-                                        href='https://accounts.google.com/login'
-                                        referrer='noreferrer'
-                                        target='_blank'
-                                        rel='noreferrer'
-                                    >
-                                        {msg}
-                                    </a>
-                                ),
-                                linkConsole: (msg) => (
-                                    <a
-                                        href='https://console.developers.google.com'
-                                        referrer='noreferrer'
-                                        target='_blank'
-                                        rel='noreferrer'
-                                    >
-                                        {msg}
-                                    </a>
-                                ),
-                                linkAPI: (msg) => (
-                                    <a
-                                        href='https://console.developers.google.com/apis/library/people.googleapis.com'
-                                        referrer='noreferrer'
-                                        target='_blank'
-                                        rel='noreferrer'
-                                    >
-                                        {msg}
-                                    </a>
-                                ),
-                                strong: (msg) => <strong>{msg}</strong>,
+                                help_text_values: {
+                                    linkLogin: (msg) => (
+                                        <a
+                                            href='https://accounts.google.com/login'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                    linkConsole: (msg) => (
+                                        <a
+                                            href='https://console.developers.google.com'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                    linkAPI: (msg) => (
+                                        <a
+                                            href='https://console.developers.google.com/apis/library/people.googleapis.com'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                    strong: (msg) => <strong>{msg}</strong>,
+                                },
                             },
                             {
                                 value: Constants.OFFICE365_SERVICE,
                                 display_name: t('admin.oauth.office365'),
                                 display_name_default: 'Office 365',
-                                isHidden: it.not(it.licensedForFeature('Office365OAuth')),
                                 help_text: t('admin.office365.EnableMarkdownDesc'),
                                 help_text_default: '1. <linkLogin>Log in</linkLogin> to your Microsoft or Office 365 account. Make sure it`s the account on the same <linkTenant>tenant</linkTenant> that you would like users to log in with.\n2. Go to <linkApps>https://apps.dev.microsoft.com</linkApps>, click <strong>Go to app list</strong> > <strong>Add an app</strong> and use "Mattermost - your-company-name" as the <strong>Application Name</strong>.\n3. Under <strong>Application Secrets</strong>, click <strong>Generate New Password</strong> and paste it to the <strong>Application Secret Password<strong> field below.\n4. Under <strong>Platforms</strong>, click <strong>Add Platform</strong>, choose <strong>Web</strong> and enter <strong>your-mattermost-url/signup/office365/complete</strong> (example: http://localhost:8065/signup/office365/complete) under <strong>Redirect URIs</strong>. Also uncheck <strong>Allow Implicit Flow</strong>.\n5. Finally, click <strong>Save</strong> and then paste the <strong>Application ID</strong> below.',
                                 help_text_markdown: false,
-                                linkLogin: (msg) => (
-                                    <a
-                                        href='https://login.microsoftonline.com/'
-                                        referrer='noreferrer'
-                                        target='_blank'
-                                        rel='noreferrer'
-                                    >
-                                        {msg}
-                                    </a>
-                                ),
-                                linkTenant: (msg) => (
-                                    <a
-                                        href='https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0'
-                                        referrer='noreferrer'
-                                        target='_blank'
-                                        rel='noreferrer'
-                                    >
-                                        {msg}
-                                    </a>
-                                ),
-                                linkApps: (msg) => (
-                                    <a
-                                        href='https://apps.dev.microsoft.com'
-                                        referrer='noreferrer'
-                                        target='_blank'
-                                        rel='noreferrer'
-                                    >
-                                        {msg}
-                                    </a>
-                                ),
-                                strong: (msg) => <strong>{msg}</strong>,
+                                help_text_values: {
+                                    linkLogin: (msg) => (
+                                        <a
+                                            href='https://login.microsoftonline.com/'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                    linkTenant: (msg) => (
+                                        <a
+                                            href='https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                    linkApps: (msg) => (
+                                        <a
+                                            href='https://apps.dev.microsoft.com'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                    strong: (msg) => <strong>{msg}</strong>,
+                                },
                             },
                         ],
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
@@ -5179,10 +5158,7 @@ const AdminDefinition = {
             url: 'authentication/openid',
             title: t('admin.sidebar.openid'),
             title_default: 'OpenID Connect',
-            isHidden: it.any(
-                it.not(it.licensedForFeature('OpenId')),
-                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
-            ),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
             schema: {
                 id: 'OpenIdSettings',
                 name: t('admin.authentication.openid'),
@@ -5283,7 +5259,6 @@ const AdminDefinition = {
                                     linkLogin: (msg) => (
                                         <a
                                             href='https://accounts.google.com/login'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -5293,7 +5268,6 @@ const AdminDefinition = {
                                     linkConsole: (msg) => (
                                         <a
                                             href='https://console.developers.google.com'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -5303,7 +5277,6 @@ const AdminDefinition = {
                                     linkAPI: (msg) => (
                                         <a
                                             href='https://console.developers.google.com/apis/library/people.googleapis.com'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -5320,38 +5293,36 @@ const AdminDefinition = {
                                 help_text: t('admin.office365.EnableMarkdownDesc'),
                                 help_text_default: '1. <linkLogin>Log in</linkLogin> to your Microsoft or Office 365 account. Make sure it`s the account on the same <linkTenant>tenant</linkTenant> that you would like users to log in with.\n2. Go to <linkApps>https://apps.dev.microsoft.com</linkApps>, click <strong>Go to Azure Portal</strong> > click <strong>New Registration</strong>.\n3. Use "Mattermost - your-company-name" as the <strong>Application Name</strong>, click <strong>Registration</strong>, paste <strong>Client ID</strong> and <strong>Tenant ID</strong> below.\n4. Click <strong>Authentication</strong>, under <strong>Platforms</strong>, click <strong>Add Platform</strong>, choose <strong>Web</strong> and enter <strong>your-mattermost-url/signup/office365/complete</strong> (example: http://localhost:8065/signup/office365/complete) under <strong>Redirect URIs</strong>. Also uncheck <strong>Allow Implicit Flow</strong>.\n5. Click <strong>Certificates & secrets</strong>, Generate <strong>New client secret</strong> and paste secret value in <strong>Client Secret</strong> field below.',
                                 help_text_markdown: false,
-                                linkLogin: (msg) => (
-                                    <a
-                                        href='https://login.microsoftonline.com/'
-                                        referrer='noreferrer'
-                                        target='_blank'
-                                        rel='noreferrer'
-                                    >
-                                        {msg}
-                                    </a>
-                                ),
-                                linkTenant: (msg) => (
-                                    <a
-                                        href='https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0'
-                                        referrer='noreferrer'
-                                        target='_blank'
-                                        rel='noreferrer'
-                                    >
-                                        {msg}
-                                    </a>
-                                ),
-                                linkApps: (msg) => (
-                                    <a
-                                        href='https://apps.dev.microsoft.com'
-                                        referrer='noreferrer'
-                                        target='_blank'
-                                        rel='noreferrer'
-                                    >
-                                        {msg}
-                                    </a>
-                                ),
-                                strong: (msg) => <strong>{msg}</strong>,
-
+                                help_text_values: {
+                                    linkLogin: (msg) => (
+                                        <a
+                                            href='https://login.microsoftonline.com/'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                    linkTenant: (msg) => (
+                                        <a
+                                            href='https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                    linkApps: (msg) => (
+                                        <a
+                                            href='https://apps.dev.microsoft.com'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                    strong: (msg) => <strong>{msg}</strong>,
+                                },
                             },
                             {
                                 value: Constants.OPENID_SERVICE,
@@ -5571,30 +5542,6 @@ const AdminDefinition = {
             },
             restrictedIndicator: getRestrictedIndicator(),
         },
-        openid_feature_discovery: {
-            url: 'authentication/openid',
-            isDiscovery: true,
-            title: t('admin.sidebar.openid'),
-            title_default: 'OpenID Connect',
-            isHidden: it.any(
-                it.licensedForFeature('OpenId'),
-                it.not(it.enterpriseReady),
-            ),
-            schema: {
-                id: 'OpenIdSettings',
-                name: t('admin.authentication.openid'),
-                name_default: 'OpenID Connect',
-                settings: [
-                    {
-                        type: Constants.SettingsTypes.TYPE_CUSTOM,
-                        component: OpenIDFeatureDiscovery,
-                        key: 'OpenIDFeatureDiscovery',
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
-                    },
-                ],
-            },
-            restrictedIndicator: getRestrictedIndicator(true),
-        },
         guest_access: {
             url: 'authentication/guest_access',
             title: t('admin.sidebar.guest_access'),
@@ -5662,7 +5609,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/deployment/auth.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -5755,6 +5701,43 @@ const AdminDefinition = {
             },
         },
     },
+    products: {
+        icon: (
+            <ProductsIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
+        sectionTitle: t('admin.sidebar.products'),
+        sectionTitleDefault: 'Products',
+        isHidden: it.any(
+            it.configIsFalse('FeatureFlags', 'BoardsProduct'),
+            it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.PRODUCTS)),
+        ),
+        boards: {
+            url: 'products/boards',
+            title: t('admin.sidebar.boards'),
+            title_default: 'Boards',
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.PRODUCTS.BOARDS)),
+            schema: {
+                id: 'BoardsSettings',
+                name: t('admin.site.boards'),
+                name_default: 'Boards',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ProductSettings.EnablePublicSharedBoards',
+                        label: t('admin.customization.enablePublicSharedBoardsTitle'),
+                        label_default: 'Enable Public Shared Boards:',
+                        help_text: t('admin.customization.enablePublicSharedBoardsDesc'),
+                        help_text_default: 'This allows board editors to share boards that can be accessed by anyone with the link.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.PRODUCTS.BOARDS)),
+                    },
+                ],
+            },
+        },
+    },
     integrations: {
         icon: (
             <SitemapIcon
@@ -5790,7 +5773,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -5812,7 +5794,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -5834,7 +5815,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -5856,7 +5836,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -5866,6 +5845,7 @@ const AdminDefinition = {
                         },
                         help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5896,7 +5876,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -5936,7 +5915,6 @@ const AdminDefinition = {
                             linkDocumentation: (msg) => (
                                 <a
                                     href='https://mattermost.com/pl/default-bot-accounts'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -6000,7 +5978,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://developers.gfycat.com/signup/#'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -6177,7 +6154,7 @@ const AdminDefinition = {
                     },
                 ],
             },
-            restrictedIndicator: getRestrictedIndicator(true),
+            restrictedIndicator: getRestrictedIndicator(true, LicenseSkus.Enterprise),
         },
         message_export: {
             url: 'compliance/export',
@@ -6234,7 +6211,7 @@ const AdminDefinition = {
                     },
                 ],
             },
-            restrictedIndicator: getRestrictedIndicator(true),
+            restrictedIndicator: getRestrictedIndicator(true, LicenseSkus.Enterprise),
         },
         audits: {
             url: 'compliance/monitoring',
@@ -6276,7 +6253,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/administration/compliance.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -6366,7 +6342,7 @@ const AdminDefinition = {
                     },
                 ],
             },
-            restrictedIndicator: getRestrictedIndicator(true),
+            restrictedIndicator: getRestrictedIndicator(true, LicenseSkus.Enterprise),
         },
     },
     experimental: {
@@ -6544,7 +6520,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/deployment/certificate-based-authentication.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -6607,7 +6582,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -6769,7 +6743,6 @@ const AdminDefinition = {
                             linkSupport: (msg) => (
                                 <a
                                     href='https://mattermost.com/support'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >

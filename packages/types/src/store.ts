@@ -17,9 +17,8 @@ import {PreferenceType} from './preferences';
 import {
     AdminRequestsStatuses, ChannelsRequestsStatuses,
     FilesRequestsStatuses, GeneralRequestsStatuses,
-    JobsRequestsStatuses, PostsRequestsStatuses,
-    RolesRequestsStatuses, TeamsRequestsStatuses,
-    UsersRequestsStatuses,
+    PostsRequestsStatuses, RolesRequestsStatuses,
+    TeamsRequestsStatuses, UsersRequestsStatuses,
 } from './requests';
 import {Role} from './roles';
 import {SchemesState} from './schemes';
@@ -80,11 +79,11 @@ export type GlobalState = {
         admin: AdminRequestsStatuses;
         files: FilesRequestsStatuses;
         roles: RolesRequestsStatuses;
-        jobs: JobsRequestsStatuses;
     };
     websocket: {
         connected: boolean;
         lastConnectAt: number;
         lastDisconnectAt: number;
+        connectionId: string;
     };
 };

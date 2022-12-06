@@ -23,7 +23,10 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {
+    displayLastActiveLabel,
     getCurrentUser,
+    getLastActiveTimestampUnits,
+    getLastActivityForUserId,
     getUser,
     makeGetProfilesInChannel,
 } from 'mattermost-redux/selectors/entities/users';
@@ -56,6 +59,7 @@ const EMPTY_CHANNEL_STATS = {member_count: 0, guest_count: 0, pinnedpost_count: 
 function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
     const getCustomStatus = makeGetCustomStatus();
+    let timestampUnits: string[] = [];
 
     return function mapStateToProps(state: GlobalState) {
         const channel = getCurrentChannel(state) || EMPTY_CHANNEL;
@@ -67,14 +71,23 @@ function makeMapStateToProps() {
         let dmUser;
         let gmMembers;
         let customStatus;
+        let lastActivityTimestamp;
+
         if (channel && channel.type === General.DM_CHANNEL) {
             const dmUserId = getUserIdFromChannelName(user.id, channel.name);
             dmUser = getUser(state, dmUserId);
             customStatus = dmUser && getCustomStatus(state, dmUser.id);
+            lastActivityTimestamp = dmUser && getLastActivityForUserId(state, dmUser.id);
         } else if (channel && channel.type === General.GM_CHANNEL) {
             gmMembers = doGetProfilesInChannel(state, channel.id);
         }
         const stats = getCurrentChannelStats(state) || EMPTY_CHANNEL_STATS;
+
+        let isLastActiveEnabled = false;
+        if (dmUser) {
+            isLastActiveEnabled = displayLastActiveLabel(state, dmUser.id);
+            timestampUnits = getLastActiveTimestampUnits(state, dmUser.id);
+        }
 
         return {
             teamId: getCurrentTeamId(state),
@@ -99,7 +112,10 @@ function makeMapStateToProps() {
             customStatus,
             isCustomStatusEnabled: isCustomStatusEnabled(state),
             isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
+            lastActivityTimestamp,
             isFileAttachmentsEnabled: isFileAttachmentsEnabled(config),
+            isLastActiveEnabled,
+            timestampUnits,
         };
     };
 }
