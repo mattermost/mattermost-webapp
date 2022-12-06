@@ -170,7 +170,7 @@ export const getUnreadThreadOrderInCurrentTeam: (
 );
 
 function sortByLastReply(ids: Array<UserThread['id']>, threads: ReturnType<typeof getThreads>) {
-    return ids.sort((a, b) => threads[b].last_reply_at - threads[a].last_reply_at);
+    return ids.filter((id) => threads[id].last_reply_at !== 0).sort((a, b) => threads[b].last_reply_at - threads[a].last_reply_at);
 }
 
 export const getThreadsInChannel: (

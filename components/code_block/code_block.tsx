@@ -75,7 +75,20 @@ const CodeBlock: React.FC<Props> = ({id, code, language, searchedContent}: Props
         htmlContent = `${searchedContent} ${content}`;
     }
 
+    const [codeBlockSelection, setCodeBlockSelection] = useState('');
+
+    const setSelection = () => {
+        const selectedText = document.getSelection();
+        if (selectedText) {
+            setCodeBlockSelection(selectedText.toString());
+        }
+    };
+
     const copyText = () => {
+        if (codeBlockSelection) {
+            copyToClipboard(codeBlockSelection);
+            return;
+        }
         copyToClipboard(code);
     };
 
@@ -89,6 +102,7 @@ const CodeBlock: React.FC<Props> = ({id, code, language, searchedContent}: Props
             <ContextMenu
                 className='post-code__context-menu'
                 id={`copy-code-block-context-menu-${id}`}
+                onShow={setSelection}
             >
                 <MenuItem onClick={copyText}>
                     <FormattedMessage
