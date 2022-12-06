@@ -104,6 +104,7 @@ export type Props = {
 
 const PostComponent = (props: Props): JSX.Element => {
     const isSearchResultItem = (props.matches && props.matches.length > 0) || props.isMentionSearch || (props.term && props.term.length > 0);
+    const isRHS = props.location === Locations.RHS_ROOT || props.location === Locations.RHS_COMMENT;
     const postRef = useRef<HTMLDivElement>(null);
     const postHeaderRef = useRef<HTMLDivElement>(null);
     const [hover, setHover] = useState(false);
@@ -359,7 +360,7 @@ const PostComponent = (props: Props): JSX.Element => {
                     searchMatches: props.matches,
                     mentionHighlight: props.isMentionSearch,
                 }}
-                isRHS={props.location === Locations.RHS_ROOT || props.location === Locations.RHS_COMMENT}
+                isRHS={isRHS}
             />
         </PostBodyAdditionalContent>
     ) : (
@@ -367,7 +368,7 @@ const PostComponent = (props: Props): JSX.Element => {
             post={post}
             isEmbedVisible={props.isEmbedVisible}
             pluginPostTypes={props.pluginPostTypes}
-            isRHS={props.location === Locations.RHS_ROOT || props.location === Locations.RHS_COMMENT}
+            isRHS={isRHS}
         />
     );
 
@@ -456,7 +457,7 @@ const PostComponent = (props: Props): JSX.Element => {
                         <PostProfilePicture
                             compactDisplay={props.compactDisplay}
                             isBusy={props.isBusy}
-                            isRHS={props.location === Locations.RHS_ROOT || props.location === Locations.RHS_COMMENT}
+                            isRHS={isRHS}
                             post={post}
                             userId={post.user_id}
                         />
