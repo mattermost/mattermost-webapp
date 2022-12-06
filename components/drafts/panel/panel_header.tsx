@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import {SyncIcon} from '@mattermost/compass-icons/components';
 
 import Timestamp from 'components/timestamp';
-import Badge from 'components/widgets/badges/badge';
+import Tag from 'components/widgets/tag/tag';
 
 import './panel_header.scss';
 
@@ -86,12 +86,11 @@ function PanelHeader({
                             />
                         )}
                     </div>
-                    <Badge
+                    <Tag
                         variant={'danger'}
                         uppercase={true}
-                    >
-                        {'draft'}
-                    </Badge>
+                        text={'draft'}
+                    />
                 </div>
             </div>
         </header>
