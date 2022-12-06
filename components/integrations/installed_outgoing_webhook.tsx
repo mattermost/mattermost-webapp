@@ -73,7 +73,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props,
             hovering: false,
         };
     }
-    
+
     handleRegenToken = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
@@ -97,7 +97,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props,
         this.setState({hovering: true});
     }
 
-    handleMouseOut = () =>{
+    handleMouseOut = () => {
         this.setState({hovering: false});
     }
 
@@ -200,7 +200,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props,
         let actions = null;
         if (this.props.canChange) {
             actions = (this.state.hovering ?
-                <div className='item-actions'>
+                (<div className='item-actions'>
                     <button
                         className='style--none color--link'
                         onClick={this.handleRegenToken}
@@ -225,21 +225,24 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props,
                         toggled={this.props.outgoingWebhook.enabled}
                         size={'btn-sm'}
                     />
-                </div>
-            : 
-                <div className='item-actions'>
+                </div>) :
+                (<div className='item-actions'>
                     <Toggle
                         disabled={false}
                         onToggle={this.handleToggle}
                         toggled={this.props.outgoingWebhook.enabled}
                         size={'btn-sm'}
                     />
-                </div>
+                </div>)
             );
         }
 
         return (
-            <div className='backstage-list__item' onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
+            <div
+                className='backstage-list__item'
+                onMouseOver={this.handleMouseOver}
+                onMouseOut={this.handleMouseOut}
+            >
                 <div className='item-details'>
                     <div className='item-details__row d-flex flex-column flex-md-row justify-content-between'>
                         <strong className='item-details__name'>

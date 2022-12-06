@@ -13,7 +13,6 @@ const ModalId = 'delete_integration_confirm';
 
 type Props = {
     confirmButtonText?: React.ReactNode;
-    linkText?: React.ReactNode;
     modalMessage?: React.ReactNode;
     modalTitle?: React.ReactNode;
     onDelete: () => void;
@@ -25,12 +24,6 @@ export default function DeleteIntegrationLink(props: Props) {
         confirmButtonText = (
             <FormattedMessage
                 id='integrations.delete.confirm.button'
-                defaultMessage='Delete'
-            />
-        ),
-        linkText = (
-            <FormattedMessage
-                id='installed_integrations.delete'
                 defaultMessage='Delete'
             />
         ),

@@ -252,14 +252,17 @@
 }
 
 .item-actions {
-    button, a {
+    button,
+    a {
         height: 20px;
         margin-left: 10px;
+
         .handle {
-            height: 14.28px;
             width: 14.28px;
+            height: 14.28px;
         }
     }
+
     .btn {
         margin-left: 15px;
     }
@@ -345,6 +348,7 @@
     color: rgba(0, 0, 0, 0.5);
     font-size: 1.1em;
     text-align: right;
+
     .backstage-list__paging {
         width: 100%;
         text-align: right;
