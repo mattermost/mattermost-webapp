@@ -1,14 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo} from 'react';
-import {useIntl} from 'react-intl';
+import React, {memo, ReactNode} from 'react';
+import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {
     FolderOutlineIcon,
     StarOutlineIcon,
     FolderMoveOutlineIcon,
+    ArrowForwardIosIcon,
+    CheckIcon,
 } from '@mattermost/compass-icons/components';
 
 import {Channel} from '@mattermost/types/channels';
@@ -21,7 +23,6 @@ import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 
 import {GlobalState} from 'types/store';
-import type {Menu as MenuType} from 'types/store/plugins';
 
 import {getCategoriesForCurrentTeam} from 'selectors/views/channel_sidebar';
 
@@ -32,17 +33,15 @@ import {addChannelsInSidebar} from 'actions/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
 
 import EditCategoryModal from 'components/edit_category_modal';
-import Menu from 'components/widgets/menu/menu';
+import {MenuItemDivider, SubMenu} from 'components/menu';
+import {PopoverMenuItem} from 'components/popover_menu_item';
 
 type Props = {
     channel: Channel;
-    openUp: boolean;
     inHeaderDropdown?: boolean;
 };
 
 const ChannelMoveToSubMenu = (props: Props) => {
-    const {formatMessage} = useIntl();
-
     const dispatch = useDispatch<DispatchFunc>();
 
     const allChannels = useSelector(getAllChannels);
@@ -74,38 +73,63 @@ const ChannelMoveToSubMenu = (props: Props) => {
         trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
     }
 
-    function createSubmenuItemsForCategoryArray(categories: ChannelCategory[]): MenuType[] {
+    function createSubmenuItemsForCategoryArray(categories: ChannelCategory[], currentCategory?: ChannelCategory) {
         const allCategories = categories.map((category: ChannelCategory) => {
-            let text = category.display_name;
+            let text: ReactNode = <span>{category.display_name}</span>;
 
             if (category.type === CategoryTypes.FAVORITES) {
-                text = formatMessage({id: 'sidebar_left.sidebar_channel_menu.favorites', defaultMessage: 'Favorites'});
+                text = (
+                    <FormattedMessage
+                        id='sidebar_left.sidebar_channel_menu.favorites'
+                        defaultMessage='Favorites'
+                    />
+                );
             }
             if (category.type === CategoryTypes.CHANNELS) {
-                text = formatMessage({id: 'sidebar_left.sidebar_channel_menu.channels', defaultMessage: 'Channels'});
+                text = (
+                    <FormattedMessage
+                        id='sidebar_left.sidebar_channel_menu.channels'
+                        defaultMessage='Channels'
+                    />
+                );
             }
 
-            return {
-                id: `moveToCategory-${props.channel.id}-${category.id}`,
-                icon: category.type === CategoryTypes.FAVORITES ? (<StarOutlineIcon size={16}/>) : (<FolderOutlineIcon size={16}/>),
-                direction: 'right',
-                text,
-                action: () => handleMoveToCategory(category.id),
-            };
+            let selectedCategory = null;
+            if (currentCategory && currentCategory.display_name === category.display_name) {
+                selectedCategory = (
+                    <CheckIcon
+                        color='var(--button-bg)'
+                        size={16}
+                    />
+                );
+            }
+
+            return (
+                <PopoverMenuItem
+                    id={`moveToCategory-${props.channel.id}-${category.id}`}
+                    key={`moveToCategory-${props.channel.id}-${category.id}`}
+                    leadingElement={category.type === CategoryTypes.FAVORITES ? (<StarOutlineIcon size={16}/>) : (<FolderOutlineIcon size={16}/>)}
+                    primaryLabel={text}
+                    trailingElement={selectedCategory}
+                    onClick={() => handleMoveToCategory(category.id)}
+                />
+            );
         });
 
         const dividerAndNewCategory = [
-            {
-                id: 'ChannelMenu-moveToDivider',
-                text: (<span className='MenuGroup menu-divider'/>),
-            },
-            {
-                id: `moveToNewCategory-${props.channel.id}`,
-                icon: (<FolderMoveOutlineIcon size={16}/>),
-                direction: 'right' as any,
-                text: formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'New Category'}),
-                action: handleMoveToNewCategory,
-            },
+            <MenuItemDivider key='ChannelMenu-moveToDivider'/>,
+            <PopoverMenuItem
+                id={`moveToNewCategory-${props.channel.id}`}
+                key={`moveToNewCategory-${props.channel.id}`}
+                leadingElement={<FolderMoveOutlineIcon size={16}/>}
+                primaryLabel={
+                    <FormattedMessage
+                        id='sidebar_left.sidebar_channel_menu.moveToNewCategory'
+                        defaultMessage='New Category'
+                    />
+                }
+                onClick={handleMoveToNewCategory}
+            />,
         ];
 
         return [...allCategories, ...dividerAndNewCategory];
@@ -119,31 +143,31 @@ const ChannelMoveToSubMenu = (props: Props) => {
         return categories.filter((category) => category.type !== CategoryTypes.DIRECT_MESSAGES);
     }
 
-    function getMoveToCategorySubmenuItems(categories: ChannelCategory[]) {
+    function getMoveToCategorySubmenuItems(categories: ChannelCategory[], currentCategory?: ChannelCategory) {
         const isSubmenuOneOfSelectedChannels = multiSelectedChannelIds.includes(props.channel.id);
 
         // If sub menu is in channel header dropdown OR If multiple channels are selected but the menu is open outside of those selected channels
         if (props.inHeaderDropdown || !isSubmenuOneOfSelectedChannels) {
             const isDmOrGm = props.channel.type === Constants.DM_CHANNEL || props.channel.type === Constants.GM_CHANNEL;
             const filteredCategories = filterCategoriesBasedOnChannelType(categories, isDmOrGm);
-            return createSubmenuItemsForCategoryArray(filteredCategories);
+            return createSubmenuItemsForCategoryArray(filteredCategories, currentCategory);
         }
 
         const areAllSelectedChannelsDMorGM = multiSelectedChannelIds.every((channelId) => allChannels[channelId].type === Constants.DM_CHANNEL || allChannels[channelId].type === Constants.GM_CHANNEL);
         if (areAllSelectedChannelsDMorGM) {
             const filteredCategories = filterCategoriesBasedOnChannelType(categories, true);
-            return createSubmenuItemsForCategoryArray(filteredCategories);
+            return createSubmenuItemsForCategoryArray(filteredCategories, currentCategory);
         }
 
         const areAllSelectedChannelsAreNotDMorGM = multiSelectedChannelIds.every((channelId) => allChannels[channelId].type !== Constants.DM_CHANNEL && allChannels[channelId].type !== Constants.GM_CHANNEL);
         if (areAllSelectedChannelsAreNotDMorGM) {
             const filteredCategories = filterCategoriesBasedOnChannelType(categories, false);
-            return createSubmenuItemsForCategoryArray(filteredCategories);
+            return createSubmenuItemsForCategoryArray(filteredCategories, currentCategory);
         }
 
         // If we have a mix of channel types, we need to filter out both the DM and Channel categories
         const filteredCategories = categories.filter((category) => category.type !== CategoryTypes.CHANNELS && category.type !== CategoryTypes.DIRECT_MESSAGES);
-        return createSubmenuItemsForCategoryArray(filteredCategories);
+        return createSubmenuItemsForCategoryArray(filteredCategories, currentCategory);
     }
 
     if (!categories) {
@@ -151,19 +175,37 @@ const ChannelMoveToSubMenu = (props: Props) => {
     }
 
     return (
-        <Menu.Group>
-            <Menu.ItemSubMenu
+        <SubMenu
+            triggerId={`moveTo-${props.channel.id}`}
+            triggerElement={
+                <PopoverMenuItem
+                    id={`moveTo-${props.channel.id}`}
+                    leadingElement={props.inHeaderDropdown ? null : <FolderMoveOutlineIcon size={18}/>}
+                    primaryLabel={
+                        <FormattedMessage
+                            id='sidebar_left.sidebar_channel_menu.moveTo'
+                            defaultMessage='Move to...'
+                        />
+                    }
+                    trailingElement={<ArrowForwardIosIcon size={18}/>}
+                    sx={{width: '100%'}}
+                />
+            }
+            menuId={`moveTo-${props.channel.id}-menu`}
+        >
+            {getMoveToCategorySubmenuItems(categories, currentCategory)}
+            {/* <Menu.ItemSubMenu
                 id={`moveTo-${props.channel.id}`}
                 subMenu={getMoveToCategorySubmenuItems(categories)}
                 text={formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
                 direction={'right'}
                 icon={props.inHeaderDropdown ? null : <FolderMoveOutlineIcon size={16}/>}
-                openUp={props.openUp}
+                openUp={false}
                 styleSelectableItem={true}
                 selectedValueText={currentCategory?.display_name}
                 renderSelected={false}
-            />
-        </Menu.Group>
+            /> */}
+        </SubMenu>
     );
 };
 

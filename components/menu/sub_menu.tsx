@@ -5,7 +5,7 @@ import React, {ReactNode, useState, MouseEvent} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import MuiMenu, {MenuProps as MuiMenuProps} from '@mui/material/Menu';
 import MuiMenuList from '@mui/material/MenuList';
-import MuiMenuItem, {MenuItemProps} from '@mui/material/MenuItem';
+import MuiMenuItem from '@mui/material/MenuItem';
 import {PopoverOrigin} from '@mui/material/Popover';
 import {styled as muiStyled} from '@mui/material/styles';
 
@@ -99,20 +99,21 @@ export function SubMenu(props: Props) {
         }
 
         return (
-            <MuiMenuItemStyled
+            <MuiMenuItem
                 id={props.triggerId}
                 disableRipple={true}
                 aria-controls={props.menuId}
                 aria-haspopup='true'
                 onClick={handleAnchorButtonClickOnMobile}
+                sx={{padding: '0'}}
             >
                 {props.triggerElement}
-            </MuiMenuItemStyled>
+            </MuiMenuItem>
         );
     }
 
     return (
-        <MuiMenuItemStyled
+        <MuiMenuItem
             id={props.triggerId}
             aria-controls={isSubMenuOpen ? props.menuId : undefined}
             aria-haspopup='true'
@@ -121,6 +122,7 @@ export function SubMenu(props: Props) {
             disableRipple={true}
             onMouseEnter={handleSubMenuOpen}
             onMouseLeave={handleSubMenuClose}
+            sx={{padding: '0'}}
         >
             {props.triggerElement}
             <MuiMenuStyled
@@ -128,7 +130,7 @@ export function SubMenu(props: Props) {
                 anchorEl={anchorElement}
                 open={isSubMenuOpen}
                 aria-label={props.menuAriaLabel}
-                style={{pointerEvents: 'none'}} // disables the menu background wrapper
+                sx={{pointerEvents: 'none'}} // disables the menu background wrapper
                 {...getOriginOfAnchorAndTransform(props.openAt)}
             >
                 <MuiMenuList
@@ -138,29 +140,9 @@ export function SubMenu(props: Props) {
                     {props.children}
                 </MuiMenuList>
             </MuiMenuStyled>
-        </MuiMenuItemStyled>
-
+        </MuiMenuItem>
     );
 }
-
-const MuiMenuItemStyled = muiStyled(MuiMenuItem)<MenuItemProps>(() => ({
-    '&.MuiMenuItem-root': {
-        color: 'var(--center-channel-color)',
-        padding: '0',
-        '&:hover': {
-            backgroundColor: 'transparent',
-        },
-        '&:active': {
-            'background-color': 'transparent',
-        },
-        '&.Mui-disabled': {
-            color: 'rgba(var(--center-channel-color-rgb), 0.32)',
-        },
-        '&.Mui-focusVisible': {
-            boxShadow: '0 0 0 2px var(--denim-sidebar-active-border) inset',
-        },
-    },
-}));
 
 const MuiMenuStyled = muiStyled(MuiMenu)<MuiMenuProps>(() => ({
     '&.MuiPaper-root': {

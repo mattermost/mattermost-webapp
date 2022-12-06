@@ -75,7 +75,6 @@ type Props = {
 };
 
 type State = {
-    isMenuOpen: boolean;
     showTooltip: boolean;
 };
 
@@ -90,7 +89,6 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         this.gmItemRef = React.createRef();
 
         this.state = {
-            isMenuOpen: false,
             showTooltip: false,
         };
     }
@@ -161,8 +159,6 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             this.props.actions.clearChannelSelection();
         }
     }
-
-    handleMenuToggle = (isMenuOpen: boolean): void => this.setState({isMenuOpen});
 
     render(): JSX.Element {
         const {
@@ -253,15 +249,15 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     unreadMentions={unreadMentions}
                     hasUrgent={hasUrgent}
                 />
-                <SidebarChannelMenu
-                    channel={channel}
-                    channelLink={link}
-                    isMenuOpen={this.state.isMenuOpen}
-                    isCollapsed={this.props.isCollapsed}
-                    isUnread={isUnread}
-                    closeHandler={this.props.closeHandler}
-                    onToggleMenu={this.handleMenuToggle}
-                />
+                <div className='MenuWrapper SidebarMenu'>
+                    <SidebarChannelMenu
+                        channel={channel}
+                        channelLink={link}
+                        isCollapsed={this.props.isCollapsed}
+                        isUnread={isUnread}
+                        closeHandler={this.props.closeHandler}
+                    />
+                </div>
             </>
         );
 
@@ -269,7 +265,6 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         const className = classNames([
             'SidebarLink',
             {
-                menuOpen: this.state.isMenuOpen,
                 muted: isMuted,
                 'unread-title': this.props.isUnread,
                 selected: isChannelSelected,

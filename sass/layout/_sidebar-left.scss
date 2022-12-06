@@ -1163,8 +1163,10 @@ $sidebarOpacityAnimationDuration: 0.15s;
             }
         }
 
-        .SidebarMenu:not(.menuOpen) {
-            display: none;
+        .SidebarMenu {
+            > button {
+                display: none;
+            }
         }
     }
 
@@ -1187,7 +1189,9 @@ $sidebarOpacityAnimationDuration: 0.15s;
         }
 
         .SidebarMenu {
-            display: block;
+            > button {
+                display: block;
+            }
         }
 
         .channel-pencil-icon,

@@ -31,8 +31,6 @@ export type OwnProps = {
     channelLink: string;
     isCollapsed: boolean;
     isUnread: boolean;
-    isMenuOpen: boolean;
-    onToggleMenu: (isMenuOpen: boolean) => void;
     closeHandler?: (callback: () => void) => void;
 }
 

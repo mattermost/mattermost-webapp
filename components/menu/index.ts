@@ -3,5 +3,6 @@
 
 export {Menu} from './menu';
 export {SubMenu} from './sub_menu';
-export {MenuItem} from './menu_item';
-export {MenuDivider} from './menu_divider';
+export {MenuItem, styled} from './menu_item';
+export type {MenuItemProps} from './menu_item';
+export {MenuItemDivider} from './menu_item_divider';

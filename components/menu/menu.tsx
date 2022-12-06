@@ -86,7 +86,6 @@ export function Menu(props: Props) {
                             {props.children}
                         </MuiMenuList>
                     </GenericModal>
-
                 </CompassDesignProvider>
             );
         }
@@ -121,6 +120,9 @@ export function Menu(props: Props) {
     }
 
     function rendertriggerElement() {
+        // Since the open and close state lies in this component, we need to force the visibility of the trigger element
+        const forceVisibleOnOpen = isMenuOpen ? {display: 'block'} : undefined;
+
         const triggerElement = (
             <button
                 id={props.triggerId}
@@ -130,7 +132,8 @@ export function Menu(props: Props) {
                 aria-label={props.triggerAriaLabel}
                 className={props.triggerClassName}
                 onClick={handleAnchorButtonClick}
-                tabIndex={isMenuOpen ? 0 : -1}
+                style={forceVisibleOnOpen}
+                tabIndex={0}
             >
                 {props.triggerElement}
             </button>
