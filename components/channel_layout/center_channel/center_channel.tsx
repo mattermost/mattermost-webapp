@@ -122,8 +122,9 @@ export default class CenterChannel extends React.PureComponent<Props, State> {
                         {isCollapsedThreadsEnabled ? (
                             <Route
                                 path='/:team/threads/:threadIdentifier?'
-                                component={LazyGlobalThreads}
-                            />
+                            >
+                                <LazyGlobalThreads path='/:team/threads/:threadIdentifier?'/>
+                            </Route>
                         ) : null}
                         <Route
                             path='/:team/drafts'

@@ -2,11 +2,10 @@
 // See LICENSE.txt for license information.
 
 import {useCallback} from 'react';
-import {useParams, useHistory, generatePath, useRouteMatch} from 'react-router-dom';
+import {useParams, useHistory, generatePath} from 'react-router-dom';
 import {useSelector, shallowEqual} from 'react-redux';
 
 import {UserThread} from '@mattermost/types/threads';
-import {Team} from '@mattermost/types/teams';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -24,32 +23,31 @@ export function useThreadRouting() {
     const currentUserId = useSelector(getCurrentUserId, shallowEqual);
 
     const {pathDef} = usePathDef();
-    const matches = useRouteMatch(pathDef?.path ?? '');
-
-    const team = pathDef?.teamName ?? params?.team;
+    const teamName = pathDef?.teamName ?? params?.team;
 
     const select = useCallback((threadIdentifier?: UserThread['id']) => {
-        if (!pathDef || !matches || !team) {
+        if (!pathDef || !teamName) {
             return;
         }
-        history.push(generatePath(pathDef.path, {team, threadIdentifier}));
-    }, [team]);
+        history.push(generatePath(pathDef.path, {team: teamName, threadIdentifier}));
+    }, [teamName]);
 
     const clear = useCallback(() => {
-        if (!pathDef || !matches || !team) {
+        if (!pathDef || !teamName) {
             return;
         }
-        history.replace(generatePath(pathDef.path, {team}));
-    }, [team]);
+        history.replace(generatePath(pathDef.path, {team: teamName}));
+    }, [teamName]);
 
-    const goToInChannel = useCallback((threadId?: UserThread['id'], teamName: Team['name'] = team) => {
-        // TODO make collectionType-aware
+    // TODO make collectionType-aware
+    const goToInChannel = useCallback((threadId?: UserThread['id']) => {
         return history.push(`/${teamName}/pl/${threadId ?? params.threadIdentifier}`);
     }, [params.threadIdentifier, params.team]);
 
     return {
         params,
         history,
+        teamName,
         currentTeamId,
         currentUserId,
         clear,

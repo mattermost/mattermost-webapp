@@ -48,9 +48,7 @@ function ThreadMenu({
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
     const {
-        params: {
-            team,
-        },
+        teamName,
         currentTeamId,
         currentUserId,
         goToInChannel,
@@ -147,8 +145,8 @@ function ThreadMenu({
                         defaultMessage: 'Copy link',
                     })}
                     onClick={useCallback(() => {
-                        copyToClipboard(`${getSiteURL()}/${team}/pl/${threadId}`);
-                    }, [team, threadId])}
+                        copyToClipboard(`${getSiteURL()}/${teamName}/pl/${threadId}`);
+                    }, [teamName, threadId])}
                 />
             </Menu>
         </MenuWrapper>

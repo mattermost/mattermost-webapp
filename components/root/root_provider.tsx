@@ -8,7 +8,6 @@ import WebSocketClient from 'client/web_websocket_client';
 import IntlProvider from 'components/intl_provider';
 
 import {WebSocketContext} from 'utils/use_websocket';
-import {GlobalThreadsRoutingProvider} from 'components/threading/global_threads/routing';
 
 type Props = {
     children: React.ReactNode;
@@ -18,9 +17,7 @@ export default function RootProvider(props: Props) {
     return (
         <IntlProvider>
             <WebSocketContext.Provider value={WebSocketClient}>
-                <GlobalThreadsRoutingProvider>
-                    {props.children}
-                </GlobalThreadsRoutingProvider>
+                {props.children}
             </WebSocketContext.Provider>
         </IntlProvider>
     );

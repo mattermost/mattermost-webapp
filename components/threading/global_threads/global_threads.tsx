@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, useEffect, useState} from 'react';
+import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {isEmpty} from 'lodash';
 import {Link, useRouteMatch} from 'react-router-dom';
@@ -41,7 +41,7 @@ import ChatIllustration from '../common/chat_illustration';
 
 import ThreadViewer from '../thread_viewer';
 
-import {usePathDef} from './routing';
+import {GlobalThreadsRoutingProvider} from 'components/threading/global_threads/routing';
 
 import ThreadList, {ThreadFilter, FILTER_STORAGE_KEY} from './thread_list';
 import ThreadPane from './thread_pane';
@@ -50,21 +50,14 @@ import './global_threads.scss';
 
 type Props = {
     className?: string;
-    pathDef?: string;
-    teamName?: string;
 }
 
-const GlobalThreads = ({className, pathDef = '/:team/threads/:threadIdentifier?', teamName}: Props) => {
+const GlobalThreads = memo(({className}: Props) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
 
     const {url, params: {threadIdentifier}} = useRouteMatch<{threadIdentifier?: string}>();
     const [filter, setFilter] = useGlobalState(ThreadFilter.none, FILTER_STORAGE_KEY);
-    const {pathDef: innerPathDef, setPathDef} = usePathDef();
-
-    useEffect(() => {
-        setPathDef?.({path: pathDef, teamName});
-    }, [pathDef, teamName]);
 
     const {currentTeamId, currentUserId, clear} = useThreadRouting();
 
@@ -147,10 +140,10 @@ const GlobalThreads = ({className, pathDef = '/:team/threads/:threadIdentifier?'
     }, [fetchThreads, filter, threadIds, unreadThreadIds]);
 
     useEffect(() => {
-        if (innerPathDef && !selectedThread && !selectedPost && !isLoading) {
+        if (!selectedThread && !selectedPost && !isLoading) {
             clear();
         }
-    }, [innerPathDef, currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
+    }, [currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
 
     // cleanup on unmount
     useEffect(() => {
@@ -249,6 +242,24 @@ const GlobalThreads = ({className, pathDef = '/:team/threads/:threadIdentifier?'
             )}
         </div>
     );
+});
+
+const GlobalThreadsMemo = memo(GlobalThreads);
+
+type RootProps = {
+
+    /** A path template that must include a `threadIdentifier` parameter e.g. `/:team/threads/:threadIdentifier?'`*/
+    path: string;
+    teamName?: string;
+}
+
+const GlobalThreadsRoot = ({path, teamName, ...props}: RootProps & Props) => {
+    const pathDef = useMemo(() => ({path, teamName}), [path, teamName]);
+    return (
+        <GlobalThreadsRoutingProvider pathDef={pathDef}>
+            <GlobalThreadsMemo {...props}/>
+        </GlobalThreadsRoutingProvider>
+    );
 };
 
-export default memo(GlobalThreads);
+export default GlobalThreadsRoot;
