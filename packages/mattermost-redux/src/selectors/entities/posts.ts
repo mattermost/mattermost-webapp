@@ -788,7 +788,10 @@ export function makeGetPostAcknowledgementsWithProfiles(): (state: GlobalState, 
             if (!acknowledgements) {
                 return [];
             }
-            return Object.keys(acknowledgements).map((userId) => {
+            return Object.keys(acknowledgements).flatMap((userId) => {
+                if (!users[userId]) {
+                    return [];
+                }
                 return {
                     user: users[userId],
                     acknowledgedAt: acknowledgements[userId],

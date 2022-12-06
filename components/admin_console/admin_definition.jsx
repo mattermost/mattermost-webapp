@@ -4794,14 +4794,6 @@ const AdminDefinition = {
             url: 'authentication/oauth',
             title: t('admin.sidebar.oauth'),
             title_default: 'OAuth 2.0',
-            tag: {
-                value: (
-                    <FormattedMessage
-                        id='admin.sidebar.oauth.tag'
-                        defaultMessage='deprecated'
-                    />
-                ),
-            },
             isHidden: it.any(
                 it.not(usesLegacyOauth),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
@@ -6845,6 +6837,27 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableAppBar.desc'),
                         help_text_default: 'When true, all integrations move from the channel header to the App Bar. Channel header plugin icons that haven\'t explicitly registered an App Bar icon will be moved to the App Bar which may result in rendering issues. [See the documentation to learn more](https://docs.mattermost.com/welcome/what-changed-in-v70.html).',
                         help_text_markdown: true,
+                        isHidden: it.licensedForFeature('Cloud'),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ExperimentalSettings.PatchPluginsReactDOM',
+                        label: t('admin.experimental.patchPluginsReactDOM.title'),
+                        label_default: 'Patch React DOM used by plugins:',
+                        help_text: t('admin.experimental.patchPluginsReactDOM.desc'),
+                        help_text_default: 'When true, client-side plugins will be patched to use the version of React DOM provided by the web app. This should only be enabled if plugins break after upgrading to Mattermost 7.6. The server must be restarted for this setting to take effect. See the <link>Important Upgrade Notes</link> for more information.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/upgrade/important-upgrade-notes.html'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
                         isHidden: it.licensedForFeature('Cloud'),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },

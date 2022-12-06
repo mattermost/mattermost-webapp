@@ -4,7 +4,8 @@ exports[`components/drafts/draft_actions/send_draft_modal should have called onC
 <GenericModal
   autoCloseOnCancelButton={true}
   autoCloseOnConfirmButton={true}
-  confirmButtonText="Yes, Send Now"
+  compassDesign={true}
+  confirmButtonText="Yes, send now"
   enforceFocus={true}
   handleCancel={[Function]}
   handleConfirm={
@@ -21,7 +22,7 @@ exports[`components/drafts/draft_actions/send_draft_modal should have called onC
     }
   }
   id="genericModal"
-  modalHeaderText="Send Message now"
+  modalHeaderText="Send message now"
   onExited={[MockFunction]}
   show={true}
 >
@@ -42,12 +43,13 @@ exports[`components/drafts/draft_actions/send_draft_modal should have called onE
 <GenericModal
   autoCloseOnCancelButton={true}
   autoCloseOnConfirmButton={true}
-  confirmButtonText="Yes, Send Now"
+  compassDesign={true}
+  confirmButtonText="Yes, send now"
   enforceFocus={true}
   handleCancel={[Function]}
   handleConfirm={[MockFunction]}
   id="genericModal"
-  modalHeaderText="Send Message now"
+  modalHeaderText="Send message now"
   onExited={
     [MockFunction] {
       "calls": Array [

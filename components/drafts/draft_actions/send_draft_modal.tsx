@@ -21,12 +21,12 @@ function SendDraftModal({
 
     const title = formatMessage({
         id: 'drafts.confirm.send.title',
-        defaultMessage: 'Send Message now',
+        defaultMessage: 'Send message now',
     });
 
     const confirmButtonText = formatMessage({
         id: 'drafts.confirm.send.button',
-        defaultMessage: 'Yes, Send Now',
+        defaultMessage: 'Yes, send now',
     });
 
     const message = (
@@ -47,6 +47,7 @@ function SendDraftModal({
             handleConfirm={onConfirm}
             modalHeaderText={title}
             onExited={onExited}
+            compassDesign={true}
         >
             {message}
         </GenericModal>

@@ -3,6 +3,7 @@
 
 import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import {Channel} from '@mattermost/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -23,6 +24,8 @@ import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import * as Utils from 'utils/utils';
 
 import {TextboxElement} from './index';
+
+const ALL = ['all'];
 
 export type Props = {
     id: string;
@@ -67,6 +70,9 @@ export type Props = {
     priorityProfiles?: UserProfile[];
     hasLabels?: boolean;
 };
+
+const VISIBLE = {visibility: 'visible'};
+const HIDDEN = {visibility: 'hidden'};
 
 export default class Textbox extends React.PureComponent<Props> {
     private readonly suggestionProviders: Provider[];
@@ -248,6 +254,10 @@ export default class Textbox extends React.PureComponent<Props> {
         this.getInputBox()?.blur();
     };
 
+    getStyle = () => {
+        return this.props.preview ? HIDDEN : VISIBLE;
+    }
+
     render() {
         let preview = null;
 
@@ -270,7 +280,7 @@ export default class Textbox extends React.PureComponent<Props> {
                 <div
                     tabIndex={this.props.tabIndex || 0}
                     ref={this.preview}
-                    className='form-control custom-textarea textbox-preview-area'
+                    className={classNames('form-control custom-textarea textbox-preview-area', {'textarea--has-labels': this.props.hasLabels})}
                     onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
                     onBlur={this.handleBlur}
@@ -306,14 +316,14 @@ export default class Textbox extends React.PureComponent<Props> {
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
                     onPaste={this.props.onPaste}
-                    style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
+                    style={this.getStyle()}
                     inputComponent={this.props.inputComponent}
                     listComponent={this.props.suggestionList}
                     listPosition={this.props.suggestionListPosition}
                     providers={this.suggestionProviders}
                     channelId={this.props.channelId}
                     value={this.props.value}
-                    renderDividers={['all']}
+                    renderDividers={ALL}
                     isRHS={this.props.isRHS}
                     disabled={this.props.disabled}
                     contextId={this.props.channelId}

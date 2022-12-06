@@ -13,8 +13,6 @@ import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getFirstAdminSetupComplete} from 'mattermost-redux/actions/general';
 import {getProfiles} from 'mattermost-redux/actions/users';
 
-import {migrateRecentEmojis} from 'mattermost-redux/actions/emojis';
-
 import {getShowLaunchingWorkspace} from 'selectors/onboarding';
 import {
     getIsRhsExpanded,
@@ -22,6 +20,7 @@ import {
     getRhsState,
 } from 'selectors/rhs';
 import {shouldShowAppBar} from 'selectors/plugins';
+import {migrateRecentEmojis} from 'actions/emoji_actions';
 import {emitBrowserWindowResized} from 'actions/views/browser';
 import {loadConfigAndMe, registerCustomPostRenderer} from 'actions/views/root';
 

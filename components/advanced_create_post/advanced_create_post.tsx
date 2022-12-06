@@ -61,7 +61,7 @@ import {Post, PostMetadata, PostPriorityMetadata} from '@mattermost/types/posts'
 import {PreferenceType} from '@mattermost/types/preferences';
 import {ServerError} from '@mattermost/types/errors';
 import {CommandArgs} from '@mattermost/types/integrations';
-import {Group} from '@mattermost/types/groups';
+import {Group, GroupSource} from '@mattermost/types/groups';
 import {FileInfo} from '@mattermost/types/files';
 import {Emoji} from '@mattermost/types/emojis';
 
@@ -205,7 +205,7 @@ type Props = {
         runSlashCommandWillBePostedHooks: (originalMessage: string, originalArgs: CommandArgs) => ActionResult;
 
         // func called for setting drafts
-        setDraft: (name: string, value: PostDraft | null, save?: boolean) => void;
+        setDraft: (name: string, value: PostDraft | null, draftChannelId: string, save?: boolean) => void;
 
         // func called for editing posts
         setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
@@ -270,6 +270,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     private draftsForChannel: {[channelID: string]: PostDraft | null} = {};
     private lastOrientation?: string;
     private saveDraftFrame?: number | null;
+    private isDraftSubmitting = false;
 
     private topDiv: React.RefObject<HTMLFormElement>;
     private textboxRef: React.RefObject<TextboxClass>;
@@ -460,7 +461,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     saveDraft = (props = this.props, save = false) => {
         if (this.saveDraftFrame && props.currentChannel) {
             const channelId = props.currentChannel.id;
-            props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId], save);
+            props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId], channelId, save);
             clearTimeout(this.saveDraftFrame);
             this.saveDraftFrame = null;
         }
@@ -513,7 +514,9 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     handlePostError = (postError: React.ReactNode) => {
-        this.setState({postError});
+        if (this.state.postError !== postError) {
+            this.setState({postError});
+        }
     }
 
     toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -633,7 +636,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             clearTimeout(this.saveDraftFrame);
         }
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
+        this.isDraftSubmitting = false;
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null, channelId);
         this.draftsForChannel[channelId] = null;
     }
 
@@ -680,6 +684,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         } = this.props;
 
         this.setShowPreview(false);
+        this.isDraftSubmitting = true;
 
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         let memberNotifyCount = 0;
@@ -695,10 +700,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             if (mentionGroups.length > 0) {
                 mentionGroups.
                     forEach((group) => {
-                        if (group.source === 'ldap' && !useLDAPGroupMentions) {
+                        if (group.source === GroupSource.Ldap && !useLDAPGroupMentions) {
                             return;
                         }
-                        if (group.source === 'custom' && !useCustomGroupMentions) {
+                        if (group.source === GroupSource.Custom && !useCustomGroupMentions) {
                             return;
                         }
                         const mappedValue = channelMemberCountsByGroup[group.id];
@@ -729,6 +734,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         if (memberNotifyCount > 0) {
             this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
+            this.isDraftSubmitting = false;
             return;
         }
 
@@ -743,6 +749,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.props.actions.openModal(resetStatusModalData);
 
             this.setState({message: ''});
+            this.isDraftSubmitting = false;
             return;
         }
 
@@ -756,6 +763,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.props.actions.openModal(editChannelHeaderModalData);
 
             this.setState({message: ''});
+            this.isDraftSubmitting = false;
             return;
         }
 
@@ -771,6 +779,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.props.actions.openModal(editChannelPurposeModalData);
 
             this.setState({message: ''});
+            this.isDraftSubmitting = false;
             return;
         }
 
@@ -821,6 +830,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 submitting: false,
             });
 
+            this.isDraftSubmitting = false;
             return hookResult;
         }
 
@@ -829,9 +839,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         actions.onSubmitPost(post, draft.fileInfos);
         actions.scrollPostListToBottom();
 
-        this.setState({
-            submitting: false,
-        });
+        this.setState({submitting: false});
+        this.isDraftSubmitting = false;
 
         return {data: true};
     }
@@ -848,7 +857,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.props.actions.removeReaction(postId, emojiName);
         }
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null, channelId);
         this.draftsForChannel[channelId] = null;
     }
 
@@ -892,6 +901,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 e.persist();
             }
             if (this.textboxRef.current) {
+                this.isDraftSubmitting = true;
                 this.textboxRef.current.blur();
             }
 
@@ -920,17 +930,19 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             serverError = null;
         }
 
-        this.setState({
-            message,
-            serverError,
-        });
+        if (message !== this.state.message) {
+            this.setState({
+                message,
+                serverError,
+            });
 
-        const draft = {
-            ...this.props.draft,
-            message,
-        };
+            const draft = {
+                ...this.props.draft,
+                message,
+            };
 
-        this.handleDraftChange(draft);
+            this.handleDraftChange(draft);
+        }
     }
 
     handleDraftChange = (draft: PostDraft) => {
@@ -941,7 +953,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
 
         this.saveDraftFrame = window.setTimeout(() => {
-            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft, channelId);
         }, Constants.SAVE_DRAFT_TIMEOUT);
         this.draftsForChannel[channelId] = draft;
     }
@@ -990,7 +1002,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         };
 
         const channelId = this.props.currentChannel.id;
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft, channelId);
         this.draftsForChannel[channelId] = draft;
     }
 
@@ -1006,7 +1018,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             uploadsInProgress,
         };
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft, channelId);
         this.draftsForChannel[channelId] = draft;
 
         // this is a bit redundant with the code that sets focus when the file input is clicked,
@@ -1065,7 +1077,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     ...draft,
                     uploadsInProgress,
                 };
-                this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft);
+                this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft, channelId);
                 this.draftsForChannel[channelId] = modifiedDraft;
             }
         }
@@ -1107,7 +1119,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             };
         }
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft, false);
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft, channelId, false);
         this.draftsForChannel[channelId] = modifiedDraft;
 
         this.handleFileUploadChange();
@@ -1421,7 +1433,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     handleBlur = () => {
-        this.saveDraftWithShow();
+        if (!this.isDraftSubmitting) {
+            this.saveDraftWithShow();
+        }
+
         this.lastBlurAt = Date.now();
     }
 
@@ -1524,9 +1539,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     handlePostPriorityApply = (settings?: PostPriorityMetadata) => {
         const updatedDraft = {
             ...this.props.draft,
-            props: {
-                ...this.props.draft.props,
-            },
         };
 
         if (settings?.priority || settings?.requested_ack) {
@@ -1585,6 +1597,65 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 >{'Quote the text'}</button>
             );
         }
+
+        if (!this.props.currentChannel || !this.props.currentChannel.id) {
+            return null;
+        }
+
+        const priorityLabels = (
+            this.hasPrioritySet() ? (
+                <div className='AdvancedTextEditor__priority'>
+                    {this.props.draft.metadata!.priority!.priority && (
+                        <PriorityLabel
+                            size='xs'
+                            priority={this.props.draft.metadata!.priority!.priority}
+                        />
+                    )}
+                    {this.props.draft.metadata!.priority!.requested_ack && (
+                        <div className='AdvancedTextEditor__priority-ack'>
+                            <CheckCircleOutlineIcon size={14}/>
+                            {!(this.props.draft.metadata!.priority!.priority) && (
+                                <FormattedMessage
+                                    id={'post_priority.request_acknowledgement'}
+                                    defaultMessage={'Request acknowledgement'}
+                                />
+                            )}
+                        </div>
+                    )}
+                    {!this.props.shouldShowPreview && (
+                        <OverlayTrigger
+                            placement='top'
+                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+                            overlay={(
+                                <Tooltip id='post-priority-picker-tooltip'>
+                                    <FormattedMessage
+                                        id={'post_priority.remove'}
+                                        defaultMessage={'Remove {priority}'}
+                                        values={{priority: this.props.draft.metadata!.priority!.priority}}
+                                    />
+                                </Tooltip>
+                            )}
+                        >
+                            <button
+                                type='button'
+                                className='close'
+                                onClick={this.handleRemovePriority}
+                            >
+                                <span aria-hidden='true'>{'×'}</span>
+                                <span className='sr-only'>
+                                    <FormattedMessage
+                                        id={'post_priority.remove'}
+                                        defaultMessage={'Remove {priority}'}
+                                        values={{priority: this.props.draft.metadata!.priority!.priority}}
+                                    />
+                                </span>
+                            </button>
+                        </OverlayTrigger>
+                    )}
+                </div>
+            ) : undefined
+        );
 
         return (
             <form
@@ -1648,58 +1719,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     fileUploadRef={this.fileUploadRef}
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}
-                    labels={(
-                        this.hasPrioritySet() ? (
-                            <div className='AdvancedTextEditor__priority'>
-                                {this.props.draft.metadata!.priority!.priority && (
-                                    <PriorityLabel
-                                        size='xs'
-                                        priority={this.props.draft.metadata!.priority!.priority}
-                                    />
-                                )}
-                                {this.props.draft.metadata!.priority!.requested_ack && (
-                                    <div className='AdvancedTextEditor__priority-ack'>
-                                        <CheckCircleOutlineIcon size={14}/>
-                                        {!(this.props.draft.metadata!.priority!.priority) && (
-                                            <FormattedMessage
-                                                id={'post_priority.request_acknowledgement'}
-                                                defaultMessage={'Request acknowledgement'}
-                                            />
-                                        )}
-                                    </div>
-                                )}
-                                <OverlayTrigger
-                                    placement='top'
-                                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                                    trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
-                                    overlay={(
-                                        <Tooltip id='post-priority-picker-tooltip'>
-                                            <FormattedMessage
-                                                id={'post_priority.remove'}
-                                                defaultMessage={'Remove {priority}'}
-                                                values={{priority: this.props.draft.metadata!.priority!.priority}}
-                                            />
-                                        </Tooltip>
-                                    )}
-                                >
-                                    <button
-                                        type='button'
-                                        className='close'
-                                        onClick={this.handleRemovePriority}
-                                    >
-                                        <span aria-hidden='true'>{'×'}</span>
-                                        <span className='sr-only'>
-                                            <FormattedMessage
-                                                id={'post_priority.remove'}
-                                                defaultMessage={'Remove {priority}'}
-                                                values={{priority: this.props.draft.metadata!.priority!.priority}}
-                                            />
-                                        </span>
-                                    </button>
-                                </OverlayTrigger>
-                            </div>
-                        ) : undefined
-                    )}
+                    labels={priorityLabels}
                     additionalControls={[
                         this.props.isPostPriorityEnabled ? (
                             <React.Fragment key='PostPriorityPicker'>
@@ -1715,7 +1735,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                     placement='top'
                                     delayShow={Constants.OVERLAY_TIME_DELAY}
                                     trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
-                                    overlay={this.state.showPostPriorityPicker ? <React.Fragment/> : (
+                                    overlay={(
                                         <Tooltip id='post-priority-picker-tooltip'>
                                             <KeyboardShortcutSequence
                                                 shortcut={KEYBOARD_SHORTCUTS.msgPostPriority}

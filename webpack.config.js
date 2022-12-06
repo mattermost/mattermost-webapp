@@ -9,6 +9,7 @@ const https = require('https');
 const path = require('path');
 
 const url = require('url');
+
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExternalTemplateRemotesPlugin = require('external-remotes-plugin');
 const webpack = require('webpack');
@@ -417,7 +418,6 @@ async function initializeModuleFederation() {
             // Other containers will use these shared modules if their required versions match. If they don't match, the
             // version packaged with the container will be used.
             '@mattermost/client',
-            '@mattermost/components',
             '@mattermost/types',
             'prop-types',
 

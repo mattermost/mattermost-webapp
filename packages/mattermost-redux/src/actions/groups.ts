@@ -5,13 +5,11 @@ import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
 import {ChannelTypes, GroupTypes, UserTypes} from 'mattermost-redux/action_types';
-import {General, Groups} from '../constants';
+import {General} from 'mattermost-redux/constants';
 import {Client4} from 'mattermost-redux/client';
 
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {GroupPatch, SyncableType, SyncablePatch, GroupCreateWithUserIds, CustomGroupPatch, GroupSearachParams} from '@mattermost/types/groups';
-
-import Constants from 'utils/constants';
+import {GroupPatch, SyncableType, SyncablePatch, GroupCreateWithUserIds, CustomGroupPatch, GroupSearachParams, GroupSource} from '@mattermost/types/groups';
 
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
@@ -30,11 +28,11 @@ export function linkGroupSyncable(groupID: string, syncableID: string, syncableT
         const dispatches: AnyAction[] = [];
         let type = '';
         switch (syncableType) {
-        case Groups.SYNCABLE_TYPE_TEAM:
+        case SyncableType.Team:
             dispatches.push({type: GroupTypes.RECEIVED_GROUP_ASSOCIATED_TO_TEAM, data: {teamID: syncableID, groups: [{id: groupID}]}});
             type = GroupTypes.LINKED_GROUP_TEAM;
             break;
-        case Groups.SYNCABLE_TYPE_CHANNEL:
+        case SyncableType.Channel:
             type = GroupTypes.LINKED_GROUP_CHANNEL;
             break;
         default:
@@ -63,12 +61,12 @@ export function unlinkGroupSyncable(groupID: string, syncableID: string, syncabl
         let type = '';
         const data = {group_id: groupID, syncable_id: syncableID};
         switch (syncableType) {
-        case Groups.SYNCABLE_TYPE_TEAM:
+        case SyncableType.Team:
             type = GroupTypes.UNLINKED_GROUP_TEAM;
             data.syncable_id = syncableID;
             dispatches.push({type: GroupTypes.RECEIVED_GROUPS_NOT_ASSOCIATED_TO_TEAM, data: {teamID: syncableID, groups: [{id: groupID}]}});
             break;
-        case Groups.SYNCABLE_TYPE_CHANNEL:
+        case SyncableType.Channel:
             type = GroupTypes.UNLINKED_GROUP_CHANNEL;
             data.syncable_id = syncableID;
             break;
@@ -96,10 +94,10 @@ export function getGroupSyncables(groupID: string, syncableType: SyncableType): 
 
         let type = '';
         switch (syncableType) {
-        case Groups.SYNCABLE_TYPE_TEAM:
+        case SyncableType.Team:
             type = GroupTypes.RECEIVED_GROUP_TEAMS;
             break;
-        case Groups.SYNCABLE_TYPE_CHANNEL:
+        case SyncableType.Channel:
             type = GroupTypes.RECEIVED_GROUP_CHANNELS;
             break;
         default:
@@ -128,10 +126,10 @@ export function patchGroupSyncable(groupID: string, syncableID: string, syncable
 
         let type = '';
         switch (syncableType) {
-        case Groups.SYNCABLE_TYPE_TEAM:
+        case SyncableType.Team:
             type = GroupTypes.PATCHED_GROUP_TEAM;
             break;
-        case Groups.SYNCABLE_TYPE_CHANNEL:
+        case SyncableType.Channel:
             type = GroupTypes.PATCHED_GROUP_CHANNEL;
             break;
         default:
@@ -174,7 +172,7 @@ export function getGroups(filterAllowReference = false, page = 0, perPage = 10, 
     });
 }
 
-export function getGroupsNotAssociatedToTeam(teamID: string, q = '', page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, source = Constants.LDAP_SERVICE): ActionFunc {
+export function getGroupsNotAssociatedToTeam(teamID: string, q = '', page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, source = GroupSource.Ldap): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getGroupsNotAssociatedToTeam,
         onSuccess: [GroupTypes.RECEIVED_GROUPS],
@@ -188,7 +186,7 @@ export function getGroupsNotAssociatedToTeam(teamID: string, q = '', page = 0, p
     });
 }
 
-export function getGroupsNotAssociatedToChannel(channelID: string, q = '', page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, filterParentTeamPermitted = false, source = Constants.LDAP_SERVICE): ActionFunc {
+export function getGroupsNotAssociatedToChannel(channelID: string, q = '', page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, filterParentTeamPermitted = false, source = GroupSource.Ldap): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getGroupsNotAssociatedToChannel,
         onSuccess: [GroupTypes.RECEIVED_GROUPS],
