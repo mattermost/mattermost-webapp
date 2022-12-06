@@ -43,11 +43,9 @@ const BillingSummary = ({isFreeTrial, daysLeftOnTrial, onUpgradeMattermostCloud}
         body = freeTrial(onUpgradeMattermostCloud, daysLeftOnTrial);
     } else if (subscription?.last_invoice && !subscription?.upcoming_invoice) {
         const invoice = subscription.last_invoice;
-        let fullCharges = invoice.line_items.filter((item) => item.type === 'full');
+        const fullCharges = invoice.line_items.filter((item) => item.type === 'full');
         const partialCharges = invoice.line_items.filter((item) => item.type === 'partial');
-        if (!partialCharges.length && !fullCharges.length) {
-            fullCharges = invoice.line_items;
-        }
+
         body = (
             <InvoiceInfo
                 invoice={invoice}
@@ -63,12 +61,19 @@ const BillingSummary = ({isFreeTrial, daysLeftOnTrial, onUpgradeMattermostCloud}
         if (!partialCharges.length && !fullCharges.length) {
             fullCharges = invoice.line_items;
         }
+        let hasMoreLineItems = 0;
+        if (fullCharges.length > 5) {
+            hasMoreLineItems = fullCharges.length - 5;
+            fullCharges = fullCharges.slice(0, 5);
+        }
+
         body = (
             <InvoiceInfo
                 invoice={invoice}
                 product={product}
                 fullCharges={fullCharges}
                 partialCharges={partialCharges}
+                hasMore={hasMoreLineItems}
             />
         );
     }

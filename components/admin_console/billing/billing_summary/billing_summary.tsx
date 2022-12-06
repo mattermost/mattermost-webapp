@@ -134,16 +134,6 @@ export const getPaymentStatus = (status: string) => {
                 <CheckCircleOutlineIcon/>
             </div>
         );
-    case 'upcoming':
-        return (
-            <div className='BillingSummary__lastInvoice-headerStatus pending'>
-                <FormattedMessage
-                    id='admin.billing.subscriptions.billing_summary.lastInvoice.upcoming'
-                    defaultMessage='Upcoming'
-                />
-                <CheckCircleOutlineIcon/>
-            </div>
-        );
     default:
         return (
             <div className='BillingSummary__lastInvoice-headerStatus pending'>
@@ -162,11 +152,23 @@ type InvoiceInfoProps = {
     product?: Product;
     fullCharges: InvoiceLineItem[];
     partialCharges: InvoiceLineItem[];
+    hasMore?: number;
 }
 
-export const InvoiceInfo = ({invoice, product, fullCharges, partialCharges}: InvoiceInfoProps) => {
+export const InvoiceInfo = ({invoice, product, fullCharges, partialCharges, hasMore}: InvoiceInfoProps) => {
     const dispatch = useDispatch();
-    const isUpcomingInvoice = invoice?.id === 'upcoming';
+    const isUpcomingInvoice = invoice?.status.toLowerCase() === 'upcoming';
+    const openInvoicePreview = () => {
+        dispatch(
+            openModal({
+                modalId: ModalIdentifiers.CLOUD_INVOICE_PREVIEW,
+                dialogType: CloudInvoicePreview,
+                dialogProps: {
+                    url: Client4.getInvoicePdfUrl(invoice.id),
+                },
+            }),
+        );
+    };
     const title = () => {
         if (isUpcomingInvoice) {
             return (
@@ -210,14 +212,15 @@ export const InvoiceInfo = ({invoice, product, fullCharges, partialCharges}: Inv
                     className='BillingSummary__lastInvoice-charge'
                 >
                     <div className='BillingSummary__lastInvoice-chargeDescription'>
-                        {product?.billing_scheme === BillingSchemes.FLAT_FEE ?
+                        {product?.billing_scheme === BillingSchemes.FLAT_FEE ? (
                             <FormattedMessage
                                 id='admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee'
                                 defaultMessage='Monthly Flat Fee'
-                            /> :
+                            />
+                        ) : (
                             <>
                                 <FormattedNumber
-                                    value={(charge.price_per_unit / 100.0)}
+                                    value={charge.price_per_unit / 100.0}
                                     // eslint-disable-next-line react/style-prop-object
                                     style='currency'
                                     currency='USD'
@@ -228,11 +231,11 @@ export const InvoiceInfo = ({invoice, product, fullCharges, partialCharges}: Inv
                                     values={{users: charge.quantity}}
                                 />
                             </>
-                        }
+                        )}
                     </div>
                     <div className='BillingSummary__lastInvoice-chargeAmount'>
                         <FormattedNumber
-                            value={(charge.total / 100.0)}
+                            value={charge.total / 100.0}
                             // eslint-disable-next-line react/style-prop-object
                             style='currency'
                             currency='USD'
@@ -240,7 +243,32 @@ export const InvoiceInfo = ({invoice, product, fullCharges, partialCharges}: Inv
                     </div>
                 </div>
             ))}
-            {Boolean(partialCharges.length) &&
+            {Boolean(hasMore) && (
+                <div
+                    className='BillingSummary__lastInvoice-hasMoreItems'
+                >
+                    <div
+                        onClick={openInvoicePreview}
+                        className='BillingSummary__lastInvoice-chargeDescription'
+                    >
+                        {product?.billing_scheme === BillingSchemes.FLAT_FEE ? (
+                            <FormattedMessage
+                                id='admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee'
+                                defaultMessage='Monthly Flat Fee'
+                            />
+                        ) : (
+                            <>
+                                <FormattedMessage
+                                    id='admin.billing.subscriptions.billing_summary.upcomingInvoice.has_more_line_items'
+                                    defaultMessage='And {count} more items'
+                                    values={{count: hasMore}}
+                                />
+                            </>
+                        )}
+                    </div>
+                </div>
+            )}
+            {Boolean(partialCharges.length) && (
                 <>
                     <div className='BillingSummary__lastInvoice-partialCharges'>
                         <FormattedMessage
@@ -250,7 +278,7 @@ export const InvoiceInfo = ({invoice, product, fullCharges, partialCharges}: Inv
                         <OverlayTrigger
                             delayShow={500}
                             placement='bottom'
-                            overlay={(
+                            overlay={
                                 <Tooltip
                                     id='BillingSubscriptions__seatOverageTooltip'
                                     className='BillingSubscriptions__tooltip BillingSubscriptions__tooltip-right'
@@ -269,7 +297,7 @@ export const InvoiceInfo = ({invoice, product, fullCharges, partialCharges}: Inv
                                         />
                                     </div>
                                 </Tooltip>
-                            )}
+                            }
                         >
                             <i className='icon-information-outline'/>
                         </OverlayTrigger>
@@ -288,7 +316,7 @@ export const InvoiceInfo = ({invoice, product, fullCharges, partialCharges}: Inv
                             </div>
                             <div className='BillingSummary__lastInvoice-chargeAmount'>
                                 <FormattedNumber
-                                    value={(charge.total / 100.0)}
+                                    value={charge.total / 100.0}
                                     // eslint-disable-next-line react/style-prop-object
                                     style='currency'
                                     currency='USD'
@@ -296,25 +324,26 @@ export const InvoiceInfo = ({invoice, product, fullCharges, partialCharges}: Inv
                             </div>
                         </div>
                     ))}
-                </> }
-            {Boolean(invoice.tax) &&
-            <div className='BillingSummary__lastInvoice-charge'>
-                <div className='BillingSummary__lastInvoice-chargeDescription'>
-                    <FormattedMessage
-                        id='admin.billing.subscriptions.billing_summary.lastInvoice.taxes'
-                        defaultMessage='Taxes'
-                    />
+                </>
+            )}
+            {Boolean(invoice.tax) && (
+                <div className='BillingSummary__lastInvoice-charge'>
+                    <div className='BillingSummary__lastInvoice-chargeDescription'>
+                        <FormattedMessage
+                            id='admin.billing.subscriptions.billing_summary.lastInvoice.taxes'
+                            defaultMessage='Taxes'
+                        />
+                    </div>
+                    <div className='BillingSummary__lastInvoice-chargeAmount'>
+                        <FormattedNumber
+                            value={invoice.tax / 100.0}
+                            // eslint-disable-next-line react/style-prop-object
+                            style='currency'
+                            currency='USD'
+                        />
+                    </div>
                 </div>
-                <div className='BillingSummary__lastInvoice-chargeAmount'>
-                    <FormattedNumber
-                        value={(invoice.tax / 100.0)}
-                        // eslint-disable-next-line react/style-prop-object
-                        style='currency'
-                        currency='USD'
-                    />
-                </div>
-            </div>
-            }
+            )}
             <hr/>
             <div className='BillingSummary__lastInvoice-charge total'>
                 <div className='BillingSummary__lastInvoice-chargeDescription'>
@@ -325,7 +354,7 @@ export const InvoiceInfo = ({invoice, product, fullCharges, partialCharges}: Inv
                 </div>
                 <div className='BillingSummary__lastInvoice-chargeAmount'>
                     <FormattedNumber
-                        value={(invoice.total / 100.0)}
+                        value={invoice.total / 100.0}
                         // eslint-disable-next-line react/style-prop-object
                         style='currency'
                         currency='USD'
@@ -334,13 +363,7 @@ export const InvoiceInfo = ({invoice, product, fullCharges, partialCharges}: Inv
             </div>
             <div className='BillingSummary__lastInvoice-download'>
                 <button
-                    onClick={() => dispatch(openModal({
-                        modalId: ModalIdentifiers.CLOUD_INVOICE_PREVIEW,
-                        dialogType: CloudInvoicePreview,
-                        dialogProps: {
-                            url: Client4.getInvoicePdfUrl(invoice.id),
-                        },
-                    }))}
+                    onClick={openInvoicePreview}
                     className='BillingSummary__lastInvoice-downloadButton btn btn-primary'
                 >
                     <i className='icon icon-file-pdf-outline'/>

@@ -110,6 +110,18 @@
     }
 }
 
+.BillingSummary__lastInvoice-hasMoreItems {
+    display: flex;
+    align-items: center;
+    color: rgba(61, 60, 64, 0.72);
+    .BillingSummary__lastInvoice-chargeDescription {
+        &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+}
+
 .BillingSummary__lastInvoice-chargeAmount {
     margin-left: auto;
 }
@@ -131,9 +143,10 @@
 
 .BillingSummary__lastInvoice-downloadButton {
     display: flex;
-    width: fit-content;
+    width: 100%;
     align-items: center;
     padding: 11px 20px;
+    justify-content: center;
     background: var(--sys-button-bg);
     border-radius: 4px;
     color: var(--sys-button-color);
@@ -171,7 +184,7 @@
     }
 
     > span {
-        margin-left: 8px;
+        margin-left: 6px;
         font-size: 14px;
         font-weight: 600;
         line-height: 14px;
@@ -182,4 +195,6 @@
     font-size: 12px;
     font-weight: 600;
     line-height: 9.5px;
+    display: block;
+    text-align: center;
 }
