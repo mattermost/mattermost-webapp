@@ -4,10 +4,9 @@
 /* eslint-disable max-lines */
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import {AlertCircleOutlineIcon, CheckCircleOutlineIcon, BellRingOutlineIcon} from '@mattermost/compass-icons/components';
+import {AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -46,8 +45,8 @@ import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload'
 import ResetStatusModal from 'components/reset_status_modal';
 import TextboxClass from 'components/textbox/textbox';
 import PostPriorityPickerOverlay from 'components/post_priority/post_priority_picker_overlay';
-import PriorityLabel from 'components/post_priority/post_priority_label';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
+import PersistNotificationConfirmModal from 'components/persist_notification_confirm_modal';
 import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
 import EmojiMap from 'utils/emoji_map';
 
@@ -57,7 +56,7 @@ import {ModalData} from 'types/actions';
 import {PostDraft} from 'types/store/draft';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
-import {Post, PostMetadata, PostPriorityMetadata} from '@mattermost/types/posts';
+import {Post, PostMetadata, PostPriority, PostPriorityMetadata} from '@mattermost/types/posts';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {ServerError} from '@mattermost/types/errors';
 import {CommandArgs} from '@mattermost/types/integrations';
@@ -69,6 +68,9 @@ import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_icon';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
+
+import PriorityLabels from './priority_labels';
+
 const KeyCodes = Constants.KeyCodes;
 
 function isDraftEmpty(draft: PostDraft): boolean {
@@ -595,6 +597,18 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         });
     }
 
+    showPersistNotificationModal = (mentions: string[], hasSpecialMentions: boolean) => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.PERSIST_NOTIFICATION_CONFIRM_MODAL,
+            dialogType: PersistNotificationConfirmModal,
+            dialogProps: {
+                mentions,
+                hasSpecialMentions,
+                onConfirm: this.handleNotifyAllConfirmation,
+            },
+        });
+    }
+
     getStatusFromSlashCommand = () => {
         const {message} = this.state;
         const tokens = message.split(' ');
@@ -669,7 +683,16 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             }
         }
 
-        if (memberNotifyCount > 0) {
+        if (
+            this.props.isPostPriorityEnabled &&
+            this.props.draft?.metadata?.priority?.priority === PostPriority.URGENT &&
+            this.props.draft?.metadata?.priority?.persistent_notifications
+        ) {
+            const mentioned = mentionsMinusSpecialMentionsInText(this.state.message);
+            this.showPersistNotificationModal(mentioned, hasSpecialMentions);
+            this.isDraftSubmitting = false;
+            return;
+        } else if (memberNotifyCount > 0) {
             this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
             this.isDraftSubmitting = false;
             return;
@@ -833,7 +856,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             return;
         }
 
-        if (allowSending) {
+        if (allowSending && this.isValidPersistentNotifications()) {
             if (e.persist) {
                 e.persist();
             }
@@ -1519,6 +1542,21 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         );
     }
 
+    isValidPersistentNotifications = (): boolean => {
+        if (!this.hasPrioritySet()) {
+            return true;
+        }
+
+        const {priority, persistent_notifications: persistentNotifications} = this.props.draft.metadata!.priority!;
+        if (priority !== PostPriority.URGENT || !persistentNotifications) {
+            return true;
+        }
+
+        const mentions = mentionsMinusSpecialMentionsInText(this.state.message);
+
+        return mentions.length > 0;
+    }
+
     render() {
         const {draft, canPost} = this.props;
 
@@ -1530,80 +1568,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         if (!this.props.currentChannel || !this.props.currentChannel.id) {
             return null;
         }
-
-        const priorityLabels = (
-            this.hasPrioritySet() ? (
-                <div className='AdvancedTextEditor__priority'>
-                    {draft.metadata!.priority!.priority && (
-                        <PriorityLabel
-                            size='xs'
-                            priority={draft.metadata!.priority!.priority}
-                        />
-                    )}
-                    {draft.metadata!.priority!.persistent_notifications && (
-                        <OverlayTrigger
-                            placement='top'
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
-                            overlay={(
-                                <Tooltip id='post-priority-picker-persistent-notifications-tooltip'>
-                                    <FormattedMessage
-                                        id={'post_priority.persistent_notifications.tooltip'}
-                                        defaultMessage={'Persistent notifications will be sent'}
-                                    />
-                                </Tooltip>
-                            )}
-                        >
-                            <div className='AdvancedTextEditor__priority-persistent-notifications'>
-                                <BellRingOutlineIcon size={14}/>
-                            </div>
-                        </OverlayTrigger>
-                    )}
-                    {draft.metadata!.priority!.requested_ack && (
-                        <div className='AdvancedTextEditor__priority-ack'>
-                            <CheckCircleOutlineIcon size={14}/>
-                            {!(draft.metadata!.priority!.priority) && (
-                                <FormattedMessage
-                                    id={'post_priority.request_acknowledgement'}
-                                    defaultMessage={'Request acknowledgement'}
-                                />
-                            )}
-                        </div>
-                    )}
-                    {!this.props.shouldShowPreview && (
-                        <OverlayTrigger
-                            placement='top'
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
-                            overlay={(
-                                <Tooltip id='post-priority-picker-tooltip'>
-                                    <FormattedMessage
-                                        id={'post_priority.remove'}
-                                        defaultMessage={'Remove {priority}'}
-                                        values={{priority: draft.metadata!.priority!.priority}}
-                                    />
-                                </Tooltip>
-                            )}
-                        >
-                            <button
-                                type='button'
-                                className='close'
-                                onClick={this.handleRemovePriority}
-                            >
-                                <span aria-hidden='true'>{'×'}</span>
-                                <span className='sr-only'>
-                                    <FormattedMessage
-                                        id={'post_priority.remove'}
-                                        defaultMessage={'Remove {priority}'}
-                                        values={{priority: draft.metadata!.priority!.priority}}
-                                    />
-                                </span>
-                            </button>
-                        </OverlayTrigger>
-                    )}
-                </div>
-            ) : undefined
-        );
 
         return (
             <form
@@ -1664,7 +1628,17 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     fileUploadRef={this.fileUploadRef}
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}
-                    labels={priorityLabels}
+                    shouldDisable={!this.isValidPersistentNotifications()}
+                    labels={this.hasPrioritySet() ? (
+                        <PriorityLabels
+                            canRemove={this.props.shouldShowPreview}
+                            hasError={!this.isValidPersistentNotifications()}
+                            onRemove={this.handleRemovePriority}
+                            persistentNotifications={draft!.metadata!.priority?.persistent_notifications}
+                            priority={draft!.metadata!.priority?.priority}
+                            requestedAck={draft!.metadata!.priority?.requested_ack}
+                        />
+                    ) : undefined}
                     additionalControls={[
                         this.props.isPostPriorityEnabled ? (
                             <React.Fragment key='PostPriorityPicker'>
