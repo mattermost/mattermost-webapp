@@ -359,7 +359,7 @@ const PostComponent = (props: Props): JSX.Element => {
                     searchMatches: props.matches,
                     mentionHighlight: props.isMentionSearch,
                 }}
-                isRHS={true}
+                isRHS={props.location === Locations.RHS_ROOT || props.location === Locations.RHS_COMMENT}
             />
         </PostBodyAdditionalContent>
     ) : (
@@ -367,6 +367,7 @@ const PostComponent = (props: Props): JSX.Element => {
             post={post}
             isEmbedVisible={props.isEmbedVisible}
             pluginPostTypes={props.pluginPostTypes}
+            isRHS={props.location === Locations.RHS_ROOT || props.location === Locations.RHS_COMMENT}
         />
     );
 
@@ -523,7 +524,7 @@ const PostComponent = (props: Props): JSX.Element => {
                         </div>
                         <div
                             className={postClass}
-                            id={props.location === 'RHS_ROOT' ? `rhsPostMessageText_${post.id}` : `postMessageText_${post.id}`}
+                            id={props.location === Locations.RHS_ROOT ? `rhsPostMessageText_${post.id}` : `postMessageText_${post.id}`}
                         >
                             {post.failed && <FailedPostOptions post={props.post}/>}
                             <AutoHeightSwitcher

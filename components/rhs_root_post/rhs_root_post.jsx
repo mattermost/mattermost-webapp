@@ -574,6 +574,7 @@ export default class RhsRootPost extends React.PureComponent {
                 previewEnabled={this.props.previewEnabled}
                 isEmbedVisible={this.props.isEmbedVisible}
                 pluginPostTypes={this.props.pluginPostTypes}
+                isRHS={true}
             />
         );
 

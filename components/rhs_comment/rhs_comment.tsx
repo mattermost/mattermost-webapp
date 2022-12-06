@@ -663,6 +663,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
                 post={post}
                 isEmbedVisible={this.props.isEmbedVisible}
                 pluginPostTypes={this.props.pluginPostTypes}
+                isRHS={true}
             />
         );
 
