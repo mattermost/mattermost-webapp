@@ -789,6 +789,7 @@ export function handlePostUnreadEvent(msg) {
                 msgCountRoot: msg.data.msg_count_root,
                 mentionCount: msg.data.mention_count,
                 mentionCountRoot: msg.data.mention_count_root,
+                urgentMentionCount: msg.data.urgent_mention_count,
             },
         },
     );
