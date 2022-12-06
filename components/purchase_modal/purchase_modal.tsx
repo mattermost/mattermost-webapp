@@ -486,22 +486,35 @@ function Card(props: CardProps) {
         </div>
     );
 
+    const getPlanCardMessage = () => {
+        if (props.isCurrentPlanMonthlyProfessional && isMonthly) {
+            return (
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.currentPlan'
+                    defaultMessage='Current Plan'
+                />
+            );
+        }
+
+        return (
+            <FormattedMessage
+                defaultMessage={'Save 20% with Yearly.'}
+                id={'pricing_modal.saveWithYearly'}
+            />
+        );
+    };
+
     const monthlyYearlyPlan = (
         <div className='PlanCard'>
             <div className='bottom bottom-monthly-yearly'>
                 <div className='save_text'>
-                    <FormattedMessage
-                        defaultMessage={'Save 20% with Yearly.'}
-                        id={'pricing_modal.saveWithYearly'}
-                    />
+                    {getPlanCardMessage()}
                 </div>
-                {!props.isCurrentPlanMonthlyProfessional && (
-                    <YearlyMonthlyToggle
-                        updatePrice={updateDisplayPage}
-                        isPurchases={true}
-                        isInitialPlanMonthly={props.isInitialPlanMonthly}
-                    />
-                )}
+                <YearlyMonthlyToggle
+                    updatePrice={updateDisplayPage}
+                    isPurchases={true}
+                    isInitialPlanMonthly={props.isInitialPlanMonthly}
+                />
                 {/* the style below will eventually be added to the plan_price_rate_section once the annualSubscription feature flag is removed*/}
                 <div
                     className='plan_price_rate_section'
@@ -907,7 +920,10 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             return crossSellsToProduct ? crossSellsToProduct.price_per_seat / 12 : this.state.selectedProduct.price_per_seat;
         };
 
-        const checkIsMonthlyProfessionalProduct = (product: Product) => {
+        const checkIsMonthlyProfessionalProduct = (product: Product | null | undefined) => {
+            if (!product) {
+                return false;
+            }
             return product.recurring_interval === RecurringIntervals.MONTH && product.sku === CloudProducts.PROFESSIONAL;
         };
 
@@ -931,12 +947,14 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         text: 'Upgrade',
                         customClass:
                             !this.state.paymentInfoIsValid ||
-                            this.state.selectedProduct?.billing_scheme ===
-                                BillingSchemes.SALES_SERVE || this.state.userCountError ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
+                            this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE || this.state.userCountError ||
+                            (checkIsMonthlyProfessionalProduct(this.state.currentProduct) && this.state.isMonthly) ?
+                                ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
                         disabled:
                             !this.state.paymentInfoIsValid ||
-                            this.state.selectedProduct?.billing_scheme ===
-                                BillingSchemes.SALES_SERVE || this.state.userCountError,
+                            this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE ||
+                            this.state.userCountError ||
+                            (checkIsMonthlyProfessionalProduct(this.state.currentProduct) && this.state.isMonthly),
                     }}
                     planLabel={
                         showPlanLabel ? (
@@ -961,7 +979,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     setUserCountError={(hasError: boolean) => this.setState({userCountError: hasError})}
                     updateIsMonthly={(newIsMonthly: boolean) => this.setState({isMonthly: newIsMonthly})}
                     updateInputUserCount={(newUsersCount: number) => this.setState({inputUserCount: newUsersCount})}
-                    isCurrentPlanMonthlyProfessional={this.state.currentProduct ? checkIsMonthlyProfessionalProduct(this.state.currentProduct) : false}
+                    isCurrentPlanMonthlyProfessional={checkIsMonthlyProfessionalProduct(this.state.currentProduct)}
                 />
             </>
         );

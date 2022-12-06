@@ -445,6 +445,28 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').get('#enterprise').get('#start_cloud_trial_btn').should('be.disabled');
     });
 
+    it('should not allow downgrades from yearly plans', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_4',
+            is_free_trial: 'false',
+        };
+        simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit(urlL);
+
+        // # Open the pricing modal
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+
+        // * Check that free card Downgrade button is disabled
+        cy.get('#pricingModal').get('#free').get('#free_action').should('be.disabled').contains('Downgrade');
+    });
+
     it('should not allow starting a trial from professional plans', () => {
         const subscription = {
             id: 'sub_test1',
