@@ -10,6 +10,7 @@ import {updateUserActive, revokeAllSessionsForUser, promoteGuestToUser, demoteUs
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getExternalBotAccounts} from 'mattermost-redux/selectors/entities/bots';
 import {loadBots} from 'mattermost-redux/actions/bots';
+import {createGroupTeamsAndChannels} from 'mattermost-redux/actions/groups';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
@@ -38,6 +39,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             promoteGuestToUser,
             demoteUserToGuest,
             loadBots,
+            createGroupTeamsAndChannels,
         }, dispatch),
     };
 }

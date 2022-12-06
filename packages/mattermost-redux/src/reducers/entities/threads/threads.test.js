@@ -139,6 +139,7 @@ describe('threads', () => {
             total: 3,
             total_unread_threads: 0,
             total_unread_mentions: 0,
+            total_unread_urgent_mentions: 0,
         });
     });
 
@@ -457,6 +458,14 @@ describe('threads', () => {
                 b: ['t4', 't5', 't6'],
             },
             threads: {
+                t0: {
+                    id: 't0',
+                    unread_replies: 0,
+                    unread_mentions: 0,
+                    post: {
+                        channel_id: 'ch1',
+                    },
+                },
                 t1: {
                     id: 't1',
                     unread_replies: 1,
@@ -508,7 +517,7 @@ describe('threads', () => {
             },
             counts: {
                 a: {
-                    total: 3,
+                    total: 4,
                     total_unread_threads: 3,
                     total_unread_mentions: 2,
                 },
@@ -520,7 +529,7 @@ describe('threads', () => {
             },
             countsIncludingDirect: {
                 a: {
-                    total: 3,
+                    total: 4,
                     total_unread_threads: 3,
                     total_unread_mentions: 2,
                 },
@@ -553,12 +562,14 @@ describe('threads', () => {
             total: 1,
             total_unread_threads: 1,
             total_unread_mentions: 0,
+            total_unread_urgent_mentions: 0,
         });
 
         expect(nextState.countsIncludingDirect.a).toEqual({
             total: 1,
             total_unread_threads: 1,
             total_unread_mentions: 0,
+            total_unread_urgent_mentions: 0,
         });
 
         expect(nextState.threadsInTeam.b).toBe(state.threadsInTeam.b);

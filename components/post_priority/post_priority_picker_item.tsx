@@ -6,18 +6,60 @@ import styled from 'styled-components';
 
 import {CheckIcon} from '@mattermost/compass-icons/components';
 
+import Toggle from 'components/toggle';
 import menuItem from 'components/widgets/menu/menu_items/menu_item';
+import MenuGroup from 'components/widgets/menu/menu_group';
 
-type Props = {
+type ItemProps = {
+    ariaLabel: string;
     isSelected: boolean;
     onClick: () => void;
-    ariaLabel: string;
     text: React.ReactNode;
+}
+
+type ToggleProps = {
+    ariaLabel?: string;
+    description: React.ReactNode;
+    disabled: boolean;
+    icon: React.ReactNode;
+    onClick: () => void;
+    text: React.ReactNode;
+    toggled: boolean;
 }
 
 const ItemButton = styled.button`
     display: flex !important;
     align-items: center !important;
+`;
+
+const Wrapper = styled.div`
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgba(var(--center-channel-color-rgb), 0.1);
+    }
+`;
+
+const ToggleMain = styled.div`
+    display: flex !important;
+    align-items: center !important;
+    padding: 8px 16px 4px;
+`;
+
+const Text = styled.div`
+    padding-left: 10px;
+`;
+
+const Description = styled.div`
+    padding: 0 44px 6px;
+    font-size: 12px;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+`;
+
+const ToggleWrapper = styled.div`
+    flex-shrink: 0;
+    width: 32px;
+    margin-left: auto;
 `;
 
 const StyledCheckIcon = styled(CheckIcon)`
@@ -32,7 +74,7 @@ const Menu = styled.ul`
     box-shadow: none;
     border-radius: 0;
     border: 0;
-    padding: 8px 0;
+    padding: 0 0 8px;
     margin: 0;
     color: var(--center-channel-text-rgb);
     list-style: none;
@@ -43,7 +85,7 @@ function Item({
     ariaLabel,
     text,
     isSelected,
-}: Props) {
+}: ItemProps) {
     return (
         <ItemButton
             aria-label={ariaLabel}
@@ -58,8 +100,45 @@ function Item({
     );
 }
 
+function ToggleItem({
+    ariaLabel,
+    description,
+    disabled,
+    icon,
+    onClick,
+    text,
+    toggled,
+}: ToggleProps) {
+    return (
+        <Wrapper
+            onClick={onClick}
+            role='button'
+        >
+            <ToggleMain>
+                {icon}
+                <Text>
+                    {text}
+                </Text>
+                <ToggleWrapper>
+                    <Toggle
+                        aria-label={ariaLabel}
+                        size='btn-sm'
+                        disabled={disabled}
+                        onToggle={onClick}
+                        toggled={toggled}
+                        toggleClassName='btn-toggle-primary'
+                    />
+                </ToggleWrapper>
+            </ToggleMain>
+            <Description>
+                {description}
+            </Description>
+        </Wrapper>
+    );
+}
+
 const MenuItem = menuItem(Item);
 
-export {MenuItem};
+export {MenuItem, ToggleItem, MenuGroup};
 
 export default Menu;
