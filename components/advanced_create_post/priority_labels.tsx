@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import PriorityLabel from 'components/post_priority/post_priority_label';
+
 import {CheckCircleOutlineIcon, BellRingOutlineIcon} from '@mattermost/compass-icons/components';
 
 import Constants from 'utils/constants';

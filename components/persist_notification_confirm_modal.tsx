@@ -3,6 +3,9 @@
 
 import React, {memo} from 'react';
 import {FormattedMessage} from 'react-intl';
+import {useSelector} from 'react-redux';
+
+import {getPersistentNotificationInterval, getPersistentNotificationMaxRecipients} from 'mattermost-redux/selectors/entities/posts';
 
 import {GenericModal} from '@mattermost/components';
 
@@ -23,6 +26,9 @@ function PersistNotificationConfirmModal({
     let confirmBtn: React.ReactNode = '';
     let handleConfirm = () => {};
 
+    const maxRecipients = useSelector(getPersistentNotificationMaxRecipients);
+    const interval = useSelector(getPersistentNotificationInterval);
+
     if (mentions.length > 5) {
         title = (
             <FormattedMessage
@@ -35,7 +41,7 @@ function PersistNotificationConfirmModal({
                 id='persist_notification.too_many.description'
                 defaultMessage='You can send persistent notifications to a maximum of <b>{max}</b> recipients. There are <b>{count}</b> recipients mentioned in your message. You’ll need to change who you’ve mentioned before you can send.'
                 values={{
-                    max: 5,
+                    max: maxRecipients,
                     count: mentions.length,
                     b: (chunks: string) => <b>{chunks}</b>,
                 }}
@@ -58,7 +64,10 @@ function PersistNotificationConfirmModal({
         message = (
             <FormattedMessage
                 id='persist_notification.confirm.description'
-                defaultMessage='Mentioned recipients will be notified every 5 minutes until they’ve acknowledged the message.'
+                defaultMessage='Mentioned recipients will be notified every {interval} minutes until they’ve acknowledged the message.'
+                values={{
+                    interval,
+                }}
             />
         );
         confirmBtn = (

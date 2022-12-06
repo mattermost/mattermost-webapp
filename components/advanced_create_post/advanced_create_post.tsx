@@ -1547,8 +1547,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             return true;
         }
 
+        const {currentChannel} = this.props;
         const {priority, persistent_notifications: persistentNotifications} = this.props.draft.metadata!.priority!;
         if (priority !== PostPriority.URGENT || !persistentNotifications) {
+            return true;
+        }
+
+        if (currentChannel.type === Constants.DM_CHANNEL || currentChannel.type === Constants.GM_CHANNEL) {
             return true;
         }
 

@@ -115,6 +115,7 @@ function PostPriorityPicker({
     }, [ref.current]);
 
     const postAcknowledgementsEnabled = useSelector(isPostAcknowledgementsEnabled);
+    const persistentNotificationsEnabled = useSelector(isPersistentNotificationsEnabled);
 
     const makeOnSelectPriority = useCallback((type?: PostPriority) => () => {
         setPriority(type || '');
@@ -242,22 +243,24 @@ function PostPriorityPicker({
                                     })}
                                 />
                             </MenuGroup>
-                            <MenuGroup>
-                                <ToggleItem
-                                    disabled={priority !== PostPriority.URGENT}
-                                    onClick={handlePersistentNotifications}
-                                    toggled={persistentNotifications}
-                                    icon={<PersistentNotificationsIcon size={18}/>}
-                                    text={formatMessage({
-                                        id: 'post_priority.persistent_notifications.text',
-                                        defaultMessage: 'Send persistent notifications',
-                                    })}
-                                    description={formatMessage({
-                                        id: 'post_priority.persistent_notifications.description',
-                                        defaultMessage: 'Recipients will be notified every 5 mins until they acknowledge or reply',
-                                    })}
-                                />
-                            </MenuGroup>
+                            {persistentNotificationsEnabled && (
+                                <MenuGroup>
+                                    <ToggleItem
+                                        disabled={priority !== PostPriority.URGENT}
+                                        onClick={handlePersistentNotifications}
+                                        toggled={persistentNotifications}
+                                        icon={<PersistentNotificationsIcon size={18}/>}
+                                        text={formatMessage({
+                                            id: 'post_priority.persistent_notifications.text',
+                                            defaultMessage: 'Send persistent notifications',
+                                        })}
+                                        description={formatMessage({
+                                            id: 'post_priority.persistent_notifications.description',
+                                            defaultMessage: 'Recipients will be notified every 5 mins until they acknowledge or reply',
+                                        })}
+                                    />
+                                </MenuGroup>
+                            )}
                         </>
                     )}
                 </Menu>

@@ -2808,6 +2808,136 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.AllowPersistentNotifications',
+                        label: t('admin.posts.persistentNotifications.title'),
+                        label_default: 'Persistent Notifications',
+                        help_text: t('admin.posts.persistentNotifications.desc'),
+                        help_text_default: 'When enabled, users can trigger repeating notifications for the recipients of urgent messages. Learn more about message priority and persistent notifications in our <link>documentation</link>.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://mattermost.com/pl/message-priority/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
+                        isHidden: it.any(
+                            it.configIsFalse('FeatureFlags', 'PostPriority'),
+                            it.configIsFalse('ServiceSettings', 'PostPriority'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_NUMBER,
+                        key: 'ServiceSettings.PersistentNotificationMaxRecipients',
+                        label: t('admin.posts.persistentNotificationsMaxRecipients.title'),
+                        label_default: 'Maximum number of recipients for persistent notifications',
+                        help_text: t('admin.posts.persistentNotificationsMaxRecipients.desc'),
+                        help_text_default: 'Configure the maximum number of recipients to which users may send persistent notifications. Learn more about message priority and persistent notifications in our <link>documentation</link>.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://mattermost.com/pl/message-priority/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
+                        isHidden: it.any(
+                            it.configIsFalse('FeatureFlags', 'PostPriority'),
+                            it.configIsFalse('ServiceSettings', 'PostPriority'),
+                            it.configIsFalse('ServiceSettings', 'AllowPersistentNotifications'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_NUMBER,
+                        key: 'ServiceSettings.PersistentNotificationInterval',
+                        label: t('admin.posts.persistentNotificationsInterval.title'),
+                        label_default: 'Frequency of persistent notifications',
+                        help_text: t('admin.posts.persistentNotificationsInterval.desc'),
+                        help_text_default: 'Configure the number of minutes between repeated notifications for urgent messages send with persistent notifications. Learn more about message priority and persistent notifications in our <link>documentation</link>.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://mattermost.com/pl/message-priority/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
+                        isHidden: it.any(
+                            it.configIsFalse('FeatureFlags', 'PostPriority'),
+                            it.configIsFalse('ServiceSettings', 'PostPriority'),
+                            it.configIsFalse('ServiceSettings', 'AllowPersistentNotifications'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_NUMBER,
+                        key: 'ServiceSettings.PersistentNotificationMaxCount',
+                        label: t('admin.posts.persistentNotificationsMaxCount.title'),
+                        label_default: 'Total number of persistent notification per post',
+                        help_text: t('admin.posts.persistentNotificationsMaxCount.desc'),
+                        help_text_default: 'Configure the maximum number of times users may receive persistent notifications. Learn more about message priority and persistent notifications in our <link>documentation</link>.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://mattermost.com/pl/message-priority/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
+                        isHidden: it.any(
+                            it.configIsFalse('FeatureFlags', 'PostPriority'),
+                            it.configIsFalse('ServiceSettings', 'PostPriority'),
+                            it.configIsFalse('ServiceSettings', 'AllowPersistentNotifications'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'GuestAccountsSettings.AllowPersistentNotifications',
+                        label: t('admin.posts.persistentNotificationsGuests.title'),
+                        label_default: 'Allow guests to send persistent notifications',
+                        help_text: t('admin.posts.persistentNotificationsGuests.desc'),
+                        help_text_default: 'Whether a guest is able to require persistent notifications. Learn more about message priority and persistent notifications in our <link>documentation</link>.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://mattermost.com/pl/message-priority/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
+                        help_text_markdown: false,
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
+                        isHidden: it.any(
+                            it.configIsFalse('GuestAccountsSettings', 'Enable'),
+                            it.configIsFalse('FeatureFlags', 'PostPriority'),
+                            it.configIsFalse('ServiceSettings', 'PostPriority'),
+                            it.configIsFalse('ServiceSettings', 'AllowPersistentNotifications'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableLinkPreviews',
                         label: t('admin.customization.enableLinkPreviewsTitle'),
                         label_default: 'Enable website link previews:',

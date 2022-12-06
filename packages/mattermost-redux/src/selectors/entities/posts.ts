@@ -771,8 +771,23 @@ export function isPostPriorityEnabled(state: GlobalState) {
 export function isPostAcknowledgementsEnabled(state: GlobalState) {
     return (
         isPostPriorityEnabled(state) &&
-        getConfig(state).PostAcknowledgements === 'true'
+        getConfig(state).AllowPersistentNotifications === 'true'
     );
+}
+
+export function isPersistentNotificationsEnabled(state: GlobalState) {
+    return (
+        isPostPriorityEnabled(state) &&
+        getConfig(state).AllowPersistentNotifications === 'true'
+    );
+}
+
+export function getPersistentNotificationMaxRecipients(state: GlobalState) {
+    return getConfig(state).PersistentNotificationMaxRecipients;
+}
+
+export function getPersistentNotificationInterval(state: GlobalState) {
+    return getConfig(state).PersistentNotificationInterval;
 }
 
 export function getPostAcknowledgements(state: GlobalState, postId: Post['id']): Record<UserProfile['id'], PostAcknowledgement['acknowledged_at']> {
