@@ -13,7 +13,7 @@ import {ServerError} from '@mattermost/types/errors';
 import TeamUrl from './team_url';
 
 type Actions = {
-    checkIfTeamExists: (teamName: string) => Promise<{exists: boolean}>;
+    checkIfTeamExists: (teamName: string) => Promise<{data: boolean}>;
     createTeam: (team: Team) => Promise<{data: Team; error: ServerError}>;
 };
 

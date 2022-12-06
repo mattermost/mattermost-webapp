@@ -20,7 +20,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
 import {Menu, MenuItem, MenuDivider} from 'components/menu';
-import ChannelMoveToSubmenu from 'components/channel_move_to_submenu';
+import ChannelMoveToSubmenu from 'components/channel_move_to_sub_menu';
 import {PopoverMenuItem} from 'components/menu_item_types/popover_menu_item';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
@@ -276,10 +276,7 @@ const SidebarChannelMenu = (props: Props) => {
             {favoriteUnfavoriteMenuItem}
             {muteUnmuteChannelMenuItem}
             <MenuDivider/>
-            <ChannelMoveToSubmenu
-                channel={props.channel}
-                inSidebar={true}
-            />
+            <ChannelMoveToSubmenu channel={props.channel}/>
             {(copyLinkMenuItem || addMembersMenuItem) && <MenuDivider/>}
             {copyLinkMenuItem}
             {addMembersMenuItem}
