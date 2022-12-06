@@ -22,6 +22,7 @@ import Avatar from 'components/widgets/users/avatar';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
 import GlobalThreads from 'components/threading/global_threads';
+import {useThreadsLinkMeta} from 'components/threading/hooks';
 
 import {openPricingModal} from '../components/global_header/right_controls/plan_upgrade_button';
 
@@ -84,4 +85,5 @@ window.ProductApi = {
     getRhsSelectedPostId: getSelectedPostId,
     getIsRhsOpen,
     GlobalThreads,
+    useThreadsLinkMeta,
 };
