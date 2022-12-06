@@ -185,7 +185,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         channelIsArchived: isArchivedChannel(channel),
         isConsecutivePost: isConsecutivePost(state, ownProps),
         previousPostIsComment,
-        isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
+        isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) !== null,
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
         colorizeUsernames: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLORIZE_USERNAMES, Preferences.COLORIZE_USERNAMES_DEFAULT) === 'true',
         shouldShowActionsMenu: shouldShowActionsMenu(state, post),

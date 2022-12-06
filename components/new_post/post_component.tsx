@@ -52,7 +52,6 @@ export type Props = {
     compactDisplay?: boolean;
     colorizeUsernames?: boolean;
     isFlagged: boolean;
-    isBusy?: boolean;
     previewCollapsed?: string;
     previewEnabled?: boolean;
     isEmbedVisible?: boolean;
@@ -133,7 +132,7 @@ const PostComponent = (props: Props): JSX.Element => {
         if (a11yActive) {
             postRef.current?.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
         }
-    }, [hover, postRef.current]);
+    }, [hover]);
 
     useEffect(() => {
         if (hover) {
@@ -161,11 +160,10 @@ const PostComponent = (props: Props): JSX.Element => {
     };
 
     const getChannelName = () => {
-        const {post, channelType, isCollapsedThreadsEnabled, channelName} = props;
-        let name: React.ReactNode = channelName;
+        let name: React.ReactNode = props.channelName;
 
-        const isDirectMessage = channelType === Constants.DM_CHANNEL;
-        const isPartOfThread = isCollapsedThreadsEnabled && (post.reply_count > 0 || post.is_following);
+        const isDirectMessage = props.channelType === Constants.DM_CHANNEL;
+        const isPartOfThread = props.isCollapsedThreadsEnabled && (props.post.reply_count > 0 || props.post.is_following);
 
         if (isDirectMessage && isPartOfThread) {
             name = (
@@ -183,7 +181,7 @@ const PostComponent = (props: Props): JSX.Element => {
                     id='search_item.thread'
                     defaultMessage='Thread in {channel}'
                     values={{
-                        channel: channelName,
+                        channel: props.channelName,
                     }}
                 />
             );
@@ -207,7 +205,7 @@ const PostComponent = (props: Props): JSX.Element => {
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = checkIsMeMessage(post);
         const hovered =
-            fileDropdownOpened || dropdownOpened || a11yActive || isPostBeingEdited;
+            fileDropdownOpened || dropdownOpened || a11yActive || props.isPostBeingEdited;
         return classNames('a11y__section post', {
             'post--highlight': props.shouldHighlight && !fadeOutHighlight,
             'same--root': hasSameRoot(props),
@@ -271,21 +269,19 @@ const PostComponent = (props: Props): JSX.Element => {
     const isEligibleForClick = makeIsEligibleForClick('.post-image__column, .embed-responsive-item, .attachment, .hljs, code');
 
     const handlePostClick = (e: MouseEvent<HTMLDivElement>) => {
-        const {post, clickToReply, isPostBeingEdited} = props;
-
-        if (!post || props.channelIsArchived) {
+        if (!props.post || props.channelIsArchived) {
             return;
         }
 
-        const isSystemMessage = PostUtils.isSystemMessage(post);
-        const fromAutoResponder = PostUtils.fromAutoResponder(post);
+        const isSystemMessage = PostUtils.isSystemMessage(props.post);
+        const fromAutoResponder = PostUtils.fromAutoResponder(props.post);
 
         if (
             !e.altKey &&
-            clickToReply &&
+            props.clickToReply &&
             (fromAutoResponder || !isSystemMessage) &&
             isEligibleForClick(e) &&
-            !isPostBeingEdited
+            !props.isPostBeingEdited
         ) {
             trackEvent('crt', 'clicked_to_reply');
             props.actions.selectPost(post);
@@ -313,12 +309,9 @@ const PostComponent = (props: Props): JSX.Element => {
             return;
         }
         props.actions.selectPost(props.post);
-    }, [props.post]);
+    }, [props.post.id]);
 
-    const {
-        post,
-        isPostBeingEdited,
-    } = props;
+    const post = props.post;
 
     const isSystemMessage = PostUtils.isSystemMessage(post);
     const postClass = classNames('post__body', {'post--edited': PostUtils.isEdited(props.post), 'search-item-snippet': isSearchResultItem});
@@ -372,7 +365,7 @@ const PostComponent = (props: Props): JSX.Element => {
         />
     );
 
-    const showSlot = isPostBeingEdited ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
+    const showSlot = props.isPostBeingEdited ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
     const threadFooter = props.location !== Locations.RHS_ROOT && props.isCollapsedThreadsEnabled && !post.root_id && (props.hasReplies || post.is_following) ? <ThreadFooter threadId={post.id}/> : null;
     const currentPostDay = getDateForUnixTicks(post.create_at);
     const channelDisplayName = getChannelName();
@@ -456,7 +449,6 @@ const PostComponent = (props: Props): JSX.Element => {
                     <div className='post__img'>
                         <PostProfilePicture
                             compactDisplay={props.compactDisplay}
-                            isBusy={props.isBusy}
                             isRHS={isRHS}
                             post={post}
                             userId={post.user_id}
@@ -510,7 +502,7 @@ const PostComponent = (props: Props): JSX.Element => {
                                 }
                                 {visibleMessage}
                             </div>
-                            {!isPostBeingEdited &&
+                            {!props.isPostBeingEdited &&
                             <PostOptions
                                 {...props}
                                 setActionsMenuInitialisationState={props.actions.setActionsMenuInitialisationState}
@@ -530,7 +522,7 @@ const PostComponent = (props: Props): JSX.Element => {
                             {post.failed && <FailedPostOptions post={props.post}/>}
                             <AutoHeightSwitcher
                                 showSlot={showSlot}
-                                shouldScrollIntoView={isPostBeingEdited}
+                                shouldScrollIntoView={props.isPostBeingEdited}
                                 slot1={message}
                                 slot2={<EditPost/>}
                                 onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}

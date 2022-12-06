@@ -129,7 +129,6 @@ const PostOptions = (props: Props): JSX.Element => {
                 postId={post.id}
                 teamId={props.teamId}
                 emojis={props.recentEmojis}
-                getDotMenuRef={getDotMenuRef}
                 size={props.isExpanded || props.location === 'CENTER' ? 3 : 1}
             />
         );
