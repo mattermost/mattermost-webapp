@@ -24,7 +24,7 @@ import {closeRightHandSide, selectPost, selectPostCardFromRightHandSideSearch, s
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
 import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from 'selectors/emojis';
-import {getIsPostBeingEditedInRHS, isEmbedVisible} from 'selectors/posts';
+import {getIsPostBeingEdited, getIsPostBeingEditedInRHS, isEmbedVisible} from 'selectors/posts';
 import {getHighlightedPostId, getRhsState} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
 
@@ -32,7 +32,7 @@ import {GlobalState} from 'types/store';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {areConsecutivePostsBySameUser, shouldShowActionsMenu} from 'utils/post_utils';
-import {Preferences, RHSStates} from 'utils/constants';
+import {Locations, Preferences, RHSStates} from 'utils/constants';
 
 import {ExtendedPost, removePost} from 'mattermost-redux/actions/posts';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
@@ -51,6 +51,7 @@ interface OwnProps {
     postId?: string;
     teamId?: string;
     shouldHighlight?: boolean;
+    location: keyof typeof Locations;
 }
 
 function isFirstReply(post: Post, previousPost?: Post | null): boolean {
@@ -197,7 +198,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         recentEmojis: emojis,
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         isExpanded: state.views.rhs.isSidebarExpanded,
-        isPostBeingEdited: getIsPostBeingEditedInRHS(state, post.id),
+        isPostBeingEdited: ownProps.location === Locations.CENTER ? !getIsPostBeingEditedInRHS(state, post.id) && getIsPostBeingEdited(state, post.id) : getIsPostBeingEditedInRHS(state, post.id),
         isMobileView: getIsMobileView(state),
         previewCollapsed,
         previewEnabled,
