@@ -20,11 +20,11 @@ const callsKBShortcuts = {
         callsJoinCall: {
             default: {
                 id: t('shortcuts.calls.join_call'),
-                defaultMessage: 'Join call in current channel:\tCtrl|Shift|S',
+                defaultMessage: 'Join call in current channel:\tCtrl|Alt|S',
             },
             mac: {
                 id: t('shortcuts.calls.join_call.mac'),
-                defaultMessage: 'Join call in current channel:\t⌘|Shift|S',
+                defaultMessage: 'Join call in current channel:\t⌘|⌥|S',
             },
         },
     },
