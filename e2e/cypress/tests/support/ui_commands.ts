@@ -193,7 +193,7 @@ function getNthPostId(index = 0): ChainableT<string> {
     waitUntilPermanentPost();
 
     return cy.findAllByTestId('postView').eq(index).should('have.attr', 'id').and('not.include', ':').
-        invoke('replace', 'post_', '');
+        invoke('replace', /^[^_]*_/, '');
 }
 Cypress.Commands.add('getNthPostId', getNthPostId);
 
