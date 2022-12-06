@@ -19,12 +19,6 @@ export default function DeleteEmojiButton(props: Props) {
                     defaultMessage='Delete'
                 />
             }
-            linkText={
-                <FormattedMessage
-                    id='emoji_list.delete'
-                    defaultMessage='Delete'
-                />
-            }
             modalMessage={
                 <FormattedMessage
                     id='emoji_list.delete.confirm.msg'
