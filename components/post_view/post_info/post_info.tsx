@@ -280,7 +280,6 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                     postId={post.id}
                     emojis={this.props.recentEmojis}
                     teamId={this.props.teamId!}
-                    getDotMenuRef={this.getDotMenu}
                 />
             );
         }
