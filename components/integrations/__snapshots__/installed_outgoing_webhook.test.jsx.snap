@@ -14,6 +14,8 @@ exports[`components/integrations/InstalledOutgoingWebhook Should match snapshot 
 exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 1`] = `
 <div
   className="backstage-list__item"
+  onMouseOut={[Function]}
+  onMouseOver={[Function]}
 >
   <div
     className="item-details"
@@ -25,46 +27,14 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
         className="item-details__name"
       >
         build
-        <MemoizedFormattedMessage
-          defaultMessage=" - Disabled"
-          id="installed_outgoing_webhooks.disabled_webhook"
-        />
       </strong>
       <div
         className="item-actions"
       >
-        <button
-          className="style--none color--link"
-          onClick={[Function]}
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="Regen Token"
-            id="installed_integrations.regenToken"
-          />
-        </button>
-         - 
-        <Link
-          to="/test/integrations/outgoing_webhooks/edit?id=7h88x419ubbyuxzs7dfwtgkffr"
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="Edit"
-            id="installed_integrations.edit"
-          />
-        </Link>
-         - 
-        <Connect(DeleteIntegrationLink)
-          modalMessage={
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="This action permanently deletes the outgoing webhook and breaks any integrations using it. Are you sure you want to delete it?"
-              id="installed_outgoing_webhooks.delete.confirm"
-            />
-          }
-          onDelete={[Function]}
-        />
-         - 
         <Toggle
           disabled={false}
           onToggle={[Function]}
+          size="btn-sm"
         />
       </div>
     </div>
