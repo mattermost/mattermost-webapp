@@ -113,7 +113,8 @@
 .BillingSummary__lastInvoice-hasMoreItems {
     display: flex;
     align-items: center;
-    color: rgba(61, 60, 64, 0.72);
+    color: #166de0;
+
     .BillingSummary__lastInvoice-chargeDescription {
         &:hover {
             cursor: pointer;
@@ -145,8 +146,8 @@
     display: flex;
     width: 100%;
     align-items: center;
-    padding: 11px 20px;
     justify-content: center;
+    padding: 11px 20px;
     background: var(--sys-button-bg);
     border-radius: 4px;
     color: var(--sys-button-color);
@@ -192,9 +193,9 @@
 }
 
 .BillingSummary__lastInvoice-billingHistory {
+    display: block;
     font-size: 12px;
     font-weight: 600;
     line-height: 9.5px;
-    display: block;
     text-align: center;
 }
