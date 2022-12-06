@@ -29,7 +29,7 @@ function PersistNotificationConfirmModal({
     const maxRecipients = useSelector(getPersistentNotificationMaxRecipients);
     const interval = useSelector(getPersistentNotificationInterval);
 
-    if (mentions.length > 5) {
+    if (mentions.length > Number(maxRecipients)) {
         title = (
             <FormattedMessage
                 id='persist_notification.too_many.title'

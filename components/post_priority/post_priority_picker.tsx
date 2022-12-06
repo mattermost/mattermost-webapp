@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckCircleOutlineIcon, BellRingOutlineIcon} from '@mattermost/compass-icons/components';
 
-import {isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities/posts';
+import {isPersistentNotificationsEnabled, isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities/posts';
 
 import Badge from 'components/widgets/badges/badge';
 

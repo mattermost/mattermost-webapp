@@ -4304,7 +4304,7 @@
   "permalink.show_dialog_warn.join": "Join",
   "permalink.show_dialog_warn.title": "Join private channel",
   "persist_notification.confirm": "Send",
-  "persist_notification.confirm.description": "Mentioned recipients will be notified every 5 minutes until they’ve acknowledged the message.",
+  "persist_notification.confirm.description": "Mentioned recipients will be notified every {interval} minutes until they’ve acknowledged the message.",
   "persist_notification.confirm.title": "Send persistent notifications?",
   "persist_notification.too_many.confirm": "Got it",
   "persist_notification.too_many.description": "You can send persistent notifications to a maximum of <b>{max}</b> recipients. There are <b>{count}</b> recipients mentioned in your message. You’ll need to change who you’ve mentioned before you can send.",

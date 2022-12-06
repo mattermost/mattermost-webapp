@@ -688,7 +688,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.props.draft?.metadata?.priority?.priority === PostPriority.URGENT &&
             this.props.draft?.metadata?.priority?.persistent_notifications
         ) {
-            const mentioned = mentionsMinusSpecialMentionsInText(this.state.message);
+            const mentioned = [...new Set(mentionsMinusSpecialMentionsInText(this.state.message))];
             this.showPersistNotificationModal(mentioned, hasSpecialMentions);
             this.isDraftSubmitting = false;
             return;

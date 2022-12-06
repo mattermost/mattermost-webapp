@@ -170,6 +170,10 @@ const defaultServerConfig: AdminConfig = {
         EnableCustomGroups: true,
         SelfHostedFirstTimePurchase: false,
         AllowSyncedDrafts: true,
+        AllowPersistentNotifications: true,
+        PersistentNotificationMaxCount: 6,
+        PersistentNotificationMaxRecipients: 5,
+        PersistentNotificationInterval: 5,
     },
     TeamSettings: {
         SiteName: 'Mattermost',
@@ -640,6 +644,7 @@ const defaultServerConfig: AdminConfig = {
         AllowEmailAccounts: true,
         EnforceMultifactorAuthentication: false,
         RestrictCreationToDomains: '',
+        AllowPersistentNotifications: false,
     },
     ImageProxySettings: {
         Enable: false,

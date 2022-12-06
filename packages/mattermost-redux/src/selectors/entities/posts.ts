@@ -771,7 +771,7 @@ export function isPostPriorityEnabled(state: GlobalState) {
 export function isPostAcknowledgementsEnabled(state: GlobalState) {
     return (
         isPostPriorityEnabled(state) &&
-        getConfig(state).AllowPersistentNotifications === 'true'
+        getConfig(state).PostAcknowledgements === 'true'
     );
 }
 
