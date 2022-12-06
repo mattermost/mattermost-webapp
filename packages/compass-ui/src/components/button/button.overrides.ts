@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {alpha, ComponentsProps, ComponentsVariants, darken, lighten, Theme} from '@mui/material';
+import {alpha, ComponentsProps, ComponentsVariants, emphasize, Theme} from '@mui/material';
 import {ComponentsOverrides} from '@mui/material/styles/overrides';
 
 const componentName = 'MuiButton';
@@ -9,6 +9,10 @@ const componentName = 'MuiButton';
 declare module '@mui/material/Button' {
     interface ButtonPropsSizeOverrides {
         'x-small': true;
+    }
+
+    interface ButtonPropsVariantOverrides {
+        quaternary: true;
     }
 }
 
@@ -19,7 +23,7 @@ const defaultProps: ComponentsProps[typeof componentName] = {
 const getFocusStyles = (color: string) => ({
     '&:not(.Mui-disabled)': {
         '&:focus': {
-            boxShadow: `inset 0 0 0 2px ${lighten(color, 0.3)}`,
+            boxShadow: `inset 0 0 0 2px ${emphasize(color, 0.3)}`,
         },
 
         '&:focus:not(:focus-visible)': {
@@ -27,15 +31,18 @@ const getFocusStyles = (color: string) => ({
         },
 
         '&:focus:focus-visible': {
-            boxShadow: `inset 0 0 0 2px ${lighten(color, 0.3)}`,
+            boxShadow: `inset 0 0 0 2px ${emphasize(color, 0.3)}`,
         },
     },
 });
 
 const styleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
     containedPrimary: ({theme}) => ({
+        '&:hover': {
+            backgroundColor: emphasize(theme.palette.primary.main, 0.2),
+        },
         '&:active': {
-            backgroundColor: darken(theme.palette.primary.dark, 0.2),
+            backgroundColor: emphasize(theme.palette.primary.main, 0.4),
         },
 
         '&.Mui-disabled': {
@@ -47,7 +54,7 @@ const styleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
     }),
     containedError: ({theme}) => ({
         '&:active': {
-            backgroundColor: darken(theme.palette.error.dark, 0.2),
+            backgroundColor: emphasize(theme.palette.error.dark, 0.2),
         },
 
         '&.Mui-disabled': {
@@ -114,7 +121,7 @@ const styleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
         ...getFocusStyles(theme.palette.primary.main),
     }),
     textError: ({theme}) => ({
-        backgroundColor: alpha(theme.palette.error.main, 0.08),
+        backgroundColor: alpha(theme.palette.error.main, 0.8),
 
         '&:hover': {
             backgroundColor: alpha(theme.palette.error.main, 0.12),
@@ -170,12 +177,17 @@ const variants: ComponentsVariants[typeof componentName] = [
             textTransform: 'none',
         }),
     },
+    {
+        props: {variant: 'quaternary'},
+        style: () => ({
+            backgroundColor: 'red',
+        }),
+    },
 ];
 
 const buttonOverrides = {
     variants,
     defaultProps,
-
     styleOverrides,
 };
 

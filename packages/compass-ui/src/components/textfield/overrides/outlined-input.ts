@@ -8,15 +8,21 @@ const componentName = 'MuiOutlinedInput';
 
 const outlinedInputStyleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
     root: ({ownerState, theme}) => ({
+        ...(ownerState.$inputSize === 'small' && theme.typography.b75),
+        ...(ownerState.$inputSize === 'medium' && theme.typography.b100),
+        ...(ownerState.$inputSize === 'large' && theme.typography.b200),
+
+        margin: 0,
+
         '.MuiOutlinedInput-notchedOutline': {
             borderColor: alpha(theme.palette.text.primary, 0.16),
-            ...(ownerState.size === 'small' && {
+            ...(ownerState.$inputSize === 'small' && {
                 paddingLeft: '7px',
             }),
-            ...(ownerState.size === 'medium' && {
+            ...(ownerState.$inputSize === 'medium' && {
                 paddingLeft: '9px',
             }),
-            ...(ownerState.size === 'large' && {
+            ...(ownerState.$inputSize === 'large' && {
                 paddingLeft: '11px',
             }),
         },
@@ -34,15 +40,15 @@ const outlinedInputStyleOverrides: ComponentsOverrides<Theme>[typeof componentNa
         },
     }),
     input: ({ownerState}) => ({
-        ...(ownerState.size === 'small' && {
+        ...(ownerState.$inputSize === 'small' && {
             padding: '0.8rem 1.2rem',
             height: '1.6rem',
         }),
-        ...(ownerState.size === 'medium' && {
+        ...(ownerState.$inputSize === 'medium' && {
             padding: '1rem 1.5rem',
             height: '2rem',
         }),
-        ...(ownerState.size === 'large' && {
+        ...(ownerState.$inputSize === 'large' && {
             padding: '1.2rem 1.6rem',
             height: '2.4rem',
         }),

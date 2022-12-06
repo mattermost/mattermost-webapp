@@ -64,6 +64,7 @@ const Button = ({variant = 'primary', destructive, ...rest}: Props) => (
 export const WrappedMuiButton = ({variant = 'primary', destructive, ...rest}: Props) => (
     <MuiButton
         {...rest}
+        size={'x-small'}
         disableElevation={true}
         disableRipple={true}
         disableFocusRipple={true}

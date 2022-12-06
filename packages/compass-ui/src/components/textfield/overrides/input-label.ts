@@ -4,7 +4,7 @@
 import {Theme} from '@mui/material';
 import type {ComponentsOverrides} from '@mui/material/styles/overrides';
 
-import {iconSizeMap} from '../../components/textfield/textfield';
+import {iconSizeMap} from '../textfield';
 
 const componentName = 'MuiInputLabel';
 
@@ -16,7 +16,7 @@ declare module '@mui/material/InputLabel' {
 }
 
 const inputLabelStyleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
-    root: ({ownerState}) => {
+    root: ({ownerState, theme}) => {
         if (ownerState.shrink) {
             return {};
         }
@@ -41,9 +41,13 @@ const inputLabelStyleOverrides: ComponentsOverrides<Theme>[typeof componentName]
         }
 
         return {
-            fontSize: 'inherit',
-            lineHeight: 'inherit',
             transform: `translate(${shiftX}px, ${shiftY})`,
+
+            ...(ownerState.$inputSize === 'small' && theme.typography.b75),
+            ...(ownerState.$inputSize === 'medium' && theme.typography.b100),
+            ...(ownerState.$inputSize === 'large' && theme.typography.b200),
+
+            margin: 0,
         };
     },
     shrink: ({ownerState}) => {
@@ -70,8 +74,6 @@ const inputLabelStyleOverrides: ComponentsOverrides<Theme>[typeof componentName]
         }
 
         return {
-            fontSize: 'inherit',
-            lineHeight: 'inherit',
             transform: `translate(${shiftX}px, ${shiftY}px) scale(0.75)`,
         };
     },

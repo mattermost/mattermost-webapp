@@ -98,6 +98,7 @@ MaterialExample.argTypes = {
             'text',
             'outlined',
             'contained',
+            'quaternary',
         ],
     },
     color: {
