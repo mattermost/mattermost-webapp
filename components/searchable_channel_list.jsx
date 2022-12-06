@@ -34,11 +34,13 @@ export default class SearchableChannelList extends React.PureComponent {
         super(props);
 
         this.nextTimeoutId = 0;
-
+        this.intersectionObserver = null;
+        this.intersectionObserverWrapper = null;
         this.state = {
             joiningChannel: '',
             page: 0,
             nextDisabled: false,
+            isVisible: false,
         };
 
         this.filter = React.createRef();
@@ -50,6 +52,19 @@ export default class SearchableChannelList extends React.PureComponent {
         if (!UserAgent.isMobile() && this.filter.current) {
             this.filter.current.focus();
         }
+        this.intersectionObserver = new window.IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                // this.setState({isVisible: entry.isIntersecting});
+                if (entry.isIntersecting) {
+                    console.log('load more');
+                    // this.nextPage(e);
+                    this.setState({page: this.state.page + 1, nextDisabled: true});
+                    this.nextTimeoutId = setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT_MILLISECONDS);
+                    this.props.nextPage(this.state.page + 1);
+                }
+            });
+        }, {});
+        this.intersectionObserver.observe(this.intersectionObserverWrapper);
     }
 
     handleJoin(channel) {
@@ -176,8 +191,14 @@ export default class SearchableChannelList extends React.PureComponent {
                 </div>
             );
         } else {
-            const pageStart = this.state.page * this.props.channelsPerPage;
-            const pageEnd = pageStart + this.props.channelsPerPage;
+            // const pageStart = this.state.page * this.props.channelsPerPage;
+            const pageStart = 0;
+            const test = this.state.page * this.props.channelsPerPage
+            const pageEnd = test + this.props.channelsPerPage;
+            // console.log({
+            //   pageStart,
+            //   pageEnd
+            // })
             const channelsToDisplay = this.props.channels.slice(pageStart, pageEnd);
             listContent = channelsToDisplay.map(this.createChannelRow);
 
@@ -287,8 +308,14 @@ export default class SearchableChannelList extends React.PureComponent {
                     <div
                         id='moreChannelsList'
                         ref={this.channelListScroll}
+                        style={{border: '5px solid red'}}
                     >
                         {listContent}
+                        <div
+                            ref={(div) => {
+                                this.intersectionObserverWrapper = div;
+                            }}
+                        >{'loading'}</div>
                     </div>
                 </div>
                 <div className='filter-controls'>
