@@ -26,9 +26,7 @@ import {GlobalState} from 'types/store';
 jest.mock('utils/utils');
 
 const mockRouting = {
-    params: {
-        team: 'team-name-1',
-    },
+    teamName: 'team-name-1',
     currentUserId: 'uid',
     currentTeamId: 'tid',
     goToInChannel: jest.fn(),
