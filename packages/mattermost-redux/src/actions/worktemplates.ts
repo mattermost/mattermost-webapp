@@ -10,9 +10,7 @@ export function getWorkTemplateCategories(): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getWorkTemplateCategoriesRoute,
         onRequest: WorkTemplatesType.WORK_TEMPLATE_CATEGORIES_REQUEST,
-        onSuccess: [WorkTemplatesType.RECEIVED_WORK_TEMPLATE_CATEGORIES, WorkTemplatesType.WORK_TEMPLATE_CATEGORIES_SUCCESS],
-        onFailure: WorkTemplatesType.WORK_TEMPLATE_CATEGORIES_FAILURE,
-
+        onSuccess: [WorkTemplatesType.RECEIVED_WORK_TEMPLATE_CATEGORIES],
     });
 }
 
@@ -20,8 +18,7 @@ export function getWorkTemplates(categoryId: string): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getWorkTemplatesRoute,
         onRequest: WorkTemplatesType.WORK_TEMPLATES_REQUEST,
-        onSuccess: [WorkTemplatesType.RECEIVED_WORK_TEMPLATES, WorkTemplatesType.WORK_TEMPLATES_SUCCESS],
-        onFailure: WorkTemplatesType.WORK_TEMPLATES_FAILURE,
+        onSuccess: [WorkTemplatesType.RECEIVED_WORK_TEMPLATES],
         params: [categoryId],
     });
 }
