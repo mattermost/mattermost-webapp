@@ -35,7 +35,6 @@ import CloudEffects from 'components/cloud_effects';
 import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import {HFRoute} from 'components/header_footer_route/header_footer_route';
-import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
 import OpenPricingModalPost from 'components/custom_open_pricing_modal_post_renderer';
@@ -593,9 +592,6 @@ export default class Root extends React.PureComponent<Props, State> {
                                 />
                                 <RootRedirect/>
                             </Switch>
-                            <CompassThemeProvider theme={this.props.theme}>
-                                <OnBoardingTaskList/>
-                            </CompassThemeProvider>
                         </>
                     </Route>
                     <LoggedInHFTRoute
@@ -641,7 +637,6 @@ export default class Root extends React.PureComponent<Props, State> {
                         <SystemNotice/>
                         <GlobalHeader/>
                         <CloudEffects/>
-                        <OnBoardingTaskList/>
                         <TeamSidebar/>
                         <DelinquencyModalController/>
                         <Switch>
