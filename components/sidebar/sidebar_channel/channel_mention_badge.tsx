@@ -2,18 +2,20 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
 
 type Props = {
     unreadMentions: number;
+    hasUrgent?: boolean;
     isUnread?: boolean;
 };
 
-export default function ChannelMentionBadge({unreadMentions, isUnread}: Props) {
+export default function ChannelMentionBadge({unreadMentions, hasUrgent, isUnread}: Props) {
     if (unreadMentions > 0) {
         return (
             <span
                 id='unreadMentions'
-                className='badge'
+                className={classNames({badge: true, urgent: hasUrgent})}
             >
                 {unreadMentions}
             </span>

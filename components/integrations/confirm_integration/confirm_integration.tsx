@@ -3,9 +3,8 @@
 
 import React, {useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 
-import {browserHistory} from 'utils/browser_history';
 import {Constants, ErrorPageTypes} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
 
@@ -14,7 +13,7 @@ import {Command, IncomingWebhook, OAuthApp, OutgoingWebhook} from '@mattermost/t
 import {IDMappedObjects} from '@mattermost/types/utilities';
 
 import CopyText from 'components/copy_text';
-import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
+import BackstageHeader from 'components/backstage/components/backstage_header';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {Bot} from '@mattermost/types/bots';
 
@@ -29,6 +28,8 @@ type Props = {
 }
 
 const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks, outgoingHooks, bots}: Props): JSX.Element | null => {
+    const history = useHistory();
+
     const type = (new URLSearchParams(location.search)).get('type') || '';
     const id = (new URLSearchParams(location.search)).get('id') || '';
 
@@ -42,7 +43,7 @@ const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks,
 
     const handleKeyPress = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
-            browserHistory.push('/' + team.name + '/integrations/' + type);
+            history.push('/' + team.name + '/integrations/' + type);
         }
     };
 
@@ -303,7 +304,7 @@ const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks,
             </p>
         );
     } else {
-        browserHistory.replace(`/error?type=${ErrorPageTypes.PAGE_NOT_FOUND}`);
+        history.replace(`/error?type=${ErrorPageTypes.PAGE_NOT_FOUND}`);
         return null;
     }
 

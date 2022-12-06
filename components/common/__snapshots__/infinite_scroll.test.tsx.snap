@@ -39,7 +39,6 @@ exports[`/components/common/InfiniteScroll should not show loading screen if the
     <div />
     <LoadingScreen
       message=" "
-      position="relative"
       style={Object {}}
     >
       <div

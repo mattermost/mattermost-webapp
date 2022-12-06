@@ -57,7 +57,7 @@ export type Props<T extends Value> = {
     perPage: number;
     placeholderText?: string;
     saving?: boolean;
-    submitImmediatelyOn?: (value: T) => void;
+    submitImmediatelyOn?: (value: T) => boolean;
     totalCount?: number;
     users?: unknown[];
     valueWithImage: boolean;

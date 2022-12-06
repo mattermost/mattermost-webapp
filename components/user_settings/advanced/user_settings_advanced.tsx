@@ -8,19 +8,19 @@ import {FormattedMessage} from 'react-intl';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions';
 
-import Constants, {Preferences} from 'utils/constants';
+import Constants, {AdvancedSections, Preferences} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {isMac, localizeMessage} from 'utils/utils';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 import ConfirmModal from 'components/confirm_modal';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
+
 import {UserProfile} from '@mattermost/types/users';
 import {PreferenceType} from '@mattermost/types/preferences';
-
-import {ActionResult} from 'mattermost-redux/types/actions';
 
 import JoinLeaveSection from './join_leave_section';
 import PerformanceDebuggingSection from './performance_debugging_section';
@@ -33,6 +33,7 @@ type Settings = {
     code_block_ctrl_enter: Props['codeBlockOnCtrlEnter'];
     formatting: Props['formatting'];
     join_leave: Props['joinLeave'];
+    sync_drafts: Props['syncDrafts'];
 };
 
 export type Props = {
@@ -43,12 +44,14 @@ export type Props = {
     formatting: string;
     joinLeave: string;
     unreadScrollPosition: string;
+    syncDrafts: string;
     updateSection: (section?: string) => void;
     activeSection: string;
     closeModal: () => void;
     collapseModal: () => void;
     enablePreviewFeatures: boolean;
     enableUserDeactivation: boolean;
+    syncedDraftsAreAllowed: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<ActionResult>;
         updateUserActive: (userId: string, active: boolean) => Promise<ActionResult>;
@@ -81,6 +84,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
             code_block_ctrl_enter: this.props.codeBlockOnCtrlEnter,
             formatting: this.props.formatting,
             join_leave: this.props.joinLeave,
+            sync_drafts: this.props.syncDrafts,
             [Preferences.UNREAD_SCROLL_POSITION]: this.props.unreadScrollPosition,
         };
 
@@ -367,10 +371,9 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                             </div>
                         </fieldset>,
                     ]}
-                    setting={'formatting'}
-                    submit={this.handleSubmit}
+                    submit={this.handleSubmit.bind(this, ['formatting'])}
                     saving={this.state.isSaving}
-                    server_error={this.state.serverError}
+                    serverError={this.state.serverError}
                     updateSection={this.handleUpdateSection}
                 />
             );
@@ -449,10 +452,9 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                             </div>
                         </fieldset>,
                     ]}
-                    setting={Preferences.UNREAD_SCROLL_POSITION}
-                    submit={this.handleSubmit}
+                    submit={this.handleSubmit.bind(this, [Preferences.UNREAD_SCROLL_POSITION])}
                     saving={this.state.isSaving}
-                    server_error={this.state.serverError}
+                    serverError={this.state.serverError}
                     updateSection={this.handleUpdateSection}
                 />
             );
@@ -468,6 +470,88 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                 }
                 describe={this.renderUnreadScrollPositionLabel(this.state.settings[Preferences.UNREAD_SCROLL_POSITION])}
                 section={Preferences.UNREAD_SCROLL_POSITION}
+                updateSection={this.handleUpdateSection}
+            />
+        );
+    }
+
+    renderSyncDraftsSection = () => {
+        if (this.props.activeSection === AdvancedSections.SYNC_DRAFTS) {
+            return (
+                <SettingItemMax
+                    title={
+                        <FormattedMessage
+                            id='user.settings.advance.syncDrafts.Title'
+                            defaultMessage='Allow message drafts to sync with the server'
+                        />
+                    }
+                    inputs={[
+                        <fieldset key='syncDraftsSetting'>
+                            <legend className='form-legend hidden-label'>
+                                <FormattedMessage
+                                    id='user.settings.advance.syncDrafts.Title'
+                                    defaultMessage='Allow message drafts to sync with the server'
+                                />
+                            </legend>
+                            <div className='radio'>
+                                <label>
+                                    <input
+                                        id='syncDraftsOn'
+                                        type='radio'
+                                        name='syncDrafts'
+                                        checked={this.state.settings.sync_drafts !== 'false'}
+                                        onChange={this.updateSetting.bind(this, 'sync_drafts', 'true')}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.advance.on'
+                                        defaultMessage='On'
+                                    />
+                                </label>
+                                <br/>
+                            </div>
+                            <div className='radio'>
+                                <label>
+                                    <input
+                                        id='syncDraftsOff'
+                                        type='radio'
+                                        name='syncDrafts'
+                                        checked={this.state.settings.sync_drafts === 'false'}
+                                        onChange={this.updateSetting.bind(this, 'sync_drafts', 'false')}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.advance.off'
+                                        defaultMessage='Off'
+                                    />
+                                </label>
+                                <br/>
+                            </div>
+                            <div className='mt-5'>
+                                <FormattedMessage
+                                    id='user.settings.advance.syncDrafts.Desc'
+                                    defaultMessage='When enabled, message drafts are synced with the server so they can be accessed from any device. When disabled, message drafts are only saved locally on the device where they are composed.'
+                                />
+                            </div>
+                        </fieldset>,
+                    ]}
+                    setting={AdvancedSections.SYNC_DRAFTS}
+                    submit={this.handleSubmit.bind(this, ['sync_drafts'])}
+                    saving={this.state.isSaving}
+                    serverError={this.state.serverError}
+                    updateSection={this.handleUpdateSection}
+                />
+            );
+        }
+
+        return (
+            <SettingItemMin
+                title={
+                    <FormattedMessage
+                        id='user.settings.advance.syncDrafts.Title'
+                        defaultMessage='Allow message drafts to sync with the server'
+                    />
+                }
+                describe={this.renderOnOffLabel(this.state.settings.sync_drafts)}
+                section={AdvancedSections.SYNC_DRAFTS}
                 updateSection={this.handleUpdateSection}
             />
         );
@@ -575,7 +659,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                     inputs={inputs}
                     submit={this.handleSubmit.bind(this, ['send_on_ctrl_enter', 'code_block_ctrl_enter'])}
                     saving={this.state.isSaving}
-                    server_error={serverError}
+                    serverError={serverError}
                     updateSection={this.handleUpdateSection}
                 />
             );
@@ -649,7 +733,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                         inputs={inputs}
                         submit={this.saveEnabledFeatures}
                         saving={this.state.isSaving}
-                        server_error={serverError}
+                        serverError={serverError}
                         updateSection={this.handleUpdateSection}
                     />
                 );
@@ -700,7 +784,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                         setting={'deactivateAccount'}
                         submit={this.handleShowDeactivateAccountModal}
                         saving={this.state.isSaving}
-                        server_error={this.state.serverError}
+                        serverError={this.state.serverError}
                         updateSection={this.handleUpdateSection}
                     />
                 );
@@ -762,6 +846,15 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
             unreadScrollPositionSectionDivider = <div className='divider-light'/>;
         }
 
+        let syncDraftsSection = null;
+        let syncDraftsSectionDivider = null;
+        if (this.props.syncedDraftsAreAllowed) {
+            syncDraftsSection = this.renderSyncDraftsSection();
+            if (syncDraftsSection) {
+                syncDraftsSectionDivider = <div className='divider-light'/>;
+            }
+        }
+
         return (
             <div>
                 <div className='modal-header'>
@@ -818,6 +911,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                     {deactivateAccountSection}
                     {unreadScrollPositionSectionDivider}
                     {unreadScrollPositionSection}
+                    {syncDraftsSectionDivider}
+                    {syncDraftsSection}
                     <div className='divider-dark'/>
                     {makeConfirmationModal}
                 </div>

@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import semver from 'semver';
 
-import {UserNotifyProps, UserProfile} from '@mattermost/types/users';
+import SettingItemMax from 'components/setting_item_max';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
@@ -17,9 +17,10 @@ import {localizeMessage, moveCursorToEnd} from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 import {t} from 'utils/i18n';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import LocalizedIcon from 'components/localized_icon';
+
+import {UserNotifyProps, UserProfile} from '@mattermost/types/users';
 
 import DesktopNotificationSettings from './desktop_notification_setting/desktop_notification_settings';
 import EmailNotificationSetting from './email_notification_setting';
@@ -521,7 +522,7 @@ export default class NotificationsTab extends React.PureComponent<Props, State> 
                     title={localizeMessage('user.settings.notifications.push', 'Mobile Push Notifications')}
                     inputs={inputs}
                     submit={submit}
-                    server_error={this.state.serverError}
+                    serverError={this.state.serverError}
                     updateSection={this.handleUpdateSection}
                 />
             );
@@ -725,7 +726,7 @@ export default class NotificationsTab extends React.PureComponent<Props, State> 
                     inputs={inputs}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
-                    server_error={serverError}
+                    serverError={serverError}
                     updateSection={this.handleUpdateSection}
                     extraInfo={extraInfo}
                 />
@@ -860,7 +861,7 @@ export default class NotificationsTab extends React.PureComponent<Props, State> 
                     inputs={inputs}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
-                    server_error={serverError}
+                    serverError={serverError}
                     updateSection={this.handleUpdateSection}
                 />
             );

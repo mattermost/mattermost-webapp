@@ -20,6 +20,7 @@ jest.mock('utils/post_utils', () => ({
     isEdited: jest.fn().mockReturnValue(true),
     isSystemMessage: jest.fn().mockReturnValue(false),
     fromAutoResponder: jest.fn().mockReturnValue(false),
+    isFromWebhook: jest.fn().mockReturnValue(false),
 }));
 
 describe('components/RhsComment', () => {
@@ -48,8 +49,6 @@ describe('components/RhsComment', () => {
         isBusy: false,
         shouldHighlight: false,
         removePost: jest.fn(),
-        previewCollapsed: '',
-        previewEnabled: false,
         isEmbedVisible: false,
         enableEmojiPicker: true,
         enablePostUsernameOverride: false,

@@ -4,11 +4,12 @@
 import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import classNames from 'classnames';
+import {CSSTransition} from 'react-transition-group';
 
 import {CloseIcon} from '@mattermost/compass-icons/components';
 
 import {Constants} from 'utils/constants';
-import * as Emoji from 'utils/emoji.jsx';
+import * as Emoji from 'utils/emoji';
 import imgTrans from 'images/img_trans.gif';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -130,7 +131,9 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
                 <span>
                     {expandButtonLabel}
                 </span>
-            </Tooltip>);
+            </Tooltip>
+        );
+
         return (
             <OverlayTrigger
                 trigger={['hover', 'focus']}
@@ -150,16 +153,23 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
                         className={spriteClassName}
                     />
                 </button>
-            </OverlayTrigger>);
+            </OverlayTrigger>
+        );
     }
 
     render() {
         return (
-            <div className={classNames('skin-tones', {'skin-tones--active': this.state.pickerExtended})}>
-                <div className={classNames('skin-tones__content', {'skin-tones__content__single': !this.state.pickerExtended})}>
-                    {this.state.pickerExtended ? this.extended() : this.collapsed()}
+            <CSSTransition
+                in={this.state.pickerExtended}
+                classNames='skin-tones-animation'
+                timeout={200}
+            >
+                <div className={classNames('skin-tones', {'skin-tones--active': this.state.pickerExtended})}>
+                    <div className={classNames('skin-tones__content', {'skin-tones__content__single': !this.state.pickerExtended})}>
+                        {this.state.pickerExtended ? this.extended() : this.collapsed()}
+                    </div>
                 </div>
-            </div>
+            </CSSTransition>
         );
     }
 }

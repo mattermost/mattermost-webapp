@@ -85,6 +85,7 @@ export type AutocompleteSuggestion = {
     Hint: string;
     Description: string;
     IconData: string;
+    type?: string;
 };
 
 export type CommandAutocompleteSuggestion = AutocompleteSuggestion; // TODO remove this alias after the mattermost-redux migration

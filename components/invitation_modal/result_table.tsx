@@ -2,9 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import {UserProfile} from '@mattermost/types/users';
+
 import {imageURLForUser, getLongDisplayName} from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
@@ -36,6 +37,7 @@ type I18nLike = {
 
 export type InviteResult = (InviteNotSent | InviteEmail | InviteUser) & {
     reason: string | I18nLike;
+    path?: string;
 }
 
 export type Props = {
@@ -44,6 +46,7 @@ export type Props = {
 }
 
 export default function ResultTable(props: Props) {
+    const intl = useIntl();
     let wrapperClass = 'invitation-modal-confirm invitation-modal-confirm--not-sent';
     let header = (
         <h2>
@@ -65,6 +68,27 @@ export default function ResultTable(props: Props) {
         );
     }
 
+    function messageWithLink(reason: any, link: any) {
+        return intl.formatMessage(
+            {
+                id: reason.id,
+                defaultMessage: reason.message,
+            },
+            {
+                a: (chunks: React.ReactNode | React.ReactNodeArray) => (
+                    <a
+                        href={link}
+                        onClick={(e: React.MouseEvent) => {
+                            e.preventDefault();
+                            window.open(link);
+                        }}
+                    >
+                        {chunks}
+                    </a>
+                ),
+            },
+        );
+    }
     return (
         <div className={wrapperClass}>
             {header}
@@ -138,6 +162,8 @@ export default function ResultTable(props: Props) {
                                     values={invitation.reason.values}
                                 />
                             );
+                        } else if (invitation.path && invitation.reason) {
+                            reason = messageWithLink(invitation.reason, invitation.path);
                         }
 
                         return (

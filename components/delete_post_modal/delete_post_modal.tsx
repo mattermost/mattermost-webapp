@@ -9,7 +9,7 @@ import {matchPath} from 'react-router-dom';
 import {Post} from '@mattermost/types/posts';
 
 import * as UserAgent from 'utils/user_agent';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 const urlFormatForDMGMPermalink = '/:teamName/messages/:username/:postid';
 const urlFormatForChannelPermalink = '/:teamName/channels/:channelname/:postid';
@@ -71,7 +71,7 @@ export default class DeletePostModal extends React.PureComponent<Props, State> {
 
         if (permalinkPostId === post.id) {
             const channelUrl = this.props.location.pathname.split('/').slice(0, -1).join('/');
-            browserHistory.replace(channelUrl);
+            getHistory().replace(channelUrl);
         }
 
         if (result.data) {

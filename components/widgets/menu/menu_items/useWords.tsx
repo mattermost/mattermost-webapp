@@ -5,11 +5,11 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import {PrimitiveType, FormatXMLElementFn} from 'intl-messageformat';
 
-import {limitThresholds, asGBString, inK} from 'utils/limits';
+import {limitThresholds, asGBString, inK, LimitTypes} from 'utils/limits';
 import {t} from 'utils/i18n';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
-import {LimitTypes, LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
+import {LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import {PaidFeatures, LicenseSkus} from 'utils/constants';
 
@@ -59,9 +59,6 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
     case LimitTypes.fileStorage:
         featureToNotifyOn = PaidFeatures.UNLIMITED_FILE_STORAGE;
         break;
-    case LimitTypes.enabledIntegrations:
-        featureToNotifyOn = PaidFeatures.UNLIMITED_INTEGRATIONS;
-        break;
     case LimitTypes.boardsCards:
         featureToNotifyOn = PaidFeatures.UNLIMITED_BOARD_CARDS;
         break;
@@ -99,6 +96,16 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
                 defaultMessage = 'You\'re almost at the message limit. Your admin can upgrade your plan for unlimited messages. <a>{callToAction}</a>';
             }
         }
+        if (usageRatio >= limitThresholds.reached) {
+            if (isAdminUser) {
+                id = t('workspace_limits.menu_limit.reached.messages_history');
+                defaultMessage = 'You’ve reached the free message history limit. You can only view up to the last {limit} messages in your history. <a>{callToAction}</a>';
+                values.limit = inK(highestLimit.limit);
+            } else {
+                id = t('workspace_limits.menu_limit.reached.messages_history_non_admin');
+                defaultMessage = 'You’ve reached your message limit. Your admin can upgrade your plan for unlimited messages. <a>{callToAction}</a>';
+            }
+        }
         if (usageRatio >= limitThresholds.exceeded) {
             if (isAdminUser) {
                 id = t('workspace_limits.menu_limit.over.messages_history');
@@ -132,6 +139,10 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
             id = t('workspace_limits.menu_limit.critical.files_storage');
             defaultMessage = 'You’re getting closer to the {limit} file storage limit. <a>{callToAction}</a>';
         }
+        if (usageRatio >= limitThresholds.reached) {
+            id = t('workspace_limits.menu_limit.reached.files_storage');
+            defaultMessage = 'You’ve reached the {limit} file storage limit. You can only access the most recent {limit} worth of files. <a>{callToAction}</a>';
+        }
         if (usageRatio >= limitThresholds.exceeded) {
             id = t('workspace_limits.menu_limit.over.files_storage');
             defaultMessage = 'You’re over the {limit} file storage limit. You can only access the most recent {limit} worth of files. <a>{callToAction}</a>';
@@ -152,34 +163,6 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
             status: asGBString(highestLimit.usage, intl.formatNumber),
         };
     }
-    case LimitTypes.enabledIntegrations: {
-        let id = t('workspace_limits.menu_limit.warn.integrations_enabled');
-        let defaultMessage = 'You’re getting closer to the {limit} enabled integrations limit. <a>{callToAction}</a>';
-        values.limit = highestLimit.limit;
-        if (usageRatio >= limitThresholds.danger) {
-            id = t('workspace_limits.menu_limit.critical.integrations_enabled');
-            defaultMessage = 'You’re getting closer to the {limit} enabled integrations limit. <a>{callToAction}</a>';
-        }
-        if (usageRatio >= limitThresholds.exceeded) {
-            id = t('workspace_limits.menu_limit.over.integrations_enabled');
-            defaultMessage = 'You’ve reached the {limit} enabled integrations limit. You can’t enable additional integrations. Upgrade to remove this limit. <a>{callToAction}</a>';
-        }
-
-        return {
-            title: intl.formatMessage({
-                id: 'workspace_limits.menu_limit.integrations',
-                defaultMessage: 'Integrations limit',
-            }),
-            description: intl.formatMessage(
-                {
-                    id,
-                    defaultMessage,
-                },
-                values,
-            ),
-            status: highestLimit.usage,
-        };
-    }
     case LimitTypes.boardsCards: {
         let id = t('workspace_limits.menu_limit.warn.boards_cards');
         let defaultMessage = 'You’re getting closer to the {limit} board card limit. <a>{callToAction}</a>';
@@ -187,6 +170,10 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
         if (usageRatio >= limitThresholds.danger) {
             id = t('workspace_limits.menu_limit.critical.boards_cards');
             defaultMessage = 'You’re getting closer to the {limit} board card limit. <a>{callToAction}</a>';
+        }
+        if (usageRatio >= limitThresholds.reached) {
+            id = t('workspace_limits.menu_limit.reached.boards_cards');
+            defaultMessage = 'You’ve reached the {limit} board card limit. You can only access the most recent {limit} board cards. <a>{callToAction}</a>';
         }
         if (usageRatio >= limitThresholds.exceeded) {
             id = t('workspace_limits.menu_limit.over.boards_cards');

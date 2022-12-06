@@ -148,10 +148,10 @@ const CloudStartTrialButton = ({
             return;
         }
         const updatedStatus = await requestStartTrial();
-
-        await openTrialBenefitsModal(updatedStatus);
         if (onClick && updatedStatus === TrialLoadStatus.Success) {
             onClick();
+        } else {
+            await openTrialBenefitsModal(updatedStatus);
         }
         trackEvent(
             TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_BUTTON,

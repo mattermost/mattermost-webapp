@@ -5,20 +5,22 @@ import React from 'react';
 import {act} from 'react-dom/test-utils';
 import {shallow} from 'enzyme';
 
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+
 import GenericModal from 'components/generic_modal';
 import Input from 'components/widgets/inputs/input/input';
 import URLInput from 'components/widgets/inputs/url_input/url_input';
 import PublicPrivateSelector from 'components/widgets/public-private-selector/public-private-selector';
 
-import Constants from 'utils/constants';
+import Constants, {suitePluginIds} from 'utils/constants';
 import {cleanUpUrlable} from 'utils/url';
 import {GlobalState} from 'types/store';
 import Permissions from 'mattermost-redux/constants/permissions';
-import {ChannelType} from '@mattermost/types/channels';
 import {createChannel} from 'mattermost-redux/actions/channels';
-jest.mock('mattermost-redux/actions/channels');
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {ChannelType} from '@mattermost/types/channels';
+
+jest.mock('mattermost-redux/actions/channels');
 
 import NewChannelModal from './new_channel_modal';
 
@@ -104,6 +106,9 @@ describe('components/new_channel_modal', () => {
                         },
                     },
                 },
+            },
+            plugins: {
+                plugins: {focalboard: {id: suitePluginIds.focalboard}},
             },
         } as unknown as GlobalState;
     });

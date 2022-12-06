@@ -6,15 +6,15 @@ import {shallow} from 'enzyme';
 
 import * as redux from 'react-redux';
 
-import GlobalHeader from 'components/global_header/global_header';
+import * as productUtils from 'utils/products';
 
-import * as hooks from './hooks';
+import GlobalHeader from 'components/global_header/global_header';
 
 describe('components/global/global_header', () => {
     test('should be disabled when global header is disabled', () => {
         const spy = jest.spyOn(redux, 'useSelector');
         spy.mockReturnValue(false);
-        const spyProduct = jest.spyOn(hooks, 'useCurrentProductId');
+        const spyProduct = jest.spyOn(productUtils, 'useCurrentProductId');
         spyProduct.mockReturnValue(null);
 
         const wrapper = shallow(
@@ -28,7 +28,7 @@ describe('components/global/global_header', () => {
     test('should be enabled when global header is enabled', () => {
         const spy = jest.spyOn(redux, 'useSelector');
         spy.mockReturnValue(true);
-        const spyProduct = jest.spyOn(hooks, 'useCurrentProductId');
+        const spyProduct = jest.spyOn(productUtils, 'useCurrentProductId');
         spyProduct.mockReturnValue(null);
 
         const wrapper = shallow(

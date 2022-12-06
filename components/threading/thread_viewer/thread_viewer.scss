@@ -18,6 +18,11 @@
         }
     }
 
+    .post-list__dynamic--RHS {
+        scrollbar-color: var(--center-channel-color-32) #fff0;
+        scrollbar-width: thin;
+    }
+
     .post-right-comments-container > .new-separator,
     .post + .new-separator {
         .NotificationSeparator {

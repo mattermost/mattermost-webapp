@@ -48,6 +48,14 @@ declare namespace Cypress {
         uiArchiveChannel();
 
         /**
+         * Unarchive the current channel.
+         *
+         * @example
+         *   cy.uiUnarchiveChannel();
+         */
+        uiUnarchiveChannel();
+
+        /**
          * Leave the current channel.
          * @param {boolean} isPrivate - is the channel private or public (default)?
          *

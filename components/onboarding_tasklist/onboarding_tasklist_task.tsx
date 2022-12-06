@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import styled from 'styled-components';
-import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
 import {CompletedAnimation} from './onboarding_tasklist_animations';
 
@@ -68,11 +68,6 @@ export const Task = (props: TaskProps): JSX.Element => {
             onClick={handleOnClick}
         >
             {completedStatus && <CompletedAnimation completed={completedStatus}/>}
-            <Icon
-                className={completedStatus ? 'play completed' : 'play'}
-                glyph={completedStatus ? 'check' : 'play'}
-                size={16}
-            />
             <span>{label}</span>
         </StyledTask>
     );

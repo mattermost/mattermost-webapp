@@ -52,10 +52,12 @@ declare namespace Cypress {
         /**
          * Get a button by its text using "cy.findByRole"
          *
+         * @param {String} label - Button text
+         *
          * @example
          *   cy.uiGetButton('Save');
          */
-        uiGetButton(): Chainable;
+        uiGetButton(label: string): Chainable;
 
         /**
          * Get save button
@@ -92,17 +94,21 @@ declare namespace Cypress {
         /**
          * Get a heading by its text using "cy.findByRole"
          *
+         * @param {string} headingText - Heading text
+         *
          * @example
          *   cy.uiGetHeading('General Settings');
          */
-        uiGetHeading(): Chainable;
+        uiGetHeading(headingText: string): Chainable;
 
         /**
          * Get a textbox by its text using "cy.findByRole"
          *
+         * @param {string} text - Textbox label
+         *
          * @example
          *   cy.uiGetTextbox('Nickname');
          */
-        uiGetTextbox(): Chainable;
+        uiGetTextbox(text: string): Chainable;
     }
 }

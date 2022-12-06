@@ -26,11 +26,16 @@
 
 .mention--highlight {
     padding: 0 1px;
-    background-color: $yellow;
+    background-color: var(--mention-highlight-bg);
     border-radius: 4px;
+
+    .mention-link {
+        color: var(--mention-highlight-link);
+    }
 
     .mention--highlight {
         padding: 0;
+        background: none;
     }
 }
 

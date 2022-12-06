@@ -20,6 +20,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {AnnouncementBarTypes, AnnouncementBarMessages, Constants} from 'utils/constants';
+import {getRoleFromTrackFlow} from 'utils/utils';
 
 import './do_verify_email.scss';
 
@@ -45,6 +46,7 @@ const DoVerifyEmail = () => {
     const [serverError, setServerError] = useState('');
 
     useEffect(() => {
+        trackEvent('signup', 'do_verify_email', getRoleFromTrackFlow());
         verifyEmail();
     }, []);
 

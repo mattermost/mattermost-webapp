@@ -30,7 +30,6 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     inputClassName?: string;
     limit?: number;
     useLegend?: boolean;
-
     customMessage?: CustomMessageInputType;
     inputSize?: SIZE;
 }

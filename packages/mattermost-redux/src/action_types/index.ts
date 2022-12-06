@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import ChannelTypes from './channels';
+import DraftTypes from './drafts';
 import ErrorTypes from './errors';
 import GeneralTypes from './general';
 import UserTypes from './users';
@@ -51,4 +52,5 @@ export {
     AppsTypes,
     ThreadTypes,
     InsightTypes,
+    DraftTypes,
 };

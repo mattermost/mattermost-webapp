@@ -7,10 +7,11 @@ import {FormattedMessage} from 'react-intl';
 import {OAuthApp} from '@mattermost/types/integrations';
 
 import {localizeMessage} from 'utils/utils';
-import BackstageList from 'components/backstage/components/backstage_list.jsx';
+
+import BackstageList from 'components/backstage/components/backstage_list';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InstalledOAuthApp from '../installed_oauth_app';
 import {matchesFilter} from '../installed_oauth_app/installed_oauth_app';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 type Props = {
 

@@ -16,7 +16,6 @@ import {getCurrentTeam, getTeam, getTeamMemberships} from 'mattermost-redux/sele
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Post} from '@mattermost/types/posts';
 
 import {isPostFlagged} from 'mattermost-redux/utils/post_utils';
 
@@ -37,11 +36,13 @@ import {getDisplayNameByUser} from 'utils/utils';
 import {General} from 'mattermost-redux/constants';
 
 import {RHSStates} from 'utils/constants';
+
+import {Post} from '@mattermost/types/posts';
 import {getIsPostBeingEditedInRHS} from '../../selectors/posts';
 
-import SearchResultsItem from './search_results_item.jsx';
+import SearchResultsItem from './search_results_item';
 
-interface OwnProps {
+export interface OwnProps {
     post: Post;
 }
 
@@ -58,7 +59,8 @@ export function mapStateToProps() {
         const channel = getChannel(state, post.channel_id) || {delete_at: 0};
 
         const currentTeam = getCurrentTeam(state);
-        let teamName = currentTeam.name;
+        const teamId = currentTeam?.id ?? '';
+        let teamName = currentTeam?.name ?? '';
         let teamDisplayName = '';
 
         const memberships = getTeamMemberships(state);
@@ -74,14 +76,14 @@ export function mapStateToProps() {
             teamName = team?.name || currentTeam.name;
         }
 
-        const canReply = isDMorGM || (channel.team_id === currentTeam.id);
+        const canReply = isDMorGM || (channel.team_id === teamId);
         const directTeammate = getDirectTeammate(state, channel.id);
 
         return {
             teamDisplayName,
             teamName,
             channelId: channel.id,
-            channelName: channel.display_name,
+            channelDisplayName: channel.display_name,
             channelType: channel.type,
             channelIsArchived: channel.delete_at !== 0,
             enablePostUsernameOverride,
