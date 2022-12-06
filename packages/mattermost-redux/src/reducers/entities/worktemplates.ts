@@ -25,16 +25,16 @@ function categories(state: Category[] = [], action: GenericAction): Category[] {
 function templatesInCategory(state: Record<string, WorkTemplate[]> = {}, action: GenericAction): Record<string, WorkTemplate[]> {
     switch (action.type) {
     case WorkTemplatesType.RECEIVED_WORK_TEMPLATES: {
-        const res: Record<string, WorkTemplate[]> = {};
+        const nextState: Record<string, WorkTemplate[]> = {...state};
         const data = action.data as WorkTemplate[];
         data.forEach((template) => {
             const category = template.category;
-            if (!res[category]) {
-                res[category] = [];
+            if (!nextState[category]) {
+                nextState[category] = [];
             }
-            res[category].push(template);
+            nextState[category].push(template);
         });
-        return res;
+        return nextState;
     }
     default:
         return state;
