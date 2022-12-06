@@ -456,7 +456,7 @@ const PostComponent = (props: Props): JSX.Element => {
                         <PostProfilePicture
                             compactDisplay={props.compactDisplay}
                             isBusy={props.isBusy}
-                            isRHS={true}
+                            isRHS={props.location === Locations.RHS_ROOT || props.location === Locations.RHS_COMMENT}
                             post={post}
                             userId={post.user_id}
                         />

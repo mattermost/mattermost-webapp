@@ -4,7 +4,7 @@
 import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants';
+import Constants, {Locations} from 'utils/constants';
 import {fromAutoResponder} from 'utils/post_utils';
 
 import {Post} from '@mattermost/types/posts';
@@ -25,6 +25,7 @@ type Props = {
     isSystemMessage: boolean;
     isPostBeingEdited?: boolean;
     isMobileView: boolean;
+    location: keyof typeof Locations;
 };
 
 const PostUserProfile = (props: Props): JSX.Element | null => {
@@ -49,7 +50,7 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
                 userId={post.user_id}
                 channelId={post.channel_id}
                 isBusy={isBusy}
-                isRHS={true}
+                isRHS={props.location === Locations.RHS_COMMENT || props.location === Locations.RHS_ROOT}
                 hasMention={true}
                 colorize={colorize}
             />
@@ -62,7 +63,7 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
                 userId={post.user_id}
                 channelId={post.channel_id}
                 isBusy={isBusy}
-                isRHS={true}
+                isRHS={props.location === Locations.RHS_COMMENT || props.location === Locations.RHS_ROOT}
                 hasMention={true}
                 colorize={colorize}
             />
@@ -90,7 +91,7 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
                         channelId={post.channel_id}
                         hideStatus={true}
                         isBusy={isBusy}
-                        isRHS={true}
+                        isRHS={props.location === Locations.RHS_COMMENT || props.location === Locations.RHS_ROOT}
                         hasMention={true}
                         colorize={colorize}
                     />
