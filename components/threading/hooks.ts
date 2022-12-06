@@ -73,7 +73,7 @@ export const useThreadsLinkMeta = () => {
 
     useEffect(() => {
         // load counts if necessary
-        if (isCrtEnabled) {
+        if (isCrtEnabled && currentUserId && currentTeamId) {
             dispatch(getThreadCounts(currentUserId, currentTeamId));
         }
     }, [currentUserId, currentTeamId, isCrtEnabled]);
