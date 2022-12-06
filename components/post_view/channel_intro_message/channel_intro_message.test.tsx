@@ -53,6 +53,9 @@ describe('components/post_view/ChannelIntroMessages', () => {
         stats: {},
         usersLimit: 10,
         isFavorite: false,
+        isInvitingPeople: false,
+        isNotificationsOpen: false,
+        isSetHeaderOpen: false,
         currentUser: TestHelper.getUserMock({id: 'id1'}),
         actions: {
             getTotalUsersStats: jest.fn().mockResolvedValue([]),

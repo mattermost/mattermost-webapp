@@ -60,68 +60,41 @@
     justify-content: center;
     border: none;
     margin: 0 12px 10px 0;
-    background-color: rgba(63, 67, 80, 0.04);
+    background-color: rgba(var(--center-channel-color-rgb), 0.04);
     border-radius: 4px;
-    color: rgba(63, 67, 80, 0.56);
+    color: rgba(var(--center-channel-color-rgb), 0.56);
     font-size: 10px;
     font-weight: 600;
     line-height: 16px;
 
     &:hover {
-        background-color: rgba(63, 67, 80, 0.08);
-        color: rgba(63, 67, 80, 0.72);
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.72);
     }
 
     svg {
         margin-bottom: 1.6px;
     }
 
-    &:active {
-        background-color: rgba(28, 88, 217, 0.08);
-        color: #1c58d9;
+    &:active,
+    &.active {
+        background-color: rgba(var(--button-bg-rgb), 0.08);
+        color: var(--button-bg);
+        transition: none;
     }
 
-    @media screen and (max-width: 768px) and (min-width: 375px) {
-        width: 114px;
-        height: 62px;
+    &.withSvg {
+        @media screen and (max-width: 768px) and (min-width: 375px) {
+            width: 114px;
+            height: 62px;
+        }
     }
-}
-
-.channelIntroButton-not-svg {
-    display: flex;
-    width: 92px;
-    height: 62px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    margin: 0 12px 10px 0;
-    background-color: rgba(63, 67, 80, 0.04);
-    border-radius: 4px;
-    color: rgba(63, 67, 80, 0.56);
-    font-size: 10px;
-    font-weight: 600;
-    line-height: 16px;
-
-    &:hover {
-        background-color: rgba(63, 67, 80, 0.08);
-        color: rgba(63, 67, 80, 0.72);
-    }
-
-    svg {
-        margin-bottom: 1.6px;
-    }
-}
-
-.channelIntroButton-text-white {
-    background-color: rgba(221, 223, 228, 0.04);
-    color: rgba(221, 223, 228, 0.56);
 }
 
 .channel-intro__desc {
     display: flex;
     margin-bottom: 15px;
-    color: rgba(63, 67, 80, 0.64);
+    color: rgba(var(--center-channel-color-rgb), 0.64);
     font-size: 11px;
     text-align: center;
 }

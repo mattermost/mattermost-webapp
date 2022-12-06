@@ -16,13 +16,15 @@ import {getChannelIntroPluginComponents} from 'selectors/plugins';
 import {getTotalUsersStats} from 'mattermost-redux/actions/users';
 import {favoriteChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
 
-import {Preferences, suitePluginIds} from 'utils/constants';
+import {ModalIdentifiers, Preferences, suitePluginIds} from 'utils/constants';
 import {getDisplayNameByUser} from 'utils/utils';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import {GlobalState} from 'types/store';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
+
+import {isModalOpen} from 'selectors/views/modals';
 
 import ChannelIntroMessage from './channel_intro_message';
 
@@ -40,6 +42,9 @@ function mapStateToProps(state: GlobalState) {
     const usersLimit = 10;
 
     const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
+    const isInvitingPeople = isModalOpen(state, ModalIdentifiers.CHANNEL_INVITE) || isModalOpen(state, ModalIdentifiers.CREATE_DM_CHANNEL);
+    const isNotificationsOpen = isModalOpen(state, ModalIdentifiers.NOTIFICATIONS);
+    const isSetHeaderOpen = isModalOpen(state, ModalIdentifiers.EDIT_CHANNEL_HEADER);
 
     return {
         currentUserId: getCurrentUserId(state),
@@ -59,6 +64,9 @@ function mapStateToProps(state: GlobalState) {
         usersLimit,
         boardComponent,
         theme: getTheme(state),
+        isInvitingPeople,
+        isNotificationsOpen,
+        isSetHeaderOpen,
     };
 }
 
