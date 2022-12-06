@@ -62,7 +62,18 @@ type Props = {
     filter?: string;
 }
 
-export default class InstalledOutgoingWebhook extends React.PureComponent<Props> {
+type State = {
+    hovering: boolean;
+}
+
+export default class InstalledOutgoingWebhook extends React.PureComponent<Props, State> {
+    public constructor(props: Props) {
+        super(props);
+        this.state = {
+            hovering: false,
+        };
+    }
+    
     handleRegenToken = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
@@ -80,6 +91,14 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
             enabled: !outgoingWebhook.enabled,
         };
         this.props.onToggle(toggledWebhook);
+    }
+
+    handleMouseOver = () => {
+        this.setState({hovering: true});
+    }
+
+    handleMouseOut = () =>{
+        this.setState({hovering: false});
     }
 
     makeDisplayName(outgoingWebhook: OutgoingWebhook, channel: Channel) {
@@ -109,19 +128,12 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
 
         const displayName = this.makeDisplayName(outgoingWebhook, channel);
 
-        let displayEnabled;
+        let displayEnabled = null;
         if (outgoingWebhook.enabled) {
             displayEnabled = (
                 <FormattedMessage
-                    id='installed_outgoing_webhooks.enabled_webhook'
-                    defaultMessage=' - Enabled'
-                />
-            );
-        } else {
-            displayEnabled = (
-                <FormattedMessage
                     id='installed_outgoing_webhooks.disabled_webhook'
-                    defaultMessage=' - Disabled'
+                    defaultMessage=' (Disabled)'
                 />
             );
         }
@@ -187,25 +199,17 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
 
         let actions = null;
         if (this.props.canChange) {
-            actions = (
+            actions = (this.state.hovering ?
                 <div className='item-actions'>
                     <button
                         className='style--none color--link'
                         onClick={this.handleRegenToken}
                     >
-                        <FormattedMessage
-                            id='installed_integrations.regenToken'
-                            defaultMessage='Regen Token'
-                        />
+                        <i className='icon icon-refresh'/>
                     </button>
-                    {' - '}
                     <Link to={`/${this.props.team.name}/integrations/outgoing_webhooks/edit?id=${outgoingWebhook.id}`}>
-                        <FormattedMessage
-                            id='installed_integrations.edit'
-                            defaultMessage='Edit'
-                        />
+                        <i className='icon icon-pencil-outline'/>
                     </Link>
-                    {' - '}
                     <DeleteIntegrationLink
                         modalMessage={
                             <FormattedMessage
@@ -215,18 +219,27 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
                         }
                         onDelete={this.handleDelete}
                     />
-                    {' - '}
                     <Toggle
                         disabled={false}
                         onToggle={this.handleToggle}
                         toggled={this.props.outgoingWebhook.enabled}
+                        size={'btn-sm'}
+                    />
+                </div>
+            : 
+                <div className='item-actions'>
+                    <Toggle
+                        disabled={false}
+                        onToggle={this.handleToggle}
+                        toggled={this.props.outgoingWebhook.enabled}
+                        size={'btn-sm'}
                     />
                 </div>
             );
         }
 
         return (
-            <div className='backstage-list__item'>
+            <div className='backstage-list__item' onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
                 <div className='item-details'>
                     <div className='item-details__row d-flex flex-column flex-md-row justify-content-between'>
                         <strong className='item-details__name'>

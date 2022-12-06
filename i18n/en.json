@@ -3737,7 +3737,7 @@
   "installed_commands.unnamed_command": "Unnamed Slash Command",
   "installed_incoming_webhooks.add": "Add Incoming Webhook",
   "installed_incoming_webhooks.delete.confirm": "This action permanently deletes the incoming webhook and breaks any integrations using it. Are you sure you want to delete it?",
-  "installed_incoming_webhooks.disabled_webhook": " - Disabled",
+  "installed_incoming_webhooks.disabled_webhook": " (Disabled)",
   "installed_incoming_webhooks.empty": "No incoming webhooks found",
   "installed_incoming_webhooks.emptySearch": "No incoming webhooks match **{searchTerm}**",
   "installed_incoming_webhooks.enabled_webhook": " - Enabled",

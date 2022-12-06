@@ -251,6 +251,20 @@
     }
 }
 
+.item-actions {
+    button, a {
+        height: 20px;
+        margin-left: 10px;
+        .handle {
+            height: 14.28px;
+            width: 14.28px;
+        }
+    }
+    .btn {
+        margin-left: 15px;
+    }
+}
+
 // Backstage Form
 
 .backstage-form {
@@ -317,6 +331,23 @@
             padding: 0;
             text-align: left;
         }
+    }
+}
+
+.backstage-footer {
+    display: flex;
+    height: auto;
+    flex-direction: row;
+    padding: 5px 0;
+    border-top: solid 1px rgba(0, 0, 0, 0.1);
+    border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+    background: $white;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 1.1em;
+    text-align: right;
+    .backstage-list__paging {
+        width: 100%;
+        text-align: right;
     }
 }
 
