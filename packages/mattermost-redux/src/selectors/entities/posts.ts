@@ -807,7 +807,7 @@ export const isPersistentNotificationsEnabled = createSelector(
     getCurrentUser,
     getAllowPersistentNotifications,
     getAllowPersistentNotificationsForGuests,
-    (user, forUsers, forGuests) => (isGuest(user.roles) ? forGuests : forUsers),
+    (user, forAll, forGuests) => (isGuest(user.roles) ? (forAll && forGuests) : forAll),
 );
 
 export function makeGetPostAcknowledgementsWithProfiles(): (state: GlobalState, postId: Post['id']) => Array<{user: UserProfile; acknowledgedAt: PostAcknowledgement['acknowledged_at']}> {
