@@ -10,7 +10,7 @@ import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
-import Constants, {FileTypes, ValidationErrors} from 'utils/constants';
+import Constants, {FileTypes, StoragePrefixes, ValidationErrors} from 'utils/constants';
 
 import {
     getChannel as getChannelAction,
@@ -73,6 +73,8 @@ import {GlobalState} from '@mattermost/types/store';
 import {focusPost} from 'components/permalink_view/actions';
 
 import {TextboxElement} from '../components/textbox';
+
+import {DraftInfo} from 'types/store/draft';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
@@ -1872,4 +1874,23 @@ export function getRoleFromTrackFlow() {
     const startedByRole = TrackFlowRoles[sbr] ?? '';
 
     return {started_by_role: startedByRole};
+}
+
+export function getDraftInfoFromKey(key: string, prefix: string): DraftInfo | null {
+    const keyArr = key.split('_');
+    if (prefix === StoragePrefixes.DRAFT) {
+        return {
+            id: keyArr[1],
+            type: 'channel',
+        };
+    }
+
+    if (prefix === StoragePrefixes.COMMENT_DRAFT) {
+        return {
+            id: keyArr[2],
+            type: 'thread',
+        };
+    }
+
+    return null;
 }

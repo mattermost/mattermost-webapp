@@ -13,15 +13,14 @@ import {getConnectionId} from 'selectors/general';
 import type {GlobalState} from 'types/store';
 import {PostDraft} from 'types/store/draft';
 import {getGlobalItem} from 'selectors/storage';
+import {makeGetDrafts} from 'selectors/drafts';
 
 import {StoragePrefixes} from 'utils/constants';
 
-import type {Draft as InfoDraft} from 'selectors/drafts';
 import type {Draft as ServerDraft} from '@mattermost/types/drafts';
 import type {UserProfile} from '@mattermost/types/users';
 import {PostMetadata, PostPriorityMetadata} from '@mattermost/types/posts';
 import {FileInfo} from '@mattermost/types/files';
-import {makeGetLegacyDrafts} from 'selectors/drafts';
 
 type Draft = {
     key: keyof GlobalState['storage']['storage'];
@@ -30,7 +29,7 @@ type Draft = {
 }
 
 export function getDrafts(teamId: string) {
-    const getLegacyDrafts = makeGetLegacyDrafts();
+    const getLocalDrafts = makeGetDrafts();
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
 
@@ -39,11 +38,11 @@ export function getDrafts(teamId: string) {
             serverDrafts = (await Client4.getUserDrafts(teamId) || []).map((draft) => transformServerDraft(draft));
         }
 
-        const legacyDrafts = (getLegacyDrafts(state) || []).map((draft) => transformLegacyDraft(draft));
-        const drafts = [...serverDrafts, ...legacyDrafts];
+        const localDrafts = getLocalDrafts(state);
+        const drafts = [...serverDrafts, ...localDrafts];
 
         if (drafts === null) {
-            return;
+            return {data: true};
         }
 
         const draftsMap = new Map((drafts || []).map((draft) => [draft.key, draft]));
@@ -59,6 +58,7 @@ export function getDrafts(teamId: string) {
         });
 
         dispatch(batchActions(actions));
+        return {data: true};
     };
 }
 
@@ -96,11 +96,13 @@ export function updateDraft(key: string, value: PostDraft|null, rootId = '', sav
         if (syncedDraftsAreAllowedAndEnabled(state) && save && updatedValue) {
             const connectionId = getConnectionId(state);
             const userId = getCurrentUserId(state);
-
             try {
                 await upsertDraft(updatedValue, userId, rootId, connectionId);
             } catch (error) {
-                return error;
+                return {
+                    data: false,
+                    error,
+                };
             }
         }
         return {data: true};
@@ -156,34 +158,6 @@ export function transformServerDraft(draft: ServerDraft): Draft {
             updateAt: draft.update_at,
             metadata,
             show: true,
-        },
-    };
-}
-
-function transformLegacyDraft(draft: InfoDraft) {
-    let rootId = '';
-    let channelId = '';
-
-    if (draft.type === 'channel') {
-        channelId = draft.id;
-    } else {
-        rootId = draft.id;
-    }
-
-    return {
-        key: draft.key,
-        timestamp: draft.timestamp,
-        value: {
-            message: draft.value.message,
-            fileInfos: draft.value.fileInfos || [],
-            props: draft.value.props || {},
-            uploadsInProgress: draft.value.uploadsInProgress || [],
-            channelId,
-            rootId,
-            createAt: draft.value.createAt > 0 ? draft.value.createAt : draft.timestamp.getTime(),
-            updateAt: draft.value.updateAt > 0 ? draft.value.updateAt : draft.timestamp.getTime(),
-            show: true,
-            remote: false,
         },
     };
 }

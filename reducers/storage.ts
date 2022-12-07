@@ -3,14 +3,15 @@
 
 import localForage from 'localforage';
 import {combineReducers} from 'redux';
-import {persistReducer, REHYDRATE} from 'redux-persist';
+import {createMigrate, MigrationManifest, PersistedState, persistReducer, REHYDRATE} from 'redux-persist';
 
 import {General} from 'mattermost-redux/constants';
 
 import {UserTypes} from 'mattermost-redux/action_types';
 import type {GenericAction} from 'mattermost-redux/types/actions';
 
-import {StorageTypes} from 'utils/constants';
+import {StoragePrefixes, StorageTypes} from 'utils/constants';
+import {getDraftInfoFromKey} from 'utils/utils';
 
 type StorageEntry = {
     timestamp: Date;
@@ -110,6 +111,48 @@ function storage(state: Record<string, any> = {}, action: GenericAction) {
     }
 }
 
+function migrateDrafts(state: any) {
+    const drafts: any = {};
+    for (const k in state) {
+        if (k.startsWith('draft')) {
+            const obj = state[k];
+
+            // If draft does not have a channelId, it is a legacy draft and needs to be migrated
+            if (!obj.value?.channelId) {
+                const info = getDraftInfoFromKey(k, StoragePrefixes.DRAFT);
+                const timestamp = new Date(obj.timestamp);
+
+                if (info === null || !info.id) {
+                    drafts[k] = {timestamp, value: {message: '', fileInfos: [], uploadsInProgress: []}};
+                    continue;
+                }
+                const migratedDraft = {
+                    timestamp,
+                    value: {
+                        message: obj.value?.message,
+                        fileInfos: obj.value?.fileInfos || [],
+                        props: obj.value?.props || {},
+                        uploadsInProgress: obj.value?.uploadsInProgress || [],
+                        channelId: info.id,
+                        rootId: '',
+                        createAt: timestamp.getTime(),
+                        updateAt: timestamp.getTime(),
+                        show: true,
+                        remote: false,
+                    },
+                };
+
+                drafts[k] = {...migratedDraft};
+            }
+        }
+    }
+
+    return {
+        ...state,
+        ...drafts,
+    };
+}
+
 function initialized(state = false, action: GenericAction) {
     switch (action.type) {
     case General.STORE_REHYDRATION_COMPLETE:
@@ -120,7 +163,22 @@ function initialized(state = false, action: GenericAction) {
     }
 }
 
+const migrations: MigrationManifest = {
+    1: (state: PersistedState): PersistedState => {
+        return {
+            ...migrateDrafts(state),
+        };
+    },
+};
+
+const config = {
+    key: 'storage',
+    version: 1,
+    storage: localForage,
+    migrate: createMigrate(migrations, {debug: false}),
+};
+
 export default combineReducers({
-    storage: persistReducer({key: 'storage', storage: localForage}, storage),
+    storage: persistReducer(config, storage),
     initialized,
 });
