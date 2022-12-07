@@ -38,6 +38,8 @@ import {ActionTypes} from 'utils/constants';
 import type {GlobalState} from 'types/store';
 import type {NewPostDraft} from 'types/store/draft';
 
+import EmojiPicker from './components/emoji-picker';
+
 import {htmlToMarkdown} from './utils/toMarkdown';
 
 // import all custom components, extensions, etc.
@@ -206,6 +208,7 @@ type Props = PropsFromRedux & {
 
 export default (props: Props) => {
     const {
+        config,
         teamId,
         channelId,
         rootId,
@@ -459,15 +462,26 @@ export default (props: Props) => {
         />
     );
 
+    const emojiPicker = config.EnableEmojiPicker === 'true' ? <EmojiPicker editor={editor}/> : null;
+
+    const rightControls = (
+        <>
+            {emojiPicker}
+            {sendButton}
+        </>
+    );
+
+    const toolbarProps = {
+        editor,
+        rightControls,
+    };
+
     return (
         <WysiwygContainer>
             <EditorContainer>
                 <EditorContent editor={editor}/>
             </EditorContainer>
-            <Toolbar
-                editor={editor}
-                rightControls={sendButton}
-            />
+            <Toolbar {...toolbarProps}/>
         </WysiwygContainer>
     );
 };

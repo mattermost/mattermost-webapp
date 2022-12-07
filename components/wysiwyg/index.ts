@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import {connect, ConnectedProps} from 'react-redux';
 import {Permissions, Preferences as PreferencesRedux} from 'mattermost-redux/constants';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {haveIChannelPermission, haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
@@ -20,6 +20,7 @@ function mapStateToProps(state: GlobalState) {
     const useCustomEmojis = isCustomEmojiEnabled(state);
     const useSpecialMentions = haveIChannelPermission(state, teamId, channelId, Permissions.USE_CHANNEL_MENTIONS);
 
+    const config = getConfig(state);
     const license = getLicense(state);
     const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
     const useLDAPGroupMentions = isLDAPEnabled && haveICurrentChannelPermission(state, Permissions.USE_GROUP_MENTIONS);
@@ -27,6 +28,7 @@ function mapStateToProps(state: GlobalState) {
     const useCustomGroupMentions = isCustomGroupsEnabled(state) && haveICurrentChannelPermission(state, Permissions.USE_GROUP_MENTIONS);
 
     return {
+        config,
         teamId,
         channelId,
         useCustomEmojis,
