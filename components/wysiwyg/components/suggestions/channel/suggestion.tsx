@@ -14,7 +14,7 @@ import {render} from '../suggestion-base';
 
 import {ChannelSuggestionItem} from './components';
 
-const SuggestionPluginKey = new PluginKey(WysiwygPluginNames.CHANNEL_SUGGESTION);
+export const ChannelSuggestionKey = new PluginKey(WysiwygPluginNames.CHANNEL_SUGGESTION);
 
 type ChannelSuggestionOptions = {
     teamId: string;
@@ -23,7 +23,7 @@ type ChannelSuggestionOptions = {
 export const makeChannelSuggestion: (options: ChannelSuggestionOptions) => Omit<SuggestionOptions<SuggestionItem>, 'editor'> = ({teamId}) => ({
     char: '~',
 
-    pluginKey: SuggestionPluginKey,
+    pluginKey: ChannelSuggestionKey,
 
     items: async ({query}: {query: string}) => {
         const channels = await Client4.autocompleteChannels(teamId, query);

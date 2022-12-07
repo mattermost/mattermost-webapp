@@ -19,12 +19,12 @@ import {render} from '../suggestion-base';
 
 import {EmojiSuggestionItem} from './components';
 
-const SuggestionPluginKey = new PluginKey(WysiwygPluginNames.EMOJI_SUGGESTION);
+export const EmojiSuggestionKey = new PluginKey(WysiwygPluginNames.EMOJI_SUGGESTION);
 
 export const MIN_EMOTICON_LENGTH = 2;
 export const EMOJI_CATEGORY_SUGGESTION_BLOCKLIST = ['skintone'];
 
-type ChannelSuggestionOptions = {
+type EmojiSuggestionOptions = {
     useCustomEmojis: boolean;
 }
 
@@ -95,10 +95,10 @@ function findAndSuggestEmojis(partialName: string): SuggestionItem[] {
     }));
 }
 
-export const makeEmojiSuggestion: (options: ChannelSuggestionOptions) => Omit<SuggestionOptions<SuggestionItem>, 'editor'> = () => ({
+export const makeEmojiSuggestion: (options: EmojiSuggestionOptions) => Omit<SuggestionOptions<SuggestionItem>, 'editor'> = () => ({
     char: ':',
 
-    pluginKey: SuggestionPluginKey,
+    pluginKey: EmojiSuggestionKey,
 
     items: ({query}: {query: string}) => {
         return new Promise((resolve) => {

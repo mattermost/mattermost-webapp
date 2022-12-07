@@ -46,14 +46,27 @@ import SendButton from './components/send-button';
 import CodeBlockComponent from './components/codeblockview';
 import {
     AtMentionSuggestions,
+    AtMentionSuggestionKey,
     makeAtMentionSuggestion,
     ChannelSuggestions,
+    ChannelSuggestionKey,
     makeChannelSuggestion,
     EmojiSuggestions,
+    EmojiSuggestionKey,
     makeEmojiSuggestion,
+    CommandSuggestions,
+    CommandSuggestionKey,
+    makeCommandSuggestion,
 } from './components/suggestions';
 
 import {PropsFromRedux} from './index';
+
+const SuggestionKeys = [
+    AtMentionSuggestionKey,
+    ChannelSuggestionKey,
+    EmojiSuggestionKey,
+    CommandSuggestionKey,
+];
 
 const WysiwygContainer = styled.div`
     margin: 0 24px 24px;
@@ -314,6 +327,13 @@ export default (props: Props) => {
                     useCustomEmojis,
                 }),
             }),
+            CommandSuggestions.configure({
+                suggestion: makeCommandSuggestion({
+                    teamId,
+                    channelId,
+                    rootId,
+                }),
+            }),
 
             /**
              * these should always come at the end so that we are able to override behavior from
@@ -324,13 +344,22 @@ export default (props: Props) => {
                 addKeyboardShortcuts() {
                     return {
                         Enter: () => {
+                            /**
+                             * check if we have an active mark that expects a different behavior from hitting Enter
+                             */
                             const isCodeBlockActive = this.editor.isActive('codeBlock');
                             const isQuoteActive = this.editor.isActive('blockquote');
                             const isListActive = this.editor.isActive('bulletList') || this.editor.isActive('orderedList');
                             const isTableActive = this.editor.isActive('table');
 
+                            /**
+                             * run over all suggestion plugins and check if there is one that is currently in use
+                             * (actively showing the overlay or processing a request)
+                             */
+                            const activeSuggestions = SuggestionKeys.some((suggestion) => suggestion.getState(this.editor.view.state).active);
+
                             // prevent submitting the message when one of these is active
-                            if (isCodeBlockActive || isTableActive || isQuoteActive || isListActive || ctrlSend) {
+                            if (isCodeBlockActive || isTableActive || isQuoteActive || isListActive || ctrlSend || activeSuggestions) {
                                 return false;
                             }
 

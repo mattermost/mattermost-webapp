@@ -1,7 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-
-// See LICENSE.txt for license information.
 import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
@@ -18,7 +16,7 @@ import {render} from '../suggestion-base';
 
 import {GroupMentionItem, SpecialMentionItem, UserMentionItem} from './components';
 
-const SuggestionPluginKey = new PluginKey(WysiwygPluginNames.AT_MENTION_SUGGESTION);
+export const AtMentionSuggestionKey = new PluginKey(WysiwygPluginNames.AT_MENTION_SUGGESTION);
 
 type AtMentionSuggestionOptions = {
     teamId: string;
@@ -59,7 +57,7 @@ function filterGroup(prefix: string, group: Group): boolean {
 export const makeAtMentionSuggestion: (options: AtMentionSuggestionOptions) => Omit<SuggestionOptions<SuggestionItem>, 'editor'> = ({teamId, channelId, disabled, useGroupMentions, useSpecialMentions = true}) => ({
     char: '@',
 
-    pluginKey: SuggestionPluginKey,
+    pluginKey: AtMentionSuggestionKey,
 
     items: async ({query}: {query: string}) => {
         if (disabled) {

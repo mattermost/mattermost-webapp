@@ -100,6 +100,7 @@ export type SuggestionItem = {
     label: string;
     type?: string;
     content?: JSX.Element;
+    item?: Record<string, any>;
 }
 
 export type SuggestionListProps = Pick<SuggestionProps<SuggestionItem>, 'items' | 'command' | 'decorationNode'> & {
