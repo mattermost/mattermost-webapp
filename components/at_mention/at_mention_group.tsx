@@ -129,8 +129,9 @@ const AtMentionGroup = (props: Props) => {
             </Overlay>
             <button
                 onClick={handleClick}
-                className='style--link'
+                className='style--link group-mention-link'
                 ref={ref}
+                aria-haspopup='dialog'
             >
                 {'@' + group.name}
             </button>

@@ -3,7 +3,7 @@
 
 import React, {useEffect, useCallback, useState, useRef} from 'react';
 import styled from 'styled-components';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {debounce} from 'lodash';
 
 import {CloseIcon, MagnifyIcon} from '@mattermost/compass-icons/components';
@@ -74,6 +74,8 @@ const UserGroupPopover = (props: Props) => {
         searchTerm,
         showUserOverlay,
     } = props;
+
+    const {formatMessage} = useIntl();
 
     const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -182,6 +184,7 @@ const UserGroupPopover = (props: Props) => {
                 role='dialog'
                 onKeyDown={handleKeyDown}
                 className={A11yClassNames.POPUP}
+                aria-label={group.display_name}
             >
                 <Header>
                     <Heading>
@@ -192,7 +195,7 @@ const UserGroupPopover = (props: Props) => {
                         </Title>
                         <CloseButton
                             className='btn-icon'
-                            aria-label={Utils.localizeMessage('user_group_popover.close', 'Close')}
+                            aria-label={formatMessage({id: 'user_group_popover.close', defaultMessage: 'Close'})}
                             onClick={handleClose}
                             ref={closeRef}
                         >
@@ -212,7 +215,7 @@ const UserGroupPopover = (props: Props) => {
                         />
                     </Subtitle>
                     <HeaderButton
-                        aria-label={Utils.localizeMessage('user_group_popover.openGroupModal', 'View full group info')}
+                        aria-label={`${group.display_name} @${group.name} ${formatMessage({id: 'user_group_popover.memberCount', defaultMessage: '{member_count} {member_count, plural, one {Member} other {Members}}'}, {member_count: group.member_count})} ${formatMessage({id: 'user_group_popover.openGroupModal', defaultMessage: 'View full group info'})}`}
                         onClick={openViewGroupModal}
                         className='user-group-popover_header-button'
                     />
@@ -223,7 +226,7 @@ const UserGroupPopover = (props: Props) => {
                         <QuickInput
                             type='text'
                             className='user-group-popover_search-bar'
-                            placeholder={Utils.localizeMessage('user_group_popover.searchGroupMembers', 'Search members')}
+                            placeholder={formatMessage({id: 'user_group_popover.searchGroupMembers', defaultMessage: 'Search members'})}
                             value={searchTerm}
                             onChange={handleSearch}
                             clearable={true}
