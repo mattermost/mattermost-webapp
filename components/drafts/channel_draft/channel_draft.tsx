@@ -2,9 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, useCallback} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router-dom';
-
 
 import PersistNotificationConfirmModal from 'components/persist_notification_confirm_modal';
 import {openModal} from 'actions/views/modals';
