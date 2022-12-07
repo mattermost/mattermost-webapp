@@ -36,6 +36,7 @@ del .mention-link:hover {
     padding: 0 1px;
     background-color: var(--mention-highlight-bg);
     border-radius: 4px;
+    color: var(--mention-highlight-link);
 
     .mention-link {
         color: var(--mention-highlight-link);
