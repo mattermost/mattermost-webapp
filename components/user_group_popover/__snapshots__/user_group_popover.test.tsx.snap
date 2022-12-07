@@ -162,11 +162,13 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                   tabIndex={0}
                 />
                 <Body
+                  aria-label="group_display_name"
                   className="a11y__popup"
                   onKeyDown={[Function]}
                   role="dialog"
                 >
                   <div
+                    aria-label="group_display_name"
                     className="Body-jPXXyK jkivLB a11y__popup"
                     onKeyDown={[Function]}
                     role="dialog"
@@ -277,12 +279,12 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                           </div>
                         </Subtitle>
                         <HeaderButton
-                          aria-label="View full group info"
+                          aria-label="group_display_name @group_name 15 Members View full group info"
                           className="user-group-popover_header-button"
                           onClick={[Function]}
                         >
                           <button
-                            aria-label="View full group info"
+                            aria-label="group_display_name @group_name 15 Members View full group info"
                             className="HeaderButton-jHgPlb jFywol user-group-popover_header-button"
                             onClick={[Function]}
                           />
