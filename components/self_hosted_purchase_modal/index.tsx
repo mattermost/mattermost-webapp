@@ -21,6 +21,7 @@ import {getSelfHostedProducts, getSelfHostedSignupProgress} from 'mattermost-red
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {Client4} from 'mattermost-redux/client';
 import {HostedCustomerTypes} from 'mattermost-redux/action_types';
+import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
@@ -486,10 +487,14 @@ export default function SelfHostedPurchaseModal(props: Props) {
             ));
             if (finished.data) {
                 dispatch({type: 'succeeded'});
+
                 reduxDispatch({
                     type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
                     data: SelfHostedSignupProgress.CREATED_LICENSE,
                 });
+                // Reload license in background.
+                // Needed if this was completed while on the Edition and License page.
+                reduxDispatch(getLicenseConfig())
             } else if (finished.error) {
                 dispatch({type: 'set_error', data: finished.error});
             }
