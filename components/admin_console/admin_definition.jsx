@@ -334,6 +334,7 @@ const AdminDefinition = {
                 id: 'BillingSubscriptions',
                 component: BillingSubscriptions,
             },
+
             // cloud only view
             isHidden: it.not(it.licensedForFeature('Cloud')),
             isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
@@ -362,6 +363,7 @@ const AdminDefinition = {
                 id: 'CompanyInfo',
                 component: CompanyInfo,
             },
+
             // cloud only view
             isHidden: it.not(it.licensedForFeature('Cloud')),
             isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
@@ -372,6 +374,7 @@ const AdminDefinition = {
                 id: 'CompanyInfoEdit',
                 component: CompanyInfoEdit,
             },
+
             // cloud only view
             isHidden: it.not(it.licensedForFeature('Cloud')),
             isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
@@ -382,6 +385,7 @@ const AdminDefinition = {
             title_default: 'Payment Information',
             isHidden: it.any(
                 it.hidePaymentInfo,
+
                 // cloud only view
                 it.not(it.licensedForFeature('Cloud')),
             ),

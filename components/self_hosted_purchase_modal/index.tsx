@@ -492,9 +492,10 @@ export default function SelfHostedPurchaseModal(props: Props) {
                     type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
                     data: SelfHostedSignupProgress.CREATED_LICENSE,
                 });
+
                 // Reload license in background.
                 // Needed if this was completed while on the Edition and License page.
-                reduxDispatch(getLicenseConfig())
+                reduxDispatch(getLicenseConfig());
             } else if (finished.error) {
                 dispatch({type: 'set_error', data: finished.error});
             }

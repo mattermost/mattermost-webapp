@@ -8,12 +8,12 @@ import {Invoice, InvoiceLineItemType} from '@mattermost/types/cloud';
 
 import {numberToFixedDynamic} from 'utils/utils';
 
-
 export default function InvoiceUserCount({invoice}: {invoice: Invoice}): JSX.Element {
     const fullUsers = invoice.line_items.filter((item) => item.type === InvoiceLineItemType.Full).reduce((val, item) => val + item.quantity, 0);
     const partialUsers = invoice.line_items.filter((item) => item.type === InvoiceLineItemType.Partial).reduce((val, item) => val + item.quantity, 0);
     const meteredUsers = invoice.line_items.filter((item) => item.type === InvoiceLineItemType.Metered).reduce((val, item) => val + item.quantity, 0);
     const onPremUsers = invoice.line_items.filter((item) => item.type === InvoiceLineItemType.OnPremise).reduce((val, item) => val + item.quantity, 0);
+
     // e.g. purchased through self-hosted flow.
     if (onPremUsers) {
         return (
@@ -21,12 +21,13 @@ export default function InvoiceUserCount({invoice}: {invoice: Invoice}): JSX.Ele
                 id='admin.billing.history.onPremUsers'
                 defaultMessage='{num} users'
                 values={{
+
                     // should always be a whole number, but truncate just in case
                     num: Math.floor(onPremUsers),
                 }}
             />
         );
-    } 
+    }
     if (meteredUsers) {
         if (fullUsers || partialUsers) {
             return (

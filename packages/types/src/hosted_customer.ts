@@ -40,6 +40,6 @@ export type HostedCustomerState = {
     errors: {
         products?: true;
         invoices?: true;
-    }
+    };
     signupProgress: ValueOf<typeof SelfHostedSignupProgress>;
 }

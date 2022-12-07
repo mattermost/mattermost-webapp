@@ -23,5 +23,5 @@ export function getSelfHostedInvoices(state: GlobalState): Record<string, Invoic
 }
 
 export function getSelfHostedErrors(state: GlobalState): HostedCustomerState['errors'] {
-    return state.entities.cloud.errors;
+    return state.entities.hostedCustomer.errors;
 }

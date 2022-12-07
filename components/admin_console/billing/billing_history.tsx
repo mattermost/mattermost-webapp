@@ -52,7 +52,7 @@ const noBillingHistorySection = (
 const BillingHistory = () => {
     const dispatch = useDispatch();
     const isCloud = useSelector(isCurrentLicenseCloud);
-    const invoices = useSelector(isCloud ? getCloudInvoices: getSelfHostedInvoices);
+    const invoices = useSelector(isCloud ? getCloudInvoices : getSelfHostedInvoices);
     const {invoices: invoicesError} = useSelector(isCloud ? getCloudErrors : getSelfHostedErrors);
 
     useEffect(() => {
