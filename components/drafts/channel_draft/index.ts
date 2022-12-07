@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 
+import {isPostPriorityEnabled} from 'mattermost-redux/selectors/entities/posts';
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
@@ -24,10 +25,12 @@ function makeMapStateToProps() {
 
         const teamId = getCurrentTeamId(state);
         const channelUrl = getChannelURL(state, channel, teamId);
+        const postPriorityEnabled = isPostPriorityEnabled(state);
 
         return {
             channel,
             channelUrl,
+            postPriorityEnabled,
         };
     };
 }

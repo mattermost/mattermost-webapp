@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo} from 'react';
+import React, {memo, CSSProperties} from 'react';
 import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
 
@@ -18,7 +18,8 @@ import {PostPriorityMetadata} from '@mattermost/types/posts';
 type Props = {
     canRemove: boolean;
     hasError: boolean;
-    onRemove: () => void;
+    onRemove?: () => void;
+    padding?: CSSProperties['padding'];
     persistentNotifications?: PostPriorityMetadata['persistent_notifications'];
     priority?: PostPriorityMetadata['priority'];
     requestedAck?: PostPriorityMetadata['requested_ack'];
@@ -32,7 +33,7 @@ const Priority = styled.div`
     align-items: center;
     display: flex;
     gap: 6px;
-    padding: 14px 16px 0;
+    padding: ${(props: {padding: CSSProperties['padding']}) => props.padding || '14px 16px 0'}
 `;
 
 const Acknowledgements = styled.div`
@@ -82,12 +83,13 @@ function PriorityLabels({
     canRemove,
     hasError,
     onRemove,
+    padding,
     persistentNotifications,
     priority,
     requestedAck,
 }: Props) {
     return (
-        <Priority>
+        <Priority padding={padding}>
             {priority && (
                 <PriorityLabel
                     size='xs'
@@ -132,7 +134,7 @@ function PriorityLabels({
                     />
                 </Error>
             )}
-            {!canRemove && (
+            {canRemove && (
                 <OverlayTrigger
                     placement='top'
                     delayShow={Constants.OVERLAY_TIME_DELAY}

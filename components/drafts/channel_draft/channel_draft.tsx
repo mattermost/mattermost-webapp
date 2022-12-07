@@ -2,16 +2,21 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, useCallback} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router-dom';
 
+
+import PersistNotificationConfirmModal from 'components/persist_notification_confirm_modal';
+import {openModal} from 'actions/views/modals';
 import {createPost} from 'actions/post_actions';
 import {removeDraft} from 'actions/views/drafts';
 import {PostDraft} from 'types/store/draft';
+import {specialMentionsInText} from 'utils/post_utils';
+import {ModalIdentifiers} from 'utils/constants';
 
 import type {Channel} from '@mattermost/types/channels';
 import type {UserProfile, UserStatus} from '@mattermost/types/users';
-import {Post, PostMetadata} from '@mattermost/types/posts';
+import {Post, PostMetadata, PostPriority} from '@mattermost/types/posts';
 
 import DraftTitle from '../draft_title';
 import DraftActions from '../draft_actions';
@@ -25,6 +30,7 @@ type Props = {
     displayName: string;
     draftId: string;
     id: Channel['id'];
+    postPriorityEnabled: boolean;
     status: UserStatus['status'];
     type: 'channel' | 'thread';
     user: UserProfile;
@@ -36,6 +42,7 @@ function ChannelDraft({
     channelUrl,
     displayName,
     draftId,
+    postPriorityEnabled,
     status,
     type,
     user,
@@ -52,6 +59,27 @@ function ChannelDraft({
         dispatch(removeDraft(id, channel.id));
     }, [channel.id]);
 
+    const showPersistNotificationModal = useCallback((id: string, post: Post) => {
+        const specialMentions = specialMentionsInText(post.message);
+        const hasSpecialMentions = Object.values(specialMentions).includes(true);
+
+        dispatch(openModal({
+            modalId: ModalIdentifiers.PERSIST_NOTIFICATION_CONFIRM_MODAL,
+            dialogType: PersistNotificationConfirmModal,
+            dialogProps: {
+                message: post.message,
+                hasSpecialMentions,
+                onConfirm: () => doSubmit(id, post),
+            },
+        }));
+    }, []);
+
+    const doSubmit = useCallback((id: string, post: Post) => {
+        dispatch(createPost(post, value.fileInfos));
+        dispatch(removeDraft(id, channel.id));
+        history.push(channelUrl);
+    }, [value.fileInfos, channel.id, channelUrl]);
+
     const handleOnSend = useCallback(async (id: string) => {
         const post = {} as Post;
         post.file_ids = [];
@@ -65,11 +93,16 @@ function ChannelDraft({
             return;
         }
 
-        dispatch(createPost(post, value.fileInfos));
-        dispatch(removeDraft(id, channel.id));
-
-        history.push(channelUrl);
-    }, [value, channelUrl, user.id, channel.id]);
+        if (
+            postPriorityEnabled &&
+            value?.metadata?.priority?.priority === PostPriority.URGENT &&
+            value?.metadata?.priority?.persistent_notifications
+        ) {
+            showPersistNotificationModal(id, post);
+            return;
+        }
+        doSubmit(id, post);
+    }, [value, channelUrl, user.id, channel.id, showPersistNotificationModal]);
 
     if (!channel) {
         return null;

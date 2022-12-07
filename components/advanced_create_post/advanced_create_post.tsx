@@ -1635,7 +1635,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     shouldDisable={!this.isValidPersistentNotifications()}
                     labels={this.hasPrioritySet() ? (
                         <PriorityLabels
-                            canRemove={this.props.shouldShowPreview}
+                            canRemove={!this.props.shouldShowPreview}
                             hasError={!this.isValidPersistentNotifications()}
                             onRemove={this.handleRemovePriority}
                             persistentNotifications={draft!.metadata!.priority?.persistent_notifications}
