@@ -113,26 +113,26 @@ function storage(state: Record<string, any> = {}, action: GenericAction) {
 
 function migrateDrafts(state: any) {
     const drafts: any = {};
-    for (const k in state) {
-        if (k.startsWith('draft')) {
-            const obj = state[k];
+    for (const storageKey in state) {
+        if (storageKey.startsWith('draft')) {
+            const storageDraft = state[storageKey];
 
             // If draft does not have a channelId, it is a legacy draft and needs to be migrated
-            if (!obj.value?.channelId) {
-                const info = getDraftInfoFromKey(k, StoragePrefixes.DRAFT);
-                const timestamp = new Date(obj.timestamp);
+            if (!storageDraft.value?.channelId) {
+                const info = getDraftInfoFromKey(storageKey, StoragePrefixes.DRAFT);
+                const timestamp = new Date(storageDraft.timestamp);
 
                 if (info === null || !info.id) {
-                    drafts[k] = {timestamp, value: {message: '', fileInfos: [], uploadsInProgress: []}};
+                    drafts[storageKey] = {timestamp, value: {message: '', fileInfos: [], uploadsInProgress: []}};
                     continue;
                 }
                 const migratedDraft = {
                     timestamp,
                     value: {
-                        message: obj.value?.message,
-                        fileInfos: obj.value?.fileInfos || [],
-                        props: obj.value?.props || {},
-                        uploadsInProgress: obj.value?.uploadsInProgress || [],
+                        message: storageDraft.value?.message,
+                        fileInfos: storageDraft.value?.fileInfos || [],
+                        props: storageDraft.value?.props || {},
+                        uploadsInProgress: storageDraft.value?.uploadsInProgress || [],
                         channelId: info.id,
                         rootId: '',
                         createAt: timestamp.getTime(),
@@ -142,7 +142,7 @@ function migrateDrafts(state: any) {
                     },
                 };
 
-                drafts[k] = {...migratedDraft};
+                drafts[storageKey] = {...migratedDraft};
             }
         }
     }
