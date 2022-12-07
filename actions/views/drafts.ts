@@ -42,7 +42,7 @@ export function getDrafts(teamId: string) {
         const drafts = [...serverDrafts, ...localDrafts];
 
         if (drafts === null) {
-            return {data: true};
+            return {data: false};
         }
 
         const draftsMap = new Map((drafts || []).map((draft) => [draft.key, draft]));
