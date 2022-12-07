@@ -96,8 +96,8 @@ const SidebarChannelMenu = (props: Props) => {
                 leadingElement={<StarIcon size={18}/>}
                 primaryLabel={
                     <FormattedMessage
-                        id='sidebar_left.sidebar_channel_menu.unfavorite'
-                        defaultMessage='Remove from Favorites'
+                        id='sidebar_left.sidebar_channel_menu.unfavoriteChannel'
+                        defaultMessage='Unfavorite'
                     />
                 }
             />
@@ -118,8 +118,8 @@ const SidebarChannelMenu = (props: Props) => {
                 leadingElement={<StarOutlineIcon size={18}/>}
                 primaryLabel={
                     <FormattedMessage
-                        id='sidebar_left.sidebar_channel_menu.favorite'
-                        defaultMessage='Add to Favorites'
+                        id='sidebar_left.sidebar_channel_menu.favoriteChannel'
+                        defaultMessage='Favorite'
                     />
                 }
             />
