@@ -78,3 +78,26 @@ jobs:
         env:
           MM_LOGSETTINGS_ENABLECONSOLE: false
           MM_SQLSETTINGS_DATASOURCE: postgres://mmuser:mostest@localhost/postgres?sslmode=disable&connect_timeout=10&binary_parameters=yes
+      - name: 'Download artifact'
+        uses: actions/github-script@v3.1.0
+        with:
+          script: |
+            var artifacts = await github.actions.listWorkflowRunArtifacts({
+               repo: context.repo.repo,
+               run_id: ${{github.event.workflow_run.id }},
+            });
+            var latestArtifact = artifacts.data.artifacts[0];
+            var download = await github.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: latestArtifact.id,
+            });
+        run: |
+          value=`cat download.data`
+          echo Previous run was $value
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Test logs
+          path: ./tests/integration/performance/logs/
+          retention-days: 3

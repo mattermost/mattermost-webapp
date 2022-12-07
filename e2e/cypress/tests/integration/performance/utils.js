@@ -23,7 +23,8 @@ export const measurePerformance = (name, upperLimit, callback, reset, runs = 5) 
 
         cy.log('loop finish').then(() => {
             const avgDuration = Math.round(durations.reduce((a, b) => a + b) / runs);
-            cy.log(`[PERFORMANCE] ${name}: ${avgDuration}ms` + avgDuration <= upperLimit ? ' within upper limit' : ' outside upper limit', ` of ${upperLimit}ms`);
+            cy.log(`[PERFORMANCE] ${name}: ${avgDuration}ms ${avgDuration <= upperLimit ? ' within upper limit' : ' outside upper limit'} of ${upperLimit}ms`);
+            cy.writeFile(`./tests/integration/performance/logs/${name}_${Date.now()}.json`, {name: name, date: Date.now(), duration: avgDuration});
             assert.isAtMost(avgDuration, upperLimit);
 
             // Clean the marks
