@@ -113,43 +113,45 @@ function storage(state: Record<string, any> = {}, action: GenericAction) {
 
 function migrateDrafts(state: any) {
     const drafts: any = {};
-    for (const storageKey in state) {
-        if (storageKey.startsWith('draft')) {
-            const storageDraft = state[storageKey];
-
-            // If draft does not have a channelId, it is a legacy draft and needs to be migrated
-            if (!storageDraft.value?.channelId) {
-                const info = getDraftInfoFromKey(storageKey, StoragePrefixes.DRAFT);
-                const timestamp = new Date(storageDraft.timestamp);
-
-                if (info === null || !info.id) {
-                    drafts[storageKey] = {timestamp, value: {message: '', fileInfos: [], uploadsInProgress: []}};
-                    continue;
-                }
-                const migratedDraft = {
-                    timestamp,
-                    value: {
-                        message: storageDraft.value?.message,
-                        fileInfos: storageDraft.value?.fileInfos || [],
-                        props: storageDraft.value?.props || {},
-                        uploadsInProgress: storageDraft.value?.uploadsInProgress || [],
-                        channelId: info.id,
-                        rootId: '',
-                        createAt: timestamp.getTime(),
-                        updateAt: timestamp.getTime(),
-                        show: true,
-                        remote: false,
-                    },
-                };
-
-                drafts[storageKey] = {...migratedDraft};
-            }
+    for (const storageKey of Object.keys(state)) {
+        if (!storageKey.startsWith('draft')) {
+            continue;
         }
+
+        const storageDraft = state[storageKey];
+        if (storageDraft.value?.channelId) {
+            // No migration is needed
+            continue;
+        }
+
+        const info = getDraftInfoFromKey(storageKey, StoragePrefixes.DRAFT);
+        const timestamp = new Date(storageDraft.timestamp);
+
+        if (info === null || !info.id) {
+            drafts[storageKey] = {timestamp, value: {message: '', fileInfos: [], uploadsInProgress: []}};
+            continue;
+        }
+
+        const migratedDraft = {
+            timestamp,
+            value: {
+                message: storageDraft.value?.message,
+                fileInfos: storageDraft.value?.fileInfos || [],
+                props: storageDraft.value?.props || {},
+                uploadsInProgress: storageDraft.value?.uploadsInProgress || [],
+                channelId: info.id,
+                rootId: '',
+                createAt: timestamp.getTime(),
+                updateAt: timestamp.getTime(),
+                show: true,
+                remote: false,
+            },
+        };
+
+        drafts[storageKey] = {...migratedDraft};
     }
 
-    return {
-        ...drafts,
-    };
+    return drafts;
 }
 
 function initialized(state = false, action: GenericAction) {

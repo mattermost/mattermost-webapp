@@ -35,17 +35,17 @@ export function getDrafts(teamId: string) {
 
         let serverDrafts: Draft[] = [];
         if (syncedDraftsAreAllowedAndEnabled(state)) {
-            serverDrafts = (await Client4.getUserDrafts(teamId) || []).map((draft) => transformServerDraft(draft));
+            try {
+                serverDrafts = (await Client4.getUserDrafts(teamId)).map((draft) => transformServerDraft(draft));
+            } catch (error) {
+                return {data: false, error};
+            }
         }
 
         const localDrafts = getLocalDrafts(state);
         const drafts = [...serverDrafts, ...localDrafts];
 
-        if (drafts === null) {
-            return {data: false};
-        }
-
-        const draftsMap = new Map((drafts || []).map((draft) => [draft.key, draft]));
+        const draftsMap = new Map(drafts.map((draft) => [draft.key, draft]));
         drafts.forEach((draft) => {
             const currentDraft = draftsMap.get(draft.key);
             if (currentDraft && draft.timestamp > currentDraft.timestamp) {
@@ -53,7 +53,7 @@ export function getDrafts(teamId: string) {
             }
         });
 
-        const actions = Array.from(draftsMap || []).map(([key, draft]) => {
+        const actions = Array.from(draftsMap).map(([key, draft]) => {
             return setGlobalItem(key, draft.value);
         });
 
