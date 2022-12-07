@@ -9,7 +9,7 @@ import {GlobalState} from 'types/store';
 import {DraftInfo, PostDraft} from 'types/store/draft';
 
 import {StoragePrefixes} from 'utils/constants';
-import {getDraftInfoFromKey} from 'utils/utils';
+import {getDraftInfoFromKey} from 'utils/storage_utils';
 
 export type Draft = DraftInfo & {
     key: keyof GlobalState['storage']['storage'];

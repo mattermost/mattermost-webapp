@@ -11,7 +11,7 @@ import {UserTypes} from 'mattermost-redux/action_types';
 import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import {StoragePrefixes, StorageTypes} from 'utils/constants';
-import {getDraftInfoFromKey} from 'utils/utils';
+import {getDraftInfoFromKey} from 'utils/storage_utils';
 
 type StorageEntry = {
     timestamp: Date;
@@ -148,7 +148,6 @@ function migrateDrafts(state: any) {
     }
 
     return {
-        ...state,
         ...drafts,
     };
 }
@@ -166,6 +165,7 @@ function initialized(state = false, action: GenericAction) {
 const migrations: MigrationManifest = {
     1: (state: PersistedState): PersistedState => {
         return {
+            ...state,
             ...migrateDrafts(state),
         };
     },
