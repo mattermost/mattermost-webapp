@@ -569,6 +569,6 @@ describe('Pricing modal', () => {
         cy.get('#free_action').should('be.enabled').click();
 
         // * Check that the downgrade modal has appeard.
-        cy.get('#DowngradeModal').should('exist');
+        cy.get('div.DowngradeTeamRemovalModal__body').should('exist');
     });
 });
