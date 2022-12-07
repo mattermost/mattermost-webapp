@@ -517,7 +517,7 @@ const PostComponent = (props: Props): JSX.Element => {
                         </div>
                         <div
                             className={postClass}
-                            id={props.location === Locations.RHS_ROOT ? `rhsPostMessageText_${post.id}` : `postMessageText_${post.id}`}
+                            id={isRHS ? undefined : `${post.id}_message`}
                         >
                             {post.failed && <FailedPostOptions post={props.post}/>}
                             <AutoHeightSwitcher
