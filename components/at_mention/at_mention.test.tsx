@@ -234,7 +234,7 @@ describe('components/AtMention', () => {
             },
         }as RefObject<HTMLButtonElement>;
 
-        wrapper.instance().handleClick({stopPropagation: jest.fn(), target: AtMention} as any);
+        wrapper.instance().handleClick({preventDefault: jest.fn(), target: AtMention} as any);
         expect(wrapper.state('placement')).toEqual('top');
 
         instance.buttonRef = {
