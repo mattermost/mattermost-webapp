@@ -3000,6 +3000,7 @@
   "cloud_delinquency.modal.workspace_downgraded_messages_surpassed": "Some of your workspace's message history are no longer accessible. Upgrade to a paid plan and get unlimited access to your message history.",
   "cloud_delinquency.modal.workspace_downgraded_multiples_limits_surpassed": "Your workspace has reached free plan limits. Upgrade to a paid plan.",
   "cloud_delinquency.modal.workspace_downgraded_storage_surpassed": "Some of your workspace's files are no longer accessible. Upgrade to a paid plan and get unlimited access to your files.",
+  "cloud_delinquency.post_downgrade_banner.title": "Update your billing information now to re-activate paid features.",
   "cloud_subscribe.contact_support": "Compare plans",
   "cloud.fetch_error": "Error fetching billing data. Please try again later.",
   "cloud.fetch_error.retry": "Retry",
