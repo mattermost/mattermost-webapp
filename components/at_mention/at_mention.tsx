@@ -59,6 +59,7 @@ export default class AtMention extends React.PureComponent<Props, State> {
     }
 
     handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         const targetBounds = this.buttonRef.current?.getBoundingClientRect();
 
         if (targetBounds) {
