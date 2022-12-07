@@ -24,6 +24,7 @@ import {
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import {shouldShowJoinLeaveMessages} from 'mattermost-redux/utils/post_list';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {Channel} from '@mattermost/types/channels';
 import {
@@ -775,7 +776,7 @@ export function isPostAcknowledgementsEnabled(state: GlobalState) {
     );
 }
 
-export function isPersistentNotificationsEnabled(state: GlobalState) {
+export function getAllowPersistentNotifications(state: GlobalState) {
     return (
         isPostPriorityEnabled(state) &&
         getConfig(state).AllowPersistentNotifications === 'true'
@@ -790,9 +791,24 @@ export function getPersistentNotificationInterval(state: GlobalState) {
     return getConfig(state).PersistentNotificationInterval;
 }
 
+export function getAllowPersistentNotificationsForGuests(state: GlobalState) {
+    return (
+        isPostPriorityEnabled(state) &&
+        getConfig(state).AllowPersistentNotificationsForGuests === 'true'
+    );
+}
+
 export function getPostAcknowledgements(state: GlobalState, postId: Post['id']): Record<UserProfile['id'], PostAcknowledgement['acknowledged_at']> {
     return state.entities.posts.acknowledgements[postId];
 }
+
+export const isPersistentNotificationsEnabled = createSelector(
+    'getPersistentNotificationsEnabled',
+    getCurrentUser,
+    getAllowPersistentNotifications,
+    getAllowPersistentNotificationsForGuests,
+    (user, forUsers, forGuests) => (isGuest(user.roles) ? forGuests : forUsers),
+);
 
 export function makeGetPostAcknowledgementsWithProfiles(): (state: GlobalState, postId: Post['id']) => Array<{user: UserProfile; acknowledgedAt: PostAcknowledgement['acknowledged_at']}> {
     return createSelector(

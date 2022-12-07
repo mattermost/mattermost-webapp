@@ -195,6 +195,7 @@ export type ClientConfig = {
     AllowPersistentNotifications: string;
     PersistentNotificationMaxRecipients: string;
     PersistentNotificationInterval: string;
+    AllowPersistentNotificationsForGuests: string;
 };
 
 export type License = {
