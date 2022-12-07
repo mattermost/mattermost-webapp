@@ -332,10 +332,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         window.addEventListener('beforeunload', this.unloadHandler);
         this.setOrientationListeners();
         window.addEventListener('mouseup', this.getSelectionText);
-
-        if (useLDAPGroupMentions) {
-            actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
-        }
         this.getChannelMemberCountsByGroup();
     }
 
