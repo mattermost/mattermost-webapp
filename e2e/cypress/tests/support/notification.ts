@@ -3,7 +3,7 @@
 
 // Stub the browser notification API with the given name and permission
 export function spyNotificationAs(name: string, permission: string) {
-    cy.window().then((win: any) => {
+    cy.window().then((win) => {
         function Notification(title: string, opts?: NotificationOptions) {
             this.title = title;
             this.opts = opts;
