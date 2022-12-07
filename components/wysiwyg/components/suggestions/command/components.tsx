@@ -7,8 +7,6 @@ import {DockWindowIcon} from '@mattermost/compass-icons/components';
 
 import Constants from 'utils/constants';
 
-import Badge from 'components/widgets/badges/badge';
-
 import {AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 
 const MentionItemRoot = styled.div`
@@ -40,11 +38,38 @@ const MentionItemRoot = styled.div`
     }
 `;
 
+const MentionItemIconWrapper = styled.div`
+    display: flex;
+    flex: 0 0 28px;
+    height: 28px;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+
+    font-family: 'Open Sans',sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+
+    color: rgb(var(--center-channel-color-rgb));
+    background: rgba(var(--center-channel-color-rgb), 0.12);
+    border-radius: 4px;
+`;
+
+const MentionItemContentWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+`;
+
 const MentionItemDescription = styled.span`
     opacity: 0.52;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    font-size: 0.8em;
+    max-width: 100%;
 `;
 
 const EXECUTE_CURRENT_COMMAND_ITEM_ID = Constants.Integrations.EXECUTE_CURRENT_COMMAND_ITEM_ID;
@@ -55,26 +80,24 @@ const CommandItem = (props: AutocompleteSuggestion) => {
     const {Suggestion, Hint, Description, IconData} = props;
     const label = `${Suggestion} ${Hint}`;
 
-    let icon;
+    let icon: React.ReactNode = '/';
     switch (IconData) {
     case EXECUTE_CURRENT_COMMAND_ITEM_ID:
-        icon = <span className='block mt-1'>{'↵'}</span>;
+        icon = '↵';
         break;
     case OPEN_COMMAND_IN_MODAL_ITEM_ID:
         icon = <DockWindowIcon size={28}/>;
         break;
     case COMMAND_SUGGESTION_ERROR:
-        icon = <span>{'!'}</span>;
+        icon = '!';
         break;
     }
     if (IconData && ![EXECUTE_CURRENT_COMMAND_ITEM_ID, COMMAND_SUGGESTION_ERROR, OPEN_COMMAND_IN_MODAL_ITEM_ID].includes(IconData)) {
         icon = (
-            <div
-                className='slash-command__icon'
-                style={{backgroundColor: 'transparent'}}
-            >
-                <img src={IconData}/>
-            </div>
+            <img
+                src={IconData}
+                alt={`icon for command ${Suggestion}`}
+            />
         );
     }
 
@@ -83,9 +106,13 @@ const CommandItem = (props: AutocompleteSuggestion) => {
             id={`${Suggestion}_${Hint}`}
             aria-label={label}
         >
-            {IconData ? icon : <Badge size={'lg'}>{' / '}</Badge>}
-            {label}
-            {Description && (<MentionItemDescription>{Description}</MentionItemDescription>)}
+            <MentionItemIconWrapper>
+                {icon}
+            </MentionItemIconWrapper>
+            <MentionItemContentWrapper>
+                {label}
+                {Description && (<MentionItemDescription>{Description}</MentionItemDescription>)}
+            </MentionItemContentWrapper>
         </MentionItemRoot>
     );
 };
