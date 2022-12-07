@@ -69,7 +69,7 @@ describe('Scroll', () => {
             cy.externalRequest({user: otherUser, method: 'PUT', path: `posts/${multilineMessageID}`, data: {id: multilineMessageID, message: newMultilineMessage}});
 
             // # Wait for the message to be edited
-            cy.wait(TIMEOUTS.ONE_SEC);
+            cy.wait(TIMEOUTS.FIVE_SEC);
 
             // * Verify the first post is the same after the editing
             cy.get('.post-message__text:visible').first().then((firstPostAfterScroll) => {

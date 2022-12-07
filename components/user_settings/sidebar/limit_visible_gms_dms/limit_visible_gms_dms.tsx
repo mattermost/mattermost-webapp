@@ -6,11 +6,11 @@ import ReactSelect, {ValueType} from 'react-select';
 import {FormattedMessage} from 'react-intl';
 
 import {Preferences} from 'mattermost-redux/constants';
-import {PreferenceType} from '@mattermost/types/preferences';
-
 import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 import {localizeMessage} from 'utils/utils';
+
+import {PreferenceType} from '@mattermost/types/preferences';
 
 type Limit = {
     value: number;

@@ -28,16 +28,11 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match d
       <Bullet
         user={
           Object {
-            "allow_marketing": false,
-            "auth_data": "",
             "auth_service": "",
             "bot_description": "",
-            "bot_last_icon_update": 0,
             "create_at": 0,
             "delete_at": 0,
             "email": "",
-            "email_verified": true,
-            "failed_attempts": 0,
             "first_name": "Jim",
             "id": "1234",
             "is_bot": false,
@@ -47,7 +42,6 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match d
             "last_picture_update": 0,
             "locale": "",
             "mfa_active": false,
-            "mfa_secret": "",
             "nickname": "Big Tuna",
             "notify_props": Object {
               "channel": "false",
@@ -121,16 +115,11 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match s
       <Bullet
         user={
           Object {
-            "allow_marketing": false,
-            "auth_data": "",
             "auth_service": "",
             "bot_description": "",
-            "bot_last_icon_update": 0,
             "create_at": 0,
             "delete_at": 0,
             "email": "",
-            "email_verified": true,
-            "failed_attempts": 0,
             "first_name": null,
             "id": "1234",
             "is_bot": false,
@@ -140,7 +129,6 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match s
             "last_picture_update": 0,
             "locale": "",
             "mfa_active": false,
-            "mfa_secret": "",
             "nickname": "Big Tuna",
             "notify_props": Object {
               "channel": "false",
@@ -214,16 +202,11 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match s
       <Bullet
         user={
           Object {
-            "allow_marketing": false,
-            "auth_data": "",
             "auth_service": "",
             "bot_description": "",
-            "bot_last_icon_update": 0,
             "create_at": 0,
             "delete_at": 0,
             "email": "",
-            "email_verified": true,
-            "failed_attempts": 0,
             "first_name": null,
             "id": "1234",
             "is_bot": false,
@@ -233,7 +216,6 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match s
             "last_picture_update": 0,
             "locale": "",
             "mfa_active": false,
-            "mfa_secret": "",
             "nickname": null,
             "notify_props": Object {
               "channel": "false",
@@ -307,16 +289,11 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match s
       <Bullet
         user={
           Object {
-            "allow_marketing": false,
-            "auth_data": "",
             "auth_service": "",
             "bot_description": "",
-            "bot_last_icon_update": 0,
             "create_at": 0,
             "delete_at": 0,
             "email": "",
-            "email_verified": true,
-            "failed_attempts": 0,
             "first_name": "Jim",
             "id": "1234",
             "is_bot": false,
@@ -326,7 +303,6 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match s
             "last_picture_update": 0,
             "locale": "",
             "mfa_active": false,
-            "mfa_secret": "",
             "nickname": null,
             "notify_props": Object {
               "channel": "false",

@@ -4,17 +4,16 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ClientConfig, ClientLicense} from '@mattermost/types/config.js';
-
-import Permissions from 'mattermost-redux/constants/permissions';
+import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 import {Role} from '@mattermost/types/roles';
 
-import PermissionGroup from '../permission_group';
+import Permissions from 'mattermost-redux/constants/permissions';
 
+import {isEnterpriseLicense, isNonEnterpriseLicense} from 'utils/license_utils';
+
+import PermissionGroup from '../permission_group';
 import EditPostTimeLimitButton from '../edit_post_time_limit_button';
 import EditPostTimeLimitModal from '../edit_post_time_limit_modal';
-
-import {isEnterpriseLicense, isNonEnterpriseLicense} from 'mattermost-redux/types/general';
 
 import {AdditionalValues, Group} from './types';
 

@@ -15,7 +15,7 @@ import {FilePreviewInfo} from 'components/file_preview/file_preview';
 
 import {localizeMessage} from 'utils/utils';
 
-interface UploadFile {
+export interface UploadFile {
     file: File;
     name: string;
     type: string;

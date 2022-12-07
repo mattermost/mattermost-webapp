@@ -39,6 +39,7 @@ interface Props {
     teamIndex?: number;
     teamId?: string;
     isInProduct?: boolean;
+    hasUrgent?: boolean;
 }
 
 // eslint-disable-next-line react/require-optimization
@@ -74,7 +75,7 @@ class TeamButton extends React.PureComponent<Props> {
         });
 
         if (!teamClass) {
-            if (unread) {
+            if (unread && !this.props.isInProduct) {
                 teamClass = 'unread';
 
                 badge = (
@@ -104,7 +105,7 @@ class TeamButton extends React.PureComponent<Props> {
                 });
 
                 badge = (
-                    <span className={'badge badge-max-number pull-right small'}>{mentions > 99 ? '99+' : mentions}</span>
+                    <span className={classNames('badge badge-max-number pull-right small', {urgent: this.props.hasUrgent})}>{mentions > 99 ? '99+' : mentions}</span>
                 );
             }
         }

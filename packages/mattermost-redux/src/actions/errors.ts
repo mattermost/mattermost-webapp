@@ -5,7 +5,6 @@ import {serializeError, ErrorObject} from 'serialize-error';
 
 import {ErrorTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
-import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import {DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 import {LogLevel} from '@mattermost/types/client4';
 import {ServerError} from '@mattermost/types/errors';
@@ -45,8 +44,7 @@ export function logError(error: ServerError, displayable = false, consoleError =
 
         let sendToServer = true;
 
-        const err = error as any;
-        const message = err.stack?.stack || err.stack || '';
+        const message = error.stack || '';
 
         if (message.includes('TypeError: Failed to fetch')) {
             sendToServer = false;
@@ -69,7 +67,6 @@ export function logError(error: ServerError, displayable = false, consoleError =
             serializedError.message = 'A JavaScript error has occurred. Please use the JavaScript console to capture and report the error';
         }
 
-        EventEmitter.emit(ErrorTypes.LOG_ERROR, error);
         dispatch(getLogErrorAction(serializedError, displayable));
 
         return {data: true};

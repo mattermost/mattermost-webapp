@@ -10,7 +10,7 @@ import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {openModal, closeModal} from 'actions/views/modals';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
 
@@ -22,14 +22,14 @@ import ChannelNavigator from './channel_navigator';
 // TODO: For Phase 1. Will revisit history in Phase 2
 function goBack() {
     return () => {
-        browserHistory.goBack();
+        getHistory().goBack();
         return {data: null};
     };
 }
 
 function goForward() {
     return () => {
-        browserHistory.goForward();
+        getHistory().goForward();
         return {data: null};
     };
 }

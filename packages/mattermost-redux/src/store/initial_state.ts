@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {GlobalState} from '@mattermost/types/store';
+import {SelfHostedSignupProgress} from '@mattermost/types/cloud';
 
 import {zeroStateLimitedViews} from '../reducers/entities/posts';
 
@@ -32,6 +33,7 @@ const state: GlobalState = {
             statuses: {},
             stats: {},
             myUserAccessTokens: {},
+            lastActivity: {},
         },
         teams: {
             currentTeamId: '',
@@ -76,6 +78,7 @@ const state: GlobalState = {
                 },
             },
             limitedViews: zeroStateLimitedViews,
+            acknowledgements: {},
         },
         threads: {
             threadsInTeam: {},
@@ -145,9 +148,25 @@ const state: GlobalState = {
             pending: new Set(),
         },
         gifs: {
+            app: {
+                appClassName: '',
+                appId: '',
+                appName: '',
+                basePath: '',
+                enableHistory: false,
+                header: {
+                    tabs: [],
+                    displayText: false,
+                },
+                itemTapType: 0,
+                shareEvent: '',
+            },
             categories: {
                 tagsList: [],
                 tagsDict: {},
+                cursor: '',
+                hasMore: false,
+                isFetching: false,
             },
             cache: {
                 gifs: {},
@@ -190,6 +209,10 @@ const state: GlobalState = {
                 limits: {},
                 limitsLoaded: false,
             },
+            errors: {},
+            selfHostedSignup: {
+                progress: SelfHostedSignupProgress.START,
+            },
         },
         usage: {
             files: {
@@ -208,10 +231,6 @@ const state: GlobalState = {
             boards: {
                 cards: 0,
                 cardsLoaded: false,
-            },
-            integrations: {
-                enabled: 0,
-                enabledLoaded: false,
             },
         },
         insights: {
@@ -239,6 +258,10 @@ const state: GlobalState = {
                 error: null,
             },
             updateChannel: {
+                status: 'not_started',
+                error: null,
+            },
+            getChannelsAndChannelMembers: {
                 status: 'not_started',
                 error: null,
             },
@@ -278,10 +301,6 @@ const state: GlobalState = {
             },
         },
         users: {
-            checkMfa: {
-                status: 'not_started',
-                error: null,
-            },
             login: {
                 status: 'not_started',
                 error: null,
@@ -300,163 +319,7 @@ const state: GlobalState = {
             },
         },
         admin: {
-            getLogs: {
-                status: 'not_started',
-                error: null,
-            },
-            getAudits: {
-                status: 'not_started',
-                error: null,
-            },
-            getConfig: {
-                status: 'not_started',
-                error: null,
-            },
-            updateConfig: {
-                status: 'not_started',
-                error: null,
-            },
-            reloadConfig: {
-                status: 'not_started',
-                error: null,
-            },
-            testEmail: {
-                status: 'not_started',
-                error: null,
-            },
-            testSiteURL: {
-                status: 'not_started',
-                error: null,
-            },
-            testS3Connection: {
-                status: 'not_started',
-                error: null,
-            },
-            invalidateCaches: {
-                status: 'not_started',
-                error: null,
-            },
-            recycleDatabase: {
-                status: 'not_started',
-                error: null,
-            },
             createCompliance: {
-                status: 'not_started',
-                error: null,
-            },
-            getCompliance: {
-                status: 'not_started',
-                error: null,
-            },
-            deleteBrandImage: {
-                status: 'not_started',
-                error: null,
-            },
-            disablePlugin: {
-                status: 'not_started',
-                error: null,
-            },
-            enablePlugin: {
-                status: 'not_started',
-                error: null,
-            },
-            getAnalytics: {
-                status: 'not_started',
-                error: null,
-            },
-            getClusterStatus: {
-                status: 'not_started',
-                error: null,
-            },
-            getEnvironmentConfig: {
-                status: 'not_started',
-                error: null,
-            },
-            getPluginStatuses: {
-                status: 'not_started',
-                error: null,
-            },
-            getPlugins: {
-                status: 'not_started',
-                error: null,
-            },
-            getSamlCertificateStatus: {
-                status: 'not_started',
-                error: null,
-            },
-            installPluginFromUrl: {
-                status: 'not_started',
-                error: null,
-            },
-            purgeElasticsearchIndexes: {
-                status: 'not_started',
-                error: null,
-            },
-            removeIdpSamlCertificate: {
-                status: 'not_started',
-                error: null,
-            },
-            removeLicense: {
-                status: 'not_started',
-                error: null,
-            },
-            removePlugin: {
-                status: 'not_started',
-                error: null,
-            },
-            removePrivateSamlCertificate: {
-                status: 'not_started',
-                error: null,
-            },
-            removePublicSamlCertificate: {
-                status: 'not_started',
-                error: null,
-            },
-            syncLdap: {
-                status: 'not_started',
-                error: null,
-            },
-            testElasticsearch: {
-                status: 'not_started',
-                error: null,
-            },
-            testLdap: {
-                status: 'not_started',
-                error: null,
-            },
-            uploadBrandImage: {
-                status: 'not_started',
-                error: null,
-            },
-            uploadIdpSamlCertificate: {
-                status: 'not_started',
-                error: null,
-            },
-            uploadLicense: {
-                status: 'not_started',
-                error: null,
-            },
-            uploadPlugin: {
-                status: 'not_started',
-                error: null,
-            },
-            uploadPrivateSamlCertificate: {
-                status: 'not_started',
-                error: null,
-            },
-            uploadPublicSamlCertificate: {
-                status: 'not_started',
-                error: null,
-            },
-            getLdapGroups: {
-                status: 'not_started',
-                error: null,
-            },
-            unlinkLdapGroup: {
-                status: 'not_started',
-                error: null,
-            },
-            linkLdapGroup: {
                 status: 'not_started',
                 error: null,
             },
@@ -485,29 +348,12 @@ const state: GlobalState = {
                 error: null,
             },
         },
-        jobs: {
-            createJob: {
-                status: 'not_started',
-                error: null,
-            },
-            getJob: {
-                status: 'not_started',
-                error: null,
-            },
-            getJobs: {
-                status: 'not_started',
-                error: null,
-            },
-            cancelJob: {
-                status: 'not_started',
-                error: null,
-            },
-        },
     },
     websocket: {
         connected: false,
         lastConnectAt: 0,
         lastDisconnectAt: 0,
+        connectionId: '',
     },
 };
 export default state;

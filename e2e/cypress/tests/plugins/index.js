@@ -10,7 +10,7 @@ const {
     dbGetUserSession,
     dbUpdateUserSession,
 } = require('./db_request');
-const externalRequest = require('./external_request');
+const externalRequest = require('./external_request').default;
 const {fileExist, writeToFile} = require('./file_util');
 const getPdfContent = require('./get_pdf_content');
 const getRecentEmail = require('./get_recent_email');

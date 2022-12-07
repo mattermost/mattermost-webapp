@@ -1,77 +1,90 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {Route} from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
 
-import AnnouncementBarController from 'components/announcement_bar';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {RequestStatus} from 'mattermost-redux/constants';
 
-import Pluggable from 'plugins/pluggable';
-import SystemNotice from 'components/system_notice';
+import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 
 import ResetStatusModal from 'components/reset_status_modal';
-import SidebarRight from 'components/sidebar_right';
-import SidebarRightMenu from 'components/sidebar_right_menu';
-import AppBar from 'components/app_bar/app_bar';
 import Sidebar from 'components/sidebar';
-import * as UserAgent from 'utils/user_agent';
 import CenterChannel from 'components/channel_layout/center_channel';
 import LoadingScreen from 'components/loading_screen';
 import FaviconTitleHandler from 'components/favicon_title_handler';
 import ProductNoticesModal from 'components/product_notices_modal';
 
-interface Props {
-    shouldShowAppBar: boolean;
-    fetchingChannels: boolean;
-}
+import Pluggable from 'plugins/pluggable';
 
-export default class ChannelController extends React.PureComponent<Props> {
-    componentDidMount() {
+import {GlobalState} from 'types/store';
+
+import {Constants} from 'utils/constants';
+import {isInternetExplorer, isEdge} from 'utils/user_agent';
+
+const BODY_CLASS_FOR_CHANNEL = ['app__body', 'channel-view'];
+
+export default function ChannelController() {
+    const dispatch = useDispatch<DispatchFunc>();
+
+    const shouldRenderCenterChannel = useSelector((state: GlobalState) =>
+        state.requests.channels.getChannelsAndChannelMembers.status === RequestStatus.SUCCESS);
+
+    useEffect(() => {
+        const isMsBrowser = isInternetExplorer() || isEdge();
         const platform = window.navigator.platform;
+        document.body.classList.add(...getClassnamesForBody(platform, isMsBrowser));
 
-        document.body.classList.add('app__body', 'channel-view');
+        return () => {
+            document.body.classList.remove(...BODY_CLASS_FOR_CHANNEL);
+        };
+    }, []);
 
-        // IE Detection
-        if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
-            document.body.classList.add('browser--ie');
-        }
+    useEffect(() => {
+        const loadStatusesIntervalId = setInterval(() => {
+            dispatch(loadStatusesForChannelAndSidebar());
+        }, Constants.STATUS_INTERVAL);
 
-        // OS Detection
-        if (platform === 'Win32' || platform === 'Win64') {
-            document.body.classList.add('os--windows');
-        } else if (platform === 'MacIntel' || platform === 'MacPPC') {
-            document.body.classList.add('os--mac');
-        }
-    }
+        return () => {
+            clearInterval(loadStatusesIntervalId);
+        };
+    }, []);
 
-    componentWillUnmount() {
-        document.body.classList.remove('app__body', 'channel-view');
-    }
-
-    render() {
-        const shouldShowAppBar = this.props.shouldShowAppBar;
-
-        return (
+    return (
+        <>
+            <Sidebar/>
             <div
                 id='channel_view'
                 className='channel-view'
             >
-                <AnnouncementBarController/>
-                <SystemNotice/>
                 <FaviconTitleHandler/>
                 <ProductNoticesModal/>
-                <div className={classNames('container-fluid channel-view-inner', {'app-bar-enabled': shouldShowAppBar})}>
-                    <SidebarRight/>
-                    <SidebarRightMenu/>
-                    <Sidebar/>
-                    {!this.props.fetchingChannels && <Route component={CenterChannel}/>}
-                    {this.props.fetchingChannels && <LoadingScreen/>}
+                <div className={classNames('container-fluid channel-view-inner')}>
+                    {shouldRenderCenterChannel ? <CenterChannel/> : <LoadingScreen centered={true}/>}
                     <Pluggable pluggableName='Root'/>
                     <ResetStatusModal/>
                 </div>
-                <AppBar/>
             </div>
-        );
+        </>
+    );
+}
+
+export function getClassnamesForBody(platform: Window['navigator']['platform'], isMsBrowser = false) {
+    const bodyClass = [...BODY_CLASS_FOR_CHANNEL];
+
+    // OS Detection
+    if (platform === 'Win32' || platform === 'Win64') {
+        bodyClass.push('os--windows');
+    } else if (platform === 'MacIntel' || platform === 'MacPPC') {
+        bodyClass.push('os--mac');
     }
+
+    // IE Detection
+    if (isMsBrowser) {
+        bodyClass.push('browser--ie');
+    }
+
+    return bodyClass;
 }

@@ -106,14 +106,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <Connect(injectIntl(ToggleModalButton))
+    <Connect(ToggleModalButton)
       className="security-links color--link"
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AccessHistoryModal)",
           "type": [Function],
         }
       }
@@ -133,15 +132,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </Connect(injectIntl(ToggleModalButton))>
-    <Connect(injectIntl(ToggleModalButton))
+    </Connect(ToggleModalButton)>
+    <Connect(ToggleModalButton)
       className="security-links color--link mt-2"
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ActivityLogModal)",
           "type": [Function],
         }
       }
@@ -161,7 +159,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </Connect(injectIntl(ToggleModalButton))>
+    </Connect(ToggleModalButton)>
   </div>
 </div>
 `;
@@ -272,14 +270,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <Connect(injectIntl(ToggleModalButton))
+    <Connect(ToggleModalButton)
       className="security-links color--link"
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AccessHistoryModal)",
           "type": [Function],
         }
       }
@@ -299,15 +296,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </Connect(injectIntl(ToggleModalButton))>
-    <Connect(injectIntl(ToggleModalButton))
+    </Connect(ToggleModalButton)>
+    <Connect(ToggleModalButton)
       className="security-links color--link mt-2"
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ActivityLogModal)",
           "type": [Function],
         }
       }
@@ -327,7 +323,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </Connect(injectIntl(ToggleModalButton))>
+    </Connect(ToggleModalButton)>
   </div>
 </div>
 `;
@@ -438,14 +434,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <Connect(injectIntl(ToggleModalButton))
+    <Connect(ToggleModalButton)
       className="security-links color--link"
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AccessHistoryModal)",
           "type": [Function],
         }
       }
@@ -465,15 +460,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </Connect(injectIntl(ToggleModalButton))>
-    <Connect(injectIntl(ToggleModalButton))
+    </Connect(ToggleModalButton)>
+    <Connect(ToggleModalButton)
       className="security-links color--link mt-2"
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ActivityLogModal)",
           "type": [Function],
         }
       }
@@ -493,7 +487,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </Connect(injectIntl(ToggleModalButton))>
+    </Connect(ToggleModalButton)>
   </div>
 </div>
 `;
@@ -604,14 +598,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <Connect(injectIntl(ToggleModalButton))
+    <Connect(ToggleModalButton)
       className="security-links color--link"
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AccessHistoryModal)",
           "type": [Function],
         }
       }
@@ -631,15 +624,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </Connect(injectIntl(ToggleModalButton))>
-    <Connect(injectIntl(ToggleModalButton))
+    </Connect(ToggleModalButton)>
+    <Connect(ToggleModalButton)
       className="security-links color--link mt-2"
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ActivityLogModal)",
           "type": [Function],
         }
       }
@@ -659,7 +651,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </Connect(injectIntl(ToggleModalButton))>
+    </Connect(ToggleModalButton)>
   </div>
 </div>
 `;

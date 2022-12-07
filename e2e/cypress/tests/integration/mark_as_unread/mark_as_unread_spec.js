@@ -99,6 +99,45 @@ describe('Mark as Unread', () => {
         cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
     });
 
+    it('MM-T5223 The latest post should appear unread after marking the channel as unread', () => {
+        // channelA starts unread, then becomes read after you viewed
+        // and switched to channelB
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+        switchToChannel(channelA);
+        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+        switchToChannel(channelB);
+
+        // After mark channelA with the LHS mark as unread option, channelA
+        // should appear unread
+        cy.get(`#sidebarItem_${channelA.name}`).find('.SidebarMenu').click({force: true});
+        cy.get(`#markAsUnread-${channelA.id}`).click();
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+
+        // After switching back to channelA,
+        // the New Messages line should appear above the last post (post3)
+        cy.get(`#sidebarItem_${channelA.name}`).click();
+        verifyPostNextToNewMessageSeparator('post3');
+    });
+
+    it('MM-T5224 The latest post should appear unread after marking the channel as unread with alt/option+left-click on channel sidebar item', () => {
+        // channelA starts unread, then becomes read after you viewed
+        // and switched to channelB
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+        switchToChannel(channelA);
+        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+        switchToChannel(channelB);
+
+        // After mark channelA with alt/option+left-click, channelA
+        // should appear unread
+        cy.get(`#sidebarItem_${channelA.name}`).type('{alt}', {release: false}).click();
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+
+        // After switching back to channelA,
+        // the New Messages line should appear above the last post (post3)
+        cy.get(`#sidebarItem_${channelA.name}`).click();
+        verifyPostNextToNewMessageSeparator('post3');
+    });
+
     it('MM-T257 Mark as Unread when bringing window into focus', () => {
         // * Verify channels are unread
         cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
@@ -322,6 +361,99 @@ describe('Mark as Unread', () => {
                 });
             });
         });
+    });
+
+    it('Should be able to mark channel as unread from post menu', () => {
+        switchToChannel(channelA);
+
+        // # Mark post2 as unread
+        cy.uiClickPostDropdownMenu(post2.id, 'Mark as Unread');
+
+        // The New Messages line should appear above the selected post
+        verifyPostNextToNewMessageSeparator('post2');
+
+        // # Mark post1 as unread
+        cy.uiClickPostDropdownMenu(post1.id, 'Mark as Unread');
+
+        // The New Messages line should appear above the selected post
+        verifyPostNextToNewMessageSeparator('post1');
+
+        // # Mark post3 as unread
+        cy.uiClickPostDropdownMenu(post3.id, 'Mark as Unread');
+
+        // The New Messages line should appear above the selected post
+        verifyPostNextToNewMessageSeparator('post3');
+    });
+
+    it('Should be able to mark channel as unread from RHS post menu', () => {
+        switchToChannel(channelA);
+
+        // Show the RHS
+        cy.get(`#CENTER_commentIcon_${post3.id}`).click({force: true});
+
+        // # Mark post1 as unread in RHS as root thread
+        cy.uiClickPostDropdownMenu(post1.id, 'Mark as Unread', 'RHS_ROOT');
+
+        // The New Messages line should appear above the selected post
+        verifyPostNextToNewMessageSeparator('post1');
+
+        // # Mark post3 as unread in RHS as comment
+        cy.uiClickPostDropdownMenu(post3.id, 'Mark as Unread', 'RHS_COMMENT');
+
+        // The New Messages line should appear above the selected post
+        verifyPostNextToNewMessageSeparator('post3');
+    });
+
+    it('MM-T250 Mark as unread in the RHS', () => {
+        switchToChannel(channelA);
+
+        // # Open RHS (reply thread)
+        cy.clickPostCommentIcon(post1.id);
+
+        // # Mark the post as unread from RHS
+        cy.uiClickPostDropdownMenu(post1.id, 'Mark as Unread', 'RHS_ROOT');
+
+        // * Verify the New Messages line should appear above the selected post
+        verifyPostNextToNewMessageSeparator('post1');
+
+        // * Verify the channelA has unread in LHS
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+
+        // * Verify the RHS does not have the NotificationSeparator line
+        cy.get('#rhsContainer').find('.NotificationSeparator').should('not.exist');
+
+        // # Switch to channelB
+        switchToChannel(channelB);
+
+        // # Switch to channelA
+        switchToChannel(channelA);
+
+        // * Verify the channelA does not have unread in LHS
+        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+
+        // * Hover on the post with holding alt should show cursor
+        cy.get(`#post_${post2.id}`).trigger('mouseover').type('{alt}', {release: false}).should(showCursor);
+
+        // # Mouse click on the post holding alt
+        cy.get(`#post_${post2.id}`).type('{alt}', {release: false}).click();
+
+        // * Verify the post is marked as unread
+        verifyPostNextToNewMessageSeparator('post2');
+
+        // * Verify the channelA has unread in LHS
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+
+        // * Verify the RHS does not have the NotificationSeparator line
+        cy.get('#rhsContainer').find('.NotificationSeparator').should('not.exist');
+
+        // # Switch to channelB
+        switchToChannel(channelB);
+
+        // # Switch to channelA
+        switchToChannel(channelA);
+
+        // * Verify the channelA does not have unread in LHS
+        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
     });
 });
 

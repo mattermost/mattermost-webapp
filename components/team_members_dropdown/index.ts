@@ -21,7 +21,7 @@ import {GlobalState} from '@mattermost/types/store';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {removeUserFromTeamAndGetStats} from 'actions/team_actions.jsx';
+import {removeUserFromTeamAndGetStats} from 'actions/team_actions';
 
 import TeamMembersDropdown from './team_members_dropdown';
 

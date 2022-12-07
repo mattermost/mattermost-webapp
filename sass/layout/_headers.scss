@@ -467,7 +467,7 @@
             position: relative;
             top: 1px;
             margin: 0 2px 0 5px;
-            content: '\2022';
+            content: "\2022";
         }
     }
 
@@ -477,6 +477,14 @@
         align-items: center;
         margin-right: 7px;
         line-height: 16px;
+
+        span.last-active__text {
+            color: rgba(var(--center-channel-color-rgb), 0.72);
+        }
+
+        .custom-emoji__wrapper {
+            padding-left: 8px;
+        }
 
         p {
             margin: 0;
@@ -509,7 +517,8 @@
     }
 
     .intro-links {
-        display: inline-block;
+        display: flex;
+        align-items: center;
         padding: 8px 16px;
         margin-bottom: 10px;
 
@@ -587,7 +596,7 @@
             width: 100%;
             height: 100%;
             background: none;
-            content: '';
+            content: "";
             transition: all $transition-quick ease-in-out;
         }
 
@@ -812,7 +821,7 @@
         width: 30px;
         height: 30px;
         margin-right: 1px;
-        font-family: 'Open Sans', sans-serif;
+        font-family: "Open Sans", sans-serif;
         font-size: 22px;
         line-height: 26px;
         text-align: center;

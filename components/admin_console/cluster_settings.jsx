@@ -85,7 +85,6 @@ export default class ClusterSettings extends AdminSettings {
                             link: (msg) => (
                                 <a
                                     href='http://docs.mattermost.com/deployment/cluster.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -114,7 +113,6 @@ export default class ClusterSettings extends AdminSettings {
                             link: (msg) => (
                                 <a
                                     href='http://docs.mattermost.com/deployment/cluster.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -159,7 +157,6 @@ export default class ClusterSettings extends AdminSettings {
                                 link: (msg) => (
                                     <a
                                         href='http://docs.mattermost.com/deployment/cluster.html'
-                                        referrer='noreferrer'
                                         target='_blank'
                                         rel='noreferrer'
                                     >

@@ -7,6 +7,7 @@
 
         .shortcuts-content {
             .modal-header {
+                height: 100px;
                 padding: 20px 40px 20px;
                 border: none;
                 background: transparent;
@@ -35,7 +36,7 @@
         }
 
         .modal-body {
-            max-height: calc(100vh - 67px);
+            max-height: calc(100vh - 200px);
             padding: 0 40px 20px;
         }
 

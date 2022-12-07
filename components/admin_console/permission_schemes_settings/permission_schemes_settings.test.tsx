@@ -24,6 +24,7 @@ describe('components/admin_console/permission_schemes_settings/permission_scheme
         },
         license: {
             CustomPermissionsSchemes: 'true',
+            SkuShortName: '',
         },
         ...{} as RouteComponentProps,
     };

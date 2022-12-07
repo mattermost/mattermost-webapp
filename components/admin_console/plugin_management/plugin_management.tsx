@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
@@ -13,7 +14,7 @@ import {DeepPartial} from '@mattermost/types/utilities';
 
 import * as Utils from 'utils/utils';
 import LoadingScreen from 'components/loading_screen';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import ConfirmModal from 'components/confirm_modal';
 
 import AdminSettings, {BaseProps, BaseState} from '../admin_settings';

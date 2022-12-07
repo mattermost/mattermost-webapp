@@ -16,7 +16,7 @@ import Constants from 'utils/constants';
 import MultiSelectOption from './multiselect_option/multiselect_option';
 
 const USERS_PER_PAGE = 50;
-const MAX_SELECTABLE_VALUES = 30;
+const MAX_SELECTABLE_VALUES = 256;
 
 type UserProfileValue = Value & UserProfile;
 
@@ -203,6 +203,14 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
             users = [...users, ...includeUsers];
         }
 
+        let maxValues;
+        let numRemainingText = null;
+
+        if (this.state.values.length >= MAX_SELECTABLE_VALUES) {
+            maxValues = MAX_SELECTABLE_VALUES;
+            numRemainingText = localizeMessage('multiselect.maxGroupMembers', 'No more than 256 members can be added to a group at once.');
+        }
+
         return (
             <MultiSelect
                 key={this.props.multilSelectKey}
@@ -218,7 +226,6 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
                 handleDelete={this.handleDelete}
                 handleAdd={this.addValue}
                 handleSubmit={this.handleSubmit}
-                maxValues={MAX_SELECTABLE_VALUES}
                 buttonSubmitText={buttonSubmitText}
                 buttonSubmitLoadingText={buttonSubmitLoadingText}
                 saving={this.props.saving}
@@ -230,6 +237,8 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
                 backButtonClick={this.props.backButtonClick}
                 backButtonClass={this.props.backButtonClass}
                 backButtonText={this.props.backButtonText}
+                maxValues={maxValues}
+                numRemainingText={numRemainingText}
             />
         );
     }

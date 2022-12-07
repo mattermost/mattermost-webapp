@@ -11,7 +11,7 @@ import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Emoji} from '@mattermost/types/emojis';
 import {removePost, ExtendedPost} from 'mattermost-redux/actions/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetCommentCountForPost, isPostPriorityEnabled} from 'mattermost-redux/selectors/entities/posts';
 
 import {
     get,
@@ -55,7 +55,7 @@ function makeMapStateToProps() {
         const selectedCard = getSelectedPostCard(state);
         const config = getConfig(state);
         const channel = state.entities.channels.channels[ownProps.post.channel_id];
-        const channelIsArchived = channel ? channel.delete_at !== 0 : null;
+        const channelIsArchived = channel ? channel.delete_at !== 0 : undefined;
         const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !channelIsArchived;
         const teamId = getCurrentTeamId(state);
         const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
@@ -84,6 +84,7 @@ function makeMapStateToProps() {
             showActionsMenuPulsatingDot,
             oneClickReactionsEnabled,
             recentEmojis: emojis,
+            isPostPriorityEnabled: isPostPriorityEnabled(state),
         };
     };
 }

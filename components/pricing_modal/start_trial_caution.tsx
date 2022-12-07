@@ -1,18 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import styled from 'styled-components';
 import {useIntl} from 'react-intl';
 
-import {AboutLinks} from 'utils/constants';
+import {LicenseLinks} from 'utils/constants';
 
 const ContainerSpan = styled.span`
 font-style: normal;
+display: inline-block;
 font-weight: 400;
 font-size: 10px;
 line-height: 14px;
 letter-spacing: 0.02em;
-color: rgba(var(--center-channel-text-rgb), 0.72);
+color: rgba(var(--center-channel-text-rgb), 0.56);
 `;
 
 const Span = styled.span`
@@ -33,7 +35,7 @@ function StartTrialCaution() {
         span: (chunks: React.ReactNode | React.ReactNodeArray) => (<Span>{chunks}</Span>),
         a: (chunks: React.ReactNode | React.ReactNodeArray) => (
             <A
-                href={AboutLinks.PRIVACY_POLICY}
+                href={LicenseLinks.SOFTWARE_EVALUATION_AGREEMENT}
                 target='_blank'
             >
                 {chunks}

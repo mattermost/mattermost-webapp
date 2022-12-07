@@ -50,7 +50,7 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
 
     const handleOpenPricingModal = async () => {
         await dispatch(closeModal(ModalIdentifiers.THREE_DAYS_LEFT_TRIAL_MODAL));
-        openPricingModal();
+        openPricingModal({trackingLocation: 'three_days_left_trial_modal'});
     };
 
     const buttonLabel = formatMessage({id: 'three_days_left_trial_modal.learnMore', defaultMessage: 'Learn more'});
@@ -117,7 +117,7 @@ function ThreeDaysLeftTrialModal(props: Props): JSX.Element | null {
 
     if (props.limitsOverpassed) {
         headerText = formatMessage({id: 'three_days_left_trial.modal.titleLimitsOverpassed', defaultMessage: 'Upgrade before the trial ends'});
-        headerSubtitleText = formatMessage({id: 'three_days_left_trial.modal.subtitleLimitsOverpassed', defaultMessage: 'There are 3 days left on your trial. Upgrade to our Professional or Enterprise plan to avoid exceeding your data limits on the Starter plan.'});
+        headerSubtitleText = formatMessage({id: 'three_days_left_trial.modal.subtitleLimitsOverpassed', defaultMessage: 'There are 3 days left on your trial. Upgrade to our Professional or Enterprise plan to avoid exceeding your data limits on the Free plan.'});
         content = (
             <div className='workspace-limits-panel'>
                 <p className='limits-title'>

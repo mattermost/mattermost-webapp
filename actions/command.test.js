@@ -51,6 +51,15 @@ const initialState = {
         preferences: {
             myPreferences: {},
         },
+        roles: {
+            roles: {
+                custom_role: {
+                    permissions: [
+                        'sysconsole_read_plugins',
+                    ],
+                },
+            },
+        },
         teams: {
             currentTeamId,
         },
@@ -58,6 +67,7 @@ const initialState = {
             currentUserId,
             profiles: {
                 user123: {
+                    roles: 'custom_role',
                     timezone: {
                         useAutomaticTimezone: true,
                         automaticTimezone: '',
@@ -253,6 +263,92 @@ describe('executeCommand', () => {
             expect(store.getActions()[0].data).toEqual([{category: 'group_channel_show', name: 'channelId', user_id: 'user123', value: 'false'}]);
 
             expect(result).toEqual({data: true});
+        });
+    });
+
+    describe('marketplace command', () => {
+        test('it is a local command, it should not call the server', async () => {
+            const state = {
+                ...initialState,
+                entities: {
+                    ...initialState.entities,
+                    general: {
+                        ...initialState.entities.general,
+                        config: {
+                            ...initialState.entities.general.config,
+                            EnableMarketplace: 'true',
+                            PluginsEnabled: 'true',
+                        },
+                    },
+                },
+            };
+
+            store = await mockStore(state);
+
+            Client4.executeCommand = jest.fn().mockResolvedValue({});
+            const result = await store.dispatch(executeCommand('/marketplace', []));
+
+            // Make sure the server was not called
+            expect(Client4.executeCommand).not.toHaveBeenCalled();
+
+            // Make sure we opened the modal
+            const actionDispatch = store.getActions()[0];
+            expect(actionDispatch).toMatchObject({
+                type: ActionTypes.MODAL_OPEN,
+                modalId: ModalIdentifiers.PLUGIN_MARKETPLACE,
+            });
+            expect(result).toEqual({data: true});
+        });
+
+        test('should show error when marketpace is not enabled', async () => {
+            const state = {
+                ...initialState,
+                entities: {
+                    ...initialState.entities,
+                    general: {
+                        ...initialState.entities.general,
+                        config: {
+                            ...initialState.entities.general.config,
+                            EnableMarketplace: 'false',
+                            PluginsEnabled: 'false',
+                        },
+                    },
+                },
+            };
+
+            store = await mockStore(state);
+            const res = await store.dispatch(executeCommand('/marketplace', []));
+            expect(res.error).not.toBeUndefined();
+        });
+
+        test('should show error when user does not have permission', async () => {
+            const state = {
+                ...initialState,
+                entities: {
+                    ...initialState.entities,
+                    general: {
+                        ...initialState.entities.general,
+                        config: {
+                            ...initialState.entities.general.config,
+                            EnableMarketplace: 'true',
+                            PluginsEnabled: 'true',
+                        },
+                    },
+                    roles: {
+                        ...initialState.entities.roles,
+                        roles: {
+                            ...initialState.entities.roles.roles,
+                            custom_role: {
+                                permissions: [],
+                            },
+                        },
+                    },
+                },
+            };
+
+            store = await mockStore(state);
+            const res = await store.dispatch(executeCommand('/marketplace', []));
+            expect(res.error).not.toBeUndefined();
         });
     });
 

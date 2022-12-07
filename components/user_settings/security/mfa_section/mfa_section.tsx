@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 const SECTION_MFA = 'mfa';
 
@@ -41,7 +41,7 @@ export default class MfaSection extends React.PureComponent<Props, State> {
     public setupMfa = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
 
-        browserHistory.push('/mfa/setup');
+        getHistory().push('/mfa/setup');
     };
 
     public removeMfa = async (e: React.MouseEvent<HTMLElement>) => {
@@ -57,7 +57,7 @@ export default class MfaSection extends React.PureComponent<Props, State> {
         }
 
         if (this.props.mfaEnforced) {
-            browserHistory.push('/mfa/setup');
+            getHistory().push('/mfa/setup');
             return;
         }
 

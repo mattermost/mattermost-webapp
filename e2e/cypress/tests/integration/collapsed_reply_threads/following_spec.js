@@ -7,8 +7,10 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @collapsed_reply_threads
+
+import * as TIMEOUTS from '../../fixtures/timeouts';
+import {isMac} from '../../utils';
 
 describe('Collapsed Reply Threads', () => {
     let testTeam;
@@ -148,7 +150,7 @@ describe('Collapsed Reply Threads', () => {
                 cy.get('.FollowButton').should('have.text', 'Following');
 
                 // # Click thread footer Following button
-                cy.get('.FollowButton').click();
+                cy.get('.FollowButton').click({force: true});
 
                 // * thread footer button should say 'Follow'
                 cy.get('.FollowButton').should('have.text', 'Follow');
@@ -183,7 +185,7 @@ describe('Collapsed Reply Threads', () => {
                 cy.get('.FollowButton').should('have.text', 'Follow');
 
                 // # Click thread footer 'Follow' button
-                cy.get('.FollowButton').click();
+                cy.get('.FollowButton').click({force: true});
 
                 // * thread footer button should say 'Following'
                 cy.get('.FollowButton').should('have.text', 'Following');
@@ -195,6 +197,45 @@ describe('Collapsed Reply Threads', () => {
             // # Close RHS
             cy.uiCloseRHS();
         });
+    });
+
+    it('MM-T4682 should show search guidance at the end of the list after scroll loading', () => {
+        // # Create more than 25 threads so we can use scroll loading in the Threads list
+        for (let i = 1; i <= 30; i++) {
+            postMessageWithReply(testChannel.id, otherUser, `Another interesting post ${i}`, testUser, `Another reply ${i}!`).then(({rootId}) => {
+                // # Mark last thread as Unread
+                if (i === 30) {
+                    // # Click on root post to open thread
+                    cy.get(`#post_${rootId}`).click();
+
+                    // # Click on the reply's dot menu and mark as unread
+                    cy.uiClickPostDropdownMenu(rootId, 'Mark as Unread', 'RHS_ROOT');
+                }
+            });
+        }
+
+        cy.uiClickSidebarItem('threads');
+
+        // # Scroll load the threads list to reach the end
+        const maxScrolls = 3;
+        scrollThreadsListToEnd(maxScrolls);
+
+        // * Search guidance item should be shown at the end of the threads list
+        cy.get('.ThreadList .no-results__wrapper').should('be.visible').within(() => {
+            // * Title, subtitle and shortcut keys should be shown
+            cy.findByText('That’s the end of the list').should('be.visible');
+            cy.contains('If you’re looking for older conversations, try searching with ').should('be.visible').within(() => {
+                cy.findByText(isMac() ? '⌘' : 'Ctrl').should('be.visible');
+                cy.findByText('Shift').should('be.visible');
+                cy.findByText('F').should('be.visible');
+            });
+        });
+
+        // # Click Unreads button
+        cy.findByText('Unreads').click();
+
+        // * Search guidance item should not be shown at the end of the Unreads threads list
+        cy.get('.ThreadList .no-results__wrapper').should('not.exist');
     });
 });
 
@@ -210,6 +251,24 @@ function postMessageWithReply(channelId, postSender, postMessage, replySender, r
             channelId,
             rootId,
         }).then(({id: replyId}) => (Promise.resolve({rootId, replyId})));
+    });
+}
+
+function scrollThreadsListToEnd(maxScrolls = 1, scrolls = 0) {
+    if (scrolls === maxScrolls) {
+        return;
+    }
+
+    cy.get('.ThreadList .virtualized-thread-list').scrollTo('bottom').then(($el) => {
+        const element = $el.find('.no-results__wrapper');
+
+        if (element.length < 1) {
+            cy.wait(TIMEOUTS.ONE_SEC).then(() => {
+                scrollThreadsListToEnd(maxScrolls, scrolls + 1);
+            });
+        } else {
+            cy.wrap(element).scrollIntoView();
+        }
     });
 }
 

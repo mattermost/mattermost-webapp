@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import styled from 'styled-components';
 import {useIntl} from 'react-intl';
@@ -92,7 +93,7 @@ function SearchLimitsBanner(props: Props) {
             storage: asGBString(fileStorageLimit, formatNumber),
             a: (chunks: React.ReactNode | React.ReactNodeArray) => (
                 <StyledA
-                    onClick={openPricingModal}
+                    onClick={() => openPricingModal({trackingLocation: 'file_search_limits_banner'})}
                 >
                     {chunks}
                 </StyledA>
@@ -111,7 +112,7 @@ function SearchLimitsBanner(props: Props) {
             messages: formatNumber(messagesLimit),
             a: (chunks: React.ReactNode | React.ReactNodeArray) => (
                 <StyledA
-                    onClick={openPricingModal}
+                    onClick={() => openPricingModal({trackingLocation: 'messages_search_limits_banner'})}
                 >
                     {chunks}
                 </StyledA>

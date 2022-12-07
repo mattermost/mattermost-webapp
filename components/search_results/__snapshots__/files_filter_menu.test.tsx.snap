@@ -8,13 +8,41 @@ exports[`components/search_results/FilesFilterMenu should match snapshot, on all
     animationComponent={[Function]}
     className=""
   >
-    <span
-      className="action-icon dots-icon"
+    <OverlayTrigger
+      className="hidden-xs"
+      defaultOverlayShown={false}
+      delayShow={500}
+      overlay={
+        <Tooltip
+          className="hidden-xs"
+          id="files-filter-tooltip"
+        >
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Filter"
+            id="channel_info_rhs.menu.files.filter"
+          />
+        </Tooltip>
+      }
+      placement="top"
+      rootClose={true}
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
-      <i
-        className="icon icon-filter-variant"
-      />
-    </span>
+      <IconContainer
+        className="action-icon dots-icon"
+        id="filesFilterButton"
+        type="button"
+      >
+        <FilterVariantIcon
+          color="currentColor"
+          size={18}
+        />
+      </IconContainer>
+    </OverlayTrigger>
     <Menu
       ariaLabel="file menu"
       openLeft={true}
@@ -92,16 +120,44 @@ exports[`components/search_results/FilesFilterMenu should match snapshot, on aud
     animationComponent={[Function]}
     className=""
   >
-    <span
-      className="action-icon dots-icon"
+    <OverlayTrigger
+      className="hidden-xs"
+      defaultOverlayShown={false}
+      delayShow={500}
+      overlay={
+        <Tooltip
+          className="hidden-xs"
+          id="files-filter-tooltip"
+        >
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Filter"
+            id="channel_info_rhs.menu.files.filter"
+          />
+        </Tooltip>
+      }
+      placement="top"
+      rootClose={true}
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
-      <i
-        className="icon-dot"
-      />
-      <i
-        className="icon icon-filter-variant"
-      />
-    </span>
+      <IconContainer
+        className="action-icon dots-icon"
+        id="filesFilterButton"
+        type="button"
+      >
+        <i
+          className="icon-dot"
+        />
+        <FilterVariantIcon
+          color="currentColor"
+          size={18}
+        />
+      </IconContainer>
+    </OverlayTrigger>
     <Menu
       ariaLabel="file menu"
       openLeft={true}
@@ -179,16 +235,44 @@ exports[`components/search_results/FilesFilterMenu should match snapshot, on cod
     animationComponent={[Function]}
     className=""
   >
-    <span
-      className="action-icon dots-icon"
+    <OverlayTrigger
+      className="hidden-xs"
+      defaultOverlayShown={false}
+      delayShow={500}
+      overlay={
+        <Tooltip
+          className="hidden-xs"
+          id="files-filter-tooltip"
+        >
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Filter"
+            id="channel_info_rhs.menu.files.filter"
+          />
+        </Tooltip>
+      }
+      placement="top"
+      rootClose={true}
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
-      <i
-        className="icon-dot"
-      />
-      <i
-        className="icon icon-filter-variant"
-      />
-    </span>
+      <IconContainer
+        className="action-icon dots-icon"
+        id="filesFilterButton"
+        type="button"
+      >
+        <i
+          className="icon-dot"
+        />
+        <FilterVariantIcon
+          color="currentColor"
+          size={18}
+        />
+      </IconContainer>
+    </OverlayTrigger>
     <Menu
       ariaLabel="file menu"
       openLeft={true}
@@ -266,16 +350,44 @@ exports[`components/search_results/FilesFilterMenu should match snapshot, on doc
     animationComponent={[Function]}
     className=""
   >
-    <span
-      className="action-icon dots-icon"
+    <OverlayTrigger
+      className="hidden-xs"
+      defaultOverlayShown={false}
+      delayShow={500}
+      overlay={
+        <Tooltip
+          className="hidden-xs"
+          id="files-filter-tooltip"
+        >
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Filter"
+            id="channel_info_rhs.menu.files.filter"
+          />
+        </Tooltip>
+      }
+      placement="top"
+      rootClose={true}
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
-      <i
-        className="icon-dot"
-      />
-      <i
-        className="icon icon-filter-variant"
-      />
-    </span>
+      <IconContainer
+        className="action-icon dots-icon"
+        id="filesFilterButton"
+        type="button"
+      >
+        <i
+          className="icon-dot"
+        />
+        <FilterVariantIcon
+          color="currentColor"
+          size={18}
+        />
+      </IconContainer>
+    </OverlayTrigger>
     <Menu
       ariaLabel="file menu"
       openLeft={true}
@@ -353,16 +465,44 @@ exports[`components/search_results/FilesFilterMenu should match snapshot, on ima
     animationComponent={[Function]}
     className=""
   >
-    <span
-      className="action-icon dots-icon"
+    <OverlayTrigger
+      className="hidden-xs"
+      defaultOverlayShown={false}
+      delayShow={500}
+      overlay={
+        <Tooltip
+          className="hidden-xs"
+          id="files-filter-tooltip"
+        >
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Filter"
+            id="channel_info_rhs.menu.files.filter"
+          />
+        </Tooltip>
+      }
+      placement="top"
+      rootClose={true}
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
-      <i
-        className="icon-dot"
-      />
-      <i
-        className="icon icon-filter-variant"
-      />
-    </span>
+      <IconContainer
+        className="action-icon dots-icon"
+        id="filesFilterButton"
+        type="button"
+      >
+        <i
+          className="icon-dot"
+        />
+        <FilterVariantIcon
+          color="currentColor"
+          size={18}
+        />
+      </IconContainer>
+    </OverlayTrigger>
     <Menu
       ariaLabel="file menu"
       openLeft={true}
@@ -440,16 +580,44 @@ exports[`components/search_results/FilesFilterMenu should match snapshot, on pre
     animationComponent={[Function]}
     className=""
   >
-    <span
-      className="action-icon dots-icon"
+    <OverlayTrigger
+      className="hidden-xs"
+      defaultOverlayShown={false}
+      delayShow={500}
+      overlay={
+        <Tooltip
+          className="hidden-xs"
+          id="files-filter-tooltip"
+        >
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Filter"
+            id="channel_info_rhs.menu.files.filter"
+          />
+        </Tooltip>
+      }
+      placement="top"
+      rootClose={true}
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
-      <i
-        className="icon-dot"
-      />
-      <i
-        className="icon icon-filter-variant"
-      />
-    </span>
+      <IconContainer
+        className="action-icon dots-icon"
+        id="filesFilterButton"
+        type="button"
+      >
+        <i
+          className="icon-dot"
+        />
+        <FilterVariantIcon
+          color="currentColor"
+          size={18}
+        />
+      </IconContainer>
+    </OverlayTrigger>
     <Menu
       ariaLabel="file menu"
       openLeft={true}
@@ -527,16 +695,44 @@ exports[`components/search_results/FilesFilterMenu should match snapshot, on spr
     animationComponent={[Function]}
     className=""
   >
-    <span
-      className="action-icon dots-icon"
+    <OverlayTrigger
+      className="hidden-xs"
+      defaultOverlayShown={false}
+      delayShow={500}
+      overlay={
+        <Tooltip
+          className="hidden-xs"
+          id="files-filter-tooltip"
+        >
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Filter"
+            id="channel_info_rhs.menu.files.filter"
+          />
+        </Tooltip>
+      }
+      placement="top"
+      rootClose={true}
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
-      <i
-        className="icon-dot"
-      />
-      <i
-        className="icon icon-filter-variant"
-      />
-    </span>
+      <IconContainer
+        className="action-icon dots-icon"
+        id="filesFilterButton"
+        type="button"
+      >
+        <i
+          className="icon-dot"
+        />
+        <FilterVariantIcon
+          color="currentColor"
+          size={18}
+        />
+      </IconContainer>
+    </OverlayTrigger>
     <Menu
       ariaLabel="file menu"
       openLeft={true}
@@ -614,16 +810,44 @@ exports[`components/search_results/FilesFilterMenu should match snapshot, on vid
     animationComponent={[Function]}
     className=""
   >
-    <span
-      className="action-icon dots-icon"
+    <OverlayTrigger
+      className="hidden-xs"
+      defaultOverlayShown={false}
+      delayShow={500}
+      overlay={
+        <Tooltip
+          className="hidden-xs"
+          id="files-filter-tooltip"
+        >
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Filter"
+            id="channel_info_rhs.menu.files.filter"
+          />
+        </Tooltip>
+      }
+      placement="top"
+      rootClose={true}
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
-      <i
-        className="icon-dot"
-      />
-      <i
-        className="icon icon-filter-variant"
-      />
-    </span>
+      <IconContainer
+        className="action-icon dots-icon"
+        id="filesFilterButton"
+        type="button"
+      >
+        <i
+          className="icon-dot"
+        />
+        <FilterVariantIcon
+          color="currentColor"
+          size={18}
+        />
+      </IconContainer>
+    </OverlayTrigger>
     <Menu
       ariaLabel="file menu"
       openLeft={true}

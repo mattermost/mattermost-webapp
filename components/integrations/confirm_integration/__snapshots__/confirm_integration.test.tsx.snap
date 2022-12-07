@@ -46,7 +46,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
     <p
       className="word-break--all"
     >
-      <injectIntl(FormattedMarkdownMessage)
+      <FormattedMarkdownMessage
         defaultMessage="**Token**: {token}"
         id="add_command.token"
         values={
@@ -124,7 +124,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
     <p
       className="word-break--all"
     >
-      <injectIntl(FormattedMarkdownMessage)
+      <FormattedMarkdownMessage
         defaultMessage="**URL**: {url}"
         id="add_incoming_webhook.url"
         values={
@@ -204,7 +204,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
     <p
       key="add_oauth_app.clientId"
     >
-      <injectIntl(FormattedMarkdownMessage)
+      <FormattedMarkdownMessage
         defaultMessage="**Client ID**: {id}"
         id="add_oauth_app.clientId"
         values={
@@ -219,7 +219,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
         value="r5tpgt4iepf45jt768jz84djic"
       />
       <br />
-      <injectIntl(FormattedMarkdownMessage)
+      <FormattedMarkdownMessage
         defaultMessage="**Client Secret**: {secret}"
         id="add_oauth_app.clientSecret"
         values={
@@ -245,7 +245,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
     <p
       className="word-break--all"
     >
-      <injectIntl(FormattedMarkdownMessage)
+      <FormattedMarkdownMessage
         defaultMessage="**URL(s)**: {url}"
         id="add_oauth_app.url"
         values={
@@ -320,7 +320,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
     <p
       className="word-break--all"
     >
-      <injectIntl(FormattedMarkdownMessage)
+      <FormattedMarkdownMessage
         defaultMessage="**Token**: {token}"
         id="add_outgoing_webhook.token"
         values={

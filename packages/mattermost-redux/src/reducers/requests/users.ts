@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {combineReducers} from 'redux';
 
 import {RequestStatus} from 'mattermost-redux/constants';
@@ -9,25 +10,6 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {UsersRequestsStatuses, RequestStatusType} from '@mattermost/types/requests';
 
 import {handleRequest, initialRequestState} from './helpers';
-
-function checkMfa(state: RequestStatusType = initialRequestState(), action: GenericAction): RequestStatusType {
-    switch (action.type) {
-    case UserTypes.CHECK_MFA_REQUEST:
-        return {...state, status: RequestStatus.STARTED};
-
-    case UserTypes.CHECK_MFA_SUCCESS:
-        return {...state, status: RequestStatus.SUCCESS, error: null};
-
-    case UserTypes.CHECK_MFA_FAILURE:
-        return {...state, status: RequestStatus.FAILURE, error: action.error};
-
-    case UserTypes.LOGOUT_SUCCESS:
-        return {...state, status: RequestStatus.NOT_STARTED, error: null};
-
-    default:
-        return state;
-    }
-}
 
 function login(state: RequestStatusType = initialRequestState(), action: GenericAction): RequestStatusType {
     switch (action.type) {
@@ -88,7 +70,6 @@ function updateMe(state: RequestStatusType = initialRequestState(), action: Gene
 }
 
 export default (combineReducers({
-    checkMfa,
     login,
     logout,
     autocompleteUsers,

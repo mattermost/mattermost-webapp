@@ -1,186 +1,103 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/sidebar/sidebar_category/sidebar_category_menu should match snapshot and contain correct buttons 1`] = `
-<Fragment>
-  <Connect(SidebarMenu)
-    ariaLabel="Category Menu"
-    buttonAriaLabel="Category Menu"
-    id="SidebarCategoryMenu-category1"
-    isMenuOpen={false}
-    onOpenDirectionChange={[Function]}
-    onToggleMenu={[Function]}
-    tooltipText="Category options"
-  >
-    <MenuGroup>
-      <MenuItemAction
-        icon={
-          <i
-            className="icon-bell-outline"
-          />
-        }
-        id="mute-category1"
-        onClick={[Function]}
-        show={true}
-        text="Mute Category"
-      />
-      <MenuItemAction
-        icon={
-          <i
-            className="icon-pencil-outline"
-          />
-        }
-        id="rename-category1"
-        onClick={[Function]}
-        show={true}
-        text="Rename Category"
-      />
-      <MenuItemAction
-        icon={
-          <i
-            className="icon-trash-can-outline"
-          />
-        }
-        id="delete-category1"
-        isDangerous={true}
-        onClick={[Function]}
-        show={true}
-        text="Delete Category"
-      />
-    </MenuGroup>
-    <MenuGroup>
-      <SubMenuItem
-        direction="right"
-        icon={
-          <i
-            className="icon-sort-alphabetical-ascending"
-          />
-        }
-        id="sortChannels"
-        openUp={false}
-        renderSelected={true}
-        selectedValueText="Alphabetically"
-        show={true}
-        styleSelectableItem={true}
-        subMenu={
-          Array [
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "sortAlphabetical",
-              "text": "Alphabetically",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "sortByMostRecent",
-              "text": "Recent Activity",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "sortManual",
-              "text": "Manually",
-            },
-          ]
-        }
-        subMenuClass="pl-4"
-        text="Sort"
-      />
-    </MenuGroup>
-    <MenuGroup>
-      <MenuItemAction
-        icon={
-          <i
-            className="icon-folder-plus-outline"
-          />
-        }
-        id="create-category1"
-        onClick={[Function]}
-        show={true}
-        text="Create New Category"
-      />
-    </MenuGroup>
-  </Connect(SidebarMenu)>
-</Fragment>
-`;
-
-exports[`components/sidebar/sidebar_category/sidebar_category_menu should match snapshot when category is favorites 1`] = `
-<Fragment>
-  <Connect(SidebarMenu)
-    ariaLabel="Category Menu"
-    buttonAriaLabel="Category Menu"
-    id="SidebarCategoryMenu-category1"
-    isMenuOpen={false}
-    onOpenDirectionChange={[Function]}
-    onToggleMenu={[Function]}
-    tooltipText="Category options"
-  >
-    <MenuGroup>
-      <MenuItemAction
-        icon={
-          <i
-            className="icon-bell-outline"
-          />
-        }
-        id="mute-category1"
-        onClick={[Function]}
-        show={true}
-        text="Mute Category"
-      />
-    </MenuGroup>
-    <MenuGroup>
-      <SubMenuItem
-        direction="right"
-        icon={
-          <i
-            className="icon-sort-alphabetical-ascending"
-          />
-        }
-        id="sortChannels"
-        openUp={false}
-        renderSelected={true}
-        selectedValueText="Alphabetically"
-        show={true}
-        styleSelectableItem={true}
-        subMenu={
-          Array [
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "sortAlphabetical",
-              "text": "Alphabetically",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "sortByMostRecent",
-              "text": "Recent Activity",
-            },
-            Object {
-              "action": [Function],
-              "direction": "right",
-              "id": "sortManual",
-              "text": "Manually",
-            },
-          ]
-        }
-        subMenuClass="pl-4"
-        text="Sort"
-      />
-    </MenuGroup>
-    <MenuGroup>
-      <MenuItemAction
-        icon={
-          <i
-            className="icon-folder-plus-outline"
-          />
-        }
-        id="create-category1"
-        onClick={[Function]}
-        show={true}
-        text="Create New Category"
-      />
-    </MenuGroup>
-  </Connect(SidebarMenu)>
-</Fragment>
+<Connect(SidebarMenu)
+  ariaLabel="Category Menu"
+  buttonAriaLabel="Category Menu"
+  id="SidebarCategoryMenu-test_category_id"
+  isMenuOpen={false}
+  onOpenDirectionChange={[Function]}
+  onToggleMenu={[Function]}
+  tooltipText="Category options"
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <BellOutlineIcon
+          size={16}
+        />
+      }
+      id="mute-test_category_id"
+      onClick={[Function]}
+      show={true}
+      text="Mute Category"
+    />
+    <MenuItemAction
+      icon={
+        <PencilOutlineIcon
+          size={16}
+        />
+      }
+      id="rename-test_category_id"
+      onClick={[Function]}
+      show={true}
+      text="Rename Category"
+    />
+    <MenuItemAction
+      icon={
+        <TrashCanOutlineIcon
+          size={16}
+        />
+      }
+      id="delete-test_category_id"
+      isDangerous={true}
+      onClick={[Function]}
+      show={true}
+      text="Delete Category"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <SubMenuItem
+      direction="right"
+      icon={
+        <SortAlphabeticalAscendingIcon
+          size={16}
+        />
+      }
+      id="sortChannels"
+      openUp={false}
+      renderSelected={true}
+      selectedValueText="Alphabetically"
+      show={true}
+      styleSelectableItem={true}
+      subMenu={
+        Array [
+          Object {
+            "action": [Function],
+            "direction": "right",
+            "id": "sortAlphabetical",
+            "text": "Alphabetically",
+          },
+          Object {
+            "action": [Function],
+            "direction": "right",
+            "id": "sortByMostRecent",
+            "text": "Recent Activity",
+          },
+          Object {
+            "action": [Function],
+            "direction": "right",
+            "id": "sortManual",
+            "text": "Manually",
+          },
+        ]
+      }
+      subMenuClass="pl-4"
+      text="Sort"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <FolderPlusOutlineIcon
+          size={16}
+        />
+      }
+      id="create-test_category_id"
+      onClick={[Function]}
+      show={true}
+      text="Create New Category"
+    />
+  </MenuGroup>
+</Connect(SidebarMenu)>
 `;

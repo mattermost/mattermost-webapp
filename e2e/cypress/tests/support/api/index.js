@@ -5,6 +5,7 @@ import './brand';
 import './bots';
 import './channel';
 import './cloud';
+import './cluster';
 import './common';
 import './keycloak';
 import './ldap';

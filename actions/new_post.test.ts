@@ -31,7 +31,6 @@ global.Date.now = jest.fn(() => POST_CREATED_TIME);
 const newPostMessageProps = {} as NewPostActions.NewPostMessageProps;
 
 const INCREASED_POST_VISIBILITY = {amount: 1, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'};
-const STOP_TYPING = {type: 'stop_typing', data: {id: 'current_channel_idundefined', now: POST_CREATED_TIME, userId: 'some_user_id'}};
 
 describe('actions/new_post', () => {
     const latestPost = {
@@ -109,7 +108,6 @@ describe('actions/new_post', () => {
                 payload: [
                     INCREASED_POST_VISIBILITY,
                     receivedNewPost(newPost, false),
-                    STOP_TYPING,
                 ],
                 type: 'BATCHING_REDUCER.BATCH',
             },

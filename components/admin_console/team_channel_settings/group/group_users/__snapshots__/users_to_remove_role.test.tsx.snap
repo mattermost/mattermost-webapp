@@ -20,16 +20,11 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
   scope="team"
   user={
     Object {
-      "allow_marketing": false,
-      "auth_data": "",
       "auth_service": "",
       "bot_description": "",
-      "bot_last_icon_update": 0,
       "create_at": 0,
       "delete_at": 0,
       "email": "",
-      "email_verified": true,
-      "failed_attempts": 0,
       "first_name": "",
       "groups": Array [
         Object {
@@ -56,7 +51,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
       "last_picture_update": 0,
       "locale": "",
       "mfa_active": false,
-      "mfa_secret": "",
       "nickname": "",
       "notify_props": Object {
         "channel": "false",
@@ -110,22 +104,18 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
       "roles": "channel_user",
       "scheme_admin": true,
       "scheme_user": true,
+      "urgent_mention_count": 0,
       "user_id": "user_id",
     }
   }
   scope="channel"
   user={
     Object {
-      "allow_marketing": false,
-      "auth_data": "",
       "auth_service": "",
       "bot_description": "",
-      "bot_last_icon_update": 0,
       "create_at": 0,
       "delete_at": 0,
       "email": "",
-      "email_verified": true,
-      "failed_attempts": 0,
       "first_name": "",
       "groups": Array [
         Object {
@@ -152,7 +142,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
       "last_picture_update": 0,
       "locale": "",
       "mfa_active": false,
-      "mfa_secret": "",
       "nickname": "",
       "notify_props": Object {
         "channel": "false",
@@ -206,22 +195,18 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
       "roles": "channel_user",
       "scheme_admin": true,
       "scheme_user": true,
+      "urgent_mention_count": 0,
       "user_id": "user_id",
     }
   }
   scope="channel"
   user={
     Object {
-      "allow_marketing": false,
-      "auth_data": "",
       "auth_service": "",
       "bot_description": "",
-      "bot_last_icon_update": 0,
       "create_at": 0,
       "delete_at": 0,
       "email": "",
-      "email_verified": true,
-      "failed_attempts": 0,
       "first_name": "",
       "groups": Array [
         Object {
@@ -248,7 +233,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
       "last_picture_update": 0,
       "locale": "",
       "mfa_active": false,
-      "mfa_secret": "",
       "nickname": "",
       "notify_props": Object {
         "channel": "false",
@@ -302,22 +286,18 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
       "roles": "channel_user",
       "scheme_admin": false,
       "scheme_user": true,
+      "urgent_mention_count": 0,
       "user_id": "user_id",
     }
   }
   scope="channel"
   user={
     Object {
-      "allow_marketing": false,
-      "auth_data": "",
       "auth_service": "",
       "bot_description": "",
-      "bot_last_icon_update": 0,
       "create_at": 0,
       "delete_at": 0,
       "email": "",
-      "email_verified": true,
-      "failed_attempts": 0,
       "first_name": "",
       "groups": Array [
         Object {
@@ -344,7 +324,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
       "last_picture_update": 0,
       "locale": "",
       "mfa_active": false,
-      "mfa_secret": "",
       "nickname": "",
       "notify_props": Object {
         "channel": "false",
@@ -397,16 +376,11 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
   scope="team"
   user={
     Object {
-      "allow_marketing": false,
-      "auth_data": "",
       "auth_service": "",
       "bot_description": "",
-      "bot_last_icon_update": 0,
       "create_at": 0,
       "delete_at": 0,
       "email": "",
-      "email_verified": true,
-      "failed_attempts": 0,
       "first_name": "",
       "groups": Array [
         Object {
@@ -433,7 +407,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
       "last_picture_update": 0,
       "locale": "",
       "mfa_active": false,
-      "mfa_secret": "",
       "nickname": "",
       "notify_props": Object {
         "channel": "false",
@@ -486,16 +459,11 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
   scope="team"
   user={
     Object {
-      "allow_marketing": false,
-      "auth_data": "",
       "auth_service": "",
       "bot_description": "",
-      "bot_last_icon_update": 0,
       "create_at": 0,
       "delete_at": 0,
       "email": "",
-      "email_verified": true,
-      "failed_attempts": 0,
       "first_name": "",
       "groups": Array [
         Object {
@@ -522,7 +490,6 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveRole 
       "last_picture_update": 0,
       "locale": "",
       "mfa_active": false,
-      "mfa_secret": "",
       "nickname": "",
       "notify_props": Object {
         "channel": "false",

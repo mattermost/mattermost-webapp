@@ -15,7 +15,7 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, isPostPriorityEnabled} from 'mattermost-redux/selectors/entities/posts';
 
 import {isEmbedVisible} from 'selectors/posts';
 
@@ -65,6 +65,7 @@ function makeMapStateToProps() {
             user,
             isEmbedVisible: embedVisible,
             compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+            isPostPriorityEnabled: isPostPriorityEnabled(state),
         };
     };
 }

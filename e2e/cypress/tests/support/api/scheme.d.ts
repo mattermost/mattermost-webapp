@@ -29,7 +29,7 @@ declare namespace Cypress {
          *       // do something with schemes
          *   });
          */
-        apiGetSchemes(scope: string): Chainable<Scheme[]>;
+        apiGetSchemes(scope: string): Chainable<{schemes: Scheme[]}>;
 
         /**
          * Delete a scheme.

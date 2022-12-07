@@ -3,6 +3,7 @@
 
 import {CategorySorting} from '@mattermost/types/channel_categories';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
+
 import {insertWithoutDuplicates} from 'mattermost-redux/utils/array_utils';
 
 import configureStore from 'store';

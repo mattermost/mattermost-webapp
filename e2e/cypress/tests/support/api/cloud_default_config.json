@@ -217,8 +217,7 @@
         "Enable": false
     },
     "ExperimentalSettings": {
-        "RestrictSystemAdmin": true,
-        "CloudBilling": true
+        "RestrictSystemAdmin": true
     },
     "DataRetentionSettings": {
         "EnableMessageDeletion": false,
@@ -252,6 +251,9 @@
             },
             "com.mattermost.plugin-incident-management": {
                 "Enable": false
+            },
+            "focalboard": {
+                "Enable": false
             }
         }
     },
@@ -264,5 +266,11 @@
         "AllowEmailAccounts": true,
         "EnforceMultifactorAuthentication": false,
         "RestrictCreationToDomains": ""
+    },
+    "ImageProxySettings": {
+        "Enable": true,
+        "ImageProxyType": "local",
+        "RemoteImageProxyURL": "",
+        "RemoteImageProxyOptions": ""
     }
 }

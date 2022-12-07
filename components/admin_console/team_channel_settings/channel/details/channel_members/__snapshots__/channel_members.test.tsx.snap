@@ -3,7 +3,7 @@
 exports[`admin_console/team_channel_settings/channel/ChannelMembers should match snapshot 1`] = `
 <AdminPanel
   button={
-    <Memo(Connect(injectIntl(ToggleModalButton)))
+    <Memo(Connect(ToggleModalButton))
       className="btn btn-primary"
       dialogProps={
         Object {
@@ -37,7 +37,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ChannelInviteModal)",
           "type": [Function],
         }
       }
@@ -48,7 +47,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
         defaultMessage="Add Members"
         id="admin.team_settings.team_details.add_members"
       />
-    </Memo(Connect(injectIntl(ToggleModalButton)))>
+    </Memo(Connect(ToggleModalButton))>
   }
   className=""
   id="channelMembers"
@@ -134,6 +133,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user-1",
         },
         "user-2": Object {
@@ -154,6 +154,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user-2",
         },
         "user-3": Object {
@@ -174,6 +175,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user-3",
         },
       }
@@ -187,16 +189,11 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
     users={
       Array [
         Object {
-          "allow_marketing": false,
-          "auth_data": "",
           "auth_service": "",
           "bot_description": "",
-          "bot_last_icon_update": 0,
           "create_at": 0,
           "delete_at": 0,
           "email": "",
-          "email_verified": true,
-          "failed_attempts": 0,
           "first_name": "",
           "id": "user-1",
           "is_bot": false,
@@ -206,7 +203,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "last_picture_update": 0,
           "locale": "",
           "mfa_active": false,
-          "mfa_secret": "",
           "nickname": "",
           "notify_props": Object {
             "channel": "false",
@@ -230,16 +226,11 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "username": "some-user",
         },
         Object {
-          "allow_marketing": false,
-          "auth_data": "",
           "auth_service": "",
           "bot_description": "",
-          "bot_last_icon_update": 0,
           "create_at": 0,
           "delete_at": 0,
           "email": "",
-          "email_verified": true,
-          "failed_attempts": 0,
           "first_name": "",
           "id": "user-2",
           "is_bot": false,
@@ -249,7 +240,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "last_picture_update": 0,
           "locale": "",
           "mfa_active": false,
-          "mfa_secret": "",
           "nickname": "",
           "notify_props": Object {
             "channel": "false",
@@ -273,16 +263,11 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "username": "some-user",
         },
         Object {
-          "allow_marketing": false,
-          "auth_data": "",
           "auth_service": "",
           "bot_description": "",
-          "bot_last_icon_update": 0,
           "create_at": 0,
           "delete_at": 0,
           "email": "",
-          "email_verified": true,
-          "failed_attempts": 0,
           "first_name": "",
           "id": "user-3",
           "is_bot": false,
@@ -292,7 +277,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "last_picture_update": 0,
           "locale": "",
           "mfa_active": false,
-          "mfa_secret": "",
           "nickname": "",
           "notify_props": Object {
             "channel": "false",
@@ -324,7 +308,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
 exports[`admin_console/team_channel_settings/channel/ChannelMembers should match snapshot loading no users 1`] = `
 <AdminPanel
   button={
-    <Memo(Connect(injectIntl(ToggleModalButton)))
+    <Memo(Connect(ToggleModalButton))
       className="btn btn-primary"
       dialogProps={
         Object {
@@ -358,7 +342,6 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ChannelInviteModal)",
           "type": [Function],
         }
       }
@@ -369,7 +352,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
         defaultMessage="Add Members"
         id="admin.team_settings.team_details.add_members"
       />
-    </Memo(Connect(injectIntl(ToggleModalButton)))>
+    </Memo(Connect(ToggleModalButton))>
   }
   className=""
   id="channelMembers"

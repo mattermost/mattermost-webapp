@@ -10,7 +10,9 @@ describe('components/MsgTyping', () => {
     const baseProps = {
         typingUsers: [],
         channelId: 'test',
-        postId: null,
+        postId: '',
+        userStartedTyping: jest.fn(),
+        userStoppedTyping: jest.fn(),
     };
 
     test('should match snapshot, on nobody typing', () => {

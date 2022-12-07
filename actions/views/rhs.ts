@@ -1,9 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import debounce from 'lodash/debounce';
+import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
 import {SearchTypes} from 'mattermost-redux/action_types';
@@ -32,8 +31,8 @@ import * as Utils from 'utils/utils';
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
-import {getPostsByIds} from 'mattermost-redux/actions/posts';
-import {unsetEditingPost} from '../post_actions';
+import {getPostsByIds, getPost as fetchPost} from 'mattermost-redux/actions/posts';
+
 import {getChannel} from 'mattermost-redux/actions/channels';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
@@ -97,9 +96,11 @@ export function updateRhsState(rhsState: string, channelId?: string, previousRhs
 export function goBack() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const prevState = getPreviousRhsState(getState() as GlobalState);
+        const defaultTab = 'channel-info';
+
         dispatch({
             type: ActionTypes.RHS_GO_BACK,
-            state: prevState,
+            state: prevState || defaultTab,
         });
 
         return {data: true};
@@ -432,7 +433,7 @@ export function showChannelInfo(channelId: string) {
 
 export function closeRightHandSide() {
     return (dispatch: DispatchFunc) => {
-        dispatch(batchActions([
+        const actionsBatch: AnyAction[] = [
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 state: null,
@@ -443,8 +444,9 @@ export function closeRightHandSide() {
                 channelId: '',
                 timestamp: 0,
             },
-            unsetEditingPost(),
-        ]));
+        ];
+
+        dispatch(batchActions(actionsBatch));
         return {data: true};
     };
 }
@@ -490,6 +492,22 @@ export function selectPost(post: Post) {
         postId: post.root_id || post.id,
         channelId: post.channel_id,
         timestamp: Date.now(),
+    };
+}
+
+export function selectPostById(postId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const post = getPost(state, postId) ?? (await dispatch(fetchPost(postId))).data;
+        if (post) {
+            const channel = getChannelSelector(state, post.channel_id);
+            if (!channel) {
+                await dispatch(getChannel(post.channel_id));
+            }
+            dispatch(selectPost(post));
+            return {data: true};
+        }
+        return {data: false};
     };
 }
 

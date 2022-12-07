@@ -10,5 +10,4 @@ export {
 
 export type {TelemetryHandler} from './telemetry';
 export type {WebSocketMessage} from './websocket';
-// eslint-disable-next-line no-duplicate-imports
 export {default as WebSocketClient} from './websocket';

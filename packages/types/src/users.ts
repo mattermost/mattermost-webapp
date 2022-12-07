@@ -19,6 +19,12 @@ export type UserNotifyProps = {
     first_name: 'true' | 'false';
     channel: 'true' | 'false';
     mention_keys: string;
+    desktop_notification_sound?: 'Bing' | 'Crackle' | 'Down' | 'Hello' | 'Ripple' | 'Upstairs';
+    desktop_threads?: 'default' | 'all' | 'mention' | 'none';
+    email_threads?: 'default' | 'all' | 'mention' | 'none';
+    push_threads?: 'default' | 'all' | 'mention' | 'none';
+    auto_responder_active?: 'true' | 'false';
+    auto_responder_message?: string;
 };
 
 export type UserProfile = {
@@ -28,29 +34,23 @@ export type UserProfile = {
     delete_at: number;
     username: string;
     password: string;
-    auth_data: string;
     auth_service: string;
     email: string;
-    email_verified: boolean;
     nickname: string;
     first_name: string;
     last_name: string;
     position: string;
     roles: string;
-    allow_marketing: boolean;
     props: Record<string, string>;
     notify_props: UserNotifyProps;
     last_password_update: number;
     last_picture_update: number;
-    failed_attempts: number;
     locale: string;
     timezone?: UserTimezone;
     mfa_active: boolean;
-    mfa_secret: string;
     last_activity_at: number;
     is_bot: boolean;
     bot_description: string;
-    bot_last_icon_update: number;
     terms_of_service_id: string;
     terms_of_service_create_at: number;
     remote_id?: string;
@@ -78,6 +78,7 @@ export type UsersState = {
     stats: RelationOneToOne<UserProfile, UsersStats>;
     filteredStats?: UsersStats;
     myUserAccessTokens: Record<string, UserAccessToken>;
+    lastActivity: RelationOneToOne<UserProfile, number>;
 };
 
 export type UserTimezone = {

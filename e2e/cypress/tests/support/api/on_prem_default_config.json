@@ -52,8 +52,8 @@
         "EnableCustomEmoji": false,
         "EnableEmojiPicker": true,
         "EnableGifPicker": false,
-        "GfycatApiKey": "2_KtH_W5",
-        "GfycatApiSecret": "3wLVZPiswc3DnaiaFoLkDvB4X0IV6CpMkj4tf2inJRsBY6-FnkT08zGmppWFgeof",
+        "GfycatAPIKey": "2_KtH_W5",
+        "GfycatAPISecret": "3wLVZPiswc3DnaiaFoLkDvB4X0IV6CpMkj4tf2inJRsBY6-FnkT08zGmppWFgeof",
         "PostEditTimeLimit": -1,
         "TimeBetweenUserTypingUpdatesMilliseconds": 5000,
         "EnablePostSearch": true,
@@ -132,13 +132,6 @@
         "EnableSentry": false
     },
     "ExperimentalAuditSettings": {
-        "SysLogEnabled": false,
-        "SysLogIP": "localhost",
-        "SysLogPort": 6514,
-        "SysLogTag": "",
-        "SysLogCert": "",
-        "SysLogInsecure": false,
-        "SysLogMaxQueueSize": 1000,
         "FileEnabled": false,
         "FileName": "",
         "FileMaxSizeMB": 100,
@@ -366,21 +359,6 @@
         "AndroidAppDownloadLink": "https://mattermost.com/mattermost-android-app/",
         "IosAppDownloadLink": "https://mattermost.com/mattermost-ios-app/"
     },
-    "ClusterSettings": {
-        "Enable": false,
-        "ClusterName": "",
-        "OverrideHostname": "",
-        "NetworkInterface": "",
-        "BindAddress": "",
-        "AdvertiseAddress": "",
-        "UseIpAddress": true,
-        "ReadOnlyConfig": false,
-        "GossipPort": 8074,
-        "StreamingPort": 8075,
-        "MaxIdleConns": 100,
-        "MaxIdleConnsPerHost": 128,
-        "IdleConnTimeoutMilliseconds": 90000
-    },
     "MetricsSettings": {
         "Enable": false,
         "BlockProfileRate": 0,
@@ -459,6 +437,9 @@
                 "Enable": false
             },
             "com.mattermost.plugin-incident-management": {
+                "Enable": false
+            },
+            "focalboard": {
                 "Enable": false
             }
         },

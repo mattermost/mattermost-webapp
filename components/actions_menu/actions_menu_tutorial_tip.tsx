@@ -4,8 +4,7 @@
 import React, {useCallback} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import TourTip from 'components/widgets/tour_tip';
+import {TourTip} from '@mattermost/components';
 
 const translate = {x: 6, y: -16};
 
@@ -23,7 +22,7 @@ const title = (
     />
 );
 const screen = (
-    <FormattedMarkdownMessage
+    <FormattedMessage
         id='post_info.actions.tutorialTip'
         defaultMessage='Message actions that are provided\nthrough apps, integrations or plugins\nhave moved to this menu item.'
     />

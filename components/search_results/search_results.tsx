@@ -5,18 +5,12 @@ import React, {useEffect, useRef, useState} from 'react';
 import {MessageDescriptor, useIntl, FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 import Scrollbars from 'react-custom-scrollbars';
-
 import classNames from 'classnames';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
-import {FileSearchResultItem as FileSearchResultItemType} from '@mattermost/types/files';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {Post} from '@mattermost/types/posts';
 
 import {getFilesDropdownPluginMenuItems} from 'selectors/plugins';
-
-import * as Utils from 'utils/utils';
-import {searchHintOptions, DataSearchTypes} from 'utils/constants';
 
 import SearchResultsHeader from 'components/search_results_header';
 import SearchResultsItem from 'components/search_results_item';
@@ -25,10 +19,15 @@ import LoadingSpinner from 'components/widgets/loading/loading_wrapper';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import FileSearchResultItem from 'components/file_search_results';
-
 import {NoResultsVariant} from 'components/no_results_indicator/types';
+
+import * as Utils from 'utils/utils';
+import {searchHintOptions, DataSearchTypes} from 'utils/constants';
 import {isFileAttachmentsEnabled} from 'utils/file_utils';
 import {t} from 'utils/i18n';
+
+import {Post} from '@mattermost/types/posts';
+import {FileSearchResultItem as FileSearchResultItemType} from '@mattermost/types/files';
 
 import MessageOrFileSelector from './messages_or_files_selector';
 import FilesFilterMenu from './files_filter_menu';
@@ -50,14 +49,21 @@ const renderView = (props: Record<string, unknown>): JSX.Element => (
 const renderThumbHorizontal = (props: Record<string, unknown>): JSX.Element => (
     <div
         {...props}
-        className='scrollbar--horizontal'
+        className='scrollbar--horizontal scrollbar--thumb--RHS'
     />
 );
 
 const renderThumbVertical = (props: Record<string, unknown>): JSX.Element => (
     <div
         {...props}
-        className='scrollbar--vertical'
+        className='scrollbar--vertical scrollbar--thumb--RHS'
+    />
+);
+
+const renderTrackVertical = (props: Record<string, unknown>): JSX.Element => (
+    <div
+        {...props}
+        className='scrollbar--vertical--RHS'
     />
 );
 
@@ -353,6 +359,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 autoHide={true}
                 autoHideTimeout={500}
                 autoHideDuration={500}
+                renderTrackVertical={renderTrackVertical}
                 renderThumbHorizontal={renderThumbHorizontal}
                 renderThumbVertical={renderThumbVertical}
                 renderView={renderView}

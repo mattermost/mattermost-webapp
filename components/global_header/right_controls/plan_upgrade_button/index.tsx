@@ -12,7 +12,7 @@ import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/c
 import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct as selectSubscriptionProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import useOpenPricingModal, {TelemetryProps} from 'components/common/hooks/useOpenPricingModal';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
@@ -32,7 +32,7 @@ letter-spacing: 0.02em;
 color: var(--button-color);
 `;
 
-let openPricingModal: () => void;
+let openPricingModal: (telemetryProps?: TelemetryProps) => void;
 
 const PlanUpgradeButton = (): JSX.Element | null => {
     const dispatch = useDispatch();
@@ -54,15 +54,9 @@ const PlanUpgradeButton = (): JSX.Element | null => {
     const config = useSelector(getConfig);
     const license = useSelector(getLicense);
 
-    const buttonTextFeatureFlag = config?.FeatureFlagPlanUpgradeButtonText;
-    let btnText = formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
-    if (isCloud && buttonTextFeatureFlag === 'View plans') {
-        btnText = formatMessage({id: 'pricing_modal.btn.viewPlans', defaultMessage: 'View plans'});
-    }
-
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
 
-    const isStarter = product?.sku === CloudProducts.STARTER;
+    const isCloudFree = product?.sku === CloudProducts.STARTER;
 
     const isSelfHostedEnterpriseTrial = !isCloud && license.IsTrial === 'true';
     const isSelfHostedStarter = license.IsLicensed === 'false';
@@ -77,8 +71,8 @@ const PlanUpgradeButton = (): JSX.Element | null => {
         return null;
     }
 
-    // for cloud, only show when subscribed to starter or enterprise trial plans
-    if (isCloud && !(isStarter || isEnterpriseTrial)) {
+    // for cloud, only show when subscribed to free or enterprise trial plans
+    if (isCloud && !(isCloudFree || isEnterpriseTrial)) {
         return null;
     }
 
@@ -102,9 +96,9 @@ const PlanUpgradeButton = (): JSX.Element | null => {
         >
             <UpgradeButton
                 id='UpgradeButton'
-                onClick={openPricingModal}
+                onClick={() => openPricingModal({trackingLocation: 'global_header_plan_upgrade_button'})}
             >
-                {btnText}
+                {formatMessage({id: 'pricing_modal.btn.viewPlans', defaultMessage: 'View plans'})}
             </UpgradeButton>
         </OverlayTrigger>);
 };

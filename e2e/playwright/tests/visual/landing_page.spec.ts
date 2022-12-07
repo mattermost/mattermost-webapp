@@ -1,18 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {test, expect} from '@playwright/test';
+import {test} from '@playwright/test';
 
-import {LandingLoginPage} from '@support/ui/page';
+import {LandingLoginPage} from '@e2e-support/ui/page';
+import {matchSnapshot, Applitools} from '@e2e-support/visual';
 
-test('/landing#/login', async ({page, isMobile}) => {
-    test.skip(!isMobile, 'For mobile client only');
+let applitools: Applitools = {};
 
+test.afterAll(async () => {
+    await applitools.eyes?.close();
+});
+
+test('/landing#/login', async ({page, isMobile, browserName, viewport}, testInfo) => {
     const landingLoginPage = new LandingLoginPage(page);
 
     // Go to landing login page
     await landingLoginPage.goto();
 
-    // Should match the landing login page
-    expect(await page.screenshot({fullPage: true})).toMatchSnapshot('landing_login.png');
+    // Match snapshot of landing page
+    applitools = await matchSnapshot(testInfo, {page, isMobile, browserName, viewport});
 });

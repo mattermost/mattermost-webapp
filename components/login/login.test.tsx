@@ -3,23 +3,25 @@
 
 import React from 'react';
 import {shallow, mount} from 'enzyme';
-import {FormattedMessage, IntlProvider} from 'react-intl';
+import {IntlProvider} from 'react-intl';
+
+import {MemoryRouter} from 'react-router-dom';
 
 import AlertBanner from 'components/alert_banner';
 import ExternalLoginButton from 'components/external_login_button/external_login_button';
-import LoadingScreen from 'components/loading_screen';
 import Login from 'components/login/login';
 import Input from 'components/widgets/inputs/input/input';
 import PasswordInput from 'components/widgets/inputs/password_input/password_input';
 import SaveButton from 'components/save_button';
 
-import users from 'mattermost-redux/actions/users';
 import {RequestStatus} from 'mattermost-redux/constants';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {ClientConfig} from '@mattermost/types/config';
+
 import LocalStorageStore from 'stores/local_storage_store';
 import {GlobalState} from 'types/store';
 import Constants, {WindowSizes} from 'utils/constants';
+
+import {ClientConfig} from '@mattermost/types/config';
 
 let mockState: GlobalState;
 let mockLocation = {pathname: '', search: '', hash: ''};
@@ -149,7 +151,7 @@ describe('components/login/Login', () => {
         mockConfig.EnableSignInWithEmail = 'true';
 
         const wrapper = mount(
-            <Login/>,
+            <MemoryRouter><Login/></MemoryRouter>,
         );
 
         const alertBanner = wrapper.find(AlertBanner).first();
@@ -172,12 +174,14 @@ describe('components/login/Login', () => {
 
         const wrapper = mount(
             <IntlProvider {...intlProviderProps}>
-                <Login/>
+                <MemoryRouter>
+                    <Login/>
+                </MemoryRouter>
             </IntlProvider>,
         );
 
-        const loadingScreen = wrapper.find(LoadingScreen).first();
-        expect(loadingScreen.find(FormattedMessage).first().props().defaultMessage).toEqual('Loading');
+        // eslint-disable-next-line react/jsx-key, react/jsx-no-literals
+        expect(wrapper.contains([<p>Loading</p>])).toEqual(true);
     });
 
     it('should handle initializing when storage not initalized', () => {
@@ -195,8 +199,8 @@ describe('components/login/Login', () => {
             </IntlProvider>,
         );
 
-        const loadingScreen = wrapper.find(LoadingScreen).first();
-        expect(loadingScreen.find(FormattedMessage).first().props().defaultMessage).toEqual('Loading');
+        // eslint-disable-next-line react/jsx-no-literals, react/jsx-key
+        expect(wrapper.contains([<p>Loading</p>])).toEqual(true);
     });
 
     it('should handle suppress session expired notification on sign in change', () => {
@@ -205,7 +209,9 @@ describe('components/login/Login', () => {
         mockConfig.EnableSignInWithEmail = 'true';
 
         const wrapper = mount(
-            <Login/>,
+            <MemoryRouter>
+                <Login/>
+            </MemoryRouter>,
         );
 
         expect(LocalStorageStore.getWasLoggedIn()).toEqual(false);
@@ -223,15 +229,10 @@ describe('components/login/Login', () => {
         LocalStorageStore.setWasLoggedIn(true);
         mockConfig.EnableSignInWithEmail = 'true';
 
-        jest.spyOn(users, 'login').mockImplementation(jest.fn().mockResolvedValue({
-            type: 'MOCK_LOGIN_REQUEST',
-            error: {
-                server_error_id: 'api.user.login.invalid_credentials_email_username',
-            },
-        }));
-
         const wrapper = mount(
-            <Login/>,
+            <MemoryRouter>
+                <Login/>
+            </MemoryRouter>,
         );
 
         let alertBanner = wrapper.find(AlertBanner).first();

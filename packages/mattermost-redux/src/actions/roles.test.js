@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import nock from 'nock';
 
 import * as Actions from 'mattermost-redux/actions/roles';
@@ -41,8 +39,8 @@ describe('Actions.Roles', () => {
             throw new Error(JSON.stringify(request.error));
         }
 
-        assert.equal(roles.system_admin.name, 'system_admin');
-        assert.deepEqual(roles.system_admin.permissions, TestHelper.basicRoles.system_admin.permissions);
+        expect(roles.system_admin.name).toEqual('system_admin');
+        expect(roles.system_admin.permissions).toEqual(TestHelper.basicRoles.system_admin.permissions);
     });
 
     it('getRoleByName', async () => {
@@ -59,8 +57,8 @@ describe('Actions.Roles', () => {
             throw new Error(JSON.stringify(request.error));
         }
 
-        assert.equal(roles.system_admin.name, 'system_admin');
-        assert.deepEqual(roles.system_admin.permissions, TestHelper.basicRoles.system_admin.permissions);
+        expect(roles.system_admin.name).toEqual('system_admin');
+        expect(roles.system_admin.permissions).toEqual(TestHelper.basicRoles.system_admin.permissions);
     });
 
     it('getRole', async () => {
@@ -78,8 +76,8 @@ describe('Actions.Roles', () => {
             throw new Error(JSON.stringify(request.error));
         }
 
-        assert.equal(roles.system_admin.name, 'system_admin');
-        assert.deepEqual(roles.system_admin.permissions, TestHelper.basicRoles.system_admin.permissions);
+        expect(roles.system_admin.name).toEqual('system_admin');
+        expect(roles.system_admin.permissions).toEqual(TestHelper.basicRoles.system_admin.permissions);
     });
 
     it('loadRolesIfNeeded', async () => {
@@ -102,20 +100,20 @@ describe('Actions.Roles', () => {
             },
         };
         await Actions.loadRolesIfNeeded(['test'])(store.dispatch, () => fakeState);
-        assert(!mock1.isDone());
-        assert(!mock2.isDone());
+        expect(mock1.isDone()).toBe(false);
+        expect(mock2.isDone()).toBe(false);
 
         fakeState.entities.roles.pending = new Set();
         fakeState.entities.general.serverVersion = null;
         await Actions.loadRolesIfNeeded(['test', 'test2'])(store.dispatch, () => fakeState);
-        assert(!mock1.isDone());
-        assert(!mock2.isDone());
+        expect(mock1.isDone()).toBe(false);
+        expect(mock2.isDone()).toBe(false);
 
         fakeState.entities.roles.pending = new Set();
         fakeState.entities.general.serverVersion = '4.9';
         await Actions.loadRolesIfNeeded(['test', 'test2', ''])(store.dispatch, () => fakeState);
-        assert(!mock1.isDone());
-        assert(mock2.isDone());
+        expect(mock1.isDone()).toBe(false);
+        expect(mock2.isDone()).toBe(true);
     });
 
     it('editRole', async () => {
@@ -125,6 +123,6 @@ describe('Actions.Roles', () => {
             reply(200, {});
 
         await Actions.editRole({id: roleId, test: 'test'})(store.dispatch, store.state);
-        assert(mock.isDone());
+        expect(mock.isDone()).toBe(true);
     });
 });

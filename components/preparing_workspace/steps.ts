@@ -1,15 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-//
+
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 
 export const WizardSteps = {
-    Organization: 'Organization',
-    Url: 'Url',
-    UseCase: 'UseCase',
     Plugins: 'Plugins',
-    Channel: 'Channel',
-    InviteMembers: 'InviteMembers',
     LaunchingWorkspace: 'LaunchingWorkspace',
 } as const;
 
@@ -25,18 +20,8 @@ export const Animations = {
 
 export function mapStepToNextName(step: WizardStep): string {
     switch (step) {
-    case WizardSteps.Organization:
-        return 'admin_onboarding_next_organization';
-    case WizardSteps.Url:
-        return 'admin_onboarding_next_url';
-    case WizardSteps.UseCase:
-        return 'admin_onboarding_next_use_case';
     case WizardSteps.Plugins:
         return 'admin_onboarding_next_plugins';
-    case WizardSteps.Channel:
-        return 'admin_onboarding_next_channel';
-    case WizardSteps.InviteMembers:
-        return 'admin_onboarding_next_invite_members';
     case WizardSteps.LaunchingWorkspace:
         return 'admin_onboarding_next_transitioning_out';
     default:
@@ -46,18 +31,8 @@ export function mapStepToNextName(step: WizardStep): string {
 
 export function mapStepToPrevious(step: WizardStep): string {
     switch (step) {
-    case WizardSteps.Organization:
-        return 'admin_onboarding_previous_organization';
-    case WizardSteps.Url:
-        return 'admin_onboarding_previous_url';
-    case WizardSteps.UseCase:
-        return 'admin_onboarding_previous_use_case';
     case WizardSteps.Plugins:
         return 'admin_onboarding_previous_plugins';
-    case WizardSteps.Channel:
-        return 'admin_onboarding_previous_channel';
-    case WizardSteps.InviteMembers:
-        return 'admin_onboarding_previous_invite_members';
     case WizardSteps.LaunchingWorkspace:
         return 'admin_onboarding_previous_transitioning_out';
     default:
@@ -67,18 +42,8 @@ export function mapStepToPrevious(step: WizardStep): string {
 
 export function mapStepToPageView(step: WizardStep): string {
     switch (step) {
-    case WizardSteps.Organization:
-        return 'pageview_admin_onboarding_organization';
-    case WizardSteps.Url:
-        return 'pageview_admin_onboarding_url';
-    case WizardSteps.UseCase:
-        return 'pageview_admin_onboarding_use_case';
     case WizardSteps.Plugins:
         return 'pageview_admin_onboarding_plugins';
-    case WizardSteps.Channel:
-        return 'pageview_admin_onboarding_channel';
-    case WizardSteps.InviteMembers:
-        return 'pageview_admin_onboarding_invite_members';
     case WizardSteps.LaunchingWorkspace:
         return 'pageview_admin_onboarding_transitioning_out';
     default:
@@ -88,18 +53,8 @@ export function mapStepToPageView(step: WizardStep): string {
 
 export function mapStepToSubmitFail(step: WizardStep): string {
     switch (step) {
-    case WizardSteps.Organization:
-        return 'admin_onboarding_organization_submit_fail';
-    case WizardSteps.Url:
-        return 'admin_onboarding_url_submit_fail';
-    case WizardSteps.UseCase:
-        return 'admin_onboarding_use_case_submit_fail';
     case WizardSteps.Plugins:
         return 'admin_onboarding_plugins_submit_fail';
-    case WizardSteps.Channel:
-        return 'admin_onboarding_channel_submit_fail';
-    case WizardSteps.InviteMembers:
-        return 'admin_onboarding_invite_members_submit_fail';
     case WizardSteps.LaunchingWorkspace:
         return 'admin_onboarding_transitioning_out_submit_fail';
     default:
@@ -109,18 +64,8 @@ export function mapStepToSubmitFail(step: WizardStep): string {
 
 export function mapStepToSkipName(step: WizardStep): string {
     switch (step) {
-    case WizardSteps.Organization:
-        return 'admin_onboarding_skip_organization';
-    case WizardSteps.Url:
-        return 'admin_onboarding_skip_url';
-    case WizardSteps.UseCase:
-        return 'admin_onboarding_skip_use_case';
     case WizardSteps.Plugins:
         return 'admin_onboarding_skip_plugins';
-    case WizardSteps.Channel:
-        return 'admin_onboarding_skip_channel';
-    case WizardSteps.InviteMembers:
-        return 'admin_onboarding_skip_invite_members';
     case WizardSteps.LaunchingWorkspace:
         return 'admin_onboarding_skip_transitioning_out';
     default:

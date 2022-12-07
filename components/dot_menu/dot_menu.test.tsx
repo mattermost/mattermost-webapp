@@ -51,7 +51,6 @@ describe('components/dot_menu/DotMenu', () => {
         userId: 'user_id_1',
         isMilitaryTime: false,
         showForwardPostNewLabel: false,
-        isPostForwardingEnabled: true,
     };
 
     test('should match snapshot, on Center', () => {

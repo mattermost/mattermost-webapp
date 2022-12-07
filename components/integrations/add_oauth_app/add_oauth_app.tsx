@@ -2,13 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React, {useState} from 'react';
+import {useHistory} from 'react-router-dom';
 
 import {OAuthApp} from '@mattermost/types/integrations.js';
 import {Team} from '@mattermost/types/teams.js';
 
 import {ActionResult} from 'mattermost-redux/types/actions.js';
 
-import {browserHistory} from 'utils/browser_history';
 import {t} from 'utils/i18n';
 import AbstractOAuthApp from '../abstract_oauth_app.jsx';
 
@@ -33,6 +33,8 @@ export type Props = {
 };
 
 const AddOAuthApp = ({team, actions}: Props): JSX.Element => {
+    const history = useHistory();
+
     const [serverError, setServerError] = useState('');
 
     const addOAuthApp = async (app: OAuthApp) => {
@@ -40,7 +42,7 @@ const AddOAuthApp = ({team, actions}: Props): JSX.Element => {
 
         const {data, error} = await actions.addOAuthApp(app);
         if (data) {
-            browserHistory.push(`/${team.name}/integrations/confirm?type=oauth2-apps&id=${data.id}`);
+            history.push(`/${team.name}/integrations/confirm?type=oauth2-apps&id=${data.id}`);
             return;
         }
 

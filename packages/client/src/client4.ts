@@ -12,7 +12,18 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {Product, SubscriptionResponse, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest} from '@mattermost/types/cloud';
+import {
+    Product,
+    CloudCustomer,
+    Address,
+    CloudCustomerPatch,
+    Invoice,
+    Limits,
+    NotifyAdminRequest,
+    Subscription,
+    ValidBusinessEmail,
+    SelfHostedSignupProgress,
+} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -77,8 +88,9 @@ import type {
     MarketplaceApp,
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
-import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse} from '@mattermost/types/posts';
-import {BoardsUsageResponse} from '@mattermost/types/boards';
+import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse, PostAcknowledgement} from '@mattermost/types/posts';
+import {Draft} from '@mattermost/types/drafts';
+import {BoardPatch, BoardsUsageResponse, BoardTemplate, Board, CreateBoardResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
 import {SamlCertificateStatus, SamlMetadataResponse} from '@mattermost/types/saml';
@@ -105,7 +117,7 @@ import {
     GetFilteredUsersStatsOpts,
     UserCustomStatus,
 } from '@mattermost/types/users';
-import {DeepPartial, RelationOneToOne} from '@mattermost/types/utilities';
+import {DeepPartial, RelationOneToOne, ValueOf} from '@mattermost/types/utilities';
 import {ProductNotices} from '@mattermost/types/product_notices';
 import {
     DataRetentionCustomPolicies,
@@ -116,7 +128,7 @@ import {
 import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
-import {TopChannelResponse, TopReactionResponse, TopThreadResponse} from '@mattermost/types/insights';
+import {LeastActiveChannelsResponse, TopChannelResponse, TopReactionResponse, TopThreadResponse, TopDMsResponse} from '@mattermost/types/insights';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
@@ -141,7 +153,7 @@ const GRAPHQL_ENDPOINT = '/api/v5/graphql';
 
 // placed here because currently not supported
 // to import from outside the package from main bundle
-const suitePluginIds = {
+export const suitePluginIds = {
     playbooks: 'playbooks',
     focalboard: 'focalboard',
     apps: 'com.mattermost.apps',
@@ -438,6 +450,10 @@ export default class Client4 {
         return `${this.getBaseRoute()}/cloud`;
     }
 
+    getHostedCustomerRoute() {
+        return `${this.getBaseRoute()}/hosted_customer`;
+    }
+
     getUsageRoute() {
         return `${this.getBaseRoute()}/usage`;
     }
@@ -456,6 +472,10 @@ export default class Client4 {
 
     getSystemRoute(): string {
         return `${this.getBaseRoute()}/system`;
+    }
+
+    getDraftsRoute() {
+        return `${this.getBaseRoute()}/drafts`;
     }
 
     getCSRFFromCookie() {
@@ -779,7 +799,7 @@ export default class Client4 {
         return response;
     };
 
-    getProfiles = (page = 0, perPage = PER_PAGE_DEFAULT, options = {}) => {
+    getProfiles = (page = 0, perPage = PER_PAGE_DEFAULT, options: Record<string, any> = {}) => {
         return this.doFetch<UserProfile[]>(
             `${this.getUsersRoute()}${buildQueryString({page, per_page: perPage, ...options})}`,
             {method: 'get'},
@@ -958,6 +978,9 @@ export default class Client4 {
         );
     };
 
+    /**
+     * @deprecated
+     */
     checkUserMfa = (loginId: string) => {
         return this.doFetch<{mfa_required: boolean}>(
             `${this.getUsersRoute()}/mfa`,
@@ -1273,7 +1296,7 @@ export default class Client4 {
     };
 
     getTeamMembers = (teamId: string, page = 0, perPage = PER_PAGE_DEFAULT, options: GetTeamMembersOpts) => {
-        return this.doFetch<TeamMembership>(
+        return this.doFetch<TeamMembership[]>(
             `${this.getTeamMembersRoute(teamId)}${buildQueryString({page, per_page: perPage, ...options})}`,
             {method: 'get'},
         );
@@ -2199,6 +2222,32 @@ export default class Client4 {
         );
     }
 
+    getLeastActiveChannelsForTeam = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<LeastActiveChannelsResponse>(
+            `${this.getTeamRoute(teamId)}/top/inactive_channels${buildQueryString({page, per_page: perPage, time_range: timeRange})}`,
+            {method: 'get'},
+        );
+    }
+    getMyTopDMs = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopDMsResponse>(
+            `${this.getUsersRoute()}/me/top/dms${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
+            {method: 'get'},
+        );
+    }
+
+    getMyLeastActiveChannels = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<LeastActiveChannelsResponse>(
+            `${this.getUsersRoute()}/me/top/inactive_channels${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
+            {method: 'get'},
+        );
+    }
+    getNewTeamMembers = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopDMsResponse>(
+            `${this.getTeamRoute(teamId)}/top/team_members${buildQueryString({page, per_page: perPage, time_range: timeRange})}`,
+            {method: 'get'},
+        );
+    }
+
     searchPostsWithParams = (teamId: string, params: any) => {
         this.trackEvent('api', 'api_posts_search', {team_id: teamId});
 
@@ -2316,6 +2365,24 @@ export default class Client4 {
             {method: 'get'},
         );
     }
+
+    acknowledgePost = (postId: string, userId: string) => {
+        this.trackEvent('api', 'api_posts_ack');
+
+        return this.doFetch<PostAcknowledgement>(
+            `${this.getUserRoute(userId)}/posts/${postId}/ack`,
+            {method: 'post'},
+        );
+    };
+
+    unacknowledgePost = (postId: string, userId: string) => {
+        this.trackEvent('api', 'api_posts_unack');
+
+        return this.doFetch<null>(
+            `${this.getUserRoute(userId)}/posts/${postId}/ack`,
+            {method: 'delete'},
+        );
+    };
 
     // Preference Routes
 
@@ -3479,8 +3546,36 @@ export default class Client4 {
 
     getBoardsUsage = () => {
         return this.doFetch<BoardsUsageResponse>(
-            `/plugins/${suitePluginIds.focalboard}/api/v1/limits`,
+            `/plugins/${suitePluginIds.focalboard}/api/v2/limits`,
             {method: 'get'},
+        );
+    }
+
+    getBoardsTemplates = (teamId = '0') => {
+        return this.doFetch<BoardTemplate[]>(
+            `/plugins/${suitePluginIds.focalboard}/api/v2/teams/${teamId}/templates`,
+            {method: 'get'},
+        );
+    }
+
+    createBoard = (board: Board) => {
+        return this.doFetch<CreateBoardResponse>(
+            `/plugins/${suitePluginIds.focalboard}/api/v2/boards`,
+            {method: 'POST', body: JSON.stringify({...board})},
+        );
+    }
+
+    createBoardFromTemplate = (boardTemplateId: string, teamId: string) => {
+        return this.doFetch<CreateBoardResponse>(
+            `/plugins/${suitePluginIds.focalboard}/api/v2/boards/${boardTemplateId}/duplicate?asTemplate=false&toTeam=${teamId}`,
+            {method: 'POST'},
+        );
+    }
+
+    patchBoard = (newBoardId: string, boardPatch: BoardPatch) => {
+        return this.doFetch<Board>(
+            `/plugins/${suitePluginIds.focalboard}/api/v2/boards/${newBoardId}`,
+            {method: 'PATCH', body: JSON.stringify({...boardPatch})},
         );
     }
 
@@ -3701,6 +3796,13 @@ export default class Client4 {
         );
     }
 
+    createGroupTeamsAndChannels = (userID: string) => {
+        return this.doFetch<Group>(
+            `${this.getBaseRoute()}/ldap/users/${userID}/group_sync_memberships`,
+            {method: 'post'},
+        );
+    }
+
     // Redirect Location
     getRedirectLocation = (urlParam: string) => {
         if (!urlParam.length) {
@@ -3788,9 +3890,10 @@ export default class Client4 {
         );
     };
 
-    getIntegrationsUsage = () => {
-        return this.doFetch<IntegrationsUsage>(
-            `${this.getUsageRoute()}/integrations`, {method: 'get'},
+    bootstrapSelfHostedSignup = () => {
+        return this.doFetch<{progress: ValueOf<typeof SelfHostedSignupProgress>}>(
+            `${this.getHostedCustomerRoute()}/bootstrap`,
+            {method: 'post'},
         );
     };
 
@@ -3821,9 +3924,9 @@ export default class Client4 {
         );
     }
 
-    notifyAdminToUpgrade = (req: NotifyAdminRequest) => {
+    notifyAdmin = (req: NotifyAdminRequest) => {
         return this.doFetchWithResponse<StatusOK>(
-            `${this.getCloudRoute()}/notify-admin-to-upgrade`,
+            `${this.getUsersRoute()}/notify-admin`,
             {method: 'post', body: JSON.stringify(req)},
         );
     }
@@ -3835,36 +3938,36 @@ export default class Client4 {
         );
     }
 
-    subscribeCloudProduct = (productId: string) => {
+    subscribeCloudProduct = (productId: string, seats = 0) => {
         return this.doFetch<CloudCustomer>(
             `${this.getCloudRoute()}/subscription`,
-            {method: 'put', body: JSON.stringify({product_id: productId})},
+            {method: 'put', body: JSON.stringify({product_id: productId, seats})},
         );
     }
 
     requestCloudTrial = (subscriptionId: string, email = '') => {
-        return this.doFetchWithResponse<CloudCustomer>(
+        return this.doFetchWithResponse<Subscription>(
             `${this.getCloudRoute()}/request-trial`,
             {method: 'put', body: JSON.stringify({email, subscription_id: subscriptionId})},
         );
     }
 
     validateBusinessEmail = (email = '') => {
-        return this.doFetchWithResponse<CloudCustomer>(
+        return this.doFetchWithResponse<ValidBusinessEmail>(
             `${this.getCloudRoute()}/validate-business-email`,
             {method: 'post', body: JSON.stringify({email})},
         );
     }
 
     validateWorkspaceBusinessEmail = () => {
-        return this.doFetchWithResponse<CloudCustomer>(
+        return this.doFetchWithResponse<ValidBusinessEmail>(
             `${this.getCloudRoute()}/validate-workspace-business-email`,
             {method: 'post'},
         );
     }
 
     getSubscription = () => {
-        return this.doFetch<SubscriptionResponse>(
+        return this.doFetch<Subscription>(
             `${this.getCloudRoute()}/subscription`,
             {method: 'get'},
         );
@@ -4002,7 +4105,7 @@ export default class Client4 {
 
     // Client Helpers
 
-    private doFetch = async <ClientDataResponse>(url: string, options: Options): Promise<ClientDataResponse> => {
+    protected doFetch = async <ClientDataResponse>(url: string, options: Options): Promise<ClientDataResponse> => {
         const {data} = await this.doFetchWithResponse<ClientDataResponse>(url, options);
 
         return data;
@@ -4018,10 +4121,6 @@ export default class Client4 {
         } catch (err) {
             throw new ClientError(this.getUrl(), {
                 message: 'Received invalid response from the server.',
-                intl: {
-                    id: 'mobile.request.invalid_response',
-                    defaultMessage: 'Received invalid response from the server.',
-                },
                 url,
             });
         }
@@ -4073,6 +4172,45 @@ export default class Client4 {
             this.telemetryHandler.pageVisited(this.userId, this.userRoles, category, name);
         }
     }
+
+    upsertDraft = async (draft: Draft, connectionId: string) => {
+        const result = await this.doFetch<Draft>(
+            `${this.getDraftsRoute()}`,
+            {
+                method: 'post',
+                body: JSON.stringify(draft),
+                headers: {
+                    'Connection-Id': `${connectionId}`,
+                },
+            },
+        );
+
+        return result;
+    };
+
+    getUserDrafts = (teamId: Team['id']) => {
+        return this.doFetch<Draft[]>(
+            `${this.getUserRoute('me')}/teams/${teamId}/drafts`,
+            {method: 'get'},
+        );
+    };
+
+    deleteDraft = (channelId: Channel['id'], rootId = '', connectionId: string) => {
+        let endpoint = `${this.getUserRoute('me')}/channels/${channelId}/drafts`;
+        if (rootId !== '') {
+            endpoint += `/${rootId}`;
+        }
+
+        return this.doFetch<null>(
+            endpoint,
+            {
+                method: 'delete',
+                headers: {
+                    'Connection-Id': `${connectionId}`,
+                },
+            },
+        );
+    };
 }
 
 export function parseAndMergeNestedHeaders(originalHeaders: any) {
@@ -4096,11 +4234,6 @@ export function parseAndMergeNestedHeaders(originalHeaders: any) {
 
 export class ClientError extends Error implements ServerError {
     url?: string;
-    intl?: {
-        id: string;
-        defaultMessage: string;
-        values?: any;
-    };
     server_error_id?: string;
     status_code?: number;
 
@@ -4109,7 +4242,6 @@ export class ClientError extends Error implements ServerError {
 
         this.message = data.message;
         this.url = data.url;
-        this.intl = data.intl;
         this.server_error_id = data.server_error_id;
         this.status_code = data.status_code;
 

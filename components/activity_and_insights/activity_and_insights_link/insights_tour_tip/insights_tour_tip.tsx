@@ -4,6 +4,7 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 
 import {setInsightsInitialisationState} from 'mattermost-redux/actions/preferences';
 
@@ -20,10 +21,7 @@ import {GlobalState} from 'types/store';
 
 import insightsPreview from 'images/Insights-Preview-Image.jpg';
 
-import {browserHistory} from 'utils/browser_history';
-
-import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import {TourTip, useMeasurePunchouts} from '@mattermost/components';
 import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
 
 const title = (
@@ -35,7 +33,7 @@ const title = (
 
 const screen = (
     <>
-        <FormattedMarkdownMessage
+        <FormattedMessage
             id='activityAndInsights.tutorialTip.description'
             defaultMessage='Check out the new Insights feature added to your workspace. See what content is most active, and learn how you and your teammates are using your workspace.'
         />
@@ -63,6 +61,8 @@ const nextBtn = (
 
 const InsightsTourTip = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
+
     const showTip = useSelector(showInsightsPulsatingDot);
     const showTaskList = useSelector((state: EntitiesGlobalState) => getBool(state, OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW));
     const teamUrl = useSelector((state: GlobalState) => getCurrentRelativeTeamUrl(state));
@@ -79,7 +79,7 @@ const InsightsTourTip = () => {
     const handleNext = useCallback(() => {
         dispatch(setInsightsInitialisationState({[Preferences.INSIGHTS_VIEWED]: true}));
         setTipOpened(false);
-        browserHistory.push(nextUrl);
+        history.push(nextUrl);
     }, []);
 
     const handleOpen = useCallback((e: React.MouseEvent) => {

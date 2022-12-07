@@ -56,10 +56,6 @@ describe('ClientError', () => {
     test('standard fields should be enumerable', () => {
         const error = new ClientError('https://example.com', {
             message: 'This is a message',
-            intl: {
-                id: 'test.error',
-                defaultMessage: 'This is a message with a translation',
-            },
             server_error_id: 'test.app_error',
             status_code: 418,
             url: 'https://example.com/api/v4/error',
@@ -68,7 +64,6 @@ describe('ClientError', () => {
         const copy = {...error};
 
         expect(copy.message).toEqual(error.message);
-        expect(copy.intl).toEqual(error.intl);
         expect(copy.server_error_id).toEqual(error.server_error_id);
         expect(copy.status_code).toEqual(error.status_code);
         expect(copy.url).toEqual(error.url);

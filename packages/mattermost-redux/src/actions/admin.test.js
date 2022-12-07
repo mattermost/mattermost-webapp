@@ -29,6 +29,8 @@ describe('Actions.Admin', () => {
 
     beforeEach(() => {
         store = configureStore();
+
+        nock.cleanAll();
     });
 
     afterAll(() => {
@@ -49,10 +51,6 @@ describe('Actions.Admin', () => {
         await Actions.getLogs()(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.admin.getLogs;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getLogs request failed');
-        }
 
         const logs = state.entities.admin.logs;
         assert.ok(logs);
@@ -78,10 +76,6 @@ describe('Actions.Admin', () => {
         await Actions.getAudits()(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.admin.getAudits;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getAudits request failed');
-        }
 
         const audits = state.entities.admin.audits;
         assert.ok(audits);
@@ -109,10 +103,6 @@ describe('Actions.Admin', () => {
         await Actions.getConfig()(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.admin.getConfig;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getConfig request failed');
-        }
 
         const config = state.entities.admin.config;
         assert.ok(config);
@@ -129,15 +119,6 @@ describe('Actions.Admin', () => {
                 },
             });
 
-        nock(Client4.getBaseRoute()).
-            post('/terms_of_service').
-            reply(201, {
-                create_at: 1537976679426,
-                id: '1234',
-                text: 'Terms of Service',
-                user_id: '1',
-            });
-
         const {data} = await Actions.getConfig()(store.dispatch, store.getState);
         const updated = JSON.parse(JSON.stringify(data));
         const oldSiteName = updated.TeamSettings.SiteName;
@@ -150,13 +131,9 @@ describe('Actions.Admin', () => {
 
         await Actions.updateConfig(updated)(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.updateConfig;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('updateConfig request failed');
-        }
+        let state = store.getState();
 
-        const config = state.entities.admin.config;
+        let config = state.entities.admin.config;
         assert.ok(config);
         assert.ok(config.TeamSettings);
         assert.ok(config.TeamSettings.SiteName === testSiteName);
@@ -168,6 +145,13 @@ describe('Actions.Admin', () => {
             reply(200, updated);
 
         await Actions.updateConfig(updated)(store.dispatch, store.getState);
+
+        state = store.getState();
+
+        config = state.entities.admin.config;
+        assert.ok(config);
+        assert.ok(config.TeamSettings);
+        assert.ok(config.TeamSettings.SiteName === oldSiteName);
     });
 
     it('reloadConfig', async () => {
@@ -177,11 +161,7 @@ describe('Actions.Admin', () => {
 
         await Actions.reloadConfig()(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.reloadConfig;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('reloadConfig request failed');
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('getEnvironmentConfig', async () => {
@@ -199,10 +179,6 @@ describe('Actions.Admin', () => {
         await store.dispatch(Actions.getEnvironmentConfig());
 
         const state = store.getState();
-        const request = state.requests.admin.getEnvironmentConfig;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getEnvironmentConfig request failed');
-        }
 
         const config = state.entities.admin.environmentConfig;
         assert.ok(config);
@@ -225,11 +201,7 @@ describe('Actions.Admin', () => {
 
         await Actions.testEmail(config)(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.testEmail;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('testEmail request failed');
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('testSiteURL', async () => {
@@ -239,11 +211,7 @@ describe('Actions.Admin', () => {
 
         await Actions.testSiteURL('http://lo.cal')(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.testSiteURL;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('testSiteURL request failed');
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('testS3Connection', async () => {
@@ -259,11 +227,7 @@ describe('Actions.Admin', () => {
 
         await Actions.testS3Connection(config)(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.testS3Connection;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('testS3Connection request failed');
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('invalidateCaches', async () => {
@@ -273,11 +237,7 @@ describe('Actions.Admin', () => {
 
         await Actions.invalidateCaches()(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.invalidateCaches;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('invalidateCaches request failed');
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('recycleDatabase', async () => {
@@ -287,11 +247,7 @@ describe('Actions.Admin', () => {
 
         await Actions.recycleDatabase()(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.recycleDatabase;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('recycleDatabase request failed');
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('createComplianceReport', async () => {
@@ -366,10 +322,6 @@ describe('Actions.Admin', () => {
         await Actions.getComplianceReport(report.id)(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.admin.getCompliance;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getComplianceReport request failed err=' + request.error);
-        }
 
         const reports = state.entities.admin.complianceReports;
         assert.ok(reports);
@@ -411,10 +363,6 @@ describe('Actions.Admin', () => {
         await Actions.getComplianceReports()(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.admin.getCompliance;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getComplianceReports request failed err=' + request.error);
-        }
 
         const reports = state.entities.admin.complianceReports;
         assert.ok(reports);
@@ -430,11 +378,7 @@ describe('Actions.Admin', () => {
 
         await Actions.uploadBrandImage(testImageData)(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.uploadBrandImage;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('uploadBrandImage request failed');
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('deleteBrandImage', async () => {
@@ -444,11 +388,7 @@ describe('Actions.Admin', () => {
 
         await Actions.deleteBrandImage()(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.deleteBrandImage;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('deleteBrandImage request failed');
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('getClusterStatus', async () => {
@@ -464,10 +404,6 @@ describe('Actions.Admin', () => {
         await Actions.getClusterStatus()(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.admin.getClusterStatus;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getClusterStatus request failed');
-        }
 
         const clusterInfo = state.entities.admin.clusterInfo;
         assert.ok(clusterInfo);
@@ -482,11 +418,7 @@ describe('Actions.Admin', () => {
 
         await Actions.testLdap()(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.testLdap;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('testLdap request failed err=' + request.error);
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('syncLdap', async () => {
@@ -496,11 +428,7 @@ describe('Actions.Admin', () => {
 
         await Actions.syncLdap()(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.syncLdap;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('syncLdap request failed err=' + request.error);
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('getSamlCertificateStatus', async () => {
@@ -515,10 +443,6 @@ describe('Actions.Admin', () => {
         await Actions.getSamlCertificateStatus()(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.admin.getSamlCertificateStatus;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getSamlCertificateStatus request failed err=' + request.error);
-        }
 
         const certStatus = state.entities.admin.samlCertStatus;
         assert.ok(certStatus);
@@ -536,11 +460,7 @@ describe('Actions.Admin', () => {
 
         await Actions.uploadPublicSamlCertificate(testFileData)(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.uploadPublicSamlCertificate;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('uploadPublicSamlCertificate request failed err=' + request.error);
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('uploadPrivateSamlCertificate', async () => {
@@ -552,11 +472,7 @@ describe('Actions.Admin', () => {
 
         await Actions.uploadPrivateSamlCertificate(testFileData)(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.uploadPrivateSamlCertificate;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('uploadPrivateSamlCertificate request failed err=' + request.error);
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('uploadIdpSamlCertificate', async () => {
@@ -568,11 +484,7 @@ describe('Actions.Admin', () => {
 
         await Actions.uploadIdpSamlCertificate(testFileData)(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.uploadIdpSamlCertificate;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('uploadIdpSamlCertificate request failed err=' + request.error);
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('removePublicSamlCertificate', async () => {
@@ -582,11 +494,7 @@ describe('Actions.Admin', () => {
 
         await Actions.removePublicSamlCertificate()(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.removePublicSamlCertificate;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('removePublicSamlCertificate request failed err=' + request.error);
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('removePrivateSamlCertificate', async () => {
@@ -596,11 +504,7 @@ describe('Actions.Admin', () => {
 
         await Actions.removePrivateSamlCertificate()(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.removePrivateSamlCertificate;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('removePrivateSamlCertificate request failed err=' + request.error);
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('removeIdpSamlCertificate', async () => {
@@ -610,11 +514,7 @@ describe('Actions.Admin', () => {
 
         await Actions.removeIdpSamlCertificate()(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.removeIdpSamlCertificate;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('removeIdpSamlCertificate request failed err=' + request.error);
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('uploadPublicLdapCertificate', async () => {
@@ -624,10 +524,9 @@ describe('Actions.Admin', () => {
             post('/ldap/certificate/public').
             reply(200, OK_RESPONSE);
 
-        const request = await Actions.uploadPublicLdapCertificate(testFileData)(store.dispatch, store.getState);
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('uploadPublicLdapCertificate request failed err=' + request.error);
-        }
+        await Actions.uploadPublicLdapCertificate(testFileData)(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('uploadPrivateLdapCertificate', async () => {
@@ -637,10 +536,9 @@ describe('Actions.Admin', () => {
             post('/ldap/certificate/private').
             reply(200, OK_RESPONSE);
 
-        const request = await Actions.uploadPrivateLdapCertificate(testFileData)(store.dispatch, store.getState);
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('uploadPrivateLdapCertificate request failed err=' + request.error);
-        }
+        await Actions.uploadPrivateLdapCertificate(testFileData)(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('removePublicLdapCertificate', async () => {
@@ -648,10 +546,9 @@ describe('Actions.Admin', () => {
             delete('/ldap/certificate/public').
             reply(200, OK_RESPONSE);
 
-        const request = await Actions.removePublicLdapCertificate()(store.dispatch, store.getState);
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('removePublicLdapCertificate request failed err=' + request.error);
-        }
+        await Actions.removePublicLdapCertificate()(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('removePrivateLdapCertificate', async () => {
@@ -659,10 +556,9 @@ describe('Actions.Admin', () => {
             delete('/ldap/certificate/private').
             reply(200, OK_RESPONSE);
 
-        const request = await Actions.removePrivateLdapCertificate()(store.dispatch, store.getState);
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('removePrivateLdapCertificate request failed err=' + request.error);
-        }
+        await Actions.removePrivateLdapCertificate()(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('testElasticsearch', async () => {
@@ -672,11 +568,7 @@ describe('Actions.Admin', () => {
 
         await Actions.testElasticsearch({})(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.testElasticsearch;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('testElasticsearch request failed err=' + request.error);
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('purgeElasticsearchIndexes', async () => {
@@ -686,11 +578,7 @@ describe('Actions.Admin', () => {
 
         await Actions.purgeElasticsearchIndexes()(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.purgeElasticsearchIndexes;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('purgeElasticsearchIndexes request failed err=' + request.error);
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('uploadLicense', async () => {
@@ -702,11 +590,7 @@ describe('Actions.Admin', () => {
 
         await Actions.uploadLicense(testFileData)(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.uploadLicense;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('uploadLicense request failed err=' + request.error);
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('removeLicense', async () => {
@@ -716,11 +600,7 @@ describe('Actions.Admin', () => {
 
         await Actions.removeLicense()(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.removeLicense;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('removeLicense request failed err=' + request.error);
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('getStandardAnalytics', async () => {
@@ -734,10 +614,6 @@ describe('Actions.Admin', () => {
         await Actions.getStandardAnalytics(TestHelper.basicTeam.id)(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.admin.getAnalytics;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getAnalytics request failed');
-        }
 
         const analytics = state.entities.admin.analytics;
         assert.ok(analytics);
@@ -760,10 +636,6 @@ describe('Actions.Admin', () => {
         await Actions.getAdvancedAnalytics(TestHelper.basicTeam.id)(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.admin.getAnalytics;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getAnalytics request failed');
-        }
 
         const analytics = state.entities.admin.analytics;
         assert.ok(analytics);
@@ -786,10 +658,6 @@ describe('Actions.Admin', () => {
         await Actions.getPostsPerDayAnalytics(TestHelper.basicTeam.id)(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.admin.getAnalytics;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getAnalytics request failed');
-        }
 
         const analytics = state.entities.admin.analytics;
         assert.ok(analytics);
@@ -812,10 +680,6 @@ describe('Actions.Admin', () => {
         await Actions.getUsersPerDayAnalytics(TestHelper.basicTeam.id)(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.admin.getAnalytics;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getAnalytics request failed');
-        }
 
         const analytics = state.entities.admin.analytics;
         assert.ok(analytics);
@@ -832,25 +696,25 @@ describe('Actions.Admin', () => {
         const data2 = fs.createReadStream('tests/setup.js');
         const testPlugin = {id: 'testplugin', webapp: {bundle_path: '/static/somebundle.js'}};
 
-        nock(Client4.getBaseRoute()).
+        let scope = nock(Client4.getBaseRoute()).
             post('/plugins', (body) => {
                 return !body.match(/Content-Disposition: form-data; name="force"\r\n\r\ntrue\r\n/);
             }).
             reply(200, testPlugin);
         await Actions.uploadPlugin(data1, false)(store.dispatch, store.getState);
 
-        nock(Client4.getBaseRoute()).
+        expect(scope.isDone()).toBe(true);
+
+        scope = nock(Client4.getBaseRoute()).
             post('/plugins', (body) => {
                 return body.match(/Content-Disposition: form-data; name="force"\r\n\r\ntrue\r\n/);
             }).
             reply(200, testPlugin);
+
+        expect(scope.isDone()).not.toBe(true);
         await Actions.uploadPlugin(data2, true)(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.uploadPlugin;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('uploadPlugin request failed err=' + request.error);
-        }
+        expect(scope.isDone()).toBe(true);
     });
 
     it('uploadPlugin', async () => {
@@ -862,11 +726,7 @@ describe('Actions.Admin', () => {
             reply(200, testPlugin);
         await Actions.uploadPlugin(testFileData, false)(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.uploadPlugin;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('uploadPlugin request failed err=' + request.error);
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('overwriteInstallPlugin', async () => {
@@ -874,28 +734,20 @@ describe('Actions.Admin', () => {
         const testPlugin = {id: 'testplugin', webapp: {bundle_path: '/static/somebundle.js'}};
 
         let urlMatch = `/plugins/install_from_url?plugin_download_url=${downloadUrl}&force=false`;
-        nock(Client4.getBaseRoute()).
+        let scope = nock(Client4.getBaseRoute()).
             post(urlMatch).
             reply(200, testPlugin);
         await Actions.installPluginFromUrl(downloadUrl, false)(store.dispatch, store.getState);
 
-        let state = store.getState();
-        let request = state.requests.admin.installPluginFromUrl;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('uploadPlugin request failed err=' + request.error);
-        }
+        expect(scope.isDone()).toBe(true);
 
         urlMatch = `/plugins/install_from_url?plugin_download_url=${downloadUrl}&force=true`;
-        nock(Client4.getBaseRoute()).
+        scope = nock(Client4.getBaseRoute()).
             post(urlMatch).
             reply(200, testPlugin);
         await Actions.installPluginFromUrl(downloadUrl, true)(store.dispatch, store.getState);
 
-        state = store.getState();
-        request = state.requests.admin.installPluginFromUrl;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('uploadPlugin request failed err=' + request.error);
-        }
+        expect(scope.isDone()).toBe(true);
     });
 
     it('installPluginFromUrl', async () => {
@@ -908,11 +760,7 @@ describe('Actions.Admin', () => {
             reply(200, testPlugin);
         await Actions.installPluginFromUrl(downloadUrl, false)(store.dispatch, store.getState);
 
-        const state = store.getState();
-        const request = state.requests.admin.installPluginFromUrl;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('uploadPlugin request failed err=' + request.error);
-        }
+        expect(nock.isDone()).toBe(true);
     });
 
     it('getPlugins', async () => {
@@ -926,10 +774,6 @@ describe('Actions.Admin', () => {
         await Actions.getPlugins()(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.admin.getPlugins;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getPlugins request failed err=' + request.error);
-        }
 
         const plugins = state.entities.admin.plugins;
         assert.ok(plugins);
@@ -956,10 +800,6 @@ describe('Actions.Admin', () => {
         await Actions.getPluginStatuses()(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.admin.getPluginStatuses;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getPluginStatuses request failed err=' + request.error);
-        }
 
         const pluginStatuses = state.entities.admin.pluginStatuses;
         assert.ok(pluginStatuses);
@@ -989,11 +829,6 @@ describe('Actions.Admin', () => {
 
         await Actions.removePlugin(testPlugin.id)(store.dispatch, store.getState);
 
-        const request = state.requests.admin.removePlugin;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('removePlugin request failed err=' + request.error);
-        }
-
         state = store.getState();
         plugins = state.entities.admin.plugins;
         assert.ok(plugins);
@@ -1020,11 +855,6 @@ describe('Actions.Admin', () => {
             reply(200, OK_RESPONSE);
 
         await Actions.enablePlugin(testPlugin.id)(store.dispatch, store.getState);
-
-        const request = state.requests.admin.enablePlugin;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error(request.error);
-        }
 
         state = store.getState();
         plugins = state.entities.admin.plugins;
@@ -1054,11 +884,6 @@ describe('Actions.Admin', () => {
 
         await Actions.disablePlugin(testPlugin.id)(store.dispatch, store.getState);
 
-        const request = state.requests.admin.disablePlugin;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error(request.error);
-        }
-
         state = store.getState();
         plugins = state.entities.admin.plugins;
         assert.ok(plugins);
@@ -1082,10 +907,6 @@ describe('Actions.Admin', () => {
         await Actions.getLdapGroups(0, 100, null)(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.admin.getLdapGroups;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getLdapGroups request failed err=' + request.error);
-        }
 
         const groups = state.entities.admin.ldapGroups;
         assert.ok(groups);
@@ -1094,81 +915,57 @@ describe('Actions.Admin', () => {
     });
 
     it('getLdapGroups is_linked', async () => {
-        nock(Client4.getBaseRoute()).
+        let scope = nock(Client4.getBaseRoute()).
             get('/ldap/groups?page=0&per_page=100&q=&is_linked=true').
             reply(200, NO_GROUPS_RESPONSE);
 
         await Actions.getLdapGroups(0, 100, {q: '', is_linked: true})(store.dispatch, store.getState);
 
-        let state = store.getState();
-        let request = state.requests.admin.getLdapGroups;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getLdapGroups request failed err=' + request.error);
-        }
+        expect(scope.isDone()).toBe(true);
 
-        nock(Client4.getBaseRoute()).
+        scope = nock(Client4.getBaseRoute()).
             get('/ldap/groups?page=0&per_page=100&q=&is_linked=false').
             reply(200, NO_GROUPS_RESPONSE);
 
         await Actions.getLdapGroups(0, 100, {q: '', is_linked: false})(store.dispatch, store.getState);
 
-        state = store.getState();
-        request = state.requests.admin.getLdapGroups;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getLdapGroups request failed err=' + request.error);
-        }
+        expect(scope.isDone()).toBe(true);
     });
 
     it('getLdapGroups is_configured', async () => {
-        nock(Client4.getBaseRoute()).
+        let scope = nock(Client4.getBaseRoute()).
             get('/ldap/groups?page=0&per_page=100&q=&is_configured=true').
             reply(200, NO_GROUPS_RESPONSE);
 
         await Actions.getLdapGroups(0, 100, {q: '', is_configured: true})(store.dispatch, store.getState);
 
-        let state = store.getState();
-        let request = state.requests.admin.getLdapGroups;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getLdapGroups request failed err=' + request.error);
-        }
+        expect(scope.isDone()).toBe(true);
 
-        nock(Client4.getBaseRoute()).
+        scope = nock(Client4.getBaseRoute()).
             get('/ldap/groups?page=0&per_page=100&q=&is_configured=false').
             reply(200, NO_GROUPS_RESPONSE);
 
         await Actions.getLdapGroups(0, 100, {q: '', is_configured: false})(store.dispatch, store.getState);
 
-        state = store.getState();
-        request = state.requests.admin.getLdapGroups;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getLdapGroups request failed err=' + request.error);
-        }
+        expect(scope.isDone()).toBe(true);
     });
 
     it('getLdapGroups with name query', async () => {
-        nock(Client4.getBaseRoute()).
+        let scope = nock(Client4.getBaseRoute()).
             get('/ldap/groups?page=0&per_page=100&q=est').
             reply(200, NO_GROUPS_RESPONSE);
 
         await Actions.getLdapGroups(0, 100, {q: 'est'})(store.dispatch, store.getState);
 
-        let state = store.getState();
-        let request = state.requests.admin.getLdapGroups;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getLdapGroups request failed err=' + request.error);
-        }
+        expect(scope.isDone()).toBe(true);
 
-        nock(Client4.getBaseRoute()).
+        scope = nock(Client4.getBaseRoute()).
             get('/ldap/groups?page=0&per_page=100&q=esta').
             reply(200, NO_GROUPS_RESPONSE);
 
         await Actions.getLdapGroups(0, 100, {q: 'esta'})(store.dispatch, store.getState);
 
-        state = store.getState();
-        request = state.requests.admin.getLdapGroups;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getLdapGroups request failed err=' + request.error);
-        }
+        expect(scope.isDone()).toBe(true);
     });
 
     it('linkLdapGroup', async () => {
@@ -1257,7 +1054,7 @@ describe('Actions.Admin', () => {
 
         await Actions.setSamlIdpCertificateFromMetadata(samlIdpPublicCertificateText)(store.dispatch, store.getState);
 
-        // This test doesn't appear to actually check anything?
+        expect(nock.isDone()).toBe(true);
     });
 
     it('sendWarnMetricAck', async () => {
@@ -1265,10 +1062,12 @@ describe('Actions.Admin', () => {
             id: 'metric1',
         };
         nock(Client4.getBaseRoute()).
-            post('/warn_metrics/ack').
+            post('/warn_metrics/ack/metric1').
             reply(200, OK_RESPONSE);
 
         await Actions.sendWarnMetricAck(warnMetricAck.id, false)(store.dispatch, store.getState);
+
+        expect(nock.isDone()).toBe(true);
     });
 
     it('getDataRetentionCustomPolicies', async () => {

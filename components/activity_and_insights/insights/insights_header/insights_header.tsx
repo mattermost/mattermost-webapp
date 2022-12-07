@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo} from 'react';
 
 import classNames from 'classnames';
@@ -18,7 +19,7 @@ type Props = {
     filterType: string;
     setFilterTypeTeam: () => void;
     setFilterTypeMy: () => void;
-    timeFrame: SelectOption;
+    timeFrame: string;
     setTimeFrame: (value: SelectOption) => void;
 }
 

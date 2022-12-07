@@ -54,10 +54,14 @@ exports[`component/view_user_group_modal should match snapshot 1`] = `
     <div
       className="user-groups-search"
     >
-      <SearchIcon />
       <ForwardRef
         className="user-group-search-input"
         data-testid="searchInput"
+        inputPrefix={
+          <i
+            className="icon icon-magnify"
+          />
+        }
         onChange={[Function]}
         placeholder="Search group members"
         type="text"
@@ -109,10 +113,7 @@ exports[`component/view_user_group_modal should match snapshot 1`] = `
           }
         }
       />
-      <LoadingScreen
-        position="relative"
-        style={Object {}}
-      />
+      <LoadingScreen />
     </div>
   </ModalBody>
 </Modal>

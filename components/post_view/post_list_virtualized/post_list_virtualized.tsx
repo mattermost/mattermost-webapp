@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 /* eslint-disable max-lines */
+
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList, OnItemsRenderedArgs} from 'dynamic-virtualized-list';
@@ -625,7 +626,6 @@ export default class PostList extends React.PureComponent<Props, State> {
                 updateNewMessagesAtInChannel={this.updateNewMessagesAtInChannel}
                 updateLastViewedBottomAt={this.updateLastViewedBottomAt}
                 shouldStartFromBottomWhenUnread={this.props.shouldStartFromBottomWhenUnread}
-
                 isNewMessageLineReached={this.state.isNewMessageLineReached}
                 channelId={this.props.channelId}
                 focusedPostId={this.props.focusedPostId}

@@ -41,17 +41,18 @@ declare namespace Cypress {
          * @example
          *   cy.apiLoginWithMFA({username: 'sysadmin', password: 'secret', token: '123456'});
          */
-        apiLoginWithMFA(user: UserProfile, token: string): Chainable<UserProfile>;
+        apiLoginWithMFA(user: UserProfile, token: string): Chainable<{user: UserProfile}>;
 
         /**
          * Login as admin via API.
          * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
+         * @param {Object} requestOptions - cypress' request options object, see https://docs.cypress.io/api/commands/request#Arguments
          * @returns {UserProfile} out.user: `UserProfile` object
          *
          * @example
          *   cy.apiAdminLogin();
          */
-        apiAdminLogin(): Chainable<UserProfile>;
+        apiAdminLogin(requestOptions?: Record<string, any>): Chainable<UserProfile>;
 
         /**
          * Login as admin via API.
@@ -62,7 +63,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiAdminLoginWithMFA(token);
          */
-        apiAdminLoginWithMFA(): Chainable<UserProfile>;
+        apiAdminLoginWithMFA(token: string): Chainable<{user: UserProfile}>;
 
         /**
          * Logout a user's active session from server via API.
@@ -77,14 +78,14 @@ declare namespace Cypress {
         /**
          * Get current user.
          * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}/get
-         * @returns {UserProfile} out.user: `UserProfile` object
+         * @returns {user: UserProfile} out.user: `UserProfile` object
          *
          * @example
          *   cy.apiGetMe().then(({user}) => {
          *       // do something with user
          *   });
          */
-        apiGetMe(): Chainable<UserProfile>;
+        apiGetMe(): Chainable<{user: UserProfile}>;
 
         /**
          * Get a user by ID.
@@ -110,7 +111,7 @@ declare namespace Cypress {
          *       // do something with user
          *   });
          */
-        apiGetUserByEmail(email: string): Chainable<UserProfile>;
+        apiGetUserByEmail(email: string): Chainable<{user: UserProfile}>;
 
         /**
          * Get users by usernames.
@@ -147,7 +148,7 @@ declare namespace Cypress {
          *       // do something with user
          *   });
          */
-        apiPatchUser(userId: string, userData: UserProfile): Chainable<UserProfile>;
+        apiPatchUser(userId: string, userData: UserProfile): Chainable<{user: UserProfile}>;
 
         /**
          * Convenient command to patch a current user.
@@ -192,7 +193,7 @@ declare namespace Cypress {
          *
          * @returns {UserProfile} `out.sysadmin` as `UserProfile` object
          */
-        apiCreateCustomAdmin(options: {loginAfter: boolean; hideAdminTrialModal: boolean}): Chainable<{sysadmin: UserProfile}>;
+        apiCreateCustomAdmin(options: {loginAfter: boolean; hideAdminTrialModal?: boolean}): Chainable<{sysadmin: UserProfile}>;
 
         /**
          * Create a new user with an options to set name prefix and be able to bypass tutorial steps.
@@ -205,7 +206,12 @@ declare namespace Cypress {
          * @example
          *   cy.apiCreateUser(options);
          */
-        apiCreateUser(options: Record<string, any>): Chainable<UserProfile>;
+        apiCreateUser(options?: {
+            user?: Partial<UserProfile>;
+            prefix?: string;
+            bypassTutorial?: boolean;
+            showOnboarding?: boolean;
+        }): Chainable<{user: UserProfile}>;
 
         /**
          * Create a new guest user with an options to set name prefix and be able to bypass tutorial steps.
@@ -217,7 +223,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiCreateGuestUser(options);
          */
-        apiCreateGuestUser(options: Record<string, any>): Chainable<UserProfile>;
+        apiCreateGuestUser(options: Record<string, any>): Chainable<{guest: UserProfile}>;
 
         /**
          * Revoke all active sessions for a user.
@@ -302,16 +308,16 @@ declare namespace Cypress {
         apiPromoteGuestToUser(userId: string): Chainable<UserProfile>;
 
         /**
-        * Verifies a user's email via userId without having to go to the user's email inbox.
-        * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1email~1verify~1member/post
-        * @param {string} userId - User ID
-        * @returns {UserProfile} out.user: `UserProfile` object
-        *
-        * @example
-        *   cy.apiVerifyUserEmailById('user-id').then(({user}) => {
-        *       // do something with user
-        *   });
-        */
+         * Verifies a user's email via userId without having to go to the user's email inbox.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1email~1verify~1member/post
+         * @param {string} userId - User ID
+         * @returns {UserProfile} out.user: `UserProfile` object
+         *
+         * @example
+         *   cy.apiVerifyUserEmailById('user-id').then(({user}) => {
+         *       // do something with user
+         *   });
+         */
         apiVerifyUserEmailById(userId: string): Chainable<UserProfile>;
 
         /**

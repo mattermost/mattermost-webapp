@@ -166,8 +166,10 @@ function handleLeaveChannel(state: State, action: GenericAction, extra: ExtraDat
     for (const thread of extra.threadsToDelete) {
         if (nextState[teamId]) {
             const index = nextState[teamId].indexOf(thread.id);
-            nextState[teamId] = [...nextState[teamId].slice(0, index), ...nextState[teamId].slice(index + 1)];
-            threadDeleted = true;
+            if (index !== -1) {
+                nextState[teamId] = [...nextState[teamId].slice(0, index), ...nextState[teamId].slice(index + 1)];
+                threadDeleted = true;
+            }
         }
     }
 
@@ -191,6 +193,53 @@ function handleLeaveTeam(state: State, action: GenericAction) {
 
     return nextState;
 }
+
+function handleSingleTeamThreadRead(state: ThreadsState['unreadThreadsInTeam'], action: GenericAction, teamId: string, extra: ExtraData) {
+    const {
+        id,
+        newUnreadMentions,
+        newUnreadReplies,
+    } = action.data;
+    const team = state[teamId] || [];
+    const index = team.indexOf(id);
+
+    // the thread is not in the unread list
+    if (index === -1) {
+        const thread = extra.threads[id];
+
+        // the thread is unread
+        if (thread && (newUnreadReplies > 0 || newUnreadMentions > 0)) {
+            // if it's newer add it, we don't care about ordering here since we order on the selector
+            if (shouldAddThreadId(team, thread, extra.threads)) {
+                return {
+                    ...state,
+                    [teamId]: [
+                        ...team,
+                        id,
+                    ],
+                };
+            }
+        }
+
+        // do nothing when the thread is read
+        return state;
+    }
+
+    // do nothing when the thread exists and it's unread
+    if (newUnreadReplies > 0 || newUnreadMentions > 0) {
+        return state;
+    }
+
+    // if the thread is read remove it
+    return {
+        ...state,
+        [teamId]: [
+            ...team.slice(0, index),
+            ...team.slice(index + 1),
+        ],
+    };
+}
+
 export const threadsInTeamReducer = (state: ThreadsState['threadsInTeam'] = {}, action: GenericAction, extra: ExtraData) => {
     switch (action.type) {
     case ThreadTypes.RECEIVED_THREAD:
@@ -214,50 +263,18 @@ export const threadsInTeamReducer = (state: ThreadsState['threadsInTeam'] = {}, 
 export const unreadThreadsInTeamReducer = (state: ThreadsState['unreadThreadsInTeam'] = {}, action: GenericAction, extra: ExtraData) => {
     switch (action.type) {
     case ThreadTypes.READ_CHANGED_THREAD: {
-        const {
-            id,
-            teamId,
-            newUnreadMentions,
-            newUnreadReplies,
-        } = action.data;
-        const team = state[teamId] || [];
-        const index = team.indexOf(id);
+        const {teamId} = action.data;
+        if (teamId === '') {
+            const teamIds = Object.keys(state);
 
-        // the thread is not in the unread list
-        if (index === -1) {
-            const thread = extra.threads[id];
-
-            // the thread is unread
-            if (thread && (newUnreadReplies > 0 || newUnreadMentions > 0)) {
-                // if it's newer add it, we don't care about ordering here since we order on the selector
-                if (shouldAddThreadId(team, thread, extra.threads)) {
-                    return {
-                        ...state,
-                        [teamId]: [
-                            ...team,
-                            id,
-                        ],
-                    };
-                }
+            let newState = {...state};
+            for (const teamId of teamIds) {
+                newState = handleSingleTeamThreadRead(newState, action, teamId, extra);
             }
-
-            // do nothing when the thread is read
-            return state;
+            return newState;
         }
 
-        // do nothing when the thread exists and it's unread
-        if (newUnreadReplies > 0 || newUnreadMentions > 0) {
-            return state;
-        }
-
-        // if the thread is read remove it
-        return {
-            ...state,
-            [teamId]: [
-                ...team.slice(0, index),
-                ...team.slice(index + 1),
-            ],
-        };
+        return handleSingleTeamThreadRead(state, action, teamId, extra);
     }
     case ThreadTypes.RECEIVED_THREAD:
         if (action.data.thread.unread_replies > 0 || action.data.thread.unread_mentions > 0) {

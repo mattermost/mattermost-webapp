@@ -56,26 +56,35 @@ exports[`components/ProfilePicture should match snapshot, profile and src, defau
   }
   placement="right"
   rootClose={true}
-  trigger="click"
+  trigger={
+    Array [
+      "click",
+    ]
+  }
 >
-  <button
-    className="status-wrapper style--none "
-    tabIndex={-1}
+  <span
+    className="status-wrapper  "
   >
-    <span
-      className="profile-icon "
+    <RoundButton
+      className="style--none"
+      size="md"
     >
-      <Memo(Avatar)
-        size="md"
-        url="http://example.com/emoji.png"
-      />
-    </span>
+      <span
+        className="profile-icon "
+      >
+        <Memo(Avatar)
+          size="md"
+          tabIndex={-1}
+          url="http://example.com/emoji.png"
+        />
+      </span>
+    </RoundButton>
     <StatusIcon
       button={false}
       className=""
       status="away"
     />
-  </button>
+  </span>
 </OverlayTrigger>
 `;
 

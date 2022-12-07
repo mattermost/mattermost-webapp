@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useCallback} from 'react';
 
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -9,9 +9,11 @@ import styled from 'styled-components';
 
 import {Channel} from '@mattermost/types/channels';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
+
+import {closeRightHandSide, showChannelInfo} from 'actions/views/rhs';
+
 import {RHSStates} from 'utils/constants';
 import {RhsState} from 'types/store/rhs';
-import {closeRightHandSide, showChannelInfo} from 'actions/views/rhs';
 
 import HeaderIconWrapper from './components/header_icon_wrapper';
 
@@ -30,22 +32,27 @@ const Icon = styled.i`
 const ChannelInfoButton = ({channel}: Props) => {
     const dispatch = useDispatch();
 
-    const isRhsOpen: boolean = useSelector(getIsRhsOpen);
     const rhsState: RhsState = useSelector(getRhsState);
-    const rhsOpenOnChannelInfo = isRhsOpen && rhsState === RHSStates.CHANNEL_INFO;
+    const isRhsOpen: boolean = useSelector(getIsRhsOpen);
+    const isChannelInfo = rhsState === RHSStates.CHANNEL_INFO ||
+        rhsState === RHSStates.CHANNEL_MEMBERS ||
+        rhsState === RHSStates.CHANNEL_FILES ||
+        rhsState === RHSStates.PIN;
 
-    const toggleRHS = () => {
-        if (rhsState === RHSStates.CHANNEL_INFO) {
-            dispatch(closeRightHandSide());
+    const buttonActive = isRhsOpen && isChannelInfo;
+    const toggleRHS = useCallback(() => {
+        if (buttonActive) {
+            const action = isChannelInfo ? closeRightHandSide() : showChannelInfo(channel.id);
+            dispatch(action);
         } else {
             dispatch(showChannelInfo(channel.id));
         }
-    };
+    }, [buttonActive, channel.id, isChannelInfo, dispatch]);
 
-    const tooltipKey = rhsOpenOnChannelInfo ? 'closeChannelInfo' : 'openChannelInfo';
+    const tooltipKey = buttonActive ? 'closeChannelInfo' : 'openChannelInfo';
 
     let buttonClass = 'channel-header__icon';
-    if (rhsOpenOnChannelInfo) {
+    if (buttonActive) {
         buttonClass += ' channel-header__icon--active-inverted';
     }
 
@@ -54,6 +61,7 @@ const ChannelInfoButton = ({channel}: Props) => {
             buttonClass={buttonClass}
             buttonId='channel-info-btn'
             onClick={toggleRHS}
+            ariaLabel={true}
             iconComponent={<Icon className='icon-information-outline'/>}
             tooltipKey={tooltipKey}
         />

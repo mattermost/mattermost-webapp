@@ -12,6 +12,7 @@ import {Post} from '@mattermost/types/posts';
 
 import {joinChannelById, switchToChannel} from 'actions/views/channel';
 import {forwardPost} from 'actions/views/posts';
+import {openDirectChannelToUserId} from 'actions/channel_actions';
 
 import ForwardPostModal from './forward_post_modal';
 
@@ -24,6 +25,9 @@ export type ActionProps = {
 
     // switch to the selected channel
     switchToChannel: (channel: Channel) => Promise<ActionResult>;
+
+    // switch to the selected channel
+    openDirectChannelToUserId: (userId: string) => Promise<ActionResult>;
 
     // action called to forward the post with an optional comment
     forwardPost: (post: Post, channelId: Channel, message?: string) => Promise<ActionResult>;
@@ -44,6 +48,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             joinChannelById,
             switchToChannel,
             forwardPost,
+            openDirectChannelToUserId,
         }, dispatch),
     };
 }

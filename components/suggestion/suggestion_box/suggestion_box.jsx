@@ -155,6 +155,11 @@ export default class SuggestionBox extends React.PureComponent {
          */
         forceSuggestionsWhenBlur: PropTypes.bool,
 
+        /**
+         * aligns the suggestionlist with the textbox dimension
+         */
+        alignWithTextbox: PropTypes.bool,
+
         actions: PropTypes.shape({
             addMessageIntoHistory: PropTypes.func.isRequired,
         }).isRequired,
@@ -174,6 +179,7 @@ export default class SuggestionBox extends React.PureComponent {
         replaceAllInputOnSelect: false,
         listenForMentionKeyClick: false,
         forceSuggestionsWhenBlur: false,
+        alignWithTextbox: false,
     }
 
     constructor(props) {
@@ -609,7 +615,6 @@ export default class SuggestionBox extends React.PureComponent {
                 this.clear();
                 this.setState({presentationType: 'text'});
                 e.preventDefault();
-                e.stopPropagation();
             } else if (this.props.onKeyDown) {
                 this.props.onKeyDown(e);
             }
@@ -672,6 +677,7 @@ export default class SuggestionBox extends React.PureComponent {
     }
 
     nonDebouncedPretextChanged = (pretext, complete = false) => {
+        const {alignWithTextbox} = this.props;
         this.pretext = pretext;
         let handled = false;
         let callback = this.handleReceivedSuggestions;
@@ -687,7 +693,7 @@ export default class SuggestionBox extends React.PureComponent {
                     const pxToSubstract = Utils.getPxToSubstract(char);
 
                     // get the alignment for the box and set it in the component state
-                    const suggestionBoxAlgn = Utils.getSuggestionBoxAlgn(this.getTextbox(), pxToSubstract);
+                    const suggestionBoxAlgn = Utils.getSuggestionBoxAlgn(this.getTextbox(), pxToSubstract, alignWithTextbox);
                     this.setState({
                         suggestionBoxAlgn,
                     });
@@ -794,6 +800,7 @@ export default class SuggestionBox extends React.PureComponent {
         Reflect.deleteProperty(props, 'onSuggestionsReceived');
         Reflect.deleteProperty(props, 'actions');
         Reflect.deleteProperty(props, 'shouldSearchCompleteText');
+        Reflect.deleteProperty(props, 'alignWithTextbox');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
@@ -821,30 +828,28 @@ export default class SuggestionBox extends React.PureComponent {
                     onKeyDown={this.handleKeyDown}
                     onSelect={this.handleSelect}
                 />
-                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
-                    <div style={{width: this.state.width}}>
-                        <SuggestionListComponent
-                            ariaLiveRef={this.suggestionReadOut}
-                            open={this.state.focused || this.props.forceSuggestionsWhenBlur}
-                            pretext={this.pretext}
-                            position={this.getListPosition(listPosition)}
-                            renderDividers={renderDividers}
-                            renderNoResults={renderNoResults}
-                            onCompleteWord={this.handleCompleteWord}
-                            preventClose={this.preventSuggestionListClose}
-                            onItemHover={this.setSelection}
-                            cleared={this.state.cleared}
-                            matchedPretext={this.state.matchedPretext}
-                            items={this.state.items}
-                            terms={this.state.terms}
-                            suggestionBoxAlgn={this.state.suggestionBoxAlgn}
-                            selection={this.state.selection}
-                            components={this.state.components}
-                            inputRef={this.inputRef}
-                            onLoseVisibility={this.blur}
-                        />
-                    </div>
-                }
+                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' && (
+                    <SuggestionListComponent
+                        ariaLiveRef={this.suggestionReadOut}
+                        open={this.state.focused || this.props.forceSuggestionsWhenBlur}
+                        pretext={this.pretext}
+                        position={this.getListPosition(listPosition)}
+                        renderDividers={renderDividers}
+                        renderNoResults={renderNoResults}
+                        onCompleteWord={this.handleCompleteWord}
+                        preventClose={this.preventSuggestionListClose}
+                        onItemHover={this.setSelection}
+                        cleared={this.state.cleared}
+                        matchedPretext={this.state.matchedPretext}
+                        items={this.state.items}
+                        terms={this.state.terms}
+                        suggestionBoxAlgn={this.state.suggestionBoxAlgn}
+                        selection={this.state.selection}
+                        components={this.state.components}
+                        inputRef={this.inputRef}
+                        onLoseVisibility={this.blur}
+                    />
+                )}
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'date' &&
                     <SuggestionDateComponent
                         items={this.state.items}

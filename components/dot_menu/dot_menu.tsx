@@ -50,11 +50,11 @@ type Props = {
     teamId: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     isFlagged?: boolean;
-    handleCommentClick: React.EventHandler<any>;
+    handleCommentClick?: React.EventHandler<any>;
     handleDropdownOpened: (open: boolean) => void;
     handleAddReactionClick?: () => void;
     isMenuOpen?: boolean;
-    isReadOnly: boolean | null;
+    isReadOnly?: boolean;
     isLicensed?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     postEditTimeLimit?: string; // TechDebt: Made non-mandatory while converting to typescript
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
@@ -131,7 +131,6 @@ type Props = {
     userId: string;
     threadId: UserThread['id'];
     isCollapsedThreadsEnabled: boolean;
-    isPostForwardingEnabled?: boolean;
     isFollowingThread?: boolean;
     isMentionedInRootPost?: boolean;
     threadReplyCount?: number;
@@ -341,7 +340,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
     handleCommentClick = (e: ChangeEvent) => {
         trackDotMenuEvent(e, TELEMETRY_LABELS.REPLY);
-        this.props.handleCommentClick(e);
+        this.props.handleCommentClick?.(e);
     }
 
     setPostReminder = (id: string): void => {
@@ -571,7 +570,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
         const fromWebhook = this.props.post.props?.from_webhook === 'true';
         const fromBot = this.props.post.props?.from_bot === 'true';
-        this.canPostBeForwarded = Boolean(this.props.isPostForwardingEnabled && !(fromWebhook || fromBot || isSystemMessage));
+        this.canPostBeForwarded = !(isSystemMessage);
 
         const forwardPostItemText = (
             <span className={'title-with-new-badge'}>
@@ -681,16 +680,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         onClick={this.handleMarkPostAsUnread}
                     />
                     <Menu.ItemAction
-                        show={isMobile && !isSystemMessage && this.props.isFlagged}
-                        text={Utils.localizeMessage('rhs_root.mobile.unflag', 'Remove from Saved')}
-                        icon={Utils.getMenuItemIcon('icon-bookmark')}
-                        rightDecorator={<ShortcutKey shortcutKey='S'/>}
-                        onClick={this.handleFlagMenuItemActivated}
-                    />
-                    <Menu.ItemAction
-                        show={isMobile && !isSystemMessage && !this.props.isFlagged}
-                        text={Utils.localizeMessage('rhs_root.mobile.flag', 'Save')}
-                        icon={Utils.getMenuItemIcon('icon-bookmark-outline')}
+                        show={!isSystemMessage}
+                        text={this.props.isFlagged ? Utils.localizeMessage('rhs_root.mobile.unflag', 'Remove from Saved') : Utils.localizeMessage('rhs_root.mobile.flag', 'Save')}
+                        icon={this.props.isFlagged ? Utils.getMenuItemIcon('icon-bookmark') : Utils.getMenuItemIcon('icon-bookmark-outline')}
                         rightDecorator={<ShortcutKey shortcutKey='S'/>}
                         onClick={this.handleFlagMenuItemActivated}
                     />

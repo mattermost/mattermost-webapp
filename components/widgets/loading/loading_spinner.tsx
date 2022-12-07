@@ -9,6 +9,7 @@ import {t} from 'utils/i18n';
 
 type Props = {
     text: React.ReactNode;
+    style?: React.CSSProperties;
 }
 
 export default class LoadingSpinner extends React.PureComponent<Props> {
@@ -21,6 +22,7 @@ export default class LoadingSpinner extends React.PureComponent<Props> {
             <span
                 id='loadingSpinner'
                 className={'LoadingSpinner' + (this.props.text ? ' with-text' : '')}
+                style={this.props.style}
             >
                 <LocalizedIcon
                     className='fa fa-spinner fa-fw fa-pulse spinner'

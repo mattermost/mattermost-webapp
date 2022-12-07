@@ -39,7 +39,6 @@ export const IconContainer = styled.button`
     padding: 0;
     border-radius: 4px;
     color: rgba(var(--center-channel-color-rgb), 0.56);
-    fill: currentColor;
 
     &:hover {
         background: rgba(var(--center-channel-color-rgb), 0.08);

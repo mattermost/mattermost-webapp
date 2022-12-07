@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
@@ -338,7 +336,7 @@ export function updateChannelPrivacy(channelId: string, privacy: string): Action
     };
 }
 
-export function updateChannelNotifyProps(userId: string, channelId: string, props: ChannelNotifyProps): ActionFunc {
+export function updateChannelNotifyProps(userId: string, channelId: string, props: Partial<ChannelNotifyProps>): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const notifyProps = {
             user_id: userId,
@@ -462,7 +460,7 @@ export function getChannelTimezones(channelId: string): ActionFunc {
     };
 }
 
-export function fetchMyChannelsAndMembers(teamId: string): ActionFunc {
+export function fetchMyChannelsAndMembersREST(teamId: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({
             type: ChannelTypes.CHANNELS_REQUEST,
@@ -474,10 +472,10 @@ export function fetchMyChannelsAndMembers(teamId: string): ActionFunc {
         const state = getState();
         const shouldFetchArchived = isMinimumServerVersion(getServerVersion(state), 5, 21);
         try {
-            const channelRequest = Client4.getMyChannels(teamId, shouldFetchArchived);
-            const memberRequest = Client4.getMyChannelMembers(teamId);
-            channels = await channelRequest;
-            channelMembers = await memberRequest;
+            [channels, channelMembers] = await Promise.all([
+                Client4.getMyChannels(teamId, shouldFetchArchived),
+                Client4.getMyChannelMembers(teamId),
+            ]);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch({type: ChannelTypes.CHANNELS_FAILURE, error});
@@ -522,7 +520,7 @@ export function fetchMyChannelsAndMembers(teamId: string): ActionFunc {
     };
 }
 
-export function fetchAllMyTeamsChannelsAndChannelMembers(): ActionFunc {
+export function fetchAllMyTeamsChannelsAndChannelMembersREST(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const {currentUserId} = state.entities.users;
@@ -1299,6 +1297,7 @@ export function actionsToMarkChannelAsRead(getState: GetStateFunc, channelId: st
                 channelId,
                 amount: channelMember.mention_count,
                 amountRoot: channelMember.mention_count_root,
+                amountUrgent: channelMember.urgent_mention_count,
             },
         });
     }
@@ -1328,6 +1327,7 @@ export function actionsToMarkChannelAsRead(getState: GetStateFunc, channelId: st
                 channelId: prevChannelId,
                 amount: prevChannelMember.mention_count,
                 amountRoot: prevChannelMember.mention_count_root,
+                amountUrgent: prevChannelMember.urgent_mention_count,
             },
         });
     }
@@ -1385,7 +1385,7 @@ export function markChannelAsUnread(teamId: string, channelId: string, mentions:
     };
 }
 
-export function actionsToMarkChannelAsUnread(getState: GetStateFunc, teamId: string, channelId: string, mentions: string[], fetchedChannelMember = false, isRoot = false) {
+export function actionsToMarkChannelAsUnread(getState: GetStateFunc, teamId: string, channelId: string, mentions: string[], fetchedChannelMember = false, isRoot = false, priority = '') {
     const state = getState();
     const {myMembers} = state.entities.channels;
     const {currentUserId} = state.entities.users;
@@ -1422,6 +1422,7 @@ export function actionsToMarkChannelAsUnread(getState: GetStateFunc, teamId: str
                 channelId,
                 amountRoot: isRoot ? 1 : 0,
                 amount: 1,
+                amountUrgent: priority === 'urgent' ? 1 : 0,
                 fetchedChannelMember,
             },
         });
@@ -1591,7 +1592,7 @@ export default {
     patchChannel,
     updateChannelNotifyProps,
     getChannel,
-    fetchMyChannelsAndMembers,
+    fetchMyChannelsAndMembersREST,
     getChannelTimezones,
     getChannelMembersByIds,
     leaveChannel,

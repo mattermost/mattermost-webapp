@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
@@ -7,7 +8,7 @@ import {Button} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {Team} from '@mattermost/types/teams';
-import {Client4Error} from 'mattermost-redux/types/client4';
+import {ServerError} from '@mattermost/types/errors';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
@@ -45,12 +46,12 @@ type Props = {
         /*
          * Action creator to check if a team already exists
          */
-        checkIfTeamExists: (teamName: string) => Promise<{exists: boolean}>;
+        checkIfTeamExists: (teamName: string) => Promise<{data: boolean}>;
 
         /*
      * Action creator to create a new team
      */
-        createTeam: (team: Team) => Promise<{data: Team; error: Client4Error}>;
+        createTeam: (team: Team) => Promise<{data: Team; error: ServerError}>;
     };
     history: {
         push(path: string): void;
@@ -151,8 +152,8 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
         teamSignup.team.type = 'O';
         teamSignup.team.name = name;
 
-        const checkIfTeamExistsData: { exists: boolean } = await checkIfTeamExists(name);
-        const exists = checkIfTeamExistsData.exists;
+        const checkIfTeamExistsData: { data: boolean } = await checkIfTeamExists(name);
+        const exists = checkIfTeamExistsData.data;
 
         if (exists) {
             this.setState({nameError: (

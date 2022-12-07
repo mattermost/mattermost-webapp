@@ -5,6 +5,9 @@
 
 const axios = require('axios');
 const fse = require('fs-extra');
+const dayjs = require('dayjs');
+const duration = require('dayjs/plugin/duration');
+dayjs.extend(duration);
 
 const {MOCHAWESOME_REPORT_DIR} = require('./constants');
 
@@ -29,11 +32,15 @@ function getAllTests(results) {
 }
 
 function generateStatsFieldValue(stats, failedFullTitles) {
+    const startAt = dayjs(stats.start);
+    const endAt = dayjs(stats.end);
+    const statsDuration = dayjs.duration(endAt.diff(startAt)).format('H:mm:ss');
+
     let statsFieldValue = `
 | Key | Value |
 |:---|:---|
 | Passing Rate | ${stats.passPercent.toFixed(2)}% |
-| Duration | ${(stats.duration / (60 * 1000)).toFixed(2)} mins |
+| Duration | ${statsDuration} |
 | Suites | ${stats.suites} |
 | Tests | ${stats.tests} |
 | :white_check_mark: Passed | ${stats.passes} |
@@ -108,6 +115,8 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
     const {
         FULL_REPORT,
         TEST_CYCLE_LINK_PREFIX,
+        MM_ENV,
+        SERVER_TYPE,
     } = process.env;
     const {statsFieldValue, stats} = summary;
     const {
@@ -129,7 +138,7 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
     }
 
     const title = generateTitle();
-    const envValue = `cypress@${cypress_version} | node@${node_version} | ${browser_name}@${browser_version}${headless ? ' (headless)' : ''} | ${os_name}@${os_version}`;
+    const runnerEnvValue = `cypress@${cypress_version} | node@${node_version} | ${browser_name}@${browser_version}${headless ? ' (headless)' : ''} | ${os_name}@${os_version}`;
 
     if (FULL_REPORT === 'true') {
         let reportField;
@@ -150,6 +159,24 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
             };
         }
 
+        let serverEnvField;
+        if (MM_ENV) {
+            serverEnvField = {
+                short: false,
+                title: 'Test Server Override',
+                value: MM_ENV,
+            };
+        }
+
+        let serverTypeField;
+        if (SERVER_TYPE) {
+            serverTypeField = {
+                short: false,
+                title: 'Test Server',
+                value: SERVER_TYPE,
+            };
+        }
+
         return {
             username: 'Cypress UI Test',
             icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
@@ -163,8 +190,10 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
                     {
                         short: false,
                         title: 'Environment',
-                        value: envValue,
+                        value: runnerEnvValue,
                     },
+                    serverTypeField,
+                    serverEnvField,
                     reportField,
                     testCycleField,
                     {
@@ -187,6 +216,10 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
         testCycleLink = testCycleKey ? `| [Recorded test executions](${TEST_CYCLE_LINK_PREFIX}${testCycleKey})` : '';
     }
 
+    const startAt = dayjs(stats.start);
+    const endAt = dayjs(stats.end);
+    const statsDuration = dayjs.duration(endAt.diff(startAt)).format('H:mm:ss');
+
     return {
         username: 'Cypress UI Test',
         icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
@@ -196,7 +229,7 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
             author_icon: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
             author_link: 'https://www.mattermost.com/',
             title,
-            text: `${quickSummary} | ${(stats.duration / (60 * 1000)).toFixed(2)} mins ${testCycleLink}\n${envValue}`,
+            text: `${quickSummary} | ${statsDuration} ${testCycleLink}\n${runnerEnvValue}${SERVER_TYPE ? '\nTest server: ' + SERVER_TYPE : ''}${MM_ENV ? '\nTest server override: ' + MM_ENV : ''}`,
         }],
     };
 }

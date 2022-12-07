@@ -179,6 +179,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
   <injectIntl(FullScreenModal)
     ariaLabel="Marketplace"
     onClose={[Function]}
+    overrideTargetEvent={true}
     show={true}
   >
     <div
@@ -188,7 +189,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
       <div
         className="error-bar__content"
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management)."
           id="app.plugin.marketplace_plugins.app_error"
           values={
@@ -224,7 +225,6 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
             inputComponent={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
-                "displayName": "LocalizedInput",
                 "render": [Function],
               }
             }
@@ -252,10 +252,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
           eventKey="allListing"
           title="All"
         >
-          <LoadingScreen
-            position="relative"
-            style={Object {}}
-          />
+          <LoadingScreen />
         </Tab>
         <Tab
           eventKey="installed"
@@ -277,6 +274,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
   <injectIntl(FullScreenModal)
     ariaLabel="Marketplace"
     onClose={[Function]}
+    overrideTargetEvent={true}
     show={true}
   >
     <div
@@ -304,7 +302,6 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
             inputComponent={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
-                "displayName": "LocalizedInput",
                 "render": [Function],
               }
             }
@@ -332,10 +329,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
           eventKey="allListing"
           title="All"
         >
-          <LoadingScreen
-            position="relative"
-            style={Object {}}
-          />
+          <LoadingScreen />
         </Tab>
         <Tab
           eventKey="installed"
@@ -357,6 +351,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
   <injectIntl(FullScreenModal)
     ariaLabel="Marketplace"
     onClose={[Function]}
+    overrideTargetEvent={true}
     show={true}
   >
     <div
@@ -384,7 +379,6 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
             inputComponent={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
-                "displayName": "LocalizedInput",
                 "render": [Function],
               }
             }
@@ -412,10 +406,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
           eventKey="allListing"
           title="All"
         >
-          <LoadingScreen
-            position="relative"
-            style={Object {}}
-          />
+          <LoadingScreen />
         </Tab>
         <Tab
           eventKey="installed"

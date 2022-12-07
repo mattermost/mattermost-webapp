@@ -4,6 +4,7 @@ exports[`components/widgets/users/Avatar should match the snapshot 1`] = `
 <img
   alt="test-username profile image"
   className="Avatar Avatar-xl"
+  onError={[Function]}
   src="test-url"
   tabIndex={0}
 />
@@ -20,6 +21,7 @@ exports[`components/widgets/users/Avatar should match the snapshot only with url
 <img
   alt="user profile image"
   className="Avatar Avatar-md"
+  onError={[Function]}
   src="test-url"
   tabIndex={0}
 />

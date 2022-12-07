@@ -4,8 +4,10 @@
 import {createSelector} from 'reselect';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
 import {GlobalState} from '@mattermost/types/store';
 import {Team} from '@mattermost/types/teams';
+import {Channel} from '@mattermost/types/channels';
 import {UserThread, ThreadsState, UserThreadType, UserThreadSynthetic} from '@mattermost/types/threads';
 import {Post} from '@mattermost/types/posts';
 import {IDMappedObjects, RelationOneToMany} from '@mattermost/types/utilities';
@@ -75,25 +77,31 @@ export function getThread(state: GlobalState, threadId?: UserThread['id']) {
     return threads[threadId];
 }
 
-export function getThreadOrSynthetic(state: GlobalState, rootPost: Post): UserThread | UserThreadSynthetic {
-    const thread = getThreads(state)[rootPost.id];
+export function makeGetThreadOrSynthetic(): (state: GlobalState, rootPost: Post) => UserThread | UserThreadSynthetic {
+    return createSelector(
+        'getThreadOrSynthetic',
+        (_: GlobalState, rootPost: Post) => rootPost,
+        getThreads,
+        (rootPost, threads) => {
+            const thread = threads[rootPost.id];
+            if (thread?.id) {
+                return thread;
+            }
 
-    if (thread?.id) {
-        return thread;
-    }
-
-    return {
-        id: rootPost.id,
-        type: UserThreadType.Synthetic,
-        reply_count: rootPost.reply_count,
-        participants: rootPost.participants,
-        last_reply_at: rootPost.last_reply_at ?? 0,
-        is_following: thread?.is_following ?? rootPost.is_following ?? null,
-        post: {
-            user_id: rootPost.user_id,
-            channel_id: rootPost.channel_id,
+            return {
+                id: rootPost.id,
+                type: UserThreadType.Synthetic,
+                reply_count: rootPost.reply_count,
+                participants: rootPost.participants,
+                last_reply_at: rootPost.last_reply_at ?? 0,
+                is_following: thread?.is_following ?? rootPost.is_following ?? null,
+                post: {
+                    user_id: rootPost.user_id,
+                    channel_id: rootPost.channel_id,
+                },
+            };
         },
-    };
+    );
 }
 
 export const getThreadOrderInCurrentTeam: (state: GlobalState, selectedThreadIdInTeam?: UserThread['id']) => Array<UserThread['id']> = createSelector(
@@ -162,7 +170,7 @@ export const getUnreadThreadOrderInCurrentTeam: (
 );
 
 function sortByLastReply(ids: Array<UserThread['id']>, threads: ReturnType<typeof getThreads>) {
-    return ids.sort((a, b) => threads[b].last_reply_at - threads[a].last_reply_at);
+    return ids.filter((id) => threads[id].last_reply_at !== 0).sort((a, b) => threads[b].last_reply_at - threads[a].last_reply_at);
 }
 
 export const getThreadsInChannel: (
@@ -174,5 +182,19 @@ export const getThreadsInChannel: (
     (state: GlobalState, channelID: string) => channelID,
     (allThreads: IDMappedObjects<UserThread>, channelID: string) => {
         return Object.keys(allThreads).filter((id) => allThreads[id].post.channel_id === channelID);
+    },
+);
+
+export const getThreadItemsInChannel: (
+    state: GlobalState,
+    channelID: string,
+) => UserThread[] = createSelector(
+    'getThreadItemsInChannel',
+    getThreads,
+    (state: GlobalState, channelID: string) => channelID,
+    (allThreads: IDMappedObjects<UserThread>, channelID: Channel['id']) => {
+        return Object.keys(allThreads).
+            map((id) => allThreads[id]).
+            filter((item) => item.post.channel_id === channelID);
     },
 );

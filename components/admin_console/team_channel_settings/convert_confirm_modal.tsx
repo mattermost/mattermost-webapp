@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import ConfirmModal from 'components/confirm_modal';
 
 type Props = {
