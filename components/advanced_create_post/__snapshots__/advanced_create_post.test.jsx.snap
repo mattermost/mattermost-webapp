@@ -1093,7 +1093,7 @@ exports[`components/advanced_create_post should match snapshot, post priority en
     isFormattingBarHidden={false}
     labels={
       <Memo(PriorityLabels)
-        canRemove={false}
+        canRemove={true}
         hasError={false}
         onRemove={[Function]}
         priority="important"
