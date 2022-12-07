@@ -52,7 +52,10 @@ export function removeDraft(key: string, channelId: string, rootId = '') {
             try {
                 await Client4.deleteDraft(channelId, rootId, connectionId);
             } catch (error) {
-                return error;
+                return {
+                    data: false,
+                    error,
+                };
             }
         }
         return {data: true};
