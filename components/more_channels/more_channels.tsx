@@ -20,8 +20,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import {getRelativeChannelURL} from 'utils/url';
 
 const CHANNELS_CHUNK_SIZE = 50;
-// const CHANNELS_PER_PAGE = 50;
-const CHANNELS_PER_PAGE = 5;
+const CHANNELS_PER_PAGE = 30;
 const SEARCH_TIMEOUT_MILLISECONDS = 100;
 
 type Actions = {

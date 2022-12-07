@@ -23,8 +23,6 @@ import {t} from 'utils/i18n';
 import MenuWrapper from './widgets/menu/menu_wrapper';
 import Menu from './widgets/menu/menu';
 
-const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
-
 export default class SearchableChannelList extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
         return {isSearch: props.isSearch, page: props.isSearch && !state.isSearch ? 0 : state.page};
@@ -33,14 +31,13 @@ export default class SearchableChannelList extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.nextTimeoutId = 0;
         this.intersectionObserver = null;
         this.intersectionObserverWrapper = null;
         this.state = {
             joiningChannel: '',
             page: 0,
-            nextDisabled: false,
-            isVisible: false,
+            loadedChannels: 0,
+            isLoadingMoreChannels: false,
         };
 
         this.filter = React.createRef();
@@ -52,18 +49,20 @@ export default class SearchableChannelList extends React.PureComponent {
         if (!UserAgent.isMobile() && this.filter.current) {
             this.filter.current.focus();
         }
+
         this.intersectionObserver = new window.IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                // this.setState({isVisible: entry.isIntersecting});
-                if (entry.isIntersecting) {
-                    console.log('load more');
-                    // this.nextPage(e);
-                    this.setState({page: this.state.page + 1, nextDisabled: true});
-                    this.nextTimeoutId = setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT_MILLISECONDS);
+                const loadMore = this.state.loadedChannels < this.props.channels.length;
+
+                if (entry.isIntersecting && loadMore) {
+                    this.setState({page: this.state.page + 1, isLoadingMoreChannels: true});
                     this.props.nextPage(this.state.page + 1);
+                } else {
+                    this.setState({isLoadingMoreChannels: false});
                 }
             });
         }, {});
+
         this.intersectionObserver.observe(this.intersectionObserverWrapper);
     }
 
@@ -141,20 +140,6 @@ export default class SearchableChannelList extends React.PureComponent {
         );
     }
 
-    nextPage = (e) => {
-        e.preventDefault();
-        this.setState({page: this.state.page + 1, nextDisabled: true});
-        this.nextTimeoutId = setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT_MILLISECONDS);
-        this.props.nextPage(this.state.page + 1);
-        this.channelListScroll.current?.scrollTo({top: 0});
-    }
-
-    previousPage = (e) => {
-        e.preventDefault();
-        this.setState({page: this.state.page - 1});
-        this.channelListScroll.current?.scrollTo({top: 0});
-    }
-
     doSearch = () => {
         const term = this.filter.current.value;
         this.props.search(term);
@@ -172,8 +157,6 @@ export default class SearchableChannelList extends React.PureComponent {
     render() {
         const channels = this.props.channels;
         let listContent;
-        let nextButton;
-        let previousButton;
 
         if (this.props.loading && channels.length === 0) {
             listContent = <LoadingScreen/>;
@@ -191,45 +174,13 @@ export default class SearchableChannelList extends React.PureComponent {
                 </div>
             );
         } else {
-            // const pageStart = this.state.page * this.props.channelsPerPage;
             const pageStart = 0;
-            const test = this.state.page * this.props.channelsPerPage
-            const pageEnd = test + this.props.channelsPerPage;
-            // console.log({
-            //   pageStart,
-            //   pageEnd
-            // })
+            const pageEnd = (this.state.page * this.props.channelsPerPage) + this.props.channelsPerPage;
             const channelsToDisplay = this.props.channels.slice(pageStart, pageEnd);
+            this.setState({
+                loadedChannels: channelsToDisplay.length || 0,
+            });
             listContent = channelsToDisplay.map(this.createChannelRow);
-
-            if (channelsToDisplay.length >= this.props.channelsPerPage && pageEnd < this.props.channels.length) {
-                nextButton = (
-                    <button
-                        className='btn btn-link filter-control filter-control__next'
-                        onClick={this.nextPage}
-                        disabled={this.state.nextDisabled}
-                    >
-                        <FormattedMessage
-                            id='more_channels.next'
-                            defaultMessage='Next'
-                        />
-                    </button>
-                );
-            }
-
-            if (this.state.page > 0) {
-                previousButton = (
-                    <button
-                        className='btn btn-link filter-control filter-control__prev'
-                        onClick={this.previousPage}
-                    >
-                        <FormattedMessage
-                            id='more_channels.prev'
-                            defaultMessage='Previous'
-                        />
-                    </button>
-                );
-            }
         }
 
         let input = (
@@ -308,19 +259,18 @@ export default class SearchableChannelList extends React.PureComponent {
                     <div
                         id='moreChannelsList'
                         ref={this.channelListScroll}
-                        style={{border: '5px solid red'}}
                     >
                         {listContent}
                         <div
                             ref={(div) => {
                                 this.intersectionObserverWrapper = div;
                             }}
-                        >{'loading'}</div>
+                        >
+                            {this.state.isLoadingMoreChannels && (
+                                <LoadingScreen/>
+                            )}
+                        </div>
                     </div>
-                </div>
-                <div className='filter-controls'>
-                    {previousButton}
-                    {nextButton}
                 </div>
             </div>
         );
