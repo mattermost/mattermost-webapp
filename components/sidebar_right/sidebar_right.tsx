@@ -30,6 +30,7 @@ type Props = {
     isOpen: boolean;
     channel: Channel;
     team: Team;
+    teamId: Team['id'];
     productId: ProductIdentifier;
     postRightVisible: boolean;
     postCardVisible: boolean;
@@ -161,8 +162,9 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             this.props.actions.setRhsExpanded(false);
         }
 
-        // close when changing products
+        // close when changing products or teams
         if (
+            (prevProps.teamId && this.props.teamId !== prevProps.teamId) ||
             this.props.productId !== prevProps.productId
         ) {
             this.props.actions.closeRightHandSide();
@@ -239,7 +241,8 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
 
         // Sometimes the channel/team is not loaded yet, so we need to wait for it
         const isChannelSpecificRHS = postRightVisible || postCardVisible || isPinnedPosts || isChannelFiles || isChannelInfo || isChannelMembers;
-        const isChannelSpecificRHSLoading = (!channel || !team) && (isChannelSpecificRHS);
+
+        const isRHSLoading = postRightVisible ? !(team || channel) : (!team || !channel) && isChannelSpecificRHS;
 
         const channelDisplayName = rhsChannel ? rhsChannel.display_name : '';
 
@@ -258,7 +261,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
                     ref={this.sidebarRight}
                 >
                     <div className='sidebar-right-container'>
-                        {isChannelSpecificRHSLoading ? (
+                        {isRHSLoading ? (
                             <div className='sidebar-right__body'>
                                 <LoadingScreen centered={true}/>
                             </div>

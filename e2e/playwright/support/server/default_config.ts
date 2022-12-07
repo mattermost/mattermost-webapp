@@ -168,7 +168,8 @@ const defaultServerConfig: AdminConfig = {
         CollapsedThreads: CollapsedThreads.ALWAYS_ON,
         ManagedResourcePaths: '',
         EnableCustomGroups: true,
-        AllowSyncedDrafts: true
+        SelfHostedFirstTimePurchase: false,
+        AllowSyncedDrafts: true,
     },
     TeamSettings: {
         SiteName: 'Mattermost',
@@ -529,6 +530,7 @@ const defaultServerConfig: AdminConfig = {
         EnableSharedChannels: false,
         EnableRemoteClusterService: false,
         EnableAppBar: false,
+        PatchPluginsReactDOM: false,
     },
     AnalyticsSettings: {
         MaxUsersForStatistics: 2500,

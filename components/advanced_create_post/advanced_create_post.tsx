@@ -205,7 +205,7 @@ type Props = {
         runSlashCommandWillBePostedHooks: (originalMessage: string, originalArgs: CommandArgs) => ActionResult;
 
         // func called for setting drafts
-        setDraft: (name: string, value: PostDraft | null, save?: boolean) => void;
+        setDraft: (name: string, value: PostDraft | null, draftChannelId: string, save?: boolean) => void;
 
         // func called for editing posts
         setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
@@ -266,6 +266,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     private draftsForChannel: {[channelID: string]: PostDraft | null} = {};
     private lastOrientation?: string;
     private saveDraftFrame?: number | null;
+    private isDraftSubmitting = false;
 
     private topDiv: React.RefObject<HTMLFormElement>;
     private textboxRef: React.RefObject<TextboxClass>;
@@ -397,7 +398,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     saveDraft = (props = this.props, save = false) => {
         if (this.saveDraftFrame && props.currentChannel) {
             const channelId = props.currentChannel.id;
-            props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId], save);
+            props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId], channelId, save);
             clearTimeout(this.saveDraftFrame);
             this.saveDraftFrame = null;
         }
@@ -572,7 +573,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             clearTimeout(this.saveDraftFrame);
         }
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
+        this.isDraftSubmitting = false;
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null, channelId);
         this.draftsForChannel[channelId] = null;
     }
 
@@ -619,6 +621,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         } = this.props;
 
         this.setShowPreview(false);
+        this.isDraftSubmitting = true;
 
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel && this.props.useChannelMentions;
         let memberNotifyCount = 0;
@@ -668,6 +671,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         if (memberNotifyCount > 0) {
             this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
+            this.isDraftSubmitting = false;
             return;
         }
 
@@ -682,6 +686,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.props.actions.openModal(resetStatusModalData);
 
             this.setState({message: ''});
+            this.isDraftSubmitting = false;
             return;
         }
 
@@ -695,6 +700,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.props.actions.openModal(editChannelHeaderModalData);
 
             this.setState({message: ''});
+            this.isDraftSubmitting = false;
             return;
         }
 
@@ -710,6 +716,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.props.actions.openModal(editChannelPurposeModalData);
 
             this.setState({message: ''});
+            this.isDraftSubmitting = false;
             return;
         }
 
@@ -760,6 +767,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 submitting: false,
             });
 
+            this.isDraftSubmitting = false;
             return hookResult;
         }
 
@@ -768,9 +776,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         actions.onSubmitPost(post, draft.fileInfos);
         actions.scrollPostListToBottom();
 
-        this.setState({
-            submitting: false,
-        });
+        this.setState({submitting: false});
+        this.isDraftSubmitting = false;
 
         return {data: true};
     }
@@ -787,7 +794,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.props.actions.removeReaction(postId, emojiName);
         }
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null, channelId);
         this.draftsForChannel[channelId] = null;
     }
 
@@ -831,6 +838,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 e.persist();
             }
             if (this.textboxRef.current) {
+                this.isDraftSubmitting = true;
                 this.textboxRef.current.blur();
             }
 
@@ -882,7 +890,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
 
         this.saveDraftFrame = window.setTimeout(() => {
-            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft, channelId);
         }, Constants.SAVE_DRAFT_TIMEOUT);
         this.draftsForChannel[channelId] = draft;
     }
@@ -931,7 +939,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         };
 
         const channelId = this.props.currentChannel.id;
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft, channelId);
         this.draftsForChannel[channelId] = draft;
     }
 
@@ -947,7 +955,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             uploadsInProgress,
         };
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft, channelId);
         this.draftsForChannel[channelId] = draft;
 
         // this is a bit redundant with the code that sets focus when the file input is clicked,
@@ -1006,7 +1014,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     ...draft,
                     uploadsInProgress,
                 };
-                this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft);
+                this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft, channelId);
                 this.draftsForChannel[channelId] = modifiedDraft;
             }
         }
@@ -1048,7 +1056,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             };
         }
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft, false);
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft, channelId, false);
         this.draftsForChannel[channelId] = modifiedDraft;
 
         this.handleFileUploadChange();
@@ -1362,7 +1370,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     handleBlur = () => {
-        this.saveDraftWithShow();
+        if (!this.isDraftSubmitting) {
+            this.saveDraftWithShow();
+        }
+
         this.lastBlurAt = Date.now();
     }
 
