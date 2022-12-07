@@ -7,7 +7,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import {AlertCircleOutlineIcon, CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
+import {AlertCircleOutlineIcon, CheckCircleOutlineIcon, FormatQuoteOpenIcon} from '@mattermost/compass-icons/components';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -256,7 +256,7 @@ type State = {
     showPostPriorityPicker: boolean;
     mousePositionX?: string;
     mousePositionY?: string;
-    showButton: boolean;
+    showQuoteButton: boolean;
     quoteText: string;
 };
 
@@ -311,7 +311,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             showFormat: false,
             isFormattingBarHidden: props.isFormattingBarHidden,
             showPostPriorityPicker: false,
-            showButton: false,
+            showQuoteButton: false,
             quoteText: '',
         };
 
@@ -332,7 +332,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         window.addEventListener('beforeunload', this.unloadHandler);
         this.setOrientationListeners();
         window.addEventListener('mouseup', this.getSelectionText);
-        window.addEventListener('scroll', this.handleScroll);
 
         if (useLDAPGroupMentions) {
             actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
@@ -370,56 +369,48 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         window.removeEventListener('beforeunload', this.unloadHandler);
         this.removeOrientationListeners();
         this.saveDraft();
-        window.removeEventListener('mouseup', this.getSelectionText); // todo sinan rhs comment is not functioning correctly
-        window.removeEventListener('scroll', this.handleScroll);
+        window.removeEventListener('mouseup', this.getSelectionText); // todo sinan rhs comment is not functioning correctly. add similar functionality to advanced create comment
         this.saveDraftWithShow();
-    }
-
-    // hide the button when the user scrolls up
-    handleScroll = () => {
-        if (this.state.showButton) {
-            this.setState({showButton: false});
-        }
     }
 
     getSelectionText = (e: MouseEvent) => {
         let text = '';
 
-        // todo sinan check if the user is selecting text within p element
-        // get the text from the selection
+        // todo sinan fix the bug where user started the selection in one post and ended in another post
         if (window && window.getSelection) {
-            console.log('selection', window.getSelection());
-            text = window.getSelection().toString();
-        } else if (document.selection && document.selection.type != 'Control') {
-            text = document.selection.createRange().text;
+            const selection = window.getSelection();
+            const startingSelectedElementCheck = selection?.anchorNode?.parentElement?.parentElement?.classList.contains('post-message__text');
+            const endingSelectedElementCheck = selection?.focusNode?.parentElement?.parentElement?.classList.contains('post-message__text');
+            if (startingSelectedElementCheck && endingSelectedElementCheck) {
+                text = selection?.toString() || '';
+            }
         }
-        console.log('text: ', text);
 
         // get the mouse position and show the button there if text is selected and hide it after 5 seconds if not clicked on it already and text is not selected anymore (on mouse up)
         if (text !== '') {
             this.setState({
-                mousePositionX: (e.clientX - 305) + 'px',
+                mousePositionX: (e.clientX - 323) + 'px',
                 mousePositionY: (e.clientY - 125) + 'px',
-                showButton: true,
+                showQuoteButton: true,
                 quoteText: text,
             });
 
-            // setTimeout(() => {
-            //     if (this.state.showButton) {
-            //         this.setState({showButton: false});
-            //     }
-            // }, 10000);
+            setTimeout(() => {
+                if (this.state.showQuoteButton) {
+                    this.setState({showQuoteButton: false});
+                }
+            }, 5000);
         }
     }
 
     handlePostQuote = () => {
+        const currentMessage = this.state.message === '' ? '' : `${this.state.message}\n`;
         this.setState({
-            showButton: false,
+            showQuoteButton: false,
             quoteText: '',
             mousePositionX: undefined,
             mousePositionY: undefined,
-            message: `${this.state.message}\n > ${this.state.quoteText}\n\n`, // todo sinan dont add first line break if the message is empty
-
+            message: `${currentMessage} > ${this.state.quoteText}\n\n`,
         });
     }
 
@@ -1587,14 +1578,18 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         if (!this.props.fullWidthTextBox) {
             centerClass = 'center';
         }
-        let renderButton;
-        if (this.state.showButton) {
+        let renderQuoteButton;
+        if (this.state.showQuoteButton) {
             // show button where mouse is released and hide it after 5 seconds
-            renderButton = (
-                <button
+            renderQuoteButton = (
+                <Tooltip
+                    id='quoteButton'
                     onClick={this.handlePostQuote}
-                    style={{position: 'absolute', top: this.state.mousePositionY, left: this.state.mousePositionX, backgroundColor: 'red', color: 'white', zIndex: 9999}}
-                >{'Quote the text'}</button>
+                    placement='top' // todo sinan put placement top or bottom based on the selection
+                    style={{top: this.state.mousePositionY, left: this.state.mousePositionX}}
+                >
+                    {<FormatQuoteOpenIcon size={18}/>}
+                </Tooltip>
             );
         }
 
@@ -1669,7 +1664,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     (this.props.draft.fileInfos.length > 0 || this.props.draft.uploadsInProgress.length > 0) &&
                     <FileLimitStickyBanner/>
                 }
-                {renderButton}
+                {renderQuoteButton}
                 <AdvanceTextEditor
                     location={Locations.CENTER}
                     currentUserId={this.props.currentUserId}
