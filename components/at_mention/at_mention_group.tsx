@@ -47,9 +47,13 @@ const AtMentionGroup = (props: Props) => {
     const [show, setShow] = useState(false);
     const [showUser, setShowUser] = useState<UserProfile | undefined>();
     const [target, setTarget] = useState<HTMLButtonElement | undefined>();
-    const [placement, setPlacement] = useState('');
+
+    // We need a valid placement here to prevent console errors.
+    // It will not be used when the overlay is showing.
+    const [placement, setPlacement] = useState('top');
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         const targetBounds = ref.current?.getBoundingClientRect();
 
         if (targetBounds) {
