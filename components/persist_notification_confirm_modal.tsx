@@ -34,7 +34,26 @@ function PersistNotificationConfirmModal({
     const interval = useSelector(getPersistentNotificationInterval);
     const count = useSelector((state: GlobalState) => getMentionCount(state, message));
 
-    if (count > Number(maxRecipients)) {
+    if (count === 0) {
+        title = (
+            <FormattedMessage
+                id='persist_notification.too_few.title'
+                defaultMessage='Recipients must be @mentioned'
+            />
+        );
+        body = (
+            <FormattedMessage
+                id='persist_notification.too_few.description'
+                defaultMessage='There are no recipients mentioned in your message. You’ll need add mentions to be able to send persistent notifications.'
+            />
+        );
+        confirmBtn = (
+            <FormattedMessage
+                id='persist_notification.too_few.confirm'
+                defaultMessage='Got it'
+            />
+        );
+    } else if (count > Number(maxRecipients)) {
         title = (
             <FormattedMessage
                 id='persist_notification.too_many.title'
