@@ -6,6 +6,17 @@ import {shallow} from 'enzyme';
 
 import SearchableChannelList from 'components/searchable_channel_list.jsx';
 
+beforeEach(() => {
+    // IntersectionObserver isn't available in test environment
+    const mockIntersectionObserver = jest.fn();
+    mockIntersectionObserver.mockReturnValue({
+        observe: () => null,
+        unobserve: () => null,
+        disconnect: () => null,
+    });
+    window.IntersectionObserver = mockIntersectionObserver;
+});
+
 describe('components/SearchableChannelList', () => {
     const baseProps = {
         channels: [],

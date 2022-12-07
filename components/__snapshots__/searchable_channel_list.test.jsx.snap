@@ -37,10 +37,8 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
       id="moreChannelsList"
     >
       <LoadingScreen />
+      <div />
     </div>
   </div>
-  <div
-    className="filter-controls"
-  />
 </div>
 `;
