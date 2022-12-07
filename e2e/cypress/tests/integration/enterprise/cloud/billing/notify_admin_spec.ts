@@ -174,7 +174,7 @@ function triggerNotifications(url, trial = false, _failOnStatusCode = true) {
     }
 }
 
-function mapFeatureIdToId(id: any) {
+function mapFeatureIdToId(id: string) {
     switch (id) {
     case 'mattermost.feature.custom_user_groups':
         return 'Custom User groups';
