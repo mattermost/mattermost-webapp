@@ -597,12 +597,12 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         });
     }
 
-    showPersistNotificationModal = (mentions: string[], hasSpecialMentions: boolean) => {
+    showPersistNotificationModal = (message: string, hasSpecialMentions: boolean) => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.PERSIST_NOTIFICATION_CONFIRM_MODAL,
             dialogType: PersistNotificationConfirmModal,
             dialogProps: {
-                mentions,
+                message,
                 hasSpecialMentions,
                 onConfirm: this.handleNotifyAllConfirmation,
             },
@@ -688,8 +688,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.props.draft?.metadata?.priority?.priority === PostPriority.URGENT &&
             this.props.draft?.metadata?.priority?.persistent_notifications
         ) {
-            const mentioned = [...new Set(mentionsMinusSpecialMentionsInText(this.state.message))];
-            this.showPersistNotificationModal(mentioned, hasSpecialMentions);
+            this.showPersistNotificationModal(this.state.message, hasSpecialMentions);
             this.isDraftSubmitting = false;
             return;
         } else if (memberNotifyCount > 0) {

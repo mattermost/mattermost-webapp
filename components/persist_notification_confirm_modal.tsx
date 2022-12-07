@@ -1,48 +1,53 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo} from 'react';
+import React, {memo, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 
 import {getPersistentNotificationInterval, getPersistentNotificationMaxRecipients} from 'mattermost-redux/selectors/entities/posts';
 
+import {GlobalState} from 'types/store';
+import {makeGetUserOrGroupMentionCountFromMessage} from 'utils/post_utils';
+
 import {GenericModal} from '@mattermost/components';
 
 type Props = {
-    mentions: string[];
+    message: string;
     hasSpecialMentions: boolean;
     onConfirm: () => void;
     onExited: () => void;
 };
 
 function PersistNotificationConfirmModal({
-    mentions,
+    message,
     onConfirm,
     onExited,
 }: Props) {
-    let message: React.ReactNode = '';
+    let body: React.ReactNode = '';
     let title: React.ReactNode = '';
     let confirmBtn: React.ReactNode = '';
     let handleConfirm = () => {};
 
+    const getMentionCount = useMemo(makeGetUserOrGroupMentionCountFromMessage, []);
     const maxRecipients = useSelector(getPersistentNotificationMaxRecipients);
     const interval = useSelector(getPersistentNotificationInterval);
+    const count = useSelector((state: GlobalState) => getMentionCount(state, message));
 
-    if (mentions.length > Number(maxRecipients)) {
+    if (count > Number(maxRecipients)) {
         title = (
             <FormattedMessage
                 id='persist_notification.too_many.title'
                 defaultMessage='Too many recipients?'
             />
         );
-        message = (
+        body = (
             <FormattedMessage
                 id='persist_notification.too_many.description'
                 defaultMessage='You can send persistent notifications to a maximum of <b>{max}</b> recipients. There are <b>{count}</b> recipients mentioned in your message. You’ll need to change who you’ve mentioned before you can send.'
                 values={{
                     max: maxRecipients,
-                    count: mentions.length,
+                    count,
                     b: (chunks: string) => <b>{chunks}</b>,
                 }}
             />
@@ -61,7 +66,7 @@ function PersistNotificationConfirmModal({
                 defaultMessage='Send persistent notifications?'
             />
         );
-        message = (
+        body = (
             <FormattedMessage
                 id='persist_notification.confirm.description'
                 defaultMessage='Mentioned recipients will be notified every {interval} minutes until they’ve acknowledged the message.'
@@ -88,7 +93,7 @@ function PersistNotificationConfirmModal({
             compassDesign={true}
             isDeleteModal={false}
         >
-            {message}
+            {body}
         </GenericModal>
     );
 }
