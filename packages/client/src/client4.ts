@@ -4020,6 +4020,17 @@ export default class Client4 {
         return `${this.getCloudRoute()}/subscription/invoices/${invoiceId}/pdf`;
     }
 
+    getSelfHostedInvoices = () => {
+        return this.doFetch<Invoice[]>(
+            `${this.getHostedCustomerRoute()}/invoices`,
+            {method: 'get'},
+        );
+    }
+
+    getSelfHostedInvoicePdfUrl = (invoiceId: string) => {
+        return `${this.getHostedCustomerRoute()}/invoices/${invoiceId}/pdf`;
+    }
+
     getCloudLimits = () => {
         return this.doFetch<Limits>(
             `${this.getCloudRoute()}/limits`,

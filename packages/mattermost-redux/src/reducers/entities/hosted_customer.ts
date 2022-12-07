@@ -7,7 +7,7 @@ import type {ValueOf} from '@mattermost/types/utilities';
 import {HostedCustomerTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Product} from '@mattermost/types/cloud';
+import {Invoice, Product} from '@mattermost/types/cloud';
 import {SelfHostedSignupProgress} from '@mattermost/types/hosted_customer';
 
 interface SelfHostedProducts {
@@ -18,6 +18,14 @@ interface SelfHostedProducts {
 const initialProducts = {
     products: {},
     productsLoaded: false,
+};
+interface SelfHostedInvoices {
+    invoices: Record<string, Invoice>;
+    invoicesLoaded: boolean;
+}
+const initialInvoices = {
+    invoices: {},
+    invoicesLoaded: false,
 };
 
 function products(state: SelfHostedProducts = initialProducts, action: GenericAction) {
@@ -33,6 +41,28 @@ function products(state: SelfHostedProducts = initialProducts, action: GenericAc
             products: {
                 ...state.products,
                 ...productDict,
+            },
+            productsLoaded: true,
+        };
+    }
+    default:
+        return state;
+    }
+}
+
+function invoices(state: SelfHostedInvoices = initialInvoices, action: GenericAction) {
+    switch (action.type) {
+    case HostedCustomerTypes.RECEIVED_SELF_HOSTED_INVOICES: {
+        const invoiceList: Invoice[] = action.data;
+        const invoiceDict = invoiceList.reduce((map, obj) => {
+            map[obj.id] = obj;
+            return map;
+        }, {} as Record<string, Invoice>);
+        return {
+            ...state,
+            invoices: {
+                ...state.invoices,
+                ...invoiceDict,
             },
             productsLoaded: true,
         };
@@ -58,6 +88,7 @@ function signupProgress(state = SelfHostedSignupProgress.START, action: GenericA
 
 export interface ErrorsReducer {
     products?: true;
+    invoices?: true;
 }
 
 const emptyErrors = {};
@@ -72,6 +103,15 @@ export function errors(state: ErrorsReducer = emptyErrors, action: GenericAction
         delete newState.products;
         return newState;
     }
+    case HostedCustomerTypes.SELF_HOSTED_INVOICES_FAILED: {
+        return {...state, products: true};
+    }
+    case HostedCustomerTypes.SELF_HOSTED_INVOICES_REQUEST:
+    case HostedCustomerTypes.RECEIVED_SELF_HOSTED_INVOICES: {
+        const newState = Object.assign({}, state);
+        delete newState.invoices;
+        return newState;
+    }
     default:
         return state;
     }
@@ -79,6 +119,7 @@ export function errors(state: ErrorsReducer = emptyErrors, action: GenericAction
 
 export default combineReducers({
     products,
+    invoices,
     signupProgress,
     errors,
 });

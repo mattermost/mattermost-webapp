@@ -220,6 +220,11 @@ const state: GlobalState = {
                 products: {},
                 productsLoaded: false,
             },
+            errors: {},
+            invoices: {
+                invoices: {},
+                invoicesLoaded: false,
+            },
         },
         usage: {
             files: {

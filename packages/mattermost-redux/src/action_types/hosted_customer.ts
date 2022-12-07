@@ -6,6 +6,9 @@ import keyMirror from 'mattermost-redux/utils/key_mirror';
 export default keyMirror({
     SELF_HOSTED_PRODUCTS_REQUEST: null,
     SELF_HOSTED_PRODUCTS_FAILED: null,
+    SELF_HOSTED_INVOICES_REQUEST: null,
+    SELF_HOSTED_INVOICES_FAILED: null,
     RECEIVED_SELF_HOSTED_PRODUCTS: null,
     RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS: null,
+    RECEIVED_SELF_HOSTED_INVOICES: null,
 });

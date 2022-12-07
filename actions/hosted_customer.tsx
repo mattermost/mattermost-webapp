@@ -11,7 +11,8 @@ import {ValueOf} from '@mattermost/types/utilities';
 
 import {Client4} from 'mattermost-redux/client';
 import {HostedCustomerTypes} from 'mattermost-redux/action_types';
-import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {getSelfHostedErrors} from 'mattermost-redux/selectors/entities/hosted_customer';
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
 
 import {getConfirmCardSetup} from 'components/payment_form/stripe';
@@ -119,5 +120,46 @@ export function getSelfHostedProducts(): ActionFunc {
             return error;
         }
         return true;
+    };
+}
+
+export function getSelfHostedInvoices(): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        try {
+            dispatch({
+                type: HostedCustomerTypes.SELF_HOSTED_INVOICES_REQUEST,
+            });
+            const result = await Client4.getSelfHostedInvoices();
+            if (result) {
+                dispatch({
+                    type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_INVOICES,
+                    data: result,
+                });
+            }
+        } catch (error) {
+            dispatch({
+                type: HostedCustomerTypes.SELF_HOSTED_INVOICES_FAILED,
+            });
+            return error;
+        }
+        return true;
+    };
+}
+export function retryFailedHostedCustomerFetches() {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const errors = getSelfHostedErrors(getState());
+        if (Object.keys(errors).length === 0) {
+            return {data: true};
+        }
+
+        if (errors.products) {
+            dispatch(getSelfHostedProducts());
+        }
+
+        if (errors.invoices) {
+            dispatch(getSelfHostedInvoices());
+        }
+
+        return {data: true};
     };
 }

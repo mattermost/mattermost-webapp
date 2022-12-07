@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import type {Address, Product} from './cloud';
+import type {Address, Product, Invoice} from './cloud';
 import {ValueOf} from './utilities';
 
 export const SelfHostedSignupProgress = {
@@ -32,6 +32,14 @@ export type HostedCustomerState = {
     products: {
         products: Record<string, Product>;
         productsLoaded: boolean;
+    };
+    invoices: {
+        invoices: Record<string, Invoice>;
+        invoicesLoaded: boolean;
+    };
+    errors: {
+        products?: true;
+        invoices?: true;
     };
     signupProgress: ValueOf<typeof SelfHostedSignupProgress>;
 }
