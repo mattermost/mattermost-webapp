@@ -138,42 +138,6 @@ describe('useWords', () => {
             },
         },
         {
-            label: 'shows integrations warn',
-            props: asAdmin(mkLimit(LimitTypes.enabledIntegrations, 3, 5)),
-            expects: {
-                title: 'Integrations limit',
-                description: /closer.*5.*enabled/,
-                status: '3',
-            },
-        },
-        {
-            label: 'shows integrations critical',
-            props: asAdmin(mkLimit(LimitTypes.enabledIntegrations, 4, 5)),
-            expects: {
-                title: 'Integrations limit',
-                description: /closer.*5.*enabled/,
-                status: '4',
-            },
-        },
-        {
-            label: 'shows integrations reached',
-            props: asAdmin(mkLimit(LimitTypes.enabledIntegrations, 5, 5)),
-            expects: {
-                title: 'Integrations limit',
-                description: /reached.*5.*enabled.*can’t enable additional/,
-                status: '5',
-            },
-        },
-        {
-            label: 'shows integrations exceeded',
-            props: asAdmin(mkLimit(LimitTypes.enabledIntegrations, 6, 5)),
-            expects: {
-                title: 'Integrations limit',
-                description: /reached.*5.*enabled.*can’t enable additional/,
-                status: '6',
-            },
-        },
-        {
             label: 'shows boards warn',
             props: asAdmin(mkLimit(LimitTypes.boardsCards, 300, 500)),
             expects: {

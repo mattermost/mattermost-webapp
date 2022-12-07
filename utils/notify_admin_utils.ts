@@ -20,8 +20,6 @@ export function mapFeatureIdToTranslation(id: string, formatMessage: Function): 
         return formatMessage({id: 'webapp.mattermost.feature.unlimited_messages', defaultMessage: 'Unlimited Messages'});
     case PaidFeatures.UNLIMITED_FILE_STORAGE:
         return formatMessage({id: 'webapp.mattermost.feature.unlimited_file_storage', defaultMessage: 'Unlimited File Storage'});
-    case PaidFeatures.UNLIMITED_INTEGRATIONS:
-        return formatMessage({id: 'webapp.mattermost.feature.unlimited_integrations', defaultMessage: 'Unlimited Integrations'});
     case PaidFeatures.UNLIMITED_BOARD_CARDS:
         return formatMessage({id: 'webapp.mattermost.feature.unlimited_board_cards', defaultMessage: 'Unlimited Board cards'});
     case PaidFeatures.ALL_PROFESSIONAL_FEATURES:

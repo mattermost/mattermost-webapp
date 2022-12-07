@@ -3,10 +3,11 @@
 
 import {connect} from 'react-redux';
 
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities/posts';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
+
 import {Post} from '@mattermost/types/posts';
 
 import PostBody from './post_body';
@@ -27,6 +28,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         parentPost,
         parentPostUser,
         pluginPostTypes: state.plugins.postTypes,
+        isPostAcknowledgementsEnabled: isPostAcknowledgementsEnabled(state),
     };
 }
 

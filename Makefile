@@ -48,6 +48,7 @@ ifeq ($(CI),false)
 else
 	# This runs in CI with NODE_ENV=production which doesn't install devDependencies without this flag
 	npm ci --include=dev
+
 endif
 
 	touch $@

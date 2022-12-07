@@ -79,6 +79,7 @@ const actionsProp = {
     scrollPostListToBottom: jest.fn(),
     getChannelMemberCountsByGroup: jest.fn(),
     emitShortcutReactToLastPostFrom: jest.fn(),
+    searchAssociatedGroupsForReference: jest.fn(),
 };
 
 /* eslint-disable react/prop-types */
@@ -202,13 +203,59 @@ describe('components/advanced_create_post', () => {
         expect(wrapper.state('message')).toBe('test');
     });
 
-    it('Check for getChannelMemberCountsByGroup called on mount and when channel changed with useLDAPGroupMentions = true', () => {
+    it('Check for searchAssociatedGroupsForReference not called on mount when no mentions in the draft', () => {
+        const searchAssociatedGroupsForReference = jest.fn();
+        const draft = {
+            ...draftProp,
+            message: 'hello',
+        };
+        const actions = {
+            ...actionsProp,
+            searchAssociatedGroupsForReference,
+        };
+        const wrapper = shallow(advancedCreatePost({draft, actions}));
+        expect(searchAssociatedGroupsForReference).not.toHaveBeenCalled();
+        wrapper.setProps({
+            currentChannel: {
+                ...currentChannelProp,
+                id: 'owsyt8n43jfxjpzh9np93mx1wb',
+            },
+        });
+        expect(searchAssociatedGroupsForReference).not.toHaveBeenCalled();
+    });
+
+    it('Check for searchAssociatedGroupsForReference called on mount when one @ mention in the draft', () => {
+        const searchAssociatedGroupsForReference = jest.fn();
+        const draft = {
+            ...draftProp,
+            message: '@group1 hello',
+        };
+        const actions = {
+            ...actionsProp,
+            searchAssociatedGroupsForReference,
+        };
+        const wrapper = shallow(advancedCreatePost({draft, actions}));
+        expect(searchAssociatedGroupsForReference).toHaveBeenCalled();
+        wrapper.setProps({
+            currentChannel: {
+                ...currentChannelProp,
+                id: 'owsyt8n43jfxjpzh9np93mx1wb',
+            },
+        });
+        expect(searchAssociatedGroupsForReference).toHaveBeenCalled();
+    });
+
+    it('Check for getChannelMemberCountsByGroup called on mount when more than one @ mention in the draft', () => {
         const getChannelMemberCountsByGroup = jest.fn();
+        const draft = {
+            ...draftProp,
+            message: '@group1 @group2 hello',
+        };
         const actions = {
             ...actionsProp,
             getChannelMemberCountsByGroup,
         };
-        const wrapper = shallow(advancedCreatePost({actions}));
+        const wrapper = shallow(advancedCreatePost({draft, actions}));
         expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
         wrapper.setProps({
             currentChannel: {
@@ -792,7 +839,7 @@ describe('components/advanced_create_post', () => {
         };
 
         instance.handleUploadStart(clientIds, currentChannelProp.id);
-        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft);
+        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft, currentChannelProp.id);
     });
 
     it('check for handleFileUploadComplete callback', () => {
@@ -832,7 +879,9 @@ describe('components/advanced_create_post', () => {
         };
 
         instance.handleFileUploadComplete(fileInfos, clientIds, currentChannelProp.id);
-        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft);
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
+        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft, currentChannelProp.id);
     });
 
     it('check for handleUploadError callback', () => {
@@ -861,7 +910,7 @@ describe('components/advanced_create_post', () => {
         instance.draftsForChannel[currentChannelProp.id] = uploadsInProgressDraft;
         instance.handleUploadError('error message', 'a', currentChannelProp.id);
 
-        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp);
+        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp, currentChannelProp.id);
     });
 
     /**
@@ -909,8 +958,10 @@ describe('components/advanced_create_post', () => {
         const instance = wrapper.instance();
         instance.handleFileUploadChange = jest.fn();
         instance.removePreview('a');
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(setDraft).toHaveBeenCalledTimes(1);
-        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp);
+        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp, currentChannelProp.id, false);
         expect(instance.handleFileUploadChange).toHaveBeenCalledTimes(1);
     });
 
@@ -1461,7 +1512,7 @@ describe('components/advanced_create_post', () => {
         };
 
         wrapper.instance().handlePostPasteDraft(testMessage);
-        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft);
+        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft, currentChannelProp.id);
     });
 
     /**
@@ -1591,7 +1642,13 @@ describe('components/advanced_create_post', () => {
     });
 
     it('should match snapshot, post priority enabled, with priority important', () => {
-        const wrapper = shallow(advancedCreatePost({draft: {...draftProp, props: {priority: 'important'}}}));
+        const wrapper = shallow(advancedCreatePost({isPostPriorityEnabled: true, draft: {...draftProp, metadata: {priority: {priority: 'important'}}}}));
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot, post priority disabled, with priority important', () => {
+        const wrapper = shallow(advancedCreatePost({isPostPriorityEnabled: false, draft: {...draftProp, metadata: {priority: {priority: 'important'}}}}));
 
         expect(wrapper).toMatchSnapshot();
     });

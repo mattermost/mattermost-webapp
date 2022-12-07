@@ -15,6 +15,7 @@ import {
     canManageAnyChannelMembersInCurrentTeam,
     getCurrentChannelId,
 } from 'mattermost-redux/selectors/entities/channels';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions';
 import {getMembershipForEntities} from 'actions/views/profile_popover';
@@ -87,6 +88,7 @@ function makeMapStateToProps() {
             enableLastActiveTime,
             timestampUnits,
             isMobileView: getIsMobileView(state),
+            teammateNameDisplay: getTeammateNameDisplaySetting(state),
         };
     };
 }

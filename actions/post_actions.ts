@@ -22,8 +22,10 @@ import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions';
 import * as RhsActions from 'actions/views/rhs';
 import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
+import {removeDraft} from 'actions/views/drafts';
 import {isEmbedVisible, isInlineImageVisible} from 'selectors/posts';
 import {getSelectedPostId, getSelectedPostCardId, getRhsState} from 'selectors/rhs';
+import {getGlobalItem} from 'selectors/storage';
 import {GlobalState} from 'types/store';
 import {
     ActionTypes,
@@ -276,6 +278,23 @@ export function markPostAsUnread(post: Post, location: string) {
     };
 }
 
+export function markMostRecentPostInChannelAsUnread(channelId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let state = getState();
+        let postId = PostSelectors.getMostRecentPostIdInChannel(state, channelId);
+        if (!postId) {
+            await dispatch(PostActions.getPosts(channelId));
+            state = getState();
+            postId = PostSelectors.getMostRecentPostIdInChannel(state, channelId);
+        }
+        if (postId) {
+            const lastPost = PostSelectors.getPost(state, postId);
+            dispatch(markPostAsUnread(lastPost, 'CENTER'));
+        }
+        return {data: true};
+    };
+}
+
 export function deleteAndRemovePost(post: Post) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const {error} = await dispatch(PostActions.deletePost(post));
@@ -298,6 +317,13 @@ export function deleteAndRemovePost(post: Post) {
                 postId: '',
                 channelId: '',
             });
+        }
+
+        if (post.root_id === '') {
+            const key = StoragePrefixes.COMMENT_DRAFT + post.id;
+            if (getGlobalItem(getState() as GlobalState, key, null)) {
+                dispatch(removeDraft(key, post.channel_id, post.id));
+            }
         }
 
         dispatch(PostActions.removePost(post));

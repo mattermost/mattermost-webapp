@@ -10,7 +10,6 @@ import {UserProfile} from '@mattermost/types/users';
 import {Group, SyncablePatch, SyncableType} from '@mattermost/types/groups';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Groups} from 'mattermost-redux/constants';
 
 import {getHistory} from 'utils/browser_history';
 
@@ -185,17 +184,17 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
                 filter((g) => {
                     return origGroups.some((group) => group.id === g.id && group.scheme_admin !== g.scheme_admin);
                 }).
-                map((g) => actions.patchGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM, {scheme_admin: g.scheme_admin}));
+                map((g) => actions.patchGroupSyncable(g.id, teamID, SyncableType.Team, {scheme_admin: g.scheme_admin}));
             const unlink = origGroups.
                 filter((g) => {
                     return !groups.some((group) => group.id === g.id);
                 }).
-                map((g) => actions.unlinkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM));
+                map((g) => actions.unlinkGroupSyncable(g.id, teamID, SyncableType.Team));
             const link = groups.
                 filter((g) => {
                     return !origGroups.some((group) => group.id === g.id);
                 }).
-                map((g) => actions.linkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, scheme_admin: g.scheme_admin}));
+                map((g) => actions.linkGroupSyncable(g.id, teamID, SyncableType.Team, {auto_add: true, scheme_admin: g.scheme_admin}));
             const result = await Promise.all([patchTeamPromise, ...patchTeamSyncable, ...unlink, ...link]);
             const resultWithError = result.find((r) => r.error);
             if (resultWithError) {
