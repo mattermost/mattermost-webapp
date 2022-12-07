@@ -65,8 +65,9 @@ export default class EmojiMap {
 
                     return {value: [emoji.name, emoji]};
                 }
+                const anyArr: any[] = [];
 
-                return {done: true, value: []};
+                return {done: true, value: anyArr};
             },
         };
     }

@@ -128,35 +128,33 @@ export default class EmoticonProvider extends Provider {
 
         // Check for named emoji
         for (const [name, emoji] of emojiMap) {
-            const Emoji: SystemEmoji = emoji;
-            const Name: string = name;
-            if (EMOJI_CATEGORY_SUGGESTION_BLOCKLIST.includes(Emoji.category)) {
+            if (EMOJI_CATEGORY_SUGGESTION_BLOCKLIST.includes(emoji.category)) {
                 continue;
             }
 
-            if (Emoji.short_names) {
+            if (emoji.short_names) {
                 // This is a system emoji so it may have multiple names
-                for (const alias of Emoji.short_names) {
+                for (const alias of emoji.short_names) {
                     if (alias.indexOf(partialName) !== -1) {
-                        const matchedArray = recentEmojis.includes(alias) || recentEmojis.includes(Name) ? recentMatched : matched;
+                        const matchedArray = recentEmojis.includes(alias) || recentEmojis.includes(name) ? recentMatched : matched;
 
                         // if the emoji has skin, only add those that match with the user selected skin.
-                        if (emojiMatchesSkin(Emoji, skintone)) {
-                            matchedArray.push({name: alias, emoji: Emoji, type: Preferences.CATEGORY_EMOJI});
+                        if (emojiMatchesSkin(emoji, skintone)) {
+                            matchedArray.push({name: alias, emoji, type: Preferences.CATEGORY_EMOJI});
                         }
                         break;
                     }
                 }
-            } else if (Name.indexOf(partialName) !== -1) {
+            } else if (name.indexOf(partialName) !== -1) {
                 // This is a custom emoji so it only has one name
-                if (emojiMap.hasSystemEmoji(Name)) {
+                if (emojiMap.hasSystemEmoji(name)) {
                     // System emojis take precedence over custom ones
                     continue;
                 }
 
-                const matchedArray = recentEmojis.includes(Name) ? recentMatched : matched;
+                const matchedArray = recentEmojis.includes(name) ? recentMatched : matched;
 
-                matchedArray.push({name: Name, emoji: Emoji, type: Preferences.CATEGORY_EMOJI});
+                matchedArray.push({name, emoji, type: Preferences.CATEGORY_EMOJI});
             }
         }
 
