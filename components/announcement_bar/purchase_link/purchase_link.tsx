@@ -14,7 +14,7 @@ import {findSelfHostedProductBySku} from 'utils/hosted_customer';
 import useOpenSelfHostedPurchaseModal from 'components/common/hooks/useOpenSelfHostedPurchaseModal';
 import useGetSelfHostedProducts from 'components/common/hooks/useGetSelfHostedProducts';
 import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
-import useOpenAirGappedSelfHostedPurchaseModal from 'components/common/hooks/useOpenAirGappedSelfHostedPurchaseModal';
+import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
 
 import './purchase_link.scss';
 
@@ -24,7 +24,7 @@ export interface Props {
 }
 
 const PurchaseLink: React.FC<Props> = (props: Props) => {
-    const openAirGappedPurchaseModal = useOpenAirGappedSelfHostedPurchaseModal();
+    const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
     const canUseSelfHostedSignup = useCanSelfHostedSignup();
     const openSelfHostedPurchaseModal = useOpenSelfHostedPurchaseModal({});
     const [products, productsLoaded] = useGetSelfHostedProducts();
@@ -39,7 +39,7 @@ const PurchaseLink: React.FC<Props> = (props: Props) => {
         }
 
         if (!canUseSelfHostedSignup) {
-            openAirGappedPurchaseModal();
+            controlAirgappedModal.open();
             return;
         }
 

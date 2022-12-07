@@ -188,7 +188,7 @@ describe('Self hosted Pricing modal', () => {
         // * Click the upgrade button to open the modal
         cy.get('#professional_action').should('exist').click();
 
-        cy.get('.air-gapped-purhcase-modal').should('exist');
+        cy.get('.air-gapped-purchase-modal').should('exist');
 
         cy.findByText('https://mattermost.com/pricing/#self-hosted').last().should('exist');
     });

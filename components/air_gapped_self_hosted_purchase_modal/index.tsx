@@ -2,28 +2,23 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {useDispatch} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 
 import {GenericModal} from '@mattermost/components';
-import {CloudLinks, ModalIdentifiers} from 'utils/constants';
-import {closeModal} from 'actions/views/modals';
+import {CloudLinks} from 'utils/constants';
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
+import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
 
 import './content.scss';
 
 export default function AirGappedSelfHostedPurhcaseModal() {
-    const dispatch = useDispatch();
-
-    const closeAirGappedModal = () => {
-        dispatch(closeModal(ModalIdentifiers.AIR_GAPPED_SELF_HOSTED_PURCHASE));
-    };
+    const {close} = useControlAirGappedSelfHostedPurchaseModal();
 
     return (
         <GenericModal
-            onExited={closeAirGappedModal}
+            onExited={close}
             show={true}
-            className='air-gapped-purhcase-modal'
+            className='air-gapped-purchase-modal'
         >
             <div className='content'>
                 <CreditCardSvg

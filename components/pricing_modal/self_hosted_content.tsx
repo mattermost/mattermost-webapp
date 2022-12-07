@@ -26,7 +26,7 @@ import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 
 import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
 
-import useOpenAirGappedSelfHostedPurchaseModal from 'components/common/hooks/useOpenAirGappedSelfHostedPurchaseModal';
+import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
 
 import ContactSalesCTA from './contact_sales_cta';
 import StartTrialCaution from './start_trial_caution';
@@ -64,7 +64,7 @@ function SelfHostedContent(props: ContentProps) {
     const isEnterprise = license.SkuShortName === LicenseSkus.Enterprise;
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
 
-    const openAirGappedPurchaseModal = useOpenAirGappedSelfHostedPurchaseModal();
+    const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
 
     const closePricingModal = () => {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
@@ -206,7 +206,7 @@ function SelfHostedContent(props: ContentProps) {
 
                                 if (!canUseSelfHostedSignup) {
                                     closePricingModal();
-                                    openAirGappedPurchaseModal();
+                                    controlAirgappedModal.open();
                                     return;
                                 }
 

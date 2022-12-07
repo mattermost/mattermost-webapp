@@ -14,6 +14,8 @@ import {TestHelper as TH} from 'utils/test_helper';
 import {SelfHostedProducts, ModalIdentifiers} from 'utils/constants';
 import {getToday} from 'utils/utils';
 
+import {DeepPartial} from '@mattermost/types/utilities';
+
 import SelfHostedPurchaseModal from './';
 
 interface MockCardInputProps {
@@ -105,7 +107,7 @@ const productName = 'Professional';
 
 const existingUsers = 10;
 
-const initialState: GlobalState = {
+const initialState: DeepPartial<GlobalState> = {
     views: {
         modals: {
             modalState: {
@@ -172,7 +174,7 @@ const initialState: GlobalState = {
             signupProgress: SelfHostedSignupProgress.START,
         },
     },
-} as unknown as GlobalState;
+};
 
 const valueEvent = (value: any) => ({target: {value}});
 function changeByPlaceholder(sel: string, val: any) {
@@ -183,6 +185,58 @@ function changeByPlaceholder(sel: string, val: any) {
 function selectDropdownValue(testId: string, value: string) {
     fireEvent.change(screen.getByTestId(testId).querySelector('input') as any, valueEvent(value));
     fireEvent.click(screen.getByTestId(testId).querySelector('.DropDown__option--is-focused') as any);
+}
+
+interface PurchaseForm {
+    card: string;
+    org: string;
+    name: string;
+    country: string;
+    address: string;
+    city: string;
+    state: string;
+    zip: string;
+    agree: boolean;
+
+}
+
+const defaultSuccessForm: PurchaseForm = {
+    card: successCardNumber,
+    org: 'My org',
+    name: 'The Cardholder',
+    country: 'United States of America',
+    address: '123 Main Street',
+    city: 'Minneapolis',
+    state: 'MN',
+    zip: '55423',
+    agree: true,
+};
+function fillForm(form: PurchaseForm) {
+    changeByPlaceholder('Card number', form.card);
+    changeByPlaceholder('Organization Name', form.org);
+    changeByPlaceholder('Name on Card', form.name);
+    selectDropdownValue('selfHostedPurchaseCountrySelector', form.country);
+    changeByPlaceholder('Address', form.address);
+    changeByPlaceholder('City', form.city);
+    selectDropdownValue('selfHostedPurchaseStateSelector', form.state);
+    changeByPlaceholder('Zip/Postal Code', form.zip);
+    if (form.agree) {
+        fireEvent.click(screen.getByText('I have read and agree', {exact: false}));
+    }
+
+    // not changing the license seats number,
+    // because it is expected to be pre-filled with the correct number of seats.
+
+    const upgradeButton = screen.getByText('Upgrade');
+
+    // while this will will not if the caller passes in an object
+    // that has member equality but not reference equality, this is
+    // good enough for the limited usage this function has
+    if (form === defaultSuccessForm) {
+        expect(upgradeButton).toBeEnabled();
+    }
+
+    return upgradeButton;
 }
 
 describe('SelfHostedPurchaseModal', () => {
@@ -201,35 +255,14 @@ describe('SelfHostedPurchaseModal', () => {
     it('filling the form enables signup', () => {
         renderWithIntlAndStore(<div id='root-portal'><SelfHostedPurchaseModal productId={'prod_professional'}/></div>, initialState);
         expect(screen.getByText('Upgrade')).toBeDisabled();
-        changeByPlaceholder('Card number', successCardNumber);
-        changeByPlaceholder('Organization Name', 'My org');
-        changeByPlaceholder('Name on Card', 'The Cardholder');
-        selectDropdownValue('selfHostedPurchaseCountrySelector', 'United States of America');
-        changeByPlaceholder('Address', '123 Main Street');
-        changeByPlaceholder('City', 'Minneapolis');
-        selectDropdownValue('selfHostedPurchaseStateSelector', 'MN');
-        changeByPlaceholder('Zip/Postal Code', '55423');
-        fireEvent.click(screen.getByText('I have read and agree', {exact: false}));
-
-        // not changing the license seats number,
-        // because it is expected to be pre-filled with the correct number of seats.
-        expect(screen.getByText('Upgrade')).toBeEnabled();
+        fillForm(defaultSuccessForm);
     });
 
     it('disables signup if too few seats chosen', () => {
         renderWithIntlAndStore(<div id='root-portal'><SelfHostedPurchaseModal productId={'prod_professional'}/></div>, initialState);
-        changeByPlaceholder('Card number', successCardNumber);
-        changeByPlaceholder('Organization Name', 'My org');
-        changeByPlaceholder('Name on Card', 'The Cardholder');
-        selectDropdownValue('selfHostedPurchaseCountrySelector', 'United States of America');
-        changeByPlaceholder('Address', '123 Main Street');
-        changeByPlaceholder('City', 'Minneapolis');
-        selectDropdownValue('selfHostedPurchaseStateSelector', 'MN');
-        changeByPlaceholder('Zip/Postal Code', '55423');
-        fireEvent.click(screen.getByText('I have read and agree', {exact: false}));
+        fillForm(defaultSuccessForm);
 
         const tooFewSeats = existingUsers - 1;
-        expect(screen.getByText('Upgrade')).toBeEnabled();
         fireEvent.change(screen.getByTestId('selfHostedPurchaseSeatsInput'), valueEvent(tooFewSeats.toString()));
         expect(screen.getByText('Upgrade')).toBeDisabled();
         screen.getByText('Your workspace currently has 10 users', {exact: false});
@@ -238,18 +271,8 @@ describe('SelfHostedPurchaseModal', () => {
     it('happy path submit shows success screen', async () => {
         renderWithIntlAndStore(<div id='root-portal'><SelfHostedPurchaseModal productId={'prod_professional'}/></div>, initialState);
         expect(screen.getByText('Upgrade')).toBeDisabled();
-        changeByPlaceholder('Card number', successCardNumber);
-        changeByPlaceholder('Organization Name', 'My org');
-        changeByPlaceholder('Name on Card', 'The Cardholder');
-        selectDropdownValue('selfHostedPurchaseCountrySelector', 'United States of America');
-        changeByPlaceholder('Address', '123 Main Street');
-        changeByPlaceholder('City', 'Minneapolis');
-        selectDropdownValue('selfHostedPurchaseStateSelector', 'MN');
-        changeByPlaceholder('Zip/Postal Code', '55423');
-        fireEvent.click(screen.getByText('I have read and agree', {exact: false}));
+        const upgradeButton = fillForm(defaultSuccessForm);
 
-        const upgradeButton = screen.getByText('Upgrade');
-        expect(upgradeButton).toBeEnabled();
         upgradeButton.click();
         await waitFor(() => expect(screen.getByText(`You're now subscribed to ${productName}`)).toBeTruthy(), {timeout: 1234});
     });
@@ -257,15 +280,8 @@ describe('SelfHostedPurchaseModal', () => {
     it('sad path submit shows error screen', async () => {
         renderWithIntlAndStore(<div id='root-portal'><SelfHostedPurchaseModal productId={'prod_professional'}/></div>, initialState);
         expect(screen.getByText('Upgrade')).toBeDisabled();
-        changeByPlaceholder('Card number', successCardNumber);
+        fillForm(defaultSuccessForm);
         changeByPlaceholder('Organization Name', failOrg);
-        changeByPlaceholder('Name on Card', 'The Cardholder');
-        selectDropdownValue('selfHostedPurchaseCountrySelector', 'United States of America');
-        changeByPlaceholder('Address', '123 Main Street');
-        changeByPlaceholder('City', 'Minneapolis');
-        selectDropdownValue('selfHostedPurchaseStateSelector', 'MN');
-        changeByPlaceholder('Zip/Postal Code', '55423');
-        fireEvent.click(screen.getByText('I have read and agree', {exact: false}));
 
         const upgradeButton = screen.getByText('Upgrade');
         expect(upgradeButton).toBeEnabled();
