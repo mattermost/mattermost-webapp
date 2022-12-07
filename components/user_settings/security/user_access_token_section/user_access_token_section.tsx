@@ -4,20 +4,22 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import SettingItemMax from 'components/setting_item_max';
+
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
-import {UserProfile} from '@mattermost/types/users';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
 import {isMobile} from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 import ConfirmModal from 'components/confirm_modal';
-import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import SaveButton from 'components/save_button';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
+
+import {UserProfile} from '@mattermost/types/users';
 
 const SECTION_TOKENS = 'tokens';
 const TOKEN_CREATING = 'creating';

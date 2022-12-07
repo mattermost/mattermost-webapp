@@ -44,10 +44,6 @@ export default function useGetUsageDeltas(): CloudUsage {
                     cloudArchived: usage.teams.cloudArchived,
                     teamsLoaded: usage.teams.teamsLoaded,
                 },
-                integrations: {
-                    enabled: usage.integrations.enabled - withBackupValue(limits.integrations?.enabled, limitsLoaded),
-                    enabledLoaded: usage.integrations.enabledLoaded,
-                },
             }
         );
     }, [usage, limits]);

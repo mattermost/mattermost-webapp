@@ -18,7 +18,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 
 const TOP_OFFSET = -7;
 
@@ -82,7 +82,6 @@ export default class PostReaction extends React.PureComponent<Props, State> {
                         show={showEmojiPicker}
                         target={this.props.getDotMenuRef}
                         onHide={this.props.toggleEmojiPicker}
-                        onEmojiClose={this.props.toggleEmojiPicker}
                         onEmojiClick={this.handleAddEmoji}
                         topOffset={TOP_OFFSET}
                         spaceRequiredAbove={spaceRequiredAbove}

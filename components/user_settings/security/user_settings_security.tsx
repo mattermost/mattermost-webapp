@@ -5,9 +5,9 @@ import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {UserProfile} from '@mattermost/types/users';
+import SettingItemMax from 'components/setting_item_max';
+
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {OAuthApp} from '@mattermost/types/integrations';
 
 import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
@@ -16,9 +16,11 @@ import icon50 from 'images/icon50x50.png';
 import AccessHistoryModal from 'components/access_history_modal';
 import ActivityLogModal from 'components/activity_log_modal';
 import LocalizedIcon from 'components/localized_icon';
-import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import ToggleModalButton from 'components/toggle_modal_button';
+
+import {OAuthApp} from '@mattermost/types/integrations';
+import {UserProfile} from '@mattermost/types/users';
 
 import MfaSection from './mfa_section';
 import UserAccessTokenSection from './user_access_token_section';

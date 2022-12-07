@@ -5,9 +5,10 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
+import SettingItemMax from 'components/setting_item_max';
+
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import ImportThemeModal from 'components/user_settings/import_theme_modal';
 
@@ -297,7 +298,7 @@ export default class ThemeSetting extends React.PureComponent<Props, State> {
                     submit={this.submitTheme}
                     disableEnterSubmit={true}
                     saving={this.state.isSaving}
-                    server_error={serverError}
+                    serverError={serverError}
                     width='full'
                     updateSection={this.handleUpdateSection}
                 />

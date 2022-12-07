@@ -28,6 +28,7 @@ describe('components/admin_console/billing/billing_history', () => {
                 },
             },
             cloud: {
+                errors: {},
                 invoices: {
                     in_1KNb3DI67GP2qpb4ueaJYBt8: {
                         id: 'in_1KNb3DI67GP2qpb4ueaJYBt8',
@@ -99,7 +100,7 @@ describe('components/admin_console/billing/billing_history', () => {
     test('Billing history section shows template when no invoices have been emmitted yet', () => {
         const noBillingHistoryState = {
             ...state,
-            entities: {...state.entities, cloud: {invoices: {}}},
+            entities: {...state.entities, cloud: {invoices: {}, errors: {}}},
         };
         const storeNoBillingHistory = mockStore(noBillingHistoryState);
         const wrapper = mountWithIntl(

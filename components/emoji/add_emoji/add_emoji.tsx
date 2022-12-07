@@ -11,10 +11,10 @@ import {Team} from '@mattermost/types/teams';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
+import BackstageHeader from 'components/backstage/components/backstage_header';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {localizeMessage} from 'utils/utils';
 import {Constants} from 'utils/constants';
 
@@ -186,7 +186,7 @@ export default class AddEmoji extends React.PureComponent<AddEmojiProps, AddEmoj
         if ('data' in response) {
             const savedEmoji = response as AddEmojiResponse;
             if (savedEmoji && savedEmoji.data.name === emoji.name) {
-                browserHistory.push('/' + team.name + '/emoji');
+                getHistory().push('/' + team.name + '/emoji');
                 return;
             }
         }

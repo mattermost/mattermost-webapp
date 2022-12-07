@@ -3,16 +3,12 @@
 
 import React, {CSSProperties, useCallback, useRef, useState} from 'react';
 import classNames from 'classnames';
-import {useIntl} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
 
-import {Emoji} from '@mattermost/types/emojis';
-import {FileInfo} from '@mattermost/types/files';
-import {ServerError} from '@mattermost/types/errors';
-import {Channel} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/draft';
 
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
@@ -20,7 +16,7 @@ import Textbox, {TextboxElement} from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import MessageSubmitError from 'components/message_submit_error';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
-import {SendMessageTour} from 'components/onboarding_tour';
+import {SendMessageTour} from 'components/tours/onboarding_tour';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import OverlayTrigger from 'components/overlay_trigger';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
@@ -28,6 +24,11 @@ import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_
 import * as Utils from 'utils/utils';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants, {Locations} from 'utils/constants';
+
+import {Channel} from '@mattermost/types/channels';
+import {ServerError} from '@mattermost/types/errors';
+import {FileInfo} from '@mattermost/types/files';
+import {Emoji} from '@mattermost/types/emojis';
 import RhsSuggestionList from '../suggestion/rhs_suggestion_list';
 import Tooltip from '../tooltip';
 
@@ -80,7 +81,6 @@ type Props = {
     toggleEmojiPicker: () => void;
     handleGifClick: (gif: string) => void;
     handleEmojiClick: (emoji: Emoji) => void;
-    handleEmojiClose: () => void;
     hideEmojiPicker: () => void;
     toggleAdvanceTextEditor: () => void;
     handleUploadProgress: (filePreviewInfo: FilePreviewInfo) => void;
@@ -138,7 +138,6 @@ const AdvanceTextEditor = ({
     toggleEmojiPicker,
     handleGifClick,
     handleEmojiClick,
-    handleEmojiClose,
     hideEmojiPicker,
     toggleAdvanceTextEditor,
     handleUploadProgress,
@@ -165,7 +164,7 @@ const AdvanceTextEditor = ({
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
 
-    const handleHeightChange = (height: number, maxHeight: number) => {
+    const handleHeightChange = useCallback((height: number, maxHeight: number) => {
         setRenderScrollbar(height > maxHeight);
 
         window.requestAnimationFrame(() => {
@@ -173,7 +172,7 @@ const AdvanceTextEditor = ({
                 setScrollbarWidth(Utils.scrollbarWidth(textboxRef.current.getInputBox()));
             }
         });
-    };
+    }, [textboxRef.current]);
 
     const handleShowFormat = useCallback(() => {
         setShowPreview(!shouldShowPreview);
@@ -255,7 +254,6 @@ const AdvanceTextEditor = ({
                     show={showEmojiPicker}
                     target={getEmojiPickerRef}
                     onHide={hideEmojiPicker}
-                    onEmojiClose={handleEmojiClose}
                     onEmojiClick={handleEmojiClick}
                     onGifClick={handleGifClick}
                     enableGifPicker={enableGifPicker}
@@ -386,6 +384,18 @@ const AdvanceTextEditor = ({
             }
         >
             <div
+                id={'speak-'}
+                aria-live='assertive'
+                className='sr-only'
+            >
+                {
+                    <FormattedMessage
+                        id='channelView.login.successfull'
+                        defaultMessage='Login Successfull'
+                    />
+                }
+            </div>
+            <div
                 className={'AdvancedTextEditor__body'}
                 disabled={readOnlyChannel}
             >
@@ -393,7 +403,12 @@ const AdvanceTextEditor = ({
                     role='application'
                     id='advancedTextEditorCell'
                     data-a11y-sort-order='2'
-                    aria-label={ariaLabelMessageInput}
+                    aria-label={
+                        Utils.localizeMessage(
+                            'channelView.login.successfull',
+                            'Login Successfull',
+                        ) + ' ' + ariaLabelMessageInput
+                    }
                     tabIndex={-1}
                     className='AdvancedTextEditor__cell a11y__region'
                 >

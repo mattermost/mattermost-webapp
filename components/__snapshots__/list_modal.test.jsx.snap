@@ -99,7 +99,6 @@ exports[`components/ListModal should match snapshot 1`] = `
               <LoadingScreen
                 key="loading"
                 position="absolute"
-                style={Object {}}
               />
             </div>
           </div>
@@ -212,7 +211,6 @@ exports[`components/ListModal should match snapshot with title bar button 1`] = 
               <LoadingScreen
                 key="loading"
                 position="absolute"
-                style={Object {}}
               />
             </div>
           </div>

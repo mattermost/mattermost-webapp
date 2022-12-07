@@ -6,10 +6,11 @@ import {FormattedMessage} from 'react-intl';
 
 import {Preferences} from 'mattermost-redux/constants';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 
 import {AdvancedSections} from 'utils/constants';
+
 import {PreferenceType} from '@mattermost/types/preferences';
 
 type Props = {
@@ -124,7 +125,7 @@ export default class JoinLeaveSection extends React.PureComponent<Props, State> 
                     setting={AdvancedSections.JOIN_LEAVE}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
-                    server_error={this.state.serverError}
+                    serverError={this.state.serverError}
                     updateSection={this.handleUpdateSection}
                 />
             );

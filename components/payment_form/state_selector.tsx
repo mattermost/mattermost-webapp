@@ -61,6 +61,7 @@ export default function StateSelector(props: Props) {
             onBlur={props.onBlur}
             placeholder={formatMessage({id: 'admin.billing.subscription.stateprovince', defaultMessage: 'State/Province'})}
             required={true}
-        />);
+        />
+    );
 }
 

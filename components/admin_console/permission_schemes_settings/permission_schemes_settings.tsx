@@ -19,6 +19,8 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {Scheme, SchemeScope, SchemesState} from '@mattermost/types/schemes';
 
+import {LicenseSkus} from 'utils/constants';
+
 import PermissionsSchemeSummary from './permissions_scheme_summary';
 
 const PAGE_SIZE = 30;
@@ -30,6 +32,7 @@ export type Props = {
     clusterIsEnabled?: boolean;
     license: {
         CustomPermissionsSchemes: string;
+        SkuShortName: string;
     };
     actions: {
         loadSchemes: (scope: SchemeScope, page: number, perPage: number) => Promise<ActionResult>;
@@ -150,7 +153,7 @@ export default class PermissionSchemesSettings extends React.PureComponent<Props
                 match={this.props.match}
             />
         ));
-        const hasCustomSchemes = this.props.license.CustomPermissionsSchemes === 'true';
+        const hasCustomSchemes = this.props.license.CustomPermissionsSchemes === 'true' || this.props.license.SkuShortName === LicenseSkus.Professional;
         const teamOverrideView = this.teamOverrideSchemesMigrationView();
 
         if (hasCustomSchemes) {

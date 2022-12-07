@@ -8,7 +8,7 @@ import {OAuthApp} from '@mattermost/types/integrations';
 
 import icon50 from 'images/icon50x50.png';
 import FormError from 'components/form_error';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export type Params = {
@@ -88,7 +88,7 @@ export default class Authorize extends React.PureComponent<Props, State> {
             return;
         }
 
-        browserHistory.replace('/error');
+        getHistory().replace('/error');
     }
 
     public render(): ReactNode {

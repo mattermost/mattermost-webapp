@@ -10,7 +10,7 @@ import {PreferenceType} from '@mattermost/types/preferences';
 
 import {localizeMessage} from 'utils/utils';
 import {Constants} from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import Menu from 'components/widgets/menu/menu';
 
 type Props = {
@@ -85,7 +85,7 @@ export default class CloseMessage extends React.PureComponent<Props> {
         leaveDirectChannel(channel.name);
         savePreferences(currentUser.id, [{user_id: currentUser.id, category, name, value: 'false'}]);
 
-        browserHistory.push(`/${currentTeam.name}/channels/${redirectChannel}`);
+        getHistory().push(`/${currentTeam.name}/channels/${redirectChannel}`);
     }
 
     render(): React.ReactNode {
