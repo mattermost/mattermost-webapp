@@ -524,7 +524,7 @@ export const A11yCustomEventTypes = {
 };
 
 export type A11yFocusEventDetail = {
-    target: HTMLElement | null;
+    target: HTMLElement | null | undefined;
     keyboardOnly: boolean;
 }
 

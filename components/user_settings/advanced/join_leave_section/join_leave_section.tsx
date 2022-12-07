@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode} from 'react';
+import React, {ReactNode, RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Preferences} from 'mattermost-redux/constants';
@@ -12,9 +12,11 @@ import SettingItemMin from 'components/setting_item_min';
 import {AdvancedSections} from 'utils/constants';
 
 import {PreferenceType} from '@mattermost/types/preferences';
+import {a11yFocus} from 'utils/utils';
 
 type Props = {
-    activeSection?: string;
+    active: boolean;
+    areAllSectionsInactive: boolean;
     currentUserId: string;
     joinLeave?: string;
     onUpdateSection: (section?: string) => void;
@@ -31,18 +33,33 @@ type State = {
 }
 
 export default class JoinLeaveSection extends React.PureComponent<Props, State> {
+    minRef: RefObject<typeof SettingItemMin>;
+
     constructor(props: Props) {
         super(props);
 
         this.state = {
             joinLeaveState: props.joinLeave,
         };
+
+        this.minRef = React.createRef();
+    }
+
+    focusEditButton(): void {
+        this.minRef.current?.focus();
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.active && !this.props.active && this.props.areAllSectionsInactive) {
+            this.focusEditButton();
+        }
     }
 
     public handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const value = e.currentTarget.value;
 
         this.setState({joinLeaveState: value});
+        a11yFocus(e.currentTarget);
     }
 
     public handleUpdateSection = (section?: string): void => {
@@ -63,7 +80,7 @@ export default class JoinLeaveSection extends React.PureComponent<Props, State> 
 
     public render(): React.ReactNode {
         const {joinLeaveState} = this.state;
-        if (this.props.activeSection === AdvancedSections.JOIN_LEAVE) {
+        if (this.props.active) {
             return (
                 <SettingItemMax
                     title={
@@ -142,6 +159,7 @@ export default class JoinLeaveSection extends React.PureComponent<Props, State> 
                 describe={this.props.renderOnOffLabel(joinLeaveState!)}
                 section={AdvancedSections.JOIN_LEAVE}
                 updateSection={this.handleUpdateSection}
+                ref={this.minRef}
             />
         );
     }

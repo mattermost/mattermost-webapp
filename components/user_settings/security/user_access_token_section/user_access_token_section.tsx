@@ -29,6 +29,7 @@ const TOKEN_NOT_CREATING = 'not_creating';
 type Props = {
     user: UserProfile;
     active?: boolean;
+    areAllSectionsInactive: boolean;
     updateSection: (section: string) => void;
     userAccessTokens: {[tokenId: string]: {description: string; id: string; is_active: boolean}};
     setRequireConfirm: (isRequiredConfirm: boolean, confirmCopyToken: (confirmAction: () => void) => void) => void;
@@ -78,6 +79,7 @@ type State = {
 }
 
 export default class UserAccessTokenSection extends React.PureComponent<Props, State> {
+    private minRef: React.RefObject<typeof SettingItemMin>;
     private newtokendescriptionRef: React.RefObject<HTMLInputElement>;
 
     constructor(props: Props) {
@@ -93,6 +95,13 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
             saving: false,
         };
         this.newtokendescriptionRef = React.createRef();
+        this.minRef = React.createRef();
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.active && !this.props.active && this.props.areAllSectionsInactive) {
+            this.focusEditButton();
+        }
     }
 
     componentDidMount() {
@@ -114,6 +123,10 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
             };
         }
         return {active: nextProps.active};
+    }
+
+    focusEditButton(): void {
+        this.minRef.current?.focus();
     }
 
     startCreatingToken = () => {
@@ -327,6 +340,7 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
                     describe={describe}
                     section={SECTION_TOKENS}
                     updateSection={this.props.updateSection}
+                    ref={this.minRef}
                 />
             );
         }

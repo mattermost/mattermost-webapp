@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {RefObject} from 'react';
 import ReactSelect, {ValueType} from 'react-select';
 import {FormattedMessage} from 'react-intl';
 
@@ -19,6 +19,7 @@ type Limit = {
 
 type Props = {
     active: boolean;
+    areAllSectionsInactive: boolean;
     currentUserId: string;
     savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean}>;
     dmGmLimit: number;
@@ -40,6 +41,8 @@ const limits: Limit[] = [
 ];
 
 export default class LimitVisibleGMsDMs extends React.PureComponent<Props, State> {
+    minRef: RefObject<typeof SettingItemMin>;
+
     constructor(props: Props) {
         super(props);
 
@@ -48,6 +51,8 @@ export default class LimitVisibleGMsDMs extends React.PureComponent<Props, State
             limit: {value: 20, label: '20'},
             isSaving: false,
         };
+
+        this.minRef = React.createRef();
     }
 
     static getDerivedStateFromProps(props: Props, state: State) {
@@ -69,6 +74,16 @@ export default class LimitVisibleGMsDMs extends React.PureComponent<Props, State
         }
 
         return null;
+    }
+
+    focusEditButton(): void {
+        this.minRef.current?.focus();
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.active && !this.props.active && this.props.areAllSectionsInactive) {
+            this.focusEditButton();
+        }
     }
 
     handleChange = (selected: ValueType<Limit>) => {
@@ -113,6 +128,7 @@ export default class LimitVisibleGMsDMs extends React.PureComponent<Props, State
                     describe={this.renderDescription()}
                     section='limitVisibleGMsDMs'
                     updateSection={this.props.updateSection}
+                    ref={this.minRef}
                 />
             );
         }
