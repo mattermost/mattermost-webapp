@@ -92,7 +92,7 @@ jobs:
                repo: context.repo.repo,
                artifact_id: latestArtifact.id,
             });
-        run: |
+      - run: |
           value=`cat download.data`
           echo Previous run was $value
       - name: Upload artifacts
