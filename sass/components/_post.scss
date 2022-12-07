@@ -493,6 +493,37 @@
     .channel-archived__close-btn {
         margin: 10px;
     }
+
+    #quoteButton {
+        z-index: 9999;
+        margin-left: 0;
+        opacity: unset;
+        pointer-events: unset;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        svg {
+            opacity: 0.8;
+        }
+
+        .tooltip-inner {
+            display: flex;
+            width: 36px;
+            height: 28px;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border: 1px solid rgba(var(--center-channel-color) 0.16);
+            background-color: var(--center-channel-color);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+        }
+
+        .tooltip-arrow {
+            border-top-color: var(--center-channel-color);
+        }
+    }
 }
 
 .post-body__actions {

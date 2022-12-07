@@ -11,6 +11,7 @@ type Props = {
     children?: React.ReactNode;
     positionLeft?: number;
     placement?: string;
+    onClick?: () => void;
 };
 
 export default function Tooltip(props: Props) {
@@ -21,6 +22,7 @@ export default function Tooltip(props: Props) {
             positionLeft={props.positionLeft}
             style={props.style}
             placement={props.placement}
+            onClick={props.onClick}
         >
             {props.children}
         </RBTooltip>
