@@ -45,6 +45,7 @@ describe('PostMessagePreview', () => {
         actions: {
             toggleEmbedVisibility: jest.fn(),
         },
+        isPostPriorityEnabled: false,
     };
 
     test('should render correctly', () => {

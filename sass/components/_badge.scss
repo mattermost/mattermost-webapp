@@ -19,6 +19,11 @@
         .badge {
             background: var(--mention-bg);
             color: var(--mention-color);
+
+            &.urgent {
+                background-color: var(--dnd-indicator);
+                color: #fff;
+            }
         }
     }
 

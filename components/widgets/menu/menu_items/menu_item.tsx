@@ -46,7 +46,7 @@ export default function menuItem(Component: React.ComponentType<any>) {
                 >
                     <Component
                         text={textProp}
-                        ariaLabel={text}
+                        ariaLabel={text?.toString()}
                         {...props}
                     />
                 </li>

@@ -8,7 +8,7 @@ import Tooltip from 'components/tooltip';
 
 import Constants from 'utils/constants';
 
-type TableItem = {
+export type TableItem = {
     name: string;
     tip: string;
     value: React.ReactNode;

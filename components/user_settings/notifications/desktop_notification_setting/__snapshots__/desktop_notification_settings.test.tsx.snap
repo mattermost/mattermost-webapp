@@ -148,7 +148,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
   }
   saving={false}
   section=""
-  server_error=""
+  serverError=""
   submit={[MockFunction]}
   title="Desktop Notifications"
   updateSection={[Function]}
@@ -245,7 +245,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
   }
   saving={false}
   section=""
-  server_error=""
+  serverError=""
   submit={[MockFunction]}
   title="Desktop Notifications"
   updateSection={[Function]}
@@ -428,7 +428,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
   }
   saving={false}
   section=""
-  server_error=""
+  serverError=""
   submit={[MockFunction]}
   title="Desktop Notifications"
   updateSection={[Function]}
@@ -632,7 +632,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
   }
   saving={false}
   section=""
-  server_error=""
+  serverError=""
   submit={[MockFunction]}
   title="Desktop Notifications"
   updateSection={[Function]}

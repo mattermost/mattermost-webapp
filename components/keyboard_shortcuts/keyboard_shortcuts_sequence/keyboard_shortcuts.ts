@@ -20,11 +20,11 @@ const callsKBShortcuts = {
         callsJoinCall: {
             default: {
                 id: t('shortcuts.calls.join_call'),
-                defaultMessage: 'Join call in current channel:\tCtrl|Shift|S',
+                defaultMessage: 'Join call in current channel:\tCtrl|Alt|S',
             },
             mac: {
                 id: t('shortcuts.calls.join_call.mac'),
-                defaultMessage: 'Join call in current channel:\t⌘|Shift|S',
+                defaultMessage: 'Join call in current channel:\t⌘|⌥|S',
             },
         },
     },
@@ -259,6 +259,16 @@ export const KEYBOARD_SHORTCUTS = {
         mac: {
             id: t('shortcuts.nav.open_channel_info.mac'),
             defaultMessage: 'View channel info:\t⌘|Shift|I',
+        },
+    },
+    navToggleUnreads: {
+        default: {
+            id: t('shortcuts.nav.toggle_unreads'),
+            defaultMessage: 'Toggle unread/all channels:\tCtrl|Shift|U',
+        },
+        mac: {
+            id: t('shortcuts.nav.toggle_unreads.mac'),
+            defaultMessage: 'Toggle unread/all channels:\t⌘|Shift|U',
         },
     },
     msgEdit: {
@@ -501,6 +511,16 @@ export const KEYBOARD_SHORTCUTS = {
         mac: {
             id: t('shortcuts.msgs.search_channel.mac'),
             defaultMessage: 'In channel:\t⌘|F',
+        },
+    },
+    msgPostPriority: {
+        default: {
+            id: t('shortcuts.msgs.formatting_bar.post_priority'),
+            defaultMessage: 'Message priority',
+        },
+        mac: {
+            id: t('shortcuts.msgs.formatting_bar.post_priority'),
+            defaultMessage: 'Message priority',
         },
     },
     calls: callsKBShortcuts,

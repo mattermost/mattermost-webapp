@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {AppBinding} from '@mattermost/types/apps';
+import {GlobalState} from '@mattermost/types/store';
 
 import * as Selectors from 'mattermost-redux/selectors/entities/apps';
-import {GlobalState} from 'types/store';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
 const makeNewState = (pluginEnabled: boolean, flag?: string, bindings?: AppBinding[]) => ({

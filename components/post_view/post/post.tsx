@@ -405,8 +405,8 @@ export default class Post extends React.PureComponent<Props, State> {
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = checkIsMeMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
-        const fromWebhook = post && post.props && post.props.from_webhook === 'true';
-        const fromBot = post && post.props && post.props.from_bot === 'true';
+        const fromWebhook = post && PostUtils.isFromWebhook(post);
+        const fromBot = post && PostUtils.isFromBot(post);
 
         let profilePic;
         const hideProfilePicture = this.hasSameRoot(this.props) && this.props.consecutivePostByUser && (!post.root_id && !hasReplies) && !fromBot;
@@ -443,7 +443,7 @@ export default class Post extends React.PureComponent<Props, State> {
                 colorizeUsernames={this.props.compactDisplay && this.props.colorizeUsernames}
                 isFirstReply={this.props.isFirstReply}
                 showTimeWithoutHover={!hideProfilePicture}
-                hover={(this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened) && !this.props.isBeingEdited}
+                hover={(this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened) && !isBeingEdited}
                 isLastPost={this.props.isLastPost}
             />
         );
@@ -514,6 +514,7 @@ export default class Post extends React.PureComponent<Props, State> {
                                 showSlot={showSlot}
                                 slot1={slot1}
                                 slot2={slot2}
+                                shouldScrollIntoView={isBeingEdited}
                                 onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
                             />
                             {threadFooter}

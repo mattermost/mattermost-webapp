@@ -150,6 +150,7 @@ export default class EmojiPickerTabs extends PureComponent {
                     visible={this.state.emojiTabVisible}
                     onEmojiClick={this.props.onEmojiClick}
                     handleFilterChange={this.handleFilterChange}
+                    handleEmojiPickerClose={this.handleEmojiPickerClose}
                 />
             </div>
         );

@@ -6,7 +6,6 @@ import {FormattedDate, FormattedMessage, FormattedNumber} from 'react-intl';
 
 import {BillingSchemes, CloudLinks, TrialPeriodDays} from 'utils/constants';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import BlockableLink from 'components/admin_console/blockable_link';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -50,39 +49,6 @@ export const noBillingHistory = (
     </div>
 );
 
-export const upgradeFreeTierMattermostCloud = (onUpgradeMattermostCloud: (callerInfo: string) => void) => (
-    <div className='UpgradeMattermostCloud'>
-        <div className='UpgradeMattermostCloud__image'>
-            <UpgradeSvg
-                width={234}
-                height={167}
-            />
-        </div>
-        <div className='UpgradeMattermostCloud__title'>
-            <FormattedMessage
-                id='admin.billing.subscription.upgradeMattermostCloud.title'
-                defaultMessage='Subscribe to Mattermost'
-            />
-        </div>
-        <div className='UpgradeMattermostCloud__description'>
-            <FormattedMessage
-                id='admin.billing.subscription.upgradeMattermostCloud.description'
-                defaultMessage='The free tier is limited to 10 users. Get access to more users, teams and other great features.'
-            />
-        </div>
-        <button
-            type='button'
-            onClick={() => onUpgradeMattermostCloud('billing_summary_legacy_free_tier_upgrade_button')}
-            className='UpgradeMattermostCloud__upgradeButton'
-        >
-            <FormattedMessage
-                id='admin.billing.subscription.upgradeMattermostCloud.upgradeButton'
-                defaultMessage='Upgrade Now'
-            />
-        </button>
-    </div>
-);
-
 export const freeTrial = (onUpgradeMattermostCloud: (callerInfo: string) => void, daysLeftOnTrial: number) => (
     <div className='UpgradeMattermostCloud'>
         <div className='UpgradeMattermostCloud__image'>
@@ -107,21 +73,21 @@ export const freeTrial = (onUpgradeMattermostCloud: (callerInfo: string) => void
         </div>
         <div className='UpgradeMattermostCloud__description'>
             {daysLeftOnTrial > TrialPeriodDays.TRIAL_WARNING_THRESHOLD &&
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.billing.subscription.freeTrial.description'
                     defaultMessage='Your free trial will expire in {daysLeftOnTrial} days. Add your payment information to continue after the trial ends.'
                     values={{daysLeftOnTrial}}
                 />
             }
             {(daysLeftOnTrial > TrialPeriodDays.TRIAL_1_DAY && daysLeftOnTrial <= TrialPeriodDays.TRIAL_WARNING_THRESHOLD) &&
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.billing.subscription.freeTrial.lessThan3Days.description'
                     defaultMessage='Your free trial will end in {daysLeftOnTrial, number} {daysLeftOnTrial, plural, one {day} other {days}}. Add payment information to continue enjoying the benefits of Cloud Professional.'
                     values={{daysLeftOnTrial}}
                 />
             }
             {(daysLeftOnTrial === TrialPeriodDays.TRIAL_1_DAY || daysLeftOnTrial === TrialPeriodDays.TRIAL_0_DAYS) &&
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='admin.billing.subscription.freeTrial.lastDay.description'
                     defaultMessage='Your free trial has ended. Add payment information to continue enjoying the benefits of Cloud Professional.'
                 />
@@ -218,7 +184,7 @@ export const lastInvoiceInfo = (invoice: any, product: any, fullCharges: any, pa
                                     style='currency'
                                     currency='USD'
                                 />
-                                <FormattedMarkdownMessage
+                                <FormattedMessage
                                     id='admin.billing.subscriptions.billing_summary.lastInvoice.userCount'
                                     defaultMessage=' x {users} users'
                                     values={{users: charge.quantity}}
@@ -276,7 +242,7 @@ export const lastInvoiceInfo = (invoice: any, product: any, fullCharges: any, pa
                     className='BillingSummary__lastInvoice-charge'
                 >
                     <div className='BillingSummary__lastInvoice-chargeDescription'>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='admin.billing.subscriptions.billing_summary.lastInvoice.userCountPartial'
                             defaultMessage='{users} users'
                             values={{users: charge.quantity}}

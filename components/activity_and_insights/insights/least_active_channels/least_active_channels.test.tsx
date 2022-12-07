@@ -59,6 +59,14 @@ jest.mock('mattermost-redux/actions/insights', () => ({
                     last_activity_at: 1660175775169,
                     participants: [],
                 },
+                {
+                    id: 'uziynciroprq4g6ohhnednoeuw',
+                    type: 'O',
+                    display_name: 'dolor',
+                    name: 'aut-9',
+                    last_activity_at: 0,
+                    participants: [],
+                },
             ],
         }}),
 }));
@@ -111,6 +119,14 @@ describe('components/activity_and_insights/insights/top_boards', () => {
                         last_activity_at: 1660175775169,
                         team_id: 'team_id1',
                     },
+                    uziynciroprq4g6ohhnednoeuw: {
+                        id: 'uziynciroprq4g6ohhnednoeuw',
+                        type: 'O',
+                        display_name: 'dolor',
+                        name: 'aut-9',
+                        last_activity_at: 0,
+                        participants: [],
+                    },
                 },
                 myMembers: {},
             },
@@ -141,7 +157,7 @@ describe('components/activity_and_insights/insights/top_boards', () => {
         },
     };
 
-    test('check if 3 channels render', async () => {
+    test('check if 4 channels render', async () => {
         const store = await mockStore(initialState);
         const wrapper = mountWithIntl(
             <Provider store={store}>
@@ -154,7 +170,7 @@ describe('components/activity_and_insights/insights/top_boards', () => {
         );
         await actImmediate(wrapper);
 
-        expect(wrapper.find('a.channel-row').length).toEqual(3);
+        expect(wrapper.find('a.channel-row').length).toEqual(4);
     });
 
     test('check if 0 channels render', async () => {

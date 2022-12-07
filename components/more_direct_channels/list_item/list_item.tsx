@@ -28,7 +28,7 @@ const TIME_SPEC: React.ComponentProps<typeof Timestamp> = {
     ],
 };
 
-type Props = {
+export type Props = {
     option: OptionValue;
     isMobileView: boolean;
     isSelected: boolean;

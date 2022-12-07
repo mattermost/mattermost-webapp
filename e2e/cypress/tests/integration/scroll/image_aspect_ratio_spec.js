@@ -67,7 +67,7 @@ function verifyImageAspectRatioCorrectness(originalImage) {
         and((img) => {
             expect(img.width() / img.height()).to.be.closeTo(
                 originalImage.width / originalImage.height,
-                0.01,
+                0.02,
             );
         });
 }

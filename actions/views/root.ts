@@ -14,7 +14,7 @@ import en from 'i18n/en.json';
 
 const pluginTranslationSources: Record<string, TranslationPluginFunction> = {};
 
-type TranslationPluginFunction = (locale: string) => Translations
+export type TranslationPluginFunction = (locale: string) => Translations
 
 export function loadConfigAndMe() {
     return async (dispatch: DispatchFunc) => {

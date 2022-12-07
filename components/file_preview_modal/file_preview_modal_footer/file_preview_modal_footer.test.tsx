@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {shallow} from 'enzyme';
 import React from 'react';
 
@@ -22,6 +23,8 @@ describe('components/file_preview_modal/file_preview_modal_footer/FilePreviewMod
         isExternalFile: false,
         onGetPublicLink: jest.fn(),
         handleModalClose: jest.fn(),
+        content: '',
+        canCopyContent: false,
     };
 
     test('should match snapshot the desktop view', () => {

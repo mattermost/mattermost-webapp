@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
@@ -10,7 +11,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 
-import {LicenseLinks} from 'utils/constants';
+import {LicenseLinks, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 const StyledA = styled.a`
 color: var(--denim-button-bg);
@@ -39,7 +40,7 @@ function ContactSalesCTA() {
             onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
                 e.preventDefault();
                 if (isCloud) {
-                    trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
+                    trackEvent(TELEMETRY_CATEGORIES.CLOUD_PRICING, 'click_enterprise_contact_sales');
                     openSalesLink();
                 } else {
                     trackEvent('self_hosted_pricing', 'click_enterprise_contact_sales');
@@ -48,7 +49,8 @@ function ContactSalesCTA() {
             }}
         >
             {formatMessage({id: 'pricing_modal.btn.contactSalesForQuote', defaultMessage: 'Contact Sales'})}
-        </StyledA>);
+        </StyledA>
+    );
 }
 
 export default ContactSalesCTA;

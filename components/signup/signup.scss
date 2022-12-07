@@ -8,6 +8,16 @@
     flex-direction: column;
     margin: auto;
 
+    .signup-body-action {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+
+        @media (max-width: 700px) {
+            width: 100%;
+        }
+    }
+
     .signup-body-alternate-link {
         margin-bottom: 18px;
     }
@@ -93,12 +103,20 @@
                     }
                 }
 
+                .signup-body-message-subtitle {
+                    padding-right: 0;
+                }
+
                 .signup-body-custom-branding-image {
                     max-height: 540px;
                     align-self: center;
                     margin-bottom: 28px;
                     border-radius: 8px;
                 }
+            }
+
+            &.with-alternate-link {
+                margin-top: 40px;
             }
         }
 

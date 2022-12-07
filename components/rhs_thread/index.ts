@@ -2,15 +2,13 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
 
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
-import {removePost, getPostThread} from 'mattermost-redux/actions/posts';
-import {GenericAction} from 'mattermost-redux/types/actions';
+
 import {Post} from '@mattermost/types/posts';
 
 import {getSelectedChannel, getSelectedPost} from 'selectors/rhs';
-import {selectPostCard} from 'actions/views/rhs';
 import {GlobalState} from 'types/store';
 
 import RhsThread from './rhs_thread';
@@ -20,8 +18,8 @@ function makeMapStateToProps() {
 
     return function mapStateToProps(state: GlobalState) {
         const selected = getSelectedPost(state);
-
         const channel = getSelectedChannel(state);
+        const currentTeam = getCurrentTeam(state);
         let posts: Post[] = [];
         if (selected) {
             posts = getPostsForThread(state, selected.id);
@@ -31,18 +29,8 @@ function makeMapStateToProps() {
             selected,
             channel,
             posts,
+            currentTeam,
         };
     };
 }
-
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
-    return {
-        actions: bindActionCreators({
-            removePost,
-            selectPostCard,
-            getPostThread,
-        }, dispatch),
-    };
-}
-
-export default connect(makeMapStateToProps, mapDispatchToProps)(RhsThread);
+export default connect(makeMapStateToProps)(RhsThread);

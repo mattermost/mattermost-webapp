@@ -21,7 +21,7 @@ const mime = require('mime-types');
 require('dotenv').config();
 
 const maxRetry = 5;
-const timeout = 10 * 1000;
+const timeout = 60 * 1000;
 
 axiosRetry(axios, {
     retries: maxRetry,
@@ -154,7 +154,7 @@ async function uploadScreenshot(filePath, repo, branch, build) {
             return {code: err.code};
         }
 
-        return err.response && err.response.data;
+        return {error: 'Failed to upload a screenshot.'};
     }
 }
 

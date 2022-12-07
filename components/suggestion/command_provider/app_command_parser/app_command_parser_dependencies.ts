@@ -126,7 +126,6 @@ export const getOpenInModalSuggestion = (parsed: ParsedCommand): AutocompleteSug
 };
 
 export type ExtendedAutocompleteSuggestion = AutocompleteSuggestion & {
-    type?: string;
     item?: UserProfile | Channel;
 }
 
