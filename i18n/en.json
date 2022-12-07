@@ -4314,7 +4314,7 @@
   "persist_notification.too_few.title": "Recipients must be @mentioned",
   "persist_notification.too_many.confirm": "Got it",
   "persist_notification.too_many.description": "You can send persistent notifications to a maximum of <b>{max}</b> recipients. There are <b>{count}</b> recipients mentioned in your message. You’ll need to change who you’ve mentioned before you can send.",
-  "persist_notification.too_many.title": "Too many recipients?",
+  "persist_notification.too_many.title": "Too many recipients",
   "picture_selector.image.ariaLabel": "Picture selector image",
   "picture_selector.remove_picture": "Remove picture",
   "picture_selector.select_button.ariaLabel": "Select picture",

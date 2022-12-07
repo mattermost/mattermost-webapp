@@ -57,7 +57,7 @@ function PersistNotificationConfirmModal({
         title = (
             <FormattedMessage
                 id='persist_notification.too_many.title'
-                defaultMessage='Too many recipients?'
+                defaultMessage='Too many recipients'
             />
         );
         body = (
