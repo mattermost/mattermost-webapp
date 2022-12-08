@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode, useState, MouseEvent} from 'react';
+import React, {ReactNode, useState, MouseEvent, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import MuiMenuList from '@mui/material/MenuList';
 import {PopoverOrigin} from '@mui/material/Popover';
@@ -20,10 +20,12 @@ import GenericModal from 'components/generic_modal';
 import {MuiMenuStyled} from './menu_styled';
 import {MenuItem, Props as MenuItemProps} from './menu_item';
 
-interface Props extends MenuItemProps {
-
-    triggerElement?: ReactNode;
-    triggerAriaLabel?: string;
+interface Props {
+    id?: MenuItemProps['id'];
+    leadingElement?: MenuItemProps['leadingElement'];
+    labels: MenuItemProps['labels'];
+    trailingElements?: MenuItemProps['trailingElements'];
+    isDestructive?: MenuItemProps['isDestructive'];
 
     // Menu props
     menuId: string;
@@ -53,6 +55,21 @@ export function SubMenu(props: Props) {
         event.preventDefault();
         setAnchorElement(null);
     };
+
+    useEffect(() => {
+        function handleOnKeydown(event: KeyboardEvent) {
+            if (event.key === 'Escape' || event.key === 'Esc') {
+                event.preventDefault();
+                setAnchorElement(null);
+            }
+        }
+
+        document.addEventListener('keydown', handleOnKeydown);
+
+        return () => {
+            document.removeEventListener('keydown', handleOnKeydown);
+        };
+    }, []);
 
     const hasSubmenuItems = Boolean(props.children);
     if (!hasSubmenuItems) {
@@ -103,17 +120,12 @@ export function SubMenu(props: Props) {
                 aria-controls={props.menuId}
                 aria-haspopup={true}
                 aria-expanded={isSubMenuOpen}
-                aria-label={props.triggerAriaLabel}
                 disableRipple={true}
-                primaryLabel={props.primaryLabel}
-                secondaryLabel={props.secondaryLabel}
                 leadingElement={props.leadingElement}
-                trailingElement={props.trailingElement}
-                subMenuDetails={props.subMenuDetails}
+                labels={props.labels}
+                trailingElements={props.trailingElements}
                 onClick={handleAnchorButtonClickOnMobile}
-            >
-                {props.triggerElement}
-            </MenuItem>
+            />
         );
     }
 
@@ -122,13 +134,10 @@ export function SubMenu(props: Props) {
             aria-controls={props.menuId}
             aria-haspopup={true}
             aria-expanded={isSubMenuOpen}
-            aria-label={props.triggerAriaLabel}
             disableRipple={true}
-            primaryLabel={props.primaryLabel}
-            secondaryLabel={props.secondaryLabel}
             leadingElement={props.leadingElement}
-            trailingElement={props.trailingElement}
-            subMenuDetails={props.subMenuDetails}
+            labels={props.labels}
+            trailingElements={props.trailingElements}
             onClick={handleSubMenuOpen}
             onMouseEnter={handleSubMenuOpen}
             onMouseLeave={handleSubMenuClose}

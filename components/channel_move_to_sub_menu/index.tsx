@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ReactNode} from 'react';
+import React, {memo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -74,7 +74,7 @@ const ChannelMoveToSubMenu = (props: Props) => {
 
     function createSubmenuItemsForCategoryArray(categories: ChannelCategory[], currentCategory?: ChannelCategory) {
         const allCategories = categories.map((category: ChannelCategory) => {
-            let text: ReactNode = <span>{category.display_name}</span>;
+            let text = <span>{category.display_name}</span>;
 
             if (category.type === CategoryTypes.FAVORITES) {
                 text = (
@@ -108,8 +108,8 @@ const ChannelMoveToSubMenu = (props: Props) => {
                     id={`moveToCategory-${props.channel.id}-${category.id}`}
                     key={`moveToCategory-${props.channel.id}-${category.id}`}
                     leadingElement={category.type === CategoryTypes.FAVORITES ? (<StarOutlineIcon size={16}/>) : (<FolderOutlineIcon size={16}/>)}
-                    primaryLabel={text}
-                    trailingElement={selectedCategory}
+                    labels={text}
+                    trailingElements={selectedCategory}
                     onClick={() => handleMoveToCategory(category.id)}
                 />
             );
@@ -121,7 +121,7 @@ const ChannelMoveToSubMenu = (props: Props) => {
                 id={`moveToNewCategory-${props.channel.id}`}
                 key={`moveToNewCategory-${props.channel.id}`}
                 leadingElement={<FolderMoveOutlineIcon size={16}/>}
-                primaryLabel={
+                labels={
                     <FormattedMessage
                         id='sidebar_left.sidebar_channel_menu.moveToNewCategory'
                         defaultMessage='New Category'
@@ -176,14 +176,14 @@ const ChannelMoveToSubMenu = (props: Props) => {
     return (
         <Menu.SubMenu
             id={`moveTo-${props.channel.id}`}
-            primaryLabel={
+            labels={
                 <FormattedMessage
                     id='sidebar_left.sidebar_channel_menu.moveTo'
                     defaultMessage='Move to...'
                 />
             }
             leadingElement={props.inHeaderDropdown ? null : <FolderMoveOutlineIcon size={18}/>}
-            trailingElement={<ArrowForwardIosIcon size={18}/>}
+            trailingElements={<ArrowForwardIosIcon size={18}/>}
             menuId={`moveTo-${props.channel.id}-menu`}
         >
             {getMoveToCategorySubmenuItems(categories, currentCategory)}

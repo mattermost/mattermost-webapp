@@ -48,7 +48,7 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`markAsRead-${props.channel.id}`}
                 onClick={handleMarkAsRead}
                 leadingElement={<MarkAsUnreadIcon size={18}/>}
-                primaryLabel={
+                labels={
                     <FormattedMessage
                         id='sidebar_left.sidebar_channel_menu.markAsRead'
                         defaultMessage='Mark as Read'
@@ -70,7 +70,7 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`markAsUnread-${props.channel.id}`}
                 onClick={handleMarkAsUnread}
                 leadingElement={<MarkAsUnreadIcon size={18}/>}
-                primaryLabel={
+                labels={
                     <FormattedMessage
                         id='sidebar_left.sidebar_channel_menu.markAsUnread'
                         defaultMessage='Mark as Unread'
@@ -93,7 +93,7 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`unfavorite-${props.channel.id}`}
                 onClick={handleUnfavoriteChannel}
                 leadingElement={<StarIcon size={18}/>}
-                primaryLabel={
+                labels={
                     <FormattedMessage
                         id='sidebar_left.sidebar_channel_menu.unfavoriteChannel'
                         defaultMessage='Unfavorite'
@@ -115,7 +115,7 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`favorite-${props.channel.id}`}
                 onClick={handleFavoriteChannel}
                 leadingElement={<StarOutlineIcon size={18}/>}
-                primaryLabel={
+                labels={
                     <FormattedMessage
                         id='sidebar_left.sidebar_channel_menu.favoriteChannel'
                         defaultMessage='Favorite'
@@ -153,7 +153,7 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`unmute-${props.channel.id}`}
                 onClick={handleUnmuteChannel}
                 leadingElement={<BellOffOutlineIcon size={18}/>}
-                primaryLabel={muteChannelText}
+                labels={muteChannelText}
             />
         );
     } else {
@@ -183,7 +183,7 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`mute-${props.channel.id}`}
                 onClick={handleMuteChannel}
                 leadingElement={<BellOutlineIcon size={18}/>}
-                primaryLabel={muteChannelText}
+                labels={muteChannelText}
             />
         );
     }
@@ -201,7 +201,7 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`copyLink-${props.channel.id}`}
                 onClick={handleCopyLink}
                 leadingElement={<LinkVariantIcon size={18}/>}
-                primaryLabel={
+                labels={
                     <FormattedMessage
                         id='sidebar_left.sidebar_channel_menu.copyLink'
                         defaultMessage='Copy Link'
@@ -229,7 +229,7 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`addMembers-${props.channel.id}`}
                 onClick={handleAddMembers}
                 leadingElement={<AccountOutlineIcon size={18}/>}
-                primaryLabel={
+                labels={
                     <FormattedMessage
                         id='sidebar_left.sidebar_channel_menu.addMembers'
                         defaultMessage='Add Members'
@@ -276,14 +276,14 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`leave-${props.channel.id}`}
                 onClick={handleLeaveChannel}
                 leadingElement={<CloseIcon size={18}/>}
-                primaryLabel={leaveChannelText}
+                labels={leaveChannelText}
                 isDestructive={true}
             />
         );
     }
 
     return (
-        <Menu.Menu
+        <Menu.Container
             triggerElement={<DotsVerticalIcon size={16}/>}
             triggerClassName='SidebarMenu_menuButton'
             triggerAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
@@ -303,7 +303,7 @@ const SidebarChannelMenu = (props: Props) => {
             {addMembersMenuItem}
             {leaveChannelMenuItem && <Menu.Divider/>}
             {leaveChannelMenuItem}
-        </Menu.Menu>
+        </Menu.Container>
     );
 };
 

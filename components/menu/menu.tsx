@@ -43,6 +43,16 @@ interface Props {
     children: ReactNode[];
 }
 
+/**
+ * @example
+ * import * as Menu from 'components/menu';
+ *
+ * <Menu.Container>
+ *  <Menu.Item>
+ *  <Menu.Item>
+ *  <Menu.Divider/>
+ * </Menu.Item>
+ */
 export function Menu(props: Props) {
     const theme = useSelector(getTheme);
 
@@ -81,7 +91,7 @@ export function Menu(props: Props) {
         setAnchorElement(null);
     }
 
-    function triggerButton() {
+    function renderTriggerButton() {
         // Since the open and close state lies in this component, we need to force the visibility of the trigger element
         const forceVisibleOnOpen = isMenuOpen ? {display: 'block'} : undefined;
 
@@ -126,12 +136,12 @@ export function Menu(props: Props) {
 
     if (isMobileView) {
         // In mobile view, the menu is rendered as a modal
-        return triggerButton();
+        return renderTriggerButton();
     }
 
     return (
         <CompassDesignProvider theme={theme}>
-            {triggerButton()}
+            {renderTriggerButton()}
             <MuiMenuStyled
                 id={props.menuId}
                 anchorEl={anchorElement}

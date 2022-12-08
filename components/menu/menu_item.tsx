@@ -1,28 +1,79 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode} from 'react';
+import React, {ReactElement, ReactNode} from 'react';
 import {styled} from '@mui/material/styles';
 import MuiMenuItem from '@mui/material/MenuItem';
 import type {MenuItemProps as MuiMenuItemProps} from '@mui/material/MenuItem';
 
 export interface Props extends MuiMenuItemProps {
-    primaryLabel: ReactNode;
+
+    /**
+     * To support quick recognition of menu item. Could be icon, avatar or emoji.
+     */
     leadingElement?: ReactNode;
-    secondaryLabel?: ReactNode;
-    trailingElement?: ReactNode;
-    subMenuDetails?: ReactNode;
+
+    /**
+     * There can be two labels for a menu item - primaryLabel and secondaryLabel.
+     * If only one element is passed, it will be primaryLabel. And if another element is passed, it will be secondaryLabel.
+     * @example
+     * <Menu.Item labels={<FormattedMessage id="primary.label" defaultMessage="primary Label"/>}/>
+     *
+     * @example
+     * <Menu.Item labels={
+     *  <>
+     *   <FormattedMessage id="primary.label" defaultMessage="primary Label"/>
+     *   <FormattedMessage id="secondary.label" defaultMessage="secondary Label"/>
+     * </>
+     * }/>
+     *
+     * @note
+     * Wraps the labels with element such as span, div etc. to support styling instead of passing text node directly.
+     */
+    labels: ReactElement;
+
+    /**
+     * The meta data element to display extra information about menu item. Could be chevron, shortcut or badge.
+     * It is formed with subMenuDetail and trailingElement. If only one is passed, it will be tailingElement. If two are
+     * passed, first will be subMenuDetail and second will be trailingElement.
+     *
+     * @example
+     * <Menu.Item trailingElement={<Badge/>}/>
+     *
+     * @example
+     * <Menu.Item labels={
+     *  <>
+     *   <FormattedMessage id="submenu.detail" defaultMessage="submenu detail"/>
+     *   <Badge/>
+     * </>
+     * }/>
+     */
+    trailingElements?: ReactNode;
+
+    /**
+     * For actions of menu item that are destructive in nature and harder to undo.
+     */
     isDestructive?: boolean;
     children?: ReactNode;
 }
 
+/**
+ * To be used as a child of Menu component.
+ * Checkout Compass's Menu Item(compass.mattermost.com)  for terminology, styling and usage guidelines.
+ *
+ * @example
+ * <Menu.Container>
+ *    <Menu.Item/>
+ * </Menu.Container>
+ *
+ * @caution
+ * avoid passing children to this component. It exists to support submenus only.
+ */
 export function MenuItem(props: Props) {
     const {
-        primaryLabel,
         leadingElement,
-        secondaryLabel,
-        trailingElement,
-        subMenuDetails,
+        labels,
+        trailingElements,
         isDestructive,
         children,
         ...restProps
@@ -35,17 +86,9 @@ export function MenuItem(props: Props) {
             isDestructive={isDestructive}
             {...restProps}
         >
-            {leadingElement}
-            <div className='label-elements'>
-                {primaryLabel}
-                {secondaryLabel}
-            </div>
-            {(subMenuDetails || trailingElement) && (
-                <div className='trailing-elements'>
-                    {subMenuDetails}
-                    {trailingElement}
-                </div>
-            )}
+            {leadingElement && <div className='leading-element'>{leadingElement}</div>}
+            <div className='label-elements'>{labels}</div>
+            {trailingElements && <div className='trailing-elements'>{trailingElements}</div>}
             {children}
         </MenuItemStyled>
     );
@@ -65,7 +108,7 @@ const MenuItemStyled = styled(MuiMenuItem, {
             flexWrap: 'nowrap',
             justifyContent: 'flex-start',
             alignItems: 'flex-start',
-            pointerEvents: 'auto', // To resume pointer events if they were disabled by the parent submenu (if used)
+            pointerEvents: 'auto', // To resume pointer events if they were disabled by the parent submenu
 
             '&:hover': {
                 backgroundColor: !isDestructive ? 'rgba(var(--center-channel-color-rgb), 0.08)' : 'var(--error-text)',
@@ -95,15 +138,13 @@ const MenuItemStyled = styled(MuiMenuItem, {
             '&.Mui-focusVisible .label-elements>:last-child': {
                 color: isDestructive && 'var(--button-color)',
             },
-            '&.Mui-focusVisible .label-elements>:first-child, &.Mui-focusVisible .label-elements>:only-child':
-                {
-                    color: isDestructive && 'var(--button-color)',
-                },
+            '&.Mui-focusVisible .label-elements>:first-child, &.Mui-focusVisible .label-elements>:only-child': {
+                color: isDestructive && 'var(--button-color)',
+            },
 
-            '&>svg': {
+            '&>.leading-element': {
                 width: '18px',
                 height: '18px',
-                alignSelf: 'flex-start',
             },
 
             '&>.label-elements': {
