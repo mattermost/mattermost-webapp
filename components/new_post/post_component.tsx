@@ -393,7 +393,8 @@ const PostComponent = (props: Props): JSX.Element => {
 
     return (
         <div
-            className={isSearchResultItem ? 'search-item__container' : ''}
+            className={isSearchResultItem ? 'search-item__container' : undefined}
+            data-testid={isSearchResultItem ? 'search-item-container' : undefined}
         >
             {isSearchResultItem && <DateSeparator date={currentPostDay}/>}
             <PostAriaLabelDiv
@@ -412,7 +413,6 @@ const PostComponent = (props: Props): JSX.Element => {
                 {isSearchResultItem &&
                     <div
                         className='search-channel__name__container'
-                        data-testid='search-item-container'
                         aria-hidden='true'
                     >
                         <span className='search-channel__name'>
