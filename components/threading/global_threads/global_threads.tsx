@@ -7,7 +7,6 @@ import {isEmpty} from 'lodash';
 import {Link, useRouteMatch} from 'react-router-dom';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import classNames from 'classnames';
-import {selectSidebarStaticItem} from 'mattermost-redux/actions/sidebar';
 
 import {
     getThreadOrderInCurrentTeam,
@@ -18,6 +17,7 @@ import {
 
 import {getThreadCounts, getThreads} from 'mattermost-redux/actions/threads';
 import {selectChannel} from 'mattermost-redux/actions/channels';
+import {selectSidebarStaticItem} from 'mattermost-redux/actions/sidebar';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
