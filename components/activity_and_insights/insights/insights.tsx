@@ -10,13 +10,15 @@ import {selectChannel} from 'mattermost-redux/actions/channels';
 import LocalStorageStore from 'stores/local_storage_store';
 import {useGlobalState} from 'stores/hooks';
 
-import {CardSizes, InsightsWidgetTypes, TimeFrame, TimeFrames} from '@mattermost/types/insights';
-
 import {InsightsScopes, PreviousViewedTypes} from 'utils/constants';
 
 import {GlobalState} from 'types/store';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
+import {selectSidebarStaticItem} from 'mattermost-redux/actions/sidebar';
+
+import {CardSizes, InsightsWidgetTypes, TimeFrame, TimeFrames} from '@mattermost/types/insights';
 
 import InsightsHeader from './insights_header/insights_header';
 import TopChannels from './top_channels/top_channels';
@@ -64,6 +66,7 @@ const Insights = () => {
 
     useEffect(() => {
         dispatch(selectChannel(''));
+        dispatch(selectSidebarStaticItem('activity-and-insights'));
         dispatch(suppressRHS);
         const penultimateType = LocalStorageStore.getPreviousViewedType(currentUserId, currentTeamId);
 

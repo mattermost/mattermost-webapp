@@ -24,6 +24,7 @@ import * as timezone from './timezone';
 import * as websocket from './websocket';
 import * as users from './users';
 import * as insights from './insights';
+import * as sidebar from './sidebar';
 
 export {
     admin,
@@ -49,5 +50,6 @@ export {
     websocket,
     users,
     insights,
+    sidebar,
 };
 

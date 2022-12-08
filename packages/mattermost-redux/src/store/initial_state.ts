@@ -237,6 +237,10 @@ const state: GlobalState = {
             topReactions: {},
             myTopReactions: {},
         },
+        sidebar: {
+            currentStaticItemId: '',
+            staticItems: [],
+        },
     },
     errors: [],
     requests: {

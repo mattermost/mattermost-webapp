@@ -7,6 +7,7 @@ import {isEmpty} from 'lodash';
 import {Link, useRouteMatch} from 'react-router-dom';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import classNames from 'classnames';
+import {selectSidebarStaticItem} from 'mattermost-redux/actions/sidebar';
 
 import {
     getThreadOrderInCurrentTeam,
@@ -65,6 +66,7 @@ const GlobalThreads = () => {
     useEffect(() => {
         dispatch(suppressRHS);
         dispatch(selectChannel(''));
+        dispatch(selectSidebarStaticItem('threads'));
         dispatch(clearLastUnreadChannel);
         loadProfilesForSidebar();
 

@@ -26,6 +26,7 @@ import CloudTypes from './cloud';
 import AppsTypes from './apps';
 import ThreadTypes from './threads';
 import InsightTypes from './insights';
+import SidebarTypes from './sidebar';
 
 export {
     ErrorTypes,
@@ -53,4 +54,5 @@ export {
     ThreadTypes,
     InsightTypes,
     DraftTypes,
+    SidebarTypes,
 };

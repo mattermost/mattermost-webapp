@@ -5,8 +5,6 @@ import React, {memo, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useIntl} from 'react-intl';
 
-import type {UserProfile, UserStatus} from '@mattermost/types/users';
-
 import {selectChannel} from 'mattermost-redux/actions/channels';
 
 import {Draft} from 'selectors/drafts';
@@ -15,6 +13,10 @@ import NoResultsIndicator from 'components/no_results_indicator';
 import Header from 'components/widgets/header';
 
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
+
+import {selectSidebarStaticItem} from 'mattermost-redux/actions/sidebar';
+
+import type {UserProfile, UserStatus} from '@mattermost/types/users';
 
 import DraftRow from './draft_row';
 import DraftsIllustration from './drafts_illustration';
@@ -41,6 +43,7 @@ function Drafts({
 
     useEffect(() => {
         dispatch(selectChannel(''));
+        dispatch(selectSidebarStaticItem('drafts'));
         dispatch(suppressRHS);
 
         return () => {
