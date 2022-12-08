@@ -33,7 +33,7 @@ describe('Channel switch performance test', () => {
 
     it('measures switching between two teams from LHS', () => {
         // # Invoke window object
-        measurePerformance('teamLoad', 500, () => {
+        measurePerformance('teamLoad', 800, () => {
             // # Switch to Team 2
             cy.get('#teamSidebarWrapper').within(() => {
                 cy.get(`#${testTeam2.name}TeamButton`).should('be.visible').click();
