@@ -40,7 +40,7 @@ export default class SystemNotice extends React.PureComponent<Props> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if ((prevProps.isSystemAdmin !== this.props.isSystemAdmin && this.props.isSystemAdmin)) {
+        if (prevProps.isSystemAdmin !== this.props.isSystemAdmin && this.props.isSystemAdmin) {
             this.props.actions.getStandardAnalytics();
         }
     }
