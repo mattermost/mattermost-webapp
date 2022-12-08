@@ -63,6 +63,8 @@ import {Seats, errorInvalidNumber} from './seats_calculator';
 import Terms from './terms';
 import useNoEscape from './useNoEscape';
 
+import {SetPrefix, UnionSetActions} from './types';
+
 import './self_hosted_purchase_modal.scss';
 
 interface State {
@@ -83,99 +85,17 @@ interface State {
     error: string;
 }
 
-interface UpdateAddress {
-    type: 'update_address';
-    data: string;
-}
-
-interface UpdateAddress2 {
-    type: 'update_address2';
-    data: string;
-}
-
-interface UpdateCity {
-    type: 'update_city';
-    data: string;
-}
-
-interface UpdateState {
-    type: 'update_state';
-    data: string;
-}
-
-interface UpdateCountry {
-    type: 'update_country';
-    data: string;
-}
-
-interface UpdatePostalCode {
-    type: 'update_postal_code';
-    data: string;
-}
-
-interface UpdateOrganization {
-    type: 'update_organization';
-    data: string;
-}
-
-interface UpdateCardName {
-    type: 'update_card_name';
-    data: string;
-}
-
-interface UpdateAgreedTerms {
-    type: 'update_agreed_terms';
-    data: boolean;
-}
-
-interface UpdateCardFilled {
-    type: 'card_filled';
-    data: boolean;
-}
-
-interface UpdateSeats {
-    type: 'update_seats';
-    data: Seats;
-}
-
-interface UpdateSubmitting {
-    type: 'update_submitting';
-    data: boolean;
-}
-
 interface UpdateSucceeded {
     type: 'succeeded';
 }
 
-interface UpdateProgressBar {
-    type: 'update_progress_bar';
-    data: number;
-}
 interface UpdateProgressBarFake {
     type: 'update_progress_bar_fake';
 }
-interface SetError {
-    type: 'set_error';
-    data: string;
-}
 
-type Action =
-    | UpdateAddress
-    | UpdateAddress2
-    | UpdateCity
-    | UpdateState
-    | UpdateCountry
-    | UpdatePostalCode
-    | UpdateOrganization
-    | UpdateAgreedTerms
-    | UpdateCardFilled
-    | UpdateCardName
-    | UpdateProgressBar
-    | UpdateProgressBarFake
-    | UpdateSeats
-    | UpdateSubmitting
-    | UpdateSucceeded
-    | SetError
+type SetActions = UnionSetActions<State>;
+
+type Action = SetActions | UpdateProgressBarFake | UpdateSucceeded
 
 const initialState: State = {
     address: '',
@@ -211,30 +131,50 @@ function getPlanNameFromProductName(productName: string): string {
     return productName;
 }
 
+function isSetAction(action: Action): action is SetActions {
+    return Object.prototype.hasOwnProperty.call(action, 'data');
+}
+
+type SetKey=`${typeof SetPrefix}${Extract<keyof State, string>}`;
+
+function actionTypeToStateKey(actionType: SetKey): Extract<keyof State, string> {
+    return actionType.slice(SetPrefix.length) as Extract<keyof State, string>;
+}
+
+function simpleSet(keys: Array<Extract<keyof State, string>>, state: State, action: Action): [State, boolean] {
+    if (!isSetAction(action)) {
+        return [state, false];
+    }
+    const stateKey = actionTypeToStateKey(action.type);
+    if (!keys.includes(stateKey)) {
+        return [state, false];
+    }
+
+    return [{...state, [stateKey]: action.data}, true];
+}
+
+// properties we can set the field on directly without needing to consider or modify other properties
+const simpleSetters: Array<Extract<keyof State, string>> = [
+    'address',
+    'address2',
+    'city',
+    'country',
+    'postalCode',
+    'state',
+    'agreedTerms',
+    'cardFilled',
+    'cardName',
+    'organization',
+    'progressBar',
+    'seats',
+    'submitting',
+];
 function reducer(state: State, action: Action): State {
+    const [newState, handled] = simpleSet(simpleSetters, state, action);
+    if (handled) {
+        return newState;
+    }
     switch (action.type) {
-    case 'update_address':
-        return {...state, address: action.data};
-    case 'update_address2':
-        return {...state, address2: action.data};
-    case 'update_city':
-        return {...state, city: action.data};
-    case 'update_country':
-        return {...state, country: action.data};
-    case 'update_postal_code':
-        return {...state, postalCode: action.data};
-    case 'update_state':
-        return {...state, state: action.data};
-    case 'update_agreed_terms':
-        return {...state, agreedTerms: action.data};
-    case 'card_filled':
-        return {...state, cardFilled: action.data};
-    case 'update_card_name':
-        return {...state, cardName: action.data};
-    case 'update_organization':
-        return {...state, organization: action.data};
-    case 'update_progress_bar':
-        return {...state, progressBar: action.data};
     case 'update_progress_bar_fake': {
         const firstLongStep = SelfHostedSignupProgress.CONFIRMED_INTENT;
         if (state.progressBar >= convertProgressToBar(firstLongStep) && state.progressBar <= maxFakeProgress - maxFakeProgressIncrement) {
@@ -242,12 +182,6 @@ function reducer(state: State, action: Action): State {
         }
         return state;
     }
-    case 'update_submitting':
-        return {...state, submitting: action.data};
-    case 'succeeded':
-        return {...state, submitting: false, succeeded: true};
-    case 'update_seats':
-        return {...state, seats: action.data};
     case 'set_error': {
         return {
             ...state,
@@ -255,6 +189,8 @@ function reducer(state: State, action: Action): State {
             error: action.data,
         };
     }
+    case 'succeeded':
+        return {...state, submitting: false, succeeded: true};
     default:
         // eslint-disable-next-line
         console.error(`Exhaustiveness failure for self hosted purchase modal. action: ${JSON.stringify(action)}`)
@@ -368,7 +304,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
 
     useEffect(() => {
         if (typeof currentUsers === 'number' && (currentUsers > parseInt(state.seats.quantity, 10) || !parseInt(state.seats.quantity, 10))) {
-            dispatch({type: 'update_seats',
+            dispatch({type: 'set_seats',
                 data: {
                     quantity: currentUsers.toString(),
                     error: null,
@@ -385,20 +321,18 @@ export default function SelfHostedPurchaseModal(props: Props) {
     useEffect(() => {
         const progressBar = convertProgressToBar(progress);
         if (progressBar > state.progressBar) {
-            dispatch({type: 'update_progress_bar', data: progressBar});
+            dispatch({type: 'set_progressBar', data: progressBar});
         }
     }, [progress]);
 
     useEffect(() => {
+        if (fakeProgressRef.current && fakeProgressRef.current.intervalId) {
+            clearInterval(fakeProgressRef.current.intervalId);
+        }
         if (state.submitting) {
-            if (fakeProgressRef.current && fakeProgressRef.current.intervalId) {
-                clearInterval(fakeProgressRef.current.intervalId);
-            }
             fakeProgressRef.current.intervalId = setInterval(() => {
                 dispatch({type: 'update_progress_bar_fake'});
             }, fakeProgressInterval);
-        } else if (fakeProgressRef.current && fakeProgressRef.current.intervalId) {
-            clearInterval(fakeProgressRef.current.intervalId);
         }
         return () => {
             if (fakeProgressRef.current && fakeProgressRef.current.intervalId) {
@@ -408,12 +342,12 @@ export default function SelfHostedPurchaseModal(props: Props) {
     }, [state.submitting]);
 
     const handleCardInputChange = (event: StripeCardElementChangeEvent) => {
-        dispatch({type: 'card_filled', data: event.complete});
+        dispatch({type: 'set_cardFilled', data: event.complete});
     };
 
     async function submit() {
         let submitProgress = progress;
-        dispatch({type: 'update_submitting', data: true});
+        dispatch({type: 'set_submitting', data: true});
         let signupCustomerResult: SelfHostedSignupCustomerResponse | null = null;
         try {
             const [firstName, lastName] = inferNames(user, state.cardName);
@@ -449,7 +383,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
         }
         if (stripeRef.current === null) {
             setStripeLoadHint(Math.random());
-            dispatch({type: 'update_submitting', data: false});
+            dispatch({type: 'set_submitting', data: false});
             return;
         }
         try {
@@ -499,7 +433,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
             } else if (finished.error) {
                 dispatch({type: 'set_error', data: finished.error});
             }
-            dispatch({type: 'update_submitting', data: false});
+            dispatch({type: 'set_submitting', data: false});
         } catch (e) {
             // eslint-disable-next-line
             console.error('could not complete setup', e);
@@ -571,7 +505,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                             type='text'
                                             value={state.organization}
                                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                dispatch({type: 'update_organization', data: e.target.value});
+                                                dispatch({type: 'set_organization', data: e.target.value});
                                             }}
                                             placeholder={intl.formatMessage({
                                                 id: 'self_hosted_signup.organization',
@@ -586,7 +520,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                             type='text'
                                             value={state.cardName}
                                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                dispatch({type: 'update_card_name', data: e.target.value});
+                                                dispatch({type: 'set_cardName', data: e.target.value});
                                             }}
                                             placeholder={intl.formatMessage({
                                                 id: 'payment_form.name_on_card',
@@ -604,7 +538,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                     <DropdownInput
                                         testId='selfHostedPurchaseCountrySelector'
                                         onChange={(option: {value: string}) => {
-                                            dispatch({type: 'update_country', data: option.value});
+                                            dispatch({type: 'set_country', data: option.value});
                                         }}
                                         value={
                                             state.country ? {value: state.country, label: state.country} : undefined
@@ -629,7 +563,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                             type='text'
                                             value={state.address}
                                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                dispatch({type: 'update_address', data: e.target.value});
+                                                dispatch({type: 'set_address', data: e.target.value});
                                             }}
                                             placeholder={intl.formatMessage({
                                                 id: 'payment_form.address',
@@ -644,7 +578,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                             type='text'
                                             value={state.address2}
                                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                dispatch({type: 'update_address2', data: e.target.value});
+                                                dispatch({type: 'set_address2', data: e.target.value});
                                             }}
                                             placeholder={intl.formatMessage({
                                                 id: 'payment_form.address_2',
@@ -658,7 +592,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                             type='text'
                                             value={state.city}
                                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                dispatch({type: 'update_city', data: e.target.value});
+                                                dispatch({type: 'set_city', data: e.target.value});
                                             }}
                                             placeholder={intl.formatMessage({
                                                 id: 'payment_form.city',
@@ -674,7 +608,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                                 country={state.country}
                                                 state={state.state}
                                                 onChange={(state: string) => {
-                                                    dispatch({type: 'update_state', data: state});
+                                                    dispatch({type: 'set_state', data: state});
                                                 }}
                                             />
                                         </div>
@@ -684,7 +618,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                                 type='text'
                                                 value={state.postalCode}
                                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                    dispatch({type: 'update_postal_code', data: e.target.value});
+                                                    dispatch({type: 'set_postalCode', data: e.target.value});
                                                 }}
                                                 placeholder={intl.formatMessage({
                                                     id: 'payment_form.zipcode',
@@ -697,7 +631,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                     <Terms
                                         agreed={state.agreedTerms}
                                         setAgreed={(data: boolean) => {
-                                            dispatch({type: 'update_agreed_terms', data});
+                                            dispatch({type: 'set_agreedTerms', data});
                                         }}
                                     />
                                 </div>
@@ -709,7 +643,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                     seats={state.seats}
                                     currentUsers={currentUsers}
                                     updateSeats={(seats: Seats) => {
-                                        dispatch({type: 'update_seats', data: seats});
+                                        dispatch({type: 'set_seats', data: seats});
                                     }}
                                     canSubmit={canSubmitForm}
                                     submit={submit}
