@@ -2,11 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
-
-import {GlobalState} from '../../types/store';
-import {getHistory} from '../../utils/browser_history';
+import {GlobalState} from 'types/store';
+import {getHistory} from 'utils/browser_history';
 
 export function switchToSidebarStaticItem(id: string) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {

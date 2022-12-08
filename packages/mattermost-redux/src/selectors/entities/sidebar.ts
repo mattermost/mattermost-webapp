@@ -4,10 +4,10 @@
 import {GlobalState} from '@mattermost/types/store';
 import {SidebarStaticItem} from '@mattermost/types/sidebar';
 
-export function getCurrentStaticItemId(state: GlobalState): string {
+export function getCurrentSidebarStaticItemId(state: GlobalState): string {
     return state.entities.sidebar.currentStaticItemId;
 }
 
-export function getStaticItems(state: GlobalState): SidebarStaticItem[] {
+export function getSidebarStaticItems(state: GlobalState): SidebarStaticItem[] {
     return state.entities.sidebar.staticItems;
 }

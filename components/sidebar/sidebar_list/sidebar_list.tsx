@@ -181,7 +181,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
     }
 
     getDisplayedSidebarStaticItemIds = () => {
-        return this.props.staticItems.filter((item) => item.isEnabled && item.isVisible).map((item) => item.id);
+        return this.props.staticItems.filter((item) => item.isVisible).map((item) => item.id);
     }
 
     getChannelRef = (channelId: string) => {

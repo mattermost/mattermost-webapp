@@ -27,8 +27,9 @@ import {
     isUnreadFilterEnabled,
 } from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
-import {getCurrentStaticItemId, getStaticItems} from 'mattermost-redux/selectors/entities/sidebar';
+import {getCurrentSidebarStaticItemId} from 'mattermost-redux/selectors/entities/sidebar';
 import {switchToSidebarStaticItem} from 'actions/views/sidebar';
+import {getVisibleSidebarStaticItems} from 'selectors/sidebar';
 
 import SidebarChannelList from './sidebar_list';
 
@@ -54,8 +55,8 @@ function mapStateToProps(state: GlobalState) {
         showUnreadsCategory: shouldShowUnreadsCategory(state),
         collapsedThreads,
         hasUnreadThreads,
-        currentStaticItemId: getCurrentStaticItemId(state),
-        staticItems: getStaticItems(state),
+        currentStaticItemId: getCurrentSidebarStaticItemId(state),
+        staticItems: getVisibleSidebarStaticItems()(state),
     };
 }
 

@@ -8,7 +8,5 @@ export type SidebarState = {
 
 export type SidebarStaticItem = {
     id: string;
-    name: string;
-    isEnabled: boolean;
     isVisible: boolean;
 }
