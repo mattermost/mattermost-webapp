@@ -1,8 +1,11 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {switchToChannel} from './channel';
-import {GlobalState} from '../../types/store';
+
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+
+import {GlobalState} from '../../types/store';
 import {getHistory} from '../../utils/browser_history';
 
 export function switchToSidebarStaticItem(id: string) {
