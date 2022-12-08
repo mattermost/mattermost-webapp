@@ -15,6 +15,9 @@ import {Divider} from '@mui/material';
  */
 export function MenuItemDivider() {
     return (
-        <Divider component='li'/>
+        <Divider
+            component='li'
+            aria-hidden={true}
+        />
     );
 }
