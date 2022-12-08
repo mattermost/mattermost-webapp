@@ -15,6 +15,8 @@ import {getIsMobileView} from 'selectors/views/browser';
 
 import {openModal, closeModal} from 'actions/views/modals';
 
+import {A11yClassNames} from 'utils/constants';
+
 import CompassDesignProvider from 'components/compass_design_provider';
 import GenericModal from 'components/generic_modal';
 
@@ -115,14 +117,15 @@ export function SubMenu(props: Props) {
     return (
         <MuiMenuItem
             id={props.triggerId}
-            aria-controls={isSubMenuOpen ? props.menuId : undefined}
-            aria-haspopup='true'
-            aria-expanded={isSubMenuOpen ? 'true' : undefined}
+            aria-controls={props.menuId}
+            aria-haspopup={true}
+            aria-expanded={isSubMenuOpen}
             aria-label={props.triggerAriaLabel}
             disableRipple={true}
+            sx={{padding: '0'}}
+            onClick={handleSubMenuOpen}
             onMouseEnter={handleSubMenuOpen}
             onMouseLeave={handleSubMenuClose}
-            sx={{padding: '0'}}
         >
             {props.triggerElement}
             <MuiMenuStyled
@@ -130,15 +133,11 @@ export function SubMenu(props: Props) {
                 anchorEl={anchorElement}
                 open={isSubMenuOpen}
                 aria-label={props.menuAriaLabel}
-                sx={{pointerEvents: 'none'}} // disables the menu background wrapper
+                className={A11yClassNames.POPUP}
+                sx={{pointerEvents: 'none'}} // disables the menu background wrapper for accessing submenu
                 {...getOriginOfAnchorAndTransform(props.openAt)}
             >
-                <MuiMenuList
-                    aria-labelledby={props.triggerId}
-                    style={{pointerEvents: 'auto'}} // reset pointer events to default from here on
-                >
-                    {props.children}
-                </MuiMenuList>
+                {props.children}
             </MuiMenuStyled>
         </MuiMenuItem>
     );
