@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
+import {getFilteredUsersNoBotsStats} from 'mattermost-redux/actions/users';
 import {PreferenceType} from '@mattermost/types/preferences';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -35,6 +35,8 @@ const ShowStartTrialModal = () => {
     const getCategory = makeGetCategory();
 
     const userThreshold = 10;
+    const TRUE = 'true';
+
     const stats = useSelector((state: GlobalState) => state.entities.admin.analytics);
     const isBenefitsModalOpened = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.TRIAL_BENEFITS_MODAL));
 
@@ -48,16 +50,22 @@ const ShowStartTrialModal = () => {
         if (!license?.IsLicensed) {
             return false;
         }
-        return license.IsLicensed === 'true';
+        return license.IsLicensed === TRUE;
     };
     const isPrevLicensed = isLicensed(prevTrialLicense);
     const isCurrentLicensed = isLicensed(currentLicense);
+    const [totalUsers, setTotalUsers] = useState(stats?.TOTAL_USERS || 0);
+
+    const getTotalUsers = async () => {
+        const {data} = await dispatch(getFilteredUsersNoBotsStats({include_bots: false}));
+        setTotalUsers(data?.total_users_count);
+    };
 
     // Show this modal if the instance is currently not licensed and has never had a trial license loaded before
     const isLicensedOrPreviousLicensed = (isCurrentLicensed || isPrevLicensed);
     useEffect(() => {
-        if (!stats?.TOTAL_USERS) {
-            dispatch(getStandardAnalytics());
+        if (!totalUsers) {
+            getTotalUsers();
         }
     }, []);
 
@@ -71,7 +79,7 @@ const ShowStartTrialModal = () => {
                 category: Preferences.START_TRIAL_MODAL,
                 user_id: currentUser.id,
                 name: Constants.TRIAL_MODAL_AUTO_SHOWN,
-                value: 'true',
+                value: TRUE,
             },
         ]));
     };
@@ -80,8 +88,8 @@ const ShowStartTrialModal = () => {
         const installationDatePlus6Hours = (6 * 60 * 60 * 1000) + Number(installationDate);
         const now = new Date().getTime();
         const hasEnvMoreThan6Hours = now > installationDatePlus6Hours;
-        const hasEnvMoreThan10Users = Number(stats?.TOTAL_USERS) > userThreshold;
-        const hadAdminDismissedModal = preferences.some((pref: PreferenceType) => pref.name === Constants.TRIAL_MODAL_AUTO_SHOWN && pref.value === 'true');
+        const hasEnvMoreThan10Users = Number(totalUsers) > userThreshold;
+        const hadAdminDismissedModal = preferences.some((pref: PreferenceType) => pref.name === Constants.TRIAL_MODAL_AUTO_SHOWN && pref.value === TRUE);
         if (isUserAdmin && !isBenefitsModalOpened && hasEnvMoreThan10Users && hasEnvMoreThan6Hours && !hadAdminDismissedModal && !isLicensedOrPreviousLicensed) {
             dispatch(openModal({
                 modalId: ModalIdentifiers.START_TRIAL_MODAL,
@@ -93,7 +101,7 @@ const ShowStartTrialModal = () => {
                 'trigger_start_trial_auto_modal',
             );
         }
-    }, [stats?.TOTAL_USERS]);
+    }, [totalUsers]);
 
     return null;
 };
