@@ -1,32 +1,45 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {EmoticonPlusOutlineIcon} from '@mattermost/compass-icons/components';
-
-// See LICENSE.txt for license information.
-import classNames from 'classnames';
-
-// See LICENSE.txt for license information.
 import React, {useCallback, useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
+import styled from 'styled-components';
+import classNames from 'classnames';
 import {Editor} from '@tiptap/react';
 import {offset, useFloating} from '@floating-ui/react-dom';
 import {CSSTransition} from 'react-transition-group';
+import {EmoticonPlusOutlineIcon} from '@mattermost/compass-icons/components';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
+import EmojiPickerTabs from 'components/emoji_picker/emoji_picker_tabs';
 
 import {Emoji} from '@mattermost/types/emojis';
 
-import EmojiPickerTabs from '../../emoji_picker/emoji_picker_tabs';
-
 import ToolbarControl, {FloatingContainer} from './toolbar/toolbar_controls';
 import {useGetLatest} from './toolbar/toolbar_hooks';
+
+const EmojiContainer = styled(FloatingContainer)`
+    padding: 0;
+
+    #emojiPicker,
+    #emoji-picker-tabs {
+        position: relative;
+        top: unset;
+        right: unset;
+        bottom: unset;
+        left: unset;
+    }
+`;
 
 type Props = {
     editor: Editor;
 };
 
 const EmojiPicker = ({editor}: Props) => {
+    const enableGifPicker = useSelector(getConfig).EnableGifPicker === 'true';
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
     const {x, y, reference, floating, strategy, update, refs: {reference: buttonRef, floating: floatingRef}} = useFloating<HTMLButtonElement>({
-        placement: 'top',
+        placement: 'top-end',
         middleware: [offset({mainAxis: 4})],
     });
 
@@ -43,8 +56,7 @@ const EmojiPicker = ({editor}: Props) => {
             const {floatingRef, buttonRef} = getLatest();
             const target = event.composedPath?.()?.[0] || event.target;
             if (target instanceof Node) {
-                if (
-                    floatingRef !== null &&
+                if (floatingRef !== null &&
                     buttonRef !== null &&
                     !floatingRef.current?.contains(target) &&
                     !buttonRef.current?.contains(target)
@@ -74,15 +86,15 @@ const EmojiPicker = ({editor}: Props) => {
         left: x ?? 0,
     };
 
-    const handleEmojiCSelection = (emoji: Emoji) => {
+    const handleEmojiSelection = (emoji: Emoji) => {
         const emojiAlias = ('short_name' in emoji && emoji.short_name) || emoji.name;
 
         if (!emojiAlias) {
-            //Oops... There went something wrong
+            // We cannot find the correct emojiAlias ... strange :D
             return;
         }
 
-        editor.chain().focus().insertContent(`:${emojiAlias}: `).run();
+        editor.chain().focus().insertEmoji(emojiAlias).run();
         setShowEmojiPicker(false);
     };
 
@@ -108,17 +120,17 @@ const EmojiPicker = ({editor}: Props) => {
                 classNames='scale'
                 in={showEmojiPicker}
             >
-                <FloatingContainer
+                <EmojiContainer
                     ref={floating}
                     style={emojiPickerContainerStyles}
                 >
                     <EmojiPickerTabs
-                        enableGifPicker={false}
+                        enableGifPicker={enableGifPicker}
                         onEmojiClose={() => setShowEmojiPicker(false)}
-                        onEmojiClick={handleEmojiCSelection}
+                        onEmojiClick={handleEmojiSelection}
                         onGifClick={handleGifSelection}
                     />
-                </FloatingContainer>
+                </EmojiContainer>
             </CSSTransition>
         </>
     );
