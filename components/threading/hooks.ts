@@ -44,9 +44,9 @@ export function useThreadRouting() {
     }, [teamName]);
 
     // TODO make collectionType-aware
-    const goToInChannel = useCallback((threadId?: UserThread['id']) => {
-        return history.push(`/${teamName}/pl/${threadId ?? params.threadIdentifier}`);
-    }, [params.threadIdentifier, params.team]);
+    const goToInChannel = useCallback((threadId: UserThread['id']) => {
+        return history.push(`/${teamName}/pl/${threadId}`);
+    }, [teamName]);
 
     return {
         params,
