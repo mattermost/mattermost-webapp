@@ -1,10 +1,14 @@
 @charset 'UTF-8';
 
-del .mention-link {
+del .mention-link,
+del .group-mention-link {
     text-decoration: line-through;
 }
 
-del .mention-link:hover {
+del .mention-link:hover,
+del .mention-link:focus,
+del .group-mention-link:hover,
+del .group-mention-link:focus {
     text-decoration: line-through underline;
 }
 
