@@ -20,6 +20,8 @@ function currentStaticItemId(state = '', action: GenericAction) {
 
 function staticItems(state: SidebarStaticItem[] = [], action: GenericAction) {
     switch (action.type) {
+    case SidebarTypes.SET_STATIC_ITEMS:
+        return [...action.data];
     case UserTypes.LOGOUT_SUCCESS:
         return [];
     default:

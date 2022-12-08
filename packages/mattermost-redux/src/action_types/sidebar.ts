@@ -5,4 +5,5 @@ import keyMirror from 'mattermost-redux/utils/key_mirror';
 
 export default keyMirror({
     SELECT_STATIC_ITEM: null,
+    SET_STATIC_ITEMS: null,
 });

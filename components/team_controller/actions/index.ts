@@ -25,6 +25,7 @@ import {addUserToTeam} from 'actions/team_actions';
 import {fetchChannelsAndMembers} from 'actions/channel_actions';
 
 import LocalStorageStore from 'stores/local_storage_store';
+import {initSidebarStaticItems} from 'mattermost-redux/actions/sidebar';
 
 export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
     return async (dispatch, getState) => {
@@ -82,6 +83,8 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
                 dispatch(getGroups(false, 0, 60, true));
             }
         }
+
+        dispatch(initSidebarStaticItems());
 
         return {data: team};
     };
