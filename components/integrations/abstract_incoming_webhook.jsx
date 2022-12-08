@@ -73,7 +73,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
             description: hook.description || '',
             channelId: hook.channel_id || '',
             channelLocked: hook.channel_locked || false,
-            enabled: hook.enabled ?? true,
+            enabled: hook.enabled || true,
             username: hook.username || '',
             iconURL: hook.icon_url || '',
             saving: false,
@@ -304,7 +304,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
                             </label>
                             <div className='col-md-5 col-sm-8 checkbox'>
                                 <input
-                                    id='enabled'
+                                    id='enable_incoming_webhook_checkbox'
                                     type='checkbox'
                                     checked={this.state.enabled}
                                     onChange={this.updateEnabled}

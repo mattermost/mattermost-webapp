@@ -68,7 +68,7 @@ export type Props = {
         /**
         * The function to call for outgoingWebhook List and for the status of api
         */
-        loadAllOutgoingHooksAndProfilesForTeam: (teamId: string) => Promise<void>;
+        getAllOutgoingWebhooks: (teamId: string) => Promise<void>;
 
         /**
         * The function to call for regeneration of webhook token
@@ -99,7 +99,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent<Props
 
     componentDidMount() {
         if (this.props.enableOutgoingWebhooks) {
-            this.props.actions.loadAllOutgoingHooksAndProfilesForTeam(
+            this.props.actions.getAllOutgoingWebhooks(
                 this.props.teamId,
             ).then(
                 () => this.setState({loading: false}),
@@ -140,14 +140,6 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent<Props
             }
         }
         return displayNameA.localeCompare(displayNameB);
-    }
-
-    nextPage = () => {
-        this.setState({page: this.state.page + 1});
-    }
-
-    previousPage = () => {
-        this.setState({page: this.state.page - 1});
     }
 
     outgoingWebhooks = (filter: string) => this.props.outgoingWebhooks.
@@ -234,8 +226,8 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent<Props
                 }
                 searchPlaceholder={localizeMessage('installed_outgoing_webhooks.search', 'Search Outgoing Webhooks')}
                 loading={this.state.loading}
-                nextPage={this.nextPage}
-                previousPage={this.previousPage}
+                nextPage={() => this.setState({page: this.state.page + 1})}
+                previousPage={() => this.setState({page: this.state.page - 1})}
                 page={this.state.page}
             >
                 {(filter: string) => {

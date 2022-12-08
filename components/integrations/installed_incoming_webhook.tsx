@@ -80,17 +80,8 @@ type Props = {
     channel: Channel;
 }
 
-type State = {
-    hovering: boolean;
-}
+export default class InstalledIncomingWebhook extends React.PureComponent<Props> {
 
-export default class InstalledIncomingWebhook extends React.PureComponent<Props, State> {
-    public constructor(props: Props) {
-        super(props);
-        this.state = {
-            hovering: false,
-        };
-    }
     handleDelete = () => {
         this.props.onDelete(this.props.incomingWebhook);
     }
@@ -102,14 +93,6 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props,
             enabled: !incomingWebhook.enabled,
         };
         this.props.onToggle(toggledWebhook);
-    }
-
-    handleMouseOver = () => {
-        this.setState({hovering: true});
-    }
-
-    handleMouseOut = () => {
-        this.setState({hovering: false});
     }
 
     render() {
@@ -135,15 +118,13 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props,
             );
         }
 
-        let displayEnabled = null;
-        if (!incomingWebhook.enabled) {
-            displayEnabled = (
-                <FormattedMessage
-                    id='installed_incoming_webhooks.disabled_webhook'
-                    defaultMessage=' (Disabled)'
-                />
-            );
-        }
+        const displayEnabled = incomingWebhook.enabled ? null : (
+            <FormattedMessage
+                id='installed_incoming_webhooks.disabled_webhook'
+                defaultMessage=' (Disabled)'
+            />
+        );
+
 
         let description = null;
         if (incomingWebhook.description) {
@@ -158,15 +139,12 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props,
 
         let actions = null;
         if (this.props.canChange) {
-            actions = (this.state.hovering ?
+            actions = 
                 (<div className='item-actions'>
-                    <Toggle
-                        disabled={false}
-                        onToggle={this.handleToggle}
-                        toggled={this.props.incomingWebhook.enabled}
-                        size={'btn-sm'}
-                    />
-                    <Link to={`/${this.props.team.name}/integrations/incoming_webhooks/edit?id=${incomingWebhook.id}`}>
+                    <Link 
+                        className='item-actions-edit' 
+                        to={`/${this.props.team.name}/integrations/incoming_webhooks/edit?id=${incomingWebhook.id}`}
+                    >
                         <i className='icon icon-pencil-outline'/>
                     </Link>
                     <DeleteIntegrationLink
@@ -178,8 +156,6 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props,
                         }
                         onDelete={this.handleDelete}
                     />
-                </div>) :
-                (<div className='item-actions'>
                     <Toggle
                         disabled={false}
                         onToggle={this.handleToggle}
@@ -187,17 +163,12 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props,
                         size={'btn-sm'}
                     />
                 </div>)
-            );
         }
 
         const incomingWebhookId = getSiteURL() + '/hooks/' + incomingWebhook.id;
 
         return (
-            <div
-                className='backstage-list__item'
-                onMouseOver={this.handleMouseOver}
-                onMouseOut={this.handleMouseOut}
-            >
+            <div className='backstage-list__item'>
                 <div className='item-details'>
                     <div className='item-details__row d-flex flex-column flex-md-row justify-content-between'>
                         <strong className='item-details__name'>

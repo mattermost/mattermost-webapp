@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {ChangeEvent, ReactNode, useState} from 'react';
+import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
@@ -60,7 +61,7 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
             return React.cloneElement(child, {filterLowered});
         });
         length = children.length;
-        if (typeof remainingProps.page != 'undefined') {
+        if (remainingProps.page != undefined) {
             const {startCount, endCount} = getPaginationProps(length);
             children = children.slice(startCount - 1, endCount);
         }
@@ -109,33 +110,37 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
 
     let footer = null;
     const page = remainingProps.page;
-    if (typeof page != 'undefined' && length) {
+    if (page != undefined && length) {
         const {startCount, endCount} = getPaginationProps(length);
-        const firstPage = startCount <= 1;
-        const lastPage = endCount >= length;
+        const isFirstPage = startCount <= 1;
+        const isLastPage = endCount >= length;
 
         footer = (
             <div className='backstage-list__paging'>
                 <FormattedMessage
                     id='backstage-list.paginatorCount'
-                    defaultMessage={startCount + ' - ' + endCount + ' of ' + length}
+                    defaultMessage={"{start} - {end} of {len}"}
+                    values={{
+                        start: startCount,
+                        end: endCount,
+                        len: length
+                    }}
                 />
-
                 <button
                     type='button'
-                    className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
-                    onClick={firstPage ? undefined : remainingProps.previousPage}
-                    disabled={firstPage}
+                    className={classNames('btn', 'btn-link', 'prev', {disabled: isFirstPage})}
+                    onClick={isFirstPage ? undefined : remainingProps.previousPage}
+                    disabled={isFirstPage}
                 >
-                    <PreviousIcon/>
+                    <i className='icon icon-arrow-left'/>
                 </button>
                 <button
                     type='button'
-                    className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
-                    onClick={lastPage ? undefined : remainingProps.nextPage}
-                    disabled={lastPage}
+                    className={classNames('btn', 'btn-link', 'prev', {disabled: isLastPage})}
+                    onClick={isLastPage ? undefined : remainingProps.nextPage}
+                    disabled={isLastPage}
                 >
-                    <NextIcon/>
+                    <i className='icon icon-arrow-right'/>
                 </button>
             </div>
         );

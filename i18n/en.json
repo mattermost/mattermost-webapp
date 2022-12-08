@@ -3784,7 +3784,7 @@
   "installed_oauth_apps.trusted.yes": "Yes",
   "installed_outgoing_webhooks.add": "Add Outgoing Webhook",
   "installed_outgoing_webhooks.delete.confirm": "This action permanently deletes the outgoing webhook and breaks any integrations using it. Are you sure you want to delete it?",
-  "installed_outgoing_webhooks.disabled_webhook": " - Disabled",
+  "installed_outgoing_webhooks.disabled_webhook": " (Disabled)",
   "installed_outgoing_webhooks.empty": "No outgoing webhooks found",
   "installed_outgoing_webhooks.emptySearch": "No outgoing webhooks match **{searchTerm}**",
   "installed_outgoing_webhooks.header": "Outgoing Webhooks",

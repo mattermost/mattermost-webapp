@@ -102,7 +102,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
             clientError: null,
             username: hook.username || '',
             iconURL: hook.icon_url || '',
-            enabled: hook.enabled ?? true,
+            enabled: hook.enabled || true,
         };
     }
 
@@ -511,7 +511,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
                             </label>
                             <div className='col-md-5 col-sm-8 checkbox'>
                                 <input
-                                    id='enabled'
+                                    id='enable_outgoing_webhook_checkbox'
                                     type='checkbox'
                                     checked={this.state.enabled}
                                     onChange={this.updateEnabled}

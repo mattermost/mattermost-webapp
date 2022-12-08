@@ -213,6 +213,14 @@
         border: none;
     }
 
+    &:hover {
+        .item-actions {
+            i {
+                visibility: visible;
+            }
+        }
+    }
+
     .item-details {
         overflow: hidden;
         flex-grow: 1;
@@ -252,19 +260,21 @@
 }
 
 .item-actions {
-    button,
-    a {
+    .color--link,
+    .item-actions-edit {
         height: 20px;
         margin-left: 10px;
-
+        visibility: hidden;
+    
         .handle {
-            width: 14.28px;
-            height: 14.28px;
+            width: 14px;
+            height: 14px;
         }
     }
 
     .btn {
         margin-left: 15px;
+        visibility: visible;
     }
 }
 

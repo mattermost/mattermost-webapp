@@ -29,7 +29,7 @@ type Props = {
     actions: {
         removeIncomingHook: (hookId: string) => Promise<ActionResult>;
         updateIncomingHook: (hook: IncomingWebhook) => Promise<ActionResult>;
-        loadAllIncomingHooksAndProfilesForTeam: (teamId: string) => Promise<ActionResult>;
+        getAllIncomingWebhooks: (teamId: string) => Promise<ActionResult>;
     };
 }
 
@@ -50,7 +50,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent<Props
 
     componentDidMount() {
         if (this.props.enableIncomingWebhooks) {
-            this.props.actions.loadAllIncomingHooksAndProfilesForTeam(
+            this.props.actions.getAllIncomingWebhooks(
                 this.props.team.id,
             ).then(
                 () => this.setState({loading: false}),
@@ -80,14 +80,6 @@ export default class InstalledIncomingWebhooks extends React.PureComponent<Props
         const displayNameB = b.display_name;
 
         return displayNameA.localeCompare(displayNameB);
-    }
-
-    nextPage = () => {
-        this.setState({page: this.state.page + 1});
-    }
-
-    previousPage = () => {
-        this.setState({page: this.state.page - 1});
     }
 
     incomingWebhooks = (filter: string) => this.props.incomingWebhooks.
@@ -173,8 +165,8 @@ export default class InstalledIncomingWebhooks extends React.PureComponent<Props
                 }
                 searchPlaceholder={Utils.localizeMessage('installed_incoming_webhooks.search', 'Search Incoming Webhooks')}
                 loading={this.state.loading}
-                nextPage={this.nextPage}
-                previousPage={this.previousPage}
+                nextPage={() => this.setState({page: this.state.page + 1})}
+                previousPage={() => this.setState({page: this.state.page - 1})}
                 page={this.state.page}
             >
                 {(filter: string) => {

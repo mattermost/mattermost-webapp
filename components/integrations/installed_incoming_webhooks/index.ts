@@ -16,7 +16,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
-import {loadAllIncomingHooksAndProfilesForTeam} from 'actions/integration_actions.jsx';
+import {getAllIncomingWebhooks} from 'actions/integration_actions.jsx';
 
 import {IncomingWebhook} from '@mattermost/types/integrations';
 
@@ -25,7 +25,7 @@ import InstalledIncomingWebhooks from './installed_incoming_webhooks';
 type Actions = {
     removeIncomingHook: (hookId: string) => Promise<ActionResult>;
     updateIncomingHook: (hook: IncomingWebhook) => Promise<ActionResult>;
-    loadAllIncomingHooksAndProfilesForTeam: (teamId: string) => Promise<ActionResult>;
+    getAllIncomingWebhooks: (teamId: string) => Promise<ActionResult>;
 }
 
 function mapStateToProps(state: GlobalState) {
@@ -50,7 +50,7 @@ function mapStateToProps(state: GlobalState) {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
-            loadAllIncomingHooksAndProfilesForTeam,
+            getAllIncomingWebhooks,
             removeIncomingHook,
             updateIncomingHook,
         }, dispatch),

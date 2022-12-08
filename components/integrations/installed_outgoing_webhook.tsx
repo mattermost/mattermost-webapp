@@ -62,18 +62,7 @@ type Props = {
     filter?: string;
 }
 
-type State = {
-    hovering: boolean;
-}
-
-export default class InstalledOutgoingWebhook extends React.PureComponent<Props, State> {
-    public constructor(props: Props) {
-        super(props);
-        this.state = {
-            hovering: false,
-        };
-    }
-
+export default class InstalledOutgoingWebhook extends React.PureComponent<Props> {
     handleRegenToken = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
@@ -91,14 +80,6 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props,
             enabled: !outgoingWebhook.enabled,
         };
         this.props.onToggle(toggledWebhook);
-    }
-
-    handleMouseOver = () => {
-        this.setState({hovering: true});
-    }
-
-    handleMouseOut = () => {
-        this.setState({hovering: false});
     }
 
     makeDisplayName(outgoingWebhook: OutgoingWebhook, channel: Channel) {
@@ -128,15 +109,12 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props,
 
         const displayName = this.makeDisplayName(outgoingWebhook, channel);
 
-        let displayEnabled = null;
-        if (outgoingWebhook.enabled) {
-            displayEnabled = (
-                <FormattedMessage
-                    id='installed_outgoing_webhooks.disabled_webhook'
-                    defaultMessage=' (Disabled)'
-                />
-            );
-        }
+        const displayEnabled = outgoingWebhook.enabled ? null : (
+            <FormattedMessage
+                id='installed_incoming_webhooks.disabled_webhook'
+                defaultMessage=' (Disabled)'
+            />
+        );
 
         let description = null;
         if (outgoingWebhook.description) {
@@ -199,7 +177,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props,
 
         let actions = null;
         if (this.props.canChange) {
-            actions = (this.state.hovering ?
+            actions =
                 (<div className='item-actions'>
                     <button
                         className='style--none color--link'
@@ -207,7 +185,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props,
                     >
                         <i className='icon icon-refresh'/>
                     </button>
-                    <Link to={`/${this.props.team.name}/integrations/outgoing_webhooks/edit?id=${outgoingWebhook.id}`}>
+                    <Link className='item-actions-edit' to={`/${this.props.team.name}/integrations/outgoing_webhooks/edit?id=${outgoingWebhook.id}`}>
                         <i className='icon icon-pencil-outline'/>
                     </Link>
                     <DeleteIntegrationLink
@@ -225,24 +203,11 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props,
                         toggled={this.props.outgoingWebhook.enabled}
                         size={'btn-sm'}
                     />
-                </div>) :
-                (<div className='item-actions'>
-                    <Toggle
-                        disabled={false}
-                        onToggle={this.handleToggle}
-                        toggled={this.props.outgoingWebhook.enabled}
-                        size={'btn-sm'}
-                    />
                 </div>)
-            );
         }
 
         return (
-            <div
-                className='backstage-list__item'
-                onMouseOver={this.handleMouseOver}
-                onMouseOut={this.handleMouseOut}
-            >
+            <div className='backstage-list__item'>
                 <div className='item-details'>
                     <div className='item-details__row d-flex flex-column flex-md-row justify-content-between'>
                         <strong className='item-details__name'>
