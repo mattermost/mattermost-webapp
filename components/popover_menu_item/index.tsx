@@ -11,6 +11,7 @@ interface Props extends MenuItemProps {
     secondaryLabel?: ReactNode;
     trailingElement?: ReactNode;
     subMenuDetails?: ReactNode;
+    isInSubmenu?: boolean;
 }
 
 export function PopoverMenuItem(props: Props) {
@@ -49,6 +50,7 @@ const MenuItemStyled = styled(MenuItem)<MenuItemProps>(({isDestructive = false})
         flexWrap: 'nowrap',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
+        pointerEvents: 'auto',
 
         '&:hover': {
             backgroundColor: !isDestructive ? 'rgba(var(--center-channel-color-rgb), 0.08)' : 'var(--error-text)',
@@ -62,7 +64,7 @@ const MenuItemStyled = styled(MenuItem)<MenuItemProps>(({isDestructive = false})
         },
 
         '&:active': {
-            'background-color': !isDestructive ? 'rgba(var(--button-bg-rgb), 0.08)' : 'background-color: rgba(var(--error-text-rgb), 0.16)',
+            'background-color': !isDestructive ? 'rgba(var(--button-bg-rgb), 0.08)' : 'background-color: rgba(var(--error-text-color-rgb), 0.16)',
         },
 
         '&.Mui-disabled': {
@@ -71,7 +73,14 @@ const MenuItemStyled = styled(MenuItem)<MenuItemProps>(({isDestructive = false})
 
         '&.Mui-focusVisible': {
             boxShadow: !isDestructive ? '0 0 0 2px var(--denim-sidebar-active-border) inset' : '0 0 0 2px rgba(var(--button-color-rgb), 0.16) inset',
-            backgroundColor: isDestructive && 'rgba(var(--error-text-rgb), 0.08)',
+            backgroundColor: !isDestructive ? 'var(--center-channel-bg)' : 'var(--error-text)',
+            color: isDestructive && 'var(--button-color)',
+        },
+        '&.Mui-focusVisible .label-elements>:last-child': {
+            color: isDestructive && 'var(--button-color)',
+        },
+        '&.Mui-focusVisible .label-elements>:first-child, &.Mui-focusVisible .label-elements>:only-child': {
+            color: isDestructive && 'var(--button-color)',
         },
 
         '&>svg': {
