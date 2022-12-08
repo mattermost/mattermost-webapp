@@ -23,7 +23,7 @@ import {makeGetCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatin
 import {getCurrentUserTimezone} from 'selectors/general';
 import {GlobalState} from 'types/store';
 import {getCurrentMomentForTimezone} from 'utils/timezone';
-import {Constants} from 'utils/constants';
+import {A11yCustomEventTypes, A11yFocusEventDetail, Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {isKeyPressed, localizeMessage} from 'utils/utils';
 
@@ -199,17 +199,47 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
 
     const getCustomStatusControlRef = () => customStatusControlRef.current;
 
-    const handleEmojiClose = () => setShowEmojiPicker(false);
+    const handleEmojiClose = () => {
+        setShowEmojiPicker(false);
+        if (emojiButtonRef.current) {
+            document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+                A11yCustomEventTypes.FOCUS, {
+                    detail: {
+                        target: emojiButtonRef.current as HTMLElement,
+                        keyboardOnly: true,
+                    },
+                },
+            ));
+        }
+    };
 
     const handleEmojiExited = () => {
-        emojiButtonRef.current?.focus();
+        if (emojiButtonRef.current) {
+            document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+                A11yCustomEventTypes.FOCUS, {
+                    detail: {
+                        target: emojiButtonRef.current as HTMLElement,
+                        keyboardOnly: true,
+                    },
+                },
+            ));
+        }
     };
 
     const handleEmojiClick = (selectedEmoji: Emoji) => {
         setShowEmojiPicker(false);
         const emojiName = ('short_name' in selectedEmoji) ? selectedEmoji.short_name : selectedEmoji.name;
         setEmoji(emojiName);
-        emojiButtonRef.current?.focus();
+        if (emojiButtonRef.current) {
+            document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+                A11yCustomEventTypes.FOCUS, {
+                    detail: {
+                        target: emojiButtonRef.current as HTMLElement,
+                        keyboardOnly: true,
+                    },
+                },
+            ));
+        }
     };
 
     const toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -394,7 +424,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         maxLength={CUSTOM_STATUS_TEXT_CHARACTER_LIMIT}
                         clearableWithoutValue={Boolean(isStatusSet)}
                         onClear={clearHandle}
-                        className='form-control'
+                        className='emoji-quick-input form-control'
                         clearClassName='StatusModal__clear-container'
                         tooltipPosition='top'
                         onChange={handleTextChange}

@@ -7,7 +7,7 @@ import React from 'react';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import QuickInput from 'components/quick_input';
-import Constants from 'utils/constants';
+import Constants, {A11yCustomEventTypes} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 
@@ -630,7 +630,16 @@ export default class SuggestionBox extends React.PureComponent {
     }
 
     focusInputOnEscape = () => {
-        this.inputRef.current.focus();
+        if (this.inputRef.current) {
+            document.dispatchEvent(new CustomEvent(
+                A11yCustomEventTypes.FOCUS, {
+                    detail: {
+                        target: this.inputRef.current,
+                        keyboardOnly: true,
+                    },
+                },
+            ));
+        }
     }
 
     handleReceivedSuggestions = (suggestions) => {

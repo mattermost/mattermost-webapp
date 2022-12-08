@@ -92,12 +92,7 @@ const ExpiryMenu: React.FC<Props> = (props: Props) => {
                 <MenuWrapper
                     className={'statusExpiry__menu'}
                 >
-                    <button
-                        onClick={(e) => {
-                            e.preventDefault();
-                        }}
-                        className='style--none expiry-wrapper expiry-selector'
-                    >
+                    <button className='style--none expiry-wrapper expiry-selector'>
                         <FormattedMessage
                             id='custom_status.expiry_dropdown.clear_after'
                             defaultMessage='Clear after'

@@ -3,8 +3,9 @@
 
 import React, {useEffect, useState, useCallback, useRef} from 'react';
 import {useSelector} from 'react-redux';
-import {DayModifiers} from 'react-day-picker';
+import {DayModifiers, DayPickerProps} from 'react-day-picker';
 import {useIntl} from 'react-intl';
+import {DateTime} from 'luxon';
 
 import moment, {Moment} from 'moment-timezone';
 
@@ -71,7 +72,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
 
     const handleKeyDown = useCallback((event: KeyboardEvent) => {
         if (isKeyPressed(event, Constants.KeyCodes.ESCAPE) && isPopperOpen) {
-            handlePopperClosed();
+            handlePopperOpenState(false);
         }
     }, [isPopperOpen]);
 
@@ -95,7 +96,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
             const dayWithTimezone = timezone ? moment.tz(day, timezone) : moment(day);
             handleChange(dayWithTimezone.startOf('day'));
         }
-        handlePopperClosed();
+        handlePopperOpenState(false);
     };
 
     const handleTimeChange = useCallback((time: Date, e: React.MouseEvent) => {
@@ -117,21 +118,32 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
         ));
     }, []);
 
-    const handlePopperClosed = useCallback(() => {
-        setIsPopperOpen(false);
-        props.setIsDatePickerOpen?.(false);
-    }, []);
-
-    const handlePopperOpen = useCallback(() => {
-        setIsPopperOpen(true);
-        props.setIsDatePickerOpen?.(true);
+    const handlePopperOpenState = useCallback((isOpen: boolean) => {
+        setIsPopperOpen(isOpen);
+        props.setIsDatePickerOpen?.(isOpen);
     }, []);
 
     const formatDate = (date: Date): string => {
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        const day = date.getDate().toString().padStart(2, '0');
-        const year = date.getFullYear().toString();
-        return [year, month, day].join('-');
+        return DateTime.fromJSDate(date).toFormat('yyyy-MM-dd');
+    };
+
+    const inputIcon = (
+        <IconButton
+            onClick={() => handlePopperOpenState(true)}
+            icon={'calendar-outline'}
+            className='dateTime__calendar-icon'
+            size={'sm'}
+        />
+    );
+
+    const datePickerProps: DayPickerProps = {
+        initialFocus: isPopperOpen,
+        mode: 'single',
+        selected: currentTime,
+        onDayClick: handleDayChange,
+        disabled: [{
+            before: currentTime,
+        }],
     };
 
     return (
@@ -139,17 +151,9 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
             <div className='dateTime__date'>
                 <DatePicker
                     isPopperOpen={isPopperOpen}
-                    closePopper={handlePopperClosed}
+                    handlePopperOpenState={handlePopperOpenState}
                     locale={locale}
-                    datePickerProps={{
-                        initialFocus: isPopperOpen,
-                        mode: 'single',
-                        selected: currentTime,
-                        onDayClick: handleDayChange,
-                        disabled: [{
-                            before: currentTime,
-                        }],
-                    }}
+                    datePickerProps={datePickerProps}
                 >
                     <Input
                         value={formatDate(time.toDate())}
@@ -157,15 +161,9 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                         readOnly={true}
                         className='dateTime__calendar-input'
                         label={localizeMessage('dnd_custom_time_picker_modal.date', 'Date')}
-                        onClick={handlePopperOpen}
+                        onClick={() => handlePopperOpenState(true)}
                         tabIndex={-1}
-                        inputPrefix={
-                            <IconButton
-                                onClick={handlePopperOpen}
-                                icon={'calendar-outline'}
-                                size={'sm'}
-                            />
-                        }
+                        inputPrefix={inputIcon}
                     />
                 </DatePicker>
             </div>

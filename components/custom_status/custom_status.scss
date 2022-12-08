@@ -79,23 +79,25 @@
             padding: 0 10px;
         }
 
-        button {
+        button.dateTime__calendar-icon {
             margin: 0 8px 0 0;
             color: rgba(var(--center-channel-color-rgb), 0.72);
         }
 
         input#customStatus__calendar-input {
-            height: auto !important;
-            padding: 0;
-            border: 0;
-            font-weight: 400;
+            &.form-control {
+                height: auto !important;
+                padding: 0;
+                border: 0;
+                font-weight: 400;
 
-            &[readonly] {
-                background: transparent;
-            }
+                &[readonly] {
+                    background: transparent;
+                }
 
-            &:hover {
-                cursor: pointer;
+                &:hover {
+                    cursor: pointer;
+                }
             }
         }
     }

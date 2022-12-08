@@ -17,15 +17,13 @@ type Props = {
     datePickerProps: DayPickerProps;
     isPopperOpen: boolean;
     locale: string;
-    closePopper: () => void;
+    handlePopperOpenState: (isOpen: boolean) => void;
 }
 
-const DatePicker = ({children, datePickerProps, isPopperOpen, closePopper, locale}: Props) => {
+const DatePicker = ({children, datePickerProps, isPopperOpen, handlePopperOpenState, locale}: Props) => {
     const loadedLocales: Record<string, Locale> = {};
     const popperRef = useRef<HTMLDivElement>(null);
-    const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
-        null,
-    );
+    const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
 
     const popper = usePopper(popperRef.current, popperElement, {
         placement: 'bottom-start',
@@ -42,7 +40,7 @@ const DatePicker = ({children, datePickerProps, isPopperOpen, closePopper, local
 
     useEffect(() => {
         if (isPopperOpen && !popperRef?.current) {
-            closePopper();
+            handlePopperOpenState(false);
         }
     }, [popperRef]);
 
@@ -66,7 +64,7 @@ const DatePicker = ({children, datePickerProps, isPopperOpen, closePopper, local
                         initialFocus: false,
                         allowOutsideClick: true,
                         clickOutsideDeactivates: true,
-                        onDeactivate: closePopper,
+                        onDeactivate: () => handlePopperOpenState(false),
                         escapeDeactivates: false,
                     }}
                 >
