@@ -3,7 +3,11 @@
 
 import {SidebarTypes} from 'mattermost-redux/action_types';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {insightsAreEnabled, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {
+    insightsAreEnabled,
+    isCollapsedThreadsEnabled,
+    localDraftsAreEnabled
+} from 'mattermost-redux/selectors/entities/preferences';
 
 import {SidebarStaticItem} from '@mattermost/types/sidebar';
 
@@ -32,6 +36,15 @@ export function initSidebarStaticItems(): ActionFunc {
             items.push({
                 id: 'threads',
                 name: 'Threads',
+                isEnabled: true,
+                isVisible: true,
+            });
+        }
+
+        if (localDraftsAreEnabled(state)) {
+            items.push({
+                id: 'drafts',
+                name: 'Drafts',
                 isEnabled: true,
                 isVisible: true,
             });
