@@ -10,14 +10,12 @@ import * as GlobalActions from 'actions/global_actions';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
 import * as UserAgent from 'utils/user_agent';
 import LoadingScreen from 'components/loading_screen';
-import OnBoardingTaskList from 'components/onboarding_tasklist';
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 import {getBrowserTimezone} from 'utils/timezone';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import BrowserStore from 'stores/browser_store';
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
-import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
 
 const BACKSPACE_CHAR = 8;
 
@@ -158,9 +156,6 @@ export default class LoggedIn extends React.PureComponent<Props> {
 
         return (
             <>
-                <CompassThemeProvider theme={this.props.theme}>
-                    <OnBoardingTaskList/>
-                </CompassThemeProvider>
                 {this.props.children}
             </>
         );

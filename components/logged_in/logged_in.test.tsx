@@ -75,11 +75,6 @@ describe('components/logged_in/LoggedIn', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
             <Fragment>
-              <CompassThemeProvider
-                theme={Object {}}
-              >
-                <OnBoardingTaskList />
-              </CompassThemeProvider>
               <span>
                 Test
               </span>
@@ -101,11 +96,6 @@ describe('components/logged_in/LoggedIn', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
             <Fragment>
-              <CompassThemeProvider
-                theme={Object {}}
-              >
-                <OnBoardingTaskList />
-              </CompassThemeProvider>
               <span>
                 Test
               </span>
@@ -144,11 +134,6 @@ describe('components/logged_in/LoggedIn', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
             <Fragment>
-              <CompassThemeProvider
-                theme={Object {}}
-              >
-                <OnBoardingTaskList />
-              </CompassThemeProvider>
               <span>
                 Test
               </span>
@@ -167,11 +152,6 @@ describe('components/logged_in/LoggedIn', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
             <Fragment>
-              <CompassThemeProvider
-                theme={Object {}}
-              >
-                <OnBoardingTaskList />
-              </CompassThemeProvider>
               <span>
                 Test
               </span>
