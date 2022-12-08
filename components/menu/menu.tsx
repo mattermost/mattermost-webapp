@@ -13,6 +13,8 @@ import {getIsMobileView} from 'selectors/views/browser';
 
 import {openModal, closeModal} from 'actions/views/modals';
 
+import {A11yClassNames} from 'utils/constants';
+
 import CompassDesignProvider from 'components/compass_design_provider';
 import Tooltip from 'components/tooltip';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -51,95 +53,51 @@ export function Menu(props: Props) {
     const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
     const isMenuOpen = Boolean(anchorElement);
 
-    if (isMobileView) {
-        function MenuModalComponent() {
-            function handleModalExited() {
-                dispatch(closeModal(props.menuId));
-            }
-
-            function handleModalClickCapture(event: MouseEvent<HTMLUListElement>) {
-                if (event && event.currentTarget.contains(event.target as Node)) {
-                    for (const currentElement of event.currentTarget.children) {
-                        if (currentElement.contains(event.target as Node) && !currentElement.ariaHasPopup) {
-                            // We check for property ariaHasPopup because we don't want to close the menu
-                            // if the user clicks on a submenu item. And let submenu component handle the click.
-                            handleModalExited();
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return (
-                <CompassDesignProvider theme={theme}>
-                    <GenericModal
-                        id={props.menuId}
-                        ariaLabel={props.menuAriaLabel}
-                        onExited={handleModalExited}
-                        backdrop={true}
-                        className='menuModal'
-                    >
-                        <MuiMenuList
-                            aria-labelledby={props.triggerId}
-                            onClick={handleModalClickCapture}
-                        >
-                            {props.children}
-                        </MuiMenuList>
-                    </GenericModal>
-                </CompassDesignProvider>
-            );
-        }
-
-        function handleAnchorButtonClickOnMobile(event: MouseEvent<HTMLButtonElement>) {
-            event.preventDefault();
-
-            dispatch(openModal({
-                modalId: props.menuId,
-                dialogType: MenuModalComponent,
-            }));
-        }
-
-        return (
-            <button
-                id={props.triggerId}
-                aria-controls={props.menuId}
-                aria-haspopup='true'
-                aria-label={props.triggerAriaLabel}
-                className={props.triggerClassName}
-                onClick={handleAnchorButtonClickOnMobile}
-            >
-                {props.triggerElement}
-            </button>
-        );
-    }
-
     function handleAnchorButtonClick(event: MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
 
-        setAnchorElement(event.currentTarget);
+        if (isMobileView) {
+            dispatch(openModal<MenuModalProps>({
+                modalId: props.menuId,
+                dialogType: MenuModal,
+                dialogProps: {
+                    triggerId: props.triggerId,
+                    menuId: props.menuId,
+                    menuAriaLabel: props.menuAriaLabel,
+                    children: props.children,
+                },
+            }));
+        } else {
+            setAnchorElement(event.currentTarget);
+        }
     }
 
-    function rendertriggerElement() {
+    function handleMenuClose(event: MouseEvent<HTMLDivElement | HTMLUListElement>) {
+        event.preventDefault();
+        setAnchorElement(null);
+    }
+
+    function triggerButton() {
         // Since the open and close state lies in this component, we need to force the visibility of the trigger element
         const forceVisibleOnOpen = isMenuOpen ? {display: 'block'} : undefined;
 
         const triggerElement = (
             <button
                 id={props.triggerId}
-                aria-controls={isMenuOpen ? props.menuId : undefined}
-                aria-haspopup='true'
-                aria-expanded={isMenuOpen ? 'true' : undefined}
+                aria-controls={props.menuId}
+                aria-haspopup={true}
+                aria-expanded={isMenuOpen}
                 aria-label={props.triggerAriaLabel}
+                tabIndex={0}
                 className={props.triggerClassName}
                 onClick={handleAnchorButtonClick}
                 style={forceVisibleOnOpen}
-                tabIndex={0}
             >
                 {props.triggerElement}
             </button>
         );
 
-        if (props.triggerTooltipText) {
+        if (props.triggerTooltipText && !isMobileView) {
             return (
                 <OverlayTrigger
                     delayShow={OVERLAY_TIME_DELAY}
@@ -162,28 +120,23 @@ export function Menu(props: Props) {
         return triggerElement;
     }
 
-    function handleMenuClose(event: MouseEvent<HTMLDivElement | HTMLUListElement>) {
-        event.preventDefault();
-        setAnchorElement(null);
+    if (isMobileView) {
+        // In mobile view, the menu is rendered as a modal
+        return triggerButton();
     }
 
     return (
         <CompassDesignProvider theme={theme}>
-            {rendertriggerElement()}
+            {triggerButton()}
             <MuiMenuStyled
                 id={props.menuId}
                 anchorEl={anchorElement}
                 open={isMenuOpen}
                 onClose={handleMenuClose}
                 aria-label={props.menuAriaLabel}
-                elevation={24}
+                className={A11yClassNames.POPUP}
             >
-                <MuiMenuList
-                    aria-labelledby={props.triggerId}
-                    onClick={handleMenuClose}
-                >
-                    {props.children}
-                </MuiMenuList>
+                {props.children}
             </MuiMenuStyled>
         </CompassDesignProvider>
     );
@@ -192,12 +145,59 @@ export function Menu(props: Props) {
 const MuiMenuStyled = muiStyled(MuiMenu)<MuiMenuProps>(() => ({
     '& .MuiPaper-root': {
         backgroundColor: 'var(--center-channel-bg)',
-        boxShadow: 'var(--elevation-4) , 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.08) inset',
+        boxShadow: 'var(--elevation-4), 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.08) inset',
         minWidth: '114px',
         maxWidth: '496px',
         maxHeight: '80vh',
     },
-    '& .MuiMenu-list': {
-        padding: '0',
-    },
 }));
+
+interface MenuModalProps {
+    triggerId: Props['triggerId'];
+    menuId: Props['menuId'];
+    menuAriaLabel: Props['menuAriaLabel'];
+    children: Props['children'];
+}
+
+function MenuModal(props: MenuModalProps) {
+    const dispatch = useDispatch();
+
+    const theme = useSelector(getTheme);
+
+    function handleModalExited() {
+        dispatch(closeModal(props.menuId));
+    }
+
+    function handleModalClickCapture(event: MouseEvent<HTMLDivElement>) {
+        if (event && event.currentTarget.contains(event.target as Node)) {
+            for (const currentElement of event.currentTarget.children) {
+                if (currentElement.contains(event.target as Node) && !currentElement.ariaHasPopup) {
+                    // We check for property ariaHasPopup because we don't want to close the menu
+                    // if the user clicks on a submenu item. And let submenu component handle the click.
+                    handleModalExited();
+                    break;
+                }
+            }
+        }
+    }
+
+    return (
+        <CompassDesignProvider theme={theme}>
+            <GenericModal
+                id={props.menuId}
+                className='menuModal'
+                backdrop={true}
+                ariaLabel={props.menuAriaLabel}
+                onExited={handleModalExited}
+            >
+                <MuiMenuList // serves as backdrop for modals
+                    component='div'
+                    aria-labelledby={props.triggerId}
+                    onClick={handleModalClickCapture}
+                >
+                    {props.children}
+                </MuiMenuList>
+            </GenericModal>
+        </CompassDesignProvider>
+    );
+}
