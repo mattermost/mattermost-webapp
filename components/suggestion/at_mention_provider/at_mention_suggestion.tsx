@@ -186,13 +186,13 @@ class AtMentionSuggestion extends Suggestion {
             countBadge = (
                 <span className='suggestion-list__group-count'>
                     <Badge>
-                        {(item as Group).member_count}
-                        <span className='ml-1'>
-                            <FormattedMessage
-                                id='suggestion.group.members'
-                                defaultMessage='members'
-                            />
-                        </span>
+                        <FormattedMessage
+                            id='suggestion.group.members'
+                            defaultMessage='{member_count} {member_count, plural, one {member} other {members}}'
+                            values={{
+                                member_count: (item as Group).member_count,
+                            }}
+                        />
                     </Badge>
                 </span>
             );
