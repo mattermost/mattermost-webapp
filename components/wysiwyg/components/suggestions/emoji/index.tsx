@@ -1,5 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {nodeInputRule} from '@tiptap/core';
+
+// See LICENSE.txt for license information.
 import React from 'react';
 
 import {NodeViewProps} from '@tiptap/core/src/types';
@@ -108,23 +111,21 @@ const EmojiSuggestion = Mention.extend({
      * Currently broken. Does mess with the Prosemirror Range and breaks it when
      * adding in emojis at the start of the message
      */
-    // addInputRules() {
-    //     return [
-    //         nodeInputRule({
-    //             find: /((^:|\s:)(\w+):\s)/,
-    //             type: this.type,
-    //             getAttributes: (match) => {
-    //                 console.log('##### match data', match.data);
-    //                 console.log('##### match', match);
-    //                 return {
-    //                     id: match[3],
-    //                     label: match[3],
-    //                     type: 'emoji',
-    //                 };
-    //             },
-    //         }),
-    //     ];
-    // },
+    addInputRules() {
+        return [
+            nodeInputRule({
+                find: /((^:|\s:)(\w+):\s)/,
+                type: this.type,
+                getAttributes: (match) => {
+                    return {
+                        id: match[3],
+                        label: match[3],
+                        type: 'emoji',
+                    };
+                },
+            }),
+        ];
+    },
 }).configure({
 
     // we need this so that `editor.getHtml()` does get the correct value inside of the `span` tag

@@ -22,6 +22,7 @@
     "@tiptap/extension-code": "2.0.0-beta.197",
     "@tiptap/extension-code-block-lowlight": "2.0.0-beta.199",
     "@tiptap/extension-highlight": "2.0.0-beta.196",
+    "@tiptap/extension-image": "2.0.0-beta.206",
     "@tiptap/extension-link": "2.0.0-beta.196",
     "@tiptap/extension-mention": "2.0.0-beta.202",
     "@tiptap/extension-table": "2.0.0-beta.199",

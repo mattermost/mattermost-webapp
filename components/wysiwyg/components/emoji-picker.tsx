@@ -1,5 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+// See LICENSE.txt for license information.
 import React, {useCallback, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
@@ -11,6 +13,8 @@ import {EmoticonPlusOutlineIcon} from '@mattermost/compass-icons/components';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import EmojiPickerTabs from 'components/emoji_picker/emoji_picker_tabs';
+
+import {GfycatAPIItem} from '@mattermost/types/gifs';
 
 import {Emoji} from '@mattermost/types/emojis';
 
@@ -98,10 +102,24 @@ const EmojiPicker = ({editor}: Props) => {
         setShowEmojiPicker(false);
     };
 
-    const handleGifSelection = (gif: string) => {
-        editor.chain().focus().insertContent(gif).run();
+    const handleGifSelection = (gif: string, item: GfycatAPIItem) => {
+        editor.chain().focus().setImage({src: item.max5mbGif, title: item.title}).run();
         setShowEmojiPicker(false);
     };
+
+    /**
+     * this is mimicking the behavior inside the EmojiPicker, but since this cannot be
+     * controlled from the outside and we render this the moment we mount this component
+     * we need to handle that separately
+     */
+    useEffect(() => {
+        const rootElement = document.getElementById('root');
+        if (showEmojiPicker) {
+            rootElement?.classList.add('emoji-picker--active');
+        } else {
+            rootElement?.classList.remove('emoji-picker--active');
+        }
+    }, [showEmojiPicker]);
 
     const codeBlockModeIsActive = editor.isActive('codeBlock');
 

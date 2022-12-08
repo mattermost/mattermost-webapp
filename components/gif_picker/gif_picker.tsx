@@ -3,13 +3,13 @@
 
 import React, {useState} from 'react';
 
-import {GifsAppState, GfycatAPIItem} from '@mattermost/types/gifs';
-
 import App from 'components/gif_picker/components/App';
 import Categories from 'components/gif_picker/components/Categories';
 import Search from 'components/gif_picker/components/Search';
 import Trending from 'components/gif_picker/components/Trending';
 import constants from 'components/gif_picker/utils/constants';
+
+import {GifsAppState, GfycatAPIItem} from '@mattermost/types/gifs';
 
 export const appProps: GifsAppState = {
     appName: constants.appName.mattermost,
@@ -26,7 +26,7 @@ export const appProps: GifsAppState = {
 };
 
 type Props = {
-    onGifClick?: (gif: string) => void;
+    onGifClick?: (gif: string, item?: GfycatAPIItem) => void;
     defaultSearchText?: string;
     handleSearchTextChange: (text: string) => void;
 }
@@ -39,7 +39,7 @@ const GifPicker = (props: Props) => {
     const handleSearch = () => setAction('search');
 
     const handleItemClick = (gif: GfycatAPIItem) => {
-        props.onGifClick?.('![' + gif.title?.replace(/]|\[/g, '\\$&') + '](' + gif.max5mbGif + ')');
+        props.onGifClick?.('![' + gif.title?.replace(/]|\[/g, '\\$&') + '](' + gif.max5mbGif + ')', {...gif, title: gif.title?.replace(/]|\[/g, '\\$&')});
     };
 
     let component;

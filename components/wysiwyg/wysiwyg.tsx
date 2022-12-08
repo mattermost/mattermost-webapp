@@ -23,6 +23,7 @@ import Link from '@tiptap/extension-link';
 import Typography from '@tiptap/extension-typography';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Code from '@tiptap/extension-code';
+import Image from '@tiptap/extension-image';
 
 // tiptap table extensions
 import Table from '@tiptap/extension-table';
@@ -273,7 +274,7 @@ export default (props: Props) => {
             TableHeader,
             TableCell,
             Link.configure({
-                linkOnPaste: true,
+                linkOnPaste: false,
                 openOnClick: false,
             }).extend({
 
@@ -413,6 +414,7 @@ export default (props: Props) => {
                     };
                 },
             }),
+            Image,
         ],
         content: draft?.content,
         autofocus: 'end',
@@ -421,6 +423,8 @@ export default (props: Props) => {
 
             // call the onChange function from the parent component (if any available)
             onChange?.(htmlToMarkdown(editor.getHTML()));
+
+            console.log('##### md', htmlToMarkdown(editor.getHTML())); // eslint-disable-line
         },
     }, [channelId, rootId, ctrlSend, codeBlockOnCtrlEnter]);
 
