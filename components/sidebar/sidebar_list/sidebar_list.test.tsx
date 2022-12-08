@@ -14,7 +14,7 @@ import {TestHelper} from 'utils/test_helper';
 
 import {DraggingStates, DraggingStateTypes} from 'utils/constants';
 
-import SidebarChannelList from './sidebar_channel_list';
+import SidebarChannelList from './sidebar_list';
 
 describe('SidebarChannelList', () => {
     const currentChannel = TestHelper.getChannelMock({
@@ -98,9 +98,11 @@ describe('SidebarChannelList', () => {
         showUnreadsCategory: false,
         collapsedThreads: true,
         hasUnreadThreads: false,
+        currentStaticItemId: '',
+        staticItems: [],
         actions: {
             switchToChannelById: jest.fn(),
-            switchToGlobalThreads: jest.fn(),
+            switchToStaticItem: jest.fn(),
             close: jest.fn(),
             moveChannelsInSidebar: jest.fn(),
             moveCategory: jest.fn(),

@@ -12,7 +12,6 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {switchToChannelById} from 'actions/views/channel';
-import {switchToGlobalThreads} from 'actions/views/threads';
 import {
     moveChannelsInSidebar,
     setDraggingState,
@@ -28,8 +27,10 @@ import {
     isUnreadFilterEnabled,
 } from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
+import {getCurrentStaticItemId, getStaticItems} from 'mattermost-redux/selectors/entities/sidebar';
+import {switchToSidebarStaticItem} from 'actions/views/sidebar';
 
-import SidebarChannelList from './sidebar_channel_list';
+import SidebarChannelList from './sidebar_list';
 
 function mapStateToProps(state: GlobalState) {
     const currentTeam = getCurrentTeam(state);
@@ -53,6 +54,8 @@ function mapStateToProps(state: GlobalState) {
         showUnreadsCategory: shouldShowUnreadsCategory(state),
         collapsedThreads,
         hasUnreadThreads,
+        currentStaticItemId: getCurrentStaticItemId(state),
+        staticItems: getStaticItems(state),
     };
 }
 
@@ -61,13 +64,13 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             close,
             switchToChannelById,
-            switchToGlobalThreads,
             moveChannelsInSidebar,
             moveCategory,
             setDraggingState,
             stopDragging,
             clearChannelSelection,
             multiSelectChannelAdd,
+            switchToStaticItem: switchToSidebarStaticItem,
         }, dispatch),
     };
 }
