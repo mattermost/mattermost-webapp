@@ -19,19 +19,19 @@ export function initSidebarStaticItems(): ActionFunc {
         const state = getState();
         const items: SidebarStaticItem[] = [];
 
-        if (isCollapsedThreadsEnabled(state)) {
+        if (insightsAreEnabled(state)) {
             items.push({
-                id: 'threads',
-                name: 'Threads',
+                id: 'activity-and-insights',
+                name: 'Insights',
                 isEnabled: true,
                 isVisible: true,
             });
         }
 
-        if (insightsAreEnabled(state)) {
+        if (isCollapsedThreadsEnabled(state)) {
             items.push({
-                id: 'activity-and-insights',
-                name: 'Insights',
+                id: 'threads',
+                name: 'Threads',
                 isEnabled: true,
                 isVisible: true,
             });
