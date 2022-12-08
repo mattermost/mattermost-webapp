@@ -19,8 +19,7 @@ import {
 import {trackEvent} from 'actions/telemetry_actions';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
-import {Menu, MenuItemDivider} from 'components/menu';
-import {PopoverMenuItem} from 'components/popover_menu_item';
+import * as Menu from 'components/menu';
 import ChannelMoveToSubmenu from 'components/channel_move_to_sub_menu';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
@@ -45,7 +44,7 @@ const SidebarChannelMenu = (props: Props) => {
         }
 
         markAsReadUnreadMenuItem = (
-            <PopoverMenuItem
+            <Menu.Item
                 id={`markAsRead-${props.channel.id}`}
                 onClick={handleMarkAsRead}
                 leadingElement={<MarkAsUnreadIcon size={18}/>}
@@ -67,7 +66,7 @@ const SidebarChannelMenu = (props: Props) => {
         }
 
         markAsReadUnreadMenuItem = (
-            <PopoverMenuItem
+            <Menu.Item
                 id={`markAsUnread-${props.channel.id}`}
                 onClick={handleMarkAsUnread}
                 leadingElement={<MarkAsUnreadIcon size={18}/>}
@@ -90,7 +89,7 @@ const SidebarChannelMenu = (props: Props) => {
         }
 
         favoriteUnfavoriteMenuItem = (
-            <PopoverMenuItem
+            <Menu.Item
                 id={`unfavorite-${props.channel.id}`}
                 onClick={handleUnfavoriteChannel}
                 leadingElement={<StarIcon size={18}/>}
@@ -112,7 +111,7 @@ const SidebarChannelMenu = (props: Props) => {
 
         favoriteUnfavoriteMenuItem = (
 
-            <PopoverMenuItem
+            <Menu.Item
                 id={`favorite-${props.channel.id}`}
                 onClick={handleFavoriteChannel}
                 leadingElement={<StarOutlineIcon size={18}/>}
@@ -150,7 +149,7 @@ const SidebarChannelMenu = (props: Props) => {
         }
 
         muteUnmuteChannelMenuItem = (
-            <PopoverMenuItem
+            <Menu.Item
                 id={`unmute-${props.channel.id}`}
                 onClick={handleUnmuteChannel}
                 leadingElement={<BellOffOutlineIcon size={18}/>}
@@ -180,7 +179,7 @@ const SidebarChannelMenu = (props: Props) => {
         }
 
         muteUnmuteChannelMenuItem = (
-            <PopoverMenuItem
+            <Menu.Item
                 id={`mute-${props.channel.id}`}
                 onClick={handleMuteChannel}
                 leadingElement={<BellOutlineIcon size={18}/>}
@@ -198,7 +197,7 @@ const SidebarChannelMenu = (props: Props) => {
         }
 
         copyLinkMenuItem = (
-            <PopoverMenuItem
+            <Menu.Item
                 id={`copyLink-${props.channel.id}`}
                 onClick={handleCopyLink}
                 leadingElement={<LinkVariantIcon size={18}/>}
@@ -226,7 +225,7 @@ const SidebarChannelMenu = (props: Props) => {
         }
 
         addMembersMenuItem = (
-            <PopoverMenuItem
+            <Menu.Item
                 id={`addMembers-${props.channel.id}`}
                 onClick={handleAddMembers}
                 leadingElement={<AccountOutlineIcon size={18}/>}
@@ -273,7 +272,7 @@ const SidebarChannelMenu = (props: Props) => {
         }
 
         leaveChannelMenuItem = (
-            <PopoverMenuItem
+            <Menu.Item
                 id={`leave-${props.channel.id}`}
                 onClick={handleLeaveChannel}
                 leadingElement={<CloseIcon size={18}/>}
@@ -284,7 +283,7 @@ const SidebarChannelMenu = (props: Props) => {
     }
 
     return (
-        <Menu
+        <Menu.Menu
             triggerElement={<DotsVerticalIcon size={16}/>}
             triggerClassName='SidebarMenu_menuButton'
             triggerAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
@@ -297,14 +296,14 @@ const SidebarChannelMenu = (props: Props) => {
             {markAsReadUnreadMenuItem}
             {favoriteUnfavoriteMenuItem}
             {muteUnmuteChannelMenuItem}
-            <MenuItemDivider/>
+            <Menu.Divider/>
             <ChannelMoveToSubmenu channel={props.channel}/>
-            {(copyLinkMenuItem || addMembersMenuItem) && <MenuItemDivider/>}
+            {(copyLinkMenuItem || addMembersMenuItem) && <Menu.Divider/>}
             {copyLinkMenuItem}
             {addMembersMenuItem}
-            {leaveChannelMenuItem && <MenuItemDivider/>}
+            {leaveChannelMenuItem && <Menu.Divider/>}
             {leaveChannelMenuItem}
-        </Menu>
+        </Menu.Menu>
     );
 };
 

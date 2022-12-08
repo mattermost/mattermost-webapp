@@ -1,0 +1,29 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import MuiMenu, {MenuProps} from '@mui/material/Menu';
+import {styled} from '@mui/material/styles';
+
+interface Props extends MenuProps {
+    asSubMenu?: boolean;
+}
+
+/**
+ * A styled version of the Material-UI Menu component with few overrides.
+ * @warning This component is not meant to be used outside of the Menu component directory.
+ */
+export const MuiMenuStyled = styled(MuiMenu, {
+    shouldForwardProp: (prop) => prop !== 'asSubMenu',
+})<Props>(
+    ({asSubMenu}) => ({
+        '& .MuiPaper-root': {
+            backgroundColor: 'var(--center-channel-bg)',
+            boxShadow: `${
+                asSubMenu ? 'var(--elevation-5)' : 'var(--elevation-4)'
+            }, 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.08) inset`,
+            minWidth: '114px',
+            maxWidth: '496px',
+            maxHeight: '80vh',
+        },
+    }),
+);

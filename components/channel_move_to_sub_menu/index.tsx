@@ -33,8 +33,7 @@ import {addChannelsInSidebar} from 'actions/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
 
 import EditCategoryModal from 'components/edit_category_modal';
-import {MenuItemDivider, SubMenu} from 'components/menu';
-import {PopoverMenuItem} from 'components/popover_menu_item';
+import * as Menu from 'components/menu';
 
 type Props = {
     channel: Channel;
@@ -105,7 +104,7 @@ const ChannelMoveToSubMenu = (props: Props) => {
             }
 
             return (
-                <PopoverMenuItem
+                <Menu.Item
                     id={`moveToCategory-${props.channel.id}-${category.id}`}
                     key={`moveToCategory-${props.channel.id}-${category.id}`}
                     leadingElement={category.type === CategoryTypes.FAVORITES ? (<StarOutlineIcon size={16}/>) : (<FolderOutlineIcon size={16}/>)}
@@ -117,8 +116,8 @@ const ChannelMoveToSubMenu = (props: Props) => {
         });
 
         const dividerAndNewCategory = [
-            <MenuItemDivider key='ChannelMenu-moveToDivider'/>,
-            <PopoverMenuItem
+            <Menu.Divider key='ChannelMenu-moveToDivider'/>,
+            <Menu.Item
                 id={`moveToNewCategory-${props.channel.id}`}
                 key={`moveToNewCategory-${props.channel.id}`}
                 leadingElement={<FolderMoveOutlineIcon size={16}/>}
@@ -175,37 +174,20 @@ const ChannelMoveToSubMenu = (props: Props) => {
     }
 
     return (
-        <SubMenu
-            triggerId={`moveTo-${props.channel.id}`}
-            triggerElement={
-                <PopoverMenuItem
-                    id={`moveTo-${props.channel.id}`}
-                    leadingElement={props.inHeaderDropdown ? null : <FolderMoveOutlineIcon size={18}/>}
-                    primaryLabel={
-                        <FormattedMessage
-                            id='sidebar_left.sidebar_channel_menu.moveTo'
-                            defaultMessage='Move to...'
-                        />
-                    }
-                    trailingElement={<ArrowForwardIosIcon size={18}/>}
-                    sx={{width: '100%'}}
+        <Menu.SubMenu
+            id={`moveTo-${props.channel.id}`}
+            primaryLabel={
+                <FormattedMessage
+                    id='sidebar_left.sidebar_channel_menu.moveTo'
+                    defaultMessage='Move to...'
                 />
             }
+            leadingElement={props.inHeaderDropdown ? null : <FolderMoveOutlineIcon size={18}/>}
+            trailingElement={<ArrowForwardIosIcon size={18}/>}
             menuId={`moveTo-${props.channel.id}-menu`}
         >
             {getMoveToCategorySubmenuItems(categories, currentCategory)}
-            {/* <Menu.ItemSubMenu
-                id={`moveTo-${props.channel.id}`}
-                subMenu={getMoveToCategorySubmenuItems(categories)}
-                text={formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
-                direction={'right'}
-                icon={props.inHeaderDropdown ? null : <FolderMoveOutlineIcon size={16}/>}
-                openUp={false}
-                styleSelectableItem={true}
-                selectedValueText={currentCategory?.display_name}
-                renderSelected={false}
-            /> */}
-        </SubMenu>
+        </Menu.SubMenu>
     );
 };
 

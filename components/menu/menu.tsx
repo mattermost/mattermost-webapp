@@ -3,9 +3,7 @@
 
 import React, {ReactNode, useState, MouseEvent} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import MuiMenu, {MenuProps as MuiMenuProps} from '@mui/material/Menu';
 import MuiMenuList from '@mui/material/MenuList';
-import {styled as muiStyled} from '@mui/material/styles';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -19,6 +17,8 @@ import CompassDesignProvider from 'components/compass_design_provider';
 import Tooltip from 'components/tooltip';
 import OverlayTrigger from 'components/overlay_trigger';
 import GenericModal from 'components/generic_modal';
+
+import {MuiMenuStyled} from './menu_styled';
 
 const OVERLAY_TIME_DELAY = 500;
 
@@ -57,22 +57,26 @@ export function Menu(props: Props) {
         event.preventDefault();
 
         if (isMobileView) {
-            dispatch(openModal<MenuModalProps>({
-                modalId: props.menuId,
-                dialogType: MenuModal,
-                dialogProps: {
-                    triggerId: props.triggerId,
-                    menuId: props.menuId,
-                    menuAriaLabel: props.menuAriaLabel,
-                    children: props.children,
-                },
-            }));
+            dispatch(
+                openModal<MenuModalProps>({
+                    modalId: props.menuId,
+                    dialogType: MenuModal,
+                    dialogProps: {
+                        triggerId: props.triggerId,
+                        menuId: props.menuId,
+                        menuAriaLabel: props.menuAriaLabel,
+                        children: props.children,
+                    },
+                }),
+            );
         } else {
             setAnchorElement(event.currentTarget);
         }
     }
 
-    function handleMenuClose(event: MouseEvent<HTMLDivElement | HTMLUListElement>) {
+    function handleMenuClose(
+        event: MouseEvent<HTMLDivElement | HTMLUListElement>,
+    ) {
         event.preventDefault();
         setAnchorElement(null);
     }
@@ -142,16 +146,6 @@ export function Menu(props: Props) {
     );
 }
 
-const MuiMenuStyled = muiStyled(MuiMenu)<MuiMenuProps>(() => ({
-    '& .MuiPaper-root': {
-        backgroundColor: 'var(--center-channel-bg)',
-        boxShadow: 'var(--elevation-4), 0 0 0 1px rgba(var(--center-channel-color-rgb), 0.08) inset',
-        minWidth: '114px',
-        maxWidth: '496px',
-        maxHeight: '80vh',
-    },
-}));
-
 interface MenuModalProps {
     triggerId: Props['triggerId'];
     menuId: Props['menuId'];
@@ -171,7 +165,10 @@ function MenuModal(props: MenuModalProps) {
     function handleModalClickCapture(event: MouseEvent<HTMLDivElement>) {
         if (event && event.currentTarget.contains(event.target as Node)) {
             for (const currentElement of event.currentTarget.children) {
-                if (currentElement.contains(event.target as Node) && !currentElement.ariaHasPopup) {
+                if (
+                    currentElement.contains(event.target as Node) &&
+                    !currentElement.ariaHasPopup
+                ) {
                     // We check for property ariaHasPopup because we don't want to close the menu
                     // if the user clicks on a submenu item. And let submenu component handle the click.
                     handleModalExited();

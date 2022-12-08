@@ -3,11 +3,8 @@
 
 import React, {ReactNode, useState, MouseEvent} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import MuiMenu, {MenuProps as MuiMenuProps} from '@mui/material/Menu';
 import MuiMenuList from '@mui/material/MenuList';
-import MuiMenuItem from '@mui/material/MenuItem';
 import {PopoverOrigin} from '@mui/material/Popover';
-import {styled as muiStyled} from '@mui/material/styles';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -20,10 +17,11 @@ import {A11yClassNames} from 'utils/constants';
 import CompassDesignProvider from 'components/compass_design_provider';
 import GenericModal from 'components/generic_modal';
 
-interface Props {
+import {MuiMenuStyled} from './menu_styled';
+import {MenuItem, Props as MenuItemProps} from './menu_item';
 
-    // Anchor button props
-    triggerId?: string;
+interface Props extends MenuItemProps {
+
     triggerElement?: ReactNode;
     triggerAriaLabel?: string;
 
@@ -81,7 +79,7 @@ export function SubMenu(props: Props) {
                         className='menuModal'
                     >
                         <MuiMenuList
-                            aria-labelledby={props.triggerId}
+                            aria-hidden={true}
                             onClick={handleModalClickCapture}
                         >
                             {props.children}
@@ -101,58 +99,55 @@ export function SubMenu(props: Props) {
         }
 
         return (
-            <MuiMenuItem
-                id={props.triggerId}
-                disableRipple={true}
+            <MenuItem
                 aria-controls={props.menuId}
-                aria-haspopup='true'
+                aria-haspopup={true}
+                aria-expanded={isSubMenuOpen}
+                aria-label={props.triggerAriaLabel}
+                disableRipple={true}
+                primaryLabel={props.primaryLabel}
+                secondaryLabel={props.secondaryLabel}
+                leadingElement={props.leadingElement}
+                trailingElement={props.trailingElement}
+                subMenuDetails={props.subMenuDetails}
                 onClick={handleAnchorButtonClickOnMobile}
-                sx={{padding: '0'}}
             >
                 {props.triggerElement}
-            </MuiMenuItem>
+            </MenuItem>
         );
     }
 
     return (
-        <MuiMenuItem
-            id={props.triggerId}
+        <MenuItem
             aria-controls={props.menuId}
             aria-haspopup={true}
             aria-expanded={isSubMenuOpen}
             aria-label={props.triggerAriaLabel}
             disableRipple={true}
-            sx={{padding: '0'}}
+            primaryLabel={props.primaryLabel}
+            secondaryLabel={props.secondaryLabel}
+            leadingElement={props.leadingElement}
+            trailingElement={props.trailingElement}
+            subMenuDetails={props.subMenuDetails}
             onClick={handleSubMenuOpen}
             onMouseEnter={handleSubMenuOpen}
             onMouseLeave={handleSubMenuClose}
         >
-            {props.triggerElement}
             <MuiMenuStyled
                 id={props.menuId}
                 anchorEl={anchorElement}
                 open={isSubMenuOpen}
                 aria-label={props.menuAriaLabel}
                 className={A11yClassNames.POPUP}
+                asSubMenu={true}
                 sx={{pointerEvents: 'none'}} // disables the menu background wrapper for accessing submenu
                 {...getOriginOfAnchorAndTransform(props.openAt)}
             >
                 {props.children}
             </MuiMenuStyled>
-        </MuiMenuItem>
+        </MenuItem>
     );
 }
-
-const MuiMenuStyled = muiStyled(MuiMenu)<MuiMenuProps>(() => ({
-    '&.MuiPaper-root': {
-        backgroundColor: 'var(--center-channel-bg)',
-        border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
-        boxShadow: 'var(--elevation-5)',
-        minWidth: '114px',
-        maxWidth: '496px',
-        maxHeight: '80vh',
-    },
-}));
 
 function getOriginOfAnchorAndTransform(openAt = 'right'): {anchorOrigin: PopoverOrigin; transformOrigin: PopoverOrigin} {
     if (openAt === 'left') {
