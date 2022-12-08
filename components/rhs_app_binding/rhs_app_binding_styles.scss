@@ -86,6 +86,19 @@
         }
     }
 
+    .horizontal-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        > div {
+            width: 100%;
+            min-width: 20%;
+            max-width: 50%;
+        }
+    }
+
     .cursor-pointer {
         cursor: pointer;
     }
