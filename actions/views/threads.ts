@@ -41,16 +41,6 @@ export function manuallyMarkThreadAsUnread(threadId: string, lastViewedAt: numbe
     ]);
 }
 
-export function switchToGlobalThreads() {
-    return (_dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState() as GlobalState;
-        const teamUrl = getCurrentRelativeTeamUrl(state);
-        getHistory().push(`${teamUrl}/threads`);
-
-        return {data: true};
-    };
-}
-
 export function updateThreadToastStatus(status: boolean) {
     return {
         type: ActionTypes.UPDATE_THREAD_TOAST_STATUS,
