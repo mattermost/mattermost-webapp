@@ -2782,7 +2782,6 @@ const AdminDefinition = {
                             },
                         ],
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                        isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
