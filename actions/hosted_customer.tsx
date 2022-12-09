@@ -28,6 +28,9 @@ function selfHostedNeedsConfirmation(progress: ValueOf<typeof SelfHostedSignupPr
     }
 }
 
+const STRIPE_UNEXPECTED_STATE = 'setup_intent_unexpected_state';
+const STRIPE_ALREADY_SUCCEEDED = 'You cannot update this SetupIntent because it has already succeeded.';
+
 export function confirmSelfHostedSignup(
     stripe: Stripe,
     stripeSetupIntent: StripeSetupIntent,
@@ -68,20 +71,27 @@ export function confirmSelfHostedSignup(
             const {setupIntent, error: stripeError} = result;
 
             if (stripeError) {
-                return {data: false, error: stripeError.message || 'Stripe failed to confirm payment method'};
-            }
+                if (stripeError.code === STRIPE_UNEXPECTED_STATE && stripeError.message === STRIPE_ALREADY_SUCCEEDED && stripeError.setup_intent?.status === 'succeeded') {
+                    dispatch({
+                        type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
+                        data: SelfHostedSignupProgress.CONFIRMED_INTENT,
+                    });
+                } else {
+                    return {data: false, error: stripeError.message || 'Stripe failed to confirm payment method'};
+                }
+            } else {
+                if (setupIntent === null || setupIntent === undefined) {
+                    return {data: false, error: 'Stripe did not return successful setup intent'};
+                }
 
-            if (setupIntent === null || setupIntent === undefined) {
-                return {data: false, error: 'Stripe did not return successful setup intent'};
+                if (setupIntent.status !== 'succeeded') {
+                    return {data: false, error: `Stripe setup intent status was: ${setupIntent.status}`};
+                }
+                dispatch({
+                    type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
+                    data: SelfHostedSignupProgress.CONFIRMED_INTENT,
+                });
             }
-
-            if (setupIntent.status !== 'succeeded') {
-                return {data: false, error: `Stripe setup intent status was: ${setupIntent.status}`};
-            }
-            dispatch({
-                type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
-                data: SelfHostedSignupProgress.CONFIRMED_INTENT,
-            });
         }
 
         try {

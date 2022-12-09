@@ -25,7 +25,6 @@ import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
-import {closeModal} from 'actions/views/modals';
 import {confirmSelfHostedSignup} from 'actions/hosted_customer';
 
 import {GlobalState} from 'types/store';
@@ -448,9 +447,6 @@ export default function SelfHostedPurchaseModal(props: Props) {
         }
     }
     const canSubmitForm = canSubmit(state, progress);
-    const closeModalSuccess = () => {
-        reduxDispatch(closeModal(ModalIdentifiers.SELF_HOSTED_PURCHASE));
-    };
 
     const title = (
         <FormattedMessage
@@ -459,22 +455,28 @@ export default function SelfHostedPurchaseModal(props: Props) {
         />
     );
 
-    let errorAction = () => {
+    const canRetry = state.error !== '422';
+    const resetToken = () => {
         try {
             Client4.bootstrapSelfHostedSignup(true).
                 then((data) => {
-                    reduxDispatch({type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS, data: data.progress});
-                }).finally(() => {
-                    dispatch({type: 'set_error', data: ''});
+                    reduxDispatch({
+                        type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
+                        data: data.progress,
+                    });
                 });
         } catch (e) {
-            dispatch({type: 'set_error', data: ''});
+            // swallow error ok here
         }
     };
-    const canRetry = state.error !== '422';
-    if (!canRetry) {
-        errorAction = controlModal.close;
-    }
+    const errorAction = () => {
+        resetToken();
+        if (canRetry) {
+            dispatch({type: 'set_error', data: ''});
+        } else {
+            controlModal.close();
+        }
+    };
 
     return (
         <StripeProvider
@@ -490,7 +492,10 @@ export default function SelfHostedPurchaseModal(props: Props) {
                             TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
                             'click_close_purchasing_screen',
                         );
-                        reduxDispatch(closeModal(ModalIdentifiers.SELF_HOSTED_PURCHASE));
+                        if (!canRetry) {
+                            resetToken();
+                        }
+                        controlModal.close();
                     }}
                 >
                     <div className='SelfHostedPurchaseModal'>
@@ -676,7 +681,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                         </div>}
                         {(state.succeeded || progress === SelfHostedSignupProgress.CREATED_LICENSE) && (
                             <SuccessPage
-                                onClose={closeModalSuccess}
+                                onClose={controlModal.close}
                                 planName={desiredPlanName}
                             />
                         )}
