@@ -55,6 +55,7 @@ import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import Provider from './provider';
 import Suggestion from './suggestion.jsx';
 import { number } from 'yargs';
+import { UserProfile } from '@mattermost/types/users';
 
 const getState = store.getState;
 const searchProfilesMatchingWithTerm = makeSearchProfilesMatchingWithTerm();
@@ -492,6 +493,7 @@ export default class SwitchChannelProvider extends Provider {
 
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILES_LIST,
+            //User Profile?
             data: [...localUserData.filter((user) => user.id !== currentUserId), ...remoteUserData.filter((user) => user.id !== currentUserId)],
         });
         const combinedTerms = [...localFormattedData.terms, ...remoteFormattedData.terms.filter((term) => !localFormattedData.terms.includes(term))];
@@ -506,7 +508,7 @@ export default class SwitchChannelProvider extends Provider {
         });
     }
 
-    userWrappedChannel(user, channel) {
+    userWrappedChannel(user: UserProfile, channel) {
         let displayName = '';
         const currentUserId = getCurrentUserId(getState());
 
@@ -543,12 +545,12 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    formatList(channelPrefix, allChannels, users, skipNotMember = true, localData = false) {
+    formatList(channelPrefix, allChannels, users: UserProfile[], skipNotMember = true, localData = false) {
         const channels = [];
 
         const members = getMyChannelMemberships(getState());
 
-        const completedChannels = {};
+        const completedChannels : {[id: string] : boolean}= {};
 
         const channelFilter = makeChannelSearchFilter(channelPrefix);
 
