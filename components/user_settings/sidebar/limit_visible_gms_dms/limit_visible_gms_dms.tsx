@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {Preferences} from 'mattermost-redux/constants';
 import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
+import SettingItemMinComponent from 'components/setting_item_min/setting_item_min';
 import {localizeMessage} from 'utils/utils';
 
 import {PreferenceType} from '@mattermost/types/preferences';
@@ -41,7 +42,7 @@ const limits: Limit[] = [
 ];
 
 export default class LimitVisibleGMsDMs extends React.PureComponent<Props, State> {
-    minRef: RefObject<typeof SettingItemMin>;
+    minRef: RefObject<SettingItemMinComponent>;
 
     constructor(props: Props) {
         super(props);

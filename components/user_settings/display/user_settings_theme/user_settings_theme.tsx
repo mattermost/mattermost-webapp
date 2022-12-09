@@ -6,10 +6,11 @@ import React, {RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import SettingItemMax from 'components/setting_item_max';
+import SettingItemMin from 'components/setting_item_min';
+import SettingItemMinComponent from 'components/setting_item_min/setting_item_min';
 
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
-import SettingItemMin from 'components/setting_item_min';
 import ImportThemeModal from 'components/user_settings/import_theme_modal';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
@@ -48,7 +49,7 @@ type State = {
 };
 
 export default class ThemeSetting extends React.PureComponent<Props, State> {
-    minRef: RefObject<typeof SettingItemMin>;
+    minRef: RefObject<SettingItemMinComponent>;
     originalTheme: Theme;
     constructor(props: Props) {
         super(props);

@@ -4,14 +4,14 @@
 import React, {RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import SettingItemMax from 'components/setting_item_max';
-
 import {getEmailInterval} from 'mattermost-redux/utils/notify_props';
 
 import {Preferences, NotificationLevels} from 'utils/constants';
 import {a11yFocus, localizeMessage} from 'utils/utils';
 
 import SettingItemMin from 'components/setting_item_min';
+import SettingItemMax from 'components/setting_item_max';
+import SettingItemMinComponent from 'components/setting_item_min/setting_item_min';
 
 import {UserNotifyProps} from '@mattermost/types/users';
 import {PreferenceType} from '@mattermost/types/preferences';
@@ -50,7 +50,7 @@ type State = {
 };
 
 export default class EmailNotificationSetting extends React.PureComponent<Props, State> {
-    minRef: RefObject<typeof SettingItemMin>;
+    minRef: RefObject<SettingItemMinComponent>;
 
     constructor(props: Props) {
         super(props);

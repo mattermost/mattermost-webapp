@@ -936,7 +936,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                     {formattingSection}
                     <div className='divider-light'/>
                     <JoinLeaveSection
-                        activeSection={this.props.activeSection}
                         active={this.props.activeSection === AdvancedSections.JOIN_LEAVE}
                         areAllSectionsInactive={this.props.activeSection === ''}
                         onUpdateSection={this.handleUpdateSection}

@@ -11,6 +11,7 @@ import {a11yFocus} from 'utils/utils';
 
 import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
+import SettingItemMinComponent from 'components/setting_item_min/setting_item_min';
 
 type Props = {
     active: boolean;
@@ -28,7 +29,7 @@ type State = {
 }
 
 export default class ShowUnreadsCategory extends React.PureComponent<Props, State> {
-    minRef: RefObject<typeof SettingItemMin>;
+    minRef: RefObject<SettingItemMinComponent>;
 
     constructor(props: Props) {
         super(props);

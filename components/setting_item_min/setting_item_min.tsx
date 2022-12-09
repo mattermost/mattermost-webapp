@@ -13,7 +13,7 @@ interface Props {
     /**
      * Settings title
      */
-    title: JSX.Element | string;
+    title: ReactNode | string;
 
     /**
      * Option to disable opening the setting

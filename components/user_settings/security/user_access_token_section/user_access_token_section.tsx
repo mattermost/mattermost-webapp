@@ -4,8 +4,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import SettingItemMax from 'components/setting_item_max';
-
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
@@ -14,6 +12,8 @@ import {isMobile} from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 import ConfirmModal from 'components/confirm_modal';
 import SettingItemMin from 'components/setting_item_min';
+import SettingItemMax from 'components/setting_item_max';
+import SettingItemMinComponent from 'components/setting_item_min/setting_item_min';
 import SaveButton from 'components/save_button';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -79,7 +79,7 @@ type State = {
 }
 
 export default class UserAccessTokenSection extends React.PureComponent<Props, State> {
-    private minRef: React.RefObject<typeof SettingItemMin>;
+    private minRef: React.RefObject<SettingItemMinComponent>;
     private newtokendescriptionRef: React.RefObject<HTMLInputElement>;
 
     constructor(props: Props) {

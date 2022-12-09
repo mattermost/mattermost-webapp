@@ -7,13 +7,14 @@ import {FormattedMessage} from 'react-intl';
 
 import semver from 'semver';
 
-import SettingItemMax from 'components/setting_item_max';
-
 import {NotificationLevels} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
-import SettingItemMin from 'components/setting_item_min';
 import {isDesktopApp} from 'utils/user_agent';
+
+import SettingItemMin from 'components/setting_item_min';
+import SettingItemMax from 'components/setting_item_max';
+import SettingItemMinComponent from 'components/setting_item_min/setting_item_min';
 
 type SelectedOption = {
     label: string;
@@ -43,7 +44,7 @@ type State = {
 
 export default class DesktopNotificationSettings extends React.PureComponent<Props, State> {
     dropdownSoundRef: RefObject<ReactSelect>;
-    minRef: RefObject<typeof SettingItemMin>;
+    minRef: RefObject<SettingItemMinComponent>;
 
     constructor(props: Props) {
         super(props);

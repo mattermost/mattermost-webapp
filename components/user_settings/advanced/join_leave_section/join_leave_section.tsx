@@ -8,6 +8,7 @@ import {Preferences} from 'mattermost-redux/constants';
 
 import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
+import SettingItemMinComponent from 'components/setting_item_min/setting_item_min';
 
 import {AdvancedSections} from 'utils/constants';
 
@@ -33,7 +34,7 @@ type State = {
 }
 
 export default class JoinLeaveSection extends React.PureComponent<Props, State> {
-    minRef: RefObject<typeof SettingItemMin>;
+    minRef: RefObject<SettingItemMinComponent>;
 
     constructor(props: Props) {
         super(props);

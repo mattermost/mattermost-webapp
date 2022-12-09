@@ -4,6 +4,7 @@
 import React, {ReactNode, RefObject} from 'react';
 
 import SettingItemMin from 'components/setting_item_min';
+import SettingItemMinComponent from 'components/setting_item_min/setting_item_min';
 
 type Props = {
 
@@ -34,7 +35,7 @@ type Props = {
     describe?: ReactNode;
 }
 export default class SettingItem extends React.PureComponent<Props> {
-    minRef: RefObject<typeof SettingItemMin>;
+    minRef: RefObject<SettingItemMinComponent>;
 
     static defaultProps = {
         infoPosition: 'bottom',

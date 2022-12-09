@@ -6,6 +6,8 @@ import {FormattedMessage} from 'react-intl';
 
 import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
+import SettingItemMinComponent from 'components/setting_item_min/setting_item_min';
+
 import {getHistory} from 'utils/browser_history';
 
 const SECTION_MFA = 'mfa';
@@ -32,7 +34,7 @@ type State = {
 }
 
 export default class MfaSection extends React.PureComponent<Props, State> {
-    minRef: RefObject<typeof SettingItemMin>;
+    minRef: RefObject<SettingItemMinComponent>;
 
     public constructor(props: Props) {
         super(props);
