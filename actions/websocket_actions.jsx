@@ -789,6 +789,7 @@ export function handlePostUnreadEvent(msg) {
                 msgCountRoot: msg.data.msg_count_root,
                 mentionCount: msg.data.mention_count,
                 mentionCountRoot: msg.data.mention_count_root,
+                urgentMentionCount: msg.data.urgent_mention_count,
             },
         },
     );
@@ -1702,7 +1703,6 @@ function handleUpsertDraftEvent(msg) {
             value.remote = true;
         }
 
-        localStorage.setItem(key, JSON.stringify(value));
         doDispatch(setGlobalItem(key, value));
     };
 }
@@ -1712,7 +1712,6 @@ function handleDeleteDraftEvent(msg) {
         const draft = JSON.parse(msg.data.draft);
         const {key} = transformServerDraft(draft);
 
-        localStorage.removeItem(key);
         doDispatch(setGlobalItem(key, {message: '', fileInfos: [], uploadsInProgress: [], remote: true}));
     };
 }

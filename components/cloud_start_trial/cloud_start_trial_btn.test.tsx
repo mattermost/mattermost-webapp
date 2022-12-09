@@ -108,9 +108,6 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
 
         await act(async () => {
             expect(wrapper.find('.CloudStartTrialButton').text().includes('Cloud Start trial')).toBe(true);
-        });
-
-        await act(async () => {
             wrapper.find('.CloudStartTrialButton').simulate('click');
         });
 

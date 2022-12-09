@@ -14,8 +14,7 @@ describe('components/timestamp/SemanticTime', () => {
                 value={date}
             />,
         );
-        expect(wrapper.find('time').prop('aria-label')).toBe(date.toLocaleString());
-        expect(wrapper.find('time').prop('dateTime')).toBe(date.toISOString());
+        expect(wrapper.find('time').prop('dateTime')).toBe('2020-06-05T10:20:30.000');
     });
 
     test('should support passthrough children', () => {
@@ -28,7 +27,6 @@ describe('components/timestamp/SemanticTime', () => {
             </SemanticTime>,
         );
 
-        expect(wrapper.find('time').prop('aria-label')).toBe(date.toLocaleString());
         expect(wrapper.find('time').text()).toBe('10:20');
     });
 
@@ -42,6 +40,5 @@ describe('components/timestamp/SemanticTime', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('time').prop('aria-label')).toBe('A custom label');
     });
 });

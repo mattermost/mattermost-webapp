@@ -5,9 +5,7 @@ exports[`components/post_view/post_view should match snapshot for channel loadin
   id="post-list"
 >
   <LoadingScreen
-    key="loading"
-    position="absolute"
-    style={Object {}}
+    centered={true}
   />
 </div>
 `;
@@ -17,9 +15,7 @@ exports[`components/post_view/post_view should match snapshot for loaderForChang
   id="post-list"
 >
   <LoadingScreen
-    key="loading"
-    position="absolute"
-    style={Object {}}
+    centered={true}
   />
 </div>
 `;

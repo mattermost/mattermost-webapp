@@ -186,12 +186,7 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
 />
 `;
 
-exports[`components/integrations/EditIncomingWebhook should not call getIncomingHook 1`] = `
-<LoadingScreen
-  position="relative"
-  style={Object {}}
-/>
-`;
+exports[`components/integrations/EditIncomingWebhook should not call getIncomingHook 1`] = `<LoadingScreen />`;
 
 exports[`components/integrations/EditIncomingWebhook should show AbstractIncomingWebhook 1`] = `
 <AbstractIncomingWebhook
@@ -255,9 +250,4 @@ exports[`components/integrations/EditIncomingWebhook should show AbstractIncomin
 />
 `;
 
-exports[`components/integrations/EditIncomingWebhook should show Loading screen when no hook is provided 1`] = `
-<LoadingScreen
-  position="relative"
-  style={Object {}}
-/>
-`;
+exports[`components/integrations/EditIncomingWebhook should show Loading screen when no hook is provided 1`] = `<LoadingScreen />`;

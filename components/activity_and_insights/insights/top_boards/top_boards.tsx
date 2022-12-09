@@ -105,7 +105,7 @@ const TopBoards = (props: WidgetHocProps) => {
                                         </span>
                                     </div>
                                     <Avatars
-                                        userIds={board.activeUsers.split(',')}
+                                        userIds={board.activeUsers}
                                         size='xs'
                                         disableProfileOverlay={true}
                                     />

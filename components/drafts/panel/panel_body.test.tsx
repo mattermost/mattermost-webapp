@@ -2,18 +2,18 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 import {Provider} from 'react-redux';
 
 import mockStore from 'tests/test_store';
 
 import {PostDraft} from 'types/store/draft';
 
-import {UserProfile, UserStatus} from '@mattermost/types/users';
-
 import * as utils from 'utils/utils';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+
+import {UserProfile, UserStatus} from '@mattermost/types/users';
+import {PostPriority} from '@mattermost/types/posts';
 
 import PanelBody from './panel_body';
 
@@ -76,10 +76,44 @@ describe('components/drafts/panel/panel_body', () => {
     it('should match snapshot', () => {
         const store = mockStore(initialState);
 
-        const wrapper = shallow(
+        const wrapper = mountWithIntl(
             <Provider store={store}>
                 <PanelBody
                     {...baseProps}
+                />
+            </Provider>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot for requested_ack', () => {
+        const store = mockStore(initialState);
+
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <PanelBody
+                    {...baseProps}
+                    priority={{
+                        priority: '',
+                        requested_ack: true,
+                    }}
+                />
+            </Provider>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot for priority', () => {
+        const store = mockStore(initialState);
+
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <PanelBody
+                    {...baseProps}
+                    priority={{
+                        priority: PostPriority.IMPORTANT,
+                        requested_ack: true,
+                    }}
                 />
             </Provider>,
         );

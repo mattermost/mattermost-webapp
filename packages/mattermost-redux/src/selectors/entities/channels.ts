@@ -1256,8 +1256,9 @@ export function getChannelModerations(state: GlobalState, channelId: string): Ch
     return state.entities.channels.channelModerations[channelId];
 }
 
+const EMPTY_OBJECT = {};
 export function getChannelMemberCountsByGroup(state: GlobalState, channelId: string): ChannelMemberCountsByGroup {
-    return state.entities.channels.channelMemberCountsByGroup[channelId] || {};
+    return state.entities.channels.channelMemberCountsByGroup[channelId] || EMPTY_OBJECT;
 }
 
 export function isFavoriteChannel(state: GlobalState, channelId: string): boolean {
