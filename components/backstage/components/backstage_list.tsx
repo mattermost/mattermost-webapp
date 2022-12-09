@@ -9,8 +9,6 @@ import {Link} from 'react-router-dom';
 import {localizeMessage} from 'utils/utils';
 
 import LoadingScreen from 'components/loading_screen';
-import NextIcon from 'components/widgets/icons/fa_next_icon';
-import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
 import SearchIcon from 'components/widgets/icons/fa_search_icon';
 
 import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list';
@@ -61,7 +59,7 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
             return React.cloneElement(child, {filterLowered});
         });
         length = children.length;
-        if (remainingProps.page != undefined) {
+        if (remainingProps.page !== undefined) {
             const {startCount, endCount} = getPaginationProps(length);
             children = children.slice(startCount - 1, endCount);
         }
@@ -110,7 +108,7 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
 
     let footer = null;
     const page = remainingProps.page;
-    if (page != undefined && length) {
+    if (page !== undefined && length) {
         const {startCount, endCount} = getPaginationProps(length);
         const isFirstPage = startCount <= 1;
         const isLastPage = endCount >= length;
@@ -119,11 +117,11 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
             <div className='backstage-list__paging'>
                 <FormattedMessage
                     id='backstage-list.paginatorCount'
-                    defaultMessage={"{start} - {end} of {len}"}
+                    defaultMessage={'{start} - {end} of {len}'}
                     values={{
                         start: startCount,
                         end: endCount,
-                        len: length
+                        len: length,
                     }}
                 />
                 <button

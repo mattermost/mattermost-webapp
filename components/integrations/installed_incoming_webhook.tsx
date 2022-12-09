@@ -81,7 +81,6 @@ type Props = {
 }
 
 export default class InstalledIncomingWebhook extends React.PureComponent<Props> {
-
     handleDelete = () => {
         this.props.onDelete(this.props.incomingWebhook);
     }
@@ -125,7 +124,6 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
             />
         );
 
-
         let description = null;
         if (incomingWebhook.description) {
             description = (
@@ -139,30 +137,29 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
 
         let actions = null;
         if (this.props.canChange) {
-            actions = 
-                (<div className='item-actions'>
-                    <Link 
-                        className='item-actions-edit' 
-                        to={`/${this.props.team.name}/integrations/incoming_webhooks/edit?id=${incomingWebhook.id}`}
-                    >
-                        <i className='icon icon-pencil-outline'/>
-                    </Link>
-                    <DeleteIntegrationLink
-                        modalMessage={
-                            <FormattedMessage
-                                id='installed_incoming_webhooks.delete.confirm'
-                                defaultMessage='This action permanently deletes the incoming webhook and breaks any integrations using it. Are you sure you want to delete it?'
-                            />
-                        }
-                        onDelete={this.handleDelete}
-                    />
-                    <Toggle
-                        disabled={false}
-                        onToggle={this.handleToggle}
-                        toggled={this.props.incomingWebhook.enabled}
-                        size={'btn-sm'}
-                    />
-                </div>)
+            actions = (<div className='item-actions'>
+                <Link
+                    className='item-actions-edit'
+                    to={`/${this.props.team.name}/integrations/incoming_webhooks/edit?id=${incomingWebhook.id}`}
+                >
+                    <i className='icon icon-pencil-outline'/>
+                </Link>
+                <DeleteIntegrationLink
+                    modalMessage={
+                        <FormattedMessage
+                            id='installed_incoming_webhooks.delete.confirm'
+                            defaultMessage='This action permanently deletes the incoming webhook and breaks any integrations using it. Are you sure you want to delete it?'
+                        />
+                    }
+                    onDelete={this.handleDelete}
+                />
+                <Toggle
+                    disabled={false}
+                    onToggle={this.handleToggle}
+                    toggled={this.props.incomingWebhook.enabled}
+                    size={'btn-sm'}
+                />
+            </div>);
         }
 
         const incomingWebhookId = getSiteURL() + '/hooks/' + incomingWebhook.id;

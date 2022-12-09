@@ -20,17 +20,15 @@ export function loadIncomingHooksAndProfilesForTeam(teamId, page = 0, perPage = 
 export function getAllIncomingWebhooks(teamId, page = 0, result = []) {
     return async (dispatch) => {
         const {data} = await dispatch(IntegrationActions.getIncomingHooks(teamId, page, DEFAULT_PAGE_SIZE));
-        
         if (!Array.isArray(data)) {
             return dispatch(loadProfilesForIncomingHooks(result));
         }
-        
+
         if (data.length < DEFAULT_PAGE_SIZE) {
             return dispatch(loadProfilesForIncomingHooks(result.concat(data)));
         }
-        
         return getAllIncomingWebhooks(teamId, page + 1, result.concat(data));
-    }
+    };
 }
 
 export function loadProfilesForIncomingHooks(hooks) {
@@ -65,17 +63,14 @@ export function loadOutgoingHooksAndProfilesForTeam(teamId, page = 0, perPage = 
 export function getAllOutgoingWebhooks(teamId, page = 0, result = []) {
     return async (dispatch) => {
         const {data} = await dispatch(IntegrationActions.getOutgoingHooks('', teamId, page, DEFAULT_PAGE_SIZE));
-        
         if (!Array.isArray(data)) {
             return dispatch(loadProfilesForOutgoingHooks(result));
         }
-        
         if (data.length < DEFAULT_PAGE_SIZE) {
             return dispatch(loadProfilesForOutgoingHooks(result.concat(data)));
         }
-        
         return getAllOutgoingWebhooks('', teamId, page + 1, result.concat(data));
-    }
+    };
 }
 export function loadProfilesForOutgoingHooks(hooks) {
     return async (dispatch, getState) => {

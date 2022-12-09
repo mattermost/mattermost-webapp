@@ -185,7 +185,10 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
                     >
                         <i className='icon icon-refresh'/>
                     </button>
-                    <Link className='item-actions-edit' to={`/${this.props.team.name}/integrations/outgoing_webhooks/edit?id=${outgoingWebhook.id}`}>
+                    <Link
+                        className='item-actions-edit'
+                        to={`/${this.props.team.name}/integrations/outgoing_webhooks/edit?id=${outgoingWebhook.id}`}
+                    >
                         <i className='icon icon-pencil-outline'/>
                     </Link>
                     <DeleteIntegrationLink
@@ -203,7 +206,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
                         toggled={this.props.outgoingWebhook.enabled}
                         size={'btn-sm'}
                     />
-                </div>)
+                </div>);
         }
 
         return (
