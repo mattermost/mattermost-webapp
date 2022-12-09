@@ -111,7 +111,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
 
         const displayEnabled = outgoingWebhook.enabled ? null : (
             <FormattedMessage
-                id='installed_incoming_webhooks.disabled_webhook'
+                id='installed_outgoing_webhooks.disabled_webhook'
                 defaultMessage=' (Disabled)'
             />
         );

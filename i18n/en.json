@@ -2712,6 +2712,7 @@
   "authorize.title": "Authorize **{appName}** to Connect to Your **Mattermost** User Account",
   "avatars.overflowUnnamedOnly": "{overflowUnnamedCount, plural, =1 {one other} other {# others}}",
   "avatars.overflowUsers": "{overflowUnnamedCount, plural, =0 {{names}} =1 {{names} and one other} other {{names} and # others}}",
+  "backstage-list.paginatorCount": "{start} - {end} of {len}",
   "backstage_list.search": "Search",
   "backstage_navbar.back": "Back",
   "backstage_navbar.backToMattermost": "Back to {siteName}",
