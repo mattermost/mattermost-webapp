@@ -9,6 +9,8 @@ import mockStore from 'tests/test_store';
 
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider';
 import {Preferences} from 'mattermost-redux/constants';
+import { UserProfile } from '@mattermost/types/users';
+import UserList from 'components/user_list';
 
 const latestPost = {
     id: 'latest_post_id',
@@ -233,7 +235,7 @@ describe('components/SwitchChannelProvider', () => {
 
         getState.mockImplementation(store.getState);
 
-        const users = [];
+        const users: UserProfile[] = [];
         const channels = [{
             id: 'channel_other_user',
             type: 'O',
@@ -825,14 +827,22 @@ describe('components/SwitchChannelProvider', () => {
             },
         ];
 
-        const channels: Channel = [] = [{
-            id: 'other_gm_channel',
-            msg_count: 1,
-            last_viewed_at: 3,
-            type: 'G',
-            name: 'other_gm_channel',
+        const channels: Channel[] = [] = [{
+            id: 'channel_other_user',
+            type: 'O',
+            name: 'other_user',
+            display_name: 'other_user',
             delete_at: 0,
-            display_name: 'other_user1, current_user_id',
+            create_at: 0,
+            update_at: 0,
+            team_id: '',
+            header: '',
+            purpose: '',
+            last_post_at: 0,
+            last_root_post_at: 0,
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
         }];
 
         const searchText = 'other current';
