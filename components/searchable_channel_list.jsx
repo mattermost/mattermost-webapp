@@ -5,7 +5,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import AutoSizer from 'react-virtualized-auto-sizer';
 import {FormattedMessage} from 'react-intl';
+import {FixedSizeList} from 'react-window';
+import InfiniteLoader from 'react-window-infinite-loader';
 
 import {ArchiveOutlineIcon} from '@mattermost/compass-icons/components';
 
@@ -50,20 +53,25 @@ export default class SearchableChannelList extends React.PureComponent {
             this.filter.current.focus();
         }
 
-        this.intersectionObserver = new window.IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                const loadMore = this.state.loadedChannels < this.props.channels.length;
+        // this.intersectionObserver = new window.IntersectionObserver((entries) => {
+        //     entries.forEach((entry) => {
+        //         const loadMore = this.state.loadedChannels < this.props.channels.length;
 
-                if (entry.isIntersecting && loadMore) {
-                    this.setState({page: this.state.page + 1, isLoadingMoreChannels: true});
-                    this.props.nextPage(this.state.page + 1);
-                } else {
-                    this.setState({isLoadingMoreChannels: false});
-                }
-            });
-        }, {});
+        //         if (entry.isIntersecting && loadMore) {
+        //             this.setState({page: this.state.page + 1, isLoadingMoreChannels: true});
+        //             this.props.nextPage(this.state.page + 1);
+        //         } else {
+        //             this.setState({isLoadingMoreChannels: false});
+        //         }
+        //     });
+        // }, {});
 
-        this.intersectionObserver.observe(this.intersectionObserverWrapper);
+        // this.intersectionObserver.observe(this.intersectionObserverWrapper);
+    }
+
+    handleLoadMore = () => {
+        this.setState({page: this.state.page + 1, isLoadingMoreChannels: true});
+        this.props.nextPage(this.state.page + 1);
     }
 
     handleJoin(channel) {
@@ -154,10 +162,17 @@ export default class SearchableChannelList extends React.PureComponent {
         this.props.toggleArchivedChannels(false);
     }
 
+    isItemLoaded = (index) => {
+        return index <= this.props.channels?.length;
+    }
+
     render() {
         const channels = this.props.channels;
         let listContent;
-
+        console.log(
+            'this.props.channelsToDisplay: ',
+            this.props,
+        );
         if (this.props.loading && channels.length === 0) {
             listContent = <LoadingScreen/>;
         } else if (channels.length === 0) {
@@ -248,6 +263,26 @@ export default class SearchableChannelList extends React.PureComponent {
             );
         }
 
+        const Item = ({index, style}) => {
+            let content;
+
+            if (this.isItemLoaded(index)) {
+                // content = this.state.loadedChannels[index].name;
+                // content = this.props.channels[index].name;
+                content = this.createChannelRow(this.props.channels[index]);
+            } else {
+                content = 'Loading...';
+            }
+
+            // if (!this.isItemLoaded(index)) {
+            //     content = 'Loading...';
+            // } else {
+            //     content = items[index].name;
+            // }
+
+            return <div style={style}>{content}</div>;
+        };
+
         return (
             <div className='filtered-user-list'>
                 {input}
@@ -256,7 +291,33 @@ export default class SearchableChannelList extends React.PureComponent {
                     role='application'
                     className='more-modal__list'
                 >
-                    <div
+                    <AutoSizer>
+                        {({height, width}) => (
+                            <InfiniteLoader
+                                isItemLoaded={this.isItemLoaded}
+                                itemCount={this.props.channels.length}
+                                loadMoreItems={this.handleLoadMore}
+                                minimumBatchSize={30}
+                            >
+                                {({onItemsRendered, ref}) => (
+                                    <FixedSizeList
+                                        itemCount={this.props.channels.length}
+                                        onItemsRendered={onItemsRendered}
+                                        ref={ref}
+                                        height={height}
+                                        width={width}
+                                        itemSize={65}
+                                        style={{
+                                            willChange: 'auto',
+                                        }}
+                                    >
+                                        {Item}
+                                    </FixedSizeList>
+                                )}
+                            </InfiniteLoader>
+                        )}
+                    </AutoSizer>
+                    {/* <div
                         id='moreChannelsList'
                         ref={this.channelListScroll}
                     >
@@ -270,7 +331,7 @@ export default class SearchableChannelList extends React.PureComponent {
                                 <LoadingScreen/>
                             )}
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         );
