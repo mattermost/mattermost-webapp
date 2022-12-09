@@ -556,7 +556,7 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    formatList(channelPrefix, allChannels, users: UserProfile[], skipNotMember = true, localData = false) {
+    formatList(channelPrefix: string, allChannels, users: UserProfile[], skipNotMember = true, localData = false) {
         const channels = [];
 
         const members = getMyChannelMemberships(getState());
@@ -773,7 +773,7 @@ export default class SwitchChannelProvider extends Provider {
         return null;
     }
 
-    getTimestampFromPrefs(myPreferences, category, name) {
+    getTimestampFromPrefs(myPreferences, category: string, name: string) {
         const pref = myPreferences[getPreferenceKey(category, name)];
         const prefValue = pref ? pref.value : '0';
         return parseInt(prefValue, 10);
