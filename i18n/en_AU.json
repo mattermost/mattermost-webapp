@@ -2547,7 +2547,7 @@
   "analytics.team.recentUsers": "Recent Active Users",
   "analytics.team.title": "Team Statistics for {team}",
   "analytics.team.totalPosts": "Total Posts",
-  "analytics.team.totalUsers": "Total Activated Users",
+  "analytics.team.totalUsers": "Total Active Users",
   "announcement_bar.error.email_verification_required": "Check your email inbox to verify the address.",
   "announcement_bar.error.license_expired": "Enterprise licence is expired and some features may be disabled.",
   "announcement_bar.error.license_expiring": "Enterprise licence expires on {date, date, long}.",
