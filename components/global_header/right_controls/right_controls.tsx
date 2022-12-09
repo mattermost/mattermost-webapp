@@ -59,9 +59,6 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
             <SelfHostedPurchaseButton/>
             {isChannels(productId) ? (
                 <>
-                    <AtMentionsButton/>
-                    <SavedPostsButton/>
-                    <SettingsButton/>
                     {showCustomizeTip && <CustomizeYourExperienceTour/>}
                 </>
             ) : (
@@ -71,6 +68,9 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
                     pluggableId={productId}
                 />
             )}
+            <AtMentionsButton/>
+            <SavedPostsButton/>
+            <SettingsButton/>
             <StatusDropdown/>
         </RightControlsContainer>
     );
