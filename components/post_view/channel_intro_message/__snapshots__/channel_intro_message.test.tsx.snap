@@ -199,6 +199,10 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         <StarOutlineIcon
           size={24}
         />
+        <MemoizedFormattedMessage
+          defaultMessage="Favorite"
+          id="channel_info_rhs.top_buttons.favorite"
+        />
       </button>
     </span>
   </div>
@@ -354,6 +358,10 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       >
         <StarOutlineIcon
           size={24}
+        />
+        <MemoizedFormattedMessage
+          defaultMessage="Favorite"
+          id="channel_info_rhs.top_buttons.favorite"
         />
       </button>
     </span>
@@ -560,6 +568,10 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       >
         <StarOutlineIcon
           size={24}
+        />
+        <MemoizedFormattedMessage
+          defaultMessage="Favorite"
+          id="channel_info_rhs.top_buttons.favorite"
         />
       </button>
     </span>
@@ -777,6 +789,10 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         <StarOutlineIcon
           size={24}
         />
+        <MemoizedFormattedMessage
+          defaultMessage="Favorite"
+          id="channel_info_rhs.top_buttons.favorite"
+        />
       </button>
     </span>
   </div>
@@ -993,6 +1009,10 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         <StarOutlineIcon
           size={24}
         />
+        <MemoizedFormattedMessage
+          defaultMessage="Favorite"
+          id="channel_info_rhs.top_buttons.favorite"
+        />
       </button>
     </span>
   </div>
@@ -1103,6 +1123,10 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       <StarOutlineIcon
         size={24}
       />
+      <MemoizedFormattedMessage
+        defaultMessage="Favorite"
+        id="channel_info_rhs.top_buttons.favorite"
+      />
     </button>
   </div>
 </div>
@@ -1200,6 +1224,10 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
     >
       <StarOutlineIcon
         size={24}
+      />
+      <MemoizedFormattedMessage
+        defaultMessage="Favorite"
+        id="channel_info_rhs.top_buttons.favorite"
       />
     </button>
   </div>
