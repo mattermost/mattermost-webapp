@@ -7,11 +7,9 @@ import {Divider} from '@mui/material';
 /**
  * A horizontal divider for use in menus.
  * @example
- * <Menu>
- *   <MenuItem>Menu Item 1</MenuItem>
- *   <MenuItemDivider />
- *   <MenuItem>Menu Item 2</MenuItem>
- * </Menu>
+ * <Menu.Container>
+ *   <Menu.Item>
+ *   <Menu.Divider />
  */
 export function MenuItemDivider() {
     return (

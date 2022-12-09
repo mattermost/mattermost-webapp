@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode, useState, MouseEvent, useEffect} from 'react';
+import React, {ReactNode, useState, MouseEvent} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import MuiMenuList from '@mui/material/MenuList';
 import {PopoverOrigin} from '@mui/material/Popover';
@@ -55,21 +55,6 @@ export function SubMenu(props: Props) {
         event.preventDefault();
         setAnchorElement(null);
     };
-
-    useEffect(() => {
-        function handleOnKeydown(event: KeyboardEvent) {
-            if (event.key === 'Escape' || event.key === 'Esc') {
-                event.preventDefault();
-                setAnchorElement(null);
-            }
-        }
-
-        document.addEventListener('keydown', handleOnKeydown);
-
-        return () => {
-            document.removeEventListener('keydown', handleOnKeydown);
-        };
-    }, []);
 
     const hasSubmenuItems = Boolean(props.children);
     if (!hasSubmenuItems) {
