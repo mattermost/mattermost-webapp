@@ -108,7 +108,7 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
         />
       }
       id="work-template"
-      modalId="worktemplate"
+      modalId="work_template"
       show={true}
       text="Work Templates"
     />
@@ -324,7 +324,7 @@ exports[`components/global/product_switcher_menu should match snapshot with most
         />
       }
       id="work-template"
-      modalId="worktemplate"
+      modalId="work_template"
       show={true}
       text="Work Templates"
     />
@@ -660,7 +660,7 @@ exports[`components/global/product_switcher_menu should show integrations should
         />
       }
       id="work-template"
-      modalId="worktemplate"
+      modalId="work_template"
       show={true}
       text="Work Templates"
     />
