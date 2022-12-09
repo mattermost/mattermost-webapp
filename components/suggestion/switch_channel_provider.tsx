@@ -6,7 +6,10 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 
+import {Channel} from '@mattermost/types/channels.js';
+
 import {UserTypes} from 'mattermost-redux/action_types';
+
 import {Client4} from 'mattermost-redux/client';
 import {
     getDirectAndGroupChannels,
@@ -35,7 +38,7 @@ import {
     getStatusForUserId,
     getUserByUsername,
 } from 'mattermost-redux/selectors/entities/users';
-import {GlobalState} from 'types/store'; 
+import {GlobalState} from 'types/store';
 import {fetchAllMyTeamsChannelsAndChannelMembersREST, searchAllChannels} from 'mattermost-redux/actions/channels';
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {logError} from 'mattermost-redux/actions/errors';
@@ -54,7 +57,6 @@ import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import Provider from './provider';
 import Suggestion from './suggestion.jsx';
-import { number } from 'yargs';
 
 const getState = store.getState;
 const searchProfilesMatchingWithTerm = makeSearchProfilesMatchingWithTerm();
@@ -73,7 +75,6 @@ const InsightsChannel = {
     type: Constants.INSIGHTS,
     delete_at: 0,
 };
-
 
 class SwitchChannelSuggestion extends Suggestion {
     node?: HTMLDivElement | null;
@@ -271,9 +272,8 @@ class SwitchChannelSuggestion extends Suggestion {
 }
 
 function mapStateToPropsForSwitchChannelSuggestion(state: GlobalState, ownProps: Readonly<any> & Readonly<{
-                                                                        children?: React.ReactNode;
-                                                                    }>) 
-{
+    children?: React.ReactNode;
+}>) {
     const channel = ownProps.item && ownProps.item.channel;
     const channelId = channel ? channel.id : '';
     const draft = channelId ? getPostDraft(state, StoragePrefixes.DRAFT, channelId) : false;
@@ -307,7 +307,16 @@ const ConnectedSwitchChannelSuggestion = connect(mapStateToPropsForSwitchChannel
 
 let prefix = '';
 
-function sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB) {
+type WrappedChannel = {
+    name: string;
+    deactivated: boolean;
+    last_viewed_at: number;
+    type: string;
+    channel: Channel;
+    loading?: boolean;
+}
+
+function sortChannelsByRecencyAndTypeAndDisplayName(wrappedA: WrappedChannel, wrappedB: WrappedChannel) {
     if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
         return wrappedB.last_viewed_at - wrappedA.last_viewed_at;
     } else if (wrappedA.last_viewed_at) {
@@ -320,7 +329,7 @@ function sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB) {
     return sortChannelsByTypeAndDisplayName('en', wrappedA.channel, wrappedB.channel);
 }
 
-export function quickSwitchSorter(wrappedA, wrappedB) {
+export function quickSwitchSorter(wrappedA: WrappedChannel, wrappedB: WrappedChannel) {
     const aIsArchived = wrappedA.channel.delete_at ? wrappedA.channel.delete_at !== 0 : false;
     const bIsArchived = wrappedB.channel.delete_at ? wrappedB.channel.delete_at !== 0 : false;
 
@@ -374,9 +383,9 @@ function makeChannelSearchFilter(channelPrefix: string) {
     const splitPrefixBySpace = channelPrefixLower.trim().split(/[ ,]+/);
     const curState = getState();
     const usersInChannels = getUserIdsInChannels(curState);
-    const userSearchStrings: { [id: string] : string} = {};
+    const userSearchStrings: { [id: string]: string} = {};
 
-    return (channel) => {
+    return (channel: Channel) => {
         let searchString = `${channel.display_name}${channel.name}`;
         if (channel.type === Constants.GM_CHANNEL || channel.type === Constants.DM_CHANNEL) {
             const usersInChannel = usersInChannels[channel.id] || new Set([]);
