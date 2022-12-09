@@ -34,7 +34,10 @@ export default function ImagePreview({fileInfo, canDownloadFiles}: Props) {
     return (
         <a
             className='image_preview'
-            href='#'
+            href={fileUrl}
+            target='_blank'
+            rel='noopener noreferrer'
+            download={!isExternalFile}
         >
             <img
                 className='image_preview__image'
@@ -43,6 +46,7 @@ export default function ImagePreview({fileInfo, canDownloadFiles}: Props) {
                 alt={'preview url image'}
                 src={previewUrl}
             />
+            <span className='image_preview__save_helper'/>
         </a>
     );
 }
