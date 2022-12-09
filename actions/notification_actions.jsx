@@ -25,7 +25,7 @@ import {stripMarkdown} from 'utils/markdown';
 
 const NOTIFY_TEXT_MAX_LENGTH = 50;
 
-export function sendDesktopNotification(post, msgProps) {
+export function sendDesktopNotification(post, msgProps, persistent = false) {
     return async (dispatch, getState) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
@@ -65,17 +65,21 @@ export function sendDesktopNotification(post, msgProps) {
         const member = getMyChannelMember(state, post.channel_id);
         const isCrtReply = isCollapsedThreadsEnabled(state) && post.root_id !== '';
 
-        if (!member || isChannelMuted(member) || userStatus === UserStatuses.DND || userStatus === UserStatuses.OUT_OF_OFFICE) {
+        if (!member || (!persistent && isChannelMuted(member)) || userStatus === UserStatuses.DND || userStatus === UserStatuses.OUT_OF_OFFICE) {
             return;
         }
 
-        let notifyLevel = member?.notify_props?.desktop || NotificationLevels.DEFAULT;
+        // we are bypassing channel member's notify props in the case of persistent notifications
+        let notifyLevel = (!persistent && member?.notify_props?.desktop) || NotificationLevels.DEFAULT;
 
         if (notifyLevel === NotificationLevels.DEFAULT) {
             notifyLevel = user?.notify_props?.desktop || NotificationLevels.ALL;
         }
 
-        if (notifyLevel === NotificationLevels.NONE) {
+        if (persistent && mentions.indexOf(currentUserId) === -1) {
+            // if there is a persistent notification only send to mentioned users
+            return;
+        } else if (notifyLevel === NotificationLevels.NONE) {
             return;
         } else if (notifyLevel === NotificationLevels.MENTION && mentions.indexOf(user.id) === -1 && msgProps.channel_type !== Constants.DM_CHANNEL) {
             return;

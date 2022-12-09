@@ -608,6 +608,7 @@ export const SocketEvents = {
     DRAFT_CREATED: 'draft_created',
     DRAFT_UPDATED: 'draft_updated',
     DRAFT_DELETED: 'draft_deleted',
+    PERSISTENT_NOTIFICATION_TRIGGERED: 'persistent_notification_triggered',
 };
 
 export const TutorialSteps = {

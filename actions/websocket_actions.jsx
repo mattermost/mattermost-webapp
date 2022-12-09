@@ -105,6 +105,7 @@ import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {handleNewPost} from 'actions/post_actions';
 import * as StatusActions from 'actions/status_actions';
 import {loadProfilesForSidebar} from 'actions/user_actions';
+import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
@@ -575,6 +576,9 @@ export function handleEvent(msg) {
         break;
     case SocketEvents.DRAFT_DELETED:
         dispatch(handleDeleteDraftEvent(msg));
+        break;
+    case SocketEvents.PERSISTENT_NOTIFICATION_TRIGGERED:
+        dispatch(handlePersistentNotification(msg));
         break;
     default:
     }
@@ -1713,5 +1717,13 @@ function handleDeleteDraftEvent(msg) {
         const {key} = transformServerDraft(draft);
 
         doDispatch(setGlobalItem(key, {message: '', fileInfos: [], uploadsInProgress: [], remote: true}));
+    };
+}
+
+function handlePersistentNotification(msg) {
+    return async (doDispatch) => {
+        const post = JSON.parse(msg.data.post);
+
+        doDispatch(sendDesktopNotification(post, msg.data, true));
     };
 }
