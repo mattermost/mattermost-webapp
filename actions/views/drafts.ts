@@ -28,23 +28,26 @@ type Draft = {
     timestamp: Date;
 }
 
+/**
+ * Gets drafts stored on the server and reconciles them with any locally stored drafts.
+ * @param teamId Only drafts for the given teamId will be fetched.
+ */
 export function getDrafts(teamId: string) {
-    const getLocalDrafts = makeGetDrafts();
+    const getLocalDrafts = makeGetDrafts(false);
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
 
         let serverDrafts: Draft[] = [];
-        if (syncedDraftsAreAllowedAndEnabled(state)) {
-            try {
-                serverDrafts = (await Client4.getUserDrafts(teamId)).map((draft) => transformServerDraft(draft));
-            } catch (error) {
-                return {data: false, error};
-            }
+        try {
+            serverDrafts = (await Client4.getUserDrafts(teamId)).map((draft) => transformServerDraft(draft));
+        } catch (error) {
+            return {data: false, error};
         }
 
         const localDrafts = getLocalDrafts(state);
         const drafts = [...serverDrafts, ...localDrafts];
 
+        // Reconcile drafts and only keep the latest version of a draft.
         const draftsMap = new Map(drafts.map((draft) => [draft.key, draft]));
         drafts.forEach((draft) => {
             const currentDraft = draftsMap.get(draft.key);

@@ -57,7 +57,11 @@ export function makeGetDraftsByPrefix(prefix: string): DraftSelector {
     );
 }
 
-export function makeGetDrafts(): DraftSelector {
+/**
+ * Gets all local drafts in storage.
+ * @param excludeInactive determines if we filter drafts based on active channels.
+ */
+export function makeGetDrafts(excludeInactive = true): DraftSelector {
     const getChannelDrafts = makeGetDraftsByPrefix(StoragePrefixes.DRAFT);
     const getRHSDrafts = makeGetDraftsByPrefix(StoragePrefixes.COMMENT_DRAFT);
 
@@ -69,7 +73,7 @@ export function makeGetDrafts(): DraftSelector {
         (channelDrafts, rhsDrafts, myChannels) => (
             [...channelDrafts, ...rhsDrafts]
         ).
-            filter((draft) => myChannels.indexOf(draft.value.channelId) !== -1).
+            filter((draft) => (excludeInactive ? myChannels.indexOf(draft.value.channelId) !== -1 : true)).
             sort((a, b) => b.value.updateAt - a.value.updateAt),
     );
 }
