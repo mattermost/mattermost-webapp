@@ -66,7 +66,7 @@ const WorkTemplateModal = () => {
     const [selectedVisibility, setSelectedVisibility] = useState(Visibility.Public);
 
     const closeModal = () => {
-        dispatch(closeModalAction(ModalIdentifiers.WORKTEMPLATES));
+        dispatch(closeModalAction(ModalIdentifiers.WORK_TEMPLATES));
     };
 
     const goToMenu = () => {

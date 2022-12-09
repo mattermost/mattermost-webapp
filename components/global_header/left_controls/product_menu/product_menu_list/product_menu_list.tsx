@@ -140,7 +140,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                 </SystemPermissionGate>
                 <Menu.ItemToggleModalRedux
                     id='work-template'
-                    modalId={ModalIdentifiers.WORKTEMPLATES}
+                    modalId={ModalIdentifiers.WORK_TEMPLATES}
                     show={props.showWorkTemplateButton}
                     dialogType={WorkTemplateModal}
                     text={formatMessage({id: 'navbar_dropdown.workTemplate', defaultMessage: 'Work Templates'})}
