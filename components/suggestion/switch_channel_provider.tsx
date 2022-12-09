@@ -35,6 +35,7 @@ import {
     getStatusForUserId,
     getUserByUsername,
 } from 'mattermost-redux/selectors/entities/users';
+import {GlobalState} from 'types/store'; 
 import {fetchAllMyTeamsChannelsAndChannelMembersREST, searchAllChannels} from 'mattermost-redux/actions/channels';
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {logError} from 'mattermost-redux/actions/errors';
@@ -53,6 +54,7 @@ import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import Provider from './provider';
 import Suggestion from './suggestion.jsx';
+import { number } from 'yargs';
 
 const getState = store.getState;
 const searchProfilesMatchingWithTerm = makeSearchProfilesMatchingWithTerm();
@@ -72,7 +74,9 @@ const InsightsChannel = {
     delete_at: 0,
 };
 
+
 class SwitchChannelSuggestion extends Suggestion {
+    node?: HTMLDivElement | null;
     static get propTypes() {
         return {
             ...super.propTypes,
@@ -240,7 +244,6 @@ class SwitchChannelSuggestion extends Suggestion {
                 onClick={this.handleClick}
                 onMouseMove={this.handleMouseMove}
                 className={className}
-                role='listitem'
                 ref={(node) => {
                     this.node = node;
                 }}
@@ -248,6 +251,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 data-testid={channel.name}
                 aria-label={name}
                 {...Suggestion.baseProps}
+                role='listitem'
             >
                 {icon}
                 <div className='suggestion-list__ellipsis suggestion-list__flex'>
@@ -266,7 +270,10 @@ class SwitchChannelSuggestion extends Suggestion {
     }
 }
 
-function mapStateToPropsForSwitchChannelSuggestion(state, ownProps) {
+function mapStateToPropsForSwitchChannelSuggestion(state: GlobalState, ownProps: Readonly<any> & Readonly<{
+                                                                        children?: React.ReactNode;
+                                                                    }>) 
+{
     const channel = ownProps.item && ownProps.item.channel;
     const channelId = channel ? channel.id : '';
     const draft = channelId ? getPostDraft(state, StoragePrefixes.DRAFT, channelId) : false;
@@ -362,12 +369,12 @@ export function quickSwitchSorter(wrappedA, wrappedB) {
     return sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB);
 }
 
-function makeChannelSearchFilter(channelPrefix) {
+function makeChannelSearchFilter(channelPrefix: string) {
     const channelPrefixLower = channelPrefix.toLowerCase();
     const splitPrefixBySpace = channelPrefixLower.trim().split(/[ ,]+/);
     const curState = getState();
     const usersInChannels = getUserIdsInChannels(curState);
-    const userSearchStrings = {};
+    const userSearchStrings: { [id: string] : string} = {};
 
     return (channel) => {
         let searchString = `${channel.display_name}${channel.name}`;
@@ -417,7 +424,7 @@ export default class SwitchChannelProvider extends Provider {
      *
      * @see {@link components/forward_post_modal/forward_post_channel_select.tsx}
      */
-    handlePretextChanged(channelPrefix, resultsCallback) {
+    handlePretextChanged(channelPrefix: string, resultsCallback) {
         if (channelPrefix) {
             prefix = channelPrefix;
             this.startNewRequest(channelPrefix);
@@ -442,7 +449,7 @@ export default class SwitchChannelProvider extends Provider {
         return true;
     }
 
-    async fetchUsersAndChannels(channelPrefix, resultsCallback) {
+    async fetchUsersAndChannels(channelPrefix: string, resultsCallback) {
         const state = getState();
         const teamId = getCurrentTeamId(state);
 
@@ -770,7 +777,7 @@ export default class SwitchChannelProvider extends Provider {
         );
     }
 
-    wrapChannels(channels, channelType) {
+    wrapChannels(channels, channelType: string) {
         const state = getState();
         const currentChannel = getCurrentChannel(state);
         const myMembers = getMyChannelMemberships(state);
