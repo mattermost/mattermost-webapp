@@ -78,6 +78,7 @@ function PanelBody({
                                 canRemove={false}
                                 padding='0 0 0 8px'
                                 hasError={false}
+                                hasSpecialMentions={false}
                                 persistentNotifications={priority.persistent_notifications}
                                 priority={priority.priority}
                                 requestedAck={priority.requested_ack}
