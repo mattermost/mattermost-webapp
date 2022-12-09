@@ -4586,6 +4586,7 @@
   "self_hosted_signup.contact_sales": "Contact Sales",
   "self_hosted_signup.cta": "Upgrade",
   "self_hosted_signup.disclaimer": "I have read and agree to the <a>Enterprise Edition Subscription Terms</a>",
+  "self_hosted_signup.failed_export.subtitle": "Payment failed. Please contact support or try signing up at <a>{link}</a>.",
   "self_hosted_signup.error_invalid_number": "Enter a valid number of seats",
   "self_hosted_signup.error_max_seats": "Self-serve license purchase only supports purchases up to {num} users",
   "self_hosted_signup.error_min_seats": "Your workspace currently has {num} users",

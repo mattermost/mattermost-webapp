@@ -93,7 +93,12 @@ export function confirmSelfHostedSignup(
         } catch (error) {
             // eslint-disable-next-line no-console
             console.error(error);
-            return {data: false};
+
+            // unprocessable entity, e.g. failed export compliance
+            if (error.status_code === 422) {
+                return {data: false, error: error.status_code};
+            }
+            return {data: false, error};
         }
 
         return {data: true};

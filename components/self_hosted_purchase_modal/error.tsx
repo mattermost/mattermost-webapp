@@ -4,39 +4,72 @@
 import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 
-import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {HostedCustomerTypes} from 'mattermost-redux/action_types';
-import {Client4} from 'mattermost-redux/client';
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
 import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
 import IconMessage from 'components/purchase_modal/icon_message';
 
+import {CloudLinks} from 'utils/constants';
+
 interface Props {
-    clearError: () => void;
+    nextAction: () => void;
+    canRetry: boolean;
+    errorType: 'failed_export' | 'generic';
 }
 
 export default function ErrorPage(props: Props) {
-    const reduxDispatch = useDispatch<DispatchFunc>();
     const contactSupportLink = useSelector(getCloudContactUsLink)(InquiryType.Technical);
+    const formattedTitle = (
+        <FormattedMessage
+            id='admin.billing.subscription.paymentVerificationFailed'
+            defaultMessage='Sorry, the payment verification failed'
+        />
+    );
+    let formattedButtonText = (
+        <FormattedMessage
+            id='self_hosted_signup.retry'
+            defaultMessage='Try again'
+        />
+    );
+
+    if (!props.canRetry) {
+        formattedButtonText = (
+            <FormattedMessage
+                id='self_hosted_signup.close'
+                defaultMessage='Close'
+            />
+        );
+    }
+
+    let formattedSubtitle = (
+        <FormattedMessage
+            id='admin.billing.subscription.paymentFailed'
+            defaultMessage='Payment failed. Please try again or contact support.'
+        />
+    );
+
+    if (props.errorType === 'failed_export') {
+        formattedSubtitle = (
+            <FormattedMessage
+                id='self_hosted_signup.failed_export.subtitle'
+                defaultMessage='Payment failed. Please contact support or try signing up at <a>{link}</a>.'
+                values={{
+                    a: (chunks: React.ReactNode) => (
+                        <a href={CloudLinks.SELF_HOSTED_PRICING}>{chunks}</a>
+                    ),
+                    link: CloudLinks.SELF_HOSTED_PRICING,
+                }}
+            />
+        );
+    }
 
     return (
         <div className='failed'>
             <IconMessage
-                formattedTitle={(
-                    <FormattedMessage
-                        id='admin.billing.subscription.paymentVerificationFailed'
-                        defaultMessage='Sorry, the payment verification failed'
-                    />
-                )}
-                formattedSubtitle={(
-                    <FormattedMessage
-                        id='admin.billing.subscription.paymentFailed'
-                        defaultMessage='Payment failed. Please try again or contact support.'
-                    />
-                )}
+                formattedTitle={formattedTitle}
+                formattedSubtitle={formattedSubtitle}
                 icon={(
                     <PaymentFailedSvg
                         width={444}
@@ -44,24 +77,8 @@ export default function ErrorPage(props: Props) {
                     />
                 )}
                 error={true}
-                formattedButtonText={(
-                    <FormattedMessage
-                        id='self_hosted_signup.retry'
-                        defaultMessage='Try again'
-                    />
-                )}
-                buttonHandler={() => {
-                    try {
-                        Client4.bootstrapSelfHostedSignup(true).
-                            then((data) => {
-                                reduxDispatch({type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS, data: data.progress});
-                            }).finally(() => {
-                                props.clearError();
-                            });
-                    } catch (e) {
-                        props.clearError();
-                    }
-                }}
+                formattedButtonText={formattedButtonText}
+                buttonHandler={props.nextAction}
                 formattedLinkText={
                     <a
                         href={contactSupportLink}

@@ -51,6 +51,7 @@ import Input from 'components/widgets/inputs/input/input';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
 import useLoadStripe from 'components/common/hooks/useLoadStripe';
+import {useControlSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
 import useFetchStandardAnalytics from 'components/common/hooks/useFetchStandardAnalytics';
 
 import StripeProvider from './stripe_provider';
@@ -277,6 +278,7 @@ function inferNames(user: UserProfile, cardName: string): [string, string] {
 export default function SelfHostedPurchaseModal(props: Props) {
     useFetchStandardAnalytics();
     useNoEscape();
+    const controlModal = useControlSelfHostedPurchaseModal(props.productId);
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.SELF_HOSTED_PURCHASE));
     const progress = useSelector(getSelfHostedSignupProgress);
     const user = useSelector(getCurrentUser);
@@ -431,7 +433,12 @@ export default function SelfHostedPurchaseModal(props: Props) {
                 // Needed if this was completed while on the Edition and License page.
                 reduxDispatch(getLicenseConfig());
             } else if (finished.error) {
-                dispatch({type: 'set_error', data: finished.error});
+                let errorData = finished.error;
+                if (finished.error === 422) {
+                    errorData = finished.error.toString();
+                }
+                dispatch({type: 'set_error', data: errorData});
+                return;
             }
             dispatch({type: 'set_submitting', data: false});
         } catch (e) {
@@ -451,6 +458,23 @@ export default function SelfHostedPurchaseModal(props: Props) {
             id={'admin.billing.subscription.providePaymentDetails'}
         />
     );
+
+    let errorAction = () => {
+        try {
+            Client4.bootstrapSelfHostedSignup(true).
+                then((data) => {
+                    reduxDispatch({type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS, data: data.progress});
+                }).finally(() => {
+                    dispatch({type: 'set_error', data: ''});
+                });
+        } catch (e) {
+            dispatch({type: 'set_error', data: ''});
+        }
+    };
+    const canRetry = state.error !== '422';
+    if (!canRetry) {
+        errorAction = controlModal.close;
+    }
 
     return (
         <StripeProvider
@@ -662,7 +686,13 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                 progressBar={state.progressBar}
                             />
                         )}
-                        {state.error && (<ErrorPage clearError={() => dispatch({type: 'set_error', data: ''})}/>)}
+                        {state.error && (
+                            <ErrorPage
+                                nextAction={errorAction}
+                                canRetry={canRetry}
+                                errorType={canRetry ? 'generic' : 'failed_export'}
+                            />
+                        )}
                         <div className='background-svg'>
                             <BackgroundSvg/>
                         </div>
