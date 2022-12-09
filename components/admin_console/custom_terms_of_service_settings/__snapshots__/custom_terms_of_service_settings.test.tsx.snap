@@ -15,10 +15,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         id="admin.support.termsOfServiceTitle"
       />
     </AdminHeader>
-    <LoadingScreen
-      position="relative"
-      style={Object {}}
-    />
+    <LoadingScreen />
     <div
       className="admin-console-save"
     >
@@ -77,10 +74,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         id="admin.support.termsOfServiceTitle"
       />
     </AdminHeader>
-    <LoadingScreen
-      position="relative"
-      style={Object {}}
-    />
+    <LoadingScreen />
     <div
       className="admin-console-save"
     >
@@ -139,10 +133,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         id="admin.support.termsOfServiceTitle"
       />
     </AdminHeader>
-    <LoadingScreen
-      position="relative"
-      style={Object {}}
-    />
+    <LoadingScreen />
     <div
       className="admin-console-save"
     >
@@ -201,10 +192,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         id="admin.support.termsOfServiceTitle"
       />
     </AdminHeader>
-    <LoadingScreen
-      position="relative"
-      style={Object {}}
-    />
+    <LoadingScreen />
     <div
       className="admin-console-save"
     >

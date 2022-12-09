@@ -61,6 +61,7 @@ const ChannelInfoButton = ({channel}: Props) => {
             buttonClass={buttonClass}
             buttonId='channel-info-btn'
             onClick={toggleRHS}
+            ariaLabel={true}
             iconComponent={<Icon className='icon-information-outline'/>}
             tooltipKey={tooltipKey}
         />

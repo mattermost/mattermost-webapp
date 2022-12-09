@@ -3,13 +3,12 @@
 
 import React from 'react';
 import {shallow, mount} from 'enzyme';
-import {FormattedMessage, IntlProvider} from 'react-intl';
+import {IntlProvider} from 'react-intl';
 
 import {MemoryRouter} from 'react-router-dom';
 
 import AlertBanner from 'components/alert_banner';
 import ExternalLoginButton from 'components/external_login_button/external_login_button';
-import LoadingScreen from 'components/loading_screen';
 import Login from 'components/login/login';
 import Input from 'components/widgets/inputs/input/input';
 import PasswordInput from 'components/widgets/inputs/password_input/password_input';
@@ -181,8 +180,8 @@ describe('components/login/Login', () => {
             </IntlProvider>,
         );
 
-        const loadingScreen = wrapper.find(LoadingScreen).first();
-        expect(loadingScreen.find(FormattedMessage).first().props().defaultMessage).toEqual('Loading');
+        // eslint-disable-next-line react/jsx-key, react/jsx-no-literals
+        expect(wrapper.contains([<p>Loading</p>])).toEqual(true);
     });
 
     it('should handle initializing when storage not initalized', () => {
@@ -200,8 +199,8 @@ describe('components/login/Login', () => {
             </IntlProvider>,
         );
 
-        const loadingScreen = wrapper.find(LoadingScreen).first();
-        expect(loadingScreen.find(FormattedMessage).first().props().defaultMessage).toEqual('Loading');
+        // eslint-disable-next-line react/jsx-no-literals, react/jsx-key
+        expect(wrapper.contains([<p>Loading</p>])).toEqual(true);
     });
 
     it('should handle suppress session expired notification on sign in change', () => {

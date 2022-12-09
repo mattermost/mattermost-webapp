@@ -24,7 +24,7 @@ export default function FileInfoPreview(props: Props) {
         <span className='file-details__preview file-details__preview--archived'>
             <ArchiveOutlineIcon
                 size={80}
-                color={'rgba(var(--center-channel-text-rgb), 0.48)'}
+                color={'rgba(var(--center-channel-color-rgb), 0.48)'}
                 data-testid='archived-file-icon'
             />
         </span>

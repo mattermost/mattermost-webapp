@@ -10,6 +10,7 @@ import * as GlobalActions from 'actions/global_actions';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
 import * as UserAgent from 'utils/user_agent';
 import LoadingScreen from 'components/loading_screen';
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 import {getBrowserTimezone} from 'utils/timezone';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import BrowserStore from 'stores/browser_store';
@@ -32,6 +33,7 @@ export type Props = {
     children?: React.ReactNode;
     mfaRequired: boolean;
     enableTimezone: boolean;
+    theme: Theme;
     actions: {
         autoUpdateTimezone: (deviceTimezone: string) => void;
         getChannelURLAction: (channel: Channel, teamId: string, url: string) => void;
@@ -152,7 +154,11 @@ export default class LoggedIn extends React.PureComponent<Props> {
             }
         }
 
-        return this.props.children;
+        return (
+            <>
+                {this.props.children}
+            </>
+        );
     }
 
     private onFocusListener(): void {

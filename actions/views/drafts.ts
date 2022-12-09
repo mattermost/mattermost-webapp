@@ -14,9 +14,11 @@ import type {GlobalState} from 'types/store';
 import {PostDraft} from 'types/store/draft';
 import {getGlobalItem} from 'selectors/storage';
 
+import {StoragePrefixes} from 'utils/constants';
+
 import type {Draft as ServerDraft} from '@mattermost/types/drafts';
 import type {UserProfile} from '@mattermost/types/users';
-import {StoragePrefixes} from 'utils/constants';
+import {PostMetadata, PostPriorityMetadata} from '@mattermost/types/posts';
 import {FileInfo} from '@mattermost/types/files';
 
 type Draft = {
@@ -46,7 +48,15 @@ export function removeDraft(key: string, channelId: string, rootId = '') {
 
         if (syncedDraftsAreAllowedAndEnabled(state)) {
             const connectionId = getConnectionId(getState() as GlobalState);
-            await Client4.deleteDraft(channelId, rootId, connectionId);
+
+            try {
+                await Client4.deleteDraft(channelId, rootId, connectionId);
+            } catch (error) {
+                return {
+                    data: false,
+                    error,
+                };
+            }
         }
         return {data: true};
     };
@@ -90,6 +100,7 @@ function upsertDraft(draft: PostDraft, userId: UserProfile['id'], rootId = '', c
         message: draft.message,
         props: draft.props,
         file_ids: fileIds,
+        priority: draft.metadata?.priority as PostPriorityMetadata,
     };
 
     return Client4.upsertDraft(newDraft, connectionId);
@@ -107,6 +118,11 @@ export function transformServerDraft(draft: ServerDraft): Draft {
         fileInfos = draft.metadata.files;
     }
 
+    const metadata = (draft.metadata || {}) as PostMetadata;
+    if (draft.priority) {
+        metadata.priority = draft.priority;
+    }
+
     return {
         key,
         timestamp: new Date(draft.update_at),
@@ -119,6 +135,7 @@ export function transformServerDraft(draft: ServerDraft): Draft {
             rootId: draft.root_id,
             createAt: draft.create_at,
             updateAt: draft.update_at,
+            metadata,
             show: true,
         },
     };

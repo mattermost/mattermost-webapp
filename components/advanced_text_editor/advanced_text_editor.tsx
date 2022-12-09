@@ -164,7 +164,7 @@ const AdvanceTextEditor = ({
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
 
-    const handleHeightChange = (height: number, maxHeight: number) => {
+    const handleHeightChange = useCallback((height: number, maxHeight: number) => {
         setRenderScrollbar(height > maxHeight);
 
         window.requestAnimationFrame(() => {
@@ -172,7 +172,7 @@ const AdvanceTextEditor = ({
                 setScrollbarWidth(Utils.scrollbarWidth(textboxRef.current.getInputBox()));
             }
         });
-    };
+    }, [textboxRef.current]);
 
     const handleShowFormat = useCallback(() => {
         setShowPreview(!shouldShowPreview);
