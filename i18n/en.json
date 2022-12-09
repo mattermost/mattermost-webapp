@@ -325,7 +325,7 @@
   "admin.billing.subscription.paymentBegins": "Payment begins: {beginDate}. ",
   "admin.billing.subscription.paymentFailed": "Payment failed. Please try again or contact support.",
   "admin.billing.subscription.paymentVerificationFailed": "Sorry, the payment verification failed",
-  "admin.billing.subscription.planDetails.currentPlan": "(Current Plan)",
+  "admin.billing.subscription.planDetails.currentPlan": "Current Plan",
   "admin.billing.subscription.planDetails.features.advanceTeamPermission": "Advanced team permissions",
   "admin.billing.subscription.planDetails.features.autoComplianceExports": "Automated compliance exports",
   "admin.billing.subscription.planDetails.features.customRetentionPolicies": "Custom data retention policies",
