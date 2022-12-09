@@ -46,7 +46,7 @@ const Insights = () => {
 
     const [filterType, setFilterType] = useGlobalState(InsightsScopes.TEAM, 'insightsScope');
     const [timeFrame, setTimeFrame] = useGlobalState(TimeFrames.INSIGHTS_7_DAYS as string, 'insightsTimeFrame');
-    const [isStarterFree, _, isEnterpriseReady] = useLicenseChecks();
+    const {isStarterFree, isEnterpriseReady} = useLicenseChecks();
 
     const setFilterTypeTeam = useCallback(() => {
         trackEvent('insights', 'change_scope_to_team_insights');

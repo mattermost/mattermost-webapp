@@ -25,7 +25,7 @@ type Props = {
 const InsightsTitle = (props: Props) => {
     const {formatMessage} = useIntl();
 
-    const [isStarterFree, isFreeTrial, isEnterpriseReady] = useLicenseChecks();
+    const {isStarterFree, isFreeTrial, isEnterpriseReady} = useLicenseChecks();
 
     const title = useCallback(() => {
         if (props.filterType === InsightsScopes.TEAM) {
