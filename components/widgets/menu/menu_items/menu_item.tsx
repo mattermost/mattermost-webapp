@@ -36,10 +36,13 @@ export default function menuItem(Component: React.ComponentType<any>) {
             };
         }
 
-        setRoveFocus = () => {
+        // original article taken from https://dev.to/rafi993/roving-focus-in-react-with-custom-hooks-1ln
+        setRoveFocus = (size: number) => {
             const handlKeyDown = (e: KeyboardEvent) => {
                 const {key} = e;
-                if (key === Constants.KeyCodes.DOWN[0] || (key === Constants.KeyCodes.TAB[0] && this.state.currentFocus !== this.state.size - 1)) {
+
+                //should only run for key(UP and DOWN) & follow the default behaviour for key(TAB & SHIFT + TAB)
+                if (key === Constants.KeyCodes.DOWN[0]) {
                     // Down arrow
                     e.preventDefault();
                     this.setState((state) => ({currentFocus: state.currentFocus === state.size - 1 ? 0 : state.currentFocus + 1, isListenerAdded: false}));
@@ -49,7 +52,7 @@ export default function menuItem(Component: React.ComponentType<any>) {
                     this.setState((state) => ({currentFocus: state.currentFocus === 0 ? state.size - 1 : state.currentFocus - 1, isListenerAdded: false}));
                 }
             };
-            if (this.state.isListenerAdded) {
+            if (this.state.isListenerAdded && size) {
                 document.addEventListener('keydown', handlKeyDown, false);
             } else {
                 document.removeEventListener('keydown', handlKeyDown, false);
@@ -67,8 +70,8 @@ export default function menuItem(Component: React.ComponentType<any>) {
         public static displayName?: string;
 
         public render() {
-            const {id, show, icon, text, index, ...props} = this.props;
-            const [focus, setFocus] = this.setRoveFocus();
+            const {id, show, icon, text, index, size, ...props} = this.props;
+            const [focus, setFocus] = this.setRoveFocus(size);
             if (!show) {
                 return null;
             }
@@ -94,7 +97,7 @@ export default function menuItem(Component: React.ComponentType<any>) {
                     <Component
                         text={textProp}
                         ariaLabel={text?.toString()}
-                        index={index}
+                        index={index && index}
                         setFocus={setFocus}
                         focus={focus === index}
                         {...props}
