@@ -5,11 +5,11 @@ import {combineReducers} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {WorkTemplatesType} from 'mattermost-redux/action_types';
-import {Category, WorkTemplate} from '@mattermost/types/worktemplates';
+import {Category, WorkTemplate} from '@mattermost/types/work_templates';
 
 function categories(state: Category[] = [], action: GenericAction) {
     switch (action.type) {
-    case WorkTemplatesType.RECEIVED_DEV_WORKTEMPLATES: {
+    case WorkTemplatesType.RECEIVED_DEV_WORK_TEMPLATES: {
         const data = action.data as WorkTemplate[];
         return data.
             map((template) => template.category).
@@ -22,7 +22,7 @@ function categories(state: Category[] = [], action: GenericAction) {
 
 function templatesInCategory(state: Record<string, WorkTemplate> = {}, action: GenericAction) {
     switch (action.type) {
-    case WorkTemplatesType.RECEIVED_DEV_WORKTEMPLATES: {
+    case WorkTemplatesType.RECEIVED_DEV_WORK_TEMPLATES: {
         const res: Record<string, WorkTemplate[]> = {};
         const data = action.data as WorkTemplate[];
         const categoryIds = data.

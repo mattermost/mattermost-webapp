@@ -7,8 +7,8 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {injectDevData} from 'mattermost-redux/actions/worktemplates';
-import {Category, WorkTemplate} from '@mattermost/types/worktemplates';
+import {injectDevData} from 'mattermost-redux/actions/work_templates';
+import {Category, WorkTemplate} from '@mattermost/types/work_templates';
 import {GlobalState} from '@mattermost/types/store';
 
 import {worktemplates as workTemplateDevData} from '../dev_data';
@@ -103,7 +103,7 @@ const Menu = (props: MenuProps) => {
         <div className={props.className}>
             <Categories>
                 <h2>
-                    {formatMessage({id: 'worktemplates.menu.template_title', defaultMessage: 'TEMPLATE'})}
+                    {formatMessage({id: 'work_templates.menu.template_title', defaultMessage: 'TEMPLATE'})}
                 </h2>
                 <ul>
                     {categories.map((category) => (

@@ -26,7 +26,7 @@ import CloudTypes from './cloud';
 import AppsTypes from './apps';
 import ThreadTypes from './threads';
 import InsightTypes from './insights';
-import WorkTemplatesType from './worktemplates';
+import WorkTemplatesType from './work_templates';
 
 export {
     ErrorTypes,

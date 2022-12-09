@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import PublicPrivateSelector from 'components/widgets/public-private-selector/public-private-selector';
 import Constants from 'utils/constants';
 
-import {Visibility} from '@mattermost/types/worktemplates';
+import {Visibility} from '@mattermost/types/work_templates';
 import {ChannelType} from '@mattermost/types/channels';
 
 export interface CustomizeProps {
@@ -39,16 +39,16 @@ const Customize = ({
             <div className='name-section-container'>
                 <p>
                     <strong>
-                        {formatMessage({id: 'worktemplates.customize.name_title', defaultMessage: 'What project is this for?'})}
+                        {formatMessage({id: 'work_templates.customize.name_title', defaultMessage: 'What project is this for?'})}
                     </strong>
                 </p>
                 <p className='customize-name-text'>
-                    {formatMessage({id: 'worktemplates.customize.name_description', defaultMessage: 'This will help you and others find your project items. You can always edit this later.'})}
+                    {formatMessage({id: 'work_templates.customize.name_description', defaultMessage: 'This will help you and others find your project items. You can always edit this later.'})}
                 </p>
                 <input
                     type='text'
                     autoFocus={true}
-                    placeholder={formatMessage({id: 'worktemplates.customize.name_input_placeholder', defaultMessage: 'e.g. Web app, Growth, etc.'})}
+                    placeholder={formatMessage({id: 'work_templates.customize.name_input_placeholder', defaultMessage: 'e.g. Web app, Growth, etc.'})}
                     value={name}
                     onChange={(e) => onNameChanged(e.target.value)}
                 />
@@ -56,7 +56,7 @@ const Customize = ({
             <div className='visibility-section-container'>
                 <p>
                     <strong>
-                        {formatMessage({id: 'worktemplates.customize.visibility_title', defaultMessage: 'Who should have access to this?'})}
+                        {formatMessage({id: 'work_templates.customize.visibility_title', defaultMessage: 'Who should have access to this?'})}
                     </strong>
                 </p>
                 <PublicPrivateSelector

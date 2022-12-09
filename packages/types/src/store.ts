@@ -30,7 +30,7 @@ import {UsersState} from './users';
 import {AppsState} from './apps';
 import {InsightsState} from './insights';
 import {GifsState} from './gifs';
-import {WorkTemplatesState} from './worktemplates';
+import {WorkTemplatesState} from './work_templates';
 
 export type GlobalState = {
     entities: {

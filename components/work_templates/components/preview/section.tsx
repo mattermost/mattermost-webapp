@@ -56,7 +56,7 @@ const PreviewSection = (props: GenericPreviewSectionProps | IntegrationPreviewSe
             <span className='included-title'>
                 {
                     formatMessage({
-                        id: 'worktemplates.preview.section.included',
+                        id: 'work_templates.preview.section.included',
                         defaultMessage: 'Included',
                     })
                 }
@@ -94,7 +94,7 @@ const IntegrationsPreview = ({items}: IntegrationPreviewSectionProps) => {
         if (uninstalledPlugins.length === 1) {
             return formatMessage(
                 {
-                    id: 'worktemplates.preview.integrations.admin_install.single_plugin',
+                    id: 'work_templates.preview.integrations.admin_install.single_plugin',
                     defaultMessage: '{plugin} will not be added until admin installs it.',
                 },
                 {
@@ -102,7 +102,7 @@ const IntegrationsPreview = ({items}: IntegrationPreviewSectionProps) => {
                 });
         } else if (uninstalledPlugins.length > 1) {
             return formatMessage({
-                id: 'worktemplates.preview.integrations.admin_install.multiple_plugin',
+                id: 'work_templates.preview.integrations.admin_install.multiple_plugin',
                 defaultMessage: 'Integrations will not be added until admin installs them.',
             });
         }

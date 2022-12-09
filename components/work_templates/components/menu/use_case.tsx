@@ -47,21 +47,21 @@ const UseCase = (props: UseCaseProps) => {
         const detailBuilder: string[] = [];
         if (props.channelsCount) {
             detailBuilder.push(formatMessage({
-                id: 'worktemplates.menu.usecase_channels_count',
+                id: 'work_templates.menu.usecase_channels_count',
                 defaultMessage: '{channelsCount, plural, =1 {# channel} other {# channels}}',
             }, {channelsCount: props.channelsCount}));
         }
 
         if (props.boardsCount) {
             detailBuilder.push(formatMessage({
-                id: 'worktemplates.menu.usecase_boards_count',
+                id: 'work_templates.menu.usecase_boards_count',
                 defaultMessage: '{boardsCount, plural, =1 {# board} other {# boards}}',
             }, {boardsCount: props.boardsCount}));
         }
 
         if (props.playbooksCount) {
             detailBuilder.push(formatMessage({
-                id: 'worktemplates.menu.usecase_playbooks_count',
+                id: 'work_templates.menu.usecase_playbooks_count',
                 defaultMessage: '{playbooksCount, plural, =1 {# playbook} other {# playbooks}}',
             }, {playbooksCount: props.playbooksCount}));
         }
@@ -87,7 +87,7 @@ const UseCase = (props: UseCaseProps) => {
             onClick={selectTemplate}
         >
             <div className='illustration'>
-                <QuickUse onClick={quickUse}>{formatMessage({id: 'worktemplates.menu.quick_use', defaultMessage: 'Quick use'})}</QuickUse>
+                <QuickUse onClick={quickUse}>{formatMessage({id: 'work_templates.menu.quick_use', defaultMessage: 'Quick use'})}</QuickUse>
                 <img src={props.illustration}/>
             </div>
             <div className='name'>

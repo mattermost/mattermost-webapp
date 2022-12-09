@@ -11,7 +11,7 @@ import LocalizedIcon from 'components/localized_icon';
 import {closeModal as closeModalAction} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 
-import {Visibility, WorkTemplate} from '@mattermost/types/worktemplates';
+import {Visibility, WorkTemplate} from '@mattermost/types/work_templates';
 
 import Customize from './components/customize';
 import Menu from './components/menu';
@@ -109,20 +109,20 @@ const WorkTemplateModal = () => {
     let confirmButtonAction;
     switch (state) {
     case ModalState.Menu:
-        title = formatMessage({id: 'worktemplates.menu.modal_title', defaultMessage: 'Create a work template'});
+        title = formatMessage({id: 'work_templates.menu.modal_title', defaultMessage: 'Create a work template'});
         break;
     case ModalState.Preview:
-        title = formatMessage({id: 'worktemplates.preview.modal_title', defaultMessage: 'Preview - {useCase}'}, {useCase: selectedTemplate?.useCase});
-        cancelButtonText = formatMessage({id: 'worktemplates.preview.modal_cancel_button', defaultMessage: 'Back'});
+        title = formatMessage({id: 'work_templates.preview.modal_title', defaultMessage: 'Preview - {useCase}'}, {useCase: selectedTemplate?.useCase});
+        cancelButtonText = formatMessage({id: 'work_templates.preview.modal_cancel_button', defaultMessage: 'Back'});
         cancelButtonAction = goToMenu;
-        confirmButtonText = formatMessage({id: 'worktemplates.preview.modal_next_button', defaultMessage: 'Next'});
+        confirmButtonText = formatMessage({id: 'work_templates.preview.modal_next_button', defaultMessage: 'Next'});
         confirmButtonAction = () => setState(ModalState.Customize);
         break;
     case ModalState.Customize:
-        title = formatMessage({id: 'worktemplates.customize.modal_title', defaultMessage: 'Customize - {useCase}'}, {useCase: selectedTemplate?.useCase});
-        cancelButtonText = formatMessage({id: 'worktemplates.customize.modal_cancel_button', defaultMessage: 'Back'});
+        title = formatMessage({id: 'work_templates.customize.modal_title', defaultMessage: 'Customize - {useCase}'}, {useCase: selectedTemplate?.useCase});
+        cancelButtonText = formatMessage({id: 'work_templates.customize.modal_cancel_button', defaultMessage: 'Back'});
         cancelButtonAction = () => setState(ModalState.Preview);
-        confirmButtonText = formatMessage({id: 'worktemplates.customize.modal_create_button', defaultMessage: 'Create'});
+        confirmButtonText = formatMessage({id: 'work_templates.customize.modal_create_button', defaultMessage: 'Create'});
         confirmButtonAction = () => create(selectedTemplate!, selectedName);
         break;
     }

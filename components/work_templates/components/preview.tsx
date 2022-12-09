@@ -17,7 +17,7 @@ import {GlobalState} from 'types/store';
 
 import {getTemplateDefaultIllustration} from '../utils';
 
-import {Board, Channel, Integration, Playbook, WorkTemplate} from '@mattermost/types/worktemplates';
+import {Board, Channel, Integration, Playbook, WorkTemplate} from '@mattermost/types/work_templates';
 
 import {MarketplacePlugin} from '@mattermost/types/marketplace';
 
@@ -151,7 +151,7 @@ const Preview = ({template, className}: PreviewProps) => {
     if (channels.length > 0) {
         accordionItemsData.push({
             id: 'channels',
-            title: formatMessage({id: 'worktemplates.preview.accordion_title_channels', defaultMessage: 'Channels'}),
+            title: formatMessage({id: 'work_templates.preview.accordion_title_channels', defaultMessage: 'Channels'}),
             extraContent: <Chip>{channels.length}</Chip>,
             items: [(
                 <PreviewSection
@@ -167,7 +167,7 @@ const Preview = ({template, className}: PreviewProps) => {
     if (boards.length > 0) {
         accordionItemsData.push({
             id: 'boards',
-            title: formatMessage({id: 'worktemplates.preview.accordion_title_boards', defaultMessage: 'Boards'}),
+            title: formatMessage({id: 'work_templates.preview.accordion_title_boards', defaultMessage: 'Boards'}),
             extraContent: <Chip>{boards.length}</Chip>,
             items: [(
                 <PreviewSection
@@ -183,7 +183,7 @@ const Preview = ({template, className}: PreviewProps) => {
     if (playbooks.length > 0) {
         accordionItemsData.push({
             id: 'playbooks',
-            title: formatMessage({id: 'worktemplates.preview.accordion_title_playbooks', defaultMessage: 'Playbooks'}),
+            title: formatMessage({id: 'work_templates.preview.accordion_title_playbooks', defaultMessage: 'Playbooks'}),
             extraContent: <Chip>{playbooks.length}</Chip>,
             items: [(
                 <PreviewSection
@@ -252,7 +252,7 @@ const Preview = ({template, className}: PreviewProps) => {
     return (
         <div className={className}>
             <div className='content-side'>
-                <strong>{formatMessage({id: 'worktemplates.preview.included_in_template_title', defaultMessage: 'Included in template'})}</strong>
+                <strong>{formatMessage({id: 'work_templates.preview.included_in_template_title', defaultMessage: 'Included in template'})}</strong>
 
                 <Accordion
                     accordionItemsData={accordionItemsData}
