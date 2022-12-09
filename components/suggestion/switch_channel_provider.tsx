@@ -321,7 +321,7 @@ type WrappedChannel = {
     unreadMentions: number;
 }
 
-function sortChannelsByRecencyAndTypeAndDisplayName(wrappedA: WrappedChannel, wrappedB: WrappedChannel) {
+function sortChannelsByRecencyAndTypeAndDisplayName(wrappedA: WrappedChannel, wrappedB: WrappedChannel) :number {
     if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
         return wrappedB.last_viewed_at - wrappedA.last_viewed_at;
     } else if (wrappedA.last_viewed_at) {
@@ -334,7 +334,7 @@ function sortChannelsByRecencyAndTypeAndDisplayName(wrappedA: WrappedChannel, wr
     return sortChannelsByTypeAndDisplayName('en', wrappedA.channel, wrappedB.channel);
 }
 
-export function quickSwitchSorter(wrappedA: WrappedChannel, wrappedB: WrappedChannel) {
+export function quickSwitchSorter(wrappedA: WrappedChannel, wrappedB: WrappedChannel) :number {
     const aIsArchived = wrappedA.channel.delete_at ? wrappedA.channel.delete_at !== 0 : false;
     const bIsArchived = wrappedB.channel.delete_at ? wrappedB.channel.delete_at !== 0 : false;
 
@@ -383,7 +383,7 @@ export function quickSwitchSorter(wrappedA: WrappedChannel, wrappedB: WrappedCha
     return sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB);
 }
 
-function makeChannelSearchFilter(channelPrefix: string) {
+function makeChannelSearchFilter(channelPrefix: string) : (channel: Channel) => boolean {
     const channelPrefixLower = channelPrefix.toLowerCase();
     const splitPrefixBySpace = channelPrefixLower.trim().split(/[ ,]+/);
     const curState = getState();
@@ -438,7 +438,7 @@ export default class SwitchChannelProvider extends Provider {
      *
      * @see {@link components/forward_post_modal/forward_post_channel_select.tsx}
      */
-    handlePretextChanged(channelPrefix: string, resultsCallback) {
+    handlePretextChanged(channelPrefix: string, resultsCallback) :boolean {
         if (channelPrefix) {
             prefix = channelPrefix;
             this.startNewRequest(channelPrefix);
@@ -559,7 +559,7 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    formatList(channelPrefix, allChannels, users: UserProfile[], skipNotMember = true, localData = false) {
+    formatList(channelPrefix: string, allChannels, users: UserProfile[], skipNotMember = true, localData = false) {
         const channels = [];
 
         const members = getMyChannelMemberships(getState());
@@ -705,7 +705,7 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    fetchAndFormatRecentlyViewedChannels(resultsCallback) {
+    fetchAndFormatRecentlyViewedChannels(resultsCallback) :void {
         const state = getState();
         const recentChannels = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state));
         const wrappedRecentChannels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
@@ -786,13 +786,13 @@ export default class SwitchChannelProvider extends Provider {
         return null;
     }
 
-    getTimestampFromPrefs(myPreferences, category, name) {
+    getTimestampFromPrefs(myPreferences, category: string, name: string) :number {
         const pref = myPreferences[getPreferenceKey(category, name)];
         const prefValue = pref ? pref.value : '0';
         return parseInt(prefValue, 10);
     }
 
-    getLastViewedAt(member, myPreferences, channel) {
+    getLastViewedAt(member, myPreferences, channel) :number {
         // The server only ever sets the last_viewed_at to the time of the last post in channel,
         // So thought of using preferences but it seems that also not keeping track.
         // TODO Update and remove comment once solution is finalized
