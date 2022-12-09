@@ -72,7 +72,7 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
         actions: {
             removeOutgoingHook: jest.fn(),
             updateOutgoingHook: jest.fn(),
-            loadAllOutgoingHooksAndProfilesForTeam: jest.fn().mockReturnValue(Promise.resolve()),
+            getAllOutgoingWebhooks: jest.fn().mockReturnValue(Promise.resolve()),
             regenOutgoingHookToken: jest.fn(),
         },
         enableOutgoingWebhooks: true,
