@@ -1,42 +1,39 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useCallback, useState} from 'react';
+import {useIntl} from 'react-intl';
 
-import AppsForm from 'components/apps_form';
-import {AppForm} from '@mattermost/types/apps';
+import SpinnerButton from 'components/spinner_button';
 
 import {CommonProps} from './common_props';
 
 export function AppBindingButton(props: CommonProps) {
-    const form: AppForm = {
-        fields: [
-            {
-                name: 'submit',
-                type: 'static_select',
-                options: [
-                    {
-                        label: props.binding.label,
-                        value: props.binding.label,
-                    },
-                ],
-            },
-        ],
-        submit_buttons: 'submit',
-        submit: props.binding.submit,
-    };
+    const [submitting, setSubmitting] = useState(false);
+    const {handleBindingClick} = props;
+
+    const onClick = useCallback(async () => {
+        setSubmitting(true);
+
+        await handleBindingClick(props.binding);
+
+        setSubmitting(false);
+    }, [props.binding, handleBindingClick]);
+
+    const label = props.binding.label;
 
     return (
         <div style={styles.containerSpacing}>
-            <AppsForm
-                hideCancel={true}
-                isEmbedded={true}
-                onExited={() => {
-                    // noop
-                }}
-                context={props.context}
-                form={form}
-            />
+            <SpinnerButton
+                type='submit'
+                onClick={onClick}
+                autoFocus={false}
+                className='btn btn-primary save-button'
+                spinning={submitting}
+                spinningText={label}
+            >
+                {label}
+            </SpinnerButton>
         </div>
     );
 }

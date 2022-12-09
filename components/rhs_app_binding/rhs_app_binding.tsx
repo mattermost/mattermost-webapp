@@ -19,7 +19,7 @@ import SearchResultsHeader from 'components/search_results_header';
 
 import {AppBinding} from '@mattermost/types/apps';
 
-import {AppBindingView} from './view';
+import {AppBindingBaseView} from './view';
 import {lookForBindingLocation, treeReplace} from './partial_refresh';
 
 import './rhs_app_binding_styles.scss';
@@ -118,18 +118,18 @@ export function RhsAppBindingInner(props: RhsAppBindingInnerProps) {
         }
 
         return res.data;
-    }, [setRhsBinding]);
+    }, [setRhsBinding, context, dispatch, intl, tree]);
 
     const childProps = {
         app_id: tree.app_id!,
         tree,
         context,
-        viewComponent: AppBindingView,
+        viewComponent: AppBindingBaseView,
         handleBindingClick: handleBindingClickBound,
     };
 
     return (
-        <AppBindingView
+        <AppBindingBaseView
             {...childProps}
             binding={tree}
         />

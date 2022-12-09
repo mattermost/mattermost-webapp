@@ -4,19 +4,18 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import ReactSelect from 'react-select';
 
-import classNames from 'classnames';
+import {FormattedMessage} from 'react-intl';
 
 import {AppBinding} from '@mattermost/types/apps';
 
-import ActionsMenu from './actions_menu';
 import {CommonProps} from './common_props';
-import Icon from './icon';
+import Dropdown from './dropdown';
 
 export default function Select(props: CommonProps) {
     const variants: Record<string, React.ElementType> = {
-        categories: CategoriesSelect,
-        button_select: ButtonSelect,
-        select: NormalSelect,
+        categories: SelectVariantCategories,
+        button: SelectVariantButton,
+        select: SelectVariantNormal,
     };
 
     let variant = props.binding.subtype;
@@ -36,84 +35,96 @@ export default function Select(props: CommonProps) {
     );
 }
 
-export function SelectOption(props: CommonProps) {
-    let actionsMenu;
-    const actionsBinding = props.binding.bindings?.find((b) => b.type === 'actions');
-    if (actionsBinding) {
-        actionsMenu = (
-            <ActionsMenu
-                {...props}
-                binding={actionsBinding}
-            />
-        );
-    }
-
-    let iconComponent;
-    if (props.binding.icon) {
-        iconComponent = (
-            <div className='mm-app-bar-rhs-binding-list-item__icon-ctr'>
-                <Icon
-                    width={'18px'}
-                    src={props.binding.icon}
-                />
-            </div>
-        );
-    }
-
-    const View = props.viewComponent;
-    const childBindings = (
-        <div>
-            {props.binding.bindings?.filter((b) => b.type !== 'actions').map((b) => (
-                <View
-                    {...props}
-                    key={b.label}
-                    binding={b}
-                />
-            ))}
-        </div>
-    );
-
-    const title = (
-        <h4 className='mm-app-bar-rhs-binding-list-item__title'>
-            {props.binding.label}
-        </h4>
-    );
-
-    const description = props.binding.description && (
-        <p className='mm-app-bar-rhs-binding-list-item__sub-text'>
-            {props.binding.description}
-        </p>
-    );
-
-    const textContent = (
-        <div className='mm-app-bar-rhs-binding-list-item__content-ctr'>
-            {title}
-            {description}
-        </div>
-    );
-
-    const handleItemClick = () => {
-        if (props.binding.submit) {
-            props.handleBindingClick(props.binding);
-        }
-    };
-
+function SelectButton(props: CommonProps) {
     return (
-        <li
-            className={classNames('mm-app-bar-rhs-binding-list-item', {'cursor-pointer': props.binding.submit})}
-            onClick={handleItemClick}
+        <button
+            type='button'
+            className='save-button btn btn-primary'
         >
-            {iconComponent}
-            {textContent}
-            {actionsMenu}
-            <div>
-                {childBindings}
-            </div>
-        </li>
+            {props.binding.label}
+        </button>
     );
 }
 
-function CategoriesSelect(props: CommonProps) {
+function SelectVariantButton(props: CommonProps) {
+    return (
+        <Dropdown
+            {...props}
+            onSelect={props.handleBindingClick}
+            Button={SelectButton}
+            hint={props.binding.hint || (
+                <FormattedMessage
+                    id={'the.id'}
+                    defaultMessage={'Actions'}
+                />
+            )}
+        />
+    );
+}
+
+function SelectVariantCategories(props: CommonProps) {
+    const [selected, setSelected] = useState<AppBinding | null>(null);
+
+    const options = props.binding.bindings;
+    const {handleBindingClick} = props;
+
+    useEffect(() => {
+        if (selected) {
+            return;
+        }
+
+        const options = props.binding.bindings;
+        if (!options?.length) {
+            return;
+        }
+
+        for (const option of options) {
+            if (option.selected) {
+                setSelected(option);
+                return;
+            }
+        }
+
+        setSelected(options[0]);
+    }, [options, selected, props.binding.bindings]);
+
+    const onSelect = useCallback((value: AppBinding) => {
+        const option = options?.find((opt) => opt.location === value.location);
+        if (!option) {
+            return;
+        }
+
+        setSelected(option);
+
+        handleBindingClick(option);
+    }, [options, handleBindingClick]);
+
+    const label = selected?.label || 'No selected option';
+
+    const CategoriesButton = () => (
+        <h3 style={{cursor: 'pointer'}}>
+            {label}
+        </h3>
+    );
+
+    return (
+        <div>
+            <Dropdown
+                {...props}
+                Button={CategoriesButton}
+                onSelect={onSelect}
+                hint={props.binding.hint || (
+                    <FormattedMessage
+                        id={'the.id'}
+                        defaultMessage={'Categories'}
+                    />
+                )}
+            />
+        </div>
+    );
+}
+
+function SelectVariantNormal(props: CommonProps) {
     const [selected, setSelected] = useState<AppBinding | null>(null);
 
     const options = props.binding.bindings;
@@ -183,14 +194,6 @@ function CategoriesSelect(props: CommonProps) {
             </div>
         </div>
     );
-}
-
-function ButtonSelect() {
-    return <div/>;
-}
-
-function NormalSelect() {
-    return <div/>;
 }
 
 const reactStyles = {

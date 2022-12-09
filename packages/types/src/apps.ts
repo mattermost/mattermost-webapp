@@ -83,6 +83,7 @@ export type AppBinding = {
     bindings?: AppBinding[];
     form?: AppForm;
     submit?: AppCall;
+    source?: AppCall;
 };
 
 export type AppCallValues = {
