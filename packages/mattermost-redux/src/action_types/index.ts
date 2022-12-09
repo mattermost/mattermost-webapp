@@ -27,6 +27,7 @@ import AppsTypes from './apps';
 import ThreadTypes from './threads';
 import InsightTypes from './insights';
 import HostedCustomerTypes from './hosted_customer';
+import WorkTemplatesType from './work_templates';
 
 export {
     ErrorTypes,
@@ -54,5 +55,6 @@ export {
     ThreadTypes,
     InsightTypes,
     HostedCustomerTypes,
+    WorkTemplatesType,
     DraftTypes,
 };

@@ -31,6 +31,7 @@ import {UsersState} from './users';
 import {AppsState} from './apps';
 import {InsightsState} from './insights';
 import {GifsState} from './gifs';
+import {WorkTemplatesState} from './work_templates';
 
 export type GlobalState = {
     entities: {
@@ -70,6 +71,7 @@ export type GlobalState = {
         hostedCustomer: HostedCustomerState;
         usage: CloudUsage;
         insights: InsightsState;
+        worktemplates: WorkTemplatesState;
     };
     errors: any[];
     requests: {

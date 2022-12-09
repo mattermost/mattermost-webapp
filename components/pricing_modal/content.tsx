@@ -165,17 +165,19 @@ function Content(props: ContentProps) {
     ];
 
     // Default professional price
-    const defaultProfessionalPrice = monthlyProfessionalProduct ? monthlyProfessionalProduct.price_per_seat : 0;
+    const monthlyProfessionalPrice = monthlyProfessionalProduct ? monthlyProfessionalProduct.price_per_seat : 0;
+    const yearlyProfessionalPrice = yearlyProfessionalProduct ? yearlyProfessionalProduct.price_per_seat / 12 : 0;
+    const defaultProfessionalPrice = currentSubscriptionIsMonthly ? monthlyProfessionalPrice : yearlyProfessionalPrice;
     const [professionalPrice, setProfessionalPrice] = useState(defaultProfessionalPrice);
     const [isMonthlyPlan, setIsMonthlyPlan] = useState(true);
 
     // Set professional price
     const updateProfessionalPrice = (newIsMonthly: boolean) => {
-        if (newIsMonthly && monthlyProfessionalProduct) {
-            setProfessionalPrice(monthlyProfessionalProduct.price_per_seat);
+        if (newIsMonthly) {
+            setProfessionalPrice(monthlyProfessionalPrice);
             setIsMonthlyPlan(true);
         } else if (!newIsMonthly && yearlyProfessionalProduct) {
-            setProfessionalPrice(yearlyProfessionalProduct.price_per_seat / 12);
+            setProfessionalPrice(yearlyProfessionalPrice);
             setIsMonthlyPlan(false);
         }
     };
@@ -199,7 +201,7 @@ function Content(props: ContentProps) {
             </Modal.Header>
             <Modal.Body>
                 <div className='pricing-options-container'>
-                    {annualSubscriptionEnabled &&
+                    {(annualSubscriptionEnabled && currentSubscriptionIsMonthly) &&
                         <>
                             <div className='save-text'>
                                 {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
@@ -267,7 +269,7 @@ function Content(props: ContentProps) {
                                 }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
-                            disabled: isStarter || isEnterprise || !isAdmin,
+                            disabled: isStarter || isEnterprise || !isAdmin || !currentSubscriptionIsMonthly,
                             customClass: ButtonCustomiserClasses.secondary,
                         }}
                         briefing={{
