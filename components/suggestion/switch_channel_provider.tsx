@@ -56,7 +56,14 @@ import {Preferences} from 'mattermost-redux/constants';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import {UserProfile} from '@mattermost/types/users';
-import {Results} from './search_channel_provider';
+
+export type Results = {
+    matchedPretext: string;
+    terms: string[];
+    items: WrappedChannel[];
+    component: React.ElementType;
+}
+
 type ResultsCallback = (results: Results) => void;
 
 import Provider from './provider';
