@@ -15,10 +15,9 @@ import {capitalize as caps, isArray} from 'lodash';
 
 import {isSameYear, isWithin, isEqual, getDiff} from 'utils/datetime';
 import {Resolvable, resolve} from 'utils/resolvable';
-import {RequireOnlyOne} from 'utils/conditional_types';
+import {RequireOnlyOne} from '@mattermost/types/utilities';
 
 import SemanticTime from './semantic_time';
-
 import {STANDARD_UNITS} from './relative_ranges';
 
 // Feature test the browser for support of hourCycle.
