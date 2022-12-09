@@ -31,6 +31,7 @@ const dummyCardProps = {
     updateIsMonthly: () => {},
     updateInputUserCount: () => {},
     setUserCountError: () => {},
+    isCurrentPlanMonthlyProfessional: false,
 };
 
 interface Props {
