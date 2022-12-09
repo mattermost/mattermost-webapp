@@ -56,6 +56,8 @@ import {Preferences} from 'mattermost-redux/constants';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import {UserProfile} from '@mattermost/types/users';
+import {Results} from './search_channel_provider';
+type ResultsCallback = (results: Results) => void;
 
 import Provider from './provider';
 import Suggestion from './suggestion.jsx';
@@ -458,7 +460,7 @@ export default class SwitchChannelProvider extends Provider {
      *
      * @see {@link components/forward_post_modal/forward_post_channel_select.tsx}
      */
-    handlePretextChanged(channelPrefix: string, resultsCallback): boolean {
+    handlePretextChanged(channelPrefix: string, resultsCallback: ResultsCallback): boolean {
         if (channelPrefix) {
             prefix = channelPrefix;
             this.startNewRequest(channelPrefix);
@@ -483,7 +485,7 @@ export default class SwitchChannelProvider extends Provider {
         return true;
     }
 
-    async fetchUsersAndChannels(channelPrefix: string, resultsCallback) {
+    async fetchUsersAndChannels(channelPrefix: string, resultsCallback: ResultsCallback) {
         const state = getState();
         const teamId = getCurrentTeamId(state);
 
@@ -725,7 +727,7 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    fetchAndFormatRecentlyViewedChannels(resultsCallback): void {
+    fetchAndFormatRecentlyViewedChannels(resultsCallback: ResultsCallback): void {
         const state = getState();
         const recentChannels = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state));
         const wrappedRecentChannels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
@@ -879,7 +881,7 @@ export default class SwitchChannelProvider extends Provider {
         return channelList;
     }
 
-    async fetchChannels(resultsCallback) {
+    async fetchChannels(resultsCallback: ResultsCallback) {
         const state = getState();
         const teamId = getCurrentTeamId(state);
         if (!teamId) {
