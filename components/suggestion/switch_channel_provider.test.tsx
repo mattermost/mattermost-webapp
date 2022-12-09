@@ -1,11 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getState} from 'stores/redux_store';
+import {Channel} from '@mattermost/types/channels.js';
+
+import getState from 'stores/redux_store';
 
 import mockStore from 'tests/test_store';
 
-import SwitchChannelProvider from 'components/suggestion/switch_channel_provider.jsx';
+import SwitchChannelProvider from 'components/suggestion/switch_channel_provider';
 import {Preferences} from 'mattermost-redux/constants';
 
 const latestPost = {
@@ -146,12 +148,23 @@ describe('components/SwitchChannelProvider', () => {
                 username: 'other_user',
             },
         ];
-        const channels = [{
+
+        const channels: Channel[] = [{
             id: 'channel_other_user',
             type: 'O',
             name: 'other_user',
             display_name: 'other_user',
             delete_at: 0,
+            create_at: 0,
+            update_at: 0,
+            team_id: '',
+            header: '',
+            purpose: '',
+            last_post_at: 0,
+            last_root_post_at: 0,
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
         },
         {
             id: 'direct_other_user',
@@ -159,16 +172,26 @@ describe('components/SwitchChannelProvider', () => {
             name: 'current_user_id__other_user',
             display_name: 'other_user',
             delete_at: 0,
+            create_at: 0,
+            update_at: 0,
+            team_id: '',
+            header: '',
+            purpose: '',
+            last_post_at: 0,
+            last_root_post_at: 0,
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
         }];
         const searchText = 'other';
 
         switchProvider.startNewRequest();
         const result = switchProvider.formatList(searchText, channels, users);
 
-        var set = new Set(result.terms);
+        const set = new Set(result.terms);
         expect(set.size).toEqual(result.items.length);
 
-        var set2 = new Set(result.items.map((o) => o.channel.name));
+        const set2 = new Set(result.items.map((o) => o.channel.name));
         expect(set2.size).toEqual(1);
         expect(result.items.length).toEqual(2);
     });
@@ -196,10 +219,10 @@ describe('components/SwitchChannelProvider', () => {
         switchProvider.startNewRequest();
         const result = switchProvider.formatList(searchText, channels, users);
 
-        var set = new Set(result.terms);
+        const set = new Set(result.terms);
         expect(set.size).toEqual(result.items.length);
 
-        var set2 = new Set(result.items.map((o) => o.channel.name));
+        const set2 = new Set(result.items.map((o) => o.channel.name));
         expect(set2.size).toEqual(1);
         expect(result.items.length).toEqual(2);
     });
@@ -802,7 +825,7 @@ describe('components/SwitchChannelProvider', () => {
             },
         ];
 
-        const channels = [{
+        const channels: Channel = [] = [{
             id: 'other_gm_channel',
             msg_count: 1,
             last_viewed_at: 3,
@@ -814,7 +837,7 @@ describe('components/SwitchChannelProvider', () => {
 
         const searchText = 'other current';
 
-        switchProvider.startNewRequest();
+        switchProvider.startNewRequest('');
         const results = switchProvider.formatList(searchText, channels, users);
 
         const expectedOrder = [
