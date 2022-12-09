@@ -68,6 +68,16 @@ const ThreadsChannel: Channel = {
     display_name: 'Threads',
     type: Constants.THREADS,
     delete_at: 0,
+    create_at: 0,
+    update_at: 0,
+    team_id: '',
+    header: '',
+    purpose: '',
+    last_post_at: 0,
+    last_root_post_at: 0,
+    creator_id: '',
+    scheme_id: '',
+    group_constrained: false,
 };
 
 const InsightsChannel: Channel = {
@@ -76,6 +86,16 @@ const InsightsChannel: Channel = {
     display_name: 'Insights',
     type: Constants.INSIGHTS,
     delete_at: 0,
+    create_at: 0,
+    update_at: 0,
+    team_id: '',
+    header: '',
+    purpose: '',
+    last_post_at: 0,
+    last_root_post_at: 0,
+    creator_id: '',
+    scheme_id: '',
+    group_constrained: false,
 };
 
 class SwitchChannelSuggestion extends Suggestion {
@@ -321,7 +341,7 @@ type WrappedChannel = {
     unreadMentions: number;
 }
 
-function sortChannelsByRecencyAndTypeAndDisplayName(wrappedA: WrappedChannel, wrappedB: WrappedChannel) :number {
+function sortChannelsByRecencyAndTypeAndDisplayName(wrappedA: WrappedChannel, wrappedB: WrappedChannel): number {
     if (wrappedA.last_viewed_at && wrappedB.last_viewed_at) {
         return wrappedB.last_viewed_at - wrappedA.last_viewed_at;
     } else if (wrappedA.last_viewed_at) {
@@ -334,7 +354,7 @@ function sortChannelsByRecencyAndTypeAndDisplayName(wrappedA: WrappedChannel, wr
     return sortChannelsByTypeAndDisplayName('en', wrappedA.channel, wrappedB.channel);
 }
 
-export function quickSwitchSorter(wrappedA: WrappedChannel, wrappedB: WrappedChannel) :number {
+export function quickSwitchSorter(wrappedA: WrappedChannel, wrappedB: WrappedChannel): number {
     const aIsArchived = wrappedA.channel.delete_at ? wrappedA.channel.delete_at !== 0 : false;
     const bIsArchived = wrappedB.channel.delete_at ? wrappedB.channel.delete_at !== 0 : false;
 
@@ -383,7 +403,7 @@ export function quickSwitchSorter(wrappedA: WrappedChannel, wrappedB: WrappedCha
     return sortChannelsByRecencyAndTypeAndDisplayName(wrappedA, wrappedB);
 }
 
-function makeChannelSearchFilter(channelPrefix: string) : (channel: Channel) => boolean {
+function makeChannelSearchFilter(channelPrefix: string): (channel: Channel) => boolean {
     const channelPrefixLower = channelPrefix.toLowerCase();
     const splitPrefixBySpace = channelPrefixLower.trim().split(/[ ,]+/);
     const curState = getState();
@@ -438,7 +458,7 @@ export default class SwitchChannelProvider extends Provider {
      *
      * @see {@link components/forward_post_modal/forward_post_channel_select.tsx}
      */
-    handlePretextChanged(channelPrefix: string, resultsCallback) :boolean {
+    handlePretextChanged(channelPrefix: string, resultsCallback): boolean {
         if (channelPrefix) {
             prefix = channelPrefix;
             this.startNewRequest(channelPrefix);
@@ -559,7 +579,7 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    formatList(channelPrefix: string, allChannels, users: UserProfile[], skipNotMember = true, localData = false) {
+    formatList(channelPrefix: string, allChannels: Channel[], users: UserProfile[], skipNotMember = true, localData = false) {
         const channels = [];
 
         const members = getMyChannelMemberships(getState());
@@ -611,7 +631,7 @@ export default class SwitchChannelProvider extends Provider {
                 } else if (channelIsArchived && !members[channel.id]) {
                     continue;
                 } else if (newChannel.type === Constants.THREADS) {
-                    const threadItem = this.getThreadsItem('total');
+                    const threadItem = this.getThreadsItem('total', null);
                     if (threadItem) {
                         wrappedChannel = threadItem;
                     } else {
@@ -705,7 +725,7 @@ export default class SwitchChannelProvider extends Provider {
         };
     }
 
-    fetchAndFormatRecentlyViewedChannels(resultsCallback) :void {
+    fetchAndFormatRecentlyViewedChannels(resultsCallback): void {
         const state = getState();
         const recentChannels = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state));
         const wrappedRecentChannels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
@@ -738,7 +758,7 @@ export default class SwitchChannelProvider extends Provider {
         });
     }
 
-    getThreadsItem(countType = 'total', itemType: string): WrappedChannel | null {
+    getThreadsItem(countType = 'total', itemType: string | null): WrappedChannel | null {
         const state = getState();
         const counts = getThreadCountsInCurrentTeam(state);
         const collapsedThreads = isCollapsedThreadsEnabled(state);
@@ -786,13 +806,13 @@ export default class SwitchChannelProvider extends Provider {
         return null;
     }
 
-    getTimestampFromPrefs(myPreferences, category: string, name: string) :number {
+    getTimestampFromPrefs(myPreferences, category: string, name: string): number {
         const pref = myPreferences[getPreferenceKey(category, name)];
         const prefValue = pref ? pref.value : '0';
         return parseInt(prefValue, 10);
     }
 
-    getLastViewedAt(member, myPreferences, channel) :number {
+    getLastViewedAt(member, myPreferences, channel): number {
         // The server only ever sets the last_viewed_at to the time of the last post in channel,
         // So thought of using preferences but it seems that also not keeping track.
         // TODO Update and remove comment once solution is finalized
