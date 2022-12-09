@@ -27,6 +27,7 @@ import AppsTypes from './apps';
 import ThreadTypes from './threads';
 import InsightTypes from './insights';
 import WorkTemplatesType from './work_templates';
+import PlaybookType from './playbooks';
 
 export {
     ErrorTypes,
@@ -55,4 +56,5 @@ export {
     InsightTypes,
     WorkTemplatesType,
     DraftTypes,
+    PlaybookType,
 };

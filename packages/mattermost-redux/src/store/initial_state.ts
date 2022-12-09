@@ -241,6 +241,9 @@ const state: GlobalState = {
             categories: [],
             templatesInCategory: {},
         },
+        playbooks: {
+            templates: [],
+        },
     },
     errors: [],
     requests: {

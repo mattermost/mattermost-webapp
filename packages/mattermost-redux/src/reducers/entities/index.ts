@@ -28,6 +28,7 @@ import usage from './usage';
 import threads from './threads';
 import insights from './insights';
 import worktemplates from './work_templates';
+import playbooks from './playbooks';
 
 export default combineReducers({
     general,
@@ -55,4 +56,5 @@ export default combineReducers({
     insights,
     usage,
     worktemplates,
+    playbooks,
 });
