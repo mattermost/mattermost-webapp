@@ -62,7 +62,7 @@ import Suggestion from './suggestion.jsx';
 
 const getState = store.getState;
 const searchProfilesMatchingWithTerm = makeSearchProfilesMatchingWithTerm();
-const ThreadsChannel = {
+const ThreadsChannel: Channel = {
     id: 'threads',
     name: 'threads',
     display_name: 'Threads',
@@ -70,7 +70,7 @@ const ThreadsChannel = {
     delete_at: 0,
 };
 
-const InsightsChannel = {
+const InsightsChannel: Channel = {
     id: 'insights',
     name: 'activity-and-insights',
     display_name: 'Insights',
@@ -310,12 +310,15 @@ const ConnectedSwitchChannelSuggestion = connect(mapStateToPropsForSwitchChannel
 let prefix = '';
 
 type WrappedChannel = {
+    user?: UserProfile;
+    unread: boolean;
     name: string;
     deactivated: boolean;
     last_viewed_at: number;
-    type: string;
+    type?: any;
     channel: Channel;
     loading?: boolean;
+    unreadMentions: number;
 }
 
 function sortChannelsByRecencyAndTypeAndDisplayName(wrappedA: WrappedChannel, wrappedB: WrappedChannel) {
@@ -519,7 +522,7 @@ export default class SwitchChannelProvider extends Provider {
         });
     }
 
-    userWrappedChannel(user: UserProfile, channel) {
+    userWrappedChannel(user: UserProfile, channel: Channel | null | undefined): WrappedChannel {
         let displayName = '';
         const currentUserId = getCurrentUserId(getState());
 
@@ -552,7 +555,7 @@ export default class SwitchChannelProvider extends Provider {
             },
             type: 'search.direct',
             name: user.username,
-            deactivated: user.delete_at,
+            deactivated: Boolean(user.delete_at),
         };
     }
 
@@ -582,7 +585,15 @@ export default class SwitchChannelProvider extends Provider {
                 const newChannel = Object.assign({}, channel);
                 const channelIsArchived = channel.delete_at !== 0;
 
-                let wrappedChannel = {channel: newChannel, name: newChannel.name, deactivated: false};
+                let wrappedChannel: WrappedChannel = {
+                    channel,
+                    name: channel.name,
+                    deactivated: false,
+                    last_viewed_at: 0,
+                    type: '',
+                    unreadMentions: 0,
+                    unread: false,
+                };
                 if (members[channel.id]) {
                     wrappedChannel.last_viewed_at = members[channel.id].last_viewed_at;
                 } else if (skipNotMember && (newChannel.type !== Constants.THREADS && newChannel.type !== Constants.INSIGHTS)) {
@@ -727,18 +738,19 @@ export default class SwitchChannelProvider extends Provider {
         });
     }
 
-    getThreadsItem(countType = 'total', itemType) {
+    getThreadsItem(countType = 'total', itemType: string): WrappedChannel | null {
         const state = getState();
         const counts = getThreadCountsInCurrentTeam(state);
         const collapsedThreads = isCollapsedThreadsEnabled(state);
 
         // adding last viewed at equal to Date.now() to push it to the top of the list
-        let threadsItem = {
+        let threadsItem: WrappedChannel = {
             channel: ThreadsChannel,
             name: ThreadsChannel.name,
-            unread_mentions: counts?.total_unread_mentions || 0,
+            unreadMentions: counts?.total_unread_mentions || 0,
             deactivated: false,
             last_viewed_at: Date.now(),
+            unread: false,
         };
         if (itemType) {
             threadsItem = {...threadsItem, type: itemType};
@@ -753,17 +765,18 @@ export default class SwitchChannelProvider extends Provider {
         return null;
     }
 
-    getInsightsItem() {
+    getInsightsItem(): WrappedChannel | null {
         const state = getState();
         const insightsEnabled = insightsAreEnabled(state);
 
         // adding last viewed at equal to Date.now() to push it to the top of the list
-        const insightsItem = {
+        const insightsItem: WrappedChannel = {
             channel: InsightsChannel,
             name: InsightsChannel.name,
-            unread_mentions: 0,
+            unreadMentions: 0,
             deactivated: false,
             last_viewed_at: Date.now(),
+            unread: false,
         };
 
         if (insightsEnabled) {
@@ -790,7 +803,7 @@ export default class SwitchChannelProvider extends Provider {
         );
     }
 
-    wrapChannels(channels, channelType: string) {
+    wrapChannels(channels: Channel[], channelType: string) {
         const state = getState();
         const currentChannel = getCurrentChannel(state);
         const myMembers = getMyChannelMemberships(state);
@@ -805,7 +818,15 @@ export default class SwitchChannelProvider extends Provider {
             if (channel.id === currentChannel?.id) {
                 continue;
             }
-            let wrappedChannel = {channel, name: channel.name, deactivated: false};
+            let wrappedChannel: WrappedChannel = {
+                channel,
+                name: channel.name,
+                deactivated: false,
+                last_viewed_at: 0,
+                type: '',
+                unreadMentions: 0,
+                unread: false,
+            };
             const member = myMembers[channel.id];
             if (member) {
                 wrappedChannel.last_viewed_at = this.getLastViewedAt(member, myPreferences, channel);
