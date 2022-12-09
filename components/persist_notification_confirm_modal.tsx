@@ -21,6 +21,7 @@ type Props = {
 
 function PersistNotificationConfirmModal({
     message,
+    hasSpecialMentions,
     onConfirm,
     onExited,
 }: Props) {
@@ -34,7 +35,20 @@ function PersistNotificationConfirmModal({
     const interval = useSelector(getPersistentNotificationInterval);
     const count = useSelector((state: GlobalState) => getMentionCount(state, message));
 
-    if (count === 0) {
+    if (hasSpecialMentions) {
+        body = (
+            <FormattedMessage
+                id='persist_notification.special_mentions.description'
+                defaultMessage='Cannot use @channel @all ,@here to mention recipients of persistent notifications'
+            />
+        );
+        confirmBtn = (
+            <FormattedMessage
+                id='persist_notification.special_mentions.confirm'
+                defaultMessage='Got it'
+            />
+        );
+    } else if (count === 0) {
         title = (
             <FormattedMessage
                 id='persist_notification.too_few.title'

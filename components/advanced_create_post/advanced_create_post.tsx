@@ -1556,9 +1556,18 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             return true;
         }
 
+        if (this.hasSpecialMentions()) {
+            return false;
+        }
+
         const mentions = mentionsMinusSpecialMentionsInText(this.state.message);
 
         return mentions.length > 0;
+    }
+
+    hasSpecialMentions = (): boolean => {
+        const specialMentions = specialMentionsInText(this.state.message);
+        return Object.values(specialMentions).includes(true);
     }
 
     render() {
@@ -1637,6 +1646,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                         <PriorityLabels
                             canRemove={!this.props.shouldShowPreview}
                             hasError={!this.isValidPersistentNotifications()}
+                            hasSpecialMentions={this.hasSpecialMentions()}
                             onRemove={this.handleRemovePriority}
                             persistentNotifications={draft!.metadata!.priority?.persistent_notifications}
                             priority={draft!.metadata!.priority?.priority}

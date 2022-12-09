@@ -18,6 +18,7 @@ import {PostPriorityMetadata} from '@mattermost/types/posts';
 type Props = {
     canRemove: boolean;
     hasError: boolean;
+    hasSpecialMentions: boolean;
     onRemove?: () => void;
     padding?: CSSProperties['padding'];
     persistentNotifications?: PostPriorityMetadata['persistent_notifications'];
@@ -82,6 +83,7 @@ const Error = styled.div`
 function PriorityLabels({
     canRemove,
     hasError,
+    hasSpecialMentions,
     onRemove,
     padding,
     persistentNotifications,
@@ -128,10 +130,17 @@ function PriorityLabels({
             )}
             {hasError && (
                 <Error>
-                    <FormattedMessage
-                        id={'post_priority.error.no_mentions'}
-                        defaultMessage={'Recipients must be @mentioned'}
-                    />
+                    {hasSpecialMentions ? (
+                        <FormattedMessage
+                            id={'post_priority.error.special_mentions'}
+                            defaultMessage={'Cannot use @channel @all ,@here to mention recipients of persistent notifications'}
+                        />
+                    ) : (
+                        <FormattedMessage
+                            id={'post_priority.error.no_mentions'}
+                            defaultMessage={'Recipients must be @mentioned'}
+                        />
+                    )}
                 </Error>
             )}
             {canRemove && (
