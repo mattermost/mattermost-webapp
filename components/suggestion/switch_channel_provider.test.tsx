@@ -187,7 +187,7 @@ describe('components/SwitchChannelProvider', () => {
         }];
         const searchText = 'other';
 
-        switchProvider.startNewRequest();
+        switchProvider.startNewRequest('');
         const result = switchProvider.formatList(searchText, channels, users);
 
         const set = new Set(result.terms);
@@ -215,10 +215,20 @@ describe('components/SwitchChannelProvider', () => {
             name: 'other_user',
             display_name: 'other_user',
             delete_at: 0,
+            create_at: 0,
+            update_at: 0,
+            team_id: '',
+            header: '',
+            purpose: '',
+            last_post_at: 0,
+            last_root_post_at: 0,
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
         }];
         const searchText = 'other';
 
-        switchProvider.startNewRequest();
+        switchProvider.startNewRequest('');
         const result = switchProvider.formatList(searchText, channels, users);
 
         const set = new Set(result.terms);
@@ -242,6 +252,16 @@ describe('components/SwitchChannelProvider', () => {
             name: 'other_user',
             display_name: 'other_user',
             delete_at: 0,
+            create_at: 0,
+            update_at: 0,
+            team_id: '',
+            header: '',
+            purpose: '',
+            last_post_at: 0,
+            last_root_post_at: 0,
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
         },
         {
             id: 'direct_other_user',
@@ -249,10 +269,20 @@ describe('components/SwitchChannelProvider', () => {
             name: 'current_user_id__other_user',
             display_name: 'other_user',
             delete_at: 0,
+            create_at: 0,
+            update_at: 0,
+            team_id: '',
+            header: '',
+            purpose: '',
+            last_post_at: 0,
+            last_root_post_at: 0,
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
         }];
         const searchText = 'something else';
 
-        switchProvider.startNewRequest();
+        switchProvider.startNewRequest('');
         const results = switchProvider.formatList(searchText, channels, users);
 
         expect(results.terms.length).toEqual(0);
@@ -383,7 +413,7 @@ describe('components/SwitchChannelProvider', () => {
 
         const searchText = 'other';
 
-        switchProvider.startNewRequest();
+        switchProvider.startNewRequest('');
         const results = switchProvider.formatList(searchText, channels, users);
 
         const expectedOrder = [
@@ -483,7 +513,7 @@ describe('components/SwitchChannelProvider', () => {
 
         const searchText = 'other';
 
-        switchProvider.startNewRequest();
+        switchProvider.startNewRequest('');
         const results = switchProvider.formatList(searchText, channels, users);
 
         const expectedOrder = [
@@ -735,7 +765,7 @@ describe('components/SwitchChannelProvider', () => {
         const searchText = 'other';
         const resultsCallback = jest.fn();
 
-        switchProvider.startNewRequest();
+        switchProvider.startNewRequest('');
         await switchProvider.fetchUsersAndChannels(searchText, resultsCallback);
         const expectedOrder = [
             'other_user1',
