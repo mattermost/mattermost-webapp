@@ -11,6 +11,9 @@ import SwitchChannelProvider from 'components/suggestion/switch_channel_provider
 import {Preferences} from 'mattermost-redux/constants';
 import { UserProfile } from '@mattermost/types/users';
 import UserList from 'components/user_list';
+import { NotificationLevels } from 'utils/constants';
+import users from 'mattermost-redux/action_types/users';
+import { updateChannelNotifyProps } from 'mattermost-redux/actions/channels';
 
 const latestPost = {
     id: 'latest_post_id',
@@ -146,10 +149,48 @@ describe('components/SwitchChannelProvider', () => {
         const users = [
             {
                 id: 'other_user',
-                display_name: 'other_user',
                 username: 'other_user',
+                create_at: 0,
+                update_at: 0,
+                delete_at: 0,
+                password: '',
+                last_password_update: 0,
+                last_picture_update: 0,
+                mfa_active: false,
+                mfa_secret: '',
+                auth_data: '',
+                auth_service: '',
+                email: 'other_user@example.com',
+                email_verified: false,
+                nickname: 'other_user',
+                first_name: 'other_user',
+                last_name: 'other_user',
+                position: '',
+                last_activity_at: 0,
+                is_bot: false,
+                bot_description: '',
+                roles: '',
+                allow_marketing: false,
+                props: {},
+                locale: '',
+                timezone: {
+                    automaticTimezone: '',
             },
-        ];
+            notify_props: {
+                "channel": false,
+                "comments": false,
+                "desktop": NotificationLevels.MENTION,
+                'desktop_sound': '',
+                "email": '',
+                "first_name": false,
+                "mark_unread": "mention",
+                "mention_keys": "",
+                "push": "none",
+                "push_status": "offline",
+              },
+            terms_of_service_id: '',
+            terms_of_service_create_at: 0
+    }];
 
         const channels: Channel[] = [{
             id: 'channel_other_user',
@@ -491,24 +532,64 @@ describe('components/SwitchChannelProvider', () => {
             name: 'blah_other_user',
             display_name: 'blah_other_user',
             delete_at: 0,
+            create_at: 0,
+            update_at: 0,
+            team_id: '',
+            header: '',
+            purpose: '',
+            last_post_at: 0,
+            last_root_post_at: 0,
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
         }, {
             id: 'direct_other_user1',
             type: 'D',
             name: 'current_user_id__other_user1',
             display_name: 'other_user1',
             delete_at: 0,
+            create_at: 0,
+            update_at: 0,
+            team_id: '',
+            header: '',
+            purpose: '',
+            last_post_at: 0,
+            last_root_post_at: 0,
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
         }, {
             id: 'direct_other_user2',
             type: 'D',
             name: 'current_user_id__other_user2',
             display_name: 'other_user2',
             delete_at: 0,
+            create_at: 0,
+            update_at: 0,
+            team_id: '',
+            header: '',
+            purpose: '',
+            last_post_at: 0,
+            last_root_post_at: 0,
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
         }, {
             id: 'direct_other_user4',
             type: 'D',
             name: 'current_user_id__other_user4',
             display_name: 'other_user4',
             delete_at: 0,
+            create_at: 0,
+            update_at: 0,
+            team_id: '',
+            header: '',
+            purpose: '',
+            last_post_at: 0,
+            last_root_post_at: 0,
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
         }];
 
         const searchText = 'other';
@@ -585,7 +666,7 @@ describe('components/SwitchChannelProvider', () => {
         const searchText = 'other';
         const resultsCallback = jest.fn();
 
-        switchProvider.startNewRequest();
+        switchProvider.startNewRequest('');
         await switchProvider.fetchUsersAndChannels(searchText, resultsCallback);
         const expectedOrder = [
             'other_gm_channel',
@@ -674,7 +755,7 @@ describe('components/SwitchChannelProvider', () => {
         const searchText = 'other.';
         const resultsCallback = jest.fn();
 
-        switchProvider.startNewRequest();
+        switchProvider.startNewRequest('');
         await switchProvider.fetchUsersAndChannels(searchText, resultsCallback);
         const expectedOrder = [
             'other_user1',
