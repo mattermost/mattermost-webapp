@@ -12,10 +12,10 @@ import Constants from 'utils/constants';
 
 import {AppBinding} from '@mattermost/types/apps';
 
-import {CommonProps} from './common_props';
+import {CommonProps} from '../common_props';
 
 export type DropdownProps = {
-    Button: React.ElementType<CommonProps & {isMenuOpen: boolean}>;
+    Button: any;
     onSelect: (binding: AppBinding) => void;
     hint: React.ReactNode;
 } & CommonProps;

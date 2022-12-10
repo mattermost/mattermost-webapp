@@ -1,0 +1,170 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppsRHSView/select/button_select should match snapshot 1`] = `
+<SelectVariantButton
+  app_id="test"
+  binding={
+    Object {
+      "label": "Test",
+    }
+  }
+  context={
+    Object {
+      "app_id": "test",
+    }
+  }
+  handleBindingClick={[MockFunction]}
+  viewComponent={[MockFunction]}
+>
+  <Dropdown
+    Button={[Function]}
+    app_id="test"
+    binding={
+      Object {
+        "label": "Test",
+      }
+    }
+    context={
+      Object {
+        "app_id": "test",
+      }
+    }
+    handleBindingClick={[MockFunction]}
+    hint={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Actions"
+        id="the.id"
+      />
+    }
+    onSelect={[MockFunction]}
+    viewComponent={[MockFunction]}
+  >
+    <MenuWrapper
+      animationComponent={[Function]}
+      className=""
+      onToggle={[Function]}
+      open={false}
+    >
+      <div
+        className="MenuWrapper "
+        onClick={[Function]}
+      >
+        <OverlayTrigger
+          className="hidden-xs"
+          defaultOverlayShown={false}
+          delayShow={500}
+          overlay={
+            <Tooltip>
+              <Memo(MemoizedFormattedMessage)
+                defaultMessage="Actions"
+                id="the.id"
+              />
+            </Tooltip>
+          }
+          placement="top"
+          rootClose={true}
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <OverlayTrigger
+            className="hidden-xs"
+            defaultOverlayShown={false}
+            delayShow={500}
+            overlay={
+              <OverlayWrapper
+                intl={null}
+              >
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="Actions"
+                  id="the.id"
+                />
+              </OverlayWrapper>
+            }
+            placement="top"
+            rootClose={true}
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <span
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+            >
+              <Button
+                Button={[Function]}
+                app_id="test"
+                binding={
+                  Object {
+                    "label": "Test",
+                  }
+                }
+                context={
+                  Object {
+                    "app_id": "test",
+                  }
+                }
+                handleBindingClick={[MockFunction]}
+                hint={
+                  <Memo(MemoizedFormattedMessage)
+                    defaultMessage="Actions"
+                    id="the.id"
+                  />
+                }
+                isMenuOpen={false}
+                onSelect={[MockFunction]}
+                viewComponent={[MockFunction]}
+              >
+                <button
+                  className="save-button btn btn-primary"
+                  type="button"
+                >
+                  Test
+                </button>
+              </Button>
+            </span>
+          </OverlayTrigger>
+        </OverlayTrigger>
+        <MenuWrapperAnimation
+          show={false}
+        >
+          <CSSTransition
+            classNames="MenuWrapperAnimation"
+            enter={true}
+            exit={true}
+            in={false}
+            mountOnEnter={true}
+            timeout={80}
+            unmountOnExit={true}
+          >
+            <Transition
+              appear={false}
+              enter={true}
+              exit={true}
+              in={false}
+              mountOnEnter={true}
+              onEnter={[Function]}
+              onEntered={[Function]}
+              onEntering={[Function]}
+              onExit={[Function]}
+              onExited={[Function]}
+              onExiting={[Function]}
+              timeout={80}
+              unmountOnExit={true}
+            />
+          </CSSTransition>
+        </MenuWrapperAnimation>
+      </div>
+    </MenuWrapper>
+  </Dropdown>
+</SelectVariantButton>
+`;

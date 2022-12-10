@@ -5,7 +5,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {CommonProps} from '../common_props';
-import Dropdown from '../dropdown';
+
+import Dropdown from './dropdown';
 
 export function SelectVariantButton(props: CommonProps) {
     return (

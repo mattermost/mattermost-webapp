@@ -15,10 +15,10 @@ import {AppBindingButton} from './button';
 import ListBlock from './list_block';
 
 import {CommonProps} from './common_props';
-import Select from './select/select';
+import Select from './dropdown/dropdown_select';
 import AppBindingLayout from './layout';
 
-export function AppBindingView(props: CommonProps) {
+export function AppsViewBlock(props: CommonProps) {
     const {binding, handleBindingClick} = props;
 
     const [sourceFetched, setSourceFetched] = useState(false);
@@ -47,7 +47,7 @@ export function AppBindingView(props: CommonProps) {
         <>
             {binding.bindings?.map((b) => (
                 <div key={b.location}>
-                    <AppBindingBaseView
+                    <AppsViewBlockFactory
                         {...props}
                         binding={b}
                     />
@@ -57,15 +57,15 @@ export function AppBindingView(props: CommonProps) {
     );
 }
 
-export function AppBindingBaseView(props: CommonProps) {
+export function AppsViewBlockFactory(props: CommonProps) {
     const subviewProps = {
         ...props,
-        viewComponent: AppBindingBaseView,
+        viewComponent: AppsViewBlockFactory,
     };
 
     switch (props.binding.type) {
     case 'view':
-        return <AppBindingView {...subviewProps}/>;
+        return <AppsViewBlock {...subviewProps}/>;
     case 'layout':
         return <AppBindingLayout {...subviewProps}/>;
     case 'menu':

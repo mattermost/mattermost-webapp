@@ -8,8 +8,8 @@ import {AppBinding} from '@mattermost/types/apps';
 
 import {CommonProps} from '../common_props';
 
-import {SelectVariantButton} from './button_select';
-import {SelectVariantCategories} from './categories_select';
+import {SelectVariantButton} from './dropdown_button';
+import {SelectVariantCategories} from './dropdown_categories';
 
 export default function Select(props: CommonProps) {
     const variants: Record<string, React.ElementType> = {

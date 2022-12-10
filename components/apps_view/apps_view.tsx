@@ -10,65 +10,23 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
 
 import {DoAppCallResult} from 'types/apps';
 
-import {showRHSAppBinding} from 'actions/views/rhs';
 import {handleBindingClick, openAppsModal} from 'actions/apps';
-import {getRhsAppBinding} from 'selectors/rhs';
 import {createCallContext} from 'utils/apps';
-
-import SearchResultsHeader from 'components/search_results_header';
 
 import {AppBinding} from '@mattermost/types/apps';
 
-import {AppBindingBaseView} from './view';
+import {AppsViewBlockFactory} from './apps_view_block';
 import {lookForBindingLocation, treeReplace} from './partial_refresh';
 
-import './rhs_app_binding_styles.scss';
+import './apps_view_styles.scss';
 
-export default function RhsAppBinding() {
-    const binding = useSelector(getRhsAppBinding);
-    const dispatch = useDispatch();
-
-    const setRhsBinding = useCallback((binding: AppBinding) => {
-        dispatch(showRHSAppBinding(binding));
-    }, [dispatch]);
-
-    let view = <h3>{'Loading'}</h3>;
-    if (binding) {
-        view = (
-            <RhsAppBindingInner
-                tree={binding}
-                setRhsBinding={setRhsBinding}
-            />
-        );
-    }
-
-    return (
-        <div
-            id='rhsContainer'
-            className='sidebar-right__body mm-app-bar-rhs-binding'
-        >
-            <SearchResultsHeader>
-                {binding?.label || ''}
-            </SearchResultsHeader>
-            <div
-                style={{
-                    overflowY: 'scroll',
-                    height: '100%',
-                }}
-            >
-                {view}
-            </div>
-        </div>
-    );
-}
-
-type RhsAppBindingInnerProps = {
+export type AppsViewProps = {
     tree: AppBinding;
-    setRhsBinding: (binding: AppBinding) => void;
+    setTree: (binding: AppBinding) => void;
 }
 
-export function RhsAppBindingInner(props: RhsAppBindingInnerProps) {
-    const {tree, setRhsBinding} = props;
+export function AppsView(props: AppsViewProps) {
+    const {tree, setTree} = props;
     const intl = useIntl();
 
     const dispatch = useDispatch();
@@ -109,7 +67,7 @@ export function RhsAppBindingInner(props: RhsAppBindingInnerProps) {
             const existingBindingPath = lookForBindingLocation(tree, newBlock.location, []);
             if (existingBindingPath) {
                 const newTree = treeReplace(tree, newBlock, existingBindingPath);
-                setRhsBinding(newTree);
+                setTree(newTree);
             } else {
                 err('No binding found in tree for location ' + newBlock.location);
             }
@@ -118,18 +76,18 @@ export function RhsAppBindingInner(props: RhsAppBindingInnerProps) {
         }
 
         return res.data;
-    }, [setRhsBinding, context, dispatch, intl, tree]);
+    }, [setTree, context, dispatch, intl, tree]);
 
     const childProps = {
         app_id: tree.app_id!,
         tree,
         context,
-        viewComponent: AppBindingBaseView,
+        viewComponent: AppsViewBlockFactory,
         handleBindingClick: handleBindingClickBound,
     };
 
     return (
-        <AppBindingBaseView
+        <AppsViewBlockFactory
             {...childProps}
             binding={tree}
         />

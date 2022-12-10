@@ -7,7 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import {AppBinding} from '@mattermost/types/apps';
 
 import {CommonProps} from '../common_props';
-import Dropdown from '../dropdown';
+
+import Dropdown from './dropdown';
 
 export function SelectVariantCategories(props: CommonProps) {
     const [selected, setSelected] = useState<AppBinding | null>(null);

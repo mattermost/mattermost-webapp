@@ -10,7 +10,7 @@ import {DotsVerticalIcon} from '@mattermost/compass-icons/components';
 import classNames from 'classnames';
 
 import {CommonProps} from './common_props';
-import Dropdown from './dropdown';
+import Dropdown from './dropdown/dropdown';
 
 export default function ActionsMenu(props: CommonProps) {
     return (

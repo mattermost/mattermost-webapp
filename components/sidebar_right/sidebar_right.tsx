@@ -22,7 +22,7 @@ import RhsPlugin from 'plugins/rhs_plugin';
 import {Channel} from '@mattermost/types/channels';
 
 import {RhsState} from 'types/store/rhs';
-import RhsAppBinding from 'components/rhs_app_binding/rhs_app_binding';
+import RhsAppBinding from 'components/apps_rhs_view/apps_rhs_view';
 
 type Props = {
     isExpanded: boolean;
