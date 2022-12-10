@@ -39,8 +39,6 @@ export default class SearchableChannelList extends React.PureComponent {
         this.state = {
             joiningChannel: '',
             page: 0,
-            loadedChannels: 0,
-            isLoadingMoreChannels: false,
         };
 
         this.filter = React.createRef();
@@ -52,25 +50,10 @@ export default class SearchableChannelList extends React.PureComponent {
         if (!UserAgent.isMobile() && this.filter.current) {
             this.filter.current.focus();
         }
-
-        // this.intersectionObserver = new window.IntersectionObserver((entries) => {
-        //     entries.forEach((entry) => {
-        //         const loadMore = this.state.loadedChannels < this.props.channels.length;
-
-        //         if (entry.isIntersecting && loadMore) {
-        //             this.setState({page: this.state.page + 1, isLoadingMoreChannels: true});
-        //             this.props.nextPage(this.state.page + 1);
-        //         } else {
-        //             this.setState({isLoadingMoreChannels: false});
-        //         }
-        //     });
-        // }, {});
-
-        // this.intersectionObserver.observe(this.intersectionObserverWrapper);
     }
 
     handleLoadMore = () => {
-        this.setState({page: this.state.page + 1, isLoadingMoreChannels: true});
+        this.setState({page: this.state.page + 1});
         this.props.nextPage(this.state.page + 1);
     }
 
@@ -167,37 +150,6 @@ export default class SearchableChannelList extends React.PureComponent {
     }
 
     render() {
-        const channels = this.props.channels;
-        let listContent;
-        console.log(
-            'this.props.channelsToDisplay: ',
-            this.props,
-        );
-        if (this.props.loading && channels.length === 0) {
-            listContent = <LoadingScreen/>;
-        } else if (channels.length === 0) {
-            listContent = (
-                <div className='no-channel-message'>
-                    <h3 className='primary-message'>
-                        <FormattedMessage
-                            id='more_channels.noMore'
-                            tagName='strong'
-                            defaultMessage='No more channels to join'
-                        />
-                    </h3>
-                    {this.props.noResultsText}
-                </div>
-            );
-        } else {
-            const pageStart = 0;
-            const pageEnd = (this.state.page * this.props.channelsPerPage) + this.props.channelsPerPage;
-            const channelsToDisplay = this.props.channels.slice(pageStart, pageEnd);
-            this.setState({
-                loadedChannels: channelsToDisplay.length || 0,
-            });
-            listContent = channelsToDisplay.map(this.createChannelRow);
-        }
-
         let input = (
             <div className='filter-row filter-row--full'>
                 <div className='col-sm-12'>
@@ -267,18 +219,10 @@ export default class SearchableChannelList extends React.PureComponent {
             let content;
 
             if (this.isItemLoaded(index)) {
-                // content = this.state.loadedChannels[index].name;
-                // content = this.props.channels[index].name;
                 content = this.createChannelRow(this.props.channels[index]);
             } else {
                 content = 'Loading...';
             }
-
-            // if (!this.isItemLoaded(index)) {
-            //     content = 'Loading...';
-            // } else {
-            //     content = items[index].name;
-            // }
 
             return <div style={style}>{content}</div>;
         };
@@ -291,47 +235,49 @@ export default class SearchableChannelList extends React.PureComponent {
                     role='application'
                     className='more-modal__list'
                 >
-                    <AutoSizer>
-                        {({height, width}) => (
-                            <InfiniteLoader
-                                isItemLoaded={this.isItemLoaded}
-                                itemCount={this.props.channels.length}
-                                loadMoreItems={this.handleLoadMore}
-                                minimumBatchSize={30}
-                            >
-                                {({onItemsRendered, ref}) => (
-                                    <FixedSizeList
-                                        itemCount={this.props.channels.length}
-                                        onItemsRendered={onItemsRendered}
-                                        ref={ref}
-                                        height={height}
-                                        width={width}
-                                        itemSize={65}
-                                        style={{
-                                            willChange: 'auto',
-                                        }}
-                                    >
-                                        {Item}
-                                    </FixedSizeList>
-                                )}
-                            </InfiniteLoader>
-                        )}
-                    </AutoSizer>
-                    {/* <div
-                        id='moreChannelsList'
-                        ref={this.channelListScroll}
-                    >
-                        {listContent}
-                        <div
-                            ref={(div) => {
-                                this.intersectionObserverWrapper = div;
-                            }}
-                        >
-                            {this.state.isLoadingMoreChannels && (
-                                <LoadingScreen/>
+                    {this.props.loading && this.props.channels.length === 0 && (
+                        <LoadingScreen/>
+                    )}
+                    {this.props.channels.length > 0 && (
+                        <AutoSizer>
+                            {({height, width}) => (
+                                <InfiniteLoader
+                                    isItemLoaded={this.isItemLoaded}
+                                    itemCount={this.props.channels.length}
+                                    loadMoreItems={this.handleLoadMore}
+                                    minimumBatchSize={this.props.CHANNELS_PER_PAGE}
+                                >
+                                    {({onItemsRendered, ref}) => (
+                                        <FixedSizeList
+                                            itemCount={this.props.channels.length}
+                                            onItemsRendered={onItemsRendered}
+                                            ref={ref}
+                                            height={height}
+                                            width={width}
+                                            itemSize={65}
+                                            style={{
+                                                willChange: 'auto',
+                                            }}
+                                        >
+                                            {Item}
+                                        </FixedSizeList>
+                                    )}
+                                </InfiniteLoader>
                             )}
+                        </AutoSizer>
+                    )}
+                    {this.props.channels.length === 0 && !this.props.loading && (
+                        <div className='no-channel-message'>
+                            <h3 className='primary-message'>
+                                <FormattedMessage
+                                    id='more_channels.noMore'
+                                    tagName='strong'
+                                    defaultMessage='No more channels to join'
+                                />
+                            </h3>
+                            {this.props.noResultsText}
                         </div>
-                    </div> */}
+                    )}
                 </div>
             </div>
         );
@@ -345,13 +291,13 @@ SearchableChannelList.defaultProps = {
 
 SearchableChannelList.propTypes = {
     channels: PropTypes.arrayOf(PropTypes.object),
-    channelsPerPage: PropTypes.number,
     nextPage: PropTypes.func.isRequired,
     isSearch: PropTypes.bool,
     search: PropTypes.func.isRequired,
     handleJoin: PropTypes.func.isRequired,
     noResultsText: PropTypes.object,
     loading: PropTypes.bool,
+    CHANNELS_PER_PAGE: PropTypes.number,
     createChannelButton: PropTypes.element,
     toggleArchivedChannels: PropTypes.func.isRequired,
     shouldShowArchivedChannels: PropTypes.bool.isRequired,
