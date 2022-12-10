@@ -14,7 +14,6 @@ export function getWorkTemplateCategories(): ActionFunc {
     });
 }
 
-
 export function getWorkTemplates(categoryId: string): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getWorkTemplates,

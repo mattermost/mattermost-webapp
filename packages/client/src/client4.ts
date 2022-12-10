@@ -130,7 +130,7 @@ import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
 import {LeastActiveChannelsResponse, TopChannelResponse, TopReactionResponse, TopThreadResponse, TopDMsResponse} from '@mattermost/types/insights';
 
-import {Category, WorkTemplate} from '@mattermost/types/worktemplates';
+import {Category, WorkTemplate} from '@mattermost/types/work_templates';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
