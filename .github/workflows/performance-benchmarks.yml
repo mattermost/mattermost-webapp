@@ -70,6 +70,7 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           browser: chrome
+          config: defaultCommandTimeout=60000
           install: false
           spec: ./tests/integration/performance/*
           start: npm run benchmarks:run-server
