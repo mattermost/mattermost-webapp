@@ -15,7 +15,7 @@ import {AppBindingButton} from './button';
 import ListBlock from './list_block';
 
 import {CommonProps} from './common_props';
-import Select from './select';
+import Select from './select/select';
 import AppBindingLayout from './layout';
 
 export function AppBindingView(props: CommonProps) {
