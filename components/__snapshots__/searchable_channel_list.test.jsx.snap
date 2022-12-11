@@ -33,12 +33,7 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
     className="more-modal__list"
     role="application"
   >
-    <div
-      id="moreChannelsList"
-    >
-      <LoadingScreen />
-      <div />
-    </div>
+    <LoadingScreen />
   </div>
 </div>
 `;
