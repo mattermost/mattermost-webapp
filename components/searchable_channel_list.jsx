@@ -34,8 +34,6 @@ export default class SearchableChannelList extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.intersectionObserver = null;
-        this.intersectionObserverWrapper = null;
         this.state = {
             joiningChannel: '',
             page: 0,
