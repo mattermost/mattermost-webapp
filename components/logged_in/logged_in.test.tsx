@@ -74,11 +74,9 @@ describe('components/logged_in/LoggedIn', () => {
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-            <Fragment>
-              <span>
-                Test
-              </span>
-            </Fragment>
+            <span>
+              Test
+            </span>
         `);
     });
 
@@ -95,11 +93,9 @@ describe('components/logged_in/LoggedIn', () => {
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-            <Fragment>
-              <span>
-                Test
-              </span>
-            </Fragment>
+            <span>
+              Test
+            </span>
         `);
     });
 
@@ -133,11 +129,9 @@ describe('components/logged_in/LoggedIn', () => {
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-            <Fragment>
-              <span>
-                Test
-              </span>
-            </Fragment>
+            <span>
+              Test
+            </span>
         `);
     });
 
@@ -151,11 +145,9 @@ describe('components/logged_in/LoggedIn', () => {
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-            <Fragment>
-              <span>
-                Test
-              </span>
-            </Fragment>
+            <span>
+              Test
+            </span>
         `);
     });
 
