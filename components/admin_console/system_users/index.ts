@@ -11,12 +11,12 @@ import {
     getProfiles,
     searchProfiles,
     revokeSessionsForAllUsers,
+    getFilteredUsersStats,
 } from 'mattermost-redux/actions/users';
 import {logError} from 'mattermost-redux/actions/errors';
 import {getTeamsList} from 'mattermost-redux/selectors/entities/teams';
-import {getUsers} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {Stats} from 'mattermost-redux/constants';
+import {getFilteredUsersStats as selectFilteredUserStats, getUsers} from 'mattermost-redux/selectors/entities/users';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
@@ -48,8 +48,7 @@ function mapStateToProps(state: GlobalState) {
         filter = search.filter || '';
 
         if (!teamId || teamId === SearchUserTeamFilter.ALL_USERS) {
-            const stats = state.entities.admin.analytics || {[Stats.TOTAL_USERS]: 0, [Stats.TOTAL_INACTIVE_USERS]: 0};
-            totalUsers = Number(stats[Stats.TOTAL_USERS]) + Number(stats[Stats.TOTAL_INACTIVE_USERS]);
+            totalUsers = selectFilteredUserStats(state)?.total_users_count || 0;
         } else if (teamId === SearchUserTeamFilter.NO_TEAM) {
             totalUsers = 0;
         } else {
@@ -86,6 +85,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             searchProfiles,
             revokeSessionsForAllUsers,
             logError,
+            getFilteredUsersStats,
         }, dispatch),
     };
 }
