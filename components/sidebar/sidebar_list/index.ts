@@ -19,7 +19,7 @@ import {
     clearChannelSelection,
     multiSelectChannelAdd,
 } from 'actions/views/channel_sidebar';
-import {close} from 'actions/views/lhs';
+import {close, switchToSidebarStaticItem} from 'actions/views/lhs';
 import {
     getDisplayedChannels,
     getDraggingState,
@@ -28,7 +28,7 @@ import {
 } from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 import {getCurrentLhsStaticItemId} from 'selectors/views/lhs';
-import {switchToSidebarStaticItem} from 'actions/views/sidebar';
+
 import {getVisibleLhsStaticItems} from 'selectors/lhs';
 
 import SidebarChannelList from './sidebar_list';
