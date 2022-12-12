@@ -140,6 +140,7 @@ const PostOptions = (props: Props): JSX.Element => {
         postReaction = (
             <PostReaction
                 channelId={post.channel_id}
+                location={props.location}
                 postId={post.id}
                 teamId={props.teamId}
                 getDotMenuRef={getDotMenuRef}
