@@ -485,7 +485,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
         }
     };
     const errorAction = () => {
-        if (canRetry && (progress === SelfHostedSignupProgress.PAID || progress === SelfHostedSignupProgress.CREATED_LICENSE)) {
+        if (canRetry && (progress === SelfHostedSignupProgress.CREATED_SUBSCRIPTION || progress === SelfHostedSignupProgress.PAID || progress === SelfHostedSignupProgress.CREATED_LICENSE)) {
             submit();
             dispatch({type: 'clear_error'});
             return;
