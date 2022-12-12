@@ -469,7 +469,7 @@ const PostComponent = (props: Props): JSX.Element => {
                                         isPermalink={!(Posts.POST_DELETED === post.state || isPostPendingOrFailed(post))}
                                         eventTime={post.create_at}
                                         postId={post.id}
-                                        location={Locations.RHS_COMMENT}
+                                        location={props.location}
                                         timestampProps={{...props.timestampProps, style: props.isConsecutivePost && !props.compactDisplay ? 'narrow' : undefined}}
                                     />
                                 }

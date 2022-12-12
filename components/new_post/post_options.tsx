@@ -153,7 +153,7 @@ const PostOptions = (props: Props): JSX.Element => {
     if (!isMobileView && (!isEphemeral && !post.failed && !systemMessage)) {
         flagIcon = (
             <PostFlagIcon
-                location={Locations.RHS_COMMENT}
+                location={props.location}
                 postId={post.id}
                 isFlagged={props.isFlagged}
             />
