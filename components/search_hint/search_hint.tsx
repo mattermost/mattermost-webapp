@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isFileAttachmentsEnabled} from 'utils/file_utils';
 import {RecentSearchParams} from '@mattermost/types/search';
-import {formatRecentSearch} from 'components/search/search';
+import {formatRecentSearch} from 'components/search/utils';
 
 interface SearchTerm {
     searchTerm: string;

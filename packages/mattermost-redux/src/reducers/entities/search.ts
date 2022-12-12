@@ -372,6 +372,6 @@ export default combineReducers({
     // they are beyond a cloud workspace's message limits.
     isLimitedResults,
 
-    // An ordered array of 5 most recent user's recent searches
+    // An ordered array of 5 most recent user's searches
     recentSearches,
 });
