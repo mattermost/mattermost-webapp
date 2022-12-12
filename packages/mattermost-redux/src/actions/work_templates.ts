@@ -22,3 +22,17 @@ export function getWorkTemplates(categoryId: string): ActionFunc {
         params: [categoryId],
     });
 }
+
+export function clearCategories(): ActionFunc {
+    return async (dispatch) => {
+        dispatch({type: WorkTemplatesType.CLEAR_WORK_TEMPLATE_CATEGORIES});
+        return [];
+    };
+}
+
+export function clearWorkTemplates(): ActionFunc {
+    return async (dispatch) => {
+        dispatch({type: WorkTemplatesType.CLEAR_WORK_TEMPLATES});
+        return [];
+    };
+}

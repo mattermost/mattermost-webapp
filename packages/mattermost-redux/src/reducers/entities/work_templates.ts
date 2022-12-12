@@ -13,6 +13,9 @@ function categories(state: Category[] = [], action: GenericAction): Category[] {
     case WorkTemplatesType.RECEIVED_WORK_TEMPLATE_CATEGORIES: {
         return [...state, ...action.data];
     }
+    case WorkTemplatesType.CLEAR_WORK_TEMPLATE_CATEGORIES: {
+        return [];
+    }
     default:
         return state;
     }
@@ -36,6 +39,9 @@ function templatesInCategory(state: Record<string, WorkTemplate[]> = {}, action:
             });
         });
         return nextState;
+    }
+    case WorkTemplatesType.CLEAR_WORK_TEMPLATES: {
+        return {};
     }
     default:
         return state;
