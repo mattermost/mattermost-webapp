@@ -119,8 +119,8 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
                     id='backstage-list.paginatorCount'
                     defaultMessage={'{startCount, number} - {endCount, number} of {total, number} total'}
                     values={{
-                        startCount: startCount,
-                        endCount: endCount,
+                        startCount,
+                        endCount,
                         total: length,
                     }}
                 />
