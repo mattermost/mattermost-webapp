@@ -27,3 +27,4 @@ export default function useLoadStripe(reloadHint?: number) {
     }, [reloadHint]);
     return stripeRef;
 }
+
