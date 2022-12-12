@@ -84,5 +84,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Test logs
-          path: ./tests/integration/performance/logs/*
+          path: ./tests/integration/performance/logs/
           retention-days: 3
