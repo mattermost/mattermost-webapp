@@ -117,11 +117,11 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
             <div className='backstage-list__paging'>
                 <FormattedMessage
                     id='backstage-list.paginatorCount'
-                    defaultMessage={'{start, number} - {end, number} of {len, number}'}
+                    defaultMessage={'{startCount, number} - {endCount, number} of {total, number} total'}
                     values={{
-                        start: startCount,
-                        end: endCount,
-                        len: length,
+                        startCount: startCount,
+                        endCount: endCount,
+                        total: length,
                     }}
                 />
                 <button
