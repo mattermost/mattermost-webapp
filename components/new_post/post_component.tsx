@@ -103,7 +103,7 @@ export type Props = {
 
 const PostComponent = (props: Props): JSX.Element => {
     const isSearchResultItem = (props.matches && props.matches.length > 0) || props.isMentionSearch || (props.term && props.term.length > 0);
-    const isRHS = props.location === Locations.RHS_ROOT || props.location === Locations.RHS_COMMENT;
+    const isRHS = props.location === Locations.RHS_ROOT || props.location === Locations.RHS_COMMENT || props.location === Locations.SEARCH;
     const postRef = useRef<HTMLDivElement>(null);
     const postHeaderRef = useRef<HTMLDivElement>(null);
     const [hover, setHover] = useState(false);
