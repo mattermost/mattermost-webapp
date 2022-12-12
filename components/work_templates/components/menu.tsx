@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -68,6 +68,34 @@ const Menu = (props: MenuProps) => {
     const categories = useSelector((state: GlobalState) => state.entities.worktemplates.categories);
     const worktemplates = useSelector((state: GlobalState) => state.entities.worktemplates.templatesInCategory);
 
+    const categoriesMemoized = useMemo(() => {
+        return categories.map((category) => (
+            <li key={category.id}>
+                <CategoryButton
+                    onClick={() => changeCategory(category)}
+                    className={classNames({selected: category.id === selectedCategory})}
+                >
+                    {category.name}
+                </CategoryButton>
+            </li>
+        ));
+    }, [categories]);
+
+    const workTemplateMemoized = useMemo(() => {
+        return worktemplates[selectedCategory]?.map((workTemplate) => (
+            <UseCaseMenuItem
+                key={workTemplate.id}
+                name={workTemplate.useCase}
+                illustration={workTemplate.illustration}
+                channelsCount={workTemplate.content.filter((c) => c.channel).length}
+                boardsCount={workTemplate.content.filter((c) => c.board).length}
+                playbooksCount={workTemplate.content.filter((c) => c.playbook).length}
+                onQuickUse={() => quickUse(workTemplate)}
+                onSelectTemplate={() => selectTemplate(workTemplate)}
+            />
+        ));
+    }, [worktemplates, selectedCategory]);
+
     useEffect(() => {
         if (categories?.length) {
             return;
@@ -76,7 +104,7 @@ const Menu = (props: MenuProps) => {
     }, []);
 
     useEffect(() => {
-        if (categories?.length === 0) {
+        if (!categories?.length) {
             return;
         }
         setSelectedCategory(categories[0].id);
@@ -107,31 +135,11 @@ const Menu = (props: MenuProps) => {
                     {formatMessage({id: 'work_templates.menu.template_title', defaultMessage: 'TEMPLATE'})}
                 </h2>
                 <ul>
-                    {categories.map((category) => (
-                        <li key={category.id}>
-                            <CategoryButton
-                                onClick={() => changeCategory(category)}
-                                className={classNames({selected: category.id === selectedCategory})}
-                            >
-                                {category.name}
-                            </CategoryButton>
-                        </li>
-                    ))}
+                    {categoriesMemoized}
                 </ul>
             </Categories>
             <UseCases>
-                {worktemplates[selectedCategory]?.map((workTemplate) => (
-                    <UseCaseMenuItem
-                        key={workTemplate.id}
-                        name={workTemplate.useCase}
-                        illustration={workTemplate.illustration}
-                        channelsCount={workTemplate.content.filter((c) => c.channel).length}
-                        boardsCount={workTemplate.content.filter((c) => c.board).length}
-                        playbooksCount={workTemplate.content.filter((c) => c.playbook).length}
-                        onQuickUse={() => quickUse(workTemplate)}
-                        onSelectTemplate={() => selectTemplate(workTemplate)}
-                    />
-                ))}
+                {workTemplateMemoized}
             </UseCases>
         </div>
     );
