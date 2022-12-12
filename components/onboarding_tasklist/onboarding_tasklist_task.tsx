@@ -24,21 +24,32 @@ const StyledTask = styled.div`
     color: var(--center-channel-color);
     position: relative;
 
+    span img {
+        margin-right: 10px;
+    }
+
     &.completed {
         color: var(--denim-status-online);
 
         span {
-            text-decoration: line-through;
+            span {
+                text-decoration: line-through;
+            }
+            picture {
+                position: relative;
+                &:before {
+                    position: absolute;
+                    content: "";
+                    left: 0;
+                    top: 50%;
+                    right: 10px;
+                    border-top: 1px solid;
+                    border-color: inherit;
+                }
+            }
         }
     }
 
-    i.play {
-        margin: 3px 10px 0 0;
-        color: rgba(var(--center-channel-color-rgb), 0.56);
-        &.completed {
-            color: var(--denim-status-online);
-        }
-    }
     :hover {
         background: rgba(var(--center-channel-color-rgb), 0.08);
     }
@@ -51,6 +62,7 @@ const StyledTask = styled.div`
     }
     transition: background 250ms ease-in-out, color 250ms ease-in-out,
         box-shadow 250ms ease-in-out;
+
 `;
 
 export const Task = (props: TaskProps): JSX.Element => {

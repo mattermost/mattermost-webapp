@@ -39,64 +39,138 @@ import {
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES, ExploreOtherToolsTourSteps} from 'utils/constants';
 
-import {generateTelemetryTag} from './utils';
+import bullseyeImg from 'images/bullseye.svg';
+import checklistImg from 'images/checklist.svg';
+import directoryImg from 'images/directory.svg';
+import messageImg from 'images/message.svg';
+import mobilephoneImg from 'images/mobilephone.svg';
+import personImg from 'images/person.svg';
+import handshakeImg from 'images/handshake.svg';
+
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
+import {generateTelemetryTag} from './utils';
 
 const getCategory = makeGetCategory();
 
 const taskLabels = {
     [OnboardingTasksName.CHANNELS_TOUR]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.task_learn_more_about_messaging'
-            defaultMessage='🔀 Learn about messaging'
-        />
+        <>
+            <img
+                src={messageImg}
+                alt={'Take a tour of Channels.'}
+            />
+            <FormattedMessage
+                id='onboardingTask.checklist.task_learn_more_about_messaging'
+                defaultMessage='Take a tour of Channels.'
+            />
+        </>
     ),
     [OnboardingTasksName.BOARDS_TOUR]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.plan_sprint_with_kanban_style_boards'
-            defaultMessage='🎯 Plan a sprint with Kanban-style boards'
-        />),
+        <>
+            <img
+                src={bullseyeImg}
+                alt={'Manage tasks with your first board.'}
+
+            />
+            <FormattedMessage
+                id='onboardingTask.checklist.plan_sprint_with_kanban_style_boards'
+                defaultMessage='Manage tasks with your first board.'
+            />
+        </>
+    ),
     [OnboardingTasksName.PLAYBOOKS_TOUR]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.task_resolve_incidents_faster_with_playbooks'
-            defaultMessage='🐛 Resolve incidents faster with playbooks'
-        />
+        <>
+            <picture>
+
+                <img
+                    src={checklistImg}
+                    alt={'Explore workflows with your first playbook.'}
+                />
+            </picture>
+
+            <FormattedMessage
+                id='onboardingTask.checklist.task_resolve_incidents_faster_with_playbooks'
+                defaultMessage='Explore workflows with your first playbook.'
+            />
+        </>
     ),
     [OnboardingTasksName.INVITE_PEOPLE]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.task_invite_team_members'
-            defaultMessage='👋 Invite team members to the workspace'
-        />
+        <>
+            <img
+                src=''
+                alt={'' /*'Invite team members to the workspace.'*/}
+            />
+            <FormattedMessage
+                id='onboardingTask.checklist.task_invite_team_members'
+                defaultMessage='Invite team members to the workspace.'
+            />
+        </>
+
     ),
     [OnboardingTasksName.COMPLETE_YOUR_PROFILE]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.task_complete_your_profile'
-            defaultMessage='📷 Complete your profile'
-        />
+        <>
+            <img
+                src={personImg}
+                alt={'' /*'Complete your profile.'*/}
+            />
+            <FormattedMessage
+                id='onboardingTask.checklist.task_complete_your_profile'
+                defaultMessage='Complete your profile.'
+            />
+        </>
+
     ),
     [OnboardingTasksName.EXPLORE_OTHER_TOOLS]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.explore_other_tools_in_platform'
-            defaultMessage='⛰️ Explore other tools in the platform'
-        />
+        <>
+            <img
+                src={''}
+                alt={'' /*'Explore other tools in the platform'*/}
+            />
+            <FormattedMessage
+                id='onboardingTask.checklist.explore_other_tools_in_platform'
+                defaultMessage='Explore other tools in the platform'
+            />
+        </>
+
     ),
     [OnboardingTasksName.DOWNLOAD_APP]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.task_download_mm_apps'
-            defaultMessage='📱 Download the Desktop and Mobile Apps'
-        />
+        <>
+            <img
+                src={mobilephoneImg}
+                alt={'Download the Desktop and Mobile Apps.'}
+            />
+            <FormattedMessage
+                id='onboardingTask.checklist.task_download_mm_apps'
+                defaultMessage='Download the Desktop and Mobile Apps.'
+            />
+        </>
+
     ),
     [OnboardingTasksName.VISIT_SYSTEM_CONSOLE]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.task_visit_system_console'
-            defaultMessage='🥰️ Visit the System Console to configure your workspace'
-        />
+        <>
+            <img
+                src={directoryImg}
+                alt={'Visit the System Console to configure your workspace.'}
+            />
+            <FormattedMessage
+                id='onboardingTask.checklist.task_visit_system_console'
+                defaultMessage='Visit the System Console to configure your workspace.'
+            />
+        </>
+
     ),
     [OnboardingTasksName.START_TRIAL]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.task_start_enterprise_trial'
-            defaultMessage='🏢 Learn more about Enterprise-level high-security features'
-        />
+        <>
+            <img
+                src={''}
+                alt={'' /*'Learn more about Enterprise-level high-security features'*/}
+            />
+            <FormattedMessage
+                id='onboardingTask.checklist.task_start_enterprise_trial'
+                defaultMessage='Learn more about Enterprise-level high-security features'
+            />
+        </>
+
     ),
 };
 
@@ -127,6 +201,7 @@ export const useTasksList = () => {
     const showStartTrialTask = selfHostedTrialCondition || cloudTrialCondition;
 
     const list: Record<string, string> = {...OnboardingTasksName};
+
     if (!pluginsList.focalboard || !isUserFirstAdmin) {
         delete list.BOARDS_TOUR;
     }
