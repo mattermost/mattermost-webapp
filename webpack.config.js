@@ -363,43 +363,48 @@ async function initializeModuleFederation() {
             {name: 'boards', baseUrl: boardsDevServerUrl},
         ];
 
-        if (!DEV) {
-            // For production, hardcode the URLs of product containers to be based on the web app URL
-            const remotes = {};
-            for (const product of products) {
-                remotes[product.name] = `${product.name}@[window.basename]/static/products/${product.name}/remote_entry.js`;
-            }
+        const remotes = {};
 
-            return {
-                remotes,
-                aliases: {},
-            };
+        if (process.env.MM_DONT_INCLUDE_PRODUCTS) {
+            if (DEV) {
+                // For development, identify which product dev servers are available
+
+                // Wait a second for product dev servers to start up if they were started at the same time as this one
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+
+                const productsFound = await Promise.all(products.map((product) => isWebpackDevServerAvailable(product.baseUrl)));
+                for (let i = 0; i < products.length; i++) {
+                    const product = products[i];
+                    const found = productsFound[i];
+
+                    if (found) {
+                        console.log(`Product ${product.name} found, adding as remote module`);
+
+                        remotes[product.name] = `${product.name}@${product.baseUrl}/remote_entry.js`;
+                    } else {
+                        console.log(`Product ${product.name} not found`);
+                    }
+                }
+            } else {
+                // For production, hardcode the URLs of product containers to be based on the web app URL
+                for (const product of products) {
+                    remotes[product.name] = `${product.name}@[window.basename]/static/products/${product.name}/remote_entry.js`;
+                }
+            }
+        } else {
+            console.warn('Skipping initialization of products');
         }
 
-        // Wait a second for product dev servers to start up if they were started at the same time as this one
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        // For development, identify which product dev servers are available
-        const productsFound = await Promise.all(products.map((product) => isWebpackDevServerAvailable(product.baseUrl)));
-
-        const remotes = {};
         const aliases = {};
 
-        for (let i = 0; i < products.length; i++) {
-            const product = products[i];
-            const found = productsFound[i];
-
-            if (found) {
-                console.log(`Product ${product.name} found, adding as remote module`);
-
-                remotes[product.name] = `${product.name}@${product.baseUrl}/remote_entry.js`;
-            } else {
-                console.log(`Product ${product.name} not found`);
-
-                // Add false aliases to prevent Webpack from trying to resolve the missing modules
-                aliases[product.name] = false;
-                aliases[`${product.name}/manifest`] = false;
+        for (const product of products) {
+            if (remotes[product.name]) {
+                continue;
             }
+
+            // Add false aliases to prevent Webpack from trying to resolve the missing modules
+            aliases[product.name] = false;
+            aliases[`${product.name}/manifest`] = false;
         }
 
         return {remotes, aliases};

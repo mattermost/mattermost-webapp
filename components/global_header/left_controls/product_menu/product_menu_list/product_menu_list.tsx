@@ -16,14 +16,12 @@ import Menu from 'components/widgets/menu/menu';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 import {VisitSystemConsoleTour} from 'components/onboarding_tasks';
 import UserGroupsModal from 'components/user_groups_modal';
-
+import WorkTemplateModal from 'components/work_templates';
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import {LicenseSkus, ModalIdentifiers, PaidFeatures} from 'utils/constants';
 import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
-
 import {ModalData} from 'types/actions';
-
 import {UserProfile} from '@mattermost/types/users';
 
 import './product_menu_list.scss';
@@ -49,6 +47,7 @@ export type Props = {
     onClick?: React.MouseEventHandler<HTMLElement>;
     handleVisitConsoleClick: React.MouseEventHandler<HTMLElement>;
     enableCustomUserGroups?: boolean;
+    showWorkTemplateButton?: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         getPrevTrialLicense: () => void;
@@ -139,6 +138,19 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                         }
                     />
                 </SystemPermissionGate>
+                <Menu.ItemToggleModalRedux
+                    id='work-template'
+                    modalId={ModalIdentifiers.WORK_TEMPLATES}
+                    show={props.showWorkTemplateButton}
+                    dialogType={WorkTemplateModal}
+                    text={formatMessage({id: 'navbar_dropdown.workTemplate', defaultMessage: 'Work Templates'})}
+                    icon={
+                        <Icon
+                            size={16}
+                            glyph={'application-cog'} //TODO: change icon
+                        />
+                    }
+                />
                 <Menu.ItemLink
                     id='integrations'
                     show={isMessaging && showIntegrations}
