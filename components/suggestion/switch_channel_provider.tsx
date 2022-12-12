@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 
-import {Channel} from '@mattermost/types/channels.js';
+import {Channel, ChannelMembership} from '@mattermost/types/channels.js';
 
 import {UserTypes} from 'mattermost-redux/action_types';
 
@@ -68,6 +68,7 @@ type ResultsCallback = (results: Results) => void;
 
 import Provider from './provider';
 import Suggestion from './suggestion.jsx';
+import { PreferenceType } from '@mattermost/types/preferences';
 
 const getState = store.getState;
 const searchProfilesMatchingWithTerm = makeSearchProfilesMatchingWithTerm();
@@ -605,7 +606,7 @@ export default class SwitchChannelProvider extends Provider {
         const currentUserId = getCurrentUserId(state);
 
         for (const id of Object.keys(allChannels)) {
-            const channel = allChannels[id];
+            const channel = allChannels[id as any];
 
             if (completedChannels[channel.id]) {
                 continue;
@@ -706,7 +707,7 @@ export default class SwitchChannelProvider extends Provider {
                 continue;
             }
 
-            const unread = allUnreadChannelIdsSet.has(channel?.id) && !isChannelMuted(members[channel.id]);
+            const unread = channel ? allUnreadChannelIdsSet.has(channel.id) && !isChannelMuted(members[channel.id]) : false;
             if (unread) {
                 wrappedChannel.unread = true;
             }
@@ -815,13 +816,15 @@ export default class SwitchChannelProvider extends Provider {
         return null;
     }
 
-    getTimestampFromPrefs(myPreferences, category: string, name: string): number {
+    getTimestampFromPrefs(myPreferences: {[x: string]: PreferenceType}, 
+        category: string, name: string): number {
         const pref = myPreferences[getPreferenceKey(category, name)];
-        const prefValue = pref ? pref.value : '0';
+        const prefValue = pref ? (pref.value ? pref.value : '0') : '0';
         return parseInt(prefValue, 10);
     }
 
-    getLastViewedAt(member, myPreferences, channel): number {
+    getLastViewedAt(member: ChannelMembership, myPreferences: {[x: string]: PreferenceType}, 
+                    channel: Channel): number {
         // The server only ever sets the last_viewed_at to the time of the last post in channel,
         // So thought of using preferences but it seems that also not keeping track.
         // TODO Update and remove comment once solution is finalized
