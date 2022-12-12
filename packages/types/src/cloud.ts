@@ -34,6 +34,7 @@ export type Subscription = {
     create_at: number;
     seats: number;
     last_invoice?: Invoice;
+    upcoming_invoice?: Invoice;
     trial_end_at: number;
     is_free_trial: string;
     delinquent_since?: number;

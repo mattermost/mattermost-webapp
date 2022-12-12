@@ -6,17 +6,17 @@ import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch} from 'react-redux';
 import {
-    useFloating,
-    autoUpdate,
-    offset,
-    flip,
-    shift,
-    useHover,
-    useRole,
-    useInteractions,
-    safePolygon,
     FloatingFocusManager,
+    autoUpdate,
+    flip,
+    offset,
+    safePolygon,
+    shift,
+    useFloating,
+    useHover,
     useId,
+    useInteractions,
+    useRole,
 } from '@floating-ui/react-dom-interactions';
 
 import {CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
@@ -66,8 +66,13 @@ function PostAcknowledgements({
         whileElementsMounted: autoUpdate,
         middleware: [
             offset(5),
-            flip({fallbackPlacements: ['bottom', 'right'], padding: 5}),
-            shift(),
+            flip({
+                fallbackPlacements: ['bottom-start', 'right'],
+                padding: 12,
+            }),
+            shift({
+                padding: 12,
+            }),
         ],
     });
 

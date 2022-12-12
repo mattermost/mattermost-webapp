@@ -176,9 +176,9 @@ type Actions = {
     searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
 }
 
-function setDraft(key: string, value: PostDraft, save = false) {
+function setDraft(key: string, value: PostDraft, draftChannelId: string, save = false) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const channelId = getCurrentChannelId(getState());
+        const channelId = draftChannelId || getCurrentChannelId(getState());
         let updatedValue = null;
         if (value) {
             updatedValue = {...value};
