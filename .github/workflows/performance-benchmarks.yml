@@ -70,7 +70,7 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           browser: chrome
-          configFile: ./benchmark.config.ts
+          config-file: ./benchmark.config.ts
           install: false
           spec: ./tests/integration/performance/*
           start: npm run benchmarks:run-server
