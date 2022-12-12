@@ -56,6 +56,7 @@ describe('Selectors.Lhs', () => {
         });
 
         it('should not return drafts when empty', () => {
+            jest.spyOn(DraftSelectors, 'makeGetDraftsCount').mockImplementation(() => () => 0);
             const items = getVisibleLhsStaticItems(state);
             expect(items).toEqual([
                 {
