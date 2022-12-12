@@ -8,10 +8,9 @@ import {
     isCollapsedThreadsEnabled,
     localDraftsAreEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
+import {LhsStaticItem} from 'types/store/lhs';
 
 import {ActionTypes} from '../utils/constants';
-
-import {LhsStaticItem} from '../types/store/lhs';
 
 export function selectStaticItem(itemId: string) {
     return {

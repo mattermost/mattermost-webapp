@@ -18,13 +18,13 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {DraggingState} from 'types/store';
 import {Constants, DraggingStates, DraggingStateTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
+import {LhsStaticItem} from 'types/store/lhs';
 
 import GlobalThreadsLink from 'components/threading/global_threads_link';
 import DraftsLink from 'components/drafts/drafts_link';
 import ActivityAndInsightsLink
     from 'components/activity_and_insights/activity_and_insights_link/activity_and_insights_link';
 
-import {SidebarStaticItem} from '@mattermost/types/sidebar';
 import {Team} from '@mattermost/types/teams';
 import {ChannelCategory} from '@mattermost/types/channel_categories';
 import {Channel} from '@mattermost/types/channels';
@@ -85,7 +85,7 @@ type Props = {
     collapsedThreads: boolean;
     hasUnreadThreads: boolean;
     currentStaticItemId: string;
-    staticItems: SidebarStaticItem[];
+    staticItems: LhsStaticItem[];
 
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     onDragStart: (initial: DragStart) => void;
@@ -180,7 +180,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         return this.props.displayedChannels.map((channel) => channel.id);
     }
 
-    getDisplayedSidebarStaticItemIds = () => {
+    getDisplayedLhsStaticItemIds = () => {
         return this.props.staticItems.filter((item) => item.isVisible).map((item) => item.id);
     }
 
@@ -321,7 +321,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         if (e.altKey && !e.shiftKey && !e.ctrlKey && !e.metaKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
-            const staticItemIds = this.getDisplayedSidebarStaticItemIds();
+            const staticItemIds = this.getDisplayedLhsStaticItemIds();
             const allIds = [...staticItemIds, ...this.getDisplayedChannelIds()];
 
             let curSelectedId = this.props.currentChannelId;
