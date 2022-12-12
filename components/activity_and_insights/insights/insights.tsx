@@ -79,7 +79,7 @@ const Insights = () => {
         return () => {
             dispatch(unsuppressRHS);
         };
-    });
+    }, []);
 
     return (
         <>
