@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {getFilteredUsersNoBotsStats} from 'mattermost-redux/actions/users';
 import {PreferenceType} from '@mattermost/types/preferences';
+
+import useGetTotalUsersNoBots from 'components/common/hooks/useGetTotalUsersNoBots';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
@@ -37,7 +38,6 @@ const ShowStartTrialModal = () => {
     const userThreshold = 10;
     const TRUE = 'true';
 
-    const stats = useSelector((state: GlobalState) => state.entities.admin.analytics);
     const isBenefitsModalOpened = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.TRIAL_BENEFITS_MODAL));
 
     const installationDate = useSelector((state: GlobalState) => getConfig(state).InstallationDate);
@@ -54,20 +54,10 @@ const ShowStartTrialModal = () => {
     };
     const isPrevLicensed = isLicensed(prevTrialLicense);
     const isCurrentLicensed = isLicensed(currentLicense);
-    const [totalUsers, setTotalUsers] = useState(stats?.TOTAL_USERS || 0);
-
-    const getTotalUsers = async () => {
-        const {data} = await dispatch(getFilteredUsersNoBotsStats({include_bots: false}));
-        setTotalUsers(data?.total_users_count);
-    };
+    const totalUsers = useGetTotalUsersNoBots(true);
 
     // Show this modal if the instance is currently not licensed and has never had a trial license loaded before
     const isLicensedOrPreviousLicensed = (isCurrentLicensed || isPrevLicensed);
-    useEffect(() => {
-        if (!totalUsers) {
-            getTotalUsers();
-        }
-    }, []);
 
     const handleOnClose = () => {
         trackEvent(

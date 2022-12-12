@@ -227,21 +227,6 @@ export function getFilteredUsersStats(options: GetFilteredUsersStatsOpts = {}): 
     };
 }
 
-export function getFilteredUsersNoBotsStats(options: GetFilteredUsersStatsOpts = {}): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let stats: UsersStats;
-        try {
-            stats = await Client4.getFilteredUsersStats(options);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
-
-        return {data: stats};
-    };
-}
-
 export function getProfiles(page = 0, perPage: number = General.PROFILE_CHUNK_SIZE, options: any = {}): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const {currentUserId} = getState().entities.users;
