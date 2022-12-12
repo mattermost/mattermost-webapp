@@ -392,7 +392,6 @@
   "admin.billing.subscription.yearlySavings": "Годовая экономия",
   "admin.billing.subscriptions.billing_summary.explore_enterprise": "Изучите возможности Enterprise версии",
   "admin.billing.subscriptions.billing_summary.explore_enterprise.cta": "Посмотреть все возможности",
-  "admin.billing.subscriptions.billing_summary.lastInvoice.downloadInvoice": "Скачать счёт",
   "admin.billing.subscriptions.billing_summary.lastInvoice.failed": "Неудача",
   "admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee": "Ежемесячная фиксированная плата",
   "admin.billing.subscriptions.billing_summary.lastInvoice.paid": "Оплачено",
