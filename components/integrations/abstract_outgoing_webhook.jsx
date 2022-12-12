@@ -410,7 +410,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.triggerWords.help'
-                                        defaultMessage='Specify the trigger words that send an HTTP POST request to your application.  The trigger can be for the channel, the outgoing webhook, or both. If you select only Channel, trigger words are optional. If you select both, the message must match both values.'
+                                        defaultMessage='Specify the trigger words that send an HTTP POST request to your application. The trigger can be for the channel, the outgoing webhook, or both. If you select only Channel, trigger words are optional. If you select both, the message must match both values.'
                                     />
                                 </div>
                             </div>
