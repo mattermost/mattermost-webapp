@@ -13,6 +13,7 @@ import {
 } from 'mattermost-redux/selectors/entities/preferences';
 import {
     getConfig,
+    getFeatureFlagValue,
     getFirstAdminVisitMarketplaceStatus,
     getLicense,
     isMarketplaceEnabled,
@@ -54,6 +55,7 @@ function mapStateToProps(state: GlobalState) {
     const step = getInt(state, OnboardingTaskCategory, OnboardingTasksName.VISIT_SYSTEM_CONSOLE, 0);
     const showVisitSystemConsoleTour = step === TaskNameMapToSteps[OnboardingTasksName.VISIT_SYSTEM_CONSOLE].STARTED;
     const enableCustomUserGroups = isCustomGroupsEnabled(state);
+    const showWorkTemplateButton = getFeatureFlagValue(state, 'WorkTemplate') === 'true';
 
     const subscription = getCloudSubscription(state);
     const license = getLicense(state);
@@ -90,6 +92,7 @@ function mapStateToProps(state: GlobalState) {
         enableCustomUserGroups,
         isStarterFree,
         isFreeTrial,
+        showWorkTemplateButton,
     };
 }
 

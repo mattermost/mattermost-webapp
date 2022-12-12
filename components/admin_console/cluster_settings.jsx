@@ -183,7 +183,7 @@ export default class ClusterSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.cluster.ClusterNameDesc'
-                            defaultMessage='The cluster to join by name.  Only nodes with the same cluster name will join together.  This is to support Blue-Green deployments or staging pointing to the same database.'
+                            defaultMessage='The cluster to join by name. Only nodes with the same cluster name will join together. This is to support Blue-Green deployments or staging pointing to the same database.'
                         />
                     }
                     value={this.state.ClusterName}
@@ -203,7 +203,7 @@ export default class ClusterSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.cluster.OverrideHostnameDesc'
-                            defaultMessage="The default value of '<blank>' will attempt to get the Hostname from the OS or use the IP Address.  You can override the hostname of this server with this property.  It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed."
+                            defaultMessage="The default value of '<blank>' will attempt to get the Hostname from the OS or use the IP Address. You can override the hostname of this server with this property. It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed."
                         />
                     }
                     value={this.state.OverrideHostname}
@@ -280,7 +280,7 @@ export default class ClusterSettings extends AdminSettings {
                     helpText={
                         <FormattedMessage
                             id='admin.cluster.GossipPortDesc'
-                            defaultMessage='The port used for the gossip protocol.  Both UDP and TCP should be allowed on this port.'
+                            defaultMessage='The port used for the gossip protocol. Both UDP and TCP should be allowed on this port.'
                         />
                     }
                     value={this.state.GossipPort}

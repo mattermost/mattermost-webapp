@@ -389,7 +389,6 @@
   "admin.billing.subscription.yearlySavings": "年間割引",
   "admin.billing.subscriptions.billing_summary.explore_enterprise": "Enterprise版の機能を確認する",
   "admin.billing.subscriptions.billing_summary.explore_enterprise.cta": "全ての機能を確認する",
-  "admin.billing.subscriptions.billing_summary.lastInvoice.downloadInvoice": "請求書をダウンロードする",
   "admin.billing.subscriptions.billing_summary.lastInvoice.failed": "失敗",
   "admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee": "月間定額料金",
   "admin.billing.subscriptions.billing_summary.lastInvoice.paid": "支払い済",

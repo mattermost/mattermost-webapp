@@ -45,7 +45,7 @@ const style = {
     gap: '10px',
     padding: '12px',
     borderRadius: '4px',
-    border: '1px solid rgba(var(--center-channel-text-rgb), 0.16)',
+    border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
     width: 'max-content',
     margin: '10px 0',
 };
