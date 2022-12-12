@@ -306,9 +306,12 @@ const UserListItem = styled.div<{first?: boolean; last?: boolean}>`
         background: rgba(var(--center-channel-color-rgb), 0.08);
     }
 
-    .group-member-list_gap,
-    .group-member-list_dm-button {
+    .group-member-list_gap {
         display: none;
+    }
+
+    .group-member-list_dm-button {
+        opacity: 0;
     }
 
     &:hover .group-member-list_gap,
@@ -318,7 +321,7 @@ const UserListItem = styled.div<{first?: boolean; last?: boolean}>`
 
     &:hover .group-member-list_dm-button,
     &:focus-within .group-member-list_dm-button {
-        display: flex;
+        opacity: 1;
     }
 `;
 
@@ -348,6 +351,7 @@ const DMContainer = styled.div`
     position: absolute;
     right: 20px;
     top: 0;
+    display: flex;
     align-items: center;
 `;
 

@@ -20,7 +20,6 @@ describe('Login page with open server', () => {
         const newSettings = {
             Office365Settings: {Enable: false},
             LdapSettings: {Enable: false},
-            TeamSettings: {EnableOpenServer: true},
         };
         cy.apiUpdateConfig(newSettings).then((data) => {
             ({config} = data);
