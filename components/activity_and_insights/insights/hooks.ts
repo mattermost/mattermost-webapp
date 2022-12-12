@@ -12,7 +12,7 @@ import {CloudProducts} from 'utils/constants';
 /**
  * Returns some checks for free trial users or starter licenses
  */
-export function useLicenseChecks(): [boolean, boolean] {
+export function useLicenseChecks(): {isStarterFree: boolean; isFreeTrial: boolean; isEnterpriseReady: boolean} {
     const subscription = useSelector(getCloudSubscription);
     const license = useSelector(getLicense);
     const subscriptionProduct = useSelector(getSubscriptionProduct);
@@ -29,8 +29,9 @@ export function useLicenseChecks(): [boolean, boolean] {
     const isStarterFree = isCloudStarterFree || isSelfHostedStarter;
     const isFreeTrial = isCloudFreeTrial || isSelfHostedFreeTrial;
 
-    return [
+    return {
         isStarterFree,
         isFreeTrial,
-    ];
+        isEnterpriseReady,
+    };
 }
