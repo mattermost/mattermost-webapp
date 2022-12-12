@@ -56,7 +56,7 @@ function mapStateToProps(state: GlobalState) {
         collapsedThreads,
         hasUnreadThreads,
         currentStaticItemId: getCurrentLhsStaticItemId(state),
-        staticItems: getVisibleLhsStaticItems()(state),
+        staticItems: getVisibleLhsStaticItems(state),
     };
 }
 
