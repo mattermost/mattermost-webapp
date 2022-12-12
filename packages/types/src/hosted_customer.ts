@@ -28,6 +28,11 @@ export interface SelfHostedSignupCustomerResponse {
     progress: ValueOf<typeof SelfHostedSignupProgress>;
 }
 
+export interface SelfHostedSignupSuccessResponse {
+    progress: ValueOf<typeof SelfHostedSignupProgress>;
+    license: Record<string, string>;
+}
+
 export type HostedCustomerState = {
     products: {
         products: Record<string, Product>;

@@ -10,7 +10,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import AirGappedSelfHostedPurchaseModal from 'components/air_gapped_self_hosted_purchase_modal';
 import SelfHostedPurchaseModal from 'components/self_hosted_purchase_modal';
 
-interface ControlModal {
+export interface ControlModal {
     open: () => void;
     close: () => void;
 }
@@ -32,7 +32,7 @@ export function useControlSelfHostedPurchaseModal(productId: string): ControlMod
     });
 }
 
-function useControlModal<T>(modalData: ModalData<T>): ControlModal {
+export function useControlModal<T>(modalData: ModalData<T>): ControlModal {
     const dispatch = useDispatch();
     return useMemo(() => ({
         open: () => {

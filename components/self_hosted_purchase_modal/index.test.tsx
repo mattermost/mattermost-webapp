@@ -70,6 +70,8 @@ const mockCreatedIntent = SelfHostedSignupProgress.CREATED_INTENT;
 const mockCreatedLicense = SelfHostedSignupProgress.CREATED_LICENSE;
 const failOrg = 'failorg';
 
+const existingUsers = 10;
+
 jest.mock('mattermost-redux/client', () => {
     const original = jest.requireActual('mattermost-redux/client');
     return {
@@ -79,6 +81,7 @@ jest.mock('mattermost-redux/client', () => {
             ...original.Client4,
             pageVisited: jest.fn(),
             setAcceptLanguage: jest.fn(),
+            trackEvent: jest.fn(),
             createCustomerSelfHostedSignup: (form: SelfHostedSignupForm) => {
                 if (form.organization === failOrg) {
                     throw new Error('error creating customer');
@@ -89,6 +92,7 @@ jest.mock('mattermost-redux/client', () => {
             },
             confirmSelfHostedSignup: () => Promise.resolve({
                 progress: mockCreatedLicense,
+                license: {Users: existingUsers * 2},
             }),
         },
     };
@@ -104,8 +108,6 @@ jest.mock('components/payment_form/stripe', () => {
 });
 
 const productName = 'Professional';
-
-const existingUsers = 10;
 
 const initialState: DeepPartial<GlobalState> = {
     views: {

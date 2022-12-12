@@ -50,7 +50,7 @@ import Input from 'components/widgets/inputs/input/input';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
 import useLoadStripe from 'components/common/hooks/useLoadStripe';
-import {useControlSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
+import useControlSelfHostedPurchaseModal from 'components/common/hooks/useControlSelfHostedPurchaseModal';
 import useFetchStandardAnalytics from 'components/common/hooks/useFetchStandardAnalytics';
 
 import StripeProvider from './stripe_provider';
@@ -93,9 +93,13 @@ interface UpdateProgressBarFake {
     type: 'update_progress_bar_fake';
 }
 
+interface ClearError {
+    type: 'clear_error';
+}
+
 type SetActions = UnionSetActions<State>;
 
-type Action = SetActions | UpdateProgressBarFake | UpdateSucceeded
+type Action = SetActions | UpdateProgressBarFake | UpdateSucceeded | ClearError
 
 const initialState: State = {
     address: '',
@@ -181,6 +185,12 @@ function reducer(state: State, action: Action): State {
             return {...state, progressBar: state.progressBar + maxFakeProgressIncrement};
         }
         return state;
+    }
+    case 'clear_error': {
+        return {
+            ...state,
+            error: '',
+        };
     }
     case 'set_error': {
         return {
@@ -277,7 +287,7 @@ function inferNames(user: UserProfile, cardName: string): [string, string] {
 export default function SelfHostedPurchaseModal(props: Props) {
     useFetchStandardAnalytics();
     useNoEscape();
-    const controlModal = useControlSelfHostedPurchaseModal(props.productId);
+    const controlModal = useControlSelfHostedPurchaseModal({productId: props.productId});
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.SELF_HOSTED_PURCHASE));
     const progress = useSelector(getSelfHostedSignupProgress);
     const user = useSelector(getCurrentUser);
@@ -421,6 +431,11 @@ export default function SelfHostedPurchaseModal(props: Props) {
                 },
             ));
             if (finished.data) {
+                trackEvent(
+                    TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING,
+                    'purchase_success',
+                    {seats: parseInt(finished.data?.Users, 10) || 0, users: currentUsers},
+                );
                 dispatch({type: 'succeeded'});
 
                 reduxDispatch({
@@ -470,6 +485,12 @@ export default function SelfHostedPurchaseModal(props: Props) {
         }
     };
     const errorAction = () => {
+        if (canRetry && (progress === SelfHostedSignupProgress.PAID || progress === SelfHostedSignupProgress.CREATED_LICENSE)) {
+            submit();
+            dispatch({type: 'clear_error'});
+            return;
+        }
+
         resetToken();
         if (canRetry) {
             dispatch({type: 'set_error', data: ''});
@@ -489,7 +510,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                     ariaLabelledBy='self_hosted_purchase_modal_title'
                     onClose={() => {
                         trackEvent(
-                            TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                            TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING,
                             'click_close_purchasing_screen',
                         );
                         if (!canRetry) {

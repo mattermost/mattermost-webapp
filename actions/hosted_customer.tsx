@@ -94,11 +94,12 @@ export function confirmSelfHostedSignup(
             }
         }
 
+        let confirmResult;
         try {
-            const result = await Client4.confirmSelfHostedSignup(stripeSetupIntent.id, subscriptionRequest);
+            confirmResult = await Client4.confirmSelfHostedSignup(stripeSetupIntent.id, subscriptionRequest);
             dispatch({
                 type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
-                data: result.progress,
+                data: confirmResult.progress,
             });
         } catch (error) {
             // eslint-disable-next-line no-console
@@ -111,7 +112,7 @@ export function confirmSelfHostedSignup(
             return {data: false, error};
         }
 
-        return {data: true};
+        return {data: confirmResult.license};
     };
 }
 

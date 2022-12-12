@@ -27,6 +27,7 @@ import {
 import {
     SelfHostedSignupForm,
     SelfHostedSignupCustomerResponse,
+    SelfHostedSignupSuccessResponse,
     SelfHostedSignupProgress,
 } from '@mattermost/types/hosted_customer';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
@@ -3920,7 +3921,7 @@ export default class Client4 {
     };
 
     confirmSelfHostedSignup = (setupIntentId: string, createSubscriptionRequest: CreateSubscriptionRequest) => {
-        return this.doFetch<{progress: ValueOf<typeof SelfHostedSignupProgress>}>(
+        return this.doFetch<SelfHostedSignupSuccessResponse>(
             `${this.getHostedCustomerRoute()}/confirm`,
             {method: 'post', body: JSON.stringify({stripe_setup_intent_id: setupIntentId, subscription: createSubscriptionRequest})},
         );

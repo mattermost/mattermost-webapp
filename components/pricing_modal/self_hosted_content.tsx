@@ -19,7 +19,7 @@ import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 
 import useFetchAdminConfig from 'components/common/hooks/useFetchAdminConfig';
 import useGetSelfHostedProducts from 'components/common/hooks/useGetSelfHostedProducts';
-import useOpenSelfHostedPurchaseModal from 'components/common/hooks/useOpenSelfHostedPurchaseModal';
+import useControlSelfHostedPurchaseModal from 'components/common/hooks/useControlSelfHostedPurchaseModal';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
@@ -45,7 +45,9 @@ function SelfHostedContent(props: ContentProps) {
     const canUseSelfHostedSignup = useCanSelfHostedSignup();
 
     const [products, productsLoaded] = useGetSelfHostedProducts();
-    const openSelfHostedPurchaseModal = useOpenSelfHostedPurchaseModal({});
+    const professionalProductId = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL)?.id || '';
+
+    const controlSelfHostedPurchaseModal = useControlSelfHostedPurchaseModal({productId: professionalProductId});
     const isSelfHostedPurchaseEnabled = useSelector(getConfig)?.ServiceSettings?.SelfHostedPurchase;
 
     useEffect(() => {
@@ -213,7 +215,7 @@ function SelfHostedContent(props: ContentProps) {
                                 const professionalProduct = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL);
                                 if (productsLoaded && professionalProduct) {
                                     closePricingModal();
-                                    openSelfHostedPurchaseModal({productId: professionalProduct.id});
+                                    controlSelfHostedPurchaseModal.open();
                                 }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
