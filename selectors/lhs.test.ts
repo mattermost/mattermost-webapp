@@ -9,10 +9,10 @@ import {GlobalState} from 'types/store';
 import * as DraftSelectors from './drafts';
 
 describe('Selectors.Lhs', () => {
-    let state: GlobalState;
+    let state: unknown;
 
     beforeEach(() => {
-        state = {} as GlobalState;
+        state = {};
     });
 
     describe('should return the open state of the sidebar menu', () => {
@@ -24,9 +24,9 @@ describe('Selectors.Lhs', () => {
                             isOpen: expected,
                         },
                     },
-                } as GlobalState;
+                };
 
-                assert.deepStrictEqual(expected, getIsLhsOpen(state));
+                assert.deepStrictEqual(expected, getIsLhsOpen(state as GlobalState));
             });
         });
     });
@@ -36,6 +36,8 @@ describe('Selectors.Lhs', () => {
             state = {
                 views: {
                     lhs: {
+                        isOpen: false,
+                        currentStaticItemId: '',
                         staticItems: [
                             {
                                 id: 'activity-and-insights',
@@ -57,7 +59,7 @@ describe('Selectors.Lhs', () => {
 
         it('should not return drafts when empty', () => {
             jest.spyOn(DraftSelectors, 'makeGetDraftsCount').mockImplementation(() => () => 0);
-            const items = getVisibleLhsStaticItems(state);
+            const items = getVisibleLhsStaticItems(state as GlobalState);
             expect(items).toEqual([
                 {
                     id: 'activity-and-insights',
@@ -72,7 +74,7 @@ describe('Selectors.Lhs', () => {
 
         it('should return drafts when there are available', () => {
             jest.spyOn(DraftSelectors, 'makeGetDraftsCount').mockImplementation(() => () => 1);
-            const items = getVisibleLhsStaticItems(state);
+            const items = getVisibleLhsStaticItems(state as GlobalState);
             expect(items).toEqual([
                 {
                     id: 'activity-and-insights',
