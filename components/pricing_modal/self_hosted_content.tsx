@@ -6,18 +6,27 @@ import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloudLinks, LicenseLinks, ModalIdentifiers, LicenseSkus, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, LicenseLinks, ModalIdentifiers, SelfHostedProducts, LicenseSkus, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {findSelfHostedProductBySku} from 'utils/hosted_customer';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal} from 'actions/views/modals';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from 'mattermost-redux/selectors/entities/admin';
 import {GlobalState} from '@mattermost/types/store';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 
+import useFetchAdminConfig from 'components/common/hooks/useFetchAdminConfig';
+import useGetSelfHostedProducts from 'components/common/hooks/useGetSelfHostedProducts';
+import useControlSelfHostedPurchaseModal from 'components/common/hooks/useControlSelfHostedPurchaseModal';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
+
+import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
+
+import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
 
 import ContactSalesCTA from './contact_sales_cta';
 import StartTrialCaution from './start_trial_caution';
@@ -30,8 +39,16 @@ type ContentProps = {
 }
 
 function SelfHostedContent(props: ContentProps) {
+    useFetchAdminConfig();
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
+    const canUseSelfHostedSignup = useCanSelfHostedSignup();
+
+    const [products, productsLoaded] = useGetSelfHostedProducts();
+    const professionalProductId = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL)?.id || '';
+
+    const controlSelfHostedPurchaseModal = useControlSelfHostedPurchaseModal({productId: professionalProductId});
+    const isSelfHostedPurchaseEnabled = useSelector(getConfig)?.ServiceSettings?.SelfHostedPurchase;
 
     useEffect(() => {
         dispatch(getPrevTrialLicense());
@@ -48,6 +65,8 @@ function SelfHostedContent(props: ContentProps) {
     const isProfessional = license.SkuShortName === LicenseSkus.Professional;
     const isEnterprise = license.SkuShortName === LicenseSkus.Enterprise;
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
+
+    const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
 
     const closePricingModal = () => {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
@@ -180,7 +199,23 @@ function SelfHostedContent(props: ContentProps) {
                         buttonDetails={{
                             action: () => {
                                 trackEvent('self_hosted_pricing', 'click_upgrade_button');
-                                window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
+
+                                if (!isSelfHostedPurchaseEnabled) {
+                                    window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
+                                    return;
+                                }
+
+                                if (!canUseSelfHostedSignup) {
+                                    closePricingModal();
+                                    controlAirgappedModal.open();
+                                    return;
+                                }
+
+                                const professionalProduct = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL);
+                                if (productsLoaded && professionalProduct) {
+                                    closePricingModal();
+                                    controlSelfHostedPurchaseModal.open();
+                                }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: !isAdmin || isProfessional,
