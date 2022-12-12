@@ -392,7 +392,6 @@
   "admin.billing.subscription.yearlySavings": "Jährliche Einsparungen",
   "admin.billing.subscriptions.billing_summary.explore_enterprise": "Entdecke Enterprise Funktionen",
   "admin.billing.subscriptions.billing_summary.explore_enterprise.cta": "Betrachte alle Funktionen",
-  "admin.billing.subscriptions.billing_summary.lastInvoice.downloadInvoice": "Rechnung downloaden",
   "admin.billing.subscriptions.billing_summary.lastInvoice.failed": "Fehlgeschlagen",
   "admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee": "Monatliche Pauschalgebühr",
   "admin.billing.subscriptions.billing_summary.lastInvoice.paid": "Bezahlt",

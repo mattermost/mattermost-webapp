@@ -391,7 +391,6 @@
   "admin.billing.subscription.yearlySavings": "Yearly Savings",
   "admin.billing.subscriptions.billing_summary.explore_enterprise": "Explore Enterprise features",
   "admin.billing.subscriptions.billing_summary.explore_enterprise.cta": "View all features",
-  "admin.billing.subscriptions.billing_summary.lastInvoice.downloadInvoice": "Download Invoice",
   "admin.billing.subscriptions.billing_summary.lastInvoice.failed": "Failed",
   "admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee": "Monthly Flat Fee",
   "admin.billing.subscriptions.billing_summary.lastInvoice.paid": "Paid",

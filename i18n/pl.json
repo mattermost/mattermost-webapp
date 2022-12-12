@@ -392,7 +392,6 @@
   "admin.billing.subscription.yearlySavings": "Oszczędności roczne",
   "admin.billing.subscriptions.billing_summary.explore_enterprise": "Poznaj funkcje Enterprise",
   "admin.billing.subscriptions.billing_summary.explore_enterprise.cta": "Wyświetl wszystkie funkcje",
-  "admin.billing.subscriptions.billing_summary.lastInvoice.downloadInvoice": "Pobierz fakturę",
   "admin.billing.subscriptions.billing_summary.lastInvoice.failed": "Błąd",
   "admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee": "Miesięczna opłata ryczałtowa",
   "admin.billing.subscriptions.billing_summary.lastInvoice.paid": "Płatne",
