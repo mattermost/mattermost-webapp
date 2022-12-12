@@ -366,7 +366,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                 },
                 organization: state.organization,
             });
-        } catch (e) {
+        } catch {
             dispatch({type: 'set_error', data: 'Failed to submit payment information'});
             return;
         }
@@ -465,7 +465,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                         data: data.progress,
                     });
                 });
-        } catch (e) {
+        } catch {
             // swallow error ok here
         }
     };
