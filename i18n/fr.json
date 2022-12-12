@@ -361,7 +361,6 @@
   "admin.billing.subscription.updatePaymentInfo": "Mettre à jour les informations de paiement",
   "admin.billing.subscription.upgradedSuccess": "Super ! Vous êtes maintenant mis à niveau",
   "admin.billing.subscription.verifyPaymentInformation": "Vérification de votre moyen de paiement",
-  "admin.billing.subscriptions.billing_summary.lastInvoice.downloadInvoice": "Télécharger la facture",
   "admin.billing.subscriptions.billing_summary.lastInvoice.failed": "Échec",
   "admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee": "Forfait mensuel",
   "admin.billing.subscriptions.billing_summary.lastInvoice.paid": "Payé",
