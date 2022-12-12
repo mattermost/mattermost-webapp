@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {SidebarTypes} from 'mattermost-redux/action_types';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {
@@ -10,19 +9,21 @@ import {
     localDraftsAreEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
 
-import {SidebarStaticItem} from '@mattermost/types/sidebar';
+import {ActionTypes} from '../utils/constants';
 
-export function selectSidebarStaticItem(itemId: string) {
+import {LhsStaticItem} from '../types/store/lhs';
+
+export function selectStaticItem(itemId: string) {
     return {
-        type: SidebarTypes.SELECT_STATIC_ITEM,
+        type: ActionTypes.SELECT_LHS_STATIC_ITEM,
         data: itemId,
     };
 }
 
-export function initSidebarStaticItems(): ActionFunc {
+export function initStaticItems(): ActionFunc {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
-        const items: SidebarStaticItem[] = [];
+        const items: LhsStaticItem[] = [];
 
         if (insightsAreEnabled(state)) {
             items.push({
@@ -46,7 +47,7 @@ export function initSidebarStaticItems(): ActionFunc {
         }
 
         dispatch({
-            type: SidebarTypes.SET_STATIC_ITEMS,
+            type: ActionTypes.SET_LHS_STATIC_ITEMS,
             data: items,
         });
 

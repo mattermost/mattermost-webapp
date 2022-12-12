@@ -1,14 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {
-    toggle,
-    open,
-    close,
-} from 'actions/views/lhs';
+import {close, open, toggle} from 'actions/views/lhs';
 import {ActionTypes} from 'utils/constants';
-
 import mockStore from 'tests/test_store';
+import {MockStoreEnhanced} from 'redux-mock-store';
+import {GlobalState} from 'types/store';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 describe('lhs view actions', () => {
     const initialState = {
@@ -19,7 +17,7 @@ describe('lhs view actions', () => {
         },
     };
 
-    let store;
+    let store: MockStoreEnhanced<GlobalState, DispatchFunc>;
 
     beforeEach(() => {
         store = mockStore(initialState);

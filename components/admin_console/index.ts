@@ -26,7 +26,7 @@ import LocalStorageStore from 'stores/local_storage_store';
 
 import {GlobalState} from 'types/store';
 
-import {selectSidebarStaticItem} from 'mattermost-redux/actions/sidebar';
+import {selectStaticItem} from 'actions/lhs';
 
 import {Role} from '@mattermost/types/roles';
 import {AdminConfig} from '@mattermost/types/config';
@@ -68,7 +68,7 @@ type Actions = {
     loadRolesIfNeeded: (roles: Iterable<string>) => ActionFunc;
     selectChannel: (channelId: string) => void;
     selectTeam: (teamId: string) => void;
-    selectSidebarStaticItem: (itemId: string) => void;
+    selectLhsStaticItem: (itemId: string) => void;
     editRole: (role: Role) => void;
     updateConfig?: (config: AdminConfig) => ActionFunc;
 };
@@ -87,7 +87,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             editRole,
             selectChannel,
             selectTeam,
-            selectSidebarStaticItem,
+            selectLhsStaticItem: selectStaticItem,
         }, dispatch),
     };
 }

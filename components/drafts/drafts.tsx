@@ -13,8 +13,7 @@ import NoResultsIndicator from 'components/no_results_indicator';
 import Header from 'components/widgets/header';
 
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
-
-import {selectSidebarStaticItem} from 'mattermost-redux/actions/sidebar';
+import {selectStaticItem} from 'actions/lhs';
 
 import type {UserProfile, UserStatus} from '@mattermost/types/users';
 
@@ -43,7 +42,7 @@ function Drafts({
 
     useEffect(() => {
         dispatch(selectChannel(''));
-        dispatch(selectSidebarStaticItem('drafts'));
+        dispatch(selectStaticItem('drafts'));
         dispatch(suppressRHS);
 
         return () => {

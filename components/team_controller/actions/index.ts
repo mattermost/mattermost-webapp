@@ -14,7 +14,7 @@ import {isCustomGroupsEnabled, isGraphQLEnabled} from 'mattermost-redux/selector
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
-import {initSidebarStaticItems} from 'mattermost-redux/actions/sidebar';
+import {initStaticItems} from 'actions/lhs';
 
 import {isSuccess} from 'types/actions';
 
@@ -84,7 +84,7 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
             }
         }
 
-        dispatch(initSidebarStaticItems());
+        dispatch(initStaticItems());
 
         return {data: team};
     };

@@ -2,15 +2,16 @@
 // See LICENSE.txt for license information.
 
 import {ActionTypes} from 'utils/constants';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 
-export const toggle = () => (dispatch) => dispatch({
+export const toggle = () => (dispatch: DispatchFunc) => dispatch({
     type: ActionTypes.TOGGLE_LHS,
 });
 
-export const open = () => (dispatch) => dispatch({
+export const open = () => (dispatch: DispatchFunc) => dispatch({
     type: ActionTypes.OPEN_LHS,
 });
 
-export const close = () => (dispatch) => dispatch({
+export const close = () => (dispatch: DispatchFunc) => dispatch({
     type: ActionTypes.CLOSE_LHS,
 });

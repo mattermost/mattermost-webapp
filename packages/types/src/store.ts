@@ -23,7 +23,6 @@ import {
 import {Role} from './roles';
 import {SchemesState} from './schemes';
 import {SearchState} from './search';
-import {SidebarState} from './sidebar';
 import {TeamsState} from './teams';
 import {ThreadsState} from './threads';
 import {Typing} from './typing';
@@ -69,7 +68,6 @@ export type GlobalState = {
         cloud: CloudState;
         usage: CloudUsage;
         insights: InsightsState;
-        sidebar: SidebarState;
     };
     errors: any[];
     requests: {

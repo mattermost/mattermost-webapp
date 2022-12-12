@@ -76,7 +76,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
         this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin', 'system_user_manager', 'system_custom_group_admin', 'system_read_only_admin', 'system_manager']);
         this.props.actions.selectChannel('');
         this.props.actions.selectTeam('');
-        this.props.actions.selectSidebarStaticItem('');
+        this.props.actions.selectLhsStaticItem('');
         document.body.classList.add('console__body');
     }
 
