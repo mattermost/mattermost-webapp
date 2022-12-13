@@ -127,7 +127,7 @@ function migrateDrafts(state: any) {
         const info = getDraftInfoFromKey(storageKey, StoragePrefixes.DRAFT);
         const timestamp = new Date(storageDraft.timestamp);
 
-        if (info === null || !info.id) {
+        if (!info?.id) {
             drafts[storageKey] = {timestamp, value: {message: '', fileInfos: [], uploadsInProgress: []}};
             continue;
         }
