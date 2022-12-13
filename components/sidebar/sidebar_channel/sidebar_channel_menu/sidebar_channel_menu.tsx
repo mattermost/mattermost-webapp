@@ -12,8 +12,8 @@ import {
     BellOffOutlineIcon,
     LinkVariantIcon,
     AccountOutlineIcon,
-    CloseIcon,
     DotsVerticalIcon,
+    ExitToAppIcon,
 } from '@mattermost/compass-icons/components';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -275,7 +275,7 @@ const SidebarChannelMenu = (props: Props) => {
             <Menu.Item
                 id={`leave-${props.channel.id}`}
                 onClick={handleLeaveChannel}
-                leadingElement={<CloseIcon size={18}/>}
+                leadingElement={<ExitToAppIcon size={18}/>}
                 labels={leaveChannelText}
                 isDestructive={true}
             />
