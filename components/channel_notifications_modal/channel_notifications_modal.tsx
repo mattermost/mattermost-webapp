@@ -167,7 +167,7 @@ export default function ChannelNotificationsModal(props: Props) {
                 inputFieldData={desktopNotificationInputFieldData(props.currentUser.notify_props.desktop)}
                 handleChange={(e) => handleChange({desktop: e.target.value})}
             />
-            {settings.desktop === 'mention' &&
+            {props.collapsedReplyThreads && settings.desktop === 'mention' &&
                 <CheckboxItemCreator
                     title={ThreadsReplyTitle}
                     inputFieldValue={settings.desktop_threads === 'all'}
@@ -192,7 +192,7 @@ export default function ChannelNotificationsModal(props: Props) {
                         inputFieldData={mobileNotificationInputFieldData(props.currentUser.notify_props.push)}
                         handleChange={(e) => handleChange({push: e.target.value})}
                     />
-                    {settings.push === 'mention' &&
+                    {props.collapsedReplyThreads && settings.push === 'mention' &&
                     <CheckboxItemCreator
                         title={ThreadsReplyTitle}
                         inputFieldValue={settings.push_threads === 'all'}
@@ -215,7 +215,13 @@ export default function ChannelNotificationsModal(props: Props) {
     );
 
     async function handleSave() {
-        const {error} = await props.actions.updateChannelNotifyProps(props.currentUser.id, props.channel.id, settings);
+        const userSettings: Partial<SettingsType> = {...settings};
+        if (props.collapsedReplyThreads) {
+            delete userSettings.push_threads;
+            delete userSettings.desktop_threads;
+            delete userSettings.channel_auto_follow_threads;
+        }
+        const {error} = await props.actions.updateChannelNotifyProps(props.currentUser.id, props.channel.id, userSettings);
         handleHide();
         if (error) {
             setServerError(error.message);
