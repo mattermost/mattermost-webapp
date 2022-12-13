@@ -366,33 +366,31 @@ async function initializeModuleFederation() {
         const remotes = {};
 
         if (process.env.MM_DONT_INCLUDE_PRODUCTS) {
-            if (DEV) {
-                // For development, identify which product dev servers are available
+            console.warn('Skipping initialization of products');
+        } else if (DEV) {
+            // For development, identify which product dev servers are available
 
-                // Wait a second for product dev servers to start up if they were started at the same time as this one
-                await new Promise((resolve) => setTimeout(resolve, 1000));
+            // Wait a second for product dev servers to start up if they were started at the same time as this one
+            await new Promise((resolve) => setTimeout(resolve, 1000));
 
-                const productsFound = await Promise.all(products.map((product) => isWebpackDevServerAvailable(product.baseUrl)));
-                for (let i = 0; i < products.length; i++) {
-                    const product = products[i];
-                    const found = productsFound[i];
+            const productsFound = await Promise.all(products.map((product) => isWebpackDevServerAvailable(product.baseUrl)));
+            for (let i = 0; i < products.length; i++) {
+                const product = products[i];
+                const found = productsFound[i];
 
-                    if (found) {
-                        console.log(`Product ${product.name} found, adding as remote module`);
+                if (found) {
+                    console.log(`Product ${product.name} found, adding as remote module`);
 
-                        remotes[product.name] = `${product.name}@${product.baseUrl}/remote_entry.js`;
-                    } else {
-                        console.log(`Product ${product.name} not found`);
-                    }
-                }
-            } else {
-                // For production, hardcode the URLs of product containers to be based on the web app URL
-                for (const product of products) {
-                    remotes[product.name] = `${product.name}@[window.basename]/static/products/${product.name}/remote_entry.js`;
+                    remotes[product.name] = `${product.name}@${product.baseUrl}/remote_entry.js`;
+                } else {
+                    console.log(`Product ${product.name} not found`);
                 }
             }
         } else {
-            console.warn('Skipping initialization of products');
+            // For production, hardcode the URLs of product containers to be based on the web app URL
+            for (const product of products) {
+                remotes[product.name] = `${product.name}@[window.basename]/static/products/${product.name}/remote_entry.js`;
+            }
         }
 
         const aliases = {};
