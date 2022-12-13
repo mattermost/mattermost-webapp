@@ -114,13 +114,6 @@ const MenuItemStyled = styled(MuiMenuItem, {
                 backgroundColor: !isDestructive ? 'rgba(var(--center-channel-color-rgb), 0.08)' : 'var(--error-text)',
                 color: isDestructive && 'var(--button-color)',
             },
-            '&:hover .label-elements>:last-child': {
-                color: isDestructive && 'var(--button-color)',
-            },
-            '&:hover .label-elements>:first-child, &:hover .label-elements>:only-child':
-                {
-                    color: isDestructive && 'var(--button-color)',
-                },
 
             '&:active': {
                 'background-color': !isDestructive ? 'rgba(var(--button-bg-rgb), 0.08)' : 'background-color: rgba(var(--error-text-color-rgb), 0.16)',
@@ -135,16 +128,17 @@ const MenuItemStyled = styled(MuiMenuItem, {
                 backgroundColor: !isDestructive ? 'var(--center-channel-bg)' : 'var(--error-text)',
                 color: isDestructive && 'var(--button-color)',
             },
-            '&.Mui-focusVisible .label-elements>:last-child': {
-                color: isDestructive && 'var(--button-color)',
-            },
-            '&.Mui-focusVisible .label-elements>:first-child, &.Mui-focusVisible .label-elements>:only-child': {
+            '&.Mui-focusVisible .label-elements>:last-child, &.Mui-focusVisible .label-elements>:first-child, &.Mui-focusVisible .label-elements>:only-child': {
                 color: isDestructive && 'var(--button-color)',
             },
 
             '&>.leading-element': {
                 width: '18px',
                 height: '18px',
+                color: !isDestructive ? 'rgba(var(--center-channel-color-rgb), 0.56)' : 'var(--error-text)',
+            },
+            '&:hover .leading-element': {
+                color: !isDestructive ? 'rgba(var(--center-channel-color-rgb), 0.72)' : 'var(--button-color)',
             },
 
             '&>.label-elements': {
@@ -163,9 +157,16 @@ const MenuItemStyled = styled(MuiMenuItem, {
                 fontSize: '12px',
                 color: !isDestructive ? 'rgba(var(--center-channel-color-rgb), 0.56)' : 'var(--error-text)',
             },
-            '&>.label-elements>:only-child, &>.label-elements>:first-child': {
+            '&:hover .label-elements>:last-child': {
+                color: isDestructive && 'var(--button-color)',
+            },
+
+            '&>.label-elements>:first-child, &>.label-elements>:only-child': {
                 fontSize: '14px',
                 color: !isDestructive ? 'var(--center-channel-color)' : 'var(--error-text)',
+            },
+            '&:hover .label-elements>:first-child, &:hover .label-elements>:only-child': {
+                color: isDestructive && 'var(--button-color)',
             },
 
             '&>.trailing-elements': {
@@ -178,6 +179,9 @@ const MenuItemStyled = styled(MuiMenuItem, {
                 marginInlineStart: '24px',
                 fontSize: '12px',
                 lineHeight: '16px',
+            },
+            '&:hover .trailing-elements': {
+                color: 'rgba(var(--center-channel-color-rgb), 0.72)',
             },
         },
     }),
