@@ -30,11 +30,11 @@ function templatesInCategory(state: Record<string, WorkTemplate[]> = {}, action:
             map((template) => template.category).
             filter((category, index, self) => self.indexOf(category) === index);
 
-        categoryIds.forEach((category) => {
-            nextState[category] = [];
+        categoryIds.forEach((categoryId) => {
+            nextState[categoryId] = [];
             data.forEach((template) => {
-                if (template.category === category) {
-                    nextState[category].push(template);
+                if (template.category === categoryId) {
+                    nextState[categoryId].push(template);
                 }
             });
         });

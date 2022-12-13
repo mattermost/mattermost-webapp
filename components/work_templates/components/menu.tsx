@@ -56,36 +56,36 @@ interface MenuProps {
     categories: Category[];
     changeCategory: (category: Category) => void;
     workTemplates: Record<string, WorkTemplate[]>;
-    currentCategory: string;
+    currentCategoryId: string;
 }
 
-const Menu = (props: MenuProps) => {
+const Menu = ({className, categories, workTemplates, currentCategoryId, changeCategory, onTemplateSelected}: MenuProps) => {
     const {formatMessage} = useIntl();
 
     const quickUse = (template: WorkTemplate) => {
-        props.onTemplateSelected(template, true);
+        onTemplateSelected(template, true);
     };
 
     const selectTemplate = (template: WorkTemplate) => {
-        props.onTemplateSelected(template, false);
+        onTemplateSelected(template, false);
     };
 
-    if (props.categories.length === 0) {
+    if (!categories.length) {
         return null;
     }
 
     return (
-        <div className={props.className}>
+        <div className={className}>
             <Categories>
                 <h2>
                     {formatMessage({id: 'work_templates.menu.template_title', defaultMessage: 'TEMPLATE'})}
                 </h2>
                 <ul>
-                    {props.categories.map((category) => (
+                    {categories.map((category) => (
                         <li key={category.id}>
                             <CategoryButton
-                                onClick={() => props.changeCategory(category)}
-                                className={classNames({selected: category.id === props.currentCategory})}
+                                onClick={() => changeCategory(category)}
+                                className={classNames({selected: category.id === currentCategoryId})}
                             >
                                 {category.name}
                             </CategoryButton>
@@ -94,7 +94,7 @@ const Menu = (props: MenuProps) => {
                 </ul>
             </Categories>
             <UseCases>
-                {props.workTemplates[props.currentCategory]?.map((workTemplate) => (
+                {workTemplates[currentCategoryId]?.map((workTemplate) => (
                     <UseCaseMenuItem
                         key={workTemplate.id}
                         name={workTemplate.useCase}

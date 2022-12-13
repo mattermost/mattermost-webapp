@@ -73,7 +73,7 @@ const WorkTemplateModal = () => {
     const [selectedTemplate, setSelectedTemplate] = useState<WorkTemplate | null>(null);
     const [selectedName, setSelectedName] = useState<string>('');
     const [selectedVisibility, setSelectedVisibility] = useState(Visibility.Public);
-    const [currentCategory, setCurrentCategory] = useState('');
+    const [currentCategoryId, setCurrentCategoryId] = useState('');
     const categories = useSelector((state: GlobalState) => state.entities.worktemplates.categories);
     const workTemplates = useSelector((state: GlobalState) => state.entities.worktemplates.templatesInCategory);
 
@@ -85,6 +85,14 @@ const WorkTemplateModal = () => {
     }, []);
 
     useEffect(() => {
+        if (!categories?.length) {
+            return;
+        }
+        setCurrentCategoryId(categories[0].id);
+        dispatch(getWorkTemplates(categories[0].id));
+    }, [categories.length]);
+
+    useEffect(() => {
         return () => {
             dispatch(clearCategories());
             dispatch(clearWorkTemplates());
@@ -92,7 +100,7 @@ const WorkTemplateModal = () => {
     }, []);
 
     const changeCategory = (category: Category) => {
-        setCurrentCategory(category.id);
+        setCurrentCategoryId(category.id);
         if (workTemplates[category.id]?.length) {
             return;
         }
@@ -186,7 +194,7 @@ const WorkTemplateModal = () => {
                     onTemplateSelected={handleTemplateSelected}
                     changeCategory={changeCategory}
                     workTemplates={workTemplates}
-                    currentCategory={currentCategory}
+                    currentCategoryId={currentCategoryId}
                 />
             )}
             {(state === ModalState.Preview && selectedTemplate) && (
