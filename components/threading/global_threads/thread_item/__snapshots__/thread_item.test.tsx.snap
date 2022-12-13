@@ -52,7 +52,7 @@ exports[`components/threading/global_threads/thread_item should report total num
       >
         <Memo(Button)
           className="Button___icon"
-          marginExtra={true}
+          marginTop={true}
         >
           <DotsVerticalIcon
             size={18}
@@ -172,7 +172,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
       >
         <Memo(Button)
           className="Button___icon"
-          marginExtra={true}
+          marginTop={true}
         >
           <DotsVerticalIcon
             size={18}
@@ -290,7 +290,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
       >
         <Memo(Button)
           className="Button___icon"
-          marginExtra={true}
+          marginTop={true}
         >
           <DotsVerticalIcon
             size={18}

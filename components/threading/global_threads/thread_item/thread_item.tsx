@@ -222,7 +222,7 @@ function ThreadItem({
                         )}
                     >
                         <Button
-                            marginExtra={true}
+                            marginTop={true}
                             className='Button___icon'
                         >
                             <DotsVerticalIcon size={18}/>

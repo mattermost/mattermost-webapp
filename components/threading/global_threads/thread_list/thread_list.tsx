@@ -229,7 +229,7 @@ const ThreadList = ({
                                 disabled={!someUnread}
                                 className={'Button___large Button___icon'}
                                 onClick={handleOpenMarkAllAsReadModal}
-                                marginExtra={true}
+                                marginTop={true}
                             >
                                 <span className='icon'>
                                     <PlaylistCheckIcon size={18}/>
