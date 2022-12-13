@@ -55,7 +55,17 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
         );
     }
 
-    if (!isConsecutivePost) {
+    if (isConsecutivePost) {
+        userProfile = (
+            <UserProfile
+                userId={post.user_id}
+                channelId={post.channel_id}
+                isRHS={isRHS}
+                hasMention={true}
+                colorize={colorize}
+            />
+        );
+    } else {
         userProfile = (
             <UserProfile
                 userId={post.user_id}
@@ -126,16 +136,6 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
                 />
             );
         }
-    } else {
-        userProfile = (
-            <UserProfile
-                userId={post.user_id}
-                channelId={post.channel_id}
-                isRHS={isRHS}
-                hasMention={true}
-                colorize={colorize}
-            />
-        );
     }
 
     return (<div className='col col__name'>
