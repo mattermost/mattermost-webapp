@@ -383,7 +383,6 @@
   "admin.billing.subscription.viewBilling": "Facturatie bekijken",
   "admin.billing.subscriptions.billing_summary.explore_enterprise": "Ontdek de Enterprise-functies",
   "admin.billing.subscriptions.billing_summary.explore_enterprise.cta": "Bekijk alle functies",
-  "admin.billing.subscriptions.billing_summary.lastInvoice.downloadInvoice": "Factuur downloaden",
   "admin.billing.subscriptions.billing_summary.lastInvoice.failed": "Mislukt",
   "admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee": "Maandelijkse vaste vergoeding",
   "admin.billing.subscriptions.billing_summary.lastInvoice.paid": "Betaald",
