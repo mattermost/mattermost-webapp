@@ -11,19 +11,18 @@ import type {DebouncedFunc} from 'lodash';
 import {
     EditorContent,
     useEditor,
-    ReactNodeViewRenderer as renderReactNodeView,
+    ReactNodeViewRenderer as renderReactNodeView, nodePasteRule,
 } from '@tiptap/react';
 import type {JSONContent} from '@tiptap/react';
 import {Extension} from '@tiptap/core';
 import type {Editor} from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
-import {Plugin, PluginKey} from 'prosemirror-state';
 
 import Link from '@tiptap/extension-link';
 import Typography from '@tiptap/extension-typography';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Code from '@tiptap/extension-code';
-import Image from '@tiptap/extension-image';
+import Image, {inputRegex as imageInputRegex} from '@tiptap/extension-image';
 
 // tiptap table extensions
 import Table from '@tiptap/extension-table';
@@ -228,26 +227,26 @@ export default (props: Props) => {
     const [draft, setDraftContent] = useDraft(channelId, rootId);
     const debouncedDraft = useRef<DebouncedFunc<(editor: Editor) => void>>(debounce((editor) => setDraftContent(editor.getJSON()), 500));
 
-    const PasteHandler = Extension.create({
-        name: 'pasteHandler',
-
-        addProseMirrorPlugins() {
-            return [
-                new Plugin({
-                    key: new PluginKey('pasteHandler'),
-                    props: {
-                        transformPastedText(text: string) {
-                            // return String(markdownToHtml(text));
-                            return text;
-                        },
-
-                        // … and many, many more.
-                        // Here is the full list: https://prosemirror.net/docs/ref/#view.EditorProps
-                    },
-                }),
-            ];
-        },
-    });
+    // const PasteHandler = Extension.create({
+    //     name: 'pasteHandler',
+    //
+    //     addProseMirrorPlugins() {
+    //         return [
+    //             new Plugin({
+    //                 key: new PluginKey('pasteHandler'),
+    //                 props: {
+    //                     transformPastedText(text: string) {
+    //                         // return String(markdownToHtml(text));
+    //                         return text;
+    //                     },
+    //
+    //                     // … and many, many more.
+    //                     // Here is the full list: https://prosemirror.net/docs/ref/#view.EditorProps
+    //                 },
+    //             }),
+    //         ];
+    //     },
+    // });
 
     // this is a dummy extension only to create custom keydown behavior
     const KeyboardHandler = Extension.create({
@@ -343,7 +342,7 @@ export default (props: Props) => {
              * these should always come at the end so that we are able to override behavior from
              * other extensions with this if needed
              */
-            PasteHandler,
+            // PasteHandler,
             KeyboardHandler.extend({
                 addKeyboardShortcuts() {
                     return {
@@ -414,7 +413,23 @@ export default (props: Props) => {
                     };
                 },
             }),
-            Image,
+            Image.extend({
+                addPasteRules() {
+                    return [
+                        nodePasteRule({
+                            find: imageInputRegex,
+                            type: this.type,
+                            getAttributes: (match) => {
+                                const [,, alt, src, title] = match;
+
+                                console.log('#### match form paste', match); // eslint-disable-line no-console
+
+                                return {src, alt, title};
+                            },
+                        }),
+                    ];
+                },
+            }),
         ],
         content: draft?.content,
         autofocus: 'end',

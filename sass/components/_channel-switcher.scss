@@ -50,7 +50,9 @@
 
     .channel-switcher__suggestion-box {
         position: relative;
-        height: 362px;
+        height: 100%;
+        min-height: 300px;
+        max-height: 900px;
         padding: 0;
 
         .icon-magnify {

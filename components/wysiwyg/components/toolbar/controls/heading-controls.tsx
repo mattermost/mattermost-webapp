@@ -106,6 +106,7 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
 const HeadingDropdownButton = styled(DropdownContainer)`
     min-width: 120px;
     justify-content: space-between;
+    font-weight: 600;
 `;
 
 const HeadingControls = ({editor}: {editor: Editor}) => {
