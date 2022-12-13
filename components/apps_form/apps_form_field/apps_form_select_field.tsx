@@ -3,11 +3,9 @@
 
 import React from 'react';
 import ReactSelect from 'react-select';
-import {Props as AsyncSelectProps} from 'react-select/async';
+import AsyncSelect from 'react-select/async';
 
 import {AppField, AppSelectOption} from '@mattermost/types/apps';
-
-const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<AppSelectOption>>; // eslint-disable-line global-require
 
 export type Props = {
     field: AppField;

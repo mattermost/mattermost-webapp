@@ -34,6 +34,7 @@ export type Subscription = {
     create_at: number;
     seats: number;
     last_invoice?: Invoice;
+    upcoming_invoice?: Invoice;
     trial_end_at: number;
     is_free_trial: string;
     delinquent_since?: number;
@@ -206,3 +207,11 @@ export type TeamsUsage = {
 export type ValidBusinessEmail = {
     is_valid: boolean;
 }
+
+export interface CreateSubscriptionRequest {
+    product_id: string;
+    add_ons: string[];
+    seats: number;
+    internal_purchase_order?: string;
+}
+

@@ -3,6 +3,7 @@
 
 import {ChannelType} from './channels';
 import {Post} from './posts';
+import {UserProfile} from './users';
 
 export enum InsightsWidgetTypes {
     TOP_CHANNELS = 'TOP_CHANNELS',
@@ -97,7 +98,7 @@ export type TopBoard = {
     icon: string;
     title: string;
     activityCount: number;
-    activeUsers: string;
+    activeUsers: Array<UserProfile['id']>;
     createdBy: string;
 };
 
