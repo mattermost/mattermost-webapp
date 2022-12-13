@@ -5,7 +5,7 @@ import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Constants, {Locations} from 'utils/constants';
-import {fromAutoResponder} from 'utils/post_utils';
+import {fromAutoResponder, isFromWebhook} from 'utils/post_utils';
 
 import {Post} from '@mattermost/types/posts';
 
@@ -30,6 +30,7 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
     const {post, compactDisplay, isMobileView, isConsecutivePost, enablePostUsernameOverride, isBot, isSystemMessage, colorizeUsernames} = props;
     const isFromAutoResponder = fromAutoResponder(post);
     const colorize = compactDisplay && colorizeUsernames;
+    const isRHS = props.location === Locations.RHS_COMMENT || props.location === Locations.RHS_ROOT || props.location === Locations.SEARCH;
 
     let userProfile: ReactNode = null;
     let botIndicator = null;
@@ -47,7 +48,7 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
             <UserProfile
                 userId={post.user_id}
                 channelId={post.channel_id}
-                isRHS={props.location === Locations.RHS_COMMENT || props.location === Locations.RHS_ROOT}
+                isRHS={isRHS}
                 hasMention={true}
                 colorize={colorize}
             />
@@ -59,13 +60,13 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
             <UserProfile
                 userId={post.user_id}
                 channelId={post.channel_id}
-                isRHS={props.location === Locations.RHS_COMMENT || props.location === Locations.RHS_ROOT}
+                isRHS={isRHS}
                 hasMention={true}
                 colorize={colorize}
             />
         );
 
-        if (post.props && post.props.from_webhook) {
+        if (isFromWebhook(post)) {
             const overwriteName = post.props.override_username && enablePostUsernameOverride ? post.props.override_username : undefined;
             userProfile = (
                 <UserProfile
@@ -86,7 +87,7 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
                         userId={post.user_id}
                         channelId={post.channel_id}
                         hideStatus={true}
-                        isRHS={props.location === Locations.RHS_COMMENT || props.location === Locations.RHS_ROOT}
+                        isRHS={isRHS}
                         hasMention={true}
                         colorize={colorize}
                     />
@@ -125,6 +126,16 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
                 />
             );
         }
+    } else {
+        userProfile = (
+            <UserProfile
+                userId={post.user_id}
+                channelId={post.channel_id}
+                isRHS={isRHS}
+                hasMention={true}
+                colorize={colorize}
+            />
+        );
     }
 
     return (<div className='col col__name'>
