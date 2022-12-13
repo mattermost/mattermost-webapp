@@ -9,12 +9,13 @@ import {IntlProvider} from 'react-intl';
 
 import mockStore from 'tests/test_store';
 import {GlobalState} from '@mattermost/types/store';
+import {DeepPartial} from '@mattermost/types/utilities';
 
 export const renderWithIntl = (component: React.ReactNode | React.ReactNodeArray, locale = 'en') => {
     return render(<IntlProvider locale={locale}>{component}</IntlProvider>);
 };
 
-export const renderWithIntlAndStore = (component: React.ReactNode | React.ReactNodeArray, initialState: GlobalState, locale = 'en') => {
+export const renderWithIntlAndStore = (component: React.ReactNode | React.ReactNodeArray, initialState: DeepPartial<GlobalState>, locale = 'en') => {
     const store = mockStore(initialState);
     return render(
         <IntlProvider locale={locale}>

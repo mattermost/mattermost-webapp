@@ -315,8 +315,13 @@ const AdminDefinition = {
         sectionTitle: t('admin.sidebar.billing'),
         sectionTitleDefault: 'Billing & Account',
         isHidden: it.any(
-            it.not(it.licensedForFeature('Cloud')),
+            it.not(it.enterpriseReady),
             it.not(it.userHasReadPermissionOnResource('billing')),
+            it.not(it.licensed),
+            it.all(
+                it.not(it.licensedForFeature('Cloud')),
+                it.configIsFalse('ServiceSettings', 'SelfHostedPurchase'),
+            ),
         ),
         subscription: {
             url: 'billing/subscription',
@@ -329,6 +334,9 @@ const AdminDefinition = {
                 id: 'BillingSubscriptions',
                 component: BillingSubscriptions,
             },
+
+            // cloud only view
+            isHidden: it.not(it.licensedForFeature('Cloud')),
             isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         billing_history: {
@@ -355,6 +363,9 @@ const AdminDefinition = {
                 id: 'CompanyInfo',
                 component: CompanyInfo,
             },
+
+            // cloud only view
+            isHidden: it.not(it.licensedForFeature('Cloud')),
             isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         company_info_edit: {
@@ -363,13 +374,21 @@ const AdminDefinition = {
                 id: 'CompanyInfoEdit',
                 component: CompanyInfoEdit,
             },
+
+            // cloud only view
+            isHidden: it.not(it.licensedForFeature('Cloud')),
             isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         payment_info: {
             url: 'billing/payment_info',
             title: t('admin.sidebar.payment_info'),
             title_default: 'Payment Information',
-            isHidden: it.hidePaymentInfo,
+            isHidden: it.any(
+                it.hidePaymentInfo,
+
+                // cloud only view
+                it.not(it.licensedForFeature('Cloud')),
+            ),
             searchableStrings: [
                 'admin.billing.payment_info.title',
             ],
