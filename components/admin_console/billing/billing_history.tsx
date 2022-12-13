@@ -6,7 +6,9 @@ import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getInvoices} from 'mattermost-redux/actions/cloud';
-import {getCloudErrors, getCloudInvoices} from 'mattermost-redux/selectors/entities/cloud';
+import {getSelfHostedInvoices as getSelfHostedInvoicesAction} from 'actions/hosted_customer';
+import {getCloudErrors, getCloudInvoices, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
+import {getSelfHostedErrors, getSelfHostedInvoices} from 'mattermost-redux/selectors/entities/hosted_customer';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 
 import CloudFetchError from 'components/cloud_fetch_error';
@@ -49,13 +51,16 @@ const noBillingHistorySection = (
 
 const BillingHistory = () => {
     const dispatch = useDispatch();
-    const invoices = useSelector(getCloudInvoices);
-    const {invoices: invoicesError} = useSelector(getCloudErrors);
+    const isCloud = useSelector(isCurrentLicenseCloud);
+    const invoices = useSelector(isCloud ? getCloudInvoices : getSelfHostedInvoices);
+    const {invoices: invoicesError} = useSelector(isCloud ? getCloudErrors : getSelfHostedErrors);
 
     useEffect(() => {
-        dispatch(getInvoices());
         pageVisited('cloud_admin', 'pageview_billing_history');
     }, []);
+    useEffect(() => {
+        dispatch(isCloud ? getInvoices() : getSelfHostedInvoicesAction());
+    }, [isCloud]);
     const billingHistoryTable = invoices && <BillingHistoryTable invoices={invoices}/>;
     return (
         <div className='wrapper--fixed BillingHistory'>
