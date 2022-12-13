@@ -53,7 +53,7 @@ describe('Messaging', () => {
                 const height = parseInt(post[0].clientHeight, 10);
 
                 // * Previous height should be lower than the current height
-                cy.get('@previousHeight').should('be.lessThan', height);
+                cy.get('@previousHeight').should('be.most', height);
 
                 // # Store the current height as the previous height for the next loop
                 cy.wrap(height).as('previousHeight');
