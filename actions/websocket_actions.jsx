@@ -19,6 +19,7 @@ import {
     PreferenceTypes,
     AppsTypes,
     CloudTypes,
+    HostedCustomerTypes,
 } from 'mattermost-redux/action_types';
 import {General, Permissions} from 'mattermost-redux/constants';
 import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
@@ -579,6 +580,9 @@ export function handleEvent(msg) {
         break;
     case SocketEvents.PERSISTENT_NOTIFICATION_TRIGGERED:
         dispatch(handlePersistentNotification(msg));
+        break;
+    case SocketEvents.HOSTED_CUSTOMER_SIGNUP_PROGRESS_UPDATED:
+        dispatch(handleHostedCustomerSignupProgressUpdated(msg));
         break;
     default:
     }
@@ -1725,5 +1729,12 @@ function handlePersistentNotification(msg) {
         const post = JSON.parse(msg.data.post);
 
         doDispatch(sendDesktopNotification(post, msg.data, true));
+    };
+}
+
+function handleHostedCustomerSignupProgressUpdated(msg) {
+    return {
+        type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
+        data: msg.data.progress,
     };
 }

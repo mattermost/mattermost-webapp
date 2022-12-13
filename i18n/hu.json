@@ -368,7 +368,6 @@
   "admin.billing.subscription.viewBilling": "Számlázás megtekintése",
   "admin.billing.subscriptions.billing_summary.explore_enterprise": "Fedezze fel az Enterprise szolgáltatásait",
   "admin.billing.subscriptions.billing_summary.explore_enterprise.cta": "Összes szolgáltatás megtekintése",
-  "admin.billing.subscriptions.billing_summary.lastInvoice.downloadInvoice": "Számla letöltése",
   "admin.billing.subscriptions.billing_summary.lastInvoice.failed": "Sikertelen",
   "admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee": "Havi összesített költség",
   "admin.billing.subscriptions.billing_summary.lastInvoice.paid": "Fizetett",

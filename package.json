@@ -170,6 +170,7 @@
     "eslint": "7.32.0",
     "eslint-import-resolver-webpack": "0.13.2",
     "eslint-plugin-cypress": "2.11.3",
+    "eslint-plugin-formatjs": "4.3.4",
     "eslint-plugin-header": "3.1.1",
     "eslint-plugin-import": "2.23.4",
     "eslint-plugin-mattermost": "github:mattermost/eslint-plugin-mattermost#46ad99355644a719bf32082f472048f526605181",
