@@ -50,11 +50,6 @@ type Props = {
      */
     isMuted: boolean;
 
-    /**
-     * Checks if channel is collapsed
-     */
-    isCollapsed: boolean;
-
     isChannelSelected: boolean;
 
     teammateId?: string;
@@ -257,7 +252,6 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     channel={channel}
                     channelLink={link}
                     isMenuOpen={this.state.isMenuOpen}
-                    isCollapsed={this.props.isCollapsed}
                     isUnread={isUnread}
                     closeHandler={this.props.closeHandler}
                     onToggleMenu={this.handleMenuToggle}
@@ -282,7 +276,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 aria-label={this.getAriaLabel()}
                 to={link}
                 onClick={this.handleChannelClick}
-                tabIndex={this.props.isCollapsed ? -1 : 0}
+                tabIndex={0}
             >
                 {content}
                 {channelsTutorialTip}
