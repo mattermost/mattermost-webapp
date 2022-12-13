@@ -4130,11 +4130,9 @@ export default class Client4 {
         });
     };
 
-    trackEvent(category: string, event: string, props?: any, latestUserId?: string) {
-        const actualUserId = latestUserId || this.userId;
-
+    trackEvent(category: string, event: string, props?: any) {
         if (this.telemetryHandler) {
-            this.telemetryHandler.trackEvent(actualUserId, this.userRoles, category, event, props);
+            this.telemetryHandler.trackEvent(this.userId, this.userRoles, category, event, props);
         }
     }
 
