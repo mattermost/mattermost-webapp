@@ -110,10 +110,7 @@ export function updateDraft(key: string, value: PostDraft|null, rootId = '', sav
             try {
                 await upsertDraft(updatedValue, userId, rootId, connectionId);
             } catch (error) {
-                return {
-                    data: false,
-                    error,
-                };
+                return {data: false, error};
             }
         }
         return {data: true};
