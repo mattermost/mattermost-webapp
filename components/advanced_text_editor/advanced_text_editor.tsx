@@ -181,7 +181,7 @@ const AdvanceTextEditor = ({
                 setScrollbarWidth(Utils.scrollbarWidth(textboxRef.current.getInputBox()));
             }
         });
-    }, [textboxRef.current]);
+    }, [textboxRef]);
 
     const handleShowFormat = useCallback(() => {
         setShowPreview(!shouldShowPreview);
