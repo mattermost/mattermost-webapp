@@ -10,7 +10,7 @@ interface Props extends MenuProps {
 
 /**
  * A styled version of the Material-UI Menu component with few overrides.
- * @warning This component is not meant to be used outside of the Menu component directory.
+ * @warning This component is meant to be only used inside of the Menu component directory.
  */
 export const MuiMenuStyled = styled(MuiMenu, {
     shouldForwardProp: (prop) => prop !== 'asSubMenu',

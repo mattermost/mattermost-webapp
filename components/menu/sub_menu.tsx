@@ -42,13 +42,24 @@ export function SubMenu(props: Props) {
 
     const isMobileView = useSelector(getIsMobileView);
 
-    const theme = useSelector(getTheme);
-
     const dispatch = useDispatch();
 
     const handleSubMenuOpen = (event: MouseEvent<HTMLLIElement>) => {
         event.preventDefault();
-        setAnchorElement(event.currentTarget);
+
+        if (isMobileView) {
+            dispatch(openModal<SubMenuModalProps>({
+                modalId: props.menuId,
+                dialogType: SubMenuModal,
+                dialogProps: {
+                    menuId: props.menuId,
+                    menuAriaLabel: props.menuAriaLabel,
+                    children: props.children,
+                },
+            }));
+        } else {
+            setAnchorElement(event.currentTarget);
+        }
     };
 
     const handleSubMenuClose = (event: MouseEvent<HTMLLIElement>) => {
@@ -61,69 +72,24 @@ export function SubMenu(props: Props) {
         return null;
     }
 
+    const triggerButtonProps = {
+        'aria-controls': props.menuId,
+        'aria-haspopup': true,
+        'aria-expanded': isSubMenuOpen,
+        disableRipple: true,
+        leadingElement: props.leadingElement,
+        labels: props.labels,
+        trailingElements: props.trailingElements,
+        onClick: handleSubMenuOpen,
+    };
+
     if (isMobileView) {
-        function MenuModalComponent() {
-            function handleModalExited() {
-                dispatch(closeModal(props.menuId));
-            }
-
-            function handleModalClickCapture() {
-                handleModalExited();
-            }
-
-            return (
-                <CompassDesignProvider theme={theme}>
-                    <GenericModal
-                        id={props.menuId}
-                        ariaLabel={props.menuAriaLabel}
-                        onExited={handleModalExited}
-                        backdrop={true}
-                        className='menuModal'
-                    >
-                        <MuiMenuList
-                            aria-hidden={true}
-                            onClick={handleModalClickCapture}
-                        >
-                            {props.children}
-                        </MuiMenuList>
-                    </GenericModal>
-                </CompassDesignProvider>
-            );
-        }
-
-        function handleAnchorButtonClickOnMobile(event: MouseEvent<HTMLLIElement>) {
-            event.preventDefault();
-
-            dispatch(openModal({
-                modalId: props.menuId,
-                dialogType: MenuModalComponent,
-            }));
-        }
-
-        return (
-            <MenuItem
-                aria-controls={props.menuId}
-                aria-haspopup={true}
-                aria-expanded={isSubMenuOpen}
-                disableRipple={true}
-                leadingElement={props.leadingElement}
-                labels={props.labels}
-                trailingElements={props.trailingElements}
-                onClick={handleAnchorButtonClickOnMobile}
-            />
-        );
+        return (<MenuItem {...triggerButtonProps}/>);
     }
 
     return (
         <MenuItem
-            aria-controls={props.menuId}
-            aria-haspopup={true}
-            aria-expanded={isSubMenuOpen}
-            disableRipple={true}
-            leadingElement={props.leadingElement}
-            labels={props.labels}
-            trailingElements={props.trailingElements}
-            onClick={handleSubMenuOpen}
+            {...triggerButtonProps}
             onMouseEnter={handleSubMenuOpen}
             onMouseLeave={handleSubMenuClose}
         >
@@ -140,6 +106,41 @@ export function SubMenu(props: Props) {
                 {props.children}
             </MuiMenuStyled>
         </MenuItem>
+    );
+}
+
+interface SubMenuModalProps {
+    menuId: Props['menuId'];
+    menuAriaLabel?: Props['menuAriaLabel'];
+    children: Props['children'];
+}
+
+function SubMenuModal(props: SubMenuModalProps) {
+    const dispatch = useDispatch();
+
+    const theme = useSelector(getTheme);
+
+    function handleModalClose() {
+        dispatch(closeModal(props.menuId));
+    }
+
+    return (
+        <CompassDesignProvider theme={theme}>
+            <GenericModal
+                id={props.menuId}
+                ariaLabel={props.menuAriaLabel}
+                onExited={handleModalClose}
+                backdrop={true}
+                className='menuModal'
+            >
+                <MuiMenuList
+                    aria-hidden={true}
+                    onClick={handleModalClose}
+                >
+                    {props.children}
+                </MuiMenuList>
+            </GenericModal>
+        </CompassDesignProvider>
     );
 }
 

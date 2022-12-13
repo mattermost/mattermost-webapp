@@ -284,13 +284,14 @@ const SidebarChannelMenu = (props: Props) => {
 
     return (
         <Menu.Container
+            triggerId={`SidebarChannelMenu-Button-${props.channel.id}`}
             triggerElement={<DotsVerticalIcon size={16}/>}
             triggerClassName='SidebarMenu_menuButton'
             triggerAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
-            triggerTooltipId={`SidebarChannelMenuTooltip-${props.channel.id}`}
+            triggerTooltipId={`SidebarChannelMenu-ButtonTooltip-${props.channel.id}`}
             triggerTooltipClassName='hidden-xs'
             triggerTooltipText={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
-            menuId={`SidebarChannelMenu-${props.channel.id}`}
+            menuId={`SidebarChannelMenu-MenuList-${props.channel.id}`}
             menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
         >
             {markAsReadUnreadMenuItem}

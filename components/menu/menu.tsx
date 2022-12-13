@@ -84,9 +84,7 @@ export function Menu(props: Props) {
         }
     }
 
-    function handleMenuClose(
-        event: MouseEvent<HTMLDivElement | HTMLUListElement>,
-    ) {
+    function handleMenuClose(event: MouseEvent<HTMLDivElement | HTMLUListElement>) {
         event.preventDefault();
         setAnchorElement(null);
     }
