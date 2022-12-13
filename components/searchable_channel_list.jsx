@@ -222,7 +222,7 @@ export default class SearchableChannelList extends React.PureComponent {
                 content = (
                     <FormattedMessage
                         id='more_channels.loading'
-                        defaultMessage='loading...'
+                        defaultMessage='Loading...'
                     />
                 );
             }
