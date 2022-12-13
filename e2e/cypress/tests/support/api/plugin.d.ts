@@ -24,7 +24,7 @@ interface PluginTestInfo {
     id: string;
     version: string;
     url: string;
-    filename: string;
+    filename?: string;
 }
 
 declare namespace Cypress {

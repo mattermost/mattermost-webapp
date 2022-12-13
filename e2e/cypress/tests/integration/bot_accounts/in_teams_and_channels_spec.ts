@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @bot_accounts
 
+import {Channel} from 'mattermost-redux/types/channels';
+
 import {createBotPatch} from '../../support/api/bots';
 import {createChannelPatch} from '../../support/api/channel';
 
@@ -48,7 +50,7 @@ describe('Managing bots in Teams and Channels', () => {
     it('MM-T1816 Add a BOT to a channel', () => {
         cy.makeClient().then(async (client) => {
             // # Go to channel
-            const channel = await client.createChannel(createChannelPatch(team.id, 'a-chan', 'A Channel'));
+            const channel = await client.createChannel(createChannelPatch(team.id, 'a-chan', 'A Channel') as Channel);
             cy.visit(`/${team.name}/channels/${channel.name}`);
 
             // # Add bot to team
@@ -66,7 +68,7 @@ describe('Managing bots in Teams and Channels', () => {
     it('MM-T1817 Add a BOT to a channel that is not on the Team', () => {
         cy.makeClient().then(async (client) => {
             // # Go to channel
-            const channel = await client.createChannel(createChannelPatch(team.id, 'a-chan', 'A Channel'));
+            const channel = await client.createChannel(createChannelPatch(team.id, 'a-chan', 'A Channel') as Channel);
             cy.visit(`/${team.name}/channels/${channel.name}`);
 
             // # Invite bot to team
@@ -81,7 +83,7 @@ describe('Managing bots in Teams and Channels', () => {
     it('MM-T1818 No ephemeral post about Adding a bot to a channel When Bot is mentioned', () => {
         cy.makeClient().then(async (client) => {
             // # Go to channel
-            const channel = await client.createChannel(createChannelPatch(team.id, 'a-chan', 'A Channel'));
+            const channel = await client.createChannel(createChannelPatch(team.id, 'a-chan', 'A Channel') as Channel);
             cy.visit(`/${team.name}/channels/${channel.name}`);
 
             // # And bot to team

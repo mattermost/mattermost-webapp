@@ -33,7 +33,7 @@ describe('Bot post message', () => {
 
     it('MM-T1812 Post as a bot when personal access tokens are false', () => {
         // # Create a bot and get bot user id
-        cy.apiCreateBot().then(({bot}) => {
+        cy.apiCreateBot({prefix: 'system-bot-enabled'}).then(({bot}) => {
             const botUserId = bot.user_id;
             const message = 'This is a message from a bot.';
 

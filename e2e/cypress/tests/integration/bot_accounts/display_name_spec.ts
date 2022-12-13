@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Bot} from 'mattermost-redux/types/bots';
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -40,7 +42,7 @@ describe('Bot display name', () => {
     it('MM-T1813 Display name for bots stays current', () => {
         cy.makeClient({user: otherSysadmin}).then((client) => {
             // # Create a bot and get bot user id
-            cy.apiCreateBot().then(({bot}) => {
+            cy.apiCreateBot({prefix: 'stay-enabled-bot'}).then(({bot}) => {
                 const botUserId = bot.user_id;
                 const firstMessage = 'This is the first message from a bot that will change its name';
                 const secondMessage = 'This is the second message from a bot that has changed its name';
@@ -72,7 +74,7 @@ describe('Bot display name', () => {
                             should('have.text', bot.display_name);
                     }).then(() => {
                         // # Change display name after prior verification
-                        cy.wrap(client.patchBot(bot.user_id, {display_name: `NEW ${bot.display_name}`})).then((newBot) => {
+                        cy.wrap(client.patchBot(bot.user_id, {display_name: `NEW ${bot.display_name}`})).then((newBot: Bot) => {
                             cy.postBotMessage({token, message: secondMessage, props, channelId: offTopicChannel.id}).
                                 its('id').
                                 should('exist').

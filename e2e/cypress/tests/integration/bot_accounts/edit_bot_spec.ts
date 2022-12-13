@@ -27,7 +27,7 @@ describe('Edit bot', () => {
         });
     });
 
-    function createBot(userName, displayName) {
+    function createBot(userName: string, displayName?: string) {
         // # Go to bot integrations page
         cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.uiOpenProductMenu('Integrations');

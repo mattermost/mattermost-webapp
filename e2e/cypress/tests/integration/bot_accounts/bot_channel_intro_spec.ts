@@ -42,12 +42,12 @@ describe('Bot channel intro and avatar', () => {
 
         // # Get channel intro and bot-post Avatars
         cy.get(`#channelIntro .profile-icon > img.Avatar, img.Avatar[alt="${bot.username} profile image"]`).
-            should(($imgs) => {
+            should(($imgs: JQuery<HTMLImageElement>) => {
                 // * Verify imgs downloaded
                 expect($imgs[0].naturalWidth).to.be.greaterThan(0);
                 expect($imgs[1].naturalWidth).to.be.greaterThan(0);
             }).
-            each(($img) => {
+            each(($img: string) => {
                 // * Verify img visible and has src
                 cy.wrap($img).
                     should('be.visible').

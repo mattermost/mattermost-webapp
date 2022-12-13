@@ -1,7 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-Cypress.Commands.add('uiInviteMemberToCurrentTeam', (username) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import {ChainableT} from 'tests/types';
+
+function uiInviteMemberToCurrentTeam(username: string) {
     // # Open member invite screen
     cy.uiOpenTeamMenu('Invite People');
 
@@ -23,4 +26,26 @@ Cypress.Commands.add('uiInviteMemberToCurrentTeam', (username) => {
 
     // # Close, return
     cy.findByTestId('confirm-done').click();
-});
+}
+
+Cypress.Commands.add('uiInviteMemberToCurrentTeam', uiInviteMemberToCurrentTeam);
+
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Cypress {
+        interface Chainable {
+
+            /**
+             * Wait for a message to get posted as the last post.
+             * @param {string} message - message to check if includes in the last post
+             * @returns {boolean} returns true if found or fail a test if not.
+             *
+             * @example
+             *   const message = 'message';
+             *   cy.postMessage(message);
+             *   cy.uiWaitUntilMessagePostedIncludes(message);
+             */
+            uiInviteMemberToCurrentTeam: typeof uiInviteMemberToCurrentTeam;
+        }
+    }
+}

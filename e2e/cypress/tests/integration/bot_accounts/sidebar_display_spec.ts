@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @bot_accounts @not_cloud
 
+import {UserProfile} from 'mattermost-redux/types/users';
+
 import {createBotPatch} from '../../support/api/bots';
 import {generateRandomUser} from '../../support/api/user';
 
@@ -44,8 +46,8 @@ describe('Bot accounts', () => {
 
             // # Create users
             createdUsers = await Promise.all([
-                client.createUser(generateRandomUser()),
-                client.createUser(generateRandomUser()),
+                client.createUser(generateRandomUser() as UserProfile),
+                client.createUser(generateRandomUser() as UserProfile),
             ]);
 
             await Promise.all([
@@ -56,8 +58,8 @@ describe('Bot accounts', () => {
                 cy.wrap(user).its('username');
 
                 // # Add to team and channel
-                await client.addToTeam(team.id, user.user_id ?? user.id);
-                await client.addToChannel(user.user_id ?? user.id, channel.id);
+                await client.addToTeam(team.id, user.user_id ? user.user_id : user.id);
+                await client.addToChannel(user.user_id ? user.user_id : user.id, channel.id);
             }));
         });
     });
@@ -78,7 +80,7 @@ describe('Bot accounts', () => {
             // * Verify bot icon exists
             cy.wrap($link).find('.Avatar').should('exist').
                 and('have.attr', 'src').
-                then((url) => cy.request({url, encoding: 'binary'})).
+                then((url) => cy.request({url, encoding: 'binary'} as any)).
                 should(({body}) => {
                     // * Verify it matches default bot avatar
                     cy.fixture('bot-default-avatar.png', 'binary').should('deep.equal', body);
