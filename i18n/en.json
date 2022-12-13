@@ -4073,6 +4073,7 @@
   "more_channels.createClick": "Click 'Create New Channel' to make a new one",
   "more_channels.join": "Join",
   "more_channels.joining": "Joining...",
+  "more_channels.loading": "loading...",
   "more_channels.noMore": "No more channels to join",
   "more_channels.show_archived_channels": "Show: Archived Channels",
   "more_channels.show_public_channels": "Show: Public Channels",
