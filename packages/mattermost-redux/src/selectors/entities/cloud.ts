@@ -7,10 +7,8 @@ import {
     Product,
     CloudCustomer,
     CloudState,
-    SelfHostedSignupProgress,
 } from '@mattermost/types/cloud';
 import {GlobalState} from '@mattermost/types/store';
-import {ValueOf} from '@mattermost/types/utilities';
 
 import {getLicense} from './general';
 
@@ -66,8 +64,4 @@ export function checkHadPriorTrial(state: GlobalState): boolean {
 export function isCurrentLicenseCloud(state: GlobalState): boolean {
     const license = getLicense(state);
     return license?.Cloud === 'true';
-}
-
-export function getSelfHostedSignupProgress(state: GlobalState): ValueOf<typeof SelfHostedSignupProgress> {
-    return state.entities.cloud.selfHostedSignup.progress;
 }

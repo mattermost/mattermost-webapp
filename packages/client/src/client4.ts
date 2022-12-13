@@ -22,8 +22,14 @@ import {
     NotifyAdminRequest,
     Subscription,
     ValidBusinessEmail,
-    SelfHostedSignupProgress,
+    CreateSubscriptionRequest,
 } from '@mattermost/types/cloud';
+import {
+    SelfHostedSignupForm,
+    SelfHostedSignupCustomerResponse,
+    SelfHostedSignupSuccessResponse,
+    SelfHostedSignupProgress,
+} from '@mattermost/types/hosted_customer';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -3881,10 +3887,43 @@ export default class Client4 {
         );
     };
 
-    bootstrapSelfHostedSignup = () => {
+    bootstrapSelfHostedSignup = (reset?: boolean) => {
+        let query = '';
+
+        // reset will drop the old token
+        if (reset) {
+            query = '?reset=true';
+        }
         return this.doFetch<{progress: ValueOf<typeof SelfHostedSignupProgress>}>(
-            `${this.getHostedCustomerRoute()}/bootstrap`,
+            `${this.getHostedCustomerRoute()}/bootstrap${query}`,
             {method: 'post'},
+        );
+    };
+
+    getAvailabilitySelfHostedSignup = () => {
+        return this.doFetch<void>(
+            `${this.getHostedCustomerRoute()}/signup_available`,
+            {method: 'get'},
+        );
+    }
+
+    getSelfHostedProducts = () => {
+        return this.doFetch<Product[]>(
+            `${this.getCloudRoute()}/products/selfhosted`, {method: 'get'},
+        );
+    }
+
+    createCustomerSelfHostedSignup = (form: SelfHostedSignupForm) => {
+        return this.doFetch<SelfHostedSignupCustomerResponse>(
+            `${this.getHostedCustomerRoute()}/customer`,
+            {method: 'post', body: JSON.stringify(form)},
+        );
+    };
+
+    confirmSelfHostedSignup = (setupIntentId: string, createSubscriptionRequest: CreateSubscriptionRequest) => {
+        return this.doFetch<SelfHostedSignupSuccessResponse>(
+            `${this.getHostedCustomerRoute()}/confirm`,
+            {method: 'post', body: JSON.stringify({stripe_setup_intent_id: setupIntentId, subscription: createSubscriptionRequest})},
         );
     };
 
@@ -3980,6 +4019,17 @@ export default class Client4 {
 
     getInvoicePdfUrl = (invoiceId: string) => {
         return `${this.getCloudRoute()}/subscription/invoices/${invoiceId}/pdf`;
+    }
+
+    getSelfHostedInvoices = () => {
+        return this.doFetch<Invoice[]>(
+            `${this.getHostedCustomerRoute()}/invoices`,
+            {method: 'get'},
+        );
+    }
+
+    getSelfHostedInvoicePdfUrl = (invoiceId: string) => {
+        return `${this.getHostedCustomerRoute()}/invoices/${invoiceId}/pdf`;
     }
 
     getCloudLimits = () => {

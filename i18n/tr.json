@@ -379,7 +379,6 @@
   "admin.billing.subscription.viewBilling": "Faturalamayı görüntüle",
   "admin.billing.subscriptions.billing_summary.explore_enterprise": "Enterprise özelliklerini keşfedin",
   "admin.billing.subscriptions.billing_summary.explore_enterprise.cta": "Tüm özelliklere bakın",
-  "admin.billing.subscriptions.billing_summary.lastInvoice.downloadInvoice": "Faturayı indir",
   "admin.billing.subscriptions.billing_summary.lastInvoice.failed": "Tamamlanamadı",
   "admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee": "Aylık sabit ücret",
   "admin.billing.subscriptions.billing_summary.lastInvoice.paid": "Ödendi",
