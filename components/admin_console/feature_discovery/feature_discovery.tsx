@@ -92,6 +92,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             dialogType: PurchaseModal,
             dialogProps: {
                 callerCTA: 'feature_discovery_subscribe_button',
+                isInitialPlanMonthly: true,
             },
         });
     }

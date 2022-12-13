@@ -18,8 +18,6 @@ import {Client4} from '@mattermost/client';
 import General from 'mattermost-redux/constants/general';
 import {generateId} from 'mattermost-redux/utils/helpers';
 
-import {UserStatuses} from 'utils/constants';
-
 export const DEFAULT_SERVER = 'http://localhost:8065';
 const PASSWORD = 'password1';
 
@@ -123,7 +121,7 @@ class TestHelper {
         };
     };
 
-    fakeUserWithStatus = (status: typeof UserStatuses[keyof typeof UserStatuses] = UserStatuses.ONLINE, id = this.generateId()) => {
+    fakeUserWithStatus = (status: string, id = this.generateId()) => {
         return {
             ...this.fakeUser(),
             id,

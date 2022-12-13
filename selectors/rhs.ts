@@ -8,7 +8,7 @@ import {Post, PostType} from '@mattermost/types/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {Channel} from '@mattermost/types/channels';
 
-import {makeGetGlobalItem} from 'selectors/storage';
+import {makeGetGlobalItem, makeGetGlobalItemWithDefault} from 'selectors/storage';
 import {PostTypes, StoragePrefixes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 import {GlobalState} from 'types/store';
@@ -127,6 +127,24 @@ export function getIsSearchingPinnedPost(state: GlobalState): boolean {
 
 export function getIsSearchGettingMore(state: GlobalState): boolean {
     return state.entities.search.isSearchGettingMore;
+}
+
+export function makeGetChannelDraft() {
+    const defaultDraft = Object.freeze({message: '', fileInfos: [], uploadsInProgress: [], createAt: 0, updateAt: 0, channelId: '', rootId: ''});
+    const getDraft = makeGetGlobalItemWithDefault(defaultDraft);
+
+    return (state: GlobalState, channelId: string): PostDraft => {
+        const draft = getDraft(state, StoragePrefixes.DRAFT + channelId);
+        if (
+            typeof draft.message !== 'undefined' &&
+            typeof draft.uploadsInProgress !== 'undefined' &&
+            typeof draft.fileInfos !== 'undefined'
+        ) {
+            return draft;
+        }
+
+        return defaultDraft;
+    };
 }
 
 export function getPostDraft(state: GlobalState, prefixId: string, suffixId: string): PostDraft {

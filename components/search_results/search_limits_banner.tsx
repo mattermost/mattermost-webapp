@@ -26,12 +26,12 @@ color: var(--denim-button-bg) !important;
 const InnerDiv = styled.div`
 display: flex;
 gap: 8px;
-border: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
+border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
 border-radius: 4px;
-background-color: rgba(var(--center-channel-text-rgb), 0.04);
+background-color: rgba(var(--center-channel-color-rgb), 0.04);
 padding: 10px;
 margin: 10px;
-color: rgba(var(--center-channel-text-rgb), 0.72);
+color: rgba(var(--center-channel-color-rgb), 0.72);
 font-weight: 400;
 font-size: 11px;
 line-height: 16px;

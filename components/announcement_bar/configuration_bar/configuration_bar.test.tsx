@@ -16,6 +16,7 @@ describe('components/ConfigurationBar', () => {
             Id: '1234',
             IsLicensed: 'true',
             ExpiresAt: Date.now() + millisPerDay,
+            ShortSkuName: 'skuShortName',
         },
         config: {
             sendEmailNotifications: false,

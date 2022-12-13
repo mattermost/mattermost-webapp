@@ -17,7 +17,7 @@ import {
 
 import {trackEvent} from 'actions/telemetry_actions';
 
-import CategoryMenuItems from 'components/category_menu_items';
+import ChannelMoveToSubMenu from 'components/channel_move_to_sub_menu';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import SidebarMenu from 'components/sidebar/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
@@ -244,10 +244,9 @@ const SidebarChannelMenu = (props: Props) => {
                         {favoriteMenuItem}
                         {muteChannelMenuItem}
                     </Menu.Group>
-                    <CategoryMenuItems
+                    <ChannelMoveToSubMenu
                         channel={props.channel}
                         openUp={openUp}
-                        location={'sidebar'}
                     />
                     <Menu.Group>
                         {copyLinkMenuItem}

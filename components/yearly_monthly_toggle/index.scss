@@ -1,6 +1,8 @@
 .toggle-monthly-yearly-container {
     display: grid;
     width: 161px;
+    height: 32px;
+    margin: auto;
 
     .toggle-monthly-yearly,
     .toggle-border {
@@ -9,55 +11,68 @@
     }
 
     .toggle-monthly-yearly {
+        position: absolute;
         width: 161px;
         height: 32px;
-        margin: 44px auto;
-
-        .text {
-            top: 7px;
-            left: 90px;
-            width: 56px;
-            height: 18px;
-            margin: 7px 16px 0;
-            font-family: 'Metropolis';
-            font-size: 14px;
-            font-style: normal;
-        }
-
-        #text-selected {
-            color: var(--denim-button-bg);
-            font-weight: 600;
-            line-height: 18px;
-        }
-
-        #text-unselected {
-            color: rgba(var(--center-channel-text), 0.56);
-            font-weight: 500;
-            line-height: 17px;
-        }
+        margin: auto;
     }
 
     .toggle-border {
+        position: absolute;
         width: 80px;
         height: 32px;
         border: 1px solid var(--denim-button-bg);
-        margin-top: 44px;
         margin-left: 80px;
         border-radius: 40px;
     }
 
-    .move-left {
+    .toggle-border.toggle-border-yearly {
+        margin-left: 0;
+    }
+
+    .move-border {
         position: relative;
         animation-duration: 0.1s;
         animation-fill-mode: forwards;
+    }
+
+    .move-left {
         animation-name: moveLeft;
     }
 
     .move-right {
-        position: relative;
-        animation-duration: 0.1s;
-        animation-fill-mode: forwards;
         animation-name: moveRight;
+    }
+
+    .move-left.toggle-border-yearly {
+        animation-name: moveLeftYearly;
+    }
+
+    .move-right.toggle-border-yearly {
+        animation-name: moveRightYearly;
+    }
+
+    .label-text {
+        top: 7px;
+        left: 90px;
+        width: 56px;
+        height: 18px;
+        margin: 7px 16px 0;
+        font-family: 'Metropolis';
+        font-size: 14px;
+        font-style: normal;
+    }
+
+    #text-selected {
+        color: var(--denim-button-bg);
+        font-weight: 600;
+        line-height: 18px;
+    }
+
+    #text-unselected {
+        color: rgba(var(--center-channel-text), 0.56);
+        font-weight: 500;
+        line-height: 17px;
     }
 }
 
@@ -76,5 +91,23 @@
 
     to {
         right: 0;
+    }
+}
+
+@keyframes moveRightYearly {
+    from { left: 0; }
+
+    to {
+        left: 80px;
+    }
+}
+
+@keyframes moveLeftYearly {
+    from {
+        left: 80px;
+    }
+
+    to {
+        left: 0;
     }
 }

@@ -12,8 +12,6 @@ import Action from './action';
 import SendDraftModal from './send_draft_modal';
 import DeleteDraftModal from './delete_draft_modal';
 
-import './draft_actions.scss';
-
 type Props = {
     displayName: string;
     draftId: string;

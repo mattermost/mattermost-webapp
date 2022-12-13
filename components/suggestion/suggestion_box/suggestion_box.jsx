@@ -828,30 +828,28 @@ export default class SuggestionBox extends React.PureComponent {
                     onKeyDown={this.handleKeyDown}
                     onSelect={this.handleSelect}
                 />
-                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
-                    <div style={{width: this.state.width}}>
-                        <SuggestionListComponent
-                            ariaLiveRef={this.suggestionReadOut}
-                            open={this.state.focused || this.props.forceSuggestionsWhenBlur}
-                            pretext={this.pretext}
-                            position={this.getListPosition(listPosition)}
-                            renderDividers={renderDividers}
-                            renderNoResults={renderNoResults}
-                            onCompleteWord={this.handleCompleteWord}
-                            preventClose={this.preventSuggestionListClose}
-                            onItemHover={this.setSelection}
-                            cleared={this.state.cleared}
-                            matchedPretext={this.state.matchedPretext}
-                            items={this.state.items}
-                            terms={this.state.terms}
-                            suggestionBoxAlgn={this.state.suggestionBoxAlgn}
-                            selection={this.state.selection}
-                            components={this.state.components}
-                            inputRef={this.inputRef}
-                            onLoseVisibility={this.blur}
-                        />
-                    </div>
-                }
+                {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' && (
+                    <SuggestionListComponent
+                        ariaLiveRef={this.suggestionReadOut}
+                        open={this.state.focused || this.props.forceSuggestionsWhenBlur}
+                        pretext={this.pretext}
+                        position={this.getListPosition(listPosition)}
+                        renderDividers={renderDividers}
+                        renderNoResults={renderNoResults}
+                        onCompleteWord={this.handleCompleteWord}
+                        preventClose={this.preventSuggestionListClose}
+                        onItemHover={this.setSelection}
+                        cleared={this.state.cleared}
+                        matchedPretext={this.state.matchedPretext}
+                        items={this.state.items}
+                        terms={this.state.terms}
+                        suggestionBoxAlgn={this.state.suggestionBoxAlgn}
+                        selection={this.state.selection}
+                        components={this.state.components}
+                        inputRef={this.inputRef}
+                        onLoseVisibility={this.blur}
+                    />
+                )}
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'date' &&
                     <SuggestionDateComponent
                         items={this.state.items}
