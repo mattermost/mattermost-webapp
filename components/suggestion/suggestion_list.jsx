@@ -84,7 +84,7 @@ export default class SuggestionList extends React.PureComponent {
         this.maxHeight = Math.min(
             window.innerHeight - (inputHeight + Constants.POST_MODAL_PADDING),
             Constants.SUGGESTION_LIST_MAXHEIGHT,
-        );
+        ) + 300;
 
         if (this.contentRef.current) {
             this.contentRef.current.style['max-height'] = this.maxHeight;
