@@ -219,7 +219,12 @@ export default class SearchableChannelList extends React.PureComponent {
             if (this.isItemLoaded(index)) {
                 content = this.createChannelRow(this.props.channels[index]);
             } else {
-                content = 'Loading...';
+                content = (
+                    <FormattedMessage
+                        id='more_channels.loading'
+                        defaultMessage='loading...'
+                    />
+                );
             }
 
             return <div style={style}>{content}</div>;
