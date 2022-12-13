@@ -61,7 +61,7 @@ var config = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx|ts|tsx)?$/,
+                test: /\.(js|jsx|ts|tsx)$/,
                 exclude: STANDARD_EXCLUDE,
                 use: {
                     loader: 'babel-loader',
@@ -86,7 +86,7 @@ var config = {
                 ],
             },
             {
-                test: /\.scss$/,
+                test: /\.(css|scss)$/,
                 use: [
                     DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
                     {
@@ -99,15 +99,6 @@ var config = {
                                 includePaths: ['sass'],
                             },
                         },
-                    },
-                ],
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
-                    {
-                        loader: 'css-loader',
                     },
                 ],
             },
