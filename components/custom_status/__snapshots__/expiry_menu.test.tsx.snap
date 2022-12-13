@@ -21,7 +21,6 @@ exports[`components/custom_status/expiry_menu should match snapshot 1`] = `
         >
           <button
             className="style--none expiry-wrapper expiry-selector"
-            onClick={[Function]}
           >
             <FormattedMessage
               defaultMessage="Clear after"
@@ -101,7 +100,6 @@ exports[`components/custom_status/expiry_menu should match snapshot with differe
         >
           <button
             className="style--none expiry-wrapper expiry-selector"
-            onClick={[Function]}
           >
             <FormattedMessage
               defaultMessage="Clear after"

@@ -14,13 +14,9 @@ import Constants from 'utils/constants';
 
 import 'react-day-picker/dist/style.css';
 
-const loadedLocales: Record<string, Locale> = {};
-
-type Props = {
-    locale: string;
-}
-
 export default class SearchDateSuggestion extends Suggestion {
+    private loadedLocales: Record<string, Locale> = {};
+
     state = {
         datePickerFocused: false,
     };
@@ -38,36 +34,8 @@ export default class SearchDateSuggestion extends Suggestion {
         }
     };
 
-    localeExists = (path: string) => {
-        try {
-            require.resolve(path);
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-
     componentDidMount() {
-        const locale = this.props.locale;
-
-        // Default value is en-US
-        if (locale && locale !== 'en-US' && !loadedLocales[locale] && this.localeExists(`date-fns/locale/${locale}/index.js`)) {
-            /* eslint-disable global-require */
-            loadedLocales[locale] = require(`date-fns/locale/${locale}/index.js`);
-            /* eslint-disable global-require */
-        }
-
         document.addEventListener('keydown', this.handleKeyDown);
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        const locale = this.props.locale;
-
-        if (locale && locale !== 'en-US' && locale !== prevProps.locale && !loadedLocales[locale] && this.localeExists(`date-fns/locale/${locale}/index.js`)) {
-            /* eslint-disable global-require */
-            loadedLocales[locale] = require(`date-fns/locale/${locale}/index.js`);
-            /* eslint-disable global-require */
-        }
     }
 
     componentWillUnmount() {
@@ -77,12 +45,14 @@ export default class SearchDateSuggestion extends Suggestion {
     render() {
         const locale: string = this.props.locale;
 
+        this.loadedLocales = Utils.getDatePickerLocalesForDateFns(locale, this.loadedLocales);
+
         return (
             <DayPicker
                 onDayClick={this.handleDayClick}
                 showOutsideDays={true}
                 mode={'single'}
-                locale={loadedLocales[locale]}
+                locale={this.loadedLocales[locale]}
                 initialFocus={this.state.datePickerFocused}
                 onMonthChange={this.props.preventClose}
                 id='searchDatePicker'

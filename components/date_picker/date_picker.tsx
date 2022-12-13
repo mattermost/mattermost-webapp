@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {DayPicker, DayPickerProps} from 'react-day-picker';
 import {
@@ -16,6 +16,8 @@ import {
 } from '@floating-ui/react-dom-interactions';
 import type {Locale} from 'date-fns';
 
+import {getDatePickerLocalesForDateFns} from 'utils/utils';
+
 import 'react-day-picker/dist/style.css';
 import './date_picker.scss';
 
@@ -28,7 +30,7 @@ type Props = {
 }
 
 const DatePicker = ({children, datePickerProps, isPopperOpen, handlePopperOpenState, locale}: Props) => {
-    const loadedLocales: Record<string, Locale> = {};
+    const [loadedLocales, setLoadedLocales] = useState<Record<string, Locale>>({});
     const {x, y, reference, floating, strategy, context} = useFloating({
         open: isPopperOpen,
         onOpenChange: () => handlePopperOpenState(false),
@@ -48,26 +50,13 @@ const DatePicker = ({children, datePickerProps, isPopperOpen, handlePopperOpenSt
         }),
     ]);
 
-    const localeExists = (path: string) => {
-        try {
-            require.resolve(path);
-            return true;
-        } catch (e) {
-            return false;
-        }
-    };
-
     useEffect(() => {
-        if (locale && locale !== 'en-US' && !loadedLocales[locale] && localeExists(`date-fns/locale/${locale}/index.js`)) {
-            /* eslint-disable global-require */
-            loadedLocales[locale] = require(`date-fns/locale/${locale}/index.js`);
-            /* eslint-disable global-require */
-        }
-    }, []);
+        setLoadedLocales(getDatePickerLocalesForDateFns(locale, loadedLocales));
+    }, [loadedLocales, locale]);
 
     return (
         <div>
-            <div 
+            <div
                 ref={reference}
                 {...getReferenceProps()}
             >
@@ -96,7 +85,7 @@ const DatePicker = ({children, datePickerProps, isPopperOpen, handlePopperOpenSt
                             {...getFloatingProps}
                         />
                     </div>
-                    
+
                 </FloatingFocusManager>
             )}
         </div>
