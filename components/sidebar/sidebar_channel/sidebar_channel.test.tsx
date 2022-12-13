@@ -27,11 +27,12 @@ describe('components/sidebar/sidebar_channel', () => {
             scheme_id: '',
             group_constrained: false,
         },
+        channelId: 'channel_id',
+        isDraggable: false,
         channelIndex: 0,
         currentTeamName: 'team_name',
         unreadMentions: 0,
         isUnread: false,
-        getChannelRef: jest.fn(),
         setChannelRef: jest.fn(),
         isCategoryCollapsed: false,
         isCurrentChannel: false,
@@ -161,7 +162,7 @@ describe('components/sidebar/sidebar_channel', () => {
             isUnread: true,
         };
 
-        const wrapper = shallow<SidebarChannel>(
+        const wrapper = shallow<typeof SidebarChannel>(
             <SidebarChannel {...props}/>,
         );
 
