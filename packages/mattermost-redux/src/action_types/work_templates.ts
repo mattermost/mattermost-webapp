@@ -4,6 +4,12 @@
 import keyMirror from 'mattermost-redux/utils/key_mirror';
 
 export default keyMirror({
-    RECEIVED_DEV_WORK_TEMPLATES: null,
+    WORK_TEMPLATE_CATEGORIES_REQUEST: null,
+    RECEIVED_WORK_TEMPLATE_CATEGORIES: null,
+    CLEAR_WORK_TEMPLATE_CATEGORIES: null,
+
+    WORK_TEMPLATES_REQUEST: null,
+    RECEIVED_WORK_TEMPLATES: null,
+    CLEAR_WORK_TEMPLATES: null,
 });
 

@@ -718,7 +718,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                         <br/>
                         <FormattedMessage
                             id='user.settings.advance.preReleaseDesc'
-                            defaultMessage="Check any pre-released features you'd like to preview.  You may also need to refresh the page before the setting will take effect."
+                            defaultMessage="Check any pre-released features you'd like to preview. You may also need to refresh the page before the setting will take effect."
                         />
                     </div>,
                 );
