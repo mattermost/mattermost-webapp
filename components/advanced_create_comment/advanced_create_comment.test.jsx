@@ -561,6 +561,7 @@ describe('components/AdvancedCreateComment', () => {
             message: 'some valid text',
             uploadsInProgress: [],
             fileInfos: [{}, {}, {}],
+            show: true,
         }, {ignoreSlash: false});
     });
 
