@@ -39,7 +39,7 @@ type ContentProps = {
     onHide: () => void;
 }
 
-const FALL_BACK_PROFESSIONAL_PRICE = '7.5';
+const FALL_BACK_PROFESSIONAL_PRICE = '10';
 
 function SelfHostedContent(props: ContentProps) {
     const [professionalPrice, setProfessionalPrice] = useState(' ');
