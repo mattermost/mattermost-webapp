@@ -931,7 +931,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               definitionKey="site.wrangler"
               key="site.wrangler"
               name="site_config/wrangler"
-              tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Wrangler"
@@ -1646,7 +1645,6 @@ exports[`components/AdminSidebar should match snapshot with workspace optimizati
               definitionKey="site.wrangler"
               key="site.wrangler"
               name="site_config/wrangler"
-              tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Wrangler"
@@ -2416,7 +2414,6 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               definitionKey="site.wrangler"
               key="site.wrangler"
               name="site_config/wrangler"
-              tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Wrangler"
@@ -3131,7 +3128,6 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               definitionKey="site.wrangler"
               key="site.wrangler"
               name="site_config/wrangler"
-              tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Wrangler"
@@ -3901,7 +3897,6 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               definitionKey="site.wrangler"
               key="site.wrangler"
               name="site_config/wrangler"
-              tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Wrangler"
@@ -4796,7 +4791,6 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               definitionKey="site.wrangler"
               key="site.wrangler"
               name="site_config/wrangler"
-              tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Wrangler"
