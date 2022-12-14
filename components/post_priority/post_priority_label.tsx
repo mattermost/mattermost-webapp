@@ -7,12 +7,12 @@ import styled from 'styled-components';
 
 import {AlertOutlineIcon, AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
-import {PostPriority} from '@mattermost/types/posts';
-
 import Badge, {BadgeSize} from 'components/widgets/badges/badge';
 
+import {PostPriority} from '@mattermost/types/posts';
+
 type Props = {
-    priority?: PostPriority;
+    priority?: PostPriority|'';
     size?: BadgeSize;
     uppercase?: boolean;
 }
@@ -69,7 +69,7 @@ export default function PriorityLabel({
                 icon={(
                     <AlertCircleOutlineIcon
                         color={'currentColor'}
-                        size={12}
+                        size={iconSize}
                     />
                 )}
             >

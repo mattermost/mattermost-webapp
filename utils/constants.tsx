@@ -156,6 +156,7 @@ export const Preferences = {
     DELINQUENCY_MODAL_CONFIRMED: 'delinquency_modal_confirmed',
     CONFIGURATION_BANNERS: 'configuration_banners',
     NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE: 'admin_revoke_downgraded_instance',
+    OVERAGE_USERS_BANNER: 'overage_users_banner',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -389,6 +390,7 @@ export const ModalIdentifiers = {
     MORE_CHANNELS: 'more_channels',
     NEW_CHANNEL_MODAL: 'new_channel_modal',
     CLOUD_PURCHASE: 'cloud_purchase',
+    SELF_HOSTED_PURCHASE: 'self_hosted_purchase',
     CLOUD_DOWNGRADE_CHOOSE_TEAM: 'cloud_downgrade_choose_team',
     SUCCESS_MODAL: 'success_modal',
     ERROR_MODAL: 'error_modal',
@@ -413,6 +415,8 @@ export const ModalIdentifiers = {
     GET_PUBLIC_LINK_MODAL: 'get_public_link_modal',
     KEYBOARD_SHORTCUTS_MODAL: 'keyboar_shortcuts_modal',
     USERS_TO_BE_REMOVED: 'users_to_be_removed',
+    DELETE_DRAFT: 'delete_draft_modal',
+    SEND_DRAFT: 'send_draft_modal',
     UPLOAD_LICENSE: 'upload_license',
     INSIGHTS: 'insights',
     CLOUD_LIMITS: 'cloud_limits',
@@ -428,6 +432,9 @@ export const ModalIdentifiers = {
     MARK_ALL_THREADS_AS_READ: 'mark_all_threads_as_read_modal',
     DELINQUENCY_MODAL_DOWNGRADE: 'delinquency_modal_downgrade',
     CLOUD_LIMITS_DOWNGRADE: 'cloud_limits_downgrade',
+    AIR_GAPPED_SELF_HOSTED_PURCHASE: 'air_gapped_self_hosted_purchase',
+    WORK_TEMPLATES: 'work_template',
+    DOWNGRADE_MODAL: 'downgrade_modal',
 };
 
 export const UserStatuses = {
@@ -466,6 +473,12 @@ export const CloudProducts = {
     LEGACY: 'cloud-legacy',
 };
 
+export const SelfHostedProducts = {
+    STARTER: 'starter',
+    PROFESSIONAL: 'professional',
+    ENTERPRISE: 'enterprise',
+};
+
 export const PaidFeatures = {
     GUEST_ACCOUNTS: 'mattermost.feature.guest_accounts',
     CUSTOM_USER_GROUPS: 'mattermost.feature.custom_user_groups',
@@ -474,8 +487,8 @@ export const PaidFeatures = {
     PLAYBOOKS_RETRO: 'mattermost.feature.playbooks_retro',
     UNLIMITED_MESSAGES: 'mattermost.feature.unlimited_messages',
     UNLIMITED_FILE_STORAGE: 'mattermost.feature.unlimited_file_storage',
-    UNLIMITED_INTEGRATIONS: 'mattermost.feature.unlimited_integrations',
     UNLIMITED_BOARD_CARDS: 'mattermost.feature.unlimited_board_cards',
+    TEAM_INSIGHTS: 'mattermost.feature.team_insights',
     ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
     ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
     UPGRADE_DOWNGRADED_WORKSPACE: 'mattermost.feature.upgrade_downgraded_workspace',
@@ -515,7 +528,13 @@ export const A11yCustomEventTypes = {
     ACTIVATE: 'a11yactivate',
     DEACTIVATE: 'a11ydeactivate',
     UPDATE: 'a11yupdate',
+    FOCUS: 'a11yfocus',
 };
+
+export type A11yFocusEventDetail = {
+    target: HTMLElement | null;
+    keyboardOnly: boolean;
+}
 
 export const AppEvents = {
     FOCUS_EDIT_TEXTBOX: 'focus_edit_textbox',
@@ -567,7 +586,6 @@ export const SocketEvents = {
     LICENSE_CHANGED: 'license_changed',
     CONFIG_CHANGED: 'config_changed',
     PLUGIN_STATUSES_CHANGED: 'plugin_statuses_changed',
-    INTEGRATIONS_USAGE_CHANGED: 'integrations_usage_changed',
     OPEN_DIALOG: 'open_dialog',
     RECEIVED_GROUP: 'received_group',
     GROUP_MEMBER_ADD: 'group_member_add',
@@ -592,6 +610,12 @@ export const SocketEvents = {
     THREAD_UPDATED: 'thread_updated',
     THREAD_FOLLOW_CHANGED: 'thread_follow_changed',
     THREAD_READ_CHANGED: 'thread_read_changed',
+    POST_ACKNOWLEDGEMENT_ADDED: 'post_acknowledgement_added',
+    POST_ACKNOWLEDGEMENT_REMOVED: 'post_acknowledgement_removed',
+    DRAFT_CREATED: 'draft_created',
+    DRAFT_UPDATED: 'draft_updated',
+    DRAFT_DELETED: 'draft_deleted',
+    HOSTED_CUSTOMER_SIGNUP_PROGRESS_UPDATED: 'hosted_customer_signup_progress_updated',
 };
 
 export const TutorialSteps = {
@@ -687,6 +711,7 @@ export const AdvancedTextEditor = {
 
 export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
+    CLOUD_PRICING: 'cloud_pricing',
     SELF_HOSTED_PURCHASING: 'self_hosted_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
     CLOUD_DELINQUENCY: 'cloud_delinquency',
@@ -810,6 +835,7 @@ export const UserFilters = {
 
 export const SearchTypes = keyMirror({
     SET_MODAL_SEARCH: null,
+    SET_POPOVER_SEARCH: null,
     SET_MODAL_FILTERS: null,
     SET_SYSTEM_USERS_SEARCH: null,
     SET_USER_GRID_SEARCH: null,
@@ -953,6 +979,7 @@ export const AdvancedSections = {
     JOIN_LEAVE: 'joinLeave',
     PREVIEW_FEATURES: 'advancedPreviewFeatures',
     PERFORMANCE_DEBUGGING: 'performanceDebugging',
+    SYNC_DRAFTS: 'syncDrafts',
 };
 
 export const RHSStates = {
@@ -1010,6 +1037,12 @@ export const CloudLinks = {
     CLOUD_SIGNUP_PAGE: 'https://mattermost.com/sign-up/',
     SELF_HOSTED_SIGNUP: 'https://customers.mattermost.com/signup',
     DELINQUENCY_DOCS: 'https://docs.mattermost.com/about/cloud-subscriptions.html#failed-or-late-payments',
+    SELF_HOSTED_PRICING: 'https://mattermost.com/pricing/#self-hosted',
+};
+
+export const HostedCustomerLinks = {
+    BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
+    TERMS_AND_CONDITIONS: 'https://mattermost.com/enterprise-edition-terms/',
 };
 
 export const DocLinks = {
@@ -1447,6 +1480,7 @@ export const Constants = {
     MAX_USERS_IN_GM: 8,
     MIN_USERS_IN_GM: 3,
     MAX_CHANNEL_POPOVER_COUNT: 100,
+    DM_AND_GM_SHOW_COUNTS: [10, 15, 20, 40],
     DM_CHANNEL: 'D',
     GM_CHANNEL: 'G',
     OPEN_CHANNEL: 'O',
@@ -1902,8 +1936,8 @@ export const Constants = {
     TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
     DEFAULT_SITE_URL: 'http://localhost:8065',
     CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT: 1000,
-    DEFAULT_DM_NUMBER: 40,
     FIRST_ADMIN_ROLE: 'first_admin',
+    MAX_PURCHASE_SEATS: 1000000,
 };
 
 export const ValidationErrors = {
@@ -2169,5 +2203,10 @@ export const DataSearchTypes = {
     FILES_SEARCH_TYPE: 'files',
     MESSAGES_SEARCH_TYPE: 'messages',
 };
+
+export const OverActiveUserLimits = {
+    MIN: 0.05,
+    MAX: 0.1,
+} as const;
 
 export default Constants;

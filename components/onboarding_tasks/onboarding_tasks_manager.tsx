@@ -330,6 +330,9 @@ export const useHandleOnBoardingTaskTrigger = () => {
             dispatch(openModal({
                 modalId: ModalIdentifiers.LEARN_MORE_TRIAL_MODAL,
                 dialogType: LearnMoreTrialModal,
+                dialogProps: {
+                    launchedBy: 'onboarding',
+                },
             }));
 
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);

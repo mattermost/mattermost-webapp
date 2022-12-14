@@ -218,7 +218,7 @@ export const groupsMentionedInText = (text: string, groups: Map<string, Group> |
     return ret;
 };
 
-export function shouldFocusMainTextbox(e: KeyboardEvent, activeElement: Element | null): boolean {
+export function shouldFocusMainTextbox(e: React.KeyboardEvent | KeyboardEvent, activeElement: Element | null): boolean {
     if (!e) {
         return false;
     }
@@ -704,4 +704,17 @@ export function getUserOrGroupFromMentionName(usersByUsername: Record<string, Us
     }
 
     return '';
+}
+
+export function mentionsMinusSpecialMentionsInText(message: string) {
+    const allMentions = message.match(Constants.MENTIONS_REGEX) || [];
+    const mentions = [];
+    for (let i = 0; i < allMentions.length; i++) {
+        const mention = allMentions[i];
+        if (!Constants.SPECIAL_MENTIONS_REGEX.test(mention)) {
+            mentions.push(mention.substring(1).trim());
+        }
+    }
+
+    return mentions;
 }

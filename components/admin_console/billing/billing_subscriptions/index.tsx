@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect, useState} from 'react';
-import {useDispatch, useStore, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {GlobalState} from '@mattermost/types/store';
 
@@ -53,7 +53,6 @@ import './billing_subscriptions.scss';
 
 const BillingSubscriptions = () => {
     const dispatch = useDispatch<DispatchFunc>();
-    const store = useStore();
     const analytics = useSelector(getAdminAnalytics);
     const subscription = useSelector(selectCloudSubscription);
     const [cloudLimits] = useGetLimits();
@@ -96,10 +95,10 @@ const BillingSubscriptions = () => {
     }
 
     useEffect(() => {
-        getCloudSubscription()(dispatch, store.getState);
+        dispatch(getCloudSubscription());
         const includeLegacyProducts = true;
-        getCloudProducts(includeLegacyProducts)(dispatch, store.getState);
-        getCloudCustomer()(dispatch, store.getState);
+        dispatch(getCloudProducts(includeLegacyProducts));
+        dispatch(getCloudCustomer());
 
         if (!analytics) {
             (async function getAllAnalytics() {

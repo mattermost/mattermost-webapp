@@ -22,6 +22,7 @@ import {ChannelsAndDirectMessagesTour} from 'components/tours/onboarding_tour';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 import ChannelMentionBadge from '../channel_mention_badge';
+import ChannelPencilIcon from '../channel_pencil_icon';
 import SidebarChannelIcon from '../sidebar_channel_icon';
 import SidebarChannelMenu from '../sidebar_channel_menu';
 import {Channel} from '@mattermost/types/channels';
@@ -61,6 +62,8 @@ type Props = {
     firstChannelName?: string;
 
     showChannelsTutorialStep: boolean;
+
+    hasUrgent: boolean;
 
     actions: {
         markMostRecentPostInChannelAsUnread: (channelId: string) => void;
@@ -173,6 +176,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             unreadMentions,
             firstChannelName,
             showChannelsTutorialStep,
+            hasUrgent,
         } = this.props;
 
         let channelsTutorialTip: JSX.Element | null = null;
@@ -230,7 +234,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         const content = (
             <>
                 <SidebarChannelIcon
-                    channel={channel}
+                    isDeleted={channel.delete_at !== 0}
                     icon={icon}
                 />
                 <div
@@ -244,16 +248,18 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                         channel={this.props.channel}
                     />
                 </div>
+                <ChannelPencilIcon id={channel.id}/>
                 <ChannelMentionBadge
                     unreadMentions={unreadMentions}
+                    hasUrgent={hasUrgent}
                 />
                 <SidebarChannelMenu
                     channel={channel}
-                    isUnread={isUnread}
-                    isCollapsed={this.props.isCollapsed}
-                    closeHandler={this.props.closeHandler}
                     channelLink={link}
                     isMenuOpen={this.state.isMenuOpen}
+                    isCollapsed={this.props.isCollapsed}
+                    isUnread={isUnread}
+                    closeHandler={this.props.closeHandler}
                     onToggleMenu={this.handleMenuToggle}
                 />
             </>
