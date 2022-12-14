@@ -78,6 +78,7 @@ const Close = styled.button`
 const Error = styled.div`
     color: var(--dnd-indicator);
     font-size: 11px;
+    font-weight: 600;
 `;
 
 function PriorityLabels({
@@ -133,7 +134,7 @@ function PriorityLabels({
                     {hasSpecialMentions ? (
                         <FormattedMessage
                             id={'post_priority.error.special_mentions'}
-                            defaultMessage={'Cannot use @channel @all ,@here to mention recipients of persistent notifications'}
+                            defaultMessage={'Cannot use @channel, @all or @here to mention recipients of persistent notifications'}
                         />
                     ) : (
                         <FormattedMessage

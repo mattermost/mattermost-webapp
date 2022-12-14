@@ -14,7 +14,6 @@ import {PostPriority} from '@mattermost/types/posts';
 type Props = {
     priority?: PostPriority|'';
     size?: BadgeSize;
-    uppercase?: boolean;
 }
 
 const NoSpaceBadge = styled(Badge)`

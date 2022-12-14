@@ -4,9 +4,6 @@
 /* eslint-disable max-lines */
 
 import React from 'react';
-import classNames from 'classnames';
-
-import {AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -35,9 +32,6 @@ import * as UserAgent from 'utils/user_agent';
 import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
 
-import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
-import Tooltip from 'components/tooltip';
-import OverlayTrigger from 'components/overlay_trigger';
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
@@ -65,7 +59,6 @@ import {FileInfo} from '@mattermost/types/files';
 import {Emoji} from '@mattermost/types/emojis';
 
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
-import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_icon';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
 
@@ -273,7 +266,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     private topDiv: React.RefObject<HTMLFormElement>;
     private textboxRef: React.RefObject<TextboxClass>;
     private fileUploadRef: React.RefObject<FileUploadClass>;
-    private postPriorityPickerRef: React.RefObject<HTMLButtonElement>;
 
     static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
         let updatedState: Partial<State> = {
@@ -314,7 +306,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.topDiv = React.createRef<HTMLFormElement>();
         this.textboxRef = React.createRef<TextboxClass>();
         this.fileUploadRef = React.createRef<FileUploadClass>();
-        this.postPriorityPickerRef = React.createRef<HTMLButtonElement>();
     }
 
     componentDidMount() {
@@ -597,13 +588,15 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         });
     }
 
-    showPersistNotificationModal = (message: string, hasSpecialMentions: boolean) => {
+    showPersistNotificationModal = (message: string, hasSpecialMentions: boolean, isDirectOrGroup: boolean) => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.PERSIST_NOTIFICATION_CONFIRM_MODAL,
             dialogType: PersistNotificationConfirmModal,
             dialogProps: {
-                message,
+                currentChannelTeammateUsername: this.props.currentChannelTeammateUsername,
                 hasSpecialMentions,
+                isDirectOrGroup,
+                message,
                 onConfirm: this.handleNotifyAllConfirmation,
             },
         });
@@ -683,12 +676,15 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             }
         }
 
+        const isDirectOrGroup =
+            updateChannel.type === Constants.DM_CHANNEL || updateChannel.type === Constants.GM_CHANNEL;
+
         if (
             this.props.isPostPriorityEnabled &&
             this.props.draft?.metadata?.priority?.priority === PostPriority.URGENT &&
             this.props.draft?.metadata?.priority?.persistent_notifications
         ) {
-            this.showPersistNotificationModal(this.state.message, hasSpecialMentions);
+            this.showPersistNotificationModal(this.state.message, hasSpecialMentions, isDirectOrGroup);
             this.isDraftSubmitting = false;
             return;
         } else if (memberNotifyCount > 0) {
@@ -726,8 +722,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             return;
         }
 
-        const isDirectOrGroup =
-            updateChannel.type === Constants.DM_CHANNEL || updateChannel.type === Constants.GM_CHANNEL;
         if (!isDirectOrGroup && trimRight(this.state.message) === '/purpose') {
             const editChannelPurposeModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_PURPOSE,
@@ -904,7 +898,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
     }
 
-    handleDraftChange = (draft: PostDraft) => {
+    handleDraftChange = (draft: PostDraft, instant = false) => {
         const channelId = this.props.currentChannel.id;
 
         if (this.saveDraftFrame) {
@@ -913,7 +907,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         this.saveDraftFrame = window.setTimeout(() => {
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft, channelId);
-        }, Constants.SAVE_DRAFT_TIMEOUT);
+        }, instant ? 0 : Constants.SAVE_DRAFT_TIMEOUT);
         this.draftsForChannel[channelId] = draft;
     }
 
@@ -1512,24 +1506,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             updatedDraft.metadata = {};
         }
 
-        this.handleDraftChange(updatedDraft);
+        this.handleDraftChange(updatedDraft, true);
         this.focusTextbox();
     };
 
     handlePostPriorityHide = () => {
-        this.setState({
-            showPostPriorityPicker: false,
-        });
         this.focusTextbox();
     };
-
-    togglePostPriorityPicker = () => {
-        this.setState((prev) => ({
-            showPostPriorityPicker: !prev.showPostPriorityPicker,
-        }));
-    };
-
-    getPostPriorityPickerRef = () => this.postPriorityPickerRef.current;
 
     hasPrioritySet = () => {
         return (
@@ -1655,43 +1638,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     ) : undefined}
                     additionalControls={[
                         this.props.isPostPriorityEnabled ? (
-                            <React.Fragment key='PostPriorityPicker'>
-                                <PostPriorityPickerOverlay
-                                    settings={draft?.metadata?.priority}
-                                    show={this.state.showPostPriorityPicker}
-                                    target={this.getPostPriorityPickerRef}
-                                    onApply={this.handlePostPriorityApply}
-                                    onHide={this.handlePostPriorityHide}
-                                    defaultHorizontalPosition='left'
-                                />
-                                <OverlayTrigger
-                                    placement='top'
-                                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                                    trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
-                                    overlay={(
-                                        <Tooltip id='post-priority-picker-tooltip'>
-                                            <KeyboardShortcutSequence
-                                                shortcut={KEYBOARD_SHORTCUTS.msgPostPriority}
-                                                hoistDescription={true}
-                                                isInsideTooltip={true}
-                                            />
-                                        </Tooltip>
-                                    )}
-                                >
-                                    <IconContainer
-                                        ref={this.postPriorityPickerRef}
-                                        className={classNames({control: true, active: this.state.showPostPriorityPicker})}
-                                        disabled={this.props.shouldShowPreview}
-                                        type='button'
-                                        onClick={this.togglePostPriorityPicker}
-                                    >
-                                        <AlertCircleOutlineIcon
-                                            size={18}
-                                            color='currentColor'
-                                        />
-                                    </IconContainer>
-                                </OverlayTrigger>
-                            </React.Fragment>
+                            <PostPriorityPickerOverlay
+                                key='post-priority-picker-key'
+                                settings={draft?.metadata?.priority}
+                                onApply={this.handlePostPriorityApply}
+                                onClose={this.handlePostPriorityHide}
+                                disabled={this.props.shouldShowPreview}
+                            />
                         ) : null,
                     ]}
                 />

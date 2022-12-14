@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useEffect, useRef, useState, memo} from 'react';
+import React, {useCallback, useState, memo} from 'react';
 import {useSelector} from 'react-redux';
 import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
@@ -22,13 +22,6 @@ type Props = {
     settings?: PostPriorityMetadata;
     onClose: () => void;
     onApply: (props: PostPriorityMetadata) => void;
-    placement: string;
-    rightOffset?: number;
-    topOffset?: number;
-    leftOffset?: number;
-    style?: React.CSSProperties;
-    requestedAck?: boolean;
-    persistentNotifications?: boolean;
 }
 
 const Beta = styled(Badge)`
@@ -79,45 +72,39 @@ const Footer = styled.div`
 `;
 
 const Picker = styled.div`
-    position: absolute;
-    z-index: 1100;
-    display: flex;
-    flex-direction: column;
-    border: solid 1px rgba(var(--center-channel-color-rgb), 0.16);
-    margin-right: 3px;
+    *zoom: 1;
     background: var(--center-channel-bg);
     border-radius: 4px;
+    border: solid 1px rgba(var(--center-channel-color-rgb), 0.16);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    user-select: none;
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    margin-right: 3px;
+    min-width: 0;
     overflow: hidden;
-    *zoom: 1;
+    user-select: none;
+    width: max-content;
+    z-index: 1100;
 `;
 
 function PostPriorityPicker({
-    leftOffset = 0,
     onApply,
     onClose,
-    placement,
-    rightOffset = 0,
     settings,
-    style,
-    topOffset = 0,
 }: Props) {
     const {formatMessage} = useIntl();
     const [priority, setPriority] = useState<PostPriority|''>(settings?.priority || '');
     const [requestedAck, setRequestedAck] = useState<boolean>(settings?.requested_ack || false);
     const [persistentNotifications, setPersistentNotifications] = useState<boolean>(settings?.persistent_notifications || false);
 
-    const ref = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        ref.current?.focus();
-    }, [ref.current]);
-
     const postAcknowledgementsEnabled = useSelector(isPostAcknowledgementsEnabled);
-    const persistentNotificationsEnabled = useSelector(isPersistentNotificationsEnabled);
+    const persistentNotificationsEnabled = useSelector(isPersistentNotificationsEnabled) && postAcknowledgementsEnabled;
 
-    const makeOnSelectPriority = useCallback((type?: PostPriority) => () => {
+    const makeOnSelectPriority = useCallback((type?: PostPriority) => (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+        e.preventDefault();
+
         setPriority(type || '');
 
         if (!postAcknowledgementsEnabled) {
@@ -151,32 +138,9 @@ function PostPriorityPicker({
         onClose();
     };
 
-    let pickerStyle: React.CSSProperties = {};
-    if (style && !(style.left === 0 && style.top === 0)) {
-        if (placement === 'top' || placement === 'bottom') {
-            // Only take the top/bottom position passed by React Bootstrap since we want to be left-aligned
-            pickerStyle = {
-                top: style.top,
-                bottom: style.bottom,
-                left: leftOffset,
-            };
-        } else {
-            pickerStyle = {...style};
-        }
-
-        pickerStyle.top = pickerStyle.top ? Number(pickerStyle.top) + topOffset : topOffset;
-
-        if (pickerStyle.right) {
-            pickerStyle.right = Number(pickerStyle.right) + rightOffset;
-        }
-    }
-
     return (
         <Picker
-            ref={ref}
-            tabIndex={-1}
-            style={pickerStyle}
-            className={classNames({PostPriorityPicker: true, bottom: placement === 'bottom', 'PostPriorityPicker--large': postAcknowledgementsEnabled})}
+            className={classNames({PostPriorityPicker: true, 'PostPriorityPicker--large': postAcknowledgementsEnabled})}
         >
             <Header className='modal-title mr-2'>
                 {formatMessage({
@@ -225,9 +189,9 @@ function PostPriorityPicker({
                             })}
                         />
                     </MenuGroup>
-                    {postAcknowledgementsEnabled && (
-                        <>
-                            <MenuGroup>
+                    {(postAcknowledgementsEnabled || persistentNotificationsEnabled) && (
+                        <MenuGroup>
+                            {postAcknowledgementsEnabled && (
                                 <ToggleItem
                                     disabled={false}
                                     onClick={handleAck}
@@ -242,26 +206,24 @@ function PostPriorityPicker({
                                         defaultMessage: 'An acknowledgement button will appear with your message',
                                     })}
                                 />
-                            </MenuGroup>
-                            {persistentNotificationsEnabled && (
-                                <MenuGroup>
-                                    <ToggleItem
-                                        disabled={priority !== PostPriority.URGENT}
-                                        onClick={handlePersistentNotifications}
-                                        toggled={persistentNotifications}
-                                        icon={<PersistentNotificationsIcon size={18}/>}
-                                        text={formatMessage({
-                                            id: 'post_priority.persistent_notifications.text',
-                                            defaultMessage: 'Send persistent notifications',
-                                        })}
-                                        description={formatMessage({
-                                            id: 'post_priority.persistent_notifications.description',
-                                            defaultMessage: 'Recipients will be notified every 5 mins until they acknowledge or reply',
-                                        })}
-                                    />
-                                </MenuGroup>
                             )}
-                        </>
+                            {priority === PostPriority.URGENT && persistentNotificationsEnabled && (
+                                <ToggleItem
+                                    disabled={priority !== PostPriority.URGENT}
+                                    onClick={handlePersistentNotifications}
+                                    toggled={persistentNotifications}
+                                    icon={<PersistentNotificationsIcon size={18}/>}
+                                    text={formatMessage({
+                                        id: 'post_priority.persistent_notifications.text',
+                                        defaultMessage: 'Send persistent notifications',
+                                    })}
+                                    description={formatMessage({
+                                        id: 'post_priority.persistent_notifications.description',
+                                        defaultMessage: 'Recipients will be notified every 5 mins until they acknowledge or reply',
+                                    })}
+                                />
+                            )}
+                        </MenuGroup>
                     )}
                 </Menu>
             </div>

@@ -11,7 +11,7 @@ import {createPost} from 'actions/post_actions';
 import {removeDraft} from 'actions/views/drafts';
 import {PostDraft} from 'types/store/draft';
 import {specialMentionsInText} from 'utils/post_utils';
-import {ModalIdentifiers} from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 
 import type {Channel} from '@mattermost/types/channels';
 import type {UserProfile, UserStatus} from '@mattermost/types/users';
@@ -52,11 +52,17 @@ function ChannelDraft({
 
     const handleOnEdit = useCallback(() => {
         history.push(channelUrl);
-    }, [channelUrl]);
+    }, [history, channelUrl]);
 
     const handleOnDelete = useCallback((id: string) => {
         dispatch(removeDraft(id, channel.id));
-    }, [channel.id]);
+    }, [dispatch, channel.id]);
+
+    const doSubmit = useCallback((id: string, post: Post) => {
+        dispatch(createPost(post, value.fileInfos));
+        dispatch(removeDraft(id, channel.id));
+        history.push(channelUrl);
+    }, [dispatch, history, value.fileInfos, channel.id, channelUrl]);
 
     const showPersistNotificationModal = useCallback((id: string, post: Post) => {
         const specialMentions = specialMentionsInText(post.message);
@@ -67,17 +73,12 @@ function ChannelDraft({
             dialogType: PersistNotificationConfirmModal,
             dialogProps: {
                 message: post.message,
+                isDirectOrGroup: channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL,
                 hasSpecialMentions,
                 onConfirm: () => doSubmit(id, post),
             },
         }));
-    }, []);
-
-    const doSubmit = useCallback((id: string, post: Post) => {
-        dispatch(createPost(post, value.fileInfos));
-        dispatch(removeDraft(id, channel.id));
-        history.push(channelUrl);
-    }, [value.fileInfos, channel.id, channelUrl]);
+    }, [channel.type, dispatch, doSubmit]);
 
     const handleOnSend = useCallback(async (id: string) => {
         const post = {} as Post;
@@ -101,7 +102,7 @@ function ChannelDraft({
             return;
         }
         doSubmit(id, post);
-    }, [value, channelUrl, user.id, channel.id, showPersistNotificationModal]);
+    }, [doSubmit, postPriorityEnabled, value, user.id, showPersistNotificationModal]);
 
     if (!channel) {
         return null;

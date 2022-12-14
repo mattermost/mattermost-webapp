@@ -11,17 +11,22 @@ import {GlobalState} from 'types/store';
 import {makeGetUserOrGroupMentionCountFromMessage} from 'utils/post_utils';
 
 import {GenericModal} from '@mattermost/components';
+import {UserProfile} from '@mattermost/types/users';
 
 type Props = {
-    message: string;
+    currentChannelTeammateUsername?: UserProfile['username'];
     hasSpecialMentions: boolean;
+    isDirectOrGroup: boolean;
+    message: string;
     onConfirm: () => void;
     onExited: () => void;
 };
 
 function PersistNotificationConfirmModal({
-    message,
+    currentChannelTeammateUsername,
     hasSpecialMentions,
+    isDirectOrGroup,
+    message,
     onConfirm,
     onExited,
 }: Props) {
@@ -35,11 +40,36 @@ function PersistNotificationConfirmModal({
     const interval = useSelector(getPersistentNotificationInterval);
     const count = useSelector((state: GlobalState) => getMentionCount(state, message));
 
-    if (hasSpecialMentions) {
+    if (isDirectOrGroup) {
+        handleConfirm = onConfirm;
+        title = (
+            <FormattedMessage
+                id='persist_notification.dm_or_gm.title'
+                defaultMessage='Send persistent notifications?'
+            />
+        );
+        body = (
+            <FormattedMessage
+                id='persist_notification.dm_or_gm.description'
+                defaultMessage='<b>{username}</b> will be notified every {interval, plural, one {1 minute} other {{interval} minutes}} until they’ve acknowledged the message.'
+                values={{
+                    interval,
+                    username: currentChannelTeammateUsername,
+                    b: (chunks: string) => <b>{chunks}</b>,
+                }}
+            />
+        );
+        confirmBtn = (
+            <FormattedMessage
+                id='persist_notification.dm_or_gm'
+                defaultMessage='Send'
+            />
+        );
+    } else if (hasSpecialMentions) {
         body = (
             <FormattedMessage
                 id='persist_notification.special_mentions.description'
-                defaultMessage='Cannot use @channel @all ,@here to mention recipients of persistent notifications'
+                defaultMessage='Cannot use @channel, @all or @here to mention recipients of persistent notifications'
             />
         );
         confirmBtn = (
@@ -102,7 +132,7 @@ function PersistNotificationConfirmModal({
         body = (
             <FormattedMessage
                 id='persist_notification.confirm.description'
-                defaultMessage='Mentioned recipients will be notified every {interval} minutes until they’ve acknowledged the message.'
+                defaultMessage='Mentioned recipients will be notified every {interval, plural, one {1 minute} other {{interval} minutes}} until they’ve acknowledged the message.'
                 values={{
                     interval,
                 }}

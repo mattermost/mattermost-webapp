@@ -844,60 +844,11 @@ exports[`components/advanced_create_post should match snapshot, post priority en
   <AdvanceTextEditor
     additionalControls={
       Array [
-        <React.Fragment>
-          <Memo(PostPriorityPickerOverlay)
-            defaultHorizontalPosition="left"
-            onApply={[Function]}
-            onHide={[Function]}
-            show={false}
-            target={[Function]}
-          />
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                id="post-priority-picker-tooltip"
-              >
-                <Memo(KeyboardShortcutSequence)
-                  hoistDescription={true}
-                  isInsideTooltip={true}
-                  shortcut={
-                    Object {
-                      "default": Object {
-                        "defaultMessage": "Message priority",
-                        "id": "shortcuts.msgs.formatting_bar.post_priority",
-                      },
-                      "mac": Object {
-                        "defaultMessage": "Message priority",
-                        "id": "shortcuts.msgs.formatting_bar.post_priority",
-                      },
-                    }
-                  }
-                />
-              </Tooltip>
-            }
-            placement="top"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <IconContainer
-              className="control"
-              disabled={false}
-              onClick={[Function]}
-              type="button"
-            >
-              <AlertCircleOutlineIcon
-                color="currentColor"
-                size={18}
-              />
-            </IconContainer>
-          </OverlayTrigger>
-        </React.Fragment>,
+        <Memo(PostPriorityPickerOverlay)
+          disabled={false}
+          onApply={[Function]}
+          onClose={[Function]}
+        />,
       ]
     }
     applyMarkdown={[Function]}
@@ -980,65 +931,16 @@ exports[`components/advanced_create_post should match snapshot, post priority en
   <AdvanceTextEditor
     additionalControls={
       Array [
-        <React.Fragment>
-          <Memo(PostPriorityPickerOverlay)
-            defaultHorizontalPosition="left"
-            onApply={[Function]}
-            onHide={[Function]}
-            settings={
-              Object {
-                "priority": "important",
-              }
+        <Memo(PostPriorityPickerOverlay)
+          disabled={false}
+          onApply={[Function]}
+          onClose={[Function]}
+          settings={
+            Object {
+              "priority": "important",
             }
-            show={false}
-            target={[Function]}
-          />
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                id="post-priority-picker-tooltip"
-              >
-                <Memo(KeyboardShortcutSequence)
-                  hoistDescription={true}
-                  isInsideTooltip={true}
-                  shortcut={
-                    Object {
-                      "default": Object {
-                        "defaultMessage": "Message priority",
-                        "id": "shortcuts.msgs.formatting_bar.post_priority",
-                      },
-                      "mac": Object {
-                        "defaultMessage": "Message priority",
-                        "id": "shortcuts.msgs.formatting_bar.post_priority",
-                      },
-                    }
-                  }
-                />
-              </Tooltip>
-            }
-            placement="top"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
-            <IconContainer
-              className="control"
-              disabled={false}
-              onClick={[Function]}
-              type="button"
-            >
-              <AlertCircleOutlineIcon
-                color="currentColor"
-                size={18}
-              />
-            </IconContainer>
-          </OverlayTrigger>
-        </React.Fragment>,
+          }
+        />,
       ]
     }
     applyMarkdown={[Function]}
