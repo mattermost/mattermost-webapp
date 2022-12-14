@@ -485,7 +485,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
                         colorize={colorize}
                     />
                 );
-                if (post.type != Constants.PostTypes.WRANGLER) {
+                if (post.type !== Constants.PostTypes.WRANGLER) {
                     visibleMessage = (
                         <span className='post__visibility'>
                             <FormattedMessage
