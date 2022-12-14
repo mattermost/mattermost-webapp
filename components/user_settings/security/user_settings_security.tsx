@@ -517,14 +517,14 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
             let ldapOption;
             let samlOption;
 
-            if (user.auth_service === '') {
+            const setupOAuthOptions = (urlPart: string) => {
                 if (this.props.enableSignUpWithGitLab) {
                     gitlabOption = (
                         <div className='pb-3'>
                             <Link
                                 className='btn btn-primary'
                                 to={
-                                    '/claim/email_to_oauth?email=' +
+                                    `/claim/${urlPart}?email=` +
                                     encodeURIComponent(user.email) +
                                     '&old_type=' +
                                     user.auth_service +
@@ -548,7 +548,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                             <Link
                                 className='btn btn-primary'
                                 to={
-                                    '/claim/email_to_oauth?email=' +
+                                    `/claim/${urlPart}?email=` +
                                     encodeURIComponent(user.email) +
                                     '&old_type=' +
                                     user.auth_service +
@@ -572,7 +572,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                             <Link
                                 className='btn btn-primary'
                                 to={
-                                    '/claim/email_to_oauth?email=' +
+                                    `/claim/${urlPart}?email=` +
                                     encodeURIComponent(user.email) +
                                     '&old_type=' +
                                     user.auth_service +
@@ -596,7 +596,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                             <Link
                                 className='btn btn-primary'
                                 to={
-                                    '/claim/email_to_oauth?email=' +
+                                    `/claim/${urlPart}?email=` +
                                     encodeURIComponent(user.email) +
                                     '&old_type=' +
                                     user.auth_service +
@@ -613,6 +613,10 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                         </div>
                     );
                 }
+            };
+
+            if (user.auth_service === '') {
+                setupOAuthOptions('email_to_oauth');
 
                 if (this.props.enableLdap) {
                     ldapOption = (
@@ -657,25 +661,61 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                         </div>
                     );
                 }
-            } else if (this.props.enableSignUpWithEmail) {
-                let link;
-                if (user.auth_service === Constants.LDAP_SERVICE) {
-                    link =
-                        '/claim/ldap_to_email?email=' +
-                        encodeURIComponent(user.email);
-                } else {
-                    link =
-                        '/claim/oauth_to_email?email=' +
-                        encodeURIComponent(user.email) +
-                        '&old_type=' +
-                        user.auth_service;
+            } else if (user.auth_service === Constants.LDAP_SERVICE) {
+                setupOAuthOptions('ldap_to_oauth');
+
+                if (this.props.enableSignUpWithEmail) {
+                    emailOption = (
+                        <div className='pb-3'>
+                            <Link
+                                className='btn btn-primary'
+                                to={
+                                    '/claim/ldap_to_email?email=' +
+                                    encodeURIComponent(user.email)
+                                }
+                            >
+                                <FormattedMessage
+                                    id='user.settings.security.switchEmail'
+                                    defaultMessage='Switch to Using Email and Password'
+                                />
+                            </Link>
+                            <br/>
+                        </div>
+                    );
                 }
 
+                if (this.props.enableSignUpWithOpenId) {
+                    openidOption = (
+                        <div className='pb-3'>
+                            <Link
+                                className='btn btn-primary'
+                                to={
+                                    '/claim/ldap_to_oauth?email=' +
+                                    encodeURIComponent(user.email) +
+                                    '&new_type=' +
+                                    Constants.OPENID_SERVICE
+                                }
+                            >
+                                <FormattedMessage
+                                    id='user.settings.security.switchOpenId'
+                                    defaultMessage='Switch to Using OpenID SSO'
+                                />
+                            </Link>
+                            <br/>
+                        </div>
+                    );
+                }
+            } else if (this.props.enableSignUpWithEmail) {
                 emailOption = (
                     <div className='pb-3'>
                         <Link
                             className='btn btn-primary'
-                            to={link}
+                            to={
+                                '/claim/oauth_to_email?email=' +
+                                encodeURIComponent(user.email) +
+                                '&old_type=' +
+                                user.auth_service
+                            }
                         >
                             <FormattedMessage
                                 id='user.settings.security.switchEmail'
