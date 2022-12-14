@@ -11,11 +11,13 @@ import {Channel} from '@mattermost/types/channels';
 import {DispatchFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {autoUpdateTimezone} from 'mattermost-redux/actions/timezone';
+import {viewChannel} from 'mattermost-redux/actions/channels';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser, shouldShowTermsOfService} from 'mattermost-redux/selectors/entities/users';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {checkIfMFARequired} from 'utils/route';
 import {getChannelURL} from 'utils/utils';
 import {isPermalinkURL} from 'utils/url';
@@ -39,6 +41,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         mfaRequired: checkIfMFARequired(getCurrentUser(state), license, config, ownProps.match.url),
         enableTimezone: config.ExperimentalTimezone === 'true',
         showTermsOfService,
+        theme: getTheme(state),
     };
 }
 
@@ -47,10 +50,10 @@ const getChannelURLAction = (channel: Channel, teamId: string, url: string) => (
     const state = getState();
 
     if (url && isPermalinkURL(url)) {
-        return browserHistory.push(url);
+        return getHistory().push(url);
     }
 
-    return browserHistory.push(getChannelURL(state, channel, teamId));
+    return getHistory().push(getChannelURL(state, channel, teamId));
 };
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -58,6 +61,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             autoUpdateTimezone,
             getChannelURLAction,
+            viewChannel,
         }, dispatch),
     };
 }

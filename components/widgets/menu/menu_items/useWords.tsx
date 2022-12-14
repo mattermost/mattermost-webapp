@@ -5,11 +5,11 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import {PrimitiveType, FormatXMLElementFn} from 'intl-messageformat';
 
-import {limitThresholds, asGBString, inK} from 'utils/limits';
+import {limitThresholds, asGBString, inK, LimitTypes} from 'utils/limits';
 import {t} from 'utils/i18n';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
-import {LimitTypes, LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
+import {LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import {PaidFeatures, LicenseSkus} from 'utils/constants';
 
@@ -58,9 +58,6 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
         break;
     case LimitTypes.fileStorage:
         featureToNotifyOn = PaidFeatures.UNLIMITED_FILE_STORAGE;
-        break;
-    case LimitTypes.enabledIntegrations:
-        featureToNotifyOn = PaidFeatures.UNLIMITED_INTEGRATIONS;
         break;
     case LimitTypes.boardsCards:
         featureToNotifyOn = PaidFeatures.UNLIMITED_BOARD_CARDS;
@@ -164,38 +161,6 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
                 values,
             ),
             status: asGBString(highestLimit.usage, intl.formatNumber),
-        };
-    }
-    case LimitTypes.enabledIntegrations: {
-        let id = t('workspace_limits.menu_limit.warn.integrations_enabled');
-        let defaultMessage = 'You’re getting closer to the {limit} enabled integrations limit. <a>{callToAction}</a>';
-        values.limit = highestLimit.limit;
-        if (usageRatio >= limitThresholds.danger) {
-            id = t('workspace_limits.menu_limit.critical.integrations_enabled');
-            defaultMessage = 'You’re getting closer to the {limit} enabled integrations limit. <a>{callToAction}</a>';
-        }
-        if (usageRatio >= limitThresholds.reached) {
-            id = t('workspace_limits.menu_limit.reached.integrations_enabled');
-            defaultMessage = 'You’ve reached the {limit} enabled integrations limit. You can’t enable additional integrations. Upgrade to remove this limit. <a>{callToAction}</a>';
-        }
-        if (usageRatio >= limitThresholds.exceeded) {
-            id = t('workspace_limits.menu_limit.over.integrations_enabled');
-            defaultMessage = 'You’ve reached the {limit} enabled integrations limit. You can’t enable additional integrations. Upgrade to remove this limit. <a>{callToAction}</a>';
-        }
-
-        return {
-            title: intl.formatMessage({
-                id: 'workspace_limits.menu_limit.integrations',
-                defaultMessage: 'Integrations limit',
-            }),
-            description: intl.formatMessage(
-                {
-                    id,
-                    defaultMessage,
-                },
-                values,
-            ),
-            status: highestLimit.usage,
         };
     }
     case LimitTypes.boardsCards: {

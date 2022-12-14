@@ -97,7 +97,8 @@ function StartTrialModal(props: Props): JSX.Element | null {
 
     return (
         <Modal
-            className={'StartTrialModal'}
+            className='StartTrialModal'
+            dialogClassName='a11y__modal'
             show={show}
             id='startTrialModal'
             role='dialog'

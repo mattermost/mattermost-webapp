@@ -8,9 +8,10 @@ import {Provider} from 'react-redux';
 import {renderWithIntl} from 'tests/react_testing_utils';
 import mockStore from 'tests/test_store';
 
-import {LimitTypes, LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
+import {LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 
 import {FileSizes} from 'utils/file_utils';
+import {LimitTypes} from 'utils/limits';
 
 import useWords from './useWords';
 
@@ -134,42 +135,6 @@ describe('useWords', () => {
                 title: 'File storage limit',
                 description: /over.*10GB.*limit/,
                 status: '11GB',
-            },
-        },
-        {
-            label: 'shows integrations warn',
-            props: asAdmin(mkLimit(LimitTypes.enabledIntegrations, 3, 5)),
-            expects: {
-                title: 'Integrations limit',
-                description: /closer.*5.*enabled/,
-                status: '3',
-            },
-        },
-        {
-            label: 'shows integrations critical',
-            props: asAdmin(mkLimit(LimitTypes.enabledIntegrations, 4, 5)),
-            expects: {
-                title: 'Integrations limit',
-                description: /closer.*5.*enabled/,
-                status: '4',
-            },
-        },
-        {
-            label: 'shows integrations reached',
-            props: asAdmin(mkLimit(LimitTypes.enabledIntegrations, 5, 5)),
-            expects: {
-                title: 'Integrations limit',
-                description: /reached.*5.*enabled.*can’t enable additional/,
-                status: '5',
-            },
-        },
-        {
-            label: 'shows integrations exceeded',
-            props: asAdmin(mkLimit(LimitTypes.enabledIntegrations, 6, 5)),
-            expects: {
-                title: 'Integrations limit',
-                description: /reached.*5.*enabled.*can’t enable additional/,
-                status: '6',
             },
         },
         {

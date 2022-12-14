@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Groups} from 'mattermost-redux/constants';
+import {SyncableType} from '@mattermost/types/groups';
 
 import AddGroupsToChannelModal, {Props} from 'components/add_groups_to_channel_modal/add_groups_to_channel_modal';
 
@@ -71,8 +71,8 @@ describe('components/AddGroupsToChannelModal', () => {
         await instance.handleSubmit();
         expect(actions.linkGroupSyncable).toBeCalled();
         expect(actions.linkGroupSyncable).toHaveBeenCalledTimes(2);
-        expect(actions.linkGroupSyncable).toBeCalledWith('id_1', baseProps.currentChannelId, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true});
-        expect(actions.linkGroupSyncable).toBeCalledWith('id_2', baseProps.currentChannelId, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true});
+        expect(actions.linkGroupSyncable).toBeCalledWith('id_1', baseProps.currentChannelId, SyncableType.Channel, {auto_add: true});
+        expect(actions.linkGroupSyncable).toBeCalledWith('id_2', baseProps.currentChannelId, SyncableType.Channel, {auto_add: true});
 
         expect(instance.handleResponse).toBeCalledTimes(2);
         expect(instance.handleHide).not.toBeCalled();

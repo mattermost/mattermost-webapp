@@ -8,6 +8,7 @@ import LoggedIn, {Props} from 'components/logged_in/logged_in';
 import BrowserStore from 'stores/browser_store';
 import * as GlobalActions from 'actions/global_actions';
 import {UserProfile} from '@mattermost/types/users';
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 jest.mock('actions/websocket_actions.jsx', () => ({
     initialize: jest.fn(),
@@ -24,12 +25,14 @@ describe('components/logged_in/LoggedIn', () => {
         actions: {
             autoUpdateTimezone: jest.fn(),
             getChannelURLAction: jest.fn(),
+            viewChannel: jest.fn(),
         },
         showTermsOfService: false,
         location: {
             pathname: '/',
             search: '',
         },
+        theme: {} as Theme,
     };
 
     it('should render loading state without user', () => {
@@ -40,12 +43,7 @@ describe('components/logged_in/LoggedIn', () => {
 
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
-        expect(wrapper).toMatchInlineSnapshot(`
-            <LoadingScreen
-              position="relative"
-              style={Object {}}
-            />
-        `);
+        expect(wrapper).toMatchInlineSnapshot('<LoadingScreen />');
     });
 
     it('should redirect to mfa when required and not on /mfa/setup', () => {
@@ -76,9 +74,11 @@ describe('components/logged_in/LoggedIn', () => {
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-            <span>
-              Test
-            </span>
+            <Fragment>
+              <span>
+                Test
+              </span>
+            </Fragment>
         `);
     });
 
@@ -95,9 +95,11 @@ describe('components/logged_in/LoggedIn', () => {
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-            <span>
-              Test
-            </span>
+            <Fragment>
+              <span>
+                Test
+              </span>
+            </Fragment>
         `);
     });
 
@@ -131,9 +133,11 @@ describe('components/logged_in/LoggedIn', () => {
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-            <span>
-              Test
-            </span>
+            <Fragment>
+              <span>
+                Test
+              </span>
+            </Fragment>
         `);
     });
 
@@ -147,9 +151,11 @@ describe('components/logged_in/LoggedIn', () => {
         const wrapper = shallow(<LoggedIn {...props}>{children}</LoggedIn>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-            <span>
-              Test
-            </span>
+            <Fragment>
+              <span>
+                Test
+              </span>
+            </Fragment>
         `);
     });
 

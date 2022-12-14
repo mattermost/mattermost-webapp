@@ -8,7 +8,7 @@ import {OAuthApp} from '@mattermost/types/integrations';
 import {Team} from '@mattermost/types/teams';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import LoadingScreen from 'components/loading_screen';
 import ConfirmModal from 'components/confirm_modal';
 import AbstractOAuthApp from '../abstract_oauth_app.jsx';
@@ -85,7 +85,7 @@ export default class EditOAuthApp extends React.PureComponent<Props, State> {
         const res = await this.props.actions.editOAuthApp(this.newApp);
 
         if ('data' in res && res.data) {
-            browserHistory.push(`/${this.props.team.name}/integrations/oauth2-apps`);
+            getHistory().push(`/${this.props.team.name}/integrations/oauth2-apps`);
             return;
         }
 

@@ -32,6 +32,14 @@ const ErrorTitle: React.FC<Props> = ({type, title}: Props) => {
                 />
             );
             break;
+        case ErrorPageTypes.CLOUD_ARCHIVED:
+            errorTitle = (
+                <FormattedMessage
+                    id='cloud_archived.error.title'
+                    defaultMessage='Message Archived'
+                />
+            );
+            break;
         case ErrorPageTypes.OAUTH_ACCESS_DENIED:
             errorTitle = (
                 <FormattedMessage

@@ -228,6 +228,50 @@ describe('Selectors.Roles', () => {
         expect(Selectors.haveIGroupPermission(testState, group2.id, Permissions.DELETE_CUSTOM_GROUP)).toEqual(true);
     });
 
+    it('should return false if i dont have a group permission on haveIGroupPermission', () => {
+        const roles = {
+            test_team1_role1: {permissions: ['team1_role1']},
+            test_team2_role1: {permissions: ['team2_role1']},
+            test_team2_role2: {permissions: ['team2_role2']},
+            test_channel_a_role1: {permissions: ['channel_a_role1']},
+            test_channel_a_role2: {permissions: ['channel_a_role2']},
+            test_channel_b_role2: {permissions: ['channel_b_role2']},
+            test_channel_c_role1: {permissions: ['channel_c_role1']},
+            test_channel_c_role2: {permissions: ['channel_c_role2']},
+            test_user_role2: {permissions: ['user_role2', Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP]},
+            custom_group_user: {permissions: ['custom_group_user']},
+        };
+        const newState = deepFreezeAndThrowOnMutation({
+            entities: {
+                users: {
+                    currentUserId: user.id,
+                    profiles,
+                },
+                teams: {
+                    currentTeamId: team1.id,
+                    myMembers: myTeamMembers,
+                },
+                channels: {
+                    currentChannelId: channel1.id,
+                    channels,
+                    roles: channelsRoles,
+                },
+                groups: {
+                    groups,
+                    myGroups: ['group1'],
+                },
+                roles: {
+                    roles,
+                },
+            },
+        });
+
+        expect(Selectors.haveIGroupPermission(newState, group2.id, Permissions.EDIT_CUSTOM_GROUP)).toEqual(false);
+        expect(Selectors.haveIGroupPermission(newState, group2.id, Permissions.CREATE_CUSTOM_GROUP)).toEqual(true);
+        expect(Selectors.haveIGroupPermission(newState, group2.id, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS)).toEqual(true);
+        expect(Selectors.haveIGroupPermission(newState, group2.id, Permissions.DELETE_CUSTOM_GROUP)).toEqual(true);
+    });
+
     it('should return group set with permissions on getGroupListPermissions', () => {
         expect(Selectors.getGroupListPermissions(testState)).toEqual({
             [group1.id]: {can_delete: true, can_manage_members: true},

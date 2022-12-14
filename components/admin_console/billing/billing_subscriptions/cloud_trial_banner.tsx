@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -74,7 +75,7 @@ const CloudTrialBanner = ({trialEndDate}: Props): JSX.Element | null => {
             title={(
                 <FormattedMessage
                     id='admin.subscription.cloudTrialCard.upgradeTitle'
-                    defaultMessage='Upgrade to one of our paid plans to avoid Starter plan data limits'
+                    defaultMessage='Upgrade to one of our paid plans to avoid Free plan data limits'
                 />
             )}
             message={(

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {popOverOverlayPosition} from 'utils/position_utils';
 
 test('Should return placement position for overlay based on bounds, space required and innerHeight', () => {

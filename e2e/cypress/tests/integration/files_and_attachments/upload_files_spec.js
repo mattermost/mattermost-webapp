@@ -244,7 +244,7 @@ describe('Upload Files', () => {
         cy.viewport('iphone-6');
 
         // # Scan inside of the message input region
-        cy.findByLabelText('message input complimentary region').should('be.visible').within(() => {
+        cy.findByLabelText('Login Successful message input complimentary region').should('be.visible').within(() => {
             // * Check if the attachment button is present
             cy.findByLabelText('Attachment Icon').should('be.visible').and('have.css', 'cursor', 'pointer');
         });

@@ -16,8 +16,6 @@ import Constants, {A11yCustomEventTypes, AppEvents, Locations} from 'utils/const
 import * as PostUtils from 'utils/post_utils';
 import {isMobile} from 'utils/utils';
 
-import {Post} from '@mattermost/types/posts';
-import {Emoji} from '@mattermost/types/emojis';
 import {PostPluginComponent} from 'types/store/plugins';
 
 import ActionsMenu from 'components/actions_menu';
@@ -44,6 +42,9 @@ import EditPost from 'components/edit_post';
 import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
 
+import {Emoji} from '@mattermost/types/emojis';
+import {Post} from '@mattermost/types/posts';
+
 type Props = {
     post: Post;
     teamId: string;
@@ -53,8 +54,6 @@ type Props = {
     isFlagged: boolean;
     isBusy?: boolean;
     removePost: (post: Post) => void;
-    previewCollapsed: string;
-    previewEnabled: boolean;
     isEmbedVisible?: boolean;
     enableEmojiPicker: boolean;
     enablePostUsernameOverride: boolean;
@@ -662,8 +661,6 @@ export default class RhsComment extends React.PureComponent<Props, State> {
         const message = (
             <MessageWithAdditionalContent
                 post={post}
-                previewCollapsed={this.props.previewCollapsed}
-                previewEnabled={this.props.previewEnabled}
                 isEmbedVisible={this.props.isEmbedVisible}
                 pluginPostTypes={this.props.pluginPostTypes}
             />

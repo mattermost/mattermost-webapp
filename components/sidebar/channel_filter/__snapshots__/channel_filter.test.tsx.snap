@@ -13,6 +13,22 @@ exports[`components/sidebar/channel_filter should match snapshot 1`] = `
         id="new-group-tooltip"
       >
         Filter by unread
+        <Memo(KeyboardShortcutSequence)
+          hideDescription={true}
+          isInsideTooltip={true}
+          shortcut={
+            Object {
+              "default": Object {
+                "defaultMessage": "Toggle unread/all channels:	Ctrl|Shift|U",
+                "id": "shortcuts.nav.toggle_unreads",
+              },
+              "mac": Object {
+                "defaultMessage": "Toggle unread/all channels:	⌘|Shift|U",
+                "id": "shortcuts.nav.toggle_unreads.mac",
+              },
+            }
+          }
+        />
       </Tooltip>
     }
     placement="right"
@@ -24,7 +40,7 @@ exports[`components/sidebar/channel_filter should match snapshot 1`] = `
     }
   >
     <a
-      aria-label="Filter by unread"
+      aria-label="unreads filter"
       className="SidebarFilters_filterButton"
       href="#"
       onClick={[Function]}
@@ -50,6 +66,22 @@ exports[`components/sidebar/channel_filter should match snapshot if the unread f
         id="new-group-tooltip"
       >
         Show all channels
+        <Memo(KeyboardShortcutSequence)
+          hideDescription={true}
+          isInsideTooltip={true}
+          shortcut={
+            Object {
+              "default": Object {
+                "defaultMessage": "Toggle unread/all channels:	Ctrl|Shift|U",
+                "id": "shortcuts.nav.toggle_unreads",
+              },
+              "mac": Object {
+                "defaultMessage": "Toggle unread/all channels:	⌘|Shift|U",
+                "id": "shortcuts.nav.toggle_unreads.mac",
+              },
+            }
+          }
+        />
       </Tooltip>
     }
     placement="right"
@@ -61,7 +93,7 @@ exports[`components/sidebar/channel_filter should match snapshot if the unread f
     }
   >
     <a
-      aria-label="Show all channels"
+      aria-label="unreads filter"
       className="SidebarFilters_filterButton active"
       href="#"
       onClick={[Function]}

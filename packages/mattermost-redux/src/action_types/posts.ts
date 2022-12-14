@@ -57,4 +57,8 @@ export default keyMirror({
 
     MOVE_POST_SUCCESS: null,
     MOVE_POST_FAILURE: null,
+
+    CREATE_ACK_POST_SUCCESS: null,
+
+    DELETE_ACK_POST_SUCCESS: null,
 });

@@ -8,17 +8,9 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import MoreChannels, {Props} from 'components/more_channels/more_channels';
 import SearchableChannelList from 'components/searchable_channel_list.jsx';
-import {TestHelper} from 'utils/test_helper';
 
-jest.mock('utils/browser_history', () => {
-    const original = jest.requireActual('utils/browser_history');
-    return {
-        ...original,
-        browserHistory: {
-            push: jest.fn(),
-        },
-    };
-});
+import {getHistory} from 'utils/browser_history';
+import {TestHelper} from 'utils/test_helper';
 
 jest.useFakeTimers('legacy');
 
@@ -195,8 +187,6 @@ describe('components/MoreChannels', () => {
     });
 
     test('should join the channel', (done) => {
-        // eslint-disable-next-line global-require
-        const browserHistory = require('utils/browser_history').browserHistory;
         const props = {
             ...baseProps,
             actions: {
@@ -218,7 +208,7 @@ describe('components/MoreChannels', () => {
         expect(wrapper.instance().props.actions.joinChannel).toHaveBeenCalledTimes(1);
         expect(wrapper.instance().props.actions.joinChannel).toHaveBeenCalledWith(wrapper.instance().props.currentUserId, wrapper.instance().props.teamId, baseProps.channels[0].id);
         process.nextTick(() => {
-            expect(browserHistory.push).toHaveBeenCalledTimes(1);
+            expect(getHistory().push).toHaveBeenCalledTimes(1);
             expect(callback).toHaveBeenCalledTimes(1);
             expect(wrapper.state('show')).toEqual(false);
             done();

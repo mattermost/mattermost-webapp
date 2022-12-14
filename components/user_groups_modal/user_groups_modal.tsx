@@ -20,6 +20,7 @@ import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 import UserGroupsList from './user_groups_list';
 import UserGroupsModalHeader from './user_groups_modal_header';
+import ADLDAPUpsellBanner from './ad_ldap_upsell_banner';
 
 const GROUPS_PER_PAGE = 60;
 
@@ -224,6 +225,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                 aria-labelledby='userGroupsModalLabel'
                 id='userGroupsModal'
             >
+                <ADLDAPUpsellBanner/>
                 <UserGroupsModalHeader
                     onExited={this.props.onExited}
                     backButtonAction={this.props.backButtonAction}

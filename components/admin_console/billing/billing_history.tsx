@@ -6,13 +6,14 @@ import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getInvoices} from 'mattermost-redux/actions/cloud';
-import {GlobalState} from '@mattermost/types/store';
-
-import LoadingSpinner from 'components/widgets/loading/loading_spinner';
-
+import {getSelfHostedInvoices as getSelfHostedInvoicesAction} from 'actions/hosted_customer';
+import {getCloudErrors, getCloudInvoices, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
+import {getSelfHostedErrors, getSelfHostedInvoices} from 'mattermost-redux/selectors/entities/hosted_customer';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
-import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
+import CloudFetchError from 'components/cloud_fetch_error';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history_svg';
 
 import {CloudLinks} from 'utils/constants';
@@ -50,11 +51,16 @@ const noBillingHistorySection = (
 
 const BillingHistory = () => {
     const dispatch = useDispatch();
-    const invoices = useSelector((state: GlobalState) => state.entities.cloud.invoices);
+    const isCloud = useSelector(isCurrentLicenseCloud);
+    const invoices = useSelector(isCloud ? getCloudInvoices : getSelfHostedInvoices);
+    const {invoices: invoicesError} = useSelector(isCloud ? getCloudErrors : getSelfHostedErrors);
+
     useEffect(() => {
-        dispatch(getInvoices());
         pageVisited('cloud_admin', 'pageview_billing_history');
     }, []);
+    useEffect(() => {
+        dispatch(isCloud ? getInvoices() : getSelfHostedInvoicesAction());
+    }, [isCloud]);
     const billingHistoryTable = invoices && <BillingHistoryTable invoices={invoices}/>;
     return (
         <div className='wrapper--fixed BillingHistory'>
@@ -64,7 +70,8 @@ const BillingHistory = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-                    <div className='BillingHistory__card'>
+                    {invoicesError && <CloudFetchError/>}
+                    {!invoicesError && <div className='BillingHistory__card'>
                         <div className='BillingHistory__cardHeader'>
                             <div className='BillingHistory__cardHeaderText'>
                                 <div className='BillingHistory__cardHeaderText-top'>
@@ -94,7 +101,7 @@ const BillingHistory = () => {
                                 </div>
                             )}
                         </div>
-                    </div>
+                    </div>}
                 </div>
             </div>
         </div>
