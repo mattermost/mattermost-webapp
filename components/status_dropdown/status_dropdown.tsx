@@ -419,6 +419,8 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
                 <button
                     className='status-wrapper style--none'
                     aria-label={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
+                    aria-expanded={this.props.isStatusDropdownOpen}
+                    aria-controls='statusDropdownMenu'
                 >
                     <CustomStatusEmoji
                         showTooltip={true}

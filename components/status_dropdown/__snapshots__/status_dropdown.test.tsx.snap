@@ -8,6 +8,8 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
   open={false}
 >
   <button
+    aria-controls="statusDropdownMenu"
+    aria-expanded={false}
     aria-label="Set a status"
     className="status-wrapper style--none"
   >
@@ -238,6 +240,8 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
   open={true}
 >
   <button
+    aria-controls="statusDropdownMenu"
+    aria-expanded={true}
     aria-label="Set a status"
     className="status-wrapper style--none"
   >
@@ -549,6 +553,8 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
   open={true}
 >
   <button
+    aria-controls="statusDropdownMenu"
+    aria-expanded={true}
     aria-label="Set a status"
     className="status-wrapper style--none"
   >
@@ -812,6 +818,8 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
   open={true}
 >
   <button
+    aria-controls="statusDropdownMenu"
+    aria-expanded={true}
     aria-label="Set a status"
     className="status-wrapper style--none"
   >
@@ -1075,6 +1083,8 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
   open={true}
 >
   <button
+    aria-controls="statusDropdownMenu"
+    aria-expanded={true}
     aria-label="Set a status"
     className="status-wrapper style--none"
   >
@@ -1339,6 +1349,8 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
   open={false}
 >
   <button
+    aria-controls="statusDropdownMenu"
+    aria-expanded={false}
     aria-label="Set a status"
     className="status-wrapper style--none"
   >
@@ -1577,6 +1589,8 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
   open={true}
 >
   <button
+    aria-controls="statusDropdownMenu"
+    aria-expanded={true}
     aria-label="Set a status"
     className="status-wrapper style--none"
   >
@@ -1807,6 +1821,8 @@ exports[`components/StatusDropdown should not show clear status button when cust
   open={true}
 >
   <button
+    aria-controls="statusDropdownMenu"
+    aria-expanded={true}
     aria-label="Set a status"
     className="status-wrapper style--none"
   >
@@ -2070,6 +2086,8 @@ exports[`components/StatusDropdown should show clear status button when custom s
   open={true}
 >
   <button
+    aria-controls="statusDropdownMenu"
+    aria-expanded={true}
     aria-label="Set a status"
     className="status-wrapper style--none"
   >
