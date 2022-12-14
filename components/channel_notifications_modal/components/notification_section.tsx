@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {NotificationSections, NotificationLevels} from 'utils/constants';
@@ -9,74 +8,31 @@ import {NotificationSections, NotificationLevels} from 'utils/constants';
 import CollapseView from './collapse_view';
 import ExpandView from './expand_view';
 
-export default class NotificationSection extends React.PureComponent {
-    static propTypes = {
+type NotificationSectionProps = {
+    section: string,
+    expand: boolean,
+    memberNotificationLevel: string,
+    memberThreadsNotificationLevel: string,
+    ignoreChannelMentions: string,
+    globalNotificationLevel: string,
+    onChange: (value: string) => void,
+    onChangeThreads: (value: string) => void,
+    onSubmit: () => void,
+    onUpdateSection: (section: string) => void,
+    serverError: string,
+};
 
-        /**
-         * Notification section
-         */
-        section: PropTypes.string.isRequired,
+export default class NotificationSection extends React.PureComponent<NotificationSectionProps> {
 
-        /**
-         * Expand if true, else collapse the section
-         */
-        expand: PropTypes.bool.isRequired,
-
-        /**
-         * Member's desktop notification level
-         */
-        memberNotificationLevel: PropTypes.string.isRequired,
-
-        /**
-         * Member's desktop_threads notification level
-         */
-        memberThreadsNotificationLevel: PropTypes.string,
-
-        /**
-         * Ignore channel-wide mentions @channel, @here and @all
-         */
-        ignoreChannelMentions: PropTypes.string,
-
-        /**
-         * User's global notification level
-         */
-        globalNotificationLevel: PropTypes.string,
-
-        /**
-         * onChange handles update of desktop notification level
-         */
-        onChange: PropTypes.func.isRequired,
-
-        /**
-         * onChangeThreads handles update of desktop_threads notification level
-         */
-        onChangeThreads: PropTypes.func,
-
-        /**
-         * Submit function to save notification level
-         */
-        onSubmit: PropTypes.func.isRequired,
-
-        /**
-         * Update function to to expand or collapse a section
-         */
-        onUpdateSection: PropTypes.func.isRequired,
-
-        /**
-         * Error string from the server
-         */
-        serverError: PropTypes.string,
-    }
-
-    handleOnChange = (e) => {
+    handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.props.onChange(e.target.value);
     }
 
-    handleOnChangeThreads = (e) => {
+    handleOnChangeThreads = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.checked ? NotificationLevels.ALL : NotificationLevels.MENTION;
-
+      
         this.props.onChangeThreads(value);
-    }
+    }      
 
     handleExpandSection = () => {
         this.props.onUpdateSection(this.props.section);
