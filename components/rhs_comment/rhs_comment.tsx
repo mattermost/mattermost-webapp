@@ -485,14 +485,16 @@ export default class RhsComment extends React.PureComponent<Props, State> {
                         colorize={colorize}
                     />
                 );
-                visibleMessage = (
-                    <span className='post__visibility'>
-                        <FormattedMessage
-                            id='post_info.message.visible'
-                            defaultMessage='(Only visible to you)'
-                        />
-                    </span>
-                );
+                if (post.type != Constants.PostTypes.WRANGLER) {
+                    visibleMessage = (
+                        <span className='post__visibility'>
+                            <FormattedMessage
+                                id='post_info.message.visible'
+                                defaultMessage='(Only visible to you)'
+                            />
+                        </span>
+                    );
+                }
             }
         }
 
