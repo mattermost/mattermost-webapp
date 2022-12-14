@@ -179,9 +179,9 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
                 <div>
                     {(toggleable && prependToggle) && this.renderToggle(true)}
                     {this.props.children}
-                    {showEmbeddedBindings && this.renderAppBindings()}
                     {(toggleable && !prependToggle) && this.renderToggle(false)}
                     {this.renderEmbed(embed)}
+                    {showEmbeddedBindings && this.renderAppBindings()}
                 </div>
             );
         }
