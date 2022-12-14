@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React, {PureComponent} from 'react';
+import React, {CSSProperties, PureComponent} from 'react';
 import {Tab, Tabs} from 'react-bootstrap';
 
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
@@ -11,29 +10,35 @@ import {makeAsyncComponent} from 'components/async_load';
 import EmojiPicker from 'components/emoji_picker';
 import EmojiPickerHeader from 'components/emoji_picker/components/emoji_picker_header';
 
+import {Emoji} from '@mattermost/types/emojis';
+
 const GifPicker = makeAsyncComponent('GifPicker', React.lazy(() => import('components/gif_picker/gif_picker')));
 
-export default class EmojiPickerTabs extends PureComponent {
-    static propTypes = {
-        style: PropTypes.object,
-        rightOffset: PropTypes.number,
-        topOffset: PropTypes.number,
-        leftOffset: PropTypes.number,
-        placement: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
-        customEmojis: PropTypes.object,
-        onEmojiClose: PropTypes.func.isRequired,
-        onEmojiClick: PropTypes.func.isRequired,
-        onGifClick: PropTypes.func,
-        enableGifPicker: PropTypes.bool,
-    };
+export interface Props {
+    style?: CSSProperties;
+    rightOffset?: number;
+    topOffset?: number;
+    leftOffset?: number;
+    placement?: ('top' | 'bottom' | 'left' | 'right');
+    onEmojiClose: () => void;
+    onEmojiClick: (emoji: Emoji) => void;
+    onGifClick?: (gif: string) => void;
+    enableGifPicker?: boolean;
+}
 
+type State = {
+    emojiTabVisible: boolean;
+    filter: string;
+}
+
+export default class EmojiPickerTabs extends PureComponent<Props, State> {
     static defaultProps = {
         rightOffset: 0,
         topOffset: 0,
         leftOffset: 0,
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -58,7 +63,7 @@ export default class EmojiPickerTabs extends PureComponent {
         this.props.onEmojiClose();
     };
 
-    handleFilterChange = (filter) => {
+    handleFilterChange = (filter: string) => {
         this.setState({filter});
     };
 
@@ -70,16 +75,20 @@ export default class EmojiPickerTabs extends PureComponent {
                 pickerStyle = {
                     top: this.props.style.top,
                     bottom: this.props.style.bottom,
-                    right: this.props.rightOffset,
+                    right: this.props?.rightOffset,
                 };
             } else {
                 pickerStyle = {...this.props.style};
             }
 
-            pickerStyle.top = pickerStyle.top ? pickerStyle.top + this.props.topOffset : this.props.topOffset;
+            if (pickerStyle.top) {
+                pickerStyle.top = (this.props.topOffset || 0) + (pickerStyle.top as number);
+            } else {
+                pickerStyle.top = this.props.topOffset;
+            }
 
             if (pickerStyle.left) {
-                pickerStyle.left += this.props.leftOffset;
+                (pickerStyle.left as number) += (this.props.leftOffset || 0);
             }
         }
 
@@ -119,12 +128,12 @@ export default class EmojiPickerTabs extends PureComponent {
                             visible={this.state.emojiTabVisible}
                             onEmojiClick={this.props.onEmojiClick}
                             handleFilterChange={this.handleFilterChange}
+                            handleEmojiPickerClose={this.handleEmojiPickerClose}
                         />
                     </Tab>
                     <Tab
                         eventKey={2}
                         title={<GfycatIcon/>}
-                        mountOnEnter={true}
                         unmountOnExit={true}
                         tabClassName={'custom-emoji-tab'}
                     >
