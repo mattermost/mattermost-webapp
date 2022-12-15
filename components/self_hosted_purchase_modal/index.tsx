@@ -700,7 +700,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                 />
                             </div>
                         </div>}
-                        {(state.succeeded || progress === SelfHostedSignupProgress.CREATED_LICENSE) && (
+                        {(state.succeeded || progress === SelfHostedSignupProgress.CREATED_LICENSE) && !state.error && !state.submitting && (
                             <SuccessPage
                                 onClose={controlModal.close}
                                 planName={desiredPlanName}
