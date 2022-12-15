@@ -1,28 +1,28 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 
 import {NotificationSections, NotificationLevels} from 'utils/constants';
 
 import CollapseView from './collapse_view';
 import ExpandView from './expand_view';
 
-type NotificationSectionProps = {
+type Props = {
     section: string,
     expand: boolean,
     memberNotificationLevel: string,
-    memberThreadsNotificationLevel: string,
-    ignoreChannelMentions: string,
-    globalNotificationLevel: string,
+    memberThreadsNotificationLevel?: string,
+    ignoreChannelMentions?: string,
+    globalNotificationLevel?: string,
     onChange: (value: string) => void,
-    onChangeThreads: (value: string) => void,
+    onChangeThreads?: ((value: string) => void) | any,
     onSubmit: () => void,
     onUpdateSection: (section: string) => void,
-    serverError: string,
+    serverError: string | ''
 };
 
-export default class NotificationSection extends React.PureComponent<NotificationSectionProps> {
+export default class NotificationSection extends React.PureComponent<Props> {
 
     handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.props.onChange(e.target.value);
