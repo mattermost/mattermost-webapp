@@ -25,7 +25,7 @@ type Props = {
 const InsightsTitle = (props: Props) => {
     const {formatMessage} = useIntl();
 
-    const [isStarterFree, isFreeTrial] = useLicenseChecks();
+    const {isStarterFree, isFreeTrial, isEnterpriseReady} = useLicenseChecks();
 
     const title = useCallback(() => {
         if (props.filterType === InsightsScopes.TEAM) {
@@ -55,6 +55,14 @@ const InsightsTitle = (props: Props) => {
     const openContactSales = useCallback(() => {
         trackEvent('insights', 'open_contact_sales_from_insights');
     }, []);
+
+    if (!isEnterpriseReady) {
+        return (
+            <div className='insights-title'>
+                {title()}
+            </div>
+        );
+    }
 
     return (
         <MenuWrapper id='insightsFilterDropdown'>

@@ -207,3 +207,11 @@ export type TeamsUsage = {
 export type ValidBusinessEmail = {
     is_valid: boolean;
 }
+
+export interface CreateSubscriptionRequest {
+    product_id: string;
+    add_ons: string[];
+    seats: number;
+    internal_purchase_order?: string;
+}
+

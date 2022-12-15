@@ -18,7 +18,7 @@ import {UserTypes, AdminTypes, GeneralTypes, PreferenceTypes, TeamTypes, RoleTyp
 
 import {setServerVersion, getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import {getMyTeams, getMyTeamMembers, getMyTeamUnreads} from 'mattermost-redux/actions/teams';
-import {loadRolesIfNeeded, convertRolesNamesArrayToString} from 'mattermost-redux/actions/roles';
+import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {bindClientFunc, forceLogoutIfNecessary, debounce} from 'mattermost-redux/actions/helpers';
 import {logError} from 'mattermost-redux/actions/errors';
 import {getMyPreferences} from 'mattermost-redux/actions/preferences';
@@ -94,14 +94,6 @@ export function loadMeREST(): ActionFunc {
             return {error: error as ServerError};
         }
 
-        const state = getState();
-
-        // Set the user id and roles in the client4 class for telemetry
-        const currentUserId = state?.entities?.users?.currentUserId ?? '';
-        const currentUserRoles = state?.entities?.users?.profiles?.[currentUserId]?.roles ?? '';
-        Client4.setUserId(currentUserId);
-        Client4.setUserRoles(currentUserRoles);
-
         return {data: true};
     };
 }
@@ -112,8 +104,6 @@ export function loadMe(): ActionFunc {
         const serverVersion = getState().entities.general.serverVersion || Client4.getServerVersion();
         dispatch(setServerVersion(serverVersion));
 
-        let userId: UserProfile['id'] = '';
-        let userRolesAsString = '';
         let clientLicense: ClientLicense;
         let clientConfig: ClientConfig;
         let userProfile: UserProfile;
@@ -129,8 +119,6 @@ export function loadMe(): ActionFunc {
                 throw new Error('Error returned in fetching current user info with graphQL');
             }
 
-            userId = data.user.id;
-            userRolesAsString = convertRolesNamesArrayToString(data.user.roles);
             clientLicense = Object.assign({}, data.license);
             clientConfig = Object.assign({}, data.config);
             userProfile = transformToRecievedMeReducerPayload(data.user);
@@ -175,10 +163,6 @@ export function loadMe(): ActionFunc {
                 },
             ]),
         );
-
-        // Set the user id and roles in the client4 class for telemetry
-        Client4.setUserId(userId);
-        Client4.setUserRoles(userRolesAsString);
 
         return {data: true};
     };
