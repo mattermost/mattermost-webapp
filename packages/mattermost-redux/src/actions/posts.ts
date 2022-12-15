@@ -21,7 +21,7 @@ import {getUnreadScrollPositionPreference, isCollapsedThreadsEnabled} from 'matt
 import {FetchPaginatedThreadOptions} from '@mattermost/types/client4';
 import {ChannelUnread} from '@mattermost/types/channels';
 import {GlobalState} from '@mattermost/types/store';
-import {Post, PostList} from '@mattermost/types/posts';
+import {Post, PostList, PostAcknowledgement} from '@mattermost/types/posts';
 import {Reaction} from '@mattermost/types/reactions';
 import {UserProfile} from '@mattermost/types/users';
 
