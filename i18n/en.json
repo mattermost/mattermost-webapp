@@ -4382,7 +4382,7 @@
   "post_priority.button.acknowledge": "Acknowledge",
   "post_priority.error.no_mentions": "Recipients must be @mentioned",
   "post_priority.error.special_mentions": "Cannot use @channel, @all or @here to mention recipients of persistent notifications",
-  "post_priority.persistent_notifications.description": "Recipients will be notified every 5 mins until they acknowledge or reply",
+  "post_priority.persistent_notifications.description": "Recipients will be notified every {interval, plural, one {1 minute} other {{interval} minutes}} until they acknowledge or reply",
   "post_priority.persistent_notifications.text": "Send persistent notifications",
   "post_priority.persistent_notifications.tooltip": "Persistent notifications will be sent",
   "post_priority.picker.apply": "Apply",

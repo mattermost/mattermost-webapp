@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckCircleOutlineIcon, BellRingOutlineIcon} from '@mattermost/compass-icons/components';
 
-import {isPersistentNotificationsEnabled, isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities/posts';
+import {getPersistentNotificationInterval, isPersistentNotificationsEnabled, isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities/posts';
 
 import Badge from 'components/widgets/badges/badge';
 
@@ -100,6 +100,7 @@ function PostPriorityPicker({
 
     const postAcknowledgementsEnabled = useSelector(isPostAcknowledgementsEnabled);
     const persistentNotificationsEnabled = useSelector(isPersistentNotificationsEnabled) && postAcknowledgementsEnabled;
+    const interval = useSelector(getPersistentNotificationInterval);
 
     const makeOnSelectPriority = useCallback((type?: PostPriority) => (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
@@ -217,10 +218,14 @@ function PostPriorityPicker({
                                         id: 'post_priority.persistent_notifications.text',
                                         defaultMessage: 'Send persistent notifications',
                                     })}
-                                    description={formatMessage({
-                                        id: 'post_priority.persistent_notifications.description',
-                                        defaultMessage: 'Recipients will be notified every 5 mins until they acknowledge or reply',
-                                    })}
+                                    description={formatMessage(
+                                        {
+                                            id: 'post_priority.persistent_notifications.description',
+                                            defaultMessage: 'Recipients will be notified every {interval, plural, one {1 minute} other {{interval} minutes}} until they acknowledge or reply',
+                                        }, {
+                                            interval,
+                                        },
+                                    )}
                                 />
                             )}
                         </MenuGroup>
