@@ -34,7 +34,7 @@ describe('System Console > Site Statistics', () => {
         cy.get('.admin-console__header span', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', 'System Statistics');
 
         // * Check that the rows for the table were generated.
-        cy.get('.admin-console__content .row').should('have.length', 5);
+        cy.get('.admin-console__content .row').should('have.length', 4);
 
         // * Check that the title content for the stats is as expected.
         cy.get('.admin-console__content .row').eq(0).find('.title').eq(0).should('contain', 'Total Activated Users');
