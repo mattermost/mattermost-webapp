@@ -1746,6 +1746,10 @@ export function getNextBillingDate() {
     return nextBillingDate.format('MMM D, YYYY');
 }
 
+export function getToday() {
+    return moment().format('MMM D, YYYY');
+}
+
 export function stringToNumber(s: string | undefined) {
     if (!s) {
         return 0;
