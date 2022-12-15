@@ -9,7 +9,7 @@ import {withRouter, RouteComponentProps, matchPath} from 'react-router-dom';
 import {memo} from 'react';
 
 import {getCurrentChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {setRhsExpanded, showChannelInfo, showPinnedPosts, showChannelFiles, openRHSSearch, closeRightHandSide, openAtPrevious, updateSearchTerms} from 'actions/views/rhs';
 import {
@@ -42,7 +42,7 @@ function mapStateToProps(state: GlobalState, props: RouteComponentProps) {
 
     const rhsChannel = getSelectedChannel(state);
     const isRHSLoading = Boolean(
-        !team ||
+        (getCurrentTeamId(state) && !team) ||
         (getSelectedChannelId(state) && !rhsChannel) ||
         (getCurrentChannelId(state) && matchPath(props.location.pathname, {path: '/:team/:path(channels|messages)/:identifier/:postid?'}) && !channel),
     );
