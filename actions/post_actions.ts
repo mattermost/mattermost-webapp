@@ -15,7 +15,7 @@ import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {canEditPost, comparePosts} from 'mattermost-redux/utils/post_utils';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {Action, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
@@ -76,7 +76,7 @@ export function flagPost(postId: string) {
         const rhsState = getRhsState(state);
 
         if (rhsState === RHSStates.FLAG) {
-            addPostToSearchResults(postId, state, dispatch);
+            dispatch(addPostToSearchResults(postId) as Action);
         }
 
         return {data: true};
@@ -155,7 +155,8 @@ export function searchForTerm(term: string) {
     };
 }
 
-function addPostToSearchResults(postId: string, state: GlobalState, dispatch: DispatchFunc) {
+const addPostToSearchResults = (postId: string) => (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    const state = getState();
     const results = state.entities.search.results;
     const index = results.indexOf(postId);
     if (index === -1) {
@@ -199,7 +200,7 @@ export function pinPost(postId: string) {
         const rhsState = getRhsState(state);
 
         if (rhsState === RHSStates.PIN) {
-            addPostToSearchResults(postId, state, dispatch);
+            dispatch(addPostToSearchResults(postId) as Action);
         }
         return {data: true};
     };
