@@ -82,6 +82,7 @@ const ThreadList = ({
             return;
         }
 
+        // Don't switch threads if a modal or popup is open, since the focus is inside the modal/popup.
         const noModalsAreOpen = document.getElementsByClassName(A11yClassNames.MODAL).length === 0;
         const noPopupsDropdownsAreOpen = document.getElementsByClassName(A11yClassNames.POPUP).length === 0;
         if (!noModalsAreOpen || !noPopupsDropdownsAreOpen) {
