@@ -6,17 +6,12 @@ import {createTheme} from '@mui/material/styles';
 import MUIThemeProvider, {ThemeProviderProps} from '@mui/material/styles/ThemeProvider';
 
 import {defaultTheme} from './themes';
-import componentOverrides from './component-overrides';
-import typographyOverrides from './typography-overrides';
+import overrides from './overrides';
 
 const Themeprovider = ({theme = defaultTheme, ...rest}: ThemeProviderProps) => {
     const combinedTheme = createTheme({
         ...theme,
-        components: componentOverrides,
-        typography: {
-            ...typographyOverrides,
-            htmlFontSize: 10,
-        },
+        ...overrides,
     });
 
     return (

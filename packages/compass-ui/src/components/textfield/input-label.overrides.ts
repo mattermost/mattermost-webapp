@@ -4,7 +4,7 @@
 import {Theme} from '@mui/material';
 import type {ComponentsOverrides} from '@mui/material/styles/overrides';
 
-import {iconSizeMap} from '../textfield';
+import {iconSizeMap} from './textfield';
 
 const componentName = 'MuiInputLabel';
 
