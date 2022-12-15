@@ -945,8 +945,9 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                     {previewFeaturesSection}
                     {formattingSectionDivider}
                     <PerformanceDebuggingSection
-                        activeSection={this.props.activeSection}
+                        active={this.props.activeSection === AdvancedSections.PERFORMANCE_DEBUGGING}
                         onUpdateSection={this.handleUpdateSection}
+                        areAllSectionsInactive={this.props.activeSection === ''}
                     />
                     {deactivateAccountSection}
                     {unreadScrollPositionSectionDivider}
