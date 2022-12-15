@@ -4,11 +4,11 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {withRouter, RouteComponentProps} from 'react-router-dom';
+import {withRouter, RouteComponentProps, matchPath} from 'react-router-dom';
 
 import {memo} from 'react';
 
-import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {setRhsExpanded, showChannelInfo, showPinnedPosts, showChannelFiles, openRHSSearch, closeRightHandSide, openAtPrevious, updateSearchTerms} from 'actions/views/rhs';
@@ -20,6 +20,7 @@ import {
     getSelectedPostId,
     getSelectedPostCardId,
     getPreviousRhsState,
+    getSelectedChannelId,
 } from 'selectors/rhs';
 import {RHSStates} from 'utils/constants';
 
@@ -39,6 +40,13 @@ function mapStateToProps(state: GlobalState, props: RouteComponentProps) {
     const selectedPostId = getSelectedPostId(state);
     const selectedPostCardId = getSelectedPostCardId(state);
 
+    const rhsChannel = getSelectedChannel(state);
+    const isRHSLoading = Boolean(
+        !team ||
+        (getSelectedChannelId(state) && !rhsChannel) ||
+        (getCurrentChannelId(state) && matchPath(props.location.pathname, {path: '/:team/:path(channels|messages)/:identifier/:postid?'}) && !channel),
+    );
+
     return {
         isExpanded: getIsRhsExpanded(state),
         isOpen: getIsRhsOpen(state),
@@ -52,7 +60,8 @@ function mapStateToProps(state: GlobalState, props: RouteComponentProps) {
         isChannelInfo: rhsState === RHSStates.CHANNEL_INFO,
         isChannelMembers: rhsState === RHSStates.CHANNEL_MEMBERS,
         isPluginView: rhsState === RHSStates.PLUGIN,
-        rhsChannel: getSelectedChannel(state),
+        rhsChannel,
+        isRHSLoading,
         selectedPostId,
         selectedPostCardId,
         team,

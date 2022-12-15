@@ -42,6 +42,7 @@ type Props = {
     isPluginView: boolean;
     previousRhsState: RhsState;
     rhsChannel: Channel;
+    isRHSLoading: boolean;
     selectedPostId: string;
     selectedPostCardId: string;
     actions: {
@@ -202,15 +203,12 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             postCardVisible,
             previousRhsState,
             searchVisible,
-            isPinnedPosts,
-            isChannelFiles,
             isPluginView,
             isOpen,
             isChannelInfo,
             isChannelMembers,
             isExpanded,
-            channel,
-            team,
+            isRHSLoading,
         } = this.props;
 
         if (!isOpen) {
@@ -238,12 +236,6 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
                 <ChannelMembersRhs/>
             );
         }
-
-        // Sometimes the channel/team is not loaded yet, so we need to wait for it
-        const isChannelSpecificRHS = postRightVisible || postCardVisible || isPinnedPosts || isChannelFiles || isChannelInfo || isChannelMembers;
-
-        const isRHSLoading = postRightVisible ? !(team || channel) : (!team || !channel) && isChannelSpecificRHS;
-
         const channelDisplayName = rhsChannel ? rhsChannel.display_name : '';
 
         const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible) && isExpanded;
@@ -263,6 +255,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
                     <div className='sidebar-right-container'>
                         {isRHSLoading ? (
                             <div className='sidebar-right__body'>
+                                {/* Sometimes the channel/team is not loaded yet, so we need to wait for it */}
                                 <LoadingScreen centered={true}/>
                             </div>
                         ) : (
