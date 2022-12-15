@@ -96,7 +96,7 @@ class AdminNavbarDropdown extends React.PureComponent<Props> {
 
         let adminGuideLink = 'https://docs.mattermost.com/guides/administration.html';
         if (isCloud) {
-            adminGuideLink = 'https://docs.mattermost.com/guides/cloud-admin-guide.html';
+            adminGuideLink = 'https://docs.mattermost.com/guides/administration.html#cloud-workspace-management';
         }
 
         return (

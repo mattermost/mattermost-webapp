@@ -15,7 +15,6 @@ import {viewChannel} from 'mattermost-redux/actions/channels';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser, shouldShowTermsOfService} from 'mattermost-redux/selectors/entities/users';
-import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getHistory} from 'utils/browser_history';
 import {checkIfMFARequired} from 'utils/route';
@@ -41,7 +40,6 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         mfaRequired: checkIfMFARequired(getCurrentUser(state), license, config, ownProps.match.url),
         enableTimezone: config.ExperimentalTimezone === 'true',
         showTermsOfService,
-        theme: getTheme(state),
     };
 }
 
