@@ -40,7 +40,6 @@ export default class SearchableChannelList extends React.PureComponent {
         };
 
         this.filter = React.createRef();
-        this.channelListScroll = React.createRef();
     }
 
     componentDidMount() {
@@ -242,32 +241,34 @@ export default class SearchableChannelList extends React.PureComponent {
                         <LoadingScreen/>
                     )}
                     {this.props.channels.length > 0 && (
-                        <AutoSizer>
-                            {({height, width}) => (
-                                <InfiniteLoader
-                                    isItemLoaded={this.isItemLoaded}
-                                    itemCount={this.props.channels.length}
-                                    loadMoreItems={this.handleLoadMore}
-                                    minimumBatchSize={this.props.CHANNELS_PER_PAGE}
-                                >
-                                    {({onItemsRendered, ref}) => (
-                                        <FixedSizeList
-                                            itemCount={this.props.channels.length}
-                                            onItemsRendered={onItemsRendered}
-                                            ref={ref}
-                                            height={height}
-                                            width={width}
-                                            itemSize={65}
-                                            style={{
-                                                willChange: 'auto',
-                                            }}
-                                        >
-                                            {Item}
-                                        </FixedSizeList>
-                                    )}
-                                </InfiniteLoader>
-                            )}
-                        </AutoSizer>
+                        <div id='#moreChannelsList'>
+                            <AutoSizer>
+                                {({height, width}) => (
+                                    <InfiniteLoader
+                                        isItemLoaded={this.isItemLoaded}
+                                        itemCount={this.props.channels.length}
+                                        loadMoreItems={this.handleLoadMore}
+                                        minimumBatchSize={this.props.CHANNELS_PER_PAGE}
+                                    >
+                                        {({onItemsRendered, ref}) => (
+                                            <FixedSizeList
+                                                itemCount={this.props.channels.length}
+                                                onItemsRendered={onItemsRendered}
+                                                ref={ref}
+                                                height={height}
+                                                width={width}
+                                                itemSize={65}
+                                                style={{
+                                                    willChange: 'auto',
+                                                }}
+                                            >
+                                                {Item}
+                                            </FixedSizeList>
+                                        )}
+                                    </InfiniteLoader>
+                                )}
+                            </AutoSizer>
+                        </div>
                     )}
                     {this.props.channels.length === 0 && !this.props.loading && (
                         <div className='no-channel-message'>
