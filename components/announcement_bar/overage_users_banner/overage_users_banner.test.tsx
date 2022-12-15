@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {fireEvent, screen} from '@testing-library/react';
+import {fireEvent, screen, waitFor} from '@testing-library/react';
 
 import {DeepPartial} from '@mattermost/types/utilities';
 import {GlobalState} from 'types/store';
@@ -99,6 +99,7 @@ describe('components/overage_users_banner', () => {
             cloud: {
                 subscriptionStats: {
                     is_expandable: false,
+                    getRequestState: 'IDLE',
                 },
             },
         },
@@ -196,6 +197,14 @@ describe('components/overage_users_banner', () => {
     it('should render the banner because we are over 5% and we don\'t have any preferences', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                is_expandable: false,
+                getRequestState: 'OK',
+            },
+        };
+
         store.entities.admin = {
             ...store.entities.admin,
             analytics: {
@@ -213,6 +222,14 @@ describe('components/overage_users_banner', () => {
 
     it('should render the banner because we are over 5% and we have preferences from one old banner', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
+
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                is_expandable: false,
+                getRequestState: 'OK',
+            },
+        };
 
         store.entities.preferences.myPreferences = TestHelper.getPreferencesMock(
             [
@@ -267,6 +284,14 @@ describe('components/overage_users_banner', () => {
     it('should render the banner because we are over 10%', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                is_expandable: false,
+                getRequestState: 'OK',
+            },
+        };
+
         store.entities.admin = {
             ...store.entities.admin,
             analytics: {
@@ -280,7 +305,6 @@ describe('components/overage_users_banner', () => {
 
         expect(screen.getByText(text10PercentageState)).toBeInTheDocument();
         expect(screen.getByText(contactSalesTextLink)).toBeInTheDocument();
-        expect(getLicenseExpandStats).toBeCalledTimes(1);
     });
 
     it('should render the  warning banner with expansion seats CTA if the license is expendable', () => {
@@ -291,6 +315,7 @@ describe('components/overage_users_banner', () => {
             subscriptionStats: {
                 ...store.entities.cloud.subscriptionStats,
                 is_expandable: true,
+                getRequestState: 'OK',
             },
         };
 
@@ -316,6 +341,7 @@ describe('components/overage_users_banner', () => {
             subscriptionStats: {
                 ...store.entities.cloud.subscriptionStats,
                 is_expandable: true,
+                getRequestState: 'OK',
             },
         };
 

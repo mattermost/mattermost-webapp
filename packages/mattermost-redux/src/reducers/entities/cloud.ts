@@ -29,10 +29,25 @@ function customer(state: CloudCustomer | null = null, action: GenericAction) {
     }
 }
 
-export function subscriptionStats(state: LicenseExpandStats | null = null, action: GenericAction) {
+export function subscriptionStats(state: LicenseExpandStats | null = null, action: GenericAction): LicenseExpandStats | null {
     switch (action.type) {
+    case CloudTypes.CLOUD_EXPAND_STATS_REQUEST: {
+        return {
+            getRequestState: 'LOADING',
+            ...action.data,
+        };
+    }
     case CloudTypes.RECEIVED_CLOUD_EXPAND_STATS: {
-        return action.data;
+        return {
+            getRequestState: 'OK',
+            is_expandable: action.data,
+        };
+    }
+    case CloudTypes.CLOUD_EXPAND_STATS_FAILED: {
+        return {
+            getRequestState: 'ERROR',
+            is_expandable: false,
+        };
     }
     default:
         return state;

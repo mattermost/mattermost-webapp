@@ -96,8 +96,11 @@ export type CloudCustomer = {
     payment_method: PaymentMethod;
 } & CustomerMetadataGatherWireTransfer
 
+type RequestState = 'IDLE' | 'LOADING' | 'ERROR' | 'OK'
+
 export type LicenseExpandStats = {
     is_expandable: boolean;
+    getRequestState: RequestState;
 }
 
 // CustomerPatch model represents a customer patch on the system.

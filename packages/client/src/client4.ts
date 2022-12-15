@@ -3902,9 +3902,9 @@ export default class Client4 {
         );
     }
 
-    getLicenseExpandStats = (licenseId: string) => {
+    getLicenseExpandStats = () => {
         return this.doFetch<LicenseExpandStats>(
-            `${this.getCloudRoute()}/subscription/expand?licenseID=${licenseId}`, {method: 'get'},
+            `${this.getCloudRoute()}/subscription/expand`, {method: 'get'},
         );
     }
 

@@ -37,14 +37,12 @@ export function getCloudCustomer(): ActionFunc {
     });
 }
 
-export function getLicenseExpandStats(licenseId: string): ActionFunc {
+export function getLicenseExpandStats(): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getLicenseExpandStats,
+        onRequest: CloudTypes.CLOUD_EXPAND_STATS_REQUEST,
         onSuccess: [CloudTypes.RECEIVED_CLOUD_EXPAND_STATS],
         onFailure: CloudTypes.CLOUD_EXPAND_STATS_FAILED,
-        params: [
-            licenseId,
-        ],
     });
 }
 
