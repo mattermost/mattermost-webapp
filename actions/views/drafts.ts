@@ -48,7 +48,15 @@ export function removeDraft(key: string, channelId: string, rootId = '') {
 
         if (syncedDraftsAreAllowedAndEnabled(state)) {
             const connectionId = getConnectionId(getState() as GlobalState);
-            await Client4.deleteDraft(channelId, rootId, connectionId);
+
+            try {
+                await Client4.deleteDraft(channelId, rootId, connectionId);
+            } catch (error) {
+                return {
+                    data: false,
+                    error,
+                };
+            }
         }
         return {data: true};
     };

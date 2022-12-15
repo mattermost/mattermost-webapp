@@ -12,7 +12,8 @@ import {ClientLicense} from '@mattermost/types/config';
 import {Client4} from 'mattermost-redux/client';
 
 import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
-import {FileTypes, LicenseSkus} from 'utils/constants';
+import {FileTypes} from 'utils/constants';
+import {getSkuDisplayName} from 'utils/subscription';
 import {calculateOverageUserActivated} from 'utils/overage_team';
 
 import './enterprise_edition.scss';
@@ -29,31 +30,6 @@ export interface EnterpriseEditionProps {
     handleChange: () => void;
     statsActiveUsers: number;
 }
-
-export const getSkuDisplayName = (skuShortName: string, isGovSku: boolean): string => {
-    let skuName = '';
-    switch (skuShortName) {
-    case LicenseSkus.E20:
-        skuName = 'Enterprise E20';
-        break;
-    case LicenseSkus.E10:
-        skuName = 'Enterprise E10';
-        break;
-    case LicenseSkus.Professional:
-        skuName = 'Professional';
-        break;
-    case LicenseSkus.Starter:
-        skuName = 'Starter';
-        break;
-    default:
-        skuName = 'Enterprise';
-        break;
-    }
-
-    skuName += isGovSku ? ' Gov' : '';
-
-    return skuName;
-};
 
 const EnterpriseEditionLeftPanel = ({
     openEELicenseModal,
@@ -286,7 +262,7 @@ const renderRemoveButton = (
     let removeButtonText = (
         <FormattedMessage
             id='admin.license.keyRemove'
-            defaultMessage='Remove License and Downgrade Server'
+            defaultMessage='Remove license and downgrade to Mattermost Free'
         />
     );
     if (removing) {

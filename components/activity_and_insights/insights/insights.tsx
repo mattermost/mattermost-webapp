@@ -46,7 +46,7 @@ const Insights = () => {
 
     const [filterType, setFilterType] = useGlobalState(InsightsScopes.TEAM, 'insightsScope');
     const [timeFrame, setTimeFrame] = useGlobalState(TimeFrames.INSIGHTS_7_DAYS as string, 'insightsTimeFrame');
-    const [isStarterFree] = useLicenseChecks();
+    const {isStarterFree, isEnterpriseReady} = useLicenseChecks();
 
     const setFilterTypeTeam = useCallback(() => {
         trackEvent('insights', 'change_scope_to_team_insights');
@@ -72,14 +72,14 @@ const Insights = () => {
             LocalStorageStore.setPreviousViewedType(currentUserId, currentTeamId, PreviousViewedTypes.INSIGHTS);
         }
 
-        if (isStarterFree) {
+        if (isStarterFree || !isEnterpriseReady) {
             setFilterType(InsightsScopes.MY);
         }
 
         return () => {
             dispatch(unsuppressRHS);
         };
-    });
+    }, []);
 
     return (
         <>

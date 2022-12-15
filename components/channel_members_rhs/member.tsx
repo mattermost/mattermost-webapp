@@ -85,7 +85,7 @@ const RoleChooser = styled.div`
             background: rgba(var(--button-bg-rgb), 0.16);
         }
         &:not(.MenuWrapper--open):hover {
-            background: rgba(var(--center-channel-text-rgb), 0.08);
+            background: rgba(var(--center-channel-color-rgb), 0.08);
         }
     }
 `;
@@ -190,8 +190,8 @@ export default styled(Member)`
     border-radius: 4px;
 
     &:hover {
-        background: rgba(var(--center-channel-text-rgb), 0.08);
-        color: rgba(var(--center-channel-text-rgb), 0.56);
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.56);
 
         ${SendMessage} {
             display: block;
