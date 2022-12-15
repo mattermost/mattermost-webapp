@@ -109,7 +109,7 @@ describe('Guest Account - Guest User Experience', () => {
 
         // * Verify Guest Badge in Guest User's Profile Popover
         cy.get('#user-profile-popover').should('be.visible').within(($el) => {
-            cy.wrap($el).find('.user-popover__role').should('be.visible').and('have.text', 'GUEST');
+            cy.wrap($el).find('.GuestTag').should('be.visible').and('have.text', 'GUEST');
         });
 
         // # Close the profile popover
