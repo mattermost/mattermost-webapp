@@ -28,9 +28,11 @@ import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 import ExpiryTime from 'components/custom_status/expiry_time';
+
+import {ModalData} from 'types/actions';
+
 import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from '@mattermost/types/users';
 import {ServerError} from '@mattermost/types/errors';
-import {ModalData} from 'types/actions';
 
 import './profile_popover.scss';
 import BotTag from '../widgets/tag/bot_tag';
@@ -751,9 +753,9 @@ ProfilePopoverState
                 />
             );
         }
-        let title: React.ReactNode = `@${this.props.user.username}`;
+        let title: React.ReactNode = <span className='user-popover__username'>{`@${this.props.user.username}`}</span>;
         if (this.props.overwriteName) {
-            title = this.props.overwriteName;
+            title = <span className='user-popover__username'>{this.props.overwriteName}</span>;
             roleTitle = null;
         } else if (this.props.hasMention) {
             title = (
@@ -762,9 +764,8 @@ ProfilePopoverState
                     onClick={this.handleMentionKeyClick}
                 >
                     {title}
-                </button>);
-        } else {
-            title = <span className='user-popover__username'>{title}</span>;
+                </button>
+            );
         }
         title = (
             <span data-testid={`profilePopoverTitle_${this.props.user.username}`}>
