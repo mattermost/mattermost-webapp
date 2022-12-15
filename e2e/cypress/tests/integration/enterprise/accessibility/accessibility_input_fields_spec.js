@@ -161,7 +161,10 @@ describe('Verify Accessibility Support in different input fields', () => {
     it('MM-T1458 Verify Accessibility Support in Main Post Input', () => {
         cy.get('#advancedTextEditorCell').within(() => {
             // * Verify Accessibility Support in Main Post input
-            cy.uiGetPostTextBox().should('have.attr', 'aria-label', `write to ${testChannel.display_name}`).and('have.attr', 'role', 'textbox').clear().focus().type('test').tab({shift: true}).tab().tab();
+            cy.uiGetPostTextBox().should('have.attr', 'aria-label', `write to ${testChannel.display_name}`).and('have.attr', 'role', 'textbox').clear().focus().type('test');
+
+            // # Set a11y focus on the textbox
+            cy.get('#FormattingControl_bold').focus().tab({shift: true});
 
             // * Verify if the focus is on the preview button
             cy.get('#PreviewInputTextButton').should('be.focused').and('have.attr', 'aria-label', 'preview').tab();
