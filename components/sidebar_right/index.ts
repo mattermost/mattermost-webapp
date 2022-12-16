@@ -41,11 +41,6 @@ function mapStateToProps(state: GlobalState, props: RouteComponentProps) {
     const selectedPostCardId = getSelectedPostCardId(state);
 
     const rhsChannel = getSelectedChannel(state);
-    const isRHSLoading = Boolean(
-        (getCurrentTeamId(state) && !team) ||
-        (getSelectedChannelId(state) && !rhsChannel) ||
-        (getCurrentChannelId(state) && matchPath(props.location.pathname, {path: '/:team/:path(channels|messages)/:identifier/:postid?'}) && !channel),
-    );
 
     return {
         isExpanded: getIsRhsExpanded(state),
@@ -61,7 +56,6 @@ function mapStateToProps(state: GlobalState, props: RouteComponentProps) {
         isChannelMembers: rhsState === RHSStates.CHANNEL_MEMBERS,
         isPluginView: rhsState === RHSStates.PLUGIN,
         rhsChannel,
-        isRHSLoading,
         selectedPostId,
         selectedPostCardId,
         team,

@@ -42,7 +42,6 @@ type Props = {
     isPluginView: boolean;
     previousRhsState: RhsState;
     rhsChannel: Channel;
-    isRHSLoading: boolean;
     selectedPostId: string;
     selectedPostCardId: string;
     actions: {
@@ -198,6 +197,8 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
 
     render() {
         const {
+            team,
+            channel,
             rhsChannel,
             postRightVisible,
             postCardVisible,
@@ -208,15 +209,19 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             isChannelInfo,
             isChannelMembers,
             isExpanded,
-            isRHSLoading,
         } = this.props;
 
         if (!isOpen) {
             return null;
         }
 
+        let teamNeeded = true;
+        let selectedChannelNeeded;
+        let currentChannelNeeded;
         let content = null;
+
         if (postRightVisible) {
+            selectedChannelNeeded = true;
             content = (
                 <div className='post-right__container'>
                     <FileUploadOverlay overlayType='right'/>
@@ -228,14 +233,19 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         } else if (isPluginView) {
             content = <RhsPlugin/>;
         } else if (isChannelInfo) {
-            content = (
-                <ChannelInfoRhs/>
-            );
+            currentChannelNeeded = true;
+            content = <ChannelInfoRhs/>;
         } else if (isChannelMembers) {
-            content = (
-                <ChannelMembersRhs/>
-            );
+            currentChannelNeeded = true;
+            content = <ChannelMembersRhs/>;
         }
+
+        const isRHSLoading = Boolean(
+            (teamNeeded && !team) ||
+            (selectedChannelNeeded && !rhsChannel) ||
+            (currentChannelNeeded && !channel),
+        );
+
         const channelDisplayName = rhsChannel ? rhsChannel.display_name : '';
 
         const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible) && isExpanded;
