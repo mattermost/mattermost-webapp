@@ -54,9 +54,7 @@ export default class CopyText extends React.PureComponent<Props> {
                     data-testid='copyText'
                     onClick={this.copyText}
                 >
-                    <ContentCopyIcon>
-                        size={15}
-                    </ContentCopyIcon>
+                    <ContentCopyIcon/>
                 </a>
             </OverlayTrigger>
         );

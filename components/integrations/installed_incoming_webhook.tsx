@@ -142,9 +142,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
                     className='item-actions-edit'
                     to={`/${this.props.team.name}/integrations/incoming_webhooks/edit?id=${incomingWebhook.id}`}
                 >
-                    <PencilOutlineIcon>
-                        size={12}
-                    </PencilOutlineIcon>
+                    <PencilOutlineIcon/>
                 </Link>
                 <DeleteIntegrationLink
                     modalMessage={

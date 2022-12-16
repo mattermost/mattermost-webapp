@@ -60,13 +60,10 @@ export default function DeleteIntegrationLink(props: Props) {
 
     return (
         <button
-            className='color--link style--none'
+            className='delete-color--link style--none'
             onClick={onClick}
         >
-            <TrashCanOutlineIcon>
-                size={12}
-                color=rgb(var(--semantic-color-danger))
-            </TrashCanOutlineIcon>
+            <TrashCanOutlineIcon/>
         </button>
     );
 }

@@ -184,17 +184,13 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
                         className='style--none color--link'
                         onClick={this.handleRegenToken}
                     >
-                        <RefreshIcon>
-                            size={12}
-                        </RefreshIcon>
+                        <RefreshIcon/>
                     </button>
                     <Link
                         className='item-actions-edit'
                         to={`/${this.props.team.name}/integrations/outgoing_webhooks/edit?id=${outgoingWebhook.id}`}
                     >
-                        <PencilOutlineIcon>
-                            size={12}
-                        </PencilOutlineIcon>
+                        <PencilOutlineIcon/>
                     </Link>
                     <DeleteIntegrationLink
                         modalMessage={

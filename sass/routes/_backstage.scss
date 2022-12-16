@@ -226,6 +226,10 @@
         flex-grow: 1;
         flex-shrink: 1;
         text-overflow: ellipsis;
+
+        svg {
+            width: 20px;
+        }
     }
 
     .item-details__row + .item-details__row {
@@ -260,6 +264,7 @@
 }
 
 .item-actions {
+    .delete-color--link,
     .color--link,
     .item-actions-edit {
         margin-left: 10px;
@@ -274,6 +279,14 @@
     .btn {
         margin-left: 15px;
         visibility: visible;
+    }
+
+    svg {
+        width: 20px;
+    }
+
+    .delete-color--link {
+        color: rgb(var(--error-text-color-rgb));
     }
 }
 

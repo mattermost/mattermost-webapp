@@ -131,9 +131,7 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
                     onClick={isFirstPage ? undefined : remainingProps.previousPage}
                     disabled={isFirstPage}
                 >
-                    <ChevronLeftIcon>
-                        size={15}
-                    </ChevronLeftIcon>
+                    <ChevronLeftIcon/>
                 </button>
                 <button
                     type='button'
@@ -141,9 +139,7 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
                     onClick={isLastPage ? undefined : remainingProps.nextPage}
                     disabled={isLastPage}
                 >
-                    <ChevronRightIcon>
-                        size={15}
-                    </ChevronRightIcon>
+                    <ChevronRightIcon/>
                 </button>
             </div>
         );
