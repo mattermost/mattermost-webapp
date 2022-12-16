@@ -6,6 +6,8 @@ import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {matchPath, useHistory, useLocation} from 'react-router-dom';
 
+import styled from 'styled-components';
+
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {setStatusDropdown} from 'actions/views/status_dropdown';
@@ -40,24 +42,34 @@ import {
 import {ModalIdentifiers, TELEMETRY_CATEGORIES, ExploreOtherToolsTourSteps} from 'utils/constants';
 
 import bullseyeImg from 'images/bullseye.svg';
-import checklistImg from 'images/checklist.svg';
-import directoryImg from 'images/directory.svg';
-import messageImg from 'images/message.svg';
-import mobilephoneImg from 'images/mobilephone.svg';
-import personImg from 'images/person.svg';
+import channels from 'images/channels.svg';
+import clipboard from 'images/clipboard.svg';
+import gears from 'images/gears.svg';
+import handshake from 'images/handshake.svg';
+import phone from 'images/phone.svg';
+import security from 'images/security.svg';
+import sunglasses from 'images/sunglasses.svg';
+import wrench from 'images/wrench.svg';
 
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
 import {generateTelemetryTag} from './utils';
 
 const getCategory = makeGetCategory();
 
+const TaskListImage = styled.img`
+    width: 24px;
+    height: 24px;
+`;
+
 const taskLabels = {
     [OnboardingTasksName.CHANNELS_TOUR]: (
         <>
-            <img
-                src={messageImg}
-                alt={'Take a tour of Channels.'}
-            />
+            <picture>
+                <TaskListImage
+                    src={channels}
+                    alt={'Take a tour of Channels.'}
+                />
+            </picture>
             <FormattedMessage
                 id='onboardingTask.checklist.task_learn_more_about_messaging'
                 defaultMessage='Take a tour of Channels.'
@@ -66,11 +78,12 @@ const taskLabels = {
     ),
     [OnboardingTasksName.BOARDS_TOUR]: (
         <>
-            <img
-                src={bullseyeImg}
-                alt={'Manage tasks with your first board.'}
-
-            />
+            <picture>
+                <TaskListImage
+                    src={bullseyeImg}
+                    alt={'Manage tasks with your first board.'}
+                />
+            </picture>
             <FormattedMessage
                 id='onboardingTask.checklist.plan_sprint_with_kanban_style_boards'
                 defaultMessage='Manage tasks with your first board.'
@@ -80,13 +93,11 @@ const taskLabels = {
     [OnboardingTasksName.PLAYBOOKS_TOUR]: (
         <>
             <picture>
-
-                <img
-                    src={checklistImg}
+                <TaskListImage
+                    src={clipboard}
                     alt={'Explore workflows with your first playbook.'}
                 />
             </picture>
-
             <FormattedMessage
                 id='onboardingTask.checklist.task_resolve_incidents_faster_with_playbooks'
                 defaultMessage='Explore workflows with your first playbook.'
@@ -95,10 +106,12 @@ const taskLabels = {
     ),
     [OnboardingTasksName.INVITE_PEOPLE]: (
         <>
-            <img
-                src=''
-                alt={'' /*'Invite team members to the workspace.'*/}
-            />
+            <picture>
+                <TaskListImage
+                    src={handshake}
+                    alt={'Invite team members to the workspace.'}
+                />
+            </picture>
             <FormattedMessage
                 id='onboardingTask.checklist.task_invite_team_members'
                 defaultMessage='Invite team members to the workspace.'
@@ -108,10 +121,12 @@ const taskLabels = {
     ),
     [OnboardingTasksName.COMPLETE_YOUR_PROFILE]: (
         <>
-            <img
-                src={personImg}
-                alt={'' /*'Complete your profile.'*/}
-            />
+            <picture>
+                <TaskListImage
+                    src={sunglasses}
+                    alt={'Complete your profile.'}
+                />
+            </picture>
             <FormattedMessage
                 id='onboardingTask.checklist.task_complete_your_profile'
                 defaultMessage='Complete your profile.'
@@ -121,10 +136,12 @@ const taskLabels = {
     ),
     [OnboardingTasksName.EXPLORE_OTHER_TOOLS]: (
         <>
-            <img
-                src={''}
-                alt={'' /*'Explore other tools in the platform'*/}
-            />
+            <picture>
+                <TaskListImage
+                    src={wrench}
+                    alt={'Explore other tools in the platform'}
+                />
+            </picture>
             <FormattedMessage
                 id='onboardingTask.checklist.explore_other_tools_in_platform'
                 defaultMessage='Explore other tools in the platform'
@@ -134,10 +151,12 @@ const taskLabels = {
     ),
     [OnboardingTasksName.DOWNLOAD_APP]: (
         <>
-            <img
-                src={mobilephoneImg}
-                alt={'Download the Desktop and Mobile Apps.'}
-            />
+            <picture>
+                <TaskListImage
+                    src={phone}
+                    alt={'Download the Desktop and Mobile Apps.'}
+                />
+            </picture>
             <FormattedMessage
                 id='onboardingTask.checklist.task_download_mm_apps'
                 defaultMessage='Download the Desktop and Mobile Apps.'
@@ -147,10 +166,12 @@ const taskLabels = {
     ),
     [OnboardingTasksName.VISIT_SYSTEM_CONSOLE]: (
         <>
-            <img
-                src={directoryImg}
-                alt={'Visit the System Console to configure your workspace.'}
-            />
+            <picture>
+                <TaskListImage
+                    src={gears}
+                    alt={'Visit the System Console to configure your workspace.'}
+                />
+            </picture>
             <FormattedMessage
                 id='onboardingTask.checklist.task_visit_system_console'
                 defaultMessage='Visit the System Console to configure your workspace.'
@@ -160,10 +181,12 @@ const taskLabels = {
     ),
     [OnboardingTasksName.START_TRIAL]: (
         <>
-            <img
-                src={''}
-                alt={'' /*'Learn more about Enterprise-level high-security features'*/}
-            />
+            <picture>
+                <TaskListImage
+                    src={security}
+                    alt={'Learn more about Enterprise-level high-security features'}
+                />
+            </picture>
             <FormattedMessage
                 id='onboardingTask.checklist.task_start_enterprise_trial'
                 defaultMessage='Learn more about Enterprise-level high-security features'
