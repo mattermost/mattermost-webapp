@@ -4866,6 +4866,7 @@
   "suggestion.archive": "Archived Channels",
   "suggestion.commands": "Commands",
   "suggestion.emoji": "Emoji",
+  "suggestion.group.members": "{member_count} {member_count, plural, one {member} other {members}}",
   "suggestion.mention.all": "Notifies everyone in this channel",
   "suggestion.mention.channel": "Notifies everyone in this channel",
   "suggestion.mention.channels": "My Channels",
