@@ -10,7 +10,7 @@ import {CloudProducts} from 'utils/constants';
 
 import {
     noBillingHistory,
-    lastInvoiceInfo,
+    InvoiceInfo,
     freeTrial,
 } from './billing_summary';
 
@@ -41,12 +41,40 @@ const BillingSummary = ({isFreeTrial, daysLeftOnTrial, onUpgradeMattermostCloud}
         body = <UpgradeToProfessionalCard/>;
     } else if (isFreeTrial) {
         body = freeTrial(onUpgradeMattermostCloud, daysLeftOnTrial);
-    } else if (subscription?.last_invoice) {
-        const invoice = subscription!.last_invoice;
+    } else if (subscription?.last_invoice && !subscription?.upcoming_invoice) {
+        const invoice = subscription.last_invoice;
         const fullCharges = invoice.line_items.filter((item) => item.type === 'full');
         const partialCharges = invoice.line_items.filter((item) => item.type === 'partial');
+
         body = (
-            lastInvoiceInfo(invoice, product, fullCharges, partialCharges)
+            <InvoiceInfo
+                invoice={invoice}
+                product={product}
+                fullCharges={fullCharges}
+                partialCharges={partialCharges}
+            />
+        );
+    } else if (subscription?.upcoming_invoice) {
+        const invoice = subscription.upcoming_invoice;
+        let fullCharges = invoice.line_items.filter((item) => item.type === 'full');
+        const partialCharges = invoice.line_items.filter((item) => item.type === 'partial');
+        if (!partialCharges.length && !fullCharges.length) {
+            fullCharges = invoice.line_items;
+        }
+        let hasMoreLineItems = 0;
+        if (fullCharges.length > 5) {
+            hasMoreLineItems = fullCharges.length - 5;
+            fullCharges = fullCharges.slice(0, 5);
+        }
+
+        body = (
+            <InvoiceInfo
+                invoice={invoice}
+                product={product}
+                fullCharges={fullCharges}
+                partialCharges={partialCharges}
+                hasMore={hasMoreLineItems}
+            />
         );
     }
 
