@@ -45,7 +45,6 @@ import directoryImg from 'images/directory.svg';
 import messageImg from 'images/message.svg';
 import mobilephoneImg from 'images/mobilephone.svg';
 import personImg from 'images/person.svg';
-import handshakeImg from 'images/handshake.svg';
 
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
 import {generateTelemetryTag} from './utils';
