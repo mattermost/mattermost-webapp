@@ -215,7 +215,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             return null;
         }
 
-        let teamNeeded = true;
+        const teamNeeded = true;
         let selectedChannelNeeded;
         let currentChannelNeeded;
         let content = null;
