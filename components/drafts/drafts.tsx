@@ -12,8 +12,8 @@ import {Draft} from 'selectors/drafts';
 import NoResultsIndicator from 'components/no_results_indicator';
 import Header from 'components/widgets/header';
 
+import {selectStaticPage} from 'actions/views/lhs';
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
-import {selectStaticItem} from 'actions/lhs';
 
 import type {UserProfile, UserStatus} from '@mattermost/types/users';
 
@@ -42,7 +42,7 @@ function Drafts({
 
     useEffect(() => {
         dispatch(selectChannel(''));
-        dispatch(selectStaticItem('drafts'));
+        dispatch(selectStaticPage('drafts'));
         dispatch(suppressRHS);
 
         return () => {

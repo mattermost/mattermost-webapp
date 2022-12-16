@@ -4,12 +4,12 @@
 export type LhsViewState = {
     isOpen: boolean;
 
-    // Static items (e.g. Threads, Insights, etc.)
-    currentStaticItemId: string;
-    staticItems: LhsStaticItem[];
+    // Static pages (e.g. Threads, Insights, etc.)
+    currentStaticPageId: string;
 }
 
-export type LhsStaticItem = {
+export type StaticPage = {
     id: string;
     isVisible: boolean;
 }
+

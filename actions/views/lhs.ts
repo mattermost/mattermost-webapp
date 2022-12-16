@@ -19,7 +19,12 @@ export const close = () => ({
     type: ActionTypes.CLOSE_LHS,
 });
 
-export function switchToSidebarStaticItem(id: string) {
+export const selectStaticPage = (itemId: string) => ({
+    type: ActionTypes.SELECT_STATIC_PAGE,
+    data: itemId,
+});
+
+export function switchToSidebarStaticPage(id: string) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
         const teamUrl = getCurrentRelativeTeamUrl(state);

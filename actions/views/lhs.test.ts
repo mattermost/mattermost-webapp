@@ -3,12 +3,15 @@
 
 import {MockStoreEnhanced} from 'redux-mock-store';
 
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
 import {close, open, toggle} from 'actions/views/lhs';
 import {ActionTypes} from 'utils/constants';
 import mockStore from 'tests/test_store';
-
+import configureStore from 'store';
 import {GlobalState} from 'types/store';
-import {DispatchFunc} from 'mattermost-redux/types/actions';
+
+import * as Actions from './lhs';
 
 describe('lhs view actions', () => {
     const initialState = {
@@ -56,5 +59,11 @@ describe('lhs view actions', () => {
         });
 
         expect(store.getActions()).toEqual(compareStore.getActions());
+    });
+
+    test('selectStaticPage', async () => {
+        const testStore = configureStore({...initialState});
+        await testStore.dispatch(Actions.selectStaticPage('test'));
+        expect(testStore.getState().views.lhs.currentStaticPageId).toEqual('test');
     });
 });

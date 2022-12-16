@@ -26,7 +26,7 @@ import {useGlobalState} from 'stores/hooks';
 import LocalStorageStore from 'stores/local_storage_store';
 import {clearLastUnreadChannel} from 'actions/global_actions';
 import {setSelectedThreadId} from 'actions/views/threads';
-import {selectStaticItem} from 'actions/lhs';
+import {selectStaticPage} from 'actions/views/lhs';
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
@@ -66,7 +66,7 @@ const GlobalThreads = () => {
     useEffect(() => {
         dispatch(suppressRHS);
         dispatch(selectChannel(''));
-        dispatch(selectStaticItem('threads'));
+        dispatch(selectStaticPage('threads'));
         dispatch(clearLastUnreadChannel);
         loadProfilesForSidebar();
 

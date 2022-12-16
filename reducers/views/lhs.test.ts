@@ -10,16 +10,14 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 describe('Reducers.LHS', () => {
     const initialState = {
         isOpen: false,
-        currentStaticItemId: '',
-        staticItems: [],
+        currentStaticPageId: '',
     };
 
     test('initial state', () => {
         const nextState = lhsReducer(
             {
                 isOpen: false,
-                currentStaticItemId: '',
-                staticItems: [],
+                currentStaticPageId: '',
             },
             {} as GenericAction,
         );
@@ -31,8 +29,7 @@ describe('Reducers.LHS', () => {
         const nextState = lhsReducer(
             {
                 isOpen: true,
-                currentStaticItemId: '',
-                staticItems: [],
+                currentStaticPageId: '',
             },
             {
                 type: ActionTypes.TOGGLE_LHS,
@@ -49,8 +46,7 @@ describe('Reducers.LHS', () => {
         const nextState = lhsReducer(
             {
                 isOpen: false,
-                currentStaticItemId: '',
-                staticItems: [],
+                currentStaticPageId: '',
             },
             {
                 type: ActionTypes.TOGGLE_LHS,
@@ -67,8 +63,7 @@ describe('Reducers.LHS', () => {
         const nextState = lhsReducer(
             {
                 isOpen: false,
-                currentStaticItemId: '',
-                staticItems: [],
+                currentStaticPageId: '',
             },
             {
                 type: ActionTypes.OPEN_LHS,
@@ -85,8 +80,7 @@ describe('Reducers.LHS', () => {
         const nextState = lhsReducer(
             {
                 isOpen: true,
-                currentStaticItemId: '',
-                staticItems: [],
+                currentStaticPageId: '',
             },
             {
                 type: ActionTypes.CLOSE_LHS,
@@ -109,8 +103,7 @@ describe('Reducers.LHS', () => {
                 const nextState = lhsReducer(
                     {
                         isOpen: true,
-                        currentStaticItemId: '',
-                        staticItems: [],
+                        currentStaticPageId: '',
                     },
                     {
                         type: action,

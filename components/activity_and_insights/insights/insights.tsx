@@ -16,7 +16,7 @@ import {GlobalState} from 'types/store';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {selectStaticItem} from 'actions/lhs';
+import {selectStaticPage} from 'actions/views/lhs';
 
 import {CardSizes, InsightsWidgetTypes, TimeFrame, TimeFrames} from '@mattermost/types/insights';
 
@@ -66,7 +66,7 @@ const Insights = () => {
 
     useEffect(() => {
         dispatch(selectChannel(''));
-        dispatch(selectStaticItem('activity-and-insights'));
+        dispatch(selectStaticPage('activity-and-insights'));
         dispatch(suppressRHS);
         const penultimateType = LocalStorageStore.getPreviousViewedType(currentUserId, currentTeamId);
 

@@ -3,30 +3,63 @@
 
 import {createSelector} from 'reselect';
 import {GlobalState} from 'types/store';
+import {StaticPage} from 'types/store/lhs';
 import {makeGetDraftsCount} from 'selectors/drafts';
-
-import {getLhsStaticItems} from './views/lhs';
+import {
+    insightsAreEnabled,
+    isCollapsedThreadsEnabled,
+    localDraftsAreEnabled,
+} from 'mattermost-redux/selectors/entities/preferences';
 
 export function getIsLhsOpen(state: GlobalState): boolean {
     return state.views.lhs.isOpen;
 }
 
-export const getVisibleLhsStaticItems = createSelector(
-    'getVisibleSidebarStaticItems',
-    (state: GlobalState) => getLhsStaticItems(state),
+export function getCurrentStaticPageId(state: GlobalState): string {
+    return state.views.lhs.currentStaticPageId;
+}
+
+export const getVisibleStaticPages = createSelector(
+    'getVisibleSidebarStaticPages',
+    (state: GlobalState) => {
+        const pages: StaticPage[] = [];
+
+        if (insightsAreEnabled(state)) {
+            pages.push({
+                id: 'activity-and-insights',
+                isVisible: true,
+            });
+        }
+
+        if (isCollapsedThreadsEnabled(state)) {
+            pages.push({
+                id: 'threads',
+                isVisible: true,
+            });
+        }
+
+        if (localDraftsAreEnabled(state)) {
+            pages.push({
+                id: 'drafts',
+                isVisible: false,
+            });
+        }
+
+        return pages;
+    },
     (state: GlobalState) => {
         const getDraftsCount = makeGetDraftsCount();
         return getDraftsCount(state);
     },
-    (staticItems, draftsCount) => {
-        return staticItems.map((item) => {
-            if (item.id === 'drafts') {
+    (staticPages, draftsCount) => {
+        return staticPages.map((page) => {
+            if (page.id === 'drafts') {
                 return {
-                    ...item,
+                    ...page,
                     isVisible: draftsCount > 0,
                 };
             }
-            return item;
+            return page;
         }).filter((item) => item.isVisible);
     },
 );

@@ -18,7 +18,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {DraggingState} from 'types/store';
 import {Constants, DraggingStates, DraggingStateTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
-import {LhsStaticItem} from 'types/store/lhs';
+import {StaticPage} from 'types/store/lhs';
 
 import GlobalThreadsLink from 'components/threading/global_threads_link';
 import DraftsLink from 'components/drafts/drafts_link';
@@ -84,8 +84,8 @@ type Props = {
     showUnreadsCategory: boolean;
     collapsedThreads: boolean;
     hasUnreadThreads: boolean;
-    currentStaticItemId: string;
-    staticItems: LhsStaticItem[];
+    currentStaticPageId: string;
+    staticPages: StaticPage[];
 
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     onDragStart: (initial: DragStart) => void;
@@ -95,7 +95,7 @@ type Props = {
         moveChannelsInSidebar: (categoryId: string, targetIndex: number, draggableChannelId: string) => void;
         moveCategory: (teamId: string, categoryId: string, newIndex: number) => void;
         switchToChannelById: (channelId: string) => void;
-        switchToStaticItem: (itemId: string) => void;
+        switchToStaticPage: (itemId: string) => void;
         close: () => void;
         setDraggingState: (data: DraggingState) => void;
         stopDragging: () => void;
@@ -119,7 +119,7 @@ const categoryHeaderHeight = 32;
 // that the channel is not under the unread indicator.
 const scrollMarginWithUnread = 55;
 
-export default class SidebarChannelList extends React.PureComponent<Props, State> {
+export default class SidebarList extends React.PureComponent<Props, State> {
     channelRefs: Map<string, HTMLLIElement>;
     scrollbar: React.RefObject<Scrollbars>;
     animate: SpringSystem;
@@ -180,8 +180,8 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         return this.props.displayedChannels.map((channel) => channel.id);
     }
 
-    getDisplayedLhsStaticItemIds = () => {
-        return this.props.staticItems.map((item) => item.id);
+    getDisplayedStaticPageIds = () => {
+        return this.props.staticPages.map((item) => item.id);
     }
 
     getChannelRef = (channelId: string) => {
@@ -310,10 +310,10 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
     }
 
     navigateById = (id: string) => {
-        if (this.props.staticItems.findIndex((i) => i.id === id) === -1) {
+        if (this.props.staticPages.findIndex((i) => i.id === id) === -1) {
             this.props.actions.switchToChannelById(id);
         } else {
-            this.props.actions.switchToStaticItem(id);
+            this.props.actions.switchToStaticPage(id);
         }
     }
 
@@ -321,13 +321,10 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         if (e.altKey && !e.shiftKey && !e.ctrlKey && !e.metaKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
-            const staticItemIds = this.getDisplayedLhsStaticItemIds();
-            const allIds = [...staticItemIds, ...this.getDisplayedChannelIds()];
+            const staticPageIds = this.getDisplayedStaticPageIds();
+            const allIds = [...staticPageIds, ...this.getDisplayedChannelIds()];
 
-            let curSelectedId = this.props.currentChannelId;
-            if (curSelectedId === '') {
-                curSelectedId = this.props.currentStaticItemId;
-            }
+            const curSelectedId = this.props.currentChannelId || this.props.currentStaticPageId;
             const curIndex = allIds.indexOf(curSelectedId);
 
             let nextIndex;
@@ -339,7 +336,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
 
             const nextId = allIds[Utils.mod(nextIndex, allIds.length)];
             this.navigateById(nextId);
-            if (nextIndex >= staticItemIds.length) {
+            if (nextIndex >= staticPageIds.length) {
                 this.scrollToChannel(nextId);
             }
         } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {

@@ -5,6 +5,9 @@ import {connect, ConnectedProps} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {withRouter} from 'react-router-dom';
 
+import {Role} from '@mattermost/types/roles';
+import {AdminConfig} from '@mattermost/types/config';
+
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {getConfig, getEnvironmentConfig, updateConfig} from 'mattermost-redux/actions/admin';
 import {loadRolesIfNeeded, editRole} from 'mattermost-redux/actions/roles';
@@ -20,16 +23,12 @@ import {General} from 'mattermost-redux/constants';
 
 import {setNavigationBlocked, deferNavigation, cancelNavigation, confirmNavigation} from 'actions/admin_actions.jsx';
 import {showNavigationPrompt} from 'selectors/views/admin';
+import {selectStaticPage} from 'actions/views/lhs';
 import {getAdminDefinition, getConsoleAccess} from 'selectors/admin_console';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {GlobalState} from 'types/store';
-
-import {selectStaticItem} from 'actions/lhs';
-
-import {Role} from '@mattermost/types/roles';
-import {AdminConfig} from '@mattermost/types/config';
 
 import AdminConsole from './admin_console';
 
@@ -67,8 +66,8 @@ type Actions = {
     cancelNavigation: () => void;
     loadRolesIfNeeded: (roles: Iterable<string>) => ActionFunc;
     selectChannel: (channelId: string) => void;
+    selectStaticPage: (pageId: string) => void;
     selectTeam: (teamId: string) => void;
-    selectLhsStaticItem: (itemId: string) => void;
     editRole: (role: Role) => void;
     updateConfig?: (config: AdminConfig) => ActionFunc;
 };
@@ -86,8 +85,8 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             loadRolesIfNeeded,
             editRole,
             selectChannel,
+            selectStaticPage,
             selectTeam,
-            selectLhsStaticItem: selectStaticItem,
         }, dispatch),
     };
 }

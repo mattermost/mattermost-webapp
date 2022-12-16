@@ -19,7 +19,7 @@ import {
     clearChannelSelection,
     multiSelectChannelAdd,
 } from 'actions/views/channel_sidebar';
-import {close, switchToSidebarStaticItem} from 'actions/views/lhs';
+import {close, switchToSidebarStaticPage} from 'actions/views/lhs';
 import {
     getDisplayedChannels,
     getDraggingState,
@@ -27,11 +27,9 @@ import {
     isUnreadFilterEnabled,
 } from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
-import {getCurrentLhsStaticItemId} from 'selectors/views/lhs';
+import {getCurrentStaticPageId, getVisibleStaticPages} from 'selectors/lhs';
 
-import {getVisibleLhsStaticItems} from 'selectors/lhs';
-
-import SidebarChannelList from './sidebar_list';
+import SidebarList from './sidebar_list';
 
 function mapStateToProps(state: GlobalState) {
     const currentTeam = getCurrentTeam(state);
@@ -55,8 +53,8 @@ function mapStateToProps(state: GlobalState) {
         showUnreadsCategory: shouldShowUnreadsCategory(state),
         collapsedThreads,
         hasUnreadThreads,
-        currentStaticItemId: getCurrentLhsStaticItemId(state),
-        staticItems: getVisibleLhsStaticItems(state),
+        currentStaticPageId: getCurrentStaticPageId(state),
+        staticPages: getVisibleStaticPages(state),
     };
 }
 
@@ -71,9 +69,9 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             stopDragging,
             clearChannelSelection,
             multiSelectChannelAdd,
-            switchToStaticItem: switchToSidebarStaticItem,
+            switchToStaticPage: switchToSidebarStaticPage,
         }, dispatch),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarChannelList);
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarList);
