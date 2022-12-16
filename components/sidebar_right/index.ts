@@ -4,12 +4,12 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {withRouter, RouteComponentProps, matchPath} from 'react-router-dom';
+import {withRouter, RouteComponentProps} from 'react-router-dom';
 
 import {memo} from 'react';
 
-import {getCurrentChannel, getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeam, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {setRhsExpanded, showChannelInfo, showPinnedPosts, showChannelFiles, openRHSSearch, closeRightHandSide, openAtPrevious, updateSearchTerms} from 'actions/views/rhs';
 import {
@@ -20,7 +20,6 @@ import {
     getSelectedPostId,
     getSelectedPostCardId,
     getPreviousRhsState,
-    getSelectedChannelId,
 } from 'selectors/rhs';
 import {RHSStates} from 'utils/constants';
 
@@ -40,8 +39,6 @@ function mapStateToProps(state: GlobalState, props: RouteComponentProps) {
     const selectedPostId = getSelectedPostId(state);
     const selectedPostCardId = getSelectedPostCardId(state);
 
-    const rhsChannel = getSelectedChannel(state);
-
     return {
         isExpanded: getIsRhsExpanded(state),
         isOpen: getIsRhsOpen(state),
@@ -55,7 +52,7 @@ function mapStateToProps(state: GlobalState, props: RouteComponentProps) {
         isChannelInfo: rhsState === RHSStates.CHANNEL_INFO,
         isChannelMembers: rhsState === RHSStates.CHANNEL_MEMBERS,
         isPluginView: rhsState === RHSStates.PLUGIN,
-        rhsChannel,
+        rhsChannel: getSelectedChannel(state),
         selectedPostId,
         selectedPostCardId,
         team,
