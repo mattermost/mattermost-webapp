@@ -52,7 +52,7 @@ const CopyLinkButton = ({
             onClick={copyText.onClick}
             data-testid='InviteView__copyInviteLink'
             aria-label='team invite link'
-            className='team-invite-button'
+            className='team-channel-action-button'
         >
             {!copyText.copiedRecently && (
                 <>

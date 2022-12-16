@@ -17,16 +17,47 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import UnarchiveIcon from 'components/widgets/icons/unarchive_icon';
 import SharedChannelIndicator from 'components/shared_channel_indicator';
+import RenameChannelModal from 'components/rename_channel_modal';
 
 import './channel_profile.scss';
+
+interface RenameChannelButtonProps {
+    channel: Channel;
+}
+const RenameChannelButton = ({
+    channel,
+}: RenameChannelButtonProps) => {
+    const [show, setShow] = React.useState(false);
+    return (
+        <>
+            { show && (
+                <RenameChannelModal
+                    channel={channel}
+                    onExited={() => setShow(false)}
+                />
+            ) }
+            <button
+                type='button'
+                className='team-channel-action-button'
+                data-testid='renameChannel'
+                onClick={() => setShow(true)}
+            >
+                <FormattedMessage
+                    id='admin.channel_settings.channel_detail.renameChannel'
+                    defaultMessage='Rename Channel'
+                />
+            </button>
+        </>
+    );
+};
+
 interface ChannelProfileProps {
-    channel: Partial<Channel>;
-    team: Partial<Team>;
+    channel: Channel;
+    team: Team;
     onToggleArchive?: () => void;
     isArchived: boolean;
     isDisabled?: boolean;
 }
-
 export const ChannelProfile: React.SFC<ChannelProfileProps> = (props: ChannelProfileProps): JSX.Element => {
     const {team, channel, isArchived, isDisabled} = props;
 
@@ -73,46 +104,62 @@ export const ChannelProfile: React.SFC<ChannelProfileProps> = (props: ChannelPro
         >
             <div className='group-teams-and-channels AdminChannelDetails'>
                 <div className='group-teams-and-channels--body channel-desc-col'>
-                    <div className='channel-name'>
-                        <FormattedMarkdownMessage
-                            id='admin.channel_settings.channel_detail.channelName'
-                            defaultMessage='**Name**'
-                        />
-                        <br/>
-                        {channel.display_name}
+                    <div className='d-flex'>
+                        <div className='channel-desc-col'>
+                            <div className='channel-name row-bottom-padding'>
+                                <FormattedMarkdownMessage
+                                    id='admin.channel_settings.channel_detail.channelName'
+                                    defaultMessage='**Name**'
+                                />
+                                <br/>
+                                {channel.display_name}
+                            </div>
+                            <div className='channel-team'>
+                                <FormattedMarkdownMessage
+                                    id='admin.channel_settings.channel_detail.channelTeam'
+                                    defaultMessage='**Team**'
+                                />
+                                <br/>
+                                {team.display_name}
+                            </div>
+                        </div>
+                        <div className='channel-desc-col'>
+                            <div className='row-bottom-padding'>
+                                <FormattedMarkdownMessage
+                                    id='admin.channel_settings.channel_detail.channelId'
+                                    defaultMessage='**Channel ID**'
+                                />
+                                <br/>
+                                {channel.id}
+                            </div>
+                            {sharedBlock}
+                        </div>
                     </div>
-                    <div className='channel-team'>
-                        <FormattedMarkdownMessage
-                            id='admin.channel_settings.channel_detail.channelTeam'
-                            defaultMessage='**Team**'
-                        />
-                        <br/>
-                        {team.display_name}
-                    </div>
-                    {sharedBlock}
+
                     <div className='AdminChannelDetails_archiveContainer'>
-                        <button
-                            type='button'
-                            className={
-                                classNames(
-                                    'btn',
-                                    'btn-secondary',
-                                    'ArchiveButton',
-                                    {ArchiveButton___archived: isArchived},
-                                    {ArchiveButton___unarchived: !isArchived},
-                                    {disabled: isDisabled},
-                                )
-                            }
-                            onClick={props.onToggleArchive}
-                        >
-                            {isArchived ?
-                                <UnarchiveIcon className='channel-icon channel-icon__unarchive'/> :
-                                <ArchiveIcon className='channel-icon channel-icon__archive'/>}
-                            <FormattedMessage
-                                id={archiveBtnID}
-                                defaultMessage={archiveBtnDefault}
-                            />
-                        </button>
+                        <div className='d-flex flex-row'>
+                            <RenameChannelButton channel={channel}/>
+                            <button
+                                type='button'
+                                className={
+                                    classNames(
+                                        'btn',
+                                        'btn-secondary',
+                                        'ArchiveButton',
+                                        {ArchiveButton___archived: isArchived},
+                                        {ArchiveButton___unarchived: !isArchived},
+                                        {disabled: isDisabled},
+                                    )
+                                }
+                                onClick={props.onToggleArchive}
+                            >
+                                {isArchived ? <UnarchiveIcon className='channel-icon channel-icon__unarchive'/> : <ArchiveIcon className='channel-icon channel-icon__archive'/>}
+                                <FormattedMessage
+                                    id={archiveBtnID}
+                                    defaultMessage={archiveBtnDefault}
+                                />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

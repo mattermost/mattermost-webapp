@@ -445,6 +445,7 @@
   "admin.channel_settings.channel_detail.archive_confirm.title": "Save and Archive Channel",
   "admin.channel_settings.channel_detail.channel_configuration": "Channel Configuration",
   "admin.channel_settings.channel_detail.channelName": "**Name**",
+  "admin.channel_settings.channel_detail.channelId": "**ID**",
   "admin.channel_settings.channel_detail.channelOrganizations": "**Organizations**",
   "admin.channel_settings.channel_detail.channelOrganizationsMessage": "Shared with trusted organizations",
   "admin.channel_settings.channel_detail.channelTeam": "**Team**",

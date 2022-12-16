@@ -22,9 +22,14 @@ type Actions = {
 
 const mapStateToPropsRenameChannel = createSelector(
     'mapStateToPropsRenameChannel',
-    (state: GlobalState) => {
+    (
+        state: GlobalState,
+        props: {
+            channel?: Channel;
+        },
+    ) => {
         const currentTeamId = state.entities.teams.currentTeamId;
-        const team = getTeam(state, currentTeamId);
+        const team = getTeam(state, (props.channel) ? props.channel.team_id : (currentTeamId || ''));
         const currentTeamUrl = `${getSiteURL()}/${team.name}`;
         return {
             currentTeamUrl,
