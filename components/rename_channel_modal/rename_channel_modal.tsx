@@ -17,6 +17,7 @@ import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
 import {getShortenedURL, validateChannelUrl} from 'utils/url';
 import * as Utils from 'utils/utils';
+import {AtLeast} from '@mattermost/types/utilities';
 
 const holders = defineMessages({
     maxLength: {
@@ -52,7 +53,7 @@ type Props = {
     /**
      * Object with info about current channel
      */
-    channel: Channel;
+    channel: AtLeast<Channel, 'id' | 'display_name' | 'name'>;
 
     /**
      * Object with info about current team
@@ -72,8 +73,14 @@ type Props = {
         /*
         * Action creator to patch current channel
         */
-        patchChannel: (channelId: string, patch: Channel) => Promise<{ data: Channel; error: Error }>;
+        patchChannel: (channelId: string, patch: Partial<Channel>) => Promise<{ data: Channel; error: Error }>;
     };
+
+    /**
+     *  Boolean to determine if the channel redirection needs to run.
+     *  This would be set to false if the channel is being renamed from the system console.
+     */
+    redirectOnSave: boolean;
 }
 
 type State = {
@@ -191,7 +198,9 @@ export class RenameChannelModal extends React.PureComponent<Props, State> {
     onSaveSuccess = () => {
         this.handleHide();
         this.unsetError();
-        getHistory().push('/' + this.props.team.name + '/channels/' + this.state.channelName);
+        if (this.props.redirectOnSave) {
+            getHistory().push('/' + this.props.team.name + '/channels/' + this.state.channelName);
+        }
     }
 
     handleCancel = (e?: MouseEvent) => {

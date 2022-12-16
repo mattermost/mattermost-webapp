@@ -33,6 +33,7 @@ describe('components/RenameChannelModal', () => {
         team: {...team},
         currentTeamUrl: 'fake-channel',
         actions: {patchChannel: jest.fn().mockResolvedValue({data: true})},
+        redirectOnSave: true,
     };
 
     test('should match snapshot', () => {

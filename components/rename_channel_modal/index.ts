@@ -14,10 +14,12 @@ import {Channel} from '@mattermost/types/channels';
 
 import {getSiteURL} from 'utils/url';
 
+import {AtLeast} from '@mattermost/types/utilities';
+
 import RenameChannelModal from './rename_channel_modal';
 
 type Actions = {
-    patchChannel(channelId: string, patch: Channel): Promise<{ data: Channel; error: Error }>;
+    patchChannel(channelId: string, patch: Partial<Channel>): Promise<{ data: Channel; error: Error }>;
 };
 
 const mapStateToPropsRenameChannel = createSelector(
@@ -25,11 +27,11 @@ const mapStateToPropsRenameChannel = createSelector(
     (
         state: GlobalState,
         props: {
-            channel?: Channel;
+            channel: AtLeast<Channel, 'id' | 'display_name' | 'name'>;
         },
     ) => {
         const currentTeamId = state.entities.teams.currentTeamId;
-        const team = getTeam(state, (props.channel) ? props.channel.team_id : (currentTeamId || ''));
+        const team = getTeam(state, (props.channel && props.channel.team_id) ? props.channel.team_id : (currentTeamId || ''));
         const currentTeamUrl = `${getSiteURL()}/${team.name}`;
         return {
             currentTeamUrl,

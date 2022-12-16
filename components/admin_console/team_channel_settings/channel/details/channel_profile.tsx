@@ -20,20 +20,26 @@ import SharedChannelIndicator from 'components/shared_channel_indicator';
 import RenameChannelModal from 'components/rename_channel_modal';
 
 import './channel_profile.scss';
+import {AtLeast} from '@mattermost/types/utilities';
 
 interface RenameChannelButtonProps {
-    channel: Channel;
+    channel: Partial<Channel>;
 }
 const RenameChannelButton = ({
     channel,
 }: RenameChannelButtonProps) => {
     const [show, setShow] = React.useState(false);
+
+    if (!channel.id && !channel.display_name && !channel.name) {
+        return null;
+    }
     return (
         <>
             { show && (
                 <RenameChannelModal
-                    channel={channel}
+                    channel={channel as AtLeast<Channel, 'id' | 'display_name' | 'name'>}
                     onExited={() => setShow(false)}
+                    redirectOnSave={false}
                 />
             ) }
             <button
@@ -52,8 +58,8 @@ const RenameChannelButton = ({
 };
 
 interface ChannelProfileProps {
-    channel: Channel;
-    team: Team;
+    channel: Partial<Channel>;
+    team: Partial<Team>;
     onToggleArchive?: () => void;
     isArchived: boolean;
     isDisabled?: boolean;
