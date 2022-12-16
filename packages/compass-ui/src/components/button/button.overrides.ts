@@ -23,7 +23,7 @@ const defaultProps: ComponentsProps[typeof componentName] = {
 const getFocusStyles = (color: string) => ({
     '&:not(.Mui-disabled)': {
         '&:focus': {
-            boxShadow: `inset 0 0 0 2px ${emphasize(color, 0.3)}`,
+            boxShadow: `inset 0 0 0 2px ${emphasize(color, 0.05)}`,
         },
 
         '&:focus:not(:focus-visible)': {
@@ -31,7 +31,7 @@ const getFocusStyles = (color: string) => ({
         },
 
         '&:focus:focus-visible': {
-            boxShadow: `inset 0 0 0 2px ${emphasize(color, 0.3)}`,
+            boxShadow: `inset 0 0 0 2px ${emphasize(color, 0.05)}`,
         },
     },
 });
@@ -39,10 +39,10 @@ const getFocusStyles = (color: string) => ({
 const styleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
     containedPrimary: ({theme}) => ({
         '&:hover': {
-            backgroundColor: emphasize(theme.palette.primary.main, 0.2),
+            backgroundColor: emphasize(theme.palette.primary.main, 0.05),
         },
         '&:active': {
-            backgroundColor: emphasize(theme.palette.primary.main, 0.4),
+            backgroundColor: emphasize(theme.palette.primary.main, 0.1),
         },
 
         '&.Mui-disabled': {

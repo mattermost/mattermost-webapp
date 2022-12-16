@@ -15,10 +15,12 @@ declare module '@mui/material/InputLabel' {
     }
 }
 
-const inputLabelStyleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
+const styleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
     root: ({ownerState, theme}) => {
         if (ownerState.shrink) {
-            return {};
+            return {
+                transform: 'translate(15px, -8px) scale(0.75)',
+            };
         }
 
         const iconSize = iconSizeMap[ownerState.$inputSize];
@@ -27,21 +29,21 @@ const inputLabelStyleOverrides: ComponentsOverrides<Theme>[typeof componentName]
 
         switch (ownerState.$inputSize) {
         case 'small':
-            shiftY = '0.8rem';
+            shiftY = 12;
             shiftX = 12 + (ownerState.$withStartIcon ? (iconSize + 8) : 0);
             break;
         case 'large':
-            shiftY = '1.2rem';
+            shiftY = 16;
             shiftX = 16 + (ownerState.$withStartIcon ? (iconSize + 8) : 0);
             break;
         case 'medium':
         default:
-            shiftY = '1rem';
+            shiftY = 19;
             shiftX = 14 + (ownerState.$withStartIcon ? (iconSize + 8) : 0);
         }
 
         return {
-            transform: `translate(${shiftX}px, ${shiftY})`,
+            transform: `translate(${shiftX}px, ${shiftY}px)`,
 
             ...(ownerState.$inputSize === 'small' && theme.typography.b75),
             ...(ownerState.$inputSize === 'medium' && theme.typography.b100),
@@ -50,37 +52,10 @@ const inputLabelStyleOverrides: ComponentsOverrides<Theme>[typeof componentName]
             margin: 0,
         };
     },
-    shrink: ({ownerState}) => {
-        if (!ownerState.shrink) {
-            return {};
-        }
-
-        let shiftX;
-        let shiftY;
-
-        switch (ownerState.$inputSize) {
-        case 'small':
-            shiftY = -6;
-            shiftX = 14;
-            break;
-        case 'large':
-            shiftY = -9;
-            shiftX = 18;
-            break;
-        case 'medium':
-        default:
-            shiftY = -7;
-            shiftX = 16;
-        }
-
-        return {
-            transform: `translate(${shiftX}px, ${shiftY}px) scale(0.75)`,
-        };
-    },
 };
 
 const overrides = {
-    styleOverrides: inputLabelStyleOverrides,
+    styleOverrides,
 };
 
 export default overrides;

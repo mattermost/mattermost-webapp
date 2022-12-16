@@ -32,9 +32,13 @@ Outlined.args = {
     label: 'example Label',
     size: 'medium',
     fullWidth: false,
+    placeholder: undefined,
 };
 Outlined.argTypes = {
     label: {
+        control: 'text',
+    },
+    placeholder: {
         control: 'text',
     },
     size: {

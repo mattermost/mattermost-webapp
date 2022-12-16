@@ -21,7 +21,7 @@ declare module '@mui/material/styles' {
 
 export const defaultTheme = {
     palette: createPalette({
-        primary: {main: '#042657'},
+        primary: {main: '#39807e'},
         secondary: {main: '#0043ad'},
         error: {main: '#d24b4e'},
         warning: {main: '#cc8f00'},
