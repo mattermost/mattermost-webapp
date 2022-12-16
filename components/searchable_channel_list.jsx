@@ -241,7 +241,7 @@ export default class SearchableChannelList extends React.PureComponent {
                         <LoadingScreen/>
                     )}
                     {this.props.channels.length > 0 && (
-                        <div id='#moreChannelsList'>
+                        <div id='moreChannelsList'>
                             <AutoSizer>
                                 {({height, width}) => (
                                     <InfiniteLoader
