@@ -7,15 +7,15 @@ import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/tea
 import {GlobalState} from 'types/store';
 import {getHistory} from 'utils/browser_history';
 
-export const toggle = () => (dispatch: DispatchFunc) => dispatch({
+export const toggle = () => ({
     type: ActionTypes.TOGGLE_LHS,
 });
 
-export const open = () => (dispatch: DispatchFunc) => dispatch({
+export const open = () => ({
     type: ActionTypes.OPEN_LHS,
 });
 
-export const close = () => (dispatch: DispatchFunc) => dispatch({
+export const close = () => ({
     type: ActionTypes.CLOSE_LHS,
 });
 
