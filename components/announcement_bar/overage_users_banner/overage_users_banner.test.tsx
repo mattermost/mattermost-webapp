@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {fireEvent, screen, waitFor} from '@testing-library/react';
+import {fireEvent, screen} from '@testing-library/react';
 
 import {DeepPartial} from '@mattermost/types/utilities';
 import {GlobalState} from 'types/store';
