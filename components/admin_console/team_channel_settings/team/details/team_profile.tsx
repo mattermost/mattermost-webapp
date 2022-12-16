@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch, useSelector} from 'react-redux';
@@ -9,7 +9,7 @@ import {noop} from 'lodash';
 
 import {ModalIdentifiers} from 'utils/constants';
 import {t} from 'utils/i18n';
-import {imageURLForTeam, localizeMessage} from 'utils/utils';
+import {getRoleForTrackFlow, getTrackFlowRole, imageURLForTeam, localizeMessage} from 'utils/utils';
 
 import {Team} from '@mattermost/types/teams';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -27,6 +27,54 @@ import UnarchiveIcon from 'components/widgets/icons/unarchive_icon';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import './team_profile.scss';
+import {getSiteURL} from 'utils/url';
+import useCopyText from 'components/common/hooks/useCopyText';
+import {trackEvent} from 'actions/telemetry_actions';
+import {getAnalyticsCategory} from 'components/onboarding_tasks';
+
+type CopyLinkButtonProps = {
+    team: Team;
+}
+const CopyLinkButton = ({
+    team,
+}: CopyLinkButtonProps) => {
+    const inviteURL = useMemo(() => {
+        return `${getSiteURL()}/signup_user_complete/?id=${team.invite_id}&sbr=${getTrackFlowRole()}`;
+    }, [team.invite_id]);
+
+    const copyText = useCopyText({
+        trackCallback: () => trackEvent(getAnalyticsCategory(true), 'click_copy_invite_link', getRoleForTrackFlow()),
+        text: inviteURL,
+    });
+
+    return (
+        <button
+            onClick={copyText.onClick}
+            data-testid='InviteView__copyInviteLink'
+            aria-label='team invite link'
+            className='team-invite-button'
+        >
+            {!copyText.copiedRecently && (
+                <>
+                    <i className='icon icon-link-variant'/>
+                    <FormattedMessage
+                        id='admin.team_settings.team_detail.copyInviteLink'
+                        defaultMessage='Copy team invite link'
+                    />
+                </>
+            )}
+            {copyText.copiedRecently && (
+                <>
+                    <i className='icon icon-check'/>
+                    <FormattedMessage
+                        id='invite_modal.copied'
+                        defaultMessage='Copied'
+                    />
+                </>
+            )}
+        </button>
+    );
+};
 
 type Props = {
     team: Team;
@@ -69,7 +117,7 @@ export function TeamProfile({team, isArchived, onToggleArchive, isDisabled, save
         setOverrideRestoreDisabled(true);
         onToggleArchive();
     };
-    const button = () => {
+    const archiveButton = () => {
         if (restoreDisabled) {
             return (
                 <OverlayTrigger
@@ -184,7 +232,7 @@ export function TeamProfile({team, isArchived, onToggleArchive, isDisabled, save
                             />
                         </div>
                         <div className='team-desc-col'>
-                            <div className='row row-bottom-padding'>
+                            <div className='row-bottom-padding'>
                                 <FormattedMarkdownMessage
                                     id='admin.team_settings.team_detail.teamName'
                                     defaultMessage='**Team Name**:'
@@ -192,7 +240,7 @@ export function TeamProfile({team, isArchived, onToggleArchive, isDisabled, save
                                 <br/>
                                 {team.display_name}
                             </div>
-                            <div className='row'>
+                            <div>
                                 <FormattedMarkdownMessage
                                     id='admin.team_settings.team_detail.teamDescription'
                                     defaultMessage='**Team Description**:'
@@ -201,31 +249,49 @@ export function TeamProfile({team, isArchived, onToggleArchive, isDisabled, save
                                 {team.description || <span className='greyed-out'>{localizeMessage('admin.team_settings.team_detail.profileNoDescription', 'No team description added.')}</span>}
                             </div>
                         </div>
+                        <div className='team-desc-col'>
+                            <div className='row-bottom-padding'>
+                                <FormattedMarkdownMessage
+                                    id='admin.team_settings.team_detail.teamId'
+                                    defaultMessage='**Team ID**:'
+                                />
+                                <br/>
+                                {team.id}
+                            </div>
+                        </div>
                     </div>
                     <div className='AdminChannelDetails_archiveContainer'>
-                        {button()}
-                        {restoreDisabled &&
-                            <button
-                                onClick={() => {
-                                    dispatch(openModal({
-                                        modalId: ModalIdentifiers.PRICING_MODAL,
-                                        dialogType: PricingModal,
-                                    }));
-                                }}
-                                type='button'
-                                className={
-                                    classNames(
-                                        'btn',
-                                        'btn-secondary',
-                                        'upgrade-options-button',
-                                    )
-                                }
-                            >
-                                <FormattedMessage
-                                    id={'workspace_limits.teams_limit_reached.view_upgrade_options'}
-                                    defaultMessage={'View upgrade options'}
-                                />
-                            </button>}
+                        <div
+                            className='d-flex flex-row'
+                            style={{
+                                gap: '1rem',
+                            }}
+                        >
+                            <CopyLinkButton team={team}/>
+                            {restoreDisabled &&
+                                <button
+                                    onClick={() => {
+                                        dispatch(openModal({
+                                            modalId: ModalIdentifiers.PRICING_MODAL,
+                                            dialogType: PricingModal,
+                                        }));
+                                    }}
+                                    type='button'
+                                    className={
+                                        classNames(
+                                            'btn',
+                                            'btn-secondary',
+                                            'upgrade-options-button',
+                                        )
+                                    }
+                                >
+                                    <FormattedMessage
+                                        id={'workspace_limits.teams_limit_reached.view_upgrade_options'}
+                                        defaultMessage={'View upgrade options'}
+                                    />
+                                </button>}
+                            {archiveButton()}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -60,6 +60,10 @@ span.greyed-out {
     line-height: 20px;
 }
 
+.team-desc-col {
+    margin-right: 20px;
+}
+
 .center-row > div {
     display: inline-block;
     float: none;
@@ -92,4 +96,32 @@ span.greyed-out {
 #channels,
 #channel_profile {
     margin-top: 0;
+}
+
+.team-invite-button {
+    @include secondary-button;
+    @include button-medium;
+
+    display: flex;
+    width: 215px;
+    align-items: center;
+    margin-right: 15px;
+    background-color: transparent;
+    font-weight: 400;
+
+    &:active {
+        box-shadow: none;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &.btn.btn-cancel {
+        padding-left: 0;
+    }
+
+    .icon-check {
+        color: var(--online-indicator);
+    }
 }
