@@ -73,7 +73,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
             description: hook.description || '',
             channelId: hook.channel_id || '',
             channelLocked: hook.channel_locked || false,
-            enabled: hook.enabled || true,
+            enabled: hook.enabled !== false,
             username: hook.username || '',
             iconURL: hook.icon_url || '',
             saving: false,

@@ -8,6 +8,7 @@ import {Link} from 'react-router-dom';
 import CopyText from 'components/copy_text';
 import Toggle from 'components/toggle';
 
+import {PencilOutlineIcon, RefreshIcon} from '@mattermost/compass-icons/components';
 import {OutgoingWebhook} from '@mattermost/types/integrations';
 import {Team} from '@mattermost/types/teams';
 import {UserProfile} from '@mattermost/types/users';
@@ -177,19 +178,23 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
 
         let actions = null;
         if (this.props.canChange) {
-            actions =
-                (<div className='item-actions'>
+            actions = (
+                <div className='item-actions'>
                     <button
                         className='style--none color--link'
                         onClick={this.handleRegenToken}
                     >
-                        <i className='icon icon-refresh'/>
+                        <RefreshIcon>
+                            size={12}
+                        </RefreshIcon>
                     </button>
                     <Link
                         className='item-actions-edit'
                         to={`/${this.props.team.name}/integrations/outgoing_webhooks/edit?id=${outgoingWebhook.id}`}
                     >
-                        <i className='icon icon-pencil-outline'/>
+                        <PencilOutlineIcon>
+                            size={12}
+                        </PencilOutlineIcon>
                     </Link>
                     <DeleteIntegrationLink
                         modalMessage={
@@ -206,7 +211,8 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
                         toggled={this.props.outgoingWebhook.enabled}
                         size={'btn-sm'}
                     />
-                </div>);
+                </div>
+            );
         }
 
         return (

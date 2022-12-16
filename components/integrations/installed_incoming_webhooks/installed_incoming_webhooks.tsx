@@ -58,13 +58,9 @@ export default class InstalledIncomingWebhooks extends React.PureComponent<Props
         }
     }
 
-    deleteIncomingWebhook = (incomingWebhook: IncomingWebhook) => {
-        this.props.actions.removeIncomingHook(incomingWebhook.id);
-    }
+    deleteIncomingWebhook = (incomingWebhook: IncomingWebhook) => this.props.actions.removeIncomingHook(incomingWebhook.id);
 
-    toggleIncomingWebhook = (incomingWebhook: IncomingWebhook) => {
-        this.props.actions.updateIncomingHook(incomingWebhook);
-    }
+    toggleIncomingWebhook = (incomingWebhook: IncomingWebhook) => this.props.actions.updateIncomingHook(incomingWebhook);
 
     incomingWebhookCompare = (a: IncomingWebhook, b: IncomingWebhook) => {
         let displayNameA = a.display_name;

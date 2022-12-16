@@ -10,6 +10,7 @@ import {getSiteURL} from 'utils/url';
 import CopyText from 'components/copy_text';
 import Toggle from 'components/toggle';
 
+import {PencilOutlineIcon} from '@mattermost/compass-icons/components';
 import {IncomingWebhook} from '@mattermost/types/integrations';
 import {Team} from '@mattermost/types/teams';
 import {Channel} from '@mattermost/types/channels';
@@ -53,8 +54,8 @@ type Props = {
     filter?: string;
 
     /**
-    * Function to enable or disable webhook when toggle button is pressed
-    */
+     * Function to enable or disable webhook when toggle button is pressed
+     */
     onToggle: (incomingWebhook: IncomingWebhook) => void;
 
     /**
@@ -86,7 +87,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
     }
 
     handleToggle = () => {
-        const incomingWebhook = this.props.incomingWebhook;
+        const {incomingWebhook} = this.props;
         const toggledWebhook = {
             ...incomingWebhook,
             enabled: !incomingWebhook.enabled,
@@ -135,14 +136,15 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
             );
         }
 
-        let actions = null;
-        if (this.props.canChange) {
-            actions = (<div className='item-actions'>
+        let actions = (this.props.canChange ?
+            <div className='item-actions'>
                 <Link
                     className='item-actions-edit'
                     to={`/${this.props.team.name}/integrations/incoming_webhooks/edit?id=${incomingWebhook.id}`}
                 >
-                    <i className='icon icon-pencil-outline'/>
+                    <PencilOutlineIcon>
+                        size={12}
+                    </PencilOutlineIcon>
                 </Link>
                 <DeleteIntegrationLink
                     modalMessage={
@@ -159,8 +161,10 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
                     toggled={this.props.incomingWebhook.enabled}
                     size={'btn-sm'}
                 />
-            </div>);
-        }
+            </div>
+            :
+            null
+        );
 
         const incomingWebhookId = getSiteURL() + '/hooks/' + incomingWebhook.id;
 
@@ -170,7 +174,12 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
                     <div className='item-details__row d-flex flex-column flex-md-row justify-content-between'>
                         <strong className='item-details__name'>
                             {displayName}
-                            {displayEnabled}
+                            {!incomingWebhook.enabled && (
+                                <FormattedMessage
+                                    id='installed_incoming_webhooks.disabled_webhook'
+                                    defaultMessage=' (Disabled)'
+                                />
+                            )}
                         </strong>
                         {actions}
                     </div>

@@ -107,17 +107,11 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent<Props
         }
     }
 
-    regenOutgoingWebhookToken = (outgoingWebhook: OutgoingWebhook) => {
-        this.props.actions.regenOutgoingHookToken(outgoingWebhook.id);
-    }
+    regenOutgoingWebhookToken = (outgoingWebhook: OutgoingWebhook) => this.props.actions.regenOutgoingHookToken(outgoingWebhook.id);
 
-    removeOutgoingHook = (outgoingWebhook: OutgoingWebhook) => {
-        this.props.actions.removeOutgoingHook(outgoingWebhook.id);
-    }
+    removeOutgoingHook = (outgoingWebhook: OutgoingWebhook) => this.props.actions.removeOutgoingHook(outgoingWebhook.id);
 
-    toggleOutgoingHook = (outgoingWebhook: OutgoingWebhook) => {
-        this.props.actions.updateOutgoingHook(outgoingWebhook);
-    }
+    toggleOutgoingHook = (outgoingWebhook: OutgoingWebhook) => this.props.actions.updateOutgoingHook(outgoingWebhook);
 
     outgoingWebhookCompare = (a: OutgoingWebhook, b: OutgoingWebhook) => {
         let displayNameA = a.display_name;

@@ -4,6 +4,8 @@
 import React, {useCallback} from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {TrashCanOutlineIcon} from '@mattermost/compass-icons/components';
+
 import {openModal as openModalAction} from 'actions/views/modals';
 
 import ConfirmModalRedux from 'components/confirm_modal_redux';
@@ -61,7 +63,10 @@ export default function DeleteIntegrationLink(props: Props) {
             className='color--link style--none'
             onClick={onClick}
         >
-            <i className='icon icon-trash-can-outline'/>
+            <TrashCanOutlineIcon>
+                size={12}
+                color=rgb(var(--semantic-color-danger))
+            </TrashCanOutlineIcon>
         </button>
     );
 }

@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {ContentCopyIcon} from '@mattermost/compass-icons/components';
+
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
@@ -52,7 +54,9 @@ export default class CopyText extends React.PureComponent<Props> {
                     data-testid='copyText'
                     onClick={this.copyText}
                 >
-                    <i className='icon icon-content-copy'/>
+                    <ContentCopyIcon>
+                        size={15}
+                    </ContentCopyIcon>
                 </a>
             </OverlayTrigger>
         );

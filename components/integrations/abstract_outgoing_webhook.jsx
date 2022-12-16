@@ -102,7 +102,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
             clientError: null,
             username: hook.username || '',
             iconURL: hook.icon_url || '',
-            enabled: hook.enabled || true,
+            enabled: hook.enabled !== false,
         };
     }
 

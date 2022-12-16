@@ -215,7 +215,7 @@
 
     &:hover {
         .item-actions {
-            i {
+            svg {
                 visibility: visible;
             }
         }
@@ -262,7 +262,6 @@
 .item-actions {
     .color--link,
     .item-actions-edit {
-        height: 20px;
         margin-left: 10px;
         visibility: hidden;
 
@@ -362,6 +361,10 @@
     .backstage-list__paging {
         width: 100%;
         text-align: right;
+        
+        .btn[disabled] {
+            pointer-events:none;
+        }
     }
 }
 

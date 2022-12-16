@@ -8,6 +8,8 @@ import {Link} from 'react-router-dom';
 
 import {localizeMessage} from 'utils/utils';
 
+import {ChevronLeftIcon, ChevronRightIcon} from '@mattermost/compass-icons/components';
+
 import LoadingScreen from 'components/loading_screen';
 import SearchIcon from 'components/widgets/icons/fa_search_icon';
 
@@ -59,7 +61,7 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
             return React.cloneElement(child, {filterLowered});
         });
         length = children.length;
-        if (remainingProps.page !== undefined) {
+        if (remainingProps.page) {
             const {startCount, endCount} = getPaginationProps(length);
             children = children.slice(startCount - 1, endCount);
         }
@@ -107,8 +109,7 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
     }
 
     let footer = null;
-    const page = remainingProps.page;
-    if (page !== undefined && length) {
+    if (remainingProps.page && length) {
         const {startCount, endCount} = getPaginationProps(length);
         const isFirstPage = startCount <= 1;
         const isLastPage = endCount >= length;
@@ -116,7 +117,7 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
         footer = (
             <div className='backstage-list__paging'>
                 <FormattedMessage
-                    id='backstage-list.paginatorCount'
+                    id='backstage_list.paginatorCount'
                     defaultMessage={'{startCount, number} - {endCount, number} of {total, number} total'}
                     values={{
                         startCount,
@@ -130,7 +131,9 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
                     onClick={isFirstPage ? undefined : remainingProps.previousPage}
                     disabled={isFirstPage}
                 >
-                    <i className='icon icon-arrow-left'/>
+                    <ChevronLeftIcon>
+                        size={15}
+                    </ChevronLeftIcon>
                 </button>
                 <button
                     type='button'
@@ -138,7 +141,9 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
                     onClick={isLastPage ? undefined : remainingProps.nextPage}
                     disabled={isLastPage}
                 >
-                    <i className='icon icon-arrow-right'/>
+                    <ChevronRightIcon>
+                        size={15}
+                    </ChevronRightIcon>
                 </button>
             </div>
         );
