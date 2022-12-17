@@ -66,10 +66,11 @@ export default class SearchableChannelList extends React.PureComponent {
 
     onKeyDown = (e) => {
         const target = e.target;
-        if (isKeyPressed(e, Constants.KeyCodes.ENTER) && (e.shiftKey || e.ctrlKey || e.altKey)) {
+        const isEnterKeyPressed = isKeyPressed(e, Constants.KeyCodes.ENTER);
+        if (isEnterKeyPressed && (e.shiftKey || e.ctrlKey || e.altKey)) {
             return;
         }
-        if (isKeyPressed(e, Constants.KeyCodes.ENTER) && target.classList.contains('more-modal__row')) {
+        if (isEnterKeyPressed && target.classList.contains('more-modal__row')) {
             target.click();
         }
     }

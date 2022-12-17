@@ -197,7 +197,7 @@
             .more-modal__actions {
                 button {
                     display: none;
-                    width: 54px;
+                    min-width: 54px;
                     height: 32px;
                     font-size: 12px;
                     font-weight: 600;

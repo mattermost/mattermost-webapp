@@ -317,6 +317,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                 aria-labelledby='moreChannelsModalLabel'
                 modalHeaderText={title}
                 headerButton={createNewChannelButton('outlineButton')}
+                autoCloseOnConfirmButton={false}
             >
                 {body}
             </GenericModal>
