@@ -4,7 +4,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
 <GenericModal
   aria-labelledby="moreChannelsModalLabel"
   autoCloseOnCancelButton={true}
-  autoCloseOnConfirmButton={true}
+  autoCloseOnConfirmButton={false}
   compassDesign={true}
   enforceFocus={true}
   headerButton={
