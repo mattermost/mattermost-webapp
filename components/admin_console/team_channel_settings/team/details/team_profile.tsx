@@ -267,7 +267,7 @@ export function TeamProfile({team, isArchived, onToggleArchive, isDisabled, save
                                 gap: '1rem',
                             }}
                         >
-                            <CopyLinkButton team={team}/>
+                            {team && team.invite_id && <CopyLinkButton team={team}/> }
                             {restoreDisabled &&
                                 <button
                                     onClick={() => {
