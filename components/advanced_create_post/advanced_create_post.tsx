@@ -258,6 +258,7 @@ type State = {
     mousePositionY?: string;
     showQuoteButton: boolean;
     quoteText: string;
+    quoteButtonPosition: string;
 };
 
 class AdvancedCreatePost extends React.PureComponent<Props, State> {
@@ -313,6 +314,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             showPostPriorityPicker: false,
             showQuoteButton: false,
             quoteText: '',
+            quoteButtonPosition: 'bottom',
         };
 
         this.topDiv = React.createRef<HTMLFormElement>();
@@ -372,24 +374,29 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     getSelectionText = (e: MouseEvent) => {
         let text = '';
 
-        // todo sinan fix the bug where user started the selection in one post and ended in another post
         if (window && window.getSelection) {
             const selection = window.getSelection();
-            const startingSelectedElementCheck = selection?.anchorNode?.parentElement?.parentElement?.classList.contains('post-message__text');
-            const endingSelectedElementCheck = selection?.focusNode?.parentElement?.parentElement?.classList.contains('post-message__text');
-            if (startingSelectedElementCheck && endingSelectedElementCheck) {
+            const startingSelectedElement = selection?.anchorNode?.parentElement?.parentElement;
+            const endingSelectedElement = selection?.focusNode?.parentElement?.parentElement;
+
+            if (startingSelectedElement?.classList.contains('post-message__text') &&
+                endingSelectedElement?.classList.contains('post-message__text') &&
+                startingSelectedElement?.id === endingSelectedElement.id
+            ) {
                 text = selection?.toString() || '';
             }
-        }
 
-        // get the mouse position and show the button there if text is selected and hide it after 5 seconds if not clicked on it already and text is not selected anymore (on mouse up)
-        if (text !== '') {
-            this.setState({
-                mousePositionX: (e.clientX - 323) + 'px',
-                mousePositionY: (e.clientY - 125) + 'px',
-                showQuoteButton: true,
-                quoteText: text,
-            });
+            if (text !== '' && selection?.anchorOffset && selection?.focusOffset) {
+                this.setState({
+                    mousePositionX: (e.clientX - 323) + 'px',
+                    mousePositionY: (e.clientY - 125) + 'px',
+                    showQuoteButton: true,
+                    quoteText: text,
+                    quoteButtonPosition: selection?.anchorOffset < selection?.focusOffset ? 'bottom' : 'top', // todo sinan when it is bottom arrange mousePositionY
+                });
+            }
+
+            // get the mouse position and show the button there if text is selected and hide it after 5 seconds if not clicked on it already and text is not selected anymore (on mouse up)
 
             setTimeout(() => {
                 if (this.state.showQuoteButton) {
@@ -1581,7 +1588,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 <Tooltip
                     id='quoteButton'
                     onClick={this.handlePostQuote}
-                    placement='top' // todo sinan put placement top or bottom based on the selection
+                    placement={this.state.quoteButtonPosition}
                     style={{top: this.state.mousePositionY, left: this.state.mousePositionX}}
                 >
                     {<FormatQuoteOpenIcon size={18}/>}
