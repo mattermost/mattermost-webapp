@@ -381,7 +381,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
             if (startingSelectedElement?.classList.contains('post-message__text') &&
                 endingSelectedElement?.classList.contains('post-message__text') &&
-                startingSelectedElement.id === endingSelectedElement.id
+                startingSelectedElement.id === endingSelectedElement.id &&
+                !startingSelectedElement.id.includes('rhsPostMessageText')
             ) {
                 text = selection?.toString() || '';
             }
