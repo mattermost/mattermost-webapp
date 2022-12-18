@@ -387,16 +387,16 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             }
 
             if (text !== '' && selection?.anchorOffset && selection?.focusOffset) {
+                const quoteButtonPosition = selection?.anchorOffset < selection?.focusOffset ? 'bottom' : 'top';
+                const spaceY = quoteButtonPosition === 'bottom' ? 78 : 124;
                 this.setState({
-                    mousePositionX: (e.clientX - 323) + 'px',
-                    mousePositionY: (e.clientY - 125) + 'px',
+                    mousePositionX: (e.clientX - 322) + 'px',
+                    mousePositionY: (e.clientY - spaceY) + 'px',
                     showQuoteButton: true,
                     quoteText: text,
-                    quoteButtonPosition: selection?.anchorOffset < selection?.focusOffset ? 'bottom' : 'top', // todo sinan when it is bottom arrange mousePositionY
+                    quoteButtonPosition,
                 });
             }
-
-            // get the mouse position and show the button there if text is selected and hide it after 5 seconds if not clicked on it already and text is not selected anymore (on mouse up)
 
             setTimeout(() => {
                 if (this.state.showQuoteButton) {
@@ -408,12 +408,17 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
     handlePostQuote = () => {
         const currentMessage = this.state.message === '' ? '' : `${this.state.message}\n`;
+        this.applyMarkdown({
+            message: `${currentMessage} > ${this.state.quoteText}\n\n`,
+            markdownMode: 'bold',
+            selectionStart: null,
+            selectionEnd: null,
+        });
         this.setState({
             showQuoteButton: false,
             quoteText: '',
             mousePositionX: undefined,
             mousePositionY: undefined,
-            message: `${currentMessage} > ${this.state.quoteText}\n\n`,
         });
     }
 
