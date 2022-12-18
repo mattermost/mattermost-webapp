@@ -3,6 +3,8 @@
 
 import nock from 'nock';
 
+import {randomUUID} from 'crypto';
+
 import {Bot} from '@mattermost/types/bots';
 import {Team, TeamMembership} from '@mattermost/types/teams';
 import {Role} from '@mattermost/types/roles';
@@ -17,6 +19,8 @@ import {Client4} from '@mattermost/client';
 
 import General from 'mattermost-redux/constants/general';
 import {generateId} from 'mattermost-redux/utils/helpers';
+
+import {UserStatuses} from 'utils/constants';
 
 export const DEFAULT_SERVER = 'http://localhost:8065';
 const PASSWORD = 'password1';
@@ -344,6 +348,17 @@ class TestHelper {
             type: 'D',
             status: 'offline',
             teammate_id: `${otherUserId}`,
+            id: this.generateId(),
+            delete_at: 0,
+        };
+    }
+
+    fakeGmChannel = (...usernames: string[]) => {
+        return {
+            name: randomUUID(),
+            team_id: '',
+            display_name: usernames.join(','),
+            type: 'G',
             id: this.generateId(),
             delete_at: 0,
         };

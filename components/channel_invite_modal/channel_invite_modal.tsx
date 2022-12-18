@@ -24,6 +24,8 @@ import ToggleModalButton from 'components/toggle_modal_button';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
 const USERS_PER_PAGE = 50;
+const USERS_FROM_DMS = 10;
+const MAX_USERS = 25;
 
 type UserProfileValue = Value & UserProfile;
 
@@ -31,6 +33,7 @@ export type Props = {
     profilesNotInCurrentChannel: UserProfileValue[];
     profilesInCurrentChannel: UserProfileValue[];
     profilesNotInCurrentTeam: UserProfileValue[];
+    profilesFromRecentDMs: UserProfile[];
     userStatuses: RelationOneToOne<UserProfile, string>;
     onExited: () => void;
     channel: Channel;
@@ -79,7 +82,6 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
 
     constructor(props: Props) {
         super(props);
-
         this.state = {
             values: [],
             term: '',
@@ -321,6 +323,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
             const includeUsers = Object.values(this.props.includeUsers);
             users = [...users, ...includeUsers];
         }
+        users = [...filterProfilesStartingWithTerm(this.props.profilesFromRecentDMs, this.state.term).slice(0, USERS_FROM_DMS).map((user) => user as UserProfileValue), ...users].slice(0, MAX_USERS).filter(((profile, index, profiles) => profiles.indexOf(profile) === index));
 
         const closeMembersInviteModal = () => {
             this.props.actions.closeModal(ModalIdentifiers.CHANNEL_INVITE);

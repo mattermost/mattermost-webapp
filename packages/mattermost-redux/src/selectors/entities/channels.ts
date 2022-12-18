@@ -1375,3 +1375,58 @@ export const getMyActiveChannelIds = createSelector(
         return chan.id;
     }),
 );
+export const getRecentProfilesFromDMs: (state: GlobalState) => UserProfile[] = createSelector(
+    'getRecentProfilesFromDMs',
+    getAllChannels,
+    getUsers,
+    getCurrentUser,
+    getMyChannelMemberships,
+    (allChannels: IDMappedObjects<Channel>, users: IDMappedObjects<UserProfile>, currentUser: UserProfile, memberships: RelationOneToOne<Channel, ChannelMembership>) => {
+        if (!allChannels || !users) {
+            return [];
+        }
+        const recentChannelIds = Object.entries(memberships).sort(([, aMembership], [, bMembership]) => {
+            return bMembership.last_viewed_at - aMembership.last_viewed_at;
+        }).map(([cId]) => cId);
+        const groupChannels = Object.values(allChannels).filter((channel: Channel) => channel.type === General.GM_CHANNEL);
+        const dmChannels = Object.values(allChannels).filter((channel: Channel) => channel.type === General.DM_CHANNEL);
+
+        const userProfilesByChannel: {[key: string]: UserProfile[]} = {};
+
+        dmChannels.forEach((channel) => {
+            if (channel.name) {
+                const members = channel.name.split('__');
+                if (members.length === 2) {
+                    const userProfile = Object.values(users).find(((user) => user.id === members.find((uid) => uid !== currentUser.id)));
+                    if (userProfile) {
+                        userProfilesByChannel[channel.id] = [userProfile];
+                    }
+                }
+            }
+        });
+
+        groupChannels.forEach((channel) => {
+            if (channel.display_name) {
+                const memberUsernames = channel.display_name.split(',').map((username) => username.trim()).filter((username) => username !== currentUser.username);
+                const memberProfiles = Object.values(users).filter((profile) => {
+                    return memberUsernames.includes(profile.username);
+                }).sort((a, b) => {
+                    if (a.username > b.username) {
+                        return 1;
+                    } else if (b.username > a.username) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                userProfilesByChannel[channel.id] = memberProfiles;
+            }
+        });
+        const sortedUserProfiles: UserProfile[] = [];
+        recentChannelIds.forEach((cid: string) => {
+            if (userProfilesByChannel[cid]) {
+                sortedUserProfiles.push(...userProfilesByChannel[cid]);
+            }
+        });
+        return sortedUserProfiles.filter((user, index, profiles) => profiles.indexOf(user) === index);
+    },
+);
