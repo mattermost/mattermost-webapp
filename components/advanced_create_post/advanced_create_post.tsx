@@ -366,7 +366,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         document.removeEventListener('keydown', this.documentKeyHandler);
         window.removeEventListener('beforeunload', this.unloadHandler);
         this.removeOrientationListeners();
-        this.saveDraft();
         window.removeEventListener('mouseup', this.getSelectionText); // todo sinan rhs comment is not functioning correctly. add similar functionality to advanced create comment
         this.saveDraftWithShow();
     }
@@ -381,7 +380,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
             if (startingSelectedElement?.classList.contains('post-message__text') &&
                 endingSelectedElement?.classList.contains('post-message__text') &&
-                startingSelectedElement?.id === endingSelectedElement.id
+                startingSelectedElement.id === endingSelectedElement.id
             ) {
                 text = selection?.toString() || '';
             }
@@ -1588,7 +1587,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
         let renderQuoteButton;
         if (this.state.showQuoteButton) {
-            // show button where mouse is released and hide it after 5 seconds
             renderQuoteButton = (
                 <Tooltip
                     id='quoteButton'
