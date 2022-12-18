@@ -32,9 +32,6 @@ describe('Authentication', () => {
     it('MM-T1764 - Security - Signup: Email verification required (after having created account when verification was not required)', () => {
         // # Update Configs
         cy.apiUpdateConfig({
-            TeamSettings: {
-                EnableOpenServer: true,
-            },
             EmailSettings: {
                 RequireEmailVerification: false,
             },
@@ -145,13 +142,6 @@ describe('Authentication', () => {
     });
 
     it('MM-T1783 - Username validation shows errors for various username requirements', () => {
-        // # Enable open server
-        cy.apiUpdateConfig({
-            TeamSettings: {
-                EnableOpenServer: true,
-            },
-        });
-
         // # Go to sign up with email page
         cy.visit('/signup_user_complete');
 
@@ -173,7 +163,6 @@ describe('Authentication', () => {
         cy.apiUpdateConfig({
             TeamSettings: {
                 EnableUserCreation: true,
-                EnableOpenServer: true,
             },
         });
 
@@ -200,11 +189,10 @@ describe('Authentication', () => {
     });
 
     it('MM-T1753 - Enable account creation - false', () => {
-        // # Enable open server and turn off user account creation
+        // # Disable user account creation
         cy.apiUpdateConfig({
             TeamSettings: {
                 EnableUserCreation: false,
-                EnableOpenServer: true,
             },
         });
 
@@ -232,12 +220,11 @@ describe('Authentication', () => {
     });
 
     it('MM-T1754 - Restrict Domains - Account creation link on signin page', () => {
-        // # Enable open server and turn off user account creation and set restricted domain
+        // # Enable user account creation and set restricted domain
         cy.apiUpdateConfig({
             TeamSettings: {
                 RestrictCreationToDomains: 'test.com',
                 EnableUserCreation: true,
-                EnableOpenServer: true,
             },
         });
 
@@ -265,12 +252,11 @@ describe('Authentication', () => {
     });
 
     it('MM-T1755 - Restrict Domains - Email invite', () => {
-        // # Enable open server and turn off user account creation
+        // # Enable user account creation and set restricted domain
         cy.apiUpdateConfig({
             TeamSettings: {
                 RestrictCreationToDomains: 'test.com',
                 EnableUserCreation: true,
-                EnableOpenServer: true,
             },
         });
 

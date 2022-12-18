@@ -21,7 +21,7 @@ export type BillingDetails = {
 };
 
 export const areBillingDetailsValid = (
-    billingDetails: BillingDetails | null | undefined,
+    billingDetails: Omit<BillingDetails, 'card'> | null | undefined,
 ): boolean => {
     if (billingDetails == null) {
         return false;

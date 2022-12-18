@@ -75,6 +75,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
           }
         }
         hide={[MockFunction]}
+        returnFocus={[MockFunction]}
         searchTerm=""
         showUserOverlay={[MockFunction]}
       >
@@ -121,6 +122,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
           placement="right"
           popoverSize="sm"
           popoverStyle="info"
+          returnFocus={[MockFunction]}
           searchTerm=""
           showUserOverlay={[MockFunction]}
         >
@@ -155,11 +157,20 @@ exports[`component/user_group_popover should match snapshot 1`] = `
               <div
                 className="popover-content"
               >
+                <span
+                  onFocus={[Function]}
+                  tabIndex={0}
+                />
                 <Body
+                  aria-label="group_display_name"
+                  className="a11y__popup"
+                  onKeyDown={[Function]}
                   role="dialog"
                 >
                   <div
-                    className="Body-jPXXyK jkivLB"
+                    aria-label="group_display_name"
+                    className="Body-jPXXyK jkivLB a11y__popup"
+                    onKeyDown={[Function]}
                     role="dialog"
                   >
                     <Header>
@@ -182,12 +193,12 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                             <CloseButton
                               aria-label="Close"
                               className="btn-icon"
-                              onClick={[MockFunction]}
+                              onClick={[Function]}
                             >
                               <button
                                 aria-label="Close"
                                 className="CloseButton-lhxEdi gyMeQZ btn-icon"
-                                onClick={[MockFunction]}
+                                onClick={[Function]}
                               >
                                 <CloseIcon>
                                   <svg
@@ -268,12 +279,12 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                           </div>
                         </Subtitle>
                         <HeaderButton
-                          aria-label="View full group info"
+                          aria-label="group_display_name @group_name 15 Members View full group info"
                           className="user-group-popover_header-button"
                           onClick={[Function]}
                         >
                           <button
-                            aria-label="View full group info"
+                            aria-label="group_display_name @group_name 15 Members View full group info"
                             className="HeaderButton-jHgPlb jFywol user-group-popover_header-button"
                             onClick={[Function]}
                           />
@@ -1069,7 +1080,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                           }
                                         >
                                           <div
-                                            className="UserListItem-iCIMiI eBglCA group-member-list_item"
+                                            className="UserListItem-iCIMiI bTPvin group-member-list_item"
                                             role="listitem"
                                             style={
                                               Object {
@@ -1126,7 +1137,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                               className="group-member-list_dm-button"
                                             >
                                               <div
-                                                className="DMContainer-ilPVMc dULejF group-member-list_dm-button"
+                                                className="DMContainer-ilPVMc Cnskx group-member-list_dm-button"
                                               >
                                                 <SimpleTooltip
                                                   content="Send message"
@@ -1282,7 +1293,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                           }
                                         >
                                           <div
-                                            className="UserListItem-iCIMiI dWNclx group-member-list_item"
+                                            className="UserListItem-iCIMiI cXUsja group-member-list_item"
                                             role="listitem"
                                             style={
                                               Object {
@@ -1339,7 +1350,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                               className="group-member-list_dm-button"
                                             >
                                               <div
-                                                className="DMContainer-ilPVMc dULejF group-member-list_dm-button"
+                                                className="DMContainer-ilPVMc Cnskx group-member-list_dm-button"
                                               >
                                                 <SimpleTooltip
                                                   content="Send message"
@@ -1495,7 +1506,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                           }
                                         >
                                           <div
-                                            className="UserListItem-iCIMiI dWNclx group-member-list_item"
+                                            className="UserListItem-iCIMiI cXUsja group-member-list_item"
                                             role="listitem"
                                             style={
                                               Object {
@@ -1552,7 +1563,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                               className="group-member-list_dm-button"
                                             >
                                               <div
-                                                className="DMContainer-ilPVMc dULejF group-member-list_dm-button"
+                                                className="DMContainer-ilPVMc Cnskx group-member-list_dm-button"
                                               >
                                                 <SimpleTooltip
                                                   content="Send message"
@@ -1708,7 +1719,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                           }
                                         >
                                           <div
-                                            className="UserListItem-iCIMiI dWNclx group-member-list_item"
+                                            className="UserListItem-iCIMiI cXUsja group-member-list_item"
                                             role="listitem"
                                             style={
                                               Object {
@@ -1765,7 +1776,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                               className="group-member-list_dm-button"
                                             >
                                               <div
-                                                className="DMContainer-ilPVMc dULejF group-member-list_dm-button"
+                                                className="DMContainer-ilPVMc Cnskx group-member-list_dm-button"
                                               >
                                                 <SimpleTooltip
                                                   content="Send message"
@@ -1921,7 +1932,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                           }
                                         >
                                           <div
-                                            className="UserListItem-iCIMiI dWNclx group-member-list_item"
+                                            className="UserListItem-iCIMiI cXUsja group-member-list_item"
                                             role="listitem"
                                             style={
                                               Object {
@@ -1978,7 +1989,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                               className="group-member-list_dm-button"
                                             >
                                               <div
-                                                className="DMContainer-ilPVMc dULejF group-member-list_dm-button"
+                                                className="DMContainer-ilPVMc Cnskx group-member-list_dm-button"
                                               >
                                                 <SimpleTooltip
                                                   content="Send message"
@@ -2113,6 +2124,10 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                     </Connect(Component)>
                   </div>
                 </Body>
+                <span
+                  onFocus={[Function]}
+                  tabIndex={0}
+                />
               </div>
             </div>
           </Popover>

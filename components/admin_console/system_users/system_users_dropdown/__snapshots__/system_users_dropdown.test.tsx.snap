@@ -52,7 +52,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     <ul>
       <li>
         <Memo(MemoizedFormattedMessage)
-          defaultMessage="This action deactivates {username}<p>"
+          defaultMessage="This action deactivates {username}"
           id="deactivate_member_modal.desc.for_users_with_bot_accounts1"
           values={
             Object {
