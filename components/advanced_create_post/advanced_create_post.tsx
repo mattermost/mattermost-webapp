@@ -7,7 +7,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import {AlertCircleOutlineIcon, CheckCircleOutlineIcon, FormatQuoteOpenIcon} from '@mattermost/compass-icons/components';
+import {AlertCircleOutlineIcon, CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -48,6 +48,7 @@ import TextboxClass from 'components/textbox/textbox';
 import PostPriorityPickerOverlay from 'components/post_priority/post_priority_picker_overlay';
 import PriorityLabel from 'components/post_priority/post_priority_label';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
+import {QuoteButton} from 'components/quote_button';
 import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
 import EmojiMap from 'utils/emoji_map';
 
@@ -1585,19 +1586,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         if (!this.props.fullWidthTextBox) {
             centerClass = 'center';
         }
-        let renderQuoteButton;
-        if (this.state.showQuoteButton) {
-            renderQuoteButton = (
-                <Tooltip
-                    id='quoteButton'
-                    onClick={this.handlePostQuote}
-                    placement={this.state.quoteButtonPosition}
-                    style={{top: this.state.mousePositionY, left: this.state.mousePositionX}}
-                >
-                    {<FormatQuoteOpenIcon size={18}/>}
-                </Tooltip>
-            );
-        }
 
         if (!this.props.currentChannel || !this.props.currentChannel.id) {
             return null;
@@ -1670,7 +1658,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     (this.props.draft.fileInfos.length > 0 || this.props.draft.uploadsInProgress.length > 0) &&
                     <FileLimitStickyBanner/>
                 }
-                {renderQuoteButton}
+                <QuoteButton
+                    quoteButtonPosition={this.state.quoteButtonPosition}
+                    mousePositionY={this.state.mousePositionY}
+                    mousePositionX={this.state.mousePositionX}
+                    handlePostQuote={this.handlePostQuote}
+                    showQuoteButton={this.state.showQuoteButton}
+                />
                 <AdvanceTextEditor
                     location={Locations.CENTER}
                     currentUserId={this.props.currentUserId}
