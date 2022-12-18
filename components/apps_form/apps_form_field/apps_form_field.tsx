@@ -5,7 +5,6 @@ import React from 'react';
 
 import {AppField, AppSelectOption} from '@mattermost/types/apps';
 import {Channel} from '@mattermost/types/channels';
-import {UserProfile} from '@mattermost/types/users';
 import {UserAutocomplete} from '@mattermost/types/autocomplete';
 
 import {AppFieldTypes} from 'mattermost-redux/constants/apps';
@@ -44,14 +43,16 @@ export default class AppsFormField extends React.PureComponent<Props> {
         listComponent: ModalSuggestionList,
     };
 
-    handleSelected = (selected: AppSelectOption | UserProfile | Channel) => {
-        const {name, onChange, field} = this.props;
+    handleSelected = (selected: AppSelectOption | AppSelectOption[]) => {
+        const {name, onChange} = this.props;
 
-        const option = selected as AppSelectOption;
-        if (field.type === AppFieldTypes.USER) {
-            onChange(name, {label: option.label, value: option.value});
-        } else if (field.type === AppFieldTypes.CHANNEL) {
-            onChange(name, {label: option.label, value: option.value});
+        const option = selected;
+
+        if (Array.isArray(selected)) {
+            const options = selected.map((selectedItem) => ({label: selectedItem.label, value: selectedItem.value}));
+            onChange(name, options);
+        } else if (selected) {
+            onChange(name, {label: selected.label, value: selected.value});
         } else {
             onChange(name, option);
         }

@@ -204,22 +204,18 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
     }
 
     getAppFieldRenderer(type: string) {
-        let selectComponent;
         switch (type) {
         case AppFieldTypes.DYNAMIC_SELECT:
-            selectComponent = this.renderDynamicSelect();
-            break;
+            return this.renderDynamicSelect();
         case AppFieldTypes.STATIC_SELECT:
-            selectComponent = this.renderStaticSelect();
-            break;
+            return this.renderStaticSelect();
         case AppFieldTypes.USER:
-            selectComponent = this.renderUserSelect();
-            break;
+            return this.renderUserSelect();
         case AppFieldTypes.CHANNEL:
-            selectComponent = this.renderChannelSelect();
-            break;
+            return this.renderChannelSelect();
+        default:
+            return undefined;
         }
-        return selectComponent;
     }
 
     render() {
