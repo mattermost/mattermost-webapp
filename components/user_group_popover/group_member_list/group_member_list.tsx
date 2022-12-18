@@ -170,7 +170,10 @@ const GroupMemberList = (props: Props) => {
                     key={user.id}
                     role='listitem'
                 >
-                    <UserButton onClick={() => showUserOverlay(user)}>
+                    <UserButton
+                        onClick={() => showUserOverlay(user)}
+                        aria-haspopup={true}
+                    >
                         <Avatar
                             username={user.username}
                             size={'sm'}
