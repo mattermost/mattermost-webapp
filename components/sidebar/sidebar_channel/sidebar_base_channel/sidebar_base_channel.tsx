@@ -18,7 +18,6 @@ import type {PropsFromRedux} from './index';
 interface Props extends PropsFromRedux {
     channel: Channel;
     currentTeamName: string;
-    isCollapsed: boolean;
 }
 
 export default class SidebarBaseChannel extends React.PureComponent<Props> {
@@ -88,7 +87,6 @@ export default class SidebarBaseChannel extends React.PureComponent<Props> {
                 ariaLabelPrefix={ariaLabelPrefix}
                 closeHandler={this.getCloseHandler()!}
                 icon={this.getIcon()!}
-                isCollapsed={this.props.isCollapsed}
             />
         );
     }
