@@ -95,7 +95,7 @@ type Props = {
         moveChannelsInSidebar: (categoryId: string, targetIndex: number, draggableChannelId: string) => void;
         moveCategory: (teamId: string, categoryId: string, newIndex: number) => void;
         switchToChannelById: (channelId: string) => void;
-        switchToStaticPage: (itemId: string) => void;
+        switchToLhsStaticPage: (pageId: string) => void;
         close: () => void;
         setDraggingState: (data: DraggingState) => void;
         stopDragging: () => void;
@@ -313,7 +313,7 @@ export default class SidebarList extends React.PureComponent<Props, State> {
         if (this.props.staticPages.findIndex((i) => i.id === id) === -1) {
             this.props.actions.switchToChannelById(id);
         } else {
-            this.props.actions.switchToStaticPage(id);
+            this.props.actions.switchToLhsStaticPage(id);
         }
     }
 

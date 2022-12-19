@@ -16,7 +16,6 @@ import {
 } from 'mattermost-redux/selectors/entities/threads';
 
 import {getThreadCounts, getThreads} from 'mattermost-redux/actions/threads';
-import {selectChannel} from 'mattermost-redux/actions/channels';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
@@ -26,10 +25,11 @@ import {useGlobalState} from 'stores/hooks';
 import LocalStorageStore from 'stores/local_storage_store';
 import {clearLastUnreadChannel} from 'actions/global_actions';
 import {setSelectedThreadId} from 'actions/views/threads';
-import {selectStaticPage} from 'actions/views/lhs';
+import {selectLhsItem} from 'actions/views/lhs';
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
+import {LhsItemType, LhsPage} from 'types/store/lhs';
 
 import {Constants, PreviousViewedTypes} from 'utils/constants';
 
@@ -65,8 +65,7 @@ const GlobalThreads = () => {
 
     useEffect(() => {
         dispatch(suppressRHS);
-        dispatch(selectChannel(''));
-        dispatch(selectStaticPage('threads'));
+        dispatch(selectLhsItem(LhsItemType.Page, LhsPage.Threads));
         dispatch(clearLastUnreadChannel);
         loadProfilesForSidebar();
 

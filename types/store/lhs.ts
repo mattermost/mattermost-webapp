@@ -8,6 +8,18 @@ export type LhsViewState = {
     currentStaticPageId: string;
 }
 
+export enum LhsItemType {
+    None = 'none',
+    Page = 'page',
+    Channel = 'channel',
+}
+
+export enum LhsPage {
+    Drafts = 'drafts',
+    Insights = 'activity-and-insights',
+    Threads = 'threads',
+}
+
 export type StaticPage = {
     id: string;
     isVisible: boolean;

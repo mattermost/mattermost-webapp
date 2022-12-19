@@ -64,9 +64,8 @@ describe('components/AdminConsole', () => {
             cancelNavigation: jest.fn(),
             loadRolesIfNeeded: jest.fn(),
             editRole: jest.fn(),
-            selectChannel: jest.fn(),
+            selectLhsItem: jest.fn(),
             selectTeam: jest.fn(),
-            selectStaticPage: jest.fn(),
         },
     };
 

@@ -19,7 +19,7 @@ import {
     clearChannelSelection,
     multiSelectChannelAdd,
 } from 'actions/views/channel_sidebar';
-import {close, switchToSidebarStaticPage} from 'actions/views/lhs';
+import {close, switchToLhsStaticPage} from 'actions/views/lhs';
 import {
     getDisplayedChannels,
     getDraggingState,
@@ -69,7 +69,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             stopDragging,
             clearChannelSelection,
             multiSelectChannelAdd,
-            switchToStaticPage: switchToSidebarStaticPage,
+            switchToLhsStaticPage,
         }, dispatch),
     };
 }
