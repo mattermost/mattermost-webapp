@@ -3685,7 +3685,7 @@ export default class Client4 {
     // This function belongs to the Apps Framework feature.
     // Apps Framework feature is experimental, and this function is susceptible
     // to breaking changes without pushing the major version of this package.
-    getAppsBindings = async (userID: string, channelID: string, teamID: string) => {
+    getAppsBindings = async (channelID: string, teamID: string) => {
         const params = {
             channel_id: channelID,
             team_id: teamID,

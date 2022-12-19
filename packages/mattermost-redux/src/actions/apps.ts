@@ -24,11 +24,10 @@ export function fetchAppBindings(channelID: string): ActionFunc {
 
         const state = getState();
         const channel = getChannel(state, channelID);
-        const userID = getCurrentUserId(state);
         const teamID = channel?.team_id || getCurrentTeamId(state);
 
         return dispatch(bindClientFunc({
-            clientFunc: () => Client4.getAppsBindings(userID, channelID, teamID),
+            clientFunc: () => Client4.getAppsBindings(channelID, teamID),
             onSuccess: AppsTypes.RECEIVED_APP_BINDINGS,
             onFailure: AppsTypes.FAILED_TO_FETCH_APP_BINDINGS,
         }));
@@ -51,10 +50,8 @@ export function fetchRHSAppsBindings(channelID: string): ActionFunc {
             });
         }
 
-        const userID = getCurrentUserId(state);
-
         return dispatch(bindClientFunc({
-            clientFunc: () => Client4.getAppsBindings(userID, channelID, teamID),
+            clientFunc: () => Client4.getAppsBindings(channelID, teamID),
             onSuccess: AppsTypes.RECEIVED_APP_RHS_BINDINGS,
             onFailure: AppsTypes.FAILED_TO_FETCH_APP_BINDINGS,
         }));
