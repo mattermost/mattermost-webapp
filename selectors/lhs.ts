@@ -19,6 +19,8 @@ export function getCurrentStaticPageId(state: GlobalState): string {
     return state.views.lhs.currentStaticPageId;
 }
 
+export const getDraftsCount = makeGetDraftsCount();
+
 export const getVisibleStaticPages = createSelector(
     'getVisibleSidebarStaticPages',
     (state: GlobalState) => {
@@ -47,10 +49,7 @@ export const getVisibleStaticPages = createSelector(
 
         return pages;
     },
-    (state: GlobalState) => {
-        const getDraftsCount = makeGetDraftsCount();
-        return getDraftsCount(state);
-    },
+    (state: GlobalState) => getDraftsCount(state),
     (staticPages, draftsCount) => {
         return staticPages.map((page) => {
             if (page.id === 'drafts') {
