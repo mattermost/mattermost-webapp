@@ -4778,6 +4778,8 @@
   "sidebar.createDirectMessage": "Write a direct message",
   "sidebar.createUserGroup": "Create New User Group",
   "sidebar.directchannel.you": "{displayname} (you)",
+  "sidebar.menu.item.notSelected": "not selected",
+  "sidebar.menu.item.selected": "selected",
   "sidebar.openDirectMessage": "Open a Direct Message",
   "sidebar.show": "Show",
   "sidebar.sort": "Sort",
