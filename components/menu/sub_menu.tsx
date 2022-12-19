@@ -1,7 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode, useState, MouseEvent} from 'react';
+import React, {
+    KeyboardEvent,
+    MouseEvent,
+    ReactNode,
+    useCallback,
+    useState,
+} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import MuiMenuList from '@mui/material/MenuList';
 import {PopoverOrigin} from '@mui/material/Popover';
@@ -67,6 +73,20 @@ export function SubMenu(props: Props) {
         setAnchorElement(null);
     };
 
+    const handleItemKeyDown = useCallback((event: KeyboardEvent<HTMLLIElement>) => {
+        if (event.key === 'ArrowRight' || event.key === 'Enter') {
+            event.preventDefault();
+            setAnchorElement(event.currentTarget);
+        }
+    }, []);
+
+    const handleSubMenuKeyDown = useCallback((event: KeyboardEvent) => {
+        if (event.key === 'ArrowLeft' || event.key === 'Escape') {
+            event.preventDefault();
+            setAnchorElement(null);
+        }
+    }, []);
+
     const hasSubmenuItems = Boolean(props.children);
     if (!hasSubmenuItems) {
         return null;
@@ -92,6 +112,7 @@ export function SubMenu(props: Props) {
             {...triggerButtonProps}
             onMouseEnter={handleSubMenuOpen}
             onMouseLeave={handleSubMenuClose}
+            onKeyDown={handleItemKeyDown}
         >
             <MuiMenuStyled
                 id={props.menuId}
@@ -102,6 +123,7 @@ export function SubMenu(props: Props) {
                 asSubMenu={true}
                 sx={{pointerEvents: 'none'}} // disables the menu background wrapper for accessing submenu
                 {...getOriginOfAnchorAndTransform(props.openAt)}
+                onKeyDown={handleSubMenuKeyDown}
             >
                 {props.children}
             </MuiMenuStyled>
