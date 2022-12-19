@@ -186,6 +186,7 @@ function setDraft(key: string, value: PostDraft, draftChannelId: string, save = 
                 ...value,
                 channelId,
                 remote: false,
+                show: true,
             };
         }
         if (updatedValue) {
