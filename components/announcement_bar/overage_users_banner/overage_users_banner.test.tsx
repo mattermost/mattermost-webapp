@@ -10,7 +10,7 @@ import {General} from 'mattermost-redux/constants';
 import {OverActiveUserLimits, Preferences, StatTypes} from 'utils/constants';
 import {renderWithIntlAndStore} from 'tests/react_testing_utils';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {getLicenseExpandStats} from 'mattermost-redux/actions/cloud';
+import {getLicenseExpandStatus} from 'mattermost-redux/actions/cloud';
 import {TestHelper} from 'utils/test_helper';
 import {generateId} from 'utils/utils';
 
@@ -33,7 +33,7 @@ jest.mock('mattermost-redux/actions/preferences', () => ({
 }));
 
 jest.mock('mattermost-redux/actions/cloud', () => ({
-    getLicenseExpandStats: jest.fn(),
+    getLicenseExpandStatus: jest.fn(),
 }));
 
 const seatsPurchased = 40;
@@ -125,7 +125,7 @@ describe('components/overage_users_banner', () => {
         renderComponent();
 
         expect(screen.queryByText('Your workspace user count has exceeded your paid license seat count by', {exact: false})).not.toBeInTheDocument();
-        expect(getLicenseExpandStats).not.toBeCalled();
+        expect(getLicenseExpandStatus).not.toBeCalled();
     });
 
     it('should not render the banner because we are not admins', () => {
@@ -147,7 +147,7 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.queryByText('Your workspace user count has exceeded your paid license seat count by', {exact: false})).not.toBeInTheDocument();
-        expect(getLicenseExpandStats).not.toBeCalled();
+        expect(getLicenseExpandStatus).not.toBeCalled();
     });
 
     it('should not render the banner because it\'s cloud licenese', () => {
@@ -163,7 +163,7 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.queryByText('Your workspace user count has exceeded your paid license seat count by', {exact: false})).not.toBeInTheDocument();
-        expect(getLicenseExpandStats).not.toBeCalled();
+        expect(getLicenseExpandStatus).not.toBeCalled();
     });
 
     it('should not render the 5% banner because we have dissmised it', () => {
@@ -191,7 +191,7 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.queryByText(text5PercentageState)).not.toBeInTheDocument();
-        expect(getLicenseExpandStats).not.toBeCalled();
+        expect(getLicenseExpandStatus).not.toBeCalled();
     });
 
     it('should render the banner because we are over 5% and we don\'t have any preferences', () => {

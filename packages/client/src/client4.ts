@@ -22,7 +22,7 @@ import {
     NotifyAdminRequest,
     Subscription,
     ValidBusinessEmail,
-    LicenseExpandStats,
+    LicenseExpandStatus,
     SelfHostedSignupProgress,
 } from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
@@ -3902,8 +3902,8 @@ export default class Client4 {
         );
     }
 
-    getLicenseExpandStats = () => {
-        return this.doFetch<LicenseExpandStats>(
+    getLicenseExpandStatus = () => {
+        return this.doFetch<LicenseExpandStatus>(
             `${this.getCloudRoute()}/subscription/expand`, {method: 'get'},
         );
     }

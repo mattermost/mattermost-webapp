@@ -14,10 +14,10 @@ import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {PreferenceType} from '@mattermost/types/preferences';
-import {LicenseExpandStats} from '@mattermost/types/cloud';
+import {LicenseExpandReducer} from '@mattermost/types/cloud';
 import {LicenseLinks, StatTypes, Preferences, AnnouncementBarTypes} from 'utils/constants';
 import {getExpandSeatsLink} from 'selectors/cloud';
-import {getLicenseExpandStats} from 'mattermost-redux/actions/cloud';
+import {getLicenseExpandStatus} from 'mattermost-redux/actions/cloud';
 
 import './overage_users_banner.scss';
 
@@ -46,7 +46,7 @@ const OverageUsersBanner = () => {
     const getPreferencesCategory = makeGetCategory();
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     const overagePreferences = useSelector((state: GlobalState) => getPreferencesCategory(state, Preferences.OVERAGE_USERS_BANNER));
-    const {getRequestState, is_expandable: isExpendable}: LicenseExpandStats = useSelector((state: GlobalState) => state.entities.cloud.subscriptionStats || {is_expandable: false, getRequestState: 'IDLE'});
+    const {getRequestState, is_expandable: isExpendable}: LicenseExpandReducer = useSelector((state: GlobalState) => state.entities.cloud.subscriptionStats || {is_expandable: false, getRequestState: 'IDLE'});
     const expandableLink = useSelector(getExpandSeatsLink);
     const [cta, setCTA] = useState(formatMessage({
         id: 'licensingPage.overageUsersBanner.cta',
@@ -72,7 +72,7 @@ const OverageUsersBanner = () => {
     useEffect(() => {
         const shouldRequest = hasPermission && !adminHasDismissed({isWarningBanner: isBetween5PercerntAnd10PercentPurchasedSeats, overagePreferences, preferenceName});
         if (shouldRequest && license.Id && getRequestState === 'IDLE') {
-            dispatch(getLicenseExpandStats());
+            dispatch(getLicenseExpandStatus());
         }
     }, [hasPermission, license.Id, dispatch, isBetween5PercerntAnd10PercentPurchasedSeats, overagePreferences, preferenceName, getRequestState]);
 

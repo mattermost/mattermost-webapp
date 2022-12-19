@@ -7,7 +7,7 @@ import type {ValueOf} from '@mattermost/types/utilities';
 import {CloudTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Product, Subscription, CloudCustomer, Invoice, Limits, LicenseExpandStats, SelfHostedSignupProgress} from '@mattermost/types/cloud';
+import {Product, Subscription, CloudCustomer, Invoice, Limits, SelfHostedSignupProgress, LicenseExpandReducer} from '@mattermost/types/cloud';
 
 export function subscription(state: Subscription | null = null, action: GenericAction) {
     switch (action.type) {
@@ -29,7 +29,7 @@ function customer(state: CloudCustomer | null = null, action: GenericAction) {
     }
 }
 
-export function subscriptionStats(state: LicenseExpandStats | null = null, action: GenericAction): LicenseExpandStats | null {
+export function subscriptionStats(state: LicenseExpandReducer | null = null, action: GenericAction): LicenseExpandReducer | null {
     switch (action.type) {
     case CloudTypes.CLOUD_EXPAND_STATS_REQUEST: {
         return {
