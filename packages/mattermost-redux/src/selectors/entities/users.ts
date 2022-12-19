@@ -712,6 +712,17 @@ export const getProfilesInGroup: (state: GlobalState, groupId: Group['id'], filt
     },
 );
 
+export const getProfilesInGroupWithoutSorting: (state: GlobalState, groupId: Group['id'], filters?: Filters) => UserProfile[] = createSelector(
+    'getProfilesInGroup',
+    getUsers,
+    getUserIdsInGroups,
+    (state: GlobalState, groupId: string) => groupId,
+    (state: GlobalState, groupId: string, filters: Filters) => filters,
+    (profiles, usersInGroups, groupId, filters) => {
+        return injectProfiles(filterProfiles(profiles, filters), usersInGroups[groupId] || new Set());
+    },
+);
+
 export const getProfilesNotInCurrentGroup: (state: GlobalState, groupId: Group['id'], filters?: Filters) => UserProfile[] = createSelector(
     'getProfilesNotInGroup',
     getUsers,
@@ -725,6 +736,15 @@ export const getProfilesNotInCurrentGroup: (state: GlobalState, groupId: Group['
 
 export function searchProfilesInGroup(state: GlobalState, groupId: Group['id'], term: string, skipCurrent = false, filters?: Filters): UserProfile[] {
     const profiles = filterProfilesStartingWithTerm(getProfilesInGroup(state, groupId, filters), term);
+    if (skipCurrent) {
+        removeCurrentUserFromList(profiles, getCurrentUserId(state));
+    }
+
+    return profiles;
+}
+
+export function searchProfilesInGroupWithoutSorting(state: GlobalState, groupId: Group['id'], term: string, skipCurrent = false, filters?: Filters): UserProfile[] {
+    const profiles = filterProfilesStartingWithTerm(getProfilesInGroupWithoutSorting(state, groupId, filters), term);
     if (skipCurrent) {
         removeCurrentUserFromList(profiles, getCurrentUserId(state));
     }
