@@ -381,6 +381,7 @@
         resize: none;
         scrollbar-color: var(--center-channel-color-32) #fff0;
         scrollbar-width: thin;
+        transition: height 150ms ease-in-out;
 
         &:not(.custom-textarea--emoji-picker) {
             padding-right: 40px;
@@ -476,8 +477,9 @@
         display: block;
         overflow: hidden;
         height: 20px;
-        margin-bottom: 5px;
-        font-size: 0.95em;
+        margin: 2px 0;
+        font-size: 10px;
+        line-height: 16px;
         opacity: 0.7;
         text-overflow: ellipsis;
         white-space: nowrap;

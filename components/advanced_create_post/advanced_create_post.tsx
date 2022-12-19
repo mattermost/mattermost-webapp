@@ -11,6 +11,7 @@ import {AlertCircleOutlineIcon, CheckCircleOutlineIcon} from '@mattermost/compas
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import * as GlobalActions from 'actions/global_actions';
 import Constants, {
@@ -35,10 +36,12 @@ import {getTable, hasHtmlLink, formatMarkdownMessage, formatGithubCodePaste, isG
 import * as UserAgent from 'utils/user_agent';
 import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
+import EmojiMap from 'utils/emoji_map';
+import {applyMarkdown, ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 
-import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import Tooltip from 'components/tooltip';
 import OverlayTrigger from 'components/overlay_trigger';
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
@@ -47,14 +50,10 @@ import ResetStatusModal from 'components/reset_status_modal';
 import TextboxClass from 'components/textbox/textbox';
 import PostPriorityPickerOverlay from 'components/post_priority/post_priority_picker_overlay';
 import PriorityLabel from 'components/post_priority/post_priority_label';
-import {FilePreviewInfo} from 'components/file_preview/file_preview';
-import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
-import EmojiMap from 'utils/emoji_map';
 
-import {ActionResult} from 'mattermost-redux/types/actions';
+import {PostDraft} from 'types/store/draft';
 
 import {ModalData} from 'types/actions';
-import {PostDraft} from 'types/store/draft';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {Post, PostMetadata, PostPriorityMetadata} from '@mattermost/types/posts';
@@ -65,10 +64,11 @@ import {Group, GroupSource} from '@mattermost/types/groups';
 import {FileInfo} from '@mattermost/types/files';
 import {Emoji} from '@mattermost/types/emojis';
 
-import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
+import AdvancedTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_icon';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
+import {FilePreviewInfo} from '../file_preview/file_preview';
 const KeyCodes = Constants.KeyCodes;
 
 function isDraftEmpty(draft: PostDraft): boolean {
@@ -1596,7 +1596,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     (this.props.draft.fileInfos.length > 0 || this.props.draft.uploadsInProgress.length > 0) &&
                     <FileLimitStickyBanner/>
                 }
-                <AdvanceTextEditor
+                <AdvancedTextEditor
                     location={Locations.CENTER}
                     currentUserId={this.props.currentUserId}
                     postError={this.state.postError}
@@ -1647,7 +1647,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     textboxRef={this.textboxRef}
                     labels={priorityLabels}
                     additionalControls={[
-                        this.props.isPostPriorityEnabled ? (
+                        this.props.isPostPriorityEnabled && (
                             <React.Fragment key='PostPriorityPicker'>
                                 <PostPriorityPickerOverlay
                                     settings={this.props.draft?.metadata?.priority}
@@ -1685,8 +1685,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                     </IconContainer>
                                 </OverlayTrigger>
                             </React.Fragment>
-                        ) : null,
-                    ]}
+                        ),
+                    ].filter(Boolean)}
                 />
             </form>
         );
