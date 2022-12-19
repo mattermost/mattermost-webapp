@@ -81,7 +81,10 @@ export function SubMenu(props: Props) {
     }, []);
 
     const handleSubMenuKeyDown = useCallback((event: KeyboardEvent) => {
-        if (event.key === 'ArrowLeft' || event.key === 'Escape') {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            // Stop the event from propagating upwards since that causes navigation to move by 2 items at a time
+            event.stopPropagation();
+        } else if (event.key === 'ArrowLeft' || event.key === 'Escape') {
             event.preventDefault();
             setAnchorElement(null);
         }
