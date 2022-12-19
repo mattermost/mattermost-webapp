@@ -17,6 +17,6 @@ export function isError(result: ActionResult): result is ErrorResult {
 
 export type ModalData<ModalProps> = {
     modalId: string;
-    dialogProps?: Omit<ModalProps, 'onHide' | 'onExited'> & {onHide?: () => void; onExited?: () => void};
+    dialogProps?: Omit<ModalProps, 'onHide' | 'onExited'> & {onHide?: () => void; onExited?: () => void; returnFocus?: () => void};
     dialogType: React.ElementType<ModalProps>;
 }

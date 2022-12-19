@@ -83,7 +83,7 @@ const enum ServerErrorId {
 }
 
 type Props = {
-    returnFocus?: () => void;
+    handleReturnFocus?: () => void;
     onExited: () => void;
 }
 
@@ -228,14 +228,14 @@ const NewChannelModal = (props: Props) => {
     };
 
     const handleOnModalCancel = () => {
-        if (props.returnFocus) {
-            props.returnFocus();
+        if (props.handleReturnFocus) {
+            props.handleReturnFocus();
         }
     };
 
     const handleOnExited = () => {
-        if (props.returnFocus) {
-            props.returnFocus();
+        if (props.handleReturnFocus) {
+            props.handleReturnFocus();
         }
         props.onExited();
     };

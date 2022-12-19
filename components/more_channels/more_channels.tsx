@@ -95,7 +95,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             modalId: ModalIdentifiers.NEW_CHANNEL_MODAL,
             dialogType: NewChannelModal,
             dialogProps: {
-                returnFocus: this.props.returnFocus,
+                handleReturnFocus: this.props.returnFocus,
             },
         });
     }

@@ -45,7 +45,7 @@ export type Props = {
     restrictDirectMessage?: string;
     onModalDismissed?: () => void;
     onExited?: () => void;
-    returnFocus?: () => void;
+    handleReturnFocus?: () => void;
     actions: {
         getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;
         getProfilesInTeam: (teamId: string, page: number, perPage?: number | undefined, sort?: string | undefined, options?: any) => Promise<any>;
@@ -84,8 +84,8 @@ export default class MoreDirectChannels extends React.PureComponent<Props, State
         this.searchTimeoutId = 0;
         this.multiselect = React.createRef();
         this.selectedItemRef = React.createRef();
-        if (props.returnFocus) {
-            this.handleReturn = props.returnFocus;
+        if (props.handleReturnFocus) {
+            this.handleReturn = props.handleReturnFocus;
         }
 
         const values: OptionValue[] = [];
