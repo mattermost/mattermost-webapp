@@ -19,6 +19,7 @@ const CenterControlsContainer = styled.div`
     height: 40px;
     justify-content: center;
     flex-grow: 1;
+    flex-basis: 40%;
 
     > * + * {
         margin-left: 8px;

@@ -57,7 +57,7 @@ import './purchase.scss';
 
 let stripePromise: Promise<Stripe | null>;
 
-enum ButtonCustomiserClasses {
+export enum ButtonCustomiserClasses {
     grayed = 'grayed',
     active = 'active',
     special = 'special',
@@ -85,6 +85,10 @@ type CardProps = {
     buttonDetails: ButtonDetails;
     planBriefing: JSX.Element | null; // can be removed once Yearly Subscriptions are available
     planLabel?: JSX.Element;
+    seeHowBillingWorks?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+    hideBillingCycle?: boolean;
+    preButtonContent?: React.ReactNode;
+    afterButtonContent?: React.ReactNode;
     annualSubscription: boolean;
     usersCount: number;
     monthlyPrice: number;
@@ -206,8 +210,8 @@ function getSelectedProduct(
     return findProductInDictionary(products, null, nextSku, RecurringIntervals.MONTH);
 }
 
-function Card(props: CardProps) {
-    const seeHowBillingWorks = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+export function Card(props: CardProps) {
+    const seeHowBillingWorks = props.seeHowBillingWorks || function seeHowBillingWorks(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
         e.preventDefault();
         trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_see_how_billing_works');
         window.open(CloudLinks.BILLING_DOCS, '_blank');
@@ -459,6 +463,7 @@ function Card(props: CardProps) {
                     <p>{props.rate}</p>
                 </div>
                 {props.planBriefing}
+                {props.preButtonContent}
                 <div>
                     <button
                         className={'plan_action_btn ' + props.buttonDetails.customClass}
@@ -466,7 +471,7 @@ function Card(props: CardProps) {
                         onClick={props.buttonDetails.action}
                     >{props.buttonDetails.text}</button>
                 </div>
-                <div className='plan_billing_cycle'>
+                {!props.hideBillingCycle && <div className='plan_billing_cycle'>
                     <FormattedMessage
                         defaultMessage={
                             'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
@@ -481,7 +486,8 @@ function Card(props: CardProps) {
                             id={'admin.billing.subscription.howItWorks'}
                         />
                     </a>
-                </div>
+                </div>}
+                {props.afterButtonContent}
             </div>
         </div>
     );

@@ -34,7 +34,6 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
         currentUserId: 'current_user_id',
         redirectChannel: 'redirect-channel',
         active: false,
-        isCollapsed: false,
         isMobile: false,
         actions: {
             savePreferences: jest.fn(),

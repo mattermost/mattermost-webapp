@@ -2,17 +2,10 @@
 // See LICENSE.txt for license information.
 
 // Stub the browser notification API with the given name and permission
-export function spyNotificationAs(name, permission) {
+export function spyNotificationAs(name: string, permission: NotificationPermission) {
     cy.window().then((win) => {
-        function Notification(title, opts) {
-            this.title = title;
-            this.opts = opts;
-        }
-
-        Notification.requestPermission = () => permission;
-        Notification.close = () => true;
-
         win.Notification = Notification;
+        win.Notification.requestPermission = () => Promise.resolve(permission);
 
         cy.stub(win, 'Notification').as(name);
     });
