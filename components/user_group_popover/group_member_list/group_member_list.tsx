@@ -172,7 +172,7 @@ const GroupMemberList = (props: Props) => {
                 >
                     <UserButton
                         onClick={() => showUserOverlay(user)}
-                        aria-haspopup={true}
+                        aria-haspopup='dialog'
                     >
                         <Avatar
                             username={user.username}
