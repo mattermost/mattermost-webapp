@@ -35,7 +35,7 @@ import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
 
-import Constants, {A11yClassNames, PostListRowListIds, Preferences} from 'utils/constants';
+import Constants, {PostListRowListIds, Preferences} from 'utils/constants';
 import {formatWithRenderer} from 'utils/markdown';
 import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import {allAtMentions} from 'utils/text_formatting';
