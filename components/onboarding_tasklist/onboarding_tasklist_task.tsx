@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import {CompletedAnimation} from './onboarding_tasklist_animations';
 
 export interface TaskProps {
-    label: React.ReactElement | string;
+    label: JSX.Element;
     icon?: React.ReactNode;
     onClick?: () => void;
     completedStatus: boolean;

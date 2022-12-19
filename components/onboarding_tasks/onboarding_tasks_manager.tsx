@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback, useMemo} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {matchPath, useHistory, useLocation} from 'react-router-dom';
 
@@ -51,6 +51,8 @@ import security from 'images/security.svg';
 import sunglasses from 'images/sunglasses.svg';
 import wrench from 'images/wrench.svg';
 
+import {t} from '../../utils/i18n';
+
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
 import {generateTelemetryTag} from './utils';
 
@@ -61,139 +63,78 @@ const TaskListImage = styled.img`
     height: 24px;
 `;
 
-const taskLabels = {
-    [OnboardingTasksName.CHANNELS_TOUR]: (
-        <>
-            <picture>
-                <TaskListImage
-                    src={channels}
-                    alt={'Take a tour of Channels.'}
-                />
-            </picture>
-            <FormattedMessage
-                id='onboardingTask.checklist.task_learn_more_about_messaging'
-                defaultMessage='Take a tour of Channels.'
-            />
-        </>
-    ),
-    [OnboardingTasksName.BOARDS_TOUR]: (
-        <>
-            <picture>
-                <TaskListImage
-                    src={bullseyeImg}
-                    alt={'Manage tasks with your first board.'}
-                />
-            </picture>
-            <FormattedMessage
-                id='onboardingTask.checklist.plan_sprint_with_kanban_style_boards'
-                defaultMessage='Manage tasks with your first board.'
-            />
-        </>
-    ),
-    [OnboardingTasksName.PLAYBOOKS_TOUR]: (
-        <>
-            <picture>
-                <TaskListImage
-                    src={clipboard}
-                    alt={'Explore workflows with your first playbook.'}
-                />
-            </picture>
-            <FormattedMessage
-                id='onboardingTask.checklist.task_resolve_incidents_faster_with_playbooks'
-                defaultMessage='Explore workflows with your first playbook.'
-            />
-        </>
-    ),
-    [OnboardingTasksName.INVITE_PEOPLE]: (
-        <>
-            <picture>
-                <TaskListImage
-                    src={handshake}
-                    alt={'Invite team members to the workspace.'}
-                />
-            </picture>
-            <FormattedMessage
-                id='onboardingTask.checklist.task_invite_team_members'
-                defaultMessage='Invite team members to the workspace.'
-            />
-        </>
+// eslint-disable-next-line react-hooks/rules-of-hooks
 
-    ),
-    [OnboardingTasksName.COMPLETE_YOUR_PROFILE]: (
-        <>
-            <picture>
-                <TaskListImage
-                    src={sunglasses}
-                    alt={'Complete your profile.'}
-                />
-            </picture>
-            <FormattedMessage
-                id='onboardingTask.checklist.task_complete_your_profile'
-                defaultMessage='Complete your profile.'
-            />
-        </>
+interface OnBoardingTaskListTaskProps {
+    id: string;
+    svg: string;
+    message: string;
+}
 
-    ),
-    [OnboardingTasksName.EXPLORE_OTHER_TOOLS]: (
-        <>
-            <picture>
-                <TaskListImage
-                    src={wrench}
-                    alt={'Explore other tools in the platform'}
-                />
-            </picture>
-            <FormattedMessage
-                id='onboardingTask.checklist.explore_other_tools_in_platform'
-                defaultMessage='Explore other tools in the platform'
-            />
-        </>
+const getTaskDetails = {
+    [OnboardingTasksName.CHANNELS_TOUR]: {
+        id: 'onboardingTask.checklist.task_learn_more_about_messaging',
+        svg: channels,
+        message: 'Take a tour of Channels.',
+    },
+    [OnboardingTasksName.BOARDS_TOUR]: {
+        id: 'onboardingTask.checklist.plan_sprint_with_kanban_style_boards',
+        svg: bullseyeImg,
+        message: 'Manage tasks with your first board.',
+    },
+    [OnboardingTasksName.PLAYBOOKS_TOUR]: {
+        id: 'onboardingTask.checklist.task_resolve_incidents_faster_with_playbooks',
+        svg: clipboard,
+        message: 'Explore workflows with your first playbook.',
+    },
+    [OnboardingTasksName.INVITE_PEOPLE]: {
+        id: 'onboardingTask.checklist.task_invite_team_members',
+        svg: handshake,
+        message: 'Invite team members to the workspace.',
+    },
+    [OnboardingTasksName.COMPLETE_YOUR_PROFILE]: {
+        id: 'onboardingTask.checklist.task_complete_your_profile',
+        svg: sunglasses,
+        message: 'Complete your profile.',
+    },
 
-    ),
-    [OnboardingTasksName.DOWNLOAD_APP]: (
-        <>
-            <picture>
-                <TaskListImage
-                    src={phone}
-                    alt={'Download the Desktop and Mobile Apps.'}
-                />
-            </picture>
-            <FormattedMessage
-                id='onboardingTask.checklist.task_download_mm_apps'
-                defaultMessage='Download the Desktop and Mobile Apps.'
-            />
-        </>
+    [OnboardingTasksName.EXPLORE_OTHER_TOOLS]: {
+        id: 'onboardingTask.checklist.explore_other_tools_in_platform',
+        svg: wrench,
+        message: 'Explore other tools in the platform.',
+    },
 
-    ),
-    [OnboardingTasksName.VISIT_SYSTEM_CONSOLE]: (
-        <>
-            <picture>
-                <TaskListImage
-                    src={gears}
-                    alt={'Visit the System Console to configure your workspace.'}
-                />
-            </picture>
-            <FormattedMessage
-                id='onboardingTask.checklist.task_visit_system_console'
-                defaultMessage='Visit the System Console to configure your workspace.'
-            />
-        </>
+    [OnboardingTasksName.DOWNLOAD_APP]: {
+        id: 'onboardingTask.checklist.task_download_mm_apps',
+        svg: phone,
+        message: 'Download the Desktop and Mobile Apps.',
+    },
 
-    ),
-    [OnboardingTasksName.START_TRIAL]: (
-        <>
-            <picture>
-                <TaskListImage
-                    src={security}
-                    alt={'Learn more about Enterprise-level high-security features'}
-                />
-            </picture>
-            <FormattedMessage
-                id='onboardingTask.checklist.task_start_enterprise_trial'
-                defaultMessage='Learn more about Enterprise-level high-security features'
-            />
-        </>
+    [OnboardingTasksName.VISIT_SYSTEM_CONSOLE]: {
+        id: 'onboardingTask.checklist.task_visit_system_console',
+        svg: gears,
+        message: 'Visit the System Console to configure your workspace.',
+    },
+    [OnboardingTasksName.START_TRIAL]: {
+        id: 'onboardingTask.checklist.task_start_enterprise_trial',
+        svg: security,
+        message: 'Learn more about Enterprise-level high-security features.',
+    },
+};
 
-    ),
+const useOnBoardingTaskListTask = ({id, svg, message}: OnBoardingTaskListTaskProps) => {
+    const {formatMessage} = useIntl();
+    const taskMessage = formatMessage({id: t(id), defaultMessage: message});
+
+    return (<>
+        <picture>
+            <TaskListImage
+                src={svg}
+                alt={taskMessage}
+            />
+        </picture>
+        {taskMessage}
+    </>);
 };
 
 export const useTasksList = () => {
@@ -260,15 +201,19 @@ export const useTasksList = () => {
 export const useTasksListWithStatus = () => {
     const dataInDb = useSelector((state: GlobalState) => getCategory(state, OnboardingTaskCategory));
     const tasksList = useTasksList();
-    return useMemo(() =>
-        tasksList.map((task) => {
+    return useMemo(() => {
+        return tasksList.map((task) => {
             const status = dataInDb.find((pref) => pref.name === task)?.value;
             return {
                 name: task,
                 status: status === FINISHED.toString(),
-                label: taskLabels[task],
+                useOnLabel: () => {
+                    const {id, svg, message} = getTaskDetails[task];
+                    return useOnBoardingTaskListTask({id, svg, message});
+                },
             };
-        }), [dataInDb, tasksList]);
+        });
+    }, [dataInDb, tasksList]);
 };
 
 export const useHandleOnBoardingTaskData = () => {
