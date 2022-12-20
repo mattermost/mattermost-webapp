@@ -63,7 +63,7 @@ const Header = styled.h4`
 
 const Feedback = styled.a`
     margin-left: auto;
-    font-size: 12px;
+    font-size: 11px;
 `;
 
 const Footer = styled.div`
