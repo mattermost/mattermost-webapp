@@ -53,27 +53,32 @@ const TrueUpReview: React.FC = () => {
         URL.revokeObjectURL(href);
     };
 
-    const cta = (isAirGapped ?
-        (<FormattedMessage
-            id='admin.billing.trueUpReview.send.data'
-            defaultMessage='Download Data'
-        />)		:
-        (<FormattedMessage
-            id='admin.billing.trueUpReview.send.data'
-            defaultMessage='Send Data'
-        />)
+    const cta = (
+        <>
+            {isAirGapped ?
+                <FormattedMessage
+                    id='admin.billing.trueUpReview.send.data'
+                    defaultMessage='Download Data'
+                /> :
+                <FormattedMessage
+                    id='admin.billing.trueUpReview.send.data'
+                    defaultMessage='Send Data'
+                />}
+        </>
     );
 
     const description = (
-        isAirGapped ?
-            (<FormattedMessage
-                id='admin.billing.trueUpReview.download.bundle'
-                defaultMessage='Download true-up review bundle'
-            />)			:
-            (<FormattedMessage
-                id='admin.billing.trueUpReview.send.data'
-                defaultMessage='Send data for true-up review'
-            />)
+        <>
+            {isAirGapped ?
+                <FormattedMessage
+                    id='admin.billing.trueUpReview.download.bundle'
+                    defaultMessage='Download true-up review bundle'
+                /> :
+                <FormattedMessage
+                    id='admin.billing.trueUpReview.send.data'
+                    defaultMessage='Send data for true-up review'
+                />}
+        </>
     );
 
     const submitButton = (
@@ -82,7 +87,7 @@ const TrueUpReview: React.FC = () => {
                 <FormattedMessage
                     id='admin.billing.trueUpReview.button.download'
                     defaultMessage='Download True Up Review Bundle'
-                />				:
+                /> :
                 <FormattedMessage
                     id='admin.billing.trueUpReview.button.submit'
                     defaultMessage='Submit True Up Review'
