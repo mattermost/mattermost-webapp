@@ -27,8 +27,6 @@ type Props = {
     topOffset?: number;
     leftOffset?: number;
     style?: React.CSSProperties;
-    requestedAck?: boolean;
-    persistentNotifications?: boolean;
 }
 
 const Beta = styled(Badge)`
@@ -59,9 +57,13 @@ const Header = styled.h4`
     font-weight: 600;
     letter-spacing: 0;
     line-height: 20px;
-    margin-right: 4px;
-    padding: 14px 20px 6px;
+    padding: 14px 16px 6px;
     text-align: left;
+`;
+
+const Feedback = styled.a`
+    margin-left: auto;
+    font-size: 12px;
 `;
 
 const Footer = styled.div`
@@ -164,7 +166,7 @@ function PostPriorityPicker({
             style={pickerStyle}
             className={classNames({PostPriorityPicker: true, bottom: placement === 'bottom', 'PostPriorityPicker--large': postAcknowledgementsEnabled})}
         >
-            <Header className='modal-title mr-2'>
+            <Header className='modal-title'>
                 {formatMessage({
                     id: 'post_priority.picker.header',
                     defaultMessage: 'Message priority',
@@ -176,6 +178,19 @@ function PostPriorityPicker({
                 >
                     {'BETA'}
                 </Beta>
+                {postAcknowledgementsEnabled && (
+                    <Feedback
+                        className='theme markdown__link'
+                        href='https://forms.gle/noA8Azg7RdaBZtMB6'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                    >
+                        <FormattedMessage
+                            id={'post_priority.picker.feedback'}
+                            defaultMessage={'Give feedback'}
+                        />
+                    </Feedback>
+                )}
             </Header>
             <div role='application'>
                 <Menu className='Menu'>
