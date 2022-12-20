@@ -24,6 +24,7 @@ exports[`components/activity_and_insights/insights/insights_title should match s
       </div>
     </div>
     <button
+      aria-label="Open modal for Top channels"
       className="icon"
       onClick={[Function]}
     >
@@ -60,6 +61,7 @@ exports[`components/activity_and_insights/insights/insights_title should match s
       />
     </div>
     <button
+      aria-label="Open modal for "
       className="icon"
       onClick={[Function]}
     >

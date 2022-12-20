@@ -41,6 +41,7 @@ const ActivityAndInsightsLink = () => {
                     active: inInsights,
                 })}
                 tabIndex={-1}
+                role='listitem'
             >
                 <Link
                     onClick={openInsights}
@@ -48,7 +49,6 @@ const ActivityAndInsightsLink = () => {
                     id='sidebarItem_insights'
                     draggable='false'
                     className={'SidebarLink sidebar-item'}
-                    role='listitem'
                     tabIndex={0}
                 >
                     <span className='icon'>

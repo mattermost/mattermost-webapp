@@ -70,7 +70,10 @@ const ChannelActionsMenu = ({channel, actionCallback}: Props) => {
                 stopPropagationOnToggle={true}
                 id={`customWrapper-${channel.id}`}
             >
-                <button className='icon action-wrapper'>
+                <button 
+                    className='icon action-wrapper'
+                    aria-label={localizeMessage('insights.leastActiveChannels.menuButtonAriaLabel', 'Open manage channel menu')}
+                >
                     <i className='icon icon-dots-vertical'/>
                 </button>
                 <Menu

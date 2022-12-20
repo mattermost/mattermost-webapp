@@ -44,6 +44,7 @@ function DraftsLink() {
             <li
                 className='SidebarChannel'
                 tabIndex={-1}
+                role='listitem'
             >
                 <NavLink
                     to={`${url}/drafts`}
@@ -51,7 +52,6 @@ function DraftsLink() {
                     activeClassName='active'
                     draggable='false'
                     className='SidebarLink sidebar-item'
-                    role='listitem'
                     tabIndex={0}
                 >
                     <i

@@ -116,7 +116,6 @@ const TopThreadsItem = ({thread, complianceExportEnabled}: Props) => {
                 </div>
             </div>
             <div
-                aria-readonly='true'
                 className='preview'
             >
                 {getPreview()}

@@ -224,7 +224,6 @@ const TopThreadsTable = (props: Props) => {
                                     </Badge>
                                 </div>
                                 <div
-                                    aria-readonly='true'
                                     className='preview'
                                 >
                                     {getPreview(thread, isChannelMember)}
