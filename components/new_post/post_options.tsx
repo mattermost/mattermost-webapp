@@ -234,10 +234,9 @@ const PostOptions = (props: Props): JSX.Element => {
                 </a>
             </div>
         );
-    } else if (!systemMessage &&
-        (isMobileView ||
-        hoverLocal ||
-        a11yActive)) {
+    } else if ((isMobileView ||
+                hoverLocal ||
+                a11yActive)) {
         options = (
             <div
                 ref={dotMenuRef}

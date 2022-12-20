@@ -99,6 +99,7 @@ export type Props = {
     isFlaggedPosts?: boolean;
     isPinnedPosts?: boolean;
     clickToReply?: boolean;
+    isCommentMention?: boolean;
 };
 
 const PostComponent = (props: Props): JSX.Element => {
@@ -209,9 +210,10 @@ const PostComponent = (props: Props): JSX.Element => {
         return classNames('a11y__section post', {
             'post--highlight': props.shouldHighlight && !fadeOutHighlight,
             'same--root': hasSameRoot(props),
+            'other--root': !hasSameRoot(props),
             'post--bot': PostUtils.isFromBot(post),
             'post--editing': props.isPostBeingEdited,
-            'current--user': props.currentUserId === post.user_id,
+            'current--user': props.currentUserId === post.user_id && !isSystemMessage,
             'post--system': isSystemMessage || isMeMessage,
             'post--root': props.hasReplies && !(post.root_id && post.root_id.length > 0),
             'post--comment': post.root_id && post.root_id.length > 0 && !props.isCollapsedThreadsEnabled,
@@ -222,6 +224,7 @@ const PostComponent = (props: Props): JSX.Element => {
             'post--hide-controls': post.failed || post.state === Posts.POST_DELETED,
             'post--comment same--root': PostUtils.fromAutoResponder(post),
             'post--pinned-or-flagged': (post.is_pinned || props.isFlagged) && props.location === Locations.CENTER,
+            'mention-comment': props.isCommentMention,
         });
     };
 
@@ -338,6 +341,26 @@ const PostComponent = (props: Props): JSX.Element => {
         );
     }
 
+    let profilePic;
+    const hideProfilePicture = hasSameRoot(props) && (!post.root_id && !props.hasReplies) && !PostUtils.isFromBot(post);
+    if (!hideProfilePicture) {
+        profilePic = (
+            <PostProfilePicture
+                compactDisplay={this.props.compactDisplay}
+                post={post}
+                userId={post.user_id}
+            />
+        );
+
+        if (fromAutoResponder) {
+            profilePic = (
+                <span className='auto-responder'>
+                    {profilePic}
+                </span>
+            );
+        }
+    }
+
     const message = isSearchResultItem ? (
         <PostBodyAdditionalContent
             post={post}
@@ -393,15 +416,15 @@ const PostComponent = (props: Props): JSX.Element => {
 
     return (
         <div
-            className={isSearchResultItem ? 'search-item__container' : undefined}
-            data-testid={isSearchResultItem ? 'search-item-container' : undefined}
+            className={props.location === 'SEARCH' ? 'search-item__container' : undefined}
+            data-testid={props.location === 'SEARCH' ? 'search-item-container' : undefined}
         >
             {isSearchResultItem && <DateSeparator date={currentPostDay}/>}
             <PostAriaLabelDiv
                 ref={postRef}
                 role='listitem'
                 id={getTestId()}
-                data-testid='postView'
+                data-testid={props.location === 'CENTER' ? 'postView' : ''}
                 tabIndex={-1}
                 post={post}
                 className={getClassName()}
@@ -437,8 +460,8 @@ const PostComponent = (props: Props): JSX.Element => {
                 <PostPreHeader
                     isFlagged={props.isFlagged}
                     isPinned={post.is_pinned}
-                    skipPinned={props.isPinnedPosts}
-                    skipFlagged={props.isFlaggedPosts}
+                    skipPinned={props.location === 'SEARCH' && props.isPinnedPosts}
+                    skipFlagged={props.location === 'SEARCH' && props.isFlaggedPosts}
                     channelId={post.channel_id}
                 />
                 <div
@@ -447,12 +470,7 @@ const PostComponent = (props: Props): JSX.Element => {
                     data-testid='postContent'
                 >
                     <div className='post__img'>
-                        <PostProfilePicture
-                            compactDisplay={props.compactDisplay}
-                            isRHS={isRHS}
-                            post={post}
-                            userId={post.user_id}
-                        />
+                        {profilePic}
                     </div>
                     <div>
                         <div

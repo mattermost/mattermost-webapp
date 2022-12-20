@@ -7,7 +7,7 @@ import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 import {showActionsDropdownPulsatingDot} from 'selectors/actions_menu';
 import {setActionsMenuInitialisationState} from 'mattermost-redux/actions/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getPost, makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, makeGetCommentCountForPost, makeIsPostCommentMention} from 'mattermost-redux/selectors/entities/posts';
 
 import {
     get,
@@ -106,6 +106,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     if (!post) {
         return null;
     }
+    const isPostCommentMention = makeIsPostCommentMention();
     const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
@@ -211,6 +212,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
         clickToReply: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CLICK_TO_REPLY, Preferences.CLICK_TO_REPLY_DEFAULT) === 'true',
+        isCommentMention: isPostCommentMention(state, post.id),
     };
 }
 
