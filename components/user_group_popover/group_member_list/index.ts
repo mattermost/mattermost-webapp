@@ -11,7 +11,7 @@ import {Group} from '@mattermost/types/groups';
 
 import {GlobalState} from 'types/store';
 
-import {getProfilesInGroup, searchProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
+import {getProfilesInGroupWithoutSorting, searchProfilesInGroupWithoutSorting} from 'mattermost-redux/selectors/entities/users';
 import {getProfilesInGroup as getUsersInGroup} from 'mattermost-redux/actions/users';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
@@ -54,14 +54,14 @@ const sortProfileList = (
 
 const getProfilesSortedByDisplayName = createSelector(
     'getProfilesSortedByDisplayName',
-    getProfilesInGroup,
+    getProfilesInGroupWithoutSorting,
     getTeammateNameDisplaySetting,
     sortProfileList,
 );
 
 const searchProfilesSortedByDisplayName = createSelector(
     'searchProfilesSortedByDisplayName',
-    searchProfilesInGroup,
+    searchProfilesInGroupWithoutSorting,
     getTeammateNameDisplaySetting,
     sortProfileList,
 );
