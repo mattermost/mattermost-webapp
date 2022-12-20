@@ -12,6 +12,8 @@ import {Translations} from 'types/store/i18n';
 import {ActionTypes} from 'utils/constants';
 import en from 'i18n/en.json';
 
+import {fetchListing} from '../marketplace';
+
 const pluginTranslationSources: Record<string, TranslationPluginFunction> = {};
 
 export type TranslationPluginFunction = (locale: string) => Translations
@@ -94,6 +96,8 @@ export function loadTranslations(locale: string, url: string) {
 
 export function registerCustomPostRenderer(type: string, component: any, id: string) {
     return async (dispatch: DispatchFunc) => {
+        dispatch(fetchListing());
+
         // piggyback on plugins state to register a custom post renderer
         dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_POST_COMPONENT,

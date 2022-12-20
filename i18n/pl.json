@@ -4401,7 +4401,7 @@
   "postlist.toast.searchHint": "Wskazówka: Wypróbuj {searchShortcut}, aby przeszukać ten kanał",
   "posts_view.loadMore": "Pobierz więcej wiadomości",
   "posts_view.newMsg": "Nowe Wiadomości",
-  "postypes.custom_open_pricing_modal_post_renderer.and": "oraz ",
+  "postypes.custom_open_pricing_modal_post_renderer.and": "oraz",
   "postypes.custom_open_pricing_modal_post_renderer.availableOn": " - dostępny na {feature}",
   "postypes.custom_open_pricing_modal_post_renderer.downgradeNotfication": "{userRequests} poprosił o przywrócenie obszaru roboczego do płatnego planu",
   "postypes.custom_open_pricing_modal_post_renderer.learn_trial": "Dowiedz się więcej o wersji próbnej",

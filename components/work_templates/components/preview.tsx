@@ -28,6 +28,7 @@ import PreviewSection from './preview/section';
 export interface PreviewProps {
     className?: string;
     template: WorkTemplate;
+    categoryId: string;
 }
 
 interface IllustrationAnimations {
@@ -47,7 +48,7 @@ const ANIMATE_TIMEOUTS = {
     exit: 200,
 };
 
-const Preview = ({template, className}: PreviewProps) => {
+const Preview = ({template, categoryId, className}: PreviewProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
 
@@ -207,6 +208,7 @@ const Preview = ({template, className}: PreviewProps) => {
                     id={'integrations'}
                     message={template.description.integration.message}
                     items={integrations}
+                    categoryId={categoryId}
                 />
             )],
         });

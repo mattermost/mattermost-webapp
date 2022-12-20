@@ -506,6 +506,7 @@ export const PaidFeatures = {
     ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
     ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
     UPGRADE_DOWNGRADED_WORKSPACE: 'mattermost.feature.upgrade_downgraded_workspace',
+    WORK_TEMPLATES: 'mattermost.feature.work_templates',
 };
 
 export enum LicenseSkus {

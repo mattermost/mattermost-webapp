@@ -4388,7 +4388,7 @@
   "postlist.toast.searchHint": "Tip: Try {searchShortcut} to search this channel",
   "posts_view.loadMore": "Load More messages",
   "posts_view.newMsg": "New Messages",
-  "postypes.custom_open_pricing_modal_post_renderer.and": "and ",
+  "postypes.custom_open_pricing_modal_post_renderer.and": "and",
   "postypes.custom_open_pricing_modal_post_renderer.availableOn": " - available on the {feature}",
   "postypes.custom_open_pricing_modal_post_renderer.downgradeNotfication": "{userRequests} requested to revert the workspace to a paid plan",
   "postypes.custom_open_pricing_modal_post_renderer.learn_trial": "Learn more about trial",

@@ -9,6 +9,9 @@ import styled from 'styled-components';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 
 import store from 'stores/redux_store';
+import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
+
+import {PaidFeatures} from 'utils/constants';
 
 interface GenericPreviewSectionProps {
     items: Array<{ id: string; name?: string; illustration?: string }>;
@@ -25,6 +28,7 @@ interface IntegrationPreviewSectionProps {
     className?: string;
     message?: string;
     id?: string;
+    categoryId?: string;
 }
 
 const SYSCONSOLE_WRITE_PLUGINS = 'sysconsole_write_plugins';
@@ -35,6 +39,7 @@ const viewPreview = (props: GenericPreviewSectionProps | IntegrationPreviewSecti
         const integrationsProps = props as IntegrationPreviewSectionProps;
         return (
             <IntegrationsPreview
+                categoryId={integrationsProps.categoryId}
                 items={integrationsProps.items}
             />);
     }
@@ -67,7 +72,7 @@ const PreviewSection = (props: GenericPreviewSectionProps | IntegrationPreviewSe
     );
 };
 
-const IntegrationsPreview = ({items}: IntegrationPreviewSectionProps) => {
+const IntegrationsPreview = ({items, categoryId}: IntegrationPreviewSectionProps) => {
     const state = getState();
     const {formatMessage} = useIntl();
 
@@ -80,17 +85,17 @@ const IntegrationsPreview = ({items}: IntegrationPreviewSectionProps) => {
         }
     }, [haveIWritePluginPermission]);
 
-    const createWarningMessage = () => {
-        const uninstalledPlugins = items.reduce((acc: IntegrationPreviewSectionItemsProps[], curr: IntegrationPreviewSectionItemsProps) => {
-            if (!curr.installed) {
-                return [
-                    ...acc,
-                    curr,
-                ];
-            }
-            return acc;
-        }, [] as IntegrationPreviewSectionItemsProps[]);
+    const uninstalledPlugins = items.reduce((acc: IntegrationPreviewSectionItemsProps[], curr: IntegrationPreviewSectionItemsProps) => {
+        if (!curr.installed) {
+            return [
+                ...acc,
+                curr,
+            ];
+        }
+        return acc;
+    }, [] as IntegrationPreviewSectionItemsProps[]);
 
+    const createWarningMessage = () => {
         if (uninstalledPlugins.length === 1) {
             return formatMessage(
                 {
@@ -109,7 +114,10 @@ const IntegrationsPreview = ({items}: IntegrationPreviewSectionProps) => {
         return '';
     };
     const warningMessage = pluginInstallationPossible ? '' : createWarningMessage();
-
+    const notifyAdminCTA = formatMessage({
+        id: 'work_templates.preview.integrations.admin_install.notify',
+        defaultMessage: 'Notify admin to install integrations.',
+    });
     return (
         <div className='preview-integrations'>
             <div className='preview-integrations-plugins'>
@@ -131,10 +139,24 @@ const IntegrationsPreview = ({items}: IntegrationPreviewSectionProps) => {
                         </div>);
                 })}
             </div>
-            {warningMessage && <div className='preview-integrations-warning'>
-                <div className='icon-alert-outline'/>
-                <div className='preview-integrations-warning-message'> {warningMessage} </div>
-            </div>}
+
+            {warningMessage &&
+                <>
+                    <div className='preview-integrations-warning'>
+                        <div className='icon-alert-outline'/>
+                        <div className='preview-integrations-warning-message'> {warningMessage} </div>
+                    </div>
+
+                    <NotifyAdminCTA
+                        callerInfo={'worktemplate-' + categoryId}
+                        ctaText={notifyAdminCTA}
+                        notifyRequestData={{
+                            required_plan: uninstalledPlugins.map((plugin) => plugin.id).join(','),
+                            required_feature: `${PaidFeatures.WORK_TEMPLATES}-${categoryId}`,
+                            trial_notification: false,
+                        }}
+                    />
+                </>}
         </div>
 
     );
@@ -168,6 +190,14 @@ const StyledPreviewSection = styled(PreviewSection)`
     }
 
     .preview-integrations {
+        #notify_admin_cta {
+            padding: 0 2px;
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 11px;
+            line-height: 10px;
+        }
         &-plugins {
             display: flex;
             flex-wrap: wrap;
@@ -220,7 +250,7 @@ const StyledPreviewSection = styled(PreviewSection)`
 
         &-warning {
             display: flex;
-            margin-top: 8px;
+            margin: 8px 0px;
             color: var(--error-text);
 
             &-message {

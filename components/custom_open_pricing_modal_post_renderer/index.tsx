@@ -117,7 +117,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
             renderedUsers = users[0];
         } else {
             const lastUser = users.splice(-1, 1)[0];
-            users.push(formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.and', defaultMessage: 'and '}) + lastUser);
+            users.push(formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.and', defaultMessage: 'and'}) + ' ' + lastUser);
             renderedUsers = users.join(', ').replace(/,([^,]*)$/, '$1');
         }
 

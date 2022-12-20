@@ -4401,7 +4401,7 @@
   "postlist.toast.searchHint": "Tipp: Mit {searchShortcut} diesen Kanal durchsuchen",
   "posts_view.loadMore": "Weitere Nachrichten laden",
   "posts_view.newMsg": "Neue Nachrichten",
-  "postypes.custom_open_pricing_modal_post_renderer.and": "und ",
+  "postypes.custom_open_pricing_modal_post_renderer.and": "und",
   "postypes.custom_open_pricing_modal_post_renderer.availableOn": " - verfügbar mit der {feature} Funktion",
   "postypes.custom_open_pricing_modal_post_renderer.downgradeNotfication": "{userRequests} beantragt, den Arbeitsbereich auf einen kostenpflichtigen Tarif umzustellen",
   "postypes.custom_open_pricing_modal_post_renderer.learn_trial": "Erfahre mehr über den Test",

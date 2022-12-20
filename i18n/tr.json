@@ -4332,7 +4332,7 @@
   "postlist.toast.searchHint": "İpucu: Bu kanalda arama yapmak için {searchShortcut} kullanın",
   "posts_view.loadMore": "Diğer iletileri yükle",
   "posts_view.newMsg": "Yeni iletiler",
-  "postypes.custom_open_pricing_modal_post_renderer.and": "ve ",
+  "postypes.custom_open_pricing_modal_post_renderer.and": "ve",
   "postypes.custom_open_pricing_modal_post_renderer.availableOn": " - {feature} ile kullanılabilir",
   "postypes.custom_open_pricing_modal_post_renderer.downgradeNotfication": "{userRequests} çalışma alanını ücretli bir tarifeye geri döndürme isteğinde bulundu",
   "postypes.custom_open_pricing_modal_post_renderer.learn_trial": "Deneme hakkında ayrıntılı bilgi alın",

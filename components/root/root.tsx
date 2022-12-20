@@ -35,9 +35,13 @@ import CloudEffects from 'components/cloud_effects';
 import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import {HFRoute} from 'components/header_footer_route/header_footer_route';
-import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
+import LaunchingWorkspace, {
+    LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX,
+} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
 import OpenPricingModalPost from 'components/custom_open_pricing_modal_post_renderer';
+import OpenPluginInstallPost from 'components/custom_open_plugin_install_post_renderer';
+
 import AccessProblem from 'components/access_problem';
 
 import {initializePlugins} from 'plugins';
@@ -119,6 +123,7 @@ type LoggedInRouteProps<T> = {
     path: string;
     theme?: Theme; // the routes that send the theme are the ones that will actually need to show the onboarding tasklist
 };
+
 function LoggedInRoute<T>(props: LoggedInRouteProps<T>) {
     const {component: Component, theme, ...rest} = props;
     return (
@@ -136,14 +141,15 @@ function LoggedInRoute<T>(props: LoggedInRouteProps<T>) {
     );
 }
 
-const noop = () => {}; // eslint-disable-line no-empty-function
+const noop = () => {
+}; // eslint-disable-line no-empty-function
 
 export type Actions = {
     emitBrowserWindowResized: (size?: string) => void;
     getFirstAdminSetupComplete: () => Promise<ActionResult>;
     getProfiles: (page?: number, pageSize?: number, options?: Record<string, any>) => Promise<ActionResult>;
     migrateRecentEmojis: () => void;
-    loadConfigAndMe: () => Promise<{data: boolean}>;
+    loadConfigAndMe: () => Promise<{ data: boolean }>;
     registerCustomPostRenderer: (type: string, component: any, id: string) => Promise<ActionResult>;
     initializeProducts: () => Promise<void[]>;
 }
@@ -239,13 +245,14 @@ export default class Root extends React.PureComponent<Props, State> {
         }
 
         if (rudderKey != null && rudderKey !== '' && this.props.telemetryEnabled) {
-            const rudderCfg: {setCookieDomain?: string} = {};
+            const rudderCfg: { setCookieDomain?: string } = {};
             const siteURL = getConfig(store.getState()).SiteURL;
             if (siteURL !== '') {
                 try {
                     rudderCfg.setCookieDomain = new URL(siteURL || '').hostname;
                     // eslint-disable-next-line no-empty
-                } catch (_) {}
+                } catch (_) {
+                }
             }
             rudderAnalytics.load(rudderKey, rudderUrl || '', rudderCfg);
 
@@ -325,7 +332,7 @@ export default class Root extends React.PureComponent<Props, State> {
         }
 
         Utils.applyTheme(this.props.theme);
-    }
+    };
 
     componentDidUpdate(prevProps: Props) {
         if (!deepEqual(prevProps.theme, this.props.theme)) {
@@ -419,7 +426,7 @@ export default class Root extends React.PureComponent<Props, State> {
         }
 
         this.onConfigLoaded();
-    }
+    };
 
     componentDidMount() {
         this.mounted = true;
@@ -428,6 +435,7 @@ export default class Root extends React.PureComponent<Props, State> {
 
         // See figma design on issue https://mattermost.atlassian.net/browse/MM-43649
         this.props.actions.registerCustomPostRenderer('custom_up_notification', OpenPricingModalPost, 'upgrade_post_message_renderer');
+        this.props.actions.registerCustomPostRenderer('custom_pi_notification', OpenPluginInstallPost, 'plugin_install_post_message_renderer');
         this.props.actions.registerCustomPostRenderer('system_welcome_post', WelcomePostRenderer, 'welcome_post_renderer');
 
         if (this.desktopMediaQuery.addEventListener) {
@@ -488,9 +496,10 @@ export default class Root extends React.PureComponent<Props, State> {
             function reloadOnFocus() {
                 location.reload();
             }
+
             window.addEventListener('focus', reloadOnFocus);
         }
-    }
+    };
 
     handleWindowResizeEvent = throttle(() => {
         this.props.actions.emitBrowserWindowResized();
@@ -500,7 +509,7 @@ export default class Root extends React.PureComponent<Props, State> {
         if (e.matches) {
             this.updateWindowSize();
         }
-    }
+    };
 
     setRootMeta = () => {
         const root = document.getElementById('root')!;
@@ -512,7 +521,7 @@ export default class Root extends React.PureComponent<Props, State> {
         })) {
             root.classList.toggle(className, enabled);
         }
-    }
+    };
 
     updateWindowSize = () => {
         switch (true) {
@@ -529,7 +538,7 @@ export default class Root extends React.PureComponent<Props, State> {
             this.props.actions.emitBrowserWindowResized(WindowSizes.MOBILE_VIEW);
             break;
         }
-    }
+    };
 
     render() {
         if (!this.state.configLoaded) {
@@ -661,7 +670,9 @@ export default class Root extends React.PureComponent<Props, State> {
                                         );
                                         if (product.wrapped) {
                                             pluggable = (
-                                                <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
+                                                <div
+                                                    className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}
+                                                >
                                                     {pluggable}
                                                 </div>
                                             );

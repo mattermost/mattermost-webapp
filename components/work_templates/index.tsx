@@ -200,6 +200,7 @@ const WorkTemplateModal = () => {
             {(state === ModalState.Preview && selectedTemplate) && (
                 <Preview
                     template={selectedTemplate}
+                    categoryId={currentCategoryId}
                 />
             )}
             {(state === ModalState.Customize && selectedTemplate) && (
