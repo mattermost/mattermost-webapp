@@ -26,7 +26,7 @@ const StyledTask = styled.div`
 
     span {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         picture {
             display: flex;
             align-items: center;
