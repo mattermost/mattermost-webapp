@@ -109,6 +109,16 @@ describe('components/activity_and_insights/insights/top_boards', () => {
                                 activeUsers: ['9qobtrxa93dhfg1fqmhcq5wj4o', '9x4to68xqiyfzb8dxwfpbqopie'],
                                 createdBy: '9qobtrxa93dhfg1fqmhcq5wj4o',
                             },
+                            {
+                                boardID: 'bf3mmu7hjgprpmp1ekiozyggrjh',
+                                icon: '📅',
+                                title: 'Content Calendar ',
+                                activityCount: 24,
+
+                                // MM-49023
+                                activeUsers: '9qobtrxa93dhfg1fqmhcq5wj4o,9x4to68xqiyfzb8dxwfpbqopie',
+                                createdBy: '9qobtrxa93dhfg1fqmhcq5wj4o',
+                            },
                         ],
                     };
                 },
@@ -116,7 +126,7 @@ describe('components/activity_and_insights/insights/top_boards', () => {
         },
     };
 
-    test('check if 2 team top boards render', async () => {
+    test('check if 3 team top boards render', async () => {
         const store = await mockStore(initialState);
         const wrapper = mountWithIntl(
             <Provider store={store}>
@@ -130,7 +140,7 @@ describe('components/activity_and_insights/insights/top_boards', () => {
         await actImmediate(wrapper);
 
         // Link causes the class to render 3 times for each item
-        expect(wrapper.find('.board-item').length).toEqual(6);
+        expect(wrapper.find('.board-item').length).toEqual(9);
     });
 
     test('check if 0 top boards render', async () => {

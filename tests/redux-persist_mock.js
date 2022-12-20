@@ -3,12 +3,15 @@
 
 jest.mock('redux-persist', () => {
     const {combineReducers} = require('redux');
+    const real = jest.requireActual('redux-persist');
 
     return {
+        ...real,
         createTransform: () => {
             return {};
         },
-        persistReducer: (persistConfig, reducer) => reducer,
+
+        persistReducer: jest.fn().mockImplementation((config, reducers) => reducers),
         persistCombineReducers: (persistConfig, reducers) => combineReducers(reducers),
         persistStore: () => {
             return {

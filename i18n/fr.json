@@ -2702,7 +2702,7 @@
   "channel_header.manageMembers": "Gérer les membres",
   "channel_header.menuAriaLabel": "Menu de canal",
   "channel_header.mute": "Mettre le canal en sourdine",
-  "channel_header.muteConversation": "Mettre le conversation en silencieux",
+  "channel_header.muteConversation": "Mettre la conversation en silencieux",
   "channel_header.pinnedPosts": "Messages épinglés",
   "channel_header.recentMentions": "Mentions récentes",
   "channel_header.rename": "Renommer le canal",

@@ -4,7 +4,7 @@
 import {combineReducers} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {WorkTemplatesType} from 'mattermost-redux/action_types';
+import {PlaybookType, WorkTemplatesType} from 'mattermost-redux/action_types';
 
 import {Category, WorkTemplate} from '@mattermost/types/work_templates';
 
@@ -48,8 +48,18 @@ function templatesInCategory(state: Record<string, WorkTemplate[]> = {}, action:
     }
 }
 
+function playbookTemplates(state: [] = [], action: GenericAction) {
+    switch (action.type) {
+    case PlaybookType.PLAYBOOKS_PUBLISH_TEMPLATES:
+        return action.templates;
+    default:
+        return state;
+    }
+}
+
 export default (combineReducers({
     categories,
     templatesInCategory,
+    playbookTemplates,
 }));
 

@@ -56,9 +56,10 @@ exports[`components/threading/global_threads/thread_item should report total num
       >
         <Memo(Button)
           className="Button___icon"
+          marginTop={true}
         >
-          <i
-            className="Icon icon-dots-vertical"
+          <DotsVerticalIcon
+            size={18}
           />
         </Memo(Button)>
       </SimpleTooltip>
@@ -179,9 +180,10 @@ exports[`components/threading/global_threads/thread_item should report unread me
       >
         <Memo(Button)
           className="Button___icon"
+          marginTop={true}
         >
-          <i
-            className="Icon icon-dots-vertical"
+          <DotsVerticalIcon
+            size={18}
           />
         </Memo(Button)>
       </SimpleTooltip>
@@ -300,9 +302,10 @@ exports[`components/threading/global_threads/thread_item should report unread me
       >
         <Memo(Button)
           className="Button___icon"
+          marginTop={true}
         >
-          <i
-            className="Icon icon-dots-vertical"
+          <DotsVerticalIcon
+            size={18}
           />
         </Memo(Button)>
       </SimpleTooltip>

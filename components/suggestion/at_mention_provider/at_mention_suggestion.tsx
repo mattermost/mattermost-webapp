@@ -21,6 +21,19 @@ import StatusIcon from 'components/status_icon';
 
 import Suggestion from '../suggestion.jsx';
 
+import {UserProfile} from '../command_provider/app_command_parser/app_command_parser_dependencies.js';
+
+interface Item extends UserProfile {
+    display_name: string;
+    name: string;
+    isCurrentUser: boolean;
+    type: string;
+}
+
+interface Group extends Item {
+    member_count: number;
+}
+
 class AtMentionSuggestion extends Suggestion {
     render() {
         const {intl} = this.props;
@@ -80,7 +93,9 @@ class AtMentionSuggestion extends Suggestion {
             );
         } else if (item.type === Constants.MENTION_GROUPS) {
             itemname = item.name;
-            description = `- ${item.display_name}`;
+            description = (
+                <span className='ml-1'>{'- '}{item.display_name}</span>
+            );
             icon = (
                 <span className='suggestion-list__icon suggestion-list__icon--large'>
                     <i
@@ -139,6 +154,23 @@ class AtMentionSuggestion extends Suggestion {
             />
         ) : null;
 
+        let countBadge;
+        if (item.type === Constants.MENTION_GROUPS) {
+            countBadge = (
+                <span className='suggestion-list__group-count'>
+                    <Badge>
+                        <FormattedMessage
+                            id='suggestion.group.members'
+                            defaultMessage='{member_count} {member_count, plural, one {member} other {members}}'
+                            values={{
+                                member_count: (item as Group).member_count,
+                            }}
+                        />
+                    </Badge>
+                </span>
+            );
+        }
+
         return (
             <div
                 className={classNames('suggestion-list__item', {'suggestion--selected': isSelection})}
@@ -159,6 +191,7 @@ class AtMentionSuggestion extends Suggestion {
                     {sharedIcon}
                     {isGuest(item.roles) && <GuestTag/>}
                 </span>
+                {countBadge}
             </div>
         );
     }
