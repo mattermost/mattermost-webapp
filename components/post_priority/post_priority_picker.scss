@@ -3,7 +3,7 @@
 @import 'utils/mixins';
 
 .PostPriorityPicker {
-    width: 220px;
+    min-width: 220px;
 
     &--large {
         width: 324px;

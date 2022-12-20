@@ -119,14 +119,14 @@ function PostAcknowledgements({
                 onClick={handleClick}
                 className={classNames({
                     AcknowledgementButton: true,
-                    'AcknowledgementButton--acked': Boolean(acknowledgedAt) || isCurrentAuthor,
+                    'AcknowledgementButton--acked': Boolean(acknowledgedAt),
                     'AcknowledgementButton--disabled': buttonDisabled,
                     'AcknowledgementButton--default': !list || list.length === 0,
                 })}
                 {...getReferenceProps()}
             >
                 <CheckCircleOutlineIcon size={16}/>
-                {(list && list.length > 0) ? list!.length : (
+                {(list && list.length > 0) || isCurrentAuthor ? list?.length || 0 : (
                     <FormattedMessage
                         id={'post_priority.button.acknowledge'}
                         defaultMessage={'Acknowledge'}
@@ -138,7 +138,7 @@ function PostAcknowledgements({
     );
 
     if (!list || !list.length) {
-        return isCurrentAuthor ? null : button;
+        return button;
     }
 
     return (

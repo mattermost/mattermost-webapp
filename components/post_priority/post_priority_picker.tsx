@@ -180,7 +180,6 @@ function PostPriorityPicker({
                 </Beta>
                 {postAcknowledgementsEnabled && (
                     <Feedback
-                        className='theme markdown__link'
                         href='https://forms.gle/noA8Azg7RdaBZtMB6'
                         target='_blank'
                         rel='noopener noreferrer'
