@@ -114,6 +114,9 @@ const PostComponent = (props: Props): JSX.Element => {
     const [fadeOutHighlight, setFadeOutHighlight] = useState(false);
     const [alt, setAlt] = useState(false);
 
+    const isSystemMessage = PostUtils.isSystemMessage(props.post);
+    const fromAutoResponder = PostUtils.fromAutoResponder(props.post);
+
     useEffect(() => {
         if (props.shouldHighlight) {
             const timer = setTimeout(() => setFadeOutHighlight(true), Constants.PERMALINK_FADEOUT);
@@ -203,7 +206,6 @@ const PostComponent = (props: Props): JSX.Element => {
 
     const getClassName = () => {
         const post = props.post;
-        const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = checkIsMeMessage(post);
         const hovered =
             fileDropdownOpened || dropdownOpened || a11yActive || props.isPostBeingEdited;
@@ -222,7 +224,7 @@ const PostComponent = (props: Props): JSX.Element => {
             'same--user': props.isConsecutivePost,
             'cursor--pointer': alt && !props.channelIsArchived,
             'post--hide-controls': post.failed || post.state === Posts.POST_DELETED,
-            'post--comment same--root': PostUtils.fromAutoResponder(post),
+            'post--comment same--root': fromAutoResponder,
             'post--pinned-or-flagged': (post.is_pinned || props.isFlagged) && props.location === Locations.CENTER,
             'mention-comment': props.isCommentMention,
         });
@@ -276,9 +278,6 @@ const PostComponent = (props: Props): JSX.Element => {
             return;
         }
 
-        const isSystemMessage = PostUtils.isSystemMessage(props.post);
-        const fromAutoResponder = PostUtils.fromAutoResponder(props.post);
-
         if (
             !e.altKey &&
             props.clickToReply &&
@@ -316,7 +315,6 @@ const PostComponent = (props: Props): JSX.Element => {
 
     const post = props.post;
 
-    const isSystemMessage = PostUtils.isSystemMessage(post);
     const postClass = classNames('post__body', {'post--edited': PostUtils.isEdited(props.post), 'search-item-snippet': isSearchResultItem});
 
     let visibleMessage = null;
@@ -346,7 +344,7 @@ const PostComponent = (props: Props): JSX.Element => {
     if (!hideProfilePicture) {
         profilePic = (
             <PostProfilePicture
-                compactDisplay={this.props.compactDisplay}
+                compactDisplay={props.compactDisplay}
                 post={post}
                 userId={post.user_id}
             />
