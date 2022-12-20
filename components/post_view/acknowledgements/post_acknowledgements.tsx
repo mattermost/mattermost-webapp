@@ -31,10 +31,12 @@ import PostAcknowledgementsUserPopover from './post_acknowledgements_users_popov
 import './post_acknowledgements.scss';
 
 type Props = {
+    authorId: UserProfile['id'];
     currentUserId: UserProfile['id'];
     hasReactions: boolean;
     list?: Array<{user: UserProfile; acknowledgedAt: PostAcknowledgement['acknowledged_at']}>;
     postId: Post['id'];
+    showDivider?: boolean;
 }
 
 function moreThan5minAgo(time: number) {
@@ -43,12 +45,16 @@ function moreThan5minAgo(time: number) {
 }
 
 function PostAcknowledgements({
+    authorId,
     currentUserId,
     hasReactions,
     list,
     postId,
+    showDivider = true,
 }: Props) {
     let acknowledgedAt = 0;
+    const headingId = useId();
+    const isCurrentAuthor = authorId === currentUserId;
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
 
@@ -58,6 +64,7 @@ function PostAcknowledgements({
             acknowledgedAt = ack.acknowledgedAt;
         }
     }
+    const buttonDisabled = (Boolean(acknowledgedAt) && moreThan5minAgo(acknowledgedAt)) || isCurrentAuthor;
 
     const {x, y, reference, floating, strategy, context} = useFloating({
         open,
@@ -76,8 +83,6 @@ function PostAcknowledgements({
         ],
     });
 
-    const headingId = useId();
-
     const {getReferenceProps, getFloatingProps} = useInteractions([
         useHover(context, {
             enabled: list && list.length > 0,
@@ -94,7 +99,12 @@ function PostAcknowledgements({
         useRole(context),
     ]);
 
-    const handleClick = () => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (buttonDisabled) {
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+        }
         if (acknowledgedAt) {
             dispatch(unacknowledgePost(postId));
         } else {
@@ -109,8 +119,8 @@ function PostAcknowledgements({
                 onClick={handleClick}
                 className={classNames({
                     AcknowledgementButton: true,
-                    'AcknowledgementButton--acked': Boolean(acknowledgedAt),
-                    'AcknowledgementButton--disabled': Boolean(acknowledgedAt) && moreThan5minAgo(acknowledgedAt),
+                    'AcknowledgementButton--acked': Boolean(acknowledgedAt) || isCurrentAuthor,
+                    'AcknowledgementButton--disabled': buttonDisabled,
                     'AcknowledgementButton--default': !list || list.length === 0,
                 })}
                 {...getReferenceProps()}
@@ -123,12 +133,12 @@ function PostAcknowledgements({
                     />
                 )}
             </button>
-            {hasReactions && <div className='AcknowledgementButton__divider'/>}
+            {showDivider && hasReactions && <div className='AcknowledgementButton__divider'/>}
         </>
     );
 
     if (!list || !list.length) {
-        return button;
+        return isCurrentAuthor ? null : button;
     }
 
     return (

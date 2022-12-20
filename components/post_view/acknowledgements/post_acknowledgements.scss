@@ -55,7 +55,7 @@
         &:disabled {
             background: rgba(var(--online-indicator-rgb), 0.8);
             color: #fff;
-            cursor: not-allowed;
+            cursor: default;
 
             > svg {
                 margin-right: 3px;
