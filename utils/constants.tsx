@@ -1175,6 +1175,7 @@ export const PermissionsScope = {
     [Permissions.CREATE_CUSTOM_GROUP]: 'system_scope',
     [Permissions.EDIT_CUSTOM_GROUP]: 'system_scope',
     [Permissions.DELETE_CUSTOM_GROUP]: 'system_scope',
+    [Permissions.RESTORE_CUSTOM_GROUP]: 'system_scope',
     [Permissions.MANAGE_CUSTOM_GROUP_MEMBERS]: 'system_scope',
 };
 

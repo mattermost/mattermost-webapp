@@ -105,7 +105,9 @@ const TopBoards = (props: WidgetHocProps) => {
                                         </span>
                                     </div>
                                     <Avatars
-                                        userIds={board.activeUsers}
+
+                                        // MM-49023: community bugfix to maintain backwards compatibility
+                                        userIds={typeof board.activeUsers === 'string' ? board.activeUsers.split(',') : board.activeUsers}
                                         size='xs'
                                         disableProfileOverlay={true}
                                     />

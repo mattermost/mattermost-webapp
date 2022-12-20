@@ -45,7 +45,7 @@ describe('Messaging', () => {
         });
 
         // # Write lines until maximum height
-        for (let i = 0; i < 13; i++) {
+        for (let i = 0; i < 15; i++) {
             // # Post the line
             cy.uiGetPostTextBox().type('{shift}{enter}');
 
@@ -53,7 +53,7 @@ describe('Messaging', () => {
                 const height = parseInt(post[0].clientHeight, 10);
 
                 // * Previous height should be lower than the current height
-                cy.get('@previousHeight').should('be.lessThan', height);
+                cy.get('@previousHeight').should('be.most', height);
 
                 // # Store the current height as the previous height for the next loop
                 cy.wrap(height).as('previousHeight');
@@ -80,7 +80,7 @@ describe('Messaging', () => {
         });
 
         // #  Again, write lines until the textbox reaches the maximum height
-        for (let i = 0; i < 14; i++) {
+        for (let i = 0; i < 15; i++) {
             cy.uiGetPostTextBox().type('{shift}{enter}');
         }
 

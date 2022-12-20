@@ -28,6 +28,7 @@ import ThreadTypes from './threads';
 import InsightTypes from './insights';
 import HostedCustomerTypes from './hosted_customer';
 import WorkTemplatesType from './work_templates';
+import PlaybookType from './playbooks';
 
 export {
     ErrorTypes,
@@ -57,4 +58,5 @@ export {
     HostedCustomerTypes,
     WorkTemplatesType,
     DraftTypes,
+    PlaybookType,
 };
