@@ -25,12 +25,14 @@ const StyledTask = styled.div`
     position: relative;
 
     span {
-        display: flex;
-        align-items: flex-start;
-        picture {
+        div {
             display: flex;
-            align-items: center;
-            margin-right: 10px;
+            align-items: flex-start;
+            picture {
+                display: flex;
+                align-items: center;
+                margin-right: 10px;
+            }
         }
     }
 

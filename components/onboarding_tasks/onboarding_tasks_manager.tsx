@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useMemo, Fragment} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {matchPath, useHistory, useLocation} from 'react-router-dom';
@@ -56,16 +56,10 @@ const getCategory = makeGetCategory();
 
 const useGetTaskDetails = () => {
     const {formatMessage} = useIntl();
-
     return {
         [OnboardingTasksName.CHANNELS_TOUR]: {
             id: 'task_learn_more_about_messaging',
-            svg: (
-                <Channels
-                    width={24}
-                    height={24}
-                />
-            ),
+            svg: Channels,
             message: formatMessage({
                 id: 'onboardingTask.checklist.task_learn_more_about_messaging',
                 defaultMessage: 'Take a tour of Channels.',
@@ -73,12 +67,7 @@ const useGetTaskDetails = () => {
         },
         [OnboardingTasksName.BOARDS_TOUR]: {
             id: 'task_plan_sprint_with_kanban_style_boards',
-            svg: (
-                <BullsEye
-                    width={24}
-                    height={24}
-                />
-            ),
+            svg: BullsEye,
             message: formatMessage({
                 id: 'onboardingTask.checklist.task_plan_sprint_with_kanban_style_boards',
                 defaultMessage: 'Manage tasks with your first board.',
@@ -86,12 +75,7 @@ const useGetTaskDetails = () => {
         },
         [OnboardingTasksName.PLAYBOOKS_TOUR]: {
             id: 'task_resolve_incidents_faster_with_playbooks',
-            svg: (
-                <Clipboard
-                    width={24}
-                    height={24}
-                />
-            ),
+            svg: Clipboard,
             message: formatMessage({
                 id: 'onboardingTask.checklist.task_resolve_incidents_faster_with_playbooks',
                 defaultMessage: 'Explore workflows with your first playbook.',
@@ -99,12 +83,7 @@ const useGetTaskDetails = () => {
         },
         [OnboardingTasksName.INVITE_PEOPLE]: {
             id: 'task_invite_team_members',
-            svg: (
-                <Handshake
-                    width={24}
-                    height={24}
-                />
-            ),
+            svg: Handshake,
             message: formatMessage({
                 id: 'onboardingTask.checklist.task_invite_team_members',
                 defaultMessage: 'Invite team members to the workspace.',
@@ -112,12 +91,7 @@ const useGetTaskDetails = () => {
         },
         [OnboardingTasksName.COMPLETE_YOUR_PROFILE]: {
             id: 'task_complete_your_profile',
-            svg: (
-                <Sunglasses
-                    width={24}
-                    height={24}
-                />
-            ),
+            svg: Sunglasses,
             message: formatMessage({
                 id: 'onboardingTask.checklist.task_complete_your_profile',
                 defaultMessage: 'Complete your profile.',
@@ -126,12 +100,7 @@ const useGetTaskDetails = () => {
 
         [OnboardingTasksName.EXPLORE_OTHER_TOOLS]: {
             id: 'task_explore_other_tools_in_platform',
-            svg: (
-                <Wrench
-                    width={24}
-                    height={24}
-                />
-            ),
+            svg: Wrench,
             message: formatMessage({
                 id: 'onboardingTask.checklist.task_explore_other_tools_in_platform',
                 defaultMessage: 'Explore other tools in the platform.',
@@ -140,12 +109,7 @@ const useGetTaskDetails = () => {
 
         [OnboardingTasksName.DOWNLOAD_APP]: {
             id: 'task_download_mm_apps',
-            svg: (
-                <Phone
-                    width={24}
-                    height={24}
-                />
-            ),
+            svg: Phone,
             message: formatMessage({
                 id: 'onboardingTask.checklist.task_download_mm_apps',
                 defaultMessage: 'Download the Desktop and Mobile Apps.',
@@ -154,12 +118,7 @@ const useGetTaskDetails = () => {
 
         [OnboardingTasksName.VISIT_SYSTEM_CONSOLE]: {
             id: 'task_visit_system_console',
-            svg: (
-                <Gears
-                    width={24}
-                    height={24}
-                />
-            ),
+            svg: Gears,
             message: formatMessage({
                 id: 'onboardingTask.checklist.task_visit_system_console',
                 defaultMessage: 'Visit the System Console to configure your workspace.',
@@ -167,12 +126,7 @@ const useGetTaskDetails = () => {
         },
         [OnboardingTasksName.START_TRIAL]: {
             id: 'task_start_enterprise_trial',
-            svg: (
-                <Security
-                    width={24}
-                    height={24}
-                />
-            ),
+            svg: Security,
             message: formatMessage({
                 id: 'onboardingTask.checklist.task_start_enterprise_trial',
                 defaultMessage: 'Learn more about Enterprise-level high-security features.',
@@ -254,12 +208,12 @@ export const useTasksListWithStatus = () => {
                 label: () => {
                     const {id, svg, message} = getTaskDetails[task];
                     return (
-                        <Fragment key={id}>
+                        <div key={id}>
                             <picture>
-                                {svg}
+                                {React.createElement(svg, {width: 24, height: 24})}
                             </picture>
                             <span>{message}</span>
-                        </Fragment>
+                        </div>
                     );
                 },
             };
