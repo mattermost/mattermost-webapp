@@ -882,7 +882,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
     }
 
-    handleDraftChange = (draft: PostDraft) => {
+    handleDraftChange = (draft: PostDraft, instant = false) => {
         const channelId = this.props.currentChannel.id;
 
         if (this.saveDraftFrame) {
@@ -891,7 +891,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         this.saveDraftFrame = window.setTimeout(() => {
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft, channelId);
-        }, Constants.SAVE_DRAFT_TIMEOUT);
+        }, instant ? 0 : Constants.SAVE_DRAFT_TIMEOUT);
         this.draftsForChannel[channelId] = draft;
     }
 
@@ -1490,7 +1490,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             updatedDraft.metadata = {};
         }
 
-        this.handleDraftChange(updatedDraft);
+        this.handleDraftChange(updatedDraft, true);
         this.focusTextbox();
     };
 
