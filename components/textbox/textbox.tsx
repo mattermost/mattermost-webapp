@@ -37,6 +37,7 @@ export type Props = {
     onKeyPress: (e: KeyboardEvent<any>) => void;
     onComposition?: () => void;
     onHeightChange?: (height: number, maxHeight: number) => void;
+    onWidthChange?: (width: number) => void;
     createMessage: string;
     onKeyDown?: (e: KeyboardEvent<TextboxElement>) => void;
     onSelect?: (e: React.SyntheticEvent<TextboxElement>) => void;
@@ -228,10 +229,6 @@ export default class Textbox extends React.PureComponent<Props> {
         this.props.onBlur?.(e as FocusEvent<TextboxElement>);
     }
 
-    handleHeightChange = (height: number, maxHeight: number) => {
-        this.props.onHeightChange?.(height, maxHeight);
-    }
-
     getInputBox = () => {
         return this.message.current?.getTextbox();
     }
@@ -314,7 +311,8 @@ export default class Textbox extends React.PureComponent<Props> {
                     onKeyUp={this.handleKeyUp}
                     onComposition={this.props.onComposition}
                     onBlur={this.handleBlur}
-                    onHeightChange={this.handleHeightChange}
+                    onHeightChange={this.props.onHeightChange}
+                    onWidthChange={this.props.onWidthChange}
                     onPaste={this.props.onPaste}
                     style={this.getStyle()}
                     inputComponent={this.props.inputComponent}

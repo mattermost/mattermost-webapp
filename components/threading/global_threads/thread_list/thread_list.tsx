@@ -6,6 +6,8 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
 
+import {PlaylistCheckIcon} from '@mattermost/compass-icons/components';
+
 import * as Utils from 'utils/utils';
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {getThreads, markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
@@ -227,9 +229,10 @@ const ThreadList = ({
                                 disabled={!someUnread}
                                 className={'Button___large Button___icon'}
                                 onClick={handleOpenMarkAllAsReadModal}
+                                marginTop={true}
                             >
-                                <span className='Icon'>
-                                    <i className='icon-playlist-check'/>
+                                <span className='icon'>
+                                    <PlaylistCheckIcon size={18}/>
                                 </span>
                             </Button>
                         </SimpleTooltip>
