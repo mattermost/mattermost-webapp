@@ -4226,6 +4226,13 @@ export default class Client4 {
             },
         );
     };
+
+    submitTrueUpReview = () => {
+        return this.doFetch(
+            `${this.getBaseRoute()}/license/review`,
+            { method: 'post' }
+        )
+    }
 }
 
 export function parseAndMergeNestedHeaders(originalHeaders: any) {

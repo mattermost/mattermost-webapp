@@ -7,6 +7,7 @@ import {
     Product,
     CloudCustomer,
     CloudState,
+    TrueUpReviewProfile,
 } from '@mattermost/types/cloud';
 import {GlobalState} from '@mattermost/types/store';
 
@@ -64,4 +65,8 @@ export function checkHadPriorTrial(state: GlobalState): boolean {
 export function isCurrentLicenseCloud(state: GlobalState): boolean {
     const license = getLicense(state);
     return license?.Cloud === 'true';
+}
+
+export function getTrueUpReviewProfile(state: GlobalState): TrueUpReviewProfile {
+    return state.entities.cloud.trueUpReview;
 }

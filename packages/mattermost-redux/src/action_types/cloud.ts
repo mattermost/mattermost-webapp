@@ -27,4 +27,6 @@ export default keyMirror({
     CLOUD_SUBSCRIPTION_REQUEST: null,
 
     RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS: null,
+
+    RECEIVED_TRUE_UP_REVIEW_BUNDLE: null,
 });
