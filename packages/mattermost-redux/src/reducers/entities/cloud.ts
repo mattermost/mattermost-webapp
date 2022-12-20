@@ -66,12 +66,12 @@ function invoices(state: Record<string, Invoice> | null = null, action: GenericA
 }
 
 function trueUpReview(state: TrueUpReviewProfile | null = null, action: GenericAction) {
-    switch(action.type) {
-        case CloudTypes.RECEIVED_TRUE_UP_REVIEW_BUNDLE: {
-            return action.data
-        }
-        default:
-            return state;
+    switch (action.type) {
+    case CloudTypes.RECEIVED_TRUE_UP_REVIEW_BUNDLE: {
+        return action.data;
+    }
+    default:
+        return state;
     }
 }
 

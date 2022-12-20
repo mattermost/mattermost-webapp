@@ -412,14 +412,14 @@ const AdminDefinition = {
             title: t('admin.sidebar.true_up_review'),
             title_default: 'True Up Review',
             searchableStrings: [
-                'admin.billing.true_up_review.title'
+                'admin.billing.true_up_review.title',
             ],
             schema: {
                 id: 'TrueUpReview',
-                component: TrueUpReview
+                component: TrueUpReview,
             },
-            isDisabled: false
-        }
+            isDisabled: false,
+        },
     },
     reporting: {
         icon: (

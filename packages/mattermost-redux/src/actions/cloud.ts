@@ -65,6 +65,6 @@ export function updateCloudCustomerAddress(address: Address): ActionFunc {
 export function getTrueUpReviewBundle(): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.submitTrueUpReview,
-        onSuccess: [CloudTypes.RECEIVED_TRUE_UP_REVIEW_BUNDLE]
-    })
+        onSuccess: [CloudTypes.RECEIVED_TRUE_UP_REVIEW_BUNDLE],
+    });
 }

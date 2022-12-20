@@ -225,12 +225,12 @@ const state: GlobalState = {
                     active_plugin_names: [],
                     inactive_plugin_names: [],
                     total_active_plugins: 0,
-                    total_inactive_plugins: 0
+                    total_inactive_plugins: 0,
                 },
                 server_installation_type: '',
                 server_version: '',
                 total_incoming_webhooks: 0,
-                total_outgoing_webhooks: 0
+                total_outgoing_webhooks: 0,
             },
         },
         hostedCustomer: {

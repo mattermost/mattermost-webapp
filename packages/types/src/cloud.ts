@@ -22,7 +22,7 @@ export type CloudState = {
     selfHostedSignup: {
         progress: ValueOf<typeof SelfHostedSignupProgress>;
     };
-    trueUpReview: TrueUpReviewProfile
+    trueUpReview: TrueUpReviewProfile;
 }
 
 export type Subscription = {

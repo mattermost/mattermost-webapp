@@ -32,7 +32,7 @@ const TrueUpReview: React.FC = () => {
     const reviewProfile = useSelector(trueUpReviewProfileSelector);
 
     const handleSubmitReview = () => {
-		dispatch(getTrueUpReviewBundle());
+        dispatch(getTrueUpReviewBundle());
     };
 
     const handleDownloadBundle = async () => {
