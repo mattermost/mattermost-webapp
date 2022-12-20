@@ -21,7 +21,7 @@ describe('Bot accounts ownership and API', () => {
     let botName;
     let adminUser;
     beforeEach(() => {
-        cy.apiAdminLogin().then((user) => {
+        cy.apiAdminLogin().then(({user}) => {
             adminUser = user;
         });
 
@@ -91,7 +91,7 @@ describe('Bot accounts ownership and API', () => {
             },
         }).then((response) => {
             // * Validate that request was denied
-            expect(response.status).to.equal(403);
+            expect(response.status, '403');
         });
     });
 
@@ -192,7 +192,7 @@ describe('Bot accounts ownership and API', () => {
                 // # Try posting
                 cy.apiCreatePost(newChannel.id, 'this is a bot message ' + bot.username, '', {}, token, false).then((response) => {
                     // * Validate that posting was not allowed
-                    expect(response.status).to.equal(403);
+                    expect(response.status, '403');
                 });
             });
         });
@@ -313,7 +313,7 @@ describe('Bot accounts ownership and API', () => {
                 },
             }).then((response) => {
                 // * Validate that request was denied
-                expect(response.status).to.equal(403);
+                expect(response.status, '403');
             });
         });
     });
@@ -349,9 +349,7 @@ describe('Bot accounts ownership and API', () => {
                 // # Create a post
                 cy.postBotMessage({channelId: channel.id, message: msg2, token, failOnStatus: false}).then(({status}) => {
                     // * Validate that posting failed
-                    expect(status).to.equal(403);
-
-                    // expect(status, 403);
+                    expect(status, '403');
                 });
 
                 cy.apiAdminLogin();
@@ -409,9 +407,7 @@ describe('Bot accounts ownership and API', () => {
                 // # Create a post
                 cy.postBotMessage({channelId: channel.id, message: msg2, token, failOnStatus: false}).then(({status}) => {
                     // * Validate that posting failed
-                    expect(status).to.equal(403);
-
-                    // expect(status, 403);
+                    expect(status, '403');
                 });
 
                 // # Enable the bot token again
@@ -473,9 +469,7 @@ describe('Bot accounts ownership and API', () => {
                     // # Create a post
                     cy.postBotMessage({channelId: channel.id, message: msg2, token, failOnStatus: false}).then(({status}) => {
                         // * Validate that posting failed
-                        expect(status).to.equal(403);
-
-                        // expect(status, 403);
+                        expect(status, '403');
                     });
                 });
             });

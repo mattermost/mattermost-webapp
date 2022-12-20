@@ -559,7 +559,7 @@ declare global {
                  * @example
                  *   cy.apiAdminLogin();
                  */
-            apiAdminLogin(requestOptions?: Record<string, any>): Chainable<UserProfile>;
+            apiAdminLogin(requestOptions?: Record<string, any>): Chainable<UserProfile & {user: any}>;
 
             /**
                  * Login as admin via API.
