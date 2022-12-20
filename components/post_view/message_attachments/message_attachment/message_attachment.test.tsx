@@ -255,5 +255,5 @@ describe('components/post_view/MessageAttachment', () => {
 
         const wrapper = shallow(<MessageAttachment {...props}/>);
         expect(wrapper.find('.attachment')).toMatchSnapshot();
-    })
+    });
 });
