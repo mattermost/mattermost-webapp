@@ -1096,11 +1096,11 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                             }
                                           >
                                             <UserButton
-                                              aria-haspopup={true}
+                                              aria-haspopup="dialog"
                                               onClick={[Function]}
                                             >
                                               <button
-                                                aria-haspopup={true}
+                                                aria-haspopup="dialog"
                                                 className="UserButton-bZNeGd lLsMM"
                                                 onClick={[Function]}
                                               >
@@ -1311,11 +1311,11 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                             }
                                           >
                                             <UserButton
-                                              aria-haspopup={true}
+                                              aria-haspopup="dialog"
                                               onClick={[Function]}
                                             >
                                               <button
-                                                aria-haspopup={true}
+                                                aria-haspopup="dialog"
                                                 className="UserButton-bZNeGd lLsMM"
                                                 onClick={[Function]}
                                               >
@@ -1526,11 +1526,11 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                             }
                                           >
                                             <UserButton
-                                              aria-haspopup={true}
+                                              aria-haspopup="dialog"
                                               onClick={[Function]}
                                             >
                                               <button
-                                                aria-haspopup={true}
+                                                aria-haspopup="dialog"
                                                 className="UserButton-bZNeGd lLsMM"
                                                 onClick={[Function]}
                                               >
@@ -1741,11 +1741,11 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                             }
                                           >
                                             <UserButton
-                                              aria-haspopup={true}
+                                              aria-haspopup="dialog"
                                               onClick={[Function]}
                                             >
                                               <button
-                                                aria-haspopup={true}
+                                                aria-haspopup="dialog"
                                                 className="UserButton-bZNeGd lLsMM"
                                                 onClick={[Function]}
                                               >
@@ -1956,11 +1956,11 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                             }
                                           >
                                             <UserButton
-                                              aria-haspopup={true}
+                                              aria-haspopup="dialog"
                                               onClick={[Function]}
                                             >
                                               <button
-                                                aria-haspopup={true}
+                                                aria-haspopup="dialog"
                                                 className="UserButton-bZNeGd lLsMM"
                                                 onClick={[Function]}
                                               >
