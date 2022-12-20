@@ -10,6 +10,7 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
   isInCurrentTeam={false}
   isMobileView={false}
   lastActivityTimestamp={1632146562846}
+  openModalCount={0}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -224,6 +225,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
   isInCurrentTeam={true}
   isMobileView={false}
   lastActivityTimestamp={1632146562846}
+  openModalCount={0}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -512,6 +514,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
   isInCurrentTeam={true}
   isMobileView={false}
   lastActivityTimestamp={1632146562846}
+  openModalCount={0}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -848,6 +851,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
   isInCurrentTeam={true}
   isMobileView={false}
   lastActivityTimestamp={1632146562846}
+  openModalCount={0}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -1185,6 +1189,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
   isInCurrentTeam={true}
   isMobileView={false}
   lastActivityTimestamp={1632146562846}
+  openModalCount={0}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -1473,6 +1478,7 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
   isInCurrentTeam={true}
   isMobileView={false}
   lastActivityTimestamp={1632146562846}
+  openModalCount={0}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -1711,6 +1717,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
   isInCurrentTeam={true}
   isMobileView={false}
   lastActivityTimestamp={1632146562846}
+  openModalCount={0}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"
@@ -1999,6 +2006,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
   isInCurrentTeam={true}
   isMobileView={false}
   lastActivityTimestamp={1632146562846}
+  openModalCount={0}
   placement="right"
   popoverSize="sm"
   popoverStyle="info"

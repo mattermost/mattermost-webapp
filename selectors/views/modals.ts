@@ -10,6 +10,10 @@ export function isAnyModalOpen(state: GlobalState) {
     return Boolean(state.views.modals.modalState && findOpenModal(state));
 }
 
+export function getOpenModalCount(state: GlobalState) {
+    return Object.keys(state.views.modals.modalState).length;
+}
+
 function findOpenModal(state: GlobalState) {
     let isOpen = false;
     const modalStateObject = state.views.modals.modalState;
