@@ -133,6 +133,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
             icon={'calendar-outline'}
             className='dateTime__calendar-icon'
             size={'sm'}
+            aria-haspopup='grid'
         />
     );
 

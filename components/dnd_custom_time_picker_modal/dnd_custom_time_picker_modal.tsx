@@ -215,6 +215,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                 onClick={() => this.handlePopperOpenState(true)}
                 className='dateTime__calendar-icon'
                 size={'sm'}
+                aria-haspopup='grid'
             />
         );
 
