@@ -406,6 +406,19 @@ const AdminDefinition = {
             },
             isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
+        true_up_review: {
+            url: 'billing/true_up_review',
+            title: t('admin.sidebar.true_up_review'),
+            title_default: 'True Up Review',
+            searchableStrings: [
+                'admin.billing.true_up_review.title'
+            ],
+            schema: {
+                id: 'TrueUpReview',
+                component: null
+            },
+            isDisabled: false
+        }
     },
     reporting: {
         icon: (
