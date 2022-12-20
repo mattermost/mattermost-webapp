@@ -890,9 +890,9 @@ export default class Client4 {
         );
     };
 
-    getProfilesInGroup = (groupId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
+    getProfilesInGroup = (groupId: string, page = 0, perPage = PER_PAGE_DEFAULT, sort = '') => {
         return this.doFetch<UserProfile[]>(
-            `${this.getUsersRoute()}${buildQueryString({in_group: groupId, page, per_page: perPage})}`,
+            `${this.getUsersRoute()}${buildQueryString({in_group: groupId, page, per_page: perPage, sort})}`,
             {method: 'get'},
         );
     };

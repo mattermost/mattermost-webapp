@@ -6,6 +6,7 @@ import {RequireOnlyOne} from './utilities';
 export type WorkTemplatesState = {
     categories: Category[];
     templatesInCategory: Record<string, WorkTemplate[]>;
+    playbookTemplates: [];
 }
 
 export interface WorkTemplate {

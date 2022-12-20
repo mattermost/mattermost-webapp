@@ -10,7 +10,7 @@ import {CloudLinks, CloudProducts, LicenseSkus, ModalIdentifiers, PaidFeatures, 
 import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString, hasSomeLimits} from 'utils/limits';
 import {findProductBySkuAndInterval} from 'utils/products';
 
-import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
+import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal, openModal} from 'actions/views/modals';
@@ -62,7 +62,7 @@ function Content(props: ContentProps) {
     const openPricingModalBackAction = useOpenPricingModal();
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
-    const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
+    const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.UpgradeEnterprise);
 
     const subscription = useSelector(selectCloudSubscription);
     const product = useSelector(selectSubscriptionProduct);

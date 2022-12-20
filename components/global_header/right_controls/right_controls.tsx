@@ -33,6 +33,8 @@ const RightControlsContainer = styled.div`
     height: 40px;
     flex-shrink: 0;
     position: relative;
+    flex-basis: 30%;
+    justify-content: flex-end;
 
     > * + * {
         margin-left: 8px;
