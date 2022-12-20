@@ -94,6 +94,9 @@ jest.mock('mattermost-redux/client', () => {
                 progress: mockCreatedLicense,
                 license: {Users: existingUsers * 2},
             }),
+            getClientLicenseOld: () => Promise.resolve({
+                data: {Sku: 'Enterprise'},
+            }),
         },
     };
 });
@@ -137,7 +140,9 @@ const initialState: DeepPartial<GlobalState> = {
             config: {
                 EnableDeveloper: 'false',
             },
-            license: {},
+            license: {
+                Sku: 'Enterprise',
+            },
         },
         cloud: {
             subscription: {},

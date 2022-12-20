@@ -53,8 +53,8 @@ exports[`components/threading/global_threads/thread_pane should match snapshot 1
             <Memo(Button)
               className="Button___icon Button___large"
             >
-              <i
-                className="Icon icon-dots-vertical"
+              <DotsVerticalIcon
+                size={18}
               />
             </Memo(Button)>
           </SimpleTooltip>
