@@ -3,14 +3,23 @@
 
 import {connect} from 'react-redux';
 
+import {Channel} from '@mattermost/types/channels';
+
+import {getMyChannelMembership} from 'mattermost-redux/selectors/entities/channels';
+
 import {getChannelIntroPluginButtons} from 'selectors/plugins';
 
 import {GlobalState} from 'types/store';
 
 import PluggableIntroButtons from './pluggable_intro_buttons';
 
-function mapStateToProps(state: GlobalState) {
+type OwnProps = {
+    channel: Channel;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     return {
+        channelMember: getMyChannelMembership(state, ownProps.channel.id),
         pluginButtons: getChannelIntroPluginButtons(state),
     };
 }

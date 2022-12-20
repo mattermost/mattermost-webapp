@@ -187,7 +187,7 @@ export default class PluginRegistry {
     // Add a button to the channel intro message.
     // Accepts the following:
     // - icon - React element to use as the button's icon
-    // - action - a function called when the button is clicked
+    // - action - a function called when the button is clicked, passed the channel and channel member as arguments
     // - tooltipText - not currently used
     // - text - a localized string to use as the button's text
     registerChannelIntroButtonAction = reArg([
