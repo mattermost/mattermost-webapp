@@ -44,15 +44,6 @@ const StyledTask = styled.div`
             picture {
                 position: relative;
                 height: 24px;
-                &:before {
-                    position: absolute;
-                    content: "";
-                    left: 0;
-                    right: 0;
-                    top: 50%;
-                    border-top: 1px solid;
-                    border-color: inherit;
-                }
             }
         }
     }
