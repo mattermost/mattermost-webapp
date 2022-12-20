@@ -41,10 +41,6 @@ const StyledTask = styled.div`
             span {
                 text-decoration: line-through;
             }
-            picture {
-                position: relative;
-                height: 24px;
-            }
         }
     }
 
