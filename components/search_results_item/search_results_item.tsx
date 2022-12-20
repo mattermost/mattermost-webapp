@@ -419,7 +419,7 @@ export default class SearchResultsItem extends React.PureComponent<Props, State>
                             }}
                             isRHS={true}
                         />
-                        {this.props.isPostAcknowledgementsEnabled && post.metadata?.priority?.requested_ack && (
+                        {Posts.POST_DELETED !== post.state && this.props.isPostAcknowledgementsEnabled && post.metadata?.priority?.requested_ack && (
                             <PostAcknowledgements
                                 postId={post.id}
                                 authorId={post.user_id}
@@ -493,7 +493,7 @@ export default class SearchResultsItem extends React.PureComponent<Props, State>
                                 </div>
                                 <div className='col d-flex align-items-center'>
                                     {this.renderPostTime()}
-                                    {isPostPriorityEnabled && post.metadata?.priority?.priority && (
+                                    {Posts.POST_DELETED !== post.state && isPostPriorityEnabled && post.metadata?.priority?.priority && (
                                         <span className='d-flex mr-2 ml-1'>
                                             <PriorityLabel priority={post.metadata.priority.priority}/>
                                         </span>
