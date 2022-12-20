@@ -10,44 +10,35 @@ import {CSSTransition} from 'react-transition-group';
 import {DotsHorizontalIcon} from '@mattermost/compass-icons/components';
 
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
-import ToggleFormattingBar from '../toggle_formatting_bar/toggle_formatting_bar';
 
 import FormattingIcon, {IconContainer} from './formatting_icon';
 
 import {useFormattingBarControls, useGetLatest} from './hooks';
 
-/** eslint-disable no-confusing-arrow */
-
-type SeparatorProps = {
-    show: boolean;
-}
-
-const Separator = styled.div<SeparatorProps>`
-    display: ${({show}) => (show ? 'block' : 'none')};
+export const Separator = styled.div`
+    display: block;
     position: relative;
     width: 1px;
     height: 24px;
-    background: rgba(var(--center-channel-color-rgb), 0.32);
+    background: rgba(var(--center-channel-color-rgb), 0.16);
 `;
 
-type FormattingBarContainerProps = {
-    open: boolean;
-}
-
-const FormattingBarContainer = styled.div<FormattingBarContainerProps>`
+export const FormattingBarSpacer = styled.div`
     display: flex;
     height: 48px;
-    max-height: ${(props) => (props.open ? '100px' : 0)};
-    padding-left: 7px;
-    background: rgba(var(--center-channel-color-rgb), 0.04);
-    align-items: center;
-    gap: 4px;
-    transform-origin: top;
-    transition: max-height 0.25s ease;
+    transition: height 0.25s ease;
+    align-items: end;
+`;
 
-    &.wide ${Separator} {
-        display: block;
-    }
+const FormattingBarContainer = styled.div`
+    display: flex;
+    height: 48px;
+    padding-left: 7px;
+    background: transparent;
+    align-items: center;
+    gap: 2px;
+    transform-origin: top;
+    transition: height 0.25s ease;
 `;
 
 const HiddenControlsContainer = styled.div`
@@ -103,16 +94,6 @@ const HiddenControlsContainer = styled.div`
 interface FormattingBarProps {
 
     /**
-     * prop that determines if the FormattingBar is visible
-     */
-    isOpen: boolean;
-
-    /**
-     * prop that determines if the Formatting Controls are visible
-     */
-    showFormattingControls: boolean;
-
-    /**
      * the current inputValue
      * This is needed to apply the markdown to the correct place
      */
@@ -135,15 +116,13 @@ interface FormattingBarProps {
      * disable formatting controls when the texteditor is in preview state
      */
     disableControls: boolean;
-    extraControls: JSX.Element;
-    toggleAdvanceTextEditor: () => void;
 
     /**
      * location of the advanced text editor in the UI (center channel / RHS)
      */
     location: string;
 
-    /*
+    /**
      * controls that enhance the message,
      * e.g: message priority picker
      */
@@ -152,14 +131,10 @@ interface FormattingBarProps {
 
 const FormattingBar = (props: FormattingBarProps): JSX.Element => {
     const {
-        isOpen,
-        showFormattingControls,
         applyMarkdown,
         getCurrentSelection,
         getCurrentMessage,
         disableControls,
-        extraControls,
-        toggleAdvanceTextEditor,
         location,
         additionalControls,
     } = props;
@@ -202,12 +177,6 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
 
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [getLatest, setShowHiddenControls]);
-
-    useEffect(() => {
-        if (!isOpen) {
-            setShowHiddenControls(false);
-        }
-    }, [isOpen]);
 
     useEffect(() => {
         update?.();
@@ -261,20 +230,11 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         left: x ?? 0,
     };
 
+    const showSeparators = wideMode === 'wide';
+
     return (
-        <FormattingBarContainer
-            open={isOpen}
-            ref={formattingBarRef}
-        >
-            <ToggleFormattingBar
-                onClick={toggleAdvanceTextEditor}
-                active={showFormattingControls}
-                disabled={false}
-            />
-            {additionalControls}
-            <Separator show={true}/>
-            {showFormattingControls && controls.map((mode) => {
-                const insertSeparator = mode === 'heading' || mode === 'ol';
+        <FormattingBarContainer ref={formattingBarRef}>
+            {controls.map((mode) => {
                 return (
                     <React.Fragment key={mode}>
                         <FormattingIcon
@@ -283,12 +243,19 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                             onClick={makeFormattingHandler(mode)}
                             disabled={disableControls}
                         />
-                        {insertSeparator && <Separator show={wideMode === 'wide'}/>}
+                        {mode === 'heading' && showSeparators && <Separator/>}
                     </React.Fragment>
                 );
             })}
 
-            {hasHiddenControls && showFormattingControls && (
+            {Array.isArray(additionalControls) && additionalControls.length > 0 && (
+                <>
+                    {showSeparators && <Separator/>}
+                    {additionalControls}
+                </>
+            )}
+
+            {hasHiddenControls && (
                 <>
                     <IconContainer
                         id={'HiddenControlsButton' + location}
@@ -302,9 +269,9 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                             size={18}
                         />
                     </IconContainer>
-                    <Separator show={true}/>
                 </>
             )}
+
             <CSSTransition
                 timeout={250}
                 classNames='scale'
@@ -327,7 +294,6 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                     })}
                 </HiddenControlsContainer>
             </CSSTransition>
-            {extraControls}
         </FormattingBarContainer>
     );
 };

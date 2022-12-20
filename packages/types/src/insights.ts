@@ -98,7 +98,9 @@ export type TopBoard = {
     icon: string;
     title: string;
     activityCount: number;
-    activeUsers: Array<UserProfile['id']>;
+
+    // MM-49023: community bugfix to maintain backwards compatibility
+    activeUsers: Array<UserProfile['id']> | string;
     createdBy: string;
 };
 
