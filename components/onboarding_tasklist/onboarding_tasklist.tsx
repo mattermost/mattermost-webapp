@@ -345,7 +345,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
                                 {tasksList.map((task) => (
                                     <Task
                                         key={OnboardingTaskCategory + task.name}
-                                        label={task.useOnLabel()}
+                                        label={task.label()}
                                         onClick={() => {
                                             startTask(task.name);
                                         }}

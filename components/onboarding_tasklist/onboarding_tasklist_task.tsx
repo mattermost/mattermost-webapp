@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import {CompletedAnimation} from './onboarding_tasklist_animations';
 
 export interface TaskProps {
-    label: JSX.Element;
+    label: React.ReactElement;
     icon?: React.ReactNode;
     onClick?: () => void;
     completedStatus: boolean;
@@ -24,8 +24,14 @@ const StyledTask = styled.div`
     color: var(--center-channel-color);
     position: relative;
 
-    span img {
-        margin-right: 10px;
+    span {
+        display: flex;
+        align-items: center;
+        picture {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+        }
     }
 
     &.completed {
@@ -37,12 +43,13 @@ const StyledTask = styled.div`
             }
             picture {
                 position: relative;
+                height: 24px;
                 &:before {
                     position: absolute;
                     content: "";
                     left: 0;
+                    right: 0;
                     top: 50%;
-                    right: 10px;
                     border-top: 1px solid;
                     border-color: inherit;
                 }
@@ -62,7 +69,6 @@ const StyledTask = styled.div`
     }
     transition: background 250ms ease-in-out, color 250ms ease-in-out,
         box-shadow 250ms ease-in-out;
-
 `;
 
 export const Task = (props: TaskProps): JSX.Element => {

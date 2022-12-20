@@ -6,8 +6,6 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {matchPath, useHistory, useLocation} from 'react-router-dom';
 
-import styled from 'styled-components';
-
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {setStatusDropdown} from 'actions/views/status_dropdown';
@@ -41,97 +39,131 @@ import {
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES, ExploreOtherToolsTourSteps} from 'utils/constants';
 
-import bullseyeImg from 'images/bullseye.svg';
-import channels from 'images/channels.svg';
-import clipboard from 'images/clipboard.svg';
-import gears from 'images/gears.svg';
-import handshake from 'images/handshake.svg';
-import phone from 'images/phone.svg';
-import security from 'images/security.svg';
-import sunglasses from 'images/sunglasses.svg';
-import wrench from 'images/wrench.svg';
+import BullsEye from 'components/common/svg_images_components/bulls_eye_svg';
+import Channels from 'components/common/svg_images_components/channels_svg';
+import Clipboard from 'components/common/svg_images_components/clipboard_svg';
+import Gears from 'components/common/svg_images_components/gears_svg';
+import Handshake from 'components/common/svg_images_components/handshake_svg';
+import Phone from 'components/common/svg_images_components/phone_svg';
+import Security from 'components/common/svg_images_components/security_svg';
+import Sunglasses from 'components/common/svg_images_components/sunglasses_svg';
+import Wrench from 'components/common/svg_images_components/wrench_svg';
 
-import {t} from '../../utils/i18n';
+import {t} from 'utils/i18n';
 
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
 import {generateTelemetryTag} from './utils';
 
 const getCategory = makeGetCategory();
 
-const TaskListImage = styled.img`
-    width: 24px;
-    height: 24px;
-`;
-
-// eslint-disable-next-line react-hooks/rules-of-hooks
-
 interface OnBoardingTaskListTaskProps {
     id: string;
-    svg: string;
+    Svg: React.ReactNode;
     message: string;
 }
 
 const getTaskDetails = {
     [OnboardingTasksName.CHANNELS_TOUR]: {
         id: 'onboardingTask.checklist.task_learn_more_about_messaging',
-        svg: channels,
+        svg: (
+            <Channels
+                width={24}
+                height={24}
+            />
+        ),
         message: 'Take a tour of Channels.',
     },
     [OnboardingTasksName.BOARDS_TOUR]: {
         id: 'onboardingTask.checklist.plan_sprint_with_kanban_style_boards',
-        svg: bullseyeImg,
+        svg: (
+            <BullsEye
+                width={24}
+                height={24}
+            />
+        ),
         message: 'Manage tasks with your first board.',
     },
     [OnboardingTasksName.PLAYBOOKS_TOUR]: {
         id: 'onboardingTask.checklist.task_resolve_incidents_faster_with_playbooks',
-        svg: clipboard,
+        svg: (
+            <Clipboard
+                width={24}
+                height={24}
+            />
+        ),
         message: 'Explore workflows with your first playbook.',
     },
     [OnboardingTasksName.INVITE_PEOPLE]: {
         id: 'onboardingTask.checklist.task_invite_team_members',
-        svg: handshake,
+        svg: (
+            <Handshake
+                width={24}
+                height={24}
+            />
+        ),
         message: 'Invite team members to the workspace.',
     },
     [OnboardingTasksName.COMPLETE_YOUR_PROFILE]: {
         id: 'onboardingTask.checklist.task_complete_your_profile',
-        svg: sunglasses,
+        svg: (
+            <Sunglasses
+                width={24}
+                height={24}
+            />
+        ),
         message: 'Complete your profile.',
     },
 
     [OnboardingTasksName.EXPLORE_OTHER_TOOLS]: {
         id: 'onboardingTask.checklist.explore_other_tools_in_platform',
-        svg: wrench,
+        svg: (
+            <Wrench
+                width={24}
+                height={24}
+            />
+        ),
         message: 'Explore other tools in the platform.',
     },
 
     [OnboardingTasksName.DOWNLOAD_APP]: {
         id: 'onboardingTask.checklist.task_download_mm_apps',
-        svg: phone,
+        svg: (
+            <Phone
+                width={24}
+                height={24}
+            />
+        ),
         message: 'Download the Desktop and Mobile Apps.',
     },
 
     [OnboardingTasksName.VISIT_SYSTEM_CONSOLE]: {
         id: 'onboardingTask.checklist.task_visit_system_console',
-        svg: gears,
+        svg: (
+            <Gears
+                width={24}
+                height={24}
+            />
+        ),
         message: 'Visit the System Console to configure your workspace.',
     },
     [OnboardingTasksName.START_TRIAL]: {
         id: 'onboardingTask.checklist.task_start_enterprise_trial',
-        svg: security,
+        svg: (
+            <Security
+                width={24}
+                height={24}
+            />
+        ),
         message: 'Learn more about Enterprise-level high-security features.',
     },
 };
 
-const useOnBoardingTaskListTask = ({id, svg, message}: OnBoardingTaskListTaskProps) => {
+const OnBoardingTaskListTask = ({id, Svg, message}: OnBoardingTaskListTaskProps) => {
     const {formatMessage} = useIntl();
     const taskMessage = formatMessage({id: t(id), defaultMessage: message});
-
     return (<>
         <picture>
-            <TaskListImage
-                src={svg}
-                alt={taskMessage}
-            />
+            {Svg}
         </picture>
         {taskMessage}
     </>);
@@ -207,9 +239,14 @@ export const useTasksListWithStatus = () => {
             return {
                 name: task,
                 status: status === FINISHED.toString(),
-                useOnLabel: () => {
+                label: () => {
                     const {id, svg, message} = getTaskDetails[task];
-                    return useOnBoardingTaskListTask({id, svg, message});
+                    return (
+                        <OnBoardingTaskListTask
+                            id={id}
+                            Svg={svg}
+                            message={message}
+                        />);
                 },
             };
         });
