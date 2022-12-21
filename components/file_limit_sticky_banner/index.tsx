@@ -3,7 +3,7 @@
 
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import {useIntl} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
@@ -17,10 +17,10 @@ import useGetUsage from 'components/common/hooks/useGetUsage';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
-import OverlayTrigger from 'components/overlay_trigger';
+import AlertBanner from 'components/alert_banner';
 import Tooltip from 'components/tooltip';
 
-import Constants, {CloudProducts, LicenseSkus, PaidFeatures, Preferences} from 'utils/constants';
+import {CloudProducts, LicenseSkus, PaidFeatures, Preferences} from 'utils/constants';
 import {asGBString} from 'utils/limits';
 
 interface FileLimitSnoozePreference {
@@ -34,28 +34,6 @@ const StyledDiv = styled.div`
 width: 100%;
 padding: 0 24px;
 margin: 12px auto;
-`;
-
-const InnerDiv = styled.div`
-position: relative;
-border: 1px solid #FFBC1F;
-border-radius: 4px;
-background: linear-gradient(0deg, rgba(255, 212, 112, 0.16), rgba(255, 212, 112, 0.16)), #FFFFFF;
-padding: 16px 17px;
-color: var(--center-channel-color);
-`;
-
-const CloseIcon = styled.button`
-border: none;
-outline: none;
-background: none;
-position: absolute;
-top: 16px;
-right: 0;
-`;
-
-const StyledI = styled.i`
-color: #FFBC1F;
 `;
 
 function FileLimitStickyBanner() {
@@ -117,14 +95,22 @@ function FileLimitStickyBanner() {
         setShow(false);
     };
 
-    const adminMessage = (
-        <span>
-            {
-                formatMessage({
-                    id: 'create_post.file_limit_sticky_banner.admin_message',
-                    defaultMessage: 'Your free plan is limited to {storageGB} of files. New uploads will automatically archive older files. To view them again, you can delete older files or <a>upgrade to a paid plan.</a>'},
-                {
-                    storageGB: asGBString(fileStorageLimit, formatNumber),
+    const title = (
+        <FormattedMessage
+            id={'create_post.file_limit_sticky_banner.messageTitle'}
+            defaultMessage={'Your free plan is limited to {storageGB} of files.'}
+            values={{
+                storageGB: asGBString(fileStorageLimit, formatNumber),
+            }}
+        />
+    );
+
+    const adminMessage =
+        (
+            <FormattedMessage
+                id={'create_post.file_limit_sticky_banner.admin_message'}
+                defaultMessage={'New uploads will automatically archive older files. To view them again, you can delete older files or <a>upgrade to a paid plan.</a>'}
+                values={{
                     a: (chunks: React.ReactNode) => {
                         return (
                             <a
@@ -137,32 +123,29 @@ function FileLimitStickyBanner() {
                             >{chunks}</a>
                         );
                     },
-                })
-            }
-        </span>
-    );
+                }}
+            />
+        );
 
-    const nonAdminMessage = (
-        <span>
-            {formatMessage({
-                id: 'create_post.file_limit_sticky_banner.non_admin_message',
-                defaultMessage: 'Your free plan is limited to {storageGB} of files. New uploads will automatically archive older files. To view them again, <a>notify your admin to upgrade to a paid plan.</a>'},
-            {
-                storageGB: asGBString(fileStorageLimit, formatNumber),
-                a: (chunks: React.ReactNode) => (
-                    <NotifyAdminCTA
-                        ctaText={chunks}
-                        notifyRequestData={{
-                            required_plan: LicenseSkus.Professional,
-                            required_feature: PaidFeatures.UNLIMITED_FILE_STORAGE,
-                            trial_notification: false,
-                        }}
-                        callerInfo='file_limit_sticky_banner'
-                    />),
-            },
-            )}
-        </span>
-    );
+    const nonAdminMessage =
+        (
+            <FormattedMessage
+                id={'create_post.file_limit_sticky_banner.non_admin_message'}
+                defaultMessage={'New uploads will automatically archive older files. To view them again, <a>notify your admin to upgrade to a paid plan.</a>'}
+                values={{
+                    a: (chunks: React.ReactNode) => (
+                        <NotifyAdminCTA
+                            ctaText={chunks}
+                            notifyRequestData={{
+                                required_plan: LicenseSkus.Professional,
+                                required_feature: PaidFeatures.UNLIMITED_FILE_STORAGE,
+                                trial_notification: false,
+                            }}
+                            callerInfo='file_limit_sticky_banner'
+                        />),
+                }}
+            />
+        );
 
     const tooltip = (
         <Tooltip id='file_limit_banner_snooze'>
@@ -172,21 +155,14 @@ function FileLimitStickyBanner() {
 
     return (
         <StyledDiv id='cloud_file_limit_banner'>
-            <InnerDiv>
-                <StyledI className='icon-alert-outline'/>
-                {isAdmin ? adminMessage : nonAdminMessage}
-
-                <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='left'
-                    overlay={tooltip}
-                >
-                    <CloseIcon onClick={snoozeBanner}>
-                        <i className='icon icon-close'/>
-                    </CloseIcon>
-                </OverlayTrigger>
-            </InnerDiv>
+            <AlertBanner
+                mode={'warning'}
+                variant={'app'}
+                onDismiss={snoozeBanner}
+                closeBtnTooltip={tooltip}
+                title={title}
+                message={isAdmin ? adminMessage : nonAdminMessage}
+            />
         </StyledDiv>
     );
 }

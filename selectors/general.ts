@@ -50,3 +50,7 @@ export const getCurrentUserTimezone = createSelector(
         return timezone;
     },
 );
+
+export function getConnectionId(state: GlobalState) {
+    return state.websocket.connectionId;
+}

@@ -97,11 +97,11 @@ describe('InvoiceUserCount', () => {
             expected: '0 users at full rate, 0 users with partial charges',
         },
         {
-            name: 'Shows default of 0 full users, 0 partial users when there are on prem users',
+            name: 'Shows 3 full userswhen there are on prem users',
             invoice: makeInvoice(
                 [3, InvoiceLineItemType.OnPremise],
             ),
-            expected: '0 users at full rate, 0 users with partial charges',
+            expected: '3 users',
         },
     ];
 

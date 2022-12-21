@@ -216,9 +216,11 @@ describe('components/RhsRootPost', () => {
             ...baseProps,
             post: {
                 ...baseProps.post,
-                props: {
-                    ...baseProps.post.props,
-                    priority: 'important',
+                metadata: {
+                    ...baseProps.post.metadata,
+                    priority: {
+                        priority: 'important',
+                    },
                 },
             },
         };

@@ -12,10 +12,12 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import SharedUserIndicator from 'components/shared_user_indicator';
 import Avatar from 'components/widgets/users/avatar';
+import Badge from 'components/widgets/badges/badge';
 
-import Suggestion from '../suggestion.jsx';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import StatusIcon from 'components/status_icon';
+
+import Suggestion from '../suggestion.jsx';
 
 import {UserProfile} from '../command_provider/app_command_parser/app_command_parser_dependencies.js';
 
@@ -24,6 +26,10 @@ interface Item extends UserProfile {
     name: string;
     isCurrentUser: boolean;
     type: string;
+}
+
+interface Group extends Item {
+    member_count: number;
 }
 
 class AtMentionSuggestion extends Suggestion {
@@ -92,7 +98,9 @@ class AtMentionSuggestion extends Suggestion {
             );
         } else if (item.type === Constants.MENTION_GROUPS) {
             itemname = item.name;
-            description = `- ${item.display_name}`;
+            description = (
+                <span className='ml-1'>{'- '}{item.display_name}</span>
+            );
             icon = (
                 <span className='suggestion-list__icon suggestion-list__icon--large'>
                     <i
@@ -173,6 +181,23 @@ class AtMentionSuggestion extends Suggestion {
             );
         }
 
+        let countBadge;
+        if (item.type === Constants.MENTION_GROUPS) {
+            countBadge = (
+                <span className='suggestion-list__group-count'>
+                    <Badge>
+                        <FormattedMessage
+                            id='suggestion.group.members'
+                            defaultMessage='{member_count} {member_count, plural, one {member} other {members}}'
+                            values={{
+                                member_count: (item as Group).member_count,
+                            }}
+                        />
+                    </Badge>
+                </span>
+            );
+        }
+
         return (
             <div
                 className={className}
@@ -199,6 +224,7 @@ class AtMentionSuggestion extends Suggestion {
                         className='badge-autocomplete'
                     />
                 </span>
+                {countBadge}
             </div>
         );
     }

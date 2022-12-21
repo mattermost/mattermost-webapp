@@ -16,6 +16,7 @@ type Props = {
     isFreeTrial: boolean;
     subscriptionPlan: string | undefined;
     daysLeftOnTrial: number;
+    isYearly: boolean;
 };
 
 export const PlanDetailsTopElements = ({
@@ -23,6 +24,7 @@ export const PlanDetailsTopElements = ({
     isFreeTrial,
     subscriptionPlan,
     daysLeftOnTrial,
+    isYearly,
 }: Props) => {
     let productName;
     const openPricingModal = useOpenPricingModal();
@@ -75,7 +77,6 @@ export const PlanDetailsTopElements = ({
     const trialBadge = (
         <Badge
             className='TrialBadge'
-            show={isFreeTrial}
         >
             <FormattedMessage
                 id='admin.billing.subscription.cloudTrialBadge.daysLeftOnTrial'
@@ -84,6 +85,45 @@ export const PlanDetailsTopElements = ({
             />
         </Badge>
     );
+
+    const monthlyBadge = (
+        <Badge
+            className='RecurringIntervalBadge'
+        >
+            <FormattedMessage
+                id='admin.billing.subscription.cloudMonthlyBadge'
+                defaultMessage='Monthly'
+            />
+        </Badge>
+    );
+
+    const yearlyBadge = (
+        <Badge
+            className='RecurringIntervalBadge'
+        >
+            <FormattedMessage
+                id='admin.billing.subscription.cloudYearlyBadge'
+                defaultMessage='Yearly'
+            />
+        </Badge>
+    );
+
+    const getBadge = () => {
+        // no badges to show if the plan is Cloud Free
+        if (subscriptionPlan === CloudProducts.STARTER) {
+            return null;
+        }
+
+        if (isFreeTrial) {
+            return trialBadge;
+        }
+
+        if (isYearly) {
+            return yearlyBadge;
+        }
+
+        return monthlyBadge;
+    };
 
     const viewPlansButton = (
         <button
@@ -101,7 +141,7 @@ export const PlanDetailsTopElements = ({
         <>
             <div className='PlanDetails__top'>
                 <div className='PlanDetails__productName'>
-                    {productName} {trialBadge}
+                    {productName}{getBadge()}
                 </div>
 
                 {viewPlansButton}

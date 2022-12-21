@@ -52,7 +52,7 @@ describe('Verify Accessibility Support in Post', () => {
         performActionsToLastPost();
 
         // # Shift focus to the last post
-        cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).tab({shift: true});
+        cy.get('#FormattingControl_bold').focus().tab({shift: true}).tab({shift: true});
         cy.get('body').type('{uparrow}{downarrow}');
 
         // * Verify post message in Center Channel
@@ -76,7 +76,7 @@ describe('Verify Accessibility Support in Post', () => {
             // * Verify post message in RHS
             cy.get('#rhsContainer').within(() => {
                 // # Shift the focus to the last post
-                cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
+                cy.get('#FormattingControl_bold').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
 
                 // * Verify reader reads out the post correctly
                 verifyPostLabel(`#rhsPost_${postId}`, otherUser.username, `wrote, ${lastMessage}, 2 reactions, message is saved and pinned`);
@@ -86,7 +86,7 @@ describe('Verify Accessibility Support in Post', () => {
             cy.getLastPostId().then((replyId) => {
                 cy.get('#rhsContainer').within(() => {
                     // # Shift the focus to the last reply message
-                    cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}{downarrow}');
+                    cy.get('#FormattingControl_bold').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}{downarrow}');
 
                     // * Verify reader reads out the post correctly
                     verifyPostLabel(`#rhsPost_${replyId}`, testUser.username, `replied, ${replyMessage}`);
@@ -99,7 +99,7 @@ describe('Verify Accessibility Support in Post', () => {
         postMessages(testChannel, otherUser, 5);
 
         // # Shift focus to the last post
-        cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
+        cy.get('#FormattingControl_bold').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
 
         // * Verify if focus changes to different posts when we use up arrows
         for (let index = 1; index < 5; index++) {
@@ -138,7 +138,7 @@ describe('Verify Accessibility Support in Post', () => {
 
         cy.get('#rhsContainer').within(() => {
             // # Shift focus to the last post
-            cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).tab({shift: true}).type('{uparrow}');
+            cy.get('#FormattingControl_bold').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
         });
 
         // * Verify if focus changes to different posts when we use up arrows
@@ -162,14 +162,13 @@ describe('Verify Accessibility Support in Post', () => {
         postMessages(testChannel, otherUser, 1);
 
         // # Shift focus to the last post
-        cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).tab({shift: true});
-        cy.get('body').type('{uparrow}{downarrow}');
+        cy.get('#FormattingControl_bold').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}{downarrow}');
         cy.focused().tab();
 
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(() => {
                 // * Verify focus is on profile image
-                cy.findByAltText(`${otherUser.username} profile image`).should('be.focused');
+                cy.get('.status-wrapper button').first().should('be.focused');
                 cy.focused().tab();
 
                 // * Verify focus is on the username
@@ -235,7 +234,7 @@ describe('Verify Accessibility Support in Post', () => {
 
         cy.get('#rhsContainer').within(() => {
             // # Shift focus to the last post
-            cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true});
+            cy.get('#FormattingControl_bold').focus().tab({shift: true}).tab({shift: true});
         });
 
         // * Verify reverse tab on RHS

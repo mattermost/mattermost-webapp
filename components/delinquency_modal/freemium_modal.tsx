@@ -33,7 +33,7 @@ const DescriptionMessages: Record<DescriptionStatusKey, JSX.Element> = {
     noLimits: (
         <FormattedMessage
             id='cloud_delinquency.modal.workspace_downgraded_freemium'
-            defaultMessage='Cloud Free is restricted to 10,000 message history, 10GB file storage, 10 apps, and 500 board cards.'
+            defaultMessage='Cloud Free is restricted to 10,000 message history, 10GB file storage, and 500 board cards.'
         >
             {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>
@@ -42,14 +42,6 @@ const DescriptionMessages: Record<DescriptionStatusKey, JSX.Element> = {
         <FormattedMessage
             id='cloud_delinquency.modal.workspace_downgraded_messages_surpassed'
             defaultMessage={'Some of your workspace\'s message history are no longer accessible. Upgrade to a paid plan and get unlimited access to your message history.'}
-        >
-            {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
-        </FormattedMessage>
-    ),
-    [LimitTypes.enabledIntegrations]: (
-        <FormattedMessage
-            id='cloud_delinquency.modal.workspace_downgraded_integrations_surpassed'
-            defaultMessage='You have reached the limit of enabled integrations in your workspace. Upgrade to a paid plan to remove restrictions.'
         >
             {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>

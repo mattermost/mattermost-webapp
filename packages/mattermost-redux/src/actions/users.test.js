@@ -1500,39 +1500,4 @@ describe('Actions.Users', () => {
             expect(profiles).toBe(originalState.entities.users.profiles);
         });
     });
-
-    test('loadMeREST should set Client4\'s user_id and user_roles', async () => {
-        TestHelper.mockLogin();
-        store.dispatch({
-            type: UserTypes.LOGIN_SUCCESS,
-        });
-        await Actions.loadMeREST()(store.dispatch, store.getState);
-
-        expect(Client4.userId).toEqual(TestHelper.basicUser.id);
-        expect(Client4.userRoles).toEqual(TestHelper.basicUser.roles);
-    });
-
-    test('loadMe should set Client4\'s user_id and user_roles', async () => {
-        store = configureStore({});
-
-        nock(Client4.getGraphQLUrl()).
-            post('').
-            reply(200, {
-                data: {
-                    config: null,
-                    license: null,
-                    user: {
-                        id: TestHelper.basicUser.id,
-                        roles: TestHelper.basicUser.roles.split(' ').map((r) => ({name: r})),
-                        preferences: [],
-                    },
-                    teamMembers: [],
-                },
-            });
-
-        await Actions.loadMe()(store.dispatch, store.getState);
-
-        expect(Client4.userId).toEqual(TestHelper.basicUser.id);
-        expect(Client4.userRoles).toEqual(TestHelper.basicUser.roles);
-    });
 });

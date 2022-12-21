@@ -9,7 +9,7 @@
     align-items: center;
     justify-content: center;
     backdrop-filter: blur(0);
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--center-channel-bg);
 }
 
 .apps-form-modal-body-loaded {
