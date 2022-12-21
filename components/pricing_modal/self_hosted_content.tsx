@@ -232,7 +232,13 @@ function SelfHostedContent(props: ContentProps) {
 
                                 const professionalProduct = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL);
                                 if (productsLoaded && professionalProduct) {
-                                    closePricingModal();
+                                    // let the control modal close this modal
+                                    // we need to wait for its timing,
+                                    // it doesn't return a signal,
+                                    // and we can not do this in a useEffect hook
+                                    // at the top of this file easily because
+                                    // sometimes we want both modals to be open if user is in purchase
+                                    // modal and wants to compare plans
                                     controlSelfHostedPurchaseModal.open();
                                 }
                             },
