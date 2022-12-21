@@ -589,14 +589,14 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         });
     }
 
-    showPersistNotificationModal = (message: string, hasSpecialMentions: boolean, isDirectOrGroup: boolean) => {
+    showPersistNotificationModal = (message: string, hasSpecialMentions: boolean, channelType: Channel['type']) => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.PERSIST_NOTIFICATION_CONFIRM_MODAL,
             dialogType: PersistNotificationConfirmModal,
             dialogProps: {
                 currentChannelTeammateUsername: this.props.currentChannelTeammateUsername,
                 hasSpecialMentions,
-                isDirectOrGroup,
+                channelType,
                 message,
                 onConfirm: this.handleNotifyAllConfirmation,
             },
@@ -685,7 +685,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.props.draft?.metadata?.priority?.priority === PostPriority.URGENT &&
             this.props.draft?.metadata?.priority?.persistent_notifications
         ) {
-            this.showPersistNotificationModal(this.state.message, hasSpecialMentions, isDirectOrGroup);
+            this.showPersistNotificationModal(this.state.message, hasSpecialMentions, updateChannel.type);
             this.isDraftSubmitting = false;
             return;
         } else if (memberNotifyCount > 0) {
@@ -1512,7 +1512,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     };
 
     handlePostPriorityHide = () => {
-        this.focusTextbox();
+        this.focusTextbox(true);
     };
 
     hasPrioritySet = () => {
@@ -1536,7 +1536,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             return true;
         }
 
-        if (currentChannel.type === Constants.DM_CHANNEL || currentChannel.type === Constants.GM_CHANNEL) {
+        if (currentChannel.type === Constants.DM_CHANNEL) {
             return true;
         }
 

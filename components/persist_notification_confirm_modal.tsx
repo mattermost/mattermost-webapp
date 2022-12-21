@@ -9,23 +9,25 @@ import {getPersistentNotificationInterval, getPersistentNotificationMaxRecipient
 
 import {GlobalState} from 'types/store';
 import {makeGetUserOrGroupMentionCountFromMessage} from 'utils/post_utils';
+import Constants from 'utils/constants';
 
 import {GenericModal} from '@mattermost/components';
 import {UserProfile} from '@mattermost/types/users';
+import {Channel} from '@mattermost/types/channels';
 
 type Props = {
     currentChannelTeammateUsername?: UserProfile['username'];
     hasSpecialMentions: boolean;
-    isDirectOrGroup: boolean;
+    channelType: Channel['type'];
     message: string;
     onConfirm: () => void;
     onExited: () => void;
 };
 
 function PersistNotificationConfirmModal({
+    channelType,
     currentChannelTeammateUsername,
     hasSpecialMentions,
-    isDirectOrGroup,
     message,
     onConfirm,
     onExited,
@@ -40,7 +42,7 @@ function PersistNotificationConfirmModal({
     const interval = useSelector(getPersistentNotificationInterval);
     const count = useSelector((state: GlobalState) => getMentionCount(state, message));
 
-    if (isDirectOrGroup) {
+    if (channelType === Constants.DM_CHANNEL) {
         handleConfirm = onConfirm;
         title = (
             <FormattedMessage
@@ -148,13 +150,18 @@ function PersistNotificationConfirmModal({
 
     return (
         <GenericModal
+            autoFocusConfirmButton={true}
+            id='persist_notification_confirm_modal'
+            autoCloseOnConfirmButton={true}
+            compassDesign={true}
             confirmButtonText={confirmBtn}
+            enforceFocus={true}
             handleCancel={() => {}}
             handleConfirm={handleConfirm}
+            handleEnterKeyPress={handleConfirm}
+            isDeleteModal={false}
             modalHeaderText={title}
             onExited={onExited}
-            compassDesign={true}
-            isDeleteModal={false}
         >
             {body}
         </GenericModal>

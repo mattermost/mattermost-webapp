@@ -11,7 +11,7 @@ import {createPost} from 'actions/post_actions';
 import {removeDraft} from 'actions/views/drafts';
 import {PostDraft} from 'types/store/draft';
 import {specialMentionsInText} from 'utils/post_utils';
-import Constants, {ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers} from 'utils/constants';
 
 import type {Channel} from '@mattermost/types/channels';
 import type {UserProfile, UserStatus} from '@mattermost/types/users';
@@ -73,7 +73,7 @@ function ChannelDraft({
             dialogType: PersistNotificationConfirmModal,
             dialogProps: {
                 message: post.message,
-                isDirectOrGroup: channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL,
+                channelType: channel.type,
                 hasSpecialMentions,
                 onConfirm: () => doSubmit(id, post),
             },

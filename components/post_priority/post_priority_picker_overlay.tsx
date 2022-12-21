@@ -14,6 +14,8 @@ import {
     useFloating,
     useInteractions,
     useRole,
+    flip,
+    shift,
 } from '@floating-ui/react-dom-interactions';
 
 import {AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
@@ -71,7 +73,15 @@ function PostPriorityPickerOverlay({
         onOpenChange: setPickerOpen,
         placement: 'top-start',
         whileElementsMounted: autoUpdate,
-        middleware: [offset({mainAxis: 4})],
+        middleware: [
+            offset({mainAxis: 4}),
+            flip({
+                fallbackPlacements: ['top'],
+            }),
+            shift({
+                padding: 16,
+            }),
+        ],
     });
 
     const {
@@ -107,6 +117,7 @@ function PostPriorityPickerOverlay({
                     <FloatingFocusManager
                         context={pickerContext}
                         modal={true}
+                        returnFocus={false}
                     >
                         <div
                             ref={pickerFloating}

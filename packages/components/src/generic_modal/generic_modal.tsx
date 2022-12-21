@@ -31,6 +31,7 @@ export type Props = {
     backdrop?: boolean;
     backdropClassName?: string;
     children: React.ReactNode;
+    autoFocusConfirmButton?: boolean;
 };
 
 type State = {
@@ -105,6 +106,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
 
             confirmButton = (
                 <button
+                    autoFocus={this.props.autoFocusConfirmButton}
                     type='submit'
                     className={classNames('GenericModal__button', isConfirmOrDeleteClassName, this.props.confirmButtonClassName, {
                         disabled: this.props.isConfirmDisabled,
