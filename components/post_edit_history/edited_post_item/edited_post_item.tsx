@@ -42,6 +42,10 @@ const itemMessages = defineMessages({
         id: t('post_info.edit.current_version'),
         defaultMessage: 'Current Version',
     },
+    ariaLabelMessage: {
+        id: t('post_info.edit.aria_label'),
+        defaultMessage: 'Select to restore an old message.',
+    },
 });
 
 export type Props = PropsFromRedux & {
@@ -189,7 +193,7 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
                 icon={'restore'}
                 onClick={openRestorePostModal}
                 compact={true}
-                aria-label='Select to restore an old message.'
+                aria-label={formatMessage(itemMessages.ariaLabelMessage)}
             />
         </OverlayTrigger>
     );

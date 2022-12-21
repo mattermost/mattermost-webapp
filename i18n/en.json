@@ -4325,6 +4325,7 @@
   "post_info.del": "Delete",
   "post_info.dot_menu.tooltip.more_actions": "More",
   "post_info.edit": "Edit",
+  "post_info.edit.aria_label": "Select to restore an old message.",
   "post_info.edit.current_version": "Current Version",
   "post_info.edit.restore": "Restore this version",
   "post_info.edit.undo": "Undo",
