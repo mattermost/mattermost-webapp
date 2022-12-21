@@ -72,7 +72,7 @@ import CompanyInfo from './billing/company_info';
 import PaymentInfo from './billing/payment_info';
 import CompanyInfoEdit from './billing/company_info_edit';
 import PaymentInfoEdit from './billing/payment_info_edit';
-import TrueUpReview from './billing/true_up_review';
+import TrueUpReview from '../analytics/true_up_review';
 import WorkspaceOptimizationDashboard from './workspace-optimization/dashboard';
 import {
     LDAPFeatureDiscovery,
@@ -406,19 +406,6 @@ const AdminDefinition = {
                 component: PaymentInfoEdit,
             },
             isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
-        },
-        true_up_review: {
-            url: 'billing/true_up_review',
-            title: t('admin.sidebar.true_up_review'),
-            title_default: 'True Up Review',
-            searchableStrings: [
-                'admin.billing.true_up_review.title',
-            ],
-            schema: {
-                id: 'TrueUpReview',
-                component: TrueUpReview,
-            },
-            isDisabled: false,
         },
     },
     reporting: {

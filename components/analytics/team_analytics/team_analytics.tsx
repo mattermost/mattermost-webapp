@@ -22,6 +22,7 @@ import LineChart from 'components/analytics/line_chart';
 import StatisticCount from 'components/analytics/statistic_count';
 import TableChart from 'components/analytics/table_chart';
 import {ActivatedUserCard} from 'components/analytics/activated_users_card';
+import TrueUpReview from 'components/analytics/true_up_review';
 
 import {getMonthLong} from 'utils/i18n';
 
@@ -310,6 +311,7 @@ export default class TeamAnalytics extends React.PureComponent<Props, State> {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         {banner}
+                        <TrueUpReview/>
                         <div className='grid-statistics'>
                             <ActivatedUserCard
                                 activatedUsers={this.getStatValue(stats[StatTypes.TOTAL_USERS])}
