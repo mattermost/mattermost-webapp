@@ -769,8 +769,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
 
         const draft = this.state.draft!;
-        const updatedDraft = {...draft, message};
-        updatedDraft.show = !isDraftEmpty(updatedDraft);
+        const show = isDraftEmpty(draft) ? false : draft.show;
+        const updatedDraft = {...draft, message, show};
 
         this.handleDraftChange(updatedDraft);
 
