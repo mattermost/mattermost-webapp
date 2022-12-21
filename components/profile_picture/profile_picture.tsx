@@ -108,7 +108,10 @@ export default class ProfilePicture extends React.PureComponent<Props> {
                             </span>
                         </RoundButton>
 
-                        <StatusIcon status={this.props.status}/>
+                        <StatusIcon
+                            status={this.props.status}
+                            className={this.props.statusClass}
+                        />
                     </span>
                 </OverlayTrigger>
             );

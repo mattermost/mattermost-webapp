@@ -51,6 +51,7 @@ describe('components/post_view/ChannelIntroMessages', () => {
         teamIsGroupConstrained: false,
         creatorName: 'creatorName',
         stats: {},
+        memberCount: 2,
         usersLimit: 10,
         isFavorite: false,
         isInvitingPeople: false,

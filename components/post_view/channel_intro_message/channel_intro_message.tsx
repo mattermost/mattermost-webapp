@@ -53,6 +53,7 @@ type Props = {
     teammateName?: string;
     currentUser: UserProfileRedux;
     stats: any;
+    memberCount: number;
     usersLimit: number;
     isInvitingPeople: boolean;
     isNotificationsOpen: boolean;
@@ -95,7 +96,7 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             teammate,
             teammateName,
             currentUser,
-            stats,
+            memberCount,
             usersLimit,
             isInvitingPeople,
             isNotificationsOpen,
@@ -129,9 +130,9 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         } else if (channel.type === Constants.GM_CHANNEL) {
             return createGMIntroMessage(channel, centeredIntro, channelProfiles, isInvitingPeople, isNotificationsOpen, isSetHeaderOpen, currentUserId, currentUser, boardComponent, createClasses);
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
-            return createDefaultIntroMessage(channel, centeredIntro, stats, usersLimit, locale, creatorName, isNotificationsOpen, isSetHeaderOpen, currentUser, this.props.isFavorite, this.toggleFavorite, enableUserCreation, isReadOnly, teamIsGroupConstrained, boardComponent, createClasses);
+            return createDefaultIntroMessage(channel, centeredIntro, memberCount, usersLimit, locale, creatorName, isNotificationsOpen, isSetHeaderOpen, currentUser, this.props.isFavorite, this.toggleFavorite, enableUserCreation, isReadOnly, teamIsGroupConstrained, boardComponent, createClasses);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-            return createStandardIntroMessage(channel, centeredIntro, stats, usersLimit, currentUser, locale, creatorName, isInvitingPeople, isNotificationsOpen, isSetHeaderOpen, boardComponent, this.props.theme, createClasses);
+            return createStandardIntroMessage(channel, centeredIntro, memberCount, usersLimit, currentUser, locale, creatorName, isInvitingPeople, isNotificationsOpen, isSetHeaderOpen, boardComponent, this.props.theme, createClasses);
         }
         return null;
     }
@@ -222,6 +223,7 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, isFavorit
                         hasMention={true}
                         status={teammate.is_bot ? '' : channel.status}
                         wrapperClass='status-wrapper-DM'
+                        statusClass='DM'
                     />
                 </div>
                 <h2 className='channel-intro__title'>
@@ -267,7 +269,7 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, isFavorit
 export function createDefaultIntroMessage(
     channel: Channel,
     centeredIntro: string,
-    stats: any,
+    memberCount: any,
     usersLimit: number,
     locale: string,
     creatorName: string,
@@ -283,7 +285,7 @@ export function createDefaultIntroMessage(
     createClasses?: (withSvg: boolean) => string,
 ) {
     let teamInviteLink = null;
-    const totalUsers = stats.total_users_count;
+    const totalUsers = memberCount;
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
 
     let setHeaderButton = null;
@@ -441,11 +443,11 @@ export function createDefaultIntroMessage(
     );
 }
 
-function createStandardIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number, currentUser: UserProfileRedux, locale: string, creatorName: string, isInvitingPeople: boolean, isNotificationsOpen: boolean, isSetHeaderOpen: boolean, boardComponent?: PluginComponent, theme?: Theme, createClasses?: (withSvg: boolean) => string) {
+function createStandardIntroMessage(channel: Channel, centeredIntro: string, memberCount: any, usersLimit: number, currentUser: UserProfileRedux, locale: string, creatorName: string, isInvitingPeople: boolean, isNotificationsOpen: boolean, isSetHeaderOpen: boolean, boardComponent?: PluginComponent, theme?: Theme, createClasses?: (withSvg: boolean) => string) {
     const uiName = channel.display_name;
     let memberMessage;
     const channelIsArchived = channel.delete_at !== 0;
-    const totalUsers = stats.total_users_count;
+    const totalUsers = memberCount;
 
     if (channelIsArchived) {
         memberMessage = '';
@@ -490,16 +492,16 @@ function createStandardIntroMessage(channel: Channel, centeredIntro: string, sta
             createMessage = (
                 <FormattedMessage
                     id='intro_messages.noCreatorPrivate'
-                    defaultMessage='Private channel {name} created on {date}.'
-                    values={{name: (uiName), date}}
+                    defaultMessage='Private channel created on {date}.'
+                    values={{date}}
                 />
             );
         } else if (channel.type === Constants.OPEN_CHANNEL) {
             createMessage = (
                 <FormattedMessage
                     id='intro_messages.noCreator'
-                    defaultMessage='Public channel {name} created on {date}.'
-                    values={{name: (uiName), date}}
+                    defaultMessage='Public channel created on {date}.'
+                    values={{date}}
                 />
             );
         }
@@ -508,9 +510,8 @@ function createStandardIntroMessage(channel: Channel, centeredIntro: string, sta
             <span>
                 <FormattedMessage
                     id='intro_messages.creatorPrivate'
-                    defaultMessage='Private channel {name} created by {creator} {date}.'
+                    defaultMessage='Private channel created by {creator} {date}.'
                     values={{
-                        name: (uiName),
                         creator: (creatorName),
                         date,
                     }}
@@ -522,9 +523,8 @@ function createStandardIntroMessage(channel: Channel, centeredIntro: string, sta
             <span>
                 <FormattedMessage
                     id='intro_messages.creator'
-                    defaultMessage='Public channel {name} created by {creator} {date}.'
+                    defaultMessage='Public channel created by {creator} {date}.'
                     values={{
-                        name: (uiName),
                         creator: (creatorName),
                         date,
                     }}
@@ -567,7 +567,7 @@ function createStandardIntroMessage(channel: Channel, centeredIntro: string, sta
         </span>
     );
 
-    const actionsLayout = totalUsers < usersLimit ? channelInviteButton : headerAndNotification;
+    const actionsLayoutPublic = totalUsers < usersLimit ? channelInviteButton : headerAndNotification;
     let describingIcon;
     if (isPrivate) {
         describingIcon =
@@ -604,7 +604,7 @@ function createStandardIntroMessage(channel: Channel, centeredIntro: string, sta
                 {memberMessage}
             </p>
             <div className='channel-intro__actions'>
-                {actionsLayout}
+                {isPrivate ? headerAndNotification : actionsLayoutPublic}
             </div>
         </div>
     );
