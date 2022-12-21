@@ -71,6 +71,7 @@
 
         .central-panel {
             width: 50%;
+            padding-top: 20px;
 
             .PaymentDetails {
                 padding: 10px 0 0 10%;
@@ -451,15 +452,15 @@
 
                         .user_seats_container {
                             width: 100px;
-                            margin-bottom: 24px;
 
                             .user_seats {
                                 height: 24px;
                             }
-                        }
-
-                        .user_seats_container.error {
-                            margin-bottom: 5px;
+                            .Input_container {
+                                fieldset:not(.Input_fieldset___error) {
+                                    margin-bottom: 24px;
+                                }
+                            }
                         }
 
                         .icon {
@@ -475,6 +476,7 @@
 
                         .Input___customMessage {
                             width: 250px;
+                            margin-bottom: 4px;
 
                             .icon.error {
                                 display: none;
