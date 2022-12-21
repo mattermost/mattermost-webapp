@@ -245,7 +245,6 @@ export function Card(props: CardProps) {
             setYearlyPrice(numValue * props.yearlyPrice);
             setPriceDifference((props.monthlyPrice - props.yearlyPrice) * numValue);
             props.updateInputUserCount(numValue);
-            isValid();
         }
     };
 
