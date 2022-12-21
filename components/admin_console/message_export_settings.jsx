@@ -67,7 +67,6 @@ export default class MessageExportSettings extends AdminSettings {
                     </div>,
                 );
             }
-            console.log(`job.data`, job.data)
             if (job.data.export_type === exportFormats.EXPORT_FORMAT_CSV_WITH_BOARDS && job.data.boards_entities_exported) {
                 message.push(
                     <div>
