@@ -18,15 +18,17 @@ type Props = {
     isEmbedVisible?: boolean;
     pluginPostTypes?: PluginsState['postTypes'];
     isRHS: boolean;
+    compactDisplay?: boolean;
 }
 
-export default function MessageWithAdditionalContent({post, isEmbedVisible, pluginPostTypes, isRHS}: Props) {
+export default function MessageWithAdditionalContent({post, isEmbedVisible, pluginPostTypes, isRHS, compactDisplay}: Props) {
     const hasPlugin = post.type && pluginPostTypes?.hasOwnProperty(post.type);
     let msg;
     const messageWrapper = (
         <PostMessageView
             post={post}
             isRHS={isRHS}
+            compactDisplay={compactDisplay}
         />
     );
     if (post.state === Posts.POST_DELETED || hasPlugin) {

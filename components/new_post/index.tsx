@@ -106,6 +106,14 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     if (!post) {
         return null;
     }
+    let parentPost;
+    let parentPostUser;
+
+    if (post.root_id) {
+        parentPost = getPost(state, post.root_id);
+        parentPostUser = parentPost ? getUser(state, parentPost.user_id) : null;
+    }
+
     const isPostCommentMention = makeIsPostCommentMention();
     const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
@@ -213,6 +221,8 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isPinnedPosts: rhsState === RHSStates.PIN,
         clickToReply: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CLICK_TO_REPLY, Preferences.CLICK_TO_REPLY_DEFAULT) === 'true',
         isCommentMention: isPostCommentMention(state, post.id),
+        parentPost,
+        parentPostUser,
     };
 }
 

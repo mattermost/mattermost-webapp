@@ -42,6 +42,10 @@ import {getHistory} from 'utils/browser_history';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
+import CommentedOn from 'components/post_view/commented_on/commented_on';
+
+import {UserProfile} from '@mattermost/types/users';
+
 import PostUserProfile from './user_profile';
 import PostOptions from './post_options';
 
@@ -100,6 +104,8 @@ export type Props = {
     isPinnedPosts?: boolean;
     clickToReply?: boolean;
     isCommentMention?: boolean;
+    parentPost?: Post;
+    parentPostUser?: UserProfile | null;
 };
 
 const PostComponent = (props: Props): JSX.Element => {
@@ -212,7 +218,7 @@ const PostComponent = (props: Props): JSX.Element => {
         return classNames('a11y__section post', {
             'post--highlight': props.shouldHighlight && !fadeOutHighlight,
             'same--root': hasSameRoot(props),
-            'other--root': !hasSameRoot(props),
+            'other--root': !hasSameRoot(props) && !isSystemMessage,
             'post--bot': PostUtils.isFromBot(post),
             'post--editing': props.isPostBeingEdited,
             'current--user': props.currentUserId === post.user_id && !isSystemMessage,
@@ -317,18 +323,19 @@ const PostComponent = (props: Props): JSX.Element => {
 
     const postClass = classNames('post__body', {'post--edited': PostUtils.isEdited(props.post), 'search-item-snippet': isSearchResultItem});
 
-    let visibleMessage = null;
-
-    if (isSystemMessage && props.isBot) {
-        visibleMessage = (
-            <span className='post__visibility'>
-                <FormattedMessage
-                    id='post_info.message.visible'
-                    defaultMessage='(Only visible to you)'
-                />
-            </span>
+    let comment;
+    if (props.isFirstReply && props.parentPost && props.parentPostUser && post.type !== Constants.PostTypes.EPHEMERAL) {
+        comment = (
+            <CommentedOn
+                post={post}
+                parentPostUser={props.parentPostUser}
+                onCommentClick={handleCommentClick}
+            />
         );
-    } else if (isSystemMessage) {
+    }
+
+    let visibleMessage = null;
+    if (isSystemMessage) {
         visibleMessage = (
             <span className='post__visibility'>
                 <FormattedMessage
@@ -383,6 +390,7 @@ const PostComponent = (props: Props): JSX.Element => {
             isEmbedVisible={props.isEmbedVisible}
             pluginPostTypes={props.pluginPostTypes}
             isRHS={isRHS}
+            compactDisplay={props.compactDisplay}
         />
     );
 
@@ -531,6 +539,7 @@ const PostComponent = (props: Props): JSX.Element => {
                             />
                             }
                         </div>
+                        {comment}
                         <div
                             className={postClass}
                             id={isRHS ? undefined : `${post.id}_message`}
