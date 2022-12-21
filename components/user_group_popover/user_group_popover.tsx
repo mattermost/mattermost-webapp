@@ -23,6 +23,7 @@ import ViewUserGroupModal from 'components/view_user_group_modal';
 import UserGroupsModal from 'components/user_groups_modal';
 import GroupMemberList from 'components/user_group_popover/group_member_list';
 
+import useShouldClose from './useShouldClose';
 import './user_group_popover.scss';
 
 export enum Load {
@@ -81,6 +82,8 @@ const UserGroupPopover = (props: Props) => {
 
     const [searchState, setSearchState] = useState(Load.DONE);
 
+    const shouldClose = useShouldClose();
+
     const doSearch = useCallback(debounce(async (term) => {
         const res = await actions.searchProfiles(term, {in_group_id: group.id});
         if (res.data) {
@@ -118,6 +121,12 @@ const UserGroupPopover = (props: Props) => {
             doSearch.cancel();
         }
     }, [searchTerm, doSearch]);
+
+    useEffect(() => {
+        if (shouldClose) {
+            hide();
+        }
+    }, [hide, shouldClose]);
 
     const openGroupsModal = () => {
         actions.openModal({
