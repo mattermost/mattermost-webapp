@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Plugin, PluginKey} from 'prosemirror-state';
 import React, {useCallback, useEffect, useRef} from 'react';
 import type {FormEvent} from 'react';
 import styled from 'styled-components';
@@ -39,6 +40,7 @@ import type {GlobalState} from 'types/store';
 import type {NewPostDraft} from 'types/store/draft';
 
 import EmojiPicker from './components/emoji-picker';
+import CustomExtensionHeading from './extensions/heading';
 
 import {htmlToMarkdown} from './utils/toMarkdown';
 
@@ -227,26 +229,21 @@ export default (props: Props) => {
     const [draft, setDraftContent] = useDraft(channelId, rootId);
     const debouncedDraft = useRef<DebouncedFunc<(editor: Editor) => void>>(debounce((editor) => setDraftContent(editor.getJSON()), 500));
 
-    // const PasteHandler = Extension.create({
-    //     name: 'pasteHandler',
-    //
-    //     addProseMirrorPlugins() {
-    //         return [
-    //             new Plugin({
-    //                 key: new PluginKey('pasteHandler'),
-    //                 props: {
-    //                     transformPastedText(text: string) {
-    //                         // return String(markdownToHtml(text));
-    //                         return text;
-    //                     },
-    //
-    //                     // … and many, many more.
-    //                     // Here is the full list: https://prosemirror.net/docs/ref/#view.EditorProps
-    //                 },
-    //             }),
-    //         ];
-    //     },
-    // });
+    const PasteHandler = Extension.create({
+        name: 'pasteHandler',
+
+        addProseMirrorPlugins() {
+            return [
+                new Plugin({
+                    key: new PluginKey('pasteHandler'),
+                    props: {
+
+                        // Here is the full list: https://prosemirror.net/docs/ref/#view.EditorProps
+                    },
+                }),
+            ];
+        },
+    });
 
     // this is a dummy extension only to create custom keydown behavior
     const KeyboardHandler = Extension.create({
@@ -258,6 +255,7 @@ export default (props: Props) => {
             StarterKit,
             Typography,
             Code,
+            CustomExtensionHeading,
             Table.configure({
                 allowTableNodeSelection: true,
             }).extend({
@@ -280,6 +278,7 @@ export default (props: Props) => {
                 // when at the end of the input value this will allow the mark to be exited by pressing ArrowRight key
                 exitable: true,
             }),
+            PasteHandler,
             CodeBlockLowlight.
                 extend({
                     addNodeView() {
@@ -417,7 +416,7 @@ export default (props: Props) => {
                 addPasteRules() {
                     return [
                         nodePasteRule({
-                            find: imageInputRegex,
+                            find: new RegExp(imageInputRegex, 'g'),
                             type: this.type,
                             getAttributes: (match) => {
                                 const [,, alt, src, title] = match;

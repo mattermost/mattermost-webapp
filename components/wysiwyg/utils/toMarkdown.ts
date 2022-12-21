@@ -20,10 +20,6 @@ const markdownToHtml = (markdown: string) => unified().
     use(rehypeStringify).
     processSync(markdown);
 
-const htmlToMarkdown = (html: string) => {
-    console.log('#### from HTML', fromHtml(html)); // eslint-disable-line
-    console.log('#### to MDAST', toMdast(fromHtml(html))); // eslint-disable-line
-    return toMarkdown(toMdast(fromHtml(html)), {extensions: [gfmToMarkdown()]});
-};
+const htmlToMarkdown = (html: string) => toMarkdown(toMdast(fromHtml(html)), {extensions: [gfmToMarkdown()]});
 
 export {htmlToMarkdown, markdownToHtml};
