@@ -304,10 +304,10 @@ describe('autocomplete', () => {
             cy.get(`#postMessageText_${postId}`).should('contain', `${sysadmin.username}`);
 
             // * Verify that the group mention does have colored text
-            cy.get(`#postMessageText_${postId}`).find('.mention-link.mention--highlight').should('exist');
+            cy.get(`#postMessageText_${postId}`).find('.mention--highlight .mention-link').should('exist');
         });
 
-        // # Type input suffixed with '_'
+        //# Type input suffixed with '_'
         cy.uiGetPostTextBox().clear().type(`@${sysadmin.username}_`).type('{enter}{enter}');
         cy.uiWaitUntilMessagePostedIncludes(sysadmin.username);
 
@@ -316,7 +316,7 @@ describe('autocomplete', () => {
             cy.get(`#postMessageText_${postId}`).should('contain', `${sysadmin.username}`);
 
             // * Verify that the @ mention does have colored text
-            cy.get(`#postMessageText_${postId}`).find('.mention-link.mention--highlight').should('exist');
+            cy.get(`#postMessageText_${postId}`).find('.mention--highlight .mention-link').should('exist');
         });
     });
 

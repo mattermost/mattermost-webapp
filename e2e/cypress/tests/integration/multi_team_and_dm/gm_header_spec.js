@@ -110,7 +110,7 @@ describe('Multi-user group header', () => {
         const header = `Header by @${testUser.username}`;
         editHeader(header);
 
-        cy.contains('#channelHeaderDescription span a.mention-link', `@${testUser.username}`).should('exist');
+        cy.contains('#channelHeaderDescription .mention-link', `@${testUser.username}`).should('exist');
         cy.contains('#channelHeaderDescription span.mention--highlight a.mention-link', `@${testUser.username}`).should('not.exist');
     });
 

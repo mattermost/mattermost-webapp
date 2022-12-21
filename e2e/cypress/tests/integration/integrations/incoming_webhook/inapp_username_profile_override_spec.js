@@ -160,9 +160,9 @@ function verifyLastPost(owner, username, iconUrl) {
 
 function verifyProfilePopover(owner, username, iconUrl) {
     // * Verify that the profile popover is shown
-    cy.get('#user-profile-popover').should('be.visible').within(() => {
+    cy.get('.popover-content').should('be.visible').within(() => {
         // * Verify username from payload
-        cy.get('.user-popover__username').should('be.visible').and('have.text', username);
+        cy.get('.popover-title').should('be.visible').and('have.text', username);
 
         // * Verify icon URL from payload
         cy.get('.Avatar').should('have.attr', 'src', iconUrl);
