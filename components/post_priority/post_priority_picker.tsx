@@ -4,7 +4,6 @@
 import React, {useCallback, useEffect, useRef, useState, memo} from 'react';
 import {useSelector} from 'react-redux';
 import {FormattedMessage, useIntl} from 'react-intl';
-import classNames from 'classnames';
 import styled from 'styled-components';
 
 import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
@@ -109,7 +108,7 @@ function PostPriorityPicker({
 
     useEffect(() => {
         ref.current?.focus();
-    }, [ref.current]);
+    }, []);
 
     const postAcknowledgementsEnabled = useSelector(isPostAcknowledgementsEnabled);
 
@@ -159,12 +158,14 @@ function PostPriorityPicker({
         }
     }
 
+    const feedbackLink = postAcknowledgementsEnabled ? 'https://forms.gle/noA8Azg7RdaBZtMB6' : 'https://forms.gle/XRb63s3KZqpLNyqr9';
+
     return (
         <Picker
             ref={ref}
             tabIndex={-1}
             style={pickerStyle}
-            className={classNames({PostPriorityPicker: true, bottom: placement === 'bottom', 'PostPriorityPicker--large': postAcknowledgementsEnabled})}
+            className='PostPriorityPicker'
         >
             <Header className='modal-title'>
                 {formatMessage({
@@ -178,18 +179,16 @@ function PostPriorityPicker({
                 >
                     {'BETA'}
                 </Beta>
-                {postAcknowledgementsEnabled && (
-                    <Feedback
-                        href='https://forms.gle/noA8Azg7RdaBZtMB6'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                    >
-                        <FormattedMessage
-                            id={'post_priority.picker.feedback'}
-                            defaultMessage={'Give feedback'}
-                        />
-                    </Feedback>
-                )}
+                <Feedback
+                    href={feedbackLink}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                >
+                    <FormattedMessage
+                        id={'post_priority.picker.feedback'}
+                        defaultMessage={'Give feedback'}
+                    />
+                </Feedback>
             </Header>
             <div role='application'>
                 <Menu className='Menu'>
