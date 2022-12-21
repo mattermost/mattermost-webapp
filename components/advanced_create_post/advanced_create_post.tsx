@@ -7,6 +7,7 @@ import React from 'react';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import * as GlobalActions from 'actions/global_actions';
 import Constants, {
@@ -31,6 +32,8 @@ import {getTable, hasHtmlLink, formatMarkdownMessage, formatGithubCodePaste, isG
 import * as UserAgent from 'utils/user_agent';
 import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
+import EmojiMap from 'utils/emoji_map';
+import {applyMarkdown, ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
@@ -39,15 +42,11 @@ import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload'
 import ResetStatusModal from 'components/reset_status_modal';
 import TextboxClass from 'components/textbox/textbox';
 import PostPriorityPickerOverlay from 'components/post_priority/post_priority_picker_overlay';
-import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import PersistNotificationConfirmModal from 'components/persist_notification_confirm_modal';
-import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
-import EmojiMap from 'utils/emoji_map';
 
-import {ActionResult} from 'mattermost-redux/types/actions';
+import {PostDraft} from 'types/store/draft';
 
 import {ModalData} from 'types/actions';
-import {PostDraft} from 'types/store/draft';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {Post, PostMetadata, PostPriority, PostPriorityMetadata} from '@mattermost/types/posts';
@@ -58,9 +57,11 @@ import {Group, GroupSource} from '@mattermost/types/groups';
 import {FileInfo} from '@mattermost/types/files';
 import {Emoji} from '@mattermost/types/emojis';
 
-import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
+import AdvancedTextEditor from '../advanced_text_editor/advanced_text_editor';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
+
+import {FilePreviewInfo} from '../file_preview/file_preview';
 
 import PriorityLabels from './priority_labels';
 
@@ -1575,7 +1576,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 {canPost && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0) && (
                     <FileLimitStickyBanner/>
                 )}
-                <AdvanceTextEditor
+                <AdvancedTextEditor
                     location={Locations.CENTER}
                     currentUserId={this.props.currentUserId}
                     postError={this.state.postError}
@@ -1637,7 +1638,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                         />
                     ) : undefined}
                     additionalControls={[
-                        this.props.isPostPriorityEnabled ? (
+                        this.props.isPostPriorityEnabled && (
                             <PostPriorityPickerOverlay
                                 key='post-priority-picker-key'
                                 settings={draft?.metadata?.priority}
@@ -1645,8 +1646,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                 onClose={this.handlePostPriorityHide}
                                 disabled={this.props.shouldShowPreview}
                             />
-                        ) : null,
-                    ]}
+                        ),
+                    ].filter(Boolean)}
                 />
             </form>
         );

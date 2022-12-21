@@ -53,6 +53,7 @@ export type Props = {
     extraText?: string;
     rightDecorator?: React.ReactNode;
     isHeader?: boolean;
+    tabIndex?: number;
 }
 
 type State = {
@@ -135,7 +136,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected, rightDecorator} = this.props;
+        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected, rightDecorator, tabIndex} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
@@ -175,10 +176,17 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                 >
                     {hasSubmenu ? subMenu!.map((s) => {
                         const hasDivider = s.id === 'ChannelMenu-moveToDivider';
+                        let aria = ariaLabel;
+                        if (s.action) {
+                            aria = s.text === selectedValueText ?
+                                s.text + ' ' + Utils.localizeMessage('sidebar.menu.item.selected', 'selected') :
+                                s.text + ' ' + Utils.localizeMessage('sidebar.menu.item.notSelected', 'not selected');
+                        }
                         return (
                             <span
                                 className={classNames(['SubMenuItemContainer', {hasDivider}])}
                                 key={s.id}
+                                tabIndex={s.id.includes('Divider') ? 1 : 0}
                             >
                                 <SubMenuItem
                                     id={s.id}
@@ -189,10 +197,11 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                                     subMenu={s.subMenu}
                                     action={s.action}
                                     filter={s.filter}
-                                    ariaLabel={ariaLabel}
+                                    ariaLabel={aria}
                                     root={false}
                                     direction={s.direction}
                                     isHeader={s.isHeader}
+                                    tabIndex={1}
                                 />
                                 {s.text === selectedValueText && <span className='sorting-menu-checkbox'>
                                     <i className='icon-check'/>
@@ -219,7 +228,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     onMouseEnter={this.show}
                     onMouseLeave={this.hide}
                     onClick={this.onClick}
-                    tabIndex={0}
+                    tabIndex={tabIndex ?? 0}
                     onKeyDown={this.handleKeyDown}
                 >
                     <div className={icon ? 'grid' : 'flex'}>

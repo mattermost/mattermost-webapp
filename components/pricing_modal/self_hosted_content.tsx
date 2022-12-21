@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -16,6 +16,7 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getConfig} from 'mattermost-redux/selectors/entities/admin';
 import {GlobalState} from '@mattermost/types/store';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
+import {Client4} from 'mattermost-redux/client';
 
 import useFetchAdminConfig from 'components/common/hooks/useFetchAdminConfig';
 import useGetSelfHostedProducts from 'components/common/hooks/useGetSelfHostedProducts';
@@ -38,7 +39,10 @@ type ContentProps = {
     onHide: () => void;
 }
 
+const FALL_BACK_PROFESSIONAL_PRICE = '10';
+
 function SelfHostedContent(props: ContentProps) {
+    const [professionalPrice, setProfessionalPrice] = useState(' ');
     useFetchAdminConfig();
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
@@ -52,6 +56,21 @@ function SelfHostedContent(props: ContentProps) {
 
     useEffect(() => {
         dispatch(getPrevTrialLicense());
+    }, []);
+
+    useEffect(() => {
+        async function fetchSelfHostedProducts() {
+            try {
+                const products = await Client4.getSelfHostedProducts();
+                const professionalProduct = products.find((prod) => prod.sku === LicenseSkus.Professional);
+                const price = professionalProduct ? professionalProduct.price_per_seat.toString() : FALL_BACK_PROFESSIONAL_PRICE;
+                setProfessionalPrice(`$${price}`);
+            } catch (error) {
+                setProfessionalPrice(`$${FALL_BACK_PROFESSIONAL_PRICE}`);
+            }
+        }
+
+        fetchSelfHostedProducts();
     }, []);
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
@@ -186,7 +205,7 @@ function SelfHostedContent(props: ContentProps) {
                         topColor='var(--denim-button-bg)'
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
-                        price='$10'
+                        price={professionalPrice}
                         rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month'})}
                         planLabel={
                             isProfessional ? (
