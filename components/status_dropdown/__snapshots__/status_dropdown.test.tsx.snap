@@ -10,7 +10,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
   <button
     aria-controls="statusDropdownMenu"
     aria-expanded={false}
-    aria-label="Set a status"
+    aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
@@ -23,15 +23,14 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
-      aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
-        status="offline"
+        status="away"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -93,7 +92,13 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
         }
         id="status-menu-away"
         onClick={[Function]}
-        rightDecorator={false}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Away"
       />
@@ -242,7 +247,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
   <button
     aria-controls="statusDropdownMenu"
     aria-expanded={true}
-    aria-label="Set a status"
+    aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
@@ -255,15 +260,14 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
-      aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
-        status="offline"
+        status="away"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -406,7 +410,13 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
         }
         id="status-menu-away"
         onClick={[Function]}
-        rightDecorator={false}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Away"
       />
@@ -555,7 +565,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
   <button
     aria-controls="statusDropdownMenu"
     aria-expanded={true}
-    aria-label="Set a status"
+    aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
@@ -568,15 +578,14 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
-      aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
-        status="offline"
+        status="away"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -671,7 +680,13 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         }
         id="status-menu-away"
         onClick={[Function]}
-        rightDecorator={false}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Away"
       />
@@ -820,7 +835,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
   <button
     aria-controls="statusDropdownMenu"
     aria-expanded={true}
-    aria-label="Set a status"
+    aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
@@ -833,15 +848,14 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
-      aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
-        status="offline"
+        status="away"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -936,7 +950,13 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
         }
         id="status-menu-away"
         onClick={[Function]}
-        rightDecorator={false}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Away"
       />
@@ -1085,7 +1105,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
   <button
     aria-controls="statusDropdownMenu"
     aria-expanded={true}
-    aria-label="Set a status"
+    aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
@@ -1098,15 +1118,14 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
-      aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
-        status="offline"
+        status="away"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -1202,7 +1221,13 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         }
         id="status-menu-away"
         onClick={[Function]}
-        rightDecorator={false}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Away"
       />
@@ -1351,7 +1376,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
   <button
     aria-controls="statusDropdownMenu"
     aria-expanded={false}
-    aria-label="Set a status"
+    aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
@@ -1368,15 +1393,14 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
       size="sm"
       url="http://localhost:8065/api/v4/users/jsx5jmdiyjyuzp9rzwfaf5pwjo/image?_=1590519110944"
     />
-    <button
-      aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
-        status="offline"
+        status="away"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -1442,7 +1466,13 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
         }
         id="status-menu-away"
         onClick={[Function]}
-        rightDecorator={false}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Away"
       />
@@ -1591,7 +1621,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
   <button
     aria-controls="statusDropdownMenu"
     aria-expanded={true}
-    aria-label="Set a status"
+    aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
@@ -1604,15 +1634,14 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
-      aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
-        status="offline"
+        status="away"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -1674,7 +1703,13 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
         }
         id="status-menu-away"
         onClick={[Function]}
-        rightDecorator={false}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Away"
       />
@@ -1823,7 +1858,7 @@ exports[`components/StatusDropdown should not show clear status button when cust
   <button
     aria-controls="statusDropdownMenu"
     aria-expanded={true}
-    aria-label="Set a status"
+    aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
@@ -1836,15 +1871,14 @@ exports[`components/StatusDropdown should not show clear status button when cust
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
-      aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
-        status="offline"
+        status="away"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -1939,7 +1973,13 @@ exports[`components/StatusDropdown should not show clear status button when cust
         }
         id="status-menu-away"
         onClick={[Function]}
-        rightDecorator={false}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Away"
       />
@@ -2088,7 +2128,7 @@ exports[`components/StatusDropdown should show clear status button when custom s
   <button
     aria-controls="statusDropdownMenu"
     aria-expanded={true}
-    aria-label="Set a status"
+    aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
@@ -2101,15 +2141,14 @@ exports[`components/StatusDropdown should show clear status button when custom s
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
-      aria-label="user status is set to  you can change status by selecting your profile picture"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
-        status="offline"
+        status="away"
       />
-    </button>
+    </div>
   </button>
   <Menu
     ariaLabel="Set a status"
@@ -2252,7 +2291,13 @@ exports[`components/StatusDropdown should show clear status button when custom s
         }
         id="status-menu-away"
         onClick={[Function]}
-        rightDecorator={false}
+        rightDecorator={
+          <Icon
+            color="success"
+            glyph="check"
+            size={16}
+          />
+        }
         show={true}
         text="Away"
       />

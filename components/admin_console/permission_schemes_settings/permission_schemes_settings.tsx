@@ -457,5 +457,7 @@ t('admin.permissions.permission.manage_custom_group_members.name');
 t('admin.permissions.permission.manage_custom_group_members.description');
 t('admin.permissions.permission.delete_custom_group.name');
 t('admin.permissions.permission.delete_custom_group.description');
+t('admin.permissions.permission.restore_custom_group.name');
+t('admin.permissions.permission.restore_custom_group.description');
 t('admin.permissions.permission.edit_custom_group.name');
 t('admin.permissions.permission.edit_custom_group.description');
