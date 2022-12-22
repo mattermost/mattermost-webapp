@@ -4225,7 +4225,6 @@
   "pricing_modal.addons.uptimeGuarantee": "99%-os garantált rendelkézasre állás",
   "pricing_modal.briefing.customUserGroups": "Egyéni felhasználói csoportok",
   "pricing_modal.briefing.enterprise.advancedComplianceManagement": "Fejlett megfelelés kezelés",
-  "pricing_modal.briefing.enterprise.compliance": "Fejlett megfelelősségi kezelés",
   "pricing_modal.briefing.enterprise.groupSync": "AD/LDAP csoport szinkronizálás",
   "pricing_modal.briefing.enterprise.mobileSecurity": "Fejlett mobil biztonság csak-ID alapú push üzenetekkel",
   "pricing_modal.briefing.enterprise.rolesAndPermissions": "Fejlett szerepkörök és jogosultságok",

@@ -106,7 +106,8 @@ const ProductMenu = (): JSX.Element => {
         let tourTip;
 
         // focalboard
-        if (product.pluginId === suitePluginIds.focalboard && showBoardsTour) {
+        const boardsEnabled = product.pluginId === suitePluginIds.focalboard || product.pluginId === suitePluginIds.boards;
+        if (boardsEnabled && showBoardsTour) {
             tourTip = (<BoardsTourTip singleTip={!playbooks}/>);
         }
 
