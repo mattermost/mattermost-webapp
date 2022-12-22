@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Plugin, PluginKey} from 'prosemirror-state';
 import React, {useCallback, useEffect, useRef} from 'react';
 import type {FormEvent} from 'react';
 import styled from 'styled-components';
@@ -23,6 +22,7 @@ import Link from '@tiptap/extension-link';
 import Typography from '@tiptap/extension-typography';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Code from '@tiptap/extension-code';
+import Placeholder from '@tiptap/extension-placeholder';
 import Image, {inputRegex as imageInputRegex} from '@tiptap/extension-image';
 
 // tiptap table extensions
@@ -169,6 +169,14 @@ const EditorContainer = styled.div`
             margin-top: 0;
         }
     }
+
+    p.is-editor-empty:first-child::before {
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        content: attr(data-placeholder);
+        float: left;
+        height: 0;
+        pointer-events: none;
+    }
 `;
 
 function useDraft(channelId: string, rootId = ''): [NewPostDraft, (newContent: JSONContent) => void] {
@@ -201,6 +209,7 @@ function useDraft(channelId: string, rootId = ''): [NewPostDraft, (newContent: J
 
 type Props = PropsFromRedux & {
     channelId: string;
+    placeholder?: string;
     rootId?: string;
     onSubmit: (e?: FormEvent) => void;
     onChange?: (markdownText: string) => void;
@@ -215,6 +224,7 @@ export default (props: Props) => {
         rootId,
         onSubmit,
         onChange,
+        placeholder,
         readOnly,
         useCustomEmojis,
         useSpecialMentions,
@@ -228,21 +238,21 @@ export default (props: Props) => {
     const [draft, setDraftContent] = useDraft(channelId, rootId);
     const debouncedDraft = useRef<DebouncedFunc<(editor: Editor) => void>>(debounce((editor) => setDraftContent(editor.getJSON()), 500));
 
-    const PasteHandler = Extension.create({
-        name: 'pasteHandler',
-
-        addProseMirrorPlugins() {
-            return [
-                new Plugin({
-                    key: new PluginKey('pasteHandler'),
-                    props: {
-
-                        // Here is the full list: https://prosemirror.net/docs/ref/#view.EditorProps
-                    },
-                }),
-            ];
-        },
-    });
+    // const PasteHandler = Extension.create({
+    //     name: 'pasteHandler',
+    //
+    //     addProseMirrorPlugins() {
+    //         return [
+    //             new Plugin({
+    //                 key: new PluginKey('pasteHandler'),
+    //                 props: {
+    //
+    //                     // Here is the full list: https://prosemirror.net/docs/ref/#view.EditorProps
+    //                 },
+    //             }),
+    //         ];
+    //     },
+    // });
 
     // this is a dummy extension only to create custom keydown behavior
     const KeyboardHandler = Extension.create({
@@ -251,7 +261,12 @@ export default (props: Props) => {
 
     const editor = useEditor({
         extensions: [
+
+            // TODO: add all extensions we REALLY need separately
             StarterKit,
+            Placeholder.configure({
+                placeholder: placeholder ?? '',
+            }),
             Typography,
             Code,
             Table.configure({
@@ -276,7 +291,6 @@ export default (props: Props) => {
                 // when at the end of the input value this will allow the mark to be exited by pressing ArrowRight key
                 exitable: true,
             }),
-            PasteHandler,
             CodeBlockLowlight.
                 extend({
                     addNodeView() {

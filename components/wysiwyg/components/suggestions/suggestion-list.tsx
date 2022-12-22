@@ -19,6 +19,7 @@ import {useFloating, autoUpdate, offset, flip, shift, size} from '@floating-ui/r
 import {FormattedMessage} from 'react-intl';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 import styled from 'styled-components';
+import Constants from 'utils/constants';
 
 const ListContainer = styled.ul`
     display: flex;
@@ -26,8 +27,8 @@ const ListContainer = styled.ul`
 
     margin: 0;
     padding: 8px 0;
-    max-width: 496px;
-    max-height: inherit;
+    max-width: ${Constants.SUGGESTION_LIST_MAXWIDTH}px;
+    max-height: ${Constants.SUGGESTION_LIST_MAXHEIGHT}px;
 
     list-style: none;
 

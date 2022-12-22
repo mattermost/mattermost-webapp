@@ -1339,6 +1339,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     onSubmit={this.handleSubmit}
                     onChange={this.handleChange}
                     readOnly={!this.props.canPost}
+                    placeholder={`Write to ${this.state.currentChannel.display_name}`}
                 />
             );
         }

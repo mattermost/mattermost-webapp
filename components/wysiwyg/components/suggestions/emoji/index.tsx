@@ -7,7 +7,7 @@ import React from 'react';
 
 import {NodeViewProps} from '@tiptap/core/src/types';
 import {Mention} from '@tiptap/extension-mention';
-import {NodeViewWrapper, ReactNodeViewRenderer as renderReactNodeView} from '@tiptap/react';
+import {nodePasteRule, NodeViewWrapper, ReactNodeViewRenderer as renderReactNodeView} from '@tiptap/react';
 
 import {WysiwygPluginNames} from 'utils/constants';
 
@@ -43,6 +43,15 @@ export const RenderedEmoji = (props: NodeViewProps) => {
 
 const EmojiSuggestion = Mention.extend({
     name: WysiwygPluginNames.EMOJI_SUGGESTION,
+
+    renderText() {
+        /**
+         * this seems wrong, but the range caulculation is based on this method. It measures the length of the string
+         * returned from this and adjusts the range. But since we use a react component to display the emoji this leads
+         * to incorrect values and therefore breaks. Its a different story for components that render text inside.
+         */
+        return '';
+    },
 
     addNodeView() {
         return renderReactNodeView(RenderedEmoji);
@@ -105,16 +114,25 @@ const EmojiSuggestion = Mention.extend({
             },
         };
     },
-
-    /**
-     * TODO@michel:
-     * Currently broken. Does mess with the Prosemirror Range and breaks it when
-     * adding in emojis at the start of the message
-     */
     addInputRules() {
         return [
             nodeInputRule({
                 find: /((^:|\s:)(\w+):\s)/,
+                type: this.type,
+                getAttributes: (match) => {
+                    return {
+                        id: match[3],
+                        label: match[3],
+                        type: 'emoji',
+                    };
+                },
+            }),
+        ];
+    },
+    addPasteRules() {
+        return [
+            nodePasteRule({
+                find: /((^:|\s:)(\w+):\s)/gm,
                 type: this.type,
                 getAttributes: (match) => {
                     return {

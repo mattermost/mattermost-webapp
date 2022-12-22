@@ -10,7 +10,7 @@ import {
     CodeTagsIcon,
     FormatBoldIcon,
     FormatItalicIcon,
-    FormatStrikethroughVariantIcon,
+    FormatStrikethroughVariantIcon, KeyboardReturnIcon,
     LinkVariantIcon, MenuVariantIcon,
 } from '@mattermost/compass-icons/components';
 import classNames from 'classnames';
@@ -123,6 +123,15 @@ const LinkInputBox = styled.div`
     align-items: center;
     flex-direction: row;
     gap: 12px;
+
+    /**
+     * temporary fix since the Compass Components IconButton sets this value inside the component and since it is
+     * archived we cannot change that on the repo itself. We need to wait for the compass-ui IconButton to reach a
+     * releasable state
+     */
+    .icon-trash-can-outline {
+        color: rgb(var(--error-text-color-rgb)) !important;
+    }
 `;
 
 const LinkInput = styled.input`
@@ -139,7 +148,8 @@ const LinkInput = styled.input`
 const LinkInputHelp = styled.span`
     font-size: 10px;
     line-height: 16px;
-    color: rgba(var(--center-channel-color-rgb), 0.56)
+    gap: 8px;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
 `;
 
 type LinkOverlayProps = {
@@ -297,7 +307,10 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
                         onChange={(event) => setUrl(event.target.value)}
                     />
                     {url !== null && url !== prevUrl && (
-                        <LinkInputHelp>{formatMessage({id: 'wysiwyg.input-label.link.hint', defaultMessage: '⏎ Enter to save'})}</LinkInputHelp>
+                        <LinkInputHelp>
+                            <KeyboardReturnIcon size={12}/>
+                            {formatMessage({id: 'wysiwyg.input-label.link.hint', defaultMessage: 'Enter to save'})}
+                        </LinkInputHelp>
                     )}
                     {(linkMarkIsActive || prevUrl) && (
                         <IconButton

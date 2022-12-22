@@ -24,6 +24,10 @@ import {useGetLatest} from './toolbar/toolbar_hooks';
 const EmojiContainer = styled(FloatingContainer)`
     padding: 0;
 
+    #emojiPicker {
+        border: none;
+    }
+
     #emojiPicker,
     #emoji-picker-tabs {
         position: relative;
@@ -31,6 +35,16 @@ const EmojiContainer = styled(FloatingContainer)`
         right: unset;
         bottom: unset;
         left: unset;
+    }
+
+    // TODO: this height should be automated
+    .categories-container,
+    .search-grid-container {
+        height: 364px;
+    }
+
+    .search-bar {
+        padding: 8px 8px 0;
     }
 `;
 
