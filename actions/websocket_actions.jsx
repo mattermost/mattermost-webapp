@@ -19,6 +19,7 @@ import {
     PreferenceTypes,
     AppsTypes,
     CloudTypes,
+    HostedCustomerTypes,
 } from 'mattermost-redux/action_types';
 import {General, Permissions} from 'mattermost-redux/constants';
 import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
@@ -575,6 +576,9 @@ export function handleEvent(msg) {
         break;
     case SocketEvents.DRAFT_DELETED:
         dispatch(handleDeleteDraftEvent(msg));
+        break;
+    case SocketEvents.HOSTED_CUSTOMER_SIGNUP_PROGRESS_UPDATED:
+        dispatch(handleHostedCustomerSignupProgressUpdated(msg));
         break;
     default:
     }
@@ -1715,3 +1719,11 @@ function handleDeleteDraftEvent(msg) {
         doDispatch(setGlobalItem(key, {message: '', fileInfos: [], uploadsInProgress: [], remote: true}));
     };
 }
+
+function handleHostedCustomerSignupProgressUpdated(msg) {
+    return {
+        type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
+        data: msg.data.progress,
+    };
+}
+

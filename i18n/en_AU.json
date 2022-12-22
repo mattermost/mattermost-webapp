@@ -4408,7 +4408,6 @@
   "pricing_modal.addons.uptimeGuarantee": "99% uptime guarantee",
   "pricing_modal.briefing.customUserGroups": "Custom user groups",
   "pricing_modal.briefing.enterprise.advancedComplianceManagement": "Advanced compliance management",
-  "pricing_modal.briefing.enterprise.compliance": "Advanced compliance management",
   "pricing_modal.briefing.enterprise.groupSync": "AD/LDAP group sync",
   "pricing_modal.briefing.enterprise.mobileSecurity": "Advanced mobile security via ID-only push notifications",
   "pricing_modal.briefing.enterprise.rolesAndPermissions": "Advanced roles and permissions",

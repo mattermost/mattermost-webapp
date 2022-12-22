@@ -234,7 +234,7 @@ const SidebarChannelMenu = (props: Props) => {
             onOpenDirectionChange={handleOpenDirectionChange}
             onToggleMenu={onToggleMenu}
             tooltipText={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
-            tabIndex={props.isCollapsed ? -1 : 0}
+            tabIndex={0}
         >
             {props.isMenuOpen && (
                 <>
