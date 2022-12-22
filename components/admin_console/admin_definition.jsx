@@ -6887,6 +6887,7 @@ const AdminDefinition = {
                         help_text_default: 'Toggles Shared Channels',
                         help_text_markdown: false,
                         isHidden: it.not(it.any(
+                            it.licensedForFeature('SharedChannels'),
                             it.licensedForSku(LicenseSkus.Enterprise),
                             it.licensedForSku(LicenseSkus.Professional),
                         )),
