@@ -35,7 +35,6 @@ export type Props = {
 
 type State = {
     show: boolean;
-    confirmButtonClicked: boolean;
 }
 
 export class GenericModal extends React.PureComponent<Props, State> {
@@ -52,7 +51,6 @@ export class GenericModal extends React.PureComponent<Props, State> {
 
         this.state = {
             show: props.show!,
-            confirmButtonClicked: false,
         };
     }
 
@@ -72,9 +70,6 @@ export class GenericModal extends React.PureComponent<Props, State> {
 
     handleConfirm = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
-        this.setState({
-            confirmButtonClicked: true,
-        });
         if (this.props.autoCloseOnConfirmButton) {
             this.onHide();
         }
@@ -112,10 +107,10 @@ export class GenericModal extends React.PureComponent<Props, State> {
                 <button
                     type='submit'
                     className={classNames('GenericModal__button', isConfirmOrDeleteClassName, this.props.confirmButtonClassName, {
-                        disabled: this.props.isConfirmDisabled || this.state.confirmButtonClicked,
+                        disabled: this.props.isConfirmDisabled,
                     })}
                     onClick={this.handleConfirm}
-                    disabled={this.props.isConfirmDisabled || this.state.confirmButtonClicked}
+                    disabled={this.props.isConfirmDisabled}
                 >
                     {confirmButtonText}
                 </button>

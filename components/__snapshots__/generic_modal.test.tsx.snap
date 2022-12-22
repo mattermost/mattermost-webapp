@@ -136,7 +136,6 @@ exports[`components/GenericModal should match snapshot with both buttons 1`] = `
       </button>
       <button
         className="GenericModal__button confirm"
-        disabled={false}
         onClick={[Function]}
         type="submit"
       >
