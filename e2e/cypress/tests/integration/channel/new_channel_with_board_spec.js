@@ -28,11 +28,6 @@ describe('Channel routing', () => {
                 EnableMarketplace: true,
                 EnableRemoteMarketplace: true,
                 MarketplaceURL: 'https://api.integrations.mattermost.com',
-                PluginStates: {
-                    focalboard: {
-                        Enable: true,
-                    },
-                },
             },
         });
     });
