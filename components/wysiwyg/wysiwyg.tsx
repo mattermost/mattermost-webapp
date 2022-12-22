@@ -40,7 +40,6 @@ import type {GlobalState} from 'types/store';
 import type {NewPostDraft} from 'types/store/draft';
 
 import EmojiPicker from './components/emoji-picker';
-import CustomExtensionHeading from './extensions/heading';
 
 import {htmlToMarkdown} from './utils/toMarkdown';
 
@@ -255,7 +254,6 @@ export default (props: Props) => {
             StarterKit,
             Typography,
             Code,
-            CustomExtensionHeading,
             Table.configure({
                 allowTableNodeSelection: true,
             }).extend({

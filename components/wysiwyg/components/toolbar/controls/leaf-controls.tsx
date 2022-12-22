@@ -366,6 +366,7 @@ const LeafModeControls = ({editor}: {editor: Editor}) => {
                     onClick={control.type === 'setLink' ? toggleLinkOverlay : control.action}
                     className={classNames({active: control.isActive?.()})}
                     disabled={codeBlockModeIsActive}
+                    shortcutDescriptor={control.shortcutDescriptor}
                 />
             ))}
         </>

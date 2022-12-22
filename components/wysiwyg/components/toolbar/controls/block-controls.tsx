@@ -83,6 +83,7 @@ const BlockModeControls = ({editor}: {editor: Editor}) => {
                     onClick={control.action}
                     className={classNames({active: control.isActive?.()})}
                     disabled={control.mode !== 'codeBlock' && codeBlockModeIsActive}
+                    shortcutDescriptor={control.shortcutDescriptor}
                 />
             ))}
         </>

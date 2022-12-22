@@ -170,7 +170,7 @@ const ToolbarControl = forwardRef(({mode, Icon, isActive, shortcutDescriptor, ar
         return bodyAction;
     }
 
-    /* get the correct tooltip from the ShortcutsMap */
+    // get the correct tooltip from the ShortcutsMap
     const tooltip = (
         <Tooltip id='upload-tooltip'>
             <KeyboardShortcutSequence
