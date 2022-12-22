@@ -12,11 +12,7 @@ exports[`components/advanced_create_post Show tutorial 1`] = `
     showQuoteButton={false}
   />
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -99,11 +95,7 @@ exports[`components/advanced_create_post should match snapshot for center textbo
     showQuoteButton={false}
   />
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -186,11 +178,7 @@ exports[`components/advanced_create_post should match snapshot when cannot post 
     showQuoteButton={false}
   />
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={false}
@@ -273,11 +261,7 @@ exports[`components/advanced_create_post should match snapshot when file upload 
     showQuoteButton={false}
   />
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -360,11 +344,7 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
     showQuoteButton={false}
   />
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -447,11 +427,7 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
     showQuoteButton={false}
   />
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -534,11 +510,7 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
     showQuoteButton={false}
   />
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={false}
@@ -621,11 +593,7 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
     showQuoteButton={false}
   />
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={false}
@@ -708,11 +676,7 @@ exports[`components/advanced_create_post should match snapshot, init 1`] = `
     showQuoteButton={false}
   />
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -795,11 +759,7 @@ exports[`components/advanced_create_post should match snapshot, post priority di
     showQuoteButton={false}
   />
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}

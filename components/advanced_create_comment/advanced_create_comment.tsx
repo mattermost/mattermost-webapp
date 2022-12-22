@@ -11,7 +11,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
 
-import Constants, {AdvancedTextEditor, Locations, ModalIdentifiers, Preferences} from 'utils/constants';
+import Constants, {AdvancedTextEditor as AdvancedTextEditorConst, Locations, ModalIdentifiers, Preferences} from 'utils/constants';
 import {PreferenceType} from '@mattermost/types/preferences';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
@@ -42,7 +42,7 @@ import {
     applyMarkdown,
     ApplyMarkdownOptions,
 } from 'utils/markdown/apply_markdown';
-import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
+import AdvancedTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {TextboxClass, TextboxElement} from '../textbox';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
@@ -1111,7 +1111,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         this.props.savePreferences(this.props.currentUserId, [{
             category: Preferences.ADVANCED_TEXT_EDITOR,
             user_id: this.props.currentUserId,
-            name: AdvancedTextEditor.COMMENT,
+            name: AdvancedTextEditorConst.COMMENT,
             value: String(!this.state.isFormattingBarHidden),
         }]);
     }
@@ -1158,7 +1158,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     (this.props.draft.fileInfos.length > 0 || this.props.draft.uploadsInProgress.length > 0) &&
                     <FileLimitStickyBanner/>
                 }
-                <AdvanceTextEditor
+                <AdvancedTextEditor
                     location={Locations.RHS_COMMENT}
                     textboxRef={this.textboxRef}
                     currentUserId={this.props.currentUserId}
