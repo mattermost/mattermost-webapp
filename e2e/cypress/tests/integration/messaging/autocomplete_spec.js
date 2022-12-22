@@ -307,7 +307,7 @@ describe('autocomplete', () => {
             cy.get(`#postMessageText_${postId}`).find('.mention--highlight .mention-link').should('exist');
         });
 
-        //# Type input suffixed with '_'
+        // # Type input suffixed with '_'
         cy.uiGetPostTextBox().clear().type(`@${sysadmin.username}_`).type('{enter}{enter}');
         cy.uiWaitUntilMessagePostedIncludes(sysadmin.username);
 
