@@ -137,16 +137,16 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
     );
 
     const handlePostError = (error: ClientError) => {
-        setIsButtonClicked(false)
+        setIsButtonClicked(false);
         setPostError(error.message);
         setHasError(true);
         setTimeout(() => setHasError(false), Constants.ANIMATION_TIMEOUT);
     };
 
     const handleSubmit = async () => {
-        setIsButtonClicked(true)
+        setIsButtonClicked(true);
         if (!selectedChannel) {
-            setIsButtonClicked(false)
+            setIsButtonClicked(false);
             return;
         }
 
