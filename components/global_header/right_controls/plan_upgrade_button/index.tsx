@@ -89,7 +89,7 @@ const PlanUpgradeButton = (): JSX.Element | null => {
 
     return (
         <OverlayTrigger
-            trigger={['hover', 'focus']}
+            trigger={['hover']}
             delayShow={Constants.OVERLAY_TIME_DELAY}
             placement='bottom'
             overlay={tooltip}

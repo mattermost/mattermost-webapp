@@ -62,11 +62,13 @@ export default function UserSettingsSidebar(props: Props): JSX.Element {
                 <ShowUnreadsCategory
                     active={props.activeSection === 'showUnreadsCategory'}
                     updateSection={props.updateSection}
+                    areAllSectionsInactive={props.activeSection === ''}
                 />
                 <div className='divider-dark'/>
                 <LimitVisibleGMsDMs
                     active={props.activeSection === 'limitVisibleGMsDMs'}
                     updateSection={props.updateSection}
+                    areAllSectionsInactive={props.activeSection === ''}
                 />
                 <div className='divider-dark'/>
             </div>
