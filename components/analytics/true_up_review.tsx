@@ -48,7 +48,7 @@ const TrueUpReview: React.FC = () => {
         }
 
         // Convert from miliseconds
-        const date = new Date(reviewStatus.due_date * 1000);
+        const date = new Date(reviewStatus.due_date);
         return moment(date).format('MMMM DD, YYYY');
     };
 
