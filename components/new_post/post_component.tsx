@@ -142,18 +142,20 @@ const PostComponent = (props: Props): JSX.Element => {
         if (a11yActive) {
             postRef.current?.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
         }
-    }, [hover]);
+    }, []);
 
     useEffect(() => {
-        if (hover) {
-            removeKeyboardListeners();
-        }
+        return () => {
+            if (hover) {
+                removeKeyboardListeners();
+            }
 
-        if (postRef.current) {
-            postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, handleA11yActivateEvent);
-            postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, handleA11yDeactivateEvent);
-        }
-    }, [hover, postRef.current]);
+            if (postRef.current) {
+                postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, handleA11yActivateEvent);
+                postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, handleA11yDeactivateEvent);
+            }
+        };
+    }, []);
 
     const hasSameRoot = (props: Props) => {
         const post = props.post;
@@ -214,7 +216,7 @@ const PostComponent = (props: Props): JSX.Element => {
         const post = props.post;
         const isMeMessage = checkIsMeMessage(post);
         const hovered =
-            fileDropdownOpened || dropdownOpened || a11yActive || props.isPostBeingEdited;
+            hover || fileDropdownOpened || dropdownOpened || a11yActive || props.isPostBeingEdited;
         return classNames('a11y__section post', {
             'post--highlight': props.shouldHighlight && !fadeOutHighlight,
             'same--root': hasSameRoot(props),
@@ -431,13 +433,12 @@ const PostComponent = (props: Props): JSX.Element => {
                 role='listitem'
                 id={getTestId()}
                 data-testid={props.location === 'CENTER' ? 'postView' : ''}
-                tabIndex={-1}
+                tabIndex={0}
                 post={post}
                 className={getClassName()}
                 onClick={handlePostClick}
                 onMouseOver={handleMouseOver}
                 onMouseLeave={handleMouseLeave}
-                data-a11y-sort-order={props.a11yIndex}
             >
                 {isSearchResultItem &&
                     <div
@@ -532,7 +533,7 @@ const PostComponent = (props: Props): JSX.Element => {
                                 setActionsMenuInitialisationState={props.actions.setActionsMenuInitialisationState}
                                 handleDropdownOpened={handleDropdownOpened}
                                 handleCommentClick={handleCommentClick}
-                                hover={hover}
+                                hover={hover || a11yActive}
                                 removePost={props.actions.removePost}
                                 isSearchResultsItem={Boolean(isSearchResultItem)}
                                 handleJumpClick={handleJumpClick}
