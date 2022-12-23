@@ -110,6 +110,7 @@ export interface ErrorsReducer {
     customer?: true;
     invoices?: true;
     limits?: true;
+    trueUpReview?: true;
 }
 const emptyErrors = {};
 export function errors(state: ErrorsReducer = emptyErrors, action: GenericAction) {
@@ -128,6 +129,9 @@ export function errors(state: ErrorsReducer = emptyErrors, action: GenericAction
     }
     case CloudTypes.CLOUD_LIMITS_FAILED: {
         return {...state, limits: true};
+    }
+    case CloudTypes.TRUE_UP_REVIEW_FAILED || CloudTypes.TRUE_UP_REVIEW_STATUS_FAILED: {
+        return {...state, trueUpReview: true}
     }
 
     case CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION: {

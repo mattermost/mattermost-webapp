@@ -15,7 +15,7 @@
     border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
 }
 
-.TrueUpReview__cardheaderText-top {
+.TrueUpReview__cardHeaderText-top {
     font-size: 16px;
     font-weight: 600;
     line-height: 24px;
@@ -37,4 +37,9 @@
 
 .dueDate :first-child {
     color: #a3a4a8;
+}
+
+.warning-icon {
+    color: var(--warning-text);
+    font-size: 24px;
 }

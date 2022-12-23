@@ -13,14 +13,18 @@ import {Buffer} from 'buffer';
 
 import {getTrueUpReviewBundle, getTrueUpReviewStatus} from 'mattermost-redux/actions/cloud';
 import {
+    getCloudErrors,
     getTrueUpReviewProfile as trueUpReviewProfileSelector,
     getTrueUpReviewStatus as trueUpReviewStatusSelector,
+    isCurrentLicenseCloud,
 } from 'mattermost-redux/selectors/entities/cloud';
 
 import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 
 import './true_up_review.scss';
+import { GlobalState } from '@mattermost/types/store';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 const SendReviewButton = styled.button`
 background: var(--denim-button-bg);
@@ -40,9 +44,14 @@ color: var(--button-color);
 
 const TrueUpReview: React.FC = () => {
     const dispatch = useDispatch();
+    const isCloud = useSelector(isCurrentLicenseCloud);
     const isAirGapped = !useCanSelfHostedSignup();
     const reviewProfile = useSelector(trueUpReviewProfileSelector);
     const reviewStatus = useSelector(trueUpReviewStatusSelector);
+    const trueUpReviewError = useSelector((state: GlobalState) => {
+        const errors = getCloudErrors(state);
+        return Boolean(errors.trueUpReview);
+    });
 
     useEffect(() => {
         dispatch(getTrueUpReviewStatus());
@@ -72,9 +81,9 @@ const TrueUpReview: React.FC = () => {
         const href = URL.createObjectURL(blob);
 
         const link = document.createElement('a');
-        const datestamp = moment().format('MM-DD-YYYY');
+        const date = moment().format('MM-DD-YYYY');
         link.href = href;
-        link.download = `true-up-review-bundle-${datestamp}`;
+        link.download = `true-up-review-bundle-${date}`;
 
         document.body.appendChild(link);
         link.click();
@@ -115,6 +124,20 @@ const TrueUpReview: React.FC = () => {
         </SendReviewButton>
     );
 
+    const errorStatus = (
+        <>
+            <WarningIcon additionalClassName={'warning-icon'}/>
+            <FormattedMessage
+                id='admin.billing.trueUpReview.submit.success'
+                defaultMessage='There was an issue sending your True Up Review. Please try again.'
+            />
+            <FormattedMessage
+                id='admin.billing.trueUpReview.submit.thanks.for.sharing'
+                defaultMessage='Thanks for sharing data needed for your true-up review.'
+            />
+        </>
+    )
+
     const successStatus = (
         <>
             <CheckMarkSvg/>
@@ -141,6 +164,10 @@ const TrueUpReview: React.FC = () => {
     );
 
     const cardContent = () => {
+        if (trueUpReviewError) {
+            return errorStatus;
+        }
+
         // If the due date is empty we still have the default state.
         if (reviewStatus.due_date === 0) {
             return null;
@@ -153,11 +180,15 @@ const TrueUpReview: React.FC = () => {
         return reviewDetails;
     };
 
+    // if (isCloud) {
+    //     return null;
+    // }
+
     return (
         <div className='TrueUpReview__card'>
             <div className='TrueUpReview__cardHeader'>
                 <div className='TrueUpReview__cardHeaderText'>
-                    <div className='TrueUpReview__cardheaderText-top'>
+                    <div className='TrueUpReview__cardHeaderText-top'>
                         <FormattedMessage
                             id='admin.billing.trueUpReview.title'
                             defaultMessage='True Up Review'

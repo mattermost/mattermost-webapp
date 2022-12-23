@@ -19,6 +19,8 @@ export default keyMirror({
     CLOUD_LIMITS_FAILED: null,
     CLOUD_PRODUCTS_FAILED: null,
     CLOUD_SUBSCRIPTION_FAILED: null,
+    TRUE_UP_REVIEW_FAILED: null,
+    TRUE_UP_REVIEW_STATUS_FAILED: null,
 
     CLOUD_CUSTOMER_REQUEST: null,
     CLOUD_INVOICES_REQUEST: null,
