@@ -41,7 +41,9 @@ const StyledTask = styled.div`
 
         span {
             span {
-                text-decoration: line-through;
+                text-decoration: underline;
+                text-decoration-skip-ink: none;
+                text-underline-offset: -0.325em;
             }
         }
     }
