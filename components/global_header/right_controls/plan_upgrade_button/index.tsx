@@ -96,6 +96,7 @@ const PlanUpgradeButton = (): JSX.Element | null => {
         >
             <UpgradeButton
                 id='UpgradeButton'
+                aria-haspopup='dialog'
                 onClick={() => openPricingModal({trackingLocation: 'global_header_plan_upgrade_button'})}
             >
                 {formatMessage({id: 'pricing_modal.btn.viewPlans', defaultMessage: 'View plans'})}
