@@ -10,7 +10,7 @@ import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
-import Constants, {FileTypes, ValidationErrors} from 'utils/constants';
+import Constants, {FileTypes, ValidationErrors, A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
 
 import {
     getChannel as getChannelAction,
@@ -1873,4 +1873,15 @@ export function getRoleFromTrackFlow() {
     const startedByRole = TrackFlowRoles[sbr] ?? '';
 
     return {started_by_role: startedByRole};
+}
+
+export function a11yFocus(element: HTMLElement | null | undefined, keyboardOnly = true) {
+    document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+        A11yCustomEventTypes.FOCUS, {
+            detail: {
+                target: element,
+                keyboardOnly,
+            },
+        },
+    ));
 }
