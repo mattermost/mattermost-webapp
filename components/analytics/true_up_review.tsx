@@ -25,6 +25,7 @@ import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import './true_up_review.scss';
 import { GlobalState } from '@mattermost/types/store';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
+import { isCurrentUserSystemAdmin } from 'mattermost-redux/selectors/entities/users';
 
 const SendReviewButton = styled.button`
 background: var(--denim-button-bg);
@@ -48,6 +49,7 @@ const TrueUpReview: React.FC = () => {
     const isAirGapped = !useCanSelfHostedSignup();
     const reviewProfile = useSelector(trueUpReviewProfileSelector);
     const reviewStatus = useSelector(trueUpReviewStatusSelector);
+    const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
     const trueUpReviewError = useSelector((state: GlobalState) => {
         const errors = getCloudErrors(state);
         return Boolean(errors.trueUpReview);
@@ -180,9 +182,9 @@ const TrueUpReview: React.FC = () => {
         return reviewDetails;
     };
 
-    // if (isCloud) {
-    //     return null;
-    // }
+    if (isCloud || !isSystemAdmin) {
+        return null;
+    }
 
     return (
         <div className='TrueUpReview__card'>
