@@ -131,7 +131,7 @@ export function errors(state: ErrorsReducer = emptyErrors, action: GenericAction
         return {...state, limits: true};
     }
     case CloudTypes.TRUE_UP_REVIEW_FAILED || CloudTypes.TRUE_UP_REVIEW_STATUS_FAILED: {
-        return {...state, trueUpReview: true}
+        return {...state, trueUpReview: true};
     }
 
     case CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION: {

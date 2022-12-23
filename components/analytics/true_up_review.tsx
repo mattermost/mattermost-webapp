@@ -3,7 +3,6 @@
 
 import React, {useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
-import styled from 'styled-components';
 
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -23,9 +22,9 @@ import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSign
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 
 import './true_up_review.scss';
-import { GlobalState } from '@mattermost/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
-import { isCurrentUserSystemAdmin } from 'mattermost-redux/selectors/entities/users';
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 const TrueUpReview: React.FC = () => {
     const dispatch = useDispatch();
@@ -96,7 +95,10 @@ const TrueUpReview: React.FC = () => {
     );
 
     const submitButton = (
-        <button className={trueUpReviewError ? 'Submit_Button_Error' : 'Submit_Button'} onClick={isAirGapped ? handleDownloadBundle : handleSubmitReview}>
+        <button
+            className={trueUpReviewError ? 'Submit_Button_Error' : 'Submit_Button'}
+            onClick={isAirGapped ? handleDownloadBundle : handleSubmitReview}
+        >
             {isAirGapped ?
                 <FormattedMessage
                     id='admin.billing.trueUpReview.button.download'
@@ -119,7 +121,7 @@ const TrueUpReview: React.FC = () => {
             />
             {submitButton}
         </>
-    )
+    );
 
     const successStatus = (
         <>
