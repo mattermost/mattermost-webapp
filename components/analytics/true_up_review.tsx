@@ -27,22 +27,6 @@ import { GlobalState } from '@mattermost/types/store';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import { isCurrentUserSystemAdmin } from 'mattermost-redux/selectors/entities/users';
 
-const SendReviewButton = styled.button`
-background: var(--denim-button-bg);
-border-radius: 4px;
-border: none;
-box-shadow: none;
-height: 40px;
-width: 181px;
-font-family: 'Open Sans';
-font-style: normal;
-font-weight: 600;
-line-height: 10px;
-letter-spacing: 0.02em;
-font-size: 14px;
-color: var(--button-color);
-`;
-
 const TrueUpReview: React.FC = () => {
     const dispatch = useDispatch();
     const isCloud = useSelector(isCurrentLicenseCloud);
@@ -112,7 +96,7 @@ const TrueUpReview: React.FC = () => {
     );
 
     const submitButton = (
-        <SendReviewButton onClick={isAirGapped ? handleDownloadBundle : handleSubmitReview}>
+        <button className={trueUpReviewError ? 'Submit_Button_Error' : 'Submit_Button'} onClick={isAirGapped ? handleDownloadBundle : handleSubmitReview}>
             {isAirGapped ?
                 <FormattedMessage
                     id='admin.billing.trueUpReview.button.download'
@@ -123,7 +107,7 @@ const TrueUpReview: React.FC = () => {
                     defaultMessage='Share to Mattermost'
                 />
             }
-        </SendReviewButton>
+        </button>
     );
 
     const errorStatus = (
@@ -133,10 +117,7 @@ const TrueUpReview: React.FC = () => {
                 id='admin.billing.trueUpReview.submit.success'
                 defaultMessage='There was an issue sending your True Up Review. Please try again.'
             />
-            <FormattedMessage
-                id='admin.billing.trueUpReview.submit.thanks.for.sharing'
-                defaultMessage='Thanks for sharing data needed for your true-up review.'
-            />
+            {submitButton}
         </>
     )
 
@@ -182,9 +163,9 @@ const TrueUpReview: React.FC = () => {
         return reviewDetails;
     };
 
-    if (isCloud || !isSystemAdmin) {
-        return null;
-    }
+    // if (isCloud || !isSystemAdmin) {
+    //     return null;
+    // }
 
     return (
         <div className='TrueUpReview__card'>
