@@ -228,14 +228,15 @@ export function Card(props: CardProps) {
     const {formatMessage} = props.intl;
 
     const checkValidNumber = (value: number) => {
-        return value > 0 && value % 1 === 0;
+        return value >= 0 && value % 1 === 0;
     };
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         const numValue = Number(value);
-        if (value === '' || (numValue && checkValidNumber(numValue))) {
-            if (value === '') {
+
+        if (value === '' || (numValue !== null && checkValidNumber(numValue))) {
+            if (value === '' || numValue === 0) {
                 setUsersCount('');
             } else {
                 setUsersCount(numValue.toString());
@@ -378,6 +379,7 @@ export function Card(props: CardProps) {
                             value: errorMessage,
                         }}
                         autoComplete='off'
+                        required={true}
                     />
                 </div>
                 <div className='icon'>
@@ -415,7 +417,7 @@ export function Card(props: CardProps) {
                         <td className='yearly_savings'>{`-$${priceDifference * 12}`}</td>
                     </tr>
                     <tr>
-                        <td>
+                        <td className='total_price'>
                             <FormattedMessage
                                 defaultMessage={'Total'}
                                 id={'admin.billing.subscription.total'}
