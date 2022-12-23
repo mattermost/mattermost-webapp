@@ -9,7 +9,6 @@ import {
     TELEMETRY_CATEGORIES,
     HostedCustomerLinks,
 } from 'utils/constants';
-import {getToday} from 'utils/utils';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -23,10 +22,9 @@ export default function Consequences() {
     return (
         <div className='signup-consequences'>
             <FormattedMessage
-                defaultMessage={'You will be billed {today}. Your license will be applied automatically. <a>See how billing works.</a>'}
+                defaultMessage={'You will be billed today. Your license will be applied automatically. <a>See how billing works.</a>'}
                 id={'self_hosted_signup.signup_consequences'}
                 values={{
-                    today: getToday(),
                     a: (chunks: React.ReactNode) => (
                         <a
                             onClick={seeHowBillingWorks}
