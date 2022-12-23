@@ -12,7 +12,6 @@ import {SelfHostedSignupForm, SelfHostedSignupProgress} from '@mattermost/types/
 import {renderWithIntlAndStore} from 'tests/react_testing_utils';
 import {TestHelper as TH} from 'utils/test_helper';
 import {SelfHostedProducts, ModalIdentifiers} from 'utils/constants';
-import {getToday} from 'utils/utils';
 
 import {DeepPartial} from '@mattermost/types/utilities';
 
@@ -255,7 +254,7 @@ describe('SelfHostedPurchaseModal', () => {
         screen.getByText('Contact Sales');
         screen.getByText('/user/month');
         screen.getByText(productName);
-        screen.getByText(`You will be billed ${getToday()}. Your license will be applied automatically`, {exact: false});
+        screen.getByText('You will be billed today. Your license will be applied automatically', {exact: false});
         screen.getByText('See how billing works', {exact: false});
     });
 

@@ -32,6 +32,15 @@ describe('components/activity_log_modal/ActivityLog', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot with mobile props', () => {
+        const mobileDeviceIdProps = Object.assign({}, baseProps, {currentSession: {...baseProps.currentSession, device_id: 'apple'}});
+        const wrapper = shallow(
+            <ActivityLog {...mobileDeviceIdProps}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('submitRevoke is called correctly', () => {
         const wrapper = shallow<ActivityLog>(
             <ActivityLog {...baseProps}/>,
