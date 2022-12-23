@@ -511,6 +511,20 @@
     .channel-archived__close-btn {
         margin: 10px;
     }
+
+    .channel-preview__message {
+        padding: 10px;
+        background: rgba(v(center-channel-color-rgb), 0.08);
+        text-align: center;
+    }
+
+    .channel-preview__join-channel-btn {
+        margin: 10px;
+    }
+
+    .channel-preview__browse-channels-btn {
+        padding: 0;
+    }
 }
 
 .post-body__actions {

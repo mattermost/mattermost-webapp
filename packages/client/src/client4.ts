@@ -302,6 +302,14 @@ export default class Client4 {
         return `${this.getChannelMembersRoute(channelId)}/${userId}`;
     }
 
+    getChannelPreviewersRoute(channelId: string,) {
+        return `${this.getChannelRoute(channelId)}/previewers`;
+    }
+
+    getChannelPreviewerRoute(channelId: string, userId: string) {
+        return `${this.getChannelPreviewersRoute(channelId)}/${userId}`;
+    }
+
     getChannelSchemeRoute(channelId: string) {
         return `${this.getChannelRoute(channelId)}/scheme`;
     }
@@ -1733,6 +1741,25 @@ export default class Client4 {
 
         return this.doFetch<StatusOK>(
             `${this.getChannelMemberRoute(channelId, userId)}`,
+            {method: 'delete'},
+        );
+    };
+
+    addToChannelPreviewers = (userId: string, channelId: string) => {
+        this.trackEvent('api', 'api_channels_add_previewer', {channel_id: channelId});
+
+        const member = {user_id: userId, channel_id: channelId};
+        return this.doFetch<ChannelMembership>(
+            `${this.getChannelPreviewersRoute(channelId)}`,
+            {method: 'post', body: JSON.stringify(member)},
+        );
+    };
+
+    removeFromChannelPreviewers = (userId: string, channelId: string) => {
+        this.trackEvent('api', 'api_channels_remove_previewer', {channel_id: channelId});
+
+        return this.doFetch<ChannelMembership>(
+            `${this.getChannelPreviewerRoute(channelId, userId)}`,
             {method: 'delete'},
         );
     };

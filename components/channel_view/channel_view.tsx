@@ -95,6 +95,46 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
     render() {
         let createPost;
+        const currentChannel = this.props.channelDisplayName;
+        const previewBar = (
+            <div
+                className='post-create__container'
+                id='preview-bar'
+            >
+                <div
+                    id='channelPreviewMessage'
+                    className='channel-preview__message'
+                >
+                    <FormattedMarkdownMessage
+                        id='channelPreviewMessage'
+                        defaultMessage='You are viewing **{currentChannel}**'
+                        values={{
+                            currentChannel,
+                        }}
+                    />
+                    <button
+                        className='btn btn-primary channel-preview__join-channel-btn'
+                        //TODO: change this onclick
+                        onClick={()=>{}}
+                    >
+                        <FormattedMessage
+                            id='center_panel.preview.joinChannel'
+                            defaultMessage='Join Channel'
+                        />
+                    </button>
+                    <button
+                        className='btn btn-link channel-preview__browse-channels-btn'
+                        //TODO: change this onclick
+                        onClick={this.onClickCloseChannel}
+                    >
+                        <FormattedMessage
+                            id='center_panel.preview.browseChannels'
+                            defaultMessage='Browse Channels'
+                        />
+                    </button>
+                </div>
+            </div>
+        );
         if (this.props.deactivatedChannel) {
             createPost = (
                 <div
@@ -173,7 +213,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                     channelId={this.props.channelId}
                     focusedPostId={this.state.focusedPostId}
                 />
-                {createPost}
+                {previewBar}
             </div>
         );
     }
