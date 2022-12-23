@@ -1,19 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import React, {useEffect} from 'react';
+import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
 
-import { useDispatch, useSelector } from 'react-redux';
-
-import { getTrueUpReviewBundle } from 'mattermost-redux/actions/cloud';
-import { getTrueUpReviewProfile as trueUpReviewProfileSelector } from 'mattermost-redux/selectors/entities/cloud';
+import {useDispatch, useSelector} from 'react-redux';
 
 import moment from 'moment';
-import { Buffer } from 'buffer';
 
-import './true_up_review.scss'
+import {Buffer} from 'buffer';
+
+import {getTrueUpReviewBundle, getTrueUpReviewStatus} from 'mattermost-redux/actions/cloud';
+import {
+    getTrueUpReviewProfile as trueUpReviewProfileSelector,
+    getTrueUpReviewStatus as trueUpReviewStatusSelector,
+} from 'mattermost-redux/selectors/entities/cloud';
+
+import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
+import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
+
+import './true_up_review.scss';
 
 const SendReviewButton = styled.button`
 background: var(--denim-button-bg);
@@ -32,88 +39,137 @@ color: var(--button-color);
 `;
 
 const TrueUpReview: React.FC = () => {
-	const dispatch = useDispatch();
-	const [isAirGapped] = useState(true);
-	const [dueBy] = useState('January 10, 2023');
-	const reviewProfile = useSelector(trueUpReviewProfileSelector);
+    const dispatch = useDispatch();
+    const isAirGapped = !useCanSelfHostedSignup();
+    const reviewProfile = useSelector(trueUpReviewProfileSelector);
+    const reviewStatus = useSelector(trueUpReviewStatusSelector);
 
-	const handleSubmitReview = () => {
-		dispatch(getTrueUpReviewBundle());
-	};
+    useEffect(() => {
+        dispatch(getTrueUpReviewStatus());
+    }, [dispatch, getTrueUpReviewStatus]);
 
-	const handleDownloadBundle = async () => {
-		await dispatch(getTrueUpReviewBundle());
+    const formattedDueDate = (): string => {
+        if (!reviewStatus?.due_date) {
+            return '';
+        }
 
-		const datestamp = moment().format('MM-DD-YYYY');
+        // Convert from miliseconds
+        const date = new Date(reviewStatus.due_date * 1000);
+        return moment(date).format('MMMM DD, YYYY');
+    };
 
-		
-		// Create the bundle as a blob containing base64 encoded json data and assign it to a link element.
-		const dataBuffer = Buffer.from(JSON.stringify(reviewProfile))
-		const blob = new Blob([dataBuffer.toString('base64')], { type: 'application/text' });
-		const href = URL.createObjectURL(blob);
-		const link = document.createElement('a');
-		link.href = href;
-		link.download = `true-up-review-bundle-${datestamp}`;
+    const handleSubmitReview = () => {
+        dispatch(getTrueUpReviewBundle());
+        dispatch(getTrueUpReviewStatus());
+    };
 
-		document.body.appendChild(link);
-		link.click();
+    const handleDownloadBundle = async () => {
+        await dispatch(getTrueUpReviewBundle());
 
-		// Remove link and revoke object url to avoid memory leaks.
-		document.body.removeChild(link);
-		URL.revokeObjectURL(href);
-	};
+        // Create the bundle as a blob containing base64 encoded json data and assign it to a link element.
+        const dataBuffer = Buffer.from(JSON.stringify(reviewProfile));
+        const blob = new Blob([dataBuffer.toString('base64')], {type: 'application/text'});
+        const href = URL.createObjectURL(blob);
 
-	const dueDate = (
-		<div className='dueDate'>
-			<span>
-				<FormattedMessage
-					id='admin.billing.trueUpReview.due.date'
-					defaultMessage='Due '
-				/>
-			</span>
-			<span>
-				{dueBy}
-			</span>
-		</div>
-	)
+        const link = document.createElement('a');
+        const datestamp = moment().format('MM-DD-YYYY');
+        link.href = href;
+        link.download = `true-up-review-bundle-${datestamp}`;
 
-	const submitButton = (
-		<SendReviewButton onClick={isAirGapped ? handleDownloadBundle : handleSubmitReview}>
-			{isAirGapped ?
-				<FormattedMessage
-					id='admin.billing.trueUpReview.button.download'
-					defaultMessage='Download Data'
-				/> :
-				<FormattedMessage
-					id='admin.billing.trueUpReview.button.share'
-					defaultMessage='Share to Mattermost'
-				/>
-			}
-		</SendReviewButton>
-	);
+        document.body.appendChild(link);
+        link.click();
 
-	return (
-		<div className='TrueUpReview__card'>
-			<div className='TrueUpReview__cardHeader'>
-				<div className='TrueUpReview__cardHeaderText'>
-					<div className='TrueUpReview__cardheaderText-top'>
-						<FormattedMessage
-							id='admin.billing.trueUpReview.title'
-							defaultMessage='True Up Review'
-						/>
-					</div>
-				</div>
-			</div>
-			<div className='TrueUpReview__cardBody'>
-				{dueDate}
-				<FormattedMessage
-					id='admin.billing.trueUpReview.share.data.for.review'
-					defaultMessage='Share the below workspace data with Mattermost for your quarterly true-up Review.'
-				/>
-				{submitButton}
-			</div>
-		</div>
-	);
+        // Remove link and revoke object url to avoid memory leaks.
+        document.body.removeChild(link);
+        URL.revokeObjectURL(href);
+
+        dispatch(getTrueUpReviewStatus());
+    };
+
+    const dueDate = (
+        <div className='dueDate'>
+            <span>
+                <FormattedMessage
+                    id='admin.billing.trueUpReview.due.date'
+                    defaultMessage='Due '
+                />
+            </span>
+            <span>
+                {formattedDueDate()}
+            </span>
+        </div>
+    );
+
+    const submitButton = (
+        <SendReviewButton onClick={isAirGapped ? handleDownloadBundle : handleSubmitReview}>
+            {isAirGapped ?
+                <FormattedMessage
+                    id='admin.billing.trueUpReview.button.download'
+                    defaultMessage='Download Data'
+                /> :
+                <FormattedMessage
+                    id='admin.billing.trueUpReview.button.share'
+                    defaultMessage='Share to Mattermost'
+                />
+            }
+        </SendReviewButton>
+    );
+
+    const successStatus = (
+        <>
+            <CheckMarkSvg/>
+            <FormattedMessage
+                id='admin.billing.trueUpReview.submit.success'
+                defaultMessage='Success!'
+            />
+            <FormattedMessage
+                id='admin.billing.trueUpReview.submit.thanks.for.sharing'
+                defaultMessage='Thanks for sharing data needed for your true-up review.'
+            />
+        </>
+    );
+
+    const reviewDetails = (
+        <>
+            {dueDate}
+            <FormattedMessage
+                id='admin.billing.trueUpReview.share.data.for.review'
+                defaultMessage='Share the below workspace data with Mattermost for your quarterly true-up Review.'
+            />
+            {submitButton}
+        </>
+    );
+
+    const cardContent = () => {
+        // If the due date is empty we still have the default state.
+        if (reviewStatus.due_date === 0) {
+            return null;
+        }
+
+        if (reviewStatus.complete) {
+            return successStatus;
+        }
+
+        return reviewDetails;
+    };
+
+    return (
+        <div className='TrueUpReview__card'>
+            <div className='TrueUpReview__cardHeader'>
+                <div className='TrueUpReview__cardHeaderText'>
+                    <div className='TrueUpReview__cardheaderText-top'>
+                        <FormattedMessage
+                            id='admin.billing.trueUpReview.title'
+                            defaultMessage='True Up Review'
+                        />
+                    </div>
+                </div>
+            </div>
+            <div className='TrueUpReview__cardBody'>
+                {cardContent()}
+            </div>
+        </div>
+    );
 };
 
 export default TrueUpReview;

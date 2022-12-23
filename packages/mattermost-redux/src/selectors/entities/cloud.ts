@@ -8,6 +8,7 @@ import {
     CloudCustomer,
     CloudState,
     TrueUpReviewProfile,
+    TrueUpReviewStatus,
 } from '@mattermost/types/cloud';
 import {GlobalState} from '@mattermost/types/store';
 
@@ -68,5 +69,9 @@ export function isCurrentLicenseCloud(state: GlobalState): boolean {
 }
 
 export function getTrueUpReviewProfile(state: GlobalState): TrueUpReviewProfile {
-    return state.entities.cloud.trueUpReview;
+    return state.entities.cloud.trueUpReview.profile;
+}
+
+export function getTrueUpReviewStatus(state: GlobalState): TrueUpReviewStatus {
+    return state.entities.cloud.trueUpReview.status;
 }

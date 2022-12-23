@@ -4233,6 +4233,13 @@ export default class Client4 {
             {method: 'post'},
         );
     }
+
+    getTrueUpReviewStatus = () => {
+        return this.doFetch(
+            `${this.getBaseRoute()}/license/review/status`,
+            {method: 'get'},
+        );
+    }
 }
 
 export function parseAndMergeNestedHeaders(originalHeaders: any) {

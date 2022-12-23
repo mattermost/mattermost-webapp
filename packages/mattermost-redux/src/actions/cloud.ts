@@ -68,3 +68,10 @@ export function getTrueUpReviewBundle(): ActionFunc {
         onSuccess: [CloudTypes.RECEIVED_TRUE_UP_REVIEW_BUNDLE],
     });
 }
+
+export function getTrueUpReviewStatus(): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.getTrueUpReviewStatus,
+        onSuccess: [CloudTypes.RECEIVED_TRUE_UP_REVIEW_STATUS],
+    });
+}

@@ -22,7 +22,10 @@ export type CloudState = {
     selfHostedSignup: {
         progress: ValueOf<typeof SelfHostedSignupProgress>;
     };
-    trueUpReview: TrueUpReviewProfile;
+    trueUpReview: {
+        status: TrueUpReviewStatus;
+        profile: TrueUpReviewProfile;
+    };
 }
 
 export type Subscription = {
@@ -236,4 +239,9 @@ export type TrueUpReviewPlugins = {
     total_inactive_plugins: number;
     active_plugin_names: string[];
     inactive_plugin_names: string[];
+}
+
+export type TrueUpReviewStatus = {
+    due_date: number;
+    complete: boolean;
 }

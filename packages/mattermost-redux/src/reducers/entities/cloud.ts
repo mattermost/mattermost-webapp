@@ -7,7 +7,7 @@ import type {ValueOf} from '@mattermost/types/utilities';
 import {CloudTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Product, Subscription, CloudCustomer, Invoice, Limits, SelfHostedSignupProgress, TrueUpReviewProfile} from '@mattermost/types/cloud';
+import {Product, Subscription, CloudCustomer, Invoice, Limits, SelfHostedSignupProgress, TrueUpReviewProfile, TrueUpReviewStatus} from '@mattermost/types/cloud';
 
 export function subscription(state: Subscription | null = null, action: GenericAction) {
     switch (action.type) {
@@ -65,10 +65,19 @@ function invoices(state: Record<string, Invoice> | null = null, action: GenericA
     }
 }
 
-function trueUpReview(state: TrueUpReviewProfile | null = null, action: GenericAction) {
+function trueUpReview(state: TrueUpReviewProfile | TrueUpReviewStatus | null = null, action: GenericAction) {
     switch (action.type) {
     case CloudTypes.RECEIVED_TRUE_UP_REVIEW_BUNDLE: {
-        return action.data;
+        return {
+            ...state,
+            profile: action.data,
+        };
+    }
+    case CloudTypes.RECEIVED_TRUE_UP_REVIEW_STATUS: {
+        return {
+            ...state,
+            status: action.data,
+        };
     }
     default:
         return state;
