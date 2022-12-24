@@ -26,6 +26,7 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
         cancel: jest.fn(),
         error: '',
         active: true,
+        areAllSectionsInactive: false,
         saving: false,
         selectedSound: 'Bing',
         isCollapsedThreadsEnabled: false,

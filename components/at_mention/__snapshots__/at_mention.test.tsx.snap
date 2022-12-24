@@ -69,13 +69,16 @@ exports[`components/AtMention should match snapshot when mentioning current user
         userId="abc1"
       />
     </Overlay>
-    <button
+    <a
       aria-haspopup="dialog"
-      className="mention-link style--link"
+      className="mention-link"
       onClick={[Function]}
+      onKeyDown={[Function]}
+      role="button"
+      tabIndex={0}
     >
       @First Last
-    </button>
+    </a>
   </span>
 </Fragment>
 `;
@@ -99,13 +102,16 @@ exports[`components/AtMention should match snapshot when mentioning user 1`] = `
         userId="abc2"
       />
     </Overlay>
-    <button
+    <a
       aria-haspopup="dialog"
-      className="mention-link style--link"
+      className="mention-link"
       onClick={[Function]}
+      onKeyDown={[Function]}
+      role="button"
+      tabIndex={0}
     >
       @Nick
-    </button>
+    </a>
   </span>
 </Fragment>
 `;
@@ -129,13 +135,16 @@ exports[`components/AtMention should match snapshot when mentioning user contain
         userId="abc3"
       />
     </Overlay>
-    <button
+    <a
       aria-haspopup="dialog"
-      className="mention-link style--link"
+      className="mention-link"
       onClick={[Function]}
+      onKeyDown={[Function]}
+      role="button"
+      tabIndex={0}
     >
       @Dot Matrix
-    </button>
+    </a>
   </span>
   .
 </Fragment>
@@ -160,13 +169,16 @@ exports[`components/AtMention should match snapshot when mentioning user contain
         userId="abc3"
       />
     </Overlay>
-    <button
+    <a
       aria-haspopup="dialog"
-      className="mention-link style--link"
+      className="mention-link"
       onClick={[Function]}
+      onKeyDown={[Function]}
+      role="button"
+      tabIndex={0}
     >
       @Dot Matrix
-    </button>
+    </a>
   </span>
 </Fragment>
 `;
@@ -190,13 +202,16 @@ exports[`components/AtMention should match snapshot when mentioning user followe
         userId="abc2"
       />
     </Overlay>
-    <button
+    <a
       aria-haspopup="dialog"
-      className="mention-link style--link"
+      className="mention-link"
       onClick={[Function]}
+      onKeyDown={[Function]}
+      role="button"
+      tabIndex={0}
     >
       @Nick
-    </button>
+    </a>
   </span>
   ...
 </Fragment>
@@ -221,13 +236,16 @@ exports[`components/AtMention should match snapshot when mentioning user with di
         userId="abc2"
       />
     </Overlay>
-    <button
+    <a
       aria-haspopup="dialog"
-      className="mention-link style--link"
+      className="mention-link"
       onClick={[Function]}
+      onKeyDown={[Function]}
+      role="button"
+      tabIndex={0}
     >
       @user1
-    </button>
+    </a>
   </span>
 </Fragment>
 `;
@@ -251,13 +269,16 @@ exports[`components/AtMention should match snapshot when mentioning user with mi
         userId="abc2"
       />
     </Overlay>
-    <button
+    <a
       aria-haspopup="dialog"
-      className="mention-link style--link"
+      className="mention-link"
       onClick={[Function]}
+      onKeyDown={[Function]}
+      role="button"
+      tabIndex={0}
     >
       @Nick
-    </button>
+    </a>
   </span>
 </Fragment>
 `;

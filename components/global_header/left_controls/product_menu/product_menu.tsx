@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useRef} from 'react';
+import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -65,6 +66,7 @@ export const ProductMenuButton = styled(IconButton).attrs(() => ({
 `;
 
 const ProductMenu = (): JSX.Element => {
+    const {formatMessage} = useIntl();
     const products = useProducts();
     const dispatch = useDispatch();
     const switcherOpen = useSelector(isSwitcherOpen);
@@ -138,13 +140,16 @@ const ProductMenu = (): JSX.Element => {
                 <ProductMenuContainer onClick={handleClick}>
                     <ProductMenuButton
                         active={switcherOpen}
-                        aria-label='Select to open product switch menu.'
+                        aria-expanded={switcherOpen}
+                        aria-label={formatMessage({id: 'global_header.productSwitchMenu', defaultMessage: 'Product switch menu'})}
+                        aria-controls='product-switcher-menu'
                     />
                     <ProductBranding/>
                 </ProductMenuContainer>
                 <Menu
                     listId={'product-switcher-menu-dropdown'}
                     className={'product-switcher-menu'}
+                    id={'product-switcher-menu'}
                     ariaLabel={'switcherOpen'}
                 >
                     <ProductMenuItem
