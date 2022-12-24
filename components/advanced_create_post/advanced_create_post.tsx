@@ -34,7 +34,6 @@ import {
 } from 'utils/post_utils';
 import {getTable, hasHtmlLink, formatMarkdownMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
-import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
 import EmojiMap from 'utils/emoji_map';
 import {applyMarkdown, ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
@@ -52,8 +51,9 @@ import PostPriorityPickerOverlay from 'components/post_priority/post_priority_pi
 import PriorityLabel from 'components/post_priority/post_priority_label';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {QuoteButton} from 'components/quote_button';
-import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
-import EmojiMap from 'utils/emoji_map';
+import AdvancedTextEditor from 'components/advanced_text_editor/advanced_text_editor';
+import {IconContainer} from 'components/advanced_text_editor/formatting_bar/formatting_icon';
+import FileLimitStickyBanner from 'components/file_limit_sticky_banner';
 
 import {PostDraft} from 'types/store/draft';
 
@@ -68,11 +68,6 @@ import {Group, GroupSource} from '@mattermost/types/groups';
 import {FileInfo} from '@mattermost/types/files';
 import {Emoji} from '@mattermost/types/emojis';
 
-import AdvancedTextEditor from '../advanced_text_editor/advanced_text_editor';
-import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_icon';
-
-import FileLimitStickyBanner from '../file_limit_sticky_banner';
-import {FilePreviewInfo} from '../file_preview/file_preview';
 const KeyCodes = Constants.KeyCodes;
 
 function isDraftEmpty(draft: PostDraft): boolean {
@@ -1352,7 +1347,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             e.stopPropagation();
             e.preventDefault();
             this.toggleEmojiPicker();
-        } else if (((isMac() && ctrlShiftCombo) || (!isMac() && ctrlAltCombo)) && Utils.isKeyPressed(e, KeyCodes.P) && this.state.message.length) {
+        } else if (((Utils.isMac() && ctrlShiftCombo) || (!Utils.isMac() && ctrlAltCombo)) && Utils.isKeyPressed(e, KeyCodes.P) && this.state.message.length) {
             this.setShowPreview(!this.props.shouldShowPreview);
         } else if (ctrlAltCombo && Utils.isKeyPressed(e, KeyCodes.T)) {
             this.toggleAdvanceTextEditor();
