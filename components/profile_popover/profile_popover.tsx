@@ -612,10 +612,10 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     >
                         <AccountOutlineIcon
                             size={16}
-                            aria-label={{
+                            aria-label={formatMessage({
                                 id: t('generic_icons.edit'),
                                 defaultMessage: 'Edit Icon',
-                            }}
+                            })}
                         />
                         <FormattedMessage
                             id='user_profile.account.editProfile'
@@ -882,6 +882,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     aria-label={Utils.localizeAndFormatMessage('profile_popover.profileLabel', 'Profile for {name}', {name: displayName})}
                     onKeyDown={this.handleKeyDown}
                     className={A11yClassNames.POPUP}
+                    aria-modal={true}
                 >
                     <div className={titleClassName}>
                         {title}

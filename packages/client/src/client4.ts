@@ -4120,7 +4120,7 @@ export default class Client4 {
 
     getCallsChannelState = (channelId: string) => {
         return this.doFetch<{enabled: boolean; id: string}>(
-            `${this.url}/plugins/${suitePluginIds.calls}/${channelId}`,
+            `${this.url}/plugins/${'com.mattermost.calls'}/${channelId}`,
             {method: 'get'},
         );
     }

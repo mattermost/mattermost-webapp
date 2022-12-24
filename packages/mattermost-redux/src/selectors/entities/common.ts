@@ -8,9 +8,8 @@ import {TeamMembership} from '@mattermost/types/teams';
 import {GlobalState} from '@mattermost/types/store';
 import {UserProfile} from '@mattermost/types/users';
 import {RelationOneToOne, IDMappedObjects} from '@mattermost/types/utilities';
-import {suitePluginIds} from 'packages/client/src/client4';
 
-const CALLS_PLUGIN = 'plugins-' + suitePluginIds.calls;
+const CALLS_PLUGIN = 'plugins-com.mattermost.calls';
 
 // todo where to put this type. This type is already defined in calls plugin. How can I reuse in order to avoid duplication
 type CallsConfig = {

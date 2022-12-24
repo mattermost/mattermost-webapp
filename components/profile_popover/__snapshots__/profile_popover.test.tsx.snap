@@ -31,6 +31,7 @@ exports[`components/ProfilePopover should disable start call button when user is
   />
   <div
     aria-label="Profile for some_username"
+    aria-modal={true}
     className="a11y__popup"
     onKeyDown={[Function]}
     role="dialog"
@@ -374,6 +375,7 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
   />
   <div
     aria-label="Profile for some_username"
+    aria-modal={true}
     className="a11y__popup"
     onKeyDown={[Function]}
     role="dialog"
@@ -637,6 +639,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
   />
   <div
     aria-label="Profile for some_username"
+    aria-modal={true}
     className="a11y__popup"
     onKeyDown={[Function]}
     role="dialog"
@@ -983,6 +986,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
   />
   <div
     aria-label="Profile for shared_user"
+    aria-modal={true}
     className="a11y__popup"
     onKeyDown={[Function]}
     role="dialog"
@@ -1347,6 +1351,7 @@ exports[`components/ProfilePopover should match snapshot when calls are disabled
   />
   <div
     aria-label="Profile for some_username"
+    aria-modal={true}
     className="a11y__popup"
     onKeyDown={[Function]}
     role="dialog"
@@ -1667,6 +1672,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
   />
   <div
     aria-label="Profile for some_username"
+    aria-modal={true}
     className="a11y__popup"
     onKeyDown={[Function]}
     role="dialog"
@@ -2058,6 +2064,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
   />
   <div
     aria-label="Profile for some_username"
+    aria-modal={true}
     className="a11y__popup"
     onKeyDown={[Function]}
     role="dialog"
@@ -2404,6 +2411,7 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
   />
   <div
     aria-label="Profile for some_username"
+    aria-modal={true}
     className="a11y__popup"
     onKeyDown={[Function]}
     role="dialog"
@@ -2563,12 +2571,7 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
           type="button"
         >
           <AccountOutlineIcon
-            aria-label={
-              Object {
-                "defaultMessage": "Edit Icon",
-                "id": "generic_icons.edit",
-              }
-            }
+            aria-label="Edit Icon"
             size={16}
           />
           <MemoizedFormattedMessage
@@ -2693,6 +2696,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
   />
   <div
     aria-label="Profile for some_username"
+    aria-modal={true}
     className="a11y__popup"
     onKeyDown={[Function]}
     role="dialog"
@@ -3039,6 +3043,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
   />
   <div
     aria-label="Profile for some_username"
+    aria-modal={true}
     className="a11y__popup"
     onKeyDown={[Function]}
     role="dialog"
@@ -3626,6 +3631,7 @@ exports[`components/ProfilePopover should show the start call button when isCall
               />
               <div
                 aria-label="Profile for some_username"
+                aria-modal={true}
                 className="a11y__popup"
                 onKeyDown={[Function]}
                 role="dialog"
@@ -3831,12 +3837,10 @@ exports[`components/ProfilePopover should show the start call button when isCall
                               year="numeric"
                             >
                               <Memo(SemanticTime)
-                                aria-label="Mon Sep 20 2021 14:02:42 GMT+0000"
                                 value={2021-09-20T14:02:42.846Z}
                               >
                                 <time
-                                  aria-label="Mon Sep 20 2021 14:02:42 GMT+0000"
-                                  dateTime="2021-09-20T14:02:42.846Z"
+                                  dateTime="2021-09-20T14:02:42.846"
                                 >
                                   September 20, 2021
                                 </time>
