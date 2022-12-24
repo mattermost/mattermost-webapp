@@ -3,6 +3,7 @@
 
 import {Store} from 'redux';
 
+import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
@@ -16,6 +17,25 @@ export abstract class ProductPlugin {
 }
 
 export function initializeProducts() {
+    return (dispatch: DispatchFunc) => {
+        return Promise.all([
+            dispatch(loadRemoteModules()),
+            dispatch(configureClient()),
+        ]);
+    };
+}
+
+function configureClient() {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const config = getConfig(getState());
+
+        Client4.setUseBoardsProduct(config.FeatureFlagBoardsProduct === 'true');
+
+        return Promise.resolve({data: true});
+    };
+}
+
+function loadRemoteModules() {
     /* eslint-disable no-console */
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const config = getConfig(getState());

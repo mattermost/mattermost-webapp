@@ -13,6 +13,7 @@ import {getHistory} from 'utils/browser_history';
 describe('MfaSection', () => {
     const baseProps = {
         active: true,
+        areAllSectionsInactive: false,
         mfaActive: false,
         mfaAvailable: true,
         mfaEnforced: false,

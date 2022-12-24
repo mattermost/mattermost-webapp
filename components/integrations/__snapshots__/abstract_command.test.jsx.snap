@@ -85,7 +85,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
             className="form__help"
           >
             <MemoizedFormattedMessage
-              defaultMessage="Describe your incoming webhook."
+              defaultMessage="Describe your slash command."
               id="add_command.description.help"
             />
           </div>
@@ -555,7 +555,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
             className="form__help"
           >
             <MemoizedFormattedMessage
-              defaultMessage="Describe your incoming webhook."
+              defaultMessage="Describe your slash command."
               id="add_command.description.help"
             />
           </div>

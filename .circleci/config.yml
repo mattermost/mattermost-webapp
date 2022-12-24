@@ -10,21 +10,6 @@ executors:
       - image: mattermost/mattermost-build-webapp:20220802_node-16.10.0@sha256:3272aa759f10c2ef1719ed08cc82ddb07224bec5be86f09800c72f5e2a623c3d
     resource_class: "xlarge"
 
-aliases:
-  - &restore_cache
-    restore_cache:
-      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ checksum "e2e/playwright/package-lock.json" }}-11
-  - &save_cache
-    save_cache:
-      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ checksum "e2e/playwright/package-lock.json" }}-11
-      paths:
-        - ~/mattermost/mattermost-webapp/node_modules
-        - ~/mattermost/mattermost-webapp/packages/client/lib
-        - ~/mattermost/mattermost-webapp/packages/components/dist
-        - ~/mattermost/mattermost-webapp/packages/components/node_modules
-        - ~/mattermost/mattermost-webapp/packages/types/lib
-        - ~/mattermost/mattermost-webapp/e2e/playwright/node_modules
-
 jobs:
   install:
     executor:
@@ -35,7 +20,10 @@ jobs:
       - run: |
           make node_modules
           make e2e/playwright/node_modules
-      - *save_cache
+      - persist_to_workspace:
+          root: ~/mattermost
+          paths:
+            - mattermost-webapp
   check-deps:
     parameters:
       cve_data_directory:
@@ -47,13 +35,13 @@ jobs:
       version_url: "https://jeremylong.github.io/DependencyCheck/current.txt"
       executable_url: "https://dl.bintray.com/jeremy-long/owasp/dependency-check-VERSION-release.zip"
     steps:
-      - checkout
+      - attach_workspace:
+          at: ~/mattermost
       - run:
           name: Link dependency cache
           command: |
             sudo mkdir /root/mattermost
             sudo ln -s ~/mattermost/mattermost-webapp /root/mattermost/mattermost-webapp; sudo chmod 777 /root
-      - *restore_cache
       - run:
           name: Adjust permissions
           command: sudo chown -R `id -nu`:`id -ng` node_modules
@@ -99,8 +87,8 @@ jobs:
       name: default
     working_directory: ~/mattermost/mattermost-webapp
     steps:
-      - checkout
-      - *restore_cache
+      - attach_workspace:
+          at: ~/mattermost
       - run: |
           npm run check
 
@@ -109,8 +97,8 @@ jobs:
       name: default
     working_directory: ~/mattermost/mattermost-webapp
     steps:
-      - checkout
-      - *restore_cache
+      - attach_workspace:
+          at: ~/mattermost
       - run: |
           cp i18n/en.json /tmp/en.json
           mkdir -p /tmp/fake-mobile-dir/assets/base/i18n/
@@ -129,8 +117,8 @@ jobs:
       name: default
     working_directory: ~/mattermost/mattermost-webapp
     steps:
-      - checkout
-      - *restore_cache
+      - attach_workspace:
+          at: ~/mattermost
       - run: |
           npm run check-types
 
@@ -139,8 +127,8 @@ jobs:
       name: default
     working_directory: ~/mattermost/mattermost-webapp
     steps:
-      - checkout
-      - *restore_cache
+      - attach_workspace:
+          at: ~/mattermost
       - run: |
           npm run test-ci
       - store_test_results:
@@ -152,8 +140,8 @@ jobs:
     resource_class: xlarge
     working_directory: ~/mattermost/mattermost-webapp
     steps:
-      - checkout
-      - *restore_cache
+      - attach_workspace:
+          at: ~/mattermost
       - run: |
           node --version
           npm version
@@ -171,7 +159,7 @@ jobs:
     working_directory: ~/mattermost/mattermost-webapp
     steps:
       - attach_workspace:
-          at: ~/mattermost/
+          at: ~/mattermost
       - aws-s3/copy:
           from: mattermost-webapp.tar.gz
           to: s3://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
@@ -187,7 +175,7 @@ jobs:
       - image: circleci/python:3.6
     steps:
       - attach_workspace:
-          at: ~/mattermost/
+          at: ~/mattermost
       - run:
           name: Download server bundle
           command: |
@@ -228,7 +216,7 @@ jobs:
       - image: cimg/base:stable
     steps:
       - attach_workspace:
-          at: ~/mattermost/
+          at: ~/mattermost
       - setup_remote_docker:
           version: 20.10.7
       - run:

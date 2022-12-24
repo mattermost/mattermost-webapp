@@ -14,6 +14,8 @@ import {Draft} from 'selectors/drafts';
 import NoResultsIndicator from 'components/no_results_indicator';
 import Header from 'components/widgets/header';
 
+import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
+
 import DraftRow from './draft_row';
 import DraftsIllustration from './drafts_illustration';
 
@@ -39,6 +41,11 @@ function Drafts({
 
     useEffect(() => {
         dispatch(selectChannel(''));
+        dispatch(suppressRHS);
+
+        return () => {
+            dispatch(unsuppressRHS);
+        };
     }, []);
 
     if (!localDraftsAreEnabled) {
@@ -59,7 +66,7 @@ function Drafts({
                 })}
                 subtitle={formatMessage({
                     id: 'drafts.subtitle',
-                    defaultMessage: 'All messages you\'ve started will show here',
+                    defaultMessage: 'Any messages you\'ve started will show here',
                 })}
             />
             <div className='Drafts__main'>
