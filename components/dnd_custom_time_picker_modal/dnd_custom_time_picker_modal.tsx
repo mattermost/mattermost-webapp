@@ -17,6 +17,7 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import './dnd_custom_time_picker_modal.scss';
 import {toUTCUnix} from 'utils/datetime';
 import {localizeMessage} from 'utils/utils';
+import Navbar from 'components/common/day_picker_navbar';
 
 type Props = {
     onExited: () => void;
@@ -186,6 +187,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                                 value={this.formatDate(selectedDate)}
                                 onDayChange={this.handleDaySelection}
                                 dayPickerProps={{
+                                    navbarElement: <Navbar />,
                                     selectedDays: selectedDate,
                                     disabledDays: {
                                         before: dayPickerStartDate,

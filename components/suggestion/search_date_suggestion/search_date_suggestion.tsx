@@ -12,6 +12,7 @@ import Suggestion from '../suggestion.jsx';
 import 'react-day-picker/lib/style.css';
 
 import 'moment';
+import Navbar from 'components/common/day_picker_navbar';
 
 const loadedLocales: Record<string, moment.Locale> = {};
 
@@ -64,6 +65,7 @@ export default class SearchDateSuggestion extends Suggestion {
                 modifiers={modifiers}
                 localeUtils={MomentLocaleUtils}
                 locale={locale}
+                navbarElement={<Navbar ifSearchDateSuggestion={true}/>}
             />
         );
     }

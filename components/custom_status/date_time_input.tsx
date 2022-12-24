@@ -15,59 +15,9 @@ import Menu from 'components/widgets/menu/menu';
 import Timestamp from 'components/timestamp';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getCurrentMomentForTimezone} from 'utils/timezone';
+import Navbar from 'components/common/day_picker_navbar';
 
 const CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES = 30;
-
-const Navbar: React.FC<Partial<NavbarElementProps>> = (navbarProps: Partial<NavbarElementProps>) => {
-    const {
-        onPreviousClick,
-        onNextClick,
-        className,
-    } = navbarProps;
-    const styleLeft: React.CSSProperties = {
-        float: 'left',
-        fontSize: 18,
-    };
-    const styleRight: React.CSSProperties = {
-        float: 'right',
-        fontSize: 18,
-    };
-
-    return (
-        <div className={className}>
-            <button
-                className='style--none'
-                style={styleLeft}
-                onClick={(e) => {
-                    e.preventDefault();
-                    if (onPreviousClick) {
-                        onPreviousClick();
-                    }
-                }}
-            >
-                <i
-                    className='fa fa-angle-left'
-                    aria-hidden='true'
-                />
-            </button>
-            <button
-                className='style--none'
-                style={styleRight}
-                onClick={(e) => {
-                    e.preventDefault();
-                    if (onNextClick) {
-                        onNextClick();
-                    }
-                }}
-            >
-                <i
-                    className='fa fa-angle-right'
-                    aria-hidden='true'
-                />
-            </button>
-        </div>
-    );
-};
 
 export function getRoundedTime(value: Moment) {
     const roundedTo = CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES;
