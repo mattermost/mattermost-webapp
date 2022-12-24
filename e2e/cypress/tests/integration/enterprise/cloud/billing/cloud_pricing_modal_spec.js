@@ -245,6 +245,9 @@ describe('Pricing modal', () => {
         cy.get('#professional').find('#professional_action').should('be.enabled').should('have.text', 'Upgrade').click();
         cy.get('.PurchaseModal').should('exist');
 
+        // * Check that the upgrade button tooltip does not exist on the purchase modal
+        cy.get('#upgrade_button_tooltip').should('not.exist');
+
         // * Close PurchaseModal
         cy.get('#closeIcon').click();
 

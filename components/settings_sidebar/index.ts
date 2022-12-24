@@ -7,7 +7,7 @@ import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
 
-import SettingItemMin from './setting_item_min';
+import SettingsSidebar from './settings_sidebar';
 
 function mapStateToProps(state: GlobalState) {
     return {
@@ -15,4 +15,4 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-export default connect(mapStateToProps, null, null, {forwardRef: true})(SettingItemMin);
+export default connect(mapStateToProps)(SettingsSidebar);
