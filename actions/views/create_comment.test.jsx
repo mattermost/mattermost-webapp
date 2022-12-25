@@ -183,7 +183,7 @@ describe('rhs view actions', () => {
             // make sure callback is a function which clears uploadsInProgress
             expect(typeof callback).toBe('function');
 
-            const draft = {message: 'test msg', channelId, rootId, uploadsProgressPercent: {'3': undefined, '4': undefined}, fileInfos: [{id: 1}, {id: 2}]};
+            const draft = {message: 'test msg', channelId, rootId, uploadsProgressPercent: {3: undefined, 4: undefined}, fileInfos: [{id: 1}, {id: 2}]};
 
             expect(callback(null, draft)).toEqual({...draft, uploadsProgressPercent: {}});
 

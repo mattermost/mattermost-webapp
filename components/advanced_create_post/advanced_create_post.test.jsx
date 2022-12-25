@@ -833,8 +833,8 @@ describe('components/advanced_create_post', () => {
         const draft = {
             ...draftProp,
             uploadsProgressPercent: Object.assign(draftProp.uploadsProgressPercent, {
-                'a': undefined
-            })
+                a: undefined,
+            }),
         };
 
         instance.handleUploadStart(clientIds, currentChannelProp.id);
@@ -858,8 +858,8 @@ describe('components/advanced_create_post', () => {
         const uploadsProgressPercentDraft = {
             ...draftProp,
             uploadsProgressPercent: Object.assign(draftProp.uploadsProgressPercent, {
-                'a': undefined
-            })
+                a: undefined,
+            }),
         };
 
         instance.draftsForChannel[currentChannelProp.id] = uploadsProgressPercentDraft;
@@ -875,7 +875,7 @@ describe('components/advanced_create_post', () => {
                 ...draftProp.fileInfos,
                 fileInfos[0],
             ],
-            uploadsProgressPercent: {}
+            uploadsProgressPercent: {},
         };
 
         instance.handleFileUploadComplete(fileInfos, clientIds, currentChannelProp.id);
@@ -900,8 +900,8 @@ describe('components/advanced_create_post', () => {
         const uploadsInProgressDraft = {
             ...draftProp,
             uploadsProgressPercent: Object.assign(draftProp.uploadsProgressPercent, {
-                'a': undefined
-            })
+                a: undefined,
+            }),
         };
 
         wrapper.setProps({draft: uploadsInProgressDraft});
@@ -1665,7 +1665,7 @@ describe('components/advanced_create_post', () => {
             draft: {
                 ...draftProp,
                 uploadsProgressPercent: {
-                    "id": undefined
+                    id: undefined,
                 },
             },
         }));

@@ -1032,8 +1032,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             const uploadsProgressPercent = {...draft.uploadsProgressPercent, [filePreviewInfo.clientId]: filePreviewInfo};
             const modifiedDraft = {
                 ...draft,
-                uploadsProgressPercent
-            }
+                uploadsProgressPercent,
+            };
             this.handleDraftChange(modifiedDraft);
             this.setState({draft: modifiedDraft});
         }

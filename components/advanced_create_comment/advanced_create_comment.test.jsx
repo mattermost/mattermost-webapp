@@ -286,9 +286,9 @@ describe('components/AdvancedCreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsProgressPercent: {
-                '1': undefined,
-                '2': undefined,
-                '3': undefined
+                1: undefined,
+                2: undefined,
+                3: undefined,
             },
             fileInfos: [{}, {}, {}],
         };
@@ -309,14 +309,14 @@ describe('components/AdvancedCreateComment', () => {
         expect(updateCommentDraftWithRootId.mock.calls[0][0]).toEqual(props.rootId);
         expect(updateCommentDraftWithRootId.mock.calls[0][1]).toEqual(
             expect.objectContaining({uploadsProgressPercent: {
-                '2': undefined,
-                '3': undefined
+                2: undefined,
+                3: undefined,
             }}),
         );
         expect(wrapper.state().serverError.message).toBe(testError1);
         expect(wrapper.state().draft.uploadsProgressPercent).toEqual({
-            '2': undefined,
-            '3': undefined
+            2: undefined,
+            3: undefined,
         });
 
         // clientId = -1
@@ -343,9 +343,9 @@ describe('components/AdvancedCreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsProgressPercent: {
-                '1': undefined,
-                '2': undefined,
-                '3': undefined
+                1: undefined,
+                2: undefined,
+                3: undefined,
             },
             fileInfos: [{}, {}, {}],
         };
@@ -363,20 +363,20 @@ describe('components/AdvancedCreateComment', () => {
         expect(onUpdateCommentDraft).toHaveBeenCalled();
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({uploadsProgressPercent: {
-                '1': undefined,
-                '2': undefined,
-                '3': undefined,
-                '4': undefined,
-                '5': undefined
+                1: undefined,
+                2: undefined,
+                3: undefined,
+                4: undefined,
+                5: undefined,
             }}),
         );
 
         expect(wrapper.state().draft.uploadsProgressPercent).toStrictEqual({
-            '1': undefined,
-            '2': undefined,
-            '3': undefined,
-            '4': undefined,
-            '5': undefined
+            1: undefined,
+            2: undefined,
+            3: undefined,
+            4: undefined,
+            5: undefined,
         });
         expect(focusTextbox).toHaveBeenCalled();
     });
@@ -387,9 +387,9 @@ describe('components/AdvancedCreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsProgressPercent: {
-                '1': undefined,
-                '2': undefined,
-                '3': undefined
+                1: undefined,
+                2: undefined,
+                3: undefined,
             },
             fileInfos,
         };
@@ -418,16 +418,16 @@ describe('components/AdvancedCreateComment', () => {
         expect(updateCommentDraftWithRootId.mock.calls[0][1]).toEqual(
             expect.objectContaining({
                 uploadsProgressPercent: {
-                    '1': undefined,
-                    '2': undefined
+                    1: undefined,
+                    2: undefined,
                 },
-                fileInfos: expectedNewFileInfos
+                fileInfos: expectedNewFileInfos,
             }),
         );
 
         expect(wrapper.state().draft.uploadsProgressPercent).toEqual({
-            '1': undefined,
-            '2': undefined
+            1: undefined,
+            2: undefined,
         });
         expect(wrapper.state().draft.fileInfos).toEqual(expectedNewFileInfos);
     });
@@ -479,9 +479,9 @@ describe('components/AdvancedCreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsProgressPercent: {
-                '1': undefined,
-                '2': undefined,
-                '3': undefined
+                1: undefined,
+                2: undefined,
+                3: undefined,
             },
             fileInfos: [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}],
         };
@@ -498,7 +498,7 @@ describe('components/AdvancedCreateComment', () => {
             const newProps = {
                 ...props,
                 rootId: 'testid123',
-                uploadsProgressPercent: {}
+                uploadsProgressPercent: {},
             };
 
             // Note that setProps doesn't actually trigger componentDidUpdate
@@ -519,7 +519,7 @@ describe('components/AdvancedCreateComment', () => {
             const newProps = {
                 ...props,
                 selectedPostFocussedAt: 2000,
-                uploadsProgressPercent: {}
+                uploadsProgressPercent: {},
             };
 
             // Note that setProps doesn't actually trigger componentDidUpdate
@@ -586,9 +586,9 @@ describe('components/AdvancedCreateComment', () => {
         const draft = {
             message: '/fakecommand other text',
             uploadsProgressPercent: {
-                '1': undefined,
-                '2': undefined,
-                '3': undefined
+                1: undefined,
+                2: undefined,
+                3: undefined,
             },
             fileInfos: [{}, {}, {}],
         };
@@ -623,9 +623,9 @@ describe('components/AdvancedCreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsProgressPercent: {
-                '1': undefined,
-                '2': undefined,
-                '3': undefined
+                1: undefined,
+                2: undefined,
+                3: undefined,
             },
             fileInfos: [{}, {}, {}],
         };
@@ -1140,9 +1140,9 @@ describe('components/AdvancedCreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsProgressPercent: {
-                '4': undefined,
-                '5': undefined,
-                '6': undefined
+                4: undefined,
+                5: undefined,
+                6: undefined,
             },
             fileInfos: [{id: 1}, {id: 2}, {id: 3}],
         };
@@ -1168,13 +1168,13 @@ describe('components/AdvancedCreateComment', () => {
         jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
             expect.objectContaining({uploadsProgressPercent: {
-                '4': undefined,
-                '6': undefined
+                4: undefined,
+                6: undefined,
             }}),
         );
         expect(wrapper.state().draft.uploadsProgressPercent).toEqual({
-            '4': undefined,
-            '6': undefined
+            4: undefined,
+            6: undefined,
         });
     });
 
@@ -1199,9 +1199,9 @@ describe('components/AdvancedCreateComment', () => {
         const draft = {
             message: 'Test message',
             uploadsProgressPercent: {
-                '4': undefined,
-                '5': undefined,
-                '6': undefined
+                4: undefined,
+                5: undefined,
+                6: undefined,
             },
             fileInfos: [{id: 1}, {id: 2}, {id: 3}],
         };
@@ -1375,13 +1375,13 @@ describe('components/AdvancedCreateComment', () => {
 
         expect(scrollToBottom).toBeCalledTimes(0);
 
-        wrapper.setState({draft: {...draft, uploadsProgressPercent: { '1': undefined }}});
+        wrapper.setState({draft: {...draft, uploadsProgressPercent: {1: undefined}}});
         expect(scrollToBottom).toBeCalledTimes(1);
 
-        wrapper.setState({draft: {...draft, uploadsProgressPercent: { '1': undefined, '2': undefined }}});
+        wrapper.setState({draft: {...draft, uploadsProgressPercent: {1: undefined, 2: undefined}}});
         expect(scrollToBottom).toBeCalledTimes(2);
 
-        wrapper.setState({draft: {...draft, uploadsProgressPercent: { '2': undefined }}});
+        wrapper.setState({draft: {...draft, uploadsProgressPercent: {2: undefined}}});
         expect(scrollToBottom).toBeCalledTimes(2);
     });
 
@@ -1730,7 +1730,7 @@ describe('components/AdvancedCreateComment', () => {
         wrapper.setState({
             draft: {
                 message: '',
-                uploadsProgressPercent: { [clientId]: {} },
+                uploadsProgressPercent: {[clientId]: {}},
             },
         });
 
@@ -1776,7 +1776,7 @@ describe('components/AdvancedCreateComment', () => {
             <AdvancedCreateComment {...baseProps}/>,
         );
 
-        const uploadsProgressPercent = {'a': undefined};
+        const uploadsProgressPercent = {a: undefined};
         wrapper.setState({
             uploadsProgressPercent,
         });
