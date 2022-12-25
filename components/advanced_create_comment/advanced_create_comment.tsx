@@ -656,11 +656,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             return;
         }
 
-        if (draft.uploadsInProgress.length > 0) {
-            this.isDraftSubmitting = false;
-            return;
-        }
-
         if (this.state.postError) {
             this.setState({errorClass: 'animation--highlight'});
             setTimeout(() => {

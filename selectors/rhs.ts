@@ -130,14 +130,14 @@ export function getIsSearchGettingMore(state: GlobalState): boolean {
 }
 
 export function makeGetChannelDraft() {
-    const defaultDraft = Object.freeze({message: '', fileInfos: [], uploadsInProgress: [], createAt: 0, updateAt: 0, channelId: '', rootId: ''});
+    const defaultDraft = Object.freeze({message: '', fileInfos: [], uploadsProgressPercent: {}, createAt: 0, updateAt: 0, channelId: '', rootId: ''});
     const getDraft = makeGetGlobalItemWithDefault(defaultDraft);
 
     return (state: GlobalState, channelId: string): PostDraft => {
         const draft = getDraft(state, StoragePrefixes.DRAFT + channelId);
         if (
             typeof draft.message !== 'undefined' &&
-            typeof draft.uploadsInProgress !== 'undefined' &&
+            typeof draft.uploadsProgressPercent !== 'undefined' &&
             typeof draft.fileInfos !== 'undefined'
         ) {
             return draft;
