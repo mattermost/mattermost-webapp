@@ -201,7 +201,7 @@ function setDraft(key: string, value: PostDraft, draftChannelId: string, save = 
 
 function clearDraftUploads() {
     return actionOnGlobalItemsWithPrefix(StoragePrefixes.DRAFT, (_key: string, draft: PostDraft) => {
-        if (!draft || !draft.uploadsInProgress || draft.uploadsInProgress.length === 0) {
+        if (!draft || !draft.uploadsProgressPercent || Object.keys(draft.uploadsProgressPercent).length === 0) {
             return draft;
         }
 

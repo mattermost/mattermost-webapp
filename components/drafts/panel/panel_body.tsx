@@ -29,7 +29,7 @@ type Props = {
     message: string;
     priority?: PostPriorityMetadata;
     status: UserStatus['status'];
-    uploadsInProgress: PostDraft['uploadsInProgress'];
+    uploadsProgressPercent: PostDraft['uploadsProgressPercent'];
     userId: UserProfile['id'];
     username: UserProfile['username'];
 }
@@ -46,7 +46,7 @@ function PanelBody({
     message,
     priority,
     status,
-    uploadsInProgress,
+    uploadsProgressPercent,
     userId,
     username,
 }: Props) {
@@ -104,10 +104,10 @@ function PanelBody({
                             message={message}
                         />
                     </div>
-                    {(fileInfos.length > 0 || uploadsInProgress?.length > 0) && (
+                    {(fileInfos.length > 0 || Object.keys(uploadsProgressPercent).length > 0) && (
                         <FilePreview
                             fileInfos={fileInfos}
-                            uploadsInProgress={uploadsInProgress}
+                            uploadsProgressPercent={uploadsProgressPercent}
                         />
                     )}
                 </div>

@@ -115,7 +115,7 @@ function ThreadDraft({
                         fileInfos={value.fileInfos}
                         message={value.message}
                         status={status}
-                        uploadsInProgress={value.uploadsInProgress}
+                        uploadsProgressPercent={value.uploadsProgressPercent}
                         userId={user.id}
                         username={user.username}
                     />

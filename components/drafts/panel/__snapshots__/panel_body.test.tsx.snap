@@ -19,7 +19,7 @@ exports[`components/drafts/panel/panel_body should have called handleFormattedTe
     fileInfos={Array []}
     message="message"
     status="status"
-    uploadsInProgress={Array []}
+    uploadsProgressPercent={Object {}}
     userId="user_id"
     username="username"
   >
@@ -297,7 +297,7 @@ exports[`components/drafts/panel/panel_body should match snapshot 1`] = `
     fileInfos={Array []}
     message="message"
     status="status"
-    uploadsInProgress={Array []}
+    uploadsProgressPercent={Object {}}
     userId="user_id"
     username="username"
   >

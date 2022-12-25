@@ -70,7 +70,6 @@ export default function FileAttachmentList(props: Props) {
             <FilePreview
                 key='KEY'
                 fileInfos={[]}
-                uploadsInProgress={filePreviews.map((f) => f.clientId)}
                 uploadsProgressPercent={filePreviews.reduce((s, f) => {
                     return {
                         ...s,

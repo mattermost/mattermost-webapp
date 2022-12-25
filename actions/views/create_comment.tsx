@@ -39,11 +39,11 @@ import {FilePreviewInfo} from '@mattermost/types/files';
 
 export function clearCommentDraftUploads() {
     return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (_key: string, draft: PostDraft) => {
-        if (!draft || !draft.uploadsInProgress || draft.uploadsInProgress.length === 0) {
+        if (!draft || !draft.uploadsProgressPercent || Object.keys(draft.uploadsProgressPercent).length === 0) {
             return draft;
         }
 
-        return {...draft, uploadsInProgress: []};
+        return {...draft, uploadsProgressPercent: {}};
     });
 }
 
@@ -76,7 +76,7 @@ export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
     };
 }
 
-export function submitPost(channelId: string, rootId: string, draft: PostDraft, filePreviewInfos: FilePreviewInfo[] = []) {
+export function submitPost(channelId: string, rootId: string, draft: PostDraft) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
@@ -103,7 +103,11 @@ export function submitPost(channelId: string, rootId: string, draft: PostDraft, 
 
         post = hookResult.data;
 
-        return dispatch(PostActions.createPost(post, draft.fileInfos, filePreviewInfos));
+        return dispatch(PostActions.createPost(
+            post,
+            draft.fileInfos,
+            Object.values(draft.uploadsProgressPercent).filter((filePreviewInfo): filePreviewInfo is FilePreviewInfo => filePreviewInfo !== undefined),
+        ));
     };
 }
 
@@ -157,7 +161,7 @@ export function submitCommand(channelId: string, rootId: string, draft: PostDraf
 }
 
 export function makeOnSubmit(channelId: string, rootId: string, latestPostId: string) {
-    return (draft: PostDraft, filePreviewInfos: FilePreviewInfo[], options: {ignoreSlash?: boolean} = {}) => async (dispatch: DispatchFunc, getState: () => GlobalState) => {
+    return (draft: PostDraft, options: {ignoreSlash?: boolean} = {}) => async (dispatch: DispatchFunc, getState: () => GlobalState) => {
         const {message} = draft;
 
         dispatch(addMessageIntoHistory(message));
@@ -180,7 +184,7 @@ export function makeOnSubmit(channelId: string, rootId: string, latestPostId: st
                 throw err;
             }
         } else {
-            dispatch(submitPost(channelId, rootId, draft, filePreviewInfos));
+            dispatch(submitPost(channelId, rootId, draft));
         }
         return {data: true};
     };

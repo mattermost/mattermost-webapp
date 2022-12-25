@@ -110,7 +110,7 @@ function ChannelDraft({
                         message={value.message}
                         status={status}
                         priority={value.metadata?.priority}
-                        uploadsInProgress={value.uploadsInProgress}
+                        uploadsProgressPercent={value.uploadsProgressPercent}
                         userId={user.id}
                         username={user.username}
                     />

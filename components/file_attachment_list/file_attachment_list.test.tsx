@@ -137,7 +137,7 @@ describe('FileAttachmentList', () => {
         );
 
         expect(wrapper.find(FilePreview)).toHaveLength(1);
-        expect(wrapper.find(FilePreview).first().props().uploadsInProgress).toStrictEqual(['a']);
+        expect(Object.keys(wrapper.find(FilePreview).first().props().uploadsProgressPercent!)).toStrictEqual(['a']);
 
         expect(wrapper.find(FileAttachment).last().props().fileInfo.id).toBe('file_id_3');
     });

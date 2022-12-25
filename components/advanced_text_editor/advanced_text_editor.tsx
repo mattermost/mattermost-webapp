@@ -53,7 +53,7 @@ type Props = {
     currentUserId: string;
     message: string;
     showEmojiPicker: boolean;
-    uploadsProgressPercent: { [clientID: string]: FilePreviewInfo };
+    uploadsProgressPercent: { [clientID: string]: FilePreviewInfo | undefined };
     currentChannel?: Channel;
     errorClass: string | null;
     serverError: (ServerError & { submittedMessage?: string }) | null;
@@ -199,19 +199,20 @@ const AdvanceTextEditor = ({
     }
 
     let attachmentPreview = null;
-    if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0)) {
+    if (!readOnlyChannel && (draft.fileInfos.length > 0 || Object.keys(draft.uploadsProgressPercent).length > 0)) {
         attachmentPreview = (
-            <FilePreview
-                fileInfos={draft.fileInfos}
-                onRemove={removePreview}
-                uploadsInProgress={draft.uploadsInProgress}
-                uploadsProgressPercent={uploadsProgressPercent}
-            />
+            <div>
+                <FilePreview
+                    fileInfos={draft.fileInfos}
+                    onRemove={removePreview}
+                    uploadsProgressPercent={uploadsProgressPercent}
+                />
+            </div>
         );
     }
 
     const getFileCount = () => {
-        return draft.fileInfos.length + draft.uploadsInProgress.length;
+        return draft.fileInfos.length + Object.keys(draft.uploadsProgressPercent).length;
     };
 
     let postType = 'post';

@@ -773,7 +773,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         post = hookResult.data;
 
-        if (draft.uploadsInProgress.length === 0) {
+        if (Object.keys(draft.uploadsProgressPercent).length === 0) {
             actions.onSubmitPost(post, draft.fileInfos, []);
         } else {
             actions.onSubmitPost(post, [], Object.values(this.state.uploadsProgressPercent));
@@ -958,11 +958,16 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     handleUploadStart = (clientIds: string[], channelId: string) => {
-        const uploadsInProgress = [...this.props.draft.uploadsInProgress, ...clientIds];
+        const uploadsProgressPercent = {
+            ...this.props.draft.uploadsProgressPercent,
+        };
+        clientIds.forEach((clientId) => {
+            uploadsProgressPercent[clientId] = undefined;
+        });
 
         const draft = {
             ...this.props.draft,
-            uploadsInProgress,
+            uploadsProgressPercent,
         };
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft, channelId);
@@ -974,7 +979,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     handleUploadProgress = (filePreviewInfo: FilePreviewInfo) => {
-        if (this.props.draft.uploadsInProgress.includes(filePreviewInfo.clientId)) {
+        if (Object.keys(this.props.draft.uploadsProgressPercent).includes(filePreviewInfo.clientId)) {
             const uploadsProgressPercent = {
                 ...this.state.uploadsProgressPercent,
                 [filePreviewInfo.clientId]: filePreviewInfo,
@@ -987,7 +992,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         const draft = {...this.draftsForChannel[channelId]!};
 
         if (draft.fileInfos) {
-            const draftFileInfos = draft.uploadsInProgress ? fileInfos.filter((fileInfo) => draft.uploadsInProgress.includes(fileInfo.clientId)) : fileInfos;
+            const draftFileInfos = draft.uploadsProgressPercent ? fileInfos.filter((fileInfo) => Object.keys(draft.uploadsProgressPercent).includes(fileInfo.clientId)) : fileInfos;
             if (draftFileInfos.length !== 0) {
                 draft.fileInfos = sortFileInfos(draft.fileInfos.concat(draftFileInfos), this.props.locale);
             }
@@ -995,11 +1000,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         // remove each finished file from uploads
         for (let i = 0; i < clientIds.length; i++) {
-            if (draft.uploadsInProgress) {
-                const index = draft.uploadsInProgress.indexOf(clientIds[i]);
+            if (draft.uploadsProgressPercent) {
+                const key = Object.keys(draft.uploadsProgressPercent).find((clientId) => clientId === clientIds[i]);
 
-                if (index !== -1) {
-                    draft.uploadsInProgress = draft.uploadsInProgress.filter((item, itemIndex) => index !== itemIndex);
+                if (key !== undefined) {
+                    const uploadsProgressPercent = {...draft.uploadsProgressPercent};
+                    delete uploadsProgressPercent[key];
+                    draft.uploadsProgressPercent = uploadsProgressPercent;
                 }
             }
         }
@@ -1026,14 +1033,15 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         const draft = {...this.draftsForChannel[channelId]!};
 
-        if (draft.uploadsInProgress) {
-            const index = draft.uploadsInProgress.indexOf(clientId);
+        if (draft.uploadsProgressPercent) {
+            const key = Object.keys(draft.uploadsProgressPercent).find((i) => i === clientId);
 
-            if (index !== -1) {
-                const uploadsInProgress = draft.uploadsInProgress.filter((item, itemIndex) => index !== itemIndex);
+            if (key !== undefined) {
+                const uploadsProgressPercent = {...draft.uploadsProgressPercent};
+                delete uploadsProgressPercent[key];
                 const modifiedDraft = {
                     ...draft,
-                    uploadsInProgress,
+                    uploadsProgressPercent,
                 };
                 this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft, channelId);
                 this.draftsForChannel[channelId] = modifiedDraft;
@@ -1052,22 +1060,22 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.setState({serverError: null});
 
         // id can either be the id of an uploaded file or the client id of an in progress upload
-        let index = draft.fileInfos.findIndex((info) => info.id === id);
-        if (index === -1) {
-            index = draft.uploadsInProgress.indexOf(id);
+        const fileInfo = draft.fileInfos.find((info) => info.id === id);
+        if (fileInfo === undefined) {
+            const key = Object.keys(draft.uploadsProgressPercent).find((i) => i === id);
 
-            if (index !== -1) {
-                const uploadsInProgress = draft.uploadsInProgress.filter((item, itemIndex) => index !== itemIndex);
-
+            if (key !== undefined) {
+                const uploadsProgressPercent = {...draft.uploadsProgressPercent};
+                delete uploadsProgressPercent[key];
                 modifiedDraft = {
                     ...draft,
-                    uploadsInProgress,
+                    uploadsProgressPercent,
                 };
 
                 this.props.actions.cancelUploadingFile(id);
             }
         } else {
-            const fileInfos = draft.fileInfos.filter((item, itemIndex) => index !== itemIndex);
+            const fileInfos = draft.fileInfos.filter((f) => f.id !== fileInfo.id);
 
             modifiedDraft = {
                 ...draft,
@@ -1633,7 +1641,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             >
                 {
                     this.props.canPost &&
-                    (this.props.draft.fileInfos.length > 0 || this.props.draft.uploadsInProgress.length > 0) &&
+                    (this.props.draft.fileInfos.length > 0 || Object.keys(this.props.draft.uploadsProgressPercent).length > 0) &&
                     <FileLimitStickyBanner/>
                 }
                 <AdvancedTextEditor

@@ -6,6 +6,7 @@ exports[`components/advanced_create_post Show tutorial 1`] = `
   id="create_post"
   onSubmit={[Function]}
 >
+  <FileLimitStickyBanner />
   <AdvanceTextEditor
     additionalControls={Array []}
     applyMarkdown={[Function]}
@@ -24,7 +25,9 @@ exports[`components/advanced_create_post Show tutorial 1`] = `
       Object {
         "fileInfos": Array [],
         "message": "",
-        "uploadsInProgress": Array [],
+        "uploadsProgressPercent": Object {
+          "a": undefined,
+        },
       }
     }
     emitTypingEvent={[Function]}
@@ -102,7 +105,7 @@ exports[`components/advanced_create_post should match snapshot for center textbo
       Object {
         "fileInfos": Array [],
         "message": "",
-        "uploadsInProgress": Array [],
+        "uploadsProgressPercent": Object {},
       }
     }
     emitTypingEvent={[Function]}
@@ -180,7 +183,9 @@ exports[`components/advanced_create_post should match snapshot when cannot post 
       Object {
         "fileInfos": Array [],
         "message": "",
-        "uploadsInProgress": Array [],
+        "uploadsProgressPercent": Object {
+          "a": undefined,
+        },
       }
     }
     emitTypingEvent={[Function]}
@@ -240,6 +245,7 @@ exports[`components/advanced_create_post should match snapshot when file upload 
   id="create_post"
   onSubmit={[Function]}
 >
+  <FileLimitStickyBanner />
   <AdvanceTextEditor
     additionalControls={Array []}
     applyMarkdown={[Function]}
@@ -258,7 +264,9 @@ exports[`components/advanced_create_post should match snapshot when file upload 
       Object {
         "fileInfos": Array [],
         "message": "",
-        "uploadsInProgress": Array [],
+        "uploadsProgressPercent": Object {
+          "a": undefined,
+        },
       }
     }
     emitTypingEvent={[Function]}
@@ -318,6 +326,7 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
   id="create_post"
   onSubmit={[Function]}
 >
+  <FileLimitStickyBanner />
   <AdvanceTextEditor
     additionalControls={Array []}
     applyMarkdown={[Function]}
@@ -336,7 +345,9 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
       Object {
         "fileInfos": Array [],
         "message": "",
-        "uploadsInProgress": Array [],
+        "uploadsProgressPercent": Object {
+          "a": undefined,
+        },
       }
     }
     emitTypingEvent={[Function]}
@@ -396,6 +407,7 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
   id="create_post"
   onSubmit={[Function]}
 >
+  <FileLimitStickyBanner />
   <AdvanceTextEditor
     additionalControls={Array []}
     applyMarkdown={[Function]}
@@ -414,7 +426,9 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
       Object {
         "fileInfos": Array [],
         "message": "",
-        "uploadsInProgress": Array [],
+        "uploadsProgressPercent": Object {
+          "a": undefined,
+        },
       }
     }
     emitTypingEvent={[Function]}
@@ -492,7 +506,9 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
       Object {
         "fileInfos": Array [],
         "message": "",
-        "uploadsInProgress": Array [],
+        "uploadsProgressPercent": Object {
+          "a": undefined,
+        },
       }
     }
     emitTypingEvent={[Function]}
@@ -570,7 +586,9 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
       Object {
         "fileInfos": Array [],
         "message": "",
-        "uploadsInProgress": Array [],
+        "uploadsProgressPercent": Object {
+          "a": undefined,
+        },
       }
     }
     emitTypingEvent={[Function]}
@@ -648,7 +666,7 @@ exports[`components/advanced_create_post should match snapshot, init 1`] = `
       Object {
         "fileInfos": Array [],
         "message": "",
-        "uploadsInProgress": Array [],
+        "uploadsProgressPercent": Object {},
       }
     }
     emitTypingEvent={[Function]}
@@ -708,6 +726,7 @@ exports[`components/advanced_create_post should match snapshot, post priority di
   id="create_post"
   onSubmit={[Function]}
 >
+  <FileLimitStickyBanner />
   <AdvanceTextEditor
     additionalControls={Array []}
     applyMarkdown={[Function]}
@@ -731,7 +750,9 @@ exports[`components/advanced_create_post should match snapshot, post priority di
             "priority": "important",
           },
         },
-        "uploadsInProgress": Array [],
+        "uploadsProgressPercent": Object {
+          "a": undefined,
+        },
       }
     }
     emitTypingEvent={[Function]}
@@ -791,6 +812,7 @@ exports[`components/advanced_create_post should match snapshot, post priority en
   id="create_post"
   onSubmit={[Function]}
 >
+  <FileLimitStickyBanner />
   <AdvanceTextEditor
     additionalControls={
       Array [
@@ -866,7 +888,9 @@ exports[`components/advanced_create_post should match snapshot, post priority en
       Object {
         "fileInfos": Array [],
         "message": "",
-        "uploadsInProgress": Array [],
+        "uploadsProgressPercent": Object {
+          "a": undefined,
+        },
       }
     }
     emitTypingEvent={[Function]}
@@ -926,6 +950,7 @@ exports[`components/advanced_create_post should match snapshot, post priority en
   id="create_post"
   onSubmit={[Function]}
 >
+  <FileLimitStickyBanner />
   <AdvanceTextEditor
     additionalControls={
       Array [
@@ -1011,7 +1036,9 @@ exports[`components/advanced_create_post should match snapshot, post priority en
             "priority": "important",
           },
         },
-        "uploadsInProgress": Array [],
+        "uploadsProgressPercent": Object {
+          "a": undefined,
+        },
       }
     }
     emitTypingEvent={[Function]}

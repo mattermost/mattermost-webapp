@@ -156,7 +156,6 @@ function makeMapDispatchToProps() {
     let updateCommentDraftWithRootId: (rootID: string, draft: PostDraft, save?: boolean) => void;
     let onSubmit: (
         draft: PostDraft,
-        filePreviewInfos: FilePreviewInfo[],
         options: {ignoreSlash: boolean},
     ) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onMoveHistoryIndexBack: () => (

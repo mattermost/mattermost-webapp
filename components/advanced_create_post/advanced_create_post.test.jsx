@@ -44,7 +44,7 @@ const currentChannelProp = {
 const currentChannelMembersCountProp = 9;
 const draftProp = {
     message: '',
-    uploadsInProgress: [],
+    uploadsProgressPercent: {},
     fileInfos: [],
 };
 
@@ -832,10 +832,9 @@ describe('components/advanced_create_post', () => {
         const clientIds = ['a'];
         const draft = {
             ...draftProp,
-            uploadsInProgress: [
-                ...draftProp.uploadsInProgress,
-                ...clientIds,
-            ],
+            uploadsProgressPercent: Object.assign(draftProp.uploadsProgressPercent, {
+                'a': undefined
+            })
         };
 
         instance.handleUploadStart(clientIds, currentChannelProp.id);
@@ -856,18 +855,18 @@ describe('components/advanced_create_post', () => {
 
         const instance = wrapper.instance();
         const clientIds = ['a'];
-        const uploadsInProgressDraft = {
+        const uploadsProgressPercentDraft = {
             ...draftProp,
-            uploadsInProgress: [
-                ...draftProp.uploadsInProgress,
-                'a',
-            ],
+            uploadsProgressPercent: Object.assign(draftProp.uploadsProgressPercent, {
+                'a': undefined
+            })
         };
 
-        instance.draftsForChannel[currentChannelProp.id] = uploadsInProgressDraft;
+        instance.draftsForChannel[currentChannelProp.id] = uploadsProgressPercentDraft;
 
-        wrapper.setProps({draft: uploadsInProgressDraft});
+        wrapper.setProps({draft: uploadsProgressPercentDraft});
         const fileInfos = [{
+            name: 'a',
             clientId: 'a',
         }];
         const expectedDraft = {
@@ -876,6 +875,7 @@ describe('components/advanced_create_post', () => {
                 ...draftProp.fileInfos,
                 fileInfos[0],
             ],
+            uploadsProgressPercent: {}
         };
 
         instance.handleFileUploadComplete(fileInfos, clientIds, currentChannelProp.id);
@@ -899,10 +899,9 @@ describe('components/advanced_create_post', () => {
         const instance = wrapper.instance();
         const uploadsInProgressDraft = {
             ...draftProp,
-            uploadsInProgress: [
-                ...draftProp.uploadsInProgress,
-                'a',
-            ],
+            uploadsProgressPercent: Object.assign(draftProp.uploadsProgressPercent, {
+                'a': undefined
+            })
         };
 
         wrapper.setProps({draft: uploadsInProgressDraft});
@@ -1665,7 +1664,9 @@ describe('components/advanced_create_post', () => {
             },
             draft: {
                 ...draftProp,
-                uploadsInProgress: [clientId],
+                uploadsProgressPercent: {
+                    "id": undefined
+                },
             },
         }));
 
@@ -1701,7 +1702,7 @@ describe('components/advanced_create_post', () => {
                 },
                 draft: {
                     ...draftProp,
-                    uploadsInProgress: [id],
+                    uploadsProgressPercent: {[id]: undefined},
                 },
             }),
         );

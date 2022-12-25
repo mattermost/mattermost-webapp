@@ -16,14 +16,12 @@ type Props = {
     enableSVGs: boolean;
     onRemove?: (id: string) => void;
     fileInfos: FilePreviewInfo[];
-    uploadsInProgress?: string[];
-    uploadsProgressPercent?: {[clientID: string]: FilePreviewInfo};
+    uploadsProgressPercent?: {[clientID: string]: FilePreviewInfo | undefined};
 }
 
 export default class FilePreview extends React.PureComponent<Props> {
     static defaultProps = {
         fileInfos: [],
-        uploadsInProgress: [],
         uploadsProgressPercent: {},
     };
 
@@ -110,15 +108,14 @@ export default class FilePreview extends React.PureComponent<Props> {
             );
         });
 
-        if (this.props.uploadsInProgress && this.props.uploadsProgressPercent) {
-            const uploadsProgressPercent = this.props.uploadsProgressPercent;
-            this.props.uploadsInProgress.forEach((clientId) => {
-                const fileInfo = uploadsProgressPercent[clientId];
+        const uploadsProgressPercent = this.props.uploadsProgressPercent;
+        if (uploadsProgressPercent) {
+            Object.values(uploadsProgressPercent).filter((filePreviewInfo): filePreviewInfo is FilePreviewInfo => filePreviewInfo !== undefined).forEach((fileInfo) => {
                 if (fileInfo) {
                     previews.push(
                         <FileProgressPreview
-                            key={clientId}
-                            clientId={clientId}
+                            key={fileInfo.clientId}
+                            clientId={fileInfo.clientId}
                             fileInfo={fileInfo}
                             handleRemove={this.handleRemove}
                         />,

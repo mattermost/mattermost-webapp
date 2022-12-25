@@ -148,7 +148,7 @@ export function makeGetChannelDraft() {
 }
 
 export function getPostDraft(state: GlobalState, prefixId: string, suffixId: string): PostDraft {
-    const defaultDraft = {message: '', fileInfos: [], uploadsInProgress: [], createAt: 0, updateAt: 0, channelId: '', rootId: ''};
+    const defaultDraft = {message: '', fileInfos: [], uploadsProgressPercent: {}, createAt: 0, updateAt: 0, channelId: '', rootId: ''};
 
     if (prefixId === StoragePrefixes.COMMENT_DRAFT) {
         defaultDraft.rootId = suffixId;
@@ -157,7 +157,7 @@ export function getPostDraft(state: GlobalState, prefixId: string, suffixId: str
 
     if (
         typeof draft.message !== 'undefined' &&
-        typeof draft.uploadsInProgress !== 'undefined' &&
+        typeof draft.uploadsProgressPercent !== 'undefined' &&
         typeof draft.fileInfos !== 'undefined'
     ) {
         return draft;
