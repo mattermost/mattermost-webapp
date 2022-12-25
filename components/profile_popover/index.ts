@@ -34,8 +34,7 @@ import {GlobalState} from 'types/store';
 
 import {ServerError} from '@mattermost/types/errors';
 
-import {suitePluginIds} from 'packages/client/src/client4';
-
+import {suitePluginIds} from 'utils/constants';
 import {getDirectChannelName} from 'utils/utils';
 
 import ProfilePopover from './profile_popover';
