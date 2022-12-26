@@ -21,15 +21,15 @@ export const setLhsSize = (sidebarSize) => (dispatch) => {
         const width = window.innerWidth;
 
         switch (true) {
-        case width <= Constants.SMALL_SIDEBAR_BROWSER_WIDTH: {
+        case width <= Constants.SMALL_SIDEBAR_BREAKPOINT: {
             newSidebarSize = SidebarSize.SMALL;
             break;
         }
-        case width > Constants.SMALL_SIDEBAR_BROWSER_WIDTH && width <= Constants.MEDIUM_SIDEBAR_BROWSER_WIDTH: {
+        case width > Constants.SMALL_SIDEBAR_BREAKPOINT && width <= Constants.MEDIUM_SIDEBAR_BREAKPOINT: {
             newSidebarSize = SidebarSize.MEDIUM;
             break;
         }
-        case width > Constants.MEDIUM_SIDEBAR_BROWSER_WIDTH && width <= Constants.LARGE_SIDEBAR_BROWSER_WIDTH: {
+        case width > Constants.MEDIUM_SIDEBAR_BREAKPOINT && width <= Constants.LARGE_SIDEBAR_BREAKPOINT: {
             newSidebarSize = SidebarSize.LARGE;
             break;
         }

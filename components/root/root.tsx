@@ -228,10 +228,10 @@ export default class Root extends React.PureComponent<Props, State> {
         this.tabletMediaQuery = window.matchMedia(`(min-width: ${Constants.MOBILE_SCREEN_WIDTH + 1}px) and (max-width: ${Constants.TABLET_SCREEN_WIDTH}px)`);
         this.mobileMediaQuery = window.matchMedia(`(max-width: ${Constants.MOBILE_SCREEN_WIDTH}px)`);
 
-        this.smallSidebarMediaQuery = window.matchMedia(`(max-width: ${Constants.SMALL_SIDEBAR_BROWSER_WIDTH}px)`);
-        this.mediumSidebarMediaQuery = window.matchMedia(`(min-width: ${Constants.SMALL_SIDEBAR_BROWSER_WIDTH + 1}px) and (max-width: ${Constants.MEDIUM_SIDEBAR_BROWSER_WIDTH}px)`);
-        this.largeSidebarMediaQuery = window.matchMedia(`(min-width: ${Constants.MEDIUM_SIDEBAR_BROWSER_WIDTH + 1}px) and (max-width: ${Constants.LARGE_SIDEBAR_BROWSER_WIDTH}px)`);
-        this.xLargeSidebarMediaQuery = window.matchMedia(`(min-width: ${Constants.LARGE_SIDEBAR_BROWSER_WIDTH + 1}px)`);
+        this.smallSidebarMediaQuery = window.matchMedia(`(max-width: ${Constants.SMALL_SIDEBAR_BREAKPOINT}px)`);
+        this.mediumSidebarMediaQuery = window.matchMedia(`(min-width: ${Constants.SMALL_SIDEBAR_BREAKPOINT + 1}px) and (max-width: ${Constants.MEDIUM_SIDEBAR_BREAKPOINT}px)`);
+        this.largeSidebarMediaQuery = window.matchMedia(`(min-width: ${Constants.MEDIUM_SIDEBAR_BREAKPOINT + 1}px) and (max-width: ${Constants.LARGE_SIDEBAR_BREAKPOINT}px)`);
+        this.xLargeSidebarMediaQuery = window.matchMedia(`(min-width: ${Constants.LARGE_SIDEBAR_BREAKPOINT + 1}px)`);
 
         this.updateWindowSize();
         this.updateSidebarSize();
