@@ -101,7 +101,7 @@ describe('Forward Message', () => {
         cy.findByText('Forward').should('exist').type('{shift}F');
 
         // # Forward Post
-        forwardPostToDM({dmName: 'helen'});
+        forwardPostToDM({dmName: 'second'});
 
         // * Assert switch to DM channel
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', dmChannel.display_name);
@@ -127,7 +127,7 @@ describe('Forward Message', () => {
         cy.findByText('Forward').should('exist').type('{shift}F');
 
         // # Forward Post
-        forwardPostToDM({comment: commentMessage, dmName: 'rebecca'});
+        forwardPostToDM({comment: commentMessage, dmName: 'third'});
 
         // * Assert switch to DM channel
         cy.get('#channelHeaderTitle', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').should('contain', dmChannel.display_name);
@@ -186,9 +186,6 @@ describe('Forward Message', () => {
 
             // # Select the user to DM
             cy.focused().type('{enter}').type('{enter}');
-
-            // * Assert if button is enabled
-            cy.get('.GenericModal__button.confirm').should('not.be.disabled');
 
             if (comment) {
                 // # Enter comment
