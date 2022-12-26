@@ -6,7 +6,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {makeGetFilesForPost} from 'mattermost-redux/selectors/entities/files';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-
+import {Post} from '@mattermost/types/posts';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
@@ -16,8 +16,7 @@ import {isEmbedVisible} from 'selectors/posts';
 
 import {openModal} from 'actions/views/modals';
 
-import {Post} from '@mattermost/types/posts';
-import {FileAttachmentPluginComponent} from '../../types/store/plugins';
+import {FileAttachmentPluginComponent} from 'types/store/plugins';
 
 import FileAttachmentList from './file_attachment_list';
 

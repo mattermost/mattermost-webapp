@@ -33,6 +33,7 @@ describe('FileAttachmentList', () => {
         actions: {
             openModal: jest.fn(),
         },
+        pluginFileAttachmentComponents: [],
     };
 
     test('should render a FileAttachment for a single file', () => {
@@ -112,6 +113,43 @@ describe('FileAttachmentList', () => {
         );
 
         expect(wrapper.find(SingleImageView).exists()).toBe(false);
+        expect(wrapper.find(FileAttachment).exists()).toBe(true);
+    });
+
+    test('should render plugin previews if some are registered', () => {
+        const AudioCmp = ((props) => <p>{props.fileInfo.name}</p>) as typeof FileAttachment;
+        const VideoCmp = ((props) => <p>{props.fileInfo.extension}</p>) as typeof FileAttachment;
+        const props = {
+            ...baseProps,
+            fileCount: 2,
+            fileInfos: [
+                TestHelper.getFileInfoMock({id: 'file_id_1', name: 'audio.mp3', extension: 'mp3'}),
+                TestHelper.getFileInfoMock({id: 'file_id_2', name: 'video.mp4', extension: 'mp4'}),
+                TestHelper.getFileInfoMock({id: 'file_id_3', name: 'image.png', extension: 'png'}),
+            ],
+        };
+
+        const wrapper = shallow(
+            <FileAttachmentList
+                {...props}
+                pluginFileAttachmentComponents={[
+                    {
+                        id: '1',
+                        pluginId: '1',
+                        component: AudioCmp,
+                        match: (fileInfo) => fileInfo.extension === 'mp3',
+                    },
+                    {
+                        id: '2',
+                        pluginId: '2',
+                        component: VideoCmp,
+                        match: (fileInfo) => fileInfo.extension === 'mp4',
+                    },
+                ]}
+            />,
+        );
+        expect(wrapper.find(AudioCmp).exists()).toBe(true);
+        expect(wrapper.find(VideoCmp).exists()).toBe(true);
         expect(wrapper.find(FileAttachment).exists()).toBe(true);
     });
 });

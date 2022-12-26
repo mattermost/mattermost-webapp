@@ -6,6 +6,7 @@ import React from 'react';
 import {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
 
 import {GlobalState} from 'types/store';
+import type FileAttachment from 'components/file_attachment';
 
 import {ProductScope} from '@mattermost/types/products';
 
@@ -17,8 +18,6 @@ import {IDMappedObjects} from '@mattermost/types/utilities';
 import {TopBoardResponse} from '@mattermost/types/insights';
 
 import {WebSocketClient} from '@mattermost/client';
-
-import type FileAttachment from '../../components/file_attachment';
 
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 
