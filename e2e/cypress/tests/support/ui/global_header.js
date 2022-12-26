@@ -28,6 +28,7 @@ Cypress.Commands.add('uiOpenProductMenu', (item = '') => {
 
 Cypress.Commands.add('uiGetSetStatusButton', () => {
     return cy.get('.status-wrapper > .Avatar').should('be.visible');
+
     // return cy.findByRole('button', {name: 'set status'}).should('be.visible');
 });
 
