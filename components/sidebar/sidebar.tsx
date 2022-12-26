@@ -23,6 +23,8 @@ import * as Utils from 'utils/utils';
 import CreateUserGroupsModal from 'components/create_user_groups_modal';
 import KeyboardShortcutsModal from '../keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
+import Resizable from 'components/resizable_sidebar/resizable_lhs';
+
 import ChannelNavigator from './channel_navigator';
 import SidebarChannelList from './sidebar_channel_list';
 import SidebarHeader from './sidebar_header';
@@ -222,7 +224,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         const ariaLabel = Utils.localizeMessage('accessibility.sections.lhsNavigator', 'channel navigator region');
 
         return (
-            <div
+            <Resizable
                 id='SidebarContainer'
                 className={classNames({
                     'move--right': this.props.isOpen && this.props.isMobileView,
@@ -274,7 +276,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 />
                 <DataPrefetch/>
                 {this.renderModals()}
-            </div>
+            </Resizable>
         );
     }
 }

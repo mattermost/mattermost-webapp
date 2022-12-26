@@ -1998,6 +1998,8 @@ export enum SidebarSize {
     XLARGE= 'xLarge',
 }
 
+export const SIDEBAR_SNAP_SIZE = 16;
+
 export const DEFAULT_LHS_WIDTH = 240;
 
 export const LHS_MIN_MAX_WIDTH: { [size in SidebarSize]: { min: number; max: number}} = {
