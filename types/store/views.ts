@@ -7,6 +7,8 @@ import {RelationOneToOne} from '@mattermost/types/utilities';
 import {Team} from '@mattermost/types/teams';
 import {UserThread} from '@mattermost/types/threads';
 
+import {SidebarSize} from 'utils/constants';
+
 import {I18nState} from './i18n';
 import {RhsViewState} from './rhs';
 
@@ -101,6 +103,7 @@ export type ViewsState = {
 
     lhs: {
         isOpen: boolean;
+        size: SidebarSize;
     };
 
     search: {
