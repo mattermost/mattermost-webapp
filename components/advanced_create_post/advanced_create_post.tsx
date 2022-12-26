@@ -373,10 +373,19 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         let text = '';
 
         if (window && window.getSelection) {
-            // todo sinan blockquote offset parent is <blockquote>. then offset parent of blockquote is correct
             const selection = window.getSelection();
-            const startingSelectedElement = selection?.anchorNode?.parentElement?.offsetParent;
-            const endingSelectedElement = selection?.focusNode?.parentElement?.offsetParent;
+            let startingSelectedElement = selection?.anchorNode?.parentElement?.offsetParent;
+            let endingSelectedElement = selection?.focusNode?.parentElement?.offsetParent;
+
+            if (startingSelectedElement?.nodeName === 'BLOCKQUOTE') {
+                startingSelectedElement = startingSelectedElement?.offsetParent;
+            }
+
+            if (endingSelectedElement?.nodeName === 'BLOCKQUOTE') {
+                endingSelectedElement = endingSelectedElement?.offsetParent;
+            }
+
+            console.log('startingSelectedElement: ', startingSelectedElement?.offsetParent);
 
             if (startingSelectedElement?.classList.contains('post-message') &&
                 endingSelectedElement?.classList.contains('post-message') &&
