@@ -8,7 +8,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentChannel, getDirectTeammate, isCurrentChannelFavorite} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUser, getProfilesInCurrentChannel, getCurrentUserId, getUser, getTotalUsersStats as getTotalUsersStatsSelector, getChannelMembersCount} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getProfilesInCurrentChannel, getCurrentUserId, getUser, getTotalUsersStats as getTotalUsersStatsSelector} from 'mattermost-redux/selectors/entities/users';
 import {get, getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getChannelIntroPluginComponents} from 'selectors/plugins';
@@ -26,6 +26,8 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {isModalOpen} from 'selectors/views/modals';
 
+import {getIsMobileView} from 'selectors/views/browser';
+
 import ChannelIntroMessage from './channel_intro_message';
 
 function mapStateToProps(state: GlobalState) {
@@ -42,7 +44,6 @@ function mapStateToProps(state: GlobalState) {
     const usersLimit = 10;
 
     const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
-    const memberCount = getChannelMembersCount(state);
     const isInvitingPeople = isModalOpen(state, ModalIdentifiers.CHANNEL_INVITE) || isModalOpen(state, ModalIdentifiers.CREATE_DM_CHANNEL);
     const isNotificationsOpen = isModalOpen(state, ModalIdentifiers.NOTIFICATIONS);
     const isSetHeaderOpen = isModalOpen(state, ModalIdentifiers.EDIT_CHANNEL_HEADER);
@@ -68,7 +69,7 @@ function mapStateToProps(state: GlobalState) {
         isInvitingPeople,
         isNotificationsOpen,
         isSetHeaderOpen,
-        memberCount,
+        isMobileView: getIsMobileView(state),
     };
 }
 

@@ -51,12 +51,12 @@ describe('components/post_view/ChannelIntroMessages', () => {
         teamIsGroupConstrained: false,
         creatorName: 'creatorName',
         stats: {},
-        memberCount: 2,
         usersLimit: 10,
         isFavorite: false,
         isInvitingPeople: false,
         isNotificationsOpen: false,
         isSetHeaderOpen: false,
+        isMobileView: false,
         currentUser: TestHelper.getUserMock({id: 'id1'}),
         actions: {
             getTotalUsersStats: jest.fn().mockResolvedValue([]),

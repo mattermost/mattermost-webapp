@@ -32,12 +32,14 @@ import PublicChannelIntroSvg from 'components/common/svg_images_components/publi
 import PrivateChannelIntroSvg from 'components/common/svg_images_components/private_channel_intro_svg';
 import TownSquareIntroSvg from 'components/common/svg_images_components/town_square_intro_svg';
 
-import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
+import MoreDirectChannels from 'components/more_direct_channels';
+
 import AddMembersButton from './add_members_button';
+
 type Props = {
     currentUserId: string;
     channel: Channel;
@@ -53,11 +55,11 @@ type Props = {
     teammateName?: string;
     currentUser: UserProfileRedux;
     stats: any;
-    memberCount: number;
     usersLimit: number;
     isInvitingPeople: boolean;
     isNotificationsOpen: boolean;
     isSetHeaderOpen: boolean;
+    isMobileView: boolean;
     actions: {
         getTotalUsersStats: () => ActionFunc;
         favoriteChannel: (channelId: string) => ActionFunc;
@@ -96,11 +98,12 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
             teammate,
             teammateName,
             currentUser,
-            memberCount,
+            stats,
             usersLimit,
             isInvitingPeople,
             isNotificationsOpen,
             isSetHeaderOpen,
+            isMobileView,
             boardComponent,
         } = this.props;
 
@@ -128,17 +131,17 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         if (channel.type === Constants.DM_CHANNEL) {
             return createDMIntroMessage(channel, centeredIntro, this.props.isFavorite, isSetHeaderOpen, this.toggleFavorite, teammate, teammateName, boardComponent, createClasses);
         } else if (channel.type === Constants.GM_CHANNEL) {
-            return createGMIntroMessage(channel, centeredIntro, channelProfiles, isInvitingPeople, isNotificationsOpen, isSetHeaderOpen, currentUserId, currentUser, boardComponent, createClasses);
+            return createGMIntroMessage(channel, centeredIntro, channelProfiles, isInvitingPeople, isNotificationsOpen, isSetHeaderOpen, currentUserId, currentUser, this.props.isFavorite, this.toggleFavorite, isMobileView, boardComponent, createClasses);
         } else if (channel.name === Constants.DEFAULT_CHANNEL) {
-            return createDefaultIntroMessage(channel, centeredIntro, memberCount, usersLimit, locale, creatorName, isNotificationsOpen, isSetHeaderOpen, currentUser, this.props.isFavorite, this.toggleFavorite, enableUserCreation, isReadOnly, teamIsGroupConstrained, boardComponent, createClasses);
+            return createDefaultIntroMessage(channel, centeredIntro, stats, usersLimit, locale, creatorName, isNotificationsOpen, isSetHeaderOpen, currentUser, this.props.isFavorite, this.toggleFavorite, enableUserCreation, isReadOnly, teamIsGroupConstrained, boardComponent, createClasses);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-            return createStandardIntroMessage(channel, centeredIntro, memberCount, usersLimit, currentUser, locale, creatorName, isInvitingPeople, isNotificationsOpen, isSetHeaderOpen, boardComponent, this.props.theme, createClasses);
+            return createStandardIntroMessage(channel, centeredIntro, stats, usersLimit, currentUser, locale, creatorName, isInvitingPeople, isNotificationsOpen, isSetHeaderOpen, boardComponent, createClasses);
         }
         return null;
     }
 }
 
-function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles: UserProfileRedux[], isInvitingPeople: boolean, isNotificationsOpen: boolean, isSetHeaderOpen: boolean, currentUserId: string, currentUser: UserProfileRedux, boardComponent?: PluginComponent, createClasses?: (withSvg: boolean) => string) {
+function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles: UserProfileRedux[], isInvitingPeople: boolean, isNotificationsOpen: boolean, isSetHeaderOpen: boolean, currentUserId: string, currentUser: UserProfileRedux, isFavorite: boolean, toggleFavorite: () => void, isMobileView: boolean, boardComponent?: PluginComponent, createClasses?: (withSvg: boolean) => string) {
     const channelIntroId = 'channelIntro';
 
     if (profiles.length > 0) {
@@ -177,7 +180,8 @@ function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles:
                     {createBoardsButton(channel, boardComponent)}
                     {createAddPeopleButton(channel, isInvitingPeople, createClasses?.(false))}
                     {createSetHeaderButton(channel, isSetHeaderOpen, createClasses?.(false))}
-                    {createNotificationButton(channel, currentUser, isNotificationsOpen, createClasses?.(false))}
+                    {!isMobileView && createNotificationButton(channel, currentUser, isNotificationsOpen, createClasses?.(false))}
+                    {isMobileView && createFavoriteButton(isFavorite, toggleFavorite, createClasses?.(false))}
                 </div>
             </div>
         );
@@ -269,7 +273,7 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, isFavorit
 export function createDefaultIntroMessage(
     channel: Channel,
     centeredIntro: string,
-    memberCount: any,
+    stats: any,
     usersLimit: number,
     locale: string,
     creatorName: string,
@@ -285,7 +289,7 @@ export function createDefaultIntroMessage(
     createClasses?: (withSvg: boolean) => string,
 ) {
     let teamInviteLink = null;
-    const totalUsers = memberCount;
+    const totalUsers = stats.total_users_count;
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
 
     let setHeaderButton = null;
@@ -443,11 +447,11 @@ export function createDefaultIntroMessage(
     );
 }
 
-function createStandardIntroMessage(channel: Channel, centeredIntro: string, memberCount: any, usersLimit: number, currentUser: UserProfileRedux, locale: string, creatorName: string, isInvitingPeople: boolean, isNotificationsOpen: boolean, isSetHeaderOpen: boolean, boardComponent?: PluginComponent, theme?: Theme, createClasses?: (withSvg: boolean) => string) {
+function createStandardIntroMessage(channel: Channel, centeredIntro: string, stats: any, usersLimit: number, currentUser: UserProfileRedux, locale: string, creatorName: string, isInvitingPeople: boolean, isNotificationsOpen: boolean, isSetHeaderOpen: boolean, boardComponent?: PluginComponent, createClasses?: (withSvg: boolean) => string) {
     const uiName = channel.display_name;
     let memberMessage;
     const channelIsArchived = channel.delete_at !== 0;
-    const totalUsers = memberCount;
+    const totalUsers = stats.total_users_count;
 
     if (channelIsArchived) {
         memberMessage = '';
@@ -716,8 +720,8 @@ function createAddPeopleButton(channel: Channel, isInvitingPeople: boolean, clas
         return null;
     }
 
-    const modalId = channel.group_constrained ? ModalIdentifiers.ADD_GROUPS_TO_CHANNEL : ModalIdentifiers.CHANNEL_INVITE;
-    const modal = channel.group_constrained ? AddGroupsToChannelModal : ChannelInviteModal;
+    const modalId = channel.type === Constants.GM_CHANNEL ? ModalIdentifiers.CREATE_DM_CHANNEL : ModalIdentifiers.CHANNEL_INVITE;
+    const modal = channel.type === Constants.GM_CHANNEL ? MoreDirectChannels : ChannelInviteModal;
 
     const headerId = 'channel_info_rhs.top_buttons.add_people';
     const defaultMessage = 'Add people';
@@ -729,7 +733,7 @@ function createAddPeopleButton(channel: Channel, isInvitingPeople: boolean, clas
             ariaLabel={ariaLabel}
             className={`intro-links ${isInvitingPeople ? 'active' : ''} ${classes}`}
             dialogType={modal}
-            dialogProps={{channel}}
+            dialogProps={channel.type === Constants.GM_CHANNEL ? {isExistingChannel: true} : {channel}}
             noTransparent={true}
         >
             <AccountPlusOutlineIcon size={24}/>

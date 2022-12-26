@@ -418,10 +418,6 @@ export function getTotalUsersStats(state: GlobalState): any {
     return state.entities.users.stats;
 }
 
-export function getChannelMembersCount(state: GlobalState): any {
-    return state.entities.channels.stats[getCurrentChannelId(state)].member_count;
-}
-
 export function getFilteredUsersStats(state: GlobalState): any {
     return state.entities.users.filteredStats;
 }
