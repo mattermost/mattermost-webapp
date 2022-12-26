@@ -11,7 +11,7 @@ import {GlobalState} from 'types/store';
 
 import {makeCreateAriaLabelForPost} from 'utils/post_utils';
 
-type Props = React.HTMLProps<HTMLDivElement> & {
+export type Props = React.HTMLProps<HTMLDivElement> & {
     labelPrefix?: string;
     post: Post;
 }

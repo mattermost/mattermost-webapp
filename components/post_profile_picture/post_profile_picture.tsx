@@ -15,7 +15,7 @@ import {UserProfile} from '@mattermost/types/users';
 
 type Props = {
     availabilityStatusOnPosts: string;
-    compactDisplay: boolean;
+    compactDisplay?: boolean;
     enablePostIconOverride: boolean;
     hasImageProxy: boolean;
     isBusy?: boolean;

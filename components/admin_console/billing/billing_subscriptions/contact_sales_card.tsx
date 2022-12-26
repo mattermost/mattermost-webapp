@@ -15,7 +15,7 @@ type Props = {
     isFreeTrial: boolean;
     trialQuestionsLink: any;
     subscriptionPlan: string | undefined;
-    onUpgradeMattermostCloud: () => void;
+    onUpgradeMattermostCloud: (callerInfo: string) => void;
 }
 
 const ContactSalesCard = (props: Props) => {
@@ -74,13 +74,13 @@ const ContactSalesCard = (props: Props) => {
         case CloudProducts.STARTER:
             title = (
                 <FormattedMessage
-                    id='admin.billing.subscription.privateCloudCard.cloudStarter.title'
+                    id='admin.billing.subscription.privateCloudCard.cloudFree.title'
                     defaultMessage='Upgrade to Cloud Professional'
                 />
             );
             description = (
                 <FormattedMessage
-                    id='admin.billing.subscription.privateCloudCard.cloudStarter.description'
+                    id='admin.billing.subscription.privateCloudCard.cloudFree.description'
                     defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, GitLab SSO and advanced permissions.'
                 />
             );
@@ -159,7 +159,7 @@ const ContactSalesCard = (props: Props) => {
                 {(!isFreeTrial && subscriptionPlan !== CloudProducts.ENTERPRISE && subscriptionPlan !== CloudProducts.LEGACY) &&
                     <button
                         type='button'
-                        onClick={onUpgradeMattermostCloud}
+                        onClick={() => onUpgradeMattermostCloud('admin_console_subscription_card_upgrade_now_button')}
                         className='PrivateCloudCard__actionButton'
                     >
                         <FormattedMessage

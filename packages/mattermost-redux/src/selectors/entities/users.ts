@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import {createSelector} from 'reselect';
 
 import {
@@ -25,6 +23,7 @@ import {
     includesAnAdminRole,
     profileListToMap,
     sortByUsername,
+    isGuest,
     applyRolesFilters,
 } from 'mattermost-redux/utils/user_utils';
 
@@ -40,6 +39,8 @@ import {
     RelationOneToOne,
 } from '@mattermost/types/utilities';
 import {Reaction} from '@mattermost/types/reactions';
+
+import {General} from 'mattermost-redux/constants';
 
 export {getCurrentUser, getCurrentUserId, getUsers};
 
@@ -142,6 +143,15 @@ export const isCurrentUserSystemAdmin: (state: GlobalState) => boolean = createS
     (user) => {
         const roles = user?.roles || '';
         return isSystemAdmin(roles);
+    },
+);
+
+export const isCurrentUserGuestUser: (state: GlobalState) => boolean = createSelector(
+    'isCurrentUserGuestUser',
+    getCurrentUser,
+    (user) => {
+        const roles = user?.roles || '';
+        return isGuest(roles);
     },
 );
 
@@ -702,6 +712,17 @@ export const getProfilesInGroup: (state: GlobalState, groupId: Group['id'], filt
     },
 );
 
+export const getProfilesInGroupWithoutSorting: (state: GlobalState, groupId: Group['id'], filters?: Filters) => UserProfile[] = createSelector(
+    'getProfilesInGroup',
+    getUsers,
+    getUserIdsInGroups,
+    (state: GlobalState, groupId: string) => groupId,
+    (state: GlobalState, groupId: string, filters: Filters) => filters,
+    (profiles, usersInGroups, groupId, filters) => {
+        return injectProfiles(filterProfiles(profiles, filters), usersInGroups[groupId] || new Set());
+    },
+);
+
 export const getProfilesNotInCurrentGroup: (state: GlobalState, groupId: Group['id'], filters?: Filters) => UserProfile[] = createSelector(
     'getProfilesNotInGroup',
     getUsers,
@@ -720,6 +741,23 @@ export function searchProfilesInGroup(state: GlobalState, groupId: Group['id'], 
     }
 
     return profiles;
+}
+
+export function searchProfilesInGroupWithoutSorting(state: GlobalState, groupId: Group['id'], term: string, skipCurrent = false, filters?: Filters): UserProfile[] {
+    const profiles = filterProfilesStartingWithTerm(getProfilesInGroupWithoutSorting(state, groupId, filters), term);
+    if (skipCurrent) {
+        removeCurrentUserFromList(profiles, getCurrentUserId(state));
+    }
+
+    return profiles;
+}
+
+export function getUserLastActivities(state: GlobalState): RelationOneToOne<UserProfile, number> {
+    return state.entities.users.lastActivity;
+}
+
+export function getLastActivityForUserId(state: GlobalState, userId: UserProfile['id']): number {
+    return getUserLastActivities(state)[userId];
 }
 
 export function checkIsFirstAdmin(currentUser: UserProfile, users: IDMappedObjects<UserProfile>): boolean {
@@ -743,4 +781,46 @@ export const isFirstAdmin = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => getUsers(state),
     checkIsFirstAdmin,
+);
+
+export const displayLastActiveLabel: (state: GlobalState, userId: string) => boolean = createSelector(
+    'displayLastActiveLabel',
+    (state: GlobalState, userId: string) => getStatusForUserId(state, userId),
+    (state: GlobalState, userId: string) => getLastActivityForUserId(state, userId),
+    (state: GlobalState, userId: string) => getUser(state, userId),
+    getConfig,
+    (userStatus, timestamp, user, config) => {
+        const currentTime = new Date();
+        const oneMin = 60 * 1000;
+
+        if (
+            (!userStatus || userStatus === General.ONLINE) ||
+            (timestamp && (currentTime.valueOf() - new Date(timestamp).valueOf()) <= oneMin) ||
+            user?.props?.show_last_active === 'false' ||
+            user?.is_bot ||
+            timestamp === 0 ||
+            config.EnableLastActiveTime !== 'true'
+        ) {
+            return false;
+        }
+        return true;
+    },
+);
+
+export const getLastActiveTimestampUnits: (state: GlobalState, userId: string) => string[] = createSelector(
+    'getLastActiveTimestampUnits',
+    (state: GlobalState, userId: string) => getLastActivityForUserId(state, userId),
+    (timestamp) => {
+        const timestampUnits = [
+            'now',
+            'minute',
+            'hour',
+        ];
+        const currentTime = new Date();
+        const twoDaysAgo = 48 * 60 * 60 * 1000;
+        if ((currentTime.valueOf() - new Date(timestamp).valueOf()) < twoDaysAgo) {
+            timestampUnits.push('day');
+        }
+        return timestampUnits;
+    },
 );

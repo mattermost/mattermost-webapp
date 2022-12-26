@@ -6,6 +6,8 @@ import {shallow} from 'enzyme';
 
 import FeatureDiscovery from 'components/admin_console/feature_discovery/feature_discovery';
 
+import {LicenseSkus} from 'utils/constants';
+
 import SamlSVG from './features/images/saml_svg';
 
 describe('components/feature_discovery', () => {
@@ -14,6 +16,8 @@ describe('components/feature_discovery', () => {
             const wrapper = shallow(
                 <FeatureDiscovery
                     featureName='test'
+                    minimumSKURequiredForFeature={LicenseSkus.Professional}
+                    contactSalesLink='/sales'
                     titleID='translation.test.title'
                     titleDefault='Foo'
                     copyID='translation.test.copy'
@@ -29,8 +33,6 @@ describe('components/feature_discovery', () => {
                     isSubscriptionLoaded={true}
                     isPaidSubscription={false}
                     actions={{
-                        requestTrialLicense: jest.fn(),
-                        getLicenseConfig: jest.fn(),
                         getPrevTrialLicense: jest.fn(),
                         getCloudSubscription: jest.fn(),
                         openModal: jest.fn(),
@@ -43,6 +45,8 @@ describe('components/feature_discovery', () => {
             const wrapper = shallow(
                 <FeatureDiscovery
                     featureName='test'
+                    minimumSKURequiredForFeature={LicenseSkus.Professional}
+                    contactSalesLink='/sales'
                     titleID='translation.test.title'
                     titleDefault='Foo'
                     copyID='translation.test.copy'
@@ -58,8 +62,6 @@ describe('components/feature_discovery', () => {
                     isPaidSubscription={false}
                     isSubscriptionLoaded={true}
                     actions={{
-                        requestTrialLicense: jest.fn(),
-                        getLicenseConfig: jest.fn(),
                         getPrevTrialLicense: jest.fn(),
                         openModal: jest.fn(),
                         getCloudSubscription: jest.fn(),
@@ -73,6 +75,8 @@ describe('components/feature_discovery', () => {
             const wrapper = shallow(
                 <FeatureDiscovery
                     featureName='test'
+                    minimumSKURequiredForFeature={LicenseSkus.Professional}
+                    contactSalesLink='/sales'
                     titleID='translation.test.title'
                     titleDefault='Foo'
                     copyID='translation.test.copy'
@@ -88,8 +92,6 @@ describe('components/feature_discovery', () => {
                     isSubscriptionLoaded={false}
                     isPaidSubscription={false}
                     actions={{
-                        requestTrialLicense: jest.fn(),
-                        getLicenseConfig: jest.fn(),
                         getPrevTrialLicense: jest.fn(),
                         openModal: jest.fn(),
                         getCloudSubscription: jest.fn(),

@@ -30,7 +30,7 @@
             &__restricted-indicator-badge {
                 display: flex;
                 height: 24px;
-                padding: 4px 12px;
+                padding: 0 12px;
                 border: 1px solid rgba(var(--denim-button-bg-rgb), 0.08);
                 background: rgba(var(--denim-button-bg-rgb), 0.04);
                 border-radius: 20px;
@@ -52,6 +52,7 @@
 
                     .RestrictedIndicator__button {
                         display: flex;
+                        margin-top: 4px;
 
                         .badge-text {
                             padding-left: 0;

@@ -36,6 +36,7 @@ describe('components/dot_menu/DotMenu', () => {
             markPostAsUnread: jest.fn(),
             postEphemeralCallResponseForPost: jest.fn(),
             setThreadFollow: jest.fn(),
+            setGlobalItem: jest.fn(),
         },
         canEdit: false,
         canDelete: false,
@@ -47,6 +48,7 @@ describe('components/dot_menu/DotMenu', () => {
         threadId: 'post_id_1',
         threadReplyCount: 0,
         userId: 'user_id_1',
+        showForwardPostNewLabel: false,
     };
 
     test('should match snapshot, on Center', () => {
@@ -72,6 +74,30 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             canEdit: true,
             canDelete: true,
+        };
+        const wrapper = shallowWithIntl(
+            <DotMenu {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, show "New" badge on forward post', () => {
+        const props = {
+            ...baseProps,
+            showForwardPostNewLabel: true,
+        };
+        const wrapper = shallowWithIntl(
+            <DotMenu {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, hide "New" badge on forward post', () => {
+        const props = {
+            ...baseProps,
+            showForwardPostNewLabel: false,
         };
         const wrapper = shallowWithIntl(
             <DotMenu {...props}/>,

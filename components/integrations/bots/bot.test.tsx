@@ -6,8 +6,8 @@ import {shallow} from 'enzyme';
 import {FormattedMessage} from 'react-intl';
 
 import Markdown from 'components/markdown';
-import TestHelper from 'tests/helpers/client-test-helper';
 import {TestHelper as UtilsTestHelper} from 'utils/test_helper';
+import {generateId} from 'mattermost-redux/utils/helpers';
 
 import Bot from './bot';
 
@@ -199,7 +199,7 @@ describe('components/integrations/bots/Bot', () => {
 
     it('bot with access tokens', () => {
         const bot = UtilsTestHelper.getBotMock({user_id: '1'});
-        const tokenId = TestHelper.generateId();
+        const tokenId = generateId();
         const user = UtilsTestHelper.getUserMock({id: bot.user_id});
         const accessTokens = {
             tokenId: UtilsTestHelper.getUserAccessTokenMock({
@@ -237,7 +237,7 @@ describe('components/integrations/bots/Bot', () => {
 
     it('bot with disabled access tokens', () => {
         const bot = UtilsTestHelper.getBotMock({user_id: '1'});
-        const tokenId = TestHelper.generateId();
+        const tokenId = generateId();
         const user = UtilsTestHelper.getUserMock({id: bot.user_id});
 
         const accessTokens = {

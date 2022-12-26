@@ -17,6 +17,7 @@ export type FileInfo = {
     clientId: string;
     post_id?: string;
     mini_preview?: string;
+    archived: boolean;
 };
 export type FilesState = {
     files: Record<string, FileInfo>;

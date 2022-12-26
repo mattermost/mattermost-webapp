@@ -98,27 +98,6 @@ export default function WorkspaceLimitsPanel(props: Props) {
                     />
                 )}
             />
-            <LimitLine
-                icon='icon-apps'
-                showIcons={props.showIcons}
-                percent={props.usage.integrations.enabled / (props.limits?.integrations?.enabled || Number.MAX_VALUE)}
-                limitName={(
-                    <FormattedMessage
-                        id='workspace_limits.integrations_enabled.short'
-                        defaultMessage='Enabled Integrations'
-                    />
-                )}
-                limitStatus={(
-                    <FormattedMessage
-                        id='workspace_limits.integrations_enabled.usage.short'
-                        defaultMessage='{actual} / {limit} Integrations'
-                        values={{
-                            actual: props.usage.integrations.enabled,
-                            limit: props.limits?.integrations?.enabled || 0,
-                        }}
-                    />
-                )}
-            />
         </div>
     );
 }

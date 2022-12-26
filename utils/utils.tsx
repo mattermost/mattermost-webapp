@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable max-lines */
 
 import React, {LinkHTMLAttributes} from 'react';
@@ -9,7 +10,7 @@ import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
-import Constants, {FileTypes, ValidationErrors} from 'utils/constants';
+import Constants, {FileTypes, ValidationErrors, A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
 
 import {
     getChannel as getChannelAction,
@@ -20,7 +21,7 @@ import {
 import {getPost as getPostAction} from 'mattermost-redux/actions/posts';
 import {getTeamByName as getTeamByNameAction} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
-import {Posts, Preferences} from 'mattermost-redux/constants';
+import {Posts, Preferences, General} from 'mattermost-redux/constants';
 import {
     getChannel,
     getChannelsNameMapInTeam,
@@ -29,8 +30,8 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getBool, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getBool, getTeammateNameDisplaySetting, Theme, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUser, getCurrentUserId, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
 import {displayUsername, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {
@@ -40,11 +41,12 @@ import {
     getTeam,
     getTeamByName,
     getTeamMemberships,
+    isTeamSameWithCurrentTeam,
 } from 'mattermost-redux/selectors/entities/teams';
 
 import {addUserToTeam} from 'actions/team_actions';
 import {searchForTerm} from 'actions/post_actions';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent';
 import bing from 'sounds/bing.mp3';
 import crackle from 'sounds/crackle.mp3';
@@ -58,18 +60,18 @@ import store from 'stores/redux_store.jsx';
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 import {getIsMobileView} from 'selectors/views/browser';
 
-import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
-import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
-
 import {FileInfo} from '@mattermost/types/files';
 import {Team} from '@mattermost/types/teams';
 import {Post} from '@mattermost/types/posts';
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
-import {Theme} from 'mattermost-redux/types/themes';
+
 import {ClientConfig} from '@mattermost/types/config';
 
 import {GlobalState} from '@mattermost/types/store';
+
+import {focusPost} from 'components/permalink_view/actions';
+
 import {TextboxElement} from '../components/textbox';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
@@ -442,6 +444,7 @@ export function applyTheme(theme: Theme) {
         changeCss('.app__body .input-group-addon', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('@media(min-width: 768px){.app__body .post-list__table .post-list__content .dropdown-menu a:hover, .dropdown-menu > li > button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .SubMenuItem > div:focus, .app__body .MenuWrapper .MenuItem > a:hover, .MenuItem > div:hover, .SubMenuItemContainer:not(.hasDivider):hover, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
+        changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .SubMenuItem > div:focus, .app__body .MenuWrapper .MenuItem > a:hover, .app__body .MenuWrapper .MenuItem > div:hover, .app__body .MenuWrapper .SubMenuItemContainer:not(.hasDivider):hover, .app__body .MenuWrapper .SubMenuItemContainer:not(.hasDivider):focus, .app__body .MenuWrapper .SubMenuItemContainer:focus, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .attachment .attachment__content, .app__body .attachment-actions button', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.16));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.5));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.03));
@@ -544,7 +547,6 @@ export function applyTheme(theme: Theme) {
         changeCss('.app__body .post .post-collapse__show-more', `color:${theme.linkColor}`);
         changeCss('.app__body .post .post-attachment-collapse__show-more', `color:${theme.linkColor}`);
         changeCss('.app__body .post .post-collapse__show-more-button:hover', `background-color:${theme.linkColor}`);
-        changeCss('.app__body .post-message .group-mention-link', `color:${theme.linkColor}`);
     }
 
     if (theme.buttonBg) {
@@ -567,7 +569,7 @@ export function applyTheme(theme: Theme) {
     }
 
     if (theme.mentionHighlightBg) {
-        changeCss('.app__body .mention--highlight, .app__body .search-highlight', 'background:' + theme.mentionHighlightBg);
+        changeCss('.app__body .search-highlight', 'background:' + theme.mentionHighlightBg);
         changeCss('.app__body .post.post--comment .post__body.mention-comment', 'border-color:' + theme.mentionHighlightBg);
         changeCss('.app__body .post.post--highlight', 'background:' + changeOpacity(theme.mentionHighlightBg, 0.5));
         changeCss('.app__body .post.post--highlight .post-collapse__gradient', 'background:' + changeOpacity(theme.mentionHighlightBg, 0.5));
@@ -575,8 +577,8 @@ export function applyTheme(theme: Theme) {
     }
 
     if (theme.mentionHighlightLink) {
-        changeCss('.app__body .mention--highlight .mention-link, .app__body .mention--highlight, .app__body .search-highlight', 'color:' + theme.mentionHighlightLink);
-        changeCss('.app__body .mention--highlight .mention-link > a, .app__body .mention--highlight > a, .app__body .search-highlight > a', 'color: inherit');
+        changeCss('.app__body .search-highlight', 'color:' + theme.mentionHighlightLink);
+        changeCss('.app__body .search-highlight > a', 'color: inherit');
     }
 
     if (!theme.codeTheme) {
@@ -884,7 +886,7 @@ export function offsetTopLeft(el: HTMLElement) {
     return {top: rect.top + scrollTop, left: rect.left + scrollLeft};
 }
 
-export function getSuggestionBoxAlgn(textArea: HTMLTextAreaElement, pxToSubstract = 0) {
+export function getSuggestionBoxAlgn(textArea: HTMLTextAreaElement, pxToSubstract = 0, alignWithTextBox = false) {
     if (!textArea || !(textArea instanceof HTMLElement)) {
         return {
             pixelsToMoveX: 0,
@@ -907,10 +909,13 @@ export function getSuggestionBoxAlgn(textArea: HTMLTextAreaElement, pxToSubstrac
     // the x coordinate in the viewport of the suggestion box border-right
     const xBoxRightCoordinate = caretXCoordinateInTxtArea + txtAreaOffsetLft + suggestionBoxWidth;
 
-    // if the right-border edge of the suggestion box will overflow the x-axis viewport
-    if (xBoxRightCoordinate > viewportWidth) {
+    if (alignWithTextBox) {
+        // when the list should be aligned with the textbox just set this value to 0
+        pxToTheRight = 0;
+    } else if (xBoxRightCoordinate > viewportWidth) {
+        // if the right-border edge of the suggestion box will overflow the x-axis viewport
         // stick the suggestion list to the very right of the TextArea
-        pxToTheRight = textArea.offsetWidth - suggestionBoxWidth;
+        pxToTheRight = textAreaWidth - suggestionBoxWidth;
     }
 
     return {
@@ -1281,11 +1286,11 @@ export function isFeatureEnabled(feature: {label: string}, state: GlobalState) {
     return getBool(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, Constants.FeatureTogglePrefix + feature.label);
 }
 
-export function fillArray<T>(value: T, length: number) {
-    const arr = [];
+export function fillRecord<T>(value: T, length: number): Record<number, T> {
+    const arr: Record<number, T> = {};
 
     for (let i = 0; i < length; i++) {
-        arr.push(value);
+        arr[i] = value;
     }
 
     return arr;
@@ -1310,6 +1315,17 @@ export function isUriDrop(dataTransfer: DataTransfer) {
         }
     }
     return false; // we don't care about others, they handle as we want it
+}
+
+export function isTextTransfer(dataTransfer: DataTransfer) {
+    return ['text/plain', 'text/unicode', 'Text'].some((type) => dataTransfer.types.includes(type));
+}
+
+export function isTextDroppableEvent(e: Event) {
+    return (e instanceof DragEvent) &&
+           (e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLInputElement) &&
+           e.dataTransfer !== null &&
+           isTextTransfer(e.dataTransfer);
 }
 
 export function clearFileInput(elm: HTMLInputElement) {
@@ -1485,8 +1501,12 @@ export async function handleFormattedTextClick(e: React.MouseEvent, currentRelat
 
             const state = store.getState();
             const user = getCurrentUser(state);
+            const match = isChannelOrPermalink(linkAttribute.value);
+            const crtEnabled = isCollapsedThreadsEnabled(state);
+
+            let isReply = false;
+
             if (isSystemAdmin(user.roles)) {
-                const match = isChannelOrPermalink(linkAttribute.value);
                 if (match) {
                     // Get team by name
                     const {teamName} = match;
@@ -1514,6 +1534,8 @@ export async function handleFormattedTextClick(e: React.MouseEvent, currentRelat
                                 post = postData;
                             }
                             if (post) {
+                                isReply = Boolean(post.root_id);
+
                                 channel = getChannel(state, post.channel_id);
                                 if (!channel) {
                                     const {data: channelData} = await store.dispatch(getChannelAction(post.channel_id));
@@ -1550,11 +1572,16 @@ export async function handleFormattedTextClick(e: React.MouseEvent, currentRelat
             }
 
             e.stopPropagation();
-            browserHistory.push(linkAttribute.value);
+
+            if (match && match.type === 'permalink' && isTeamSameWithCurrentTeam(state, match.teamName) && isReply && crtEnabled) {
+                focusPost(match.postId ?? '', linkAttribute.value, user.id, {skipRedirectReplyPermalink: true})(store.dispatch, store.getState);
+            } else {
+                getHistory().push(linkAttribute.value);
+            }
         }
     } else if (channelMentionAttribute) {
         e.preventDefault();
-        browserHistory.push(currentRelativeTeamUrl + '/channels/' + channelMentionAttribute.value);
+        getHistory().push(currentRelativeTeamUrl + '/channels/' + channelMentionAttribute.value);
     }
 }
 
@@ -1728,25 +1755,6 @@ export function stringToNumber(s: string | undefined) {
     return parseInt(s, 10);
 }
 
-export function renderPurchaseLicense() {
-    return (
-        <div className='purchase-card'>
-            <PurchaseLink
-                eventID='post_trial_purchase_license'
-                buttonTextElement={
-                    <FormattedMessage
-                        id='admin.license.trialCard.purchase_license'
-                        defaultMessage='Purchase a license'
-                    />
-                }
-            />
-            <ContactUsButton
-                eventID='post_trial_contact_sales'
-            />
-        </div>
-    );
-}
-
 export function deleteKeysFromObject(value: Record<string, any>, keys: string[]) {
     for (const key of keys) {
         delete value[key];
@@ -1832,4 +1840,48 @@ export function numberToFixedDynamic(num: number, places: number): string {
         return str;
     }
     return str.slice(0, indexToExclude);
+}
+
+const TrackFlowRoles: Record<string, string> = {
+    fa: Constants.FIRST_ADMIN_ROLE,
+    sa: General.SYSTEM_ADMIN_ROLE,
+    su: General.SYSTEM_USER_ROLE,
+};
+
+export function getTrackFlowRole() {
+    const state = store.getState();
+    let trackFlowRole = 'su';
+
+    if (isFirstAdmin(state)) {
+        trackFlowRole = 'fa';
+    } else if (isSystemAdmin(getCurrentUser(state).roles)) {
+        trackFlowRole = 'sa';
+    }
+
+    return trackFlowRole;
+}
+
+export function getRoleForTrackFlow() {
+    const startedByRole = TrackFlowRoles[getTrackFlowRole()];
+
+    return {started_by_role: startedByRole};
+}
+
+export function getRoleFromTrackFlow() {
+    const params = new URLSearchParams(window.location.search);
+    const sbr = params.get('sbr') ?? '';
+    const startedByRole = TrackFlowRoles[sbr] ?? '';
+
+    return {started_by_role: startedByRole};
+}
+
+export function a11yFocus(element: HTMLElement | null | undefined, keyboardOnly = true) {
+    document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+        A11yCustomEventTypes.FOCUS, {
+            detail: {
+                target: element,
+                keyboardOnly,
+            },
+        },
+    ));
 }

@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ChannelType} from './channels';
+import {Channel, ChannelType} from './channels';
 import {CustomEmoji} from './emojis';
 import {FileInfo} from './files';
 import {Reaction} from './reactions';
+import {UserProfile} from './users';
 import {
     RelationOneToOne,
     RelationOneToMany,
@@ -25,7 +26,10 @@ export type PostType = 'system_add_remove' |
 'system_leave_channel' |
 'system_purpose_change' |
 'system_remove_from_channel' |
-'system_combined_user_activity';
+'system_combined_user_activity' |
+'system_fake_parent_deleted' |
+'system_generic' |
+'';
 
 export type PostEmbedType = 'image' | 'link' | 'message_attachment' | 'opengraph' | 'permalink';
 
@@ -42,12 +46,26 @@ export type PostImage = {
     width: number;
 };
 
+export type PostAcknowledgement = {
+    post_id: Post['id'];
+    user_id: UserProfile['id'];
+    acknowledged_at: number;
+}
+
+export type PostPriorityMetadata = {
+    priority: PostPriority|'';
+    requested_ack?: boolean;
+    persistent_notifications?: boolean;
+}
+
 export type PostMetadata = {
     embeds: PostEmbed[];
     emojis: CustomEmoji[];
     files: FileInfo[];
     images: Record<string, PostImage>;
     reactions: Reaction[];
+    priority?: PostPriorityMetadata;
+    acknowledgements?: PostAcknowledgement[];
 };
 
 export type Post = {
@@ -71,7 +89,7 @@ export type Post = {
     metadata: PostMetadata;
     failed?: boolean;
     user_activity_posts?: Post[];
-    state?: 'DELETED';
+    state?: PostState;
     filenames?: string[];
     last_reply_at?: number;
     participants?: any; //Array<UserProfile | UserProfile['id']>;
@@ -80,11 +98,19 @@ export type Post = {
     exists?: boolean;
 };
 
+export type PostState = 'DELETED';
+
+export enum PostPriority {
+    URGENT = 'urgent',
+    IMPORTANT = 'important',
+}
+
 export type PostList = {
     order: Array<Post['id']>;
     posts: Record<string, Post>;
     next_post_id: string;
     prev_post_id: string;
+    first_inaccessible_post_time: number;
 };
 
 export type PaginatedPostList = PostList & {
@@ -121,6 +147,11 @@ export type PostsState = {
     currentFocusedPostId: string;
     messagesHistory: MessageHistory;
     expandedURLs: Record<string, string>;
+    limitedViews: {
+        channels: Record<Channel['id'], number>;
+        threads: Record<Post['root_id'], number>;
+    };
+    acknowledgements: RelationOneToOne<Post, Record<UserProfile['id'], number>>;
 };
 
 export declare type OpenGraphMetadataImage = {

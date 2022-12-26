@@ -5,6 +5,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {isCloudLicense} from 'mattermost-redux/selectors/entities/general';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
@@ -148,7 +149,12 @@ export function installApp(id: string) {
             team_id: teamID,
         };
 
-        const result = await dispatch(executeCommand('/apps install marketplace ' + id, args));
+        let command = `/apps install listed ${id}`;
+        if (isCloudLicense(state)) {
+            command = `/apps install ${id}`;
+        }
+
+        const result = await dispatch(executeCommand(command, args));
         if (isError(result)) {
             dispatch({
                 type: ActionTypes.INSTALLING_MARKETPLACE_ITEM_FAILED,

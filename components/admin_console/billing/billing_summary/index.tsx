@@ -10,8 +10,7 @@ import {CloudProducts} from 'utils/constants';
 
 import {
     noBillingHistory,
-    upgradeFreeTierMattermostCloud,
-    lastInvoiceInfo,
+    InvoiceInfo,
     freeTrial,
 } from './billing_summary';
 
@@ -20,13 +19,12 @@ import {tryEnterpriseCard, UpgradeToProfessionalCard} from './upsell_card';
 import './billing_summary.scss';
 
 type BillingSummaryProps = {
-    isLegacyFree: boolean;
     isFreeTrial: boolean;
     daysLeftOnTrial: number;
-    onUpgradeMattermostCloud: () => void;
+    onUpgradeMattermostCloud: (callerInfo: string) => void;
 }
 
-const BillingSummary = ({isLegacyFree, isFreeTrial, daysLeftOnTrial, onUpgradeMattermostCloud}: BillingSummaryProps) => {
+const BillingSummary = ({isFreeTrial, daysLeftOnTrial, onUpgradeMattermostCloud}: BillingSummaryProps) => {
     const subscription = useSelector(getCloudSubscription);
     const product = useSelector(getSubscriptionProduct);
 
@@ -37,22 +35,46 @@ const BillingSummary = ({isLegacyFree, isFreeTrial, daysLeftOnTrial, onUpgradeMa
     const showTryEnterprise = product?.sku === CloudProducts.STARTER && isPreTrial;
     const showUpgradeProfessional = product?.sku === CloudProducts.STARTER && hasPriorTrial;
 
-    const isLegacyFreeUnpaid = isLegacyFree && !subscription?.is_legacy_cloud_paid_tier;
-
     if (showTryEnterprise) {
         body = tryEnterpriseCard;
     } else if (showUpgradeProfessional) {
         body = <UpgradeToProfessionalCard/>;
     } else if (isFreeTrial) {
         body = freeTrial(onUpgradeMattermostCloud, daysLeftOnTrial);
-    } else if (isLegacyFreeUnpaid) {
-        body = upgradeFreeTierMattermostCloud(onUpgradeMattermostCloud);
-    } else if (subscription?.last_invoice) {
-        const invoice = subscription!.last_invoice;
+    } else if (subscription?.last_invoice && !subscription?.upcoming_invoice) {
+        const invoice = subscription.last_invoice;
         const fullCharges = invoice.line_items.filter((item) => item.type === 'full');
         const partialCharges = invoice.line_items.filter((item) => item.type === 'partial');
+
         body = (
-            lastInvoiceInfo(invoice, product, fullCharges, partialCharges)
+            <InvoiceInfo
+                invoice={invoice}
+                product={product}
+                fullCharges={fullCharges}
+                partialCharges={partialCharges}
+            />
+        );
+    } else if (subscription?.upcoming_invoice) {
+        const invoice = subscription.upcoming_invoice;
+        let fullCharges = invoice.line_items.filter((item) => item.type === 'full');
+        const partialCharges = invoice.line_items.filter((item) => item.type === 'partial');
+        if (!partialCharges.length && !fullCharges.length) {
+            fullCharges = invoice.line_items;
+        }
+        let hasMoreLineItems = 0;
+        if (fullCharges.length > 5) {
+            hasMoreLineItems = fullCharges.length - 5;
+            fullCharges = fullCharges.slice(0, 5);
+        }
+
+        body = (
+            <InvoiceInfo
+                invoice={invoice}
+                product={product}
+                fullCharges={fullCharges}
+                partialCharges={partialCharges}
+                hasMore={hasMoreLineItems}
+            />
         );
     }
 

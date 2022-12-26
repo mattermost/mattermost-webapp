@@ -1,11 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/admin_console/permission_schemes_settings/permission_team_scheme_settings/permission_team_scheme_settings should match snapshot on edit with permissions 1`] = `
-<LoadingScreen
-  position="relative"
-  style={Object {}}
-/>
-`;
+exports[`components/admin_console/permission_schemes_settings/permission_team_scheme_settings/permission_team_scheme_settings should match snapshot on edit with permissions 1`] = `<LoadingScreen />`;
 
 exports[`components/admin_console/permission_schemes_settings/permission_team_scheme_settings/permission_team_scheme_settings should match snapshot on edit with permissions 2`] = `
 Object {
@@ -183,7 +178,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -514,7 +508,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -540,7 +533,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -869,7 +861,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -895,7 +886,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -1074,12 +1064,7 @@ Object {
 }
 `;
 
-exports[`components/admin_console/permission_schemes_settings/permission_team_scheme_settings/permission_team_scheme_settings should match snapshot on new with default roles with permissions 1`] = `
-<LoadingScreen
-  position="relative"
-  style={Object {}}
-/>
-`;
+exports[`components/admin_console/permission_schemes_settings/permission_team_scheme_settings/permission_team_scheme_settings should match snapshot on new with default roles with permissions 1`] = `<LoadingScreen />`;
 
 exports[`components/admin_console/permission_schemes_settings/permission_team_scheme_settings/permission_team_scheme_settings should match snapshot on new with default roles with permissions 2`] = `
 Object {
@@ -1096,7 +1081,7 @@ Object {
   "saving": false,
   "schemeDescription": undefined,
   "schemeName": undefined,
-  "selectedPermission": null,
+  "selectedPermission": undefined,
   "serverError": null,
   "teams": null,
   "urlParams": URLSearchParams {},
@@ -1297,7 +1282,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -1323,7 +1307,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable

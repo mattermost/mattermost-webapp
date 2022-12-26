@@ -6,23 +6,25 @@ import {shallow} from 'enzyme';
 
 import CenterChannel from './center_channel';
 
+import type {OwnProps} from './index';
+
 describe('components/channel_layout/CenterChannel', () => {
     const props = {
         location: {
             pathname: '/some',
-        },
+        } as OwnProps['location'],
+        match: {
+            url: '/url',
+        } as OwnProps['match'],
+        history: {} as OwnProps['history'],
         lastChannelPath: '',
         lhsOpen: true,
         rhsOpen: true,
         rhsMenuOpen: true,
         isCollapsedThreadsEnabled: true,
-        match: {
-            url: '/url',
-        },
         currentUserId: 'testUserId',
-        isOnboardingHidden: true,
-        enableTipsViewRoute: false,
         insightsAreEnabled: true,
+        isMobileView: false,
         actions: {
             getProfiles: jest.fn,
         },

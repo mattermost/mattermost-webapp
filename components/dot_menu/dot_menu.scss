@@ -9,6 +9,12 @@
             display: grid;
             align-items: center;
             grid-template-columns: auto 1fr auto auto auto;
+
+            .title-with-new-badge {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+            }
         }
     }
 }

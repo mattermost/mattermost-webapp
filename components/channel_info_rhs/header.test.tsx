@@ -10,7 +10,7 @@ import {renderWithIntl} from 'tests/react_testing_utils';
 import Header from './header';
 
 describe('channel_info_rhs/header', () => {
-    test('should should the current channel name', () => {
+    test('should the current channel name', () => {
         renderWithIntl(
             <Header
                 channel={{display_name: 'my channel title'} as Channel}

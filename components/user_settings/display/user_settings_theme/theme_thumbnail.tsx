@@ -6,7 +6,7 @@
 import React from 'react';
 
 type ThemeThumbnailProps = {
-    themeName: string;
+    themeName?: string;
     themeKey: string;
     sidebarBg: string;
     sidebarText: string;

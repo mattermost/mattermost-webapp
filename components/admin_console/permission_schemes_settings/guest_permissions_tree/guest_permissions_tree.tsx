@@ -7,8 +7,9 @@ import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Role} from '@mattermost/types/roles';
 import {ClientLicense} from '@mattermost/types/config';
+import {Permissions as PermissionsType} from '../permissions_tree/types';
 
-import PermissionGroup from '../permission_group.jsx';
+import PermissionGroup from '../permission_group';
 import EditPostTimeLimitButton from '../edit_post_time_limit_button';
 import EditPostTimeLimitModal from '../edit_post_time_limit_modal';
 
@@ -19,7 +20,7 @@ type Props = {
     scope: string;
     selectRow: (permission: string) => void;
     parentRole?: Role;
-    selected?: string | null;
+    selected?: string;
     role?: Partial<Role>;
 }
 
@@ -56,7 +57,7 @@ const GuestPermissionsTree = ({license, onToggle, readOnly, scope, selectRow, pa
     };
 
     const [editTimeLimitModalIsVisible, setEditTimeLimitModalIsVisible] = React.useState(false);
-    const permissions = useMemo<Array<string | Record<string, any>>>(setPermissions, [license]);
+    const permissions = useMemo<PermissionsType>(setPermissions, [license]);
 
     const openPostTimeLimitModal = useCallback(() => {
         setEditTimeLimitModalIsVisible(true);

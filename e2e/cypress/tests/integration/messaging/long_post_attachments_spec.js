@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @messaging
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Messaging', () => {
     before(() => {
         // # Create new team and new user and visit off-topic
@@ -72,7 +74,7 @@ describe('Messaging', () => {
 
 function verifyImageInPostFooter(verifyExistence = true) {
     // * Verify that the image exists or not
-    cy.get('#advancedTextEditorCell').find('.file-preview').should(verifyExistence ? 'be.visible' : 'not.exist');
+    cy.get('#advancedTextEditorCell').find('.file-preview').should(verifyExistence ? 'be.visible' : 'not.exist').wait(TIMEOUTS.THREE_SEC);
 }
 
 function postAttachments() {

@@ -13,7 +13,7 @@ import {UserProfile} from '@mattermost/types/users';
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
-import {GlobalState} from 'types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import * as Utils from 'utils/utils';
 

@@ -30,6 +30,10 @@ export type StartTrialBtnProps = {
     telemetryId: string;
     onClick?: () => void;
     handleEmbargoError?: () => void;
+    btnClass?: string;
+    renderAsButton?: boolean;
+    disabled?: boolean;
+    trackingPage?: string;
 };
 
 enum TrialLoadStatus {
@@ -42,9 +46,13 @@ enum TrialLoadStatus {
 
 const StartTrialBtn = ({
     message,
+    btnClass,
     telemetryId,
     onClick,
     handleEmbargoError,
+    disabled = false,
+    renderAsButton = false,
+    trackingPage = 'licensing',
 }: StartTrialBtnProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
@@ -59,7 +67,7 @@ const StartTrialBtn = ({
             users = stats.TOTAL_USERS;
         }
         const requestedUsers = Math.max(users, 30);
-        const {error, data} = await dispatch(requestTrialLicense(requestedUsers, true, true, 'license'));
+        const {error, data} = await dispatch(requestTrialLicense(requestedUsers, true, true, trackingPage));
         if (error) {
             if (typeof data?.status !== 'undefined' && data.status === 451) {
                 setLoadStatus(TrialLoadStatus.Embargoed);
@@ -109,14 +117,23 @@ const StartTrialBtn = ({
         // it will be too late to wait for the render cycle to happen again
         // to close over the updated value
         const updatedStatus = await requestLicense();
-        await openTrialBenefitsModal(updatedStatus);
-        if (onClick && updatedStatus === TrialLoadStatus.Success) {
-            onClick();
+
+        if (updatedStatus !== TrialLoadStatus.Success) {
+            return;
         }
+
         trackEvent(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
             telemetryId,
         );
+
+        // on click will execute whatever action is sent from the invoking place, if nothing is sent, open the trial benefits modal
+        if (onClick) {
+            onClick();
+            return;
+        }
+
+        await openTrialBenefitsModal(updatedStatus);
     };
 
     if (status === TrialLoadStatus.Embargoed) {
@@ -126,8 +143,21 @@ const StartTrialBtn = ({
             </div>
         );
     }
-    return (
+
+    const id = 'start_trial_btn';
+
+    return renderAsButton ? (
+        <button
+            id={id}
+            className={btnClass}
+            onClick={startTrial}
+            disabled={disabled}
+        >
+            {btnText(status)}
+        </button>
+    ) : (
         <a
+            id={id}
             className='StartTrialBtn start-trial-btn'
             onClick={startTrial}
         >

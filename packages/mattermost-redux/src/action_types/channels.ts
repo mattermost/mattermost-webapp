@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import keyMirror from 'mattermost-redux/utils/key_mirror';
 
 export default keyMirror({
@@ -34,6 +35,10 @@ export default keyMirror({
     GET_CHANNELS_TIMEZONE_SUCCESS: null,
     GET_CHANNELS_TIMEZONE_FAILURE: null,
 
+    GET_CHANNELS_AND_CHANNEL_MEMBERS_REQUEST: null,
+    GET_CHANNELS_AND_CHANNEL_MEMBERS_SUCCESS: null,
+    GET_CHANNELS_AND_CHANNEL_MEMBERS_FAILURE: null,
+
     CHANNEL_STATS_REQUEST: null,
     CHANNEL_STATS_SUCCESS: null,
     CHANNEL_STATS_FAILURE: null,
@@ -58,6 +63,7 @@ export default keyMirror({
     RECEIVED_CHANNEL_PROPS: null,
     RECEIVED_CHANNEL_DELETED: null,
     RECEIVED_CHANNEL_UNARCHIVED: null,
+    RECEIVED_LAST_VIEWED_AT: null,
     UPDATE_CHANNEL_HEADER: null,
     UPDATE_CHANNEL_PURPOSE: null,
     CHANNEL_MEMBER_ADDED: null,
@@ -79,6 +85,7 @@ export default keyMirror({
     RECEIVED_CHANNEL_MODERATIONS: null,
 
     RECEIVED_CHANNEL_MEMBER_COUNTS_BY_GROUP: null,
+    RECEIVED_CHANNEL_MEMBER_COUNTS_FROM_GROUPS_LIST: null,
 
     RECEIVED_TOTAL_CHANNEL_COUNT: null,
 

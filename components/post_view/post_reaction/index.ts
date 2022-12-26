@@ -2,17 +2,17 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {bindActionCreators, ActionCreatorsMapObject, Dispatch} from 'redux';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {Action} from 'mattermost-redux/types/actions';
 
-import {addReaction} from 'actions/post_actions.jsx';
+import {addReaction} from 'actions/post_actions';
 
-import PostReaction from './post_reaction';
+import PostReaction, {Props} from './post_reaction';
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Props['actions']>({
             addReaction,
         }, dispatch),
     };

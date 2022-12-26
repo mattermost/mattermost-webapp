@@ -7,13 +7,13 @@ import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
 
-import {Post, PostPreviewMetadata} from '@mattermost/types/posts';
 import UserProfileComponent from 'components/user_profile';
 import {UserProfile} from '@mattermost/types/users';
 import Avatar from 'components/widgets/users/avatar';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
 import PostMessageView from 'components/post_view/post_message_view';
+import PriorityLabel from 'components/post_priority/post_priority_label';
 
 import Timestamp from 'components/timestamp';
 import PostAttachmentContainer from '../post_attachment_container/post_attachment_container';
@@ -24,24 +24,25 @@ import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import {Constants} from 'utils/constants';
 import {General} from 'mattermost-redux/constants';
 
-export type Props = {
+import {OwnProps} from './index';
+
+export type Props = OwnProps & {
     currentTeamUrl: string;
-    channelDisplayName: string;
+    channelDisplayName?: string;
     user: UserProfile | null;
-    previewPost?: Post;
-    metadata: PostPreviewMetadata;
     hasImageProxy: boolean;
     enablePostIconOverride: boolean;
     isEmbedVisible: boolean;
     compactDisplay: boolean;
-    handleFileDropdownOpened: (open: boolean) => void;
+    isPostPriorityEnabled: boolean;
+    handleFileDropdownOpened?: (open: boolean) => void;
     actions: {
         toggleEmbedVisibility: (id: string) => void;
     };
 };
 
 const PostMessagePreview = (props: Props) => {
-    const {currentTeamUrl, channelDisplayName, user, previewPost, metadata, isEmbedVisible, compactDisplay, handleFileDropdownOpened} = props;
+    const {currentTeamUrl, channelDisplayName, user, previewPost, metadata, isEmbedVisible, compactDisplay, preventClickAction, previewFooterMessage, handleFileDropdownOpened, isPostPriorityEnabled} = props;
 
     const toggleEmbedVisibility = () => {
         if (previewPost) {
@@ -137,10 +138,27 @@ const PostMessagePreview = (props: Props) => {
         teamUrl = currentTeamUrl;
     }
 
+    const previewFooter = channelDisplayName || previewFooterMessage ? (
+        <div className='post__preview-footer'>
+            <p>
+                {previewFooterMessage || (
+                    <FormattedMessage
+                        id='post_message_preview.channel'
+                        defaultMessage='Only visible to users in ~{channel}'
+                        values={{
+                            channel: channelDisplayName,
+                        }}
+                    />
+                )}
+            </p>
+        </div>
+    ) : null;
+
     return (
         <PostAttachmentContainer
             className='permalink'
             link={`${teamUrl}/pl/${metadata.post_id}`}
+            preventClickAction={preventClickAction}
         >
             <div className='post-preview'>
                 <div className='post-preview__header'>
@@ -159,7 +177,7 @@ const PostMessagePreview = (props: Props) => {
                             overwriteName={previewPost.props?.override_username || ''}
                         />
                     </div>
-                    <div className='col'>
+                    <div className='col d-flex align-items-center'>
                         <Timestamp
                             value={previewPost.create_at}
                             units={[
@@ -172,6 +190,11 @@ const PostMessagePreview = (props: Props) => {
                             day={'numeric'}
                             className='post-preview__time'
                         />
+                        {previewPost.metadata?.priority && isPostPriorityEnabled && (
+                            <span className='d-flex mr-2 ml-1'>
+                                <PriorityLabel priority={previewPost.metadata.priority.priority}/>
+                            </span>
+                        )}
                     </div>
                 </div>
                 <PostMessageView
@@ -181,17 +204,7 @@ const PostMessagePreview = (props: Props) => {
                 />
                 {urlPreview}
                 {fileAttachmentPreview}
-                <div className='post__preview-footer'>
-                    <p>
-                        <FormattedMessage
-                            id='post_message_preview.channel'
-                            defaultMessage='Only visible to users in ~{channel}'
-                            values={{
-                                channel: channelDisplayName,
-                            }}
-                        />
-                    </p>
-                </div>
+                {previewFooter}
             </div>
         </PostAttachmentContainer>
     );

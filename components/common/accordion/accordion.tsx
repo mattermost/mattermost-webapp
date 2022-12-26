@@ -1,8 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {RefObject, useState} from 'react';
+import classNames from 'classnames';
 
 import AccordionCard from './accordion_card';
+
 import './accordion.scss';
 
 export type AccordionItemType = {
@@ -11,46 +14,50 @@ export type AccordionItemType = {
     extraContent?: React.ReactNode;
     icon?: React.ReactNode;
     items: React.ReactNode[];
+    id?: string;
 };
 
 type AccordionProps = {
     accordionItemsData: AccordionItemType[];
     expandMultiple?: boolean;
+    openFirstElement?: boolean;
     onHeaderClick?: <T>(ref: RefObject<HTMLLIElement>) => T | void;
+    className?: string;
+    onItemOpened?: (index: number) => void;
 };
 
 const Accordion = ({
     accordionItemsData,
     expandMultiple,
+    openFirstElement,
     onHeaderClick,
-}: AccordionProps): JSX.Element | null => {
-    const [currentIndex, setCurrentIndex] = useState(-1);
-    const [currentIndexes, setCurrentIndexes] = useState<number[]>([]);
-    const singleExpanded = (index: number) => {
-        setCurrentIndex((currentValue: number) => (currentValue === index ? -1 : index));
-    };
-    const multipleExpanded = (index: number) => {
+    onItemOpened,
+    className,
+}: AccordionProps): JSX.Element => {
+    const [currentIndexes, setCurrentIndexes] = useState<number[]>(openFirstElement ? [0] : []);
+
+    const onButtonClick = (index: number) => {
         if (currentIndexes.includes(index)) {
             const newIndexes = currentIndexes.filter((_index: number) => {
                 return index !== _index;
             });
             setCurrentIndexes(newIndexes);
         } else {
-            setCurrentIndexes([...currentIndexes, index]);
+            if (onItemOpened) {
+                onItemOpened(index);
+            }
+            setCurrentIndexes(expandMultiple ? [...currentIndexes, index] : [index]);
         }
     };
 
-    const onButtonClick = expandMultiple ? multipleExpanded : singleExpanded;
-
     return (
-        <ul className='Accordion'>
+        <ul className={classNames('Accordion', className)}>
             {accordionItemsData.map((accordionItem, index) => {
-                const isExpanded = Boolean((expandMultiple ? (currentIndexes.includes(index)) : (index === currentIndex)));
                 return (
                     <AccordionCard
                         key={index.toString()}
                         data={accordionItem}
-                        isExpanded={isExpanded}
+                        isExpanded={Boolean(currentIndexes.includes(index))}
                         onButtonClick={() => onButtonClick(index)}
                         onHeaderClick={onHeaderClick}
                     />

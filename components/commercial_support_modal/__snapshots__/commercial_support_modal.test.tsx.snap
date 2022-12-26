@@ -51,7 +51,7 @@ exports[`components/CommercialSupportModal should match snapshot 1`] = `
     <div
       className="CommercialSupportModal"
     >
-      <injectIntl(FormattedMarkdownMessage)
+      <FormattedMarkdownMessage
         defaultMessage="If you're experiencing issues, [submit a support ticket.](!{supportLink})
  
 **Download Support Packet**
@@ -68,7 +68,6 @@ We recommend that you download additional environment details about your Matterm
         className="btn btn-primary DownloadSupportPacket"
         href="/api/v4/system/support_packet"
         rel="noopener noreferrer"
-        target="_blank"
       >
         <MemoizedFormattedMessage
           defaultMessage="Download Support Packet"
@@ -77,7 +76,7 @@ We recommend that you download additional environment details about your Matterm
       </a>
       <AlertBanner
         message={
-          <injectIntl(FormattedMarkdownMessage)
+          <FormattedMarkdownMessage
             defaultMessage="Before downloading the support packet, set **Output Logs to File** to **true** and set **File Log Level** to **DEBUG** [here](!/admin_console/environment/logging)."
             id="commercial_support.warning.banner"
           />

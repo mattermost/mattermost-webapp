@@ -14,14 +14,14 @@ import {GlobalState} from 'types/store';
 import {getLatestPostId, makeCreateAriaLabelForPost} from 'utils/post_utils';
 
 interface Props {
-    postIds: string[];
+    postIds?: string[];
 }
 
 const LatestPostReader = (props: Props): JSX.Element => {
     const intl = useIntl();
 
     const {postIds} = props;
-    const latestPostId = useMemo(() => getLatestPostId(postIds), [postIds]);
+    const latestPostId = useMemo(() => getLatestPostId(postIds || []), [postIds]);
     const latestPost = useSelector<GlobalState, Post>((state) => getPost(state, latestPostId));
 
     const createAriaLabelForPost = useRef(makeCreateAriaLabelForPost());

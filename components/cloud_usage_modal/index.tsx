@@ -33,6 +33,7 @@ export interface Props {
     ownLimits?: Limits;
     backdrop?: boolean;
     backdropClassName?: string;
+    className?: string;
 
     // e.g. in contexts where the CompassThemeProvider isn't already applied, like the system console
     needsTheme?: boolean;
@@ -46,7 +47,7 @@ export default function CloudUsageModal(props: Props) {
     const modal = (
         <GenericModal
             handleCancel={props.onClose}
-            useCompassDesign={true}
+            compassDesign={true}
             onExited={props.onClose}
             modalHeaderText={messageToElement(props.title)}
             cancelButtonText={props.secondaryAction && messageToElement(props.secondaryAction.message)}
@@ -57,9 +58,9 @@ export default function CloudUsageModal(props: Props) {
             backdropClassName={props.backdropClassName}
         >
             <>
-                <p className='CloudUsageModal__description'>
+                {React.isValidElement(props.description) ? props.description : <p className='CloudUsageModal__description'>
                     {props.description && messageToElement(props.description)}
-                </p>
+                </p>}
                 <WorkspaceLimitsPanel
                     showIcons={true}
                     limits={props.ownLimits || limits}

@@ -18,7 +18,7 @@ declare module 'dynamic-virtualized-list' {
     }
 
     interface DynamicSizeListProps {
-        canLoadMorePosts: (id?: string) => void;
+        canLoadMorePosts: (id: 'BEFORE_ID' | 'AFTER_ID' | undefined) => Promise<void>;
         children: ({data: any, itemId: any, style: any}) => JSX.Element;
         height: number;
         initRangeToRender: number[];

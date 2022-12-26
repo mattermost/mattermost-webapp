@@ -9,12 +9,12 @@ import {debounce} from 'mattermost-redux/actions/helpers';
 
 import {Team, TeamSearchOpts, TeamsWithCount} from '@mattermost/types/teams';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import * as Utils from 'utils/utils';
 
 import DataGrid, {Column} from 'components/admin_console/data_grid/data_grid';
-import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list.jsx';
+import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import './team_list.scss';
@@ -275,7 +275,7 @@ export default class TeamList extends React.PureComponent<Props, State> {
                         </span>
                     ),
                 },
-                onClick: () => browserHistory.push(`/admin_console/user_management/teams/${team.id}`),
+                onClick: () => getHistory().push(`/admin_console/user_management/teams/${team.id}`),
             };
         });
     }

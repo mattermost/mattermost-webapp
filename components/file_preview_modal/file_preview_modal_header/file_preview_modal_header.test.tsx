@@ -1,7 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {shallow} from 'enzyme';
 import React from 'react';
+
+import {Post} from '@mattermost/types/posts';
 
 import {TestHelper} from '../../../utils/test_helper';
 
@@ -17,13 +20,15 @@ describe('components/file_preview_modal/file_preview_modal_header/FilePreviewMod
         isMobileView: false,
         fileIndex: 1,
         totalFiles: 3,
-        post: {},
+        post: {} as Post,
         showPublicLink: false,
         isExternalFile: false,
         onGetPublicLink: jest.fn(),
         handlePrev: jest.fn(),
         handleNext: jest.fn(),
         handleModalClose: jest.fn(),
+        content: '',
+        canCopyContent: true,
     };
 
     test('should match snapshot the desktop view', () => {

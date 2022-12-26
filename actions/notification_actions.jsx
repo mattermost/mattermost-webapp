@@ -17,7 +17,7 @@ import {setBrowserNotificationsPermission} from 'actions/views/browser';
 
 import {isThreadOpen} from 'selectors/views/threads';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses, StoragePrefixes} from 'utils/constants';
 import {showNotification, requestNotificationsPermission} from 'utils/notifications';
 import {isDesktopApp, isMobileApp} from 'utils/user_agent';
@@ -230,7 +230,7 @@ const notifyMe = (title, body, channel, teamId, silent, soundName, url) => (disp
             silent,
             onClick: () => {
                 window.focus();
-                browserHistory.push(url);
+                getHistory().push(url);
             },
             onNotificationsPermissionStatusReceived: (permissionStatus) => dispatch(setBrowserNotificationsPermission(permissionStatus)),
         }).catch((error) => {

@@ -71,7 +71,7 @@ type Props = {
         /*
          * Function to get and then reset the user's status if needed
          */
-        autoResetStatus: () => Promise<UserStatus>;
+        autoResetStatus: () => Promise<{data: UserStatus}>;
 
         /*
          * Function to set the status for a user
@@ -104,7 +104,8 @@ export default class ResetStatusModal extends React.PureComponent<Props, State> 
 
     public componentDidMount(): void {
         this.props.actions.autoResetStatus().then(
-            (status: UserStatus) => {
+            (result: {data: UserStatus}) => {
+                const status = result.data;
                 const statusIsManual = status.manual;
                 const autoResetPrefNotSet = this.props.autoResetPref === '';
 

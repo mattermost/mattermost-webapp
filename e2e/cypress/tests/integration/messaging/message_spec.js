@@ -12,6 +12,7 @@
 
 import {getAdminAccount} from '../../support/env';
 import * as MESSAGES from '../../fixtures/messages';
+import timeouts from '../../fixtures/timeouts';
 
 describe('Message', () => {
     const admin = getAdminAccount();
@@ -61,7 +62,7 @@ describe('Message', () => {
             const divPostId = `#post_${postId}`;
 
             // # Left click on post to move the focus out of the main input box
-            cy.get(divPostId).click();
+            cy.get(divPostId).click().wait(timeouts.ONE_SEC);
 
             // # Push a character key such as "A"
             cy.uiGetPostTextBox().type('A');

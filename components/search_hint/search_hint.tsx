@@ -24,6 +24,8 @@ type Props = {
     highlightedIndex?: number;
     onOptionHover?: (index: number) => void;
     onSearchTypeSelected?: (searchType: 'files' | 'messages') => void;
+    onElementBlur?: () => void;
+    onElementFocus?: () => void;
     searchType?: 'files' | 'messages' | '';
 }
 
@@ -53,6 +55,8 @@ const SearchHint = (props: Props): JSX.Element => {
                         <button
                             className={classNames({highlighted: props.highlightedIndex === 0})}
                             onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('messages')}
+                            onBlur={() => props.onElementBlur && props.onElementBlur()}
+                            onFocus={() => props.onElementFocus && props.onElementFocus()}
                         >
                             <i className='icon icon-message-text-outline'/>
                             <FormattedMessage
@@ -64,6 +68,8 @@ const SearchHint = (props: Props): JSX.Element => {
                             <button
                                 className={classNames({highlighted: props.highlightedIndex === 1})}
                                 onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('files')}
+                                onBlur={() => props.onElementBlur && props.onElementBlur()}
+                                onFocus={() => props.onElementFocus && props.onElementFocus()}
                             >
                                 <i className='icon icon-file-text-outline'/>
                                 <FormattedMessage

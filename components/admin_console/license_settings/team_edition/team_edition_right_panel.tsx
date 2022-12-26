@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import * as React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {localizeMessage} from 'utils/utils';
 import {format} from 'utils/markdown';

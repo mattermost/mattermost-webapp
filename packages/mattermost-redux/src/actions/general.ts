@@ -29,7 +29,7 @@ export function getPing(): ActionFunc {
                 // successful ping but not the right return {data}
                 return {error: pingError};
             }
-        } catch (error) { // Client4Error
+        } catch (error) { // ServerError
             if (error.status_code === 401) {
                 // When the server requires a client certificate to connect.
                 pingError = error;

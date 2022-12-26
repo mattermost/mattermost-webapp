@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 
 import {shallow} from 'enzyme';
@@ -16,7 +17,7 @@ describe('components/activity_and_insights/insights/insights_modal', () => {
         title: 'Top reactions',
         subtitle: 'The team\'s most-used reactions',
         timeFrame: TimeFrames.INSIGHTS_7_DAYS,
-        timeFrameLabel: 'Last 7 days',
+        setShowModal: jest.fn(),
     };
 
     test('should match snapshot with team', () => {
@@ -36,7 +37,6 @@ describe('components/activity_and_insights/insights/insights_modal', () => {
                 title={'My top reactions'}
                 subtitle={'Reactions I\'ve used the most'}
                 timeFrame={TimeFrames.INSIGHTS_1_DAY}
-                timeFrameLabel={'Today'}
             />,
         );
         expect(wrapper).toMatchSnapshot();

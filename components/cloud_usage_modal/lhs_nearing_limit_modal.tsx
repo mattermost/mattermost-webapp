@@ -13,9 +13,9 @@ import {closeModal} from 'actions/views/modals';
 
 import {ModalIdentifiers, CloudProducts} from 'utils/constants';
 import {t, Message} from 'utils/i18n';
-import {fallbackStarterLimits, asGBString} from 'utils/limits';
+import {fallbackStarterLimits, asGBString, LimitTypes} from 'utils/limits';
 
-import useGetHighestThresholdCloudLimit, {LimitTypes} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
+import useGetHighestThresholdCloudLimit from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
@@ -36,7 +36,7 @@ export default function LHSNearingLimitsModal() {
             id: t('workspace_limits.modals.view_plans'),
             defaultMessage: 'View plans',
         },
-        onClick: openPricingModal,
+        onClick: () => openPricingModal({trackingLocation: 'cloud_usage_lhs_nearing_limit_modal'}),
     };
     const secondaryAction = {
         message: {
@@ -57,13 +57,12 @@ export default function LHSNearingLimitsModal() {
     };
 
     let description: Message = {
-        id: t('workspace_limits.modals.informational.description.starterLimits'),
-        defaultMessage: '{planName} is restricted to {messages} message history, {storage} file storage, {boards} board cards, and {integrations} integrations.',
+        id: t('workspace_limits.modals.informational.description.freeLimits'),
+        defaultMessage: '{planName} is restricted to {messages} message history, {storage} file storage, and {boards} board cards.',
         values: {
             planName: product?.name,
             messages: intl.formatNumber(limits?.messages?.history ?? fallbackStarterLimits.messages.history),
             storage: asGBString(limits?.files?.total_storage ?? fallbackStarterLimits.files.totalStorage, intl.formatNumber),
-            integrations: limits?.integrations?.enabled ?? fallbackStarterLimits.integrations.enabled,
             boards: limits?.boards?.cards ?? fallbackStarterLimits.boards.cards,
         },
     };

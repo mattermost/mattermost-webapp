@@ -3,7 +3,6 @@
 /* eslint-disable react/no-string-refs */
 /* eslint-disable header/header */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable max-lines */
 import React from 'react';
 
 import {ClientConfig, ClientLicense} from '@mattermost/types/config';
@@ -17,7 +16,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
-import {AboutLinks, CloudLinks, ModalIdentifiers} from 'utils/constants';
+import {AboutLinks, CloudLinks, ModalIdentifiers, StatTypes} from 'utils/constants';
 
 import {ModalData} from 'types/actions';
 
@@ -211,9 +210,9 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         const requestedUsers = Math.max(this.props.stats.TOTAL_USERS, 30) || 30;
         const {error, data} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, 'license');
         if (error) {
-            this.setState({gettingTrialError: error, gettingTrialResponseCode: data.status});
+            this.setState({gettingTrialError: error});
         }
-        this.setState({gettingTrial: false});
+        this.setState({gettingTrial: false, gettingTrialResponseCode: data?.status});
         await this.props.actions.getLicenseConfig();
     }
 
@@ -318,6 +317,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                     removing={this.state.removing}
                     fileInputRef={this.fileInputRef}
                     handleChange={this.handleChange}
+                    statsActiveUsers={this.props.stats[StatTypes.TOTAL_USERS] || 0}
                 />
             );
 

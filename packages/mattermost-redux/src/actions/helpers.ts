@@ -1,16 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {ServerError} from '@mattermost/types/errors';
+
 import {Client4} from 'mattermost-redux/client';
 import {UserTypes} from 'mattermost-redux/action_types';
 
-import {Client4Error} from 'mattermost-redux/types/client4';
 import {ActionFunc, GenericAction, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {logError} from './errors';
 type ActionType = string;
 const HTTP_UNAUTHORIZED = 401;
-export function forceLogoutIfNecessary(err: Client4Error, dispatch: DispatchFunc, getState: GetStateFunc) {
+export function forceLogoutIfNecessary(err: ServerError, dispatch: DispatchFunc, getState: GetStateFunc) {
     const {currentUserId} = getState().entities.users;
 
     if ('status_code' in err && err.status_code === HTTP_UNAUTHORIZED && err.url && err.url.indexOf('/login') === -1 && currentUserId) {
@@ -41,7 +42,7 @@ export function requestSuccess(type: ActionType, data: any) {
     };
 }
 
-export function requestFailure(type: ActionType, error: Client4Error): any {
+export function requestFailure(type: ActionType, error: ServerError): any {
     return {
         type,
         error,

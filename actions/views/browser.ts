@@ -7,7 +7,7 @@ import {Constants, ActionTypes, WindowSizes, StoragePrefixes} from 'utils/consta
 import {getNotificationsPermission} from 'utils/notifications';
 import * as StorageActions from 'actions/storage';
 
-export function emitBrowserWindowResized(windowSize: string): GenericAction {
+export function emitBrowserWindowResized(windowSize?: string): GenericAction {
     let newWindowSize = windowSize;
     if (!windowSize) {
         const width = window.innerWidth;

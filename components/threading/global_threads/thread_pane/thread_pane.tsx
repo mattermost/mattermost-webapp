@@ -5,6 +5,8 @@ import React, {memo, useCallback, ReactNode} from 'react';
 import {useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 
+import {DotsVerticalIcon} from '@mattermost/compass-icons/components';
+
 import {UserThread} from '@mattermost/types/threads';
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 
@@ -58,9 +60,9 @@ const ThreadPane = ({
     let unreadTimestamp = post.edit_at || post.create_at;
 
     // if we have the whole thread, get the posts in it, sorted from newest to oldest.
-    // Last post - root post, second to last post - oldest reply. Use that timestamp
+    // First post is latest reply. Use that timestamp
     if (postsInThread.length > 1) {
-        const p = postsInThread[postsInThread.length - 2];
+        const p = postsInThread[0];
         unreadTimestamp = p.edit_at || p.create_at;
     }
     const goToInChannelHandler = useCallback(() => {
@@ -124,7 +126,7 @@ const ThreadPane = ({
                                 })}
                             >
                                 <Button className='Button___icon Button___large'>
-                                    <i className='Icon icon-dots-vertical'/>
+                                    <DotsVerticalIcon size={18}/>
                                 </Button>
                             </SimpleTooltip>
                         </ThreadMenu>

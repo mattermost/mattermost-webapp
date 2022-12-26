@@ -4,7 +4,7 @@
 import {batchActions} from 'redux-batched-actions';
 
 import {
-    fetchMyChannelsAndMembers,
+    fetchMyChannelsAndMembersREST,
     getChannelByNameAndTeamName,
     getChannelStats,
     selectChannel,
@@ -21,14 +21,15 @@ import {ChannelTypes} from 'mattermost-redux/action_types';
 import {fetchAppBindings} from 'mattermost-redux/actions/apps';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
+import {Post} from '@mattermost/types/posts';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Team} from '@mattermost/types/teams';
 import {calculateUnreadCount} from 'mattermost-redux/utils/channel_utils';
 
-import {browserHistory} from 'utils/browser_history';
-import {handleNewPost} from 'actions/post_actions.jsx';
-import {stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
-import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {getHistory} from 'utils/browser_history';
+import {handleNewPost} from 'actions/post_actions';
+import {stopPeriodicStatusUpdates} from 'actions/status_actions';
+import {loadProfilesForSidebar} from 'actions/user_actions';
 import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'actions/views/rhs';
 import {clearUserCookie} from 'actions/views/cookie';
 import {close as closeLhs} from 'actions/views/lhs';
@@ -177,9 +178,28 @@ export function sendEphemeralPost(message: string, channelId?: string, parentId?
             type: PostTypes.EPHEMERAL,
             create_at: timestamp,
             update_at: timestamp,
-            root_id: parentId,
+            root_id: parentId || '',
             props: {},
-        };
+        } as Post;
+
+        return doDispatch(handleNewPost(post));
+    };
+}
+
+export function sendGenericPostMessage(message: string, channelId?: string, parentId?: string, userId?: string): ActionFunc {
+    return (doDispatch: DispatchFunc, doGetState: GetStateFunc) => {
+        const timestamp = Utils.getTimestamp();
+        const post = {
+            id: Utils.generateId(),
+            user_id: userId || '0',
+            channel_id: channelId || getCurrentChannelId(doGetState()),
+            message,
+            type: PostTypes.SYSTEM_GENERIC,
+            create_at: timestamp,
+            update_at: timestamp,
+            root_id: parentId || '',
+            props: {},
+        } as Post;
 
         return doDispatch(handleNewPost(post));
     };
@@ -200,7 +220,7 @@ export function sendAddToChannelEphemeralPost(user: UserProfile, addedUsername: 
             addedUsername,
             addedUserId,
         },
-    };
+    } as unknown as Post;
 
     dispatch(handleNewPost(post));
 }
@@ -254,9 +274,9 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
 
         clearUserCookie();
 
-        browserHistory.push(redirectTo);
+        getHistory().push(redirectTo);
     }).catch(() => {
-        browserHistory.push(redirectTo);
+        getHistory().push(redirectTo);
     });
 }
 
@@ -287,7 +307,7 @@ export async function getTeamRedirectChannelIfIsAccesible(user: UserProfile, tea
     let teamChannels = getChannelsNameMapInTeam(state, team.id);
     if (!teamChannels || Object.keys(teamChannels).length === 0) {
         // This should be executed in pretty limited scenarios (empty teams)
-        await dispatch(fetchMyChannelsAndMembers(team.id)); // eslint-disable-line no-await-in-loop
+        await dispatch(fetchMyChannelsAndMembersREST(team.id)); // eslint-disable-line no-await-in-loop
         state = getState();
         teamChannels = getChannelsNameMapInTeam(state, team.id);
     }
@@ -352,7 +372,7 @@ export async function redirectUserToDefaultTeam() {
 
     let myTeams = getMyTeams(state);
     if (myTeams.length === 0) {
-        browserHistory.push('/select_team');
+        getHistory().push('/select_team');
         return;
     }
 
@@ -365,7 +385,7 @@ export async function redirectUserToDefaultTeam() {
         const channel = await getTeamRedirectChannelIfIsAccesible(user, team);
         if (channel) {
             dispatch(selectChannel(channel.id));
-            browserHistory.push(`/${team.name}/channels/${channel.name}`);
+            getHistory().push(`/${team.name}/channels/${channel.name}`);
             return;
         }
     }
@@ -377,10 +397,10 @@ export async function redirectUserToDefaultTeam() {
         const channel = await getTeamRedirectChannelIfIsAccesible(user, myTeam); // eslint-disable-line no-await-in-loop
         if (channel) {
             dispatch(selectChannel(channel.id));
-            browserHistory.push(`/${myTeam.name}/channels/${channel.name}`);
+            getHistory().push(`/${myTeam.name}/channels/${channel.name}`);
             return;
         }
     }
 
-    browserHistory.push('/select_team');
+    getHistory().push('/select_team');
 }

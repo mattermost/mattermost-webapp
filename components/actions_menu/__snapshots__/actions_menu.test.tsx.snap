@@ -220,7 +220,7 @@ exports[`components/actions_menu/ActionsMenu no actions - sysadmin - menu should
       <div
         className="visit-marketplace-text"
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="No Actions currently\\\\nconfigured for this server"
           id="post_info.actions.noActions"
         />
@@ -239,7 +239,7 @@ exports[`components/actions_menu/ActionsMenu no actions - sysadmin - menu should
           <span
             className="visit-marketplace-button-text"
           >
-            <injectIntl(FormattedMarkdownMessage)
+            <FormattedMarkdownMessage
               defaultMessage="Visit the Marketplace"
               id="post_info.actions.visitMarketplace"
             />

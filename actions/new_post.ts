@@ -10,11 +10,9 @@ import {
     actionsToMarkChannelAsRead,
     actionsToMarkChannelAsUnread,
     actionsToMarkChannelAsViewed,
-    markChannelAsReadOnServer,
+    markChannelAsViewedOnServer,
 } from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
-
-import {WebsocketEvents} from 'mattermost-redux/constants';
 
 import {getCurrentChannelId, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
@@ -38,12 +36,12 @@ import {sendDesktopNotification} from 'actions/notification_actions.jsx';
 import {ActionTypes} from 'utils/constants';
 import {isThreadOpen, makeGetThreadLastViewedAt} from 'selectors/views/threads';
 
-type NewPostMessageProps = {
+export type NewPostMessageProps = {
     mentions: string[];
     team_id: string;
 }
 
-export function completePostReceive(post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember: boolean): ActionFunc {
+export function completePostReceive(post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember?: boolean): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const rootPost = PostSelectors.getPost(state, post.root_id);
@@ -69,20 +67,12 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
 
         actions.push(
             PostActions.receivedNewPost(post, collapsedThreadsEnabled),
-            {
-                type: WebsocketEvents.STOP_TYPING,
-                data: {
-                    id: post.channel_id + post.root_id,
-                    userId: post.user_id,
-                    now: Date.now(),
-                },
-            },
         );
 
         const isCRTReplyByCurrentUser = isCRTReply && post.user_id === getCurrentUserId(state);
         if (!isCRTReplyByCurrentUser) {
             actions.push(
-                ...setChannelReadAndViewed(dispatch, getState, post, websocketMessageProps, fetchedChannelMember),
+                ...setChannelReadAndViewed(dispatch, getState, post as Post, websocketMessageProps, fetchedChannelMember),
             );
         }
         dispatch(batchActions(actions));
@@ -97,7 +87,7 @@ export function completePostReceive(post: Post, websocketMessageProps: NewPostMe
 
 // setChannelReadAndViewed returns an array of actions to mark the channel read and viewed, and it dispatches an action
 // to asynchronously mark the channel as read on the server if necessary.
-export function setChannelReadAndViewed(dispatch: DispatchFunc, getState: GetStateFunc, post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember: boolean): Redux.AnyAction[] {
+export function setChannelReadAndViewed(dispatch: DispatchFunc, getState: GetStateFunc, post: Post, websocketMessageProps: NewPostMessageProps, fetchedChannelMember?: boolean): Redux.AnyAction[] {
     const state = getState();
     const currentUserId = getCurrentUserId(state);
 
@@ -130,7 +120,7 @@ export function setChannelReadAndViewed(dispatch: DispatchFunc, getState: GetSta
 
     if (markAsRead) {
         if (markAsReadOnServer) {
-            dispatch(markChannelAsReadOnServer(post.channel_id));
+            dispatch(markChannelAsViewedOnServer(post.channel_id));
         }
 
         return [
@@ -139,7 +129,7 @@ export function setChannelReadAndViewed(dispatch: DispatchFunc, getState: GetSta
         ];
     }
 
-    return actionsToMarkChannelAsUnread(getState, websocketMessageProps.team_id, post.channel_id, websocketMessageProps.mentions, fetchedChannelMember, post.root_id === '');
+    return actionsToMarkChannelAsUnread(getState, websocketMessageProps.team_id, post.channel_id, websocketMessageProps.mentions, fetchedChannelMember, post.root_id === '', post?.metadata?.priority?.priority);
 }
 
 export function setThreadRead(post: Post) {

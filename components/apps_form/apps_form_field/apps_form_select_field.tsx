@@ -3,11 +3,19 @@
 
 import React from 'react';
 import ReactSelect from 'react-select';
-import {Props as AsyncSelectProps} from 'react-select/async';
+import AsyncSelect from 'react-select/async';
 
 import {AppField, AppSelectOption} from '@mattermost/types/apps';
+import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 
-const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<AppSelectOption>>; // eslint-disable-line global-require
+import {Channel} from '@mattermost/types/channels';
+import {UserAutocomplete} from '@mattermost/types/autocomplete';
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
+
+import {imageURLForUser} from 'utils/utils';
+
+import {SelectUserOption} from './select_user_option';
+import {SelectChannelOption} from './select_channel_option';
 
 export type Props = {
     field: AppField;
@@ -16,6 +24,11 @@ export type Props = {
     value: AppSelectOption | null;
     onChange: (value: AppSelectOption) => void;
     performLookup: (name: string, userInput: string) => Promise<AppSelectOption[]>;
+    teammateNameDisplay?: string;
+    actions: {
+        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
+        autocompleteUsers: (search: string) => Promise<UserAutocomplete>;
+    };
 };
 
 export type State = {
@@ -30,19 +43,20 @@ const reactStyles = {
     }),
 };
 
+const commonComponents = {
+    MultiValueLabel: (props: {data: {label: string}}) => (
+        <div className='react-select__padded-component'>
+            {props.data.label}
+        </div>
+    ),
+};
+
 const commonProps = {
     isClearable: true,
     openMenuOnFocus: false,
     classNamePrefix: 'react-select-auto react-select',
     menuPortalTarget: document.body,
     styles: reactStyles,
-    components: {
-        MultiValueLabel: (props: {data: {label: string}}) => (
-            <div className='react-select__padded-component'>
-                {props.data.label}
-            </div>
-        ),
-    },
 };
 
 export default class AppsFormSelectField extends React.PureComponent<Props, State> {
@@ -73,6 +87,26 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
         return this.props.performLookup(this.props.field.name, userInput);
     }
 
+    loadDynamicUserOptions = async (userInput: string): Promise<AppSelectOption[]> => {
+        const usersSearchResults: UserAutocomplete = await this.props.actions.autocompleteUsers(userInput.toLowerCase());
+
+        return usersSearchResults.users.map((user) => {
+            const label = this.props.teammateNameDisplay ? displayUsername(user, this.props.teammateNameDisplay) : user.username;
+
+            return {...user, label, value: user.id, icon_data: imageURLForUser(user.id)};
+        });
+    }
+
+    loadDynamicChannelOptions = async (userInput: string): Promise<AppSelectOption[]> => {
+        let channelsSearchResults: Channel[] = [];
+
+        await this.props.actions.autocompleteChannels(userInput.toLowerCase(), (data) => {
+            channelsSearchResults = data;
+        }, () => {});
+
+        return channelsSearchResults.map((channel) => ({...channel, label: channel.display_name, value: channel.id}));
+    }
+
     renderDynamicSelect() {
         const {field} = this.props;
         const placeholder = field.hint || '';
@@ -89,6 +123,53 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
                     value={value}
                     onChange={this.onChange as any} // types are not working correctly for multiselect
                     isDisabled={field.readonly}
+                    components={commonComponents}
+                    {...commonProps}
+                />
+            </div>
+        );
+    }
+
+    renderUserSelect() {
+        const {hint, name, multiselect, readonly} = this.props.field;
+        const placeholder = hint || '';
+        const value = this.props.value;
+
+        return (
+            <div className={'react-select'}>
+                <AsyncSelect
+                    id={`MultiInput_${name}`}
+                    loadOptions={this.loadDynamicUserOptions}
+                    defaultOptions={true}
+                    isMulti={multiselect || false}
+                    placeholder={placeholder}
+                    value={value}
+                    onChange={this.onChange as any} // types are not working correctly for multiselect
+                    isDisabled={readonly}
+                    components={{...commonComponents, Option: SelectUserOption}}
+                    {...commonProps}
+                />
+            </div>
+        );
+    }
+
+    renderChannelSelect() {
+        const {hint, name, multiselect, readonly} = this.props.field;
+        const placeholder = hint || '';
+        const value = this.props.value;
+
+        return (
+            <div className={'react-select'}>
+                <AsyncSelect
+                    id={`MultiInput_${name}`}
+                    loadOptions={this.loadDynamicChannelOptions}
+                    defaultOptions={true}
+                    isMulti={multiselect || false}
+                    placeholder={placeholder}
+                    value={value}
+                    onChange={this.onChange as any} // types are not working correctly for multiselect
+                    isDisabled={readonly}
+                    components={{...commonComponents, Option: SelectChannelOption}}
                     {...commonProps}
                 />
             </div>
@@ -113,29 +194,42 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
                     value={value}
                     onChange={this.onChange as any} // types are not working correctly for multiselect
                     isDisabled={field.readonly}
+                    components={commonComponents}
                     {...commonProps}
                 />
             </div>
         );
     }
 
+    getAppFieldRenderer(type: string) {
+        switch (type) {
+        case AppFieldTypes.DYNAMIC_SELECT:
+            return this.renderDynamicSelect();
+        case AppFieldTypes.STATIC_SELECT:
+            return this.renderStaticSelect();
+        case AppFieldTypes.USER:
+            return this.renderUserSelect();
+        case AppFieldTypes.CHANNEL:
+            return this.renderChannelSelect();
+        default:
+            return undefined;
+        }
+    }
+
     render() {
         const {field, label, helpText} = this.props;
 
-        let selectComponent;
-        if (field.type === 'dynamic_select') {
-            selectComponent = this.renderDynamicSelect();
-        } else if (field.type === 'static_select') {
-            selectComponent = this.renderStaticSelect();
-        } else {
-            return null;
-        }
+        const selectComponent = this.getAppFieldRenderer(field.type);
 
         return (
-            <div className='form-group'>
-                <label>
-                    {label}
-                </label>
+            <div
+                className='form-group'
+            >
+                {label && (
+                    <label>
+                        {label}
+                    </label>
+                )}
                 <React.Fragment key={this.state.refreshNonce}>
                     {selectComponent}
                     <div className='help-text'>

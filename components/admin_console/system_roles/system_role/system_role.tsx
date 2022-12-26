@@ -14,7 +14,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import Constants from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import FormError from 'components/form_error';
 import BlockableLink from 'components/admin_console/blockable_link';
@@ -45,7 +45,7 @@ type State = {
     updatedRolePermissions: string[];
     saving: boolean;
     saveNeeded: boolean;
-    serverError: JSX.Element | null;
+    serverError: JSX.Element | undefined;
     saveKey: number;
 }
 
@@ -58,7 +58,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
             usersToRemove: {},
             saving: false,
             saveNeeded: false,
-            serverError: null,
+            serverError: undefined,
             permissionsToUpdate: {},
             saveKey: 0,
             updatedRolePermissions: [],
@@ -120,7 +120,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         this.setState({saving: true, saveNeeded: false});
         const {usersToRemove, usersToAdd, updatedRolePermissions, permissionsToUpdate} = this.state;
         const {role, actions: {editRole, updateUserRoles, setNavigationBlocked}} = this.props;
-        let serverError = null;
+        let serverError;
 
         // Do not update permissions if sysadmin or if roles have not been updated (to prevent overrwiting roles with no permissions)
         if (role.name !== Constants.PERMISSIONS_SYSTEM_ADMIN && Object.keys(permissionsToUpdate).length > 0) {
@@ -178,7 +178,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         }
 
         if (serverError === null) {
-            browserHistory.push('/admin_console/user_management/system_roles');
+            getHistory().push('/admin_console/user_management/system_roles');
         }
         setNavigationBlocked(serverError !== null);
         this.setState({

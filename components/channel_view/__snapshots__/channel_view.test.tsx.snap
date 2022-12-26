@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/channel_view Should match snapshot if channel is archived with roles loading 1`] = `
+exports[`components/channel_view Should match snapshot if channel is archived 1`] = `
 <div
   className="app__content"
   id="app-content"
@@ -9,28 +9,21 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
     overlayType="center"
   />
   <withRouter(Connect(injectIntl(ChannelHeader)))
-    actions={
-      Object {
-        "getProfiles": [MockFunction],
-        "goToLastViewedChannel": [MockFunction],
-      }
-    }
     channelId="channelId"
     channelIsArchived={true}
-    channelRolesLoading={true}
     deactivatedChannel={false}
     enableOnboardingFlow={true}
-    isAdvancedTextEditorEnabled={false}
+    goToLastViewedChannel={[MockFunction]}
+    history={Object {}}
     isCloud={false}
     isFirstAdmin={false}
-    isOnboardingHidden={true}
+    location={Object {}}
     match={
       Object {
         "params": Object {},
         "url": "/team/channel/channelId",
       }
     }
-    showTutorial={false}
     teamUrl="/team"
     viewArchivedChannels={false}
   />
@@ -45,7 +38,7 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
       className="channel-archived__message"
       id="channelArchivedMessage"
     >
-      <injectIntl(FormattedMarkdownMessage)
+      <FormattedMarkdownMessage
         defaultMessage="You are viewing an **archived channel**. New messages cannot be posted."
         id="archivedChannelMessage"
       />
@@ -63,7 +56,7 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
 </div>
 `;
 
-exports[`components/channel_view Should match snapshot if channel roles loading 1`] = `
+exports[`components/channel_view Should match snapshot if channel is deactivated 1`] = `
 <div
   className="app__content"
   id="app-content"
@@ -72,34 +65,49 @@ exports[`components/channel_view Should match snapshot if channel roles loading 
     overlayType="center"
   />
   <withRouter(Connect(injectIntl(ChannelHeader)))
-    actions={
-      Object {
-        "getProfiles": [MockFunction],
-        "goToLastViewedChannel": [MockFunction],
-      }
-    }
     channelId="channelId"
     channelIsArchived={false}
-    channelRolesLoading={true}
-    deactivatedChannel={false}
+    deactivatedChannel={true}
     enableOnboardingFlow={true}
-    isAdvancedTextEditorEnabled={false}
+    goToLastViewedChannel={[MockFunction]}
+    history={Object {}}
     isCloud={false}
     isFirstAdmin={false}
-    isOnboardingHidden={true}
+    location={Object {}}
     match={
       Object {
         "params": Object {},
         "url": "/team/channel/channelId",
       }
     }
-    showTutorial={false}
     teamUrl="/team"
     viewArchivedChannels={false}
   />
   <DeferredRenderWrapper
     channelId="channelId"
   />
+  <div
+    className="post-create__container"
+    id="post-create"
+  >
+    <div
+      className="channel-archived__message"
+    >
+      <FormattedMarkdownMessage
+        defaultMessage="You are viewing an archived channel with a **deactivated user**. New messages cannot be posted."
+        id="create_post.deactivated"
+      />
+      <button
+        className="btn btn-primary channel-archived__close-btn"
+        onClick={[Function]}
+      >
+        <MemoizedFormattedMessage
+          defaultMessage="Close Channel"
+          id="center_panel.archived.closeChannel"
+        />
+      </button>
+    </div>
+  </div>
 </div>
 `;
 
@@ -112,28 +120,21 @@ exports[`components/channel_view Should match snapshot with base props 1`] = `
     overlayType="center"
   />
   <withRouter(Connect(injectIntl(ChannelHeader)))
-    actions={
-      Object {
-        "getProfiles": [MockFunction],
-        "goToLastViewedChannel": [MockFunction],
-      }
-    }
     channelId="channelId"
     channelIsArchived={false}
-    channelRolesLoading={false}
     deactivatedChannel={false}
     enableOnboardingFlow={true}
-    isAdvancedTextEditorEnabled={false}
+    goToLastViewedChannel={[MockFunction]}
+    history={Object {}}
     isCloud={false}
     isFirstAdmin={false}
-    isOnboardingHidden={true}
+    location={Object {}}
     match={
       Object {
         "params": Object {},
         "url": "/team/channel/channelId",
       }
     }
-    showTutorial={false}
     teamUrl="/team"
     viewArchivedChannels={false}
   />
@@ -141,10 +142,10 @@ exports[`components/channel_view Should match snapshot with base props 1`] = `
     channelId="channelId"
   />
   <div
-    className="post-create__container"
+    className="post-create__container AdvancedTextEditor__ctr"
     id="post-create"
   >
-    <Connect(injectIntl(CreatePost))
+    <Connect(AdvancedCreatePost)
       getChannelView={[Function]}
     />
   </div>

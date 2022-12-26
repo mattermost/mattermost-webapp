@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useCallback} from 'react';
+
+import React, {useCallback, useEffect, useState} from 'react';
 
 import {ContextMenu, ContextMenuTrigger, MenuItem} from 'react-contextmenu';
 
@@ -12,6 +13,8 @@ import * as SyntaxHighlighting from 'utils/syntax_highlighting';
 
 import RootPortal from 'components/root_portal';
 import {copyToClipboard} from 'utils/utils';
+
+import * as TextFormatting from 'utils/text_formatting';
 
 type Props = {
     id: string;
@@ -62,14 +65,30 @@ const CodeBlock: React.FC<Props> = ({id, code, language, searchedContent}: Props
     // If we have to apply syntax highlighting AND highlighting of search terms, create two copies
     // of the code block, one with syntax highlighting applied and another with invisible text, but
     // search term highlighting and overlap them
-    const content = SyntaxHighlighting.highlight(usedLanguage, code);
+    const [content, setContent] = useState(TextFormatting.sanitizeHtml(code));
+    useEffect(() => {
+        SyntaxHighlighting.highlight(usedLanguage, code).then((content) => setContent(content));
+    }, [usedLanguage, code]);
 
     let htmlContent = content;
     if (searchedContent) {
         htmlContent = `${searchedContent} ${content}`;
     }
 
+    const [codeBlockSelection, setCodeBlockSelection] = useState('');
+
+    const setSelection = () => {
+        const selectedText = document.getSelection();
+        if (selectedText) {
+            setCodeBlockSelection(selectedText.toString());
+        }
+    };
+
     const copyText = () => {
+        if (codeBlockSelection) {
+            copyToClipboard(codeBlockSelection);
+            return;
+        }
         copyToClipboard(code);
     };
 
@@ -83,6 +102,7 @@ const CodeBlock: React.FC<Props> = ({id, code, language, searchedContent}: Props
             <ContextMenu
                 className='post-code__context-menu'
                 id={`copy-code-block-context-menu-${id}`}
+                onShow={setSelection}
             >
                 <MenuItem onClick={copyText}>
                     <FormattedMessage

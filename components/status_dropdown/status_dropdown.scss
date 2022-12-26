@@ -198,12 +198,21 @@ button.custom_status__row {
             max-width: 150px;
             text-overflow: ellipsis;
             white-space: nowrap;
+
+            &.bold {
+                font-weight: 600;
+            }
         }
     }
 
     .MenuHeader {
         height: 50px;
         padding: 0 16px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(var(--center-channel-color-rgb), 0.1);
+        }
     }
 
     .MenuItem > button,
@@ -260,8 +269,11 @@ button.custom_status__row {
             top: auto;
             right: -4px;
             bottom: -4px;
+            display: inline-flex;
             width: 16px;
             height: 16px;
+            align-items: center;
+            justify-content: center;
             background-color: var(--global-header-background);
             color: var(--global-header-text);
 

@@ -14,9 +14,9 @@
         flex-direction: row;
         flex-grow: 1;
         flex-wrap: wrap;
-        align-content: center;
+        align-content: flex-start;
         justify-content: center;
-        padding: 77px 107px;
+        padding: 40px 107px;
         color: var(--center-channel-color);
         font-family: "Open Sans";
         font-size: 16px;
@@ -71,6 +71,7 @@
 
         .central-panel {
             width: 50%;
+            padding-top: 80px;
 
             .PaymentDetails {
                 padding: 10px 0 0 10%;
@@ -157,6 +158,10 @@
             }
 
             .plan_comparison {
+                &.show_label {
+                    margin-bottom: 51px;
+                }
+
                 text-align: center;
 
                 button,
@@ -202,12 +207,30 @@
                 }
 
                 .bottom {
-                    height: 363px;
+                    &:not(.delinquency, .bottom-monthly-yearly) {
+                        height: 363px;
+                    }
+
                     padding-right: 24px;
                     padding-left: 24px;
                     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
                     background-color: var(--center-channel-bg);
                     border-radius: 0 0 4px 4px;
+
+                    .enable_annual_sub {
+                        margin-top: 12px;
+                    }
+
+                    .save_text {
+                        margin: 20px auto 10px;
+                        color: var(--denim-status-online);
+                        font-family: 'Metropolis';
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 700;
+                        line-height: 18px;
+                        text-align: center;
+                    }
 
                     .plan_action_btn {
                         width: 100%;
@@ -236,20 +259,58 @@
                         }
                     }
 
-                    .plan_price_rate_section {
+                    .button-description {
+                        margin-top: 8px;
+                        font-family: 'Open Sans';
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 20px;
+                        text-align: center;
+                    }
+
+                    .delinquency_summary_section {
                         width: 100%;
-                        height: 150px;
-                        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+                        height: 116px;
+                        margin-top: 24px;
+                        margin-bottom: 24px;
                         font-weight: 400;
                         letter-spacing: -0.02em;
                         text-align: center;
 
-                        h4 {
-                            color: rgba(var(--center-channel-color-rgb), 0.72);
+                        .summary-section {
+                            background-color: rgba(var(--denim-button-bg-rgb), 0.08);
+                            border-radius: 4px;
                             font-family: 'Metropolis';
-                            font-size: 20px;
-                            font-style: normal;
-                            line-height: 30px;
+
+                            .summary-title {
+                                padding-top: 12px;
+                                font-size: 14px;
+                                font-weight: 400;
+                            }
+
+                            .summary-total {
+                                padding-top: 12px;
+                                color: #152234;
+                                font-size: 28px;
+                                font-weight: 700;
+                                line-height: 20px;
+                            }
+
+                            .view-breakdown {
+                                &:hover {
+                                    cursor: pointer;
+                                }
+
+                                padding-top: 12px;
+                                padding-bottom: 12px;
+                                color: var(--denim-button-bg);
+                                font-family: 'Metropolis';
+                                font-size: 14px;
+                                font-style: normal;
+                                font-weight: 400;
+                                line-height: 20px;
+                            }
                         }
 
                         h1 {
@@ -274,6 +335,54 @@
                         }
                     }
 
+                    .plan_price_rate_section {
+                        width: 100%;
+                        height: 150px;
+                        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+                        font-weight: 400;
+                        letter-spacing: -0.02em;
+                        text-align: center;
+
+                        h4 {
+                            color: rgba(var(--center-channel-color-rgb), 0.72);
+                            font-family: 'Metropolis';
+                            font-size: 20px;
+                            font-style: normal;
+                            line-height: 30px;
+                        }
+
+                        h4.plan_name {
+                            margin-top: 16px;
+                            margin-bottom: 0;
+                        }
+
+                        h1 {
+                            margin: 0;
+                            color: var(--center-channel-color);
+                            font-family: 'Metropolis';
+                            font-size: 52px;
+                            font-style: normal;
+                            font-weight: 700;
+                            line-height: 60px;
+                        }
+
+                        .enterprise_price {
+                            font-size: 32px;
+                        }
+
+                        p {
+                            color: rgba(var(--center-channel-color-rgb), 0.72);
+                            font-family: 'Metropolis';
+                            font-size: 18px;
+                            font-style: normal;
+                            line-height: 20px;
+                        }
+
+                        p.plan_text {
+                            margin-bottom: 0;
+                        }
+                    }
+
                     .plan_payment_commencement {
                         margin-top: 16px;
                         margin-bottom: 24px;
@@ -285,13 +394,102 @@
                     }
 
                     .plan_billing_cycle {
-                        margin-top: 24px;
+                        &.delinquency {
+                            margin-bottom: 24px;
+                        }
+
+                        margin-top: 16px;
+                        margin-bottom: 24px;
                         color: rgba(var(--center-channel-color-rgb), 0.72);
                         font-size: 12px;
                         font-style: normal;
                         font-weight: 400;
                         line-height: 16px;
                     }
+
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+
+                        .yearly_savings {
+                            padding-top: 12px;
+                            padding-bottom: 12px;
+                            color: var(--denim-status-online);
+                            font-family: 'Open Sans';
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 700;
+                            line-height: 20px;
+                        }
+
+                        .total_price {
+                            color: var(--sys-denim-center-channel-text);
+                            font-family: 'Open Sans';
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 700;
+                            line-height: 24px;
+                        }
+
+                        .monthly_price {
+                            color: var(--sys-denim-center-channel-text);
+                            font-family: 'Open Sans';
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 400;
+                            letter-spacing: 0.02em;
+                            line-height: 20px;
+                        }
+                    }
+
+                    table tr td:nth-child(2) {
+                        text-align: right;
+                    }
+
+                    .flex-grid {
+                        display: flex;
+                        margin-top: 20px;
+
+                        .user_seats_container {
+                            width: 100px;
+
+                            .user_seats {
+                                height: 24px;
+                            }
+
+                            .Input_container {
+                                fieldset:not(.Input_fieldset___error) {
+                                    margin-bottom: 24px;
+                                }
+                            }
+                        }
+
+                        .icon {
+                            flex: 1;
+                            align-self: flex-start;
+                            justify-content: left;
+
+                            .icon-information-outline {
+                                margin: 0;
+                                color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
+                            }
+                        }
+
+                        .Input___customMessage {
+                            width: 250px;
+                            margin-bottom: 4px;
+
+                            .icon.error {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+
+                .bottom.bottom-monthly-yearly {
+                    display: block;
+                    overflow: auto;
+                    border-radius: 4px;
                 }
             }
         }

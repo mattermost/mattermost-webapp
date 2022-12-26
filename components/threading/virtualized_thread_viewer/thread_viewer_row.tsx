@@ -11,8 +11,6 @@ import DateSeparator from 'components/post_view/date_separator';
 import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
 
-import {getPreviousPostId} from 'utils/post_utils';
-
 import RootPost from './root_post';
 import Reply from './reply';
 
@@ -29,6 +27,7 @@ type Props = {
     timestampProps?: Partial<TimestampProps>;
 };
 
+function noop() {}
 function ThreadViewerRow({
     a11yIndex,
     currentUserId,
@@ -66,14 +65,17 @@ function ThreadViewerRow({
                 timestampProps={timestampProps}
             />
         );
-    case PostListUtils.isCombinedUserActivityPost(listId):
+    case PostListUtils.isCombinedUserActivityPost(listId): {
         return (
             <CombinedUserActivityPost
                 combinedId={listId}
-                previousPostId={getPreviousPostId}
+                previousPostId={previousPostId}
                 isLastPost={isLastPost}
+                shouldHighlight={false}
+                togglePostMenu={noop}
             />
         );
+    }
     default:
         return (
             <Reply

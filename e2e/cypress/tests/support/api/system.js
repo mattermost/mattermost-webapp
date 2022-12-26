@@ -266,6 +266,16 @@ Cypress.Commands.add('shouldHavePluginUploadEnabled', () => {
     });
 });
 
+Cypress.Commands.add('shouldHaveClusterEnabled', () => {
+    return cy.apiGetConfig().then(({config}) => {
+        const {Enable, ClusterName} = config.ClusterSettings;
+        expect(Enable, Enable ? '' : 'Should have cluster enabled').to.equal(true);
+
+        const sameClusterName = ClusterName === Cypress.env('serverClusterName');
+        expect(sameClusterName, sameClusterName ? '' : `Should have cluster name set and as expected. Got "${ClusterName}" but expected "${Cypress.env('serverClusterName')}"`).to.equal(true);
+    });
+});
+
 Cypress.Commands.add('shouldRunWithSubpath', () => {
     return cy.apiGetConfig().then(({config}) => {
         const isSubpath = Boolean(config.ServiceSettings.SiteURL.replace(/^https?:\/\//, '').split('/')[1]);

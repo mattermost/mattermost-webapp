@@ -5,29 +5,28 @@ import React, {memo, useCallback, useEffect, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import './thread_footer.scss';
-
-import {GlobalState} from 'types/store';
-
 import {Post} from '@mattermost/types/posts';
 import {threadIsSynthetic, UserThread} from '@mattermost/types/threads';
 
 import {setThreadFollow, getThread as fetchThread} from 'mattermost-redux/actions/threads';
-import {selectPost} from 'actions/views/rhs';
-
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
+import {makeGetThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
+
+import {GlobalState} from 'types/store';
+
+import {selectPost} from 'actions/views/rhs';
+import {trackEvent} from 'actions/telemetry_actions';
 
 import Avatars from 'components/widgets/users/avatars';
 import Timestamp from 'components/timestamp';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
 import Button from 'components/threading/common/button';
 import FollowButton from 'components/threading/common/follow_button';
-
 import {THREADING_TIME} from 'components/threading/common/options';
-import {trackEvent} from 'actions/telemetry_actions';
+
+import './thread_footer.scss';
 
 type Props = {
     threadId: UserThread['id'];
@@ -42,6 +41,7 @@ function ThreadFooter({
     const currentTeamId = useSelector(getCurrentTeamId);
     const currentUserId = useSelector(getCurrentUserId);
     const post = useSelector((state: GlobalState) => getPost(state, threadId));
+    const getThreadOrSynthetic = useMemo(makeGetThreadOrSynthetic, [post.id]);
     const thread = useSelector((state: GlobalState) => getThreadOrSynthetic(state, post));
 
     useEffect(() => {

@@ -1,16 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {getEmailInterval} from 'mattermost-redux/utils/notify_props';
-import {PreferenceType} from '@mattermost/types/preferences';
 
 import {Preferences, NotificationLevels} from 'utils/constants';
-import {localizeMessage} from 'utils/utils';
-import SettingItemMax from 'components/setting_item_max.jsx';
+import {a11yFocus, localizeMessage} from 'utils/utils';
+
 import SettingItemMin from 'components/setting_item_min';
+import SettingItemMax from 'components/setting_item_max';
+import SettingItemMinComponent from 'components/setting_item_min/setting_item_min';
+
+import {UserNotifyProps} from '@mattermost/types/users';
+import {PreferenceType} from '@mattermost/types/preferences';
 
 const SECONDS_PER_MINUTE = 60;
 
@@ -22,7 +26,7 @@ type Props = {
     emailInterval: number;
     onSubmit: () => void;
     onCancel: () => void;
-    onChange: (enableEmail: string) => void;
+    onChange: (enableEmail: UserNotifyProps['email']) => void;
     serverError?: string;
     saving?: boolean;
     sendEmailNotifications: boolean;
@@ -46,6 +50,8 @@ type State = {
 };
 
 export default class EmailNotificationSetting extends React.PureComponent<Props, State> {
+    minRef: RefObject<SettingItemMinComponent>;
+
     constructor(props: Props) {
         super(props);
 
@@ -65,6 +71,8 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
             sendEmailNotifications,
             newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
         };
+
+        this.minRef = React.createRef();
     }
 
     static getDerivedStateFromProps(nextProps: Props, prevState: State) {
@@ -106,6 +114,10 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
         return null;
     }
 
+    focusEditButton(): void {
+        this.minRef.current?.focus();
+    }
+
     handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const enableEmail = e.currentTarget.getAttribute('data-enable-email')!;
         const newInterval = parseInt(e.currentTarget.getAttribute('data-email-interval')!, 10);
@@ -115,7 +127,9 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
             newInterval,
         });
 
-        this.props.onChange(enableEmail);
+        a11yFocus(e.currentTarget);
+
+        this.props.onChange(enableEmail as UserNotifyProps['email']);
     }
 
     handleThreadsOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -223,6 +237,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
                 describe={description}
                 section={'email'}
                 updateSection={this.handleUpdateSection}
+                ref={this.minRef}
             />
         );
     }
@@ -243,7 +258,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
                             />
                         </div>,
                     ]}
-                    server_error={this.props.serverError}
+                    serverError={this.props.serverError}
                     section={'email'}
                     updateSection={this.handleUpdateSection}
                 />
@@ -400,10 +415,16 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
                 ]}
                 submit={this.handleSubmit}
                 saving={this.props.saving}
-                server_error={this.props.serverError}
+                serverError={this.props.serverError}
                 updateSection={this.handleUpdateSection}
             />
         );
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.activeSection === 'email' && this.props.activeSection === '') {
+            this.focusEditButton();
+        }
     }
 
     render() {

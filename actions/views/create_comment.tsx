@@ -3,6 +3,8 @@
 
 import {createSelector} from 'reselect';
 
+import {Post} from '@mattermost/types/posts';
+
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
@@ -20,18 +22,19 @@ import {
 import {Posts} from 'mattermost-redux/constants';
 import {isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
 
-import * as PostActions from 'actions/post_actions.jsx';
+import * as PostActions from 'actions/post_actions';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
-import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
+import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
+import {updateDraft, removeDraft} from 'actions/views/drafts';
 import EmojiMap from 'utils/emoji_map';
 import {getPostDraft} from 'selectors/rhs';
 
 import * as Utils from 'utils/utils';
 import {Constants, StoragePrefixes} from 'utils/constants';
-import {PostDraft} from 'types/store/rhs';
-import {GlobalState} from 'types/store';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import type {PostDraft} from 'types/store/draft';
+import type {GlobalState} from 'types/store';
+import type {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 export function clearCommentDraftUploads() {
     return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (_key: string, draft: PostDraft) => {
@@ -45,14 +48,9 @@ export function clearCommentDraftUploads() {
 
 // Temporarily store draft manually in localStorage since the current version of redux-persist
 // we're on will not save the draft quickly enough on page unload.
-export function updateCommentDraft(rootId: string, draft?: PostDraft | null) {
+export function updateCommentDraft(rootId: string, draft?: PostDraft, save = false) {
     const key = `${StoragePrefixes.COMMENT_DRAFT}${rootId}`;
-    if (draft) {
-        localStorage.setItem(key, JSON.stringify(draft));
-    } else {
-        localStorage.removeItem(key);
-    }
-    return setGlobalItem(key, draft);
+    return updateDraft(key, draft ?? null, rootId, save);
 }
 
 export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
@@ -95,7 +93,7 @@ export function submitPost(channelId: string, rootId: string, draft: PostDraft) 
             create_at: time,
             metadata: {},
             props: {...draft.props},
-        };
+        } as unknown as Post;
 
         const hookResult = await dispatch(runMessageWillBePostedHooks(post));
         if (hookResult.error) {
@@ -163,7 +161,8 @@ export function makeOnSubmit(channelId: string, rootId: string, latestPostId: st
 
         dispatch(addMessageIntoHistory(message));
 
-        dispatch(updateCommentDraft(rootId, null));
+        const key = `${StoragePrefixes.COMMENT_DRAFT}${rootId}`;
+        dispatch(removeDraft(key, channelId, rootId));
 
         const isReaction = Utils.REACTION_PATTERN.exec(message);
 
@@ -176,7 +175,7 @@ export function makeOnSubmit(channelId: string, rootId: string, latestPostId: st
             try {
                 await dispatch(submitCommand(channelId, rootId, draft));
             } catch (err) {
-                dispatch(updateCommentDraft(rootId, draft));
+                dispatch(updateCommentDraft(rootId, draft, true));
                 throw err;
             }
         } else {

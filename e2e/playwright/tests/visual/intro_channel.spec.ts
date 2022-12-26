@@ -2,35 +2,25 @@
 // See LICENSE.txt for license information.
 
 import {test, expect} from '@playwright/test';
-import {Eyes, CheckSettings} from '@applitools/eyes-playwright';
 
-import {initSetup} from '@support/server';
-import {ChannelPage, LandingLoginPage, LoginPage} from '@support/ui/page';
-import {hideTeamHeader, hidePostHeaderTime} from '@support/ui/style';
-import {snapshotWithApplitools, snapshotWithPercy} from '@support/visual';
-import testConfig from '@test.config';
+import {initSetup} from '@e2e-support/server';
+import {ChannelPage, LoginPage} from '@e2e-support/ui/page';
+import {hideTeamHeader, hidePostHeaderTime} from '@e2e-support/ui/style';
+import {matchSnapshot, Applitools} from '@e2e-support/visual';
 
-let eyes: Eyes;
+let applitools: Applitools = {};
 
 test.afterAll(async () => {
-    await eyes?.close();
+    await applitools.eyes?.close();
 });
 
-test('Intro to channel as regular user', async ({page, isMobile, browserName}, testInfo) => {
-    let targetWindow: CheckSettings;
-    ({eyes, targetWindow} = await snapshotWithApplitools(page, isMobile, browserName, testInfo.title));
-
-    const {adminConfig, user} = await initSetup({withDefaultProfileImage: true});
+test('Intro to channel as regular user', async ({page, isMobile, browserName, viewport}, testInfo) => {
+    const testArgs = {page, isMobile, browserName, viewport};
+    const {adminConfig, user} = await initSetup();
 
     // Go to login page
     const loginPage = new LoginPage(page, adminConfig);
     await loginPage.goto();
-
-    if (isMobile) {
-        // Click view in browser
-        const landingLoginPage = new LandingLoginPage(page);
-        await landingLoginPage.viewInBrowserButton.click();
-    }
 
     // Login as a new user
     await loginPage.title.waitFor();
@@ -46,14 +36,6 @@ test('Intro to channel as regular user', async ({page, isMobile, browserName}, t
     // Hide dynamic elements of the page
     await page.addStyleTag({content: hideTeamHeader + hidePostHeaderTime});
 
-    // Should match with error at login page
-    if (!testConfig.percyEnabled || !testConfig.applitoolsEnabled) {
-        expect(await page.screenshot({fullPage: true})).toMatchSnapshot('intro_channel.png');
-    }
-
-    // Visual test with percy
-    await snapshotWithPercy(page, isMobile, browserName, 'Intro to channel page');
-
-    // Visual test with applitools
-    await eyes?.check('Intro to channel page', targetWindow);
+    // Match snapshot of channel intro page
+    applitools = await matchSnapshot(testInfo, testArgs);
 });

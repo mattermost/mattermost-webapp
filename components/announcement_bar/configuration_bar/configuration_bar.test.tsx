@@ -16,16 +16,20 @@ describe('components/ConfigurationBar', () => {
             Id: '1234',
             IsLicensed: 'true',
             ExpiresAt: Date.now() + millisPerDay,
+            ShortSkuName: 'skuShortName',
         },
         config: {
             sendEmailNotifications: false,
         },
         dismissedExpiringLicense: false,
+        dismissedExpiredLicense: false,
         siteURL: '',
         totalUsers: 100,
         actions: {
             dismissNotice: jest.fn(),
+            savePreferences: jest.fn(),
         },
+        currentUserId: 'user-id',
     };
 
     test('should match snapshot, expired, in grace period', () => {

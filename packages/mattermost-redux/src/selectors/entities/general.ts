@@ -5,10 +5,10 @@ import {createSelector} from 'reselect';
 
 import {General} from 'mattermost-redux/constants';
 
+import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
+
 import {GlobalState} from '@mattermost/types/store';
 import {ClientConfig, FeatureFlags, ClientLicense} from '@mattermost/types/config';
-
-import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
 
 export function getConfig(state: GlobalState): Partial<ClientConfig> {
     return state.entities.general.config;
@@ -105,3 +105,11 @@ export function getFirstAdminSetupComplete(state: GlobalState): boolean {
 export function isPerformanceDebuggingEnabled(state: GlobalState): boolean {
     return state.entities.general.config.EnableClientPerformanceDebugging === 'true';
 }
+
+export const isMarketplaceEnabled: (state: GlobalState) => boolean = createSelector(
+    'isMarketplaceEnabled',
+    getConfig,
+    (config) => {
+        return config.PluginsEnabled === 'true' && config.EnableMarketplace === 'true';
+    },
+);

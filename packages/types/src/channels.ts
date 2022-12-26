@@ -9,7 +9,7 @@ import {Team} from './teams';
 // **P**rivate channel,
 // **D**irect message to one other,
 // **G**roup direct message to 2+ others
-export type ChannelType = 'O' | 'P' | 'D' | 'G';
+export type ChannelType = 'O' | 'P' | 'D' | 'G' | 'threads';
 
 export type ChannelStats = {
     channel_id: string;
@@ -105,6 +105,9 @@ export type ChannelMembership = {
     /** The number of unread mentions in root posts in this channel */
     mention_count_root: number;
 
+    /** The number of unread urgent mentions in this channel */
+    urgent_mention_count: number;
+
     notify_props: Partial<ChannelNotifyProps>;
     last_update_at: number;
     scheme_user: boolean;
@@ -125,6 +128,9 @@ export type ChannelUnread = {
 
     /** The number of unread mentions in this channel */
     mention_count: number;
+
+    /** The number of unread urgent mentions in this channel */
+    urgent_mention_count: number;
 
     /** The number of unread mentions in root posts in this channel */
     mention_count_root: number;

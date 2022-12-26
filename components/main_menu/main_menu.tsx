@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
 import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
@@ -9,7 +8,7 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions';
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
-import {Constants, ModalIdentifiers} from 'utils/constants';
+import {Constants, LicenseSkus, ModalIdentifiers, PaidFeatures} from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
@@ -218,11 +217,19 @@ export class MainMenu extends React.PureComponent<Props> {
                 </Menu.Group>
                 <Menu.Group>
                     <Menu.ItemToggleModalRedux
+                        id='profileSettings'
+                        modalId={ModalIdentifiers.USER_SETTINGS}
+                        dialogType={UserSettingsModal}
+                        dialogProps={{isContentProductSettings: false}}
+                        text={formatMessage({id: 'navbar_dropdown.profileSettings', defaultMessage: 'Profile'})}
+                        icon={<i className='fa fa-user'/>}
+                    />
+                    <Menu.ItemToggleModalRedux
                         id='accountSettings'
                         modalId={ModalIdentifiers.USER_SETTINGS}
                         dialogType={UserSettingsModal}
                         dialogProps={{isContentProductSettings: true}}
-                        text={formatMessage({id: 'navbar_dropdown.accountSettings', defaultMessage: 'Profile'})}
+                        text={formatMessage({id: 'navbar_dropdown.accountSettings', defaultMessage: 'Settings'})}
                         icon={<i className='fa fa-cog'/>}
                     />
                 </Menu.Group>
@@ -474,6 +481,8 @@ export class MainMenu extends React.PureComponent<Props> {
                             text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
                             sibling={createTeamRestricted && (
                                 <RestrictedIndicator
+                                    feature={PaidFeatures.CREATE_MULTIPLE_TEAMS}
+                                    minimumPlanRequiredForFeature={LicenseSkus.Professional}
                                     blocked={!this.props.isFreeTrial}
                                     tooltipMessage={formatMessage({
                                         id: 'navbar_dropdown.create.tooltip.cloudFreeTrial',

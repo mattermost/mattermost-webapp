@@ -19,7 +19,11 @@ describe('Autocomplete without Elasticsearch - Renaming', () => {
     let testTeam;
 
     before(() => {
-        cy.shouldHaveElasticsearchDisabled();
+        cy.apiGetClientLicense().then(({isCloudLicensed}) => {
+            if (!isCloudLicensed) {
+                cy.shouldHaveElasticsearchDisabled();
+            }
+        });
 
         // # Create new team for tests
         cy.apiCreateTeam(`search-${timestamp}`, `search-${timestamp}`).then(({team}) => {

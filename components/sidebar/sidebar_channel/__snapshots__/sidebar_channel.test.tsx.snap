@@ -30,7 +30,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot 1`] = `
       }
     }
     currentTeamName="team_name"
-    isCollapsed={false}
   />
 </li>
 `;
@@ -65,7 +64,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot when DM channe
       }
     }
     currentTeamName="team_name"
-    isCollapsed={false}
   />
 </li>
 `;
@@ -100,7 +98,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot when GM channe
       }
     }
     currentTeamName="team_name"
-    isCollapsed={false}
   />
 </li>
 `;
@@ -135,7 +132,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot when active 1`
       }
     }
     currentTeamName="team_name"
-    isCollapsed={false}
   />
 </li>
 `;
@@ -170,7 +166,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot when collapsed
       }
     }
     currentTeamName="team_name"
-    isCollapsed={true}
   />
 </li>
 `;
@@ -205,7 +200,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot when unread 1`
       }
     }
     currentTeamName="team_name"
-    isCollapsed={false}
   />
 </li>
 `;

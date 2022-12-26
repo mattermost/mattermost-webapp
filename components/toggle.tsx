@@ -2,30 +2,54 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
 
 type Props = {
-    onToggle: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    onToggle: () => void;
     toggled?: boolean;
     disabled?: boolean;
     onText?: React.ReactNode;
     offText?: React.ReactNode;
     id?: string;
     overrideTestId?: boolean;
+    size?: 'btn-lg' | 'btn-sm';
+    toggleClassName?: string;
 }
 
 const Toggle: React.FC<Props> = (props: Props) => {
-    const {onToggle, toggled, disabled, onText, offText, id, overrideTestId} = props;
+    const {
+        onToggle,
+        toggled,
+        disabled,
+        onText,
+        offText,
+        id,
+        overrideTestId,
+        size = 'btn-lg',
+        toggleClassName = 'btn-toggle',
+    } = props;
     let dataTestId = `${id}-button`;
     if (overrideTestId) {
         dataTestId = id || '';
     }
+
+    const className = classNames(
+        'btn',
+        size,
+        toggleClassName,
+        {
+            active: toggled,
+            disabled,
+        },
+    );
+
     return (
         <button
             data-testid={dataTestId}
             id={id}
             type='button'
             onClick={onToggle}
-            className={`btn btn-lg btn-toggle ${toggled ? 'active' : ''} ${disabled ? 'disabled' : ''}`}
+            className={className}
             aria-pressed={toggled ? 'true' : 'false'}
             disabled={disabled}
         >

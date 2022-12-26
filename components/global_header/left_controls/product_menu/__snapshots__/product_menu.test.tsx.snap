@@ -12,13 +12,16 @@ exports[`components/global/product_switcher should have an active button state w
     >
       <ProductMenuButton
         active={true}
-        aria-label="Select to open product switch menu."
+        aria-controls="product-switcher-menu"
+        aria-expanded={true}
+        aria-label="Product switch menu"
       />
       <ProductBranding />
     </ProductMenuContainer>
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
+      id="product-switcher-menu"
       listId="product-switcher-menu-dropdown"
     >
       <ProductMenuItem
@@ -32,6 +35,7 @@ exports[`components/global/product_switcher should have an active button state w
         active={false}
         destination=""
         icon="product-boards"
+        id="product-menu-item-Boards"
         key="Boards"
         onClick={[Function]}
         text="Boards"
@@ -40,6 +44,7 @@ exports[`components/global/product_switcher should have an active button state w
         active={false}
         destination=""
         icon="product-playbooks"
+        id="product-menu-item-Playbooks"
         key="Playbooks"
         onClick={[Function]}
         text="Playbooks"
@@ -102,13 +107,16 @@ exports[`components/global/product_switcher should match snapshot with product s
     >
       <ProductMenuButton
         active={true}
-        aria-label="Select to open product switch menu."
+        aria-controls="product-switcher-menu"
+        aria-expanded={true}
+        aria-label="Product switch menu"
       />
       <ProductBranding />
     </ProductMenuContainer>
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
+      id="product-switcher-menu"
       listId="product-switcher-menu-dropdown"
     >
       <ProductMenuItem
@@ -122,6 +130,7 @@ exports[`components/global/product_switcher should match snapshot with product s
         active={false}
         destination=""
         icon="product-boards"
+        id="product-menu-item-Boards"
         key="Boards"
         onClick={[Function]}
         text="Boards"
@@ -130,6 +139,7 @@ exports[`components/global/product_switcher should match snapshot with product s
         active={false}
         destination=""
         icon="product-playbooks"
+        id="product-menu-item-Playbooks"
         key="Playbooks"
         onClick={[Function]}
         text="Playbooks"
@@ -156,13 +166,16 @@ exports[`components/global/product_switcher should render once when there are no
     >
       <ProductMenuButton
         active={true}
-        aria-label="Select to open product switch menu."
+        aria-controls="product-switcher-menu"
+        aria-expanded={true}
+        aria-label="Product switch menu"
       />
       <ProductBranding />
     </ProductMenuContainer>
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
+      id="product-switcher-menu"
       listId="product-switcher-menu-dropdown"
     >
       <ProductMenuItem
@@ -176,6 +189,7 @@ exports[`components/global/product_switcher should render once when there are no
         active={false}
         destination=""
         icon="product-boards"
+        id="product-menu-item-Boards"
         key="Boards"
         onClick={[Function]}
         text="Boards"
@@ -184,6 +198,7 @@ exports[`components/global/product_switcher should render once when there are no
         active={false}
         destination=""
         icon="product-playbooks"
+        id="product-menu-item-Playbooks"
         key="Playbooks"
         onClick={[Function]}
         text="Playbooks"
@@ -210,13 +225,16 @@ exports[`components/global/product_switcher should render the correct amount of 
     >
       <ProductMenuButton
         active={true}
-        aria-label="Select to open product switch menu."
+        aria-controls="product-switcher-menu"
+        aria-expanded={true}
+        aria-label="Product switch menu"
       />
       <ProductBranding />
     </ProductMenuContainer>
     <Menu
       ariaLabel="switcherOpen"
       className="product-switcher-menu"
+      id="product-switcher-menu"
       listId="product-switcher-menu-dropdown"
     >
       <ProductMenuItem
@@ -230,6 +248,7 @@ exports[`components/global/product_switcher should render the correct amount of 
         active={false}
         destination=""
         icon="product-boards"
+        id="product-menu-item-Boards"
         key="Boards"
         onClick={[Function]}
         text="Boards"
@@ -238,6 +257,7 @@ exports[`components/global/product_switcher should render the correct amount of 
         active={false}
         destination=""
         icon="product-playbooks"
+        id="product-menu-item-Playbooks"
         key="Playbooks"
         onClick={[Function]}
         text="Playbooks"

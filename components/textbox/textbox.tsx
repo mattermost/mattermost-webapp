@@ -3,6 +3,7 @@
 
 import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
 
 import {Channel} from '@mattermost/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -12,7 +13,7 @@ import AutosizeTextarea from 'components/autosize_textarea';
 import PostMarkdown from 'components/post_markdown';
 import Provider from 'components/suggestion/provider';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
-import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
+import ChannelMentionProvider from 'components/suggestion/channel_mention_provider';
 import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
 import CommandProvider from 'components/suggestion/command_provider/command_provider';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
@@ -24,7 +25,9 @@ import * as Utils from 'utils/utils';
 
 import {TextboxElement} from './index';
 
-type Props = {
+const ALL = ['all'];
+
+export type Props = {
     id: string;
     channelId: string;
     rootId?: string;
@@ -34,17 +37,19 @@ type Props = {
     onKeyPress: (e: KeyboardEvent<any>) => void;
     onComposition?: () => void;
     onHeightChange?: (height: number, maxHeight: number) => void;
+    onWidthChange?: (width: number) => void;
     createMessage: string;
     onKeyDown?: (e: KeyboardEvent<TextboxElement>) => void;
     onSelect?: (e: React.SyntheticEvent<TextboxElement>) => void;
     onMouseUp?: (e: React.MouseEvent<TextboxElement>) => void;
     onKeyUp?: (e: React.KeyboardEvent<TextboxElement>) => void;
     onBlur?: (e: FocusEvent<TextboxElement>) => void;
-    supportsCommands: boolean;
+    supportsCommands?: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
     onPaste?: (e: ClipboardEvent) => void;
     suggestionList?: React.ComponentProps<typeof SuggestionBox>['listComponent'];
     suggestionListPosition?: React.ComponentProps<typeof SuggestionList>['position'];
+    alignWithTextbox?: boolean;
     emojiEnabled?: boolean;
     isRHS?: boolean;
     characterLimit: number;
@@ -56,15 +61,19 @@ type Props = {
     preview?: boolean;
     autocompleteGroups: Array<{ id: string }> | null;
     actions: {
-        autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
-        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<ActionResult>;
-        searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<{ data: any }>;
+        autocompleteUsersInChannel: (prefix: string, channelId: string) => Promise<ActionResult>;
+        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<ActionResult>;
+        searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
     };
     useChannelMentions: boolean;
     inputComponent?: ElementType;
     openWhenEmpty?: boolean;
     priorityProfiles?: UserProfile[];
+    hasLabels?: boolean;
 };
+
+const VISIBLE = {visibility: 'visible'};
+const HIDDEN = {visibility: 'hidden'};
 
 export default class Textbox extends React.PureComponent<Props> {
     private readonly suggestionProviders: Provider[];
@@ -220,10 +229,6 @@ export default class Textbox extends React.PureComponent<Props> {
         this.props.onBlur?.(e as FocusEvent<TextboxElement>);
     }
 
-    handleHeightChange = (height: number, maxHeight: number) => {
-        this.props.onHeightChange?.(height, maxHeight);
-    }
-
     getInputBox = () => {
         return this.message.current?.getTextbox();
     }
@@ -246,6 +251,10 @@ export default class Textbox extends React.PureComponent<Props> {
         this.getInputBox()?.blur();
     };
 
+    getStyle = () => {
+        return this.props.preview ? HIDDEN : VISIBLE;
+    }
+
     render() {
         let preview = null;
 
@@ -257,6 +266,9 @@ export default class Textbox extends React.PureComponent<Props> {
         if (this.props.badConnection) {
             textboxClassName += ' bad-connection';
         }
+        if (this.props.hasLabels) {
+            textboxClassName += ' textarea--has-labels';
+        }
         if (this.props.preview) {
             textboxClassName += ' custom-textarea--preview';
             textWrapperClass += ' textarea-wrapper--preview';
@@ -265,7 +277,7 @@ export default class Textbox extends React.PureComponent<Props> {
                 <div
                     tabIndex={this.props.tabIndex || 0}
                     ref={this.preview}
-                    className='form-control custom-textarea textbox-preview-area'
+                    className={classNames('form-control custom-textarea textbox-preview-area', {'textarea--has-labels': this.props.hasLabels})}
                     onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
                     onBlur={this.handleBlur}
@@ -299,21 +311,23 @@ export default class Textbox extends React.PureComponent<Props> {
                     onKeyUp={this.handleKeyUp}
                     onComposition={this.props.onComposition}
                     onBlur={this.handleBlur}
-                    onHeightChange={this.handleHeightChange}
+                    onHeightChange={this.props.onHeightChange}
+                    onWidthChange={this.props.onWidthChange}
                     onPaste={this.props.onPaste}
-                    style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
+                    style={this.getStyle()}
                     inputComponent={this.props.inputComponent}
                     listComponent={this.props.suggestionList}
                     listPosition={this.props.suggestionListPosition}
                     providers={this.suggestionProviders}
                     channelId={this.props.channelId}
                     value={this.props.value}
-                    renderDividers={['all']}
+                    renderDividers={ALL}
                     isRHS={this.props.isRHS}
                     disabled={this.props.disabled}
                     contextId={this.props.channelId}
                     listenForMentionKeyClick={this.props.listenForMentionKeyClick}
                     openWhenEmpty={this.props.openWhenEmpty}
+                    alignWithTextbox={this.props.alignWithTextbox}
                 />
                 {preview}
             </div>

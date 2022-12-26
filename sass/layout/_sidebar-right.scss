@@ -1,23 +1,25 @@
 @charset "utf-8";
 
+.sidebar--right--width-holder {
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
+
+    width: 400px;
+    transition: width 0.25s 0s ease-in, z-index 0.25s 0s step-end;
+}
+
 .sidebar--right {
-    position: absolute;
-    z-index: 11;
-    right: 0;
     width: 400px;
     height: 100%;
     padding: 0;
     transform: translateX(100%);
 
-    body.announcement-bar--fixed & {
-        height: calc(100% - #{$announcement-bar-height});
-    }
-
-    &.move--left {
+    &.is-open {
         transition: width 0.25s 0s ease-in, z-index 0.25s 0s step-end;
     }
 
-    &.sidebar--right--expanded {
+    &.expanded {
         z-index: 13;
         box-shadow: 0 8px 24px alpha-color($black, 0.24);
 
@@ -25,25 +27,9 @@
             overflow: hidden;
         }
 
-        &.move--left {
+        &.is-open {
             transition: width 0.25s 0s ease-in, z-index 0.15s 0.1s step-start;
         }
-
-        .sidebar--right__bg {
-            visibility: visible;
-        }
-    }
-
-    .sidebar--right__bg {
-        position: absolute;
-        z-index: 5;
-        top: -70px;
-        left: -500%;
-        // Since the element (sidebar--right__bg) is tied to the sidebar, we need to expand beyond it, we're given an arbitrary large width and left positioning so that it may take the width completely
-        width: 1000%;
-        height: 110%;
-        background-color: transparent;
-        visibility: hidden;
     }
 
     .sidebar-right__table {
@@ -97,27 +83,17 @@
 
     .sidebar-right__body {
         display: flex;
-        height: calc(100% - 56px);
+        height: 100%;
         flex: 1 1 auto;
         flex-direction: column;
         border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
         background: v(center-channel-bg);
 
-        .loading-screen {
-            position: relative;
-            height: 40px;
-            padding: 0;
-
-            .loading__content {
-                height: 40px;
-            }
-        }
-
         .info-card {
             padding: 5px 15px 60px 15px;
         }
 
-        .scrollbar--view {
+        .post-right__content {
             .emoji-picker--active & {
                 pointer-events: none;
             }
@@ -290,10 +266,6 @@
     .suggestion-list__content {
         max-height: 120px;
     }
-}
-
-.sidebar-right-container {
-    height: calc(100% - 63px);
 }
 
 .sidebar-collapse__container {

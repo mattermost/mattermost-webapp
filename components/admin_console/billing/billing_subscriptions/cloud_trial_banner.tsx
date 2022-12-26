@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -23,6 +24,7 @@ import AlertBanner from 'components/alert_banner';
 import UpgradeLink from 'components/widgets/links/upgrade_link';
 
 import './cloud_trial_banner.scss';
+import {SalesInquiryIssue} from 'selectors/cloud';
 
 export interface Props {
     trialEndDate: number;
@@ -32,7 +34,7 @@ const CloudTrialBanner = ({trialEndDate}: Props): JSX.Element | null => {
     const endDate = new Date(trialEndDate);
     const DISMISSED_DAYS = 10;
     const {formatMessage} = useIntl();
-    const openSalesLink = useOpenSalesLink();
+    const openSalesLink = useOpenSalesLink(SalesInquiryIssue.UpgradeEnterprise);
     const dispatch = useDispatch();
     const user = useSelector(getCurrentUser);
     const storedDismissedEndDate = useSelector((state: GlobalState) => getPreference(state, Preferences.CLOUD_TRIAL_BANNER, CloudBanners.UPGRADE_FROM_TRIAL));
@@ -74,7 +76,7 @@ const CloudTrialBanner = ({trialEndDate}: Props): JSX.Element | null => {
             title={(
                 <FormattedMessage
                     id='admin.subscription.cloudTrialCard.upgradeTitle'
-                    defaultMessage='Upgrade to one of our paid plans to avoid Starter plan data limits'
+                    defaultMessage='Upgrade to one of our paid plans to avoid Free plan data limits'
                 />
             )}
             message={(
@@ -92,6 +94,7 @@ const CloudTrialBanner = ({trialEndDate}: Props): JSX.Element | null => {
                 <UpgradeLink
                     buttonText={formatMessage({id: 'admin.subscription.cloudTrialCard.upgrade', defaultMessage: 'Upgrade'})}
                     styleButton={true}
+                    telemetryInfo='billing_subscriptions_cloud_trial_banner'
                 />
             )}
             actionButtonRight={(

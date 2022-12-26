@@ -37,7 +37,8 @@ describe('System Console - Company Information section', () => {
         const companyName = getRandomLetter(30);
 
         // # Click on Add Company Information button
-        cy.contains('span', 'Add Company Information').parent().click();
+        cy.contains('span', 'Company Information').parent().click();
+        cy.get('.CompanyInfoDisplay__companyInfo-editButton').click();
 
         // # Enter valid company information
         cy.get('#input_companyName').clear().type(companyName);
@@ -88,7 +89,8 @@ describe('System Console - Company Information section', () => {
         const companyName = getRandomLetter(30);
 
         // # Click on Add Company Information button
-        cy.contains('span', 'Add Company Information').parent().click();
+        cy.contains('span', 'Company Information').parent().click();
+        cy.get('.CompanyInfoDisplay__companyInfo-editButton').click();
 
         // # Enter company information
         cy.get('#input_companyName').clear().type(companyName);

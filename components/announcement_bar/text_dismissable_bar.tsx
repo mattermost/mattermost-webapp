@@ -16,7 +16,7 @@ type AnnouncementBarProps = React.ComponentProps<typeof AnnouncementBar>;
 
 interface Props extends Partial<AnnouncementBarProps> {
     allowDismissal: boolean;
-    text: string;
+    text: React.ReactNode;
     onDismissal?: () => void;
 }
 
@@ -34,7 +34,7 @@ export default class TextDismissableBar extends React.PureComponent<Props, State
     }
 
     static getDerivedStateFromProps(props: Props) {
-        const dismissed = localStorage.getItem(localStoragePrefix + props.text);
+        const dismissed = localStorage.getItem(localStoragePrefix + props.text?.toString());
         return {
             dismissed: (dismissed === 'true'),
         };
@@ -46,7 +46,7 @@ export default class TextDismissableBar extends React.PureComponent<Props, State
         }
         trackEvent('signup', 'click_dismiss_bar');
 
-        localStorage.setItem(localStoragePrefix + this.props.text, 'true');
+        localStorage.setItem(localStoragePrefix + this.props.text?.toString(), 'true');
         this.setState({
             dismissed: true,
         });
@@ -71,13 +71,15 @@ export default class TextDismissableBar extends React.PureComponent<Props, State
                             className='advisor-icon'
                             src={alertIcon}
                         />
-                        <Markdown
-                            message={text}
-                            options={{
-                                singleline: true,
-                                mentionHighlight: false,
-                            }}
-                        />
+                        {typeof text === 'string' ? (
+                            <Markdown
+                                message={text}
+                                options={{
+                                    singleline: true,
+                                    mentionHighlight: false,
+                                }}
+                            />
+                        ) : text}
                     </>
                 }
             />

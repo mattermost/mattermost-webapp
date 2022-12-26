@@ -8,15 +8,15 @@ import {Permissions} from 'mattermost-redux/constants';
 import {getConfig, isCompatibleWithJoinViewTeamPermissions} from 'mattermost-redux/selectors/entities/general';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles_helpers';
 
-import {GlobalState} from '@mattermost/types/store';
-import {Team, TeamMembership, TeamStats} from '@mattermost/types/teams';
-import {UserProfile} from '@mattermost/types/users';
-import {IDMappedObjects, RelationOneToOne} from '@mattermost/types/utilities';
-
 import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {isTeamAdmin} from 'mattermost-redux/utils/user_utils';
 import {sortTeamsWithLocale, filterTeamsStartingWithTerm} from 'mattermost-redux/utils/team_utils';
 import {getDataRetentionCustomPolicy} from 'mattermost-redux/selectors/entities/admin';
+
+import {GlobalState} from '@mattermost/types/store';
+import {Team, TeamMembership, TeamStats} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+import {IDMappedObjects, RelationOneToOne} from '@mattermost/types/utilities';
 
 import {isCollapsedThreadsEnabled} from './preferences';
 
@@ -332,6 +332,13 @@ export const getChannelDrawerBadgeCount: (state: GlobalState) => number = create
         return badgeCount;
     },
 );
+
+export const isTeamSameWithCurrentTeam = (state: GlobalState, teamName: string): boolean => {
+    const targetTeam = getTeamByName(state, teamName);
+    const currentTeam = getCurrentTeam(state);
+
+    return Boolean(targetTeam && targetTeam.id === currentTeam.id);
+};
 
 // returns the badge for a team
 // > 0 means is returning the mention count

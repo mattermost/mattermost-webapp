@@ -21,7 +21,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('At-mention user autocomplete should open below the textbox in RHS when only one message is present', () => {
+    it('At-mention user autocomplete should open below the textbox in RHS when only one message is present -- KNOWN ISSUE: MM-45597', () => {
         // # Add a single message to center textbox
         cy.postMessage(MESSAGES.TINY);
 

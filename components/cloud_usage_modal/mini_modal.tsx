@@ -30,7 +30,7 @@ export default function MiniModal(props: Props) {
 
     const modal = (
         <GenericModal
-            useCompassDesign={true}
+            compassDesign={true}
             onExited={props.onClose}
             modalHeaderText={messageToElement(props.title)}
             className='CloudUsageMiniModal'

@@ -4,7 +4,7 @@
 import {General, Users} from '../constants';
 import {MarkUnread} from 'mattermost-redux/constants/channels';
 
-import {Channel, ChannelMembership, ChannelNotifyProps, ChannelMessageCount} from '@mattermost/types/channels';
+import {Channel, ChannelType, ChannelMembership, ChannelNotifyProps, ChannelMessageCount} from '@mattermost/types/channels';
 import {Post} from '@mattermost/types/posts';
 import {UsersState, UserProfile, UserNotifyProps} from '@mattermost/types/users';
 import {GlobalState} from '@mattermost/types/store';
@@ -12,12 +12,12 @@ import {IDMappedObjects, RelationOneToManyUnique, RelationOneToOne} from '@matte
 
 import {displayUsername} from './user_utils';
 
-const channelTypeOrder = {
+const channelTypeOrder: Record<ChannelType, number> = {
     [General.OPEN_CHANNEL]: 0,
     [General.PRIVATE_CHANNEL]: 1,
     [General.DM_CHANNEL]: 2,
     [General.GM_CHANNEL]: 3,
-};
+} as Record<ChannelType, number>;
 
 export function completeDirectChannelInfo(usersState: UsersState, teammateNameDisplay: string, channel: Channel): Channel {
     if (isDirectChannel(channel)) {
@@ -364,12 +364,13 @@ export function channelListToMap(channelList: Channel[]): IDMappedObjects<Channe
 // or not that channel would be shown as unread in the sidebar.
 export function calculateUnreadCount(
     messageCount: ChannelMessageCount | undefined,
-    member: ChannelMembership | undefined,
+    member: ChannelMembership | null | undefined,
     crtEnabled: boolean,
-): {showUnread: boolean; mentions: number; messages: number} {
+): {showUnread: boolean; mentions: number; messages: number; hasUrgent: boolean} {
     if (!member || !messageCount) {
         return {
             showUnread: false,
+            hasUrgent: false,
             mentions: 0,
             messages: 0,
         };
@@ -377,6 +378,7 @@ export function calculateUnreadCount(
 
     let messages;
     let mentions;
+    let hasUrgent = false;
     if (crtEnabled) {
         messages = messageCount.root - member.msg_count_root;
         mentions = member.mention_count_root;
@@ -384,10 +386,14 @@ export function calculateUnreadCount(
         mentions = member.mention_count;
         messages = messageCount.total - member.msg_count;
     }
+    if (member.urgent_mention_count) {
+        hasUrgent = true;
+    }
 
     return {
         showUnread: mentions > 0 || (!isChannelMuted(member) && messages > 0),
         messages,
         mentions,
+        hasUrgent,
     };
 }

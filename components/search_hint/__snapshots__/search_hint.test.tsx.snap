@@ -393,7 +393,9 @@ exports[`components/SearchHint should match snapshot, without searchType 1`] = `
   >
     <button
       className=""
+      onBlur={[Function]}
       onClick={[Function]}
+      onFocus={[Function]}
     >
       <i
         className="icon icon-message-text-outline"
@@ -405,7 +407,9 @@ exports[`components/SearchHint should match snapshot, without searchType 1`] = `
     </button>
     <button
       className=""
+      onBlur={[Function]}
       onClick={[Function]}
+      onFocus={[Function]}
     >
       <i
         className="icon icon-file-text-outline"

@@ -41,7 +41,7 @@ describe('PostList', () => {
         atLatestPost: false,
         isMobileView: false,
         autoRetryEnable: false,
-        lastViewedAt: '',
+        lastViewedAt: 0,
         shouldStartFromBottomWhenUnread: false,
         actions: baseActions,
     };
@@ -594,7 +594,7 @@ describe('PostList', () => {
             const wrapper = shallow<PostList>(<PostList {...baseProps}/>);
             const instance = wrapper.instance();
             instance.scrollToLatestMessages();
-            expect(baseActions.changeUnreadChunkTimeStamp).toHaveBeenCalledWith('');
+            expect(baseActions.changeUnreadChunkTimeStamp).toHaveBeenCalledWith(0);
         });
     });
 

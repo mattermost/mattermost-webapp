@@ -8,7 +8,7 @@ import moment from 'moment';
 
 import {fakeDate} from 'tests/helpers/date';
 
-import {LicenseSkus} from 'mattermost-redux/types/general';
+import {LicenseSkus} from 'utils/constants';
 
 import LicenseSettings from './license_settings';
 

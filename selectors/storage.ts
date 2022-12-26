@@ -28,13 +28,11 @@ export const makeGetGlobalItem = <T = any>(name: string, defaultValue: T) => {
 };
 
 export const getItemFromStorage = <T = any>(storage: Record<string, any>, name: string, defaultValue: T) => {
-    if (storage &&
-        typeof storage[name] !== 'undefined' &&
-        storage[name] !== null &&
-        typeof storage[name].value !== 'undefined' &&
-        storage[name].value !== null) {
-        return storage[name].value;
-    }
+    return storage[name]?.value ?? defaultValue;
+};
 
-    return defaultValue;
+export const makeGetGlobalItemWithDefault = <T = any>(defaultValue: T) => {
+    return (state: GlobalState, name: string) => {
+        return getGlobalItem(state, name, defaultValue);
+    };
 };

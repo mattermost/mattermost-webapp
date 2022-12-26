@@ -16,6 +16,10 @@ import PaymentAnnouncementBar from './payment_announcement_bar';
 import CloudTrialAnnouncementBar from './cloud_trial_announcement_bar';
 import CloudTrialEndAnnouncementBar from './cloud_trial_ended_announcement_bar';
 import AutoStartTrialModal from './show_start_trial_modal/show_start_trial_modal';
+import CloudDelinquencyAnnouncementBar from './cloud_delinquency';
+import ShowThreeDaysLeftTrialModal from './show_tree_days_left_trial_modal/show_three_days_left_trial_modal';
+import NotifyAdminDowngradeDelinquencyBar from './notify_admin_downgrade_delinquency_bar';
+import OverageUsersBanner from './overage_users_banner';
 
 type Props = {
     license?: ClientLicense;
@@ -65,6 +69,8 @@ class AnnouncementBarController extends React.PureComponent<Props> {
         let paymentAnnouncementBar = null;
         let cloudTrialAnnouncementBar = null;
         let cloudTrialEndAnnouncementBar = null;
+        let cloudDelinquencyAnnouncementBar = null;
+        let notifyAdminDowngradeDelinquencyBar = null;
         if (this.props.license?.Cloud === 'true') {
             paymentAnnouncementBar = (
                 <PaymentAnnouncementBar/>
@@ -74,6 +80,19 @@ class AnnouncementBarController extends React.PureComponent<Props> {
             );
             cloudTrialEndAnnouncementBar = (
                 <CloudTrialEndAnnouncementBar/>
+            );
+            cloudDelinquencyAnnouncementBar = (
+                <CloudDelinquencyAnnouncementBar/>
+            );
+            notifyAdminDowngradeDelinquencyBar = (
+                <NotifyAdminDowngradeDelinquencyBar/>
+            );
+        }
+
+        let autoStartTrialModal = null;
+        if (this.props.userIsAdmin) {
+            autoStartTrialModal = (
+                <AutoStartTrialModal/>
             );
         }
 
@@ -85,7 +104,11 @@ class AnnouncementBarController extends React.PureComponent<Props> {
                 {paymentAnnouncementBar}
                 {cloudTrialAnnouncementBar}
                 {cloudTrialEndAnnouncementBar}
-                <AutoStartTrialModal/>
+                {cloudDelinquencyAnnouncementBar}
+                {notifyAdminDowngradeDelinquencyBar}
+                {this.props.license?.Cloud !== 'true' && <OverageUsersBanner/>}
+                {autoStartTrialModal}
+                <ShowThreeDaysLeftTrialModal/>
                 <VersionBar/>
                 <ConfigurationAnnouncementBar
                     config={this.props.config}

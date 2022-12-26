@@ -2,15 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect} from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, useHistory} from 'react-router-dom';
 
 import * as GlobalActions from 'actions/global_actions';
-import {browserHistory} from 'utils/browser_history';
 
 export type Props = {
     isElegibleForFirstAdmingOnboarding: boolean;
     currentUserId: string;
-    location: Location;
+    location?: Location;
     isFirstAdmin: boolean;
     actions: {
         getFirstAdminSetupComplete: () => Promise<{data: boolean; error: any}>;
@@ -18,13 +17,15 @@ export type Props = {
 }
 
 export default function RootRedirect(props: Props) {
+    const history = useHistory();
+
     useEffect(() => {
         if (props.currentUserId) {
             if (props.isElegibleForFirstAdmingOnboarding) {
                 props.actions.getFirstAdminSetupComplete().then((firstAdminCompletedSignup) => {
-                    // root.jsx ensures admin profiles are eventually loaded
+                    // root.tsx ensures admin profiles are eventually loaded
                     if (firstAdminCompletedSignup.data === false && props.isFirstAdmin) {
-                        browserHistory.push('/preparing-workspace');
+                        history.push('/preparing-workspace');
                     } else {
                         GlobalActions.redirectUserToDefaultTeam();
                     }

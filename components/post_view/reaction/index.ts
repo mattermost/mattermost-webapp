@@ -21,9 +21,9 @@ import {GlobalState} from '@mattermost/types/store';
 
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
-import {addReaction} from 'actions/post_actions.jsx';
+import {addReaction} from 'actions/post_actions';
 
-import * as Emoji from 'utils/emoji.jsx';
+import * as Emoji from 'utils/emoji';
 
 import Reaction from './reaction';
 

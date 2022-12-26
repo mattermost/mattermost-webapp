@@ -504,6 +504,7 @@ describe('Messaging', () => {
     it('MM-T2140 Edited message displays edits and "Edited" in center and RHS', () => {
         // # Mobile app
         cy.viewport('iphone-6');
+        cy.reload();
 
         // # Post message
         cy.uiGetPostTextBox().type(message1).type('{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -551,7 +552,7 @@ describe('Messaging', () => {
 
         // # Edit post by opening modal
         cy.getLastPostId().then((postId) => {
-            cy.clickPostDotMenu(postId);
+            cy.clickPostDotMenu(postId, 'RHS_ROOT');
 
             // * Click edit post
             cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();

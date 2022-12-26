@@ -1,19 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import classNames from 'classnames';
+import {FormattedMessage, useIntl} from 'react-intl';
+
+import {ArchiveOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
-import {FileInfo} from '@mattermost/types/files';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import GetPublicModal from 'components/get_public_link_modal';
+import useTooltip from 'components/common/hooks/useTooltip';
 
 import {Constants, FileTypes, ModalIdentifiers} from 'utils/constants';
+import {trimFilename} from 'utils/file_utils';
 
 import {
     fileSizeToString,
@@ -21,6 +25,10 @@ import {
     loadImage,
     localizeMessage,
 } from 'utils/utils';
+
+import {FileInfo} from '@mattermost/types/files';
+
+import ArchivedTooltip from './archived_tooltip';
 
 import FilenameOverlay from './filename_overlay';
 import FileThumbnail from './file_thumbnail';
@@ -51,105 +59,105 @@ interface Props extends PropsFromRedux {
     handleFileDropdownOpened?: (open: boolean) => void;
 }
 
-interface State {
-    loaded: boolean;
-    keepOpen: boolean;
-    openUp: boolean;
-    fileInfo: FileInfo;
-}
+export default function FileAttachment(props: Props) {
+    const mounted = useRef(true);
+    const intl = useIntl();
+    const [loaded, setLoaded] = useState(getFileType(props.fileInfo.extension) !== FileTypes.IMAGE);
+    const [loadFilesCalled, setLoadFilesCalled] = useState(false);
+    const [keepOpen, setKeepOpen] = useState(false);
+    const [openUp, setOpenUp] = useState(false);
 
-export default class FileAttachment extends React.PureComponent<Props, State> {
-    mounted = false;
-    private readonly buttonRef: React.RefObject<HTMLButtonElement>;
+    const {
+        reference,
+        getReferenceProps,
+        tooltip: archivedTooltip,
+    } = useTooltip({
+        message: <ArchivedTooltip/>,
+        placement: 'right',
+        allowedPlacements: ['right', 'top'],
+    });
 
-    constructor(props: Props) {
-        super(props);
+    const buttonRef = useRef<HTMLButtonElement | null>(null);
 
-        this.state = {
-            loaded: getFileType(props.fileInfo.extension) !== FileTypes.IMAGE,
-            fileInfo: props.fileInfo,
-            keepOpen: false,
-            openUp: false,
-        };
-        this.buttonRef = React.createRef<HTMLButtonElement>();
-    }
-
-    componentDidMount() {
-        this.mounted = true;
-        this.loadFiles();
-    }
-
-    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-        if (nextProps.fileInfo.id !== prevState.fileInfo.id) {
-            const extension = nextProps.fileInfo.extension;
-
-            return {
-                loaded: getFileType(extension) !== FileTypes.IMAGE && !(nextProps.enableSVGs && extension === FileTypes.SVG),
-                fileInfo: nextProps.fileInfo,
-            };
+    const handleImageLoaded = () => {
+        if (mounted.current) {
+            setLoaded(true);
         }
+    };
 
-        return null;
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (!this.state.loaded && this.props.fileInfo.id !== prevProps.fileInfo.id) {
-            this.loadFiles();
+    const loadFiles = () => {
+        const fileInfo = props.fileInfo;
+        if (fileInfo.archived) {
+            // if archived, file preview will not be accessible anyway.
+            // So skip trying to load.
+            return;
         }
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
-    }
-
-    loadFiles = () => {
-        const fileInfo = this.props.fileInfo;
         const fileType = getFileType(fileInfo.extension);
 
         if (fileType === FileTypes.IMAGE) {
             const thumbnailUrl = getFileThumbnailUrl(fileInfo.id);
 
-            loadImage(thumbnailUrl, this.handleImageLoaded);
-        } else if (fileInfo.extension === FileTypes.SVG && this.props.enableSVGs) {
-            loadImage(getFileUrl(fileInfo.id), this.handleImageLoaded);
+            loadImage(thumbnailUrl, handleImageLoaded);
+        } else if (fileInfo.extension === FileTypes.SVG && props.enableSVGs) {
+            loadImage(getFileUrl(fileInfo.id), handleImageLoaded);
         }
-    }
+    };
 
-    handleImageLoaded = () => {
-        if (this.mounted) {
-            this.setState({
-                loaded: true,
-            });
+    useEffect(() => {
+        if (!loadFilesCalled) {
+            setLoadFilesCalled(true);
+            loadFiles();
         }
-    }
+    }, [loadFilesCalled]);
 
-    onAttachmentClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    useEffect(() => {
+        if (!loaded && props.fileInfo.id) {
+            loadFiles();
+        }
+    }, [props.fileInfo.id, loaded]);
+
+    useEffect(() => {
+        return () => {
+            mounted.current = false;
+        };
+    }, []);
+
+    useEffect(() => {
+        if (props.fileInfo.id) {
+            setLoaded(getFileType(props.fileInfo.extension) !== FileTypes.IMAGE && !(props.enableSVGs && props.fileInfo.extension === FileTypes.SVG));
+        }
+    }, [props.fileInfo.extension, props.fileInfo.id, props.enableSVGs]);
+
+    const onAttachmentClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        if (props.fileInfo.archived) {
+            return;
+        }
         e.preventDefault();
 
         if ('blur' in e.target) {
             (e.target as HTMLElement).blur();
         }
 
-        if (this.props.handleImageClick) {
-            this.props.handleImageClick(this.props.index);
+        if (props.handleImageClick) {
+            props.handleImageClick(props.index);
         }
-    }
+    };
 
-    private handleDropdownOpened = (open: boolean) => {
-        this.props.handleFileDropdownOpened?.(open);
-        this.setState({keepOpen: open});
+    const handleDropdownOpened = (open: boolean) => {
+        props.handleFileDropdownOpened?.(open);
+        setKeepOpen(open);
 
         if (open) {
-            this.setMenuPosition();
+            setMenuPosition();
         }
-    }
+    };
 
-    private setMenuPosition = () => {
-        if (!this.buttonRef.current) {
+    const setMenuPosition = () => {
+        if (!buttonRef.current) {
             return;
         }
 
-        const anchorRect = this.buttonRef.current?.getBoundingClientRect();
+        const anchorRect = buttonRef.current?.getBoundingClientRect();
         let y;
         if (typeof anchorRect?.y === 'undefined') {
             y = typeof anchorRect?.top === 'undefined' ? 0 : anchorRect?.top;
@@ -162,23 +170,21 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
         const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
         const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
 
-        this.setState({
-            openUp: (spaceOnTop > spaceOnBottom),
-        });
-    }
+        setOpenUp(spaceOnTop > spaceOnBottom);
+    };
 
-    handleGetPublicLink = () => {
-        this.props.actions.openModal({
+    const handleGetPublicLink = () => {
+        props.actions.openModal({
             modalId: ModalIdentifiers.GET_PUBLIC_LINK_MODAL,
             dialogType: GetPublicModal,
             dialogProps: {
-                fileId: this.props.fileInfo.id,
+                fileId: props.fileInfo.id,
             },
         });
-    }
+    };
 
-    private renderFileMenuItems = () => {
-        const {enablePublicLink, fileInfo, pluginMenuItems} = this.props;
+    const renderFileMenuItems = () => {
+        const {enablePublicLink, fileInfo, pluginMenuItems} = props;
 
         let divider;
         const defaultItems = [];
@@ -186,7 +192,7 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
             defaultItems.push(
                 <Menu.ItemAction
                     data-title='Public Image'
-                    onClick={this.handleGetPublicLink}
+                    onClick={handleGetPublicLink}
                     ariaLabel={localizeMessage('view_image_popover.publicLink', 'Get a public link')}
                     text={localizeMessage('view_image_popover.publicLink', 'Get a public link')}
                 />,
@@ -228,7 +234,7 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
 
         return (
             <MenuWrapper
-                onToggle={this.handleDropdownOpened}
+                onToggle={handleDropdownOpened}
                 stopPropagationOnToggle={true}
             >
                 <OverlayTrigger
@@ -238,23 +244,23 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
                     overlay={tooltip}
                 >
                     <button
-                        ref={this.buttonRef}
-                        id={`file_action_button_${this.props.fileInfo.id}`}
+                        ref={buttonRef}
+                        id={`file_action_button_${props.fileInfo.id}`}
                         aria-label={localizeMessage('file_search_result_item.more_actions', 'More Actions').toLowerCase()}
                         className={classNames(
                             'file-dropdown-icon', 'dots-icon',
-                            {'a11y--active': this.state.keepOpen},
+                            {'a11y--active': keepOpen},
                         )}
-                        aria-expanded={this.state.keepOpen}
+                        aria-expanded={keepOpen}
                     >
                         <i className='icon icon-dots-vertical'/>
                     </button>
                 </OverlayTrigger>
                 <Menu
-                    id={`file_dropdown_${this.props.fileInfo.id}`}
+                    id={`file_dropdown_${props.fileInfo.id}`}
                     ariaLabel={'file menu'}
                     openLeft={true}
-                    openUp={this.state.openUp}
+                    openUp={openUp}
                 >
                     {defaultItems}
                     {divider}
@@ -262,74 +268,121 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
                 </Menu>
             </MenuWrapper>
         );
-    }
+    };
 
-    render() {
-        const {
-            compactDisplay,
-            fileInfo,
-        } = this.props;
+    const {compactDisplay, fileInfo} = props;
 
-        let fileThumbnail;
-        let fileDetail;
-        let fileActions;
-        const ariaLabelImage = `${localizeMessage('file_attachment.thumbnail', 'file thumbnail')} ${fileInfo.name}`.toLowerCase();
+    let fileThumbnail;
+    let fileDetail;
+    let fileActions;
+    const ariaLabelImage = `${localizeMessage('file_attachment.thumbnail', 'file thumbnail')} ${fileInfo.name}`.toLowerCase();
 
-        if (!compactDisplay) {
+    if (!compactDisplay) {
+        fileThumbnail = (
+            <a
+                aria-label={ariaLabelImage}
+                className='post-image__thumbnail'
+                href='#'
+                onClick={onAttachmentClick}
+            >
+                {loaded ? (
+                    <FileThumbnail fileInfo={fileInfo}/>
+                ) : (
+                    <div className='post-image__load'/>
+                )}
+            </a>
+        );
+
+        if (fileInfo.archived) {
             fileThumbnail = (
-                <a
-                    aria-label={ariaLabelImage}
-                    className='post-image__thumbnail'
-                    href='#'
-                    onClick={this.onAttachmentClick}
-                >
-                    {this.state.loaded ? (
-                        <FileThumbnail fileInfo={fileInfo}/>
-                    ) : (
-                        <div className='post-image__load'/>
-                    )}
-                </a>
+                <ArchiveOutlineIcon
+                    size={48}
+                    color={'rgba(var(--center-channel-color-rgb), 0.48)'}
+                    data-testid='archived-file-icon'
+                />
             );
+        }
 
-            fileDetail = (
-                <div
-                    className='post-image__detail_wrapper'
-                    onClick={this.onAttachmentClick}
-                >
-                    <div className='post-image__detail'>
-                        <span className={'post-image__name'}>
-                            {fileInfo.name}
-                        </span>
+        fileDetail = (
+            <div
+                className='post-image__detail_wrapper'
+                onClick={onAttachmentClick}
+            >
+                <div className='post-image__detail'>
+                    <span
+                        className={classNames('post-image__name', {
+                            'post-image__name--archived': fileInfo.archived,
+                        })}
+                    >
+                        {fileInfo.name}
+                    </span>
+                    {fileInfo.archived ? <span className={'post-image__archived'}>
+
+                        <FormattedMessage
+                            id='workspace_limits.archived_file.archived'
+                            defaultMessage='This file is archived'
+                        />
+                    </span> : <>
                         <span className='post-image__type'>{fileInfo.extension.toUpperCase()}</span>
                         <span className='post-image__size'>{fileSizeToString(fileInfo.size)}</span>
-                    </div>
+                    </>
+                    }
                 </div>
-            );
+            </div>
+        );
 
-            fileActions = this.renderFileMenuItems();
+        if (!fileInfo.archived) {
+            fileActions = renderFileMenuItems();
         }
+    }
 
-        let filenameOverlay;
-        if (this.props.canDownloadFiles) {
-            filenameOverlay = (
-                <FilenameOverlay
-                    fileInfo={fileInfo}
-                    compactDisplay={compactDisplay}
-                    canDownload={this.props.canDownloadFiles}
-                    handleImageClick={this.onAttachmentClick}
-                    iconClass={'post-image__download'}
-                >
-                    <i className='icon icon-download-outline'/>
-                </FilenameOverlay>
-            );
-        }
+    let filenameOverlay;
+    if (props.canDownloadFiles && !fileInfo.archived) {
+        filenameOverlay = (
+            <FilenameOverlay
+                fileInfo={fileInfo}
+                compactDisplay={compactDisplay}
+                canDownload={props.canDownloadFiles}
+                handleImageClick={onAttachmentClick}
+                iconClass={'post-image__download'}
+            >
+                <i className='icon icon-download-outline'/>
+            </FilenameOverlay>
+        );
+    } else if (fileInfo.archived && compactDisplay) {
+        const fileName = fileInfo.name;
+        const trimmedFilename = trimFilename(fileName);
+        fileThumbnail = (
+            <ArchiveOutlineIcon
+                size={16}
+                color={'rgba(var(--center-channel-color-rgb), 0.48)'}
+                data-testid='archived-file-icon'
+            />
+        );
+        filenameOverlay =
+            (<span className='post-image__archived-name'>
+                <span className='post-image__archived-filename'>
+                    {trimmedFilename}
+                </span>
+                <span className='post-image__archived-label'>
+                    {intl.formatMessage({
+                        id: 'workspace_limits.archived_file.archived_compact',
+                        defaultMessage: '(archived)',
+                    })}
+                </span>
+            </span>);
+    }
 
-        return (
+    const content =
+        (
             <div
+                ref={fileInfo.archived ? reference : undefined}
+                {...(fileInfo.archived ? getReferenceProps() : {})}
                 className={
                     classNames([
                         'post-image__column',
-                        {'keep-open': this.state.keepOpen},
+                        {'keep-open': keepOpen},
+                        {'post-image__column--archived': fileInfo.archived},
                     ])
                 }
             >
@@ -341,5 +394,14 @@ export default class FileAttachment extends React.PureComponent<Props, State> {
                 </div>
             </div>
         );
+
+    if (fileInfo.archived) {
+        return (
+            <>
+                {content}
+                {archivedTooltip}
+            </>
+        );
     }
+    return content;
 }

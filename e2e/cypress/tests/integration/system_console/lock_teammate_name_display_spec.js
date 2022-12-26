@@ -29,7 +29,7 @@ describe('System Console', () => {
         cy.findByTestId('TeamSettings.LockTeammateNameDisplayfalse').click();
 
         // * Assert that there exists a description underneath the Teammate Name Display lock setting with the following text
-        cy.findByTestId('TeamSettings.LockTeammateNameDisplayhelp-text').contains('When true, disables users\' ability to change settings under **Settings > Display > Teammate Name Display**.').should('be.visible');
+        cy.findByTestId('TeamSettings.LockTeammateNameDisplayhelp-text').contains('When true, disables users\' ability to change settings under Settings > Display > Teammate Name Display.').should('be.visible');
 
         // # Click save button
         cy.get('#saveSetting').click();

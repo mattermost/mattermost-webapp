@@ -55,7 +55,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
-    <Connect(SettingItemMin)
+    <SettingItem
+      active={false}
+      areAllSectionsInactive={false}
+      containerStyle=""
+      infoPosition="bottom"
+      max={null}
+      saving={false}
       section="password"
       title={
         <Memo(MemoizedFormattedMessage)
@@ -70,6 +76,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <Connect(MfaSection)
       active={false}
+      areAllSectionsInactive={false}
       updateSection={[Function]}
     />
     <div
@@ -80,6 +87,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <Connect(UserAccessTokenSection)
       active={false}
+      areAllSectionsInactive={false}
       setRequireConfirm={[MockFunction]}
       updateSection={[Function]}
       user={
@@ -91,13 +99,19 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItem
+      active={false}
+      areAllSectionsInactive={false}
+      containerStyle=""
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
           id="user.settings.security.emailPwd"
         />
       }
+      infoPosition="bottom"
+      max={null}
+      saving={false}
       section="signin"
       title="Sign-in Method"
       updateSection={[Function]}
@@ -106,14 +120,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <Connect(injectIntl(ToggleModalButton))
+    <Connect(ToggleModalButton)
       className="security-links color--link"
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AccessHistoryModal)",
           "type": [Function],
         }
       }
@@ -133,15 +146,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </Connect(injectIntl(ToggleModalButton))>
-    <Connect(injectIntl(ToggleModalButton))
+    </Connect(ToggleModalButton)>
+    <Connect(ToggleModalButton)
       className="security-links color--link mt-2"
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ActivityLogModal)",
           "type": [Function],
         }
       }
@@ -161,7 +173,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </Connect(injectIntl(ToggleModalButton))>
+    </Connect(ToggleModalButton)>
   </div>
 </div>
 `;
@@ -221,7 +233,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
-    <Connect(SettingItemMin)
+    <SettingItem
+      active={false}
+      areAllSectionsInactive={false}
+      containerStyle=""
+      infoPosition="bottom"
+      max={null}
+      saving={false}
       section="password"
       title={
         <Memo(MemoizedFormattedMessage)
@@ -236,6 +254,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <Connect(MfaSection)
       active={false}
+      areAllSectionsInactive={false}
       updateSection={[Function]}
     />
     <div
@@ -246,6 +265,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <Connect(UserAccessTokenSection)
       active={false}
+      areAllSectionsInactive={false}
       setRequireConfirm={[MockFunction]}
       updateSection={[Function]}
       user={
@@ -257,13 +277,19 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItem
+      active={false}
+      areAllSectionsInactive={false}
+      containerStyle=""
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
           id="user.settings.security.emailPwd"
         />
       }
+      infoPosition="bottom"
+      max={null}
+      saving={false}
       section="signin"
       title="Sign-in Method"
       updateSection={[Function]}
@@ -272,14 +298,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <Connect(injectIntl(ToggleModalButton))
+    <Connect(ToggleModalButton)
       className="security-links color--link"
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AccessHistoryModal)",
           "type": [Function],
         }
       }
@@ -299,15 +324,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </Connect(injectIntl(ToggleModalButton))>
-    <Connect(injectIntl(ToggleModalButton))
+    </Connect(ToggleModalButton)>
+    <Connect(ToggleModalButton)
       className="security-links color--link mt-2"
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ActivityLogModal)",
           "type": [Function],
         }
       }
@@ -327,7 +351,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </Connect(injectIntl(ToggleModalButton))>
+    </Connect(ToggleModalButton)>
   </div>
 </div>
 `;
@@ -387,7 +411,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
-    <Connect(SettingItemMin)
+    <SettingItem
+      active={false}
+      areAllSectionsInactive={false}
+      containerStyle=""
+      infoPosition="bottom"
+      max={null}
+      saving={false}
       section="password"
       title={
         <Memo(MemoizedFormattedMessage)
@@ -402,6 +432,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <Connect(MfaSection)
       active={false}
+      areAllSectionsInactive={false}
       updateSection={[Function]}
     />
     <div
@@ -412,6 +443,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <Connect(UserAccessTokenSection)
       active={false}
+      areAllSectionsInactive={false}
       setRequireConfirm={[MockFunction]}
       updateSection={[Function]}
       user={
@@ -423,13 +455,19 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItem
+      active={false}
+      areAllSectionsInactive={false}
+      containerStyle=""
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
           id="user.settings.security.emailPwd"
         />
       }
+      infoPosition="bottom"
+      max={null}
+      saving={false}
       section="signin"
       title="Sign-in Method"
       updateSection={[Function]}
@@ -438,14 +476,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <Connect(injectIntl(ToggleModalButton))
+    <Connect(ToggleModalButton)
       className="security-links color--link"
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AccessHistoryModal)",
           "type": [Function],
         }
       }
@@ -465,15 +502,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </Connect(injectIntl(ToggleModalButton))>
-    <Connect(injectIntl(ToggleModalButton))
+    </Connect(ToggleModalButton)>
+    <Connect(ToggleModalButton)
       className="security-links color--link mt-2"
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ActivityLogModal)",
           "type": [Function],
         }
       }
@@ -493,7 +529,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </Connect(injectIntl(ToggleModalButton))>
+    </Connect(ToggleModalButton)>
   </div>
 </div>
 `;
@@ -553,7 +589,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
-    <Connect(SettingItemMin)
+    <SettingItem
+      active={false}
+      areAllSectionsInactive={false}
+      containerStyle=""
+      infoPosition="bottom"
+      max={null}
+      saving={false}
       section="password"
       title={
         <Memo(MemoizedFormattedMessage)
@@ -568,6 +610,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <Connect(MfaSection)
       active={false}
+      areAllSectionsInactive={false}
       updateSection={[Function]}
     />
     <div
@@ -578,6 +621,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <Connect(UserAccessTokenSection)
       active={false}
+      areAllSectionsInactive={false}
       setRequireConfirm={[MockFunction]}
       updateSection={[Function]}
       user={
@@ -589,13 +633,19 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItem
+      active={false}
+      areAllSectionsInactive={false}
+      containerStyle=""
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
           id="user.settings.security.emailPwd"
         />
       }
+      infoPosition="bottom"
+      max={null}
+      saving={false}
       section="signin"
       title="Sign-in Method"
       updateSection={[Function]}
@@ -604,14 +654,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark"
     />
     <br />
-    <Connect(injectIntl(ToggleModalButton))
+    <Connect(ToggleModalButton)
       className="security-links color--link"
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AccessHistoryModal)",
           "type": [Function],
         }
       }
@@ -631,15 +680,14 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View Access History"
         id="user.settings.security.viewHistory"
       />
-    </Connect(injectIntl(ToggleModalButton))>
-    <Connect(injectIntl(ToggleModalButton))
+    </Connect(ToggleModalButton)>
+    <Connect(ToggleModalButton)
       className="security-links color--link mt-2"
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ActivityLogModal)",
           "type": [Function],
         }
       }
@@ -659,7 +707,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         defaultMessage="View and Log Out of Active Sessions"
         id="user.settings.security.logoutActiveSessions"
       />
-    </Connect(injectIntl(ToggleModalButton))>
+    </Connect(ToggleModalButton)>
   </div>
 </div>
 `;
