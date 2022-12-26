@@ -26,6 +26,7 @@ describe('Reducers.RHS', () => {
         isSidebarOpen: false,
         isSidebarExpanded: false,
         editChannelMembers: false,
+        size: 'medium',
     };
 
     test('Initial state', () => {
@@ -616,6 +617,7 @@ describe('Reducers.RHS', () => {
             isSidebarOpen: true,
             isSidebarExpanded: true,
             editChannelMembers: false,
+            size: 'medium',
         };
 
         const nextState = rhsReducer(state, {type: ActionTypes.SUPPRESS_RHS});

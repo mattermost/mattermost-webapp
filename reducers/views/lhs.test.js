@@ -9,6 +9,7 @@ import {ActionTypes} from 'utils/constants';
 describe('Reducers.LHS', () => {
     const initialState = {
         isOpen: false,
+        size: 'medium',
     };
 
     test('Initial state', () => {
