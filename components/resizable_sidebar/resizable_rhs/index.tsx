@@ -167,13 +167,14 @@ function Resizable({
         >
             {children}
 
+            {isRhsResizable &&
             <div
 
                 id='resizeRHSLine'
                 ref={resizeLineRef}
                 onMouseDown={handleMouseDown}
                 onDoubleClick={handleDoubleClick}
-            />
+            />}
         </div>
     );
 }
