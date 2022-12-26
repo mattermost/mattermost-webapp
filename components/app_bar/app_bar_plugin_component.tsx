@@ -89,6 +89,8 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
         );
     }
 
+    const boardsEnabled = component.pluginId === suitePluginIds.focalboard || component.pluginId === suitePluginIds.boards;
+
     return (
         <OverlayTrigger
             trigger={['hover', 'focus']}
@@ -104,7 +106,7 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
                 }}
             >
                 {content}
-                {component.pluginId === suitePluginIds.focalboard && <NewChannelWithBoardTourTip/>}
+                {boardsEnabled && <NewChannelWithBoardTourTip/>}
             </div>
         </OverlayTrigger>
     );

@@ -15,7 +15,7 @@ import {
 import {UserProfile} from '@mattermost/types/users';
 import {ValueOf} from '@mattermost/types/utilities';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {getSelfHostedProducts, getSelfHostedSignupProgress} from 'mattermost-redux/selectors/entities/hosted_customer';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -298,6 +298,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
     const desiredPlanName = getPlanNameFromProductName(desiredProductName);
     const currentUsers = analytics[StatTypes.TOTAL_USERS] as number;
     const isDevMode = useSelector(getConfig).EnableDeveloper === 'true';
+    const hasLicense = Object.keys(useSelector(getLicense) || {}).length > 0;
 
     const intl = useIntl();
     const fakeProgressRef = useRef<FakeProgress>({
@@ -700,7 +701,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                 />
                             </div>
                         </div>}
-                        {(state.succeeded || progress === SelfHostedSignupProgress.CREATED_LICENSE) && (
+                        {((state.succeeded || progress === SelfHostedSignupProgress.CREATED_LICENSE) && hasLicense) && !state.error && !state.submitting && (
                             <SuccessPage
                                 onClose={controlModal.close}
                                 planName={desiredPlanName}

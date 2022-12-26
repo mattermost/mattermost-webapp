@@ -168,3 +168,26 @@ describe('System Console - Billing History', () => {
     });
 });
 
+describe('System Console - Empty Billing Screen', () => {
+    before(() => {
+        cy.intercept('GET', '**/api/v4/cloud/subscription/invoices', {
+            statusCode: 200,
+            body: [
+            ],
+        });
+
+        // * Check if server has license for Cloud
+        cy.apiRequireLicenseForFeature('Cloud');
+
+        // # Visit the billing history url
+        cy.visit('admin_console/billing/billing_history');
+
+        // * Check for billing history header
+        cy.contains('.admin-console__header', 'Billing History').should('be.visible');
+    });
+
+    it('should show empty screen picture and link to /cloud-billing.html', () => {
+        cy.get('.BillingHistory__cardHeaderText-bottom').should('have.text', 'All of your monthly payments will show here');
+        cy.get('.BillingHistory__noHistory-link').should('have.text', 'See how billing works').should('have.attr', 'href').and('include', 'cloud/cloud-billing/cloud-billing.html');
+    });
+});
