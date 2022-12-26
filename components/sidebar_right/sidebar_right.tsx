@@ -24,6 +24,7 @@ import Search from 'components/search/index';
 import LoadingScreen from 'components/loading_screen';
 
 import RhsPlugin from 'plugins/rhs_plugin';
+import Resizable from 'components/resizable_sidebar/resizable_rhs';
 
 type Props = {
     isExpanded: boolean;
@@ -68,7 +69,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        this.sidebarRight = React.createRef();
+        this.sidebarRight = React.createRef<HTMLDivElement>();
         this.state = {
             isOpened: false,
         };
@@ -253,8 +254,11 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
 
         return (
             <>
-                <div className={'sidebar--right sidebar--right--width-holder'}/>
                 <div
+                    className={'sidebar--right sidebar--right--width-holder'}
+                    ref={this.sidebarRight}
+                />
+                <Resizable
                     className={containerClassName}
                     id='sidebar-right'
                     role='complementary'
@@ -276,7 +280,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
                             </Search>
                         )}
                     </div>
-                </div>
+                </Resizable>
             </>
         );
     }

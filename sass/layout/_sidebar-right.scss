@@ -5,8 +5,41 @@
         display: none;
     }
 
+    @media screen and (min-width: 900px) and (max-width: 1200px) {
+        width: 304px !important;
+    }
     width: 400px;
     transition: width 0.25s 0s ease-in, z-index 0.25s 0s step-end;
+}
+
+.sidebar--right-dragged {
+    //Note: Resizing is not working if transition is set
+    transition: none !important;
+    cursor: col-resize;
+
+    #resizeRHSLine {
+        background-color: var(--denim-sidebar-active-border);
+    }
+}
+
+#resizeRHSLine{
+    left: -2px;
+    top:0;
+    width: 4px;
+    height: 100%;
+    position: absolute;
+    cursor:col-resize;
+
+    z-index: 50;
+
+    &:hover{
+        background-color: var(--denim-sidebar-active-border);
+
+    }
+
+    &.limit-reached{
+        animation: emphasis-sidebar-resize-line 800ms;
+    }
 }
 
 .sidebar--right {

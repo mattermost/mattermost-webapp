@@ -22,3 +22,5 @@ export const shouldSnapWhenSizeShrunk = (newWidth: number, prevWidth: number, mi
 
     return diff <= SIDEBAR_SNAP_SIZE && isShrinking;
 };
+
+export const shouldRhsOverlapChannelView = (size: SidebarSize) => size === SidebarSize.MEDIUM;
