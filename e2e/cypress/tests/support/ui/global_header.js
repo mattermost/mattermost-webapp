@@ -27,7 +27,8 @@ Cypress.Commands.add('uiOpenProductMenu', (item = '') => {
 });
 
 Cypress.Commands.add('uiGetSetStatusButton', () => {
-    return cy.findByRole('button', {name: 'set status'}).should('be.visible');
+    return cy.get('.status-wrapper > .Avatar').should('be.visible');
+    // return cy.findByRole('button', {name: 'set status'}).should('be.visible');
 });
 
 Cypress.Commands.add('uiGetProfileHeader', () => {
@@ -119,7 +120,7 @@ Cypress.Commands.add('uiGetSavedPostButton', () => {
 });
 
 Cypress.Commands.add('uiGetSettingsButton', () => {
-    return cy.findByRole('button', {name: 'Select to open the settings modal.'}).should('be.visible');
+    return cy.get('button[aria-haspopup="dialog"]').should('be.visible');
 });
 
 Cypress.Commands.add('uiGetChannelInfoButton', () => {
@@ -140,7 +141,7 @@ Cypress.Commands.add('uiOpenSettingsModal', (section = '') => {
     }
 
     // # Click on a particular section
-    cy.findByRoleExtended('button', {name: section}).should('be.visible').click();
+    // cy.findByRoleExtended('button', {name: section}).should('be.visible').click();
 
     return cy.uiGetSettingsModal();
 });
