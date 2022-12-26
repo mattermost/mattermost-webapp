@@ -3,7 +3,7 @@
 exports[`components/sidebar should match empty div snapshot when teamId is missing 1`] = `<div />`;
 
 exports[`components/sidebar should match snapshot 1`] = `
-<div
+<Resizable
   className=""
   id="SidebarContainer"
 >
@@ -53,11 +53,11 @@ exports[`components/sidebar should match snapshot 1`] = `
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
-</div>
+</Resizable>
 `;
 
 exports[`components/sidebar should match snapshot when direct channels modal is open 1`] = `
-<div
+<Resizable
   className=""
   id="SidebarContainer"
 >
@@ -111,11 +111,11 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
     isExistingChannel={false}
     onModalDismissed={[Function]}
   />
-</div>
+</Resizable>
 `;
 
 exports[`components/sidebar should match snapshot when more channels modal is open 1`] = `
-<div
+<Resizable
   className=""
   id="SidebarContainer"
 >
@@ -165,5 +165,5 @@ exports[`components/sidebar should match snapshot when more channels modal is op
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
-</div>
+</Resizable>
 `;
