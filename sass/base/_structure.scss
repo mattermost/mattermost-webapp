@@ -168,7 +168,7 @@ body.app__body #root {
             }
             #sidebar-right {
                 position: relative;
-                width: 100%;
+                width: 100% !important;
             }
             --columns: min-content min-content 0 1fr min-content;
         }
