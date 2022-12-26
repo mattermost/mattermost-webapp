@@ -24,3 +24,22 @@ export const shouldSnapWhenSizeShrunk = (newWidth: number, prevWidth: number, mi
 };
 
 export const shouldRhsOverlapChannelView = (size: SidebarSize) => size === SidebarSize.MEDIUM;
+
+export const requestAnimationFrameForMouseMove = (callback: (e: MouseEvent) => void) => {
+    let isTriggered = false;
+
+    return (e: MouseEvent) => {
+        e.preventDefault();
+
+        if (isTriggered) {
+            return;
+        }
+
+        isTriggered = true;
+
+        requestAnimationFrame(() => {
+            isTriggered = false;
+            return callback(e);
+        });
+    };
+};

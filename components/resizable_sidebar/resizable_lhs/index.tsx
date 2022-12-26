@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {HTMLAttributes, useCallback, useEffect, useMemo, useRef} from 'react';
+import React, {HTMLAttributes, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 
 import {getLhsSize} from 'selectors/lhs';
 import {DEFAULT_LHS_WIDTH, LHS_MIN_MAX_WIDTH} from 'utils/constants';
-import {isOverLimit, isResizableSize, shouldSnapWhenSizeGrown, shouldSnapWhenSizeShrunk} from '../utils';
+import {isOverLimit, isResizableSize, requestAnimationFrameForMouseMove, shouldSnapWhenSizeGrown, shouldSnapWhenSizeShrunk} from '../utils';
 
 interface Props extends HTMLAttributes<'div'> {
     children: React.ReactNode;
@@ -20,7 +20,7 @@ function Resizable({
     const lhsRef = useRef<HTMLDivElement>(null);
     const resizeLineRef = useRef<HTMLDivElement>(null);
 
-    const isResizeLineSelected = useRef(false);
+    const [isResizeLineSelected, setIsResizeLineSelected] = useState(false);
     const previousClientX = useRef(0);
 
     const lhsSize = useSelector(getLhsSize);
@@ -42,7 +42,7 @@ function Resizable({
         }
 
         previousClientX.current = e.clientX;
-        isResizeLineSelected.current = true;
+        setIsResizeLineSelected(true);
         document.body.style.cursor = 'col-resize';
 
         if (lhsRef.current) {
@@ -50,12 +50,12 @@ function Resizable({
         }
     }, [isLhsResizable]);
 
-    const handleMouseMove = useCallback((e: MouseEvent) => {
+    const handleMouseMove = useCallback(requestAnimationFrameForMouseMove((e: MouseEvent) => {
         if (!lhsRef.current || !previousClientX.current || !resizeLineRef.current) {
             return;
         }
 
-        if (!isResizeLineSelected.current) {
+        if (!isResizeLineSelected) {
             return;
         }
 
@@ -94,10 +94,10 @@ function Resizable({
         }
 
         lhsRef.current.style.width = `${newWidth}px`;
-    }, [maxWidth, minWidth]);
+    }), [isResizeLineSelected, maxWidth, minWidth]);
 
     const handleMouseUp = useCallback(() => {
-        isResizeLineSelected.current = false;
+        setIsResizeLineSelected(false);
         document.body.style.cursor = 'auto';
 
         if (lhsRef.current) {
@@ -106,6 +106,10 @@ function Resizable({
     }, []);
 
     useEffect(() => {
+        if (!isResizeLineSelected) {
+            return () => {};
+        }
+
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseup', handleMouseUp);
 
@@ -113,7 +117,7 @@ function Resizable({
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseup', handleMouseUp);
         };
-    }, [handleMouseMove, handleMouseUp, lhsSize]);
+    }, [handleMouseMove, handleMouseUp, isResizeLineSelected, lhsSize]);
 
     useEffect(() => {
         if (!lhsRef.current) {

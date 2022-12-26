@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {HTMLAttributes, useCallback, useEffect, useMemo, useRef} from 'react';
+import React, {HTMLAttributes, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 
 import {getRhsSize} from 'selectors/rhs';
 import {RHS_MIN_MAX_WIDTH} from 'utils/constants';
-import {isOverLimit, isResizableSize, shouldRhsOverlapChannelView, shouldSnapWhenSizeGrown, shouldSnapWhenSizeShrunk} from '../utils';
+import {isOverLimit, isResizableSize, requestAnimationFrameForMouseMove, shouldRhsOverlapChannelView, shouldSnapWhenSizeGrown, shouldSnapWhenSizeShrunk} from '../utils';
 
 interface Props extends HTMLAttributes<'div'> {
     children: React.ReactNode;
@@ -22,7 +22,7 @@ function Resizable({
     const rhsRef = useRef<HTMLDivElement>(null);
     const resizeLineRef = useRef<HTMLDivElement>(null);
 
-    const isResizeLineDragging = useRef(false);
+    const [isResizeLineSelected, setIsResizeLineSelected] = useState(false);
     const previousClientX = useRef(0);
 
     const rhsSize = useSelector(getRhsSize);
@@ -50,7 +50,7 @@ function Resizable({
         }
 
         previousClientX.current = e.clientX;
-        isResizeLineDragging.current = true;
+        setIsResizeLineSelected(true);
         document.body.style.cursor = 'col-resize';
 
         if (rhsRef.current && forwardRef.current) {
@@ -59,12 +59,12 @@ function Resizable({
         }
     }, [forwardRef, isRhsResizable]);
 
-    const handleMouseMove = useCallback((e: MouseEvent) => {
+    const handleMouseMove = useCallback(requestAnimationFrameForMouseMove((e: MouseEvent) => {
         if (!rhsRef.current || !forwardRef.current || !previousClientX.current || !resizeLineRef.current) {
             return;
         }
 
-        if (!isResizeLineDragging.current) {
+        if (!isResizeLineSelected) {
             return;
         }
 
@@ -116,10 +116,10 @@ function Resizable({
             forwardRef.current.style.width = `${newWidth}px`;
         }
         rhsRef.current.style.width = `${newWidth}px`;
-    }, [forwardRef, maxWidth, minWidth, shouldRhsOverlap]);
+    }), [forwardRef, maxWidth, minWidth, shouldRhsOverlap, isResizeLineSelected]);
 
     const handleMouseUp = useCallback(() => {
-        isResizeLineDragging.current = false;
+        setIsResizeLineSelected(false);
         document.body.style.cursor = 'auto';
 
         if (!rhsRef.current || !forwardRef.current) {
@@ -131,6 +131,10 @@ function Resizable({
     }, [forwardRef]);
 
     useEffect(() => {
+        if (!isResizeLineSelected) {
+            return () => {};
+        }
+
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseup', handleMouseUp);
 
@@ -138,7 +142,7 @@ function Resizable({
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseup', handleMouseUp);
         };
-    }, [handleMouseMove, handleMouseUp]);
+    }, [handleMouseMove, handleMouseUp, isResizeLineSelected]);
 
     useEffect(() => {
         if (!rhsRef.current || !forwardRef.current) {
