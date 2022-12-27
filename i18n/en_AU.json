@@ -4643,8 +4643,6 @@
   "shortcuts.msgs.markdown.code.mac": "Code:\t⌘|⌥|C",
   "shortcuts.msgs.markdown.emoji": "Emoji / Gif picker:\tCtrl|Alt|E",
   "shortcuts.msgs.markdown.emoji.mac": "Emoji / Gif picker:\t⌘|⌥|E",
-  "shortcuts.msgs.markdown.formatting": "Show/Hide Formatting:\tCtrl|Alt|T",
-  "shortcuts.msgs.markdown.formatting.mac": "Show/Hide Formatting:\t⌘|⌥|T",
   "shortcuts.msgs.markdown.h3": "Heading",
   "shortcuts.msgs.markdown.h3.mac": "Heading",
   "shortcuts.msgs.markdown.header": "Formatting",
