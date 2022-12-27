@@ -191,6 +191,7 @@ const UserGroupPopover = (props: Props) => {
             {tabCatcher}
             <Body
                 role='dialog'
+                aria-modal={true}
                 onKeyDown={handleKeyDown}
                 className={A11yClassNames.POPUP}
                 aria-label={group.display_name}

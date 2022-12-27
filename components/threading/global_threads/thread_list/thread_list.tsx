@@ -12,7 +12,7 @@ import * as Utils from 'utils/utils';
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {getThreads, markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
 import {trackEvent} from 'actions/telemetry_actions';
-import {Constants, CrtTutorialSteps, ModalIdentifiers, Preferences} from 'utils/constants';
+import {A11yClassNames, Constants, CrtTutorialSteps, ModalIdentifiers, Preferences} from 'utils/constants';
 import NoResultsIndicator from 'components/no_results_indicator';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
 import Header from 'components/widgets/header';
@@ -81,6 +81,13 @@ const ThreadList = ({
         }
         const comboKeyPressed = e.altKey || e.metaKey || e.shiftKey || e.ctrlKey;
         if (comboKeyPressed || (!Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) && !Utils.isKeyPressed(e, Constants.KeyCodes.UP))) {
+            return;
+        }
+
+        // Don't switch threads if a modal or popup is open, since the focus is inside the modal/popup.
+        const noModalsAreOpen = document.getElementsByClassName(A11yClassNames.MODAL).length === 0;
+        const noPopupsDropdownsAreOpen = document.getElementsByClassName(A11yClassNames.POPUP).length === 0;
+        if (!noModalsAreOpen || !noPopupsDropdownsAreOpen) {
             return;
         }
 
