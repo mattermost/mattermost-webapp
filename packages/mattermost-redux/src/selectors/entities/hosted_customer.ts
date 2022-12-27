@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {SelfHostedSignupProgress, HostedCustomerState} from '@mattermost/types/hosted_customer';
+import {SelfHostedSignupProgress, HostedCustomerState, TrueUpReviewProfile, TrueUpReviewStatus} from '@mattermost/types/hosted_customer';
 import {ValueOf} from '@mattermost/types/utilities';
 import {GlobalState} from '@mattermost/types/store';
 import {Invoice, Product} from '@mattermost/types/cloud';
@@ -24,4 +24,12 @@ export function getSelfHostedInvoices(state: GlobalState): Record<string, Invoic
 
 export function getSelfHostedErrors(state: GlobalState): HostedCustomerState['errors'] {
     return state.entities.hostedCustomer.errors;
+}
+
+export function getTrueUpReviewProfile(state: GlobalState): TrueUpReviewProfile {
+    return state.entities.hostedCustomer.trueUpReview.profile;
+}
+
+export function getTrueUpReviewStatus(state: GlobalState): TrueUpReviewStatus {
+    return state.entities.hostedCustomer.trueUpReview.status;
 }

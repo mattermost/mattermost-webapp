@@ -61,19 +61,3 @@ export function updateCloudCustomerAddress(address: Address): ActionFunc {
         params: [address],
     });
 }
-
-export function getTrueUpReviewBundle(): ActionFunc {
-    return bindClientFunc({
-        clientFunc: Client4.submitTrueUpReview,
-        onSuccess: [CloudTypes.RECEIVED_TRUE_UP_REVIEW_BUNDLE],
-        onFailure: CloudTypes.TRUE_UP_REVIEW_FAILED,
-    });
-}
-
-export function getTrueUpReviewStatus(): ActionFunc {
-    return bindClientFunc({
-        clientFunc: Client4.getTrueUpReviewStatus,
-        onSuccess: [CloudTypes.RECEIVED_TRUE_UP_REVIEW_STATUS],
-        onFailure: CloudTypes.TRUE_UP_REVIEW_STATUS_FAILED,
-    });
-}

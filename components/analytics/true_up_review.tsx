@@ -1,22 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {useDispatch, useSelector} from 'react-redux';
 
-import moment from 'moment';
-
 import {Buffer} from 'buffer';
 
-import {getTrueUpReviewBundle, getTrueUpReviewStatus} from 'mattermost-redux/actions/cloud';
+import moment from 'moment';
+
+import {getTrueUpReviewBundle, getTrueUpReviewStatus} from 'actions/hosted_customer';
 import {
     getCloudErrors,
-    getTrueUpReviewProfile as trueUpReviewProfileSelector,
-    getTrueUpReviewStatus as trueUpReviewStatusSelector,
     isCurrentLicenseCloud,
 } from 'mattermost-redux/selectors/entities/cloud';
+
+import {
+    getTrueUpReviewProfile as trueUpReviewProfileSelector,
+    getTrueUpReviewStatus as trueUpReviewStatusSelector,
+} from 'mattermost-redux/selectors/entities/hosted_customer';
 
 import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
@@ -33,6 +36,7 @@ const TrueUpReview: React.FC = () => {
     const reviewProfile = useSelector(trueUpReviewProfileSelector);
     const reviewStatus = useSelector(trueUpReviewStatusSelector);
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
+    const [submitted, setSubmitted] = useState(false);
     const trueUpReviewError = useSelector((state: GlobalState) => {
         const errors = getCloudErrors(state);
         return Boolean(errors.trueUpReview);
@@ -42,12 +46,36 @@ const TrueUpReview: React.FC = () => {
         dispatch(getTrueUpReviewStatus());
     }, [dispatch, getTrueUpReviewStatus]);
 
+    // Download the review profile as a base64 encoded json file when the review request is submitted.
+    useEffect(() => {
+        if (submitted) {
+            // Create the bundle as a blob containing base64 encoded json data and assign it to a link element.
+            const dataBuffer = Buffer.from(JSON.stringify(reviewProfile));
+            const blob = new Blob([dataBuffer.toString('base64')], {type: 'application/text'});
+            const href = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            const date = moment().format('MM-DD-YYYY');
+            link.href = href;
+            link.download = `true-up-review-bundle-${date}`;
+
+            document.body.appendChild(link);
+            link.click();
+
+            // Remove link and revoke object url to avoid memory leaks.
+            document.body.removeChild(link);
+            URL.revokeObjectURL(href);
+
+            dispatch(getTrueUpReviewStatus());
+        }
+    }, [submitted, reviewProfile])
+
     const formattedDueDate = (): string => {
         if (!reviewStatus?.due_date) {
             return '';
         }
 
-        // Convert from miliseconds
+        // Convert from milliseconds
         const date = new Date(reviewStatus.due_date);
         return moment(date).format('MMMM DD, YYYY');
     };
@@ -57,27 +85,11 @@ const TrueUpReview: React.FC = () => {
         dispatch(getTrueUpReviewStatus());
     };
 
-    const handleDownloadBundle = async () => {
-        await dispatch(getTrueUpReviewBundle());
-
-        // Create the bundle as a blob containing base64 encoded json data and assign it to a link element.
-        const dataBuffer = Buffer.from(JSON.stringify(reviewProfile));
-        const blob = new Blob([dataBuffer.toString('base64')], {type: 'application/text'});
-        const href = URL.createObjectURL(blob);
-
-        const link = document.createElement('a');
-        const date = moment().format('MM-DD-YYYY');
-        link.href = href;
-        link.download = `true-up-review-bundle-${date}`;
-
-        document.body.appendChild(link);
-        link.click();
-
-        // Remove link and revoke object url to avoid memory leaks.
-        document.body.removeChild(link);
-        URL.revokeObjectURL(href);
-
-        dispatch(getTrueUpReviewStatus());
+    const handleDownloadBundle = () => {
+        dispatch(getTrueUpReviewBundle());
+        // Set submitted to true download the bundle data via useEffect
+        // (the selector for the review profile would only return the initial state without doing this).
+        setSubmitted(true);
     };
 
     const dueDate = (

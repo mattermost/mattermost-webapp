@@ -47,4 +47,36 @@ export type HostedCustomerState = {
         invoices?: true;
     };
     signupProgress: ValueOf<typeof SelfHostedSignupProgress>;
+    trueUpReview: {
+        status: TrueUpReviewStatus;
+        profile: TrueUpReviewProfile;
+    };
+}
+
+
+export type TrueUpReviewProfile = {
+    server_id: string;
+    server_version: string;
+    server_installation_type: string;
+    license_id: string;
+    licensed_seats: number;
+    license_plan: string;
+    customer_name: string;
+    active_users: number;
+    authentication_features: string[];
+    plugins: TrueUpReviewPlugins;
+    total_incoming_webhooks: number;
+    total_outgoing_webhooks: number;
+}
+
+export type TrueUpReviewPlugins = {
+    total_active_plugins: number;
+    total_inactive_plugins: number;
+    active_plugin_names: string[];
+    inactive_plugin_names: string[];
+}
+
+export type TrueUpReviewStatus = {
+    due_date: number;
+    complete: boolean;
 }

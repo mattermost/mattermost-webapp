@@ -213,6 +213,18 @@ const state: GlobalState = {
             selfHostedSignup: {
                 progress: SelfHostedSignupProgress.START,
             },
+        },
+        hostedCustomer: {
+            signupProgress: SelfHostedSignupProgress.START,
+            products: {
+                products: {},
+                productsLoaded: false,
+            },
+            errors: {},
+            invoices: {
+                invoices: {},
+                invoicesLoaded: false,
+            },
             trueUpReview: {
                 profile: {
                     server_id: '',
@@ -237,18 +249,6 @@ const state: GlobalState = {
                     complete: false,
                     due_date: 0,
                 },
-            },
-        },
-        hostedCustomer: {
-            signupProgress: SelfHostedSignupProgress.START,
-            products: {
-                products: {},
-                productsLoaded: false,
-            },
-            errors: {},
-            invoices: {
-                invoices: {},
-                invoicesLoaded: false,
             },
         },
         usage: {

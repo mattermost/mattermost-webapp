@@ -8,7 +8,7 @@ import {HostedCustomerTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {Invoice, Product} from '@mattermost/types/cloud';
-import {SelfHostedSignupProgress} from '@mattermost/types/hosted_customer';
+import {SelfHostedSignupProgress, TrueUpReviewProfile, TrueUpReviewStatus} from '@mattermost/types/hosted_customer';
 
 interface SelfHostedProducts {
     products: Record<string, Product>;
@@ -117,9 +117,29 @@ export function errors(state: ErrorsReducer = emptyErrors, action: GenericAction
     }
 }
 
+function trueUpReview(state: TrueUpReviewProfile | TrueUpReviewStatus | null = null, action: GenericAction) {
+    switch (action.type) {
+    case HostedCustomerTypes.RECEIVED_TRUE_UP_REVIEW_BUNDLE: {
+        return {
+            ...state,
+            profile: action.data,
+        };
+    }
+    case HostedCustomerTypes.RECEIVED_TRUE_UP_REVIEW_STATUS: {
+        return {
+            ...state,
+            status: action.data,
+        };
+    }
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     products,
     invoices,
     signupProgress,
     errors,
+    trueUpReview,
 });

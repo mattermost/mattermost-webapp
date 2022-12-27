@@ -97,31 +97,6 @@ describe('components/AdminSidebar', () => {
             selfHostedSignup: {
                 progress: SelfHostedSignupProgress.START,
             },
-            trueUpReview: {
-                status: {
-                    due_date: 0,
-                    complete: false,
-                },
-                profile: {
-                    server_id: '',
-                    active_users: 0,
-                    authentication_features: [],
-                    customer_name: '',
-                    license_id: '',
-                    license_plan: '',
-                    licensed_seats: 0,
-                    plugins: {
-                        active_plugin_names: [],
-                        inactive_plugin_names: [],
-                        total_active_plugins: 0,
-                        total_inactive_plugins: 0,
-                    },
-                    server_installation_type: '',
-                    server_version: '',
-                    total_incoming_webhooks: 0,
-                    total_outgoing_webhooks: 0,
-                },
-            },
         },
         showTaskList: false,
     };

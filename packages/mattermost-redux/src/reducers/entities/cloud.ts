@@ -65,25 +65,6 @@ function invoices(state: Record<string, Invoice> | null = null, action: GenericA
     }
 }
 
-function trueUpReview(state: TrueUpReviewProfile | TrueUpReviewStatus | null = null, action: GenericAction) {
-    switch (action.type) {
-    case CloudTypes.RECEIVED_TRUE_UP_REVIEW_BUNDLE: {
-        return {
-            ...state,
-            profile: action.data,
-        };
-    }
-    case CloudTypes.RECEIVED_TRUE_UP_REVIEW_STATUS: {
-        return {
-            ...state,
-            status: action.data,
-        };
-    }
-    default:
-        return state;
-    }
-}
-
 export interface LimitsReducer {
     limits: Limits;
     limitsLoaded: boolean;
@@ -232,7 +213,4 @@ export default combineReducers({
 
     // state related to self-hosted workspaces purchasing a license not tied to a customer-web-server user.
     selfHostedSignup,
-
-    // represents the system profile used to determine if a license needs to be updated based on usage.
-    trueUpReview,
 });
