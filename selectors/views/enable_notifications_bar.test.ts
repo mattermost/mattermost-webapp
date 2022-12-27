@@ -45,6 +45,9 @@ describe('Selectors.EnableNotificationsBar', () => {
                         isNotificationsPermissionGranted: true,
                     },
                 },
+                storage: {
+                    storage: {}
+                }
             } as unknown as GlobalState;
 
             expect(shouldShowEnableNotificationsBar(state)).toBe(false);

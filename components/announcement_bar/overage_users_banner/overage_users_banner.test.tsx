@@ -235,7 +235,9 @@ describe('components/overage_users_banner', () => {
             store,
         });
 
-        fireEvent.click(screen.getByRole('link'));
+        const [, closeButton] = screen.getAllByRole('button');
+
+        fireEvent.click(closeButton);
 
         expect(savePreferences).toBeCalledTimes(1);
         expect(savePreferences).toBeCalledWith(store.entities.users.profiles.current_user.id, [{

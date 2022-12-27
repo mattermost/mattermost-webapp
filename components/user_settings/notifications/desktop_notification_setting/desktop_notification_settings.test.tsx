@@ -33,7 +33,7 @@ describe('components/user_settings/notifications/DesktopNotificationSettings', (
         isCollapsedThreadsEnabled: false,
         threads: NotificationLevels.ALL,
         actions: {
-            enableBrowserNotifications: emptyFunction,
+            enableBrowserNotifications: jest.fn(),
         },
     };
 

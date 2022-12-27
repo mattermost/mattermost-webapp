@@ -185,7 +185,8 @@ describe('components/announcement_bar/notify_admin_downgrade_delinquency_bar', (
 
         renderComponent({});
 
-        fireEvent.click(screen.getByRole('link'));
+        const [, closeButton] = screen.getAllByRole('button');
+        fireEvent.click(closeButton);
 
         expect(savePreferences).toBeCalledTimes(1);
         expect(savePreferences).toBeCalledWith(initialState.entities.users.profiles.current_user_id.id, [{

@@ -12,7 +12,6 @@ import {WarnMetricStatus} from '@mattermost/types/config';
 import {Constants, AnnouncementBarTypes, ModalIdentifiers} from 'utils/constants';
 import {isStringContainingUrl} from 'utils/url';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import WarnMetricAckModal from 'components/warn_metric_ack_modal';
@@ -171,7 +170,7 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
         let message = this.props.message;
         if (typeof message == 'string') {
             message = (
-                <FormattedMarkdownMessage id={this.props.message as string}/>
+                <FormattedMessage id={this.props.message as string}/>
             );
         }
         const announcementTooltip = this.state.showTooltip ? (

@@ -24,7 +24,7 @@ exports[`components/EnableNotificationsBar should match snapshot when shown 1`] 
   }
   show={true}
 >
-  <Connect(AnnouncementBar)
+  <Component
     handleClose={[Function]}
     icon={
       <div
@@ -42,6 +42,10 @@ exports[`components/EnableNotificationsBar should match snapshot when shown 1`] 
     showDontAskAgainButton={true}
     showLinkAsButton={true}
     type="general"
-  />
+  >
+    <div>
+      AnnouncementBarMock
+    </div>
+  </Component>
 </EnableNotificationsBar>
 `;

@@ -22,7 +22,7 @@ import {UserNotifyProps, UserProfile} from '@mattermost/types/users';
 
 import SettingItemMax from 'components/setting_item_max';
 
-import DesktopNotificationSettings from './desktop_notification_setting/desktop_notification_settings';
+import DesktopNotificationSettings from './desktop_notification_setting';
 import EmailNotificationSetting from './email_notification_setting';
 import ManageAutoResponder from './manage_auto_responder/manage_auto_responder';
 

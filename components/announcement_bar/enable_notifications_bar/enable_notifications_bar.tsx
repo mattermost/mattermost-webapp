@@ -7,8 +7,7 @@ import {AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {AnnouncementBarTypes} from 'utils/constants';
 
-import {t} from 'utils/i18n';
-import AnnouncementBar from '../default_announcement_bar';
+import AnnouncementBar from 'components/announcement_bar/default_announcement_bar';
 
 import './enable_notifications_bar.scss';
 
@@ -53,14 +52,17 @@ const EnableNotificationsBar = ({show, actions}: Props) => {
     }, [setIsDisplayed]);
 
     if (!isDisplayed) {
+        console.log('RETURNING NULL');
         return null;
     }
+
+    console.log('NOW RETURNING ANNOUNCEMENT BAR');
 
     return (
         <AnnouncementBar
             type={AnnouncementBarTypes.GENERAL}
             icon={alertIcon}
-            message={t('enable_notifications_banner.message')}
+            message='enable_notifications_banner.message'
             showLinkAsButton={true}
             modalButtonText='enable_notifications_banner.enable_button'
             modalButtonDefaultText='Enable'

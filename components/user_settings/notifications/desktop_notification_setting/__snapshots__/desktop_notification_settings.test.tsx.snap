@@ -149,7 +149,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
       </div>,
     ]
   }
-  onEnableButtonClick={[Function]}
+  onEnableButtonClick={[MockFunction]}
   saving={false}
   section=""
   serverError=""
@@ -250,7 +250,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
       </div>,
     ]
   }
-  onEnableButtonClick={[Function]}
+  onEnableButtonClick={[MockFunction]}
   saving={false}
   section=""
   serverError=""
@@ -437,7 +437,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
       </div>,
     ]
   }
-  onEnableButtonClick={[Function]}
+  onEnableButtonClick={[MockFunction]}
   saving={false}
   section=""
   serverError=""
@@ -645,7 +645,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
       </div>,
     ]
   }
-  onEnableButtonClick={[Function]}
+  onEnableButtonClick={[MockFunction]}
   saving={false}
   section=""
   serverError=""
@@ -818,11 +818,11 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
       </div>,
     ]
   }
-  onEnableButtonClick={[Function]}
+  onEnableButtonClick={[MockFunction]}
   saving={false}
   section=""
-  server_error=""
-  submit={[Function]}
+  serverError=""
+  submit={[MockFunction]}
   title="Desktop Notifications"
   updateSection={[Function]}
 />

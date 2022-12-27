@@ -5,7 +5,7 @@ import {mount} from 'enzyme';
 
 import EnableNotificationsBar from './enable_notifications_bar';
 
-jest.mock('components/announcement_bar/default_announcement_bar');
+jest.mock('components/announcement_bar/default_announcement_bar', () => ({props}: any) => <div {...props}>AnnouncementBarMock</div>);
 
 describe('components/EnableNotificationsBar', () => {
     const baseProps = {
