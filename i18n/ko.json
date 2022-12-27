@@ -2755,7 +2755,6 @@
   "leave_private_channel_modal.leave": "네, 채널을 떠납니다",
   "leave_private_channel_modal.message": "정말 비공개 채널인 {channel}을 떠나시겠습니까? 이 채널에 재가입 하려면 다시 초대를 받아야 합니다.",
   "leave_private_channel_modal.title": "비공개 채널 {channel} 떠나기",
-  "leave_team_modal.desc": "",
   "leave_team_modal.no": "아니요",
   "leave_team_modal.title": "팀에서 나가시겠습니까?",
   "leave_team_modal.yes": "네",
