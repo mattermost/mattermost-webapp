@@ -4,6 +4,11 @@
 import {FileInfo} from '@mattermost/types/files';
 import {PostPriority} from '@mattermost/types/posts';
 
+export type DraftInfo = {
+    id: string;
+    type: 'channel' | 'thread';
+}
+
 export type PostDraft = {
     message: string;
     fileInfos: FileInfo[];

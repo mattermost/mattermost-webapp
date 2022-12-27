@@ -7,7 +7,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
 type Props = {
-    id: string;
+    id?: string;
     content: ReactNode;
     children: ReactNode;
     className?: string;

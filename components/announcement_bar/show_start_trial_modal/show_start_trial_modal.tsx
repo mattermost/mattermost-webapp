@@ -59,7 +59,7 @@ const ShowStartTrialModal = () => {
         if (!stats?.TOTAL_USERS) {
             dispatch(getStandardAnalytics());
         }
-    }, [!stats?.TOTAL_USERS]);
+    }, []);
 
     const handleOnClose = () => {
         trackEvent(
