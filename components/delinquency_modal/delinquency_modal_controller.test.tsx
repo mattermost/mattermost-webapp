@@ -303,7 +303,7 @@ describe('components/delinquency_modal/delinquency_modal_controller', () => {
     it('Should fetch cloud products when on cloud', () => {
         jest.useFakeTimers().setSystemTime(new Date('2022-12-20'));
 
-        const newState = JSON.parse(JSON.stringify(initialState))
+        const newState = JSON.parse(JSON.stringify(initialState));
         newState.entities.cloud.products = {};
 
         const store = configureStore(newState);
