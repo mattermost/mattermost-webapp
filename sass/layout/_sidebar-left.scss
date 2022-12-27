@@ -24,36 +24,34 @@ $sidebarOpacityAnimationDuration: 0.15s;
 }
 
 .sidebar--left-dragged {
+    cursor: col-resize;
     //Note: Resizing is not working if transition is set
     transition: none !important;
-    cursor: col-resize;
 
     #resizeLine {
         background-color: var(--denim-sidebar-active-border);
     }
 }
 
-
-#resizeLine{
+#resizeLine {
+    position: absolute;
+    z-index: 50;
     right: -2px;
     width: 4px;
     height: 100%;
-    position: absolute;
-    cursor:col-resize;
+    cursor: col-resize;
 
-    z-index: 50;
-
-    &:hover{
+    &:hover {
         background-color: var(--denim-sidebar-active-border);
-
     }
 
-    &.limit-reached{
+    &.limit-reached {
         animation: emphasis-sidebar-resize-line 800ms;
     }
 }
 
 #SidebarContainer {
+    position: relative;
     z-index: 16;
     left: 0;
     display: flex;
@@ -62,7 +60,6 @@ $sidebarOpacityAnimationDuration: 0.15s;
     flex-direction: column;
     border-right: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
     background-color: var(--sidebar-bg);
-    position: relative;
 
     h1,
     h2,
@@ -1371,7 +1368,6 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
 .multi-teams {
     #SidebarContainer {
-
         +.inner-wrap #app-content {
             margin-left: 305px;
         }
