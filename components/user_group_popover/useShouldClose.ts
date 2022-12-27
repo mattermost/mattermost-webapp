@@ -4,22 +4,22 @@
 import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 
-import {getOpenModalCount} from 'selectors/views/modals';
+import {isAnyModalOpen} from 'selectors/views/modals';
 
 export default function useShouldClose(): boolean {
     const [shouldClose, setShouldClose] = useState(false);
-    const [initialOpenModalCount, setInitialOpenModalCount] = useState(0);
-    const openModalCount = useSelector(getOpenModalCount);
+    const [initialHasOpenModals, setInitialHasOpenModals] = useState(false);
+    const hasOpenModals = useSelector(isAnyModalOpen);
 
     useEffect(() => {
-        setInitialOpenModalCount(openModalCount);
+        setInitialHasOpenModals(hasOpenModals);
     }, []);
 
     useEffect(() => {
-        if (initialOpenModalCount !== openModalCount) {
+        if (initialHasOpenModals !== hasOpenModals) {
             setShouldClose(true);
         }
-    }, [initialOpenModalCount, openModalCount]);
+    }, [initialHasOpenModals, hasOpenModals]);
 
     return shouldClose;
 }

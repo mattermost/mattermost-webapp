@@ -167,7 +167,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
 
     timestampUnits: string[];
 
-    openModalCount: number;
+    isAnyModalOpen: boolean;
 }
 type ProfilePopoverState = {
     loadingDMChannel?: string;
@@ -238,7 +238,7 @@ ProfilePopoverState
     }
 
     componentDidUpdate(prevProps: ProfilePopoverProps) {
-        if (this.props.openModalCount !== prevProps.openModalCount) {
+        if (this.props.isAnyModalOpen !== prevProps.isAnyModalOpen) {
             this.props.hide?.();
         }
     }

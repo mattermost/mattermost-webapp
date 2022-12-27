@@ -48,7 +48,7 @@ describe('components/ProfilePopover', () => {
             'hour',
         ],
         teammateNameDisplay: General.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
-        openModalCount: 0,
+        isAnyModalOpen: false,
     };
 
     test('should match snapshot', () => {
