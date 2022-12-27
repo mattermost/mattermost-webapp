@@ -57,7 +57,7 @@ const TrueUpReview: React.FC = () => {
             const link = document.createElement('a');
             const date = moment().format('MM-DD-YYYY');
             link.href = href;
-            link.download = `true-up-review-bundle-${date}`;
+            link.download = `True Up-${reviewProfile.license_id}-${date}.txt`;
 
             document.body.appendChild(link);
             link.click();
@@ -97,7 +97,7 @@ const TrueUpReview: React.FC = () => {
         <div className='dueDate'>
             <span>
                 <FormattedMessage
-                    id='admin.billing.trueUpReview.due.date'
+                    id='admin.billing.trueUpReview.due_date'
                     defaultMessage='Due '
                 />
             </span>
@@ -114,11 +114,11 @@ const TrueUpReview: React.FC = () => {
         >
             {isAirGapped ?
                 <FormattedMessage
-                    id='admin.billing.trueUpReview.button.download'
+                    id='admin.billing.trueUpReview.button_download'
                     defaultMessage='Download Data'
                 /> :
                 <FormattedMessage
-                    id='admin.billing.trueUpReview.button.share'
+                    id='admin.billing.trueUpReview.button_share'
                     defaultMessage='Share to Mattermost'
                 />
             }
@@ -129,7 +129,7 @@ const TrueUpReview: React.FC = () => {
         <>
             <WarningIcon additionalClassName={'warning-icon'}/>
             <FormattedMessage
-                id='admin.billing.trueUpReview.submit.success'
+                id='admin.billing.trueUpReview.submit_error'
                 defaultMessage='There was an issue sending your True Up Review. Please try again.'
             />
             {submitButton}
@@ -140,11 +140,11 @@ const TrueUpReview: React.FC = () => {
         <>
             <CheckMarkSvg/>
             <FormattedMessage
-                id='admin.billing.trueUpReview.submit.success'
+                id='admin.billing.trueUpReview.submit_success'
                 defaultMessage='Success!'
             />
             <FormattedMessage
-                id='admin.billing.trueUpReview.submit.thanks.for.sharing'
+                id='admin.billing.trueUpReview.submit.thanks_for_sharing'
                 defaultMessage='Thanks for sharing data needed for your true-up review.'
             />
         </>
@@ -154,7 +154,7 @@ const TrueUpReview: React.FC = () => {
         <>
             {dueDate}
             <FormattedMessage
-                id='admin.billing.trueUpReview.share.data.for.review'
+                id='admin.billing.trueUpReview.share_data_for_review'
                 defaultMessage='Share the below workspace data with Mattermost for your quarterly true-up Review.'
             />
             {submitButton}
