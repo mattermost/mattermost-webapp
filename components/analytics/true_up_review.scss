@@ -45,33 +45,33 @@
 }
 
 .Submit_Button {
+    width: 181px;
+    height: 40px;
+    border: none;
     background: var(--denim-button-bg);
     border-radius: 4px;
-    border: none;
     box-shadow: none;
-    height: 40px;
-    width: 181px;
+    color: var(--button-color);
     font-family: 'Open Sans';
+    font-size: 14px;
     font-style: normal;
     font-weight: 600;
-    line-height: 10px;
     letter-spacing: 0.02em;
-    font-size: 14px;
-    color: var(--button-color);
+    line-height: 10px;
 }
 
 .Submit_Button_Error {
+    width: 181px;
+    height: 40px;
+    border: none;
     background: var(--button-bg-16);
     border-radius: 4px;
-    border: none;
     box-shadow: none;
-    height: 40px;
-    width: 181px;
+    color: var(--button-bg);
     font-family: 'Open Sans';
+    font-size: 14px;
     font-style: normal;
     font-weight: 600;
-    line-height: 10px;
     letter-spacing: 0.02em;
-    font-size: 14px;
-    color: var(--button-bg);
+    line-height: 10px;
 }

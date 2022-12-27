@@ -165,9 +165,9 @@ const TrueUpReview: React.FC = () => {
         return reviewDetails;
     };
 
-    // if (isCloud || !isSystemAdmin) {
-    //     return null;
-    // }
+    if (isCloud || !isSystemAdmin) {
+        return null;
+    }
 
     return (
         <div className='TrueUpReview__card'>
