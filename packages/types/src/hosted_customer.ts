@@ -45,6 +45,7 @@ export type HostedCustomerState = {
     errors: {
         products?: true;
         invoices?: true;
+        trueUpReview?: true;
     };
     signupProgress: ValueOf<typeof SelfHostedSignupProgress>;
     trueUpReview: {

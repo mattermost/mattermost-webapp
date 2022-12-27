@@ -12,11 +12,11 @@ import moment from 'moment';
 
 import {getTrueUpReviewBundle, getTrueUpReviewStatus} from 'actions/hosted_customer';
 import {
-    getCloudErrors,
     isCurrentLicenseCloud,
 } from 'mattermost-redux/selectors/entities/cloud';
 
 import {
+    getSelfHostedErrors,
     getTrueUpReviewProfile as trueUpReviewProfileSelector,
     getTrueUpReviewStatus as trueUpReviewStatusSelector,
 } from 'mattermost-redux/selectors/entities/hosted_customer';
@@ -38,7 +38,7 @@ const TrueUpReview: React.FC = () => {
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
     const [submitted, setSubmitted] = useState(false);
     const trueUpReviewError = useSelector((state: GlobalState) => {
-        const errors = getCloudErrors(state);
+        const errors = getSelfHostedErrors(state);
         return Boolean(errors.trueUpReview);
     });
 
