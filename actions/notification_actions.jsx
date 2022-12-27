@@ -279,7 +279,7 @@ export const scheduleNextNotificationsPermissionRequest = () => {
         dispatch(StorageActions.setGlobalItem(StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT, requestNotificationsPermissionAt));
 
         return {
-            data: true
+            data: true,
         };
     };
 };
