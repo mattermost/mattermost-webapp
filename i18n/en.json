@@ -3943,6 +3943,7 @@
   "leave_team_modal.yes": "Yes",
   "licensingPage.infoBanner.startTrialTitle": "Free 30 day trial!",
   "licensingPage.overageUsersBanner.cta": "Contact Sales",
+  "licensingPage.overageUsersBanner.ctaExpandSeats": "Purchase additional seats",
   "licensingPage.overageUsersBanner.noticeDescription": "Notify your Customer Success Manager on your next true-up check. <a>Contact Sales</a>",
   "licensingPage.overageUsersBanner.noticeTitle": "Your workspace user count has exceeded your paid license seat count by {seats, number} {seats, plural, one {seat} other {seats}}",
   "licensingPage.overageUsersBanner.text": "Your workspace user count has exceeded your paid license seat count by {seats, number} {seats, plural, one {seat} other {seats}}. Purchase additional seats to remain compliant.",
