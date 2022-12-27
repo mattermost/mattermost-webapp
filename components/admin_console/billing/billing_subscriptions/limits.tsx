@@ -63,7 +63,7 @@ const Limits = (props: Props): JSX.Element | null => {
         description = intl.formatMessage(
             {
                 id: 'workspace_limits.upgrade_reasons.free',
-                defaultMessage: '{planName} is restricted to {messagesLimit} message history, {storageLimit} file storage, and {boardsCardsLimit} board cards.  You can delete items to free up space or upgrade to a paid plan.',
+                defaultMessage: '{planName} is restricted to {messagesLimit} message history, {storageLimit} file storage, and {boardsCardsLimit} board cards. You can delete items to free up space or upgrade to a paid plan.',
             },
             {
                 planName: subscriptionProduct.name,

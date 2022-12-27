@@ -338,7 +338,6 @@
   "admin.billing.subscription.updatePaymentInfo": "결제 정보 업데이트",
   "admin.billing.subscription.upgradedSuccess": "좋아요! 업그레이드 되었습니다",
   "admin.billing.subscription.verifyPaymentInformation": "결제 정보 확인",
-  "admin.billing.subscriptions.billing_summary.lastInvoice.downloadInvoice": "인보이스 다운로드",
   "admin.billing.subscriptions.billing_summary.lastInvoice.failed": "실패함",
   "admin.billing.subscriptions.billing_summary.lastInvoice.paid": "지불 완료",
   "admin.billing.subscriptions.billing_summary.lastInvoice.partialCharges": "부분 청구",
