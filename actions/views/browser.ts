@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {GenericAction, DispatchFunc} from 'mattermost-redux/types/actions';
+import {GenericAction, DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {Constants, ActionTypes, WindowSizes, StoragePrefixes} from 'utils/constants';
 import {getNotificationsPermission} from 'utils/notifications';
@@ -36,7 +36,7 @@ export function emitBrowserWindowResized(windowSize?: string): GenericAction {
     };
 }
 
-export const setBrowserNotificationsPermission = (permission?: NotificationPermission) => {
+export const setBrowserNotificationsPermission = (permission?: NotificationPermission): ActionFunc => {
     return (dispatch: DispatchFunc) => {
         const permissionStatus = permission ?? getNotificationsPermission();
         const isPermissionGranted = permissionStatus === 'granted';

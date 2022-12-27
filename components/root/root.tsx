@@ -138,6 +138,8 @@ function LoggedInRoute<T>(props: LoggedInRouteProps<T>) {
 
 const noop = () => {}; // eslint-disable-line no-empty-function
 
+export type NotificationPermissionRequestRejectionReason = 'permissionIsAlreadyGranted' | 'maxShownTimesReached' | 'alreadyScheduled';
+
 export type Actions = {
     emitBrowserWindowResized: (size?: string) => void;
     getFirstAdminSetupComplete: () => Promise<ActionResult>;
@@ -146,8 +148,8 @@ export type Actions = {
     loadConfigAndMe: () => Promise<{data: boolean}>;
     registerCustomPostRenderer: (type: string, component: any, id: string) => Promise<ActionResult>;
     initializeProducts: () => Promise<void[]>;
-    setBrowserNotificationsPermission: () => void;
-    scheduleNextNotificationsPermissionRequest: () => Promise<void>;
+    setBrowserNotificationsPermission: () => {data: boolean};
+    scheduleNextNotificationsPermissionRequest: () => ActionResult<boolean, NotificationPermissionRequestRejectionReason>;
 }
 
 type Props = {

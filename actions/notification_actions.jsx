@@ -259,17 +259,17 @@ export const scheduleNextNotificationsPermissionRequest = () => {
         const isPermissionGranted = isNotificationsPermissionGranted(state);
 
         if (isPermissionGranted) {
-            return;
+            return {error: 'permissionIsAlreadyGranted'};
         }
 
         const currentShownTimes = getGlobalItem(state, StoragePrefixes.ENABLE_NOTIFICATIONS_BAR_SHOWN_TIMES, 0);
         if (currentShownTimes > Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS) {
-            return;
+            return {error: 'maxShownTimesReached'};
         }
 
         const currentShowBarAt = getGlobalItem(state, StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT, 0);
         if (currentShowBarAt !== 0) {
-            return;
+            return {error: 'alreadyScheduled'};
         }
 
         const requestNotificationsPermissionAt = currentShownTimes === Constants.SCHEDULE_LAST_NOTIFICATIONS_REQUEST_AFTER_ATTEMPTS ?
@@ -277,6 +277,10 @@ export const scheduleNextNotificationsPermissionRequest = () => {
             0;
 
         dispatch(StorageActions.setGlobalItem(StoragePrefixes.SHOW_ENABLE_NOTIFICATIONS_BAR_AT, requestNotificationsPermissionAt));
+
+        return {
+            data: true
+        };
     };
 };
 
