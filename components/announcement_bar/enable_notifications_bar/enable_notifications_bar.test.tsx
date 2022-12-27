@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {mount} from 'enzyme';
 
 import EnableNotificationsBar from './enable_notifications_bar';
 
-jest.mock('components/announcement_bar/default_announcement_bar', () => ({props}: any) => <div {...props}>AnnouncementBarMock</div>);
+jest.mock('components/announcement_bar/default_announcement_bar', () => () => <div>{'AnnouncementBarMock'}</div>);
 
 describe('components/EnableNotificationsBar', () => {
     const baseProps = {

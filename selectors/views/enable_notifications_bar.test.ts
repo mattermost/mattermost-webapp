@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {GlobalState} from 'types/store';
 import {shouldShowEnableNotificationsBar} from 'selectors/views/enable_notifications_bar';
 import Constants, {StoragePrefixes} from 'utils/constants';
@@ -46,8 +47,8 @@ describe('Selectors.EnableNotificationsBar', () => {
                     },
                 },
                 storage: {
-                    storage: {}
-                }
+                    storage: {},
+                },
             } as unknown as GlobalState;
 
             expect(shouldShowEnableNotificationsBar(state)).toBe(false);

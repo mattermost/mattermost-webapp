@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect, useState, useCallback} from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import {AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
@@ -52,17 +53,14 @@ const EnableNotificationsBar = ({show, actions}: Props) => {
     }, [setIsDisplayed]);
 
     if (!isDisplayed) {
-        console.log('RETURNING NULL');
         return null;
     }
-
-    console.log('NOW RETURNING ANNOUNCEMENT BAR');
 
     return (
         <AnnouncementBar
             type={AnnouncementBarTypes.GENERAL}
             icon={alertIcon}
-            message='enable_notifications_banner.message'
+            message={<FormattedMessage id={'enable_notifications_banner.message'}/>}
             showLinkAsButton={true}
             modalButtonText='enable_notifications_banner.enable_button'
             modalButtonDefaultText='Enable'

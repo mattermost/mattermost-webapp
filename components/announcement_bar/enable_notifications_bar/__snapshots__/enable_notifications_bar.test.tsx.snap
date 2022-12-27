@@ -33,7 +33,11 @@ exports[`components/EnableNotificationsBar should match snapshot when shown 1`] 
         <AlertCircleOutlineIcon />
       </div>
     }
-    message="enable_notifications_banner.message"
+    message={
+      <Memo(MemoizedFormattedMessage)
+        id="enable_notifications_banner.message"
+      />
+    }
     modalButtonDefaultText="Enable"
     modalButtonText="enable_notifications_banner.enable_button"
     onButtonClick={[Function]}

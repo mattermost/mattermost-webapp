@@ -147,7 +147,7 @@ export type Actions = {
     registerCustomPostRenderer: (type: string, component: any, id: string) => Promise<ActionResult>;
     initializeProducts: () => Promise<void[]>;
     setBrowserNotificationsPermission: () => void;
-    scheduleNextNotificationsPermissionRequest: () => void;
+    scheduleNextNotificationsPermissionRequest: () => Promise<void>;
 }
 
 type Props = {

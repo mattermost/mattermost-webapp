@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {ActionTypes, StoragePrefixes} from 'utils/constants';
 import {setBrowserNotificationsPermission} from 'actions/views/browser';
 import testConfigureStore from 'tests/test_configure_store';
