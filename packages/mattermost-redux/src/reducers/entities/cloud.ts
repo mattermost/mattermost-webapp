@@ -7,7 +7,7 @@ import type {ValueOf} from '@mattermost/types/utilities';
 import {CloudTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Product, Subscription, CloudCustomer, Invoice, Limits, SelfHostedSignupProgress, TrueUpReviewProfile, TrueUpReviewStatus} from '@mattermost/types/cloud';
+import {Product, Subscription, CloudCustomer, Invoice, Limits, SelfHostedSignupProgress} from '@mattermost/types/cloud';
 
 export function subscription(state: Subscription | null = null, action: GenericAction) {
     switch (action.type) {

@@ -16,7 +16,7 @@ import {getSelfHostedErrors} from 'mattermost-redux/selectors/entities/hosted_cu
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
 
 import {getConfirmCardSetup} from 'components/payment_form/stripe';
-import { bindClientFunc } from 'mattermost-redux/actions/helpers';
+import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 
 function selfHostedNeedsConfirmation(progress: ValueOf<typeof SelfHostedSignupProgress>): boolean {
     switch (progress) {

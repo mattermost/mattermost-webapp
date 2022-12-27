@@ -6,7 +6,7 @@ import {
     Subscription,
     Product,
     CloudCustomer,
-    CloudState
+    CloudState,
 } from '@mattermost/types/cloud';
 import {GlobalState} from '@mattermost/types/store';
 

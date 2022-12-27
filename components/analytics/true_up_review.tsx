@@ -68,7 +68,7 @@ const TrueUpReview: React.FC = () => {
 
             dispatch(getTrueUpReviewStatus());
         }
-    }, [submitted, reviewProfile])
+    }, [submitted, reviewProfile]);
 
     const formattedDueDate = (): string => {
         if (!reviewStatus?.due_date) {
@@ -87,6 +87,7 @@ const TrueUpReview: React.FC = () => {
 
     const handleDownloadBundle = () => {
         dispatch(getTrueUpReviewBundle());
+
         // Set submitted to true download the bundle data via useEffect
         // (the selector for the review profile would only return the initial state without doing this).
         setSubmitted(true);

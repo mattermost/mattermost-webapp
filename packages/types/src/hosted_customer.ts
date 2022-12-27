@@ -53,7 +53,6 @@ export type HostedCustomerState = {
     };
 }
 
-
 export type TrueUpReviewProfile = {
     server_id: string;
     server_version: string;
