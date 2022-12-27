@@ -300,7 +300,6 @@
   "admin.billing.subscription.updatePaymentInfo": "Actualizați informațiile de plată",
   "admin.billing.subscription.upgradedSuccess": "Grozav! Acum sunteți actualizat",
   "admin.billing.subscription.verifyPaymentInformation": "Verificarea informațiilor de plată",
-  "admin.billing.subscriptions.billing_summary.lastInvoice.downloadInvoice": "Descărcare factură",
   "admin.billing.subscriptions.billing_summary.lastInvoice.failed": "Eșuată",
   "admin.billing.subscriptions.billing_summary.lastInvoice.paid": "Platit",
   "admin.billing.subscriptions.billing_summary.lastInvoice.partialCharges": "Taxe parțiale",

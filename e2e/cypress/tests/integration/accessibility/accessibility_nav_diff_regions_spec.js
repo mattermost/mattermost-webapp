@@ -56,14 +56,14 @@ describe('Verify Quick Navigation support across different regions in the app', 
 
     it('MM-T1460_1 Verify Navigation Support in Post List & Post Input', () => {
         // # Shift focus to the last post
-        cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true});
+        cy.uiGetPostTextBox().focus().tab({shift: true}).tab({shift: true});
         cy.get('body').type('{uparrow}{downarrow}');
 
         // * Verify post region reads out correctly
         verifyNavSupport('#virtualizedPostListContent > div', 'message list main region', '1');
 
         // # Shift focus to the post input
-        cy.get('#toggleFormattingBarButton').focus().tab({shift: true});
+        cy.uiGetPostTextBox().focus().tab().tab({shift: true});
 
         // * Verify post input region reads out correctly
         verifyNavSupport('#advancedTextEditorCell', 'Login Successful message input complimentary region', '2');
@@ -80,13 +80,13 @@ describe('Verify Quick Navigation support across different regions in the app', 
         // * Verify post message in RHS
         cy.uiGetRHS().within(() => {
             // # Shift the focus to the last post
-            cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).type('{uparrow}');
+            cy.uiGetReplyTextBox().focus().tab({shift: true}).type('{uparrow}');
 
             // * Verify post region on RHS reads out correctly
             verifyNavSupport('.post-right__content', 'message details complimentary region', '3');
 
             // # Shift the focus to the RHS input
-            cy.get('#toggleFormattingBarButton').focus().tab({shift: true});
+            cy.uiGetReplyTextBox().focus().tab().tab({shift: true});
 
             // * Verify post input on RHS reads out correctly
             cy.get('#advancedTextEditorCell').

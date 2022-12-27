@@ -7,7 +7,6 @@ import {Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 import {
     defineMessages,
-    FormattedMessage,
     injectIntl,
     IntlShape,
 } from 'react-intl';
@@ -259,7 +258,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
             this.showConfirmModal(() => this.updateSection(section, true));
         } else {
             this.setState({
-                active_section: section!,
+                active_section: section ?? '',
             });
         }
     }
@@ -280,6 +279,14 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
             tabs.push({name: 'security', uiName: formatMessage(holders.security), icon: 'icon fa fa-lock', iconTitle: Utils.localizeMessage('user.settings.security.icon', 'Security Settings Icon')});
         }
 
+        const title = this.props.isContentProductSettings ? formatMessage({
+            id: 'global_header.productSettings',
+            defaultMessage: 'Settings',
+        }) : formatMessage({
+            id: 'user.settings.modal.title',
+            defaultMessage: 'Profile',
+        });
+
         return (
             <Modal
                 id='accountSettingsModal'
@@ -289,7 +296,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                 onExited={this.handleHidden}
                 enforceFocus={this.state.enforceFocus}
                 role='dialog'
-                aria-labelledby='accountSettingsModalLabel'
+                aria-label={title}
             >
                 <Modal.Header
                     id='accountSettingsHeader'
@@ -299,17 +306,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                         componentClass='h1'
                         id='accountSettingsModalLabel'
                     >
-                        {this.props.isContentProductSettings ? (
-                            <FormattedMessage
-                                id='global_header.productSettings'
-                                defaultMessage='Settings'
-                            />
-                        ) : (
-                            <FormattedMessage
-                                id='user.settings.modal.title'
-                                defaultMessage='Profile'
-                            />
-                        )}
+                        {title}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body ref={this.modalBodyRef}>
