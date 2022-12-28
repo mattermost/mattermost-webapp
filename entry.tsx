@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import {logError} from 'mattermost-redux/actions/errors';
 
 // Import our styles
-import 'sass/styles.scss';
+import './sass/styles.scss';
 import 'katex/dist/katex.min.css';
 
 import '@mattermost/compass-icons/css/compass-icons.css';

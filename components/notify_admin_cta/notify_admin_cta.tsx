@@ -110,7 +110,8 @@ function NotifyAdminCTA(props: Props) {
                     </Button>
                 </Span>
             )}
-        </>);
+        </>
+    );
 }
 
 export default NotifyAdminCTA;

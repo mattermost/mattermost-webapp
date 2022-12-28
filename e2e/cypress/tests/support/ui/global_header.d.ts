@@ -161,6 +161,14 @@ declare namespace Cypress {
         uiGetSettingsModal(): Chainable;
 
         /**
+         * Get channel info button
+         *
+         * @example
+         *  cy.uiGetChannelInfoButton();
+         */
+        uiGetChannelInfoButton(): Chainable;
+
+        /**
          * Open settings modal
          *
          * @param {string} section - ex. Display, Sidebar, etc.

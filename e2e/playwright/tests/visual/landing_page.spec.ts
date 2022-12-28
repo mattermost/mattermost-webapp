@@ -2,15 +2,14 @@
 // See LICENSE.txt for license information.
 
 import {test} from '@playwright/test';
-import {Eyes} from '@applitools/eyes-playwright';
 
-import {LandingLoginPage} from '@support/ui/page';
-import {matchSnapshot} from '@support/visual';
+import {LandingLoginPage} from '@e2e-support/ui/page';
+import {matchSnapshot, Applitools} from '@e2e-support/visual';
 
-let eyes: Eyes;
+let applitools: Applitools = {};
 
 test.afterAll(async () => {
-    await eyes?.close();
+    await applitools.eyes?.close();
 });
 
 test('/landing#/login', async ({page, isMobile, browserName, viewport}, testInfo) => {
@@ -20,5 +19,5 @@ test('/landing#/login', async ({page, isMobile, browserName, viewport}, testInfo
     await landingLoginPage.goto();
 
     // Match snapshot of landing page
-    ({eyes} = await matchSnapshot(testInfo, {page, isMobile, browserName, viewport}));
+    applitools = await matchSnapshot(testInfo, {page, isMobile, browserName, viewport});
 });

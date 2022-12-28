@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @system_console @authentication
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -28,6 +27,6 @@ describe('Authentication', () => {
 
     it('MM-T1760 - Enable Open Server false: Create account link is hidden', () => {
         // * Assert that create account button is not visible
-        cy.findByText('Create an account', {timeout: TIMEOUTS.TEN_SEC}).should('not.exist');
+        cy.findByText('Don\'t have an account?', {timeout: TIMEOUTS.TEN_SEC}).should('not.exist');
     });
 });

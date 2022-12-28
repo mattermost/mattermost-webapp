@@ -183,7 +183,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
                 restoreFocus={false}
                 role='dialog'
                 aria-labelledby='quickSwitchModalLabel'
-                aria-describedby='quickSwitchHint'
+                aria-describedby='quickSwitchHeader'
                 animation={false}
             >
                 <Modal.Header
@@ -191,7 +191,10 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
                     closeButton={true}
                 />
                 <Modal.Body>
-                    <div className='channel-switcher__header'>
+                    <div
+                        className='channel-switcher__header'
+                        id='quickSwitchHeader'
+                    >
                         {header}
                         <div
                             className='channel-switcher__hint'

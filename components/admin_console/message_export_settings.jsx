@@ -247,7 +247,6 @@ export default class MessageExportSettings extends AdminSettings {
                                 link: (msg) => (
                                     <a
                                         href='https://docs.mattermost.com/comply/compliance-export.html'
-                                        referrer='noreferrer'
                                         target='_blank'
                                         rel='noreferrer'
                                     >

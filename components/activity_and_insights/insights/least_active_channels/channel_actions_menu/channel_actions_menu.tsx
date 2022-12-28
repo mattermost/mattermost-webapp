@@ -24,7 +24,7 @@ import {getSiteURL} from 'utils/url';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
+import LeaveChannelModal from 'components/leave_channel_modal';
 
 import './channel_actions_menu.scss';
 
@@ -46,7 +46,7 @@ const ChannelActionsMenu = ({channel, actionCallback}: Props) => {
         if (channel.type === Constants.PRIVATE_CHANNEL) {
             dispatch(openModal({
                 modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL,
-                dialogType: LeavePrivateChannelModal,
+                dialogType: LeaveChannelModal,
                 dialogProps: {
                     channel,
                     callback: actionCallback,

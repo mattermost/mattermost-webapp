@@ -86,16 +86,10 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
                 </div>
 
                 <div className='OpenIdConvert_copyWrapper'>
-                    <div className='OpenIdConvert__heading'>
-                        <FormattedMessage
-                            id='admin.openIdConvert.heading'
-                            defaultMessage='OAuth 2.0 is being deprecated and replaced by OpenID Connect.'
-                        />
-                    </div>
                     <p>
                         <FormattedMessage
                             id='admin.openIdConvert.message'
-                            defaultMessage='Convert your OAuth 2.0 configuration to the new OpenID Connect standard.'
+                            defaultMessage='You can now convert your OAuth2.0 configuration to OpenID Connect.'
                         />
                     </p>
                     <div className='OpenIdConvert_actionWrapper'>

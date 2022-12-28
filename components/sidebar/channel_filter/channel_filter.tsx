@@ -22,11 +22,7 @@ type Props = {
     };
 };
 
-type State = {
-
-};
-
-export class ChannelFilter extends React.PureComponent<Props, State> {
+export class ChannelFilter extends React.PureComponent<Props> {
     componentDidMount() {
         document.addEventListener('keydown', this.handleUnreadFilterKeyPress);
     }
@@ -70,6 +66,8 @@ export class ChannelFilter extends React.PureComponent<Props, State> {
             tooltipMessage = intl.formatMessage({id: 'sidebar_left.channel_filter.showAllChannels', defaultMessage: 'Show all channels'});
         }
 
+        const unreadsAriaLabel = intl.formatMessage({id: 'sidebar_left.channel_filter.filterUnreadAria', defaultMessage: 'unreads filter'});
+
         const tooltip = (
             <Tooltip
                 id='new-group-tooltip'
@@ -97,7 +95,7 @@ export class ChannelFilter extends React.PureComponent<Props, State> {
                             active: unreadFilterEnabled,
                         })}
                         onClick={this.toggleUnreadFilter}
-                        aria-label={tooltipMessage}
+                        aria-label={unreadsAriaLabel}
                     >
                         <i className='icon icon-filter-variant'/>
                     </a>

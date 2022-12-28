@@ -38,6 +38,7 @@ type Props = {
         incrementAnnouncementBarCount: () => void;
         decrementAnnouncementBarCount: () => void;
     };
+    showCTA?: boolean;
 }
 
 type State = {
@@ -67,6 +68,7 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
         type: AnnouncementBarTypes.CRITICAL,
         showLinkAsButton: false,
         isTallBanner: false,
+        showCTA: true,
     }
 
     enableToolTipIfNeeded = () => {
@@ -168,6 +170,7 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
             <div
                 className={barClass}
                 style={barStyle}
+                // eslint-disable-next-line react/no-unknown-property
                 css={{gridArea: 'announcement'}}
             >
                 <OverlayTrigger
@@ -185,7 +188,7 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
                             {message}
                         </span>
                         {
-                            !this.props.showLinkAsButton &&
+                            !this.props.showLinkAsButton && this.props.showCTA &&
                             <span className='announcement-bar__link'>
                                 {this.props.showModal &&
                                 <FormattedMessage
@@ -212,7 +215,7 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
                             </span>
                         }
                         {
-                            this.props.showLinkAsButton &&
+                            this.props.showLinkAsButton && this.props.showCTA &&
                             <button
                                 className='upgrade-button'
                                 onClick={this.props.onButtonClick}

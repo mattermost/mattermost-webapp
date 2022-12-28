@@ -10,6 +10,7 @@ import {mountWithThemedIntl} from 'tests/helpers/themed-intl-test-helper';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {Team} from '@mattermost/types/teams';
+import {generateId} from 'utils/utils';
 
 import InviteAs, {InviteType} from './invite_as';
 import InviteView, {Props} from './invite_view';
@@ -73,6 +74,7 @@ describe('InviteView', () => {
                 license: {
                     IsLicensed: 'true',
                     Cloud: 'true',
+                    Id: generateId(),
                 },
             },
             cloud: {
@@ -93,6 +95,9 @@ describe('InviteView', () => {
                         permissions: [],
                     },
                 },
+            },
+            preferences: {
+                myPreferences: {},
             },
         },
     };

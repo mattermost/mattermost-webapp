@@ -401,12 +401,44 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
 
         const customStatusComponent = this.renderCustomStatus(isStatusSet);
 
-        const menuAriaLabeltext = intl.formatMessage({
-            id: 'status_dropdown.menuAriaLabel.text',
-            defaultMessage: 'user status is set to {menuAriaLabelValue} you can change status by selecting your profile picture',
-        }, {
-            menuAriaLabelValue: this.props.status,
-        });
+        let menuAriaLabeltext;
+        switch (this.props.status) {
+        case UserStatuses.AWAY:
+            menuAriaLabeltext = intl.formatMessage({
+                id: 'status_dropdown.profile_button_label.away',
+                defaultMessage: 'Current status: Away. Select to open profile and status menu.',
+            });
+            break;
+        case UserStatuses.DND:
+            menuAriaLabeltext = intl.formatMessage({
+                id: 'status_dropdown.profile_button_label.dnd',
+                defaultMessage: 'Current status: Do not disturb. Select to open profile and status menu.',
+            });
+            break;
+        case UserStatuses.OFFLINE:
+            menuAriaLabeltext = intl.formatMessage({
+                id: 'status_dropdown.profile_button_label.offline',
+                defaultMessage: 'Current status: Offline. Select to open profile and status menu.',
+            });
+            break;
+        case UserStatuses.ONLINE:
+            menuAriaLabeltext = intl.formatMessage({
+                id: 'status_dropdown.profile_button_label.online',
+                defaultMessage: 'Current status: Online. Select to open profile and status menu.',
+            });
+            break;
+        case UserStatuses.OUT_OF_OFFICE:
+            menuAriaLabeltext = intl.formatMessage({
+                id: 'status_dropdown.profile_button_label.ooo',
+                defaultMessage: 'Current status: Out of office. Select to open profile and status menu.',
+            });
+            break;
+        default:
+            menuAriaLabeltext = intl.formatMessage({
+                id: 'status_dropdown.profile_button_label',
+                defaultMessage: 'Select to open profile and status menu.',
+            });
+        }
 
         return (
             <MenuWrapper
@@ -418,7 +450,9 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
             >
                 <button
                     className='status-wrapper style--none'
-                    aria-label={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
+                    aria-label={menuAriaLabeltext}
+                    aria-expanded={this.props.isStatusDropdownOpen}
+                    aria-controls='statusDropdownMenu'
                 >
                     <CustomStatusEmoji
                         showTooltip={true}
@@ -427,15 +461,14 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
                         onClick={this.handleCustomStatusEmojiClick as () => void}
                     />
                     {this.renderProfilePicture('sm')}
-                    <button
-                        className='status style--none'
-                        aria-label={menuAriaLabeltext}
+                    <div
+                        className='status'
                     >
                         <StatusIcon
                             size={'sm'}
                             status={(this.props.status || 'offline') as TUserStatus}
                         />
-                    </button>
+                    </div>
                 </button>
                 <Menu
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
@@ -534,7 +567,7 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
                             modalId={ModalIdentifiers.USER_SETTINGS}
                             dialogType={UserSettingsModal}
                             dialogProps={{isContentProductSettings: false}}
-                            text={localizeMessage('navbar_dropdown.accountSettings', 'Profile')}
+                            text={localizeMessage('navbar_dropdown.profileSettings', 'Profile')}
                             icon={(
                                 <Icon
                                     size={16}

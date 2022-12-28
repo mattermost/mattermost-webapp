@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {UserProfile} from '@mattermost/types/lib/users';
+import {UserProfile} from '@mattermost/types/users';
 
-import testConfig from '@test.config';
+import testConfig from '@e2e-test.config';
 
 import {createRandomChannel} from './channel';
 import Client from './client';
@@ -13,27 +13,27 @@ import {createRandomTeam} from './team';
 import {createRandomUser, getDefaultAdminUser} from './user';
 
 type UserRequest = {
-    username?: string;
+    username: string;
     email?: string;
     password: string;
 };
 
-const clients = {};
+type ClientCache = {
+    client: Client | null;
+    user: UserProfile | null;
+    err?: any;
+};
 
-export async function makeClient(
-    userRequest?: UserRequest,
-    useCache = true
-): Promise<{
-    client?: Client;
-    user?: UserProfile;
-    err?: string;
-}> {
+const clients: Record<string, ClientCache> = {};
+
+export async function makeClient(userRequest?: UserRequest, useCache = true): Promise<ClientCache> {
     try {
         const client = new Client();
+        client.logToConsole = false;
         client.setUrl(testConfig.baseURL);
 
         if (!userRequest) {
-            return {client};
+            return {client, user: null};
         }
 
         const cacheKey = userRequest.username + userRequest.password;
@@ -41,8 +41,8 @@ export async function makeClient(
             return clients[cacheKey];
         }
 
-        const {data} = await client.login(userRequest.username, userRequest.password);
-        const user = {...data, password: userRequest.password};
+        const userProfile = await client.login(userRequest.username, userRequest.password);
+        const user = {...userProfile, password: userRequest.password};
 
         if (useCache) {
             clients[cacheKey] = {client, user};
@@ -50,7 +50,7 @@ export async function makeClient(
 
         return {client, user};
     } catch (err) {
-        return {err};
+        return {client: null, user: null, err};
     }
 }
 

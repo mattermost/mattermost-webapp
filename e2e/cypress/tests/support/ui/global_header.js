@@ -72,7 +72,7 @@ Cypress.Commands.add('uiOpenHelpMenu', (item = '') => {
 });
 
 Cypress.Commands.add('uiGetHelpButton', () => {
-    return cy.findByRole('button', {name: 'user status is set to online you can change status by selecting your profile picture'}).should('be.visible');
+    return cy.findByRole('button', {name: 'Select to toggle the help menu.'}).should('be.visible');
 });
 
 Cypress.Commands.add('uiGetHelpMenu', (options = {visible: true}) => {
@@ -120,6 +120,10 @@ Cypress.Commands.add('uiGetSavedPostButton', () => {
 
 Cypress.Commands.add('uiGetSettingsButton', () => {
     return cy.findByRole('button', {name: 'Select to open the settings modal.'}).should('be.visible');
+});
+
+Cypress.Commands.add('uiGetChannelInfoButton', () => {
+    return cy.findByRole('button', {name: 'View Info'}).should('be.visible');
 });
 
 Cypress.Commands.add('uiGetSettingsModal', () => {

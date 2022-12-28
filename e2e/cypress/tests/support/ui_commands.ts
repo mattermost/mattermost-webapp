@@ -52,7 +52,7 @@ function typeCmdOrCtrlInt(textboxSelector: string) {
     return cy.get(textboxSelector).type(cmdOrCtrl, {release: false});
 }
 
-function cmdOrCtrlShortcut(subject: string, text: string): ChainableT<any> {
+function cmdOrCtrlShortcut(subject: string, text?: string): ChainableT<any> {
     const cmdOrCtrl = isMac() ? '{cmd}' : '{ctrl}';
     return cy.get(subject).type(`${cmdOrCtrl}${text}`);
 }

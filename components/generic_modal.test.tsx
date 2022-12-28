@@ -11,6 +11,7 @@ describe('components/GenericModal', () => {
     const requiredProps = {
         onExited: jest.fn(),
         modalHeaderText: 'Modal Header Text',
+        children: <></>,
     };
 
     test('should match snapshot for base case', () => {

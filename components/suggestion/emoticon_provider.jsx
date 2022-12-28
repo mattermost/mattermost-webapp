@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {Preferences} from 'utils/constants';
+
 import {autocompleteCustomEmojis} from 'mattermost-redux/actions/emojis';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
@@ -124,13 +126,11 @@ export default class EmoticonProvider extends Provider {
                 // This is a system emoji so it may have multiple names
                 for (const alias of emoji.short_names) {
                     if (alias.indexOf(partialName) !== -1) {
-                        const matchedArray = recentEmojis.includes(alias) || recentEmojis.includes(name) ?
-                            recentMatched :
-                            matched;
+                        const matchedArray = recentEmojis.includes(alias) || recentEmojis.includes(name) ? recentMatched : matched;
 
                         // if the emoji has skin, only add those that match with the user selected skin.
                         if (emojiMatchesSkin(emoji, skintone)) {
-                            matchedArray.push({name: alias, emoji});
+                            matchedArray.push({name: alias, emoji, type: Preferences.CATEGORY_EMOJI});
                         }
                         break;
                     }
@@ -142,11 +142,9 @@ export default class EmoticonProvider extends Provider {
                     continue;
                 }
 
-                const matchedArray = recentEmojis.includes(name) ?
-                    recentMatched :
-                    matched;
+                const matchedArray = recentEmojis.includes(name) ? recentMatched : matched;
 
-                matchedArray.push({name, emoji});
+                matchedArray.push({name, emoji, type: Preferences.CATEGORY_EMOJI});
             }
         }
 

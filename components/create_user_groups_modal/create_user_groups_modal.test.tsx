@@ -84,6 +84,21 @@ describe('component/create_user_groups_modal', () => {
         });
     });
 
+    test('create a mention with special characters', () => {
+        const wrapper = shallow<CreateUserGroupsModal>(
+            <CreateUserGroupsModal
+                {...baseProps}
+            />,
+        );
+        wrapper.setState({name: 'Ursa', mention: 'ursa.-_'});
+        wrapper.instance().createGroup(users);
+        expect(wrapper.instance().props.actions.createGroupWithUserIds).toHaveBeenCalledTimes(1);
+        process.nextTick(() => {
+            expect(wrapper.state('showUnknownError')).toEqual(false);
+            expect(wrapper.state('mentionInputErrorText')).toEqual('');
+        });
+    });
+
     test('fail to create with empty name', () => {
         const wrapper = shallow<CreateUserGroupsModal>(
             <CreateUserGroupsModal

@@ -6,7 +6,7 @@ Cypress.Commands.add('uiGetRHS', (options = {visible: true}) => {
         return cy.get('#sidebar-right').should('be.visible');
     }
 
-    return cy.get('#sidebar-right').should('not.be.visible');
+    return cy.get('#sidebar-right').should('not.be.exist');
 });
 
 Cypress.Commands.add('uiCloseRHS', () => {

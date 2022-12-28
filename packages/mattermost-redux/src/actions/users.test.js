@@ -34,6 +34,13 @@ describe('Actions.Users', () => {
                 },
             },
         });
+
+        Client4.setUserId('');
+        Client4.setUserRoles('');
+    });
+
+    afterEach(() => {
+        nock.cleanAll();
     });
 
     afterAll(() => {

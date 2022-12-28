@@ -1,23 +1,33 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloudLinks, LicenseLinks, ModalIdentifiers, LicenseSkus, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, LicenseLinks, ModalIdentifiers, SelfHostedProducts, LicenseSkus, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {findSelfHostedProductBySku} from 'utils/hosted_customer';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal} from 'actions/views/modals';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from 'mattermost-redux/selectors/entities/admin';
 import {GlobalState} from '@mattermost/types/store';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
+import {Client4} from 'mattermost-redux/client';
 
+import useFetchAdminConfig from 'components/common/hooks/useFetchAdminConfig';
+import useGetSelfHostedProducts from 'components/common/hooks/useGetSelfHostedProducts';
+import useControlSelfHostedPurchaseModal from 'components/common/hooks/useControlSelfHostedPurchaseModal';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
+
+import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
+
+import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
 
 import ContactSalesCTA from './contact_sales_cta';
 import StartTrialCaution from './start_trial_caution';
@@ -29,12 +39,38 @@ type ContentProps = {
     onHide: () => void;
 }
 
+const FALL_BACK_PROFESSIONAL_PRICE = '10';
+
 function SelfHostedContent(props: ContentProps) {
+    const [professionalPrice, setProfessionalPrice] = useState(' ');
+    useFetchAdminConfig();
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
+    const canUseSelfHostedSignup = useCanSelfHostedSignup();
+
+    const [products, productsLoaded] = useGetSelfHostedProducts();
+    const professionalProductId = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL)?.id || '';
+
+    const controlSelfHostedPurchaseModal = useControlSelfHostedPurchaseModal({productId: professionalProductId});
+    const isSelfHostedPurchaseEnabled = useSelector(getConfig)?.ServiceSettings?.SelfHostedPurchase;
 
     useEffect(() => {
         dispatch(getPrevTrialLicense());
+    }, []);
+
+    useEffect(() => {
+        async function fetchSelfHostedProducts() {
+            try {
+                const products = await Client4.getSelfHostedProducts();
+                const professionalProduct = products.find((prod) => prod.sku === LicenseSkus.Professional);
+                const price = professionalProduct ? professionalProduct.price_per_seat.toString() : FALL_BACK_PROFESSIONAL_PRICE;
+                setProfessionalPrice(`$${price}`);
+            } catch (error) {
+                setProfessionalPrice(`$${FALL_BACK_PROFESSIONAL_PRICE}`);
+            }
+        }
+
+        fetchSelfHostedProducts();
     }, []);
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
@@ -48,6 +84,8 @@ function SelfHostedContent(props: ContentProps) {
     const isProfessional = license.SkuShortName === LicenseSkus.Professional;
     const isEnterprise = license.SkuShortName === LicenseSkus.Enterprise;
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
+
+    const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
 
     const closePricingModal = () => {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
@@ -75,28 +113,29 @@ function SelfHostedContent(props: ContentProps) {
         formatMessage({id: 'pricing_modal.briefing.enterprise.mobileSecurity', defaultMessage: 'Advanced mobile security via ID-only push notifications'}),
         formatMessage({id: 'pricing_modal.briefing.enterprise.rolesAndPermissions', defaultMessage: 'Advanced roles and permissions'}),
         formatMessage({id: 'pricing_modal.briefing.enterprise.advancedComplianceManagement', defaultMessage: 'Advanced compliance management'}),
-        formatMessage({id: 'pricing_modal.briefing.enterprise.compliance', defaultMessage: 'Advanced compliance management'}),
         formatMessage({id: 'pricing_modal.extra_briefing.enterprise.playBookAnalytics', defaultMessage: 'Playbook analytics dashboard'}),
     ];
 
     const renderAlert = () => {
-        return (<div className='alert-option'>
-            <span>
-                {formatMessage({id: 'pricing_modal.lookingForCloudOption', defaultMessage: 'Looking for a cloud option?'})}
-            </span>
-            <a
-                onClick={() => {
-                    trackEvent(
-                        TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING,
-                        'click_looking_for_a_cloud_option',
-                    );
-                }
-                }
-                href={CloudLinks.CLOUD_SIGNUP_PAGE}
-                rel='noopener noreferrer'
-                target='_blank'
-            >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
-        </div>);
+        return (
+            <div className='alert-option'>
+                <span>
+                    {formatMessage({id: 'pricing_modal.lookingForCloudOption', defaultMessage: 'Looking for a cloud option?'})}
+                </span>
+                <a
+                    onClick={() => {
+                        trackEvent(
+                            TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING,
+                            'click_looking_for_a_cloud_option',
+                        );
+                    }
+                    }
+                    href={CloudLinks.CLOUD_SIGNUP_PAGE}
+                    rel='noopener noreferrer'
+                    target='_blank'
+                >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
+            </div>
+        );
     };
 
     const trialButton = () => {
@@ -108,11 +147,12 @@ function SelfHostedContent(props: ContentProps) {
                 disabled={isSelfHostedEnterpriseTrial}
                 btnClass={`plan_action_btn ${isSelfHostedEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}`}
                 onClick={closePricingModal}
-            />);
+            />
+        );
     };
 
     return (
-        <div className='Content'>
+        <div className='Content Content--self-hosted'>
             <Modal.Header className='PricingModal__header'>
                 <div className='header_lhs'>
                     <h1 className='title'>
@@ -165,8 +205,8 @@ function SelfHostedContent(props: ContentProps) {
                         topColor='var(--denim-button-bg)'
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
-                        price='$10'
-                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
+                        price={professionalPrice}
+                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month'})}
                         planLabel={
                             isProfessional ? (
                                 <PlanLabel
@@ -178,7 +218,29 @@ function SelfHostedContent(props: ContentProps) {
                         buttonDetails={{
                             action: () => {
                                 trackEvent('self_hosted_pricing', 'click_upgrade_button');
-                                window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
+
+                                if (!isSelfHostedPurchaseEnabled) {
+                                    window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
+                                    return;
+                                }
+
+                                if (!canUseSelfHostedSignup) {
+                                    closePricingModal();
+                                    controlAirgappedModal.open();
+                                    return;
+                                }
+
+                                const professionalProduct = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL);
+                                if (productsLoaded && professionalProduct) {
+                                    // let the control modal close this modal
+                                    // we need to wait for its timing,
+                                    // it doesn't return a signal,
+                                    // and we can not do this in a useEffect hook
+                                    // at the top of this file easily because
+                                    // sometimes we want both modals to be open if user is in purchase
+                                    // modal and wants to compare plans
+                                    controlSelfHostedPurchaseModal.open();
+                                }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: !isAdmin || isProfessional,

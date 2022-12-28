@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @guest_account
 
 /**
@@ -195,7 +194,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         });
     });
 
-    it('MM-22037 Invite Member via Email containing upper case letters', () => {
+    it('MM-T4450 Invite Member via Email containing upper case letters', () => {
         // # Login as new user
         loginAsNewUser(testTeam);
 

@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import React, {useState} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {Modal} from 'react-bootstrap';

@@ -343,7 +343,7 @@ export class FileUpload extends PureComponent<Props, State> {
         const files: File[] = [];
         Array.from(droppedFiles).forEach((file, index) => {
             const item = items[index];
-            if (item && item.webkitGetAsEntry && (item.webkitGetAsEntry() === null || item.webkitGetAsEntry().isDirectory)) {
+            if (item && item.webkitGetAsEntry && (item.webkitGetAsEntry() === null || (item.webkitGetAsEntry() as FileSystemEntry).isDirectory)) {
                 return;
             }
             files.push(file);

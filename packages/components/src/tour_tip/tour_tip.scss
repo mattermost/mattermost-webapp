@@ -41,6 +41,10 @@
             }
 
             &[data-placement^=bottom] > .tippy-arrow {
+                transform: translate3d(14px, 0, 0) !important;
+            }
+
+            &[data-placement=bottom-end] > .tippy-arrow {
                 transform: translate3d(317px, 0, 0) !important;
             }
         }

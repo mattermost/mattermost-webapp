@@ -10,7 +10,7 @@ import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
-import Constants, {FileTypes, ValidationErrors} from 'utils/constants';
+import Constants, {FileTypes, ValidationErrors, A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
 
 import {
     getChannel as getChannelAction,
@@ -444,6 +444,7 @@ export function applyTheme(theme: Theme) {
         changeCss('.app__body .input-group-addon', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('@media(min-width: 768px){.app__body .post-list__table .post-list__content .dropdown-menu a:hover, .dropdown-menu > li > button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .SubMenuItem > div:focus, .app__body .MenuWrapper .MenuItem > a:hover, .MenuItem > div:hover, .SubMenuItemContainer:not(.hasDivider):hover, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
+        changeCss('.app__body .MenuWrapper .MenuItem > button:hover, .app__body .Menu .MenuItem > button:hover, .app__body .MenuWrapper .MenuItem > button:focus, .app__body .MenuWrapper .SubMenuItem > div:focus, .app__body .MenuWrapper .MenuItem > a:hover, .app__body .MenuWrapper .MenuItem > div:hover, .app__body .MenuWrapper .SubMenuItemContainer:not(.hasDivider):hover, .app__body .MenuWrapper .SubMenuItemContainer:not(.hasDivider):focus, .app__body .MenuWrapper .SubMenuItemContainer:focus, .app__body .dropdown-menu div > a:focus, .app__body .dropdown-menu div > a:hover, .dropdown-menu li > a:focus, .app__body .dropdown-menu li > a:hover', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .attachment .attachment__content, .app__body .attachment-actions button', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.16));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.5));
         changeCss('.app__body .attachment-actions button:focus, .app__body .attachment-actions button:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.03));
@@ -546,7 +547,6 @@ export function applyTheme(theme: Theme) {
         changeCss('.app__body .post .post-collapse__show-more', `color:${theme.linkColor}`);
         changeCss('.app__body .post .post-attachment-collapse__show-more', `color:${theme.linkColor}`);
         changeCss('.app__body .post .post-collapse__show-more-button:hover', `background-color:${theme.linkColor}`);
-        changeCss('.app__body .post-message .group-mention-link', `color:${theme.linkColor}`);
     }
 
     if (theme.buttonBg) {
@@ -569,7 +569,7 @@ export function applyTheme(theme: Theme) {
     }
 
     if (theme.mentionHighlightBg) {
-        changeCss('.app__body .mention--highlight, .app__body .search-highlight', 'background:' + theme.mentionHighlightBg);
+        changeCss('.app__body .search-highlight', 'background:' + theme.mentionHighlightBg);
         changeCss('.app__body .post.post--comment .post__body.mention-comment', 'border-color:' + theme.mentionHighlightBg);
         changeCss('.app__body .post.post--highlight', 'background:' + changeOpacity(theme.mentionHighlightBg, 0.5));
         changeCss('.app__body .post.post--highlight .post-collapse__gradient', 'background:' + changeOpacity(theme.mentionHighlightBg, 0.5));
@@ -577,8 +577,8 @@ export function applyTheme(theme: Theme) {
     }
 
     if (theme.mentionHighlightLink) {
-        changeCss('.app__body .mention--highlight .mention-link, .app__body .mention--highlight, .app__body .search-highlight', 'color:' + theme.mentionHighlightLink);
-        changeCss('.app__body .mention--highlight .mention-link > a, .app__body .mention--highlight > a, .app__body .search-highlight > a', 'color: inherit');
+        changeCss('.app__body .search-highlight', 'color:' + theme.mentionHighlightLink);
+        changeCss('.app__body .search-highlight > a', 'color: inherit');
     }
 
     if (!theme.codeTheme) {
@@ -1873,4 +1873,15 @@ export function getRoleFromTrackFlow() {
     const startedByRole = TrackFlowRoles[sbr] ?? '';
 
     return {started_by_role: startedByRole};
+}
+
+export function a11yFocus(element: HTMLElement | null | undefined, keyboardOnly = true) {
+    document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+        A11yCustomEventTypes.FOCUS, {
+            detail: {
+                target: element,
+                keyboardOnly,
+            },
+        },
+    ));
 }
