@@ -67,7 +67,7 @@ import {SetPrefix, UnionSetActions} from './types';
 
 import './self_hosted_purchase_modal.scss';
 
-interface State {
+export interface State {
     address: string;
     address2: string;
     city: string;
@@ -100,27 +100,29 @@ interface ClearError {
 type SetActions = UnionSetActions<State>;
 
 type Action = SetActions | UpdateProgressBarFake | UpdateSucceeded | ClearError
-
-const initialState: State = {
-    address: '',
-    address2: '',
-    city: '',
-    state: '',
-    country: '',
-    postalCode: '',
-    cardName: '',
-    organization: '',
-    agreedTerms: false,
-    cardFilled: false,
-    seats: {
-        quantity: '0',
-        error: errorInvalidNumber,
-    },
-    submitting: false,
-    succeeded: false,
-    progressBar: 0,
-    error: '',
-};
+export function makeInitialState(): State {
+    return {
+        address: '',
+        address2: '',
+        city: '',
+        state: '',
+        country: '',
+        postalCode: '',
+        cardName: '',
+        organization: '',
+        agreedTerms: false,
+        cardFilled: false,
+        seats: {
+            quantity: '0',
+            error: errorInvalidNumber,
+        },
+        submitting: false,
+        succeeded: false,
+        progressBar: 0,
+        error: '',
+    };
+}
+const initialState = makeInitialState();
 
 const maxFakeProgress = 90;
 const maxFakeProgressIncrement = 5;
@@ -208,61 +210,51 @@ function reducer(state: State, action: Action): State {
     }
 }
 
-function canSubmit(state: State, progress: ValueOf<typeof SelfHostedSignupProgress>) {
+export function canSubmit(state: State, progress: ValueOf<typeof SelfHostedSignupProgress>) {
     if (state.submitting) {
         return false;
     }
 
-    if (progress === SelfHostedSignupProgress.PAID ||
-         progress === SelfHostedSignupProgress.CREATED_LICENSE ||
-         progress === SelfHostedSignupProgress.CREATED_SUBSCRIPTION
-    ) {
-        // in these cases, the server has all the data it needs, all it needs is resubmit.
+    const validAddress = Boolean(
+        state.organization &&
+            state.address &&
+            state.city &&
+            state.state &&
+            state.postalCode &&
+            state.country,
+    );
+    const validCard = Boolean(
+        state.cardName &&
+        state.cardFilled,
+    );
+    const validSeats = !state.seats.error;
+    switch (progress) {
+    case SelfHostedSignupProgress.PAID:
+    case SelfHostedSignupProgress.CREATED_LICENSE:
+    case SelfHostedSignupProgress.CREATED_SUBSCRIPTION:
         return true;
-    }
-
-    if (progress === SelfHostedSignupProgress.CONFIRMED_INTENT) {
+    case SelfHostedSignupProgress.CONFIRMED_INTENT: {
         return Boolean(
-
-            // address
-            state.address &&
-            state.city &&
-            state.state &&
-            state.postalCode &&
-            state.country &&
-
-            // product/license
-            !state.seats.error &&
-            state.organization &&
-
-            // legal
+            validAddress &&
+            validSeats &&
             state.agreedTerms,
         );
     }
-
-    if (progress === SelfHostedSignupProgress.START || progress === SelfHostedSignupProgress.CREATED_CUSTOMER) {
+    case SelfHostedSignupProgress.START:
+    case SelfHostedSignupProgress.CREATED_CUSTOMER:
+    case SelfHostedSignupProgress.CREATED_INTENT:
         return Boolean(
-
-            // card
-            state.cardName &&
-            state.cardFilled &&
-
-            // address
-            state.address &&
-            state.city &&
-            state.state &&
-            state.postalCode &&
-            state.country &&
-
-            // product/license
-            !state.seats.error &&
-            state.organization &&
-
-            // legal
+            validCard &&
+            validAddress &&
+            validSeats &&
             state.agreedTerms,
         );
+    default: {
+    // eslint-disable-next-line no-console
+        console.log(`Unexpected progress state: ${progress}`);
+        return false;
     }
-    return true;
+    }
 }
 
 interface Props {
