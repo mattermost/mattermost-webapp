@@ -3874,6 +3874,7 @@
   "invite_modal.choose_member": "Member",
   "invite_modal.copied": "Copied",
   "invite_modal.copy_link": "Copy invite link",
+  "invite_modal.copy_link.url_aria": "team invite link {inviteURL}",
   "invite_modal.example_channel": "e.g. {channel_name}",
   "invite_modal.guests": "guests",
   "invite_modal.invite": "Invite",
