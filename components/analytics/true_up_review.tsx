@@ -6,8 +6,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {useDispatch, useSelector} from 'react-redux';
 
-import {Buffer} from 'buffer';
-
 import moment from 'moment';
 
 import {getTrueUpReviewBundle, getTrueUpReviewStatus} from 'actions/hosted_customer';
