@@ -237,11 +237,11 @@ export default class ElasticsearchSettings extends AdminSettings {
                             defaultMessage='Client Certificate path:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.elasticsearch.clientCertExample', 'E.g.: "./elasticsearch/client.crt"')}
+                    placeholder={Utils.localizeMessage('admin.elasticsearch.clientCertExample', 'E.g.: "./elasticsearch/client-cert.pem"')}
                     helpText={
                         <FormattedMessage
                             id='admin.elasticsearch.clientCertDescription'
-                            defaultMessage='(Optional) The client certificate for the connection to the Elasticsearch server.'
+                            defaultMessage='(Optional) The client certificate for the connection to the Elasticsearch server in the PEM format.'
                         />
                     }
                     value={this.state.clientCert}
@@ -257,11 +257,11 @@ export default class ElasticsearchSettings extends AdminSettings {
                             defaultMessage='Client Certificate Key path:'
                         />
                     }
-                    placeholder={Utils.localizeMessage('admin.elasticsearch.clientKeyExample', 'E.g.: "./elasticsearch/client.key"')}
+                    placeholder={Utils.localizeMessage('admin.elasticsearch.clientKeyExample', 'E.g.: "./elasticsearch/client-key.pem"')}
                     helpText={
                         <FormattedMessage
                             id='admin.elasticsearch.clientKeyDescription'
-                            defaultMessage='(Optional) The key for the client certificate.'
+                            defaultMessage='(Optional) The key for the client certificate in the PEM format.'
                         />
                     }
                     value={this.state.clientKey}
