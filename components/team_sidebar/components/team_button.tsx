@@ -28,7 +28,6 @@ interface Props {
     order?: number;
     showOrder?: boolean;
     active?: boolean;
-    disabled?: boolean;
     unread?: boolean;
     mentions?: number;
     placement?: 'left' | 'right' | 'top' | 'bottom';
@@ -51,18 +50,12 @@ class TeamButton extends React.PureComponent<Props> {
         this.props.switchTeam(this.props.url);
     }
 
-    handleDisabled = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-        e.preventDefault();
-    }
-
     render() {
         const {teamIconUrl, displayName, btnClass, mentions, unread, isDraggable = false, teamIndex, teamId, order} = this.props;
         const {formatMessage} = this.props.intl;
 
         let teamClass: string = this.props.active ? 'active' : '';
-        const disabled: string = this.props.disabled ? 'team-disabled' : '';
         const isNotCreateTeamButton: boolean = !this.props.url.endsWith('create_team') && !this.props.url.endsWith('select_team');
-        const handleClick = (this.props.active || this.props.disabled) ? this.handleDisabled : this.handleSwitch;
 
         let badge: JSX.Element | undefined;
 
@@ -166,9 +159,8 @@ class TeamButton extends React.PureComponent<Props> {
             <Link
                 id={`${this.props.url.slice(1)}TeamButton`}
                 aria-label={ariaLabel}
-                className={disabled}
                 to={this.props.url}
-                onClick={handleClick}
+                onClick={this.handleSwitch}
             >
                 {btn}
             </Link>
