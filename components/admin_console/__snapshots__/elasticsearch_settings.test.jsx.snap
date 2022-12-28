@@ -122,7 +122,7 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
         disabled={true}
         helpText={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="(Optional) The client certificate for the connection to the Elasticsearch server."
+            defaultMessage="(Optional) The client certificate for the connection to the Elasticsearch server in the PEM format."
             id="admin.elasticsearch.clientCertDescription"
           />
         }
@@ -134,7 +134,7 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           />
         }
         onChange={[Function]}
-        placeholder="E.g.: \\"./elasticsearch/client.crt\\""
+        placeholder="E.g.: \\"./elasticsearch/client-cert.pem\\""
         setByEnv={false}
         value="test.crt"
       />
@@ -142,7 +142,7 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
         disabled={true}
         helpText={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="(Optional) The key for the client certificate."
+            defaultMessage="(Optional) The key for the client certificate in the PEM format."
             id="admin.elasticsearch.clientKeyDescription"
           />
         }
@@ -154,7 +154,7 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           />
         }
         onChange={[Function]}
-        placeholder="E.g.: \\"./elasticsearch/client.key\\""
+        placeholder="E.g.: \\"./elasticsearch/client-key.pem\\""
         setByEnv={false}
         value="test.key"
       />
@@ -595,7 +595,7 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
         disabled={false}
         helpText={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="(Optional) The client certificate for the connection to the Elasticsearch server."
+            defaultMessage="(Optional) The client certificate for the connection to the Elasticsearch server in the PEM format."
             id="admin.elasticsearch.clientCertDescription"
           />
         }
@@ -607,7 +607,7 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           />
         }
         onChange={[Function]}
-        placeholder="E.g.: \\"./elasticsearch/client.crt\\""
+        placeholder="E.g.: \\"./elasticsearch/client-cert.pem\\""
         setByEnv={false}
         value="test.crt"
       />
@@ -615,7 +615,7 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
         disabled={false}
         helpText={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="(Optional) The key for the client certificate."
+            defaultMessage="(Optional) The key for the client certificate in the PEM format."
             id="admin.elasticsearch.clientKeyDescription"
           />
         }
@@ -627,7 +627,7 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           />
         }
         onChange={[Function]}
-        placeholder="E.g.: \\"./elasticsearch/client.key\\""
+        placeholder="E.g.: \\"./elasticsearch/client-key.pem\\""
         setByEnv={false}
         value="test.key"
       />
