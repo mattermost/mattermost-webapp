@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
@@ -21,6 +21,8 @@ type Props = {
 };
 
 const SettingsButton = (props: Props): JSX.Element | null => {
+    const {formatMessage} = useIntl();
+
     const tooltip = (
         <Tooltip id='productSettings'>
             <FormattedMessage
@@ -45,7 +47,8 @@ const SettingsButton = (props: Props): JSX.Element | null => {
                 }}
                 inverted={true}
                 compact={true}
-                aria-label='Select to open the settings modal.' // proper wording and translation needed
+                aria-haspopup='dialog'
+                aria-label={formatMessage({id: 'global_header.productSettings', defaultMessage: 'Settings'})}
             />
         </OverlayTrigger>
     );
