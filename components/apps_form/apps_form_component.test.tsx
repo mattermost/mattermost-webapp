@@ -219,7 +219,7 @@ describe('AppsFormComponent', () => {
                     <AppsForm {...props}/>
                 </Provider>,
             );
-            expect(wrapper.find(Modal.Body).find('.react-select__single-value').text()).toEqual('Option3');
+            expect(wrapper.find(Modal.Body).find('div.react-select__single-value').text()).toEqual('Option3');
         });
     });
 });

@@ -147,16 +147,25 @@ const CloudStartTrialButton = ({
         if (status !== TrialLoadStatus.NotStarted) {
             return;
         }
+
         const updatedStatus = await requestStartTrial();
-        if (onClick && updatedStatus === TrialLoadStatus.Success) {
-            onClick();
-        } else {
-            await openTrialBenefitsModal(updatedStatus);
+
+        if (updatedStatus !== TrialLoadStatus.Success) {
+            return;
         }
+
         trackEvent(
             TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_BUTTON,
             telemetryId,
         );
+
+        // on click will execute whatever action is sent from the invoking place, if nothing is sent, open the trial benefits modal
+        if (onClick) {
+            onClick();
+            return;
+        }
+
+        await openTrialBenefitsModal(updatedStatus);
     };
 
     return (
