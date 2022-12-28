@@ -378,14 +378,14 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             let endingSelectedElement = selection?.focusNode?.parentElement?.offsetParent;
 
             if (startingSelectedElement?.nodeName === 'BLOCKQUOTE') {
-                startingSelectedElement = startingSelectedElement?.offsetParent;
+                startingSelectedElement = selection?.anchorNode?.parentElement?.parentElement?.offsetParent;
             }
 
             if (endingSelectedElement?.nodeName === 'BLOCKQUOTE') {
-                endingSelectedElement = endingSelectedElement?.offsetParent;
+                endingSelectedElement = selection?.focusNode?.parentElement?.parentElement?.offsetParent;
             }
 
-            console.log('startingSelectedElement: ', startingSelectedElement?.offsetParent);
+            console.log('startingSelectedElement: ', selection);
 
             if (startingSelectedElement?.classList.contains('post-message') &&
                 endingSelectedElement?.classList.contains('post-message') &&
