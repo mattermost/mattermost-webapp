@@ -55,7 +55,7 @@ export type HostedCustomerState = {
 }
 
 export type TrueUpReviewProfile = {
-    content: string
+    content: string;
 }
 
 export type TrueUpReviewStatus = {

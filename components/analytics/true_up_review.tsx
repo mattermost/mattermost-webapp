@@ -28,7 +28,7 @@ import './true_up_review.scss';
 import {GlobalState} from '@mattermost/types/store';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import { getLicense } from 'mattermost-redux/selectors/entities/general';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 const TrueUpReview: React.FC = () => {
     const dispatch = useDispatch();
@@ -37,7 +37,7 @@ const TrueUpReview: React.FC = () => {
     const reviewProfile = useSelector(trueUpReviewProfileSelector);
     const reviewStatus = useSelector(trueUpReviewStatusSelector);
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
-    const license = useSelector(getLicense)
+    const license = useSelector(getLicense);
     const [submitted, setSubmitted] = useState(false);
     const trueUpReviewError = useSelector((state: GlobalState) => {
         const errors = getSelfHostedErrors(state);
@@ -59,7 +59,6 @@ const TrueUpReview: React.FC = () => {
             const date = moment().format('MM-DD-YYYY');
             link.href = href;
             link.download = `True Up-${license.Id}-${date}.txt`;
-
             document.body.appendChild(link);
             link.click();
 

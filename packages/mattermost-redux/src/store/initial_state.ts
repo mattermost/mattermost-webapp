@@ -227,7 +227,7 @@ const state: GlobalState = {
             },
             trueUpReview: {
                 profile: {
-                    content: ""
+                    content: '',
                 },
                 status: {
                     complete: false,
