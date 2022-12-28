@@ -173,7 +173,7 @@ const TrueUpReview: React.FC = () => {
         }
 
         // If the due date is empty we still have the default state.
-        if (reviewStatus?.due_date === 0) {
+        if (statusRequestState !== 'OK' || reviewStatus?.due_date === 0) {
             return null;
         }
 
