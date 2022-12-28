@@ -270,7 +270,7 @@ describe('components/overage_users_banner', () => {
             store,
         });
 
-        const [, closeButton] = screen.getAllByRole('button');
+        const closeButton = screen.getByRole('button');
 
         fireEvent.click(closeButton);
 
