@@ -18,6 +18,7 @@ import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 
 import {makeAsyncComponent} from 'components/async_load';
 import ChannelController from 'components/channel_layout/channel_controller';
+import useTelemetryIdentitySync from 'components/common/hooks/useTelemetryIdentifySync';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
@@ -46,6 +47,8 @@ function TeamController(props: Props) {
 
     const blurTime = useRef(Date.now());
     const lastTime = useRef(Date.now());
+
+    useTelemetryIdentitySync();
 
     useEffect(() => {
         if (props.graphQLEnabled) {

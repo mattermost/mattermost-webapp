@@ -31,7 +31,9 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
   >
     <ForwardRef
       active={false}
-      aria-label="Select to toggle the help menu."
+      aria-controls="AddChannelDropdown"
+      aria-expanded={false}
+      aria-label="Help"
       compact={true}
       icon="help-circle-outline"
       inverted={true}
@@ -107,7 +109,9 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
   >
     <ForwardRef
       active={false}
-      aria-label="Select to toggle the help menu."
+      aria-controls="AddChannelDropdown"
+      aria-expanded={false}
+      aria-label="Help"
       compact={true}
       icon="help-circle-outline"
       inverted={true}
@@ -176,7 +180,9 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
   >
     <ForwardRef
       active={false}
-      aria-label="Select to toggle the help menu."
+      aria-controls="AddChannelDropdown"
+      aria-expanded={false}
+      aria-label="Help"
       compact={true}
       icon="help-circle-outline"
       inverted={true}

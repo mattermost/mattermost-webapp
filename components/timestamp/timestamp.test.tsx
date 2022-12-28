@@ -228,7 +228,7 @@ describe('components/timestamp/Timestamp', () => {
                 useDate={false}
             />,
         );
-        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-12T15:15:13.000Z');
+        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-12T15:15:13.000');
         expect(wrapper.text()).toBe('15:15');
     });
 
@@ -240,7 +240,7 @@ describe('components/timestamp/Timestamp', () => {
             />,
         );
 
-        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-12T15:15:13.000Z');
+        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-12T15:15:13.000');
         expect(wrapper.text()).toBe('January 12, 2018');
     });
 
@@ -252,7 +252,7 @@ describe('components/timestamp/Timestamp', () => {
                 timeZone='Australia/Sydney'
             />,
         );
-        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-12T20:15:13.000Z');
+        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-12T20:15:13.000');
         expect(wrapper.text()).toBe('7:15 AM');
     });
 
@@ -264,7 +264,7 @@ describe('components/timestamp/Timestamp', () => {
                 timeZone='US/Hawaii'
             />,
         );
-        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-12T20:15:13.000Z');
+        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-12T20:15:13.000');
         expect(wrapper.text()).toBe('10:15 AM');
     });
 
@@ -276,8 +276,7 @@ describe('components/timestamp/Timestamp', () => {
                 timeZone='US/Hawaii'
             />,
         );
-        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-12T20:15:13.000Z');
-        expect(wrapper.find('time').prop('aria-label')).toBe('Fri Jan 12 2018 10:15:13 GMT-1000 (US/Hawaii)');
+        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-12T20:15:13.000');
         expect(wrapper.text()).toBe('January 12, 2018');
     });
 
@@ -289,8 +288,7 @@ describe('components/timestamp/Timestamp', () => {
                 timeZone='Australia/Sydney'
             />,
         );
-        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-13T04:15:13.000Z');
-        expect(wrapper.find('time').prop('aria-label')).toBe('Sat Jan 13 2018 15:15:13 GMT+1100 (Australia/Sydney)');
+        expect(wrapper.find('time').prop('dateTime')).toBe('2018-01-13T04:15:13.000');
         expect(wrapper.text()).toBe('January 13, 2018 at 15:15');
     });
 
@@ -303,7 +301,6 @@ describe('components/timestamp/Timestamp', () => {
                 timeZone='US/Alaska'
             />,
         );
-        expect(wrapper.find('time').prop('aria-label')).toBe('Fri Jan 12 2018 19:15:13 GMT-0900 (US/Alaska)');
         expect(wrapper.text()).toBe('19:15');
     });
 });
