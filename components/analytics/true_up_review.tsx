@@ -160,7 +160,7 @@ const TrueUpReview: React.FC = () => {
     );
 
     const cardContent = () => {
-        if (reviewProfile.getRequestState !== "OK" && trueUpReviewError) {
+        if (reviewProfile.getRequestState !== 'OK' && trueUpReviewError) {
             return errorStatus;
         }
 
