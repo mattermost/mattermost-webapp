@@ -226,7 +226,7 @@ const state: GlobalState = {
                 invoicesLoaded: false,
             },
             trueUpReviewProfile: {
-                content: '',
+                content: {},
                 getRequestState: 'IDLE',
             },
             trueUpReviewStatus: {

@@ -53,7 +53,7 @@ export type HostedCustomerState = {
 }
 
 export type TrueUpReviewProfile = {
-    content: string;
+    content: Record<string, any>;
 }
 
 export type TrueUpReviewStatus = {

@@ -127,7 +127,7 @@ function trueUpReviewProfile(state: TrueUpReviewProfileReducer | null = null, ac
         return {
             ...state,
             getRequestState: 'OK',
-            ...action.data,
+            content: action.data,
         };
     }
     case HostedCustomerTypes.TRUE_UP_REVIEW_PROFILE_REQUEST: {

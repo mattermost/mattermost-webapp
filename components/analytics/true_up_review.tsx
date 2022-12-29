@@ -29,6 +29,7 @@ import {GlobalState} from '@mattermost/types/store';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getIsStarterLicense} from 'utils/license_utils';
 
 const TrueUpReview: React.FC = () => {
     const dispatch = useDispatch();
@@ -38,16 +39,20 @@ const TrueUpReview: React.FC = () => {
     const reviewStatus = useSelector(trueUpReviewStatusSelector);
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
     const license = useSelector(getLicense);
+    const isLicensed = license.IsLicensed === 'true';
+    const isStarter = getIsStarterLicense(license);
+    const licenseIsTrueUpEligible = isLicensed && !isCloud && !isStarter;
     const trueUpReviewError = useSelector((state: GlobalState) => {
         const errors = getSelfHostedErrors(state);
         return Boolean(errors.trueUpReview);
     });
 
     useEffect(() => {
-        if (reviewStatus.getRequestState === 'IDLE') {
-            dispatch(getTrueUpReviewStatus());
+        if (reviewStatus.getRequestState !== 'IDLE' || !licenseIsTrueUpEligible) {
+            return;
         }
-    }, [dispatch, reviewStatus.getRequestState]);
+        dispatch(getTrueUpReviewStatus());
+    }, [dispatch, reviewStatus.getRequestState, licenseIsTrueUpEligible]);
 
     // Download the review profile as a base64 encoded json file when the review request is submitted.
     useEffect(() => {
@@ -55,9 +60,10 @@ const TrueUpReview: React.FC = () => {
             return;
         }
 
-        if (reviewProfile.getRequestState === 'OK' && isAirGapped && !trueUpReviewError && reviewProfile.content.length > 0) {
-            // Create the bundle as a blob containing base64 encoded json data and assign it to a link element.
-            const blob = new Blob([reviewProfile.content], {type: 'application/text'});
+        if (reviewProfile.getRequestState === 'OK' && isAirGapped && !trueUpReviewError && Object.keys(reviewProfile.content).length > 0) {
+            // Prettified content makes manual review and inspection easier.
+            const prettifiedContent = JSON.stringify(reviewProfile.content, null, 4);
+            const blob = new Blob([prettifiedContent], {type: 'application/text'});
             const href = URL.createObjectURL(blob);
 
             const link = document.createElement('a');
@@ -74,7 +80,7 @@ const TrueUpReview: React.FC = () => {
     }, [isAirGapped, reviewProfile, reviewProfile.getRequestState, trueUpReviewError]);
 
     const formattedDueDate = (): string => {
-        if (!reviewStatus?.due_date) {
+        if (!reviewStatus.due_date) {
             return '';
         }
 
@@ -171,7 +177,7 @@ const TrueUpReview: React.FC = () => {
         }
 
         // If the due date is empty we still have the default state.
-        if (!reviewStatus?.due_date) {
+        if (!reviewStatus.due_date) {
             return null;
         }
 
@@ -179,12 +185,12 @@ const TrueUpReview: React.FC = () => {
     };
 
     // Only show the true up review section if the user is an admin and we're not using a cloud instance.
-    if (isCloud || !isSystemAdmin) {
+    if (!licenseIsTrueUpEligible || !isSystemAdmin) {
         return null;
     }
 
     // Only display the review details if we are within 2 weeks of the review due date.
-    const visibilityStart = moment(reviewStatus?.due_date).subtract(2, 'weeks');
+    const visibilityStart = moment(reviewStatus.due_date).subtract(2, 'weeks');
     if (moment().isSameOrBefore(visibilityStart)) {
         return null;
     }
