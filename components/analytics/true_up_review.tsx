@@ -83,7 +83,7 @@ const TrueUpReview: React.FC = () => {
         }
 
         // Convert from milliseconds
-        const date = new Date(reviewStatus?.due_date);
+        const date = new Date(reviewStatus.due_date);
         return moment(date).format('MMMM DD, YYYY');
     };
 
@@ -173,7 +173,7 @@ const TrueUpReview: React.FC = () => {
         }
 
         // If the due date is empty we still have the default state.
-        if (statusRequestState !== 'OK' || reviewStatus?.due_date === 0) {
+        if (!reviewStatus?.due_date) {
             return null;
         }
 
@@ -193,12 +193,17 @@ const TrueUpReview: React.FC = () => {
 
     // Only display the review details if we are within 2 weeks of the review due date.
     const visibilityStart = moment(reviewStatus?.due_date).subtract(2, 'weeks');
-    if (moment().isBefore(visibilityStart)) {
+    if (moment().isSameOrBefore(visibilityStart)) {
         return null;
     }
 
     // If the review has already been submitted, don't show anything.
     if (profileRequestState === 'IDLE' && reviewStatus?.complete) {
+        return null;
+    }
+
+    // If the due date is empty we still have the default state.
+    if (statusRequestState !== 'OK' || !reviewStatus?.due_date) {
         return null;
     }
 
