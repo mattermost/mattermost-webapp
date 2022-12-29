@@ -47,10 +47,9 @@ const TrueUpReview: React.FC = () => {
     const {getRequestState: profileRequestState}: TrueUpReviewProfileReducer = useSelector((state: GlobalState) => state.entities.hostedCustomer.trueUpReviewProfile || {content: '', getRequestState: 'IDLE'});
 
     useEffect(() => {
-        if (statusRequestState === 'LOADING' || statusRequestState === 'OK') {
-            return;
+        if (statusRequestState === 'IDLE') {
+            dispatch(getTrueUpReviewStatus());
         }
-        dispatch(getTrueUpReviewStatus());
     }, [dispatch, statusRequestState, statusRequestState]);
 
     // Download the review profile as a base64 encoded json file when the review request is submitted.
