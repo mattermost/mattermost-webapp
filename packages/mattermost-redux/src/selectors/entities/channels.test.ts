@@ -3204,3 +3204,59 @@ describe('Selectors.Channels.getUnreadChannelIds', () => {
         ]);
     });
 });
+
+describe('Selectors.Channels.getRecentProfilesFromDMs', () => {
+    it('should return profiles from DMs in descending order of last viewed at time', () => {
+        const currentUser = TestHelper.fakeUserWithId();
+        const user1 = TestHelper.fakeUserWithId();
+        const user2 = TestHelper.fakeUserWithId();
+        const user3 = TestHelper.fakeUserWithId();
+        const user4 = TestHelper.fakeUserWithId();
+
+        const profiles = {
+            [currentUser.id]: currentUser,
+            [user1.id]: user1,
+            [user2.id]: user2,
+            [user3.id]: user3,
+            [user4.id]: user4,
+        };
+
+        const channel1 = TestHelper.fakeDmChannel(currentUser.id, user1.id);
+        const channel2 = TestHelper.fakeDmChannel(currentUser.id, user2.id);
+        const channel3 = TestHelper.fakeGmChannel(currentUser.username, user3.username, user4.username);
+        const channels = {
+            [channel1.id]: channel1,
+            [channel2.id]: channel2,
+            [channel3.id]: channel3,
+        };
+        const myMembers = {
+            [channel1.id]: {channel_id: channel1.id, last_viewed_at: 1664984782988},
+            [channel3.id]: {channel_id: channel3.id, last_viewed_at: 1664984782992},
+            [channel2.id]: {channel_id: channel2.id, last_viewed_at: 1664984782998},
+        };
+        const testState = deepFreezeAndThrowOnMutation({
+            entities: {
+                preferences: {
+                    myPreferences: {},
+                },
+                general: {
+                    config: {},
+                },
+                users: {
+                    currentUserId: currentUser.id,
+                    profiles,
+                },
+                teams: {},
+                channels: {
+                    channels,
+                    myMembers,
+                },
+            },
+        });
+        expect(Selectors.getRecentProfilesFromDMs(testState).map((user) => user.username)).toEqual([
+            user2.username,
+            ...[user3.username, user4.username].sort(),
+            user1.username,
+        ]);
+    });
+});
