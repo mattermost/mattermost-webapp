@@ -48,32 +48,14 @@
     }
 
     &__submit {
-        width: 181px;
-        height: 40px;
-        border: none;
         border-radius: 4px;
-        box-shadow: none;
-        font-family: 'Open Sans';
-        font-size: 14px;
-        font-style: normal;
         font-weight: 600;
-        letter-spacing: 0.02em;
-        line-height: 10px;
 
         &--error {
-            width: 181px;
-            height: 40px;
-            border: none;
             background: rgba(var(--button-bg-rgb), 0.16);
             border-radius: 4px;
-            box-shadow: none;
             color: var(--button-bg);
-            font-family: 'Open Sans';
-            font-size: 14px;
-            font-style: normal;
             font-weight: 600;
-            letter-spacing: 0.02em;
-            line-height: 10px;
         }
     }
 }

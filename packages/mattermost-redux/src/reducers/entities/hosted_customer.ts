@@ -106,7 +106,8 @@ export function errors(state: ErrorsReducer = emptyErrors, action: GenericAction
     case HostedCustomerTypes.SELF_HOSTED_INVOICES_FAILED: {
         return {...state, products: true};
     }
-    case HostedCustomerTypes.TRUE_UP_REVIEW_PROFILE_FAILED || HostedCustomerTypes.TRUE_UP_REVIEW_STATUS_FAILED: {
+    case HostedCustomerTypes.TRUE_UP_REVIEW_PROFILE_FAILED:
+    case HostedCustomerTypes.TRUE_UP_REVIEW_STATUS_FAILED: {
         return {...state, trueUpReview: true};
     }
     case HostedCustomerTypes.SELF_HOSTED_INVOICES_REQUEST:
