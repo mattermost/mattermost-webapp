@@ -21,7 +21,7 @@ import {
     getTrueUpReviewStatus as trueUpReviewStatusSelector,
 } from 'mattermost-redux/selectors/entities/hosted_customer';
 
-import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
+import useCWSAvailabilityCheck from 'components/common/hooks/useCWSAvailabilityCheck';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 
 import './true_up_review.scss';
@@ -33,7 +33,7 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 const TrueUpReview: React.FC = () => {
     const dispatch = useDispatch();
     const isCloud = useSelector(isCurrentLicenseCloud);
-    const isAirGapped = !useCanSelfHostedSignup();
+    const isAirGapped = !useCWSAvailabilityCheck();
     const reviewProfile = useSelector(trueUpReviewProfileSelector);
     const reviewStatus = useSelector(trueUpReviewStatusSelector);
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);

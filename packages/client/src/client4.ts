@@ -4247,6 +4247,13 @@ export default class Client4 {
             {method: 'get'},
         );
     }
+
+    cwsAvailabilityCheck = () => {
+        return this.doFetch<StatusOK>(
+            `${this.getCloudRoute()}/check-cws-connection`,
+            {method: 'get'},
+        );
+    }
 }
 
 export function parseAndMergeNestedHeaders(originalHeaders: any) {
