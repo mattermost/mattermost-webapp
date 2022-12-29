@@ -51,8 +51,8 @@
         font-weight: 600;
 
         &--error {
-            background: rgba(var(--button-bg-rgb), 0.16);
-            color: var(--button-bg);
+            background: rgba(var(--button-bg-rgb), 0.16) !important;
+            color: var(--button-bg) !important;
             font-weight: 600;
         }
     }

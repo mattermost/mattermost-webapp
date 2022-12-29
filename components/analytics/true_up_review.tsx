@@ -107,7 +107,7 @@ const TrueUpReview: React.FC = () => {
 
     const submitButton = (
         <button
-            className={classNames({'btn btn-primary TrueUpReview__submit': !trueUpReviewError}, {'btn TrueUpReview__submit--error': trueUpReviewError})}
+            className={classNames('btn btn-primary TrueUpReview__submit', {'TrueUpReview__submit--error': trueUpReviewError})}
             onClick={isAirGapped ? handleDownloadBundle : handleSubmitReview}
         >
             {isAirGapped ?
