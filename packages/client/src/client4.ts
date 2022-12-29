@@ -28,6 +28,7 @@ import {
     SelfHostedSignupCustomerResponse,
     SelfHostedSignupSuccessResponse,
     SelfHostedSignupProgress,
+    SelfHostedSignupBootstrapResponse,
 } from '@mattermost/types/hosted_customer';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
@@ -3869,7 +3870,7 @@ export default class Client4 {
         if (reset) {
             query = '?reset=true';
         }
-        return this.doFetch<{progress: ValueOf<typeof SelfHostedSignupProgress>}>(
+        return this.doFetch<SelfHostedSignupBootstrapResponse>(
             `${this.getHostedCustomerRoute()}/bootstrap${query}`,
             {method: 'post'},
         );
