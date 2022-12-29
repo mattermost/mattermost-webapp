@@ -9,7 +9,7 @@ export default function useCWSAvailabilityCheck() {
     const [canReachCWS, setCanReachCWS] = useState(false);
     useEffect(() => {
         Client4.cwsAvailabilityCheck().then(() => setCanReachCWS(true));
-    });
+    }, []);
 
     return canReachCWS;
 }
