@@ -27,7 +27,6 @@ import {
     SelfHostedSignupForm,
     SelfHostedSignupCustomerResponse,
     SelfHostedSignupSuccessResponse,
-    SelfHostedSignupProgress,
     SelfHostedSignupBootstrapResponse,
 } from '@mattermost/types/hosted_customer';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
@@ -123,7 +122,7 @@ import {
     GetFilteredUsersStatsOpts,
     UserCustomStatus,
 } from '@mattermost/types/users';
-import {DeepPartial, RelationOneToOne, ValueOf} from '@mattermost/types/utilities';
+import {DeepPartial, RelationOneToOne} from '@mattermost/types/utilities';
 import {ProductNotices} from '@mattermost/types/product_notices';
 import {
     DataRetentionCustomPolicies,

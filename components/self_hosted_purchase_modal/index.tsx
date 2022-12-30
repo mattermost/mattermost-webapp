@@ -67,6 +67,8 @@ import {SetPrefix, UnionSetActions} from './types';
 
 import './self_hosted_purchase_modal.scss';
 
+export const STORAGE_KEY_PURCHASE_IN_PROGRESS = 'PURCHASE_IN_PROGRESS';
+
 export interface State {
     address: string;
     address2: string;
@@ -320,6 +322,19 @@ export default function SelfHostedPurchaseModal(props: Props) {
             TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
             'pageview_self_hosted_purchase',
         );
+
+        try {
+            sessionStorage.setItem(STORAGE_KEY_PURCHASE_IN_PROGRESS, 'true');
+        } catch {
+            // swallow error
+        }
+        return () => {
+            try {
+                sessionStorage.removeItem(STORAGE_KEY_PURCHASE_IN_PROGRESS);
+            } catch {
+                // swallow error
+            }
+        };
     }, []);
 
     useEffect(() => {
