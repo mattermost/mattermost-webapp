@@ -116,15 +116,13 @@ const TrueUpReview: React.FC = () => {
             className={classNames('btn btn-primary TrueUpReview__submit', {'TrueUpReview__submit--error': trueUpReviewError})}
             onClick={isAirGapped ? handleDownloadBundle : handleSubmitReview}
         >
-            {isAirGapped ?
-                <FormattedMessage
-                    id='admin.billing.trueUpReview.button_download'
-                    defaultMessage='Download Data'
-                /> :
-                <FormattedMessage
-                    id='admin.billing.trueUpReview.button_share'
-                    defaultMessage='Share to Mattermost'
-                />
+            {isAirGapped ? <FormattedMessage
+                id='admin.billing.trueUpReview.button_download'
+                defaultMessage='Download Data'
+                           /> : <FormattedMessage
+                id='admin.billing.trueUpReview.button_share'
+                defaultMessage='Share to Mattermost'
+                 />
             }
         </button>
     );
@@ -190,7 +188,7 @@ const TrueUpReview: React.FC = () => {
     }
 
     // Only display the review details if we are within 2 weeks of the review due date.
-    const visibilityStart = moment(reviewStatus.due_date).subtract(2, 'weeks');
+    const visibilityStart = moment(reviewStatus.due_date).startOf('day').subtract(2, 'weeks');
     if (moment().isSameOrBefore(visibilityStart)) {
         return null;
     }
