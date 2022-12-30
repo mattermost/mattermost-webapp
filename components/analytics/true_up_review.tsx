@@ -29,6 +29,7 @@ import {GlobalState} from '@mattermost/types/store';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import { getIsStarterLicense } from 'utils/license_utils';
 
 const TrueUpReview: React.FC = () => {
     const dispatch = useDispatch();
@@ -184,7 +185,7 @@ const TrueUpReview: React.FC = () => {
     };
 
     // Only show the true up review section if the user is an admin and we're not using a cloud instance.
-    if (isCloud || !isSystemAdmin) {
+    if (!licenseIsTrueUpEligible || !isSystemAdmin) {
         return null;
     }
 
