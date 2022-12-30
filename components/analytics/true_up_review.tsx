@@ -116,13 +116,14 @@ const TrueUpReview: React.FC = () => {
             className={classNames('btn btn-primary TrueUpReview__submit', {'TrueUpReview__submit--error': trueUpReviewError})}
             onClick={isAirGapped ? handleDownloadBundle : handleSubmitReview}
         >
-            {isAirGapped ? <FormattedMessage
-                id='admin.billing.trueUpReview.button_download'
-                defaultMessage='Download Data'
-                           /> : <FormattedMessage
-                id='admin.billing.trueUpReview.button_share'
-                defaultMessage='Share to Mattermost'
-                 />
+            {isAirGapped ?
+                <FormattedMessage
+                    id='admin.billing.trueUpReview.button_download'
+                    defaultMessage='Download Data'
+                /> : <FormattedMessage
+                    id='admin.billing.trueUpReview.button_share'
+                    defaultMessage='Share to Mattermost'
+                />
             }
         </button>
     );
