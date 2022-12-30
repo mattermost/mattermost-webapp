@@ -72,7 +72,7 @@ Cypress.Commands.add('uiOpenHelpMenu', (item = '') => {
 });
 
 Cypress.Commands.add('uiGetHelpButton', () => {
-    return cy.findByRole('button', {name: 'Select to toggle the help menu.'}).should('be.visible');
+    return cy.findByRole('button', {name: 'Help'}).should('be.visible');
 });
 
 Cypress.Commands.add('uiGetHelpMenu', (options = {visible: true}) => {
