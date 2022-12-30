@@ -132,10 +132,12 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
     removeTooltipLink = (): void => this.gmItemRef.current?.removeAttribute?.('aria-describedby');
 
     handleChannelClick = (event: React.MouseEvent<HTMLAnchorElement>): void => {
-        mark('SidebarChannelLink#click');
-        trackEvent('ui', 'ui_channel_selected_v2');
-
         this.handleSelectChannel(event);
+
+        setTimeout(() => {
+            mark('SidebarChannelLink#click');
+            trackEvent('ui', 'ui_channel_selected_v2');
+        }, 0);
     }
 
     handleSelectChannel = (event: React.MouseEvent<HTMLAnchorElement>): void => {
