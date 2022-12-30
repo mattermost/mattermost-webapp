@@ -2708,7 +2708,6 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                 },
                 general: {
                     config: {
-                        FeatureFlagCollapsedThreads: 'true',
                         CollapsedThreads: 'always_on',
                     },
                 },
