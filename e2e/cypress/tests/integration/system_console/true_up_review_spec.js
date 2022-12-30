@@ -124,7 +124,7 @@ describe('System Console > Site Statistics > True Up Review', () => {
         // # Go to site statistics
         cy.visit('/admin_console/reporting/system_analytics');
         cy.findByText('True Up Review').should('not.exist');
-    })
+    });
 
     it('panel should not be present if current date is not within the due date window', () => {
         // # Log in as admin
@@ -142,7 +142,7 @@ describe('System Console > Site Statistics > True Up Review', () => {
         // # Go to site statistics
         cy.visit('/admin_console/reporting/system_analytics');
         cy.findByText('True Up Review').should('not.exist');
-    })
+    });
 
     it('panel should not be present if current date is not within the due date window', () => {
         // # Log in as admin
@@ -160,7 +160,7 @@ describe('System Console > Site Statistics > True Up Review', () => {
         // # Go to site statistics
         cy.visit('/admin_console/reporting/system_analytics');
         cy.findByText('True Up Review').should('not.exist');
-    })
+    });
 
     it('panel should not be present if is enabled', () => {
         // # Log in as admin
@@ -178,5 +178,5 @@ describe('System Console > Site Statistics > True Up Review', () => {
         // # Go to site statistics
         cy.visit('/admin_console/reporting/system_analytics');
         cy.findByText('True Up Review').should('not.exist');
-    })
+    });
 });
