@@ -29,7 +29,7 @@ import {GlobalState} from '@mattermost/types/store';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import { getIsStarterLicense } from 'utils/license_utils';
+import {getIsStarterLicense} from 'utils/license_utils';
 
 const TrueUpReview: React.FC = () => {
     const dispatch = useDispatch();
