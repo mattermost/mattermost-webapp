@@ -123,7 +123,7 @@ const TrueUpReview: React.FC = () => {
                 /> : <FormattedMessage
                     id='admin.billing.trueUpReview.button_share'
                     defaultMessage='Share to Mattermost'
-                />
+                    />
             }
         </button>
     );
