@@ -7,8 +7,14 @@ import React from 'react';
 import {getFilePreviewUrl, getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 
 import './image_preview.scss';
+import {FileInfo} from '@mattermost/types/files';
 
-export default function ImagePreview({fileInfo, canDownloadFiles}) {
+export interface IImagePreviewProps {
+    fileInfo: FileInfo;
+    canDownloadFiles: boolean;
+}
+
+export default function ImagePreview({fileInfo, canDownloadFiles}: IImagePreviewProps) {
     const isExternalFile = !fileInfo.id;
 
     let fileUrl;
