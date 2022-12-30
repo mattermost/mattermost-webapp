@@ -232,6 +232,7 @@ const state: GlobalState = {
             trueUpReviewStatus: {
                 complete: false,
                 due_date: 0,
+                telemetry_enabled: false,
                 getRequestState: 'IDLE',
             },
         },
