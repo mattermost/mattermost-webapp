@@ -385,13 +385,17 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 endingSelectedElement = selection?.focusNode?.parentElement?.parentElement?.offsetParent;
             }
 
-            console.log('startingSelectedElement: ', selection);
-
-            if (startingSelectedElement?.classList.contains('post-message') &&
+            if (
+                // don't show quote button if selected text is not a message
+                startingSelectedElement?.classList.contains('post-message') &&
                 endingSelectedElement?.classList.contains('post-message') &&
-                startingSelectedElement?.parentElement?.id === endingSelectedElement?.parentElement?.id
 
-            // !startingSelectedElement.id.includes('rhsPostMessageText') // todo sinan
+                // don't show quote button if user selects multiple messages
+                startingSelectedElement?.parentElement?.id === endingSelectedElement?.parentElement?.id &&
+
+                // don't show quote button if user selects text in RHS
+                !startingSelectedElement?.firstElementChild?.firstElementChild?.id.includes('rhsPostMessageText') &&
+                !endingSelectedElement?.firstElementChild?.firstElementChild?.id.includes('rhsPostMessageText')
             ) {
                 text = selection?.toString() || '';
             }
