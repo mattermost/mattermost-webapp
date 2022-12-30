@@ -59,6 +59,7 @@ export type TrueUpReviewProfile = {
 export type TrueUpReviewStatus = {
     due_date: number;
     complete: boolean;
+    telemetry_enabled: boolean;
 }
 
 type RequestState = 'IDLE' | 'LOADING' | 'OK'

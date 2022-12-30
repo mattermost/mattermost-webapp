@@ -194,6 +194,10 @@ const TrueUpReview: React.FC = () => {
         return null;
     }
 
+    if (reviewStatus?.telemetry_enabled) {
+        return null;
+    }
+
     return (
         <div className='TrueUpReview__card'>
             <div className='TrueUpReview__cardHeader'>
