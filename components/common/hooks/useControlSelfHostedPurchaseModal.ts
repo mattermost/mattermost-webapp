@@ -13,6 +13,8 @@ import {Client4} from 'mattermost-redux/client';
 import {getCurrentUserEmail} from 'mattermost-redux/selectors/entities/common';
 import {HostedCustomerTypes} from 'mattermost-redux/action_types';
 
+import {makeGetItem} from 'selectors/storage';
+
 import {useControlModal, ControlModal} from './useControlModal';
 
 interface HookOptions{
@@ -24,6 +26,7 @@ interface HookOptions{
 export default function useControlSelfHostedPurchaseModal(options: HookOptions): ControlModal {
     const dispatch = useDispatch();
     const userEmail = useSelector(getCurrentUserEmail);
+    const purchaseInProgress = useSelector(makeGetItem(STORAGE_KEY_PURCHASE_IN_PROGRESS, '')) === 'true';
     const controlModal = useControlModal({
         modalId: ModalIdentifiers.SELF_HOSTED_PURCHASE,
         dialogType: SelfHostedPurchaseModal,
@@ -39,14 +42,7 @@ export default function useControlSelfHostedPurchaseModal(options: HookOptions):
             ...controlModal,
             open: async () => {
                 // check if user already has an open purchase modal in current browser.
-                let hasOpenPurchaseModal = false;
-                try {
-                    hasOpenPurchaseModal = sessionStorage.getItem(STORAGE_KEY_PURCHASE_IN_PROGRESS) === 'true';
-                } catch {
-                    // swallow error
-                }
-
-                if (hasOpenPurchaseModal) {
+                if (purchaseInProgress) {
                     // User within the same browser session
                     // is already trying to purchase. Notify them of this
                     // and request the exit that purchase flow before attempting again.
@@ -96,5 +92,5 @@ export default function useControlSelfHostedPurchaseModal(options: HookOptions):
                 }
             },
         };
-    }, [controlModal, options.productId, options.onClick, options.trackingLocation]);
+    }, [controlModal, options.productId, options.onClick, options.trackingLocation, purchaseInProgress]);
 }
