@@ -38,16 +38,21 @@ const TrueUpReview: React.FC = () => {
     const reviewStatus = useSelector(trueUpReviewStatusSelector);
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
     const license = useSelector(getLicense);
+    const isLicensed = license.IsLicensed === 'true';
+    const isStarter = getIsStarterLicense(license);
+    const licenseIsTrueUpEligible = isLicensed && !isCloud && !isStarter;
     const trueUpReviewError = useSelector((state: GlobalState) => {
         const errors = getSelfHostedErrors(state);
         return Boolean(errors.trueUpReview);
     });
 
     useEffect(() => {
-        if (reviewStatus.getRequestState === 'IDLE') {
-            dispatch(getTrueUpReviewStatus());
+        if (reviewStatus.getRequestState !== 'IDLE' || !licenseIsTrueUpEligible) {
+            return;
         }
-    }, [dispatch, reviewStatus.getRequestState]);
+
+        dispatch(getTrueUpReviewStatus());
+    }, [dispatch, reviewStatus.getRequestState, licenseIsTrueUpEligible]);
 
     // Download the review profile as a base64 encoded json file when the review request is submitted.
     useEffect(() => {
@@ -74,7 +79,7 @@ const TrueUpReview: React.FC = () => {
     }, [isAirGapped, reviewProfile, reviewProfile.getRequestState, trueUpReviewError]);
 
     const formattedDueDate = (): string => {
-        if (!reviewStatus?.due_date) {
+        if (!reviewStatus.due_date) {
             return '';
         }
 
@@ -171,7 +176,7 @@ const TrueUpReview: React.FC = () => {
         }
 
         // If the due date is empty we still have the default state.
-        if (!reviewStatus?.due_date) {
+        if (!reviewStatus.due_date) {
             return null;
         }
 
@@ -184,17 +189,17 @@ const TrueUpReview: React.FC = () => {
     }
 
     // Only display the review details if we are within 2 weeks of the review due date.
-    const visibilityStart = moment(reviewStatus?.due_date).subtract(2, 'weeks');
+    const visibilityStart = moment(reviewStatus.due_date).subtract(2, 'weeks');
     if (moment().isSameOrBefore(visibilityStart)) {
         return null;
     }
 
     // If the review has already been submitted, don't show anything.
-    if (reviewStatus?.complete) {
+    if (reviewStatus.complete) {
         return null;
     }
 
-    if (reviewStatus?.telemetry_enabled) {
+    if (reviewStatus.telemetry_enabled) {
         return null;
     }
 
