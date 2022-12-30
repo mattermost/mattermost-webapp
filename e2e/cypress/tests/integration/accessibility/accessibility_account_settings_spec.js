@@ -96,17 +96,19 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
     it('MM-T1465_1 Verify Label & Tab behavior in section links', () => {
         // * Verify aria-label and tab support in section of Account settings modal
         cy.uiOpenProfileModal();
-        cy.findByRole('button', {name: 'profile settings'}).should('be.visible').focus().should('be.focused');
+        cy.findByRole('tab', {name: 'profile settings'}).should('be.visible').focus().should('be.focused');
         ['profile settings', 'security'].forEach((text) => {
-            cy.focused().should('have.attr', 'aria-label', text).tab();
+            // * Verify aria-label on each tab and it supports navigating to the next tab with arrow keys
+            cy.focused().should('have.attr', 'aria-label', text).type('{downarrow}');
         });
         cy.uiClose();
 
         // * Verify aria-label and tab support in section of Settings modal
         cy.uiOpenSettingsModal();
-        cy.findByRole('button', {name: 'notifications'}).should('be.visible').focus().should('be.focused');
+        cy.findByRole('tab', {name: 'notifications'}).should('be.visible').focus().should('be.focused');
         ['notifications', 'display', 'sidebar', 'advanced'].forEach((text) => {
-            cy.focused().should('have.attr', 'aria-label', text).tab();
+            // * Verify aria-label on each tab and it supports navigating to the next tab with arrow keys
+            cy.focused().should('have.attr', 'aria-label', text).type('{downarrow}');
         });
     });
 
@@ -115,14 +117,11 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
         cy.uiOpenProfileModal();
 
         // * Verify if the focus goes to the individual fields in Profile section
-        cy.findByRole('button', {name: 'profile settings'}).click();
-        cy.findByRole('button', {name: 'security'}).focus();
-        cy.focused().should('have.attr', 'aria-label', 'security').tab();
+        cy.findByRole('tab', {name: 'profile settings'}).click().tab();
         verifySettings(accountSettings.profile);
 
         // * Verify if the focus goes to the individual fields in Security section
-        cy.findByRole('button', {name: 'security'}).click().focus();
-        cy.focused().should('have.attr', 'aria-label', 'security').tab();
+        cy.findByRole('tab', {name: 'security'}).click().tab();
         verifySettings(accountSettings.security);
         cy.uiClose();
 
@@ -130,26 +129,19 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
         cy.uiOpenSettingsModal();
 
         // * Verify if the focus goes to the individual fields in Notifications section
-        cy.findByRole('button', {name: 'notifications'}).click();
-        cy.findByRole('button', {name: 'advanced'}).focus();
-        cy.focused().should('have.attr', 'aria-label', 'advanced').tab();
+        cy.findByRole('tab', {name: 'notifications'}).click().tab();
         verifySettings(settings.notifications);
 
         // // * Verify if the focus goes to the individual fields in Display section
-        cy.findByRole('button', {name: 'display'}).click();
-        cy.findByRole('button', {name: 'advanced'}).focus();
-        cy.focused().should('have.attr', 'aria-label', 'advanced').tab();
+        cy.findByRole('tab', {name: 'display'}).click().tab();
         verifySettings(settings.display);
 
         // // * Verify if the focus goes to the individual fields in Sidebar section
-        cy.findByRole('button', {name: 'sidebar'}).click();
-        cy.findByRole('button', {name: 'advanced'}).focus();
-        cy.focused().should('have.attr', 'aria-label', 'advanced').tab();
+        cy.findByRole('tab', {name: 'sidebar'}).click().tab();
         verifySettings(settings.sidebar);
 
         // // * Verify if the focus goes to the individual fields in Advanced section
-        cy.findByRole('button', {name: 'advanced'}).click().focus();
-        cy.focused().should('have.attr', 'aria-label', 'advanced').tab();
+        cy.findByRole('tab', {name: 'advanced'}).click().tab();
         verifySettings(settings.advanced);
     });
 
