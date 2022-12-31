@@ -9,7 +9,7 @@ import {getFilePreviewUrl, getFileDownloadUrl} from 'mattermost-redux/utils/file
 
 import './image_preview.scss';
 
-export interface Props {
+interface Props {
     fileInfo: FileInfo;
     canDownloadFiles: boolean;
 }
