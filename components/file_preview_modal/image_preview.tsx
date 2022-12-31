@@ -1,20 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import {FileInfo} from '@mattermost/types/files';
 
 import {getFilePreviewUrl, getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 
 import './image_preview.scss';
-import {FileInfo} from '@mattermost/types/files';
 
-export interface IImagePreviewProps {
+export interface Props {
     fileInfo: FileInfo;
     canDownloadFiles: boolean;
 }
 
-export default function ImagePreview({fileInfo, canDownloadFiles}: IImagePreviewProps) {
+export default function ImagePreview({fileInfo, canDownloadFiles}: Props) {
     const isExternalFile = !fileInfo.id;
 
     let fileUrl;
@@ -45,8 +45,3 @@ export default function ImagePreview({fileInfo, canDownloadFiles}: IImagePreview
         </a>
     );
 }
-
-ImagePreview.propTypes = {
-    fileInfo: PropTypes.object.isRequired,
-    canDownloadFiles: PropTypes.bool.isRequired,
-};
