@@ -369,20 +369,28 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.saveDraftWithShow();
     }
 
-    getSelectionText = (e: MouseEvent) => {
+    getSelectionText = () => {
         let text = '';
 
         if (window && window.getSelection) {
             const selection = window.getSelection();
-            let startingSelectedElement = selection?.anchorNode?.parentElement?.offsetParent;
-            let endingSelectedElement = selection?.focusNode?.parentElement?.offsetParent;
+            const range = selection?.getRangeAt(0);
+            const rects = range?.getClientRects();
+            const channelView = document.getElementById('channel_view');
+            if (!rects || !selection) {
+                return;
+            }
+            let startingSelectedElement = selection.anchorNode?.parentElement?.offsetParent as HTMLElement | undefined;
+            let endingSelectedElement = selection.focusNode?.parentElement?.offsetParent as HTMLElement | undefined;
+            const isStartingElementQuote = startingSelectedElement?.nodeName === 'BLOCKQUOTE';
+            const isEndingElementQuote = endingSelectedElement?.nodeName === 'BLOCKQUOTE';
 
-            if (startingSelectedElement?.nodeName === 'BLOCKQUOTE') {
-                startingSelectedElement = selection?.anchorNode?.parentElement?.parentElement?.offsetParent;
+            if (isStartingElementQuote) {
+                startingSelectedElement = selection.anchorNode?.parentElement?.parentElement?.offsetParent as HTMLElement;
             }
 
-            if (endingSelectedElement?.nodeName === 'BLOCKQUOTE') {
-                endingSelectedElement = selection?.focusNode?.parentElement?.parentElement?.offsetParent;
+            if (isEndingElementQuote) {
+                endingSelectedElement = selection.focusNode?.parentElement?.parentElement?.offsetParent as HTMLElement;
             }
 
             if (
@@ -397,15 +405,37 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 !startingSelectedElement?.firstElementChild?.firstElementChild?.id.includes('rhsPostMessageText') &&
                 !endingSelectedElement?.firstElementChild?.firstElementChild?.id.includes('rhsPostMessageText')
             ) {
-                text = selection?.toString() || '';
+                text = selection.toString() || '';
             }
 
-            if (text !== '' && selection?.anchorOffset && selection?.focusOffset) {
-                const quoteButtonPosition = selection?.anchorOffset < selection?.focusOffset ? 'bottom' : 'top';
-                const spaceY = quoteButtonPosition === 'bottom' ? 78 : 124;
+            // todo sinan: on safari sometimes it is selected 3 rects soit messes up spaceY due to (multipleRects[0].height * multipleRects.length);
+            // todo sinan: code is not working properly
+            if (text !== '' && selection.anchorOffset && selection.focusOffset) {
+                const quoteButtonPosition = selection.anchorOffset < selection.focusOffset ? 'bottom' : 'top';
+                const spaceX = (channelView?.offsetLeft || 0) + 15;
+                const spaceY = (channelView?.offsetTop || 0) - rects[0].height;
+                let positionX = rects[0].x - spaceX;
+                let positionY = rects[0].y - spaceY;
+                if (quoteButtonPosition === 'top') {
+                    positionY -= startingSelectedElement?.offsetLeft || 0;
+                }
+                if (quoteButtonPosition === 'bottom') {
+                    positionX += rects[0].width;
+
+                    // handle multiple line selection
+                    if (rects.length > 1) {
+                        positionY += rects[0].height * (rects.length - 1);
+                        positionX = rects[rects.length - 1].width + (startingSelectedElement?.offsetLeft || 0);
+
+                        // handle if the selected element is quote
+                        if (isStartingElementQuote || isEndingElementQuote) {
+                            positionX += 38;
+                        }
+                    }
+                }
                 this.setState({
-                    mousePositionX: (e.clientX - 322) + 'px',
-                    mousePositionY: (e.clientY - spaceY) + 'px',
+                    mousePositionX: positionX + 'px',
+                    mousePositionY: positionY + 'px',
                     showQuoteButton: true,
                     quoteText: text,
                     quoteButtonPosition,
