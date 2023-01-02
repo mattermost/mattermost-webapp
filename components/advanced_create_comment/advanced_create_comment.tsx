@@ -416,8 +416,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     }
 
     handlePostQuote = () => {
-        // const currentMessage = this.state.message === '' ? '' : `${this.state.message}\n`;
-        const currentMessage = ''; // todo sinan
+        const currentMessage = this.state.draft?.message === '' ? '' : `${this.state.draft?.message}\n`;
         this.applyMarkdown({
             message: `${currentMessage} > ${this.state.quoteText}\n\n`,
             markdownMode: 'bold',
