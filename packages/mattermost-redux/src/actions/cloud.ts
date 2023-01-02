@@ -37,6 +37,15 @@ export function getCloudCustomer(): ActionFunc {
     });
 }
 
+export function getLicenseExpandStatus(): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.getLicenseExpandStatus,
+        onRequest: CloudTypes.CLOUD_EXPAND_STATS_REQUEST,
+        onSuccess: [CloudTypes.RECEIVED_CLOUD_EXPAND_STATS],
+        onFailure: CloudTypes.CLOUD_EXPAND_STATS_FAILED,
+    });
+}
+
 export function getInvoices(): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getInvoices,
