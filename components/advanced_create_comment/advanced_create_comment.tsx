@@ -335,9 +335,12 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
         if (window && window.getSelection) {
             const selection = window.getSelection();
-            const range = selection?.getRangeAt(0);
+            if (!selection || selection?.rangeCount === 0) {
+                return;
+            }
+            const range = selection.getRangeAt(0);
             const rects = range?.getClientRects();
-            if (!rects || !selection) {
+            if (!rects) {
                 return;
             }
             let startingSelectedElement = selection.anchorNode?.parentElement?.offsetParent as HTMLElement | undefined;

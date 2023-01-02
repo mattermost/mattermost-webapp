@@ -365,7 +365,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         document.removeEventListener('keydown', this.documentKeyHandler);
         window.removeEventListener('beforeunload', this.unloadHandler);
         this.removeOrientationListeners();
-        window.removeEventListener('mouseup', this.getSelectionText); // todo sinan rhs comment is not functioning correctly. add similar functionality to advanced create comment
+        window.removeEventListener('mouseup', this.getSelectionText);
         this.saveDraftWithShow();
     }
 
@@ -374,9 +374,12 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         if (window && window.getSelection) {
             const selection = window.getSelection();
-            const range = selection?.getRangeAt(0);
+            if (!selection || selection?.rangeCount === 0) {
+                return;
+            }
+            const range = selection.getRangeAt(0);
             const rects = range?.getClientRects();
-            if (!rects || !selection) {
+            if (!rects) {
                 return;
             }
 
