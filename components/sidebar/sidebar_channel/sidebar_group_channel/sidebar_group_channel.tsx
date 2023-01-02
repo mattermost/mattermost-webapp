@@ -7,7 +7,7 @@ import {Channel} from '@mattermost/types/channels';
 import {PreferenceType} from '@mattermost/types/preferences';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 
 import SidebarChannelLink from 'components/sidebar/sidebar_channel/sidebar_channel_link';
@@ -19,15 +19,12 @@ type Props = {
     redirectChannel: string;
     active: boolean;
     membersCount: number;
-    isCollapsed: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean}>;
     };
 };
 
-type State = {
-
-};
+type State = Record<string, never>;
 
 export default class SidebarGroupChannel extends React.PureComponent<Props, State> {
     handleLeaveChannel = (callback: () => void) => {
@@ -40,7 +37,7 @@ export default class SidebarGroupChannel extends React.PureComponent<Props, Stat
         trackEvent('ui', 'ui_direct_channel_x_button_clicked');
 
         if (this.props.active) {
-            browserHistory.push(`/${this.props.currentTeamName}/channels/${this.props.redirectChannel}`);
+            getHistory().push(`/${this.props.currentTeamName}/channels/${this.props.redirectChannel}`);
         }
     }
 
@@ -60,7 +57,6 @@ export default class SidebarGroupChannel extends React.PureComponent<Props, Stat
                 label={channel.display_name}
                 closeHandler={this.handleLeaveChannel}
                 icon={this.getIcon()}
-                isCollapsed={this.props.isCollapsed}
             />
         );
     }

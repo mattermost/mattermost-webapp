@@ -42,7 +42,7 @@ const products = {
         id: 'prod_1',
         sku: CloudProducts.STARTER,
         price_per_seat: 0,
-        name: 'Cloud Starter',
+        name: 'Cloud Free',
     },
     prod_2: {
         id: 'prod_2',
@@ -195,7 +195,7 @@ describe('components/select_results/SearchLimitsBanner', () => {
         expect(wrapper.find('#files_search_limits_banner').exists()).toEqual(false);
     });
 
-    test('should show banner for CLOUD when doing cloud messages search above the limit in STARTER product', () => {
+    test('should show banner for CLOUD when doing cloud messages search above the limit in Free product', () => {
         const aboveMessagesLimitUsage = JSON.parse(JSON.stringify(usage));
         aboveMessagesLimitUsage.messages.history = 15000; // above limit of 10K
 
@@ -216,7 +216,7 @@ describe('components/select_results/SearchLimitsBanner', () => {
                 cloud: {
                     subscription: {
                         is_free_trial: 'true',
-                        product_id: 'prod_1', // starter
+                        product_id: 'prod_1', // free
                     },
                     products,
                     limits,
@@ -229,7 +229,7 @@ describe('components/select_results/SearchLimitsBanner', () => {
         expect(wrapper.find('#messages_search_limits_banner').exists()).toEqual(true);
     });
 
-    test('should show banner for CLOUD when doing cloud files search above the limit in STARTER product', () => {
+    test('should show banner for CLOUD when doing cloud files search above the limit in Free product', () => {
         const aboveFilesLimitUsage = JSON.parse(JSON.stringify(usage));
         aboveFilesLimitUsage.files.totalStorage = 11 * FileSizes.Gigabyte; // above limit of 10GB
 
@@ -250,7 +250,7 @@ describe('components/select_results/SearchLimitsBanner', () => {
                 cloud: {
                     subscription: {
                         is_free_trial: 'true',
-                        product_id: 'prod_1', // starter
+                        product_id: 'prod_1', // free
                     },
                     products,
                     limits,

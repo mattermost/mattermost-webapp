@@ -27,6 +27,7 @@ type Props = {
     currentRelativeTeamUrl?: string;
 
     inGlobalThreads?: boolean;
+    inDrafts?: boolean;
     isMobileView: boolean;
     isMuted?: boolean;
     isReadOnly?: boolean;
@@ -64,7 +65,7 @@ export default class ChannelHeaderMobile extends React.PureComponent<Props> {
     }
 
     render() {
-        const {user, channel, isMuted, inGlobalThreads} = this.props;
+        const {user, channel, isMuted, inGlobalThreads, inDrafts} = this.props;
 
         let heading;
         if (inGlobalThreads) {
@@ -72,6 +73,13 @@ export default class ChannelHeaderMobile extends React.PureComponent<Props> {
                 <FormattedMessage
                     id='globalThreads.heading'
                     defaultMessage='Followed threads'
+                />
+            );
+        } else if (inDrafts) {
+            heading = (
+                <FormattedMessage
+                    id='drafts.heading'
+                    defaultMessage='Drafts'
                 />
             );
         } else if (channel) {

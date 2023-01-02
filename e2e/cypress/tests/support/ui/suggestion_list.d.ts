@@ -26,7 +26,7 @@ declare namespace Cypress {
          * @example
          *   cy.uiVerifyAtMentionInSuggestionList(user, true, 'Channel Members');
          */
-        uiVerifyAtMentionInSuggestionList(user: UserProfile, isSelected: boolean, sectionDividerName: string): Chainable;
+        uiVerifyAtMentionInSuggestionList(user: UserProfile, isSelected: boolean, sectionDividerName?: string): Chainable;
 
         /**
          * Verify user's at-mention suggestion
@@ -36,6 +36,6 @@ declare namespace Cypress {
          * @example
          *   cy.uiVerifyAtMentionSuggestion(user, true);
          */
-        uiVerifyAtMentionSuggestion(user: UserProfile, isSelected: boolean): Chainable;
+        uiVerifyAtMentionSuggestion(user: UserProfile, isSelected?: boolean): Chainable;
     }
 }

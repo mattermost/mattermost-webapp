@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useRef, useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled, {css} from 'styled-components';
@@ -269,6 +270,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
             value: String(!open),
         }];
         dispatch(savePreferences(currentUserId, preferences));
+        trackEvent(OnboardingTaskCategory, open ? OnboardingTaskList.ONBOARDING_TASK_LIST_CLOSE : OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN);
     }, [open, currentUserId]);
 
     const openVideoModal = useCallback(() => {

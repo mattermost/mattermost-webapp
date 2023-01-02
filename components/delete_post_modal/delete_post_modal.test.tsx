@@ -7,15 +7,9 @@ import {Modal} from 'react-bootstrap';
 
 import {PostType, PostMetadata} from '@mattermost/types/posts';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import DeletePostModal from 'components/delete_post_modal/delete_post_modal';
-
-jest.mock('utils/browser_history', () => ({
-    browserHistory: {
-        replace: jest.fn(),
-    },
-}));
 
 describe('components/delete_post_modal', () => {
     const post = {
@@ -167,7 +161,7 @@ describe('components/delete_post_modal', () => {
         wrapper.instance().handleDelete();
 
         await expect(deleteAndRemovePost).toHaveBeenCalledTimes(1);
-        expect(browserHistory.replace).toHaveBeenCalledWith('/teamname/messages/@username');
+        expect(getHistory().replace).toHaveBeenCalledWith('/teamname/messages/@username');
     });
 
     test('should have called browserHistory.replace when permalink post is deleted for a channel', async () => {
@@ -190,7 +184,7 @@ describe('components/delete_post_modal', () => {
         wrapper.instance().handleDelete();
 
         await expect(deleteAndRemovePost).toHaveBeenCalledTimes(1);
-        expect(browserHistory.replace).toHaveBeenCalledWith('/teamname/channels/channelName');
+        expect(getHistory().replace).toHaveBeenCalledWith('/teamname/channels/channelName');
     });
 
     test('should have called props.onExiteed when Modal.onExited is called', () => {

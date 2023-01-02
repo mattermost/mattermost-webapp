@@ -14,6 +14,7 @@ jest.mock('utils/post_utils', () => ({
     isEdited: jest.fn().mockReturnValue(true),
     isSystemMessage: jest.fn().mockReturnValue(false),
     fromAutoResponder: jest.fn().mockReturnValue(false),
+    isFromWebhook: jest.fn().mockReturnValue(false),
 }));
 
 describe('components/RhsRootPost', () => {
@@ -215,9 +216,11 @@ describe('components/RhsRootPost', () => {
             ...baseProps,
             post: {
                 ...baseProps.post,
-                props: {
-                    ...baseProps.post.props,
-                    priority: 'important',
+                metadata: {
+                    ...baseProps.post.metadata,
+                    priority: {
+                        priority: 'important',
+                    },
                 },
             },
         };

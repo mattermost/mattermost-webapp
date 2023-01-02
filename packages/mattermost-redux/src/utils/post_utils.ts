@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {Posts, Preferences, Permissions} from '../constants';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 

@@ -32,6 +32,7 @@ describe('components/RenewalLicenseCard', () => {
         license: {
             id: 'license_id',
             ExpiresAt: new Date().getMilliseconds().toString(),
+            SkuShortName: 'skuShortName',
         },
         isLicenseExpired: false,
         totalUsers: 10,

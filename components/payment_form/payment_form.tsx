@@ -22,6 +22,7 @@ import {COUNTRIES} from 'utils/countries';
 import StateSelector from './state_selector';
 import CardInput, {CardInputType} from './card_input';
 import CardImage from './card_image';
+import {GatherIntent, GatherIntentModal} from './gather_intent';
 
 import './payment_form.scss';
 
@@ -358,6 +359,15 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                 id='payment_form'
                 className={`PaymentForm ${className}`}
             >
+                <GatherIntent
+                    typeGatherIntent='monthlySubscription'
+                    modalComponent={GatherIntentModal}
+                    gatherIntentText={
+                        <FormattedMessage
+                            id='payment_form.gather_wire_transfer_intent'
+                            defaultMessage='Looking for other payment options?'
+                        />}
+                />
                 <div className='section-title'>
                     <FormattedMessage
                         id='payment_form.credit_card'

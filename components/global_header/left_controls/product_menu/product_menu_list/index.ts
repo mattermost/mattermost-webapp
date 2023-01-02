@@ -13,6 +13,7 @@ import {
 } from 'mattermost-redux/selectors/entities/preferences';
 import {
     getConfig,
+    getFeatureFlagValue,
     getFirstAdminVisitMarketplaceStatus,
     getLicense,
     isMarketplaceEnabled,
@@ -21,6 +22,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentTeamPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
+import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {GlobalState} from 'types/store';
 import {OnboardingTaskCategory, OnboardingTasksName, TaskNameMapToSteps} from 'components/onboarding_tasks';
 import {openModal} from 'actions/views/modals';
@@ -32,6 +34,7 @@ import ProductMenuList from './product_menu_list';
 
 type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
+    getPrevTrialLicense: () => void;
 }
 
 function mapStateToProps(state: GlobalState) {
@@ -52,14 +55,22 @@ function mapStateToProps(state: GlobalState) {
     const step = getInt(state, OnboardingTaskCategory, OnboardingTasksName.VISIT_SYSTEM_CONSOLE, 0);
     const showVisitSystemConsoleTour = step === TaskNameMapToSteps[OnboardingTasksName.VISIT_SYSTEM_CONSOLE].STARTED;
     const enableCustomUserGroups = isCustomGroupsEnabled(state);
+    const showWorkTemplateButton = getFeatureFlagValue(state, 'WorkTemplate') === 'true';
 
     const subscription = getCloudSubscription(state);
     const license = getLicense(state);
     const subscriptionProduct = getSubscriptionProduct(state);
 
     const isCloud = isCloudLicense(license);
-    const isStarterFree = isCloud && subscriptionProduct?.sku === CloudProducts.STARTER;
-    const isFreeTrial = isCloud && subscription?.is_free_trial === 'true';
+    const isCloudStarterFree = isCloud && subscriptionProduct?.sku === CloudProducts.STARTER;
+    const isCloudFreeTrial = isCloud && subscription?.is_free_trial === 'true';
+
+    const isEnterpriseReady = config.BuildEnterpriseReady === 'true';
+    const isSelfHostedStarter = isEnterpriseReady && (license.IsLicensed === 'false');
+    const isSelfHostedFreeTrial = license.IsTrial === 'true';
+
+    const isStarterFree = isCloudStarterFree || isSelfHostedStarter;
+    const isFreeTrial = isCloudFreeTrial || isSelfHostedFreeTrial;
 
     return {
         isMobile: state.views.channel.mobileView,
@@ -81,6 +92,7 @@ function mapStateToProps(state: GlobalState) {
         enableCustomUserGroups,
         isStarterFree,
         isFreeTrial,
+        showWorkTemplateButton,
     };
 }
 
@@ -88,6 +100,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             openModal,
+            getPrevTrialLicense,
         }, dispatch),
     };
 }

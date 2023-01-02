@@ -2,11 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
 import {CustomStatusDuration, UserProfile} from '@mattermost/types/users';
 
 import {fakeDate} from 'tests/helpers/date';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import StatusDropdown from './status_dropdown';
 
@@ -42,6 +43,7 @@ describe('components/StatusDropdown', () => {
             automaticTimezone: 'America/New_York',
             manualTimezone: '',
         },
+        status: 'away',
         isTimezoneEnabled: true,
         isMilitaryTime: false,
         isCustomStatusEnabled: false,
@@ -52,7 +54,7 @@ describe('components/StatusDropdown', () => {
     };
 
     test('should match snapshot in default state', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <StatusDropdown {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -64,7 +66,7 @@ describe('components/StatusDropdown', () => {
             profilePicture: 'http://localhost:8065/api/v4/users/jsx5jmdiyjyuzp9rzwfaf5pwjo/image?_=1590519110944',
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <StatusDropdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -76,7 +78,7 @@ describe('components/StatusDropdown', () => {
             isStatusDropdownOpen: true,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <StatusDropdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -89,7 +91,7 @@ describe('components/StatusDropdown', () => {
             isCustomStatusEnabled: true,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <StatusDropdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -103,7 +105,7 @@ describe('components/StatusDropdown', () => {
             showCustomStatusPulsatingDot: true,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <StatusDropdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -123,7 +125,7 @@ describe('components/StatusDropdown', () => {
             customStatus,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <StatusDropdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -144,7 +146,7 @@ describe('components/StatusDropdown', () => {
             customStatus,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <StatusDropdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -165,7 +167,7 @@ describe('components/StatusDropdown', () => {
             customStatus,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <StatusDropdown {...props}/>,
         );
 
@@ -183,7 +185,7 @@ describe('components/StatusDropdown', () => {
             customStatus,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <StatusDropdown {...props}/>,
         );
 

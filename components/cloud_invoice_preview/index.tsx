@@ -43,6 +43,7 @@ function CloudInvoicePreview(props: Props) {
             onHide={onHide}
             id='cloud-invoice-preview'
             className='CloudInvoicePreview'
+            dialogClassName='a11y__modal'
         >
             <Modal.Header closeButton={true}>
                 <Modal.Title>{'Invoice'}</Modal.Title>

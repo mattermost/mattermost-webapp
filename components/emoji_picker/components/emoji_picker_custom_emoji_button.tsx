@@ -12,9 +12,10 @@ import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permiss
 interface Props {
     customEmojisEnabled: boolean;
     currentTeamName: string;
+    handleEmojiPickerClose: () => void;
 }
 
-function EmojiPickerCustomEmojiButton({customEmojisEnabled, currentTeamName}: Props) {
+function EmojiPickerCustomEmojiButton({customEmojisEnabled, currentTeamName, handleEmojiPickerClose}: Props) {
     if (!customEmojisEnabled) {
         return null;
     }
@@ -29,6 +30,7 @@ function EmojiPickerCustomEmojiButton({customEmojisEnabled, currentTeamName}: Pr
                 <Link
                     className='btn btn-link'
                     to={`/${currentTeamName}/emoji`}
+                    onClick={handleEmojiPickerClose}
                 >
                     <FormattedMessage
                         id='emoji_picker.custom_emoji'

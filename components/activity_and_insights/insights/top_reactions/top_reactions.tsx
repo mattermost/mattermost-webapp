@@ -13,6 +13,7 @@ import {getTopReactionsForTeam, getMyTopReactions} from 'mattermost-redux/action
 import {getTopReactionsForCurrentTeam, getMyTopReactionsForCurrentTeam} from 'mattermost-redux/selectors/entities/insights';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
+import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import {InsightsScopes} from 'utils/constants';
 
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
@@ -33,11 +34,9 @@ const TopReactions = (props: WidgetHocProps) => {
     const myTopReactions = useSelector((state: GlobalState) => getMyTopReactionsForCurrentTeam(state, props.timeFrame, 5), shallowEqual);
 
     useEffect(() => {
-        if (props.filterType === InsightsScopes.TEAM) {
-            setTopReactions(teamTopReactions);
-        } else {
-            setTopReactions(myTopReactions);
-        }
+        const reactions = props.filterType === InsightsScopes.TEAM ? teamTopReactions : myTopReactions;
+        setTopReactions(reactions);
+        dispatch(loadCustomEmojisIfNeeded(reactions.map((reaction) => reaction.emoji_name)));
     }, [props.filterType, teamTopReactions, myTopReactions]);
 
     const currentTeamId = useSelector(getCurrentTeamId);

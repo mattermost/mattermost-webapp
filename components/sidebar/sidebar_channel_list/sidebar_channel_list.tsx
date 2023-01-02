@@ -27,6 +27,7 @@ import UnreadChannelIndicator from '../unread_channel_indicator';
 import UnreadChannels from '../unread_channels';
 
 import GlobalThreadsLink from 'components/threading/global_threads_link';
+import DraftsLink from 'components/drafts/drafts_link';
 import ActivityAndInsightsLink from 'components/activity_and_insights/activity_and_insights_link/activity_and_insights_link';
 
 export function renderView(props: any) {
@@ -34,7 +35,8 @@ export function renderView(props: any) {
         <div
             {...props}
             className='scrollbar--view'
-        />);
+        />
+    );
 }
 
 export function renderThumbHorizontal(props: any) {
@@ -42,7 +44,8 @@ export function renderThumbHorizontal(props: any) {
         <div
             {...props}
             className='scrollbar--horizontal'
-        />);
+        />
+    );
 }
 
 export function renderTrackVertical(props: any) {
@@ -50,7 +53,8 @@ export function renderTrackVertical(props: any) {
         <div
             {...props}
             className='scrollbar--verticalTrack'
-        />);
+        />
+    );
 }
 
 export function renderThumbVertical(props: any) {
@@ -58,7 +62,8 @@ export function renderThumbVertical(props: any) {
         <div
             {...props}
             className='scrollbar--vertical'
-        />);
+        />
+    );
 }
 
 const scrollbarStyles: CSSProperties = {position: 'absolute'};
@@ -535,6 +540,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             <>
                 <ActivityAndInsightsLink/>
                 <GlobalThreadsLink/>
+                <DraftsLink/>
                 <div
                     id='sidebar-left'
                     role='application'

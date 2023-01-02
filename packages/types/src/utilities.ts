@@ -24,3 +24,11 @@ export type WithRequired<T, K extends keyof T> = T & {
 
 // make all properties defined in K optional
 export type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
+
+export type ValueOf<T> = T[keyof T];
+
+/**
+ * Based on https://stackoverflow.com/a/49725198
+ */
+export type RequireOnlyOne<T, Keys extends keyof T = keyof T> =
+Pick<T, Exclude<keyof T, Keys>> & {[K in Keys]-?: Required<Pick<T, K>> & Partial<Record<Exclude<Keys, K>, undefined>>}[Keys];

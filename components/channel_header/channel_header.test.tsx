@@ -38,6 +38,13 @@ describe('components/ChannelHeader', () => {
         isCustomStatusEnabled: false,
         isCustomStatusExpired: false,
         isFileAttachmentsEnabled: true,
+        lastActivityTimestamp: 1632146562846,
+        isLastActiveEnabled: true,
+        timestampUnits: [
+            'now',
+            'minute',
+            'hour',
+        ],
     };
 
     const populatedProps = {
@@ -344,5 +351,52 @@ describe('components/ChannelHeader', () => {
         expect(wrapper.contains(
             <ChannelInfoButton channel={populatedProps.channel}/>,
         )).toEqual(true);
+    });
+
+    test('should match snapshot with last active display', () => {
+        const props = {
+            ...populatedProps,
+            channel: TestHelper.getChannelMock({
+                header: 'not the bot description',
+                type: Constants.DM_CHANNEL as ChannelType,
+                status: 'offline',
+            }),
+            dmUser: TestHelper.getUserMock({
+                id: 'user_id',
+                is_bot: false,
+                props: {
+                    show_last_active: 'true',
+                },
+            }),
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with no last active display because it is disabled', () => {
+        const props = {
+            ...populatedProps,
+            isLastActiveEnabled: false,
+            channel: TestHelper.getChannelMock({
+                header: 'not the bot description',
+                type: Constants.DM_CHANNEL as ChannelType,
+                status: 'offline',
+            }),
+            dmUser: TestHelper.getUserMock({
+                id: 'user_id',
+                is_bot: false,
+                props: {
+                    show_last_active: 'false',
+                },
+            }),
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
     });
 });

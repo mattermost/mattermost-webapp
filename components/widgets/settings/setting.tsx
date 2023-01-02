@@ -27,13 +27,15 @@ const Setting: React.FC<Props> = ({
             data-testid={inputId}
             className='form-group'
         >
-            <label
-                data-testid={inputId + 'label'}
-                className={'control-label ' + labelClassName}
-                htmlFor={inputId}
-            >
-                {label}
-            </label>
+            {label && (
+                <label
+                    data-testid={inputId + 'label'}
+                    className={'control-label ' + labelClassName}
+                    htmlFor={inputId}
+                >
+                    {label}
+                </label>
+            )}
             <div className={inputClassName}>
                 {children}
                 <div
