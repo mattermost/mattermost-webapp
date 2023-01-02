@@ -216,6 +216,7 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
 
     it('MM-T1488 Profile Picture should read labels', () => {
         cy.visit(url);
+
         // # Go to Edit Profile picture
         cy.uiOpenProfileModal();
         cy.get('#pictureEdit').click();
@@ -268,6 +269,7 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
 
     it('MM-T1496 Security Settings screen should read labels', () => {
         cy.visit(url);
+
         // # Go to Security Settings
         cy.uiOpenProfileModal();
         cy.get('#securityButton').click();
