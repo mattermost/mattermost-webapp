@@ -46,6 +46,7 @@ import AdvancedTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {TextboxClass, TextboxElement} from '../textbox';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
+import {QuoteButton} from 'components/quote_button';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -199,6 +200,11 @@ type State = {
     serverError: (ServerError & {submittedMessage?: string}) | null;
     showFormat: boolean;
     isFormattingBarHidden: boolean;
+    mousePositionX?: string;
+    mousePositionY?: string;
+    showQuoteButton: boolean;
+    quoteText: string;
+    quoteButtonPosition: string;
 };
 
 function isDraftEmpty(draft: PostDraft): boolean {
@@ -250,6 +256,9 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             serverError: null,
             showFormat: false,
             isFormattingBarHidden: props.isFormattingBarHidden,
+            showQuoteButton: false,
+            quoteText: '',
+            quoteButtonPosition: 'bottom',
         };
 
         this.textboxRef = React.createRef();
@@ -269,6 +278,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
         window.addEventListener('beforeunload', this.saveDraftWithShow);
+        window.addEventListener('mouseup', this.getSelectionText);
         this.getChannelMemberCountsByGroup();
 
         // When draft.message is not empty, set doInitialScrollToBottom to true so that
@@ -284,6 +294,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
         window.removeEventListener('beforeunload', this.saveDraftWithShow);
+        window.removeEventListener('mouseup', this.getSelectionText);
         this.saveDraftWithShow();
     }
 
@@ -317,6 +328,108 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         if (this.props.createPostErrorId === 'api.post.create_post.root_id.app_error' && this.props.createPostErrorId !== prevProps.createPostErrorId) {
             this.showPostDeletedModal();
         }
+    }
+
+    getSelectionText = () => {
+        let text = '';
+
+        if (window && window.getSelection) {
+            const selection = window.getSelection();
+            const range = selection?.getRangeAt(0);
+            const rects = range?.getClientRects();
+            const sideBarRight = document.getElementById('sidebar-right');
+            const postCreateContainer = document.getElementsByClassName('post-create__container')[1].parentElement;
+            const sideBarRightHeader = document.getElementsByClassName('sidebar--right__header')[0];
+            if (!rects || !selection) {
+                return;
+            }
+            let startingSelectedElement = selection.anchorNode?.parentElement?.offsetParent as HTMLElement | undefined;
+            let endingSelectedElement = selection.focusNode?.parentElement?.offsetParent as HTMLElement | undefined;
+            const isStartingElementQuote = startingSelectedElement?.nodeName === 'BLOCKQUOTE';
+            const isEndingElementQuote = endingSelectedElement?.nodeName === 'BLOCKQUOTE';
+
+            if (isStartingElementQuote) {
+                startingSelectedElement = selection.anchorNode?.parentElement?.parentElement?.offsetParent as HTMLElement;
+            }
+
+            if (isEndingElementQuote) {
+                endingSelectedElement = selection.focusNode?.parentElement?.parentElement?.offsetParent as HTMLElement;
+            }
+
+            if (
+                // don't show quote button if selected text is not a message
+                startingSelectedElement?.classList.contains('post-message') &&
+                endingSelectedElement?.classList.contains('post-message') &&
+
+                // don't show quote button if user selects multiple messages
+                startingSelectedElement?.parentElement?.id === endingSelectedElement?.parentElement?.id &&
+
+                // don't show quote button if user selects text outside of RHS
+                startingSelectedElement?.firstElementChild?.firstElementChild?.id.includes('rhsPostMessageText') &&
+                endingSelectedElement?.firstElementChild?.firstElementChild?.id.includes('rhsPostMessageText')
+            ) {
+                text = selection?.toString() || '';
+            }
+
+            // todo sinan if there is overscroll for postCreateContainer, there is an issue
+            if (text !== '' && selection?.anchorOffset && selection?.focusOffset) {
+                const quoteButtonPosition = selection.anchorOffset < selection.focusOffset ? 'bottom' : 'top';
+                const spaceX = (sideBarRight?.offsetLeft || 0) + 20;
+                const spaceY = sideBarRightHeader.clientHeight + (postCreateContainer?.offsetTop || 0) + (sideBarRight?.offsetTop || 0);
+                let positionX = rects[0].x - spaceX;
+                let positionY = spaceY - rects[0].y;
+
+                if (quoteButtonPosition === 'top') {
+                    positionY += (2 * rects[0].height);
+                }
+
+                if (quoteButtonPosition === 'bottom') {
+                    positionX += rects[0].width;
+                    positionY -= rects[0].height;
+
+                    // handle multiple line selection
+                    if (rects.length > 1) {
+                        positionY += rects[0].height * (rects.length - 1);
+                        positionX = rects[rects.length - 1].width + (startingSelectedElement?.offsetLeft || 0);
+
+                        // handle if the selected element is quote
+                        if (isStartingElementQuote || isEndingElementQuote) {
+                            positionX += 38;
+                        }
+                    }
+                }
+                this.setState({
+                    mousePositionX: positionX + 'px',
+                    mousePositionY: -positionY + 'px',
+                    showQuoteButton: true,
+                    quoteText: text,
+                    quoteButtonPosition,
+                });
+            }
+
+            setTimeout(() => {
+                if (this.state.showQuoteButton) {
+                    this.setState({showQuoteButton: false});
+                }
+            }, 5000);
+        }
+    }
+
+    handlePostQuote = () => {
+        // const currentMessage = this.state.message === '' ? '' : `${this.state.message}\n`;
+        const currentMessage = ''; // todo sinan
+        this.applyMarkdown({
+            message: `${currentMessage} > ${this.state.quoteText}\n\n`,
+            markdownMode: 'bold',
+            selectionStart: null,
+            selectionEnd: null,
+        });
+        this.setState({
+            showQuoteButton: false,
+            quoteText: '',
+            mousePositionX: undefined,
+            mousePositionY: undefined,
+        });
     }
 
     getChannelMemberCountsByGroup = () => {
@@ -1158,6 +1271,13 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     (this.props.draft.fileInfos.length > 0 || this.props.draft.uploadsInProgress.length > 0) &&
                     <FileLimitStickyBanner/>
                 }
+                <QuoteButton
+                    quoteButtonPosition={this.state.quoteButtonPosition}
+                    mousePositionY={this.state.mousePositionY}
+                    mousePositionX={this.state.mousePositionX}
+                    handlePostQuote={this.handlePostQuote}
+                    showQuoteButton={this.state.showQuoteButton}
+                />
                 <AdvancedTextEditor
                     location={Locations.RHS_COMMENT}
                     textboxRef={this.textboxRef}

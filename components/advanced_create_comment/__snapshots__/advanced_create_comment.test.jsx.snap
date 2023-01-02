@@ -4,6 +4,11 @@ exports[`components/AdvancedCreateComment should match snapshot when cannot post
 <form
   onSubmit={[Function]}
 >
+  <QuoteButton
+    handlePostQuote={[Function]}
+    quoteButtonPosition="bottom"
+    showQuoteButton={false}
+  />
   <AdvanceTextEditor
     applyMarkdown={[Function]}
     badConnection={false}
@@ -77,6 +82,11 @@ exports[`components/AdvancedCreateComment should match snapshot, comment with me
 <form
   onSubmit={[Function]}
 >
+  <QuoteButton
+    handlePostQuote={[Function]}
+    quoteButtonPosition="bottom"
+    showQuoteButton={false}
+  />
   <AdvanceTextEditor
     applyMarkdown={[Function]}
     badConnection={false}
@@ -145,6 +155,11 @@ exports[`components/AdvancedCreateComment should match snapshot, emoji picker di
   onSubmit={[Function]}
 >
   <FileLimitStickyBanner />
+  <QuoteButton
+    handlePostQuote={[Function]}
+    quoteButtonPosition="bottom"
+    showQuoteButton={false}
+  />
   <AdvanceTextEditor
     applyMarkdown={[Function]}
     badConnection={false}
@@ -218,6 +233,11 @@ exports[`components/AdvancedCreateComment should match snapshot, empty comment 1
 <form
   onSubmit={[Function]}
 >
+  <QuoteButton
+    handlePostQuote={[Function]}
+    quoteButtonPosition="bottom"
+    showQuoteButton={false}
+  />
   <AdvanceTextEditor
     applyMarkdown={[Function]}
     badConnection={false}
@@ -286,6 +306,11 @@ exports[`components/AdvancedCreateComment should match snapshot, non-empty messa
   onSubmit={[Function]}
 >
   <FileLimitStickyBanner />
+  <QuoteButton
+    handlePostQuote={[Function]}
+    quoteButtonPosition="bottom"
+    showQuoteButton={false}
+  />
   <AdvanceTextEditor
     applyMarkdown={[Function]}
     badConnection={false}
