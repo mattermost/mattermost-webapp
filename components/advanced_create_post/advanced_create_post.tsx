@@ -376,10 +376,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             const selection = window.getSelection();
             const range = selection?.getRangeAt(0);
             const rects = range?.getClientRects();
-            const channelView = document.getElementById('channel_view');
             if (!rects || !selection) {
                 return;
             }
+
             let startingSelectedElement = selection.anchorNode?.parentElement?.offsetParent as HTMLElement | undefined;
             let endingSelectedElement = selection.focusNode?.parentElement?.offsetParent as HTMLElement | undefined;
             const isStartingElementQuote = startingSelectedElement?.nodeName === 'BLOCKQUOTE';
@@ -388,22 +388,24 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             if (isStartingElementQuote) {
                 startingSelectedElement = selection.anchorNode?.parentElement?.parentElement?.offsetParent as HTMLElement;
             }
-
             if (isEndingElementQuote) {
                 endingSelectedElement = selection.focusNode?.parentElement?.parentElement?.offsetParent as HTMLElement;
+            }
+            if (!startingSelectedElement || !endingSelectedElement) {
+                return;
             }
 
             if (
                 // don't show quote button if selected text is not a message
-                startingSelectedElement?.classList.contains('post-message') &&
-                endingSelectedElement?.classList.contains('post-message') &&
+                startingSelectedElement.classList.contains('post-message') &&
+                endingSelectedElement.classList.contains('post-message') &&
 
                 // don't show quote button if user selects multiple messages
-                startingSelectedElement?.parentElement?.id === endingSelectedElement?.parentElement?.id &&
+                startingSelectedElement.parentElement?.id === endingSelectedElement.parentElement?.id &&
 
                 // don't show quote button if user selects text in RHS
-                !startingSelectedElement?.firstElementChild?.firstElementChild?.id.includes('rhsPostMessageText') &&
-                !endingSelectedElement?.firstElementChild?.firstElementChild?.id.includes('rhsPostMessageText')
+                !startingSelectedElement.firstElementChild?.firstElementChild?.id.includes('rhsPostMessageText') &&
+                !endingSelectedElement.firstElementChild?.firstElementChild?.id.includes('rhsPostMessageText')
             ) {
                 text = selection.toString() || '';
             }
@@ -412,27 +414,12 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             // todo sinan: code is not working properly
             if (text !== '' && selection.anchorOffset && selection.focusOffset) {
                 const quoteButtonPosition = selection.anchorOffset < selection.focusOffset ? 'bottom' : 'top';
-                const spaceX = (channelView?.offsetLeft || 0) + 15;
-                const spaceY = (channelView?.offsetTop || 0) - rects[0].height;
-                let positionX = rects[0].x - spaceX;
-                let positionY = rects[0].y - spaceY;
-                if (quoteButtonPosition === 'top') {
-                    positionY -= startingSelectedElement?.offsetLeft || 0;
-                }
-                if (quoteButtonPosition === 'bottom') {
-                    positionX += rects[0].width;
-
-                    // handle multiple line selection
-                    if (rects.length > 1) {
-                        positionY += rects[0].height * (rects.length - 1);
-                        positionX = rects[rects.length - 1].width + (startingSelectedElement?.offsetLeft || 0);
-
-                        // handle if the selected element is quote
-                        if (isStartingElementQuote || isEndingElementQuote) {
-                            positionX += 38;
-                        }
-                    }
-                }
+                const {positionX, positionY} = this.getQuoteButtonCoords(
+                    quoteButtonPosition,
+                    rects,
+                    (isStartingElementQuote || isEndingElementQuote),
+                    startingSelectedElement,
+                );
                 this.setState({
                     mousePositionX: positionX + 'px',
                     mousePositionY: positionY + 'px',
@@ -444,7 +431,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
             setTimeout(() => {
                 if (this.state.showQuoteButton) {
-                    this.setState({showQuoteButton: false});
+                    this.setState({
+                        showQuoteButton: false,
+                        mousePositionX: undefined,
+                        mousePositionY: undefined,
+                        quoteText: '',
+                        quoteButtonPosition: '',
+                    });
                 }
             }, 5000);
         }
@@ -464,6 +457,32 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             mousePositionX: undefined,
             mousePositionY: undefined,
         });
+    }
+
+    getQuoteButtonCoords = (quoteButtonPosition: string, rects: DOMRectList, isAnyElementQuote: boolean, startingSelectedElement: HTMLElement) => {
+        const channelView = document.getElementById('channel_view');
+        const spaceX = (channelView?.offsetLeft || 0) + 15;
+        const spaceY = (channelView?.offsetTop || 0) - rects[0].height;
+        let positionX = rects[0].x - spaceX;
+        let positionY = rects[0].y - spaceY;
+        if (quoteButtonPosition === 'top') {
+            positionY -= startingSelectedElement.offsetLeft;
+        }
+        if (quoteButtonPosition === 'bottom') {
+            positionX += rects[0].width;
+
+            // handle multiple line selection
+            if (rects.length > 1) {
+                positionY += rects[0].height * (rects.length - 1);
+                positionX = rects[rects.length - 1].width + startingSelectedElement.offsetLeft;
+
+                // handle if the selected element is quote
+                if (isAnyElementQuote) {
+                    positionX += 38;
+                }
+            }
+        }
+        return {positionX, positionY};
     }
 
     getChannelMemberCountsByGroup = () => {
