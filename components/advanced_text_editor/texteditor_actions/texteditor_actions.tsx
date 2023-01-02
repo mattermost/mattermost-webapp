@@ -9,6 +9,7 @@ import styled, {css} from 'styled-components';
 type TexteditorActionsProps = {
     placement: 'top' | 'bottom';
     show?: boolean;
+    isScrollbarRendered?: boolean;
 }
 
 const TexteditorActions = styled.span<TexteditorActionsProps>`
@@ -16,12 +17,12 @@ const TexteditorActions = styled.span<TexteditorActionsProps>`
     z-index: 2;
     display: flex;
     place-items: center;
-    gap: 4px;
+    gap: 2px;
 
     /* define the position based on the placement prop */
-    ${({placement}) => (placement === 'top' ? css`
+    ${({placement, isScrollbarRendered}) => (placement === 'top' ? css`
         top: 7px;
-        right: 7px;
+        right: ${isScrollbarRendered ? 15 : 7}px;
     ` : css`
         right: 7px;
         bottom: 7px;

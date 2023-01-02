@@ -1,17 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import classnames from 'classnames';
 import {useIntl} from 'react-intl';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import LocalizedIcon from 'components/localized_icon';
 import {closeModal as closeModalAction} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 
-import {Visibility, WorkTemplate} from '@mattermost/types/work_templates';
+import {
+    clearCategories,
+    clearWorkTemplates,
+    getWorkTemplateCategories,
+    getWorkTemplates,
+} from 'mattermost-redux/actions/work_templates';
+
+import {Category, Visibility, WorkTemplate} from '@mattermost/types/work_templates';
+
+import {GlobalState} from '@mattermost/types/store';
 
 import Customize from './components/customize';
 import Menu from './components/menu';
@@ -64,6 +73,39 @@ const WorkTemplateModal = () => {
     const [selectedTemplate, setSelectedTemplate] = useState<WorkTemplate | null>(null);
     const [selectedName, setSelectedName] = useState<string>('');
     const [selectedVisibility, setSelectedVisibility] = useState(Visibility.Public);
+    const [currentCategoryId, setCurrentCategoryId] = useState('');
+    const categories = useSelector((state: GlobalState) => state.entities.worktemplates.categories);
+    const workTemplates = useSelector((state: GlobalState) => state.entities.worktemplates.templatesInCategory);
+
+    useEffect(() => {
+        if (categories?.length) {
+            return;
+        }
+        dispatch(getWorkTemplateCategories());
+    }, []);
+
+    useEffect(() => {
+        if (!categories?.length) {
+            return;
+        }
+        setCurrentCategoryId(categories[0].id);
+        dispatch(getWorkTemplates(categories[0].id));
+    }, [categories.length]);
+
+    useEffect(() => {
+        return () => {
+            dispatch(clearCategories());
+            dispatch(clearWorkTemplates());
+        };
+    }, []);
+
+    const changeCategory = (category: Category) => {
+        setCurrentCategoryId(category.id);
+        if (workTemplates[category.id]?.length) {
+            return;
+        }
+        dispatch(getWorkTemplates(category.id));
+    };
 
     const closeModal = () => {
         dispatch(closeModalAction(ModalIdentifiers.WORK_TEMPLATES));
@@ -148,7 +190,11 @@ const WorkTemplateModal = () => {
         >
             {state === ModalState.Menu && (
                 <Menu
+                    categories={categories}
                     onTemplateSelected={handleTemplateSelected}
+                    changeCategory={changeCategory}
+                    workTemplates={workTemplates}
+                    currentCategoryId={currentCategoryId}
                 />
             )}
             {(state === ModalState.Preview && selectedTemplate) && (

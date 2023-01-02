@@ -45,7 +45,7 @@ export const useDelinquencyModalController = (props: UseDelinquencyModalControll
     };
 
     useEffect(() => {
-        if (delinquencyModalPreferencesConfirmed.length === 0 && product == null && !requestedProducts) {
+        if (delinquencyModalPreferencesConfirmed.length === 0 && product === undefined && !requestedProducts && isCloud) {
             dispatch(getCloudProducts());
             setRequestedProducts(true);
         }

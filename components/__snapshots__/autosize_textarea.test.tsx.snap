@@ -48,6 +48,15 @@ exports[`components/AutosizeTextarea should match snapshot, init 1`] = `
         }
       }
     />
+    <div
+      id="autosize_textarea-measuring"
+      style={
+        Object {
+          "display": "inline-block",
+          "width": "auto",
+        }
+      }
+    />
   </div>
 </div>
 `;
