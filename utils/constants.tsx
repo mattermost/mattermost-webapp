@@ -545,7 +545,7 @@ export const A11yCustomEventTypes = {
 };
 
 export type A11yFocusEventDetail = {
-    target: HTMLElement | null;
+    target: HTMLElement | null | undefined;
     keyboardOnly: boolean;
 }
 
@@ -1055,7 +1055,7 @@ export const CloudLinks = {
 };
 
 export const HostedCustomerLinks = {
-    BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
+    BILLING_DOCS: 'https://mattermost.com/pl/how-self-hosted-billing-works',
     TERMS_AND_CONDITIONS: 'https://mattermost.com/enterprise-edition-terms/',
 };
 

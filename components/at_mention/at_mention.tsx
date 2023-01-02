@@ -13,6 +13,8 @@ import ProfilePopover from 'components/profile_popover';
 
 import {popOverOverlayPosition} from 'utils/position_utils';
 import {getUserOrGroupFromMentionName} from 'utils/post_utils';
+import Constants from 'utils/constants';
+import {isKeyPressed} from 'utils/utils';
 
 import AtMentionGroup from 'components/at_mention/at_mention_group';
 
@@ -34,12 +36,12 @@ type Props = {
 
 type State = {
     show: boolean;
-    target?: HTMLButtonElement;
+    target?: HTMLAnchorElement;
     placement?: string;
 }
 
 export default class AtMention extends React.PureComponent<Props, State> {
-    buttonRef: React.RefObject<HTMLButtonElement>;
+    buttonRef: React.RefObject<HTMLAnchorElement>;
 
     static defaultProps: Partial<Props> = {
         isRHS: false,
@@ -58,13 +60,27 @@ export default class AtMention extends React.PureComponent<Props, State> {
         this.buttonRef = React.createRef();
     }
 
-    handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+    showOverlay = (target?: HTMLAnchorElement) => {
         const targetBounds = this.buttonRef.current?.getBoundingClientRect();
 
         if (targetBounds) {
             const placement = popOverOverlayPosition(targetBounds, window.innerHeight, spaceRequiredForPopOver);
-            this.setState({target: e.target as HTMLButtonElement, show: !this.state.show, placement});
+            this.setState({target, show: !this.state.show, placement});
+        }
+    }
+
+    handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        this.showOverlay(e.target as HTMLAnchorElement);
+    }
+
+    handleKeyDown = (e: React.KeyboardEvent<HTMLAnchorElement>) => {
+        if (isKeyPressed(e, Constants.KeyCodes.ENTER) || isKeyPressed(e, Constants.KeyCodes.SPACE)) {
+            e.preventDefault();
+
+            // Prevent propagation so that the message textbox isn't focused
+            e.stopPropagation();
+            this.showOverlay(e.target as HTMLAnchorElement);
         }
     }
 
@@ -115,14 +131,17 @@ export default class AtMention extends React.PureComponent<Props, State> {
                             channelId={this.props.channelId}
                         />
                     </Overlay>
-                    <button
-                        className='mention-link style--link'
+                    <a
+                        className='mention-link'
                         onClick={this.handleClick}
                         ref={this.buttonRef}
                         aria-haspopup='dialog'
+                        role='button'
+                        tabIndex={0}
+                        onKeyDown={this.handleKeyDown}
                     >
                         {'@' + displayName}
-                    </button>
+                    </a>
                 </span>
                 {suffix}
             </>
