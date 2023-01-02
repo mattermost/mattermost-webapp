@@ -466,26 +466,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         const channelView = document.getElementById('channel_view');
         const spaceX = (channelView?.offsetLeft || 0) + 15;
         const spaceY = (channelView?.offsetTop || 0) - rects[0].height;
-        let positionX = rects[0].x - spaceX;
-        let positionY = rects[0].y - spaceY;
-        if (quoteButtonPosition === 'top') {
-            positionY -= startingSelectedElement.offsetLeft;
-        }
-        if (quoteButtonPosition === 'bottom') {
-            positionX += rects[0].width;
-
-            // handle multiple line selection
-            if (rects.length > 1) {
-                positionY += rects[0].height * (rects.length - 1);
-                positionX = rects[rects.length - 1].width + startingSelectedElement.offsetLeft;
-
-                // handle if the selected element is quote
-                if (isAnyElementQuote) {
-                    positionX += 38;
-                }
-            }
-        }
-        return {positionX, positionY};
+        return Utils.getQuoteButtonCoords({
+            quoteButtonPosition,
+            rects,
+            isAnyElementQuote,
+            startingSelectedElement,
+            additionalSpaces: {spaceX, spaceY},
+        });
     }
 
     getChannelMemberCountsByGroup = () => {
