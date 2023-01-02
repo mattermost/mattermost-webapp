@@ -80,3 +80,9 @@ jobs:
           MM_LOGSETTINGS_ENABLECONSOLE: false
           MM_SQLSETTINGS_DATASOURCE: postgres://mmuser:mostest@localhost/postgres?sslmode=disable&connect_timeout=10&binary_parameters=yes
           MM_TEAMSETTINGS_ENABLEOPENSERVER: true
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Test logs
+          path: e2e/cypress/tests/integration/performance/logs/
+          retention-days: 3

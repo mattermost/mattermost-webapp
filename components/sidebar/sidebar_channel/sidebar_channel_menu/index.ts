@@ -29,7 +29,6 @@ import SidebarChannelMenu from './sidebar_channel_menu';
 export type OwnProps = {
     channel: Channel;
     channelLink: string;
-    isCollapsed: boolean;
     isUnread: boolean;
     isMenuOpen: boolean;
     onToggleMenu: (isMenuOpen: boolean) => void;

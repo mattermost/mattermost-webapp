@@ -63,11 +63,10 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
       <Connect(SidebarChannel)
         channelId="channel_id"
         channelIndex={0}
-        getChannelRef={[MockFunction]}
         isAutoSortedCategory={true}
         isCategoryCollapsed={false}
         isCategoryDragged={false}
-        isDropDisabled={false}
+        isDraggable={true}
         key="channel_id"
         setChannelRef={[MockFunction]}
       />
@@ -139,11 +138,10 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
       <Connect(SidebarChannel)
         channelId="channel_id"
         channelIndex={0}
-        getChannelRef={[MockFunction]}
         isAutoSortedCategory={true}
         isCategoryCollapsed={true}
         isCategoryDragged={false}
-        isDropDisabled={false}
+        isDraggable={true}
         key="channel_id"
         setChannelRef={[MockFunction]}
       />
@@ -365,11 +363,10 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
       <Connect(SidebarChannel)
         channelId="channel_id"
         channelIndex={0}
-        getChannelRef={[MockFunction]}
         isAutoSortedCategory={true}
         isCategoryCollapsed={false}
         isCategoryDragged={false}
-        isDropDisabled={false}
+        isDraggable={true}
         key="channel_id"
         setChannelRef={[MockFunction]}
       />

@@ -5,7 +5,7 @@ import {useMemo} from 'react';
 import {useDispatch} from 'react-redux';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {openModal} from 'actions/views/modals';
+import {closeModal} from 'actions/views/modals';
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import SelfHostedPurchaseModal from 'components/self_hosted_purchase_modal';
 import {Client4} from 'mattermost-redux/client';
@@ -44,13 +44,8 @@ export default function useControlSelfHostedPurchaseModal(options: HookOptions):
                         type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
                         data: result.progress,
                     });
-                    dispatch(openModal({
-                        modalId: ModalIdentifiers.SELF_HOSTED_PURCHASE,
-                        dialogType: SelfHostedPurchaseModal,
-                        dialogProps: {
-                            productId: options.productId,
-                        },
-                    }));
+                    dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
+                    controlModal.open();
                 } catch (e) {
                     // eslint-disable-next-line no-console
                     console.error('error bootstrapping self hosted purchase modal', e);

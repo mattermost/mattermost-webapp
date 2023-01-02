@@ -7,13 +7,14 @@ import {FormattedMessage} from 'react-intl';
 
 import semver from 'semver';
 
-import SettingItemMax from 'components/setting_item_max';
-
 import {NotificationLevels} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
-import SettingItemMin from 'components/setting_item_min';
 import {isDesktopApp} from 'utils/user_agent';
+
+import SettingItemMin from 'components/setting_item_min';
+import SettingItemMax from 'components/setting_item_max';
+import SettingItemMinComponent from 'components/setting_item_min/setting_item_min';
 
 type SelectedOption = {
     label: string;
@@ -30,6 +31,7 @@ type Props = {
     cancel: () => void;
     error: string;
     active: boolean;
+    areAllSectionsInactive: boolean;
     saving: boolean;
     selectedSound: string;
     isCollapsedThreadsEnabled: boolean;
@@ -42,6 +44,8 @@ type State = {
 
 export default class DesktopNotificationSettings extends React.PureComponent<Props, State> {
     dropdownSoundRef: RefObject<ReactSelect>;
+    minRef: RefObject<SettingItemMinComponent>;
+
     constructor(props: Props) {
         super(props);
         const selectedOption = {value: props.selectedSound, label: props.selectedSound};
@@ -50,6 +54,11 @@ export default class DesktopNotificationSettings extends React.PureComponent<Pro
             blurDropdown: false,
         };
         this.dropdownSoundRef = React.createRef();
+        this.minRef = React.createRef();
+    }
+
+    focusEditButton(): void {
+        this.minRef.current?.focus();
     }
 
     handleMinUpdateSection = (section: string): void => {
@@ -64,6 +73,7 @@ export default class DesktopNotificationSettings extends React.PureComponent<Pro
         const value = e.currentTarget.getAttribute('data-value');
         if (key && value) {
             this.props.setParentState(key, value);
+            Utils.a11yFocus(e.currentTarget);
         }
     }
 
@@ -382,12 +392,17 @@ export default class DesktopNotificationSettings extends React.PureComponent<Pro
                 describe={<FormattedMessage {...formattedMessageProps}/>}
                 section={'desktop'}
                 updateSection={this.handleMinUpdateSection}
+                ref={this.minRef}
             />
         );
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps: Props) {
         this.blurDropdown();
+
+        if (prevProps.active && !this.props.active && this.props.areAllSectionsInactive) {
+            this.focusEditButton();
+        }
     }
 
     render() {
