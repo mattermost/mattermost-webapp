@@ -5571,11 +5571,9 @@
   "workspace_limits.boards_cards.short": "Board Cards",
   "workspace_limits.boards_cards.usage": "{actual} of {limit} cards ({percent}%)",
   "workspace_limits.boards_cards.usage.short": "{actual} / {limit} Cards",
-  "workspace_limits.contact_to_upgrade": "Contact us to upgrade",
   "workspace_limits.file_storage": "File storage",
   "workspace_limits.file_storage.short": "Files",
   "workspace_limits.file_storage.short.usage": "{actual} / {limit}",
-  "workspace_limits.file_storage.single_usage": "{actual} of {limit}",
   "workspace_limits.file_storage.usage": "{actual} of {limit} ({percent}%)",
   "workspace_limits.menu_limit.board_card": "Board card limit",
   "workspace_limits.menu_limit.critical.boards_cards": "You’re getting closer to the {limit} board card limit. <a>{callToAction}</a>",
@@ -5610,7 +5608,6 @@
   "workspace_limits.message_history.usage": "{actual} of {limit} messages ({percent}%)",
   "workspace_limits.modals.close": "Close",
   "workspace_limits.modals.informational.description.freeLimits": "{planName} is restricted to {messages} message history, {storage} file storage, {boards} board cards, and {integrations} integrations.",
-  "workspace_limits.modals.informational.description.professionalLimits": "{planName} is restricted to {storage} file storage",
   "workspace_limits.modals.informational.title": "{planName} limits",
   "workspace_limits.modals.limits_reached.description.message_history": "Your sent message history is no longer available but you can still send messages. Upgrade to a paid plan and get unlimited access to your message history.",
   "workspace_limits.modals.limits_reached.title": "{limitName} limit reached",
@@ -5626,8 +5623,6 @@
   "workspace_limits.teams_limit_reached.view_upgrade_options": "View upgrade options",
   "workspace_limits.upgrade": "Upgrade to avoid {planName} data limits",
   "workspace_limits.upgrade_button": "Upgrade",
-  "workspace_limits.upgrade_professional": "Professional plan data limit",
   "workspace_limits.upgrade_reasons.free": "{planName} is restricted to {messagesLimit} message history, {storageLimit} file storage, {appsLimit} apps, and {boardsCardsLimit} board cards. You can delete items to free up space or upgrade to a paid plan.",
-  "workspace_limits.upgrade_reasons.professional": "On the Professional plan you can only view the most recent {fileStorage} of files. With Enterprise, experience unlimited file storage.",
   "yourcomputer": "Your computer"
 }

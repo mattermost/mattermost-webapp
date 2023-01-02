@@ -4,8 +4,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {GlobalState} from '@mattermost/types/store';
-
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {getCloudSubscription, getCloudProducts, getCloudCustomer} from 'mattermost-redux/actions/cloud';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
@@ -25,19 +23,19 @@ import {
     getCloudErrors,
 } from 'mattermost-redux/selectors/entities/cloud';
 import {
+    CloudProducts,
     TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
-import {hasSomeLimits} from 'utils/limits';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {useQuery} from 'utils/http_utils';
 
-import BillingSummary from '../billing_summary';
-import PlanDetails from '../plan_details';
-
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
-import useGetLimits from 'components/common/hooks/useGetLimits';
+
+import PlanDetails from '../plan_details';
+import BillingSummary from '../billing_summary';
+import {GlobalState} from '@mattermost/types/store';
 
 import ContactSalesCard from './contact_sales_card';
 import CancelSubscription from './cancel_subscription';
@@ -55,7 +53,6 @@ const BillingSubscriptions = () => {
     const dispatch = useDispatch<DispatchFunc>();
     const analytics = useSelector(getAdminAnalytics);
     const subscription = useSelector(selectCloudSubscription);
-    const [cloudLimits] = useGetLimits();
     const errorLoadingData = useSelector((state: GlobalState) => {
         const errors = getCloudErrors(state);
         return Boolean(errors.limits || errors.subscription || errors.customer || errors.products);
@@ -159,7 +156,7 @@ const BillingSubscriptions = () => {
                                 onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                             />
                         </div>
-                        {hasSomeLimits(cloudLimits) && !isFreeTrial ? (
+                        {product?.sku === CloudProducts.STARTER ? (
                             <Limits/>
                         ) : (
                             <ContactSalesCard
