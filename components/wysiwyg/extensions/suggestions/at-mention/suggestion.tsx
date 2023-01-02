@@ -11,8 +11,8 @@ import {Constants, WysiwygPluginNames} from 'utils/constants';
 
 import {Group} from '@mattermost/types/groups';
 
-import {SuggestionItem} from '../suggestion-list';
-import {render} from '../suggestion-base';
+import {SuggestionItem} from '../suggestion.component';
+import {render} from '../suggestion.renderer';
 
 import {GroupMentionItem, SpecialMentionItem, UserMentionItem} from './components';
 

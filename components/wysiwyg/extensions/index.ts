@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Extension} from '@tiptap/core';
+import {nodePasteRule} from '@tiptap/react';
 import {Blockquote, BlockquoteOptions} from '@tiptap/extension-blockquote';
 import {Bold, BoldOptions} from '@tiptap/extension-bold';
 import {BulletList, BulletListOptions} from '@tiptap/extension-bullet-list';
@@ -13,6 +14,7 @@ import {HardBreak, HardBreakOptions} from '@tiptap/extension-hard-break';
 import {Heading, HeadingOptions} from '@tiptap/extension-heading';
 import {History, HistoryOptions} from '@tiptap/extension-history';
 import {HorizontalRule, HorizontalRuleOptions} from '@tiptap/extension-horizontal-rule';
+import {Image, ImageOptions, inputRegex as imageInputRegex} from '@tiptap/extension-image';
 import {Italic, ItalicOptions} from '@tiptap/extension-italic';
 import {Link, LinkOptions} from '@tiptap/extension-link';
 import {ListItem, ListItemOptions} from '@tiptap/extension-list-item';
@@ -25,8 +27,8 @@ import {Placeholder, PlaceholderOptions} from '@tiptap/extension-placeholder';
 
 import {PluginKey} from 'prosemirror-state';
 
-import {Codeblock, CodeBlockLowlightOptions} from './codeblock';
-import {Table, TableCell, TableRow, TableHeader, TableOptions} from './table';
+import {Codeblock, CodeBlockLowlightOptions} from './codeblock/codeblock';
+import {Table, TableOptions} from './table/table';
 
 import {
     AtMentionSuggestions,
@@ -47,7 +49,7 @@ import {
     makeCommandSuggestion,
 } from './suggestions';
 
-import {KeyHandler, KeyhandlerOptions} from './keyhandler';
+import {KeyHandler, KeyhandlerOptions} from './keyhandler/keyhandler';
 
 const suggestionKeys: PluginKey[] = [];
 
@@ -81,6 +83,7 @@ export interface ExtensionOptions {
         command?: CommandSuggestionOptions | false;
     };
     keyHandling?: KeyhandlerOptions | false;
+    image?: Partial<ImageOptions> | false;
 }
 
 export const Extensions = Extension.create<ExtensionOptions>({
@@ -179,7 +182,6 @@ export const Extensions = Extension.create<ExtensionOptions>({
 
         if (this.options.table !== false) {
             extensions.push(Table.configure(this.options?.table));
-            extensions.push(TableCell, TableRow, TableHeader);
         }
 
         if (this.options.suggestions?.mention) {
@@ -207,6 +209,26 @@ export const Extensions = Extension.create<ExtensionOptions>({
                 ...this.options.keyHandling,
                 suggestionKeys,
             }));
+        }
+
+        if (this.options.image !== false) {
+            extensions.push(Image.extend({
+                addPasteRules() {
+                    return [
+                        nodePasteRule({
+                            find: new RegExp(imageInputRegex, 'g'),
+                            type: this.type,
+                            getAttributes: (match) => {
+                                const [, , alt, src, title] = match;
+
+                                console.log('#### match form paste', match); // eslint-disable-line no-console
+
+                                return {src, alt, title};
+                            },
+                        }),
+                    ];
+                },
+            }).configure(this.options.image));
         }
 
         return extensions;

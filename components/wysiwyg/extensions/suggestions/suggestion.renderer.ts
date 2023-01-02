@@ -3,7 +3,7 @@
 import {ReactRenderer} from '@tiptap/react';
 import {SuggestionOptions} from '@tiptap/suggestion';
 
-import SuggestionList, {SuggestionItem, SuggestionListProps, SuggestionListRef} from './suggestion-list';
+import SuggestionList, {SuggestionItem, SuggestionListProps, SuggestionListRef} from './suggestion.component';
 
 export const render: Omit<SuggestionOptions<SuggestionItem>, 'editor'>['render'] = () => {
     let reactRenderer: ReactRenderer<SuggestionListRef>;

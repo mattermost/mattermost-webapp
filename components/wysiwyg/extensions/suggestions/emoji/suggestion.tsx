@@ -14,8 +14,8 @@ import EmojiMap from 'utils/emoji_map';
 
 import {Emoji} from '@mattermost/types/emojis';
 
-import {SuggestionItem} from '../suggestion-list';
-import {render} from '../suggestion-base';
+import {SuggestionItem} from '../suggestion.component';
+import {render} from '../suggestion.renderer';
 
 import {EmojiSuggestionItem} from './components';
 
@@ -55,7 +55,7 @@ function findAndSuggestEmojis(partialName: string): SuggestionItem[] {
         }
 
         if (emoji.short_names) {
-            // This is a system emoji so it may have multiple names
+            // This is a system emoji, so it may have multiple names
             for (const alias of emoji.short_names) {
                 if (alias.indexOf(partialName) !== -1) {
                     const matchedArray = recentEmojis.includes(alias) || recentEmojis.includes(name) ? recentMatched : matched;
@@ -68,7 +68,7 @@ function findAndSuggestEmojis(partialName: string): SuggestionItem[] {
                 }
             }
         } else if (name.indexOf(partialName) !== -1) {
-            // This is a custom emoji so it only has one name
+            // This is a custom emoji, so it only has one name
             if (emojiMap.hasSystemEmoji(name)) {
                 // System emojis take precedence over custom ones
                 continue;

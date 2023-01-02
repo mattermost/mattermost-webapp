@@ -1,7 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-
-// See LICENSE.txt for license information.
 import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 import {SuggestionOptions} from '@tiptap/suggestion';
@@ -9,8 +7,8 @@ import {PluginKey} from 'prosemirror-state';
 
 import {WysiwygPluginNames} from 'utils/constants';
 
-import {SuggestionItem} from '../suggestion-list';
-import {render} from '../suggestion-base';
+import {SuggestionItem} from '../suggestion.component';
+import {render} from '../suggestion.renderer';
 
 import {ChannelSuggestionItem} from './components';
 

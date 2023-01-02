@@ -10,8 +10,8 @@ import {ChevronDownIcon} from '@mattermost/compass-icons/components';
 import {NodeViewContent, NodeViewWrapper} from '@tiptap/react';
 import {NodeViewProps} from '@tiptap/core/src/types';
 
-import {DropdownContainer} from '../components/toolbar/toolbar_controls';
-import {useGetLatest} from '../components/toolbar/toolbar_hooks';
+import {DropdownContainer} from '../../components/toolbar/toolbar_controls';
+import {useGetLatest} from '../../components/toolbar/toolbar_hooks';
 
 const StyledCodeBlock = styled(NodeViewWrapper)`
     position: relative;

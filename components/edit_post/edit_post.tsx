@@ -6,9 +6,6 @@ import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import {EmoticonPlusOutlineIcon} from '@mattermost/compass-icons/components';
 
-import {Post} from '@mattermost/types/posts';
-import {Emoji, SystemEmoji} from '@mattermost/types/emojis';
-
 import {AppEvents, Constants, ModalIdentifiers, StoragePrefixes} from 'utils/constants';
 import {
     formatGithubCodePaste,
@@ -24,6 +21,9 @@ import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import Textbox, {TextboxClass, TextboxElement} from 'components/textbox';
 import {ModalData} from 'types/actions';
+
+import {Emoji, SystemEmoji} from '@mattermost/types/emojis';
+import {Post} from '@mattermost/types/posts';
 import {PostDraft} from '../../types/store/draft';
 
 import EditPostFooter from './edit_post_footer';

@@ -11,13 +11,9 @@ import type {DebouncedFunc} from 'lodash';
 import {
     EditorContent,
     useEditor,
-    nodePasteRule,
 } from '@tiptap/react';
 import type {JSONContent} from '@tiptap/react';
-import {Extension} from '@tiptap/core';
 import type {Editor} from '@tiptap/core';
-
-import Image, {inputRegex as imageInputRegex} from '@tiptap/extension-image';
 
 // load all highlight.js languages
 import {lowlight} from 'lowlight';
@@ -258,23 +254,6 @@ export default (props: Props) => {
                     submitAction: onSubmit,
                     ctrlSend,
                     codeBlockOnCtrlEnter,
-                },
-            }),
-            Image.extend({
-                addPasteRules() {
-                    return [
-                        nodePasteRule({
-                            find: new RegExp(imageInputRegex, 'g'),
-                            type: this.type,
-                            getAttributes: (match) => {
-                                const [,, alt, src, title] = match;
-
-                                console.log('#### match form paste', match); // eslint-disable-line no-console
-
-                                return {src, alt, title};
-                            },
-                        }),
-                    ];
                 },
             }),
         ],

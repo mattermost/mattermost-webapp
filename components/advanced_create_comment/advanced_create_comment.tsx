@@ -12,7 +12,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 import * as GlobalActions from 'actions/global_actions';
 
 import Constants, {AdvancedTextEditor, Locations, ModalIdentifiers, Preferences} from 'utils/constants';
-import {PreferenceType} from '@mattermost/types/preferences';
+
 import * as UserAgent from 'utils/user_agent';
 import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
@@ -30,18 +30,26 @@ import NotifyConfirmModal from 'components/notify_confirm_modal';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import PostDeletedModal from 'components/post_deleted_modal';
 import {PostDraft} from 'types/store/draft';
-import {Group} from '@mattermost/types/groups';
-import {ChannelMemberCountsByGroup} from '@mattermost/types/channels';
+
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
-import {Emoji} from '@mattermost/types/emojis';
+
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {ServerError} from '@mattermost/types/errors';
-import {FileInfo} from '@mattermost/types/files';
+
 import EmojiMap from 'utils/emoji_map';
+
 import {
     applyMarkdown,
     ApplyMarkdownOptions,
 } from 'utils/markdown/apply_markdown';
+
+import {Group} from '@mattermost/types/groups';
+import {ChannelMemberCountsByGroup} from '@mattermost/types/channels';
+import {Emoji} from '@mattermost/types/emojis';
+
+import {ServerError} from '@mattermost/types/errors';
+import {FileInfo} from '@mattermost/types/files';
+
+import {PreferenceType} from '@mattermost/types/preferences';
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {TextboxClass, TextboxElement} from '../textbox';
 

@@ -14,7 +14,14 @@ const Table =
 
             return ['table', {class: 'markdown__table'}, ['tbody', 0]];
         },
+        addExtensions() {
+            return [
+                TableCell,
+                TableHeader,
+                TableRow,
+            ];
+        },
     });
 
-export {Table, TableCell, TableRow, TableHeader};
+export {Table};
 export type {TableOptions};

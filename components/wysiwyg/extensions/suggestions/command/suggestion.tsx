@@ -18,8 +18,8 @@ import {
 
 import store from 'stores/redux_store.jsx';
 
-import {SuggestionItem} from '../suggestion-list';
-import {render} from '../suggestion-base';
+import {SuggestionItem} from '../suggestion.component';
+import {render} from '../suggestion.renderer';
 
 import {CommandItem} from './components';
 
@@ -32,7 +32,7 @@ export type CommandSuggestionOptions = {
 }
 
 export const makeCommandSuggestion: (options: CommandSuggestionOptions) => Omit<SuggestionOptions<SuggestionItem>, 'editor'> = ({teamId, channelId, rootId}) => {
-    const appCommandParser = new AppCommandParser(store as any, intlShim, channelId, teamId, rootId);
+    const appCommandParser = new AppCommandParser(store as never, intlShim, channelId, teamId, rootId);
     const state = store.getState();
 
     return {
