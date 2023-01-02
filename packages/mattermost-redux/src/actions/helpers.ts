@@ -1,12 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {AnyAction} from 'redux';
+import {ThunkAction} from 'redux-thunk';
+
 import {ServerError} from '@mattermost/types/errors';
+import {GlobalState} from '@mattermost/types/store';
 
 import {Client4} from 'mattermost-redux/client';
 import {UserTypes} from 'mattermost-redux/action_types';
 
-import {ActionFunc, GenericAction, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {GenericAction, DispatchFunc, GetStateFunc, ActionResult} from 'mattermost-redux/types/actions';
 
 import {logError} from './errors';
 type ActionType = string;
@@ -63,19 +67,19 @@ export function requestFailure(type: ActionType, error: ServerError): any {
  * @returns {ActionFunc} ActionFunc
  */
 
-export function bindClientFunc({
+export function bindClientFunc<Data=any>({
     clientFunc,
     onRequest,
     onSuccess,
     onFailure,
     params = [],
 }: {
-    clientFunc: (...args: any[]) => Promise<any>;
+    clientFunc: (...args: any[]) => Promise<Data>;
     onRequest?: ActionType;
     onSuccess?: ActionType | ActionType[];
     onFailure?: ActionType;
     params?: any[];
-}): ActionFunc {
+}): ThunkAction<Promise<ActionResult<Data, ServerError>>, GlobalState, null, AnyAction> {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         if (onRequest) {
             dispatch(requestData(onRequest));
