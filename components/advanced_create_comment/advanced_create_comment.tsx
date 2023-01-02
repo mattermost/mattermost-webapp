@@ -372,6 +372,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             }
 
             // todo sinan if there is overscroll for postCreateContainer, there is an issue
+            // todo sinan: on safari sometimes it is selected 3 rects soit messes up spaceY due to (multipleRects[0].height * multipleRects.length);
             if (text !== '' && selection?.anchorOffset && selection?.focusOffset) {
                 const quoteButtonPosition = selection.anchorOffset < selection.focusOffset ? 'bottom' : 'top';
                 const spaceX = (sideBarRight?.offsetLeft || 0) + 20;
@@ -389,7 +390,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
                     // handle multiple line selection
                     if (rects.length > 1) {
-                        positionY += rects[0].height * (rects.length - 1);
+                        positionY -= rects[0].height * (rects.length - 1);
                         positionX = rects[rects.length - 1].width + (startingSelectedElement?.offsetLeft || 0);
 
                         // handle if the selected element is quote
@@ -407,11 +408,11 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                 });
             }
 
-            setTimeout(() => {
-                if (this.state.showQuoteButton) {
-                    this.setState({showQuoteButton: false});
-                }
-            }, 5000);
+            // setTimeout(() => {
+            //     if (this.state.showQuoteButton) {
+            //         this.setState({showQuoteButton: false});
+            //     }
+            // }, 5000);
         }
     }
 
