@@ -35,8 +35,6 @@ export default function useControlSelfHostedPurchaseModal(options: HookOptions):
         },
     });
 
-    // const controlPurchaseInProgressModal = useControlPurchaseInProgressModal({
-
     return useMemo(() => {
         return {
             ...controlModal,

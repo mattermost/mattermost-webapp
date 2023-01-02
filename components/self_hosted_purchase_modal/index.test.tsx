@@ -121,6 +121,9 @@ const initialState: DeepPartial<GlobalState> = {
             },
         },
     },
+    storage: {
+        storage: {},
+    },
     entities: {
         admin: {
             analytics: {
