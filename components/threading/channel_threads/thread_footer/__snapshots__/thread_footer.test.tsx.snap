@@ -265,6 +265,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                           <img
                             alt="user profile image"
                             className="Avatar Avatar-sm"
+                            loading="lazy"
                             onError={[Function]}
                             src="/api/v4/users/5/image?_=0"
                             style={
@@ -484,6 +485,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                           <img
                             alt="user profile image"
                             className="Avatar Avatar-sm"
+                            loading="lazy"
                             onError={[Function]}
                             src="/api/v4/users/4/image?_=0"
                             style={
@@ -703,6 +705,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                           <img
                             alt="user profile image"
                             className="Avatar Avatar-sm"
+                            loading="lazy"
                             onError={[Function]}
                             src="/api/v4/users/3/image?_=0"
                             style={
@@ -1390,6 +1393,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                           <img
                             alt="user profile image"
                             className="Avatar Avatar-sm"
+                            loading="lazy"
                             onError={[Function]}
                             src="/api/v4/users/5/image?_=0"
                             style={
@@ -1609,6 +1613,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                           <img
                             alt="user profile image"
                             className="Avatar Avatar-sm"
+                            loading="lazy"
                             onError={[Function]}
                             src="/api/v4/users/4/image?_=0"
                             style={
@@ -1828,6 +1833,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                           <img
                             alt="user profile image"
                             className="Avatar Avatar-sm"
+                            loading="lazy"
                             onError={[Function]}
                             src="/api/v4/users/3/image?_=0"
                             style={

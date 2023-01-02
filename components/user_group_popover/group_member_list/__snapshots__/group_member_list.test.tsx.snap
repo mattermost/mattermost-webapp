@@ -394,6 +394,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                   <img
                                     alt="username0 profile image"
                                     className="Avatar Avatar-sm avatar-post-preview"
+                                    loading="lazy"
                                     onError={[Function]}
                                     src="/api/v4/users/id0/image?_=0"
                                     tabIndex={-1}
@@ -609,6 +610,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                   <img
                                     alt="username1 profile image"
                                     className="Avatar Avatar-sm avatar-post-preview"
+                                    loading="lazy"
                                     onError={[Function]}
                                     src="/api/v4/users/id1/image?_=0"
                                     tabIndex={-1}
@@ -824,6 +826,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                   <img
                                     alt="username2 profile image"
                                     className="Avatar Avatar-sm avatar-post-preview"
+                                    loading="lazy"
                                     onError={[Function]}
                                     src="/api/v4/users/id2/image?_=0"
                                     tabIndex={-1}
@@ -1039,6 +1042,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                   <img
                                     alt="username3 profile image"
                                     className="Avatar Avatar-sm avatar-post-preview"
+                                    loading="lazy"
                                     onError={[Function]}
                                     src="/api/v4/users/id3/image?_=0"
                                     tabIndex={-1}
@@ -1254,6 +1258,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                   <img
                                     alt="username4 profile image"
                                     className="Avatar Avatar-sm avatar-post-preview"
+                                    loading="lazy"
                                     onError={[Function]}
                                     src="/api/v4/users/id4/image?_=0"
                                     tabIndex={-1}
