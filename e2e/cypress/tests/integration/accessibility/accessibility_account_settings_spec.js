@@ -26,7 +26,6 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
         security: [
             {key: 'password', label: 'Password', type: 'text'},
             {key: 'mfa', label: 'Multi-factor Authentication', type: 'optional'},
-            {key: 'signin', label: 'Sign-in Method', type: 'optional'},
         ],
     };
 
@@ -66,7 +65,7 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
             // {key: 'advancedPreviewFeatures', label: 'Preview Pre-release Features', type: 'checkbox'},
         ],
     };
-
+    let url;
     before(() => {
         // # Update Configs
         cy.apiUpdateConfig({
@@ -83,6 +82,7 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
 
         // # Login as test user and visit off-topic
         cy.apiInitSetup({loginAfter: true}).then(({offTopicUrl}) => {
+            url = offTopicUrl;
             cy.visit(offTopicUrl);
             cy.postMessage('hello');
         });
@@ -113,6 +113,8 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
     });
 
     it('MM-T1465_2 Verify Accessibility Support in each section in Settings and Profile Dialog', () => {
+        cy.visit(url);
+
         // # Open account settings modal
         cy.uiOpenProfileModal();
 
@@ -146,6 +148,7 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
     });
 
     it('MM-T1481 Verify Correct Radio button behavior in Settings and Profile', () => {
+        cy.visit(url);
         cy.uiOpenSettingsModal();
 
         cy.get('#notificationsButton').click();
@@ -156,6 +159,7 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
     });
 
     it('MM-T1482 Input fields in Settings and Profile should read labels', () => {
+        cy.visit(url);
         cy.uiOpenProfileModal();
 
         accountSettings.profile.forEach((section) => {
@@ -173,6 +177,7 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
     });
 
     it('MM-T1485 Language dropdown should read labels', () => {
+        cy.visit(url);
         cy.uiOpenSettingsModal();
 
         cy.get('#displayButton').click();
@@ -210,6 +215,8 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
     });
 
     it('MM-T1488 Profile Picture should read labels', () => {
+        cy.visit(url);
+
         // # Go to Edit Profile picture
         cy.uiOpenProfileModal();
         cy.get('#pictureEdit').click();
@@ -261,6 +268,8 @@ describe('Verify Accessibility Support in different sections in Settings and Pro
     });
 
     it('MM-T1496 Security Settings screen should read labels', () => {
+        cy.visit(url);
+
         // # Go to Security Settings
         cy.uiOpenProfileModal();
         cy.get('#securityButton').click();
