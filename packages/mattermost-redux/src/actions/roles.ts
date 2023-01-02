@@ -5,7 +5,7 @@ import {Client4} from 'mattermost-redux/client';
 import {RoleTypes} from 'mattermost-redux/action_types';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
 
-import {DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
+import {DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 import {Role} from '@mattermost/types/roles';
 
 import {bindClientFunc} from './helpers';
@@ -67,7 +67,7 @@ export function setPendingRoles(roles: string[]) {
 }
 
 export function loadRolesIfNeeded(roles: Iterable<string>): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch, getState) => {
         const state = getState();
         let pendingRoles = new Set<string>();
 
@@ -98,7 +98,7 @@ export function loadRolesIfNeeded(roles: Iterable<string>): ActionFunc {
             await dispatch(setPendingRoles([]));
         }
         if (newRoles.size > 0) {
-            return getRolesByNames(Array.from(newRoles))(dispatch, getState);
+            return dispatch(getRolesByNames(Array.from(newRoles)));
         }
         return {data: state.entities.roles.roles};
     };

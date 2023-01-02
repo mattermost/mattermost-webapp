@@ -109,7 +109,7 @@ export function getMyTeamUnreads(collapsedThreads: boolean, skipCurrentTeam = fa
     };
 }
 
-export function getTeam(teamId: string): ActionFunc<Team, ServerError> {
+export function getTeam(teamId: string): ActionFunc<Team> {
     return bindClientFunc({
         clientFunc: Client4.getTeam,
         onSuccess: TeamTypes.RECEIVED_TEAM,
@@ -119,7 +119,7 @@ export function getTeam(teamId: string): ActionFunc<Team, ServerError> {
     });
 }
 
-export function getTeamByName(teamName: string): ActionFunc<Team, ServerError> {
+export function getTeamByName(teamName: string): ActionFunc<Team> {
     return bindClientFunc({
         clientFunc: Client4.getTeamByName,
         onSuccess: TeamTypes.RECEIVED_TEAM,
@@ -339,13 +339,13 @@ export function regenerateTeamInviteId(teamId: string): ActionFunc {
     });
 }
 
-export function getMyTeamMembers(): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+export function getMyTeamMembers(): ActionFunc<TeamMembership[]> {
+    return async (dispatch: DispatchFunc) => {
         const getMyTeamMembersFunc = bindClientFunc({
             clientFunc: Client4.getMyTeamMembers,
             onSuccess: TeamTypes.RECEIVED_MY_TEAM_MEMBERS,
         });
-        const teamMembers = (await getMyTeamMembersFunc(dispatch, getState)) as ActionResult;
+        const teamMembers = await dispatch(getMyTeamMembersFunc);
 
         if ('data' in teamMembers && teamMembers.data) {
             const roles = new Set<string>();
@@ -364,7 +364,7 @@ export function getMyTeamMembers(): ActionFunc {
     };
 }
 
-export function getTeamMembers(teamId: string, page = 0, perPage: number = General.TEAMS_CHUNK_SIZE, options: GetTeamMembersOpts): ActionFunc<TeamMembership[], ServerError> {
+export function getTeamMembers(teamId: string, page = 0, perPage: number = General.TEAMS_CHUNK_SIZE, options: GetTeamMembersOpts): ActionFunc<TeamMembership[]> {
     return bindClientFunc({
         clientFunc: Client4.getTeamMembers,
         onRequest: TeamTypes.GET_TEAM_MEMBERS_REQUEST,
@@ -472,8 +472,8 @@ export function addUserToTeamFromInvite(token: string, inviteId: string): Action
     });
 }
 
-export function addUserToTeam(teamId: string, userId: string): ActionFunc<TeamMembership, ServerError> {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+export function addUserToTeam(teamId: string, userId: string): ActionFunc<TeamMembership> {
+    return async (dispatch, getState) => {
         let member;
         try {
             member = await Client4.addToTeam(teamId, userId);
@@ -743,8 +743,8 @@ export function joinTeam(inviteId: string, teamId: string): ActionFunc {
         dispatch(getMyTeamUnreads(isCollapsedThreadsEnabled(state)));
 
         await Promise.all([
-            getTeam(teamId)(dispatch, getState),
-            getMyTeamMembers()(dispatch, getState),
+            dispatch(getTeam(teamId)),
+            dispatch(getMyTeamMembers()),
         ]);
 
         dispatch({type: TeamTypes.JOIN_TEAM_SUCCESS, data: null});

@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Action} from 'redux';
+
 import {WorkTemplatesType} from 'mattermost-redux/action_types';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {bindClientFunc} from 'mattermost-redux/actions/helpers';
@@ -23,16 +25,12 @@ export function getWorkTemplates(categoryId: string): ActionFunc {
     });
 }
 
-export function clearCategories(): ActionFunc {
-    return async (dispatch) => {
-        dispatch({type: WorkTemplatesType.CLEAR_WORK_TEMPLATE_CATEGORIES});
-        return [];
+export function clearCategories(): Action {
+    return {
+        type: WorkTemplatesType.CLEAR_WORK_TEMPLATE_CATEGORIES,
     };
 }
 
-export function clearWorkTemplates(): ActionFunc {
-    return async (dispatch) => {
-        dispatch({type: WorkTemplatesType.CLEAR_WORK_TEMPLATES});
-        return [];
-    };
+export function clearWorkTemplates(): Action {
+    return {type: WorkTemplatesType.CLEAR_WORK_TEMPLATES};
 }

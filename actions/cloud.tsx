@@ -228,7 +228,7 @@ export function getTeamsUsage(): ActionFunc {
     };
 }
 
-export function retryFailedCloudFetches() {
+export function retryFailedCloudFetches(): ActionFunc<boolean> {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const errors = getCloudErrors(getState());
         if (Object.keys(errors).length === 0) {
@@ -252,7 +252,7 @@ export function retryFailedCloudFetches() {
         }
 
         if (errors.limits) {
-            getCloudLimits()(dispatch, getState);
+            dispatch(getCloudLimits());
         }
 
         return {data: true};

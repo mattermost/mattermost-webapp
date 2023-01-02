@@ -6,9 +6,6 @@ import {Route, Switch, useHistory, useParams} from 'react-router-dom';
 import iNoBounce from 'inobounce';
 
 import {Team} from '@mattermost/types/teams';
-import {ServerError} from '@mattermost/types/errors';
-
-import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {reconnect} from 'actions/websocket_actions.jsx';
 
@@ -168,7 +165,7 @@ function TeamController(props: Props) {
                 throw new Error('Team name is reserved');
             }
 
-            const {data: joinedTeam} = await props.joinTeam(teamNameParam, joinedOnFirstLoad) as ActionResult<Team, ServerError>; // Fix in MM-46907;
+            const {data: joinedTeam} = await props.joinTeam(teamNameParam, joinedOnFirstLoad);
             if (joinedTeam) {
                 setTeam(joinedTeam);
             } else {
