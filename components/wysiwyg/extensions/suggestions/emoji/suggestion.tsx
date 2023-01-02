@@ -24,7 +24,7 @@ export const EmojiSuggestionKey = new PluginKey(WysiwygPluginNames.EMOJI_SUGGEST
 export const MIN_EMOTICON_LENGTH = 2;
 export const EMOJI_CATEGORY_SUGGESTION_BLOCKLIST = ['skintone'];
 
-type EmojiSuggestionOptions = {
+export type EmojiSuggestionOptions = {
     useCustomEmojis: boolean;
 }
 

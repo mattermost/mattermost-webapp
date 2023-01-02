@@ -16,7 +16,7 @@ import {ChannelSuggestionItem} from './components';
 
 export const ChannelSuggestionKey = new PluginKey(WysiwygPluginNames.CHANNEL_SUGGESTION);
 
-type ChannelSuggestionOptions = {
+export type ChannelSuggestionOptions = {
     teamId: string;
 }
 

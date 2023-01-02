@@ -18,10 +18,9 @@ import {GroupMentionItem, SpecialMentionItem, UserMentionItem} from './component
 
 export const AtMentionSuggestionKey = new PluginKey(WysiwygPluginNames.AT_MENTION_SUGGESTION);
 
-type AtMentionSuggestionOptions = {
+export type AtMentionSuggestionOptions = {
     teamId: string;
     channelId: string;
-    disabled?: boolean;
     useSpecialMentions?: boolean;
     useGroupMentions?: boolean;
 }
@@ -54,16 +53,12 @@ function filterGroup(prefix: string, group: Group): boolean {
     return groupSuggestions.some((suggestion) => suggestion.startsWith(prefixLower));
 }
 
-export const makeAtMentionSuggestion: (options: AtMentionSuggestionOptions) => Omit<SuggestionOptions<SuggestionItem>, 'editor'> = ({teamId, channelId, disabled, useGroupMentions, useSpecialMentions = true}) => ({
+export const makeAtMentionSuggestion: (options: AtMentionSuggestionOptions) => Omit<SuggestionOptions<SuggestionItem>, 'editor'> = ({teamId, channelId, useGroupMentions, useSpecialMentions = true}) => ({
     char: '@',
 
     pluginKey: AtMentionSuggestionKey,
 
     items: async ({query}: {query: string}) => {
-        if (disabled) {
-            return [];
-        }
-
         const {users: userInChannel, out_of_channel: userNotInChannel} = await Client4.autocompleteUsers(query, teamId, channelId, {limit: 30});
         const results: SuggestionItem[] = [];
 

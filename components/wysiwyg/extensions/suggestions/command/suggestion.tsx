@@ -25,7 +25,7 @@ import {CommandItem} from './components';
 
 export const CommandSuggestionKey = new PluginKey(WysiwygPluginNames.SLASH_COMMAND);
 
-type CommandSuggestionOptions = {
+export type CommandSuggestionOptions = {
     teamId: string;
     channelId: string;
     rootId?: string;

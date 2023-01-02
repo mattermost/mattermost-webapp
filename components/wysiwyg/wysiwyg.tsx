@@ -11,25 +11,13 @@ import type {DebouncedFunc} from 'lodash';
 import {
     EditorContent,
     useEditor,
-    ReactNodeViewRenderer as renderReactNodeView, nodePasteRule,
+    nodePasteRule,
 } from '@tiptap/react';
 import type {JSONContent} from '@tiptap/react';
 import {Extension} from '@tiptap/core';
 import type {Editor} from '@tiptap/core';
-import StarterKit from '@tiptap/starter-kit';
 
-import Link from '@tiptap/extension-link';
-import Typography from '@tiptap/extension-typography';
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-import Code from '@tiptap/extension-code';
-import Placeholder from '@tiptap/extension-placeholder';
 import Image, {inputRegex as imageInputRegex} from '@tiptap/extension-image';
-
-// tiptap table extensions
-import Table from '@tiptap/extension-table';
-import TableCell from '@tiptap/extension-table-cell';
-import TableHeader from '@tiptap/extension-table-header';
-import TableRow from '@tiptap/extension-table-row';
 
 // load all highlight.js languages
 import {lowlight} from 'lowlight';
@@ -40,36 +28,14 @@ import type {GlobalState} from 'types/store';
 import type {NewPostDraft} from 'types/store/draft';
 
 import EmojiPicker from './components/emoji-picker';
-
+import {Extensions} from './extensions';
 import {htmlToMarkdown} from './utils/toMarkdown';
 
 // import all custom components, extensions, etc.
 import Toolbar from './components/toolbar';
 import SendButton from './components/send-button';
-import CodeBlockComponent from './components/codeblockview';
-import {
-    AtMentionSuggestions,
-    AtMentionSuggestionKey,
-    makeAtMentionSuggestion,
-    ChannelSuggestions,
-    ChannelSuggestionKey,
-    makeChannelSuggestion,
-    EmojiSuggestions,
-    EmojiSuggestionKey,
-    makeEmojiSuggestion,
-    CommandSuggestions,
-    CommandSuggestionKey,
-    makeCommandSuggestion,
-} from './components/suggestions';
 
 import {PropsFromRedux} from './index';
-
-const SuggestionKeys = [
-    AtMentionSuggestionKey,
-    ChannelSuggestionKey,
-    EmojiSuggestionKey,
-    CommandSuggestionKey,
-];
 
 const WysiwygContainer = styled.div`
     margin: 0 24px 24px;
@@ -254,174 +220,44 @@ export default (props: Props) => {
     //     },
     // });
 
-    // this is a dummy extension only to create custom keydown behavior
-    const KeyboardHandler = Extension.create({
-        name: 'keyboardHandler',
-    });
-
     const editor = useEditor({
         extensions: [
-
-            // TODO: add all extensions we REALLY need separately
-            StarterKit,
-            Placeholder.configure({
-                placeholder: placeholder ?? '',
-            }),
-            Typography,
-            Code,
-            Table.configure({
-                allowTableNodeSelection: true,
-            }).extend({
-                renderHTML({node}) {
-                    // this might be the right place to force a header row if it is not present
-                    // atlassian has a library with ProseMirror utils that might be of help here: https://github.com/atlassian/prosemirror-utils
-                    console.log('#### node of the inserted table', node); // eslint-disable-line no-console
-
-                    return ['table', {class: 'markdown__table'}, ['tbody', 0]];
-                },
-            }),
-            TableRow,
-            TableHeader,
-            TableCell,
-            Link.configure({
-                linkOnPaste: false,
-                openOnClick: false,
-            }).extend({
-
-                // when at the end of the input value this will allow the mark to be exited by pressing ArrowRight key
-                exitable: true,
-            }),
-            CodeBlockLowlight.
-                extend({
-                    addNodeView() {
-                        return renderReactNodeView(CodeBlockComponent);
-                    },
-                    addKeyboardShortcuts() {
-                        return {
-
-                            // exit node on arrow up
-                            ArrowUp: (...params) => {
-                                /**
-                                 * This is where we should add the logic to add a new paragraph node before the
-                                 * codeBlock, when we are in the first position of the selection as described in the
-                                 * design document for the editor
-                                 * @see https://www.figma.com/file/lMtUxkdoBSWZH1s9Z2wiwE/MM-46955-WYSIWYG-Editor%3A-Mattercon-Contribute?node-id=1387%3A132682
-                                 *
-                                 * Maybe we can copy some code that is in the other keaboardshortcut to exit the
-                                 * codeBlock when in last position and onArrowDown
-                                 * @see https://github.com/ueberdosis/tiptap/blob/6b0401c783f5d380a7e5106f166af56da74dbe59/packages/extension-code-block/src/code-block.ts#L178
-                                 */
-                                // eslint-disable-next-line no-console
-                                console.log('#### params', params);
-                                return false;
-                            },
-                        };
-                    },
-                }).
-                configure({
+            Extensions.configure({
+                hardBreak: false,
+                placeholder: placeholder ? {placeholder} : false,
+                codeBlock: {
                     lowlight,
                     defaultLanguage: 'css',
-                }),
-            AtMentionSuggestions.configure({
-                suggestion: makeAtMentionSuggestion({
-                    teamId,
-                    channelId,
-                    disabled: !useChannelMentions,
-                    useSpecialMentions,
-                    useGroupMentions: useLDAPGroupMentions || useCustomGroupMentions,
-                }),
-            }),
-            ChannelSuggestions.configure({
-                suggestion: makeChannelSuggestion({
-                    teamId,
-                }),
-            }),
-            EmojiSuggestions.configure({
-                suggestion: makeEmojiSuggestion({
-                    useCustomEmojis,
-                }),
-            }),
-            CommandSuggestions.configure({
-                suggestion: makeCommandSuggestion({
-                    teamId,
-                    channelId,
-                    rootId,
-                }),
-            }),
-
-            /**
-             * these should always come at the end so that we are able to override behavior from
-             * other extensions with this if needed
-             */
-            // PasteHandler,
-            KeyboardHandler.extend({
-                addKeyboardShortcuts() {
-                    return {
-                        Enter: () => {
-                            /**
-                             * check if we have an active mark that expects a different behavior from hitting Enter
-                             */
-                            const isCodeBlockActive = this.editor.isActive('codeBlock');
-                            const isQuoteActive = this.editor.isActive('blockquote');
-                            const isListActive = this.editor.isActive('bulletList') || this.editor.isActive('orderedList');
-                            const isTableActive = this.editor.isActive('table');
-
-                            /**
-                             * run over all suggestion plugins and check if there is one that is currently in use
-                             * (actively showing the overlay or processing a request)
-                             */
-                            const activeSuggestions = SuggestionKeys.some((suggestion) => suggestion.getState(this.editor.view.state).active);
-
-                            // prevent submitting the message when one of these is active
-                            if (isCodeBlockActive || isTableActive || isQuoteActive || isListActive || ctrlSend || activeSuggestions) {
-                                return false;
-                            }
-
-                            onSubmit();
-                            return this.editor.commands.clearContent(true);
-                        },
-
-                        'Mod-Enter': () => {
-                            const isCodeBlockActive = this.editor.isActive('codeBlock');
-
-                            /**
-                             * when inside of a codeblock and the setting for sending the message with CMD/CTRL-Enter
-                             * force calling the `onSubmit` function and clear the editor content
-                             */
-                            if (isCodeBlockActive && codeBlockOnCtrlEnter) {
-                                onSubmit();
-                                return this.editor.commands.clearContent(true);
-                            }
-
-                            if (!isCodeBlockActive && ctrlSend) {
-                                onSubmit();
-                                return this.editor.commands.clearContent(true);
-                            }
-
-                            /**
-                             * for some reason the default behavior of tiptap in this case is adding in a soft break (the
-                             * same as with pressing `SHIFT-ENTER`). Since we do not support that in posts we cannot allow
-                             * that here as well, so we overwrite the dedault behavior like this
-                             */
-                            return this.editor.commands.first(({commands}) => [
-                                () => commands.createParagraphNear(),
-                                () => commands.liftEmptyBlock(),
-                                () => commands.splitBlock(),
-                            ]);
-                        },
-
-                        /**
-                         * currently we do not have an option to show a soft line break in the posts, so we overwrite
-                         * the behavior from tiptap with the default behavior on pressing enter
-                         */
-                        'Shift-Enter': () => {
-                            return this.editor.commands.first(({commands}) => [
-                                () => commands.createParagraphNear(),
-                                () => commands.liftEmptyBlock(),
-                                () => commands.splitBlock(),
-                            ]);
-                        },
-                    };
+                },
+                table: {
+                    allowTableNodeSelection: true,
+                },
+                link: {
+                    linkOnPaste: false,
+                    openOnClick: false,
+                    HTMLAttributes: {
+                        class: 'wysiwyglink',
+                    },
+                },
+                suggestions: {
+                    mention: useChannelMentions ? {
+                        teamId,
+                        channelId,
+                        useSpecialMentions,
+                        useGroupMentions: useLDAPGroupMentions || useCustomGroupMentions,
+                    } : false,
+                    channel: {teamId},
+                    emoji: {useCustomEmojis},
+                    command: {
+                        teamId,
+                        channelId,
+                        rootId,
+                    },
+                },
+                keyHandling: {
+                    submitAction: onSubmit,
+                    ctrlSend,
+                    codeBlockOnCtrlEnter,
                 },
             }),
             Image.extend({
