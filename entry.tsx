@@ -32,8 +32,6 @@ function preRenderSetup(callwhendone: () => void) {
             return;
         }
 
-        const displayable = store.getState().entities.general.config.EnableDeveloper === 'true';
-
         store.dispatch(
             logError(
                 {
@@ -42,7 +40,7 @@ function preRenderSetup(callwhendone: () => void) {
                     stack: error?.stack,
                     url,
                 },
-                displayable,
+                true,
                 true,
             ),
         );

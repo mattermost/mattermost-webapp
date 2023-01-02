@@ -127,7 +127,7 @@ export function loadMe(): ActionFunc {
             teams = transformToRecievedTeamsListReducerPayload(data.teamMembers);
             teamMemberships = transformToRecievedMyTeamMembersReducerPayload(data.teamMembers, data.user.id);
         } catch (error) {
-            dispatch(logError(error as ServerError, true, true));
+            dispatch(logError(error as ServerError));
             return {error: error as ServerError};
         }
 
