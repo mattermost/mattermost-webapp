@@ -28,7 +28,6 @@ describe('Actions.Users', () => {
             entities: {
                 general: {
                     config: {
-                        FeatureFlagCollapsedThreads: 'true',
                         CollapsedThreads: 'always_on',
                     },
                 },
