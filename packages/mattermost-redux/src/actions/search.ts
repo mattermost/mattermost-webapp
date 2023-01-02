@@ -16,7 +16,7 @@ import {FileSearchResults, FileSearchResultItem} from '@mattermost/types/files';
 
 import {SearchParameter} from '@mattermost/types/search';
 
-import {getChannelAndMyMember, getChannelMembers} from './channels';
+import {getChannelAndMyMember, getChannelMembers, getChannelStats} from './channels';
 import {forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
 import {getProfilesAndStatusesForPosts, receivedPosts} from './posts';
@@ -246,8 +246,10 @@ export function getPinnedPosts(channelId: string): ActionFunc {
 
             const profilesAndStatuses = getProfilesAndStatusesForPosts(result.posts, dispatch, getState);
             const missingChannels = dispatch(getMissingChannelsFromPosts(result.posts));
-            const arr: [Promise<any>, Promise<any>] = [profilesAndStatuses, missingChannels];
+            const updateLastViewedPinnedPostAt = Client4.updateLastViewedPinnedPostAt(channelId, getCurrentUserId(getState()));
+            const arr: [Promise<any>, Promise<any>, Promise<any>] = [profilesAndStatuses, missingChannels, updateLastViewedPinnedPostAt];
             await Promise.all(arr);
+            dispatch(getChannelStats(channelId));
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch({type: SearchTypes.SEARCH_PINNED_POSTS_FAILURE, error});
