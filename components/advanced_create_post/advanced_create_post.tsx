@@ -1333,6 +1333,86 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             centerClass = 'center';
         }
 
+        const additionalControls = [
+            this.props.isPostPriorityEnabled ? (
+                <React.Fragment key='PostPriorityPicker'>
+                    <PostPriorityPickerOverlay
+                        priority={this.props.draft?.props?.priority}
+                        show={this.state.showPostPriorityPicker}
+                        target={this.getPostPriorityPickerRef}
+                        onApply={this.handlePostPriorityApply}
+                        onHide={this.handlePostPriorityHide}
+                        defaultHorizontalPosition='left'
+                    />
+                    <OverlayTrigger
+                        placement='top'
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+                        overlay={this.state.showPostPriorityPicker ? <React.Fragment/> : (
+                            <Tooltip id='post-priority-picker-tooltip'>
+                                <KeyboardShortcutSequence
+                                    shortcut={KEYBOARD_SHORTCUTS.msgPostPriority}
+                                    hoistDescription={true}
+                                    isInsideTooltip={true}
+                                />
+                            </Tooltip>
+                        )}
+                    >
+                        <IconContainer
+                            ref={this.postPriorityPickerRef}
+                            className={classNames({control: true, active: this.state.showPostPriorityPicker})}
+                            disabled={this.props.shouldShowPreview}
+                            type='button'
+                            onClick={this.togglePostPriorityPicker}
+                        >
+                            <AlertCircleOutlineIcon
+                                size={18}
+                                color='currentColor'
+                            />
+                        </IconContainer>
+                    </OverlayTrigger>
+                </React.Fragment>
+            ) : null,
+        ];
+
+        const labels = this.props.draft?.props?.priority && this.props.isPostPriorityEnabled ? (
+            <div className='AdvancedTextEditor__priority'>
+                <PriorityLabel
+                    size='xs'
+                    priority={this.props.draft.props.priority}
+                />
+                <OverlayTrigger
+                    placement='top'
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+                    overlay={(
+                        <Tooltip id='post-priority-picker-tooltip'>
+                            <FormattedMessage
+                                id={'post_priority.remove'}
+                                defaultMessage={'Remove {priority} label'}
+                                values={{priority: this.props.draft.props.priority}}
+                            />
+                        </Tooltip>
+                    )}
+                >
+                    <button
+                        type='button'
+                        className='close'
+                        onClick={this.handleRemovePriority}
+                    >
+                        <span aria-hidden='true'>{'×'}</span>
+                        <span className='sr-only'>
+                            <FormattedMessage
+                                id={'post_priority.remove'}
+                                defaultMessage={'Remove {priority} label'}
+                                values={{priority: this.props.draft.props.priority}}
+                            />
+                        </span>
+                    </button>
+                </OverlayTrigger>
+            </div>
+        ) : null;
+
         if (this.props.isWysiwygEnabled) {
             return (
                 <Wysiwyg
@@ -1340,6 +1420,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     onChange={this.handleChange}
                     readOnly={!this.props.canPost}
                     placeholder={`Write to ${this.state.currentChannel.display_name}`}
+                    additionalControls={additionalControls}
+                    headerContent={labels}
                 />
             );
         }
@@ -1406,86 +1488,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     fileUploadRef={this.fileUploadRef}
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}
-                    labels={(
-                        this.props.draft?.props?.priority && this.props.isPostPriorityEnabled && (
-                            <div className='AdvancedTextEditor__priority'>
-                                <PriorityLabel
-                                    size='xs'
-                                    priority={this.props.draft.props.priority}
-                                />
-                                <OverlayTrigger
-                                    placement='top'
-                                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                                    trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
-                                    overlay={(
-                                        <Tooltip id='post-priority-picker-tooltip'>
-                                            <FormattedMessage
-                                                id={'post_priority.remove'}
-                                                defaultMessage={'Remove {priority} label'}
-                                                values={{priority: this.props.draft.props.priority}}
-                                            />
-                                        </Tooltip>
-                                    )}
-                                >
-                                    <button
-                                        type='button'
-                                        className='close'
-                                        onClick={this.handleRemovePriority}
-                                    >
-                                        <span aria-hidden='true'>{'×'}</span>
-                                        <span className='sr-only'>
-                                            <FormattedMessage
-                                                id={'post_priority.remove'}
-                                                defaultMessage={'Remove {priority} label'}
-                                                values={{priority: this.props.draft.props.priority}}
-                                            />
-                                        </span>
-                                    </button>
-                                </OverlayTrigger>
-                            </div>
-                        )
-                    )}
-                    additionalControls={[
-                        this.props.isPostPriorityEnabled ? (
-                            <React.Fragment key='PostPriorityPicker'>
-                                <PostPriorityPickerOverlay
-                                    priority={this.props.draft?.props?.priority}
-                                    show={this.state.showPostPriorityPicker}
-                                    target={this.getPostPriorityPickerRef}
-                                    onApply={this.handlePostPriorityApply}
-                                    onHide={this.handlePostPriorityHide}
-                                    defaultHorizontalPosition='left'
-                                />
-                                <OverlayTrigger
-                                    placement='top'
-                                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                                    trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
-                                    overlay={this.state.showPostPriorityPicker ? <React.Fragment/> : (
-                                        <Tooltip id='post-priority-picker-tooltip'>
-                                            <KeyboardShortcutSequence
-                                                shortcut={KEYBOARD_SHORTCUTS.msgPostPriority}
-                                                hoistDescription={true}
-                                                isInsideTooltip={true}
-                                            />
-                                        </Tooltip>
-                                    )}
-                                >
-                                    <IconContainer
-                                        ref={this.postPriorityPickerRef}
-                                        className={classNames({control: true, active: this.state.showPostPriorityPicker})}
-                                        disabled={this.props.shouldShowPreview}
-                                        type='button'
-                                        onClick={this.togglePostPriorityPicker}
-                                    >
-                                        <AlertCircleOutlineIcon
-                                            size={18}
-                                            color='currentColor'
-                                        />
-                                    </IconContainer>
-                                </OverlayTrigger>
-                            </React.Fragment>
-                        ) : null,
-                    ]}
+                    labels={labels}
+                    additionalControls={additionalControls}
                 />
             </form>
         );

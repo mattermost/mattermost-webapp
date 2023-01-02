@@ -173,11 +173,11 @@ export const Extensions = Extension.create<ExtensionOptions>({
         }
 
         if (this.options.link !== false) {
-            Link.extend({
+            extensions.push(Link.configure(this.options.link).extend({
 
                 // when at the end of the input value this will allow the mark to be exited by pressing ArrowRight key
                 exitable: true,
-            }).configure(this.options.link);
+            }));
         }
 
         if (this.options.table !== false) {

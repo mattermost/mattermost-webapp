@@ -66,6 +66,8 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
     } = props;
     const formattingBarRef = useRef<HTMLDivElement>(null);
 
+    const filteredAdditionalControls = Array.isArray(additionalControls) ? additionalControls.filter(Boolean) : [];
+
     return (
         <ToolbarContainer ref={formattingBarRef}>
             <ToolSection>
@@ -75,12 +77,12 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
                 <Separator/>
                 <BlockModeControls editor={editor}/>
                 <TableControls editor={editor}/>
-                {additionalControls && (
+                {filteredAdditionalControls.length ? (
                     <>
                         <Separator/>
-                        {additionalControls}
+                        {filteredAdditionalControls}
                     </>
-                )}
+                ) : null}
             </ToolSection>
             <ToolSection>
                 {rightControls}

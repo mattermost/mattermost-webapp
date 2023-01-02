@@ -176,6 +176,8 @@ type Props = PropsFromRedux & {
     onSubmit: (e?: FormEvent) => void;
     onChange?: (markdownText: string) => void;
     readOnly?: boolean;
+    additionalControls?: React.ReactNode[];
+    headerContent?: React.ReactNode | React.ReactNode[];
 }
 
 export default (props: Props) => {
@@ -195,6 +197,8 @@ export default (props: Props) => {
         useCustomGroupMentions,
         ctrlSend,
         codeBlockOnCtrlEnter,
+        additionalControls,
+        headerContent,
     } = props;
 
     const [draft, setDraftContent] = useDraft(channelId, rootId);
@@ -265,7 +269,12 @@ export default (props: Props) => {
             // call the onChange function from the parent component (if any available)
             onChange?.(htmlToMarkdown(editor.getHTML()));
 
-            console.log('##### md', htmlToMarkdown(editor.getHTML())); // eslint-disable-line
+            /* eslint-disable */
+            console.group('##### Output to be stored in drafts or for submission');
+            console.log('##### HTML', htmlToMarkdown(editor.getHTML()));
+            console.log('##### parsed Markdown', htmlToMarkdown(editor.getHTML()));
+            console.groupEnd();
+            /* eslint-enable */
         },
     }, [channelId, rootId, ctrlSend, codeBlockOnCtrlEnter]);
 
@@ -319,11 +328,13 @@ export default (props: Props) => {
     const toolbarProps = {
         editor,
         rightControls,
+        additionalControls,
     };
 
     return (
         <WysiwygContainer>
             <EditorContainer>
+                {headerContent}
                 <EditorContent editor={editor}/>
             </EditorContainer>
             <Toolbar {...toolbarProps}/>

@@ -357,7 +357,7 @@ const LeafModeControls = ({editor}: {editor: Editor}) => {
 
     const toggleLinkOverlay = () => {
         if (!showLinkOverlay) {
-            editor.commands.extendMarkRange('link');
+            // editor.commands.extendMarkRange('link');
         }
         setShowLinkOverlay(!showLinkOverlay);
     };
