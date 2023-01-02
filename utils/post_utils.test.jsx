@@ -1045,7 +1045,6 @@ describe('PostUtils.getPostURL', () => {
         entities: {
             general: {
                 config: {
-                    FeatureFlagCollapsedThreads: 'true',
                     CollapsedThreads: 'default_off',
                 },
             },

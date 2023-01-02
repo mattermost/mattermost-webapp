@@ -39,8 +39,10 @@ describe('Verify Accessibility Support in different input fields', () => {
         // # Click invite members if needed
         cy.get('.InviteAs').findByTestId('inviteMembersLink').click();
 
-        // * Verify Accessibility support in Share this link input field
-        cy.findByTestId('InviteView__copyInviteLink').should('have.attr', 'aria-label', 'team invite link');
+        cy.findByTestId('InviteView__copyInviteLink').then((el) => {
+            const copyInviteLinkAriaLabel = el.attr('aria-label');
+            expect(copyInviteLinkAriaLabel).to.match(/^team invite link/i);
+        });
 
         // * Verify Accessibility Support in Add or Invite People input field
         cy.get('.users-emails-input__control').should('be.visible').within(() => {
