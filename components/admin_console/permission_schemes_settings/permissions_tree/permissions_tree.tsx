@@ -197,6 +197,7 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
                     Permissions.MANAGE_CUSTOM_GROUP_MEMBERS,
                     Permissions.EDIT_CUSTOM_GROUP,
                     Permissions.DELETE_CUSTOM_GROUP,
+                    Permissions.RESTORE_CUSTOM_GROUP,
                 ],
             },
         ];

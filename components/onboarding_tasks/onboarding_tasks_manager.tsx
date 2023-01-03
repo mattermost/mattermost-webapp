@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback, useMemo} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {matchPath, useHistory, useLocation} from 'react-router-dom';
 
@@ -39,65 +39,100 @@ import {
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES, ExploreOtherToolsTourSteps} from 'utils/constants';
 
-import {generateTelemetryTag} from './utils';
+import BullsEye from 'components/common/svg_images_components/bulls_eye_svg';
+import Channels from 'components/common/svg_images_components/channels_svg';
+import Clipboard from 'components/common/svg_images_components/clipboard_svg';
+import Gears from 'components/common/svg_images_components/gears_svg';
+import Handshake from 'components/common/svg_images_components/handshake_svg';
+import Phone from 'components/common/svg_images_components/phone_svg';
+import Security from 'components/common/svg_images_components/security_svg';
+import Sunglasses from 'components/common/svg_images_components/sunglasses_svg';
+import Wrench from 'components/common/svg_images_components/wrench_svg';
+
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
+import {generateTelemetryTag} from './utils';
 
 const getCategory = makeGetCategory();
 
-const taskLabels = {
-    [OnboardingTasksName.CHANNELS_TOUR]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.task_learn_more_about_messaging'
-            defaultMessage='🔀 Learn about messaging'
-        />
-    ),
-    [OnboardingTasksName.BOARDS_TOUR]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.plan_sprint_with_kanban_style_boards'
-            defaultMessage='🎯 Plan a sprint with Kanban-style boards'
-        />),
-    [OnboardingTasksName.PLAYBOOKS_TOUR]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.task_resolve_incidents_faster_with_playbooks'
-            defaultMessage='🐛 Resolve incidents faster with playbooks'
-        />
-    ),
-    [OnboardingTasksName.INVITE_PEOPLE]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.task_invite_team_members'
-            defaultMessage='👋 Invite team members to the workspace'
-        />
-    ),
-    [OnboardingTasksName.COMPLETE_YOUR_PROFILE]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.task_complete_your_profile'
-            defaultMessage='📷 Complete your profile'
-        />
-    ),
-    [OnboardingTasksName.EXPLORE_OTHER_TOOLS]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.explore_other_tools_in_platform'
-            defaultMessage='⛰️ Explore other tools in the platform'
-        />
-    ),
-    [OnboardingTasksName.DOWNLOAD_APP]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.task_download_mm_apps'
-            defaultMessage='📱 Download the Desktop and Mobile Apps'
-        />
-    ),
-    [OnboardingTasksName.VISIT_SYSTEM_CONSOLE]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.task_visit_system_console'
-            defaultMessage='🥰️ Visit the System Console to configure your workspace'
-        />
-    ),
-    [OnboardingTasksName.START_TRIAL]: (
-        <FormattedMessage
-            id='onboardingTask.checklist.task_start_enterprise_trial'
-            defaultMessage='🏢 Learn more about Enterprise-level high-security features'
-        />
-    ),
+const useGetTaskDetails = () => {
+    const {formatMessage} = useIntl();
+    return {
+        [OnboardingTasksName.CHANNELS_TOUR]: {
+            id: 'task_learn_more_about_messaging',
+            svg: Channels,
+            message: formatMessage({
+                id: 'onboardingTask.checklist.task_learn_more_about_messaging',
+                defaultMessage: 'Take a tour of Channels.',
+            }),
+        },
+        [OnboardingTasksName.BOARDS_TOUR]: {
+            id: 'task_plan_sprint_with_kanban_style_boards',
+            svg: BullsEye,
+            message: formatMessage({
+                id: 'onboardingTask.checklist.task_plan_sprint_with_kanban_style_boards',
+                defaultMessage: 'Manage tasks with your first board.',
+            }),
+        },
+        [OnboardingTasksName.PLAYBOOKS_TOUR]: {
+            id: 'task_resolve_incidents_faster_with_playbooks',
+            svg: Clipboard,
+            message: formatMessage({
+                id: 'onboardingTask.checklist.task_resolve_incidents_faster_with_playbooks',
+                defaultMessage: 'Explore workflows with your first playbook.',
+            }),
+        },
+        [OnboardingTasksName.INVITE_PEOPLE]: {
+            id: 'task_invite_team_members',
+            svg: Handshake,
+            message: formatMessage({
+                id: 'onboardingTask.checklist.task_invite_team_members',
+                defaultMessage: 'Invite team members to the workspace.',
+            }),
+        },
+        [OnboardingTasksName.COMPLETE_YOUR_PROFILE]: {
+            id: 'task_complete_your_profile',
+            svg: Sunglasses,
+            message: formatMessage({
+                id: 'onboardingTask.checklist.task_complete_your_profile',
+                defaultMessage: 'Complete your profile.',
+            }),
+        },
+
+        [OnboardingTasksName.EXPLORE_OTHER_TOOLS]: {
+            id: 'task_explore_other_tools_in_platform',
+            svg: Wrench,
+            message: formatMessage({
+                id: 'onboardingTask.checklist.task_explore_other_tools_in_platform',
+                defaultMessage: 'Explore other tools in the platform.',
+            }),
+        },
+
+        [OnboardingTasksName.DOWNLOAD_APP]: {
+            id: 'task_download_mm_apps',
+            svg: Phone,
+            message: formatMessage({
+                id: 'onboardingTask.checklist.task_download_mm_apps',
+                defaultMessage: 'Download the Desktop and Mobile Apps.',
+            }),
+        },
+
+        [OnboardingTasksName.VISIT_SYSTEM_CONSOLE]: {
+            id: 'task_visit_system_console',
+            svg: Gears,
+            message: formatMessage({
+                id: 'onboardingTask.checklist.task_visit_system_console',
+                defaultMessage: 'Visit the System Console to configure your workspace.',
+            }),
+        },
+        [OnboardingTasksName.START_TRIAL]: {
+            id: 'task_start_enterprise_trial',
+            svg: Security,
+            message: formatMessage({
+                id: 'onboardingTask.checklist.task_start_enterprise_trial',
+                defaultMessage: 'Learn more about Enterprise-level high-security features.',
+            }),
+        },
+    };
 };
 
 export const useTasksList = () => {
@@ -163,13 +198,24 @@ export const useTasksList = () => {
 export const useTasksListWithStatus = () => {
     const dataInDb = useSelector((state: GlobalState) => getCategory(state, OnboardingTaskCategory));
     const tasksList = useTasksList();
+    const getTaskDetails = useGetTaskDetails();
     return useMemo(() =>
         tasksList.map((task) => {
             const status = dataInDb.find((pref) => pref.name === task)?.value;
             return {
                 name: task,
                 status: status === FINISHED.toString(),
-                label: taskLabels[task],
+                label: () => {
+                    const {id, svg, message} = getTaskDetails[task];
+                    return (
+                        <div key={id}>
+                            <picture>
+                                {React.createElement(svg, {width: 24, height: 24})}
+                            </picture>
+                            <span>{message}</span>
+                        </div>
+                    );
+                },
             };
         }), [dataInDb, tasksList]);
 };
