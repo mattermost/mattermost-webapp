@@ -33,20 +33,18 @@ import {useQuery} from 'utils/http_utils';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 
+import {GlobalState} from '@mattermost/types/store';
 import PlanDetails from '../plan_details';
 import BillingSummary from '../billing_summary';
-import {GlobalState} from '@mattermost/types/store';
 
 import ContactSalesCard from './contact_sales_card';
 import CancelSubscription from './cancel_subscription';
 import Limits from './limits';
-
 import {
     creditCardExpiredBanner,
     paymentFailedBanner,
 } from './billing_subscriptions';
 import LimitReachedBanner from './limit_reached_banner';
-
 import './billing_subscriptions.scss';
 
 const BillingSubscriptions = () => {

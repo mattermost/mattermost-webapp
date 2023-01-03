@@ -5564,9 +5564,7 @@
   "workspace_limits.archived_file.tooltip_description": "Your workspace has hit the file storage limit of {storageLimit}. To view this again, upgrade to a paid plan",
   "workspace_limits.archived_file.tooltip_title": "Unarchive this file by upgrading",
   "workspace_limits.banner_upgrade_reason.free": "Your workspace has exceeded {planName} plan data limits. Upgrade to a paid plan for additional capacity.",
-  "workspace_limits.banner_upgrade_reason.professional": "Your workspace has exceeded the file storage limit for Professional. Upgrade to Enterprise for unlimited data usage.",
   "workspace_limits.banner_upgrade.free": "Upgrade to one of our paid plans to avoid {planName} plan data limits",
-  "workspace_limits.banner_upgrade.professional": "Upgrade to Enterprise to avoid Professional plan file storage limit",
   "workspace_limits.boards_cards": "Board cards per server",
   "workspace_limits.boards_cards.short": "Board Cards",
   "workspace_limits.boards_cards.usage": "{actual} of {limit} cards ({percent}%)",
@@ -5622,7 +5620,6 @@
   "workspace_limits.teams_limit_reached.upgrade_to_unarchive": "Upgrade to Unarchive",
   "workspace_limits.teams_limit_reached.view_upgrade_options": "View upgrade options",
   "workspace_limits.upgrade": "Upgrade to avoid {planName} data limits",
-  "workspace_limits.upgrade_button": "Upgrade",
   "workspace_limits.upgrade_reasons.free": "{planName} is restricted to {messagesLimit} message history, {storageLimit} file storage, {appsLimit} apps, and {boardsCardsLimit} board cards. You can delete items to free up space or upgrade to a paid plan.",
   "yourcomputer": "Your computer"
 }
