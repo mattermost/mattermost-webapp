@@ -4,7 +4,10 @@
 import React, {HTMLAttributes, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+
 import {getRhsSize} from 'selectors/rhs';
+import LocalStorageStore from 'stores/local_storage_store';
 import {RHS_MIN_MAX_WIDTH} from 'utils/constants';
 import {isOverLimit, isResizableSize, requestAnimationFrameForMouseMove, shouldRhsOverlapChannelView, shouldSnapWhenSizeGrown, shouldSnapWhenSizeShrunk} from '../utils';
 
@@ -26,6 +29,7 @@ function Resizable({
     const previousClientX = useRef(0);
 
     const rhsSize = useSelector(getRhsSize);
+    const userId = useSelector(getCurrentUserId);
 
     const minWidth = useMemo(() => RHS_MIN_MAX_WIDTH[rhsSize].min, [rhsSize]);
     const maxWidth = useMemo(() => RHS_MIN_MAX_WIDTH[rhsSize].max, [rhsSize]);
@@ -56,7 +60,9 @@ function Resizable({
                 }
             });
         }
-    }, [defaultWidth, forwardRef, shouldRhsOverlap]);
+
+        LocalStorageStore.setRhsWidth(userId, defaultWidth);
+    }, [defaultWidth, forwardRef, shouldRhsOverlap, userId]);
 
     const handleMouseDown = useCallback((e: React.MouseEvent) => {
         if (!isRhsResizable) {
@@ -95,6 +101,7 @@ function Resizable({
         }
 
         if (shouldSnapWhenSizeGrown(newWidth, prevWidth, maxWidth)) {
+            LocalStorageStore.setRhsWidth(userId, maxWidth);
             rhsRef.current.style.width = `${maxWidth}px`;
             if (!shouldRhsOverlap) {
                 forwardRef.current.style.width = `${maxWidth}px`;
@@ -111,6 +118,7 @@ function Resizable({
         }
 
         if (shouldSnapWhenSizeShrunk(newWidth, prevWidth, minWidth)) {
+            LocalStorageStore.setRhsWidth(userId, minWidth);
             rhsRef.current.style.width = `${minWidth}px`;
             if (!shouldRhsOverlap) {
                 forwardRef.current.style.width = `${minWidth}px`;
@@ -129,8 +137,9 @@ function Resizable({
         if (!shouldRhsOverlap) {
             forwardRef.current.style.width = `${newWidth}px`;
         }
+        LocalStorageStore.setRhsWidth(userId, newWidth);
         rhsRef.current.style.width = `${newWidth}px`;
-    }), [forwardRef, maxWidth, minWidth, shouldRhsOverlap, isResizeLineSelected]);
+    }), [forwardRef, maxWidth, minWidth, shouldRhsOverlap, isResizeLineSelected, userId]);
 
     const handleMouseUp = useCallback(() => {
         setIsResizeLineSelected(false);
@@ -175,6 +184,23 @@ function Resizable({
             forwardRef.current.style.width = `${minWidth}px`;
         }
     }, [forwardRef, maxWidth, minWidth]);
+
+    useEffect(() => {
+        if (!rhsRef.current || !forwardRef.current) {
+            return;
+        }
+
+        const savedRhsWidth = LocalStorageStore.getRhsWidth(userId);
+
+        if (!savedRhsWidth) {
+            return;
+        }
+
+        if (!shouldRhsOverlap) {
+            forwardRef.current.style.width = `${savedRhsWidth}px`;
+        }
+        rhsRef.current.style.width = `${savedRhsWidth}px`;
+    }, [forwardRef, shouldRhsOverlap, userId]);
 
     return (
         <div

@@ -4,7 +4,10 @@
 import React, {HTMLAttributes, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+
 import {getLhsSize} from 'selectors/lhs';
+import LocalStorageStore from 'stores/local_storage_store';
 import {DEFAULT_LHS_WIDTH, LHS_MIN_MAX_WIDTH} from 'utils/constants';
 import {isOverLimit, isResizableSize, requestAnimationFrameForMouseMove, shouldSnapWhenSizeGrown, shouldSnapWhenSizeShrunk} from '../utils';
 
@@ -24,6 +27,7 @@ function Resizable({
     const previousClientX = useRef(0);
 
     const lhsSize = useSelector(getLhsSize);
+    const userId = useSelector(getCurrentUserId);
 
     const minWidth = useMemo(() => LHS_MIN_MAX_WIDTH[lhsSize].min, [lhsSize]);
     const maxWidth = useMemo(() => LHS_MIN_MAX_WIDTH[lhsSize].max, [lhsSize]);
@@ -34,7 +38,9 @@ function Resizable({
         if (lhsRef.current) {
             lhsRef.current.style.width = `${DEFAULT_LHS_WIDTH}px`;
         }
-    }, []);
+
+        LocalStorageStore.setLhsWidth(userId, DEFAULT_LHS_WIDTH);
+    }, [userId]);
 
     const handleMouseDown = useCallback((e: React.MouseEvent) => {
         if (!isLhsResizable) {
@@ -72,6 +78,7 @@ function Resizable({
         }
 
         if (shouldSnapWhenSizeGrown(newWidth, prevWidth, maxWidth)) {
+            LocalStorageStore.setLhsWidth(userId, maxWidth);
             lhsRef.current.style.width = `${maxWidth}px`;
             resizeLineRef.current.classList.add('limit-reached');
             setTimeout(() => {
@@ -83,6 +90,7 @@ function Resizable({
         }
 
         if (shouldSnapWhenSizeShrunk(newWidth, prevWidth, minWidth)) {
+            LocalStorageStore.setLhsWidth(userId, minWidth);
             lhsRef.current.style.width = `${minWidth}px`;
             resizeLineRef.current.classList.add('limit-reached');
             setTimeout(() => {
@@ -94,7 +102,8 @@ function Resizable({
         }
 
         lhsRef.current.style.width = `${newWidth}px`;
-    }), [isResizeLineSelected, maxWidth, minWidth]);
+        LocalStorageStore.setLhsWidth(userId, newWidth);
+    }), [isResizeLineSelected, maxWidth, minWidth, userId]);
 
     const handleMouseUp = useCallback(() => {
         setIsResizeLineSelected(false);
@@ -134,6 +143,19 @@ function Resizable({
             lhsRef.current.style.width = `${minWidth}px`;
         }
     }, [maxWidth, minWidth]);
+
+    useEffect(() => {
+        if (!lhsRef.current) {
+            return;
+        }
+
+        const savedLhsWidth = LocalStorageStore.getLhsWidth(userId);
+
+        if (!savedLhsWidth) {
+            return;
+        }
+        lhsRef.current.style.width = `${savedLhsWidth}px`;
+    }, [userId]);
 
     return (
         <div

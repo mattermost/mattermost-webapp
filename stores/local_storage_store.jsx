@@ -14,6 +14,8 @@ const getPenultimateViewedTypeKey = (userId, teamId) => ['user_team_penultimate_
 export const getPenultimateChannelNameKey = (userId, teamId) => ['user_team_penultimate_channel', userId, teamId].join(':');
 const getRecentEmojisKey = (userId) => ['recent_emojis', userId].join(':');
 const getWasLoggedInKey = () => 'was_logged_in';
+const getLhsWidthKey = (userId) => ['lhs_width', userId].join(':');
+const getRhsWidthKey = (userId) => ['rhs_width', userId].join(':');
 const teamIdJoinedOnLoadKey = 'teamIdJoinedOnLoad';
 
 const getPathScopedKey = (path, key) => {
@@ -113,6 +115,22 @@ class LocalStorageStoreClass {
 
     setPreviousTeamId(userId, teamId) {
         this.setItem(getPreviousTeamIdKey(userId), teamId);
+    }
+
+    getLhsWidth(userId) {
+        return this.getItem(getLhsWidthKey(userId));
+    }
+
+    setLhsWidth(userId, width) {
+        this.setItem(getLhsWidthKey(userId), width);
+    }
+
+    getRhsWidth(userId) {
+        return this.getItem(getRhsWidthKey(userId));
+    }
+
+    setRhsWidth(userId, width) {
+        this.setItem(getRhsWidthKey(userId), width);
     }
 
     /**
