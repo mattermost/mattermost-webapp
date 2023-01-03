@@ -4328,6 +4328,7 @@
   "post_info.edit.aria_label": "Select to restore an old message.",
   "post_info.edit.current_version": "Current Version",
   "post_info.edit.restore": "Restore this version",
+  "post_info.edit.restore_question": "Restore this version?",
   "post_info.edit.undo": "Undo",
   "post_info.guest": "GUEST",
   "post_info.info.view_additional_info": "View additional info",

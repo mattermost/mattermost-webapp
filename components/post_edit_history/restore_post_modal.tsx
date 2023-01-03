@@ -14,6 +14,10 @@ const modalMessages = defineMessages({
         id: t('post_info.edit.restore'),
         defaultMessage: 'Restore this version',
     },
+    titleQuestion: {
+        id: t('post_info.edit.restore_question'),
+        defaultMessage: 'Restore this version?',
+    },
 });
 
 type Props = {
@@ -36,7 +40,7 @@ const RestorePostModal = ({post, postHeader, actions, onExited}: Props) => {
 
     const modalHeaderText = (
         <div className='edit-post-history__restore__modal__header'>
-            {formatMessage(modalMessages.title) + '?'}
+            {formatMessage(modalMessages.titleQuestion)}
         </div>
     );
 
