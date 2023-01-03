@@ -4,18 +4,10 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {GlobalState} from 'types/store/index.js';
+import {ActionResult, GetStateFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 
-import {Post} from '@mattermost/types/posts.js';
-
-import {FileInfo} from '@mattermost/types/files.js';
-
-import {ActionResult, GetStateFunc, DispatchFunc} from 'mattermost-redux/types/actions.js';
-
-import {CommandArgs} from '@mattermost/types/integrations.js';
-
-import {ModalData} from 'types/actions.js';
-
+import {GlobalState} from 'types/store/index';
+import {ModalData} from 'types/actions';
 import {PostDraft} from 'types/store/draft';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -62,7 +54,9 @@ import {AdvancedTextEditor, Constants, Preferences, StoragePrefixes, UserStatuse
 import {canUploadFiles} from 'utils/file_utils';
 import {OnboardingTourSteps, TutorialTourName, OnboardingTourStepsForGuestUsers} from 'components/tours';
 
-import {PreferenceType} from '@mattermost/types/preferences';
+import {CommandArgs} from '@mattermost/types/integrations';
+import {FileInfo} from '@mattermost/types/files';
+import {Post} from '@mattermost/types/posts';
 
 import {PreferenceType} from '@mattermost/types/preferences';
 

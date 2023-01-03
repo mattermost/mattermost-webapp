@@ -6,7 +6,7 @@ import {defineMessages, injectIntl, IntlShape} from 'react-intl';
 
 import {Preferences} from 'mattermost-redux/constants';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 
 import {AdvancedSections} from 'utils/constants';

@@ -24,6 +24,7 @@ import Constants, {
     Preferences,
     AdvancedTextEditor as AdvancedTextEditorConst,
 } from 'utils/constants';
+
 import {
     containsAtChannel,
     specialMentionsInText,
@@ -53,21 +54,10 @@ import TextboxClass from 'components/textbox/textbox';
 import PostPriorityPickerOverlay from 'components/post_priority/post_priority_picker_overlay';
 import PriorityLabel from 'components/post_priority/post_priority_label';
 
-import {PostDraft} from 'types/store/draft';
-
-import {ModalData} from 'types/actions';
-
 import {NewPostDraft} from 'types/store/draft';
-
-import EmojiMap from 'utils/emoji_map';
-
-import {ActionResult} from 'mattermost-redux/types/actions';
-
 import {ModalData} from 'types/actions';
 
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
-
-import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {Post, PostMetadata, PostPriorityMetadata} from '@mattermost/types/posts';
@@ -84,10 +74,9 @@ import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_i
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
 import Wysiwyg from '../wysiwyg';
-import {FilePreviewInfo} from '../file_preview/file_preview';
 const KeyCodes = Constants.KeyCodes;
 
-function isDraftEmpty(draft: PostDraft): boolean {
+function isDraftEmpty(draft: NewPostDraft): boolean {
     return !draft || (!draft.message && draft.fileInfos.length === 0);
 }
 
@@ -406,7 +395,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     ...draft,
                     show: !isDraftEmpty(draft),
                     remote: false,
-                } as PostDraft;
+                } as NewPostDraft;
             }
         }
 
@@ -881,8 +870,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     handleChange = (message: string, content?: JSONContent) => {
-        const channelId = this.props.currentChannel.id;
-
         let serverError = this.state.serverError;
         if (isErrorInvalidSlashCommand(serverError)) {
             serverError = null;
@@ -894,17 +881,17 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 serverError,
             });
 
-        const draft = {
-            ...this.props.draft,
-            message,
-            content,
-        };
+            const draft = {
+                ...this.props.draft,
+                message,
+                content,
+            };
 
             this.handleDraftChange(draft);
         }
     }
 
-    handleDraftChange = (draft: PostDraft) => {
+    handleDraftChange = (draft: NewPostDraft) => {
         const channelId = this.props.currentChannel.id;
 
         if (this.saveDraftFrame) {
@@ -1548,10 +1535,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
 
         const additionalControls = [
-            this.props.isPostPriorityEnabled ? (
+            this.props.isPostPriorityEnabled && (
                 <React.Fragment key='PostPriorityPicker'>
                     <PostPriorityPickerOverlay
-                        priority={this.props.draft?.props?.priority}
+                        settings={this.props.draft?.metadata?.priority}
                         show={this.state.showPostPriorityPicker}
                         target={this.getPostPriorityPickerRef}
                         onApply={this.handlePostPriorityApply}
@@ -1562,7 +1549,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                         placement='top'
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
-                        overlay={this.state.showPostPriorityPicker ? <React.Fragment/> : (
+                        overlay={(
                             <Tooltip id='post-priority-picker-tooltip'>
                                 <KeyboardShortcutSequence
                                     shortcut={KEYBOARD_SHORTCUTS.msgPostPriority}
@@ -1586,63 +1573,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                         </IconContainer>
                     </OverlayTrigger>
                 </React.Fragment>
-            ) : null,
-        ];
-
-        const labels = this.props.draft?.props?.priority && this.props.isPostPriorityEnabled ? (
-            <div className='AdvancedTextEditor__priority'>
-                <PriorityLabel
-                    size='xs'
-                    priority={this.props.draft.props.priority}
-                />
-                <OverlayTrigger
-                    placement='top'
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
-                    overlay={(
-                        <Tooltip id='post-priority-picker-tooltip'>
-                            <FormattedMessage
-                                id={'post_priority.remove'}
-                                defaultMessage={'Remove {priority} label'}
-                                values={{priority: this.props.draft.props.priority}}
-                            />
-                        </Tooltip>
-                    )}
-                >
-                    <button
-                        type='button'
-                        className='close'
-                        onClick={this.handleRemovePriority}
-                    >
-                        <span aria-hidden='true'>{'×'}</span>
-                        <span className='sr-only'>
-                            <FormattedMessage
-                                id={'post_priority.remove'}
-                                defaultMessage={'Remove {priority} label'}
-                                values={{priority: this.props.draft.props.priority}}
-                            />
-                        </span>
-                    </button>
-                </OverlayTrigger>
-            </div>
-        ) : null;
-
-        if (this.props.isWysiwygEnabled) {
-            return (
-                <Wysiwyg
-                    onSubmit={this.handleSubmit}
-                    onChange={this.handleChange}
-                    readOnly={!this.props.canPost}
-                    placeholder={`Write to ${this.state.currentChannel.display_name}`}
-                    additionalControls={additionalControls}
-                    headerContent={labels}
-                />
-            );
-        }
-
-        if (!this.props.currentChannel || !this.props.currentChannel.id) {
-            return null;
-        }
+            ),
+        ].filter(Boolean);
 
         const priorityLabels = (
             this.hasPrioritySet() ? (
@@ -1698,6 +1630,23 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 </div>
             ) : undefined
         );
+
+        if (this.props.isWysiwygEnabled) {
+            return (
+                <Wysiwyg
+                    onSubmit={this.handleSubmit}
+                    onChange={this.handleChange}
+                    readOnly={!this.props.canPost}
+                    placeholder={`Write to ${this.state.currentChannel.display_name}`}
+                    additionalControls={additionalControls}
+                    headerContent={priorityLabels}
+                />
+            );
+        }
+
+        if (!this.props.currentChannel || !this.props.currentChannel.id) {
+            return null;
+        }
 
         return (
             <form
@@ -1760,50 +1709,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     fileUploadRef={this.fileUploadRef}
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}
-                    labels={labels}
                     additionalControls={additionalControls}
                     labels={priorityLabels}
-                    additionalControls={[
-                        this.props.isPostPriorityEnabled && (
-                            <React.Fragment key='PostPriorityPicker'>
-                                <PostPriorityPickerOverlay
-                                    settings={this.props.draft?.metadata?.priority}
-                                    show={this.state.showPostPriorityPicker}
-                                    target={this.getPostPriorityPickerRef}
-                                    onApply={this.handlePostPriorityApply}
-                                    onHide={this.handlePostPriorityHide}
-                                    defaultHorizontalPosition='left'
-                                />
-                                <OverlayTrigger
-                                    placement='top'
-                                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                                    trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
-                                    overlay={(
-                                        <Tooltip id='post-priority-picker-tooltip'>
-                                            <KeyboardShortcutSequence
-                                                shortcut={KEYBOARD_SHORTCUTS.msgPostPriority}
-                                                hoistDescription={true}
-                                                isInsideTooltip={true}
-                                            />
-                                        </Tooltip>
-                                    )}
-                                >
-                                    <IconContainer
-                                        ref={this.postPriorityPickerRef}
-                                        className={classNames({control: true, active: this.state.showPostPriorityPicker})}
-                                        disabled={this.props.shouldShowPreview}
-                                        type='button'
-                                        onClick={this.togglePostPriorityPicker}
-                                    >
-                                        <AlertCircleOutlineIcon
-                                            size={18}
-                                            color='currentColor'
-                                        />
-                                    </IconContainer>
-                                </OverlayTrigger>
-                            </React.Fragment>
-                        ),
-                    ].filter(Boolean)}
                 />
             </form>
         );

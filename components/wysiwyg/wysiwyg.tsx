@@ -139,6 +139,10 @@ const EditorContainer = styled.div`
         height: 0;
         pointer-events: none;
     }
+
+    .AdvancedTextEditor__priority {
+        padding: 0 0 12px;
+    }
 `;
 
 function useDraft(channelId: string, rootId = ''): [NewPostDraft, (newContent: JSONContent) => void] {
