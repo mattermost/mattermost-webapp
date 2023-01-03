@@ -20,6 +20,7 @@ import {
     NotifyAdminRequest,
     Subscription,
     ValidBusinessEmail,
+    LicenseExpandStatus,
     CreateSubscriptionRequest,
 } from '@mattermost/types/cloud';
 import {
@@ -890,9 +891,9 @@ export default class Client4 {
         );
     };
 
-    getProfilesInGroup = (groupId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
+    getProfilesInGroup = (groupId: string, page = 0, perPage = PER_PAGE_DEFAULT, sort = '') => {
         return this.doFetch<UserProfile[]>(
-            `${this.getUsersRoute()}${buildQueryString({in_group: groupId, page, per_page: perPage})}`,
+            `${this.getUsersRoute()}${buildQueryString({in_group: groupId, page, per_page: perPage, sort})}`,
             {method: 'get'},
         );
     };
@@ -3911,6 +3912,12 @@ export default class Client4 {
     getCloudCustomer = () => {
         return this.doFetch<CloudCustomer>(
             `${this.getCloudRoute()}/customer`, {method: 'get'},
+        );
+    }
+
+    getLicenseExpandStatus = () => {
+        return this.doFetch<LicenseExpandStatus>(
+            `${this.getCloudRoute()}/subscription/expand`, {method: 'get'},
         );
     }
 

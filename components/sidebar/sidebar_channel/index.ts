@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {connect} from 'react-redux';
+import {connect, ConnectedProps} from 'react-redux';
 
 import {getCurrentChannelId, makeGetChannel, makeGetChannelUnreadCount} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -13,6 +13,16 @@ import SidebarChannel from './sidebar_channel';
 
 type OwnProps = {
     channelId: string;
+    channelIndex: number;
+    isCategoryCollapsed: boolean;
+    isCategoryDragged: boolean;
+    isDraggable: boolean;
+    isAutoSortedCategory: boolean;
+
+    /**
+     * Sets the ref for the sidebar channel div element, so that it can be used by parent components
+     */
+    setChannelRef: (channelId: string, ref: HTMLLIElement) => void;
 }
 
 function makeMapStateToProps() {
@@ -41,4 +51,10 @@ function makeMapStateToProps() {
     };
 }
 
-export default connect(makeMapStateToProps)(SidebarChannel);
+const connector = connect(makeMapStateToProps);
+
+type PropsFromRedux = Omit<ConnectedProps<typeof connector>, 'dispatch'>;
+
+export type Props = OwnProps & PropsFromRedux;
+
+export default connector(SidebarChannel);

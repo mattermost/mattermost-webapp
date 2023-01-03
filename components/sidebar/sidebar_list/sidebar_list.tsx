@@ -184,10 +184,6 @@ export default class SidebarList extends React.PureComponent<Props, State> {
         return this.props.staticPages.map((item) => item.id);
     }
 
-    getChannelRef = (channelId: string) => {
-        return this.channelRefs.get(channelId);
-    }
-
     setChannelRef = (channelId: string, ref: HTMLLIElement) => {
         if (ref) {
             this.channelRefs.set(channelId, ref);
@@ -389,7 +385,6 @@ export default class SidebarList extends React.PureComponent<Props, State> {
                 categoryIndex={index}
                 setChannelRef={this.setChannelRef}
                 handleOpenMoreDirectChannelsModal={this.props.handleOpenMoreDirectChannelsModal}
-                getChannelRef={this.getChannelRef}
                 isNewCategory={this.props.newCategoryIds.includes(category.id)}
             />
         );
@@ -473,7 +468,6 @@ export default class SidebarList extends React.PureComponent<Props, State> {
         if (this.props.isUnreadFilterEnabled) {
             channelList = (
                 <UnreadChannels
-                    getChannelRef={this.getChannelRef}
                     setChannelRef={this.setChannelRef}
                 />
             );
@@ -482,7 +476,6 @@ export default class SidebarList extends React.PureComponent<Props, State> {
             if (this.props.showUnreadsCategory) {
                 unreadsCategory = (
                     <UnreadChannels
-                        getChannelRef={this.getChannelRef}
                         setChannelRef={this.setChannelRef}
                     />
                 );
