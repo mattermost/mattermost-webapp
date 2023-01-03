@@ -37,10 +37,24 @@ function Resizable({
     const handleDoubleClick = useCallback(() => {
         if (rhsRef.current) {
             rhsRef.current.style.width = `${defaultWidth}px`;
+            rhsRef.current.classList.add('sidebar--right-double-clicked');
+
+            setTimeout(() => {
+                if (rhsRef.current) {
+                    rhsRef.current.classList.remove('sidebar--right-double-clicked');
+                }
+            });
         }
 
         if (!shouldRhsOverlap && forwardRef.current) {
             forwardRef.current.style.width = `${defaultWidth}px`;
+            forwardRef.current.classList.add('sidebar--right-double-clicked');
+
+            setTimeout(() => {
+                if (forwardRef.current) {
+                    forwardRef.current.classList.remove('sidebar--right-double-clicked');
+                }
+            });
         }
     }, [defaultWidth, forwardRef, shouldRhsOverlap]);
 

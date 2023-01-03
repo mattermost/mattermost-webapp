@@ -30,6 +30,10 @@
     }
 }
 
+.sidebar--right-double-clicked {
+    transition: none !important;
+}
+
 #resizeRHSLine {
     position: absolute;
     z-index: 50;
