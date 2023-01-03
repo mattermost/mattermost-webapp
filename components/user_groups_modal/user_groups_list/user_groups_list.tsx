@@ -18,6 +18,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {ModalData} from 'types/actions';
 import {ModalIdentifiers} from 'utils/constants';
 import ViewUserGroupModal from 'components/view_user_group_modal';
+import ADLDAPUpsellBanner from '../ad_ldap_upsell_banner';
 
 export type Props = {
     groups: Group[];
@@ -147,6 +148,7 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivEl
                 (loading) &&
                 <LoadingScreen/>
             }
+            <ADLDAPUpsellBanner/>
         </div>
     );
 });

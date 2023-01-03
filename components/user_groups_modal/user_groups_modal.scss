@@ -12,10 +12,10 @@
         border-radius: 8px;
 
         .ad_ldap_upsell_banner {
-            position: absolute;
+            position: sticky;
             z-index: 4;
             right: 12px;
-            bottom: 6px;
+            bottom: 0;
             left: 12px;
             display: flex;
             height: 32px;
@@ -164,6 +164,7 @@
     .modal-body {
         max-height: 100%;
         padding: 0;
+        overflow: hidden;
 
         .no-results__wrapper {
             padding-bottom: 60px;
