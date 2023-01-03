@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import Constants, {EventTypes, A11yClassNames, A11yAttributeNames, A11yCustomEventTypes} from 'utils/constants';
+import Constants, {EventTypes, A11yClassNames, A11yAttributeNames, A11yCustomEventTypes, isA11yFocusEventDetail} from 'utils/constants';
 import {isKeyPressed, cmdOrCtrlPressed, isMac} from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 
@@ -879,9 +879,10 @@ export default class A11yController {
             return;
         }
 
-        if (!event.detail.target) {
+        if (!isA11yFocusEventDetail(event.detail) || !event.detail.target) {
             return;
         }
+
         if (!event.detail.keyboardOnly || this.lastInputEventIsKeyboard) {
             this.manualFocus = true;
             this.nextElement(event.detail.target, true);
