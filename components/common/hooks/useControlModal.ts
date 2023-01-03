@@ -21,6 +21,13 @@ export function useControlAirGappedSelfHostedPurchaseModal(): ControlModal {
     });
 }
 
+export function useControlPurchaseInProgressModal(): ControlModal {
+    return useControlModal({
+        modalId: ModalIdentifiers.PURCHASE_IN_PROGRESS,
+        dialogType: AirGappedSelfHostedPurchaseModal,
+    });
+}
+
 export function useControlModal<T>(modalData: ModalData<T>): ControlModal {
     const dispatch = useDispatch();
     return useMemo(() => ({
