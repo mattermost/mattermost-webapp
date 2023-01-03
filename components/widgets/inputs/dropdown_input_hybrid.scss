@@ -38,10 +38,19 @@
     .Input_fieldset {
         display: flex;
         padding: 0;
+        position: relative;
     }
 
     .Input_legend {
         margin-left: 8px;
+        font-size: 10px;
+        margin-bottom: 0px;
+        width: auto;
+        border-bottom: none;
+        position: absolute;
+        top: -8px;
+        z-index: 1;
+        padding: 0 5px;
     }
 
     .DropDown__menu {
