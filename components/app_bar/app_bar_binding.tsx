@@ -19,6 +19,8 @@ import {DoAppCallResult} from 'types/apps';
 
 import OverlayTrigger from 'components/overlay_trigger';
 
+const IMAGE_SIZE = '24px';
+
 export const isAppBinding = (x: Record<string, any> | undefined): x is AppBinding => {
     return Boolean(x?.app_id);
 };
@@ -102,7 +104,11 @@ const AppBarBinding = (props: BindingComponentProps) => {
                 onClick={submitAppCall}
             >
                 <div className={'app-bar__icon-inner'}>
-                    <img src={binding.icon}/>
+                    <img
+                        src={binding.icon}
+                        width={IMAGE_SIZE}
+                        height={IMAGE_SIZE}
+                    />
                 </div>
             </div>
         </OverlayTrigger>
