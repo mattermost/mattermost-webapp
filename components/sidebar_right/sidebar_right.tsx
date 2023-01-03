@@ -63,12 +63,14 @@ type State = {
 
 export default class SidebarRight extends React.PureComponent<Props, State> {
     sidebarRight: React.RefObject<HTMLDivElement>;
+    sidebarRightWidthHolder: React.RefObject<HTMLDivElement>;
     previous: Partial<Props> | undefined = undefined;
     focusSearchBar?: () => void;
 
     constructor(props: Props) {
         super(props);
 
+        this.sidebarRightWidthHolder = React.createRef<HTMLDivElement>();
         this.sidebarRight = React.createRef<HTMLDivElement>();
         this.state = {
             isOpened: false,
@@ -256,15 +258,18 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             <>
                 <div
                     className={'sidebar--right sidebar--right--width-holder'}
-                    ref={this.sidebarRight}
+                    ref={this.sidebarRightWidthHolder}
                 />
                 <Resizable
                     className={containerClassName}
                     id='sidebar-right'
                     role='complementary'
-                    ref={this.sidebarRight}
+                    ref={this.sidebarRightWidthHolder}
                 >
-                    <div className='sidebar-right-container'>
+                    <div
+                        className='sidebar-right-container'
+                        ref={this.sidebarRight}
+                    >
                         {isRHSLoading ? (
                             <div className='sidebar-right__body'>
                                 <LoadingScreen centered={true}/>
