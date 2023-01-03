@@ -43,6 +43,7 @@ const List = React.forwardRef((props: Props, ref?: React.Ref<MultiSelect<OptionV
         add: (value: OptionValue) => void,
         select: (value: OptionValue) => void,
     ) => {
+       // console.log(option)
         return (
             <ListItem
                 ref={isSelected ? props.selectedItemRef : undefined}
@@ -81,6 +82,19 @@ const List = React.forwardRef((props: Props, ref?: React.Ref<MultiSelect<OptionV
     }
 
     const options = useMemo(() => {
+        // we need to address the case where 
+        let opts =[]
+        if (props.values.length !=0) {
+            for(let i=0; i<props.options.length; i++) {
+                if(props.options[i].id == props.currentUserId) {
+                    console.log("same user id")
+                    continue;
+                }
+                opts.push(props.options[i])
+            }
+            return opts.map(optionValue)
+        }
+        // console.log(props.options)
         return props.options.map(optionValue);
     }, [props.options]);
 
