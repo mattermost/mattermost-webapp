@@ -15,10 +15,10 @@
             position: absolute;
             z-index: 4;
             right: 12px;
-            bottom: 12px;
+            bottom: 6px;
             left: 12px;
             display: flex;
-            height: 44px;
+            height: 32px;
             align-items: center;
             justify-content: space-between;
             padding: 12px 8px;
@@ -30,11 +30,17 @@
             .message {
                 display: flex;
                 gap: 8px;
+                font-size: 11px;
+
+                .icon {
+                    font-size: inherit;
+                }
             }
 
             .btn-container {
                 display: flex;
                 gap: 13px;
+                font-size: 11px;
             }
 
             .banner-close {
@@ -51,7 +57,6 @@
                 border: none;
                 background: none;
                 color: var(--button-color);
-                font-size: 14px;
                 font-weight: 600;
                 line-height: 14px;
             }
@@ -260,7 +265,7 @@
                 .group-row {
                     display: flex;
                     align-items: center;
-                    padding: 18px 32px;
+                    padding: 14px 32px;
 
                     &:hover {
                         background: rgba(var(--center-channel-color-rgb), 0.08);
