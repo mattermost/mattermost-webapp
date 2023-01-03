@@ -68,7 +68,7 @@ import {SetPrefix, UnionSetActions} from './types';
 
 import './self_hosted_purchase_modal.scss';
 
-export const STORAGE_KEY_PURCHASE_IN_PROGRESS = 'PURCHASE_IN_PROGRESS';
+import {STORAGE_KEY_PURCHASE_IN_PROGRESS} from './constants';
 
 export interface State {
     address: string;
