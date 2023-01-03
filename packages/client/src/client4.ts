@@ -20,6 +20,7 @@ import {
     NotifyAdminRequest,
     Subscription,
     ValidBusinessEmail,
+    LicenseExpandStatus,
     CreateSubscriptionRequest,
 } from '@mattermost/types/cloud';
 import {
@@ -3917,6 +3918,12 @@ export default class Client4 {
     getCloudCustomer = () => {
         return this.doFetch<CloudCustomer>(
             `${this.getCloudRoute()}/customer`, {method: 'get'},
+        );
+    }
+
+    getLicenseExpandStatus = () => {
+        return this.doFetch<LicenseExpandStatus>(
+            `${this.getCloudRoute()}/subscription/expand`, {method: 'get'},
         );
     }
 
