@@ -224,10 +224,12 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         }
     }, [getCurrentSelection, getCurrentMessage, applyMarkdown, showHiddenControls, toggleHiddenControls, disableControls]);
 
+    const leftPosition = wideMode === 'min' ? (x ?? 0) + 55 : x ?? 0;
+
     const hiddenControlsContainerStyles: React.CSSProperties = {
         position: strategy,
         top: y ?? 0,
-        left: x ?? 0,
+        left: leftPosition,
     };
 
     const showSeparators = wideMode === 'wide';
