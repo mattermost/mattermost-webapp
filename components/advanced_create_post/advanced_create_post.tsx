@@ -93,17 +93,11 @@ type TextboxElement = HTMLInputElement | HTMLTextAreaElement;
 
 type Props = {
 
-    // ref passed from channelView for EmojiPickerOverlay
-    getChannelView?: () => void;
-
     // Data used in notifying user for @all and @channel
     currentChannelMembersCount: number;
 
     // Data used in multiple places of the component
     currentChannel: Channel;
-
-    //Data used for DM prewritten messages
-    currentChannelTeammateUsername?: string;
 
     //Data used in executing commands for channel actions passed down to client4 function
     currentTeamId: string;
@@ -1529,6 +1523,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     render() {
+        const {useLDAPGroupMentions, useCustomGroupMentions, currentChannel, currentTeamId, draft, canPost} = this.props;
+
         let centerClass = '';
         if (!this.props.fullWidthTextBox) {
             centerClass = 'center';
@@ -1631,20 +1627,22 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             ) : undefined
         );
 
+        if (!currentChannel?.id) {
+            return null;
+        }
+
         if (this.props.isWysiwygEnabled) {
             return (
                 <Wysiwyg
                     onSubmit={this.handleSubmit}
                     onChange={this.handleChange}
-                    readOnly={!this.props.canPost}
-                    placeholder={`Write to ${this.state.currentChannel.display_name}`}
-                    additionalControls={additionalControls}
+                    readOnly={!canPost}
+                    placeholder={`Write to ${currentChannel.display_name}`}
                     headerContent={priorityLabels}
+                    draft={draft}
                     config={{
-                        disableFormatting: {
-                            links: false,
-                        },
-                        additionalKeyHandlers: {
+                        additionalControls,
+                        keyHandlers: {
                             ArrowUp: ({editor}) => {
                                 if (editor.isEmpty) {
                                     this.editLastPost();
@@ -1653,13 +1651,22 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                 return true;
                             },
                         },
+                        suggestions: {
+                            mention: {
+                                teamId: currentTeamId,
+                                channelId: currentChannel.id,
+                                useSpecialMentions: this.props.useChannelMentions,
+                                useGroupMentions: useLDAPGroupMentions || useCustomGroupMentions,
+                            },
+                            channel: {teamId: currentTeamId},
+                            command: {
+                                teamId: currentTeamId,
+                                channelId: currentChannel.id,
+                            },
+                        },
                     }}
                 />
             );
-        }
-
-        if (!this.props.currentChannel || !this.props.currentChannel.id) {
-            return null;
         }
 
         return (

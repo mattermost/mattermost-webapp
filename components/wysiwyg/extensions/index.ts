@@ -27,7 +27,7 @@ import {Placeholder, PlaceholderOptions} from '@tiptap/extension-placeholder';
 
 import {PluginKey} from 'prosemirror-state';
 
-import {WysiwygConfig} from '../wysiwyg';
+import {Formatters, WysiwygConfig} from '../wysiwyg';
 
 import {Codeblock, CodeBlockLowlightOptions} from './codeblock/codeblock';
 import {Table, TableOptions} from './table/table';
@@ -55,6 +55,13 @@ import {KeyHandler, KeyhandlerOptions} from './keyhandler/keyhandler';
 
 const suggestionKeys: PluginKey[] = [];
 
+export type SuggestionConfig = {
+    mention?: AtMentionSuggestionOptions | false;
+    channel?: ChannelSuggestionOptions | false;
+    emoji?: EmojiSuggestionOptions | false;
+    command?: CommandSuggestionOptions | false;
+};
+
 export interface ExtensionOptions {
     blockquote: Partial<BlockquoteOptions> | false;
     bold: Partial<BoldOptions> | false;
@@ -78,12 +85,7 @@ export interface ExtensionOptions {
     link: Partial<LinkOptions> | false;
     codeBlock: Partial<CodeBlockLowlightOptions> | false;
     table: Partial<TableOptions> | false;
-    suggestions?: {
-        mention?: AtMentionSuggestionOptions | false;
-        channel?: ChannelSuggestionOptions | false;
-        emoji?: EmojiSuggestionOptions | false;
-        command?: CommandSuggestionOptions | false;
-    };
+    suggestions?: SuggestionConfig;
     keyHandling?: KeyhandlerOptions | false;
     image?: Partial<ImageOptions> | false;
     config?: WysiwygConfig;
@@ -93,11 +95,18 @@ export const Extensions = Extension.create<ExtensionOptions>({
     name: 'core',
 
     addStorage() {
-        return this.options?.config || {};
+        return {
+            disableFormatting: this.options?.config?.disableFormatting || [],
+        };
     },
 
     addExtensions() {
         const extensions = [];
+        const disableFormatting = this.options?.config?.disableFormatting || [];
+
+        if (this.options.document !== false) {
+            extensions.push(Document.configure(this.options?.document));
+        }
 
         if (this.options.blockquote !== false) {
             extensions.push(Blockquote.configure(this.options?.blockquote));
@@ -113,10 +122,6 @@ export const Extensions = Extension.create<ExtensionOptions>({
 
         if (this.options.code !== false) {
             extensions.push(Code.configure(this.options?.code));
-        }
-
-        if (this.options.document !== false) {
-            extensions.push(Document.configure(this.options?.document));
         }
 
         if (this.options.dropcursor !== false) {
@@ -175,11 +180,11 @@ export const Extensions = Extension.create<ExtensionOptions>({
             extensions.push(Placeholder.configure(this.options?.placeholder));
         }
 
-        if (this.options.codeBlock !== false) {
+        if (!disableFormatting.includes(Formatters.codeBlock) && this.options.codeBlock !== false) {
             extensions.push(Codeblock.configure(this.options?.codeBlock));
         }
 
-        if (this.options.link !== false) {
+        if (!disableFormatting.includes(Formatters.link) && this.options.link !== false) {
             extensions.push(Link.configure(this.options.link).extend({
 
                 // when at the end of the input value this will allow the mark to be exited by pressing ArrowRight key
@@ -187,7 +192,7 @@ export const Extensions = Extension.create<ExtensionOptions>({
             }));
         }
 
-        if (this.options.table !== false) {
+        if (!disableFormatting.includes(Formatters.table) && this.options.table !== false) {
             extensions.push(Table.configure(this.options?.table));
         }
 
@@ -218,7 +223,7 @@ export const Extensions = Extension.create<ExtensionOptions>({
             }));
         }
 
-        if (this.options.image !== false) {
+        if (!disableFormatting.includes(Formatters.image) && this.options.image !== false) {
             extensions.push(Image.extend({
                 addPasteRules() {
                     return [

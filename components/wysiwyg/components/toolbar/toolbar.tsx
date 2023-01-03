@@ -5,6 +5,8 @@ import React, {useRef} from 'react';
 import styled from 'styled-components';
 import type {Editor} from '@tiptap/react';
 
+import {Formatters} from '../../wysiwyg';
+
 import BlockModeControls from './controls/block-controls';
 import HeadingControls from './controls/heading-controls';
 import LeafModeControls from './controls/leaf-controls';
@@ -67,6 +69,7 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
     const formattingBarRef = useRef<HTMLDivElement>(null);
 
     const filteredAdditionalControls = Array.isArray(additionalControls) ? additionalControls.filter(Boolean) : [];
+    const {disableFormatting} = editor.storage.core;
 
     return (
         <ToolbarContainer ref={formattingBarRef}>
@@ -76,7 +79,7 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
                 <LeafModeControls editor={editor}/>
                 <Separator/>
                 <BlockModeControls editor={editor}/>
-                <TableControls editor={editor}/>
+                {disableFormatting?.includes(Formatters.table) ? null : <TableControls editor={editor}/>}
                 {filteredAdditionalControls.length ? (
                     <>
                         <Separator/>

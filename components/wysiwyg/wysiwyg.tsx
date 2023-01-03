@@ -2,30 +2,23 @@
 // See LICENSE.txt for license information.
 
 import {KeyboardShortcutCommand} from '@tiptap/core';
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 import type {FormEvent} from 'react';
 import styled from 'styled-components';
-import {useDispatch, useSelector} from 'react-redux';
-import {debounce} from 'lodash';
-import type {DebouncedFunc} from 'lodash';
 
 import {
     EditorContent,
     useEditor,
 } from '@tiptap/react';
 import type {JSONContent} from '@tiptap/react';
-import type {Editor} from '@tiptap/core';
 
 // load all highlight.js languages
 import {lowlight} from 'lowlight';
 
-import {ActionTypes} from 'utils/constants';
-
-import type {GlobalState} from 'types/store';
 import type {NewPostDraft} from 'types/store/draft';
 
 import EmojiPicker from './components/emoji-picker';
-import {Extensions} from './extensions';
+import {Extensions, SuggestionConfig} from './extensions';
 import {htmlToMarkdown} from './utils/toMarkdown';
 
 // import all custom components, extensions, etc.
@@ -146,97 +139,76 @@ const EditorContainer = styled.div`
     }
 `;
 
-function useDraft(channelId: string, rootId = ''): [NewPostDraft, (newContent: JSONContent) => void] {
-    const dispatch = useDispatch();
-
-    const draft = useSelector((state: GlobalState) => {
-        // TODO should these just be stored in the same place?
-        return rootId ? state.drafts.byThread[rootId] : state.drafts.byChannel[channelId];
-    });
-
-    const setDraftContent = useCallback((newContent: JSONContent) => {
-        dispatch({
-            type: ActionTypes.DRAFT_CONTENT_UPDATED,
-            channelId,
-            rootId,
-
-            /**
-             * JSONContent or some of its children aren't plain JS objects, so they can't be serialized automatically.
-             *
-             * TODO@michel
-             * figure out how to persist them properly since serializing and deserializing them feels hacky or
-             * perhaps serialize their generated Markdown.
-             */
-            content: JSON.parse(JSON.stringify(newContent)),
-        });
-    }, [dispatch, channelId, rootId]);
-
-    return [draft, setDraftContent];
-}
-
-type FormattingConfig = {
-    links?: boolean;
-    images?: boolean;
-    codeBlock?: boolean;
+export enum Formatters {
+    link,
+    table,
+    image,
+    codeBlock,
 }
 
 export type WysiwygConfig = {
-    disableFormatting: FormattingConfig;
-    additionalKeyHandlers: Record<string, KeyboardShortcutCommand>;
+    disableFormatting?: Formatters[];
+    keyHandlers?: Record<string, KeyboardShortcutCommand>;
+    suggestions?: Omit<SuggestionConfig, 'emoji'>;
+    additionalControls?: React.ReactNode[];
 };
 
 type Props = PropsFromRedux & {
-    channelId: string;
-    placeholder?: string;
-    rootId?: string;
-    onSubmit: (e?: FormEvent) => void;
-    onChange?: (markdownText: string) => void;
-    readOnly?: boolean;
-    additionalControls?: React.ReactNode[];
-    headerContent?: React.ReactNode | React.ReactNode[];
+
+    /**
+     * Function to handle submitting the content.
+     * Receives a FormEvent, current Markdown and current JSONContent values from the editor as optional parameters.
+     */
+    onSubmit: (e?: FormEvent, markdownText?: string, json?: JSONContent) => void;
+
+    /**
+     * Function to handle changes in the editors content.
+     * Receives the current Markdown and JSONContent values from the editor as optional parameters.
+     */
+    onChange?: (markdownText: string, json?: JSONContent) => void;
+
+    /**
+     * Configuration object to fine-tune the WYSIWYG editor behavior.
+     * Holds settings to disable certain formatting functions, configurations needed for the different types of
+     * suggestions, additional keyHandlers and additional Controls for the toolbar.
+     */
     config?: WysiwygConfig;
+
+    /**
+     * If present the editor will be populated with the content specified in this draft.
+     */
+    draft?: NewPostDraft;
+
+    /**
+     * A string to show when the editor is empty.
+     */
+    placeholder?: string;
+
+    /**
+     * Disables editing and formatting funcitonalities.
+     */
+    readOnly?: boolean;
+
+    /**
+     * Content to display above the editors editable area.
+     */
+    headerContent?: React.ReactNode | React.ReactNode[];
 }
 
 export default (props: Props) => {
     const {
         config,
         reduxConfig,
-        teamId,
-        channelId,
-        rootId,
         onSubmit,
         onChange,
         placeholder,
         readOnly,
         useCustomEmojis,
-        useSpecialMentions,
-        useLDAPGroupMentions,
-        useChannelMentions,
-        useCustomGroupMentions,
         ctrlSend,
         codeBlockOnCtrlEnter,
-        additionalControls,
         headerContent,
+        draft,
     } = props;
-
-    const [draft, setDraftContent] = useDraft(channelId, rootId);
-    const debouncedDraft = useRef<DebouncedFunc<(editor: Editor) => void>>(debounce((editor) => setDraftContent(editor.getJSON()), 500));
-
-    // const PasteHandler = Extension.create({
-    //     name: 'pasteHandler',
-    //
-    //     addProseMirrorPlugins() {
-    //         return [
-    //             new Plugin({
-    //                 key: new PluginKey('pasteHandler'),
-    //                 props: {
-    //
-    //                     // Here is the full list: https://prosemirror.net/docs/ref/#view.EditorProps
-    //                 },
-    //             }),
-    //         ];
-    //     },
-    // });
 
     const editor = useEditor({
         extensions: [
@@ -251,7 +223,7 @@ export default (props: Props) => {
                 table: {
                     allowTableNodeSelection: true,
                 },
-                link: config?.disableFormatting.links ? false : {
+                link: {
                     linkOnPaste: false,
                     openOnClick: false,
                     HTMLAttributes: {
@@ -259,61 +231,38 @@ export default (props: Props) => {
                     },
                 },
                 suggestions: {
-                    mention: useChannelMentions ? {
-                        teamId,
-                        channelId,
-                        useSpecialMentions,
-                        useGroupMentions: useLDAPGroupMentions || useCustomGroupMentions,
-                    } : false,
-                    channel: {teamId},
                     emoji: {useCustomEmojis},
-                    command: {
-                        teamId,
-                        channelId,
-                        rootId,
-                    },
+                    mention: config?.suggestions?.mention,
+                    channel: config?.suggestions?.channel,
+                    command: config?.suggestions?.command,
                 },
                 keyHandling: {
                     submitAction: onSubmit,
                     ctrlSend,
                     codeBlockOnCtrlEnter,
-                    additionalHandlers: config?.additionalKeyHandlers,
+                    additionalHandlers: config?.keyHandlers,
                 },
             }),
         ],
         content: draft?.content,
         autofocus: 'end',
         onUpdate: ({editor}) => {
-            debouncedDraft.current?.(editor);
-
-            // call the onChange function from the parent component (if any available)
-            onChange?.(htmlToMarkdown(editor.getHTML()));
+            // call the onChange function from the parent component (if available)
+            onChange?.(htmlToMarkdown(editor.getHTML()), editor.getJSON());
 
             /* eslint-disable */
             console.group('##### Output to be stored in drafts or for submission');
-            console.log('##### HTML', htmlToMarkdown(editor.getHTML()));
+            console.log('##### HTML', editor.getHTML());
             console.log('##### parsed Markdown', htmlToMarkdown(editor.getHTML()));
             console.groupEnd();
             /* eslint-enable */
         },
-    }, [channelId, rootId, ctrlSend, codeBlockOnCtrlEnter]);
+    }, [ctrlSend, codeBlockOnCtrlEnter]);
 
     // focus the editor on mount
     useEffect(() => {
         editor?.commands.focus();
     }, [editor]);
-
-    // store the current value as draft when the editor gets destroyed
-    useEffect(() => {
-        if (!editor) {
-            return () => {};
-        }
-
-        const storeDraft = () => debouncedDraft.current?.flush();
-
-        editor.on('destroy', storeDraft);
-        return () => editor.off('destroy', storeDraft);
-    }, [editor, setDraftContent]);
 
     if (!editor) {
         return null;
@@ -348,7 +297,7 @@ export default (props: Props) => {
     const toolbarProps = {
         editor,
         rightControls,
-        additionalControls,
+        additionalControls: config?.additionalControls,
     };
 
     return (
