@@ -6,7 +6,7 @@ import React from 'react';
 import {Preferences} from 'utils/constants';
 
 import {autocompleteCustomEmojis} from 'mattermost-redux/actions/emojis';
-import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
+import {getEmojiImageUrl, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 
 import {getEmojiMap, getRecentEmojisNames} from 'selectors/emojis';
 
@@ -122,7 +122,7 @@ export default class EmoticonProvider extends Provider {
                 continue;
             }
 
-            if (emoji.short_names) {
+            if (isSystemEmoji(emoji)) {
                 // This is a system emoji so it may have multiple names
                 for (const alias of emoji.short_names) {
                     if (alias.indexOf(partialName) !== -1) {
@@ -167,7 +167,6 @@ export default class EmoticonProvider extends Provider {
         ];
 
         // Required to get past the dispatch during dispatch error
-
         resultsCallback({
             matchedPretext: text,
             terms,
