@@ -1302,8 +1302,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
     }
 
-    editLastPost = (e: React.KeyboardEvent) => {
-        e.preventDefault();
+    editLastPost = (e?: React.KeyboardEvent) => {
+        e?.preventDefault();
 
         const lastPost = this.props.currentUsersLatestPost;
         if (!lastPost) {
@@ -1640,6 +1640,17 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     placeholder={`Write to ${this.state.currentChannel.display_name}`}
                     additionalControls={additionalControls}
                     headerContent={priorityLabels}
+                    config={{
+                        additionalKeyHandlers: {
+                            ArrowUp: ({editor}) => {
+                                if (editor.isEmpty) {
+                                    this.editLastPost();
+                                    return false;
+                                }
+                                return true;
+                            },
+                        },
+                    }}
                 />
             );
         }

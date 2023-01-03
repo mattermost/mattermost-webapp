@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {Extension} from '@tiptap/core';
 import type {KeyboardShortcutCommand} from '@tiptap/core';
 import type {PluginKey} from 'prosemirror-state';
@@ -8,7 +9,7 @@ export type KeyhandlerOptions = {
     submitAction: () => void;
     ctrlSend?: boolean;
     codeBlockOnCtrlEnter?: boolean;
-    additionalHandlers?: KeyboardShortcutCommand;
+    additionalHandlers?: Record<string, KeyboardShortcutCommand>;
 }
 
 const KeyHandler =

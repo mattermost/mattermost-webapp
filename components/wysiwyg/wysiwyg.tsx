@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {KeyboardShortcutCommand} from '@tiptap/core';
 import React, {useCallback, useEffect, useRef} from 'react';
 import type {FormEvent} from 'react';
 import styled from 'styled-components';
@@ -173,6 +174,10 @@ function useDraft(channelId: string, rootId = ''): [NewPostDraft, (newContent: J
     return [draft, setDraftContent];
 }
 
+type WysiwygConfig = {
+    additionalKeyHandlers: Record<string, KeyboardShortcutCommand>;
+};
+
 type Props = PropsFromRedux & {
     channelId: string;
     placeholder?: string;
@@ -182,11 +187,13 @@ type Props = PropsFromRedux & {
     readOnly?: boolean;
     additionalControls?: React.ReactNode[];
     headerContent?: React.ReactNode | React.ReactNode[];
+    config?: WysiwygConfig;
 }
 
 export default (props: Props) => {
     const {
         config,
+        reduxConfig,
         teamId,
         channelId,
         rootId,
@@ -262,6 +269,7 @@ export default (props: Props) => {
                     submitAction: onSubmit,
                     ctrlSend,
                     codeBlockOnCtrlEnter,
+                    additionalHandlers: config?.additionalKeyHandlers,
                 },
             }),
         ],
@@ -320,7 +328,7 @@ export default (props: Props) => {
         />
     );
 
-    const emojiPicker = config.EnableEmojiPicker === 'true' ? <EmojiPicker editor={editor}/> : null;
+    const emojiPicker = reduxConfig.EnableEmojiPicker === 'true' ? <EmojiPicker editor={editor}/> : null;
 
     const rightControls = (
         <>

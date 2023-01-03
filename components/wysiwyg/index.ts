@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {connect, ConnectedProps} from 'react-redux';
 import {Permissions, Preferences as PreferencesRedux} from 'mattermost-redux/constants';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
@@ -28,7 +29,7 @@ function mapStateToProps(state: GlobalState) {
     const useCustomGroupMentions = isCustomGroupsEnabled(state) && haveICurrentChannelPermission(state, Permissions.USE_GROUP_MENTIONS);
 
     return {
-        config,
+        reduxConfig: config,
         teamId,
         channelId,
         useCustomEmojis,
