@@ -325,7 +325,6 @@
   "admin.billing.subscription.updatePaymentInfo": "Обнови информацията за плащане",
   "admin.billing.subscription.upgradedSuccess": "Страхотно! Вече сте надстроени",
   "admin.billing.subscription.verifyPaymentInformation": "Проверка на данните Ви за плащане",
-  "admin.billing.subscriptions.billing_summary.lastInvoice.downloadInvoice": "Свали фактура",
   "admin.billing.subscriptions.billing_summary.lastInvoice.failed": "Неуспешно",
   "admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee": "Месечна фиксирана такса",
   "admin.billing.subscriptions.billing_summary.lastInvoice.paid": "Платен",

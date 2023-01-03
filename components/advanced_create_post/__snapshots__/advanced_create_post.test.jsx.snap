@@ -7,11 +7,7 @@ exports[`components/advanced_create_post Show tutorial 1`] = `
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -89,11 +85,7 @@ exports[`components/advanced_create_post should match snapshot for center textbo
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -171,11 +163,7 @@ exports[`components/advanced_create_post should match snapshot when cannot post 
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={false}
@@ -253,11 +241,7 @@ exports[`components/advanced_create_post should match snapshot when file upload 
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -335,11 +319,7 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -417,11 +397,7 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -499,11 +475,7 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={false}
@@ -581,11 +553,7 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={false}
@@ -663,11 +631,7 @@ exports[`components/advanced_create_post should match snapshot, init 1`] = `
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -745,11 +709,7 @@ exports[`components/advanced_create_post should match snapshot, post priority di
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
-    additionalControls={
-      Array [
-        null,
-      ]
-    }
+    additionalControls={Array []}
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}

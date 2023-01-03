@@ -22,7 +22,7 @@ const getDraftsCount = makeGetDraftsCount();
 function DraftsLink() {
     const dispatch = useDispatch();
     const localDraftsEnabled = useSelector(localDraftsAreEnabled);
-    const syncDraftsEnabled = useSelector(syncedDraftsAreAllowedAndEnabled);
+    const syncedDraftsAllowedAndEnabled = useSelector(syncedDraftsAreAllowedAndEnabled);
     const {formatMessage} = useIntl();
     const {url} = useRouteMatch();
     const match = useRouteMatch('/:team/drafts');
@@ -30,10 +30,10 @@ function DraftsLink() {
     const teamId = useSelector(getCurrentTeamId);
 
     useEffect(() => {
-        if (syncDraftsEnabled) {
+        if (syncedDraftsAllowedAndEnabled) {
             dispatch(getDrafts(teamId));
         }
-    }, [teamId, syncDraftsEnabled, dispatch]);
+    }, [teamId, dispatch, syncedDraftsAllowedAndEnabled]);
 
     if (!localDraftsEnabled || (!count && !match)) {
         return null;
