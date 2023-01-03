@@ -26,7 +26,6 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {confirmSelfHostedSignup} from 'actions/hosted_customer';
-import {removeItem, setItem} from 'actions/storage';
 
 import {GlobalState} from 'types/store';
 
@@ -324,9 +323,9 @@ export default function SelfHostedPurchaseModal(props: Props) {
             'pageview_self_hosted_purchase',
         );
 
-        reduxDispatch(setItem(STORAGE_KEY_PURCHASE_IN_PROGRESS, 'true'));
+        localStorage.setItem(STORAGE_KEY_PURCHASE_IN_PROGRESS, 'true');
         return () => {
-            reduxDispatch(removeItem(STORAGE_KEY_PURCHASE_IN_PROGRESS));
+            localStorage.removeItem(STORAGE_KEY_PURCHASE_IN_PROGRESS);
         };
     }, []);
 

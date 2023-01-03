@@ -2,15 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 
 import {GenericModal, GenericModalProps} from '@mattermost/components';
 
 import {getCurrentUserEmail} from 'mattermost-redux/selectors/entities/common';
 import {Client4} from 'mattermost-redux/client';
-
-import {removeItem} from 'actions/storage';
 
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 import {useControlPurchaseInProgressModal} from 'components/common/hooks/useControlModal';
@@ -23,7 +21,6 @@ interface Props {
 }
 
 export default function PurchaseInProgressModal(props: Props) {
-    const dispatch = useDispatch();
     const {close} = useControlPurchaseInProgressModal();
     const userEmail = useSelector(getCurrentUserEmail);
     const header = (
@@ -52,7 +49,7 @@ export default function PurchaseInProgressModal(props: Props) {
             />
         );
         genericModalProps.handleConfirm = () => {
-            dispatch(removeItem(STORAGE_KEY_PURCHASE_IN_PROGRESS));
+            localStorage.removeItem(STORAGE_KEY_PURCHASE_IN_PROGRESS);
             Client4.bootstrapSelfHostedSignup(true);
             close();
         };

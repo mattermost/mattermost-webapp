@@ -14,8 +14,6 @@ import {Client4} from 'mattermost-redux/client';
 import {getCurrentUserEmail} from 'mattermost-redux/selectors/entities/common';
 import {HostedCustomerTypes} from 'mattermost-redux/action_types';
 
-import {makeGetItem} from 'selectors/storage';
-
 import {useControlModal, ControlModal} from './useControlModal';
 
 interface HookOptions{
@@ -27,7 +25,7 @@ interface HookOptions{
 export default function useControlSelfHostedPurchaseModal(options: HookOptions): ControlModal {
     const dispatch = useDispatch();
     const userEmail = useSelector(getCurrentUserEmail);
-    const purchaseInProgress = useSelector(makeGetItem(STORAGE_KEY_PURCHASE_IN_PROGRESS, '')) === 'true';
+    const purchaseInProgress = localStorage.getItem(STORAGE_KEY_PURCHASE_IN_PROGRESS) === 'true';
     const controlModal = useControlModal({
         modalId: ModalIdentifiers.SELF_HOSTED_PURCHASE,
         dialogType: SelfHostedPurchaseModal,

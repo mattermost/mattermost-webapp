@@ -9,9 +9,7 @@ import {DeepPartial} from '@mattermost/types/utilities';
 import {renderWithIntlAndStore} from 'tests/react_testing_utils';
 import {GlobalState} from 'types/store';
 import {TestHelper as TH} from 'utils/test_helper';
-import * as storageActions from 'actions/storage';
-
-import {STORAGE_KEY_PURCHASE_IN_PROGRESS} from 'components/self_hosted_purchase_modal/constants';
+import {Client4} from 'mattermost-redux/client';
 
 import PurchaseInProgressModal from './';
 
@@ -64,10 +62,8 @@ describe('PurchaseInProgressModal', () => {
     it('when purchaser and user emails are same, allows user to reset purchase flow', () => {
         renderWithIntlAndStore(<div id='root-portal'><PurchaseInProgressModal purchaserEmail={'admin@example.com'}/></div>, initialState);
 
-        // check title, and some of the most prominent details and secondary actions
-        const removeItemSpy = jest.spyOn(storageActions, 'removeItem');
-        expect(removeItemSpy).not.toHaveBeenCalled();
+        expect(Client4.bootstrapSelfHostedSignup).not.toHaveBeenCalled();
         screen.getByText('Reset purchase flow').click();
-        expect(removeItemSpy).toHaveBeenCalledWith(STORAGE_KEY_PURCHASE_IN_PROGRESS);
+        expect(Client4.bootstrapSelfHostedSignup).toHaveBeenCalled();
     });
 });
