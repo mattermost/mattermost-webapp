@@ -103,7 +103,7 @@ const DraftsTourTip = () => {
                     step={1}
                     singleTip={true}
                     showOptOut={false}
-                    interactivePunchOut={true}
+                    interactivePunchOut={false}
                     handleDismiss={handleDismiss}
                     handleNext={handleNext}
                     handleOpen={handleOpen}

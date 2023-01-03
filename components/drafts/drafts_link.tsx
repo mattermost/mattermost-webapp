@@ -6,6 +6,8 @@ import {useSelector, useDispatch} from 'react-redux';
 import {NavLink, useRouteMatch} from 'react-router-dom';
 import {useIntl} from 'react-intl';
 
+import {PencilOutlineIcon} from '@mattermost/compass-icons/components';
+
 import {localDraftsAreEnabled, syncedDraftsAreAllowedAndEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
@@ -54,10 +56,7 @@ function DraftsLink() {
                     role='listitem'
                     tabIndex={0}
                 >
-                    <i
-                        data-testid='draftIcon'
-                        className='icon icon-pencil-outline'
-                    />
+                    <PencilOutlineIcon size={14}/>
                     <div className='SidebarChannelLinkLabel_wrapper'>
                         <span className='SidebarChannelLinkLabel sidebar-item__name'>
                             {formatMessage({id: 'drafts.sidebarLink', defaultMessage: 'Drafts'})}
