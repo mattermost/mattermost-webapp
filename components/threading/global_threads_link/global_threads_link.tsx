@@ -84,7 +84,6 @@ const GlobalThreadsLink = () => {
                     unread: someUnreadThreads,
                 })}
                 tabIndex={-1}
-                role='listitem'
             >
                 <Link
                     onClick={openThreads}

@@ -53,13 +53,14 @@ const InsightsCard = (props: Props) => {
                     }}
                     aria-label={formatMessage(
                         {
-                            id: 'insights.card.ariaLabel', 
-                            defaultMessage: 'Open modal for {title}'
+                            id: 'insights.card.ariaLabel',
+                            defaultMessage: 'Open modal for {title}',
                         },
                         {
                             title: props.title,
-                        }
+                        },
                     )}
+                    aria-haspopup='dialog'
                 >
                     <i className='icon icon-chevron-right'/>
                 </button>

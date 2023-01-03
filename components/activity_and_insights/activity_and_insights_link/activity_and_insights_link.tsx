@@ -41,7 +41,6 @@ const ActivityAndInsightsLink = () => {
                     active: inInsights,
                 })}
                 tabIndex={-1}
-                role='listitem'
             >
                 <Link
                     onClick={openInsights}
