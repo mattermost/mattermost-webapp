@@ -45,7 +45,7 @@ const style = {
     gap: '10px',
     padding: '12px',
     borderRadius: '4px',
-    border: '1px solid rgba(var(--center-channel-text-rgb), 0.16)',
+    border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
     width: 'max-content',
     margin: '10px 0',
 };
@@ -208,6 +208,9 @@ export default function OpenPricingModalPost(props: {post: Post}) {
         dispatch(openModal({
             modalId: ModalIdentifiers.LEARN_MORE_TRIAL_MODAL,
             dialogType: LearnMoreTrialModal,
+            dialogProps: {
+                launchedBy: 'pricing_modal',
+            },
         }));
     };
 

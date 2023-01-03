@@ -37,9 +37,8 @@ function signupWithEmail(name, pw) {
 
 describe('Cloud Onboarding', () => {
     before(() => {
-        // # Set EnableOpenServer to true and disable other auth options
+        // # Disable other auth options
         const newSettings = {
-            TeamSettings: {EnableOpenServer: true},
             Office365Settings: {Enable: false},
             LdapSettings: {Enable: false},
         };

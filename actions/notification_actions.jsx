@@ -18,12 +18,15 @@ import {isThreadOpen} from 'selectors/views/threads';
 import {getHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
 import {showNotification} from 'utils/notifications';
-import {isDesktopApp, isMobileApp} from 'utils/user_agent';
+import {isDesktopApp, isMobileApp, isWindowsApp} from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 import {stripMarkdown} from 'utils/markdown';
 
 const NOTIFY_TEXT_MAX_LENGTH = 50;
+
+// windows notification length is based windows chrome which supports 128 characters and is the lowest length of windows browsers
+const WINDOWS_NOTIFY_TEXT_MAX_LENGTH = 120;
 
 export function sendDesktopNotification(post, msgProps) {
     return async (dispatch, getState) => {
@@ -134,8 +137,10 @@ export function sendDesktopNotification(post, msgProps) {
         });
 
         let strippedMarkdownNotifyText = stripMarkdown(notifyText);
-        if (strippedMarkdownNotifyText.length > NOTIFY_TEXT_MAX_LENGTH) {
-            strippedMarkdownNotifyText = strippedMarkdownNotifyText.substring(0, NOTIFY_TEXT_MAX_LENGTH - 1) + '...';
+
+        const notifyTextMaxLength = isWindowsApp() ? WINDOWS_NOTIFY_TEXT_MAX_LENGTH : NOTIFY_TEXT_MAX_LENGTH;
+        if (strippedMarkdownNotifyText.length > notifyTextMaxLength) {
+            strippedMarkdownNotifyText = strippedMarkdownNotifyText.substring(0, notifyTextMaxLength - 1) + '...';
         }
 
         let body = `@${username}`;
