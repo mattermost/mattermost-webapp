@@ -27,6 +27,8 @@ import {Placeholder, PlaceholderOptions} from '@tiptap/extension-placeholder';
 
 import {PluginKey} from 'prosemirror-state';
 
+import {WysiwygConfig} from '../wysiwyg';
+
 import {Codeblock, CodeBlockLowlightOptions} from './codeblock/codeblock';
 import {Table, TableOptions} from './table/table';
 
@@ -84,10 +86,15 @@ export interface ExtensionOptions {
     };
     keyHandling?: KeyhandlerOptions | false;
     image?: Partial<ImageOptions> | false;
+    config?: WysiwygConfig;
 }
 
 export const Extensions = Extension.create<ExtensionOptions>({
-    name: 'extensions',
+    name: 'core',
+
+    addStorage() {
+        return this.options?.config || {};
+    },
 
     addExtensions() {
         const extensions = [];

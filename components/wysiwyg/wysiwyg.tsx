@@ -174,7 +174,14 @@ function useDraft(channelId: string, rootId = ''): [NewPostDraft, (newContent: J
     return [draft, setDraftContent];
 }
 
-type WysiwygConfig = {
+type FormattingConfig = {
+    links?: boolean;
+    images?: boolean;
+    codeBlock?: boolean;
+}
+
+export type WysiwygConfig = {
+    disableFormatting: FormattingConfig;
     additionalKeyHandlers: Record<string, KeyboardShortcutCommand>;
 };
 
@@ -234,6 +241,7 @@ export default (props: Props) => {
     const editor = useEditor({
         extensions: [
             Extensions.configure({
+                config,
                 hardBreak: false,
                 placeholder: placeholder ? {placeholder} : false,
                 codeBlock: {
@@ -243,7 +251,7 @@ export default (props: Props) => {
                 table: {
                     allowTableNodeSelection: true,
                 },
-                link: {
+                link: config?.disableFormatting.links ? false : {
                     linkOnPaste: false,
                     openOnClick: false,
                     HTMLAttributes: {

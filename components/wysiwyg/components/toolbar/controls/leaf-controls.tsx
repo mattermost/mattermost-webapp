@@ -53,53 +53,61 @@ export type MarkdownLeafType =
     | 'toggleStrike'
     | 'toggleCode'
 
-const makeLeafModeToolDefinitions = (editor: Editor): Array<ToolDefinition<MarkdownLeafMode, MarkdownLeafType>> => [
-    {
-        mode: 'bold',
-        type: 'toggleBold',
-        icon: FormatBoldIcon,
-        ariaLabelDescriptor: {id: t('accessibility.button.bold'), defaultMessage: 'bold'},
-        shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownBold,
-        action: () => editor.chain().focus().toggleBold().run(),
-        isActive: () => editor.isActive('bold'),
-    },
-    {
-        mode: 'italic',
-        type: 'toggleItalic',
-        icon: FormatItalicIcon,
-        ariaLabelDescriptor: {id: t('accessibility.button.italic'), defaultMessage: 'italic'},
-        shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownItalic,
-        action: () => editor.chain().focus().toggleItalic().run(),
-        isActive: () => editor.isActive('italic'),
-    },
-    {
-        mode: 'link',
-        type: 'setLink',
-        icon: LinkVariantIcon,
-        ariaLabelDescriptor: {id: t('accessibility.button.link'), defaultMessage: 'link'},
-        shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownLink,
-        action: () => {},
-        isActive: () => editor.isActive('link'),
-    },
-    {
-        mode: 'strike',
-        type: 'toggleStrike',
-        icon: FormatStrikethroughVariantIcon,
-        ariaLabelDescriptor: {id: t('accessibility.button.strike'), defaultMessage: 'strike through'},
-        shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownStrike,
-        action: () => editor.chain().focus().toggleStrike().run(),
-        isActive: () => editor.isActive('strike'),
-    },
-    {
-        mode: 'code',
-        type: 'toggleCode',
-        icon: CodeTagsIcon,
-        ariaLabelDescriptor: {id: t('accessibility.button.code'), defaultMessage: 'code'},
-        shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownCode,
-        action: () => editor.chain().focus().toggleCode().run(),
-        isActive: () => editor.isActive('code'),
-    },
-];
+const makeLeafModeToolDefinitions = (editor: Editor): Array<ToolDefinition<MarkdownLeafMode, MarkdownLeafType>> => {
+    const controls: Array<ToolDefinition<MarkdownLeafMode, MarkdownLeafType>> = [
+        {
+            mode: 'bold',
+            type: 'toggleBold',
+            icon: FormatBoldIcon,
+            ariaLabelDescriptor: {id: t('accessibility.button.bold'), defaultMessage: 'bold'},
+            shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownBold,
+            action: () => editor.chain().focus().toggleBold().run(),
+            isActive: () => editor.isActive('bold'),
+        },
+        {
+            mode: 'italic',
+            type: 'toggleItalic',
+            icon: FormatItalicIcon,
+            ariaLabelDescriptor: {id: t('accessibility.button.italic'), defaultMessage: 'italic'},
+            shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownItalic,
+            action: () => editor.chain().focus().toggleItalic().run(),
+            isActive: () => editor.isActive('italic'),
+        },
+        {
+            mode: 'strike',
+            type: 'toggleStrike',
+            icon: FormatStrikethroughVariantIcon,
+            ariaLabelDescriptor: {id: t('accessibility.button.strike'), defaultMessage: 'strike through'},
+            shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownStrike,
+            action: () => editor.chain().focus().toggleStrike().run(),
+            isActive: () => editor.isActive('strike'),
+        },
+        {
+            mode: 'code',
+            type: 'toggleCode',
+            icon: CodeTagsIcon,
+            ariaLabelDescriptor: {id: t('accessibility.button.code'), defaultMessage: 'code'},
+            shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownCode,
+            action: () => editor.chain().focus().toggleCode().run(),
+            isActive: () => editor.isActive('code'),
+        },
+    ];
+
+    if (!editor.storage.core.disableFormatting.links) {
+        // insert the link control definition at index 2
+        controls.splice(2, 0, {
+            mode: 'link',
+            type: 'setLink',
+            icon: LinkVariantIcon,
+            ariaLabelDescriptor: {id: t('accessibility.button.link'), defaultMessage: 'link'},
+            shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownLink,
+            action: () => {},
+            isActive: () => editor.isActive('link'),
+        });
+    }
+
+    return controls;
+};
 
 const FloatingLinkContainer = styled(FloatingContainer)`
     display: flex;
@@ -353,11 +361,11 @@ const LeafModeControls = ({editor}: {editor: Editor}) => {
     const [showLinkOverlay, setShowLinkOverlay] = useState(false);
 
     const codeBlockModeIsActive = editor.isActive('codeBlock');
-    const leafModeControls = makeLeafModeToolDefinitions(editor);
+    const leafModeControls = makeLeafModeToolDefinitions(editor).filter(Boolean);
 
     const toggleLinkOverlay = () => {
         if (!showLinkOverlay) {
-            // editor.commands.extendMarkRange('link');
+            editor.commands.extendMarkRange('link');
         }
         setShowLinkOverlay(!showLinkOverlay);
     };

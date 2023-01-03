@@ -1641,6 +1641,9 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     additionalControls={additionalControls}
                     headerContent={priorityLabels}
                     config={{
+                        disableFormatting: {
+                            links: false,
+                        },
                         additionalKeyHandlers: {
                             ArrowUp: ({editor}) => {
                                 if (editor.isEmpty) {
