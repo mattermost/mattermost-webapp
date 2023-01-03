@@ -4425,6 +4425,7 @@
   "pricing_modal.briefing.professional.messageBoardsIntegrationsCalls": "Unlimited access to messages and boards history, teams, and calls",
   "pricing_modal.briefing.ssoWithGitLab": "SSO with Gitlab",
   "pricing_modal.briefing.storage": "Unlimited storage limit",
+  "pricing_modal.briefing.storageStarter": "{storage} file storage limit",
   "pricing_modal.briefing.title": "Top features",
   "pricing_modal.briefing.unlimitedPlaybookRuns": "Unlimited playbooks and runs",
   "pricing_modal.briefing.unlimitedWorkspaceTeams": "Unlimited workspace teams",
