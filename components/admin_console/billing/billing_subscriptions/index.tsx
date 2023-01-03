@@ -23,15 +23,16 @@ import {
     getCloudErrors,
 } from 'mattermost-redux/selectors/entities/cloud';
 import {
-    CloudProducts,
     TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
+import {hasSomeLimits} from 'utils/limits';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {useQuery} from 'utils/http_utils';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
+import useGetLimits from 'components/common/hooks/useGetLimits';
 
 import {GlobalState} from '@mattermost/types/store';
 import PlanDetails from '../plan_details';
@@ -50,6 +51,7 @@ import './billing_subscriptions.scss';
 const BillingSubscriptions = () => {
     const dispatch = useDispatch<DispatchFunc>();
     const analytics = useSelector(getAdminAnalytics);
+    const [cloudLimits] = useGetLimits();
     const subscription = useSelector(selectCloudSubscription);
     const errorLoadingData = useSelector((state: GlobalState) => {
         const errors = getCloudErrors(state);
@@ -154,7 +156,7 @@ const BillingSubscriptions = () => {
                                 onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                             />
                         </div>
-                        {product?.sku === CloudProducts.STARTER ? (
+                        {hasSomeLimits(cloudLimits) && !isFreeTrial ? (
                             <Limits/>
                         ) : (
                             <ContactSalesCard
