@@ -4209,15 +4209,10 @@
   "onboardingTask.checklist.disclaimer": "Klikając „Rozpocznij 30-dniowy okres próbny”, zgadzam się z <linkEvaluation>Umową dotyczącą ewaluacji oprogramowania Mattermost,</linkEvaluation> <linkPrivacy>polityką prywatności,</linkPrivacy> i otrzymywanie wiadomości e-mail o produktach.",
   "onboardingTask.checklist.dismiss_link": "Nie, dzięki, sam sobie z tym poradzę",
   "onboardingTask.checklist.downloads": "Teraz, gdy wszystko jest już gotowe, <link>pobierz nasze aplikacje</link>",
-<<<<<<< HEAD
   "onboardingTask.checklist.explore_other_tools_in_platform": "⛰️ Poznaj inne narzędzia na platformie",
   "onboardingTask.checklist.higher_security_features": "Interesują Cię nasze funkcje o podwyższonym poziomie bezpieczeństwa?",
   "onboardingTask.checklist.main_subtitle": "Zaczynamy i działamy.",
   "onboardingTask.checklist.plan_sprint_with_kanban_style_boards": "🎯 Zaplanuj sprint za pomocą tablic w stylu Kanban",
-=======
-  "onboardingTask.checklist.higher_security_features": "Interesują Cię nasze funkcje o podwyższonym poziomie bezpieczeństwa?",
-  "onboardingTask.checklist.main_subtitle": "Zaczynamy i działamy.",
->>>>>>> d2cd25fc96 (Update translation files)
   "onboardingTask.checklist.start_enterprise_now": "Rozpocznij bezpłatny okres próbny Enterprise już teraz!",
   "onboardingTask.checklist.task_complete_your_profile": "📷 Uzupełnij swój profil",
   "onboardingTask.checklist.task_download_mm_apps": "📱 Pobierz aplikację desktopową i mobilną",
