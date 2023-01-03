@@ -282,13 +282,15 @@ describe('components/PermalinkView', () => {
 
                 expect(getPostThread).toHaveBeenCalledWith('postid1');
                 expect(testStore.getActions()).toEqual([
-                    {type: 'MOCK_GET_POST_THREAD',
+                    {
+                        type: 'MOCK_GET_POST_THREAD',
                         data: {
                             posts: {
                                 replypostid1: {id: 'replypostid1', message: 'some message', channel_id: 'channelid1', root_id: 'postid1'},
                                 postid1: {id: 'postid1', message: 'some message', channel_id: 'channelid1'},
                             },
-                            order: ['postid1', 'replypostid1']},
+                            order: ['postid1', 'replypostid1'],
+                        },
                     },
                     {type: 'MOCK_SELECT_CHANNEL', args: ['channelid1']},
                     {type: 'RECEIVED_FOCUSED_POST', channelId: 'channelid1', data: 'postid1'},
@@ -304,7 +306,6 @@ describe('components/PermalinkView', () => {
                         ...initialState.entities,
                         general: {
                             config: {
-                                FeatureFlagCollapsedThreads: 'true',
                                 CollapsedThreads: 'default_on',
                             },
                         },
@@ -319,23 +320,27 @@ describe('components/PermalinkView', () => {
                 expect(getPostThread).toHaveBeenCalledWith('replypostid1');
 
                 expect(testStore.getActions()).toEqual([
-                    {type: 'MOCK_GET_POST_THREAD',
+                    {
+                        type: 'MOCK_GET_POST_THREAD',
                         data: {
                             posts: {
                                 replypostid1: {id: 'replypostid1', message: 'some message', channel_id: 'channelid1', root_id: 'postid1'},
                                 postid1: {id: 'postid1', message: 'some message', channel_id: 'channelid1'},
 
                             },
-                            order: ['postid1', 'replypostid1']},
+                            order: ['postid1', 'replypostid1'],
+                        },
                     },
-                    {type: 'MOCK_GET_POST_THREAD',
+                    {
+                        type: 'MOCK_GET_POST_THREAD',
                         data: {
                             posts: {
                                 replypostid1: {id: 'replypostid1', message: 'some message', channel_id: 'channelid1', root_id: 'postid1'},
                                 postid1: {id: 'postid1', message: 'some message', channel_id: 'channelid1'},
 
                             },
-                            order: ['postid1', 'replypostid1']},
+                            order: ['postid1', 'replypostid1'],
+                        },
                     },
                     {type: 'MOCK_SELECT_POST_AND_HIGHLIGHT', args: [{id: 'replypostid1', message: 'some message', channel_id: 'channelid1', root_id: 'postid1'}]},
                     {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'},
