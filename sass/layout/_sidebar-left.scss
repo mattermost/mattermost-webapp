@@ -29,24 +29,40 @@ $sidebarOpacityAnimationDuration: 0.15s;
     transition: none !important;
 
     #resizeLine {
-        background-color: var(--denim-sidebar-active-border);
+        &::after {
+            position: absolute;
+            left: 6px;
+            width: 4px;
+            height: 100%;
+            background-color: var(--denim-sidebar-active-border);
+            content: '';
+        }
     }
 }
 
 #resizeLine {
     position: absolute;
     z-index: 50;
-    right: -2px;
-    width: 4px;
+    right: -8px;
+    width: 16px;
     height: 100%;
     cursor: col-resize;
 
     &:hover {
-        background-color: var(--denim-sidebar-active-border);
+        &::after {
+            position: absolute;
+            left: 6px;
+            width: 4px;
+            height: 100%;
+            background-color: var(--denim-sidebar-active-border);
+            content: '';
+        }
     }
 
     &.limit-reached {
-        animation: emphasis-sidebar-resize-line 800ms;
+        &::after {
+            animation: emphasis-sidebar-resize-line 800ms;
+        }
     }
 }
 
