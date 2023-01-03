@@ -362,15 +362,11 @@
 }
 
 @keyframes emphasis-sidebar-resize-line {
-    0% {
-        width: 4px;
-    }
-
     50% {
-        width: 6px;
+        transform: scaleX(1.5);
     }
 
     100% {
-        width: 4px;
+        transform: scaleX(1);
     }
 }

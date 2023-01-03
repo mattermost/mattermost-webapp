@@ -9,18 +9,18 @@ export const isOverLimit = (newWidth: number, maxWidth: number, minWidth: number
     return newWidth > maxWidth || newWidth < minWidth;
 };
 
-export const shouldSnapWhenSizeGrown = (newWidth: number, prevWidth: number, maxWidth: number) => {
-    const diff = maxWidth - newWidth;
+export const shouldSnapWhenSizeGrown = (newWidth: number, prevWidth: number, defaultWidth: number) => {
+    const diff = defaultWidth - newWidth;
     const isGrowing = newWidth > prevWidth;
 
-    return diff <= SIDEBAR_SNAP_SIZE && isGrowing;
+    return diff >= 0 && diff <= SIDEBAR_SNAP_SIZE && isGrowing;
 };
 
-export const shouldSnapWhenSizeShrunk = (newWidth: number, prevWidth: number, minWidth: number) => {
-    const diff = newWidth - minWidth;
+export const shouldSnapWhenSizeShrunk = (newWidth: number, prevWidth: number, defaultWidth: number) => {
+    const diff = newWidth - defaultWidth;
     const isShrinking = newWidth < prevWidth;
 
-    return diff <= SIDEBAR_SNAP_SIZE && isShrinking;
+    return diff >= 0 && diff <= SIDEBAR_SNAP_SIZE && isShrinking;
 };
 
 export const shouldRhsOverlapChannelView = (size: SidebarSize) => size === SidebarSize.MEDIUM;

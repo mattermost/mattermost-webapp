@@ -96,40 +96,27 @@ function Resizable({
 
         previousClientX.current = e.clientX;
 
+        if (resizeLineRef.current.classList.contains('snapped')) {
+            return;
+        }
+
         if (isOverLimit(newWidth, maxWidth, minWidth)) {
             return;
         }
 
-        if (shouldSnapWhenSizeGrown(newWidth, prevWidth, maxWidth)) {
-            LocalStorageStore.setRhsWidth(userId, maxWidth);
-            rhsRef.current.style.width = `${maxWidth}px`;
+        if (shouldSnapWhenSizeGrown(newWidth, prevWidth, defaultWidth) || shouldSnapWhenSizeShrunk(newWidth, prevWidth, defaultWidth)) {
+            LocalStorageStore.setRhsWidth(userId, defaultWidth);
+            rhsRef.current.style.width = `${defaultWidth}px`;
             if (!shouldRhsOverlap) {
-                forwardRef.current.style.width = `${maxWidth}px`;
+                forwardRef.current.style.width = `${defaultWidth}px`;
             }
 
-            resizeLineRef.current.classList.add('limit-reached');
+            resizeLineRef.current.classList.add('snapped');
             setTimeout(() => {
                 if (resizeLineRef.current) {
-                    resizeLineRef.current.classList.remove('limit-reached');
+                    resizeLineRef.current.classList.remove('snapped');
                 }
-            }, 800);
-
-            return;
-        }
-
-        if (shouldSnapWhenSizeShrunk(newWidth, prevWidth, minWidth)) {
-            LocalStorageStore.setRhsWidth(userId, minWidth);
-            rhsRef.current.style.width = `${minWidth}px`;
-            if (!shouldRhsOverlap) {
-                forwardRef.current.style.width = `${minWidth}px`;
-            }
-
-            resizeLineRef.current.classList.add('limit-reached');
-            setTimeout(() => {
-                if (resizeLineRef.current) {
-                    resizeLineRef.current.classList.remove('limit-reached');
-                }
-            }, 800);
+            }, 500);
 
             return;
         }
@@ -139,7 +126,7 @@ function Resizable({
         }
         LocalStorageStore.setRhsWidth(userId, newWidth);
         rhsRef.current.style.width = `${newWidth}px`;
-    }), [forwardRef, maxWidth, minWidth, shouldRhsOverlap, isResizeLineSelected, userId]);
+    }), [forwardRef, maxWidth, minWidth, defaultWidth, shouldRhsOverlap, isResizeLineSelected, userId]);
 
     const handleMouseUp = useCallback(() => {
         setIsResizeLineSelected(false);

@@ -54,7 +54,7 @@
         }
     }
 
-    &.limit-reached {
+    &.snapped {
         &::after {
             animation: emphasis-sidebar-resize-line 800ms;
         }

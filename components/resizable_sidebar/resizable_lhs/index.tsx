@@ -73,31 +73,23 @@ function Resizable({
 
         previousClientX.current = e.clientX;
 
+        if (resizeLineRef.current.classList.contains('snapped')) {
+            return;
+        }
+
         if (isOverLimit(newWidth, maxWidth, minWidth)) {
             return;
         }
 
-        if (shouldSnapWhenSizeGrown(newWidth, prevWidth, maxWidth)) {
-            LocalStorageStore.setLhsWidth(userId, maxWidth);
-            lhsRef.current.style.width = `${maxWidth}px`;
-            resizeLineRef.current.classList.add('limit-reached');
+        if (shouldSnapWhenSizeGrown(newWidth, prevWidth, DEFAULT_LHS_WIDTH) || shouldSnapWhenSizeShrunk(newWidth, prevWidth, DEFAULT_LHS_WIDTH)) {
+            LocalStorageStore.setLhsWidth(userId, DEFAULT_LHS_WIDTH);
+            lhsRef.current.style.width = `${DEFAULT_LHS_WIDTH}px`;
+            resizeLineRef.current.classList.add('snapped');
             setTimeout(() => {
                 if (resizeLineRef.current) {
-                    resizeLineRef.current.classList.remove('limit-reached');
+                    resizeLineRef.current.classList.remove('snapped');
                 }
-            }, 800);
-            return;
-        }
-
-        if (shouldSnapWhenSizeShrunk(newWidth, prevWidth, minWidth)) {
-            LocalStorageStore.setLhsWidth(userId, minWidth);
-            lhsRef.current.style.width = `${minWidth}px`;
-            resizeLineRef.current.classList.add('limit-reached');
-            setTimeout(() => {
-                if (resizeLineRef.current) {
-                    resizeLineRef.current.classList.remove('limit-reached');
-                }
-            }, 800);
+            }, 500);
             return;
         }
 
