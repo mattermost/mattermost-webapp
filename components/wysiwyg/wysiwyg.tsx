@@ -61,7 +61,8 @@ const EditorContainer = styled.div`
             margin-bottom: 0;
         }
 
-        &.ProseMirror-selectednode,
+        &.ProseMirror-selectednode th,
+        &.ProseMirror-selectednode td,
         th.selectedCell,
         td.selectedCell {
             position: relative;
