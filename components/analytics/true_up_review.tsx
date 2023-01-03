@@ -28,11 +28,13 @@ import './true_up_review.scss';
 import {GlobalState} from '@mattermost/types/store';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getIsStarterLicense} from 'utils/license_utils';
+import store from 'stores/redux_store.jsx';
 
 const TrueUpReview: React.FC = () => {
     const dispatch = useDispatch();
+    const getState = store.getState;
     const isCloud = useSelector(isCurrentLicenseCloud);
     const isAirGapped = !useCWSAvailabilityCheck();
     const reviewProfile = useSelector(trueUpReviewProfileSelector);
@@ -42,6 +44,7 @@ const TrueUpReview: React.FC = () => {
     const isLicensed = license.IsLicensed === 'true';
     const isStarter = getIsStarterLicense(license);
     const licenseIsTrueUpEligible = isLicensed && !isCloud && !isStarter;
+    const telemetryEnabled = getConfig(getState()).EnableDiagnostics === 'true';
     const trueUpReviewError = useSelector((state: GlobalState) => {
         const errors = getSelfHostedErrors(state);
         return Boolean(errors.trueUpReview);
@@ -200,7 +203,7 @@ const TrueUpReview: React.FC = () => {
         return null;
     }
 
-    if (reviewStatus.telemetry_enabled) {
+    if (telemetryEnabled) {
         return null;
     }
 
@@ -224,3 +227,4 @@ const TrueUpReview: React.FC = () => {
 };
 
 export default TrueUpReview;
+
