@@ -337,7 +337,7 @@ export default class A11yController {
         let section;
         if (isPath(elementPath)) {
             // is the current element in an active region?
-            if (elementPath.indexOf(this.activeRegion!) < 0) {
+            if (!this.activeRegion || elementPath.indexOf(this.activeRegion) < 0) {
                 region = elementPath.find((pathElement) => {
                     if (!pathElement.classList) {
                         return false;
@@ -347,7 +347,7 @@ export default class A11yController {
             }
 
             // is the current element in an active section?
-            if (elementPath.indexOf(this.activeSection!) < 0) {
+            if (!this.activeSection || elementPath.indexOf(this.activeSection) < 0) {
                 section = elementPath.find((pathElement) => {
                     if (!pathElement.classList) {
                         return false;
