@@ -191,7 +191,7 @@ export function getTotalUsersStats(): ActionFunc {
     });
 }
 
-export function getFilteredUsersStats(options: GetFilteredUsersStatsOpts = {}): ActionFunc {
+export function getFilteredUsersStats(options: GetFilteredUsersStatsOpts = {}, updateGlobalState = true): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let stats: UsersStats;
         try {
@@ -202,10 +202,12 @@ export function getFilteredUsersStats(options: GetFilteredUsersStatsOpts = {}): 
             return {error};
         }
 
-        dispatch({
-            type: UserTypes.RECEIVED_FILTERED_USER_STATS,
-            data: stats,
-        });
+        if (updateGlobalState) {
+            dispatch({
+                type: UserTypes.RECEIVED_FILTERED_USER_STATS,
+                data: stats,
+            });
+        }
 
         return {data: stats};
     };
