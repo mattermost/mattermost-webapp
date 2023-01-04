@@ -15,7 +15,7 @@ import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {canEditPost, comparePosts} from 'mattermost-redux/utils/post_utils';
-import {Action, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {addRecentEmoji} from 'actions/emoji_actions';
 import * as StorageActions from 'actions/storage';
