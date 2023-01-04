@@ -21,6 +21,11 @@ export interface SelfHostedSignupForm {
     organization: string;
 }
 
+export interface SelfHostedSignupBootstrapResponse {
+    progress: ValueOf<typeof SelfHostedSignupProgress>;
+    email: string;
+}
+
 export interface SelfHostedSignupCustomerResponse {
     customer_id: string;
     setup_intent_id: string;

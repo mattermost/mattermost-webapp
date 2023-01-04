@@ -447,6 +447,7 @@ export const ModalIdentifiers = {
     AIR_GAPPED_SELF_HOSTED_PURCHASE: 'air_gapped_self_hosted_purchase',
     WORK_TEMPLATES: 'work_template',
     DOWNGRADE_MODAL: 'downgrade_modal',
+    PURCHASE_IN_PROGRESS: 'purchase_in_progress',
 };
 
 export const UserStatuses = {

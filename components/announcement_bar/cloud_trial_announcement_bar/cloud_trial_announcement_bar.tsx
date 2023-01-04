@@ -9,7 +9,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {PreferenceType} from '@mattermost/types/preferences';
 import {UserProfile} from '@mattermost/types/users';
-import {AnalyticsRow} from '@mattermost/types/admin';
 import {Subscription} from '@mattermost/types/cloud';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -38,11 +37,9 @@ type Props = {
     preferences: PreferenceType[];
     daysLeftOnTrial: number;
     isCloud: boolean;
-    analytics?: Record<string, number | AnalyticsRow[]>;
     subscription?: Subscription;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
-        getStandardAnalytics: () => void;
         getCloudSubscription: () => void;
         openModal: <P>(modalData: ModalData<P>) => void;
     };
@@ -52,11 +49,7 @@ const MAX_DAYS_BANNER = 'max_days_banner';
 const THREE_DAYS_BANNER = '3_days_banner';
 class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
     async componentDidMount() {
-        if (isEmpty(this.props.analytics)) {
-            await this.props.actions.getStandardAnalytics();
-        }
-
-        if (!isEmpty(this.props.subscription) && !isEmpty(this.props.analytics) && this.shouldShowBanner()) {
+        if (!isEmpty(this.props.subscription) && this.shouldShowBanner()) {
             const {daysLeftOnTrial} = this.props;
             if (this.isDismissable()) {
                 trackEvent(
@@ -128,11 +121,6 @@ class CloudTrialAnnouncementBar extends React.PureComponent<Props> {
 
     render() {
         const {daysLeftOnTrial, preferences} = this.props;
-
-        if (isEmpty(this.props.analytics)) {
-            // If the analytics aren't yet loaded, return null to avoid a flash of the banner
-            return null;
-        }
 
         if (!this.shouldShowBanner()) {
             return null;

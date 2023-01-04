@@ -103,7 +103,7 @@ describe('Settings > Display > Clock Display Mode', () => {
             cy.getLastPost().
                 find('time').
                 should('contain', '14:37').
-                and('have.attr', 'datetime', `${nextYear}-01-05T14:37:00.000Z`);
+                and('have.attr', 'datetime', `${nextYear}-01-05T14:37:00.000`);
         });
     });
 });
