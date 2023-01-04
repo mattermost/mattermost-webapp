@@ -66,6 +66,12 @@ type Props = PropsFromRedux & {
     onChange?: (markdownText: string, json?: JSONContent) => void;
 
     /**
+     * Function to handle changes in file attachments.
+     * Receives the current filInfo array and uploadsInProgress values from the editor as optional parameters.
+     */
+    onAttachmentChange?: (fileInfos: FileInfo[], uploadsInProgress: string[]) => void;
+
+    /**
      * Configuration object to fine-tune the WYSIWYG editor behavior.
      * Holds settings to disable certain formatting functions, configurations needed for the different types of
      * suggestions, additional keyHandlers and additional Controls for the toolbar.
@@ -99,6 +105,7 @@ export default (props: Props) => {
         reduxConfig,
         onSubmit,
         onChange,
+        onAttachmentChange,
         placeholder,
         readOnly,
         useCustomEmojis,
@@ -151,10 +158,10 @@ export default (props: Props) => {
         },
     }, [ctrlSend, codeBlockOnCtrlEnter]);
 
-    const [attachments, setAttchments] = useState<FileInfo[]>([]);
-    const [uploadsInProgress, setUploadsInProgress] = useState<string[]>([]);
+    const [attachments, setAttchments] = useState<FileInfo[]>(draft?.fileInfos || []);
+    const [uploadsInProgress, setUploadsInProgress] = useState<string[]>(draft?.uploadsInProgress || []);
     const [uploadsInProgressPercent, setUploadsInProgressPercent] = useState<Record<string, FileInfo>>({});
-    const [, setError] = useState<string>('');
+    const [error, setError] = useState<string>('');
     const containerRef = useRef<HTMLDivElement>(null);
     const fileUploadRef = useRef<FileUploadClass>(null);
 
@@ -162,6 +169,10 @@ export default (props: Props) => {
     useEffect(() => {
         editor?.commands.focus();
     }, [editor]);
+
+    useEffect(() => {
+        onAttachmentChange?.(attachments, uploadsInProgress);
+    }, [onAttachmentChange, attachments, uploadsInProgress]);
 
     if (!editor) {
         return null;
@@ -303,13 +314,16 @@ export default (props: Props) => {
     };
 
     return (
-        <WysiwygContainer>
-            <EditorContainer ref={containerRef}>
-                {headerContent}
-                <EditorContent editor={editor}/>
-                {attachmentPreview}
-            </EditorContainer>
-            <Toolbar {...toolbarProps}/>
-        </WysiwygContainer>
+        <>
+            <WysiwygContainer>
+                <EditorContainer ref={containerRef}>
+                    {headerContent}
+                    <EditorContent editor={editor}/>
+                    {attachmentPreview}
+                </EditorContainer>
+                <Toolbar {...toolbarProps}/>
+            </WysiwygContainer>
+            {error && error}
+        </>
     );
 };

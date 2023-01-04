@@ -869,7 +869,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             serverError = null;
         }
 
-        if (message !== this.state.message) {
+        if (message !== this.state.message || content !== this.props.draft.content) {
             this.setState({
                 message,
                 serverError,
@@ -1520,6 +1520,16 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         );
     }
 
+    onAttachmentChange = (fileInfos: FileInfo[], uploadsInProgress: string[]) => {
+        const updatedDraft = {
+            ...this.props.draft,
+            fileInfos,
+            uploadsInProgress,
+        };
+
+        this.handleDraftChange(updatedDraft);
+    }
+
     render() {
         const {useLDAPGroupMentions, useCustomGroupMentions, currentChannel, currentTeamId, draft, canPost} = this.props;
 
@@ -1634,6 +1644,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 <Wysiwyg
                     onSubmit={this.handleSubmit}
                     onChange={this.handleChange}
+                    onAttachmentChange={this.onAttachmentChange}
                     readOnly={!canPost}
                     placeholder={`Write to ${currentChannel.display_name}`}
                     headerContent={priorityLabels}

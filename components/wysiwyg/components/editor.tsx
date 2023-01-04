@@ -114,4 +114,8 @@ export const EditorContainer = styled.div`
     .AdvancedTextEditor__priority {
         padding: 0 0 12px;
     }
+
+    .file-preview__container {
+        padding-left: 0;
+    }
 `;
