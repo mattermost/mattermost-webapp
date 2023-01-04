@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode, useState, MouseEvent} from 'react';
+import React, {ReactNode, useState, MouseEvent, KeyboardEvent, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import MuiMenuList from '@mui/material/MenuList';
 import {PopoverOrigin} from '@mui/material/Popover';
@@ -9,6 +9,7 @@ import {PopoverOrigin} from '@mui/material/Popover';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getIsMobileView} from 'selectors/views/browser';
+import {isAnyModalOpen} from 'selectors/views/modals';
 
 import {openModal, closeModal} from 'actions/views/modals';
 
@@ -42,9 +43,11 @@ export function SubMenu(props: Props) {
 
     const isMobileView = useSelector(getIsMobileView);
 
+    const anyModalOpen = useSelector(isAnyModalOpen);
+
     const dispatch = useDispatch();
 
-    const handleSubMenuOpen = (event: MouseEvent<HTMLLIElement>) => {
+    function handleSubMenuOpen(event: MouseEvent<HTMLLIElement>) {
         event.preventDefault();
 
         if (isMobileView) {
@@ -60,12 +63,36 @@ export function SubMenu(props: Props) {
         } else {
             setAnchorElement(event.currentTarget);
         }
-    };
+    }
 
-    const handleSubMenuClose = (event: MouseEvent<HTMLLIElement>) => {
+    function handleSubMenuClose(event: MouseEvent<HTMLLIElement>) {
         event.preventDefault();
         setAnchorElement(null);
-    };
+    }
+
+    // This handleKeyDown is on the menu item which opens the submenu
+    function handleSubMenuParentItemKeyDown(event: KeyboardEvent<HTMLLIElement>) {
+        if (event.key === 'ArrowRight' || event.key === 'Enter') {
+            event.preventDefault();
+            setAnchorElement(event.currentTarget);
+        }
+    }
+
+    function handleSubMenuKeyDown(event: KeyboardEvent<HTMLUListElement>) {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+            // Stop the event from propagating upwards since that causes navigation to move by 2 items at a time
+            event.stopPropagation();
+        } else if (event.key === 'ArrowLeft' || event.key === 'Escape') {
+            event.preventDefault();
+            setAnchorElement(null);
+        }
+    }
+
+    useEffect(() => {
+        if (anyModalOpen && !isMobileView) {
+            setAnchorElement(null);
+        }
+    }, [anyModalOpen, isMobileView]);
 
     const hasSubmenuItems = Boolean(props.children);
     if (!hasSubmenuItems) {
@@ -92,6 +119,7 @@ export function SubMenu(props: Props) {
             {...triggerButtonProps}
             onMouseEnter={handleSubMenuOpen}
             onMouseLeave={handleSubMenuClose}
+            onKeyDown={handleSubMenuParentItemKeyDown}
         >
             <MuiMenuStyled
                 id={props.menuId}
@@ -103,7 +131,14 @@ export function SubMenu(props: Props) {
                 sx={{pointerEvents: 'none'}} // disables the menu background wrapper for accessing submenu
                 {...getOriginOfAnchorAndTransform(props.openAt)}
             >
-                {props.children}
+                <MuiMenuList
+                    component='ul'
+                    aria-hidden={true}
+                    style={{pointerEvents: 'auto'}} // reset pointer events to default from here on
+                    onKeyDown={handleSubMenuKeyDown}
+                >
+                    {props.children}
+                </MuiMenuList>
             </MuiMenuStyled>
         </MenuItem>
     );

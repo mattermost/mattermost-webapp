@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode, useState, MouseEvent} from 'react';
+import React, {ReactNode, useState, MouseEvent, useEffect, KeyboardEvent} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import MuiMenuList from '@mui/material/MenuList';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getIsMobileView} from 'selectors/views/browser';
+import {isAnyModalOpen} from 'selectors/views/modals';
 
 import {openModal, closeModal} from 'actions/views/modals';
 
@@ -58,6 +59,8 @@ export function Menu(props: Props) {
 
     const isMobileView = useSelector(getIsMobileView);
 
+    const anyModalOpen = useSelector(isAnyModalOpen);
+
     const dispatch = useDispatch();
 
     const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
@@ -84,9 +87,20 @@ export function Menu(props: Props) {
         }
     }
 
-    function handleMenuClose(event: MouseEvent<HTMLDivElement | HTMLUListElement>) {
-        event.preventDefault();
+    function close() {
         setAnchorElement(null);
+    }
+
+    function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+        if (event.key === 'Enter') {
+            const target = event.target as HTMLElement;
+            const ariaHasPopup = target.getAttribute('aria-haspopup');
+
+            // Avoid closing the sub menu item on enter
+            if (!ariaHasPopup) {
+                close();
+            }
+        }
     }
 
     function renderTriggerButton() {
@@ -132,6 +146,12 @@ export function Menu(props: Props) {
         return triggerElement;
     }
 
+    useEffect(() => {
+        if (anyModalOpen && !isMobileView) {
+            setAnchorElement(null);
+        }
+    }, [anyModalOpen, isMobileView]);
+
     if (isMobileView) {
         // In mobile view, the menu is rendered as a modal
         return renderTriggerButton();
@@ -144,11 +164,13 @@ export function Menu(props: Props) {
                 id={props.menuId}
                 anchorEl={anchorElement}
                 open={isMenuOpen}
-                onClose={handleMenuClose}
+                onClose={close}
+                onClick={close}
+                onKeyDown={handleKeyDown}
                 aria-label={props.menuAriaLabel}
                 className={A11yClassNames.POPUP}
             >
-                {props.children}
+                {isMenuOpen && props.children}
             </MuiMenuStyled>
         </CompassDesignProvider>
     );

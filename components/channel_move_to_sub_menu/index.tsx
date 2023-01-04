@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo} from 'react';
+import React, {memo, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -54,14 +54,18 @@ const ChannelMoveToSubMenu = (props: Props) => {
         return currentTeam ? getCategoryInTeamWithChannel(state, currentTeam?.id || '', props.channel.id) : undefined;
     });
 
-    function handleMoveToCategory(categoryId: string) {
+    function handleMoveToCategory(event: MouseEvent<HTMLLIElement>, categoryId: string) {
+        event.preventDefault();
+
         if (currentCategory?.id !== categoryId) {
             dispatch(addChannelsInSidebar(categoryId, props.channel.id));
             trackEvent('ui', 'ui_sidebar_channel_menu_moveToExistingCategory');
         }
     }
 
-    function handleMoveToNewCategory() {
+    function handleMoveToNewCategory(event: MouseEvent<HTMLLIElement>) {
+        event.preventDefault();
+
         dispatch(openModal({
             modalId: ModalIdentifiers.EDIT_CATEGORY,
             dialogType: EditCategoryModal,
@@ -110,7 +114,7 @@ const ChannelMoveToSubMenu = (props: Props) => {
                     leadingElement={category.type === CategoryTypes.FAVORITES ? (<StarOutlineIcon size={16}/>) : (<FolderOutlineIcon size={16}/>)}
                     labels={text}
                     trailingElements={selectedCategory}
-                    onClick={() => handleMoveToCategory(category.id)}
+                    onClick={(event) => handleMoveToCategory(event, category.id)}
                 />
             );
         });
