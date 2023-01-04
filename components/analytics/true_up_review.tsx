@@ -30,6 +30,8 @@ import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import store from 'stores/redux_store.jsx';
+import {pageVisited} from 'actions/telemetry_actions';
+import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
 const TrueUpReview: React.FC = () => {
     const dispatch = useDispatch();
@@ -200,6 +202,8 @@ const TrueUpReview: React.FC = () => {
     if (telemetryEnabled) {
         return null;
     }
+
+    pageVisited(TELEMETRY_CATEGORIES.TRUE_UP_REVIEW, 'pageview_true_up_review');
 
     return (
         <div className='TrueUpReview__card'>
