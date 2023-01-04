@@ -464,7 +464,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
     getQuoteButtonCoords = (quoteButtonPosition: string, rects: DOMRectList, isAnyElementQuote: boolean, startingSelectedElement: HTMLElement) => {
         const channelView = document.getElementById('channel_view');
-        const spaceX = (channelView?.offsetLeft || 0) + 15;
+        const spaceX = ((channelView?.offsetLeft || 0) + 15) - rects[0].width;
         const spaceY = (channelView?.offsetTop || 0) - rects[0].height;
         return Utils.getQuoteButtonCoords({
             quoteButtonPosition,

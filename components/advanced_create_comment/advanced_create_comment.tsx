@@ -426,7 +426,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         const sideBarRight = document.getElementById('sidebar-right');
         const postCreateContainer = document.getElementsByClassName('post-create__container')[1].parentElement;
         const sideBarRightHeader = document.getElementsByClassName('sidebar--right__header')[0];
-        const spaceX = (sideBarRight?.offsetLeft || 0) + 20;
+        const spaceX = ((sideBarRight?.offsetLeft || 0) + 20) - rects[0].width;
         const spaceY = (sideBarRightHeader.clientHeight + (postCreateContainer?.offsetTop || 0) + (sideBarRight?.offsetTop || 0)) - rects[0].height;
         return Utils.getQuoteButtonCoords({
             quoteButtonPosition,

@@ -882,22 +882,17 @@ export function getQuoteButtonCoords(coordParams: CoordParams) {
     const {quoteButtonPosition, rects, isAnyElementQuote, startingSelectedElement, additionalSpaces} = coordParams;
     let positionX = rects[0].x - additionalSpaces.spaceX;
     let positionY = rects[0].y - additionalSpaces.spaceY;
+
     if (quoteButtonPosition === 'top') {
         positionY -= startingSelectedElement.offsetLeft;
+        positionX -= rects[0].width;
     }
-    if (quoteButtonPosition === 'bottom') {
-        positionX += rects[0].width;
 
-        // handle multiple line selection
-        if (rects.length > 1) {
-            positionY += rects[0].height * (rects.length - 1);
-            positionX = rects[rects.length - 1].width + startingSelectedElement.offsetLeft;
-
-            // handle if the selected element is quote
-            if (isAnyElementQuote) {
-                positionX += 38;
-            }
-        }
+    // handle multiple line selection on bottom quote button
+    if (quoteButtonPosition === 'bottom' && rects.length > 1) {
+        const spaceForQuote = isAnyElementQuote ? 38 : 0;
+        positionY += rects[0].height * (rects.length - 1);
+        positionX = rects[rects.length - 1].width + startingSelectedElement.offsetLeft + spaceForQuote;
     }
     return {positionX, positionY};
 }
