@@ -29,7 +29,6 @@ import {GlobalState} from '@mattermost/types/store';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getIsStarterLicense} from 'utils/license_utils';
 import store from 'stores/redux_store.jsx';
 
 const TrueUpReview: React.FC = () => {
@@ -42,8 +41,7 @@ const TrueUpReview: React.FC = () => {
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
     const license = useSelector(getLicense);
     const isLicensed = license.IsLicensed === 'true';
-    const isStarter = getIsStarterLicense(license);
-    const licenseIsTrueUpEligible = isLicensed && !isCloud && !isStarter;
+    const licenseIsTrueUpEligible = isLicensed && !isCloud;
     const telemetryEnabled = getConfig(getState()).EnableDiagnostics === 'true';
     const trueUpReviewError = useSelector((state: GlobalState) => {
         const errors = getSelfHostedErrors(state);

@@ -9,13 +9,13 @@ describe('System Console > Site Statistics > True Up Review', () => {
         cy.apiRequireLicense();
 
         cy.apiGetConfig().then(({config}) => {
-            let originalConfig = config;
+            const originalConfig = config;
             const newConfig = {
                 ...originalConfig,
-                LogSettings : {
+                LogSettings: {
                     ...originalConfig.LogSettings,
                     EnableDiagnostics: false,
-                }
+                },
             };
 
             cy.apiUpdateConfig(newConfig);
@@ -182,13 +182,13 @@ describe('System Console > Site Statistics > True Up Review', () => {
         cy.apiRequireLicense();
 
         cy.apiGetConfig().then(({config}) => {
-            let originalConfig = config;
+            const originalConfig = config;
             const newConfig = {
                 ...originalConfig,
-                LogSettings : {
+                LogSettings: {
                     ...originalConfig.LogSettings,
                     EnableDiagnostics: true,
-                }
+                },
             };
 
             cy.apiUpdateConfig(newConfig);
@@ -197,7 +197,6 @@ describe('System Console > Site Statistics > True Up Review', () => {
         const dueDate = moment().add(1, 'day').unix();
         cy.intercept('GET', '**/api/v4/hosted_customer/signup_available', {statusCode: 200, body: {status: 'OK'}}).as('reviewRequest');
         cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: true, due_date: dueDate}}).as('reviewStatus');
-
 
         // # Go to team statistics
         cy.visit('/admin_console/reporting/team_statistics');
