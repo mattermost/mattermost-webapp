@@ -2040,7 +2040,7 @@ export const RHS_MIN_MAX_WIDTH: { [size in SidebarSize]: { min: number; max: num
     [SidebarSize.XLARGE]: {
         min: 304,
         max: 776,
-        default: 400,
+        default: 500,
     },
 };
 
