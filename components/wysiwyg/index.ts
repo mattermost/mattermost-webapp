@@ -29,3 +29,5 @@ const connector = connect(mapStateToProps);
 export type PropsFromRedux = ConnectedProps<typeof connector>;
 
 export default connector(Wysiwyg);
+
+export * from './wysiwyg';

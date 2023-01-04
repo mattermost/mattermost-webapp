@@ -27,6 +27,9 @@ import {Placeholder, PlaceholderOptions} from '@tiptap/extension-placeholder';
 
 import {PluginKey} from 'prosemirror-state';
 
+// load all highlight.js languages
+import {lowlight} from 'lowlight';
+
 import {Formatters, WysiwygConfig} from '../wysiwyg';
 
 import {Codeblock, CodeBlockLowlightOptions} from './codeblock/codeblock';
@@ -181,7 +184,11 @@ export const Extensions = Extension.create<ExtensionOptions>({
         }
 
         if (!disableFormatting.includes(Formatters.codeBlock) && this.options.codeBlock !== false) {
-            extensions.push(Codeblock.configure(this.options?.codeBlock));
+            // adds lowlight as the default highlighter
+            extensions.push(Codeblock.configure({
+                lowlight,
+                ...this.options?.codeBlock,
+            }));
         }
 
         if (!disableFormatting.includes(Formatters.link) && this.options.link !== false) {

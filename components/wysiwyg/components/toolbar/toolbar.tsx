@@ -5,7 +5,7 @@ import React, {useRef} from 'react';
 import styled from 'styled-components';
 import type {Editor} from '@tiptap/react';
 
-import {Formatters} from '../../wysiwyg';
+import {Formatters} from 'components/wysiwyg';
 
 import BlockModeControls from './controls/block-controls';
 import HeadingControls from './controls/heading-controls';

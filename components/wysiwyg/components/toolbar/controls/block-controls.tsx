@@ -13,8 +13,7 @@ import {
 
 import {t} from 'utils/i18n';
 import {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
-
-import {Formatters} from '../../../wysiwyg';
+import {Formatters} from 'components/wysiwyg';
 
 import ToolbarControl from '../toolbar_controls';
 import type {ToolDefinition} from '../toolbar_controls';

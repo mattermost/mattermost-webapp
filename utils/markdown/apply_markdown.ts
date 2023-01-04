@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {MarkdownMode} from '../../components/wysiwyg/components/toolbar/toolbar_controls';
+export type MarkdownMode = 'bold' | 'italic' | 'link' | 'strike' | 'code' | 'heading' | 'quote' | 'ul' | 'ol'
 
 export type ApplyMarkdownOptions = {
     markdownMode: MarkdownMode;
