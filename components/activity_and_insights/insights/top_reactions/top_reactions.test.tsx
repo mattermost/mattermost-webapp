@@ -104,9 +104,6 @@ describe('components/activity_and_insights/insights/top_reactions', () => {
     test('check if empty', async () => {
         const store = await mockStore({
             entities: {
-                general: {
-                    config: {},
-                },
                 teams: {
                     currentTeamId: 'team_id1',
                 },

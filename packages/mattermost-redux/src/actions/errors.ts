@@ -65,7 +65,7 @@ export function logError(error: ServerError, displayable = false, consoleError =
             serializedError.message = 'A JavaScript error has occurred. Please use the JavaScript console to capture and report the error';
         }
 
-        const isDevMode = getState().entities.general.config.EnableDeveloper === 'true';
+        const isDevMode = getState()?.entities.general?.config?.EnableDeveloper === 'true';
         let shouldDisplay = displayable;
 
         // Display announcements bar if error is a developer error and we are in dev mode
