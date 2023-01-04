@@ -7,13 +7,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal, openModal} from 'actions/views/modals';
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import SelfHostedPurchaseModal, {STORAGE_KEY_PURCHASE_IN_PROGRESS} from 'components/self_hosted_purchase_modal';
+import SelfHostedPurchaseModal from 'components/self_hosted_purchase_modal';
+import {STORAGE_KEY_PURCHASE_IN_PROGRESS} from 'components/self_hosted_purchase_modal/constants';
 import PurchaseInProgressModal from 'components/purchase_in_progress_modal';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUserEmail} from 'mattermost-redux/selectors/entities/common';
 import {HostedCustomerTypes} from 'mattermost-redux/action_types';
-
-import {makeGetItem} from 'selectors/storage';
 
 import {useControlModal, ControlModal} from './useControlModal';
 
@@ -26,7 +25,7 @@ interface HookOptions{
 export default function useControlSelfHostedPurchaseModal(options: HookOptions): ControlModal {
     const dispatch = useDispatch();
     const userEmail = useSelector(getCurrentUserEmail);
-    const purchaseInProgress = useSelector(makeGetItem(STORAGE_KEY_PURCHASE_IN_PROGRESS, '')) === 'true';
+    const purchaseInProgress = localStorage.getItem(STORAGE_KEY_PURCHASE_IN_PROGRESS) === 'true';
     const controlModal = useControlModal({
         modalId: ModalIdentifiers.SELF_HOSTED_PURCHASE,
         dialogType: SelfHostedPurchaseModal,
