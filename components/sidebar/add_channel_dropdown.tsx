@@ -158,21 +158,23 @@ const AddChannelDropdown = ({
                 ariaLabel={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
             >
                 <Menu.Group>
-                    {renderDropdownItems.map((item, index, items) => (
+                    {renderDropdownItems.filter((e) => (
+                        e.isEligible
+                    )).map((item, index, items) => (
                         <Menu.Group
                             key={index}
                             divider={<li className={item.divider}/>}
                         >
-                            {item.isEligible &&
-                            <Menu.ItemAction
-                                id={item.id}
-                                onClick={item.onClick}
-                                icon={<i className={item.icon}/>}
-                                text={item.text}
-                                extraText={item.extraText}
-                                index={index}
-                                size={items.length}
-                            />
+                            {
+                                <Menu.ItemAction
+                                    id={item.id}
+                                    onClick={item.onClick}
+                                    icon={<i className={item.icon}/>}
+                                    text={item.text}
+                                    extraText={item.extraText}
+                                    index={index}
+                                    size={items.length}
+                                />
                             }
                             {item.shouldShowTourComponent && item.tourComponent && <item.tourComponent/>}
                         </Menu.Group>
