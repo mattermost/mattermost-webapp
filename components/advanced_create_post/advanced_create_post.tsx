@@ -1545,7 +1545,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                 delayShow={Constants.OVERLAY_TIME_DELAY}
                                 trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
                                 overlay={(
-                                    <Tooltip id='post-priority-picker-ack-tooltip'>
+                                    <Tooltip
+                                        id='post-priority-picker-ack-tooltip'
+                                        className='AdvancedTextEditor__priority-ack-tooltip'
+                                    >
                                         <FormattedMessage
                                             id={'post_priority.request_acknowledgement.tooltip'}
                                             defaultMessage={'Acknowledgement will be requested'}
