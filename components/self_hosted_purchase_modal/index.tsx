@@ -15,7 +15,7 @@ import {
 import {UserProfile} from '@mattermost/types/users';
 import {ValueOf} from '@mattermost/types/utilities';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {getSelfHostedProducts, getSelfHostedSignupProgress} from 'mattermost-redux/selectors/entities/hosted_customer';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -30,6 +30,7 @@ import {confirmSelfHostedSignup} from 'actions/hosted_customer';
 import {GlobalState} from 'types/store';
 
 import {isModalOpen} from 'selectors/views/modals';
+import {isDevModeEnabled} from 'selectors/general';
 
 import {COUNTRIES} from 'utils/countries';
 
@@ -291,7 +292,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
     const desiredProductName = desiredProduct?.name || '';
     const desiredPlanName = getPlanNameFromProductName(desiredProductName);
     const currentUsers = analytics[StatTypes.TOTAL_USERS] as number;
-    const isDevMode = useSelector(getConfig).EnableDeveloper === 'true';
+    const isDevMode = useSelector(isDevModeEnabled);
     const hasLicense = Object.keys(useSelector(getLicense) || {}).length > 0;
 
     const intl = useIntl();
