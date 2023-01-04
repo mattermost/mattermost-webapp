@@ -7,8 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @cloud_only @cloud_trial
-// Skip:  @headless @electron // run on Chrome (headed) only
 
 import billing from '../../../../fixtures/client_billing.json';
 
@@ -28,40 +28,63 @@ function simulateSubscription() {
     cy.intercept('GET', '**/api/v4/cloud/products**', {
         statusCode: 200,
         body:
-        [
-            {
-                id: 'prod_LSBESgGXq9KlLj',
-                sku: 'cloud-starter',
-                price_per_seat: 0,
-                name: 'Cloud Free',
-                recurring_interval: 'month',
-                cross_sells_to: '',
+            [
+                {
+                    id: 'prod_LSBESgGXq9KlLj',
+                    sku: 'cloud-starter',
+                    price_per_seat: 0,
+                    name: 'Cloud Free',
+                },
+                {
+                    id: 'prod_K0AxuWCDoDD9Qq',
+                    sku: 'cloud-professional',
+                    price_per_seat: 10,
+                    name: 'Cloud Professional',
+                },
+                {
+                    id: 'prod_Jh6tBLcgWWOOog',
+                    sku: 'cloud-enterprise',
+                    price_per_seat: 30,
+                    name: 'Cloud Enterprise',
+                },
+            ],
+    });
+
+    cy.intercept('GET', '**/api/v4/cloud/customer', {
+        statusCode: 200,
+        body: {
+            name: 'Test environment ',
+            email: 'test.mattermost.com@mattermost.com',
+            num_employees: 12,
+            monthly_subscription_alt_payment_method: '',
+            id: 'oip7khhhkpbk7cjkrf7m66qyas',
+            creator_id: 'iq9xcutqp7bpdramcij939yas',
+            create_at: 1661456270000,
+            billing_address: {
+                city: 'Seattle',
+                country: 'United States',
+                line1: '123 Hello',
+                line2: '',
+                postal_code: '38383',
+                state: 'AK',
             },
-            {
-                id: 'prod_K0AxuWCDoDD9Qq',
-                sku: 'cloud-professional',
-                price_per_seat: 10,
-                name: 'Cloud Professional',
-                recurring_interval: 'month',
-                cross_sells_to: 'prod_MYrZ0xObCXOyVr',
+            company_address: {
+                city: '',
+                country: '',
+                line1: '',
+                line2: '',
+                postal_code: '',
+                state: '',
             },
-            {
-                id: 'prod_Jh6tBLcgWWOOog',
-                sku: 'cloud-enterprise',
-                price_per_seat: 30,
-                name: 'Cloud Enterprise',
-                recurring_interval: 'month',
-                cross_sells_to: '',
+            payment_method: {
+                type: 'card',
+                last_four: '4242',
+                exp_month: 4,
+                exp_year: 2028,
+                card_brand: 'visa',
+                name: '',
             },
-            {
-                id: 'prod_MYrZ0xObCXOyVr',
-                sku: 'cloud-professional',
-                price_per_seat: 96,
-                recurring_interval: 'year',
-                name: 'Cloud Professional Yearly',
-                cross_sells_to: 'prod_K0AxuWCDoDD9Qq',
-            },
-        ],
+        },
     });
 }
 
@@ -125,7 +148,7 @@ describe('System Console - Subscriptions section', () => {
         cy.get('#professional_action').click();
 
         // * Check for "Provide Your Payment Details" label
-        cy.get('.title').find('span', 'Provide Your Payment Details').should('be.visible');
+        cy.findByText('Provide your payment details').should('be.visible');
 
         // * Check for Compare plans navigation
         cy.contains('span', 'Compare plans').click();
@@ -144,8 +167,8 @@ describe('System Console - Subscriptions section', () => {
         // # Click on Upgrade Now button on plans modal
         cy.get('#professional_action').click();
 
-        // * Check for "Provide Your Payment Details" label
-        cy.get('.title').find('span', 'Provide Your Payment Details').should('be.visible');
+        // * Check for "Provide your payment details" label
+        cy.findByText('Provide your payment details').should('be.visible');
 
         // # Enter card details
         cy.uiGetPaymentCardInput().within(() => {

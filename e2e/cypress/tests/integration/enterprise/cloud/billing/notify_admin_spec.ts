@@ -7,11 +7,27 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
+// Group: @cloud_only @cloud_trial
+
 import {getAdminAccount} from '../../../../support/env';
 
 const admin = getAdminAccount();
 
-function simulateFilesLimitReached(fileStorageUsageBytes) {
+interface Subscription{
+    id: string;
+    product_id: string;
+    is_free_trial: string;
+    trial_end_at: number;
+}
+
+interface Limits {
+    messages?: { history: number };
+    teams?: { active: number; teamsLoaded: boolean };
+    files?: { total_storage: number };
+}
+
+function simulateFilesLimitReached(fileStorageUsageBytes: number) {
     cy.intercept('GET', '**/api/v4/usage/storage', {
         statusCode: 200,
         body: {
@@ -30,7 +46,7 @@ function simulateFilesLimitReached(fileStorageUsageBytes) {
 }
 
 // Move to utils
-function simulateSubscription(subscription, withLimits = {}) {
+function simulateSubscription(subscription: Subscription, withLimits = {}) {
     cy.intercept('GET', '**/api/v4/cloud/subscription', {
         statusCode: 200,
         body: subscription,
@@ -68,9 +84,9 @@ function simulateSubscription(subscription, withLimits = {}) {
     }
 }
 
-function createUsersProcess(team, channel, times) {
+function createUsersProcess(team: { id: string }, channel: { id: string }, times: number) {
     const users = [];
-    for (var i = 0; i < times; i++) {
+    for (let i = 0; i < times; i++) {
         cy.apiCreateUser({prefix: 'other'}).then(({user}) => {
             users.push(user);
             cy.apiAddUserToTeam(team.id, user.id).then(() => {
@@ -116,7 +132,7 @@ function createFilesNotificationForProfessionalFeatures() {
     cy.get('#product_switch_menu').click().then((() => {
         cy.findByText('Notify admin').should('be.visible').click();
         cy.findByText('Notified!').should('be.visible').click();
-        cy.findByText('Already notified!').should('be.visible').click();
+        cy.findByText('Already notified!').should('be.visible').should('be.disabled');
     }));
 }
 
@@ -158,7 +174,7 @@ function triggerNotifications(url, trial = false, _failOnStatusCode = true) {
     }
 }
 
-function mapFeatureIdToId(id) {
+function mapFeatureIdToId(id: string) {
     switch (id) {
     case 'mattermost.feature.custom_user_groups':
         return 'Custom User groups';
@@ -220,7 +236,7 @@ function assertNotification(featureId, minimumPlan, totalRequests, requestsCount
     });
 }
 
-function assertUpgradeMessageButton(onlyProfessionalFeatures) {
+function assertUpgradeMessageButton(onlyProfessionalFeatures?: boolean) {
     cy.get('#view_upgrade_options').contains('View upgrade options');
     cy.get('#view_upgrade_options').click();
     cy.get('#pricingModal').should('exist');
@@ -246,7 +262,7 @@ function assertTrialMessageButton() {
 function testTrialNotifications(subscription, limits) {
     let myTeam;
     let myChannel;
-    let myUrl;
+    let myUrl: string;
     let myAllProfessionalUsers = [];
     let myAllEnterpriseUsers = [];
     const ALL_PROFESSIONAL_FEATURES_REQUESTS = 5;
@@ -300,7 +316,7 @@ function testTrialNotifications(subscription, limits) {
     deletePost();
 }
 
-function testFilesNotifications(subscription, limits) {
+function testFilesNotifications(subscription: Subscription, limits: Limits) {
     let myTeam;
     let myChannel;
     let myUrl;
@@ -331,7 +347,7 @@ function testFilesNotifications(subscription, limits) {
 
     cy.then(() => {
         // # Manually trigger saved notifications
-        triggerNotifications(myUrl, true);
+        triggerNotifications(myUrl, false);
     });
 
     cy.then(() => {
@@ -344,7 +360,7 @@ function testFilesNotifications(subscription, limits) {
 function testUpgradeNotifications(subscription, limits) {
     let myTeam;
     let myChannel;
-    let myUrl;
+    let myUrl: string;
     let myMessageLimitUsers = [];
     let myUnlimitedTeamsUsers = [];
     let myUserGroupsUsers = [];
@@ -429,26 +445,6 @@ describe('Notify Admin', () => {
         triggerNotifications('', false, false);
     });
 
-    it('should test upgrade notifications', () => {
-        const subscription = {
-            id: 'sub_test1',
-            product_id: 'prod_1',
-            is_free_trial: 'false',
-        };
-
-        const limits = {
-            messages: {
-                history: 500,
-            },
-            teams: {
-                active: 0, // no extra teams allowed to be created
-                teamsLoaded: true,
-            },
-        };
-
-        testUpgradeNotifications(subscription, limits);
-    });
-
     it('should test trial notifications', () => {
         const subscription = {
             id: 'sub_test1',
@@ -457,9 +453,15 @@ describe('Notify Admin', () => {
             trial_end_at: 0, // never trialed before
         };
 
+        cy.intercept('GET', '**/api/v4/usage/posts', {
+            statusCode: 200,
+            body: {
+                count: 4500,
+            },
+        });
         const limits = {
             messages: {
-                history: 7000, // test server seeded with around 4k messages
+                history: 8000,
             },
             teams: {
                 active: 0,
@@ -495,5 +497,31 @@ describe('Notify Admin', () => {
 
         simulateFilesLimitReached(fileStorageUsageBytes);
         testFilesNotifications(subscription, limits);
+    });
+
+    it('should test upgrade notifications', () => {
+        cy.intercept('GET', '**/api/v4/usage/posts', {
+            statusCode: 200,
+            body: {
+                count: 7000,
+            },
+        });
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_1',
+            is_free_trial: 'false',
+        };
+
+        const limits = {
+            messages: {
+                history: 7500,
+            },
+            teams: {
+                active: 0, // no extra teams allowed to be created
+                teamsLoaded: true,
+            },
+        };
+
+        testUpgradeNotifications(subscription, limits);
     });
 });

@@ -4,6 +4,8 @@
 import emojiRegex from 'emoji-regex';
 import {Renderer} from 'marked';
 
+import {SystemEmoji} from '@mattermost/types/emojis';
+
 import {formatWithRenderer} from 'utils/markdown';
 
 import * as Emoticons from './emoticons';
@@ -955,7 +957,8 @@ export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPatte
 
         // convert emoji to image if supported, or wrap in span to apply appropriate formatting
         if (emojiMap && emojiMap.hasUnicode(emojiCode)) {
-            const emoji = emojiMap.getUnicode(emojiCode);
+            // we typecasted here because we know that the emojiMap has the emoji with given emojiCode
+            const emoji = emojiMap.getUnicode(emojiCode) as SystemEmoji;
 
             return Emoticons.renderEmoji(emoji.short_names[0], emojiMatch);
         }

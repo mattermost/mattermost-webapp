@@ -7,7 +7,6 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {getCloudSubscription, getCloudCustomer} from 'mattermost-redux/actions/cloud';
 
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
@@ -42,7 +41,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators(
             {
                 savePreferences,
-                getStandardAnalytics,
                 openModal,
                 getCloudSubscription,
                 getCloudCustomer,

@@ -33,7 +33,6 @@ type Props = {
     channelIds: string[];
     setChannelRef: (channelId: string, ref: HTMLLIElement) => void;
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
-    getChannelRef: (channelId: string) => HTMLLIElement | undefined;
     isNewCategory: boolean;
     draggingState: DraggingState;
     currentUserId: string;
@@ -107,17 +106,16 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
     }
 
     renderChannel = (channelId: string, index: number) => {
-        const {setChannelRef, getChannelRef, category, draggingState} = this.props;
+        const {setChannelRef, category, draggingState} = this.props;
         return (
             <SidebarChannel
                 key={channelId}
                 channelIndex={index}
                 channelId={channelId}
+                isDraggable={true}
                 setChannelRef={setChannelRef}
-                getChannelRef={getChannelRef}
                 isCategoryCollapsed={category.collapsed}
                 isCategoryDragged={draggingState.type === DraggingStateTypes.CATEGORY && draggingState.id === category.id}
-                isDropDisabled={this.isDropDisabled()}
                 isAutoSortedCategory={category.sorting === CategorySorting.Alphabetical || category.sorting === CategorySorting.Recency}
             />
         );
