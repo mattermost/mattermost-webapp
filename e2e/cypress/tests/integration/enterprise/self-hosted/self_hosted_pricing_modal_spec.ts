@@ -54,7 +54,7 @@ describe('Self hosted Pricing modal', () => {
         });
     });
 
-    it.skip('should not show Upgrade button in global header for non admin users', () => {
+    it('should not show Upgrade button in global header for non admin users', () => {
         cy.apiLogout();
         cy.apiLogin(createdUser);
         cy.visit(urlL);
@@ -63,7 +63,7 @@ describe('Self hosted Pricing modal', () => {
         cy.get('#UpgradeButton').should('not.exist');
     });
 
-    it.skip('should not show Upgrade button for admin users on non trial licensed server', () => {
+    it('should not show Upgrade button for admin users on non trial licensed server', () => {
         // * Ensure the server has trial license
         withTrialBefore('false');
         withTrialLicense('false');
@@ -79,7 +79,7 @@ describe('Self hosted Pricing modal', () => {
         cy.get('#UpgradeButton').should('not.exist');
     });
 
-    it.skip('Upgrade button should open pricing modal admin users when no trial has ever been added on free plan', () => {
+    it('Upgrade button should open pricing modal admin users when no trial has ever been added on free plan', () => {
         // *Ensure the server has had no trial license before
         withTrialBefore('false');
 
@@ -106,7 +106,7 @@ describe('Self hosted Pricing modal', () => {
         cy.get('#start_trial_btn').should('not.be.disabled').contains('Try free for 30 days');
     });
 
-    it.skip('Upgrade button should open pricing modal admin users when the server has requested a trial before on free plan', () => {
+    it('Upgrade button should open pricing modal admin users when the server has requested a trial before on free plan', () => {
         // *Ensure the server has had no trial license before
         withTrialBefore('true');
 
@@ -137,7 +137,7 @@ describe('Self hosted Pricing modal', () => {
         cy.get('#enterprise_action').should('not.be.disabled').contains('Contact Sales');
     });
 
-    it.skip('Upgrade button should open pricing modal admin users when the server is on a trial', () => {
+    it('Upgrade button should open pricing modal admin users when the server is on a trial', () => {
         // * Ensure the server has trial license
         withTrialBefore('false');
         withTrialLicense('true');
@@ -170,11 +170,10 @@ describe('Self hosted Pricing modal', () => {
         cy.get('#start_trial_btn').should('not.be.disabled');
     });
 
-
     it('Upgrade button should open air gapped modal when hosted signup is not available', () => {
         cy.apiAdminLogin();
 
-        cy.intercept('GET', '/signup_available', {
+        cy.intercept('GET', '**/api/v4/hosted_customer/signup_available', {
             statusCode: 501,
             body: {
                 message: 'An unknown error occurred. Please try again or contact support.',
