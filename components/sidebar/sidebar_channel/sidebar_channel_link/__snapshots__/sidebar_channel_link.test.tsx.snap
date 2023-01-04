@@ -75,7 +75,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         }
       }
       channelLink="http://a.fake.link"
-      isCollapsed={false}
       isUnread={false}
     />
   </div>
@@ -157,7 +156,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         }
       }
       channelLink="http://a.fake.link"
-      isCollapsed={false}
       isUnread={false}
     />
   </div>
@@ -263,7 +261,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         }
       }
       channelLink="http://a.fake.link"
-      isCollapsed={false}
       isUnread={false}
     />
   </div>
@@ -345,7 +342,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
         }
       }
       channelLink="http://a.fake.link"
-      isCollapsed={false}
       isUnread={true}
     />
   </div>
