@@ -294,7 +294,6 @@
   "admin.billing.subscription.updatePaymentInfo": "Atualizar informações de pagamento",
   "admin.billing.subscription.upgradedSuccess": "Ótimo! Agora você está atualizado",
   "admin.billing.subscription.verifyPaymentInformation": "Verificando suas informações de pagamento",
-  "admin.billing.subscriptions.billing_summary.lastInvoice.downloadInvoice": "Baixar Fatura",
   "admin.billing.subscriptions.billing_summary.lastInvoice.failed": "Falhou",
   "admin.billing.subscriptions.billing_summary.lastInvoice.paid": "Pago",
   "admin.billing.subscriptions.billing_summary.lastInvoice.partialCharges": "Cargas parciais",

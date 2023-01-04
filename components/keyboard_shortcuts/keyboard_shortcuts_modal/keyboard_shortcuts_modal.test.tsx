@@ -5,8 +5,8 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import * as redux from 'react-redux';
 
-import {suitePluginIds} from 'packages/client/src/client4';
 import mockStore from 'tests/test_store';
+import {suitePluginIds} from 'utils/constants';
 
 import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 

@@ -3,12 +3,12 @@
 
 import React from 'react';
 
-import {Emoji, SystemEmoji} from '@mattermost/types/emojis.js';
+import {Emoji} from '@mattermost/types/emojis.js';
 
 import {Preferences} from 'utils/constants';
 
 import {autocompleteCustomEmojis} from 'mattermost-redux/actions/emojis';
-import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
+import {getEmojiImageUrl, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 
 import {getEmojiMap, getRecentEmojisNames} from 'selectors/emojis';
 
@@ -31,10 +31,10 @@ type ProviderResults = {
 };
 
 type MatchedEmoji = {
-    name: string,
-    emoji: Emoji,
-    type: string,
-  }
+    name: string;
+    emoji: Emoji;
+    type: string;
+}
 
 class EmoticonSuggestion extends Suggestion {
     render() {
@@ -138,7 +138,7 @@ export default class EmoticonProvider extends Provider {
                 continue;
             }
 
-            if (emoji.short_names) {
+            if (isSystemEmoji(emoji)) {
                 // This is a system emoji so it may have multiple names
                 for (const alias of emoji.short_names) {
                     if (alias.indexOf(partialName) !== -1) {
@@ -164,7 +164,7 @@ export default class EmoticonProvider extends Provider {
             }
         }
 
-        const sortEmojisHelper = (a: any , b: any) => {
+        const sortEmojisHelper = (a: any, b: any) => {
             return compareEmojis(a, b, partialName);
         };
 
@@ -183,7 +183,6 @@ export default class EmoticonProvider extends Provider {
         ];
 
         // Required to get past the dispatch during dispatch error
-
         resultsCallback({
             matchedPretext: text,
             terms,

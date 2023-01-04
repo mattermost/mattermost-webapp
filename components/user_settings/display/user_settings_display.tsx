@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
@@ -12,24 +13,25 @@ import {PrimitiveType, FormatXMLElementFn} from 'intl-messageformat';
 
 import {Timezone} from 'timezones.json';
 
-import SettingItemMax from 'components/setting_item_max';
-
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
 import Constants from 'utils/constants';
 import {getBrowserTimezone} from 'utils/timezone';
+import {a11yFocus} from 'utils/utils';
 
 import * as I18n from 'i18n/i18n.jsx';
 import {t} from 'utils/i18n';
 
-import SettingItemMin from 'components/setting_item_min';
 import ThemeSetting from 'components/user_settings/display/user_settings_theme';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
 
 import {UserProfile, UserTimezone} from '@mattermost/types/users';
 import {PreferenceType} from '@mattermost/types/preferences';
+
+import SettingItem from 'components/setting_item';
+import SettingItemMax from 'components/setting_item_max';
 
 import ManageTimezones from './manage_timezones';
 import ManageLanguages from './manage_languages';
@@ -375,8 +377,9 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         this.setState({clickToReply});
     }
 
-    handleOnChange(display: {[key: string]: any}) {
+    handleOnChange(e: React.ChangeEvent, display: {[key: string]: any}) {
         this.setState({...display});
+        a11yFocus(e.currentTarget as HTMLElement);
     }
 
     updateSection = (section: string) => {
@@ -474,7 +477,9 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             />
         );
 
-        if (this.props.activeSection === section) {
+        const active = this.props.activeSection === section;
+        let max = null;
+        if (active) {
             const format = [false, false, false];
             let childOptionToShow: ChildOption | undefined;
             if (value === firstOption.value) {
@@ -515,7 +520,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                                 type='radio'
                                 name={name}
                                 checked={format[2]}
-                                onChange={() => this.handleOnChange(thirdDisplay)}
+                                onChange={(e) => this.handleOnChange(e, thirdDisplay)}
                             />
                             {thirdMessage}
                         </label>
@@ -537,7 +542,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                                 name={childOptionToShow.id}
                                 checked={childOptionToShow.value === 'true'}
                                 onChange={(e) => {
-                                    this.handleOnChange({[childDisplay]: e.target.checked ? 'true' : 'false'});
+                                    this.handleOnChange(e, {[childDisplay]: e.target.checked ? 'true' : 'false'});
                                 }}
                             />
                             <FormattedMessage
@@ -569,7 +574,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                                 type='radio'
                                 name={name}
                                 checked={format[0]}
-                                onChange={() => this.handleOnChange(firstDisplay)}
+                                onChange={(e) => this.handleOnChange(e, firstDisplay)}
                             />
                             {firstMessage}
                             {moreColon}
@@ -584,7 +589,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                                 type='radio'
                                 name={name}
                                 checked={format[1]}
-                                onChange={() => this.handleOnChange(secondDisplay)}
+                                onChange={(e) => this.handleOnChange(e, secondDisplay)}
                             />
                             {secondMessage}
                             {moreColon}
@@ -613,20 +618,16 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                 submit = null;
                 inputs = [];
             }
-            return (
-                <div>
-                    <SettingItemMax
-                        title={messageTitle}
-                        inputs={inputs}
-                        submit={submit}
-                        saving={this.state.isSaving}
-                        serverError={this.state.serverError}
-                        updateSection={this.updateSection}
-                        extraInfo={extraInfo}
-                    />
-                    <div className='divider-dark'/>
-                </div>
-            );
+            max = (
+                <SettingItemMax
+                    title={messageTitle}
+                    inputs={inputs}
+                    submit={submit}
+                    saving={this.state.isSaving}
+                    serverError={this.state.serverError}
+                    extraInfo={extraInfo}
+                    updateSection={this.updateSection}
+                />);
         }
 
         let describe;
@@ -640,11 +641,14 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
 
         return (
             <div>
-                <SettingItemMin
+                <SettingItem
+                    active={active}
+                    areAllSectionsInactive={this.props.activeSection === ''}
                     title={messageTitle}
                     describe={describe}
                     section={section}
                     updateSection={this.updateSection}
+                    max={max}
                 />
                 <div className='divider-dark'/>
             </div>
@@ -849,37 +853,38 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         let timezoneSelection;
         if (this.props.enableTimezone && !this.props.shouldAutoUpdateTimezone) {
             const userTimezone = this.props.userTimezone;
-            if (this.props.activeSection === 'timezone') {
-                timezoneSelection = (
-                    <div>
-                        <ManageTimezones
-                            user={this.props.user}
-                            useAutomaticTimezone={Boolean(userTimezone.useAutomaticTimezone)}
-                            automaticTimezone={userTimezone.automaticTimezone}
-                            manualTimezone={userTimezone.manualTimezone}
-                            updateSection={this.updateSection}
-                        />
-                        <div className='divider-dark'/>
-                    </div>
-                );
-            } else {
-                timezoneSelection = (
-                    <div>
-                        <SettingItemMin
-                            title={
-                                <FormattedMessage
-                                    id='user.settings.display.timezone'
-                                    defaultMessage='Timezone'
-                                />
-                            }
-                            describe={this.props.timezoneLabel}
-                            section={'timezone'}
-                            updateSection={this.updateSection}
-                        />
-                        <div className='divider-dark'/>
-                    </div>
+            const active = this.props.activeSection === 'timezone';
+            let max = null;
+            if (active) {
+                max = (
+                    <ManageTimezones
+                        user={this.props.user}
+                        useAutomaticTimezone={Boolean(userTimezone.useAutomaticTimezone)}
+                        automaticTimezone={userTimezone.automaticTimezone}
+                        manualTimezone={userTimezone.manualTimezone}
+                        updateSection={this.updateSection}
+                    />
                 );
             }
+            timezoneSelection = (
+                <div>
+                    <SettingItem
+                        active={active}
+                        areAllSectionsInactive={this.props.activeSection === ''}
+                        title={
+                            <FormattedMessage
+                                id='user.settings.display.timezone'
+                                defaultMessage='Timezone'
+                            />
+                        }
+                        describe={this.props.timezoneLabel}
+                        section={'timezone'}
+                        updateSection={this.updateSection}
+                        max={max}
+                    />
+                    <div className='divider-dark'/>
+                </div>
+            );
         }
 
         const messageDisplaySection = this.createSection({
@@ -1016,45 +1021,36 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
 
         let languagesSection;
         let userLocale = this.props.user.locale;
-        if (this.props.activeSection === 'languages') {
-            if (!I18n.isLanguageAvailable(userLocale)) {
-                userLocale = this.props.defaultClientLocale;
-            }
-            languagesSection = (
-                <div>
-                    <ManageLanguages
-                        user={this.props.user}
-                        locale={userLocale}
-                        updateSection={this.updateSection}
-                    />
-                    <div className='divider-dark'/>
-                </div>
-            );
-        } else {
-            let locale;
-            if (I18n.isLanguageAvailable(userLocale)) {
-                locale = I18n.getLanguageInfo(userLocale).name;
-            } else {
-                locale = I18n.getLanguageInfo(this.props.defaultClientLocale).name;
-            }
-
-            languagesSection = (
-                <div>
-                    <SettingItemMin
-                        title={
-                            <FormattedMessage
-                                id='user.settings.display.language'
-                                defaultMessage='Language'
-                            />
-                        }
-                        describe={locale}
-                        section={'languages'}
-                        updateSection={this.updateSection}
-                    />
-                    <div className='divider-dark'/>
-                </div>
-            );
+        if (!I18n.isLanguageAvailable(userLocale)) {
+            userLocale = this.props.defaultClientLocale;
         }
+        const localeName = I18n.getLanguageInfo(userLocale).name;
+
+        languagesSection = (
+            <div>
+                <SettingItem
+                    active={this.props.activeSection === 'languages'}
+                    areAllSectionsInactive={this.props.activeSection === ''}
+                    title={
+                        <FormattedMessage
+                            id='user.settings.display.language'
+                            defaultMessage='Language'
+                        />
+                    }
+                    describe={localeName}
+                    section={'languages'}
+                    updateSection={this.updateSection}
+                    max={(
+                        <ManageLanguages
+                            user={this.props.user}
+                            locale={userLocale}
+                            updateSection={this.updateSection}
+                        />
+                    )}
+                />
+                <div className='divider-dark'/>
+            </div>
+        );
 
         if (Object.keys(I18n.getLanguages()).length === 1) {
             languagesSection = null;
@@ -1066,6 +1062,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                 <div>
                     <ThemeSetting
                         selected={this.props.activeSection === 'theme'}
+                        areAllSectionsInactive={this.props.activeSection === ''}
                         updateSection={this.updateSection}
                         setRequireConfirm={this.props.setRequireConfirm}
                         setEnforceFocus={this.props.setEnforceFocus}

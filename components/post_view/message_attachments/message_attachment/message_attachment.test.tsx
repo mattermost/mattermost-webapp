@@ -244,4 +244,16 @@ describe('components/post_view/MessageAttachment', () => {
 
         expect(wrapper.find('.attachment-field')).toMatchSnapshot();
     });
+
+    test('should not render content box if there is no content', () => {
+        const props = {
+            ...baseProps,
+            attachment: {
+                pretext: 'This is a pretext.',
+            } as MessageAttachmentType,
+        };
+
+        const wrapper = shallow(<MessageAttachment {...props}/>);
+        expect(wrapper.find('.attachment')).toMatchSnapshot();
+    });
 });

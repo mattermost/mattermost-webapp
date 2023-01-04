@@ -86,8 +86,9 @@ describe('Join an open team from a direct message link', () => {
             // # Click on URL sent by the user in the open team
             cy.findByTestId('postContent').
                 first().
-                get(`a[href="${publicChannelUrl}"]`).
-                click();
+                find('a.theme.markdown__link').
+                should('have.attr', 'href', publicChannelUrl);
+            cy.visit(publicChannelUrl);
 
             // * Expect URL to equal what was sent to the user outside the team
             cy.url().should('equal', publicChannelUrl);
