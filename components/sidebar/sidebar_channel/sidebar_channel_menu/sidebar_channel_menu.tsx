@@ -11,9 +11,9 @@ import {
     BellOutlineIcon,
     BellOffOutlineIcon,
     LinkVariantIcon,
-    AccountOutlineIcon,
+    AccountPlusOutlineIcon,
     DotsVerticalIcon,
-    ExitToAppIcon,
+    LogoutVariantIcon,
 } from '@mattermost/compass-icons/components';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -228,7 +228,7 @@ const SidebarChannelMenu = (props: Props) => {
             <Menu.Item
                 id={`addMembers-${props.channel.id}`}
                 onClick={handleAddMembers}
-                leadingElement={<AccountOutlineIcon size={18}/>}
+                leadingElement={<AccountPlusOutlineIcon size={18}/>}
                 labels={
                     <FormattedMessage
                         id='sidebar_left.sidebar_channel_menu.addMembers'
@@ -275,7 +275,7 @@ const SidebarChannelMenu = (props: Props) => {
             <Menu.Item
                 id={`leave-${props.channel.id}`}
                 onClick={handleLeaveChannel}
-                leadingElement={<ExitToAppIcon size={18}/>}
+                leadingElement={<LogoutVariantIcon size={18}/>}
                 labels={leaveChannelText}
                 isDestructive={true}
             />

@@ -134,7 +134,11 @@ export function SubMenu(props: Props) {
                 <MuiMenuList
                     component='ul'
                     aria-hidden={true}
-                    style={{pointerEvents: 'auto'}} // reset pointer events to default from here on
+                    sx={{
+                        pointerEvents: 'auto', // reset pointer events to default from here on
+                        paddingTop: 0,
+                        paddingBottom: 0,
+                    }}
                     onKeyDown={handleSubMenuKeyDown}
                 >
                     {props.children}

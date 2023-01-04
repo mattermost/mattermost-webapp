@@ -38,10 +38,10 @@ export interface Props extends MuiMenuItemProps {
      * passed, first will be subMenuDetail and second will be trailingElement.
      *
      * @example
-     * <Menu.Item trailingElement={<Badge/>}/>
+     * <Menu.Item trailingElements={<Badge/>}/>
      *
      * @example
-     * <Menu.Item labels={
+     * <Menu.Item trailingElements={
      *  <>
      *   <FormattedMessage id="submenu.detail" defaultMessage="submenu detail"/>
      *   <Badge/>
@@ -67,7 +67,7 @@ export interface Props extends MuiMenuItemProps {
  * </Menu.Container>
  *
  * @caution
- * avoid passing children to this component. It exists to support submenus only.
+ * avoid passing children to this component. Support for children is only added to support submenus.
  */
 export function MenuItem(props: Props) {
     const {
@@ -102,12 +102,12 @@ const MenuItemStyled = styled(MuiMenuItem, {
         '&.MuiMenuItem-root': {
             fontFamily: '"Open Sans", sans-serif',
             color: !isDestructive ? 'var(--center-channel-color)' : 'var(--error-text)',
-            padding: '8px 16px',
+            padding: '8px 20px 8px 16px',
             display: 'flex',
             flexDirection: 'row',
             flexWrap: 'nowrap',
             justifyContent: 'flex-start',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             pointerEvents: 'auto', // To resume pointer events if they were disabled by the parent submenu
 
             '&:hover': {
@@ -179,6 +179,7 @@ const MenuItemStyled = styled(MuiMenuItem, {
                 marginInlineStart: '24px',
                 fontSize: '12px',
                 lineHeight: '16px',
+                alignItems: 'center',
             },
             '&:hover .trailing-elements': {
                 color: 'rgba(var(--center-channel-color-rgb), 0.72)',
