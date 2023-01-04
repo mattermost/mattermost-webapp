@@ -7,9 +7,23 @@ describe('System Console > Site Statistics > True Up Review', () => {
     before(() => {
         cy.apiInitSetup();
         cy.apiRequireLicense();
+
+        cy.apiGetConfig().then(({config}) => {
+            let originalConfig = config;
+            const newConfig = {
+                ...originalConfig,
+                LogSettings : {
+                    ...originalConfig.LogSettings,
+                    EnableDiagnostics: false,
+                }
+            };
+
+            cy.apiUpdateConfig(newConfig);
+        });
     });
 
     it('cloud instances should not see true up review sections', () => {
+        cy.apiAdminLogin();
         cy.apiRequireLicense('cloud');
 
         // # Go to team statistics
@@ -36,7 +50,7 @@ describe('System Console > Site Statistics > True Up Review', () => {
         cy.apiAdminLogin();
 
         const dueDate = moment().add(1, 'day').unix();
-        cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: false, due_date: dueDate, telemetry_enabled: false}}).as('reviewStatus');
+        cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: false, due_date: dueDate}}).as('reviewStatus');
 
         // # Go to team statistics
         cy.visit('/admin_console/reporting/team_statistics');
@@ -53,7 +67,7 @@ describe('System Console > Site Statistics > True Up Review', () => {
 
         const dueDate = moment().add(1, 'day').unix();
         cy.intercept('GET', '**/api/v4/hosted_customer/signup_available', {statusCode: 200, body: {status: 'OK'}}).as('reviewRequest');
-        cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: false, due_date: dueDate, telemetry_enabled: false}}).as('reviewStatus');
+        cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: false, due_date: dueDate}}).as('reviewStatus');
         cy.intercept('POST', '**/api/v4/license/review', {statusCode: 200, body: {status: 'OK'}}).as('reviewRequest');
 
         // # Go to team statistics
@@ -74,7 +88,7 @@ describe('System Console > Site Statistics > True Up Review', () => {
         const dueDate = moment().add(1, 'day').unix();
         cy.intercept('GET', '**/api/v4/hosted_customer/signup_available', {statusCode: 200, body: {status: 'OK'}}).as('reviewRequest');
         cy.intercept('POST', '**/api/v4/license/review', {statusCode: 200, body: {status: 'OK'}}).as('reviewRequest');
-        cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: false, due_date: dueDate, telemetry_enabled: false}}).as('reviewStatus');
+        cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: false, due_date: dueDate}}).as('reviewStatus');
 
         // # Go to team statistics
         cy.visit('/admin_console/reporting/team_statistics');
@@ -94,7 +108,7 @@ describe('System Console > Site Statistics > True Up Review', () => {
 
         const dueDate = moment().add(1, 'day').unix();
         cy.intercept('GET', '**/api/v4/hosted_customer/signup_available', {statusCode: 200, body: {status: 'OK'}}).as('reviewRequest');
-        cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: false, due_date: dueDate, telemetry_enabled: false}}).as('reviewStatus');
+        cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: false, due_date: dueDate}}).as('reviewStatus');
         cy.intercept('POST', '**/api/v4/license/review', {statusCode: 500}).as('reviewRequest');
 
         // # Go to team statistics
@@ -115,7 +129,7 @@ describe('System Console > Site Statistics > True Up Review', () => {
 
         const dueDate = moment().add(1, 'day').unix();
         cy.intercept('GET', '**/api/v4/hosted_customer/signup_available', {statusCode: 200, body: {status: 'OK'}}).as('reviewRequest');
-        cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: true, due_date: dueDate, telemetry_enabled: false}}).as('reviewStatus');
+        cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: true, due_date: dueDate}}).as('reviewStatus');
 
         // # Go to team statistics
         cy.visit('/admin_console/reporting/team_statistics');
@@ -133,7 +147,7 @@ describe('System Console > Site Statistics > True Up Review', () => {
 
         const dueDate = moment().add(20, 'day').unix();
         cy.intercept('GET', '**/api/v4/hosted_customer/signup_available', {statusCode: 200, body: {status: 'OK'}}).as('reviewRequest');
-        cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: true, due_date: dueDate, telemetry_enabled: false}}).as('reviewStatus');
+        cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: true, due_date: dueDate}}).as('reviewStatus');
 
         // # Go to team statistics
         cy.visit('/admin_console/reporting/team_statistics');
@@ -151,7 +165,7 @@ describe('System Console > Site Statistics > True Up Review', () => {
 
         const dueDate = moment().add(20, 'day').unix();
         cy.intercept('GET', '**/api/v4/hosted_customer/signup_available', {statusCode: 200, body: {status: 'OK'}}).as('reviewRequest');
-        cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: true, due_date: dueDate, telemetry_enabled: false}}).as('reviewStatus');
+        cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: true, due_date: dueDate}}).as('reviewStatus');
 
         // # Go to team statistics
         cy.visit('/admin_console/reporting/team_statistics');
@@ -162,14 +176,28 @@ describe('System Console > Site Statistics > True Up Review', () => {
         cy.findByText('True Up Review').should('not.exist');
     });
 
-    it('panel should not be present if is enabled', () => {
+    it('panel should not be present if telemetry is enabled', () => {
         // # Log in as admin
         cy.apiAdminLogin();
         cy.apiRequireLicense();
+
+        cy.apiGetConfig().then(({config}) => {
+            let originalConfig = config;
+            const newConfig = {
+                ...originalConfig,
+                LogSettings : {
+                    ...originalConfig.LogSettings,
+                    EnableDiagnostics: true,
+                }
+            };
+
+            cy.apiUpdateConfig(newConfig);
+        });
 
         const dueDate = moment().add(1, 'day').unix();
         cy.intercept('GET', '**/api/v4/hosted_customer/signup_available', {statusCode: 200, body: {status: 'OK'}}).as('reviewRequest');
-        cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: true, due_date: dueDate, telemetry_enabled: true}}).as('reviewStatus');
+        cy.intercept('GET', '**/api/v4/license/review/status', {statusCode: 200, body: {complete: true, due_date: dueDate}}).as('reviewStatus');
+
 
         // # Go to team statistics
         cy.visit('/admin_console/reporting/team_statistics');

@@ -96,10 +96,6 @@ const TrueUpReview: React.FC = () => {
         dispatch(submitTrueUpReview());
     };
 
-    const handleDownloadBundle = () => {
-        dispatch(submitTrueUpReview());
-    };
-
     const dueDate = (
         <div className='TrueUpReview__dueDate'>
             <span>
@@ -117,7 +113,7 @@ const TrueUpReview: React.FC = () => {
     const submitButton = (
         <button
             className={classNames('btn btn-primary TrueUpReview__submit', {'TrueUpReview__submit--error': trueUpReviewError})}
-            onClick={isAirGapped ? handleDownloadBundle : handleSubmitReview}
+            onClick={handleSubmitReview}
         >
             {isAirGapped ?
                 <FormattedMessage
