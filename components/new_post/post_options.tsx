@@ -1,16 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode, useRef, useState} from 'react';
+import React, {ReactNode, useEffect, useRef, useState} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
 import {Posts, Preferences} from 'mattermost-redux/constants/index';
 import {isPostEphemeral} from 'mattermost-redux/utils/post_utils';
 
-import {Locations} from 'utils/constants';
+import Constants, {Locations} from 'utils/constants';
 import {isSystemMessage} from 'utils/post_utils';
-import {isMobile} from 'utils/utils';
+import {isMobile, isKeyPressed, cmdOrCtrlPressed} from 'utils/utils';
 
 import {Post} from '@mattermost/types/posts';
 import {Emoji} from '@mattermost/types/emojis';
@@ -42,13 +42,13 @@ type Props = {
     isExpanded?: boolean;
     hover?: boolean;
     isMobileView: boolean;
-    a11yActive?: boolean;
     hasReplies?: boolean;
     isFirstReply?: boolean;
     isSearchResultsItem?: boolean;
     canReply?: boolean;
     replyCount?: number;
     location: keyof typeof Locations;
+    showOptionsMenuWithoutHover?: boolean;
 };
 
 const PostOptions = (props: Props): JSX.Element => {
@@ -58,6 +58,14 @@ const PostOptions = (props: Props): JSX.Element => {
     const [showActionsMenu, setShowActionsMenu] = useState(false);
     const [showActionTip, setShowActionTip] = useState(false);
 
+    useEffect(() => {
+        document.addEventListener('keypress', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keypress', handleKeyDown);
+        };
+    }, []);
+
     const {
         channelIsArchived,
         collapsedThreadsEnabled,
@@ -65,9 +73,11 @@ const PostOptions = (props: Props): JSX.Element => {
         post,
         oneClickReactionsEnabled,
         showActionsMenuPulsatingDot,
-        a11yActive,
         isMobileView,
     } = props;
+
+    const isEphemeral = isPostEphemeral(post);
+    const systemMessage = isSystemMessage(post);
 
     const removePost = () => props.removePost(props.post);
 
@@ -75,9 +85,18 @@ const PostOptions = (props: Props): JSX.Element => {
         setShowEmojiPicker(!showEmojiPicker);
     };
 
+    const handleKeyDown = (e: KeyboardEvent): void => {
+        const backLashPressed = isKeyPressed(e, Constants.KeyCodes.BACK_SLASH);
+        const keyCombo = cmdOrCtrlPressed(e) && !e.altKey && e.shiftKey && backLashPressed;
+
+        if (keyCombo) {
+            toggleEmojiPicker();
+        }
+    };
+
     const handleDotMenuOpened = (open: boolean) => {
         setShowDotMenu(open);
-        props.handleDropdownOpened!(open || showEmojiPicker);
+        props.handleDropdownOpened!(open);
     };
 
     const handleActionsMenuOpened = (open: boolean) => {
@@ -101,9 +120,7 @@ const PostOptions = (props: Props): JSX.Element => {
     const getDotMenuRef = () => dotMenuRef.current;
 
     const isPostDeleted = post && post.state === Posts.POST_DELETED;
-    const isEphemeral = isPostEphemeral(post);
-    const systemMessage = isSystemMessage(post);
-    const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu || showActionTip;
+    const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu || showActionTip || props.showOptionsMenuWithoutHover;
     const showCommentIcon = !systemMessage && (isMobile || hoverLocal || (!post.root_id && Boolean(props.hasReplies)) || props.isFirstReply || props.canReply) && props.location === Locations.CENTER;
     const commentIconExtraClass = isMobileView ? '' : 'pull-right';
 
@@ -207,7 +224,6 @@ const PostOptions = (props: Props): JSX.Element => {
         options = null;
     } else if (props.location === Locations.SEARCH) {
         const hasCRTFooter = props.collapsedThreadsEnabled && !post.root_id && (post.reply_count > 0 || post.is_following);
-
         options = (
             <div className='col__controls post-menu'>
                 {dotMenu}
@@ -234,9 +250,7 @@ const PostOptions = (props: Props): JSX.Element => {
                 </a>
             </div>
         );
-    } else if ((isMobileView ||
-                hoverLocal ||
-                a11yActive)) {
+    } else if (isMobileView || hoverLocal) {
         options = (
             <div
                 ref={dotMenuRef}
