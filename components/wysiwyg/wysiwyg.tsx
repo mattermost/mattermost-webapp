@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
+import React, {useEffect, useRef, useState} from 'react';
 import type {FormEvent} from 'react';
 import {KeyboardShortcutCommand} from '@tiptap/core';
 import {
@@ -11,6 +12,14 @@ import {
 import type {JSONContent} from '@tiptap/react';
 
 import type {NewPostDraft} from 'types/store/draft';
+import FileUpload, {FileUploadClass} from 'components/file_upload';
+
+import {ServerError} from '@mattermost/types/errors';
+
+import {FileInfo} from '@mattermost/types/files';
+
+import FilePreview from '../file_preview';
+import {FilePreviewInfo} from '../file_preview/file_preview';
 
 // import all custom components, extensions, etc.
 import {EditorContainer, WysiwygContainer} from './components/editor';
@@ -35,6 +44,11 @@ export type WysiwygConfig = {
     keyHandlers?: Record<string, KeyboardShortcutCommand>;
     suggestions?: Omit<SuggestionConfig, 'emoji'>;
     additionalControls?: React.ReactNode[];
+    fileUpload: {
+        rootId: string;
+        channelId: string;
+        postType: 'post' | 'thread' | 'comment';
+    };
 };
 
 type Props = PropsFromRedux & {
@@ -92,6 +106,7 @@ export default (props: Props) => {
         codeBlockOnCtrlEnter,
         headerContent,
         draft,
+        locale,
     } = props;
 
     const editor = useEditor({
@@ -136,6 +151,13 @@ export default (props: Props) => {
         },
     }, [ctrlSend, codeBlockOnCtrlEnter]);
 
+    const [attachments, setAttchments] = useState<FileInfo[]>([]);
+    const [uploadsInProgress, setUploadsInProgress] = useState<string[]>([]);
+    const [uploadsInProgressPercent, setUploadsInProgressPercent] = useState<Record<string, FileInfo>>({});
+    const [, setError] = useState<string>('');
+    const containerRef = useRef<HTMLDivElement>(null);
+    const fileUploadRef = useRef<FileUploadClass>(null);
+
     // focus the editor on mount
     useEffect(() => {
         editor?.commands.focus();
@@ -164,12 +186,115 @@ export default (props: Props) => {
 
     const emojiPicker = reduxConfig.EnableEmojiPicker === 'true' ? <EmojiPicker editor={editor}/> : null;
 
+    const getFileUploadTarget = () => containerRef.current;
+
+    const handleUploadStart = (clientIds: string[]) => {
+        setUploadsInProgress(uploadsInProgress.concat(clientIds));
+        editor.commands.focus();
+    };
+
+    const removeIdsFromUploads = (clientIds: string[]) => {
+        let updatedUploads = uploadsInProgress;
+
+        // remove each finished file from uploads
+        for (let i = 0; i < clientIds.length; i++) {
+            const id = clientIds[i];
+            if (updatedUploads.length) {
+                const index = updatedUploads.indexOf(id);
+
+                if (index !== -1) {
+                    updatedUploads = updatedUploads.filter((item, itemIndex) => index !== itemIndex);
+                    fileUploadRef.current?.cancelUpload(id);
+                }
+            }
+        }
+
+        if (updatedUploads.length !== uploadsInProgress.length) {
+            setUploadsInProgress(updatedUploads);
+        }
+    };
+
+    const handleFileUploadComplete = (fileInfos: FileInfo[], clientIds: string[]) => {
+        removeIdsFromUploads(clientIds);
+
+        if (fileInfos.length) {
+            setAttchments(sortFileInfos(attachments.concat(fileInfos), locale));
+        }
+
+        editor.commands.focus();
+    };
+
+    const handleUploadError = (err: string | ServerError, clientId?: string) => {
+        const errorMessage = typeof err === 'string' ? err : err.message;
+
+        if (!clientId) {
+            setError(errorMessage);
+            return;
+        }
+
+        removeIdsFromUploads([clientId]);
+        setError(errorMessage);
+    };
+
+    const handleUploadProgress = (filePreviewInfo: FilePreviewInfo) => {
+        setUploadsInProgressPercent({
+            ...uploadsInProgressPercent,
+            [filePreviewInfo.clientId]: filePreviewInfo,
+        });
+    };
+
+    const fileUpload = (!config || readOnly) ? null : (
+        <FileUpload
+            ref={fileUploadRef}
+            fileCount={attachments.length + uploadsInProgress.length}
+            getTarget={getFileUploadTarget}
+            onFileUploadChange={() => editor.commands.focus()}
+            onUploadStart={handleUploadStart}
+            onFileUpload={handleFileUploadComplete}
+            onUploadError={handleUploadError}
+            onUploadProgress={handleUploadProgress}
+            rootId={config?.fileUpload?.rootId}
+            channelId={config?.fileUpload?.channelId}
+            postType={config?.fileUpload?.postType}
+        />
+    );
+
     const rightControls = (
         <>
+            {fileUpload}
             {emojiPicker}
             {sendButton}
         </>
     );
+
+    const removePreview = (id: string) => {
+        // Clear previous errors
+        setError('');
+
+        // id can either be the id of an uploaded file or the client id of an in progress upload
+        let index = attachments.findIndex((info) => info.id === id);
+        if (index === -1) {
+            index = uploadsInProgress.indexOf(id);
+
+            if (index !== -1) {
+                removeIdsFromUploads([id]);
+            }
+        } else {
+            setAttchments(attachments.filter((item, itemIndex) => index !== itemIndex));
+        }
+    };
+
+    let attachmentPreview = null;
+    if (!readOnly && (attachments.length > 0 || uploadsInProgress.length > 0)) {
+        attachmentPreview = (
+            <FilePreview
+                fileInfos={attachments}
+                onRemove={removePreview}
+                uploadsInProgress={uploadsInProgress}
+                uploadsProgressPercent={uploadsInProgressPercent}
+            />
+        );
+    }
 
     const toolbarProps = {
         editor,
@@ -179,9 +304,10 @@ export default (props: Props) => {
 
     return (
         <WysiwygContainer>
-            <EditorContainer>
+            <EditorContainer ref={containerRef}>
                 {headerContent}
                 <EditorContent editor={editor}/>
+                {attachmentPreview}
             </EditorContainer>
             <Toolbar {...toolbarProps}/>
         </WysiwygContainer>

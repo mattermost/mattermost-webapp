@@ -6,8 +6,6 @@ import {defineMessages, FormattedMessage, injectIntl, IntlShape} from 'react-int
 import classNames from 'classnames';
 import {PaperclipIcon} from '@mattermost/compass-icons/components';
 
-import {FilePreviewInfo} from '../file_preview/file_preview';
-
 import dragster from 'utils/dragster';
 import Constants from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
@@ -28,9 +26,6 @@ import {
     isTextDroppableEvent,
 } from 'utils/utils';
 
-import {FileInfo, FileUploadResponse} from '@mattermost/types/files';
-import {ServerError} from '@mattermost/types/errors';
-
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
@@ -40,6 +35,10 @@ import Tooltip from 'components/tooltip';
 import {FilesWillUploadHook, PluginComponent} from 'types/store/plugins';
 
 import {UploadFile} from 'actions/file_actions';
+
+import {ServerError} from '@mattermost/types/errors';
+import {FileInfo, FileUploadResponse} from '@mattermost/types/files';
+import {FilePreviewInfo} from '../file_preview/file_preview';
 
 const holders = defineMessages({
     limited: {
@@ -97,7 +96,7 @@ export type Props = {
     /**
      * Function to get file upload targeted input
      */
-    getTarget: () => HTMLInputElement | null;
+    getTarget: () => HTMLInputElement | HTMLDivElement | null;
 
     intl: IntlShape;
 

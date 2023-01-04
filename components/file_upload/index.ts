@@ -13,7 +13,7 @@ import {canUploadFiles} from 'utils/file_utils';
 import {FilesWillUploadHook} from 'types/store/plugins';
 import {GlobalState} from 'types/store';
 
-import FileUpload, {Props} from './file_upload';
+import FileUpload, {Props, FileUpload as FileUploadClass} from './file_upload';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
@@ -36,4 +36,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
+export {FileUploadClass};
+
 export default connect(mapStateToProps, mapDispatchToProps, null, {forwardRef: true})(FileUpload);
+

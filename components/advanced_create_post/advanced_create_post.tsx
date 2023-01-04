@@ -1046,9 +1046,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     uploadsInProgress,
                 };
 
-                if (this.fileUploadRef.current && this.fileUploadRef.current) {
-                    this.fileUploadRef.current.cancelUpload(id);
-                }
+                this.fileUploadRef.current?.cancelUpload(id);
             }
         } else {
             const fileInfos = draft.fileInfos.filter((item, itemIndex) => index !== itemIndex);
@@ -1648,7 +1646,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                     this.editLastPost();
                                     return false;
                                 }
-                                return true;
+                                return false;
                             },
                         },
                         suggestions: {
@@ -1663,6 +1661,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                 teamId: currentTeamId,
                                 channelId: currentChannel.id,
                             },
+                        },
+                        fileUpload: {
+                            rootId: '',
+                            channelId: this.state.currentChannel.id,
+                            postType: 'post',
                         },
                     }}
                 />
