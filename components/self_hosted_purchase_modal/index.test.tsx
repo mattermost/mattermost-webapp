@@ -15,7 +15,7 @@ import {SelfHostedProducts, ModalIdentifiers} from 'utils/constants';
 
 import {DeepPartial} from '@mattermost/types/utilities';
 
-import SelfHostedPurchaseModal from './';
+import SelfHostedPurchaseModal, {makeInitialState, canSubmit, State} from './';
 
 interface MockCardInputProps {
     onCardInputChange: (event: {complete: boolean}) => void;
@@ -120,6 +120,9 @@ const initialState: DeepPartial<GlobalState> = {
                 },
             },
         },
+    },
+    storage: {
+        storage: {},
     },
     entities: {
         admin: {
@@ -296,3 +299,108 @@ describe('SelfHostedPurchaseModal', () => {
     });
 });
 
+describe('SelfHostedPurchaseModal :: canSubmit', () => {
+    function makeHappyPathState(): State {
+        return {
+
+            address: 'string',
+            address2: 'string',
+            city: 'string',
+            state: 'string',
+            country: 'string',
+            postalCode: '12345',
+            cardName: 'string',
+            organization: 'string',
+            agreedTerms: true,
+            cardFilled: true,
+            seats: {
+                quantity: '12',
+                error: null,
+            },
+            submitting: false,
+            succeeded: false,
+            progressBar: 0,
+            error: '',
+        };
+    }
+    it('if submitting, can not submit', () => {
+        const state = makeHappyPathState();
+        state.submitting = true;
+        expect(canSubmit(state, SelfHostedSignupProgress.CREATED_LICENSE)).toBe(false);
+    });
+    it('if created license, can submit', () => {
+        const state = makeInitialState();
+        state.submitting = false;
+        expect(canSubmit(state, SelfHostedSignupProgress.CREATED_LICENSE)).toBe(true);
+    });
+
+    it('if paid, can submit', () => {
+        const state = makeInitialState();
+        state.submitting = false;
+        expect(canSubmit(state, SelfHostedSignupProgress.PAID)).toBe(true);
+    });
+
+    it('if created subscription, can submit', () => {
+        const state = makeInitialState();
+        state.submitting = false;
+        expect(canSubmit(state, SelfHostedSignupProgress.CREATED_SUBSCRIPTION)).toBe(true);
+    });
+
+    it('if all details filled and card has not been confirmed, can submit', () => {
+        const state = makeHappyPathState();
+        expect(canSubmit(state, SelfHostedSignupProgress.START)).toBe(true);
+        expect(canSubmit(state, SelfHostedSignupProgress.CREATED_CUSTOMER)).toBe(true);
+        expect(canSubmit(state, SelfHostedSignupProgress.CREATED_INTENT)).toBe(true);
+    });
+
+    it('if card name missing and card has not been confirmed, can not submit', () => {
+        const state = makeHappyPathState();
+        state.cardName = '';
+        expect(canSubmit(state, SelfHostedSignupProgress.START)).toBe(false);
+        expect(canSubmit(state, SelfHostedSignupProgress.CREATED_CUSTOMER)).toBe(false);
+        expect(canSubmit(state, SelfHostedSignupProgress.CREATED_INTENT)).toBe(false);
+    });
+    it('if card number missing and card has not been confirmed, can not submit', () => {
+        const state = makeHappyPathState();
+        state.cardFilled = false;
+        expect(canSubmit(state, SelfHostedSignupProgress.START)).toBe(false);
+        expect(canSubmit(state, SelfHostedSignupProgress.CREATED_CUSTOMER)).toBe(false);
+        expect(canSubmit(state, SelfHostedSignupProgress.CREATED_INTENT)).toBe(false);
+    });
+
+    it('if address not filled and card has not been confirmed, can not submit', () => {
+        const state = makeHappyPathState();
+        state.address = '';
+        expect(canSubmit(state, SelfHostedSignupProgress.START)).toBe(false);
+        expect(canSubmit(state, SelfHostedSignupProgress.CREATED_CUSTOMER)).toBe(false);
+        expect(canSubmit(state, SelfHostedSignupProgress.CREATED_INTENT)).toBe(false);
+    });
+
+    it('if seats not valid and card has not been confirmed, can not submit', () => {
+        const state = makeHappyPathState();
+        state.seats.error = 'some seats error';
+        expect(canSubmit(state, SelfHostedSignupProgress.START)).toBe(false);
+        expect(canSubmit(state, SelfHostedSignupProgress.CREATED_CUSTOMER)).toBe(false);
+        expect(canSubmit(state, SelfHostedSignupProgress.CREATED_INTENT)).toBe(false);
+    });
+
+    it('if did not agree to terms and card has not been confirmed, can not submit', () => {
+        const state = makeHappyPathState();
+        state.agreedTerms = false;
+        expect(canSubmit(state, SelfHostedSignupProgress.START)).toBe(false);
+        expect(canSubmit(state, SelfHostedSignupProgress.CREATED_CUSTOMER)).toBe(false);
+        expect(canSubmit(state, SelfHostedSignupProgress.CREATED_INTENT)).toBe(false);
+    });
+
+    it('if card confirmed, card not required for submission', () => {
+        const state = makeHappyPathState();
+        state.cardFilled = false;
+        state.cardName = '';
+        expect(canSubmit(state, SelfHostedSignupProgress.CONFIRMED_INTENT)).toBe(true);
+    });
+
+    it('if passed unknown progress status, can not submit', () => {
+        const state = makeHappyPathState();
+        expect(canSubmit(state, 'unknown status' as any)).toBe(false);
+    });
+});
