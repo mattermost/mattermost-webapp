@@ -57,7 +57,7 @@ import './purchase.scss';
 
 let stripePromise: Promise<Stripe | null>;
 
-enum ButtonCustomiserClasses {
+export enum ButtonCustomiserClasses {
     grayed = 'grayed',
     active = 'active',
     special = 'special',
@@ -85,6 +85,10 @@ type CardProps = {
     buttonDetails: ButtonDetails;
     planBriefing: JSX.Element | null; // can be removed once Yearly Subscriptions are available
     planLabel?: JSX.Element;
+    seeHowBillingWorks?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+    hideBillingCycle?: boolean;
+    preButtonContent?: React.ReactNode;
+    afterButtonContent?: React.ReactNode;
     annualSubscription: boolean;
     usersCount: number;
     monthlyPrice: number;
@@ -94,6 +98,7 @@ type CardProps = {
     updateIsMonthly: (isMonthly: boolean) => void;
     updateInputUserCount: (userCount: number) => void;
     setUserCountError: (hasError: boolean) => void;
+    isCurrentPlanMonthlyProfessional: boolean;
 }
 
 type Props = {
@@ -205,8 +210,8 @@ function getSelectedProduct(
     return findProductInDictionary(products, null, nextSku, RecurringIntervals.MONTH);
 }
 
-function Card(props: CardProps) {
-    const seeHowBillingWorks = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+export function Card(props: CardProps) {
+    const seeHowBillingWorks = props.seeHowBillingWorks || function seeHowBillingWorks(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
         e.preventDefault();
         trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_see_how_billing_works');
         window.open(CloudLinks.BILLING_DOCS, '_blank');
@@ -223,14 +228,15 @@ function Card(props: CardProps) {
     const {formatMessage} = props.intl;
 
     const checkValidNumber = (value: number) => {
-        return value > 0 && value % 1 === 0;
+        return value >= 0 && value % 1 === 0;
     };
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         const numValue = Number(value);
-        if (value === '' || (numValue && checkValidNumber(numValue))) {
-            if (value === '') {
+
+        if (value === '' || (numValue !== null && checkValidNumber(numValue))) {
+            if (value === '' || numValue === 0) {
                 setUsersCount('');
             } else {
                 setUsersCount(numValue.toString());
@@ -373,6 +379,7 @@ function Card(props: CardProps) {
                             value: errorMessage,
                         }}
                         autoComplete='off'
+                        required={true}
                     />
                 </div>
                 <div className='icon'>
@@ -410,7 +417,7 @@ function Card(props: CardProps) {
                         <td className='yearly_savings'>{`-$${priceDifference * 12}`}</td>
                     </tr>
                     <tr>
-                        <td>
+                        <td className='total_price'>
                             <FormattedMessage
                                 defaultMessage={'Total'}
                                 id={'admin.billing.subscription.total'}
@@ -458,6 +465,7 @@ function Card(props: CardProps) {
                     <p>{props.rate}</p>
                 </div>
                 {props.planBriefing}
+                {props.preButtonContent}
                 <div>
                     <button
                         className={'plan_action_btn ' + props.buttonDetails.customClass}
@@ -465,7 +473,7 @@ function Card(props: CardProps) {
                         onClick={props.buttonDetails.action}
                     >{props.buttonDetails.text}</button>
                 </div>
-                <div className='plan_billing_cycle'>
+                {!props.hideBillingCycle && <div className='plan_billing_cycle'>
                     <FormattedMessage
                         defaultMessage={
                             'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
@@ -480,19 +488,35 @@ function Card(props: CardProps) {
                             id={'admin.billing.subscription.howItWorks'}
                         />
                     </a>
-                </div>
+                </div>}
+                {props.afterButtonContent}
             </div>
         </div>
     );
+
+    const getPlanCardMessage = () => {
+        if (props.isCurrentPlanMonthlyProfessional && isMonthly) {
+            return (
+                <FormattedMessage
+                    id='admin.billing.subscription.planDetails.currentPlan'
+                    defaultMessage='Current Plan'
+                />
+            );
+        }
+
+        return (
+            <FormattedMessage
+                defaultMessage={'Save 20% with Yearly.'}
+                id={'pricing_modal.saveWithYearly'}
+            />
+        );
+    };
 
     const monthlyYearlyPlan = (
         <div className='PlanCard'>
             <div className='bottom bottom-monthly-yearly'>
                 <div className='save_text'>
-                    <FormattedMessage
-                        defaultMessage={'Save 20% with Yearly.'}
-                        id={'pricing_modal.saveWithYearly'}
-                    />
+                    {getPlanCardMessage()}
                 </div>
                 <YearlyMonthlyToggle
                     updatePrice={updateDisplayPage}
@@ -904,6 +928,13 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             return crossSellsToProduct ? crossSellsToProduct.price_per_seat / 12 : this.state.selectedProduct.price_per_seat;
         };
 
+        const checkIsMonthlyProfessionalProduct = (product: Product | null | undefined) => {
+            if (!product) {
+                return false;
+            }
+            return product.recurring_interval === RecurringIntervals.MONTH && product.sku === CloudProducts.PROFESSIONAL;
+        };
+
         return (
             <>
                 <div
@@ -924,12 +955,14 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         text: 'Upgrade',
                         customClass:
                             !this.state.paymentInfoIsValid ||
-                            this.state.selectedProduct?.billing_scheme ===
-                                BillingSchemes.SALES_SERVE || this.state.userCountError ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
+                            this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE || this.state.userCountError ||
+                            (checkIsMonthlyProfessionalProduct(this.state.currentProduct) && this.state.isMonthly) ?
+                                ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
                         disabled:
                             !this.state.paymentInfoIsValid ||
-                            this.state.selectedProduct?.billing_scheme ===
-                                BillingSchemes.SALES_SERVE || this.state.userCountError,
+                            this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE ||
+                            this.state.userCountError ||
+                            (checkIsMonthlyProfessionalProduct(this.state.currentProduct) && this.state.isMonthly),
                     }}
                     planLabel={
                         showPlanLabel ? (
@@ -954,6 +987,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     setUserCountError={(hasError: boolean) => this.setState({userCountError: hasError})}
                     updateIsMonthly={(newIsMonthly: boolean) => this.setState({isMonthly: newIsMonthly})}
                     updateInputUserCount={(newUsersCount: number) => this.setState({inputUserCount: newUsersCount})}
+                    isCurrentPlanMonthlyProfessional={checkIsMonthlyProfessionalProduct(this.state.currentProduct)}
                 />
             </>
         );

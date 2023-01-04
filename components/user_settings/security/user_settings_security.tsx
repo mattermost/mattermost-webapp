@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
@@ -16,7 +18,7 @@ import icon50 from 'images/icon50x50.png';
 import AccessHistoryModal from 'components/access_history_modal';
 import ActivityLogModal from 'components/activity_log_modal';
 import LocalizedIcon from 'components/localized_icon';
-import SettingItemMin from 'components/setting_item_min';
+import SettingItem from 'components/setting_item';
 import ToggleModalButton from 'components/toggle_modal_button';
 
 import {OAuthApp} from '@mattermost/types/integrations';
@@ -236,10 +238,12 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
     };
 
     createPasswordSection = () => {
-        if (this.props.activeSection === SECTION_PASSWORD) {
-            const inputs = [];
-            let submit;
+        const inputs = [];
+        let submit;
 
+        const active = this.props.activeSection === SECTION_PASSWORD;
+        let max = null;
+        if (active) {
             if (this.props.user.auth_service === '') {
                 submit = this.submitPassword;
 
@@ -404,7 +408,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                 );
             }
 
-            return (
+            max = (
                 <SettingItemMax
                     title={
                         <FormattedMessage
@@ -491,7 +495,9 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
         }
 
         return (
-            <SettingItemMin
+            <SettingItem
+                active={active}
+                areAllSectionsInactive={this.props.activeSection === ''}
                 title={
                     <FormattedMessage
                         id='user.settings.security.password'
@@ -501,6 +507,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                 describe={describe}
                 section={SECTION_PASSWORD}
                 updateSection={this.handleUpdateSection}
+                max={max}
             />
         );
     };
@@ -508,7 +515,9 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
     createSignInSection = () => {
         const user = this.props.user;
 
-        if (this.props.activeSection === SECTION_SIGNIN) {
+        const active = this.props.activeSection === SECTION_SIGNIN;
+        let max = null;
+        if (active) {
             let emailOption;
             let gitlabOption;
             let googleOption;
@@ -709,7 +718,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                 </span>
             );
 
-            return (
+            max = (
                 <SettingItemMax
                     title={Utils.localizeMessage(
                         'user.settings.security.method',
@@ -778,7 +787,9 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
         }
 
         return (
-            <SettingItemMin
+            <SettingItem
+                active={active}
+                areAllSectionsInactive={this.props.activeSection === ''}
                 title={Utils.localizeMessage(
                     'user.settings.security.method',
                     'Sign-in Method',
@@ -786,12 +797,15 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                 describe={describe}
                 section={SECTION_SIGNIN}
                 updateSection={this.handleUpdateSection}
+                max={max}
             />
         );
     };
 
     createOAuthAppsSection = () => {
-        if (this.props.activeSection === SECTION_APPS) {
+        const active = this.props.activeSection === SECTION_APPS;
+        let max = null;
+        if (active) {
             let apps;
             if (
                 this.state.authorizedApps &&
@@ -894,7 +908,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                 </div>
             );
 
-            return (
+            max = (
                 <SettingItemMax
                     title={title}
                     inputs={inputs}
@@ -912,7 +926,9 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
         }
 
         return (
-            <SettingItemMin
+            <SettingItem
+                active={active}
+                areAllSectionsInactive={this.props.activeSection === ''}
                 title={Utils.localizeMessage(
                     'user.settings.security.oauthApps',
                     'OAuth 2.0 Applications',
@@ -925,6 +941,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                 }
                 section={SECTION_APPS}
                 updateSection={this.handleUpdateSection}
+                max={max}
             />
         );
     };
@@ -963,6 +980,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                 <UserAccessTokenSection
                     user={this.props.user}
                     active={this.props.activeSection === SECTION_TOKENS}
+                    areAllSectionsInactive={this.props.activeSection === ''}
                     updateSection={this.handleUpdateSection}
                     setRequireConfirm={this.props.setRequireConfirm}
                 />
@@ -1009,6 +1027,7 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
                     <div className='divider-light'/>
                     <MfaSection
                         active={this.props.activeSection === SECTION_MFA}
+                        areAllSectionsInactive={this.props.activeSection === ''}
                         updateSection={this.handleUpdateSection}
                     />
                     <div className='divider-light'/>
