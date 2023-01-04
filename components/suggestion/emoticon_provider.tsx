@@ -30,6 +30,12 @@ type ProviderResults = {
     component?: React.ReactNode;
 };
 
+type MatchedEmoji = {
+    name: string,
+    emoji: Emoji,
+    type: string,
+  }
+
 class EmoticonSuggestion extends Suggestion {
     render() {
         const text = this.props.term;
@@ -104,7 +110,7 @@ export default class EmoticonProvider extends Provider {
         return true;
     }
 
-    formatEmojis(emojis: Emoji[]) {
+    formatEmojis(emojis: MatchedEmoji[]) {
         return emojis.map((item) => ':' + item.name + ':');
     }
 
@@ -119,8 +125,8 @@ export default class EmoticonProvider extends Provider {
     // For now, this behaviour and difference is by design.
     // See https://mattermost.atlassian.net/browse/MM-17320.
     findAndSuggestEmojis(text: string, partialName: string, resultsCallback: (res: ProviderResults) => void) {
-        const recentMatched: Array<{ name: string} & SystemEmoji> = [];
-        const matched: Array<{ name: string} & any> = [];
+        const recentMatched: MatchedEmoji[] = [];
+        const matched: MatchedEmoji[] = [];
         const state = store.getState();
         const skintone = state.entities?.preferences?.myPreferences['emoji--emoji_skintone']?.value || 'default';
         const emojiMap = getEmojiMap(state);
@@ -158,7 +164,7 @@ export default class EmoticonProvider extends Provider {
             }
         }
 
-        const sortEmojisHelper = (a: Emoji, b: Emoji) => {
+        const sortEmojisHelper = (a: any , b: any) => {
             return compareEmojis(a, b, partialName);
         };
 
