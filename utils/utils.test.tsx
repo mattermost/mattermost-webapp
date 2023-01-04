@@ -951,3 +951,61 @@ describe('Utils.numberToFixedDynamic', () => {
         });
     });
 });
+
+describe('Utils.getQuoteButtonCoords', () => {
+    it('returns correct coordinates for top quote button', () => {
+        const coordParams = {
+            quoteButtonPosition: 'top',
+            rects: [{x: 10, y: 20, width: 100, height: 50}] as unknown as DOMRectList,
+            isAnyElementQuote: false,
+            startingSelectedElement: {offsetLeft: 25} as HTMLElement,
+            additionalSpaces: {spaceX: 5, spaceY: 10},
+        };
+        const expectedCoords = {positionX: -95, positionY: -15};
+        expect(Utils.getQuoteButtonCoords(coordParams)).toEqual(expectedCoords);
+    });
+
+    it('returns correct coordinates for bottom quote button with single line selection', () => {
+        const coordParams = {
+            quoteButtonPosition: 'bottom',
+            rects: [{x: 10, y: 20, width: 100, height: 50}] as unknown as DOMRectList,
+            isAnyElementQuote: false,
+            startingSelectedElement: {offsetLeft: 25} as HTMLElement,
+            additionalSpaces: {spaceX: 5, spaceY: 10},
+        };
+        const expectedCoords = {positionX: 5, positionY: 10};
+        expect(Utils.getQuoteButtonCoords(coordParams)).toEqual(expectedCoords);
+    });
+
+    it('returns correct coordinates for bottom quote button with multiple line selection', () => {
+        const coordParams = {
+            quoteButtonPosition: 'bottom',
+            rects: [
+                {x: 10, y: 20, width: 100, height: 50},
+                {x: 10, y: 70, width: 100, height: 50},
+                {x: 10, y: 120, width: 100, height: 50},
+            ] as unknown as DOMRectList,
+            isAnyElementQuote: false,
+            startingSelectedElement: {offsetLeft: 25} as HTMLElement,
+            additionalSpaces: {spaceX: 5, spaceY: 10},
+        };
+        const expectedCoords = {positionX: 125, positionY: 60};
+        expect(Utils.getQuoteButtonCoords(coordParams)).toEqual(expectedCoords);
+    });
+
+    it('returns correct coordinates for bottom quote button with multiple line selection and isAnyElementQuote flag set to true', () => {
+        const coordParams = {
+            quoteButtonPosition: 'bottom',
+            rects: [
+                {x: 10, y: 20, width: 100, height: 50},
+                {x: 10, y: 70, width: 100, height: 50},
+                {x: 10, y: 120, width: 100, height: 50},
+            ] as unknown as DOMRectList,
+            isAnyElementQuote: true,
+            startingSelectedElement: {offsetLeft: 25} as HTMLElement,
+            additionalSpaces: {spaceX: 5, spaceY: 10},
+        };
+        const expectedCoords = {positionX: 163, positionY: 60};
+        expect(Utils.getQuoteButtonCoords(coordParams)).toEqual(expectedCoords);
+    });
+});
