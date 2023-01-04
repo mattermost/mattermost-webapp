@@ -42,7 +42,7 @@ const NewMembersItem = ({newMember, team}: Props) => {
             to={`/${team.name}/messages/@${newMember.username}`}
         >
             <Avatar
-                url={imageURLForUser(newMember.id)}
+                url={imageURLForUser(newMember.id, newMember.last_picture_update || 0)}
                 size={'xl'}
             />
             <div className='dm-info'>
