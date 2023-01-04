@@ -891,7 +891,8 @@ export function getQuoteButtonCoords(coordParams: CoordParams) {
     // handle multiple line selection on bottom quote button
     if (quoteButtonPosition === 'bottom' && rects.length > 1) {
         const spaceForQuote = isAnyElementQuote ? 38 : 0;
-        positionY += rects[0].height * (rects.length - 1);
+        const numberOfLines = UserAgent.isFirefox() ? rects.length - 1 : Math.ceil((rects.length / 2) - 1);
+        positionY += rects[0].height * numberOfLines;
         positionX = rects[rects.length - 1].width + startingSelectedElement.offsetLeft + spaceForQuote;
     }
     return {positionX, positionY};
