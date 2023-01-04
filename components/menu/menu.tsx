@@ -170,7 +170,7 @@ export function Menu(props: Props) {
                 aria-label={props.menuAriaLabel}
                 className={A11yClassNames.POPUP}
             >
-                {isMenuOpen && props.children}
+                {props.children}
             </MuiMenuStyled>
         </CompassDesignProvider>
     );

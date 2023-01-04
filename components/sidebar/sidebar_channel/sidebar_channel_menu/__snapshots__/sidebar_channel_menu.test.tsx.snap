@@ -108,7 +108,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       />
     }
     leadingElement={
-      <AccountOutlineIcon
+      <AccountPlusOutlineIcon
         size={18}
       />
     }
@@ -125,7 +125,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       />
     }
     leadingElement={
-      <ExitToAppIcon
+      <LogoutVariantIcon
         size={18}
       />
     }
@@ -242,7 +242,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       />
     }
     leadingElement={
-      <AccountOutlineIcon
+      <AccountPlusOutlineIcon
         size={18}
       />
     }
@@ -259,7 +259,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       />
     }
     leadingElement={
-      <ExitToAppIcon
+      <LogoutVariantIcon
         size={18}
       />
     }
@@ -376,7 +376,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       />
     }
     leadingElement={
-      <AccountOutlineIcon
+      <AccountPlusOutlineIcon
         size={18}
       />
     }
@@ -393,7 +393,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       />
     }
     leadingElement={
-      <ExitToAppIcon
+      <LogoutVariantIcon
         size={18}
       />
     }
@@ -496,7 +496,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <ExitToAppIcon
+      <LogoutVariantIcon
         size={18}
       />
     }
@@ -613,7 +613,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <AccountOutlineIcon
+      <AccountPlusOutlineIcon
         size={18}
       />
     }
@@ -730,7 +730,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <AccountOutlineIcon
+      <AccountPlusOutlineIcon
         size={18}
       />
     }
@@ -747,7 +747,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <ExitToAppIcon
+      <LogoutVariantIcon
         size={18}
       />
     }
@@ -864,7 +864,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <AccountOutlineIcon
+      <AccountPlusOutlineIcon
         size={18}
       />
     }
@@ -881,7 +881,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <ExitToAppIcon
+      <LogoutVariantIcon
         size={18}
       />
     }
@@ -998,7 +998,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <AccountOutlineIcon
+      <AccountPlusOutlineIcon
         size={18}
       />
     }
@@ -1015,7 +1015,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <ExitToAppIcon
+      <LogoutVariantIcon
         size={18}
       />
     }
@@ -1132,7 +1132,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <AccountOutlineIcon
+      <AccountPlusOutlineIcon
         size={18}
       />
     }
@@ -1149,7 +1149,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <ExitToAppIcon
+      <LogoutVariantIcon
         size={18}
       />
     }
@@ -1266,7 +1266,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <AccountOutlineIcon
+      <AccountPlusOutlineIcon
         size={18}
       />
     }
@@ -1283,7 +1283,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <ExitToAppIcon
+      <LogoutVariantIcon
         size={18}
       />
     }

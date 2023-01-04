@@ -102,12 +102,12 @@ const MenuItemStyled = styled(MuiMenuItem, {
         '&.MuiMenuItem-root': {
             fontFamily: '"Open Sans", sans-serif',
             color: !isDestructive ? 'var(--center-channel-color)' : 'var(--error-text)',
-            padding: '8px 16px',
+            padding: '8px 20px 8px 16px',
             display: 'flex',
             flexDirection: 'row',
             flexWrap: 'nowrap',
             justifyContent: 'flex-start',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             pointerEvents: 'auto', // To resume pointer events if they were disabled by the parent submenu
 
             '&:hover': {

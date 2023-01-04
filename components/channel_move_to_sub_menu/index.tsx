@@ -102,7 +102,7 @@ const ChannelMoveToSubMenu = (props: Props) => {
                 selectedCategory = (
                     <CheckIcon
                         color='var(--button-bg)'
-                        size={16}
+                        size={18}
                     />
                 );
             }
@@ -111,7 +111,7 @@ const ChannelMoveToSubMenu = (props: Props) => {
                 <Menu.Item
                     id={`moveToCategory-${props.channel.id}-${category.id}`}
                     key={`moveToCategory-${props.channel.id}-${category.id}`}
-                    leadingElement={category.type === CategoryTypes.FAVORITES ? (<StarOutlineIcon size={16}/>) : (<FolderOutlineIcon size={16}/>)}
+                    leadingElement={category.type === CategoryTypes.FAVORITES ? (<StarOutlineIcon size={18}/>) : (<FolderOutlineIcon size={18}/>)}
                     labels={text}
                     trailingElements={selectedCategory}
                     onClick={(event) => handleMoveToCategory(event, category.id)}
@@ -124,7 +124,7 @@ const ChannelMoveToSubMenu = (props: Props) => {
             <Menu.Item
                 id={`moveToNewCategory-${props.channel.id}`}
                 key={`moveToNewCategory-${props.channel.id}`}
-                leadingElement={<FolderMoveOutlineIcon size={16}/>}
+                leadingElement={<FolderMoveOutlineIcon size={18}/>}
                 labels={
                     <FormattedMessage
                         id='sidebar_left.sidebar_channel_menu.moveToNewCategory'
@@ -187,7 +187,7 @@ const ChannelMoveToSubMenu = (props: Props) => {
                 />
             }
             leadingElement={props.inHeaderDropdown ? null : <FolderMoveOutlineIcon size={18}/>}
-            trailingElements={<ArrowForwardIosIcon size={18}/>}
+            trailingElements={<ArrowForwardIosIcon size={16}/>}
             menuId={`moveTo-${props.channel.id}-menu`}
         >
             {getMoveToCategorySubmenuItems(categories, currentCategory)}
