@@ -31,7 +31,7 @@ export default class NotifyConfirmModal extends React.PureComponent<Props> {
                 />
             );
             if (channelTimezoneCount > 0) {
-                const atHereMsg = 'By using **@here** you are about to send notifications to up to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?';
+                const atHereMsg = 'By using **@here** you are about to send notifications to up to **{totalMembers} other people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?';
                 const atAllChannelMsg = 'By using **@all** or **@channel** you are about to send notifications to **{totalMembers} people** in **{timezones, number} {timezones, plural, one {timezone} other {timezones}}**. Are you sure you want to do this?';
                 const msg = mentions.length === 1 && mentions[0] === '@here' ? atHereMsg : atAllChannelMsg;
                 const msgID = mentions.length === 1 && mentions[0] === '@here' ? t('notify_here.question_timezone') : t('notify_all.question_timezone');
@@ -46,7 +46,7 @@ export default class NotifyConfirmModal extends React.PureComponent<Props> {
                     />
                 );
             } else {
-                const atHereMsg = 'By using **@here** you are about to send notifications to up to **{totalMembers} people**. Are you sure you want to do this?';
+                const atHereMsg = 'By using **@here** you are about to send notifications to up to **{totalMembers} other people**. Are you sure you want to do this?';
                 const atAllChannelMsg = 'By using **@all** or **@channel** you are about to send notifications to **{totalMembers} people**. Are you sure you want to do this?';
                 const msg = mentions.length === 1 && mentions[0] === '@here' ? atHereMsg : atAllChannelMsg;
                 const msgID = mentions.length === 1 && mentions[0] === '@here' ? t('notify_here.question') : t('notify_all.question');

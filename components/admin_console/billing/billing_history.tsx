@@ -62,6 +62,7 @@ const BillingHistory = () => {
         dispatch(isCloud ? getInvoices() : getSelfHostedInvoicesAction());
     }, [isCloud]);
     const billingHistoryTable = invoices && <BillingHistoryTable invoices={invoices}/>;
+    const areInvoicesEmpty = Object.keys(invoices || {}).length === 0;
     return (
         <div className='wrapper--fixed BillingHistory'>
             <FormattedAdminHeader
@@ -92,7 +93,7 @@ const BillingHistory = () => {
                         <div className='BillingHistory__cardBody'>
                             {invoices != null && (
                                 <>
-                                    {invoices ? billingHistoryTable : noBillingHistorySection}
+                                    {areInvoicesEmpty ? noBillingHistorySection : billingHistoryTable}
                                 </>
                             )}
                             {invoices == null && (

@@ -447,6 +447,7 @@ export const ModalIdentifiers = {
     AIR_GAPPED_SELF_HOSTED_PURCHASE: 'air_gapped_self_hosted_purchase',
     WORK_TEMPLATES: 'work_template',
     DOWNGRADE_MODAL: 'downgrade_modal',
+    PURCHASE_IN_PROGRESS: 'purchase_in_progress',
 };
 
 export const UserStatuses = {
@@ -544,7 +545,7 @@ export const A11yCustomEventTypes = {
 };
 
 export type A11yFocusEventDetail = {
-    target: HTMLElement | null;
+    target: HTMLElement | null | undefined;
     keyboardOnly: boolean;
 }
 
@@ -1053,7 +1054,7 @@ export const CloudLinks = {
 };
 
 export const HostedCustomerLinks = {
-    BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
+    BILLING_DOCS: 'https://mattermost.com/pl/how-self-hosted-billing-works',
     TERMS_AND_CONDITIONS: 'https://mattermost.com/enterprise-edition-terms/',
 };
 
@@ -1175,6 +1176,7 @@ export const PermissionsScope = {
     [Permissions.CREATE_CUSTOM_GROUP]: 'system_scope',
     [Permissions.EDIT_CUSTOM_GROUP]: 'system_scope',
     [Permissions.DELETE_CUSTOM_GROUP]: 'system_scope',
+    [Permissions.RESTORE_CUSTOM_GROUP]: 'system_scope',
     [Permissions.MANAGE_CUSTOM_GROUP_MEMBERS]: 'system_scope',
 };
 

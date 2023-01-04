@@ -20,13 +20,14 @@ import {
     NotifyAdminRequest,
     Subscription,
     ValidBusinessEmail,
+    LicenseExpandStatus,
     CreateSubscriptionRequest,
 } from '@mattermost/types/cloud';
 import {
     SelfHostedSignupForm,
     SelfHostedSignupCustomerResponse,
     SelfHostedSignupSuccessResponse,
-    SelfHostedSignupProgress,
+    SelfHostedSignupBootstrapResponse,
 } from '@mattermost/types/hosted_customer';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
@@ -121,7 +122,7 @@ import {
     GetFilteredUsersStatsOpts,
     UserCustomStatus,
 } from '@mattermost/types/users';
-import {DeepPartial, RelationOneToOne, ValueOf} from '@mattermost/types/utilities';
+import {DeepPartial, RelationOneToOne} from '@mattermost/types/utilities';
 import {ProductNotices} from '@mattermost/types/product_notices';
 import {
     DataRetentionCustomPolicies,
@@ -890,9 +891,9 @@ export default class Client4 {
         );
     };
 
-    getProfilesInGroup = (groupId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
+    getProfilesInGroup = (groupId: string, page = 0, perPage = PER_PAGE_DEFAULT, sort = '') => {
         return this.doFetch<UserProfile[]>(
-            `${this.getUsersRoute()}${buildQueryString({in_group: groupId, page, per_page: perPage})}`,
+            `${this.getUsersRoute()}${buildQueryString({in_group: groupId, page, per_page: perPage, sort})}`,
             {method: 'get'},
         );
     };
@@ -3868,7 +3869,7 @@ export default class Client4 {
         if (reset) {
             query = '?reset=true';
         }
-        return this.doFetch<{progress: ValueOf<typeof SelfHostedSignupProgress>}>(
+        return this.doFetch<SelfHostedSignupBootstrapResponse>(
             `${this.getHostedCustomerRoute()}/bootstrap${query}`,
             {method: 'post'},
         );
@@ -3911,6 +3912,12 @@ export default class Client4 {
     getCloudCustomer = () => {
         return this.doFetch<CloudCustomer>(
             `${this.getCloudRoute()}/customer`, {method: 'get'},
+        );
+    }
+
+    getLicenseExpandStatus = () => {
+        return this.doFetch<LicenseExpandStatus>(
+            `${this.getCloudRoute()}/subscription/expand`, {method: 'get'},
         );
     }
 
