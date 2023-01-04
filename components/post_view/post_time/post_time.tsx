@@ -84,6 +84,7 @@ export default class PostTime extends React.PureComponent<Props> {
                 to={`${teamUrl}/pl/${postId}`}
                 className='post__permalink'
                 onClick={this.handleClick}
+                aria-labelledby={eventTime.toString()}
             >
                 {postTime}
             </Link>
@@ -101,6 +102,7 @@ export default class PostTime extends React.PureComponent<Props> {
                         <Timestamp
                             value={eventTime}
                             ranges={POST_TOOLTIP_RANGES}
+                            useSemanticOutput={false}
                         />
                     </Tooltip>
                 }

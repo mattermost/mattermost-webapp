@@ -1,17 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Preferences} from 'mattermost-redux/constants';
 import {PreferenceType} from '@mattermost/types/preferences';
 
+import {a11yFocus} from 'utils/utils';
+
 import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
+import SettingItemMinComponent from 'components/setting_item_min/setting_item_min';
 
 type Props = {
     active: boolean;
+    areAllSectionsInactive: boolean;
     currentUserId: string;
     savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean}>;
     showUnreadsCategory: boolean;
@@ -25,6 +29,8 @@ type State = {
 }
 
 export default class ShowUnreadsCategory extends React.PureComponent<Props, State> {
+    minRef: RefObject<SettingItemMinComponent>;
+
     constructor(props: Props) {
         super(props);
 
@@ -33,6 +39,8 @@ export default class ShowUnreadsCategory extends React.PureComponent<Props, Stat
             checked: false,
             isSaving: false,
         };
+
+        this.minRef = React.createRef();
     }
 
     static getDerivedStateFromProps(props: Props, state: State) {
@@ -52,10 +60,15 @@ export default class ShowUnreadsCategory extends React.PureComponent<Props, Stat
         return null;
     }
 
+    focusEditButton(): void {
+        this.minRef.current?.focus();
+    }
+
     handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             checked: e.target.value === 'true',
         });
+        a11yFocus(e.target);
     }
 
     handleSubmit = async () => {
@@ -91,6 +104,12 @@ export default class ShowUnreadsCategory extends React.PureComponent<Props, Stat
         );
     }
 
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.active && !this.props.active && this.props.areAllSectionsInactive) {
+            this.focusEditButton();
+        }
+    }
+
     render() {
         const title = (
             <FormattedMessage
@@ -106,6 +125,7 @@ export default class ShowUnreadsCategory extends React.PureComponent<Props, Stat
                     describe={this.renderDescription()}
                     section='showUnreadsCategory'
                     updateSection={this.props.updateSection}
+                    ref={this.minRef}
                 />
             );
         }

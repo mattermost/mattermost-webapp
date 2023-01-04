@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useEffect, useCallback, memo} from 'react';
+import React, {useState, useEffect, useCallback, memo, useRef} from 'react';
 import {match} from 'react-router-dom';
 
 type Props = {
@@ -20,22 +20,31 @@ type Props = {
 }
 
 const PermalinkView = (props: Props) => {
-    const [mounted, setMounted] = useState(false);
+    const mounted = useRef(false);
+    const [valid, setValid] = useState(false);
+
+    useEffect(() => {
+        mounted.current = true;
+        return () => {
+            mounted.current = false;
+        };
+    }, []);
 
     const doPermalinkAction = useCallback(async () => {
         const postId = props.match.params.postid;
         await props.actions.focusPost(postId, props.returnTo, props.currentUserId);
-    }, [props]);
+        if (mounted.current) {
+            setValid(true);
+        }
+    }, [props.match.params.postid, props.returnTo, props.currentUserId, props.actions]);
 
     useEffect(() => {
         document.body.classList.add('app__body');
-        doPermalinkAction().then(() => setMounted(true));
-    }, [props, doPermalinkAction]);
-
-    const isStateValid = mounted && props.channelId && props.teamName;
+        doPermalinkAction();
+    }, [doPermalinkAction]);
 
     // it is returning null because main idea of this component is to fire focusPost redux action
-    if (isStateValid) {
+    if (valid && props.channelId && props.teamName) {
         return null;
     }
 

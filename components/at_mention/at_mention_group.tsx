@@ -11,8 +11,9 @@ import {Group} from '@mattermost/types/groups';
 import ProfilePopover from 'components/profile_popover';
 import UserGroupPopover from 'components/user_group_popover';
 
+import Constants, {A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
 import {popOverOverlayPosition} from 'utils/position_utils';
-import {getViewportSize} from 'utils/utils';
+import {getViewportSize, isKeyPressed} from 'utils/utils';
 
 import {MAX_LIST_HEIGHT, getListHeight, VIEWPORT_SCALE_FACTOR} from 'components/user_group_popover/group_member_list/group_member_list';
 
@@ -46,9 +47,12 @@ const AtMentionGroup = (props: Props) => {
     const [show, setShow] = useState(false);
     const [showUser, setShowUser] = useState<UserProfile | undefined>();
     const [target, setTarget] = useState<HTMLAnchorElement | undefined>();
-    const [placement, setPlacement] = useState('');
 
-    const handleClick = (e: React.MouseEvent) => {
+    // We need a valid placement here to prevent console errors.
+    // It will not be used when the overlay is showing.
+    const [placement, setPlacement] = useState('top');
+
+    const showOverlay = (target?: HTMLAnchorElement) => {
         const targetBounds = ref.current?.getBoundingClientRect();
 
         if (targetBounds) {
@@ -58,24 +62,50 @@ const AtMentionGroup = (props: Props) => {
                 MAX_LIST_HEIGHT,
             );
             const placement = popOverOverlayPosition(targetBounds, window.innerHeight, approximatePopoverHeight);
-            setTarget(e.target as HTMLAnchorElement);
+            setTarget(target);
             setShow(!show);
             setShowUser(undefined);
             setPlacement(placement);
         }
     };
 
-    const hide = () => {
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        showOverlay(e.target as HTMLAnchorElement);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLAnchorElement>) => {
+        if (isKeyPressed(e, Constants.KeyCodes.ENTER) || isKeyPressed(e, Constants.KeyCodes.SPACE)) {
+            e.preventDefault();
+
+            // Prevent propagation so that the message textbox isn't focused
+            e.stopPropagation();
+            showOverlay(e.target as HTMLAnchorElement);
+        }
+    };
+
+    const hideOverlay = () => {
         setShow(false);
     };
 
     const showUserOverlay = (user: UserProfile) => {
-        hide();
+        hideOverlay();
         setShowUser(user);
     };
 
     const hideUserOverlay = () => {
         setShowUser(undefined);
+    };
+
+    const returnFocus = () => {
+        document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+            A11yCustomEventTypes.FOCUS, {
+                detail: {
+                    target: ref.current,
+                    keyboardOnly: true,
+                },
+            },
+        ));
     };
 
     return (
@@ -85,12 +115,13 @@ const AtMentionGroup = (props: Props) => {
                 show={show}
                 target={target}
                 rootClose={true}
-                onHide={hide}
+                onHide={hideOverlay}
             >
                 <UserGroupPopover
                     group={group}
-                    hide={hide}
+                    hide={hideOverlay}
                     showUserOverlay={showUserOverlay}
+                    returnFocus={returnFocus}
                 />
             </Overlay>
             <Overlay
@@ -109,13 +140,19 @@ const AtMentionGroup = (props: Props) => {
                         channelId={channelId}
                         hasMention={hasMention}
                         hide={hideUserOverlay}
+                        returnFocus={returnFocus}
                     />
                 ) : <span/>
                 }
             </Overlay>
             <a
                 onClick={handleClick}
+                onKeyDown={handleKeyDown}
+                className='group-mention-link'
                 ref={ref}
+                aria-haspopup='dialog'
+                role='button'
+                tabIndex={0}
             >
                 {'@' + group.name}
             </a>

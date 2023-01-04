@@ -174,6 +174,7 @@ export class QuickInput extends React.PureComponent<Props> {
 
         if (inputComponent !== AutosizeTextarea) {
             Reflect.deleteProperty(props, 'onHeightChange');
+            Reflect.deleteProperty(props, 'onWidthChange');
         }
 
         const inputElement = React.createElement(

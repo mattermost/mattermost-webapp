@@ -11,6 +11,7 @@ import configureStore from 'store';
 import {TestHelper} from 'utils/test_helper';
 import ModalController from 'components/modal_controller';
 import {renderWithIntl} from 'tests/react_testing_utils';
+import * as cloudActions from 'mattermost-redux/actions/cloud';
 
 import DelinquencyModalController from './index';
 
@@ -297,5 +298,49 @@ describe('components/delinquency_modal/delinquency_modal_controller', () => {
         );
 
         expect(screen.queryByText('Your workspace has been downgraded')).not.toBeInTheDocument();
+    });
+
+    it('Should fetch cloud products when on cloud', () => {
+        jest.useFakeTimers().setSystemTime(new Date('2022-12-20'));
+
+        const newState = JSON.parse(JSON.stringify(initialState));
+        newState.entities.cloud.products = {};
+
+        const store = configureStore(newState);
+        const getCloudProds = jest.spyOn(cloudActions, 'getCloudProducts').mockImplementationOnce(jest.fn().mockReturnValue({type: 'mock_impl'}));
+
+        renderWithIntl(
+            <reactRedux.Provider store={store}>
+                <div id='root-portal'/>
+                <ModalController/>
+                <DelinquencyModalController/>
+            </reactRedux.Provider>,
+        );
+
+        expect(getCloudProds).toHaveBeenCalledTimes(1);
+    });
+
+    it('Should NOT fetch cloud products when NOT on cloud', () => {
+        jest.useFakeTimers().setSystemTime(new Date('2022-12-20'));
+
+        const newState = JSON.parse(JSON.stringify(initialState));
+        newState.entities.cloud.products = {};
+        newState.entities.general.license = {
+            IsLicensed: 'true',
+            Cloud: 'false',
+        };
+
+        const store = configureStore(newState);
+        const getCloudProds = jest.spyOn(cloudActions, 'getCloudProducts').mockImplementationOnce(jest.fn().mockReturnValue({type: 'mock_impl'}));
+
+        renderWithIntl(
+            <reactRedux.Provider store={store}>
+                <div id='root-portal'/>
+                <ModalController/>
+                <DelinquencyModalController/>
+            </reactRedux.Provider>,
+        );
+
+        expect(getCloudProds).toHaveBeenCalledTimes(0);
     });
 });

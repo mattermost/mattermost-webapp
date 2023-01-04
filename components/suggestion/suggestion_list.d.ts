@@ -21,10 +21,10 @@ interface Props {
     pretext: string;
     cleared: boolean;
     matchedPretext: string[];
-    items: SuggestionItem[];
+    items: any[];
     terms: string[];
     selection: string;
-    components: Array<React.Component<{item: SuggestionItem}>>;
+    components: Array<React.FunctionComponent<any>>;
     wrapperHeight?: number;
 
     // suggestionBoxAlgn is an optional object that can be passed to align the SuggestionList with the keyboard caret
@@ -37,7 +37,12 @@ interface Props {
 }
 
 declare module 'components/suggestion/suggestion_list' {
-    declare class SuggestionList extends React.PureComponent<Props> {}
+    declare class SuggestionList extends React.PureComponent<Props> {
+        currentLabel: string;
+        announceLabel: () => void;
+        itemRefs: Map<any, any>;
+        currentItem: Item;
+    }
 }
 
 export default SuggestionList;
