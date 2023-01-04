@@ -35,13 +35,15 @@ jest.mock('mattermost-redux/client', () => {
 
 jest.mock('mattermost-redux/actions/channels', () => ({
     ...jest.requireActual('mattermost-redux/actions/channels'),
-    searchAllChannels: () => jest.fn().mockResolvedValue(Promise.resolve({data: [{
-        id: 'channel_other_user1',
-        type: 'O',
-        name: 'other_user',
-        display_name: 'other_user',
-        delete_at: 0,
-    }]})),
+    searchAllChannels: () => jest.fn().mockResolvedValue(Promise.resolve({
+        data: [{
+            id: 'channel_other_user1',
+            type: 'O',
+            name: 'other_user',
+            display_name: 'other_user',
+            delete_at: 0,
+        }],
+    })),
 }));
 
 describe('components/SwitchChannelProvider', () => {
@@ -831,7 +833,6 @@ describe('components/SwitchChannelProvider', () => {
                 ...defaultState.entities,
                 general: {
                     config: {
-                        FeatureFlagCollapsedThreads: 'true',
                         CollapsedThreads: 'default_off',
                     },
                 },
@@ -923,7 +924,6 @@ describe('components/SwitchChannelProvider', () => {
                 ...defaultState.entities,
                 general: {
                     config: {
-                        FeatureFlagCollapsedThreads: 'true',
                         CollapsedThreads: 'default_off',
                         FeatureFlagInsightsEnabled: 'true',
                         InsightsEnabled: 'true',

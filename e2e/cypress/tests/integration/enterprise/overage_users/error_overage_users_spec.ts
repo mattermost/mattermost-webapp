@@ -10,6 +10,8 @@ const text10PercentageState = `Your workspace user count has exceeded your paid 
 const seatsMinimumFor5PercentageState = (Math.ceil(seatsPurchased * 0.05)) + seatsPurchased;
 const text5PercentageState = `Your workspace user count has exceeded your paid license seat count by ${seatsMinimumFor5PercentageState - seatsPurchased} seats. Purchase additional seats to remain compliant.`;
 
+const expandSeatsTextLink = 'Purchase additional seats';
+
 const withEmailLicense = (email = emailTest) => {
     cy.intercept('GET', '**/api/v4/license/client', {
         statusCode: 200,
@@ -23,6 +25,15 @@ const withEmailLicense = (email = emailTest) => {
             Company: 'Mattermost Inc.',
             Users: String(seatsPurchased),
             Email: email,
+        },
+    });
+};
+
+const withSubscriptionExpendable = (isExpendable: boolean) => {
+    cy.intercept('GET', '**/api/v4/cloud/subscription/expandable', {
+        statusCode: 200,
+        body: {
+            is_expendable: isExpendable,
         },
     });
 };
@@ -57,8 +68,9 @@ describe('Global Info Banner overage users', () => {
         });
     });
 
-    it('should show the banner with CTA because it\'s the admin who purchased the license', () => {
+    it('should show the banner with Contact Sales CTA because the license is sales type', () => {
         withEmailLicense(createdUser.email);
+        withSubscriptionExpendable(false);
         cy.apiLogout();
         cy.apiLogin(createdUser);
         cy.visit(url);
@@ -68,15 +80,16 @@ describe('Global Info Banner overage users', () => {
         cy.findByText('Contact Sales').should('exist');
     });
 
-    it('should show the banner without CTA because it isn\'t the admin who purchased the license', () => {
-        withEmailLicense();
+    it('should show the banner with Purchase additional seats CTA because the license is self serve', () => {
+        withEmailLicense(createdUser.email);
+        withSubscriptionExpendable(true);
         cy.apiLogout();
         cy.apiLogin(createdUser);
         cy.visit(url);
 
         // * Check the cta banner exist
         cy.findByText(text5PercentageState).should('exist');
-        cy.findByText('Contact Sales').should('not.exist');
+        cy.findByText(expandSeatsTextLink).should('exist');
     });
 });
 
@@ -110,8 +123,9 @@ describe('Global Error Banner overage users', () => {
         });
     });
 
-    it('should show the banner with CTA because it\'s the admin who purchased the license', () => {
+    it('should show the banner with Contact Sales CTA because it\'s the admin who purchased the license', () => {
         withEmailLicense(createdUser.email);
+        withSubscriptionExpendable(false);
         cy.apiLogout();
         cy.apiLogin(createdUser);
         cy.visit(url);
@@ -121,14 +135,15 @@ describe('Global Error Banner overage users', () => {
         cy.findByText('Contact Sales').should('exist');
     });
 
-    it('should show the banner without CTA because it isn\'t the admin who purchased the license', () => {
-        withEmailLicense();
+    it('should show the banner with Purchase additional seats CTA because the license is self serve', () => {
+        withEmailLicense(createdUser.email);
+        withSubscriptionExpendable(true);
         cy.apiLogout();
         cy.apiLogin(createdUser);
         cy.visit(url);
 
         // * Check the cta banner exist
         cy.findByText(text10PercentageState).should('exist');
-        cy.findByText('Contact Sales').should('not.exist');
+        cy.findByText(expandSeatsTextLink).should('exist');
     });
 });

@@ -145,6 +145,8 @@ const HeaderIconWrapper = (props: Props) => {
         ariaLabelText = `${localizeMessage(toolTips[tooltipKey].messageID, toolTips[tooltipKey].message)}`;
     }
 
+    const boardsEnabled = pluginId === suitePluginIds.focalboard || pluginId === suitePluginIds.boards;
+
     if (tooltip) {
         return (
             <div>
@@ -163,7 +165,7 @@ const HeaderIconWrapper = (props: Props) => {
                         {iconComponent}
                     </button>
                 </OverlayTrigger>
-                {pluginId && pluginId === suitePluginIds.focalboard &&
+                {boardsEnabled &&
                     <NewChannelWithBoardTourTip
                         pulsatingDotPlacement={'start'}
                         pulsatingDotTranslate={{x: 0, y: -22}}
@@ -184,7 +186,7 @@ const HeaderIconWrapper = (props: Props) => {
                     {iconComponent}
                 </button>
             </div>
-            {pluginId && pluginId === suitePluginIds.focalboard &&
+            {boardsEnabled &&
                 <NewChannelWithBoardTourTip
                     pulsatingDotPlacement={'start'}
                     pulsatingDotTranslate={{x: 0, y: -22}}

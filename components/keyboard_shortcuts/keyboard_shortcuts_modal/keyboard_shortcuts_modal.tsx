@@ -8,7 +8,7 @@ import {useSelector} from 'react-redux';
 
 import {GlobalState} from 'types/store';
 
-import {suitePluginIds} from 'packages/client/src/client4';
+import {suitePluginIds} from 'utils/constants';
 
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';

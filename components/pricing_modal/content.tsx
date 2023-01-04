@@ -10,7 +10,7 @@ import {CloudLinks, CloudProducts, LicenseSkus, ModalIdentifiers, PaidFeatures, 
 import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString, hasSomeLimits} from 'utils/limits';
 import {findProductBySkuAndInterval} from 'utils/products';
 
-import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
+import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal, openModal} from 'actions/views/modals';
@@ -62,7 +62,7 @@ function Content(props: ContentProps) {
     const openPricingModalBackAction = useOpenPricingModal();
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
-    const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
+    const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.UpgradeEnterprise);
 
     const subscription = useSelector(selectCloudSubscription);
     const product = useSelector(selectSubscriptionProduct);
@@ -165,17 +165,19 @@ function Content(props: ContentProps) {
     ];
 
     // Default professional price
-    const defaultProfessionalPrice = monthlyProfessionalProduct ? monthlyProfessionalProduct.price_per_seat : 0;
+    const monthlyProfessionalPrice = monthlyProfessionalProduct ? monthlyProfessionalProduct.price_per_seat : 0;
+    const yearlyProfessionalPrice = yearlyProfessionalProduct ? yearlyProfessionalProduct.price_per_seat / 12 : 0;
+    const defaultProfessionalPrice = currentSubscriptionIsMonthly ? monthlyProfessionalPrice : yearlyProfessionalPrice;
     const [professionalPrice, setProfessionalPrice] = useState(defaultProfessionalPrice);
     const [isMonthlyPlan, setIsMonthlyPlan] = useState(true);
 
     // Set professional price
     const updateProfessionalPrice = (newIsMonthly: boolean) => {
-        if (newIsMonthly && monthlyProfessionalProduct) {
-            setProfessionalPrice(monthlyProfessionalProduct.price_per_seat);
+        if (newIsMonthly) {
+            setProfessionalPrice(monthlyProfessionalPrice);
             setIsMonthlyPlan(true);
         } else if (!newIsMonthly && yearlyProfessionalProduct) {
-            setProfessionalPrice(yearlyProfessionalProduct.price_per_seat / 12);
+            setProfessionalPrice(yearlyProfessionalPrice);
             setIsMonthlyPlan(false);
         }
     };
@@ -199,7 +201,7 @@ function Content(props: ContentProps) {
             </Modal.Header>
             <Modal.Body>
                 <div className='pricing-options-container'>
-                    {annualSubscriptionEnabled &&
+                    {(annualSubscriptionEnabled && currentSubscriptionIsMonthly) &&
                         <>
                             <div className='save-text'>
                                 {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
@@ -267,7 +269,7 @@ function Content(props: ContentProps) {
                                 }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
-                            disabled: isStarter || isEnterprise || !isAdmin,
+                            disabled: isStarter || isEnterprise || !isAdmin || !currentSubscriptionIsMonthly,
                             customClass: ButtonCustomiserClasses.secondary,
                         }}
                         briefing={{
@@ -382,7 +384,7 @@ function Content(props: ContentProps) {
                                 formatMessage({id: 'pricing_modal.briefing.enterprise.groupSync', defaultMessage: 'AD/LDAP group sync'}),
                                 formatMessage({id: 'pricing_modal.briefing.enterprise.mobileSecurity', defaultMessage: 'Advanced mobile security via ID-only push notifications'}),
                                 formatMessage({id: 'pricing_modal.briefing.enterprise.rolesAndPermissions', defaultMessage: 'Advanced roles and permissions'}),
-                                formatMessage({id: 'pricing_modal.briefing.enterprise.compliance', defaultMessage: 'Advanced compliance management'}),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.advancedComplianceManagement', defaultMessage: 'Advanced compliance management'}),
                                 formatMessage({id: 'pricing_modal.extra_briefing.enterprise.playBookAnalytics', defaultMessage: 'Playbook analytics dashboard'}),
                             ],
                         }}
