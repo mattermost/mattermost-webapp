@@ -151,7 +151,7 @@ const SelectionMatrix = ({onSelect}: SelectionMatrixProps) => {
     return (
         <>
             <MatrixText>
-                {selection.rows || selection.cols ? formatMessage({id: 'wysiwyg.tool-label.table.insert.grid', defaultMessage: 'Insert {cols}x{rows} table'}, selection) : formatMessage({id: 'wysiwyg.tool-label.table.insert', defaultMessage: 'Insert table'})}
+                {selection.rows || selection.cols ? formatMessage({id: t('wysiwyg.tool-label.table.insert.grid'), defaultMessage: 'Insert {cols}x{rows} table'}, selection) : formatMessage({id: t('wysiwyg.tool-label.table.insert'), defaultMessage: 'Insert table'})}
             </MatrixText>
             <MatrixWrapper>
                 {times(6, (row) => (
@@ -274,7 +274,7 @@ const TableControls = ({editor}: TableControlProps) => {
                 onClick={toggleTableOverlay}
                 isActive={showTableOverlay}
                 shortcutDescriptor={tableModeIsActive ? KEYBOARD_SHORTCUTS.msgMarkdownTableOptions : KEYBOARD_SHORTCUTS.msgMarkdownTableInsert}
-                ariaLabelDescriptor={tableModeIsActive ? {id: 'accessibility.button.table.options', defaultMessage: 'show table options'} : {id: 'accessibility.button.table.add', defaultMessage: 'insert table'}}
+                ariaLabelDescriptor={tableModeIsActive ? {id: t('accessibility.button.table.options'), defaultMessage: 'show table options'} : {id: t('accessibility.button.table.insert'), defaultMessage: 'insert table'}}
                 ref={reference}
             />
             <CSSTransition
