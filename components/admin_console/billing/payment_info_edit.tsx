@@ -11,21 +11,24 @@ import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/
 import {Elements} from '@stripe/react-stripe-js';
 
 import {getCloudCustomer} from 'mattermost-redux/actions/cloud';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {completeStripeAddPaymentMethod} from 'actions/cloud';
+
+import {isDevModeEnabled} from 'selectors/general';
+
+import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
+import {GlobalState} from 'types/store';
+
+import {CloudLinks} from 'utils/constants';
 import BlockableLink from 'components/admin_console/blockable_link';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import PaymentForm from 'components/payment_form/payment_form';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
 import SaveButton from 'components/save_button';
-import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
-import {GlobalState} from 'types/store';
-import {CloudLinks} from 'utils/constants';
+import AlertBanner from 'components/alert_banner';
 
 import './payment_info_edit.scss';
-import AlertBanner from 'components/alert_banner';
 
 let stripePromise: Promise<Stripe | null>;
 
@@ -33,7 +36,7 @@ const PaymentInfoEdit: React.FC = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const isDevMode = useSelector((state: GlobalState) => getConfig(state).EnableDeveloper === 'true');
+    const isDevMode = useSelector(isDevModeEnabled);
     const paymentInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
     const theme = useSelector(getTheme);
 
