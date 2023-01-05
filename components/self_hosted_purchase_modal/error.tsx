@@ -69,7 +69,7 @@ export default function ErrorPage(props: Props) {
         formattedSubtitle = (
             <FormattedMessage
                 id='self_hosted_signup.failed_export.subtitle'
-                defaultMessage='Unable to complete purchase within this application. You may try signing up at <a>{link}</a> or contact support for further assistance.'
+                defaultMessage='Unable to complete purchase within this application. Purchase at <a>{link}</a> or contact support for further assistance.'
                 values={{
                     a: (chunks: React.ReactNode) => (
                         <a href={CloudLinks.SELF_HOSTED_PRICING}>{chunks}</a>
