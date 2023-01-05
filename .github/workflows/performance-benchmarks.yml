@@ -10,9 +10,8 @@ on:
 
 jobs:
   cypress-run:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     name: Run Cypress benchmarks
-    container: cypress/browsers:node16.16.0-chrome107-ff107
     services:
       postgres:
         image: postgres
@@ -30,8 +29,12 @@ jobs:
       - name: Check out web app
         uses: actions/checkout@v3
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.10.0
+
       - name: Download and install Cypress
-        uses: cypress-io/github-action@v4
+        uses: cypress-io/github-action@v5
         with:
           runTests: false
           working-directory: e2e/cypress
@@ -69,7 +72,7 @@ jobs:
           fi
 
       - name: Run the E2E tests
-        uses: cypress-io/github-action@v4
+        uses: cypress-io/github-action@v5
         with:
           browser: chrome
           config: defaultCommandTimeout=60000
