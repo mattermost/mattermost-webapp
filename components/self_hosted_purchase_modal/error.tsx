@@ -61,8 +61,8 @@ export default function ErrorPage(props: Props) {
     if (props.errorType === 'failed_export') {
         formattedTitle = (
             <FormattedMessage
-                id='self_hosted_signup.failed_export.title'
-                defaultMessage='The transaction is currently under review'
+                id="self_hosted_signup.failed_export.title"
+                defaultMessage="Unable to complete purchase"
             />
         );
 
