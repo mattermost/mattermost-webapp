@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-// See LICENSE.txt for license information.
 import React, {useCallback, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
@@ -10,12 +9,12 @@ import {Editor} from '@tiptap/react';
 import {offset, useFloating} from '@floating-ui/react-dom';
 import {CSSTransition} from 'react-transition-group';
 import {EmoticonPlusOutlineIcon} from '@mattermost/compass-icons/components';
+
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import EmojiPickerTabs from 'components/emoji_picker/emoji_picker_tabs';
 
 import {GfycatAPIItem} from '@mattermost/types/gifs';
-
 import {Emoji} from '@mattermost/types/emojis';
 
 import ToolbarControl, {FloatingContainer} from './toolbar/toolbar_controls';
@@ -116,7 +115,11 @@ const EmojiPicker = ({editor}: Props) => {
         setShowEmojiPicker(false);
     };
 
-    const handleGifSelection = (gif: string, item: GfycatAPIItem) => {
+    const handleGifSelection = (gif: string, item?: GfycatAPIItem) => {
+        if (!item) {
+            setShowEmojiPicker(false);
+            return;
+        }
         editor.chain().focus().setImage({src: item.max5mbGif, title: item.title}).run();
         setShowEmojiPicker(false);
     };

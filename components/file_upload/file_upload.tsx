@@ -445,7 +445,7 @@ export class FileUpload extends PureComponent<Props, State> {
         this.unbindDragsterEvents = dragster(containerSelector, dragsterActions);
     }
 
-    containsEventTarget = (targetElement: HTMLInputElement | null, eventTarget: EventTarget | null) => targetElement && targetElement.contains(eventTarget as Node);
+    containsEventTarget = (targetElement: HTMLInputElement | HTMLDivElement | null, eventTarget: EventTarget | null) => targetElement && targetElement.contains(eventTarget as Node);
 
     pasteUpload = (e: ClipboardEvent) => {
         const {formatMessage} = this.props.intl;

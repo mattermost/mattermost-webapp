@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect, ConnectedProps} from 'react-redux';
+
 import {Preferences as PreferencesRedux} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';

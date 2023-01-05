@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {autocompleteCustomEmojis} from 'mattermost-redux/actions/emojis';
 import {PluginKey} from 'prosemirror-state';
 import {SuggestionOptions} from '@tiptap/suggestion';
 
+import {autocompleteCustomEmojis} from 'mattermost-redux/actions/emojis';
 import store from 'stores/redux_store.jsx';
 import {getEmojiMap, getRecentEmojisNames} from 'selectors/emojis';
 
@@ -55,8 +55,13 @@ function findAndSuggestEmojis(partialName: string): SuggestionItem[] {
             continue;
         }
 
+        // disabling this check since emoji is a union and type CustomEmoji does not have that property
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         if (emoji.short_names) {
             // This is a system emoji, so it may have multiple names
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             for (const alias of emoji.short_names) {
                 if (alias.indexOf(partialName) !== -1) {
                     const matchedArray = recentEmojis.includes(alias) || recentEmojis.includes(name) ? recentMatched : matched;

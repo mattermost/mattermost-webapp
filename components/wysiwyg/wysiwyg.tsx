@@ -6,6 +6,7 @@ import type {FormEvent} from 'react';
 import type {KeyboardShortcutCommand} from '@tiptap/core';
 import {EditorContent, useEditor} from '@tiptap/react';
 import type {JSONContent} from '@tiptap/react';
+
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import type {NewPostDraft} from 'types/store/draft';

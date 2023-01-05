@@ -287,7 +287,6 @@ export function isWysiwygEnabled(state: GlobalState): boolean {
     return isAllowed && userPreference === 'true';
 }
 
-
 export function syncedDraftsAreAllowed(state: GlobalState): boolean {
     const isFeatureEnabled = getFeatureFlagValue(state, 'GlobalDrafts') === 'true';
     const isConfiguredForFeature = getConfig(state).AllowSyncedDrafts === 'true';

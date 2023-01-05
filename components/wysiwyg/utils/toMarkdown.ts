@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {fromHtml} from 'hast-util-from-html';
 import {toMdast} from 'hast-util-to-mdast';
 import {toMarkdown} from 'mdast-util-to-markdown';

@@ -1,15 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AccountMultipleOutlineIcon} from '@mattermost/compass-icons/components';
 import React from 'react';
 import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
+import styled from 'styled-components';
+import {AccountMultipleOutlineIcon} from '@mattermost/compass-icons/components';
+
 import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
-import styled from 'styled-components';
 
 import {getLongDisplayNameParts, imageURLForUser} from 'utils/utils';
 import {GlobalState} from 'types/store';

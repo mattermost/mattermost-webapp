@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
-import {Client4} from 'mattermost-redux/client';
-import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
 
+import React from 'react';
 import {SuggestionOptions} from '@tiptap/suggestion';
 import {PluginKey} from 'prosemirror-state';
+
+import {Client4} from 'mattermost-redux/client';
+import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
 
 import {Constants, WysiwygPluginNames} from 'utils/constants';
 

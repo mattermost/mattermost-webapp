@@ -1,13 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {nodeInputRule} from '@tiptap/core';
 
-// See LICENSE.txt for license information.
 import React from 'react';
-
-import {NodeViewProps} from '@tiptap/core/src/types';
-import {Mention} from '@tiptap/extension-mention';
+import {nodeInputRule, NodeViewProps} from '@tiptap/core';
 import {nodePasteRule, NodeViewWrapper, ReactNodeViewRenderer as renderReactNodeView} from '@tiptap/react';
+import {Mention} from '@tiptap/extension-mention';
 
 import {WysiwygPluginNames} from 'utils/constants';
 

@@ -10,6 +10,8 @@ import {makeAsyncComponent} from 'components/async_load';
 import EmojiPicker from 'components/emoji_picker';
 import EmojiPickerHeader from 'components/emoji_picker/components/emoji_picker_header';
 
+import {GfycatAPIItem} from '@mattermost/types/gifs';
+
 import {Emoji} from '@mattermost/types/emojis';
 
 const GifPicker = makeAsyncComponent('GifPicker', React.lazy(() => import('components/gif_picker/gif_picker')));
@@ -22,7 +24,7 @@ export interface Props {
     placement?: ('top' | 'bottom' | 'left' | 'right');
     onEmojiClose: () => void;
     onEmojiClick: (emoji: Emoji) => void;
-    onGifClick?: (gif: string) => void;
+    onGifClick?: (gif: string, item?: GfycatAPIItem) => void;
     enableGifPicker?: boolean;
 }
 

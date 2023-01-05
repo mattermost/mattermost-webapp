@@ -19,6 +19,7 @@ import {useFloating, autoUpdate, offset, flip, shift, size} from '@floating-ui/r
 import {FormattedMessage} from 'react-intl';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 import styled from 'styled-components';
+
 import Constants from 'utils/constants';
 
 const ListContainer = styled.ul`
