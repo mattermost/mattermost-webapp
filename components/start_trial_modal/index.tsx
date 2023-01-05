@@ -1,20 +1,22 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {Modal, Button} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
-import {ModalIdentifiers} from 'utils/constants';
 import {closeModal, openModal} from 'actions/views/modals';
-import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {requestTrialLicense} from 'actions/admin_actions';
-import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
+import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
+
 import {makeAsyncComponent} from 'components/async_load';
+import useGetTotalUsersNoBots from 'components/common/hooks/useGetTotalUsersNoBots';
+
+import {ModalIdentifiers} from 'utils/constants';
 
 import StartTrialModalSvg from './start_trial_modal_svg';
 
@@ -37,13 +39,9 @@ function StartTrialModal(props: Props): JSX.Element | null {
     const [status, setLoadStatus] = useState(TrialLoadStatus.NotStarted);
     const dispatch = useDispatch<DispatchFunc>();
 
-    useEffect(() => {
-        dispatch(getStandardAnalytics());
-    }, []);
-
     const {formatMessage} = useIntl();
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.START_TRIAL_MODAL));
-    const stats = useSelector((state: GlobalState) => state.entities.admin.analytics);
+    const totalUsers = useGetTotalUsersNoBots(true) || 0;
 
     const openTrialBenefitsModal = async () => {
         await dispatch(openModal({
@@ -55,11 +53,7 @@ function StartTrialModal(props: Props): JSX.Element | null {
 
     const requestLicense = async () => {
         setLoadStatus(TrialLoadStatus.Started);
-        let users = 0;
-        if (stats && (typeof stats.TOTAL_USERS === 'number')) {
-            users = stats.TOTAL_USERS;
-        }
-        const requestedUsers = Math.max(users, 30);
+        const requestedUsers = Math.max(totalUsers, 30);
         const {error} = await dispatch(requestTrialLicense(requestedUsers, true, true, 'license'));
         if (error) {
             setLoadStatus(TrialLoadStatus.Failed);
