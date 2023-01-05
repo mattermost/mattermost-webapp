@@ -12,6 +12,12 @@ jest.mock('selectors/drafts', () => ({
     makeGetDraftsCount: jest.fn().mockImplementation(() => jest.fn()),
 }));
 
+jest.mock('mattermost-redux/selectors/entities/preferences', () => ({
+    insightsAreEnabled: jest.fn(),
+    isCollapsedThreadsEnabled: jest.fn(),
+    localDraftsAreEnabled: jest.fn(),
+}));
+
 beforeEach(() => {
     jest.resetModules();
 });

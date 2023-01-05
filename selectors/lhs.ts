@@ -23,42 +23,34 @@ export const getDraftsCount = makeGetDraftsCount();
 
 export const getVisibleStaticPages = createSelector(
     'getVisibleSidebarStaticPages',
-    (state: GlobalState) => {
-        const pages: StaticPage[] = [];
+    insightsAreEnabled,
+    isCollapsedThreadsEnabled,
+    localDraftsAreEnabled,
+    getDraftsCount,
+    (insightsEnabled, collapsedThreadsEnabled, localDraftsEnabled, draftsCount) => {
+        const staticPages: StaticPage[] = [];
 
-        if (insightsAreEnabled(state)) {
-            pages.push({
+        if (insightsEnabled) {
+            staticPages.push({
                 id: 'activity-and-insights',
                 isVisible: true,
             });
         }
 
-        if (isCollapsedThreadsEnabled(state)) {
-            pages.push({
+        if (collapsedThreadsEnabled) {
+            staticPages.push({
                 id: 'threads',
                 isVisible: true,
             });
         }
 
-        if (localDraftsAreEnabled(state)) {
-            pages.push({
+        if (localDraftsEnabled) {
+            staticPages.push({
                 id: 'drafts',
-                isVisible: false,
+                isVisible: draftsCount > 0,
             });
         }
 
-        return pages;
-    },
-    (state: GlobalState) => getDraftsCount(state),
-    (staticPages, draftsCount) => {
-        return staticPages.map((page) => {
-            if (page.id === 'drafts') {
-                return {
-                    ...page,
-                    isVisible: draftsCount > 0,
-                };
-            }
-            return page;
-        }).filter((item) => item.isVisible);
+        return staticPages.filter((item) => item.isVisible);
     },
 );
