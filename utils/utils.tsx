@@ -28,7 +28,6 @@ import {
     getMyChannelMemberships,
     getRedirectChannelNameForTeam,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool, getTeammateNameDisplaySetting, Theme, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
@@ -1670,14 +1669,6 @@ export function setCSRFFromCookie() {
             }
         }
     }
-}
-
-/**
- * Returns true if in dev mode, false otherwise.
- */
-export function isDevMode(state = store.getState()) {
-    const config = getConfig(state);
-    return config.EnableDeveloper === 'true';
 }
 
 /**
