@@ -1,32 +1,29 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 import React, {useEffect, useRef, useState} from 'react';
 import type {FormEvent} from 'react';
-import {KeyboardShortcutCommand} from '@tiptap/core';
-import {
-    EditorContent,
-    useEditor,
-} from '@tiptap/react';
+import type {KeyboardShortcutCommand} from '@tiptap/core';
+import {EditorContent, useEditor} from '@tiptap/react';
 import type {JSONContent} from '@tiptap/react';
+import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import type {NewPostDraft} from 'types/store/draft';
-import FileUpload, {FileUploadClass} from 'components/file_upload';
+import FileUpload from 'components/file_upload';
+import type {FileUploadClass} from 'components/file_upload';
+import FilePreview from 'components/file_preview';
+import type {FilePreviewInfo} from 'components/file_preview';
 
-import {ServerError} from '@mattermost/types/errors';
-
-import {FileInfo} from '@mattermost/types/files';
-
-import FilePreview from '../file_preview';
-import {FilePreviewInfo} from '../file_preview/file_preview';
+import type {FileInfo} from '@mattermost/types/files';
+import type {ServerError} from '@mattermost/types/errors';
 
 // import all custom components, extensions, etc.
 import {EditorContainer, WysiwygContainer} from './components/editor';
 import EmojiPicker from './components/emoji-picker';
 import Toolbar from './components/toolbar';
 import SendButton from './components/send-button';
-import {Extensions, SuggestionConfig} from './extensions';
+import {Extensions} from './extensions';
+import type {SuggestionConfig} from './extensions';
 
 import {htmlToMarkdown} from './utils/toMarkdown';
 
@@ -44,7 +41,7 @@ export type WysiwygConfig = {
     keyHandlers?: Record<string, KeyboardShortcutCommand>;
     suggestions?: Omit<SuggestionConfig, 'emoji'>;
     additionalControls?: React.ReactNode[];
-    fileUpload: {
+    fileUpload?: {
         rootId: string;
         channelId: string;
         postType: 'post' | 'thread' | 'comment';
@@ -101,7 +98,7 @@ type Props = PropsFromRedux & {
 
 export default (props: Props) => {
     const {
-        config,
+        config = {},
         reduxConfig,
         onSubmit,
         onChange,
@@ -136,7 +133,7 @@ export default (props: Props) => {
                     command: config?.suggestions?.command,
                 },
                 keyHandling: {
-                    submitAction: onSubmit,
+                    submitAction: handleSubmit,
                     ctrlSend,
                     codeBlockOnCtrlEnter,
                     additionalHandlers: config?.keyHandlers,
@@ -148,31 +145,25 @@ export default (props: Props) => {
         onUpdate: ({editor}) => {
             // call the onChange function from the parent component (if available)
             onChange?.(htmlToMarkdown(editor.getHTML()), editor.getJSON());
-
-            /* eslint-disable */
-            console.group('##### Output to be stored in drafts or for submission');
-            console.log('##### HTML', editor.getHTML());
-            console.log('##### parsed Markdown', htmlToMarkdown(editor.getHTML()));
-            console.groupEnd();
-            /* eslint-enable */
         },
-    }, [ctrlSend, codeBlockOnCtrlEnter]);
+    }, []);
 
-    const [attachments, setAttchments] = useState<FileInfo[]>(draft?.fileInfos || []);
-    const [uploadsInProgress, setUploadsInProgress] = useState<string[]>(draft?.uploadsInProgress || []);
-    const [uploadsInProgressPercent, setUploadsInProgressPercent] = useState<Record<string, FileInfo>>({});
+    // files currently attached to the editor
+    const [attachments, setAttachments] = useState<FileInfo[]>(draft?.fileInfos || []);
+
+    // files currently uploading
+    const [uploads, setUploads] = useState<string[]>(draft?.uploadsInProgress || []);
+
+    // percentage for the files that are uploading atm
+    const [uploadsProgress, setUploadsProgress] = useState<Record<string, FileInfo>>({});
     const [error, setError] = useState<string>('');
     const containerRef = useRef<HTMLDivElement>(null);
     const fileUploadRef = useRef<FileUploadClass>(null);
 
-    // focus the editor on mount
+    // since the attachment state is now being handled internally fire the optional `onAttachmentChange` handler
     useEffect(() => {
-        editor?.commands.focus();
-    }, [editor]);
-
-    useEffect(() => {
-        onAttachmentChange?.(attachments, uploadsInProgress);
-    }, [onAttachmentChange, attachments, uploadsInProgress]);
+        onAttachmentChange?.(attachments, uploads);
+    }, [onAttachmentChange, attachments, uploads]);
 
     if (!editor) {
         return null;
@@ -181,10 +172,35 @@ export default (props: Props) => {
     function handleSubmit(event?: React.FormEvent) {
         event?.preventDefault();
 
-        // We should probably only allow submitting with the value from the editor to not create a case
-        // where incorrect messages are being sent to the server
+        /**
+         * TODO: should we maybe type this as a promise so we can ensure to only clear the
+         *       content and attachments when the operation was succesful?
+         *       This could be helpful since, most of the time, we will have some API calls we need to wait for anyways.
+         *
+         * @example:
+         * ```
+         * onSubmit().then(() => {
+         *     editor?.commands.clearContent(true);
+         *     setAttachments([]);
+         *     setUploads([]);
+         *     setUploadsProgress({});
+         * }).catch(({error}) => {
+         *     // Something went wrong
+         *     setError({error});
+         * })
+         * ```
+         */
+
+        // 1. fire the passed onSubmit function
         onSubmit();
+
+        // 2. clear the editor content
         editor?.commands.clearContent(true);
+
+        // 3. clear all attachments and related state
+        setAttachments([]);
+        setUploads([]);
+        setUploadsProgress({});
     }
 
     const disableSendButton = editor.isEmpty;
@@ -200,12 +216,12 @@ export default (props: Props) => {
     const getFileUploadTarget = () => containerRef.current;
 
     const handleUploadStart = (clientIds: string[]) => {
-        setUploadsInProgress(uploadsInProgress.concat(clientIds));
+        setUploads(uploads.concat(clientIds));
         editor.commands.focus();
     };
 
     const removeIdsFromUploads = (clientIds: string[]) => {
-        let updatedUploads = uploadsInProgress;
+        let updatedUploads = uploads;
 
         // remove each finished file from uploads
         for (let i = 0; i < clientIds.length; i++) {
@@ -220,8 +236,8 @@ export default (props: Props) => {
             }
         }
 
-        if (updatedUploads.length !== uploadsInProgress.length) {
-            setUploadsInProgress(updatedUploads);
+        if (updatedUploads.length !== uploads.length) {
+            setUploads(updatedUploads);
         }
     };
 
@@ -229,7 +245,7 @@ export default (props: Props) => {
         removeIdsFromUploads(clientIds);
 
         if (fileInfos.length) {
-            setAttchments(sortFileInfos(attachments.concat(fileInfos), locale));
+            setAttachments(sortFileInfos(attachments.concat(fileInfos), locale));
         }
 
         editor.commands.focus();
@@ -248,25 +264,25 @@ export default (props: Props) => {
     };
 
     const handleUploadProgress = (filePreviewInfo: FilePreviewInfo) => {
-        setUploadsInProgressPercent({
-            ...uploadsInProgressPercent,
+        setUploadsProgress({
+            ...uploadsProgress,
             [filePreviewInfo.clientId]: filePreviewInfo,
         });
     };
 
-    const fileUpload = (!config || readOnly) ? null : (
+    const fileUpload = (!config?.fileUpload || readOnly) ? null : (
         <FileUpload
             ref={fileUploadRef}
-            fileCount={attachments.length + uploadsInProgress.length}
+            fileCount={attachments.length + uploads.length}
             getTarget={getFileUploadTarget}
             onFileUploadChange={() => editor.commands.focus()}
             onUploadStart={handleUploadStart}
             onFileUpload={handleFileUploadComplete}
             onUploadError={handleUploadError}
             onUploadProgress={handleUploadProgress}
-            rootId={config?.fileUpload?.rootId}
-            channelId={config?.fileUpload?.channelId}
-            postType={config?.fileUpload?.postType}
+            rootId={config?.fileUpload?.rootId || ''}
+            channelId={config?.fileUpload?.channelId || ''}
+            postType={config?.fileUpload?.postType || 'post'}
         />
     );
 
@@ -285,27 +301,24 @@ export default (props: Props) => {
         // id can either be the id of an uploaded file or the client id of an in progress upload
         let index = attachments.findIndex((info) => info.id === id);
         if (index === -1) {
-            index = uploadsInProgress.indexOf(id);
+            index = uploads.indexOf(id);
 
             if (index !== -1) {
                 removeIdsFromUploads([id]);
             }
         } else {
-            setAttchments(attachments.filter((item, itemIndex) => index !== itemIndex));
+            setAttachments(attachments.filter((item, itemIndex) => index !== itemIndex));
         }
     };
 
-    let attachmentPreview = null;
-    if (!readOnly && (attachments.length > 0 || uploadsInProgress.length > 0)) {
-        attachmentPreview = (
-            <FilePreview
-                fileInfos={attachments}
-                onRemove={removePreview}
-                uploadsInProgress={uploadsInProgress}
-                uploadsProgressPercent={uploadsInProgressPercent}
-            />
-        );
-    }
+    const attachmentPreview = readOnly || !(attachments.length || uploads.length) ? null : (
+        <FilePreview
+            fileInfos={attachments}
+            onRemove={removePreview}
+            uploadsInProgress={uploads}
+            uploadsProgressPercent={uploadsProgress}
+        />
+    );
 
     const toolbarProps = {
         editor,

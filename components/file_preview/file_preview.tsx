@@ -6,11 +6,12 @@
 import React, {ReactNode} from 'react';
 
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
-import {FileInfo} from '@mattermost/types/files';
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay';
 import Constants, {FileTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
+
+import {FileInfo} from '@mattermost/types/files';
 
 import FileProgressPreview from './file_progress_preview';
 

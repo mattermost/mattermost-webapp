@@ -73,7 +73,7 @@ import AdvancedTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_icon';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
-import Wysiwyg from '../wysiwyg';
+import Wysiwyg, {WysiwygConfig} from '../wysiwyg';
 const KeyCodes = Constants.KeyCodes;
 
 function isDraftEmpty(draft: NewPostDraft): boolean {
@@ -869,7 +869,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             serverError = null;
         }
 
-        if (message !== this.state.message || content !== this.props.draft.content) {
+        if (message !== this.state.message) {
             this.setState({
                 message,
                 serverError,
@@ -1640,45 +1640,46 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
 
         if (this.props.isWysiwygEnabled) {
+            const wysiwygConfig: WysiwygConfig = {
+                additionalControls,
+                keyHandlers: {
+                    ArrowUp: ({editor}) => {
+                        if (editor.isEmpty) {
+                            this.editLastPost();
+                            return false;
+                        }
+                        return false;
+                    },
+                },
+                suggestions: {
+                    mention: {
+                        teamId: currentTeamId,
+                        channelId: currentChannel.id,
+                        useSpecialMentions: this.props.useChannelMentions,
+                        useGroupMentions: useLDAPGroupMentions || useCustomGroupMentions,
+                    },
+                    channel: {teamId: currentTeamId},
+                    command: {
+                        teamId: currentTeamId,
+                        channelId: currentChannel.id,
+                    },
+                },
+                fileUpload: {
+                    rootId: '',
+                    channelId: currentChannel.id,
+                    postType: 'post',
+                },
+            };
+
             return (
                 <Wysiwyg
                     onSubmit={this.handleSubmit}
                     onChange={this.handleChange}
-                    onAttachmentChange={this.onAttachmentChange}
                     readOnly={!canPost}
                     placeholder={`Write to ${currentChannel.display_name}`}
                     headerContent={priorityLabels}
                     draft={draft}
-                    config={{
-                        additionalControls,
-                        keyHandlers: {
-                            ArrowUp: ({editor}) => {
-                                if (editor.isEmpty) {
-                                    this.editLastPost();
-                                    return false;
-                                }
-                                return false;
-                            },
-                        },
-                        suggestions: {
-                            mention: {
-                                teamId: currentTeamId,
-                                channelId: currentChannel.id,
-                                useSpecialMentions: this.props.useChannelMentions,
-                                useGroupMentions: useLDAPGroupMentions || useCustomGroupMentions,
-                            },
-                            channel: {teamId: currentTeamId},
-                            command: {
-                                teamId: currentTeamId,
-                                channelId: currentChannel.id,
-                            },
-                        },
-                        fileUpload: {
-                            rootId: '',
-                            channelId: this.state.currentChannel.id,
-                            postType: 'post',
-                        },
-                    }}
+                    config={wysiwygConfig}
                 />
             );
         }

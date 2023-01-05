@@ -9,6 +9,11 @@ export const WysiwygContainer = styled.div`
     border-radius: 4px;
 `;
 
+/**
+ * TODO: Currently this holds a lot of overwrites for existing classes.
+ *       During the coming iterations we should create new classes (or React components)
+ *       to handle these stlyes in the correct way.
+ */
 export const EditorContainer = styled.div`
     display: block;
     align-items: center;

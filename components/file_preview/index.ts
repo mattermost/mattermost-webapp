@@ -16,5 +16,5 @@ function mapStateToProps(state: GlobalState) {
         enableSVGs: config.EnableSVGs === 'true',
     };
 }
-
+export * from './file_preview';
 export default connect(mapStateToProps)(FilePreview);

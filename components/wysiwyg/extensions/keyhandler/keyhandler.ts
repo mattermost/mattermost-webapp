@@ -12,6 +12,12 @@ export type KeyhandlerOptions = {
     additionalHandlers?: Record<string, KeyboardShortcutCommand>;
 }
 
+/**
+ * The `KeyHandler` Extension is currently handling all (modified) Enter hits.
+ * When the event should be handled and be finished with it the function should return `true`.
+ * This is because tiptap can chain commands and the way they handle this is: "Run through all chained commands/handlers
+ * once the first one returns `true` or we reach the end of the chain"
+ */
 const KeyHandler =
 
     /**
