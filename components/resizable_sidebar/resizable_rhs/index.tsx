@@ -8,7 +8,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
 import {getRhsSize} from 'selectors/rhs';
 import LocalStorageStore from 'stores/local_storage_store';
-import {RHS_MIN_MAX_WIDTH} from 'utils/constants';
+import {RHS_MIN_MAX_WIDTH, SidebarSize} from 'utils/constants';
 import {isOverLimit, isResizableSize, requestAnimationFrameForMouseMove, shouldRhsOverlapChannelView, shouldSnapWhenSizeGrown, shouldSnapWhenSizeShrunk} from '../utils';
 
 interface Props extends HTMLAttributes<'div'> {
@@ -161,16 +161,18 @@ function Resizable({
 
         const rhsWidth = rhsRef.current.getBoundingClientRect().width;
 
-        if (rhsWidth > maxWidth) {
-            rhsRef.current.style.width = `${maxWidth}px`;
-            forwardRef.current.style.width = `${maxWidth}px`;
-        }
+        if (rhsWidth > maxWidth || rhsWidth < minWidth) {
+            rhsRef.current.style.width = `${defaultWidth}px`;
+            LocalStorageStore.setRhsWidth(userId, defaultWidth);
 
-        if (rhsWidth < minWidth) {
-            rhsRef.current.style.width = `${minWidth}px`;
-            forwardRef.current.style.width = `${minWidth}px`;
+            if (rhsSize === SidebarSize.MEDIUM) {
+                forwardRef.current.style.width = `${minWidth}px`;
+                return;
+            }
+
+            forwardRef.current.style.width = `${defaultWidth}px`;
         }
-    }, [forwardRef, maxWidth, minWidth]);
+    }, [forwardRef, rhsSize, userId]);
 
     useEffect(() => {
         if (!rhsRef.current || !forwardRef.current) {
