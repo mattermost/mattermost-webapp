@@ -6,7 +6,6 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {GlobalState} from '@mattermost/types/store';
 
-import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {getCloudSubscription, getCloudProducts, getCloudCustomer} from 'mattermost-redux/actions/cloud';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
@@ -17,7 +16,6 @@ import CloudTrialBanner from 'components/admin_console/billing/billing_subscript
 import CloudFetchError from 'components/cloud_fetch_error';
 
 import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
-import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {
     getSubscriptionProduct,
     getCloudSubscription as selectCloudSubscription,
@@ -53,7 +51,6 @@ import './billing_subscriptions.scss';
 
 const BillingSubscriptions = () => {
     const dispatch = useDispatch<DispatchFunc>();
-    const analytics = useSelector(getAdminAnalytics);
     const subscription = useSelector(selectCloudSubscription);
     const [cloudLimits] = useGetLimits();
     const errorLoadingData = useSelector((state: GlobalState) => {
@@ -99,12 +96,6 @@ const BillingSubscriptions = () => {
         const includeLegacyProducts = true;
         dispatch(getCloudProducts(includeLegacyProducts));
         dispatch(getCloudCustomer());
-
-        if (!analytics) {
-            (async function getAllAnalytics() {
-                await dispatch(getStandardAnalytics());
-            }());
-        }
 
         pageVisited('cloud_admin', 'pageview_billing_subscription');
 

@@ -498,7 +498,7 @@ export default class Client4 {
     }
 
     getBoardsRoute() {
-        return this.useBoardsProduct ? '/plugins/boards/api/v2' : '/plugins/focalboard/api/v2';
+        return `${this.url}/plugins/${this.useBoardsProduct ? 'boards' : 'focalboard'}/api/v2`;
     }
 
     getCSRFFromCookie() {
