@@ -34,7 +34,6 @@ exports[`components/FileUploadOverlay should match snapshot when file upload is 
         alt="Logo"
         className="overlay__logo"
         src={null}
-        width="100"
       />
     </div>
   </div>
@@ -75,7 +74,6 @@ exports[`components/FileUploadOverlay should match snapshot when file upload is 
         alt="Logo"
         className="overlay__logo"
         src={null}
-        width="100"
       />
     </div>
   </div>
@@ -116,7 +114,6 @@ exports[`components/FileUploadOverlay should match snapshot when file upload is 
         alt="Logo"
         className="overlay__logo"
         src={null}
-        width="100"
       />
     </div>
   </div>

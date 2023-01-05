@@ -218,7 +218,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
         if (firstTimeOnboarding) {
             initOnboardingPrefs();
         }
-    }, [firstTimeOnboarding]);
+    }, []);
 
     useEffect(() => {
         if (firstTimeOnboarding && showTaskList && isEnableOnboardingFlow) {
