@@ -189,7 +189,7 @@ const TrueUpReview: React.FC = () => {
     }
 
     // Only display the review details if we are within 2 weeks of the review due date.
-    const visibilityStart = moment(reviewStatus.due_date).startOf('day').subtract(2, 'weeks');
+    const visibilityStart = moment(reviewStatus.due_date).startOf('day').subtract(30, 'days');
     if (moment().isSameOrBefore(visibilityStart)) {
         return null;
     }
