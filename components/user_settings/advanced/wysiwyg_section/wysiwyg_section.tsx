@@ -18,19 +18,19 @@ import {PreferenceType} from '@mattermost/types/preferences';
 const messages = defineMessages({
     title: {
         id: t('user.settings.advance.wysiwyg.title'),
-        defaultMessage: t('WYSIWYG Message Editor'),
+        defaultMessage: 'WYSIWYG Message Editor',
     },
     off: {
         id: t('user.settings.advance.off'),
-        defaultMessage: t('Off'),
+        defaultMessage: 'Off',
     },
     on: {
         id: t('user.settings.advance.on'),
-        defaultMessage: t('On'),
+        defaultMessage: 'On',
     },
     desc: {
         id: t('user.settings.advance.wysiwyg.desc'),
-        defaultMessage: t('If the WYSIWYG (What you see is what you get) editor is enabled, formatting in messages will show as you type rather than only after you’ve sent the message.'),
+        defaultMessage: 'If the WYSIWYG (What you see is what you get) editor is enabled, formatting in messages will show as you type rather than only after you’ve sent the message.',
     },
 });
 
@@ -134,7 +134,7 @@ export class WysiwygSection extends React.PureComponent<Props, State> {
                     setting={AdvancedSections.WYSIWYG}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
-                    server_error={this.state.serverError}
+                    serverError={this.state.serverError}
                     updateSection={this.handleUpdateSection}
                 />
             );

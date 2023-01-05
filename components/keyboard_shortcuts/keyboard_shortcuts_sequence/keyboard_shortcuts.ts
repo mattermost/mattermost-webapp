@@ -343,11 +343,11 @@ export const KEYBOARD_SHORTCUTS = {
     },
     msgMarkdownCodeBlock: {
         default: {
-            id: t('shortcuts.msgs.markdown.code_block'),
+            id: t('shortcuts.msgs.markdown.codeBlock'),
             defaultMessage: 'Code Block',
         },
         mac: {
-            id: t('shortcuts.msgs.markdown.code_block.mac'),
+            id: t('shortcuts.msgs.markdown.codeBlock.mac'),
             defaultMessage: 'Code Block',
         },
     },

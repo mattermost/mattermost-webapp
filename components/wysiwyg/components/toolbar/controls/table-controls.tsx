@@ -20,6 +20,8 @@ import {
     TableColumnRemoveIcon,
 } from '@mattermost/compass-icons/components';
 
+import {t} from 'utils/i18n';
+
 import {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 import ToolbarControl, {FloatingContainer} from '../toolbar_controls';
@@ -45,8 +47,8 @@ export const makeTableControlDefinitions = (editor: Editor): Array<ToolDefinitio
         icon: TableRemoveIcon,
         action: () => editor.chain().focus().deleteTable().run(),
         canDoAction: () => editor.can().deleteTable(),
-        labelDescriptor: {id: 'wysiwyg.tool-label.table.delete', defaultMessage: 'Delete table'},
-        ariaLabelDescriptor: {id: 'accessibility.button.table.delete', defaultMessage: 'delete table'},
+        labelDescriptor: {id: t('wysiwyg.tool-label.table.delete'), defaultMessage: 'Delete table'},
+        ariaLabelDescriptor: {id: t('accessibility.button.table.delete'), defaultMessage: 'delete table'},
     },
     {
         mode: 'table',
@@ -54,8 +56,8 @@ export const makeTableControlDefinitions = (editor: Editor): Array<ToolDefinitio
         icon: TableColumnPlusBeforeIcon,
         action: () => editor.chain().focus().addColumnBefore().run(),
         canDoAction: () => editor.can().addColumnBefore(),
-        labelDescriptor: {id: 'wysiwyg.tool-label.table.column.add.after', defaultMessage: 'Add column to the left'},
-        ariaLabelDescriptor: {id: 'accessibility.button.table.column.add.after', defaultMessage: 'add column to the left'},
+        labelDescriptor: {id: t('wysiwyg.tool-label.table.column.add.after'), defaultMessage: 'Add column to the left'},
+        ariaLabelDescriptor: {id: t('accessibility.button.table.column.add.after'), defaultMessage: 'add column to the left'},
     },
     {
         mode: 'table',
@@ -63,8 +65,8 @@ export const makeTableControlDefinitions = (editor: Editor): Array<ToolDefinitio
         icon: TableColumnPlusAfterIcon,
         action: () => editor.chain().focus().addColumnAfter().run(),
         canDoAction: () => editor.can().addColumnAfter(),
-        labelDescriptor: {id: 'wysiwyg.tool-label.table.column.add.before', defaultMessage: 'Add column to the right'},
-        ariaLabelDescriptor: {id: 'accessibility.button.table.column.add.before', defaultMessage: 'add column to the right'},
+        labelDescriptor: {id: t('wysiwyg.tool-label.table.column.add.before'), defaultMessage: 'Add column to the right'},
+        ariaLabelDescriptor: {id: t('accessibility.button.table.column.add.before'), defaultMessage: 'add column to the right'},
     },
     {
         mode: 'table',
@@ -72,8 +74,8 @@ export const makeTableControlDefinitions = (editor: Editor): Array<ToolDefinitio
         icon: TableColumnRemoveIcon,
         action: () => editor.chain().focus().deleteColumn().run(),
         canDoAction: () => editor.can().deleteColumn(),
-        labelDescriptor: {id: 'wysiwyg.tool-label.table.column.delete', defaultMessage: 'Delete column'},
-        ariaLabelDescriptor: {id: 'accessibility.button.table.column.delete', defaultMessage: 'delete column'},
+        labelDescriptor: {id: t('wysiwyg.tool-label.table.column.delete'), defaultMessage: 'Delete column'},
+        ariaLabelDescriptor: {id: t('accessibility.button.table.column.delete'), defaultMessage: 'delete column'},
     },
     {
         mode: 'table',
@@ -81,8 +83,8 @@ export const makeTableControlDefinitions = (editor: Editor): Array<ToolDefinitio
         icon: TableRowPlusBeforeIcon,
         action: () => editor.chain().focus().addRowBefore().run(),
         canDoAction: () => !editor.isActive('tableHeader') && editor.can().addRowBefore(),
-        labelDescriptor: {id: 'wysiwyg.tool-label.table.row.add.after', defaultMessage: 'Add row above'},
-        ariaLabelDescriptor: {id: 'accessibility.button.table.row.add.after', defaultMessage: 'add row above'},
+        labelDescriptor: {id: t('wysiwyg.tool-label.table.row.add.after'), defaultMessage: 'Add row above'},
+        ariaLabelDescriptor: {id: t('accessibility.button.table.row.add.after'), defaultMessage: 'add row above'},
     },
     {
         mode: 'table',
@@ -90,8 +92,8 @@ export const makeTableControlDefinitions = (editor: Editor): Array<ToolDefinitio
         icon: TableRowPlusAfterIcon,
         action: () => editor.chain().focus().addRowAfter().run(),
         canDoAction: () => editor.can().addRowAfter(),
-        labelDescriptor: {id: 'wysiwyg.tool-label.table.row.add.before', defaultMessage: 'Add row below'},
-        ariaLabelDescriptor: {id: 'accessibility.button.table.row.add.before', defaultMessage: 'add row below'},
+        labelDescriptor: {id: t('wysiwyg.tool-label.table.row.add.before'), defaultMessage: 'Add row below'},
+        ariaLabelDescriptor: {id: t('accessibility.button.table.row.add.before'), defaultMessage: 'add row below'},
     },
     {
         mode: 'table',
@@ -99,8 +101,8 @@ export const makeTableControlDefinitions = (editor: Editor): Array<ToolDefinitio
         icon: TableRowRemoveIcon,
         action: () => editor.chain().focus().deleteRow().run(),
         canDoAction: () => editor.can().deleteRow(),
-        labelDescriptor: {id: 'wysiwyg.tool-label.table.row.delete', defaultMessage: 'Delete row'},
-        ariaLabelDescriptor: {id: 'accessibility.button.table.row.delete', defaultMessage: 'delete row'},
+        labelDescriptor: {id: t('wysiwyg.tool-label.table.row.delete'), defaultMessage: 'Delete row'},
+        ariaLabelDescriptor: {id: t('accessibility.button.table.row.delete'), defaultMessage: 'delete row'},
     },
 ]);
 
