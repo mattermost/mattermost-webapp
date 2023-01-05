@@ -388,11 +388,24 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             const isStartingElementQuote = startingSelectedElement?.nodeName === 'BLOCKQUOTE';
             const isEndingElementQuote = endingSelectedElement?.nodeName === 'BLOCKQUOTE';
 
+            // todo sinan: copy code related logic to advanced_create_comment
+            const isStartingElementCode = startingSelectedElement?.classList.contains('hljs');
+            const isEndingElementCode = endingSelectedElement?.classList.contains('hljs');
+
+            console.log('startingSelectedElement: ', startingSelectedElement)
+            const {paddingLeft} = getComputedStyle(startingSelectedElement); // todo sinan parseInt, and also for code get width of firstChild of startingSelectedElement
+
             if (isStartingElementQuote) {
-                startingSelectedElement = selection.anchorNode?.parentElement?.parentElement?.offsetParent as HTMLElement;
+                startingSelectedElement = startingSelectedElement?.offsetParent as HTMLElement;
             }
             if (isEndingElementQuote) {
-                endingSelectedElement = selection.focusNode?.parentElement?.parentElement?.offsetParent as HTMLElement;
+                endingSelectedElement = endingSelectedElement?.offsetParent as HTMLElement;
+            }
+            if (isStartingElementCode) {
+                startingSelectedElement = startingSelectedElement?.offsetParent?.offsetParent as HTMLElement;
+            }
+            if (isEndingElementCode) {
+                endingSelectedElement = endingSelectedElement?.offsetParent?.offsetParent as HTMLElement;
             }
             if (!startingSelectedElement || !endingSelectedElement) {
                 return;
@@ -413,7 +426,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 text = selection.toString() || '';
             }
 
-            // todo sinan: on safari sometimes it is selected 3 rects soit messes up spaceY due to (multipleRects[0].height * multipleRects.length);
             // todo sinan: code is not working properly
             if (text !== '' && selection.anchorOffset && selection.focusOffset) {
                 const quoteButtonPosition = selection.anchorOffset < selection.focusOffset ? 'bottom' : 'top';

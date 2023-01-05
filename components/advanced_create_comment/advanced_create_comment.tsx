@@ -373,8 +373,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                 text = selection?.toString() || '';
             }
 
-            // todo sinan if there is overscroll for postCreateContainer, there is an issue
-            // todo sinan: on safari sometimes it is selected 3 rects soit messes up spaceY due to (multipleRects[0].height * multipleRects.length);
             if (text !== '' && selection?.anchorOffset && selection?.focusOffset) {
                 const quoteButtonPosition = selection.anchorOffset < selection.focusOffset ? 'bottom' : 'top';
                 const {positionX, positionY} = this.getQuoteButtonCoords(
