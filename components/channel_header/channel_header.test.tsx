@@ -268,7 +268,7 @@ describe('components/ChannelHeader', () => {
         const props = {
             ...populatedProps,
             pinnedPostsCount: 2,
-            hasNewPinnedPosts: true
+            hasNewPinnedPosts: true,
         };
         const wrapper = shallowWithIntl(
             <ChannelHeader {...props}/>,
