@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {HTMLAttributes, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {HTMLAttributes, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
@@ -174,7 +174,7 @@ function Resizable({
         }
     }, [forwardRef, rhsSize, userId]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!rhsRef.current || !forwardRef.current) {
             return;
         }
