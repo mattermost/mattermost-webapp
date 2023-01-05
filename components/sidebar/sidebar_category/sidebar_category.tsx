@@ -269,13 +269,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 </div>
             );
 
-            categoryMenu = (
-                <SidebarCategoryMenu
-                    category={category}
-                    isMenuOpen={this.state.isMenuOpen}
-                    onToggleMenu={this.handleMenuToggle}
-                />
-            );
+            categoryMenu = (<SidebarCategoryMenu category={category}/>);
         } else if (category.type === CategoryTypes.DIRECT_MESSAGES) {
             const addHelpLabel = localizeMessage('sidebar.createDirectMessage', 'Create new direct message');
 
@@ -322,13 +316,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 isCollapsible = false;
             }
         } else {
-            categoryMenu = (
-                <SidebarCategoryMenu
-                    category={category}
-                    isMenuOpen={this.state.isMenuOpen}
-                    onToggleMenu={this.handleMenuToggle}
-                />
-            );
+            categoryMenu = (<SidebarCategoryMenu category={category}/>);
         }
 
         let displayName = category.display_name;
