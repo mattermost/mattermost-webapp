@@ -297,9 +297,6 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
         }
       }
       handleOpenDirectMessagesModal={[Function]}
-      isCollapsed={false}
-      isMenuOpen={false}
-      onToggleMenu={[Function]}
     />
     <OverlayTrigger
       defaultOverlayShown={false}
@@ -424,9 +421,6 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
         }
       }
       handleOpenDirectMessagesModal={[Function]}
-      isCollapsed={false}
-      isMenuOpen={false}
-      onToggleMenu={[Function]}
     />
     <OverlayTrigger
       defaultOverlayShown={false}
