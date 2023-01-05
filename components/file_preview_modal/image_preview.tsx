@@ -38,6 +38,7 @@ export default function ImagePreview({fileInfo, canDownloadFiles}: Props) {
         >
             <img
                 className='image_preview__image'
+                loading='lazy'
                 data-testid='imagePreview'
                 alt={'preview url image'}
                 src={previewUrl}
