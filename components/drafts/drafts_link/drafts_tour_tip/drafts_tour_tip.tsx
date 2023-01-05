@@ -15,7 +15,7 @@ import {TourTip, useMeasurePunchouts} from '@mattermost/components';
 import {setDraftsTourTipPreference} from 'actions/views/drafts';
 
 const title = (
-    <span className='title-with-new-badge'>
+    <span className='d-flex align-items-center'>
         <FormattedMessage
             id='drafts.tutorialTip.title'
             defaultMessage='Drafts'
