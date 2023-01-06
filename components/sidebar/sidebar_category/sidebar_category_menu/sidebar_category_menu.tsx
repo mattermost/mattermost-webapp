@@ -13,7 +13,7 @@ import {
     ClockOutlineIcon,
     FolderPlusOutlineIcon,
     DotsVerticalIcon,
-    ArrowForwardIosIcon,
+    ChevronRightIcon,
 } from '@mattermost/compass-icons/components';
 
 import {ChannelCategory, CategorySorting} from '@mattermost/types/channel_categories';
@@ -168,7 +168,7 @@ const SidebarCategoryMenu = (props: Props) => {
             trailingElements={
                 <>
                     {sortChannelsSelectedValue}
-                    <ArrowForwardIosIcon size={16}/>
+                    <ChevronRightIcon size={16}/>
                 </>
             }
             menuId={`sortChannels-${props.category.id}-menu`}

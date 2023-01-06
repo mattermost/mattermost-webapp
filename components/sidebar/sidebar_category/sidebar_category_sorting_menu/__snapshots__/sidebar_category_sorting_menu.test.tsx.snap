@@ -36,7 +36,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_sorting_menu shoul
           defaultMessage="Alphabetically"
           id="user.settings.sidebar.sortAlpha"
         />
-        <ArrowForwardIosIcon
+        <ChevronRightIcon
           size={16}
         />
       </React.Fragment>
@@ -82,7 +82,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_sorting_menu shoul
         <span>
           10
         </span>
-        <ArrowForwardIosIcon
+        <ChevronRightIcon
           size={16}
         />
       </React.Fragment>

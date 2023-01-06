@@ -293,6 +293,7 @@ const SidebarChannelMenu = (props: Props) => {
             triggerTooltipText={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
             menuId={`SidebarChannelMenu-MenuList-${props.channel.id}`}
             menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
+            onMenuToggle={props.onMenuToggle}
         >
             {markAsReadUnreadMenuItem}
             {favoriteUnfavoriteMenuItem}

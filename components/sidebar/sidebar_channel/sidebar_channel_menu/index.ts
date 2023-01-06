@@ -31,6 +31,7 @@ export type OwnProps = {
     channelLink: string;
     isUnread: boolean;
     closeHandler?: (callback: () => void) => void;
+    onMenuToggle: (open: boolean) => void;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {

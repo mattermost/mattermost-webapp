@@ -83,7 +83,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
           defaultMessage="Alphabetically"
           id="user.settings.sidebar.sortAlpha"
         />
-        <ArrowForwardIosIcon
+        <ChevronRightIcon
           size={16}
         />
       </React.Fragment>

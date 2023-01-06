@@ -4,6 +4,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 <Menu
   menuAriaLabel="Edit channel Menu"
   menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
   triggerAriaLabel="Edit channel Menu"
   triggerClassName="SidebarMenu_menuButton"
   triggerElement={
@@ -138,6 +139,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 <Menu
   menuAriaLabel="Edit channel Menu"
   menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
   triggerAriaLabel="Edit channel Menu"
   triggerClassName="SidebarMenu_menuButton"
   triggerElement={
@@ -272,6 +274,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 <Menu
   menuAriaLabel="Edit channel Menu"
   menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
   triggerAriaLabel="Edit channel Menu"
   triggerClassName="SidebarMenu_menuButton"
   triggerElement={
@@ -406,6 +409,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 <Menu
   menuAriaLabel="Edit channel Menu"
   menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
   triggerAriaLabel="Edit channel Menu"
   triggerClassName="SidebarMenu_menuButton"
   triggerElement={
@@ -509,6 +513,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 <Menu
   menuAriaLabel="Edit channel Menu"
   menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
   triggerAriaLabel="Edit channel Menu"
   triggerClassName="SidebarMenu_menuButton"
   triggerElement={
@@ -626,6 +631,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 <Menu
   menuAriaLabel="Edit channel Menu"
   menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
   triggerAriaLabel="Edit channel Menu"
   triggerClassName="SidebarMenu_menuButton"
   triggerElement={
@@ -760,6 +766,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 <Menu
   menuAriaLabel="Edit channel Menu"
   menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
   triggerAriaLabel="Edit channel Menu"
   triggerClassName="SidebarMenu_menuButton"
   triggerElement={
@@ -894,6 +901,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 <Menu
   menuAriaLabel="Edit channel Menu"
   menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
   triggerAriaLabel="Edit channel Menu"
   triggerClassName="SidebarMenu_menuButton"
   triggerElement={
@@ -1028,6 +1036,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 <Menu
   menuAriaLabel="Edit channel Menu"
   menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
   triggerAriaLabel="Edit channel Menu"
   triggerClassName="SidebarMenu_menuButton"
   triggerElement={
@@ -1162,6 +1171,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 <Menu
   menuAriaLabel="Edit channel Menu"
   menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
   triggerAriaLabel="Edit channel Menu"
   triggerClassName="SidebarMenu_menuButton"
   triggerElement={

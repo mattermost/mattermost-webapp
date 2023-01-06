@@ -41,6 +41,8 @@ interface Props {
     menuId: string;
     menuAriaLabel?: string;
 
+    onMenuToggle?: (isOpen: boolean) => void;
+
     children: ReactNode[];
 }
 
@@ -87,18 +89,18 @@ export function Menu(props: Props) {
         }
     }
 
-    function close() {
+    function handleOnClick() {
         setAnchorElement(null);
     }
 
     function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
         if (event.key === 'Enter') {
             const target = event.target as HTMLElement;
-            const ariaHasPopup = target.getAttribute('aria-haspopup');
+            const ariaHasPopup = target?.getAttribute('aria-haspopup') === 'true' ?? false;
 
             // Avoid closing the sub menu item on enter
             if (!ariaHasPopup) {
-                close();
+                setAnchorElement(null);
             }
         }
     }
@@ -147,6 +149,12 @@ export function Menu(props: Props) {
     }
 
     useEffect(() => {
+        if (props.onMenuToggle) {
+            props.onMenuToggle(isMenuOpen);
+        }
+    }, [isMenuOpen]);
+
+    useEffect(() => {
         if (anyModalOpen && !isMobileView) {
             setAnchorElement(null);
         }
@@ -164,8 +172,7 @@ export function Menu(props: Props) {
                 id={props.menuId}
                 anchorEl={anchorElement}
                 open={isMenuOpen}
-                onClose={close}
-                onClick={close}
+                onClick={handleOnClick}
                 onKeyDown={handleKeyDown}
                 aria-label={props.menuAriaLabel}
                 className={A11yClassNames.POPUP}

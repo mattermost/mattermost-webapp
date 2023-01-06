@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactElement, ReactNode} from 'react';
+import React, {ReactElement, ReactNode, Children} from 'react';
 import {styled} from '@mui/material/styles';
 import MuiMenuItem from '@mui/material/MenuItem';
 import type {MenuItemProps as MuiMenuItemProps} from '@mui/material/MenuItem';
@@ -38,13 +38,13 @@ export interface Props extends MuiMenuItemProps {
      * passed, first will be subMenuDetail and second will be trailingElement.
      *
      * @example
-     * <Menu.Item trailingElements={<Badge/>}/>
+     * <Menu.Item trailingElements={<ChevronRightIcon/>}/>
      *
      * @example
      * <Menu.Item trailingElements={
      *  <>
      *   <FormattedMessage id="submenu.detail" defaultMessage="submenu detail"/>
-     *   <Badge/>
+     *   <ChevronRightIcon/>
      * </>
      * }/>
      */
@@ -54,6 +54,10 @@ export interface Props extends MuiMenuItemProps {
      * For actions of menu item that are destructive in nature and harder to undo.
      */
     isDestructive?: boolean;
+
+    /**
+     * ONLY to support submenus. Avoid passing children to this component. Support for children is only added to support submenus.
+     */
     children?: ReactNode;
 }
 
@@ -65,9 +69,6 @@ export interface Props extends MuiMenuItemProps {
  * <Menu.Container>
  *    <Menu.Item/>
  * </Menu.Container>
- *
- * @caution
- * avoid passing children to this component. Support for children is only added to support submenus.
  */
 export function MenuItem(props: Props) {
     const {
@@ -79,11 +80,15 @@ export function MenuItem(props: Props) {
         ...restProps
     } = props;
 
+    // When both primary and secondary labels are passed, we need to apply minor changes to the styling. Check below in styled component for more details.
+    const hasSecondaryLabel = labels && labels.props && labels.props.children && Children.count(labels.props.children) === 2;
+
     return (
         <MenuItemStyled
             disableRipple={true}
             disableTouchRipple={true}
             isDestructive={isDestructive}
+            hasSecondaryLabel={hasSecondaryLabel}
             {...restProps}
         >
             {leadingElement && <div className='leading-element'>{leadingElement}</div>}
@@ -94,21 +99,27 @@ export function MenuItem(props: Props) {
     );
 }
 
+interface MenuItemStyledProps extends MuiMenuItemProps {
+    isDestructive?: boolean;
+    hasSecondaryLabel?: boolean;
+}
+
 /* eslint-disable no-negated-condition */
 const MenuItemStyled = styled(MuiMenuItem, {
-    shouldForwardProp: (prop) => prop !== 'isDestructive',
-})<MuiMenuItemProps & Pick<Props, 'isDestructive'>>(
-    ({isDestructive = false}) => ({
+    shouldForwardProp: (prop) => prop !== 'isDestructive' && prop !== 'hasSecondaryLabel',
+})<MenuItemStyledProps>(
+    ({isDestructive = false, hasSecondaryLabel = false}) => ({
         '&.MuiMenuItem-root': {
             fontFamily: '"Open Sans", sans-serif',
             color: !isDestructive ? 'var(--center-channel-color)' : 'var(--error-text)',
-            padding: '8px 20px 8px 16px',
+            padding: '6px 20px',
             display: 'flex',
             flexDirection: 'row',
             flexWrap: 'nowrap',
             justifyContent: 'flex-start',
-            alignItems: 'center',
-            pointerEvents: 'auto', // To resume pointer events if they were disabled by the parent submenu
+            alignItems: !hasSecondaryLabel ? 'center' : 'flex-start',
+            minHeight: '36px',
+            maxHeight: '56px',
 
             '&:hover': {
                 backgroundColor: !isDestructive ? 'rgba(var(--center-channel-color-rgb), 0.08)' : 'var(--error-text)',
@@ -144,8 +155,11 @@ const MenuItemStyled = styled(MuiMenuItem, {
             '&>.label-elements': {
                 display: 'flex',
                 flex: '1 0 auto',
-                alignSelf: 'stretch',
                 flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+                flexWrap: 'nowrap',
+                alignSelf: 'stretch',
                 fontWeight: 400,
                 textAlign: 'start',
                 paddingInlineStart: '8px',

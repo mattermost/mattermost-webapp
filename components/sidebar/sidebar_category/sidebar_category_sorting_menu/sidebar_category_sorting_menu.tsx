@@ -10,7 +10,7 @@ import {
     AccountMultipleOutlineIcon,
     AccountPlusOutlineIcon,
     DotsVerticalIcon,
-    ArrowForwardIosIcon,
+    ChevronRightIcon,
 } from '@mattermost/compass-icons/components';
 
 import {ChannelCategory, CategorySorting} from '@mattermost/types/channel_categories';
@@ -72,7 +72,7 @@ const SidebarCategorySortingMenu = (props: Props) => {
             trailingElements={
                 <>
                     {sortDirectMessagesSelectedValue}
-                    <ArrowForwardIosIcon size={16}/>
+                    <ChevronRightIcon size={16}/>
                 </>
             }
             menuId={`sortDirectMessages-${props.category.id}-menu`}
@@ -134,7 +134,7 @@ const SidebarCategorySortingMenu = (props: Props) => {
             trailingElements={
                 <>
                     {showMessagesCountSelectedValue}
-                    <ArrowForwardIosIcon size={16}/>
+                    <ChevronRightIcon size={16}/>
                 </>
             }
             menuId={`showMessagesCount-${props.category.id}-menu`}

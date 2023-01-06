@@ -9,7 +9,7 @@ import {
     FolderOutlineIcon,
     StarOutlineIcon,
     FolderMoveOutlineIcon,
-    ArrowForwardIosIcon,
+    ChevronRightIcon,
     CheckIcon,
 } from '@mattermost/compass-icons/components';
 
@@ -187,7 +187,7 @@ const ChannelMoveToSubMenu = (props: Props) => {
                 />
             }
             leadingElement={props.inHeaderDropdown ? null : <FolderMoveOutlineIcon size={18}/>}
-            trailingElements={<ArrowForwardIosIcon size={16}/>}
+            trailingElements={<ChevronRightIcon size={16}/>}
             menuId={`moveTo-${props.channel.id}-menu`}
         >
             {getMoveToCategorySubmenuItems(categories, currentCategory)}
