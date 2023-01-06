@@ -132,6 +132,10 @@ const FeatureList = (props: FeatureListProps) => {
             id: 'admin.billing.subscription.planDetails.features.readOnlyChannels',
             defaultMessage: 'Read-only announcement channels',
         }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.sharedChannels',
+            defaultMessage: 'Shared channels (coming soon)',
+        }),
     ];
 
     const featuresCloudEnterprise = [
@@ -146,10 +150,6 @@ const FeatureList = (props: FeatureListProps) => {
         intl.formatMessage({
             id: 'admin.billing.subscription.planDetails.features.customRetentionPolicies',
             defaultMessage: 'Custom data retention policies',
-        }),
-        intl.formatMessage({
-            id: 'admin.billing.subscription.planDetails.features.sharedChannels',
-            defaultMessage: 'Shared channels (coming soon)',
         }),
         intl.formatMessage({
             id: 'admin.billing.subscription.planDetails.features.ldapSync',
