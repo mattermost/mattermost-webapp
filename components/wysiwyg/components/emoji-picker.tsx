@@ -124,6 +124,11 @@ const EmojiPicker = ({editor}: Props) => {
         setShowEmojiPicker(false);
     };
 
+    const handleKaomojiSelection = (kaomoji: string) => {
+        editor.chain().focus().insertContent(kaomoji).run();
+        setShowEmojiPicker(false);
+    };
+
     /**
      * this is mimicking the behavior inside the EmojiPicker, but since this cannot be
      * controlled from the outside and we render this the moment we mount this component
@@ -161,9 +166,11 @@ const EmojiPicker = ({editor}: Props) => {
                 >
                     <EmojiPickerTabs
                         enableGifPicker={enableGifPicker}
+                        enableKaomoji={true}
                         onEmojiClose={() => setShowEmojiPicker(false)}
                         onEmojiClick={handleEmojiSelection}
                         onGifClick={handleGifSelection}
+                        onKaomojiClick={handleKaomojiSelection}
                     />
                 </EmojiContainer>
             </CSSTransition>
