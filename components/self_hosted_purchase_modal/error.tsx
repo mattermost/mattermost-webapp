@@ -9,6 +9,7 @@ import {useSelector} from 'react-redux';
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
 import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
+import AccessDeniedSvg from 'components/common/svg_images_components/access_denied_svg';
 import IconMessage from 'components/purchase_modal/icon_message';
 
 import {CloudLinks} from 'utils/constants';
@@ -21,7 +22,7 @@ interface Props {
 
 export default function ErrorPage(props: Props) {
     const contactSupportLink = useSelector(getCloudContactUsLink)(InquiryType.Technical);
-    const formattedTitle = (
+    let formattedTitle = (
         <FormattedMessage
             id='admin.billing.subscription.paymentVerificationFailed'
             defaultMessage='Sorry, the payment verification failed'
@@ -50,17 +51,38 @@ export default function ErrorPage(props: Props) {
         />
     );
 
+    let icon = (
+        <PaymentFailedSvg
+            width={444}
+            height={313}
+        />
+    );
+
     if (props.errorType === 'failed_export') {
+        formattedTitle = (
+            <FormattedMessage
+                id='self_hosted_signup.failed_export.title'
+                defaultMessage='Unable to complete purchase'
+            />
+        );
+
         formattedSubtitle = (
             <FormattedMessage
                 id='self_hosted_signup.failed_export.subtitle'
-                defaultMessage='Payment failed. Please contact support or try signing up at <a>{link}</a>.'
+                defaultMessage='Unable to complete purchase within this application. Purchase at <a>{link}</a> or contact support for further assistance.'
                 values={{
                     a: (chunks: React.ReactNode) => (
                         <a href={CloudLinks.SELF_HOSTED_PRICING}>{chunks}</a>
                     ),
                     link: CloudLinks.SELF_HOSTED_PRICING,
                 }}
+            />
+        );
+
+        icon = (
+            <AccessDeniedSvg
+                width={444}
+                height={313}
             />
         );
     }
@@ -70,12 +92,7 @@ export default function ErrorPage(props: Props) {
             <IconMessage
                 formattedTitle={formattedTitle}
                 formattedSubtitle={formattedSubtitle}
-                icon={(
-                    <PaymentFailedSvg
-                        width={444}
-                        height={313}
-                    />
-                )}
+                icon={icon}
                 error={true}
                 formattedButtonText={formattedButtonText}
                 buttonHandler={props.nextAction}
