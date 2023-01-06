@@ -34,6 +34,7 @@ type Props = {
     authorId: UserProfile['id'];
     currentUserId: UserProfile['id'];
     hasReactions: boolean;
+    isDeleted: boolean;
     list?: Array<{user: UserProfile; acknowledgedAt: PostAcknowledgement['acknowledged_at']}>;
     postId: Post['id'];
     showDivider?: boolean;
@@ -48,6 +49,7 @@ function PostAcknowledgements({
     authorId,
     currentUserId,
     hasReactions,
+    isDeleted,
     list,
     postId,
     showDivider = true,
@@ -112,6 +114,21 @@ function PostAcknowledgements({
         }
     };
 
+    if (isDeleted) {
+        return null;
+    }
+
+    let buttonText: React.ReactNode = (
+        <FormattedMessage
+            id={'post_priority.button.acknowledge'}
+            defaultMessage={'Acknowledge'}
+        />
+    );
+
+    if ((list && list.length) || isCurrentAuthor) {
+        buttonText = list?.length || 0;
+    }
+
     const button = (
         <>
             <button
@@ -126,12 +143,7 @@ function PostAcknowledgements({
                 {...getReferenceProps()}
             >
                 <CheckCircleOutlineIcon size={16}/>
-                {(list && list.length > 0) || isCurrentAuthor ? list?.length || 0 : (
-                    <FormattedMessage
-                        id={'post_priority.button.acknowledge'}
-                        defaultMessage={'Acknowledge'}
-                    />
-                )}
+                {buttonText}
             </button>
             {showDivider && hasReactions && <div className='AcknowledgementButton__divider'/>}
         </>

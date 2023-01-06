@@ -642,8 +642,9 @@ export default class RhsRootPost extends React.PureComponent {
                             <div className='post__body-reactions-acks'>
                                 {this.props.isPostAcknowledgementsEnabled && post.metadata?.priority?.requested_ack && (
                                     <PostAcknowledgements
-                                        postId={post.id}
                                         authorId={post.user_id}
+                                        isDeleted={post.state === Posts.POST_DELETED}
+                                        postId={post.id}
                                     />
                                 )}
                                 <ReactionList post={post}/>

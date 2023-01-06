@@ -222,10 +222,11 @@ export default class PostBody extends React.PureComponent<Props, State> {
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}
                     <div className='post__body-reactions-acks'>
-                        {post.state !== Posts.POST_DELETED && this.props.isPostAcknowledgementsEnabled && post.metadata?.priority?.requested_ack && (
+                        {this.props.isPostAcknowledgementsEnabled && post.metadata?.priority?.requested_ack && (
                             <PostAcknowledgements
-                                postId={post.id}
                                 authorId={post.user_id}
+                                isDeleted={post.state === Posts.POST_DELETED}
+                                postId={post.id}
                             />
                         )}
                         <ReactionList post={post}/>

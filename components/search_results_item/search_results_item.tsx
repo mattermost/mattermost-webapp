@@ -419,10 +419,11 @@ export default class SearchResultsItem extends React.PureComponent<Props, State>
                             }}
                             isRHS={true}
                         />
-                        {Posts.POST_DELETED !== post.state && this.props.isPostAcknowledgementsEnabled && post.metadata?.priority?.requested_ack && (
+                        {this.props.isPostAcknowledgementsEnabled && post.metadata?.priority?.requested_ack && (
                             <PostAcknowledgements
-                                postId={post.id}
                                 authorId={post.user_id}
+                                postId={post.id}
+                                isDeleted={post.state === Posts.POST_DELETED}
                                 showDivider={false}
                             />
                         )}
