@@ -11,6 +11,8 @@ import SettingItemMin from 'components/setting_item_min';
 
 import {AdvancedSections} from 'utils/constants';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import {t} from 'utils/i18n';
 
 import {PreferenceType} from '@mattermost/types/preferences';
@@ -65,6 +67,8 @@ export class WysiwygSection extends React.PureComponent<Props, State> {
 
     public handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const value = e.currentTarget.value;
+
+        trackEvent('advanced_settings', `wysiwyg_${value}`);
 
         this.setState({wysiwygState: value});
     }

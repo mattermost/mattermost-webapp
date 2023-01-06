@@ -15,13 +15,12 @@ import {a11yFocus, isMac, localizeMessage} from 'utils/utils';
 import SettingItemMax from 'components/setting_item_max';
 import ConfirmModal from 'components/confirm_modal';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
+import SettingItem from 'components/setting_item';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {UserProfile} from '@mattermost/types/users';
 import {PreferenceType} from '@mattermost/types/preferences';
-
-import SettingItem from 'components/setting_item';
 
 import JoinLeaveSection from './join_leave_section';
 import WysiwygSection from './wysiwyg_section';
