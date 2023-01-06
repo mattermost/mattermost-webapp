@@ -371,13 +371,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
     // todo sinan: copy code related logic to advanced_create_comment
     getSelectionText = () => {
-        const selectionData = Utils.getSelectionData();
-        if (!selectionData) {
-            return;
-        }
-        const {startingSelectedElement, endingSelectedElement, selection, isAnyElementQuote, rects} = selectionData;
+        const {startingSelectedElement, endingSelectedElement, selection, isAnyElementQuote, rects} = Utils.getSelectionData();
 
         if (
+            !selection ||
+            !rects ||
             !startingSelectedElement ||
             !endingSelectedElement ||
             startingSelectedElement.id !== endingSelectedElement.id ||
@@ -394,7 +392,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         const {positionX, positionY} = this.getQuoteButtonCoords(
             quoteButtonPosition,
             rects,
-            isAnyElementQuote,
+            isAnyElementQuote || false,
             startingSelectedElement,
         );
         this.setState({

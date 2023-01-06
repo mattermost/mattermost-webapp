@@ -908,25 +908,25 @@ export function findParentPostMessage(node?: HTMLElement | null): HTMLElement | 
 type SelectionData = {
     startingSelectedElement?: HTMLElement | null;
     endingSelectedElement?: HTMLElement | null;
-    isAnyElementQuote: boolean;
-    isAnyElementCode: boolean;
-    selection: Selection;
-    rects: DOMRectList;
+    isAnyElementQuote?: boolean;
+    isAnyElementCode?: boolean;
+    selection?: Selection;
+    rects?: DOMRectList;
 }
 
-export function getSelectionData(): SelectionData | undefined {
+export function getSelectionData(): SelectionData {
     if (!window || !window.getSelection) {
-        return;
+        return {};
     }
 
     const selection = window.getSelection();
     if (!selection || selection?.rangeCount === 0) {
-        return;
+        return {};
     }
     const range = selection.getRangeAt(0);
     const rects = range.getClientRects();
     if (!rects) {
-        return;
+        return {};
     }
 
     const startingNode = selection.anchorNode?.parentElement;
