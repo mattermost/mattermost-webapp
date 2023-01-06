@@ -46,6 +46,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         enablePreviewFeatures: false,
         enableUserDeactivation: false,
         syncedDraftsAreAllowed: true,
+        wysiwygAllowed: false,
     };
 
     test('should have called handleSubmit', async () => {

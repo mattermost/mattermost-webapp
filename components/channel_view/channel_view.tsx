@@ -152,7 +152,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                     className='post-create__container AdvancedTextEditor__ctr'
                     id='post-create'
                 >
-                    <AdvancedCreatePost getChannelView={this.getChannelView}/>
+                    <AdvancedCreatePost/>
                 </div>
             );
         }
