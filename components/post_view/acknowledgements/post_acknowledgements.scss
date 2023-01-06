@@ -30,7 +30,7 @@
     &--disabled,
     &:disabled {
         background: rgba(var(--online-indicator-rgb), 0.08);
-        cursor: default;
+        cursor: not-allowed;
     }
 
     &:hover:enabled {
