@@ -32,7 +32,7 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import store from 'stores/redux_store.jsx';
 import {pageVisited} from 'actions/telemetry_actions';
 import {TELEMETRY_CATEGORIES} from 'utils/constants';
-import { getIsStarterLicense } from 'utils/license_utils';
+import {getIsStarterLicense} from 'utils/license_utils';
 
 const TrueUpReview: React.FC = () => {
     const dispatch = useDispatch();
@@ -46,6 +46,7 @@ const TrueUpReview: React.FC = () => {
     const isLicensed = license.IsLicensed === 'true';
     const isStarter = getIsStarterLicense(license);
     const isGovSku = license.IsGovSku === 'true';
+
     // A license is eligible for true up if a licensed exists for the customer, are self-hosted (not cloud) and, if for cases
     // where the license is starter/free, the license holds a government SKU. If the license is starter/free and the license
     // does not hold a government SKU, then the license is not eligible for true up review.

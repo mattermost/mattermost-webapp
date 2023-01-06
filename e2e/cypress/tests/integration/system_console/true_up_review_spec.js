@@ -35,6 +35,19 @@ describe('System Console > Site Statistics > True Up Review', () => {
         cy.findByText('True Up Review').should('not.exist');
     });
 
+    it('starter instances should not see true up review sections', () => {
+        cy.apiAdminLogin();
+        cy.apiRequireLicense('starter');
+
+        // # Go to team statistics
+        cy.visit('/admin_console/reporting/team_statistics');
+        cy.findByText('True Up Review').should('not.exist');
+
+        // # Go to site statistics
+        cy.visit('/admin_console/reporting/system_analytics');
+        cy.findByText('True Up Review').should('not.exist');
+    });
+
     it('non-admin users do no see the true up review sections', () => {
         // # Go to team statistics
         cy.visit('/admin_console/reporting/team_statistics');
