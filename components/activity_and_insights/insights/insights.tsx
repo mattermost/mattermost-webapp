@@ -45,12 +45,7 @@ const Insights = () => {
     let focalboardProductEnabled = false;
     const products = useProducts();
     if (products) {
-        for (let i = 0; i < products?.length; i++) {
-            focalboardProductEnabled = products[i].pluginId === suitePluginIds.focalboard || products[i].pluginId === suitePluginIds.boards;
-            if (focalboardProductEnabled) {
-                break;
-            }
-        }
+        focalboardProductEnabled = products.some((product) => product.pluginId === suitePluginIds.focalboard || product.pluginId === suitePluginIds.boards);
     }
     const focalboardEnabled = focalboardPluginEnabled || focalboardProductEnabled;
 
