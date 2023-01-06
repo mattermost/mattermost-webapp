@@ -331,77 +331,43 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     }
 
     getSelectionText = () => {
-        let text = '';
-
-        if (window && window.getSelection) {
-            const selection = window.getSelection();
-            if (!selection || selection?.rangeCount === 0) {
-                return;
-            }
-            const range = selection.getRangeAt(0);
-            const rects = range?.getClientRects();
-            if (!rects) {
-                return;
-            }
-            let startingSelectedElement = selection.anchorNode?.parentElement?.offsetParent as HTMLElement | undefined;
-            let endingSelectedElement = selection.focusNode?.parentElement?.offsetParent as HTMLElement | undefined;
-            const isStartingElementQuote = startingSelectedElement?.nodeName === 'BLOCKQUOTE';
-            const isEndingElementQuote = endingSelectedElement?.nodeName === 'BLOCKQUOTE';
-
-            if (isStartingElementQuote) {
-                startingSelectedElement = selection.anchorNode?.parentElement?.parentElement?.offsetParent as HTMLElement;
-            }
-            if (isEndingElementQuote) {
-                endingSelectedElement = selection.focusNode?.parentElement?.parentElement?.offsetParent as HTMLElement;
-            }
-            if (!startingSelectedElement || !endingSelectedElement) {
-                return;
-            }
-
-            if (
-                // don't show quote button if selected text is not a message
-                startingSelectedElement.classList.contains('post-message') &&
-                endingSelectedElement.classList.contains('post-message') &&
-
-                // don't show quote button if user selects multiple messages
-                startingSelectedElement.parentElement?.id === endingSelectedElement.parentElement?.id &&
-
-                // don't show quote button if user selects text outside of RHS
-                startingSelectedElement.firstElementChild?.firstElementChild?.id.includes('rhsPostMessageText') &&
-                endingSelectedElement.firstElementChild?.firstElementChild?.id.includes('rhsPostMessageText')
-            ) {
-                text = selection?.toString() || '';
-            }
-
-            if (text !== '' && selection?.anchorOffset && selection?.focusOffset) {
-                const quoteButtonPosition = selection.anchorOffset < selection.focusOffset ? 'bottom' : 'top';
-                const {positionX, positionY} = this.getQuoteButtonCoords(
-                    quoteButtonPosition,
-                    rects,
-                    (isStartingElementQuote || isEndingElementQuote),
-                    startingSelectedElement,
-                );
-                this.setState({
-                    mousePositionX: positionX + 'px',
-                    mousePositionY: positionY + 'px',
-                    showQuoteButton: true,
-                    quoteText: text,
-                    quoteButtonPosition,
-                });
-            }
-
-            setTimeout(() => {
-                if (this.state.showQuoteButton) {
-                    this.setState({
-                        showQuoteButton: false,
-                        mousePositionX: undefined,
-                        mousePositionY: undefined,
-                        quoteText: '',
-                        quoteButtonPosition: '',
-                    });
-                }
-            }, 5000);
+        const selectionData = Utils.getSelectionData();
+        if (!selectionData) {
+            return;
         }
+        const {startingSelectedElement, endingSelectedElement, selection, isAnyElementQuote, rects} = selectionData;
+
+        if (
+            !startingSelectedElement ||
+            !endingSelectedElement ||
+            startingSelectedElement.id !== endingSelectedElement.id ||
+            !startingSelectedElement.firstElementChild?.id.includes('rhsPostMessageText') ||
+            !endingSelectedElement.firstElementChild?.id.includes('rhsPostMessageText')
+        ) {
+            return;
+        }
+
+        const text = selection.toString();
+        const quoteButtonPosition = selection.anchorOffset < selection.focusOffset ? 'bottom' : 'top';
+        const {positionX, positionY} = this.getQuoteButtonCoords(
+            quoteButtonPosition,
+            rects,
+            isAnyElementQuote,
+            startingSelectedElement,
+        );
+        this.setState({
+            mousePositionX: positionX + 'px',
+            mousePositionY: positionY + 'px',
+            showQuoteButton: true,
+            quoteText: text,
+            quoteButtonPosition,
+        });
+
+        setTimeout(() => {
+            if (this.state.showQuoteButton) {
+                this.setState({showQuoteButton: false});
+            }
+        }, 5000);
     }
 
     handlePostQuote = () => {
@@ -431,7 +397,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             quoteButtonPosition,
             rects,
             isAnyElementQuote,
-            startingSelectedElement,
+            startingSelectedElement: startingSelectedElement.parentElement,
             additionalSpaces: {spaceX, spaceY},
         });
     }

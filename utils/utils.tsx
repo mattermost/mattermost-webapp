@@ -871,7 +871,7 @@ type CoordParams = {
     quoteButtonPosition: string;
     rects: DOMRectList;
     isAnyElementQuote: boolean;
-    startingSelectedElement: HTMLElement;
+    startingSelectedElement: HTMLElement | null;
     additionalSpaces: {
         spaceX: number;
         spaceY: number;
@@ -884,7 +884,7 @@ export function getQuoteButtonCoords(coordParams: CoordParams) {
     let positionY = rects[0].y - additionalSpaces.spaceY;
 
     if (quoteButtonPosition === 'top') {
-        positionY -= startingSelectedElement.offsetLeft;
+        positionY -= startingSelectedElement?.offsetLeft || 0;
         positionX -= rects[0].width;
     }
 
@@ -893,9 +893,60 @@ export function getQuoteButtonCoords(coordParams: CoordParams) {
         const spaceForQuote = isAnyElementQuote ? 38 : 0;
         const numberOfLines = UserAgent.isFirefox() ? rects.length - 1 : Math.ceil((rects.length / 2) - 1);
         positionY += rects[0].height * numberOfLines;
-        positionX = rects[rects.length - 1].width + startingSelectedElement.offsetLeft + spaceForQuote;
+        positionX = rects[rects.length - 1].width + (startingSelectedElement?.offsetLeft || 0) + spaceForQuote;
     }
     return {positionX, positionY};
+}
+
+export function findParentPostMessage(node?: HTMLElement | null): HTMLElement | null | undefined {
+    if (!node || node.classList.contains('post-message__text-container')) {
+        return node;
+    }
+    return findParentPostMessage(node.parentElement);
+}
+
+type SelectionData = {
+    startingSelectedElement?: HTMLElement | null;
+    endingSelectedElement?: HTMLElement | null;
+    isAnyElementQuote: boolean;
+    isAnyElementCode: boolean;
+    selection: Selection;
+    rects: DOMRectList;
+}
+
+export function getSelectionData(): SelectionData | undefined {
+    if (!window || !window.getSelection) {
+        return;
+    }
+
+    const selection = window.getSelection();
+    if (!selection || selection?.rangeCount === 0) {
+        return;
+    }
+    const range = selection.getRangeAt(0);
+    const rects = range.getClientRects();
+    if (!rects) {
+        return;
+    }
+
+    const startingNode = selection.anchorNode?.parentElement;
+    const endingNode = selection.focusNode?.parentElement;
+    const startingSelectedElement = findParentPostMessage(startingNode);
+    const endingSelectedElement = findParentPostMessage(endingNode);
+
+    const isStartingElementQuote = startingNode?.offsetParent?.nodeName === 'BLOCKQUOTE';
+    const isEndingElementQuote = endingNode?.offsetParent?.nodeName === 'BLOCKQUOTE';
+    const isStartingElementCode = startingNode?.nodeName === 'CODE';
+    const isEndingElementCode = endingNode?.nodeName === 'CODE';
+
+    return {
+        startingSelectedElement,
+        endingSelectedElement,
+        isAnyElementQuote: isStartingElementQuote || isEndingElementQuote,
+        isAnyElementCode: isStartingElementCode || isEndingElementCode,
+        selection,
+        rects,
+    };
 }
 
 export function getViewportSize(win?: Window) {

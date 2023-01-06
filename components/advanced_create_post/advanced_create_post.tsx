@@ -369,93 +369,47 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.saveDraftWithShow();
     }
 
+    // todo sinan: copy code related logic to advanced_create_comment
     getSelectionText = () => {
-        let text = '';
-
-        if (window && window.getSelection) {
-            const selection = window.getSelection();
-            if (!selection || selection?.rangeCount === 0) {
-                return;
-            }
-            const range = selection.getRangeAt(0);
-            const rects = range?.getClientRects();
-            if (!rects) {
-                return;
-            }
-
-            let startingSelectedElement = selection.anchorNode?.parentElement?.offsetParent as HTMLElement | undefined;
-            let endingSelectedElement = selection.focusNode?.parentElement?.offsetParent as HTMLElement | undefined;
-            const isStartingElementQuote = startingSelectedElement?.nodeName === 'BLOCKQUOTE';
-            const isEndingElementQuote = endingSelectedElement?.nodeName === 'BLOCKQUOTE';
-
-            // todo sinan: copy code related logic to advanced_create_comment
-            const isStartingElementCode = startingSelectedElement?.classList.contains('hljs');
-            const isEndingElementCode = endingSelectedElement?.classList.contains('hljs');
-
-            console.log('startingSelectedElement: ', startingSelectedElement)
-            const {paddingLeft} = getComputedStyle(startingSelectedElement); // todo sinan parseInt, and also for code get width of firstChild of startingSelectedElement
-
-            if (isStartingElementQuote) {
-                startingSelectedElement = startingSelectedElement?.offsetParent as HTMLElement;
-            }
-            if (isEndingElementQuote) {
-                endingSelectedElement = endingSelectedElement?.offsetParent as HTMLElement;
-            }
-            if (isStartingElementCode) {
-                startingSelectedElement = startingSelectedElement?.offsetParent?.offsetParent as HTMLElement;
-            }
-            if (isEndingElementCode) {
-                endingSelectedElement = endingSelectedElement?.offsetParent?.offsetParent as HTMLElement;
-            }
-            if (!startingSelectedElement || !endingSelectedElement) {
-                return;
-            }
-
-            if (
-                // don't show quote button if selected text is not a message
-                startingSelectedElement.classList.contains('post-message') &&
-                endingSelectedElement.classList.contains('post-message') &&
-
-                // don't show quote button if user selects multiple messages
-                startingSelectedElement.parentElement?.id === endingSelectedElement.parentElement?.id &&
-
-                // don't show quote button if user selects text in RHS
-                !startingSelectedElement.firstElementChild?.firstElementChild?.id.includes('rhsPostMessageText') &&
-                !endingSelectedElement.firstElementChild?.firstElementChild?.id.includes('rhsPostMessageText')
-            ) {
-                text = selection.toString() || '';
-            }
-
-            // todo sinan: code is not working properly
-            if (text !== '' && selection.anchorOffset && selection.focusOffset) {
-                const quoteButtonPosition = selection.anchorOffset < selection.focusOffset ? 'bottom' : 'top';
-                const {positionX, positionY} = this.getQuoteButtonCoords(
-                    quoteButtonPosition,
-                    rects,
-                    (isStartingElementQuote || isEndingElementQuote),
-                    startingSelectedElement,
-                );
-                this.setState({
-                    mousePositionX: positionX + 'px',
-                    mousePositionY: positionY + 'px',
-                    showQuoteButton: true,
-                    quoteText: text,
-                    quoteButtonPosition,
-                });
-            }
-
-            setTimeout(() => {
-                if (this.state.showQuoteButton) {
-                    this.setState({
-                        showQuoteButton: false,
-                        mousePositionX: undefined,
-                        mousePositionY: undefined,
-                        quoteText: '',
-                        quoteButtonPosition: '',
-                    });
-                }
-            }, 5000);
+        const selectionData = Utils.getSelectionData();
+        if (!selectionData) {
+            return;
         }
+        const {startingSelectedElement, endingSelectedElement, selection, isAnyElementQuote, rects} = selectionData;
+
+        if (
+            !startingSelectedElement ||
+            !endingSelectedElement ||
+            startingSelectedElement.id !== endingSelectedElement.id ||
+            startingSelectedElement.firstElementChild?.id.includes('rhsPostMessageText') ||
+            endingSelectedElement.firstElementChild?.id.includes('rhsPostMessageText')
+        ) {
+            return;
+        }
+
+        // const {paddingLeft} = getComputedStyle(startingSelectedElement); // todo sinan parseInt, and also for code get width of firstChild of startingSelectedElement
+
+        const text = selection.toString();
+        const quoteButtonPosition = selection.anchorOffset < selection.focusOffset ? 'bottom' : 'top';
+        const {positionX, positionY} = this.getQuoteButtonCoords(
+            quoteButtonPosition,
+            rects,
+            isAnyElementQuote,
+            startingSelectedElement,
+        );
+        this.setState({
+            mousePositionX: positionX + 'px',
+            mousePositionY: positionY + 'px',
+            showQuoteButton: true,
+            quoteText: text,
+            quoteButtonPosition,
+        });
+
+        setTimeout(() => {
+            if (this.state.showQuoteButton) {
+                this.setState({showQuoteButton: false});
+            }
+        }, 5000);
     }
 
     handlePostQuote = () => {
@@ -482,7 +436,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             quoteButtonPosition,
             rects,
             isAnyElementQuote,
-            startingSelectedElement,
+            startingSelectedElement: startingSelectedElement.parentElement,
             additionalSpaces: {spaceX, spaceY},
         });
     }
