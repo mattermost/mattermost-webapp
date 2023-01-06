@@ -8,8 +8,7 @@ import classNames from 'classnames';
 import {Posts} from 'mattermost-redux/constants/index';
 import {
     isMeMessage as checkIsMeMessage,
-    isPostPendingOrFailed,
-    isPostEphemeral} from 'mattermost-redux/utils/post_utils';
+    isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
 
 import Constants, {A11yCustomEventTypes, AppEvents, Locations} from 'utils/constants';
 
@@ -115,17 +114,16 @@ const PostComponent = (props: Props): JSX.Element => {
     const isRHS = props.location === Locations.RHS_ROOT || props.location === Locations.RHS_COMMENT || props.location === Locations.SEARCH;
     const postRef = useRef<HTMLDivElement>(null);
     const postHeaderRef = useRef<HTMLDivElement>(null);
+
     const [hover, setHover] = useState(false);
     const [a11yActive, setA11y] = useState(false);
     const [dropdownOpened, setDropdownOpened] = useState(false);
     const [fileDropdownOpened, setFileDropdownOpened] = useState(false);
     const [fadeOutHighlight, setFadeOutHighlight] = useState(false);
     const [alt, setAlt] = useState(false);
-    const [showOptionsMenuWithoutHover, setShowOptionsMenuWithoutHover] = useState(false);
 
     const isSystemMessage = PostUtils.isSystemMessage(props.post);
     const fromAutoResponder = PostUtils.fromAutoResponder(props.post);
-    const isEphemeral = isPostEphemeral(props.post);
 
     useEffect(() => {
         if (props.shouldHighlight) {
@@ -149,12 +147,6 @@ const PostComponent = (props: Props): JSX.Element => {
     }, []);
 
     useEffect(() => {
-        if ((props.shortcutReactToLastPostEmittedFrom === Locations.CENTER || props.shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT) && props.isLastPost !== undefined) {
-            handleShortcutReactToLastPost(props.isLastPost);
-        }
-    }, [props.shortcutReactToLastPostEmittedFrom]);
-
-    useEffect(() => {
         return () => {
             if (hover) {
                 removeKeyboardListeners();
@@ -166,35 +158,6 @@ const PostComponent = (props: Props): JSX.Element => {
             }
         };
     }, []);
-
-    const handleShortcutReactToLastPost = (isLastPost: boolean): void => {
-        if (isLastPost) {
-            const {
-                isMobileView,
-                isReadOnly,
-                post,
-                actions,
-            } = props;
-
-            // Setting the last message emoji action to empty to clean up the redux state
-            actions.emitShortcutReactToLastPostFrom?.(Locations.NO_WHERE);
-
-            const isDeletedPost: boolean = post && post.state === Posts.POST_DELETED;
-            const isFailedPost: boolean | undefined = post && post.failed;
-
-            // Checking if rhs comment is in scroll view of the user
-            const boundingRectOfPostInfo: DOMRect | undefined = postHeaderRef.current?.getBoundingClientRect();
-            let isPostHeaderVisibleToUser: boolean | null = null;
-            if (boundingRectOfPostInfo) {
-                isPostHeaderVisibleToUser = (boundingRectOfPostInfo.top - 65) > 0 &&
-                    boundingRectOfPostInfo.bottom < (window.innerHeight - 85);
-            }
-
-            if (isPostHeaderVisibleToUser && !isEphemeral && !isSystemMessage && !isReadOnly && !isFailedPost && !isDeletedPost && !isMobileView) {
-                setShowOptionsMenuWithoutHover(true);
-            }
-        }
-    };
 
     const hasSameRoot = (props: Props) => {
         const post = props.post;
@@ -570,7 +533,6 @@ const PostComponent = (props: Props): JSX.Element => {
                             <PostOptions
                                 {...props}
                                 setActionsMenuInitialisationState={props.actions.setActionsMenuInitialisationState}
-                                showOptionsMenuWithoutHover={showOptionsMenuWithoutHover}
                                 handleDropdownOpened={handleDropdownOpened}
                                 handleCommentClick={handleCommentClick}
                                 hover={hover || a11yActive}
