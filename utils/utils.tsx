@@ -11,6 +11,7 @@ import cssVars from 'css-vars-ponyfill';
 import moment from 'moment';
 
 import {getName} from 'country-list';
+import {isNil} from 'lodash';
 
 import Constants, {FileTypes, ValidationErrors, A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
 
@@ -1723,6 +1724,26 @@ export function deleteKeysFromObject(value: Record<string, any>, keys: string[])
 function isSelection() {
     const selection = window.getSelection();
     return selection!.type === 'Range';
+}
+
+export function isTextSelectedInPostOrReply(e: React.KeyboardEvent | KeyboardEvent) {
+    const {id} = e.target as HTMLElement;
+
+    const isTypingInPost = id === 'post_textbox';
+    const isTypingInReply = id === 'reply_textbox';
+
+    if (!isTypingInPost && !isTypingInReply) {
+        return false;
+    }
+
+    const {
+        selectionStart,
+        selectionEnd,
+    } = e.target as TextboxElement;
+
+    const hasSelection = !isNil(selectionStart) && !isNil(selectionEnd) && selectionStart < selectionEnd;
+
+    return hasSelection;
 }
 
 /*
