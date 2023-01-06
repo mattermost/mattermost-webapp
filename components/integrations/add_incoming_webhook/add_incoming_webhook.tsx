@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {t} from 'utils/i18n';
 import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook';
 import {Team} from '@mattermost/types/teams';
@@ -57,7 +57,7 @@ export default class AddIncomingWebhook extends React.PureComponent<Props, State
 
         const {data, error} = await this.props.actions.createIncomingHook(hook);
         if (data) {
-            browserHistory.push(`/${this.props.team.name}/integrations/confirm?type=incoming_webhooks&id=${data.id}`);
+            getHistory().push(`/${this.props.team.name}/integrations/confirm?type=incoming_webhooks&id=${data.id}`);
             return;
         }
 

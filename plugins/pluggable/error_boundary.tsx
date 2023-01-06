@@ -21,6 +21,16 @@ const WrapperDiv = styled.div`
     height: 100%;
     justify-content: center;
     width: 100%;
+
+    #root > & {
+        // prevent root layout error; fit into announcement area
+        grid-area: announcement;
+        display: flex;
+        word-break: normal;
+        flex-direction: row;
+        gap: 10px;
+        height: 40px;
+    }
 `;
 
 export default class PluggableErrorBoundary extends React.PureComponent<Props, State> {

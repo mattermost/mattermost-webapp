@@ -41,6 +41,10 @@
             }
 
             &[data-placement^=bottom] > .tippy-arrow {
+                transform: translate3d(14px, 0, 0) !important;
+            }
+
+            &[data-placement=bottom-end] > .tippy-arrow {
                 transform: translate3d(317px, 0, 0) !important;
             }
         }
@@ -391,4 +395,31 @@
     left: 1px !important;
     border-width: 0 0 1px 1px !important;
     transform: rotate(-45deg) !important;
+}
+
+// this style is defined outside of the block scope because is intended to affect the tippy element
+.tippy-blue-style {
+    background: var(--button-bg) !important;
+    color: var(--sidebar-text) !important;
+
+    .tippy-arrow {
+        border-color: var(--button-bg) !important;
+        color: var(--button-bg) !important;
+
+        &::before {
+            border-width: 0 !important;
+            border-color: var(--button-bg) !important;
+            border-left-color: initial;
+            background-color: var(--button-bg) !important;
+            transform-origin: unset !important;
+        }
+    }
+
+    .tour-tip__header {
+        font-weight: 600;
+    }
+
+    .icon-close {
+        color: var(--sidebar-text) !important;
+    }
 }

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -34,21 +35,22 @@ describe('System Console > Team Statistics', () => {
         cy.get('.team-statistics__header span').should('be.visible').should('contain', 'Team Statistics for');
 
         // * Check that the rows for the table were generated.
-        cy.get('.admin-console__content .row').should('have.length', 4);
+        cy.get('.grid-statistics__card').should('have.length', 4);
 
         // * Check that the title content for the stats is as expected.
-        cy.get('.admin-console__content .row').eq(0).find('.title').eq(0).should('contain', 'Total Active Users');
-        cy.get('.admin-console__content .row').eq(0).find('.title').eq(1).should('contain', 'Public Channels');
-        cy.get('.admin-console__content .row').eq(0).find('.title').eq(2).should('contain', 'Private Channels');
-        cy.get('.admin-console__content .row').eq(0).find('.title').eq(3).should('contain', 'Total Posts');
-        cy.get('.admin-console__content .row').eq(1).find('.title').eq(0).should('contain', 'Total Posts');
-        cy.get('.admin-console__content .row').eq(2).find('.title').eq(0).should('contain', 'Active Users With Posts');
-        cy.get('.admin-console__content .row').eq(3).find('.title').eq(0).should('contain', 'Recent Active Users');
-        cy.get('.admin-console__content .row').eq(3).find('.title').eq(1).should('contain', 'Newly Created Users');
+        cy.get('.admin-console__content').eq(0).find('.title').eq(0).should('contain', 'Total Active Users');
+        cy.get('.admin-console__content').eq(0).find('.title').eq(1).should('contain', 'Public Channels');
+        cy.get('.admin-console__content').eq(0).find('.title').eq(2).should('contain', 'Private Channels');
+        cy.get('.admin-console__content').eq(0).find('.title').eq(3).should('contain', 'Total Posts');
+
+        cy.get('.total-count.by-day').eq(0).find('.title').should('contain', 'Total Posts');
+        cy.get('.total-count.by-day').eq(1).find('.title').should('contain', 'Active Users With Posts');
+        cy.get('.total-count.recent-active-users').eq(0).find('.title').should('contain', 'Recent Active Users');
+        cy.get('.total-count.recent-active-users').eq(1).find('.title').should('contain', 'Newly Created Users');
 
         // * Check that the values for the stats are valid.
-        cy.get('.admin-console__content .row').eq(0).find('.content').each((el) => {
-            cy.wrap(el).eq(0).invoke('text').then(parseFloat).should('be.gt', 0);
+        cy.get('.grid-statistics__card').each((el) => {
+            cy.wrap(el).find('.content').invoke('text').then(parseFloat).should('be.gt', 0);
         });
 
         // * Check that the generated tables are not empty.

@@ -15,7 +15,7 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 
 import {ModalData} from 'types/actions';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {ModalIdentifiers} from 'utils/constants';
 import {getRelativeChannelURL} from 'utils/url';
 
@@ -118,7 +118,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         if (result.error) {
             this.setState({serverError: result.error.message});
         } else {
-            browserHistory.push(getRelativeChannelURL(teamName, channel.name));
+            getHistory().push(getRelativeChannelURL(teamName, channel.name));
             this.handleHide();
         }
 

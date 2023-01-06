@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel
 
 describe('Channel routing', () => {
@@ -29,16 +28,11 @@ describe('Channel routing', () => {
                 EnableMarketplace: true,
                 EnableRemoteMarketplace: true,
                 MarketplaceURL: 'https://api.integrations.mattermost.com',
-                PluginStates: {
-                    focalboard: {
-                        Enable: true,
-                    },
-                },
             },
         });
     });
 
-    it('MM-T5141 Channel URL validation for spaces between characters', () => {
+    it('MM-T5141 New Channel is created with an associated Board', () => {
         // # Create new channel with board
         const channelName = 'Test Channel With Board';
         cy.uiCreateChannel({

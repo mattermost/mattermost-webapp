@@ -16,17 +16,9 @@ exports[`components/OpenIdConvert should match snapshot 1`] = `
   <div
     className="OpenIdConvert_copyWrapper"
   >
-    <div
-      className="OpenIdConvert__heading"
-    >
-      <MemoizedFormattedMessage
-        defaultMessage="OAuth 2.0 is being deprecated and replaced by OpenID Connect."
-        id="admin.openIdConvert.heading"
-      />
-    </div>
     <p>
       <MemoizedFormattedMessage
-        defaultMessage="Convert your OAuth 2.0 configuration to the new OpenID Connect standard."
+        defaultMessage="You can now convert your OAuth2.0 configuration to OpenID Connect."
         id="admin.openIdConvert.message"
       />
     </p>

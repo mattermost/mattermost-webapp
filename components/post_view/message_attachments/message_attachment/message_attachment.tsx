@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import React, {CSSProperties} from 'react';
@@ -536,35 +537,39 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
             useBorderStyle = {borderLeftColor: attachment.color};
         }
 
+        const hasContent = author.length > 0 || Boolean(title) || Boolean(thumb) || Boolean(attachmentText) || Boolean(image) || Boolean(fields) || Boolean(footer) || Boolean(actions);
+
         return (
             <div
                 className={'attachment ' + preTextClass}
-                ref='attachment'
                 onClick={this.handleFormattedTextClick}
             >
                 {preText}
-                <div className='attachment__content'>
-                    <div
-                        className={useBorderStyle ? 'clearfix attachment__container' : 'clearfix attachment__container attachment__container--' + attachment.color}
-                        style={useBorderStyle}
-                    >
-                        {author}
-                        {title}
-                        <div>
-                            <div
-                                className={thumb ? 'attachment__body' : 'attachment__body attachment__body--no_thumb'}
-                            >
-                                {attachmentText}
-                                {image}
-                                {fields}
-                                {footer}
-                                {actions}
+                {
+                    hasContent &&
+                    <div className='attachment__content'>
+                        <div
+                            className={useBorderStyle ? 'clearfix attachment__container' : 'clearfix attachment__container attachment__container--' + attachment.color}
+                            style={useBorderStyle}
+                        >
+                            {author}
+                            {title}
+                            <div>
+                                <div
+                                    className={thumb ? 'attachment__body' : 'attachment__body attachment__body--no_thumb'}
+                                >
+                                    {attachmentText}
+                                    {image}
+                                    {fields}
+                                    {footer}
+                                    {actions}
+                                </div>
+                                {thumb}
+                                <div style={style.footer}/>
                             </div>
-                            {thumb}
-                            <div style={style.footer}/>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         );
     }
@@ -573,4 +578,3 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
 const style = {
     footer: {clear: 'both'} as CSSProperties,
 };
-/* eslint-enable react/no-string-refs */

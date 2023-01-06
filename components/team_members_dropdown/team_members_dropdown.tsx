@@ -9,7 +9,7 @@ import {UserProfile} from '@mattermost/types/users';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import type {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import * as Utils from 'utils/utils';
 import {isGuest, isAdmin, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import ConfirmModal from 'components/confirm_modal';
@@ -126,7 +126,7 @@ export default class TeamMembersDropdown extends React.PureComponent<Props, Stat
             this.setState({serverError: error.message});
         } else {
             this.props.actions.getUser(this.props.user.id);
-            browserHistory.push(this.props.teamUrl);
+            getHistory().push(this.props.teamUrl);
         }
     }
 

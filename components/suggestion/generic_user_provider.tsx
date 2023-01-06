@@ -16,7 +16,7 @@ import Provider from './provider';
 import Suggestion from './suggestion.jsx';
 import {UserAutocomplete, UserProfile} from './command_provider/app_command_parser/app_command_parser_dependencies.js';
 
-type ProviderResults = {
+export type ProviderResults = {
     matchedPretext: string;
     terms: string[];
     items: Array<Record<string, any>>;

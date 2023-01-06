@@ -8,7 +8,6 @@
 // ***************************************************************
 
 // Group: @cloud_only @cloud_trial
-// Skip:  @headless @electron // run on Chrome (headed) only
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import billing from '../../../../fixtures/client_billing.json';
@@ -83,7 +82,7 @@ describe('System Console - after subscription scenarios', () => {
                         cy.writeFile(filePath, response.body, 'binary');
                         cy.task('getPdfContent', filePath).then((data) => {
                             const allLines = data.text.split('\n');
-                            const prodLine = allLines.filter((line) => line.includes('Trial period for Cloud Starter'));
+                            const prodLine = allLines.filter((line) => line.includes('Trial period for Cloud Free'));
                             expect(prodLine.length).to.be.equal(1);
                             const amountLine = allLines.filter((line) => line.includes('Amount paid'));
                             expect(amountLine[0].includes('$0.00')).to.be.equal(true);

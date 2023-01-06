@@ -43,9 +43,6 @@ export default function useGetHighestThresholdCloudLimit(usage: CloudUsage, limi
         const maybeFileStorageLimit = limits.files?.total_storage;
         const fileStorageUsage = usage.files.totalStorage;
 
-        const maybeEnabledIntegrationsLimit = limits.integrations?.enabled;
-        const enabledIntegrationsUsage = usage.integrations.enabled;
-
         // Order matters for this array. The designs specify:
         // > Show the plan limit that is the highest.
         // > Otherwise if there is a tie,
@@ -62,11 +59,6 @@ export default function useGetHighestThresholdCloudLimit(usage: CloudUsage, limi
                 id: LimitTypes.fileStorage,
                 limit: maybeFileStorageLimit,
                 usage: fileStorageUsage,
-            },
-            {
-                id: LimitTypes.enabledIntegrations,
-                limit: maybeEnabledIntegrationsLimit,
-                usage: enabledIntegrationsUsage,
             },
             {
                 id: LimitTypes.boardsCards,

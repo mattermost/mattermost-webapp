@@ -9,7 +9,7 @@ import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/pre
 
 import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 
 import Describe from './describe';
 import ExtraInfo from './extra_info';
@@ -275,7 +275,7 @@ export default function ExpandView({
             title={<SectionTitle section={section}/>}
             inputs={inputs}
             submit={onSubmit}
-            server_error={serverError}
+            serverError={serverError}
             updateSection={onCollapseSection}
         />
     );

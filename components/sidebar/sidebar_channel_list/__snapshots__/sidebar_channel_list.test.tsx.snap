@@ -4,6 +4,7 @@ exports[`SidebarChannelList should match snapshot 1`] = `
 <Fragment>
   <ActivityAndInsightsLink />
   <GlobalThreadsLink />
+  <Memo(DraftsLink) />
   <div
     aria-label="channel sidebar region"
     className="SidebarNavContainer a11y__region"
@@ -107,7 +108,6 @@ exports[`SidebarChannelList should match snapshot 2`] = `
       }
     }
     categoryIndex={0}
-    getChannelRef={[Function]}
     handleOpenMoreDirectChannelsModal={[MockFunction]}
     isNewCategory={false}
     key="category1"

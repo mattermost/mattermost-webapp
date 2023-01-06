@@ -1,28 +1,32 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import deepEqual from 'fast-deep-equal';
 import React from 'react';
+import deepEqual from 'fast-deep-equal';
 import {Route, Switch, Redirect, RouteComponentProps} from 'react-router-dom';
 import throttle from 'lodash/throttle';
-
 import classNames from 'classnames';
 
-import {Theme, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
-
-import {ProductComponent, PluginComponent} from 'types/store/plugins';
-
-import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import {Client4} from 'mattermost-redux/client';
-import {setUrl} from 'mattermost-redux/actions/general';
+import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import {General} from 'mattermost-redux/constants';
-import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
+import {Theme, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser, isCurrentUserSystemAdmin, checkIsFirstAdmin} from 'mattermost-redux/selectors/entities/users';
+import {setUrl} from 'mattermost-redux/actions/general';
+import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
+
+import {ProductComponent, PluginComponent} from 'types/store/plugins';
 
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
 import * as GlobalActions from 'actions/global_actions';
 import {measurePageLoadTelemetry, trackEvent, trackSelectorMetrics} from 'actions/telemetry_actions.jsx';
+
+import SidebarRight from 'components/sidebar_right';
+import AppBar from 'components/app_bar/app_bar';
+import SidebarRightMenu from 'components/sidebar_right_menu';
+import AnnouncementBarController from 'components/announcement_bar';
+import SystemNotice from 'components/system_notice';
 
 import {makeAsyncComponent} from 'components/async_load';
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
@@ -31,21 +35,24 @@ import CloudEffects from 'components/cloud_effects';
 import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import {HFRoute} from 'components/header_footer_route/header_footer_route';
-import NeedsTeam from 'components/needs_team';
-import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
 import OpenPricingModalPost from 'components/custom_open_pricing_modal_post_renderer';
+import AccessProblem from 'components/access_problem';
 
 import {initializePlugins} from 'plugins';
-import 'plugins/export.js';
 import Pluggable from 'plugins/pluggable';
+
 import BrowserStore from 'stores/browser_store';
+
 import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
+
 import webSocketClient from 'client/web_websocket_client.jsx';
+
+import 'plugins/export.js';
 
 const LazyErrorPage = React.lazy(() => import('components/error_page'));
 const LazyLogin = React.lazy(() => import('components/login/login'));
@@ -65,7 +72,9 @@ const LazyAuthorize = React.lazy(() => import('components/authorize'));
 const LazyCreateTeam = React.lazy(() => import('components/create_team'));
 const LazyMfa = React.lazy(() => import('components/mfa/mfa_controller'));
 const LazyPreparingWorkspace = React.lazy(() => import('components/preparing_workspace'));
+const LazyTeamController = React.lazy(() => import('components/team_controller'));
 const LazyDelinquencyModalController = React.lazy(() => import('components/delinquency_modal'));
+const LazyOnBoardingTaskList = React.lazy(() => import('components/onboarding_tasklist'));
 
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url';
@@ -101,19 +110,25 @@ const SelectTeam = makeAsyncComponent('SelectTeam', LazySelectTeam);
 const Authorize = makeAsyncComponent('Authorize', LazyAuthorize);
 const Mfa = makeAsyncComponent('Mfa', LazyMfa);
 const PreparingWorkspace = makeAsyncComponent('PreparingWorkspace', LazyPreparingWorkspace);
+const TeamController = makeAsyncComponent('TeamController', LazyTeamController);
 const DelinquencyModalController = makeAsyncComponent('DelinquencyModalController', LazyDelinquencyModalController);
+const OnBoardingTaskList = makeAsyncComponent('OnboardingTaskList', LazyOnBoardingTaskList);
 
 type LoggedInRouteProps<T> = {
     component: React.ComponentType<T>;
     path: string;
+    theme: Theme;
 };
 function LoggedInRoute<T>(props: LoggedInRouteProps<T>) {
-    const {component: Component, ...rest} = props;
+    const {component: Component, theme, ...rest} = props;
     return (
         <Route
             {...rest}
             render={(routeProps: RouteComponentProps) => (
                 <LoggedIn {...routeProps}>
+                    <CompassThemeProvider theme={theme}>
+                        <OnBoardingTaskList/>
+                    </CompassThemeProvider>
                     <Component {...(routeProps as unknown as T)}/>
                 </LoggedIn>
             )}
@@ -145,6 +160,9 @@ type Props = {
     plugins?: PluginComponent[];
     products: ProductComponent[];
     showLaunchingWorkspace: boolean;
+    rhsIsExpanded: boolean;
+    rhsIsOpen: boolean;
+    shouldShowAppBar: boolean;
 } & RouteComponentProps
 
 interface State {
@@ -186,7 +204,7 @@ export default class Root extends React.PureComponent<Props, State> {
         });
 
         document.addEventListener('dragover', (e) => {
-            if (!document.body.classList.contains('focalboard-body')) {
+            if (!Utils.isTextDroppableEvent(e) && !document.body.classList.contains('focalboard-body')) {
                 e.preventDefault();
                 e.stopPropagation();
             }
@@ -301,7 +319,7 @@ export default class Root extends React.PureComponent<Props, State> {
             landing = desktopAppDownloadLink;
         }
 
-        if (landing && !this.props.isCloud && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen && !this.props.location.pathname.includes('/landing') && !window.location.hostname?.endsWith('.test.mattermost.com') && !UserAgent.isDesktopApp()) {
+        if (landing && !this.props.isCloud && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen && !this.props.location.pathname.includes('/landing') && !window.location.hostname?.endsWith('.test.mattermost.com') && !UserAgent.isDesktopApp() && !UserAgent.isChromebook()) {
             this.props.history.push('/landing#' + this.props.location.pathname + this.props.location.search);
             BrowserStore.setLandingPageSeen(true);
         }
@@ -319,6 +337,13 @@ export default class Root extends React.PureComponent<Props, State> {
             } else if (this.props.showTermsOfService) {
                 prevProps.history.push('/terms_of_service');
             }
+        }
+        if (
+            this.props.shouldShowAppBar !== prevProps.shouldShowAppBar ||
+            this.props.rhsIsOpen !== prevProps.rhsIsOpen ||
+            this.props.rhsIsExpanded !== prevProps.rhsIsExpanded
+        ) {
+            this.setRootMeta();
         }
     }
 
@@ -477,6 +502,18 @@ export default class Root extends React.PureComponent<Props, State> {
         }
     }
 
+    setRootMeta = () => {
+        const root = document.getElementById('root')!;
+
+        for (const [className, enabled] of Object.entries({
+            'app-bar-enabled': this.props.shouldShowAppBar,
+            'rhs-open': this.props.rhsIsOpen,
+            'rhs-open-expanded': this.props.rhsIsExpanded,
+        })) {
+            root.classList.toggle(className, enabled);
+        }
+    }
+
     updateWindowSize = () => {
         switch (true) {
         case this.desktopMediaQuery.matches:
@@ -510,6 +547,10 @@ export default class Root extends React.PureComponent<Props, State> {
                         path={'/login'}
                         component={Login}
                     />
+                    <HFRoute
+                        path={'/access_problem'}
+                        component={AccessProblem}
+                    />
                     <HFTRoute
                         path={'/reset_password'}
                         component={PasswordResetSendLink}
@@ -539,6 +580,7 @@ export default class Root extends React.PureComponent<Props, State> {
                         component={HelpController}
                     />
                     <LoggedInRoute
+                        theme={this.props.theme}
                         path={'/terms_of_service'}
                         component={TermsOfService}
                     />
@@ -549,18 +591,14 @@ export default class Root extends React.PureComponent<Props, State> {
                     <Route
                         path={'/admin_console'}
                     >
-                        <>
-                            <Switch>
-                                <LoggedInRoute
-                                    path={'/admin_console'}
-                                    component={AdminConsole}
-                                />
-                                <RootRedirect/>
-                            </Switch>
-                            <CompassThemeProvider theme={this.props.theme}>
-                                <OnBoardingTaskList/>
-                            </CompassThemeProvider>
-                        </>
+                        <Switch>
+                            <LoggedInRoute
+                                theme={this.props.theme}
+                                path={'/admin_console'}
+                                component={AdminConsole}
+                            />
+                            <RootRedirect/>
+                        </Switch>
                     </Route>
                     <LoggedInHFTRoute
                         path={'/select_team'}
@@ -575,10 +613,12 @@ export default class Root extends React.PureComponent<Props, State> {
                         component={CreateTeam}
                     />
                     <LoggedInRoute
+                        theme={this.props.theme}
                         path={'/mfa'}
                         component={Mfa}
                     />
                     <LoggedInRoute
+                        theme={this.props.theme}
                         path={'/preparing-workspace'}
                         component={PreparingWorkspace}
                     />
@@ -601,9 +641,10 @@ export default class Root extends React.PureComponent<Props, State> {
                             />
                         )}
                         <ModalController/>
+                        <AnnouncementBarController/>
+                        <SystemNotice/>
                         <GlobalHeader/>
                         <CloudEffects/>
-                        <OnBoardingTaskList/>
                         <TeamSidebar/>
                         <DelinquencyModalController/>
                         <Switch>
@@ -611,18 +652,29 @@ export default class Root extends React.PureComponent<Props, State> {
                                 <Route
                                     key={product.id}
                                     path={product.baseURL}
-                                    render={(props) => (
-                                        <LoggedIn {...props}>
-                                            <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
-                                                <Pluggable
-                                                    pluggableName={'Product'}
-                                                    subComponentName={'mainComponent'}
-                                                    pluggableId={product.id}
-                                                    webSocketClient={webSocketClient}
-                                                />
-                                            </div>
-                                        </LoggedIn>
-                                    )}
+                                    render={(props) => {
+                                        let pluggable = (
+                                            <Pluggable
+                                                pluggableName={'Product'}
+                                                subComponentName={'mainComponent'}
+                                                pluggableId={product.id}
+                                                webSocketClient={webSocketClient}
+                                                css={product.wrapped ? undefined : {gridArea: 'center'}}
+                                            />
+                                        );
+                                        if (product.wrapped) {
+                                            pluggable = (
+                                                <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
+                                                    {pluggable}
+                                                </div>
+                                            );
+                                        }
+                                        return (
+                                            <LoggedIn {...props}>
+                                                {pluggable}
+                                            </LoggedIn>
+                                        );
+                                    }}
                                 />
                             ))}
                             {this.props.plugins?.map((plugin) => (
@@ -633,17 +685,22 @@ export default class Root extends React.PureComponent<Props, State> {
                                         <Pluggable
                                             pluggableName={'CustomRouteComponent'}
                                             pluggableId={plugin.id}
+                                            css={{gridArea: 'center'}}
                                         />
                                     )}
                                 />
                             ))}
                             <LoggedInRoute
+                                theme={this.props.theme}
                                 path={'/:team'}
-                                component={NeedsTeam}
+                                component={TeamController}
                             />
                             <RootRedirect/>
                         </Switch>
                         <Pluggable pluggableName='Global'/>
+                        <SidebarRight/>
+                        <AppBar/>
+                        <SidebarRightMenu/>
                     </CompassThemeProvider>
                 </Switch>
             </RootProvider>

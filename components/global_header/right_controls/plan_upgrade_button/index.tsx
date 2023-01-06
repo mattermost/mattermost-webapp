@@ -54,15 +54,9 @@ const PlanUpgradeButton = (): JSX.Element | null => {
     const config = useSelector(getConfig);
     const license = useSelector(getLicense);
 
-    const buttonTextFeatureFlag = config?.FeatureFlagPlanUpgradeButtonText;
-    let btnText = formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
-    if (isCloud && buttonTextFeatureFlag === 'view_plans') {
-        btnText = formatMessage({id: 'pricing_modal.btn.viewPlans', defaultMessage: 'View plans'});
-    }
-
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
 
-    const isStarter = product?.sku === CloudProducts.STARTER;
+    const isCloudFree = product?.sku === CloudProducts.STARTER;
 
     const isSelfHostedEnterpriseTrial = !isCloud && license.IsTrial === 'true';
     const isSelfHostedStarter = license.IsLicensed === 'false';
@@ -77,8 +71,8 @@ const PlanUpgradeButton = (): JSX.Element | null => {
         return null;
     }
 
-    // for cloud, only show when subscribed to starter or enterprise trial plans
-    if (isCloud && !(isStarter || isEnterpriseTrial)) {
+    // for cloud, only show when subscribed to free or enterprise trial plans
+    if (isCloud && !(isCloudFree || isEnterpriseTrial)) {
         return null;
     }
 
@@ -95,16 +89,17 @@ const PlanUpgradeButton = (): JSX.Element | null => {
 
     return (
         <OverlayTrigger
-            trigger={['hover', 'focus']}
+            trigger={['hover']}
             delayShow={Constants.OVERLAY_TIME_DELAY}
             placement='bottom'
             overlay={tooltip}
         >
             <UpgradeButton
                 id='UpgradeButton'
+                aria-haspopup='dialog'
                 onClick={() => openPricingModal({trackingLocation: 'global_header_plan_upgrade_button'})}
             >
-                {btnText}
+                {formatMessage({id: 'pricing_modal.btn.viewPlans', defaultMessage: 'View plans'})}
             </UpgradeButton>
         </OverlayTrigger>);
 };

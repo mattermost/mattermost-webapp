@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {FormatNumberOptions} from 'react-intl';
 
 import {CloudUsage, Limits} from '@mattermost/types/cloud';
@@ -31,9 +32,6 @@ export const fallbackStarterLimits = {
     },
     teams: {
         active: 1,
-    },
-    integrations: {
-        enabled: 5,
     },
     boards: {
         cards: 500,
@@ -79,6 +77,5 @@ export const limitThresholds = Object.freeze({
 export const LimitTypes = {
     messageHistory: 'messageHistory',
     fileStorage: 'fileStorage',
-    enabledIntegrations: 'enabledIntegrations',
     boardsCards: 'boardsCards',
 } as const;

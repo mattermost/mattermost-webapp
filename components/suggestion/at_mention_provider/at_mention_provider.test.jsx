@@ -3,7 +3,7 @@
 
 import {Constants} from 'utils/constants';
 import AtMentionProvider from 'components/suggestion/at_mention_provider/at_mention_provider.jsx';
-import AtMentionSuggestion from 'components/suggestion/at_mention_provider/at_mention_suggestion.jsx';
+import AtMentionSuggestion from 'components/suggestion/at_mention_provider/at_mention_suggestion';
 
 jest.useFakeTimers();
 
