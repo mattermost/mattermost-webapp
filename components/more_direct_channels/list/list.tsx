@@ -80,16 +80,16 @@ const List = React.forwardRef((props: Props, ref?: React.Ref<MultiSelect<OptionV
         }
     }
 
-    const options = useMemo(() => { 
-        let opts =[]
-        if (props.values.length !=0) {
-            for(let i=0; i<props.options.length; i++) {
-                if(props.options[i].id == props.currentUserId) {
+    const options = useMemo(() => {
+        const opts = [];
+        if (props.values.length !== 0) {
+            for (let i = 0; i < props.options.length; i++) {
+                if (props.options[i].id === props.currentUserId) {
                     continue;
                 }
-                opts.push(props.options[i])
+                opts.push(props.options[i]);
             }
-            return opts.map(optionValue)
+            return opts.map(optionValue);
         }
         return props.options.map(optionValue);
     }, [props.options]);
