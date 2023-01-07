@@ -15,9 +15,11 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {createCategory, clearChannelSelection} from 'actions/views/channel_sidebar';
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
 import {closeModal, openModal} from 'actions/views/modals';
+import {closeRightHandSide} from 'actions/views/rhs';
 import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 import {getIsLhsOpen} from 'selectors/lhs';
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
@@ -59,6 +61,8 @@ function mapStateToProps(state: GlobalState) {
         isKeyBoardShortcutModalOpen: isModalOpen(state, ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL),
         userGroupsEnabled,
         canCreateCustomGroups,
+        rhsState: getRhsState(state),
+        rhsOpen: getIsRhsOpen(state),
     };
 }
 
@@ -68,6 +72,7 @@ type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
     clearChannelSelection: () => void;
     closeModal: (modalId: string) => void;
+    closeRightHandSide: () => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -78,6 +83,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             fetchMyCategories,
             openModal,
             closeModal,
+            closeRightHandSide,
         }, dispatch),
     };
 }

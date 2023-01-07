@@ -27,6 +27,7 @@ describe('components/sidebar', () => {
             openModal: jest.fn(),
             closeModal: jest.fn(),
             clearChannelSelection: jest.fn(),
+            closeRightHandSide: jest.fn(),
         },
     };
 

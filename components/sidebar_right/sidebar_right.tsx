@@ -213,8 +213,6 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             isChannelMembers,
             isExpanded,
             isPostEditHistory,
-            channel,
-            team,
         } = this.props;
 
         if (!isOpen) {
