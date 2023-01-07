@@ -36,6 +36,7 @@ describe('components/admin_console/system_users', () => {
             searchProfiles: jest.fn().mockResolvedValue({data: []}),
             revokeSessionsForAllUsers: jest.fn().mockResolvedValue({data: true}),
             logError: jest.fn(),
+            getFilteredUsersStats: jest.fn(),
         },
     };
 
