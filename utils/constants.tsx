@@ -182,7 +182,19 @@ export const TrialPeriodDays = {
 
 export const suitePluginIds = {
     playbooks: 'playbooks',
+
+    /**
+     * @warning This only applies to the Boards product and will not work with the Boards plugin. Both cases need to
+     * be supported until we enable the Boards product permanently.
+     */
+    boards: 'boards',
+
+    /**
+     * @deprecated This only applies to the Boards plugin and will not work with the Boards product. Both cases need
+     * to be supported until we enable the Boards product permanently.
+     */
     focalboard: 'focalboard',
+
     apps: 'com.mattermost.apps',
     calls: 'com.mattermost.calls',
     nps: 'com.mattermost.nps',
@@ -434,6 +446,10 @@ export const ModalIdentifiers = {
     MARK_ALL_THREADS_AS_READ: 'mark_all_threads_as_read_modal',
     DELINQUENCY_MODAL_DOWNGRADE: 'delinquency_modal_downgrade',
     CLOUD_LIMITS_DOWNGRADE: 'cloud_limits_downgrade',
+    AIR_GAPPED_SELF_HOSTED_PURCHASE: 'air_gapped_self_hosted_purchase',
+    WORK_TEMPLATES: 'work_template',
+    DOWNGRADE_MODAL: 'downgrade_modal',
+    PURCHASE_IN_PROGRESS: 'purchase_in_progress',
 };
 
 export const UserStatuses = {
@@ -470,6 +486,12 @@ export const CloudProducts = {
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',
     LEGACY: 'cloud-legacy',
+};
+
+export const SelfHostedProducts = {
+    STARTER: 'starter',
+    PROFESSIONAL: 'professional',
+    ENTERPRISE: 'enterprise',
 };
 
 export const PaidFeatures = {
@@ -525,7 +547,7 @@ export const A11yCustomEventTypes = {
 };
 
 export type A11yFocusEventDetail = {
-    target: HTMLElement | null;
+    target: HTMLElement | null | undefined;
     keyboardOnly: boolean;
 }
 
@@ -608,6 +630,7 @@ export const SocketEvents = {
     DRAFT_CREATED: 'draft_created',
     DRAFT_UPDATED: 'draft_updated',
     DRAFT_DELETED: 'draft_deleted',
+    HOSTED_CUSTOMER_SIGNUP_PROGRESS_UPDATED: 'hosted_customer_signup_progress_updated',
 };
 
 export const TutorialSteps = {
@@ -1030,6 +1053,12 @@ export const CloudLinks = {
     CLOUD_SIGNUP_PAGE: 'https://mattermost.com/sign-up/',
     SELF_HOSTED_SIGNUP: 'https://customers.mattermost.com/signup',
     DELINQUENCY_DOCS: 'https://docs.mattermost.com/about/cloud-subscriptions.html#failed-or-late-payments',
+    SELF_HOSTED_PRICING: 'https://mattermost.com/pricing/#self-hosted',
+};
+
+export const HostedCustomerLinks = {
+    BILLING_DOCS: 'https://mattermost.com/pl/how-self-hosted-billing-works',
+    TERMS_AND_CONDITIONS: 'https://mattermost.com/enterprise-edition-terms/',
 };
 
 export const DocLinks = {
@@ -1150,6 +1179,7 @@ export const PermissionsScope = {
     [Permissions.CREATE_CUSTOM_GROUP]: 'system_scope',
     [Permissions.EDIT_CUSTOM_GROUP]: 'system_scope',
     [Permissions.DELETE_CUSTOM_GROUP]: 'system_scope',
+    [Permissions.RESTORE_CUSTOM_GROUP]: 'system_scope',
     [Permissions.MANAGE_CUSTOM_GROUP_MEMBERS]: 'system_scope',
 };
 

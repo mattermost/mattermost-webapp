@@ -10,7 +10,7 @@ import {CloudLinks, CloudProducts, LicenseSkus, ModalIdentifiers, PaidFeatures, 
 import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString, hasSomeLimits} from 'utils/limits';
 import {findProductBySkuAndInterval} from 'utils/products';
 
-import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
+import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal, openModal} from 'actions/views/modals';
@@ -36,6 +36,7 @@ import YearlyMonthlyToggle from 'components/yearly_monthly_toggle';
 import {isAnnualSubscriptionEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
 
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
@@ -61,7 +62,7 @@ function Content(props: ContentProps) {
     const openPricingModalBackAction = useOpenPricingModal();
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
-    const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
+    const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.UpgradeEnterprise);
 
     const subscription = useSelector(selectCloudSubscription);
     const product = useSelector(selectSubscriptionProduct);
@@ -93,6 +94,7 @@ function Content(props: ContentProps) {
     const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
         isDelinquencyModal: true,
     });
+    const openDowngradeModal = useOpenDowngradeModal();
     const openPurchaseModal = (callerInfo: string, isMonthlyPlan: boolean) => {
         props.onHide();
         const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
@@ -106,14 +108,19 @@ function Content(props: ContentProps) {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
     };
 
-    const downgrade = async () => {
+    const downgrade = async (callerInfo: string) => {
         if (!starterProduct) {
             return;
         }
 
+        const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
+        openDowngradeModal({trackingLocation: telemetryInfo});
+        dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
+
         const result = await dispatch(subscribeCloudSubscription(starterProduct.id));
 
         if (typeof result === 'boolean' && result) {
+            dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
             dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
             dispatch(
                 openModal({
@@ -122,8 +129,10 @@ function Content(props: ContentProps) {
                 }),
             );
         } else {
+            dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
             dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
             dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
+
             dispatch(
                 openModal({
                     modalId: ModalIdentifiers.ERROR_MODAL,
@@ -156,17 +165,19 @@ function Content(props: ContentProps) {
     ];
 
     // Default professional price
-    const defaultProfessionalPrice = monthlyProfessionalProduct ? monthlyProfessionalProduct.price_per_seat : 0;
+    const monthlyProfessionalPrice = monthlyProfessionalProduct ? monthlyProfessionalProduct.price_per_seat : 0;
+    const yearlyProfessionalPrice = yearlyProfessionalProduct ? yearlyProfessionalProduct.price_per_seat / 12 : 0;
+    const defaultProfessionalPrice = currentSubscriptionIsMonthly ? monthlyProfessionalPrice : yearlyProfessionalPrice;
     const [professionalPrice, setProfessionalPrice] = useState(defaultProfessionalPrice);
     const [isMonthlyPlan, setIsMonthlyPlan] = useState(true);
 
     // Set professional price
     const updateProfessionalPrice = (newIsMonthly: boolean) => {
-        if (newIsMonthly && monthlyProfessionalProduct) {
-            setProfessionalPrice(monthlyProfessionalProduct.price_per_seat);
+        if (newIsMonthly) {
+            setProfessionalPrice(monthlyProfessionalPrice);
             setIsMonthlyPlan(true);
         } else if (!newIsMonthly && yearlyProfessionalProduct) {
-            setProfessionalPrice(yearlyProfessionalProduct.price_per_seat / 12);
+            setProfessionalPrice(yearlyProfessionalPrice);
             setIsMonthlyPlan(false);
         }
     };
@@ -190,7 +201,7 @@ function Content(props: ContentProps) {
             </Modal.Header>
             <Modal.Body>
                 <div className='pricing-options-container'>
-                    {annualSubscriptionEnabled &&
+                    {(annualSubscriptionEnabled && currentSubscriptionIsMonthly) &&
                         <>
                             <div className='save-text'>
                                 {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
@@ -254,11 +265,11 @@ function Content(props: ContentProps) {
                                         }),
                                     );
                                 } else {
-                                    downgrade();
+                                    downgrade('click_pricing_modal_free_card_downgrade_button');
                                 }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
-                            disabled: isStarter || isEnterprise || !isAdmin,
+                            disabled: isStarter || isEnterprise || !isAdmin || !currentSubscriptionIsMonthly,
                             customClass: ButtonCustomiserClasses.secondary,
                         }}
                         briefing={{
@@ -373,7 +384,7 @@ function Content(props: ContentProps) {
                                 formatMessage({id: 'pricing_modal.briefing.enterprise.groupSync', defaultMessage: 'AD/LDAP group sync'}),
                                 formatMessage({id: 'pricing_modal.briefing.enterprise.mobileSecurity', defaultMessage: 'Advanced mobile security via ID-only push notifications'}),
                                 formatMessage({id: 'pricing_modal.briefing.enterprise.rolesAndPermissions', defaultMessage: 'Advanced roles and permissions'}),
-                                formatMessage({id: 'pricing_modal.briefing.enterprise.compliance', defaultMessage: 'Advanced compliance management'}),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.advancedComplianceManagement', defaultMessage: 'Advanced compliance management'}),
                                 formatMessage({id: 'pricing_modal.extra_briefing.enterprise.playBookAnalytics', defaultMessage: 'Playbook analytics dashboard'}),
                             ],
                         }}
@@ -387,7 +398,7 @@ function Content(props: ContentProps) {
                                 {title: formatMessage({id: 'pricing_modal.addons.dedicatedDeployment', defaultMessage: 'Dedicated virtual secure cloud deployment (Cloud)'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.dedicatedK8sCluster', defaultMessage: 'Dedicated Kubernetes cluster'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.dedicatedDB', defaultMessage: 'Dedicated database'})},
-                                {title: formatMessage({id: 'pricing_modal.addons.dedicatedEncryption', defaultMessage: 'Dedicated encryption keys 99%'})},
+                                {title: formatMessage({id: 'pricing_modal.addons.dedicatedEncryption', defaultMessage: 'Dedicated encryption keys'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.uptimeGuarantee', defaultMessage: '99% uptime guarantee'})},
                             ],
                         }}

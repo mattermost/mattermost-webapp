@@ -144,6 +144,7 @@ exports[`components/drafts/panel/panel_body should have called handleFormattedTe
                         <img
                           alt="username profile image"
                           className="Avatar Avatar-md"
+                          loading="lazy"
                           onError={[Function]}
                           src="/api/v4/users/user_id/image?_=0"
                           tabIndex={-1}
@@ -421,6 +422,7 @@ exports[`components/drafts/panel/panel_body should match snapshot 1`] = `
                         <img
                           alt="username profile image"
                           className="Avatar Avatar-md"
+                          loading="lazy"
                           onError={[Function]}
                           src="/api/v4/users/user_id/image?_=0"
                           tabIndex={-1}
@@ -704,6 +706,7 @@ exports[`components/drafts/panel/panel_body should match snapshot for priority 1
                         <img
                           alt="username profile image"
                           className="Avatar Avatar-md"
+                          loading="lazy"
                           onError={[Function]}
                           src="/api/v4/users/user_id/image?_=0"
                           tabIndex={-1}
@@ -1071,6 +1074,7 @@ exports[`components/drafts/panel/panel_body should match snapshot for requested_
                         <img
                           alt="username profile image"
                           className="Avatar Avatar-md"
+                          loading="lazy"
                           onError={[Function]}
                           src="/api/v4/users/user_id/image?_=0"
                           tabIndex={-1}

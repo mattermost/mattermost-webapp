@@ -357,7 +357,7 @@ export type ServiceSettings = {
     DebugSplit: boolean;
     ManagedResourcePaths: string;
     EnableCustomGroups: boolean;
-    SelfHostedFirstTimePurchase: boolean;
+    SelfHostedPurchase: boolean;
     AllowSyncedDrafts: boolean;
 };
 
@@ -717,6 +717,7 @@ export type ExperimentalSettings = {
     EnableSharedChannels: boolean;
     EnableRemoteClusterService: boolean;
     EnableAppBar: boolean;
+    PatchPluginsReactDOM: boolean;
 };
 
 export type AnalyticsSettings = {
