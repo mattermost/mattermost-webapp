@@ -371,11 +371,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
     // todo sinan: copy code related logic to advanced_create_comment
     getSelectionText = () => {
-        const {startingSelectedElement, endingSelectedElement, selection, isAnyElementQuote, rects} = Utils.getSelectionData();
+        const selectionData = Utils.getSelectionData();
+        if (!selectionData) {
+            return;
+        }
+        const {startingSelectedElement, endingSelectedElement, selection, rects, spaceForMultilineSelection} = selectionData;
 
         if (
-            !selection ||
-            !rects ||
             !startingSelectedElement ||
             !endingSelectedElement ||
             startingSelectedElement.id !== endingSelectedElement.id ||
@@ -385,14 +387,15 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             return;
         }
 
-        // const {paddingLeft} = getComputedStyle(startingSelectedElement); // todo sinan parseInt, and also for code get width of firstChild of startingSelectedElement
-
         const text = selection.toString();
+        if (text === '') {
+            return;
+        }
         const quoteButtonPosition = selection.anchorOffset < selection.focusOffset ? 'bottom' : 'top';
         const {positionX, positionY} = this.getQuoteButtonCoords(
             quoteButtonPosition,
             rects,
-            isAnyElementQuote || false,
+            spaceForMultilineSelection,
             startingSelectedElement,
         );
         this.setState({
@@ -414,7 +417,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         const currentMessage = this.state.message === '' ? '' : `${this.state.message}\n`;
         this.applyMarkdown({
             message: `${currentMessage} > ${this.state.quoteText}\n\n`,
-            markdownMode: 'bold',
+            markdownMode: 'bold', // todo sinan check can it be something other thun bold
             selectionStart: null,
             selectionEnd: null,
         });
@@ -426,16 +429,19 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         });
     }
 
-    getQuoteButtonCoords = (quoteButtonPosition: string, rects: DOMRectList, isAnyElementQuote: boolean, startingSelectedElement: HTMLElement) => {
+    getQuoteButtonCoords = (quoteButtonPosition: string, rects: DOMRectList, spaceForMultilineSelection: number, startingSelectedElement: HTMLElement) => {
         const channelView = document.getElementById('channel_view');
-        const spaceX = ((channelView?.offsetLeft || 0) + 15) - rects[0].width;
+        const spaceX = ((channelView?.offsetLeft || 0) + 18) - rects[0].width;
         const spaceY = (channelView?.offsetTop || 0) - rects[0].height;
         return Utils.getQuoteButtonCoords({
             quoteButtonPosition,
             rects,
-            isAnyElementQuote,
-            startingSelectedElement: startingSelectedElement.parentElement,
-            additionalSpaces: {spaceX, spaceY},
+            additionalSpaces: {
+                spaceX,
+                spaceY,
+                spaceForMultilineSelection,
+                startingSelectedElementLeft: startingSelectedElement.parentElement?.offsetLeft || 0,
+            },
         });
     }
 

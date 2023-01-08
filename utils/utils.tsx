@@ -870,30 +870,31 @@ export function getCaretXYCoordinate(textArea: HTMLTextAreaElement) {
 type CoordParams = {
     quoteButtonPosition: string;
     rects: DOMRectList;
-    isAnyElementQuote: boolean;
-    startingSelectedElement: HTMLElement | null;
     additionalSpaces: {
         spaceX: number;
         spaceY: number;
+        spaceForMultilineSelection: number;
+        startingSelectedElementLeft: number;
     };
 }
 
 export function getQuoteButtonCoords(coordParams: CoordParams) {
-    const {quoteButtonPosition, rects, isAnyElementQuote, startingSelectedElement, additionalSpaces} = coordParams;
+    // const {paddingLeft} = getComputedStyle(startingSelectedElement?.firstElementChild); // todo sinan parseInt, and also for code get width of firstChild of startingSelectedElement
+    // console.log('paddingLeft: ', paddingLeft)
+    const {quoteButtonPosition, rects, additionalSpaces} = coordParams;
     let positionX = rects[0].x - additionalSpaces.spaceX;
     let positionY = rects[0].y - additionalSpaces.spaceY;
 
     if (quoteButtonPosition === 'top') {
-        positionY -= startingSelectedElement?.offsetLeft || 0;
+        positionY -= additionalSpaces.startingSelectedElementLeft;
         positionX -= rects[0].width;
     }
 
     // handle multiple line selection on bottom quote button
     if (quoteButtonPosition === 'bottom' && rects.length > 1) {
-        const spaceForQuote = isAnyElementQuote ? 38 : 0;
         const numberOfLines = UserAgent.isFirefox() ? rects.length - 1 : Math.ceil((rects.length / 2) - 1);
         positionY += rects[0].height * numberOfLines;
-        positionX = rects[rects.length - 1].width + (startingSelectedElement?.offsetLeft || 0) + spaceForQuote;
+        positionX = rects[rects.length - 1].width + additionalSpaces.startingSelectedElementLeft + additionalSpaces.spaceForMultilineSelection;
     }
     return {positionX, positionY};
 }
@@ -908,25 +909,24 @@ export function findParentPostMessage(node?: HTMLElement | null): HTMLElement | 
 type SelectionData = {
     startingSelectedElement?: HTMLElement | null;
     endingSelectedElement?: HTMLElement | null;
-    isAnyElementQuote?: boolean;
-    isAnyElementCode?: boolean;
-    selection?: Selection;
-    rects?: DOMRectList;
+    selection: Selection;
+    rects: DOMRectList;
+    spaceForMultilineSelection: number;
 }
 
-export function getSelectionData(): SelectionData {
+export function getSelectionData(): SelectionData | null {
     if (!window || !window.getSelection) {
-        return {};
+        return null;
     }
 
     const selection = window.getSelection();
     if (!selection || selection?.rangeCount === 0) {
-        return {};
+        return null;
     }
     const range = selection.getRangeAt(0);
     const rects = range.getClientRects();
     if (!rects) {
-        return {};
+        return null;
     }
 
     const startingNode = selection.anchorNode?.parentElement;
@@ -934,18 +934,23 @@ export function getSelectionData(): SelectionData {
     const startingSelectedElement = findParentPostMessage(startingNode);
     const endingSelectedElement = findParentPostMessage(endingNode);
 
-    const isStartingElementQuote = startingNode?.offsetParent?.nodeName === 'BLOCKQUOTE';
-    const isEndingElementQuote = endingNode?.offsetParent?.nodeName === 'BLOCKQUOTE';
-    const isStartingElementCode = startingNode?.nodeName === 'CODE';
-    const isEndingElementCode = endingNode?.nodeName === 'CODE';
+    const isElementQuote = startingNode?.offsetParent?.nodeName === 'BLOCKQUOTE';
+    const isElementCode = startingNode?.nodeName === 'CODE';
+    const isElementSyntaxHighlightedCode = startingNode?.previousElementSibling?.classList.contains('post-code__line-numbers') || false;
+
+    let spaceForMultilineSelection = 0;
+    if (isElementQuote) {
+        spaceForMultilineSelection = 38;
+    } else if (isElementCode) {
+        spaceForMultilineSelection = isElementSyntaxHighlightedCode ? (8.5 + 26 + 24) : 8.5; // based on my calculation 24 should be 12 because of 12 margin right on code numbers
+    }
 
     return {
         startingSelectedElement,
         endingSelectedElement,
-        isAnyElementQuote: isStartingElementQuote || isEndingElementQuote,
-        isAnyElementCode: isStartingElementCode || isEndingElementCode,
         selection,
         rects,
+        spaceForMultilineSelection,
     };
 }
 

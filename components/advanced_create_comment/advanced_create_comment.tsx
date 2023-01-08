@@ -331,11 +331,13 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     }
 
     getSelectionText = () => {
-        const {startingSelectedElement, endingSelectedElement, selection, isAnyElementQuote, rects} = Utils.getSelectionData();
+        const selectionData = Utils.getSelectionData();
+        if (!selectionData) {
+            return;
+        }
+        const {startingSelectedElement, endingSelectedElement, selection, rects, spaceForMultilineSelection} = selectionData;
 
         if (
-            !selection ||
-            !rects ||
             !startingSelectedElement ||
             !endingSelectedElement ||
             startingSelectedElement.id !== endingSelectedElement.id ||
@@ -346,11 +348,14 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
 
         const text = selection.toString();
+        if (text === '') {
+            return;
+        }
         const quoteButtonPosition = selection.anchorOffset < selection.focusOffset ? 'bottom' : 'top';
         const {positionX, positionY} = this.getQuoteButtonCoords(
             quoteButtonPosition,
             rects,
-            isAnyElementQuote || false,
+            spaceForMultilineSelection,
             startingSelectedElement,
         );
         this.setState({
@@ -372,7 +377,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         const currentMessage = this.state.draft?.message === '' ? '' : `${this.state.draft?.message}\n`;
         this.applyMarkdown({
             message: `${currentMessage} > ${this.state.quoteText}\n\n`,
-            markdownMode: 'bold',
+            markdownMode: 'bold', // todo sinan check can it be something other thun bold
             selectionStart: null,
             selectionEnd: null,
         });
@@ -384,7 +389,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         });
     }
 
-    getQuoteButtonCoords = (quoteButtonPosition: string, rects: DOMRectList, isAnyElementQuote: boolean, startingSelectedElement: HTMLElement) => {
+    getQuoteButtonCoords = (quoteButtonPosition: string, rects: DOMRectList, spaceForMultilineSelection: number, startingSelectedElement: HTMLElement) => {
         const sideBarRight = document.getElementById('sidebar-right');
         const postCreateContainer = document.getElementsByClassName('post-create__container')[1].parentElement;
         const sideBarRightHeader = document.getElementsByClassName('sidebar--right__header')[0];
@@ -394,9 +399,12 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         return Utils.getQuoteButtonCoords({
             quoteButtonPosition,
             rects,
-            isAnyElementQuote,
-            startingSelectedElement: startingSelectedElement.parentElement,
-            additionalSpaces: {spaceX, spaceY},
+            additionalSpaces: {
+                spaceX,
+                spaceY,
+                spaceForMultilineSelection,
+                startingSelectedElementLeft: startingSelectedElement.parentElement?.offsetLeft || 0,
+            },
         });
     }
 
