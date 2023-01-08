@@ -2322,6 +2322,17 @@
         margin-top: 0;
         margin-bottom: 4px;
     }
+
+    .post-message__text-container {
+        overflow: hidden;
+    }
+
+    #showMoreButton {
+        padding: 0;
+        border: none;
+        background: none;
+        font-size: 12px;
+    }
 }
 
 .modal-footer {

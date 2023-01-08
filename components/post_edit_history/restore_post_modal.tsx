@@ -8,6 +8,7 @@ import {t} from 'utils/i18n';
 
 import {Post} from '@mattermost/types/posts';
 import GenericModal from 'components/generic_modal';
+import PostMessageView from 'components/post_view/post_message_view';
 
 const modalMessages = defineMessages({
     title: {
@@ -57,7 +58,12 @@ const RestorePostModal = ({post, postHeader, actions, onExited}: Props) => {
         >
             <div className='edit-post-history__restore__modal__content'>
                 {postHeader}
-                {post.message}
+                <PostMessageView
+                    post={post}
+                    overflowType='ellipsis'
+                    maxHeight={100}
+                    showPostEditedIndicator={false}
+                />
             </div>
         </GenericModal>
     );
