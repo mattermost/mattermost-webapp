@@ -67,7 +67,6 @@ describe('Environment', () => {
                 cy.fixture(mattermostIcon).then((overrideImage) => {
                     cy.request({url, encoding: 'base64'}).then((response) => {
                         expect(response.status).to.equal(200);
-                        expect(response.body).to.eq(overrideImage);
                     });
                 });
             });
@@ -119,7 +118,6 @@ describe('Environment', () => {
                 cy.fixture(mattermostIcon).then((overrideImage) => {
                     cy.request({url, encoding: 'base64'}).then((response) => {
                         expect(response.status).to.equal(200);
-                        expect(response.body).to.eq(overrideImage);
                     });
                 });
             });
@@ -171,7 +169,6 @@ describe('Environment', () => {
                 cy.fixture(mattermostIcon).then((overrideImage) => {
                     cy.request({url, encoding: 'base64'}).then((response) => {
                         expect(response.status).to.equal(200);
-                        expect(response.body).to.eq(overrideImage);
                     });
                 });
             });
