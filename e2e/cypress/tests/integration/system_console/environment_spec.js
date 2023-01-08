@@ -64,7 +64,7 @@ describe('Environment', () => {
                 const url = imageDiv.css('background-image').split('"')[1];
 
                 // # Verify that the image is the correct one
-                cy.fixture(mattermostIcon).then((overrideImage) => {
+                cy.fixture(mattermostIcon).then(() => {
                     cy.request({url, encoding: 'base64'}).then((response) => {
                         expect(response.status).to.equal(200);
                     });
@@ -115,7 +115,7 @@ describe('Environment', () => {
                 const url = imageDiv.css('background-image').split('"')[1];
 
                 // # Verify that the image is the correct one
-                cy.fixture(mattermostIcon).then((overrideImage) => {
+                cy.fixture(mattermostIcon).then(() => {
                     cy.request({url, encoding: 'base64'}).then((response) => {
                         expect(response.status).to.equal(200);
                     });
@@ -166,7 +166,7 @@ describe('Environment', () => {
                 const url = imageDiv.css('background-image').split('"')[1];
 
                 // # Verify that the image is the correct one
-                cy.fixture(mattermostIcon).then((overrideImage) => {
+                cy.fixture(mattermostIcon).then(() => {
                     cy.request({url, encoding: 'base64'}).then((response) => {
                         expect(response.status).to.equal(200);
                     });
