@@ -117,11 +117,9 @@ export default class ModalSuggestionList extends React.PureComponent<Props, Stat
 
             if (this.container.current) {
                 const modalBodyRect = getClosestParent(this.container.current, '.modal-body')?.getBoundingClientRect();
-                if (modalBodyRect) {
-                    if ((newInputBounds.bottom < modalBodyRect.top) || (newInputBounds.top > modalBodyRect.bottom)) {
-                        this.props.onLoseVisibility();
-                        return;
-                    }
+                if (modalBodyRect && ((newInputBounds.bottom < modalBodyRect.top) || (newInputBounds.top > modalBodyRect.bottom))) {
+                    this.props.onLoseVisibility();
+                    return;
                 }
             }
 
