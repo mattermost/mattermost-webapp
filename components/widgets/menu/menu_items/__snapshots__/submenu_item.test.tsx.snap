@@ -121,6 +121,7 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
         <span
           className="SubMenuItemContainer"
           key="A"
+          tabIndex={0}
         >
           <SubMenuItem
             direction="left"
@@ -129,6 +130,7 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
             root={false}
             show={true}
             subMenuClass="pl-4"
+            tabIndex={1}
             text="Test A"
           >
             <li
@@ -144,7 +146,7 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
                 onKeyDown={[Function]}
                 onMouseEnter={[Function]}
                 onMouseLeave={[Function]}
-                tabIndex={0}
+                tabIndex={1}
               >
                 <div
                   className="flex"
@@ -176,6 +178,7 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
         <span
           className="SubMenuItemContainer"
           key="B"
+          tabIndex={0}
         >
           <SubMenuItem
             direction="left"
@@ -184,6 +187,7 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
             root={false}
             show={true}
             subMenuClass="pl-4"
+            tabIndex={1}
             text="Test B"
           >
             <li
@@ -199,7 +203,7 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
                 onKeyDown={[Function]}
                 onMouseEnter={[Function]}
                 onMouseLeave={[Function]}
-                tabIndex={0}
+                tabIndex={1}
               >
                 <div
                   className="flex"

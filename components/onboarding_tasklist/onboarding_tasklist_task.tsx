@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import {CompletedAnimation} from './onboarding_tasklist_animations';
 
 export interface TaskProps {
-    label: React.ReactElement | string;
+    label: React.ReactElement;
     icon?: React.ReactNode;
     onClick?: () => void;
     completedStatus: boolean;
@@ -24,21 +24,30 @@ const StyledTask = styled.div`
     color: var(--center-channel-color);
     position: relative;
 
+    span {
+        div {
+            display: flex;
+            align-items: flex-start;
+            picture {
+                display: flex;
+                align-items: center;
+                margin-right: 10px;
+            }
+        }
+    }
+
     &.completed {
         color: var(--denim-status-online);
 
         span {
-            text-decoration: line-through;
+            span {
+                text-decoration: underline;
+                text-decoration-skip-ink: none;
+                text-underline-offset: -0.325em;
+            }
         }
     }
 
-    i.play {
-        margin: 3px 10px 0 0;
-        color: rgba(var(--center-channel-color-rgb), 0.56);
-        &.completed {
-            color: var(--denim-status-online);
-        }
-    }
     :hover {
         background: rgba(var(--center-channel-color-rgb), 0.08);
     }

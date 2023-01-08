@@ -29,7 +29,7 @@ describe('Channel switch performance test', () => {
 
     it('measures switching between two channels from LHS', () => {
         // # Invoke window object
-        measurePerformance('channelLoad', 5000, () => {
+        measurePerformance('channelLoad', 800, () => {
             // # Switch channel to Off-topic
 
             cy.get('#sidebarItem_off-topic').click({force: true});

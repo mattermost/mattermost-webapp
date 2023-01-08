@@ -76,7 +76,7 @@ export function flagPost(postId: string) {
         const rhsState = getRhsState(state);
 
         if (rhsState === RHSStates.FLAG) {
-            addPostToSearchResults(postId, state, dispatch);
+            dispatch(addPostToSearchResults(postId));
         }
 
         return {data: true};
@@ -155,25 +155,29 @@ export function searchForTerm(term: string) {
     };
 }
 
-function addPostToSearchResults(postId: string, state: GlobalState, dispatch: DispatchFunc) {
-    const results = state.entities.search.results;
-    const index = results.indexOf(postId);
-    if (index === -1) {
-        const newPost = PostSelectors.getPost(state, postId);
-        const posts = getPostsForIds(state, results).reduce((acc, post) => {
-            acc[post.id] = post;
-            return acc;
-        }, {} as Record<string, Post>);
-        posts[newPost.id] = newPost;
+function addPostToSearchResults(postId: string) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const results = state.entities.search.results;
+        const index = results.indexOf(postId);
+        if (index === -1) {
+            const newPost = PostSelectors.getPost(state, postId);
+            const posts = getPostsForIds(state, results).reduce((acc, post) => {
+                acc[post.id] = post;
+                return acc;
+            }, {} as Record<string, Post>);
+            posts[newPost.id] = newPost;
 
-        const newResults = [...results, postId];
-        newResults.sort((a, b) => comparePosts(posts[a], posts[b]));
+            const newResults = [...results, postId];
+            newResults.sort((a, b) => comparePosts(posts[a], posts[b]));
 
-        dispatch({
-            type: SearchTypes.RECEIVED_SEARCH_POSTS,
-            data: {posts, order: newResults},
-        });
-    }
+            dispatch({
+                type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                data: {posts, order: newResults},
+            });
+        }
+        return {data: true};
+    };
 }
 
 function removePostFromSearchResults(postId: string, state: GlobalState, dispatch: DispatchFunc) {
@@ -199,7 +203,7 @@ export function pinPost(postId: string) {
         const rhsState = getRhsState(state);
 
         if (rhsState === RHSStates.PIN) {
-            addPostToSearchResults(postId, state, dispatch);
+            dispatch(addPostToSearchResults(postId));
         }
         return {data: true};
     };

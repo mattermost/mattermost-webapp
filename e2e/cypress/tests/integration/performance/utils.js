@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-export const measurePerformance = (name, upperLimit, callback, reset, runs = 5) => {
+export const measurePerformance = (name, upperLimit, callback, reset, runs = 6) => {
     return cy.window().its('performance').then((performance) => {
         const durations = [];
 
@@ -21,9 +21,12 @@ export const measurePerformance = (name, upperLimit, callback, reset, runs = 5) 
             reset();
         });
 
+        const currentTime = Date.now();
+
         cy.log('loop finish').then(() => {
             const avgDuration = Math.round(durations.reduce((a, b) => a + b) / runs);
-            cy.log(`[PERFORMANCE] ${name}: ${avgDuration}ms` + avgDuration <= upperLimit ? ' within upper limit' : ' outside upper limit', ` of ${upperLimit}ms`);
+            cy.log(`[PERFORMANCE] ${name}: ${avgDuration}ms ${avgDuration <= upperLimit ? ' within upper limit' : ' outside upper limit'} of ${upperLimit}ms`);
+            cy.writeFile(`./tests/integration/performance/logs/${name}_${currentTime}.json`, {name, date: currentTime, duration: avgDuration});
             assert.isAtMost(avgDuration, upperLimit);
 
             // Clean the marks
