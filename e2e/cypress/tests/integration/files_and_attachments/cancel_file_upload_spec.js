@@ -49,14 +49,9 @@ describe('Upload Files', () => {
         // # Post a different file in center channel
         const filename = 'long_text_post.txt';
         cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(filename);
-        cy.uiGetPostTextBox().clear().type('{enter}');
+        cy.get('[data-testid="SendMessageButton"]').click();
 
         // * Verify the file is successfully posted as last post
-        cy.getLastPostId().then((postId) => {
-            cy.get(`#${postId}_message`).should('exist').within(() => {
-                // * Check if file name appeared
-                cy.findByText(filename).should('exist');
-            });
-        });
+        cy.get('.post-image__name').should('have.text', filename);
     });
 });

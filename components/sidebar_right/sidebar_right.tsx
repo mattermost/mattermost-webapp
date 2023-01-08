@@ -197,28 +197,31 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
 
     render() {
         const {
+            team,
+            channel,
             rhsChannel,
             postRightVisible,
             postCardVisible,
             previousRhsState,
             searchVisible,
-            isPinnedPosts,
-            isChannelFiles,
             isPluginView,
             isOpen,
             isChannelInfo,
             isChannelMembers,
             isExpanded,
-            channel,
-            team,
         } = this.props;
 
         if (!isOpen) {
             return null;
         }
 
+        const teamNeeded = true;
+        let selectedChannelNeeded;
+        let currentChannelNeeded;
         let content = null;
+
         if (postRightVisible) {
+            selectedChannelNeeded = true;
             content = (
                 <div className='post-right__container'>
                     <FileUploadOverlay overlayType='right'/>
@@ -230,19 +233,18 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         } else if (isPluginView) {
             content = <RhsPlugin/>;
         } else if (isChannelInfo) {
-            content = (
-                <ChannelInfoRhs/>
-            );
+            currentChannelNeeded = true;
+            content = <ChannelInfoRhs/>;
         } else if (isChannelMembers) {
-            content = (
-                <ChannelMembersRhs/>
-            );
+            currentChannelNeeded = true;
+            content = <ChannelMembersRhs/>;
         }
 
-        // Sometimes the channel/team is not loaded yet, so we need to wait for it
-        const isChannelSpecificRHS = postRightVisible || postCardVisible || isPinnedPosts || isChannelFiles || isChannelInfo || isChannelMembers;
-
-        const isRHSLoading = postRightVisible ? !(team || channel) : (!team || !channel) && isChannelSpecificRHS;
+        const isRHSLoading = Boolean(
+            (teamNeeded && !team) ||
+            (selectedChannelNeeded && !rhsChannel) ||
+            (currentChannelNeeded && !channel),
+        );
 
         const channelDisplayName = rhsChannel ? rhsChannel.display_name : '';
 
@@ -263,6 +265,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
                     <div className='sidebar-right-container'>
                         {isRHSLoading ? (
                             <div className='sidebar-right__body'>
+                                {/* Sometimes the channel/team is not loaded yet, so we need to wait for it */}
                                 <LoadingScreen centered={true}/>
                             </div>
                         ) : (

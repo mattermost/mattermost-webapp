@@ -69,6 +69,7 @@ const Avatar = ({
             className={classes}
             alt={`${username || 'user'} profile image`}
             src={url}
+            loading='lazy'
             onError={(e) => {
                 const fallbackSrc = (url && isURLForUser(url)) ? replaceURLWithDefaultImageURL(url) : BotDefaultIcon;
 
