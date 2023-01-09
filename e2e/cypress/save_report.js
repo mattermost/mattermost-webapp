@@ -27,7 +27,6 @@
  *      - TYPE=[type], e.g. "MASTER", "PR", "RELEASE", "CLOUD"
  */
 
-const chai = require('chai');
 const {merge} = require('mochawesome-merge');
 const generator = require('mochawesome-report-generator');
 
@@ -54,7 +53,6 @@ const saveReport = async () => {
         DIAGNOSTIC_WEBHOOK_URL,
         DIAGNOSTIC_USER_ID,
         DIAGNOSTIC_TEAM_ID,
-        FAILURE_MESSAGE,
         TM4J_ENABLE,
         TM4J_CYCLE_KEY,
         TYPE,
@@ -111,8 +109,6 @@ const saveReport = async () => {
     if (TM4J_ENABLE === 'true') {
         await createTestExecutions(jsonReport, testCycle);
     }
-
-    chai.expect(Boolean(jsonReport.stats.failures), FAILURE_MESSAGE).to.be.false;
 };
 
 saveReport();

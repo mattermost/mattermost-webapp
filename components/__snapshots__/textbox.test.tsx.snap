@@ -104,6 +104,11 @@ exports[`components/TextBox should match snapshot with additional, optional prop
   >
     <Connect(PostMarkdown)
       channelId="channelId"
+      imageProps={
+        Object {
+          "hideUtilities": true,
+        }
+      }
       isRHS={true}
       mentionKeys={Array []}
       message="some test text"
