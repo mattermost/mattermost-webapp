@@ -306,6 +306,10 @@
         font-family: "Open Sans";
         font-size: 16px;
         font-weight: 600;
+
+        .IconMessage .content .IconMessage-link {
+            margin-left: 0;
+        }
     }
 
     .background-svg {

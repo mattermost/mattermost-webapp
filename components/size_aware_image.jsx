@@ -79,6 +79,11 @@ export default class SizeAwareImage extends React.PureComponent {
          * Action to fetch public link of an image from server.
          */
         getFilePublicLink: PropTypes.func,
+
+        /*
+         * Prevents display of utility buttons when image in a location that makes them inappropriate
+         */
+        hideUtilities: PropTypes.bool,
     }
 
     constructor(props) {
@@ -176,6 +181,7 @@ export default class SizeAwareImage extends React.PureComponent {
         Reflect.deleteProperty(props, 'handleSmallImageContainer');
         Reflect.deleteProperty(props, 'enablePublicLink');
         Reflect.deleteProperty(props, 'onClick');
+        Reflect.deleteProperty(props, 'hideUtilities');
         Reflect.deleteProperty(props, 'getFilePublicLink');
 
         let ariaLabelImage = localizeMessage('file_attachment.thumbnail', 'file thumbnail');
@@ -341,7 +347,7 @@ export default class SizeAwareImage extends React.PureComponent {
         }
 
         // handling external small images (OR) handling all large internal / large external images
-        const utilityButtonsWrapper = this.state.isSmallImage && !this.isInternalImage ? null :
+        const utilityButtonsWrapper = this.props.hideUtilities || (this.state.isSmallImage && !this.isInternalImage) ? null :
             (
                 <span
                     className={classNames('image-preview-utility-buttons-container', {
