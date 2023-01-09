@@ -9,7 +9,6 @@ import ActionsMenu from 'components/actions_menu';
 import {Posts, Preferences} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
-import {Post} from '@mattermost/types/posts';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 
 import type {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
@@ -27,7 +26,9 @@ import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PriorityLabel from 'components/post_priority/post_priority_label';
+
 import {Emoji} from '@mattermost/types/emojis';
+import {Post} from '@mattermost/types/posts';
 
 type Props = {
 
@@ -478,7 +479,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         }
 
         let priority;
-        if (post.metadata?.priority && isPostPriorityEnabled) {
+        if (post && post.state !== Posts.POST_DELETED && isPostPriorityEnabled && post.metadata?.priority?.priority) {
             priority = <span className='d-flex mr-2 ml-1'><PriorityLabel priority={post.metadata.priority.priority}/></span>;
         }
 
