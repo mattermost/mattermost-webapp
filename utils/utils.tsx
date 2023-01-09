@@ -10,7 +10,7 @@ import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
-import Constants, {FileTypes, ValidationErrors} from 'utils/constants';
+import Constants, {FileTypes, ValidationErrors, A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
 
 import {
     getChannel as getChannelAction,
@@ -28,7 +28,6 @@ import {
     getMyChannelMemberships,
     getRedirectChannelNameForTeam,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool, getTeammateNameDisplaySetting, Theme, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
@@ -1673,14 +1672,6 @@ export function setCSRFFromCookie() {
 }
 
 /**
- * Returns true if in dev mode, false otherwise.
- */
-export function isDevMode(state = store.getState()) {
-    const config = getConfig(state);
-    return config.EnableDeveloper === 'true';
-}
-
-/**
  * Get closest parent which match selector
  */
 export function getClosestParent(elem: HTMLElement, selector: string) {
@@ -1745,10 +1736,6 @@ export function adjustSelection(inputBox: HTMLInputElement, e: React.SyntheticEv
 export function getNextBillingDate() {
     const nextBillingDate = moment().add(1, 'months').startOf('month');
     return nextBillingDate.format('MMM D, YYYY');
-}
-
-export function getToday() {
-    return moment().format('MMM D, YYYY');
 }
 
 export function stringToNumber(s: string | undefined) {
@@ -1877,4 +1864,15 @@ export function getRoleFromTrackFlow() {
     const startedByRole = TrackFlowRoles[sbr] ?? '';
 
     return {started_by_role: startedByRole};
+}
+
+export function a11yFocus(element: HTMLElement | null | undefined, keyboardOnly = true) {
+    document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+        A11yCustomEventTypes.FOCUS, {
+            detail: {
+                target: element,
+                keyboardOnly,
+            },
+        },
+    ));
 }

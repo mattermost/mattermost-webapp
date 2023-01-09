@@ -34,7 +34,7 @@ describe('components/WarnMetricAckModal', () => {
         },
         actions: {
             closeModal: jest.fn(),
-            getStandardAnalytics: jest.fn(),
+            getFilteredUsersStats: jest.fn(),
             sendWarnMetricAck: jest.fn().mockResolvedValue({}),
         },
     };
