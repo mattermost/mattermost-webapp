@@ -27,6 +27,7 @@ export default function PriorityLabel({
                 variant='danger'
                 icon={'alert-outline'}
                 text={formatMessage({id: 'post_priority.priority.urgent', defaultMessage: 'URGENT'})}
+                uppercase={true}
             />
         );
     }
@@ -38,6 +39,7 @@ export default function PriorityLabel({
                 variant='info'
                 icon={'alert-circle-outline'}
                 text={formatMessage({id: 'post_priority.priority.important', defaultMessage: 'IMPORTANT'})}
+                uppercase={true}
             />
         );
     }
