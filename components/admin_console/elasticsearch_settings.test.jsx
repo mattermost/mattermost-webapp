@@ -20,6 +20,9 @@ describe('components/ElasticSearchSettings', () => {
             ElasticsearchSettings: {
                 ConnectionURL: 'test',
                 SkipTLSVerification: false,
+                CA: 'test.ca',
+                ClientCert: 'test.crt',
+                ClientKey: 'test.key',
                 Username: 'test',
                 Password: 'test',
                 Sniff: false,
@@ -41,6 +44,9 @@ describe('components/ElasticSearchSettings', () => {
             ElasticsearchSettings: {
                 ConnectionURL: 'test',
                 SkipTLSVerification: false,
+                CA: 'test.ca',
+                ClientCert: 'test.crt',
+                ClientKey: 'test.key',
                 Username: 'test',
                 Password: 'test',
                 Sniff: false,
