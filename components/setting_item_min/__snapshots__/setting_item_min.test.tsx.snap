@@ -18,6 +18,7 @@ exports[`components/SettingItemMin should match snapshot 1`] = `
       className="section-min__edit"
     >
       <button
+        aria-expanded={false}
         aria-labelledby="sectionTitle sectionEdit"
         className="color--link cursor--pointer style--none text-left"
         id="sectionEdit"

@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import SaveButton from 'components/save_button';
 import Constants from 'utils/constants';
-import {isKeyPressed} from 'utils/utils';
+import {a11yFocus, isKeyPressed} from 'utils/utils';
 type Props = {
 
     // Array of inputs selection
@@ -62,11 +62,11 @@ export default class SettingItemMax extends React.PureComponent<Props> {
 
     componentDidMount() {
         if (this.settingList.current) {
-            const focusableElements: NodeListOf<HTMLElement> = this.settingList.current.querySelectorAll('.btn:not(.save-button):not(.btn-cancel), input.form-control, select, textarea, [tabindex]:not([tabindex="-1"])');
+            const focusableElements: NodeListOf<HTMLElement> = this.settingList.current.querySelectorAll('.btn:not(.save-button):not(.btn-cancel), input.form-control, input[type="radio"][checked], input[type="checkbox"], select, textarea, [tabindex]:not([tabindex="-1"])');
             if (focusableElements.length > 0) {
-                focusableElements[0].focus();
+                a11yFocus(focusableElements[0]);
             } else {
-                this.settingList.current.focus();
+                a11yFocus(this.settingList.current);
             }
         }
 

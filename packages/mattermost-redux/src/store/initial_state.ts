@@ -252,6 +252,7 @@ const state: GlobalState = {
         worktemplates: {
             categories: [],
             templatesInCategory: {},
+            playbookTemplates: [],
         },
     },
     errors: [],
