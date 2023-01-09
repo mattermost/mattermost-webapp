@@ -75,6 +75,7 @@ describe('components/AdminConsole', () => {
 
     beforeEach(() => {
         jest.spyOn(Utils, 'applyTheme').mockImplementation(() => {});
+        jest.spyOn(Utils, 'resetTheme').mockImplementation(() => {});
     });
 
     test('should redirect to town-square when not system admin', () => {
