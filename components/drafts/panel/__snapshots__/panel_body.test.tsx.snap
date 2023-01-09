@@ -778,15 +778,16 @@ exports[`components/drafts/panel/panel_body should match snapshot for priority 1
                   icon="alert-circle-outline"
                   size="xs"
                   text="IMPORTANT"
+                  uppercase={true}
                   variant="info"
                 >
                   <TagWrapper
                     as="div"
                     className="Tag Tag--info Tag--xs"
-                    uppercase={false}
+                    uppercase={true}
                   >
                     <div
-                      className="TagWrapper-keYggn eemDBF Tag Tag--info Tag--xs"
+                      className="TagWrapper-keYggn hpsCJu Tag Tag--info Tag--xs"
                     >
                       <AlertCircleOutlineIcon
                         size={10}
