@@ -14,11 +14,9 @@
         .ad_ldap_upsell_banner {
             position: sticky;
             z-index: 4;
-            right: 12px;
-            bottom: 0;
-            left: 12px;
+            margin: 0 12px;
             display: flex;
-            height: 32px;
+            height: 44px;
             align-items: center;
             justify-content: space-between;
             padding: 12px 8px;
@@ -30,17 +28,11 @@
             .message {
                 display: flex;
                 gap: 8px;
-                font-size: 11px;
-
-                .icon {
-                    font-size: inherit;
-                }
             }
 
             .btn-container {
                 display: flex;
                 gap: 13px;
-                font-size: 11px;
             }
 
             .banner-close {
@@ -57,13 +49,14 @@
                 border: none;
                 background: none;
                 color: var(--button-color);
+                font-size: 14px;
                 font-weight: 600;
                 line-height: 14px;
             }
         }
 
         .ad_ldap_upsell_confirm {
-            position: absolute;
+            position: sticky;
             z-index: 4;
             top: 0;
             right: 0;
@@ -77,6 +70,10 @@
             .upsell-confirm-backdrop {
                 height: calc(100% - 148px);
                 background: rgba(0, 0, 0, 0.16);
+                z-index: 5;
+                width: 100%;
+                position: fixed;
+                bottom: 148px;
             }
 
             .upsell-confirm-foreground {
