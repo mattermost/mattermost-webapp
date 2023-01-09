@@ -53,6 +53,7 @@ type Props = {
 
 const PostOptions = (props: Props): JSX.Element => {
     const dotMenuRef = useRef<HTMLDivElement>(null);
+
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [showDotMenu, setShowDotMenu] = useState(false);
     const [showActionsMenu, setShowActionsMenu] = useState(false);
@@ -69,15 +70,19 @@ const PostOptions = (props: Props): JSX.Element => {
         isMobileView,
     } = props;
 
+    const isEphemeral = isPostEphemeral(post);
+    const systemMessage = isSystemMessage(post);
+
     const removePost = () => props.removePost(props.post);
 
     const toggleEmojiPicker = () => {
         setShowEmojiPicker(!showEmojiPicker);
+        props.handleDropdownOpened!(!showEmojiPicker);
     };
 
     const handleDotMenuOpened = (open: boolean) => {
         setShowDotMenu(open);
-        props.handleDropdownOpened!(open || showEmojiPicker);
+        props.handleDropdownOpened!(open);
     };
 
     const handleActionsMenuOpened = (open: boolean) => {
@@ -101,8 +106,6 @@ const PostOptions = (props: Props): JSX.Element => {
     const getDotMenuRef = () => dotMenuRef.current;
 
     const isPostDeleted = post && post.state === Posts.POST_DELETED;
-    const isEphemeral = isPostEphemeral(post);
-    const systemMessage = isSystemMessage(post);
     const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu || showActionTip;
     const showCommentIcon = !systemMessage && (isMobile || hoverLocal || (!post.root_id && Boolean(props.hasReplies)) || props.isFirstReply || props.canReply) && props.location === Locations.CENTER;
     const commentIconExtraClass = isMobileView ? '' : 'pull-right';
@@ -134,7 +137,7 @@ const PostOptions = (props: Props): JSX.Element => {
         );
     }
 
-    const showReactionIcon = !systemMessage && !isReadOnly && !isEphemeral && !post.failed && props.enableEmojiPicker;
+    const showReactionIcon = !systemMessage && !isReadOnly && !isEphemeral && !post.failed && props.enableEmojiPicker && !channelIsArchived;
     let postReaction;
     if (showReactionIcon) {
         postReaction = (
@@ -154,7 +157,7 @@ const PostOptions = (props: Props): JSX.Element => {
     if (!isMobileView && (!isEphemeral && !post.failed && !systemMessage)) {
         flagIcon = (
             <PostFlagIcon
-                location={Locations.RHS_COMMENT}
+                location={props.location}
                 postId={post.id}
                 isFlagged={props.isFlagged}
             />
@@ -205,9 +208,8 @@ const PostOptions = (props: Props): JSX.Element => {
         );
     } else if (isPostDeleted) {
         options = null;
-    } else if (props.isSearchResultsItem) {
+    } else if (props.location === Locations.SEARCH) {
         const hasCRTFooter = props.collapsedThreadsEnabled && !post.root_id && (post.reply_count > 0 || post.is_following);
-
         options = (
             <div className='col__controls post-menu'>
                 {dotMenu}
@@ -234,10 +236,9 @@ const PostOptions = (props: Props): JSX.Element => {
                 </a>
             </div>
         );
-    } else if (!systemMessage &&
-        (isMobileView ||
-        hoverLocal ||
-        a11yActive)) {
+    } else if ((isMobileView ||
+                hoverLocal ||
+                a11yActive)) {
         options = (
             <div
                 ref={dotMenuRef}

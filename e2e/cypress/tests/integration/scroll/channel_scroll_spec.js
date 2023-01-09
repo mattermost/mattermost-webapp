@@ -89,7 +89,7 @@ describe('Scroll', () => {
 
         // * Verify that messages do no have user's name in post
         cy.getLastPostId().then((parentMessageId) => {
-            cy.get(`#${parentMessageId}_message`).parent().invoke('text').then((text) => {
+            cy.get(`#${parentMessageId}_message`).invoke('text').then((text) => {
                 expect(text).to.equal(message);
                 expect(text).to.not.have.string('sysadmin');
             });
