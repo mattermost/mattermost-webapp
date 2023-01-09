@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import Constants, {EventTypes, A11yClassNames, A11yAttributeNames, A11yCustomEventTypes} from 'utils/constants';
+import Constants, {EventTypes, A11yClassNames, A11yAttributeNames, A11yCustomEventTypes, isA11yFocusEventDetail} from 'utils/constants';
 import {isKeyPressed, cmdOrCtrlPressed, isMac} from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 
@@ -10,42 +10,43 @@ const listenerOptions = {
 };
 
 export default class A11yController {
+    // Note that these collections are live which means that they'll be updated automatically
+    regionHTMLCollection = this.getAllRegions();
+    sectionHTMLCollection?: HTMLCollectionOf<HTMLElement>; // populated when region changes
+    modalHTMLCollection = this.getAllModals();
+    popupHTMLCollection = this.getAllPopups();
+
+    activeRegion?: HTMLElement;
+    activeSection?: HTMLElement;
+    activeElement?: HTMLElement;
+
+    mouseIsPressed = false;
+
+    // The default behaviour is to only show a visible focus if the user is currently
+    // in the middle of using the keyboard (i.e. the user is pressing a key on the keyboard).
+    // This behaviour was introduced in https://github.com/mattermost/mattermost-webapp/pull/3922.
+    // But we want to be able to manually focus elements with the custom focus event, even if
+    // no keys are currently pressed, for components that manually handle focus such as
+    // popovers and modals. So we need a distinction between these two actions.
+    lastInputEventIsKeyDown = false;
+    lastInputEventIsKeyboard = true;
+
+    manualFocus = false;
+
+    enterKeyIsPressed = false;
+    f6KeyIsPressed = false;
+    upArrowKeyIsPressed = false;
+    downArrowKeyIsPressed = false;
+    tabKeyIsPressed = false;
+    tildeKeyIsPressed = false;
+    lKeyIsPressed = false;
+    escKeyIsPressed = false;
+    windowIsFocused = true;
+
+    // used to reset navigation whenever navigation within a region occurs (section or element)
+    resetNavigation = false;
+
     constructor() {
-        this.regionHTMLCollection = this.getAllRegions();
-        this.sectionHTMLCollection = null; // populated when region changes
-        this.modalHTMLCollection = this.getAllModals();
-        this.popupHTMLCollection = this.getAllPopups();
-
-        this.activeRegion = null;
-        this.activeSection = null;
-        this.activeElement = null;
-
-        this.mouseIsPressed = false;
-
-        // The default behaviour is to only show a visible focus if the user is currently
-        // in the middle of using the keyboard (i.e. the user is pressing a key on the keyboard).
-        // This behaviour was introduced in https://github.com/mattermost/mattermost-webapp/pull/3922.
-        // But we want to be able to manually focus elements with the custom focus event, even if
-        // no keys are currently pressed, for components that manually handle focus such as
-        // popovers and modals. So we need a distinction between these two actions.
-        this.lastInputEventIsKeyDown = false;
-        this.lastInputEventIsKeyboard = true;
-
-        this.manualFocus = false;
-
-        this.enterKeyIsPressed = false;
-        this.f6KeyIsPressed = false;
-        this.upArrowKeyIsPressed = false;
-        this.downArrowKeyIsPressed = false;
-        this.tabKeyIsPressed = false;
-        this.tildeKeyIsPressed = false;
-        this.lKeyIsPressed = false;
-        this.escKeyIsPressed = false;
-        this.windowIsFocused = true;
-
-        // used to reset navigation whenever navigation within a region occurs (section or element)
-        this.resetNavigation = false;
-
         document.addEventListener(EventTypes.KEY_DOWN, this.handleKeyDown, listenerOptions);
         document.addEventListener(EventTypes.KEY_UP, this.handleKeyUp, listenerOptions);
         document.addEventListener(EventTypes.CLICK, this.handleMouseClick, listenerOptions);
@@ -110,7 +111,7 @@ export default class A11yController {
      * Returns an array of available sections sorted by A11yAttributeNames.SORT_ORDER and optionally reversed
      */
     get sections() {
-        let domElements = this.sortElementsByAttributeOrder(this.sectionHTMLCollection);
+        let domElements = this.sortElementsByAttributeOrder(this.sectionHTMLCollection!);
         domElements = domElements.filter((element) => {
             return this.elementIsVisible(element);
         });
@@ -125,7 +126,7 @@ export default class A11yController {
      */
     get activeRegionIndex() {
         if (!this.activeRegion) {
-            return null;
+            return -1;
         }
         return this.regions.indexOf(this.activeRegion);
     }
@@ -135,7 +136,7 @@ export default class A11yController {
      */
     get activeSectionIndex() {
         if (!this.activeSection) {
-            return null;
+            return -1;
         }
         return this.sections.indexOf(this.activeSection);
     }
@@ -324,15 +325,19 @@ export default class A11yController {
     /**
      * Takes the provided dom element, finds it's parent section and region (if available),
      * sets them as active and updates the current focus
-     * @param {HTMLElement} element - the DOM element to set as the active element
-     * @param {array or boolean} elementPath - array of element's dom branch or boolean to find section/region of element
+     * @param element - the DOM element to set as the active element
+     * @param elementPath - array of element's dom branch or boolean to find section/region of element
      */
-    nextElement(element, elementPath = false) {
+    nextElement(element: HTMLElement, elementPath: EventTarget[] | boolean = false) {
+        function isPath(obj: unknown): obj is HTMLElement[] {
+            return Array.isArray(obj);
+        }
+
         let region;
         let section;
-        if (elementPath && elementPath.length) {
+        if (isPath(elementPath)) {
             // is the current element in an active region?
-            if (elementPath.indexOf(this.activeRegion) < 0) {
+            if (!this.activeRegion || elementPath.indexOf(this.activeRegion) < 0) {
                 region = elementPath.find((pathElement) => {
                     if (!pathElement.classList) {
                         return false;
@@ -342,7 +347,7 @@ export default class A11yController {
             }
 
             // is the current element in an active section?
-            if (elementPath.indexOf(this.activeSection) < 0) {
+            if (!this.activeSection || elementPath.indexOf(this.activeSection) < 0) {
                 section = elementPath.find((pathElement) => {
                     if (!pathElement.classList) {
                         return false;
@@ -351,8 +356,8 @@ export default class A11yController {
                 });
             }
         } else if (elementPath && typeof element.closest === 'function') {
-            region = element.closest(`.${A11yClassNames.REGION}`);
-            section = element.closest(`.${A11yClassNames.SECTION}`);
+            region = element.closest(`.${A11yClassNames.REGION}`) as HTMLElement;
+            section = element.closest(`.${A11yClassNames.SECTION}`) as HTMLElement;
         }
         if (region && this.activeRegion !== region) {
             this.setActiveRegion(region, false);
@@ -378,11 +383,11 @@ export default class A11yController {
 
     /**
      * Sets the currently active region and stores a list of the regions sections
-     * @param {HTMLElement} element - DOM element to set as the active region
+     * @param element - DOM element to set as the active region
      * @param {boolean} canFocusChild - whether to focus child section instead of provide region
      * @emits {A11yCustomEventTypes.ACTIVATE} - emitted on the provided DOM element once set to active
      */
-    setActiveRegion(element, canFocusChild = true) {
+    setActiveRegion(element: HTMLElement, canFocusChild = true) {
         if (!this.isElementValid(element, [this.activeRegion]) && !this.resetNavigation) {
             return;
         }
@@ -409,10 +414,10 @@ export default class A11yController {
 
     /**
      * Sets the currently active section
-     * @param {HTMLElement} element - DOM element to set as the active section
+     * @param element - DOM element to set as the active section
      * @emits {A11yCustomEventTypes.ACTIVATE} - emitted on the provided DOM element once set to active
      */
-    setActiveSection(element) {
+    setActiveSection(element: HTMLElement) {
         if (!this.isElementValid(element, [this.activeSection])) {
             return;
         }
@@ -431,10 +436,10 @@ export default class A11yController {
 
     /**
      * Sets the currently active element
-     * @param {HTMLElement} element - DOM element to set as the active element
+     * @param element - DOM element to set as the active element
      * @emits {A11yCustomEventTypes.ACTIVATE} - emitted on the provided DOM element once set to active
      */
-    setActiveElement(element) {
+    setActiveElement(element: HTMLElement) {
         if (!this.isElementValid(element, [this.activeElement])) {
             return;
         }
@@ -482,7 +487,7 @@ export default class A11yController {
 
         // ensure active region element is focusable
         if (!this.activeRegion.getAttribute('tabindex')) {
-            this.activeRegion.setAttribute('tabindex', -1);
+            this.activeRegion.setAttribute('tabindex', '-1');
         }
     }
 
@@ -497,7 +502,7 @@ export default class A11yController {
 
         // ensure active section element is focusable
         if (!this.activeSection.getAttribute('tabindex')) {
-            this.activeSection.setAttribute('tabindex', -1);
+            this.activeSection.setAttribute('tabindex', '-1');
         }
     }
 
@@ -518,7 +523,7 @@ export default class A11yController {
         if ((!this.focusedElement || !(this.a11yKeyIsPressed || this.manualFocus)) && !forceUpdate) {
             return;
         }
-        this.focusedElement.classList.add(A11yClassNames.FOCUSED);
+        this.focusedElement?.classList.add(A11yClassNames.FOCUSED);
     }
 
     /**
@@ -529,7 +534,7 @@ export default class A11yController {
             this.activeRegion.classList.remove(A11yClassNames.ACTIVE);
             this.activeRegion.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
             this.activeRegion.removeEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveRegionUpdate);
-            this.activeRegion = null;
+            this.activeRegion = undefined;
         }
         this.clearActiveSection();
     }
@@ -542,7 +547,7 @@ export default class A11yController {
             this.activeSection.classList.remove(A11yClassNames.ACTIVE);
             this.activeSection.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
             this.activeSection.removeEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveSectionUpdate);
-            this.activeSection = null;
+            this.activeSection = undefined;
         }
         this.clearActiveElement();
     }
@@ -557,7 +562,7 @@ export default class A11yController {
                 this.activeElement.dispatchEvent(new Event(A11yCustomEventTypes.DEACTIVATE));
             }
             this.activeElement.removeEventListener(A11yCustomEventTypes.UPDATE, this.handleActiveElementUpdate);
-            this.activeElement = null;
+            this.activeElement = undefined;
         }
     }
 
@@ -569,7 +574,7 @@ export default class A11yController {
             element.classList.remove(A11yClassNames.FOCUSED);
         });
         if (blurActiveElement) {
-            document.activeElement.blur();
+            (document.activeElement as HTMLElement).blur();
         }
     }
 
@@ -596,31 +601,31 @@ export default class A11yController {
      * - use of HTMLCollection is intentional as this object auto updates to reflect DOM changes
      */
     getAllRegions() {
-        return document.getElementsByClassName(A11yClassNames.REGION);
+        return document.getElementsByClassName(A11yClassNames.REGION) as HTMLCollectionOf<HTMLElement>;
     }
 
     /**
      * Returns an HTMLCollection object of all defined sections for the currently active region
      * - use of HTMLCollection is intentional as this object auto updates to reflect DOM changes
      */
-    getAllSectionsForRegion(region) {
+    getAllSectionsForRegion(region: HTMLElement) {
         if (!region) {
-            return null;
+            return undefined;
         }
-        return region.getElementsByClassName(A11yClassNames.SECTION);
+        return region.getElementsByClassName(A11yClassNames.SECTION) as HTMLCollectionOf<HTMLElement>;
     }
 
     /**
      * Sort a list of DOM elements by defined A11yAttributeNames.SORT_ORDER attribute
-     * @param {HTMLCollection} elements - list of elements to be sorted
+     * @param elements - list of elements to be sorted
      */
-    sortElementsByAttributeOrder(elements) {
+    sortElementsByAttributeOrder(elements: HTMLCollectionOf<HTMLElement>) {
         if (!elements || !elements.length) {
             return [];
         }
         return Array.from(elements).sort((elementA, elementB) => {
-            const elementAOrder = parseInt(elementA.getAttribute(A11yAttributeNames.SORT_ORDER), 10);
-            const elementBOrder = parseInt(elementB.getAttribute(A11yAttributeNames.SORT_ORDER), 10);
+            const elementAOrder = parseInt(elementA.getAttribute(A11yAttributeNames.SORT_ORDER) || '', 10);
+            const elementBOrder = parseInt(elementB.getAttribute(A11yAttributeNames.SORT_ORDER) || '', 10);
 
             if (isNaN(elementAOrder) && isNaN(elementBOrder)) {
                 return 0;
@@ -638,32 +643,34 @@ export default class A11yController {
 
     /**
      * Returns whether a DOM element is currently visible or not
-     * @param {HTMLElement} element - the DOM element to check
+     * @param element - the DOM element to check
      */
-    elementIsVisible(element) {
-        return element && element.offsetParent;
+    elementIsVisible(element: HTMLElement) {
+        return element &&
+            element instanceof HTMLElement &&
+            element.offsetParent;
     }
 
     /**
      * Retuns an HTMLCollection of all DOM elements that have the A11yClassNames.MODAL class
      */
     getAllModals() {
-        return document.getElementsByClassName(A11yClassNames.MODAL);
+        return document.getElementsByClassName(A11yClassNames.MODAL) as HTMLCollectionOf<HTMLElement>;
     }
 
     /**
      * Retuns an HTMLCollection of all DOM elements that have the A11yClassNames.POPUP class
      */
     getAllPopups() {
-        return document.getElementsByClassName(A11yClassNames.POPUP);
+        return document.getElementsByClassName(A11yClassNames.POPUP) as HTMLCollectionOf<HTMLElement>;
     }
 
     /**
      * Helper to retrieve the value of the A11yAttributeNames.LOOP_NAVIGATION attribute for the provided DOM element
-     * @param {HTMLElement} element - the element to retrive the A11yAttributeNames.LOOP_NAVIGATION value from
+     * @param element - the element to retrive the A11yAttributeNames.LOOP_NAVIGATION value from
      */
-    getLoopNavigationAttribute(element) {
-        const attributeValue = element.getAttribute(A11yAttributeNames.LOOP_NAVIGATION);
+    getLoopNavigationAttribute(element: HTMLElement | undefined) {
+        const attributeValue = element?.getAttribute(A11yAttributeNames.LOOP_NAVIGATION);
         if (attributeValue && attributeValue.toLowerCase() === 'false') {
             return false;
         }
@@ -672,9 +679,9 @@ export default class A11yController {
 
     /**
      * Helper to retrieve the value of the A11yAttributeNames.ORDER_REVERSE attribute for the provided DOM element
-     * @param {HTMLElement} element - the element to retrive the A11yAttributeNames.ORDER_REVERSE value from
+     * @param element - the element to retrive the A11yAttributeNames.ORDER_REVERSE value from
      */
-    getOrderReverseAttribute(element) {
+    getOrderReverseAttribute(element: HTMLElement) {
         const attributeValue = element.getAttribute(A11yAttributeNames.ORDER_REVERSE);
         if (attributeValue && attributeValue.toLowerCase() === 'true') {
             return true;
@@ -684,9 +691,9 @@ export default class A11yController {
 
     /**
      * Helper to retrieve the value of the A11yAttributeNames.FOCUS_CHILD attribute for the provided DOM element
-     * @param {HTMLElement} element - the element to retrive the A11yAttributeNames.FOCUS_CHILD value from
+     * @param element - the element to retrive the A11yAttributeNames.FOCUS_CHILD value from
      */
-    getFocusChildAttribute(element) {
+    getFocusChildAttribute(element: HTMLElement) {
         const attributeValue = element.getAttribute(A11yAttributeNames.FOCUS_CHILD);
         if (attributeValue && attributeValue.toLowerCase() === 'true') {
             return true;
@@ -696,10 +703,10 @@ export default class A11yController {
 
     /**
      * Helper method to verify if a provided DOM element is a valid element for a11y navigation
-     * @param {HTMLElement} element - the DOM element to check
-     * @param {arry of HTMLElements} invalidElements - a list of invalid DOM elements to check against
+     * @param element - the DOM element to check
+     * @param invalidElements - a list of invalid DOM elements to check against
      */
-    isElementValid(element, invalidElements = []) {
+    isElementValid(element: HTMLElement | undefined, invalidElements: Array<HTMLElement | undefined> = []) {
         if (
             element &&
             element.classList &&
@@ -712,7 +719,15 @@ export default class A11yController {
 
     // event handling methods
 
-    handleKeyDown = (event) => {
+    handleKeyDown = (event: Event) => {
+        if (
+            !(event instanceof KeyboardEvent) ||
+            !event.target ||
+            !(event.target instanceof HTMLElement)
+        ) {
+            return;
+        }
+
         this.lastInputEventIsKeyboard = true;
 
         const modifierKeys = {
@@ -815,7 +830,7 @@ export default class A11yController {
         this.resetInterractionStates();
     }
 
-    handleMouseClick = (event) => {
+    handleMouseClick = (event: Event) => {
         // hitting enter on a <button> triggers a click event
         if (!this.enterKeyIsPressed) {
             this.lastInputEventIsKeyDown = false;
@@ -835,14 +850,16 @@ export default class A11yController {
         this.mouseIsPressed = false;
     }
 
-    handleFocus = (event) => {
-        // since the post-list (in which the EditPost component lives) has the attribute `data-a11y-child-focus` hitting
-        // the UP-Key causes the a11y controller to go through the posts. This is unwanted behavior in a textarea, so we
-        // decided to leave this fix in for now. If we find the need for a more sustainable fix we can certainly do
-        // that, as well, but for now this is sufficient.
-        // @see: https://github.com/mattermost/mattermost-webapp/pull/8882#discussion_r790905592
-        if (this.lastInputEventIsKeyDown && this.windowIsFocused && event.target.id !== 'edit_textbox') {
-            this.nextElement(event.target, event.path || true);
+    handleFocus = (event: Event) => {
+        if (event.target instanceof HTMLElement) {
+            // since the post-list (in which the EditPost component lives) has the attribute `data-a11y-child-focus` hitting
+            // the UP-Key causes the a11y controller to go through the posts. This is unwanted behavior in a textarea, so we
+            // decided to leave this fix in for now. If we find the need for a more sustainable fix we can certainly do
+            // that, as well, but for now this is sufficient.
+            // @see: https://github.com/mattermost/mattermost-webapp/pull/8882#discussion_r790905592
+            if (this.lastInputEventIsKeyDown && this.windowIsFocused && event.target.id !== 'edit_textbox') {
+                this.nextElement(event.target, event.composedPath() || true);
+            }
         }
 
         // focus just came back to the app
@@ -851,10 +868,15 @@ export default class A11yController {
         }
     }
 
-    handleA11yFocus = (event) => {
-        if (!event.detail.target) {
+    handleA11yFocus = (event: Event) => {
+        if (!(event instanceof CustomEvent)) {
             return;
         }
+
+        if (!isA11yFocusEventDetail(event.detail) || !event.detail.target) {
+            return;
+        }
+
         if (!event.detail.keyboardOnly || this.lastInputEventIsKeyboard) {
             this.manualFocus = true;
             this.nextElement(event.detail.target, true);
@@ -864,7 +886,7 @@ export default class A11yController {
         }
     }
 
-    handleWindowBlur = (event) => {
+    handleWindowBlur = (event: Event) => {
         if (event.target === window) {
             this.windowIsFocused = false;
         }

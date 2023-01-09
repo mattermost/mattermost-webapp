@@ -524,6 +524,9 @@ class ChannelHeader extends React.PureComponent<Props, State> {
         let headerTextContainer;
         const headerText = (isDirect && dmUser?.is_bot) ? dmUser.bot_description : channel.header;
         if (headerText) {
+            const imageProps = {
+                hideUtilities: true,
+            };
             const popoverContent = (
                 <Popover
                     id='header-popover'
@@ -539,6 +542,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                         <Markdown
                             message={headerText}
                             options={this.getPopoverMarkdownOptions(channelNamesMap)}
+                            imageProps={imageProps}
                         />
                     </span>
                 </Popover>
@@ -580,6 +584,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                         <Markdown
                             message={headerText.replace(/\n+/g, ' ')}
                             options={this.getHeaderMarkdownOptions(channelNamesMap)}
+                            imageProps={imageProps}
                         /></div>
                     <span
                         className='header-description__text'
@@ -604,6 +609,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                         <Markdown
                             message={headerText}
                             options={this.getHeaderMarkdownOptions(channelNamesMap)}
+                            imageProps={imageProps}
                         />
                     </span>
                 </div>
