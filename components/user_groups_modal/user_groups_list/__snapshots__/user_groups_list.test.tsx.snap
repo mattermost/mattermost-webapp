@@ -254,6 +254,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
       </MenuWrapper>
     </div>
   </div>
+  <ADLDAPUpsellBanner />
 </div>
 `;
 
@@ -261,5 +262,7 @@ exports[`component/user_groups_modal should match snapshot without groups 1`] = 
 <div
   className="user-groups-modal__content user-groups-list"
   onScroll={[MockFunction]}
-/>
+>
+  <ADLDAPUpsellBanner />
+</div>
 `;
