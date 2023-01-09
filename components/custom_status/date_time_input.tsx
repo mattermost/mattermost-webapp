@@ -62,19 +62,24 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
     const {formatMessage} = useIntl();
     const timeButtonRef = useRef<HTMLButtonElement>(null);
 
+    const handlePopperOpenState = useCallback((isOpen: boolean) => {
+        setIsPopperOpen(isOpen);
+        props.setIsDatePickerOpen?.(isOpen);
+    }, []);
+
+    const handleKeyDown = useCallback((event: KeyboardEvent) => {
+        if (isKeyPressed(event, Constants.KeyCodes.ESCAPE) && isPopperOpen) {
+            handlePopperOpenState(false);
+        }
+    }, [isPopperOpen, handlePopperOpenState]);
+
     useEffect(() => {
         document.addEventListener('keydown', handleKeyDown);
 
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [isPopperOpen]);
-
-    const handleKeyDown = useCallback((event: KeyboardEvent) => {
-        if (isKeyPressed(event, Constants.KeyCodes.ESCAPE) && isPopperOpen) {
-            handlePopperOpenState(false);
-        }
-    }, [isPopperOpen]);
+    }, [handleKeyDown]);
 
     const setTimeAndOptions = () => {
         const currentTime = getCurrentMomentForTimezone(timezone);
@@ -116,11 +121,6 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                 },
             },
         ));
-    }, []);
-
-    const handlePopperOpenState = useCallback((isOpen: boolean) => {
-        setIsPopperOpen(isOpen);
-        props.setIsDatePickerOpen?.(isOpen);
     }, []);
 
     const formatDate = (date: Date): string => {

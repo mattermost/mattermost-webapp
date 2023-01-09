@@ -114,7 +114,6 @@ const ExpiryMenu: React.FC<Props> = (props: Props) => {
                                 aria-hidden='true'
                             />
                         </span>
-
                     </button>
                     <Menu
                         ariaLabel={formatMessage({id: 'custom_status.expiry_dropdown.clear_after', defaultMessage: 'Clear after'})}

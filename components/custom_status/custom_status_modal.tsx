@@ -125,19 +125,19 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const [customExpiryTime, setCustomExpiryTime] = useState<Moment>(initialCustomExpiryTime);
     const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
 
+    const handleKeyDown = useCallback((event: KeyboardEvent) => {
+        if (isKeyPressed(event, Constants.KeyCodes.ESCAPE) && !isDatePickerOpen) {
+            props.onExited();
+        }
+    }, [isDatePickerOpen, props.onExited]);
+
     useEffect(() => {
         document.addEventListener('keydown', handleKeyDown);
 
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [isDatePickerOpen]);
-
-    const handleKeyDown = useCallback((event: KeyboardEvent) => {
-        if (isKeyPressed(event, Constants.KeyCodes.ESCAPE) && !isDatePickerOpen) {
-            props.onExited();
-        }
-    }, [isDatePickerOpen]);
+    }, [handleKeyDown]);
 
     const handleCustomStatusInitializationState = () => {
         if (firstTimeModalOpened) {
