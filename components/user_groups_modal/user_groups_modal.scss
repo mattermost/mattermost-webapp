@@ -17,12 +17,12 @@
             right: 12px;
             bottom: 6px;
             left: 12px;
-            margin: 0 12px;
             display: flex;
             height: 44px;
             align-items: center;
             justify-content: space-between;
             padding: 12px 8px;
+            margin: 0 12px;
             background-color: var(--denim-sidebar-active-border);
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
@@ -71,12 +71,12 @@
             border-radius: 0 0 8px 8px;
 
             .upsell-confirm-backdrop {
+                position: fixed;
+                z-index: 5;
+                bottom: 164px;
+                width: 100%;
                 height: calc(100% - 164px);
                 background: rgba(0, 0, 0, 0.16);
-                z-index: 5;
-                width: 100%;
-                position: fixed;
-                bottom: 164px;
             }
 
             .upsell-confirm-foreground {
@@ -162,9 +162,9 @@
     }
 
     .modal-body {
+        overflow: hidden;
         max-height: 100%;
         padding: 0;
-        overflow: hidden;
 
         .no-results__wrapper {
             padding-bottom: 60px;
