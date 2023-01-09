@@ -141,23 +141,25 @@ body.app__body #root {
         grid-area: app-sidebar;
     }
 
-    @media screen and (max-width: 768px) {
-        grid-template:
-            'header' min-content
-            'center'
-            / auto
-        ;
-        .team-sidebar,
-        #SidebarContainer,
-        #channel_view,
-        .product-wrapper,
-        #sidebar-right,
-        .app-bar {
-            grid-area: center;
-        }
-        #SidebarContainer.move--right {
-            position: relative;
-            left: 65px;
+    &:not(.console__root) {
+        @media screen and (max-width: 768px) {
+            grid-template:
+                'header' min-content
+                'center'
+                / auto
+            ;
+            .team-sidebar,
+            #SidebarContainer,
+            #channel_view,
+            .product-wrapper,
+            #sidebar-right,
+            .app-bar {
+                grid-area: center;
+            }
+            #SidebarContainer.move--right {
+                position: relative;
+                left: 65px;
+            }
         }
     }
 
