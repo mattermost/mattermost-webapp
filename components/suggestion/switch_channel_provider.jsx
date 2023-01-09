@@ -100,7 +100,7 @@ class SwitchChannelSuggestion extends Suggestion {
             } else {
                 unreadMentions = collapsedThreads ? member.mention_count_root : member.mention_count;
             }
-            if (unreadMentions > 0) {
+            if (unreadMentions > 0 && !channelIsArchived) {
                 badge = (
                     <div className={classNames('suggestion-list_unread-mentions', (isPartOfOnlyOneTeam ? 'position-end' : ''))}>
                         <span className='badge'>
@@ -252,7 +252,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 {icon}
                 <div className='suggestion-list__ellipsis suggestion-list__flex'>
                     <span className='suggestion-list__main'>
-                        <span className={item.unread ? 'suggestion-list__unread' : ''}>{name}</span>
+                        <span className={item.unread && !channelIsArchived ? 'suggestion-list__unread' : ''}>{name}</span>
                         {showSlug && <span className='ml-2 suggestion-list__desc'>{description}</span>}
                     </span>
                     {customStatus}
