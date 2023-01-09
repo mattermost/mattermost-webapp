@@ -192,3 +192,13 @@ export declare type TeamsUsageResponse = {
     active: number;
     cloud_archived: number;
 };
+
+export type PostAnalytics = {
+    channel_id: string;
+    post_id: string;
+    user_actual_id: string;
+    root_id: string;
+    priority?: PostPriority|'';
+    requested_ack?: boolean;
+    persistent_notifications?: boolean;
+}
