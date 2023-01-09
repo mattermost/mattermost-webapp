@@ -28,7 +28,7 @@ export const fallbackStarterLimits = {
         history: 10000,
     },
     files: {
-        totalStorage: FileSizes.Gigabyte * 10,
+        totalStorage: FileSizes.Gigabyte,
     },
     teams: {
         active: 1,
@@ -36,15 +36,6 @@ export const fallbackStarterLimits = {
     boards: {
         cards: 500,
         views: 5,
-    },
-};
-
-// These are to be used when we need values
-// even if network requests are failing for some reason.
-// Use as a fallback.
-export const fallbackProfessionalLimits = {
-    files: {
-        totalStorage: FileSizes.Gigabyte * 250,
     },
 };
 
