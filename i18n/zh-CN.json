@@ -371,7 +371,6 @@
   "admin.billing.subscription.updatePaymentInfo": "更新付款信息",
   "admin.billing.subscription.upgradedSuccess": "您现在已升级到{productName}",
   "admin.billing.subscription.verifyPaymentInformation": "验证您的付款信息中",
-  "admin.billing.subscriptions.billing_summary.lastInvoice.downloadInvoice": "下载发票",
   "admin.billing.subscriptions.billing_summary.lastInvoice.failed": "失败",
   "admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee": "每月固定费用",
   "admin.billing.subscriptions.billing_summary.lastInvoice.paid": "已支付",

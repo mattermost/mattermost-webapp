@@ -7,9 +7,14 @@
         }
     }
 
+    display: flex;
     width: 100%;
+    flex-direction: row;
+    align-items: end;
     padding: 0 24px;
     margin: 0 auto;
+    gap: 12px;
+    justify-items: stretch;
 
     .sidebar--right & {
         padding-top: 12px;
@@ -20,23 +25,25 @@
     }
 
     .custom-textarea {
+        // fix for a miscalculation due to the heavily overwritten custom-textarea class
+        height: 0;
         box-shadow: none;
 
         &:focus {
             box-shadow: none;
         }
 
-        &.custom-textarea--emoji-picker {
-            padding-right: 50px;
-        }
-
+        &.custom-textarea--emoji-picker,
         &.textbox-preview-area {
-            padding-right: 50px;
+            height: auto;
+            padding-right: 16px;
         }
     }
 
     &__body {
         position: relative;
+        max-width: 100%;
+        flex: 1;
         border: 2px solid rgba(var(--center-channel-color-rgb), 0.16);
         border-radius: 4px;
 
@@ -170,6 +177,7 @@
         position: relative;
         display: flex;
         flex-direction: column;
+        padding: 0 24px;
         font-size: 13px;
         gap: 8px;
 
