@@ -14,6 +14,9 @@
         .ad_ldap_upsell_banner {
             position: sticky;
             z-index: 4;
+            right: 12px;
+            bottom: 6px;
+            left: 12px;
             margin: 0 12px;
             display: flex;
             height: 44px;
@@ -68,12 +71,12 @@
             border-radius: 0 0 8px 8px;
 
             .upsell-confirm-backdrop {
-                height: calc(100% - 148px);
+                height: calc(100% - 164px);
                 background: rgba(0, 0, 0, 0.16);
                 z-index: 5;
                 width: 100%;
                 position: fixed;
-                bottom: 148px;
+                bottom: 164px;
             }
 
             .upsell-confirm-foreground {
