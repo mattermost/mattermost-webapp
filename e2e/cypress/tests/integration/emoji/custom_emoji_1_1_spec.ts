@@ -81,7 +81,7 @@ describe('Custom emojis', () => {
         cy.findAllByTestId('emojiItem').children('img').first().should('have.class', 'emoji-category--custom');
 
         // # Post a message with the emoji
-        cy.uiGetPostTextBox().clear().type(customEmojiWithColons.substring(0, 10));
+        cy.uiGetPostTextBox().clear({force: true}).type(customEmojiWithColons.substring(0, 10));
 
         // * Suggestion list should appear
         cy.get('#suggestionList').should('be.visible');

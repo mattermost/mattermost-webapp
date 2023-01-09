@@ -93,7 +93,7 @@ function StarterDisclaimerCTA() {
     };
     return (
         <Disclaimer
-            id='starter_plan_data_restrictions_cta'
+            id='free_plan_data_restrictions_cta'
             onClick={openLimitsMiniModal}
         >
             <i className='icon-alert-outline'/>
