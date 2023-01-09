@@ -18,7 +18,7 @@ import {selectChannel} from 'mattermost-redux/actions/channels';
 import {selectTeam} from 'mattermost-redux/actions/teams';
 import {isCurrentUserSystemAdmin, currentUserHasAnAdminRole, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getDefaultTheme, getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {General} from 'mattermost-redux/constants';
 
@@ -55,7 +55,6 @@ function mapStateToProps(state: GlobalState) {
         consoleAccess,
         cloud: state.entities.cloud,
         team,
-        defaultTheme: getDefaultTheme(state),
         currentTheme: getTheme(state),
     };
 }

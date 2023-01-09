@@ -147,7 +147,7 @@ export type Theme = {
     codeTheme: string;
 };
 
-export const getDefaultTheme = createSelector('getDefaultTheme', getConfig, (config): Theme => {
+const getDefaultTheme = createSelector('getDefaultTheme', getConfig, (config): Theme => {
     if (config.DefaultTheme && config.DefaultTheme in Preferences.THEMES) {
         const theme: Theme = Preferences.THEMES[config.DefaultTheme as ThemeKey];
         if (theme) {

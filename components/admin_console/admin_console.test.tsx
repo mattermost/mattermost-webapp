@@ -59,7 +59,6 @@ describe('components/AdminConsole', () => {
         showNavigationPrompt: false,
         isCurrentUserSystemAdmin: false,
         currentUserHasAnAdminRole: false,
-        defaultTheme: {} as Theme,
         currentTheme: {} as Theme,
         actions: {
             getConfig: jest.fn(),

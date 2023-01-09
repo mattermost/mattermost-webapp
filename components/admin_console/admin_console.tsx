@@ -19,7 +19,7 @@ import BackstageNavbar from 'components/backstage/components/backstage_navbar';
 import DelinquencyModal from 'components/delinquency_modal';
 import AnnouncementBarController from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
-import {applyTheme} from 'utils/utils';
+import {applyTheme, resetTheme} from 'utils/utils';
 
 import AdminSidebar from './admin_sidebar';
 import Highlight from './highlight';
@@ -28,7 +28,6 @@ import type {PropsFromRedux} from './index';
 
 export interface Props extends PropsFromRedux {
     match: {url: string};
-    defaultTheme: Theme;
     currentTheme: Theme;
 }
 
@@ -81,7 +80,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
         this.props.actions.selectChannel('');
         this.props.actions.selectTeam('');
         document.body.classList.add('console__body');
-        applyTheme(this.props.defaultTheme);
+        resetTheme();
     }
 
     public componentWillUnmount(): void {
