@@ -59,9 +59,11 @@ describe('System Console > Site Statistics', () => {
 
     it('MM-T904 Site Statistics displays expected content categories', () => {
         cy.intercept('GET', '**/api/v4/analytics/**').as('analytics');
+
         // # Visit site statistics page.
         cy.visit('/admin_console/reporting/system_analytics');
         cy.wait('@analytics');
+
         // * Check that the header has loaded correctly and contains the expected text.
         cy.get('.admin-console__header span', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', 'System Statistics');
 
