@@ -21,6 +21,8 @@ import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
 import {localizeMessage} from 'utils/utils';
 
+import styled from 'styled-components';
+
 import {Post} from '@mattermost/types/posts';
 import {MarketplacePlugin} from '@mattermost/types/marketplace';
 import {GlobalState} from '../../types/store';
@@ -46,7 +48,7 @@ type CustomPostProps = {
     requested_plugins_by_user_ids: RequestedPlugins;
 }
 
-const style = {
+const buttonsStyle = {
     display: 'flex',
     gap: '10px',
     padding: '12px',
@@ -54,6 +56,10 @@ const style = {
     border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
     width: 'max-content',
     margin: '10px 0',
+};
+
+const usersListStyle = {
+    margin: '20px 0',
 };
 
 export default function OpenPluginInstallPost(props: {post: Post}) {
@@ -127,7 +133,7 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
             for (const pluginId of Object.keys(pluginsByPluginIds)) {
                 pluginNames = [
                     ...pluginNames,
-                    ...(new Set(pluginsByPluginIds[pluginId].map((plugin) => plugin.plugin_name))),
+                    pluginsByPluginIds[pluginId][0].plugin_name,
                 ];
             }
 
@@ -157,7 +163,6 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
                 />);
 
             const message = formatList(messageBuilder, {style: 'narrow', type: 'unit'});
-
             post = (
                 <>
                     <Markdown
@@ -173,36 +178,39 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
             messageBuilder.push(formatMessage({id: 'postypes.custom_open_plugin_install_post_rendered.app_installation_request_text', defaultMessage: 'You’ve received the following app installation requests:'}));
             const pluginIds = Object.keys(pluginsByPluginIds);
 
-            post = (<ul style={{margin: '20px 0'}}>
-                {pluginIds.map((pluginId) => {
-                    const plugins = pluginsByPluginIds[pluginId];
-                    const uniqueUserRequestsForPlugins = uniqWith(plugins, (one, two) => one.user_id === two.user_id);
-                    const numberOfUserRequest = uniqueUserRequestsForPlugins.length;
-                    const installRequests = [];
-                    let userName: string[] = [];
-                    if (numberOfUserRequest === 1) {
-                        const userId = uniqueUserRequestsForPlugins[0].user_id;
-                        userName.push(getUserNameForUser(userId));
-                        installRequests.push(userName[0]);
-                    } else if (numberOfUserRequest === 2) {
-                        userName = userName.concat(getUserNamesForUsersThatRequestedFeature(uniqueUserRequestsForPlugins));
-                        const andMessage = formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.and', defaultMessage: 'and'});
-                        installRequests.push(userName.join(` ${andMessage} `));
-                    } else {
-                        installRequests.push(formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.members', defaultMessage: '{members} members'}, {members: numberOfUserRequest}));
-                    }
-                    installRequests.push(' ' + formatMessage({id: 'postypes.custom_open_plugin_install_post_rendered.plugin_requests', defaultMessage: 'requested installing the {pluginRequests} app.'}, {pluginRequests: uniqueUserRequestsForPlugins[0].plugin_name}));
-                    return (
-                        <li key={props.post.id}>
-                            <Markdown
-                                postId={props.post.id}
-                                message={installRequests.join('')}
-                                options={markDownOptions}
-                                userIds={getUserIdsForUsersThatRequestedFeature(requestedPluginsByUserIds[userIds[0]])}
-                            />
-                        </li>
-                    );
-                })} </ul>);
+            post = (
+                <ul style={usersListStyle}>
+                    {pluginIds.map((pluginId) => {
+                        const plugins = pluginsByPluginIds[pluginId];
+                        const uniqueUserRequestsForPlugins = uniqWith(plugins, (one, two) => one.user_id === two.user_id);
+                        const numberOfUserRequest = uniqueUserRequestsForPlugins.length;
+                        const installRequests = [];
+                        let userName: string[] = [];
+                        if (numberOfUserRequest === 1) {
+                            const userId = uniqueUserRequestsForPlugins[0].user_id;
+                            userName.push(getUserNameForUser(userId));
+                            installRequests.push(userName[0]);
+                        } else if (numberOfUserRequest === 2) {
+                            userName = userName.concat(getUserNamesForUsersThatRequestedFeature(uniqueUserRequestsForPlugins));
+                            const andMessage = formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.and', defaultMessage: 'and'});
+                            installRequests.push(userName.join(` ${andMessage} `));
+                        } else {
+                            installRequests.push(formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.members', defaultMessage: '{members} members'}, {members: numberOfUserRequest}));
+                        }
+                        installRequests.push(' ' + formatMessage({id: 'postypes.custom_open_plugin_install_post_rendered.plugin_requests', defaultMessage: 'requested installing the {pluginRequests} app.'}, {pluginRequests: uniqueUserRequestsForPlugins[0].plugin_name}));
+                        return (
+                            <li key={props.post.id}>
+                                <Markdown
+                                    postId={props.post.id}
+                                    message={installRequests.join('')}
+                                    options={markDownOptions}
+                                    userIds={getUserIdsForUsersThatRequestedFeature(requestedPluginsByUserIds[userIds[0]])}
+                                />
+                            </li>
+                        );
+                    })}
+                </ul>
+            );
 
             const instructions = (
                 <FormattedMessage
@@ -294,29 +302,27 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
         let pluginDetails: Array<{pluginName: string; pluginId: string}> = [];
 
         for (const pluginId of Object.keys(props.pluginsByPluginIds)) {
-            const pluginName = new Set(pluginsByPluginIds[pluginId].map((plugin) => plugin.plugin_name));
+            const pluginName = pluginsByPluginIds[pluginId][0].plugin_name;
             pluginDetails = [
                 ...pluginDetails,
-                {pluginName: [...pluginName][0], pluginId},
+                {pluginName, pluginId},
             ];
         }
 
         return (
-            <div style={{display: 'flex'}}>
-                <div
-                    style={style}
-                >
-                    {[...pluginDetails].map((pluginDetail) => {
-                        return (
-                            <div key={pluginDetail.pluginName}>
-                                <RenderPluginButton
-                                    installedListing={installedListing}
-                                    pluginDetail={pluginDetail}
-                                />
-                            </div>
-                        );
-                    })}
-                </div>
+            <div
+                style={buttonsStyle}
+            >
+                {[...pluginDetails].map((pluginDetail) => {
+                    return (
+                        <div key={pluginDetail.pluginName}>
+                            <RenderPluginButton
+                                installedListing={installedListing}
+                                pluginDetail={pluginDetail}
+                            />
+                        </div>
+                    );
+                })}
             </div>
 
         );
