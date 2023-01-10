@@ -4,6 +4,8 @@
 import {alpha, ComponentsProps, ComponentsVariants, emphasize, Theme} from '@mui/material';
 import {ComponentsOverrides} from '@mui/material/styles/overrides';
 
+import {blend} from '../../utils/color-utils';
+
 const componentName = 'MuiButton';
 
 declare module '@mui/material/Button' {
@@ -18,6 +20,9 @@ declare module '@mui/material/Button' {
 
 const defaultProps: ComponentsProps[typeof componentName] = {
     disableElevation: true,
+    disableRipple: true,
+    disableTouchRipple: true,
+    disableFocusRipple: true,
 };
 
 const getFocusStyles = (color: string) => ({
@@ -37,29 +42,25 @@ const getFocusStyles = (color: string) => ({
 });
 
 const styleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
-    containedPrimary: ({theme}) => ({
+    containedPrimary: ({theme, ownerState}) => ({
+        backgroundColor: ownerState.inverted ? theme.palette.text.primary : theme.palette.primary.main,
+        color: ownerState.inverted ? theme.palette.primary.main : theme.palette.primary.contrastText,
+
         '&:hover': {
-            backgroundColor: emphasize(theme.palette.primary.main, 0.05),
+            backgroundColor: ownerState.inverted ? blend(theme.palette.text.primary, alpha(theme.palette.primary.main, 0.08)) : emphasize(theme.palette.primary.main, 0.1),
         },
         '&:active': {
-            backgroundColor: emphasize(theme.palette.primary.main, 0.1),
-        },
-
-        '&.Mui-disabled': {
-            color: alpha(theme.palette.text.primary, 0.32),
-            backgroundColor: alpha(theme.palette.text.primary, 0.08),
+            backgroundColor: ownerState.inverted ? blend(theme.palette.text.primary, alpha(theme.palette.primary.main, 0.16)) : emphasize(theme.palette.primary.main, 0.2),
         },
 
         ...getFocusStyles(theme.palette.primary.main),
     }),
     containedError: ({theme}) => ({
+        '&:hover': {
+            backgroundColor: emphasize(theme.palette.error.dark, 0.1),
+        },
         '&:active': {
             backgroundColor: emphasize(theme.palette.error.dark, 0.2),
-        },
-
-        '&.Mui-disabled': {
-            color: alpha(theme.palette.text.primary, 0.32),
-            backgroundColor: alpha(theme.palette.text.primary, 0.08),
         },
 
         ...getFocusStyles(theme.palette.error.main),
@@ -75,12 +76,6 @@ const styleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
             backgroundColor: alpha(theme.palette.primary.main, 0.16),
         },
 
-        '&.Mui-disabled': {
-            color: alpha(theme.palette.text.primary, 0.32),
-            borderColor: alpha(theme.palette.text.primary, 0.32),
-            backgroundColor: alpha(theme.palette.text.primary, 0),
-        },
-
         ...getFocusStyles(theme.palette.primary.main),
     }),
     outlinedError: ({theme}) => ({
@@ -92,12 +87,6 @@ const styleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
 
         '&:active': {
             backgroundColor: alpha(theme.palette.error.main, 0.16),
-        },
-
-        '&.Mui-disabled': {
-            color: alpha(theme.palette.text.primary, 0.32),
-            borderColor: alpha(theme.palette.text.primary, 0.32),
-            backgroundColor: alpha(theme.palette.text.primary, 0),
         },
 
         ...getFocusStyles(theme.palette.error.main),
@@ -113,15 +102,10 @@ const styleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
             backgroundColor: alpha(theme.palette.primary.main, 0.16),
         },
 
-        '&.Mui-disabled': {
-            color: alpha(theme.palette.text.primary, 0.32),
-            backgroundColor: alpha(theme.palette.text.primary, 0.08),
-        },
-
         ...getFocusStyles(theme.palette.primary.main),
     }),
-    textError: ({theme}) => ({
-        backgroundColor: alpha(theme.palette.error.main, 0.8),
+    textError: ({theme, ownerState}) => ({
+        backgroundColor: ownerState.disabled ? theme.palette.action.disabledBackground : alpha(theme.palette.error.main, 0.12),
 
         '&:hover': {
             backgroundColor: alpha(theme.palette.error.main, 0.12),
@@ -129,11 +113,6 @@ const styleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
 
         '&:active': {
             backgroundColor: alpha(theme.palette.error.main, 0.16),
-        },
-
-        '&.Mui-disabled': {
-            color: alpha(theme.palette.text.primary, 0.32),
-            backgroundColor: alpha(theme.palette.text.primary, 0.08),
         },
 
         ...getFocusStyles(theme.palette.error.main),
@@ -153,7 +132,7 @@ const variants: ComponentsVariants[typeof componentName] = [
     {
         props: {size: 'small'},
         style: ({theme}) => ({
-            padding: '0.9rem 1.6rem 0.7rem',
+            padding: '1rem 1.6rem 0.6rem',
             ...theme.typography.b75,
             margin: 0,
             textTransform: 'none',
@@ -162,7 +141,7 @@ const variants: ComponentsVariants[typeof componentName] = [
     {
         props: {size: 'medium'},
         style: ({theme}) => ({
-            padding: '1.1rem 2rem 0.9rem',
+            padding: '1.2rem 2rem 0.8rem',
             ...theme.typography.b100,
             margin: 0,
             textTransform: 'none',
@@ -171,7 +150,7 @@ const variants: ComponentsVariants[typeof componentName] = [
     {
         props: {size: 'large'},
         style: ({theme}) => ({
-            padding: '1.3rem 2.4rem 1.1rem',
+            padding: '1.4rem 2.4rem 1rem',
             ...theme.typography.b200,
             margin: 0,
             textTransform: 'none',

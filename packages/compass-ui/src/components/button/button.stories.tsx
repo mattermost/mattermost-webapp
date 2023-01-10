@@ -12,13 +12,14 @@ export default {
 };
 
 export const NormalButton: ComponentStory<typeof Button> = (args) => {
-    return <Button {...args}>{'WrappedMaterial Button'}</Button>;
+    return <Button {...args}>{'BUTTON'}</Button>;
 };
 NormalButton.args = {
     variant: 'primary',
+    size: 'medium',
     destructive: false,
     disabled: false,
-    size: 'medium',
+    inverted: false,
 };
 NormalButton.argTypes = {
     variant: {
@@ -29,12 +30,6 @@ NormalButton.argTypes = {
             'tertiary',
         ],
     },
-    destructive: {
-        control: 'boolean',
-    },
-    disabled: {
-        control: 'boolean',
-    },
     size: {
         control: 'select',
         options: [
@@ -43,5 +38,14 @@ NormalButton.argTypes = {
             'medium',
             'large',
         ],
+    },
+    destructive: {
+        control: 'boolean',
+    },
+    disabled: {
+        control: 'boolean',
+    },
+    inverted: {
+        control: 'boolean',
     },
 };

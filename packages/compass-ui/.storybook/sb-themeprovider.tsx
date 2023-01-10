@@ -4,45 +4,9 @@ import {createTheme} from '@mui/material/styles';
 import {GlobalStyles} from '@mui/material';
 
 import ThemeProvider from '../src/themeprovider/themeprovider';
-import {defaultTheme} from "../src/themeprovider/themes";
+import {lightTheme} from "../src/themeprovider/themes";
 
-const CanvasThemeProvider = ({children = null, theme = defaultTheme}): JSX.Element => {
-    const [selectedTheme, setSelectedTheme] = useState(createTheme(theme));
-
-    useEffect(() => {
-        console.log('### theme', createTheme(theme));
-        setSelectedTheme(createTheme(theme));
-    }, [theme]);
-
-    const canvasStyles = {
-        'html': {
-            fontSize: 10,
-        },
-
-        'body.sb-show-main.sb-main-centered': {
-            backgroundColor: selectedTheme.palette.background.default,
-            alignItems: 'stretch',
-
-            '#root': {
-                flex: 1,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }
-        }
-    };
-
-    const globalStyles = <GlobalStyles styles={canvasStyles}/>
-
-    return (
-        <ThemeProvider theme={selectedTheme}>
-            {globalStyles}
-            {children}
-        </ThemeProvider>
-    );
-};
-
-const DocumentationThemeProvider = ({children = null, theme = defaultTheme}): JSX.Element => {
+const DocumentationThemeProvider = ({children = null, theme = lightTheme}): JSX.Element => {
     const selectedTheme = createTheme(theme);
 
     const docStyles = {
@@ -78,4 +42,4 @@ const DocumentationThemeProvider = ({children = null, theme = defaultTheme}): JS
     );
 };
 
-export { CanvasThemeProvider, DocumentationThemeProvider };
+export { DocumentationThemeProvider };

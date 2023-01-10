@@ -3,48 +3,11 @@ import {styled} from '@mui/system';
 import {css, GlobalStyles} from '@mui/material';
 import {INITIAL_VIEWPORTS} from '@storybook/addon-viewport';
 import {DocsContainer} from '@storybook/addon-docs/blocks';
-import createPalette from '@mui/material/styles/createPalette';
 
 import {DocumentationThemeProvider} from './sb-themeprovider';
 import ThemeProvider from '../src/themeprovider/themeprovider'
 
-const darkTheme = {
-    palette: createPalette({
-        primary: {main: '#5D89EA'},
-        secondary: {main: '#15B7B7'},
-        error: {main: '#D24B4E'},
-        warning: {main: '#F5AB00'},
-        info: {main: '#145dbf'},
-        success: {main: '#3DB887'},
-        mention: {main: '#145dbf'},
-        text: {
-            primary: '#DDDFE4',
-        },
-        background: {
-            default: '#0A111F',
-        },
-        tonalOffset: 0.05,
-    }),
-};
-
-const lightTheme = {
-    palette: createPalette({
-        primary: {main: '#39807e'},
-        secondary: {main: '#0043ad'},
-        error: {main: '#d24b4e'},
-        warning: {main: '#cc8f00'},
-        info: {main: '#145dbf'},
-        success: {main: '#06d6a0'},
-        mention: {main: '#145dbf'},
-        text: {
-            primary: '#3d3c40',
-        },
-        background: {
-            default: '#fff',
-        },
-        tonalOffset: 0.05,
-    }),
-};
+import {lightTheme, darkTheme} from "../src/themeprovider/themes";
 
 const ThemeBlock = styled('div')(
     ({ left, fill, theme }) => css`

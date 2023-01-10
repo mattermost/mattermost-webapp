@@ -17,16 +17,13 @@ type IncludedMuiProps = 'size' | 'disabled';
 type Props = Pick<MuiButtonProps, IncludedMuiProps> & {
     destructive?: boolean;
     disabled?: boolean;
+    inverted?: boolean;
     variant?: ButtonVariant;
 }
 
 export const Button = ({variant = 'primary', destructive, ...rest}: Props) => (
     <MuiButton
         {...rest}
-        disableElevation={true}
-        disableRipple={true}
-        disableFocusRipple={true}
-        disableTouchRipple={true}
         color={destructive ? 'error' : 'primary'}
         variant={variantMap[variant]}
     />

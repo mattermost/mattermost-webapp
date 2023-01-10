@@ -5,10 +5,10 @@ import React from 'react';
 import {createTheme} from '@mui/material/styles';
 import MUIThemeProvider, {ThemeProviderProps} from '@mui/material/styles/ThemeProvider';
 
-import {defaultTheme} from './themes';
+import {lightTheme} from './themes';
 import overrides from './overrides';
 
-const Themeprovider = ({theme = defaultTheme, ...rest}: ThemeProviderProps) => {
+const Themeprovider = ({theme = lightTheme, ...rest}: ThemeProviderProps) => {
     const combinedTheme = createTheme({
         ...theme,
         ...overrides,
