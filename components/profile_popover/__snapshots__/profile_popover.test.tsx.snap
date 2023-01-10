@@ -3683,6 +3683,7 @@ exports[`components/ProfilePopover should show the start call button when isCall
                         alt="some_username profile image"
                         className="Avatar Avatar-xxl"
                         id="userAvatar"
+                        loading="lazy"
                         onError={[Function]}
                         src="src"
                         tabIndex={-1}
