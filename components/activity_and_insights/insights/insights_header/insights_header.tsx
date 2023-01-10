@@ -28,18 +28,20 @@ const InsightsHeader = (props: Props) => {
         <header
             className={classNames('Header Insights___header')}
         >
-            <div className='left'>
-                <InsightsTitle
-                    filterType={props.filterType}
-                    setFilterTypeTeam={props.setFilterTypeTeam}
-                    setFilterTypeMy={props.setFilterTypeMy}
-                />
-            </div>
-            <div className='right'>
-                <TimeFrameDropdown
-                    timeFrame={props.timeFrame}
-                    setTimeFrame={props.setTimeFrame}
-                />
+            <div className='header-container'>
+                <div className='left'>
+                    <InsightsTitle
+                        filterType={props.filterType}
+                        setFilterTypeTeam={props.setFilterTypeTeam}
+                        setFilterTypeMy={props.setFilterTypeMy}
+                    />
+                </div>
+                <div className='right'>
+                    <TimeFrameDropdown
+                        timeFrame={props.timeFrame}
+                        setTimeFrame={props.setTimeFrame}
+                    />
+                </div>
             </div>
         </header>
     );

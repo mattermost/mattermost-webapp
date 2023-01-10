@@ -1,12 +1,28 @@
 .Insights___header {
     &.Header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
         padding: 15px 12px;
         border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
         background-color: var(--center-channel-bg);
         grid-area: header;
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: auto;
+            width: calc(100% - 40px);
+            // Account for the scrollbar that shifts the insights-body content
+            padding-right: 6px;
+
+            @media screen and (min-width: 1680px) {
+                width: 1268px;
+                align-self: center;
+            }
+
+            @media screen and (max-width: 768px) {
+                width: calc(100% - 10px);
+            }
+        }
 
         .insights-title {
             display: flex;
