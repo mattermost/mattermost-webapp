@@ -80,7 +80,7 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
                             history: 10000,
                         },
                         files: {
-                            total_storage: 10 * FileSizes.Gigabyte,
+                            total_storage: FileSizes.Gigabyte,
                         },
                         teams: {
                             active: 1,
@@ -102,7 +102,7 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
                     historyLoaded: true,
                 },
                 files: {
-                    totalStorage: 10 * FileSizes.Gigabyte,
+                    totalStorage: FileSizes.Gigabyte,
                     totalStorageLoaded: true,
                 },
                 teams: {
@@ -199,7 +199,7 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
                         history: 10000,
                     },
                     files: {
-                        total_storage: 10 * FileSizes.Gigabyte,
+                        total_storage: FileSizes.Gigabyte,
                     },
                     teams: {
                         active: 1,
@@ -220,7 +220,7 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
                     historyLoaded: true,
                 },
                 files: {
-                    totalStorage: 10 * FileSizes.Gigabyte,
+                    totalStorage: FileSizes.Gigabyte,
                     totalStorageLoaded: true,
                 },
                 teams: {

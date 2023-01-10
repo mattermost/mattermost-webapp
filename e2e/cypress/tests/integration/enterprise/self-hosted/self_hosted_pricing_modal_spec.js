@@ -7,8 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @cloud_only @cloud_trial
-// Skip:  @headless @electron // run on Chrome (headed) only
+// Group: @enterprise @not_cloud
 
 function withTrialBefore(trialed) {
     cy.intercept('GET', '**/api/v4/trial-license/prev', {
@@ -39,7 +38,7 @@ describe('Self hosted Pricing modal', () => {
             urlL = url;
             createdUser = user;
             cy.apiAdminLogin();
-            cy.apiDeleteLicense('Cloud');
+            cy.apiDeleteLicense();
             cy.visit(url);
         });
     });
