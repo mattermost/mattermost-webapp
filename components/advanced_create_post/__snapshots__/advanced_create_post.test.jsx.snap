@@ -20,6 +20,7 @@ exports[`components/advanced_create_post Show tutorial 1`] = `
       }
     }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
+    disableSend={false}
     draft={
       Object {
         "fileInfos": Array [],
@@ -62,7 +63,6 @@ exports[`components/advanced_create_post Show tutorial 1`] = `
     removePreview={[Function]}
     serverError={null}
     setShowPreview={[Function]}
-    shouldDisable={false}
     shouldShowPreview={false}
     showEmojiPicker={false}
     showSendTutorialTip={false}
@@ -99,6 +99,7 @@ exports[`components/advanced_create_post should match snapshot for center textbo
       }
     }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
+    disableSend={false}
     draft={
       Object {
         "fileInfos": Array [],
@@ -141,7 +142,6 @@ exports[`components/advanced_create_post should match snapshot for center textbo
     removePreview={[Function]}
     serverError={null}
     setShowPreview={[Function]}
-    shouldDisable={false}
     shouldShowPreview={false}
     showEmojiPicker={false}
     showSendTutorialTip={false}
@@ -178,6 +178,7 @@ exports[`components/advanced_create_post should match snapshot when cannot post 
       }
     }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
+    disableSend={false}
     draft={
       Object {
         "fileInfos": Array [],
@@ -220,7 +221,6 @@ exports[`components/advanced_create_post should match snapshot when cannot post 
     removePreview={[Function]}
     serverError={null}
     setShowPreview={[Function]}
-    shouldDisable={false}
     shouldShowPreview={false}
     showEmojiPicker={false}
     showSendTutorialTip={false}
@@ -257,6 +257,7 @@ exports[`components/advanced_create_post should match snapshot when file upload 
       }
     }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
+    disableSend={false}
     draft={
       Object {
         "fileInfos": Array [],
@@ -299,7 +300,6 @@ exports[`components/advanced_create_post should match snapshot when file upload 
     removePreview={[Function]}
     serverError={null}
     setShowPreview={[Function]}
-    shouldDisable={false}
     shouldShowPreview={false}
     showEmojiPicker={false}
     showSendTutorialTip={false}
@@ -336,6 +336,7 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
       }
     }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
+    disableSend={false}
     draft={
       Object {
         "fileInfos": Array [],
@@ -378,7 +379,6 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
     removePreview={[Function]}
     serverError={null}
     setShowPreview={[Function]}
-    shouldDisable={false}
     shouldShowPreview={false}
     showEmojiPicker={false}
     showSendTutorialTip={false}
@@ -415,6 +415,7 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
       }
     }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
+    disableSend={false}
     draft={
       Object {
         "fileInfos": Array [],
@@ -457,7 +458,6 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
     removePreview={[Function]}
     serverError={null}
     setShowPreview={[Function]}
-    shouldDisable={false}
     shouldShowPreview={false}
     showEmojiPicker={false}
     showSendTutorialTip={false}
@@ -494,6 +494,7 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
       }
     }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
+    disableSend={false}
     draft={
       Object {
         "fileInfos": Array [],
@@ -536,7 +537,6 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
     removePreview={[Function]}
     serverError={null}
     setShowPreview={[Function]}
-    shouldDisable={false}
     shouldShowPreview={false}
     showEmojiPicker={false}
     showSendTutorialTip={false}
@@ -573,6 +573,7 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
       }
     }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
+    disableSend={false}
     draft={
       Object {
         "fileInfos": Array [],
@@ -615,7 +616,6 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
     removePreview={[Function]}
     serverError={null}
     setShowPreview={[Function]}
-    shouldDisable={false}
     shouldShowPreview={false}
     showEmojiPicker={false}
     showSendTutorialTip={false}
@@ -652,6 +652,7 @@ exports[`components/advanced_create_post should match snapshot, init 1`] = `
       }
     }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
+    disableSend={false}
     draft={
       Object {
         "fileInfos": Array [],
@@ -694,7 +695,6 @@ exports[`components/advanced_create_post should match snapshot, init 1`] = `
     removePreview={[Function]}
     serverError={null}
     setShowPreview={[Function]}
-    shouldDisable={false}
     shouldShowPreview={false}
     showEmojiPicker={false}
     showSendTutorialTip={false}
@@ -731,6 +731,7 @@ exports[`components/advanced_create_post should match snapshot, post priority di
       }
     }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
+    disableSend={false}
     draft={
       Object {
         "fileInfos": Array [],
@@ -778,7 +779,6 @@ exports[`components/advanced_create_post should match snapshot, post priority di
     removePreview={[Function]}
     serverError={null}
     setShowPreview={[Function]}
-    shouldDisable={false}
     shouldShowPreview={false}
     showEmojiPicker={false}
     showSendTutorialTip={false}
@@ -823,6 +823,7 @@ exports[`components/advanced_create_post should match snapshot, post priority en
       }
     }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
+    disableSend={false}
     draft={
       Object {
         "fileInfos": Array [],
@@ -865,7 +866,6 @@ exports[`components/advanced_create_post should match snapshot, post priority en
     removePreview={[Function]}
     serverError={null}
     setShowPreview={[Function]}
-    shouldDisable={false}
     shouldShowPreview={false}
     showEmojiPicker={false}
     showSendTutorialTip={false}
@@ -915,6 +915,7 @@ exports[`components/advanced_create_post should match snapshot, post priority en
       }
     }
     currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
+    disableSend={false}
     draft={
       Object {
         "fileInfos": Array [],
@@ -971,7 +972,6 @@ exports[`components/advanced_create_post should match snapshot, post priority en
     removePreview={[Function]}
     serverError={null}
     setShowPreview={[Function]}
-    shouldDisable={false}
     shouldShowPreview={false}
     showEmojiPicker={false}
     showSendTutorialTip={false}
