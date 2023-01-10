@@ -21,8 +21,6 @@ import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
 import {localizeMessage} from 'utils/utils';
 
-import styled from 'styled-components';
-
 import {Post} from '@mattermost/types/posts';
 import {MarketplacePlugin} from '@mattermost/types/marketplace';
 import {GlobalState} from '../../types/store';
