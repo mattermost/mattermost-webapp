@@ -11,7 +11,7 @@ import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud'
 
 import {closeModal} from 'actions/views/modals';
 
-import {ModalIdentifiers, CloudProducts} from 'utils/constants';
+import {ModalIdentifiers} from 'utils/constants';
 import {t, Message} from 'utils/i18n';
 import {fallbackStarterLimits, asGBString, LimitTypes} from 'utils/limits';
 
@@ -66,16 +66,6 @@ export default function LHSNearingLimitsModal() {
             boards: limits?.boards?.cards ?? fallbackStarterLimits.boards.cards,
         },
     };
-    if (product?.sku === CloudProducts.PROFESSIONAL) {
-        description = {
-            id: t('workspace_limits.modals.informational.description.professionalLimits'),
-            defaultMessage: '{planName} is restricted to {storage} file storage.',
-            values: {
-                planName: product.name,
-                storage: asGBString(limits?.files?.total_storage ?? fallbackStarterLimits.files.totalStorage, intl.formatNumber),
-            },
-        };
-    }
 
     if (highestLimit && highestLimit.id === LimitTypes.messageHistory) {
         title = {

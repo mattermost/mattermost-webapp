@@ -30,6 +30,7 @@ import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 import EditPost from 'components/edit_post';
 import PriorityLabel from 'components/post_priority/post_priority_label';
+import PostAcknowledgements from 'components/post_view/acknowledgements';
 
 import Constants, {AppEvents, Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
@@ -130,6 +131,8 @@ type Props = {
     canReply?: boolean;
 
     isCollapsedThreadsEnabled?: boolean;
+
+    isPostAcknowledgementsEnabled?: boolean;
 };
 
 type State = {
@@ -407,15 +410,25 @@ export default class SearchResultsItem extends React.PureComponent<Props, State>
                         searchMatches: this.props.matches,
                     }}
                 >
-                    <PostMessageContainer
-                        post={post}
-                        options={{
-                            searchTerm: this.props.term,
-                            searchMatches: this.props.matches,
-                            mentionHighlight: this.props.isMentionSearch,
-                        }}
-                        isRHS={true}
-                    />
+                    <>
+                        <PostMessageContainer
+                            post={post}
+                            options={{
+                                searchTerm: this.props.term,
+                                searchMatches: this.props.matches,
+                                mentionHighlight: this.props.isMentionSearch,
+                            }}
+                            isRHS={true}
+                        />
+                        {this.props.isPostAcknowledgementsEnabled && post.metadata?.priority?.requested_ack && (
+                            <PostAcknowledgements
+                                authorId={post.user_id}
+                                postId={post.id}
+                                isDeleted={post.state === Posts.POST_DELETED}
+                                showDivider={false}
+                            />
+                        )}
+                    </>
                 </PostBodyAdditionalContent>
             );
         }
@@ -482,7 +495,7 @@ export default class SearchResultsItem extends React.PureComponent<Props, State>
                                 </div>
                                 <div className='col d-flex align-items-center'>
                                     {this.renderPostTime()}
-                                    {post.metadata?.priority && isPostPriorityEnabled && (
+                                    {Posts.POST_DELETED !== post.state && isPostPriorityEnabled && post.metadata?.priority?.priority && (
                                         <span className='d-flex mr-2 ml-1'>
                                             <PriorityLabel priority={post.metadata.priority.priority}/>
                                         </span>

@@ -29,6 +29,9 @@ describe('components/team_controller/actions', () => {
                 license: {},
                 config: {},
             },
+            preferences: {
+                myPreferences: {},
+            },
         },
         requests: {
             channels: {
