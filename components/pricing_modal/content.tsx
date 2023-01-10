@@ -148,7 +148,7 @@ function Content(props: ContentProps) {
         props.onHide();
     };
 
-    const hasLimits = true;
+    const hasLimits = hasSomeLimits(limits);
 
     const starterBriefing = [
         formatMessage({id: 'pricing_modal.briefing.free.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages'}, {messages: formatNumber(fallbackStarterLimits.messages.history)}),
