@@ -5,16 +5,16 @@ import React, {memo, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useIntl} from 'react-intl';
 
-import type {UserProfile, UserStatus} from '@mattermost/types/users';
-
-import {selectChannel} from 'mattermost-redux/actions/channels';
-
 import {Draft} from 'selectors/drafts';
 
 import NoResultsIndicator from 'components/no_results_indicator';
 import Header from 'components/widgets/header';
 
+import {selectLhsItem} from 'actions/views/lhs';
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
+import {LhsItemType, LhsPage} from 'types/store/lhs';
+
+import type {UserProfile, UserStatus} from '@mattermost/types/users';
 
 import DraftRow from './draft_row';
 import DraftsIllustration from './drafts_illustration';
@@ -40,7 +40,7 @@ function Drafts({
     const {formatMessage} = useIntl();
 
     useEffect(() => {
-        dispatch(selectChannel(''));
+        dispatch(selectLhsItem(LhsItemType.Page, LhsPage.Drafts));
         dispatch(suppressRHS);
 
         return () => {

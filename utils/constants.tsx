@@ -274,6 +274,7 @@ export const ActionTypes = keyMirror({
     OPEN_LHS: null,
     CLOSE_LHS: null,
     SET_LHS_SIZE: null,
+    SELECT_STATIC_PAGE: null,
 
     SET_SHOW_PREVIEW_ON_CREATE_COMMENT: null,
     SET_SHOW_PREVIEW_ON_CREATE_POST: null,
@@ -550,6 +551,10 @@ export const A11yCustomEventTypes = {
 export type A11yFocusEventDetail = {
     target: HTMLElement | null | undefined;
     keyboardOnly: boolean;
+}
+
+export function isA11yFocusEventDetail(o: unknown): o is A11yFocusEventDetail {
+    return Boolean(o && typeof o === 'object' && 'keyboardOnly' in o);
 }
 
 export const AppEvents = {

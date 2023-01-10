@@ -39,7 +39,19 @@ function size(state = SidebarSize.MEDIUM, action: GenericAction) {
     }
 }
 
+function currentStaticPageId(state = '', action: GenericAction) {
+    switch (action.type) {
+    case ActionTypes.SELECT_STATIC_PAGE:
+        return action.data;
+    case UserTypes.LOGOUT_SUCCESS:
+        return '';
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     isOpen,
     size,
+    currentStaticPageId,
 });
