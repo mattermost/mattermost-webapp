@@ -15,7 +15,7 @@ import {ModalIdentifiers} from 'utils/constants';
 
 import type {Channel} from '@mattermost/types/channels';
 import type {UserProfile, UserStatus} from '@mattermost/types/users';
-import {Post, PostMetadata, PostPriority} from '@mattermost/types/posts';
+import {Post, PostMetadata} from '@mattermost/types/posts';
 
 import DraftTitle from '../draft_title';
 import DraftActions from '../draft_actions';
