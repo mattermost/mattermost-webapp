@@ -708,7 +708,7 @@ declare global {
              * @param {String} postId - Post ID
              * @param {String} [location] - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT'
              */
-            clickPostReactionIcon(postId: string, location?: string): ChainableT<void>;
+            clickPostReactionIcon(postId?: string, location?: string): ChainableT<void>;
 
             /**
              * Click comment icon by post ID or to most recent post (if post ID is not provided)

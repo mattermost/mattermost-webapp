@@ -24,7 +24,7 @@ import CreateUserGroupsModal from 'components/create_user_groups_modal';
 import KeyboardShortcutsModal from '../keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 import ChannelNavigator from './channel_navigator';
-import SidebarChannelList from './sidebar_channel_list';
+import SidebarList from './sidebar_list';
 import SidebarHeader from './sidebar_header';
 import MobileSidebarHeader from './mobile_sidebar_header';
 
@@ -267,7 +267,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 <div className='sidebar--left__icons'>
                     <Pluggable pluggableName='LeftSidebarHeader'/>
                 </div>
-                <SidebarChannelList
+                <SidebarList
                     handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}
                     onDragStart={this.onDragStart}
                     onDragEnd={this.onDragEnd}

@@ -885,7 +885,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
     }
 
-    handleDraftChange = (draft: NewPostDraft) => {
+    handleDraftChange = (draft: NewPostDraft, instant = false) => {
         const channelId = this.props.currentChannel.id;
 
         if (this.saveDraftFrame) {
@@ -894,7 +894,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         this.saveDraftFrame = window.setTimeout(() => {
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft, channelId);
-        }, Constants.SAVE_DRAFT_TIMEOUT);
+        }, instant ? 0 : Constants.SAVE_DRAFT_TIMEOUT);
         this.draftsForChannel[channelId] = draft;
     }
 
@@ -1337,6 +1337,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     applyMarkdown = (params: ApplyMarkdownOptions) => {
+        if (this.props.shouldShowPreview) {
+            return;
+        }
+
         const res = applyMarkdown(params);
 
         this.setState({
@@ -1491,7 +1495,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             updatedDraft.metadata = {};
         }
 
-        this.handleDraftChange(updatedDraft);
+        this.handleDraftChange(updatedDraft, true);
         this.focusTextbox();
     };
 
@@ -1591,7 +1595,24 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     )}
                     {this.props.draft.metadata!.priority!.requested_ack && (
                         <div className='AdvancedTextEditor__priority-ack'>
-                            <CheckCircleOutlineIcon size={14}/>
+                            <OverlayTrigger
+                                placement='top'
+                                delayShow={Constants.OVERLAY_TIME_DELAY}
+                                trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+                                overlay={(
+                                    <Tooltip
+                                        id='post-priority-picker-ack-tooltip'
+                                        className='AdvancedTextEditor__priority-ack-tooltip'
+                                    >
+                                        <FormattedMessage
+                                            id={'post_priority.request_acknowledgement.tooltip'}
+                                            defaultMessage={'Acknowledgement will be requested'}
+                                        />
+                                    </Tooltip>
+                                )}
+                            >
+                                <CheckCircleOutlineIcon size={14}/>
+                            </OverlayTrigger>
                             {!(this.props.draft.metadata!.priority!.priority) && (
                                 <FormattedMessage
                                     id={'post_priority.request_acknowledgement'}

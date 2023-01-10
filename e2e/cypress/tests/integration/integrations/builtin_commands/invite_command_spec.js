@@ -62,7 +62,7 @@ describe('Integrations', () => {
 
             // * Cannot invite deactivated users to a channel
             cy.postMessage(`/invite @${deactivatedUser.username} `);
-            cy.uiWaitUntilMessagePostedIncludes('We couldn\'t find the user. They may have been deactivated by the System Administrator.');
+            cy.uiWaitUntilMessagePostedIncludes(`We couldn't find the user ${deactivatedUser.username}. They may have been deactivated by the System Administrator.`);
 
             cy.apiLogout();
             loginAndVisitChannel(userToInvite, offTopicUrl);
@@ -137,7 +137,7 @@ describe('Integrations', () => {
         cy.postMessage(`/invite @${testChannel.name} `);
 
         // * Error appears: "We couldn't find the user. They may have been deactivated by the System Administrator."
-        cy.uiWaitUntilMessagePostedIncludes('We couldn\'t find the user. They may have been deactivated by the System Administrator.');
+        cy.uiWaitUntilMessagePostedIncludes(`We couldn't find the user ${testChannel.name}. They may have been deactivated by the System Administrator.`);
 
         cy.uiAddDirectMessage().click();
         cy.get('#selectItems input').typeWithForce(userDM.username).wait(TIMEOUTS.ONE_SEC);
@@ -149,7 +149,7 @@ describe('Integrations', () => {
         cy.postMessage(`/invite @${testChannel.name} `);
 
         // * Error appears: "We couldn't find the user. They may have been deactivated by the System Administrator."
-        cy.uiWaitUntilMessagePostedIncludes('We couldn\'t find the user. They may have been deactivated by the System Administrator.');
+        cy.uiWaitUntilMessagePostedIncludes(`We couldn't find the user ${testChannel.name}. They may have been deactivated by the System Administrator.`);
     });
 
     it('MM-T660_2 /invite tests when used in DMs and GMs', () => {
