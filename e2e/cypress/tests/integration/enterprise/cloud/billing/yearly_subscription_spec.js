@@ -7,8 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @cloud_only @cloud_trial
-// Skip:  @headless @electron // run on Chrome (headed) only
 
 import billing from '../../../../fixtures/client_billing.json';
 
@@ -110,7 +110,7 @@ describe('System Console - Subscriptions section', () => {
                 cy.get('#professional_action').click();
 
                 // * Check for "Provide Your Payment Details" label
-                cy.get('.title').find('span', 'Provide Your Payment Details').should('be.visible');
+                cy.findByText('Provide your payment details').should('be.visible');
 
                 // * check that the toggle exists and that its initial state is monthly
                 cy.get('.RHS').get('#text-selected').contains('Monthly');
@@ -181,7 +181,7 @@ describe('System Console - Subscriptions section', () => {
                 cy.get('#professional_action').click();
 
                 // * Check for "Provide Your Payment Details" label
-                cy.get('.title').find('span', 'Provide Your Payment Details').should('be.visible');
+                cy.findByText('Provide your payment details').should('be.visible');
 
                 // # click on the "Yearly" label
                 cy.get('.RHS').get('#text-unselected').click();

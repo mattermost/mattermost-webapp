@@ -271,6 +271,7 @@ export const ActionTypes = keyMirror({
     TOGGLE_LHS: null,
     OPEN_LHS: null,
     CLOSE_LHS: null,
+    SELECT_STATIC_PAGE: null,
 
     SET_SHOW_PREVIEW_ON_CREATE_COMMENT: null,
     SET_SHOW_PREVIEW_ON_CREATE_POST: null,
@@ -447,6 +448,7 @@ export const ModalIdentifiers = {
     AIR_GAPPED_SELF_HOSTED_PURCHASE: 'air_gapped_self_hosted_purchase',
     WORK_TEMPLATES: 'work_template',
     DOWNGRADE_MODAL: 'downgrade_modal',
+    PURCHASE_IN_PROGRESS: 'purchase_in_progress',
 };
 
 export const UserStatuses = {
@@ -544,8 +546,12 @@ export const A11yCustomEventTypes = {
 };
 
 export type A11yFocusEventDetail = {
-    target: HTMLElement | null;
+    target: HTMLElement | null | undefined;
     keyboardOnly: boolean;
+}
+
+export function isA11yFocusEventDetail(o: unknown): o is A11yFocusEventDetail {
+    return Boolean(o && typeof o === 'object' && 'keyboardOnly' in o);
 }
 
 export const AppEvents = {
@@ -1053,7 +1059,7 @@ export const CloudLinks = {
 };
 
 export const HostedCustomerLinks = {
-    BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
+    BILLING_DOCS: 'https://mattermost.com/pl/how-self-hosted-billing-works',
     TERMS_AND_CONDITIONS: 'https://mattermost.com/enterprise-edition-terms/',
 };
 

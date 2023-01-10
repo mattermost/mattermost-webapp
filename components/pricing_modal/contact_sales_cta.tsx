@@ -12,6 +12,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 
 import {LicenseLinks, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {SalesInquiryIssue} from 'selectors/cloud';
 
 const StyledA = styled.a`
 color: var(--denim-button-bg);
@@ -26,7 +27,7 @@ text-align: center;
 
 function ContactSalesCTA() {
     const {formatMessage} = useIntl();
-    const openSalesLink = useOpenSalesLink();
+    const openSalesLink = useOpenSalesLink(SalesInquiryIssue.UpgradeEnterprise);
 
     const openSelfHostedLink = () => {
         window.open(LicenseLinks.CONTACT_SALES, '_blank');
