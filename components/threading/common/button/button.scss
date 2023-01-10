@@ -44,7 +44,7 @@
     }
 }
 
-.Button {
+.Button__prior {
     position: relative;
     padding: 4px 10px;
     border-radius: 4px;
@@ -130,9 +130,9 @@
     margin-left: var(--button-separator-gap, 0);
 }
 
-.separated:not(.Button),
+.separated:not(.Button__prior),
 .separated:not(:hover):not(.is-active) {
-    + .separated:not(.Button),
+    + .separated:not(.Button__prior),
     + .separated:not(:hover):not(.is-active) {
         position: relative;
 
