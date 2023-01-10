@@ -38,9 +38,6 @@ function apiInitSetup(arg: SetupParam = {}): ChainableT<SetupResult> {
 
                     // Only hide start trial modal for admin since it's not applicable to other users
                     cy.apiSaveStartTrialModal(user.id, hideAdminTrialModal.toString());
-
-                    // Hide drafts tour tip by default to not block subsequent tests
-                    cy.apiSaveDraftsTourTipPreference(user.id, true);
                 }
 
                 return cy.apiAddUserToTeam(team.id, user.id).then(() => {
