@@ -156,6 +156,15 @@ export class MainMenu extends React.PureComponent<Props> {
         const teamsLimitReached = this.props.isStarterFree && !this.props.isFreeTrial && this.props.usageDeltaTeams >= 0;
         const createTeamRestricted = this.props.isCloud && (this.props.isFreeTrial || teamsLimitReached);
 
+        // eslint-disable-next-line no-console
+        console.log({
+            isCloud: this.props.isCloud,
+            isFreeTrial: this.props.isFreeTrial,
+            teamsLimitReached,
+            isStarterFree: this.props.isStarterFree,
+            usageDeltaTeams: this.props.usageDeltaTeams,
+        });
+
         const {formatMessage} = this.props.intl;
 
         let invitePeopleModal = null;
