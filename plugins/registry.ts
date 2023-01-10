@@ -188,17 +188,14 @@ export default class PluginRegistry {
     // Accepts the following:
     // - icon - React element to use as the button's icon
     // - action - a function called when the button is clicked, passed the channel and channel member as arguments
-    // - tooltipText - not currently used
     // - text - a localized string to use as the button's text
     registerChannelIntroButtonAction = reArg([
         'icon',
         'action',
-        'tooltipText',
         'text',
     ], ({
         icon,
         action,
-        tooltipText,
         text,
     }: {
         icon: ReactResolvable;
@@ -213,7 +210,6 @@ export default class PluginRegistry {
             pluginId: this.id,
             icon: resolveReactElement(icon),
             action,
-            tooltipText,
             text,
         };
 
