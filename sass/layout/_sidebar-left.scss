@@ -963,11 +963,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
     /* Content */
     .SidebarChannelGroup_content {
         min-height: 2px;
-        margin-bottom: 14px;
-
-        &.hasFollowingSibling {
-            margin-bottom: 0;
-        }
+        margin-bottom: 6px;
     }
 
     .followingSibling {
