@@ -11,7 +11,6 @@ import {RelationOneToOne, IDMappedObjects} from '@mattermost/types/utilities';
 
 const CALLS_PLUGIN = 'plugins-com.mattermost.calls';
 
-// todo where to put this type. This type is already defined in calls plugin. How can I reuse in order to avoid duplication
 type CallsConfig = {
     ICEServers: string[];
     ICEServersConfigs: RTCIceServer[];
