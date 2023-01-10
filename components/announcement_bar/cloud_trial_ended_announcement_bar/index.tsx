@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable no-console */
 import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
@@ -82,6 +83,14 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
         if (!isSystemAdmin(currentUser.roles)) {
             return false;
         }
+
+        console.log('CloudTrialEndAnnouncementBar', {subscription});
+        console.log('CloudTrialEndAnnouncementBar', {limits});
+        console.log('CloudTrialEndAnnouncementBar', {isFreeTrial});
+        console.log('CloudTrialEndAnnouncementBar', {trial_end_at: subscription.trial_end_at});
+        console.log('CloudTrialEndAnnouncementBar', {trialEnd, now});
+        console.log('CloudTrialEndAnnouncementBar', {date: new Date('2022-06-15')});
+
         return true;
     };
 

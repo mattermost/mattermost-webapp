@@ -1517,6 +1517,8 @@ export function handleCloudSubscriptionChanged(msg) {
         const license = getLicense(state);
 
         if (license.Cloud === 'true') {
+            // eslint-disable-next-line no-console
+            console.log('handleCloudSubscriptionChanged', {msg});
             if (msg.data.limits) {
                 doDispatch({
                     type: CloudTypes.RECEIVED_CLOUD_LIMITS,
