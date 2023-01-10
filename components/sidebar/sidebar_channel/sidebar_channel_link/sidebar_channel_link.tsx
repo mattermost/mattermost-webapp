@@ -32,7 +32,7 @@ type Props = {
     link: string;
     label: string;
     ariaLabelPrefix?: string;
-    closeHandler?: (callback: () => void) => void;
+    channelLeaveHandler?: (callback: () => void) => void;
     icon: JSX.Element | null;
 
     /**
@@ -257,7 +257,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                         channel={channel}
                         channelLink={link}
                         isUnread={isUnread}
-                        closeHandler={this.props.closeHandler}
+                        channelLeaveHandler={this.props.channelLeaveHandler}
                         onMenuToggle={this.handleMenuToggle}
                     />
                 </div>

@@ -259,13 +259,13 @@ const SidebarChannelMenu = (props: Props) => {
         function handleLeaveChannel(event: MouseEvent<HTMLLIElement>) {
             event.preventDefault();
 
-            if (isLeaving.current || !props.closeHandler) {
+            if (isLeaving.current || !props.channelLeaveHandler) {
                 return;
             }
 
             isLeaving.current = true;
 
-            props.closeHandler(() => {
+            props.channelLeaveHandler(() => {
                 isLeaving.current = false;
             });
             trackEvent('ui', 'ui_sidebar_channel_menu_leave');

@@ -42,6 +42,7 @@ interface Props {
     menuAriaLabel?: string;
 
     onMenuToggle?: (isOpen: boolean) => void;
+    freezeCloseOnClick?: boolean;
 
     children: ReactNode[];
 }
@@ -89,8 +90,15 @@ export function Menu(props: Props) {
         }
     }
 
-    function handleOnClick() {
+    function handleOnClose(event: MouseEvent<HTMLDivElement>) {
+        event.preventDefault();
         setAnchorElement(null);
+    }
+
+    function handleOnClick() {
+        if (!props.freezeCloseOnClick) {
+            setAnchorElement(null);
+        }
     }
 
     function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
@@ -172,6 +180,7 @@ export function Menu(props: Props) {
                 id={props.menuId}
                 anchorEl={anchorElement}
                 open={isMenuOpen}
+                onClose={handleOnClose}
                 onClick={handleOnClick}
                 onKeyDown={handleKeyDown}
                 aria-label={props.menuAriaLabel}

@@ -30,7 +30,7 @@ export type OwnProps = {
     channel: Channel;
     channelLink: string;
     isUnread: boolean;
-    closeHandler?: (callback: () => void) => void;
+    channelLeaveHandler?: (callback: () => void) => void;
     onMenuToggle: (open: boolean) => void;
 }
 
