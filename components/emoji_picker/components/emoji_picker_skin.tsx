@@ -131,7 +131,9 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
                 <span>
                     {expandButtonLabel}
                 </span>
-            </Tooltip>);
+            </Tooltip>
+        );
+
         return (
             <OverlayTrigger
                 trigger={['hover', 'focus']}
@@ -151,7 +153,8 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
                         className={spriteClassName}
                     />
                 </button>
-            </OverlayTrigger>);
+            </OverlayTrigger>
+        );
     }
 
     render() {

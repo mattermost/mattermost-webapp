@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @enterprise @integrations
 
-import set from 'lodash.set';
-
 import {getRandomId} from '../../../utils';
 import {checkboxesTitleToIdMap} from '../system_console/channel_moderation/constants';
 
@@ -32,10 +30,7 @@ describe('Integrations page', () => {
         cy.requireWebhookServer();
 
         // # Set ServiceSettings to expected values
-        cy.apiGetConfig().then(({config}) => {
-            set(config, 'ServiceSettings.EnableOAuthServiceProvider', true);
-            cy.apiUpdateConfig(config);
-        });
+        cy.apiUpdateConfig({ServiceSettings: {EnableOAuthServiceProvider: true}});
 
         cy.apiInitSetup().then(({team, user}) => {
             user1 = user;

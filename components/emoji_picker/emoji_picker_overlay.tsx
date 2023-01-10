@@ -10,12 +10,12 @@ import {Constants} from 'utils/constants';
 
 import {Emoji} from '@mattermost/types/emojis';
 
-import EmojiPickerTabs from './emoji_picker_tabs.jsx';
+import EmojiPickerTabs from './emoji_picker_tabs';
 
 type Props = {
     show: boolean;
-    container?: () => ReactNode | ReactNode;
-    target: () => ReactNode | ReactNode;
+    container?: () => ReactNode;
+    target: () => ReactNode;
     onEmojiClick: (emoji: Emoji) => void;
     onGifClick?: (gif: string) => void;
     onHide: () => void;
@@ -39,7 +39,7 @@ export default class EmojiPickerOverlay extends React.PureComponent<Props> {
     static RHS_SPACE_REQUIRED_ABOVE = 420;
     static RHS_SPACE_REQUIRED_BELOW = 420;
 
-    // Reasonable defaults calculated from from the center channel
+    // Reasonable defaults calculated from the center channel
     static defaultProps = {
         spaceRequiredAbove: EmojiPickerOverlay.CENTER_SPACE_REQUIRED_ABOVE,
         spaceRequiredBelow: EmojiPickerOverlay.CENTER_SPACE_REQUIRED_BELOW,

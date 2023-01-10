@@ -90,7 +90,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     }
     saving={false}
     section=""
-    server_error=""
+    serverError=""
     submit={[Function]}
     title="Email Notifications"
     updateSection={[Function]}
@@ -109,7 +109,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       >
         <div
           className="setting-list"
-          tabIndex="-1"
+          tabIndex={-1}
         >
           <div
             className="setting-list-item"
@@ -446,7 +446,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     }
     saving={false}
     section=""
-    server_error=""
+    serverError=""
     submit={[Function]}
     title="Email Notifications"
     updateSection={[Function]}
@@ -465,7 +465,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       >
         <div
           className="setting-list"
-          tabIndex="-1"
+          tabIndex={-1}
         >
           <div
             className="setting-list-item"
@@ -700,7 +700,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   }
   saving={false}
   section="email"
-  server_error=""
+  serverError=""
   title="Email Notifications"
   updateSection={[Function]}
 />
@@ -774,7 +774,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   }
   saving={false}
   section=""
-  server_error="serverError"
+  serverError="serverError"
   submit={[Function]}
   title="Email Notifications"
   updateSection={[Function]}
@@ -887,7 +887,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   }
   saving={false}
   section=""
-  server_error=""
+  serverError=""
   submit={[Function]}
   title="Email Notifications"
   updateSection={[Function]}
@@ -962,7 +962,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   }
   saving={false}
   section=""
-  server_error=""
+  serverError=""
   submit={[Function]}
   title="Email Notifications"
   updateSection={[Function]}

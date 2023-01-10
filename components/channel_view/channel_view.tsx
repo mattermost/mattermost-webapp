@@ -1,38 +1,22 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {RouteComponentProps} from 'react-router-dom';
 
 import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
 import FileUploadOverlay from 'components/file_upload_overlay';
 import PostView from 'components/post_view';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
 import AdvancedCreatePost from 'components/advanced_create_post';
 
-type Props = {
-    channelId: string;
-    deactivatedChannel: boolean;
-    channelRolesLoading: boolean;
-    enableOnboardingFlow: boolean;
-    teamUrl: string;
-    match: {
-        url: string;
-        params: {
-            postid?: string;
-        };
-    };
-    channelIsArchived: boolean;
-    viewArchivedChannels: boolean;
-    isCloud: boolean;
-    isFirstAdmin: boolean;
-    actions: {
-        goToLastViewedChannel: () => void;
-    };
-};
+import type {PropsFromRedux} from './index';
+
+export type Props = PropsFromRedux & RouteComponentProps<{
+    postid?: string;
+}>;
 
 type State = {
     channelId: string;
@@ -77,7 +61,9 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
         return null;
     }
+
     channelViewRef: React.RefObject<HTMLDivElement>;
+
     constructor(props: Props) {
         super(props);
 
@@ -96,19 +82,18 @@ export default class ChannelView extends React.PureComponent<Props, State> {
     }
 
     onClickCloseChannel = () => {
-        this.props.actions.goToLastViewedChannel();
+        this.props.goToLastViewedChannel();
     }
 
     componentDidUpdate(prevProps: Props) {
         if (prevProps.channelId !== this.props.channelId || prevProps.channelIsArchived !== this.props.channelIsArchived) {
             if (this.props.channelIsArchived && !this.props.viewArchivedChannels) {
-                this.props.actions.goToLastViewedChannel();
+                this.props.goToLastViewedChannel();
             }
         }
     }
 
     render() {
-        const {channelIsArchived} = this.props;
         let createPost;
         if (this.props.deactivatedChannel) {
             createPost = (
@@ -135,7 +120,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                     </div>
                 </div>
             );
-        } else if (channelIsArchived) {
+        } else if (this.props.channelIsArchived) {
             createPost = (
                 <div
                     className='post-create__container'
@@ -161,7 +146,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                     </div>
                 </div>
             );
-        } else if (!this.props.channelRolesLoading) {
+        } else {
             createPost = (
                 <div
                     className='post-create__container AdvancedTextEditor__ctr'
@@ -193,4 +178,3 @@ export default class ChannelView extends React.PureComponent<Props, State> {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

@@ -109,7 +109,7 @@ const languages = {
     },
     bg: {
         value: 'bg',
-        name: 'Български (Beta)',
+        name: 'Български (Alpha)',
         order: 13,
         url: bg,
     },
@@ -127,7 +127,7 @@ const languages = {
     },
     fa: {
         value: 'fa',
-        name: 'فارسی (Beta)',
+        name: 'فارسی (Alpha)',
         order: 16,
         url: fa,
     },
@@ -139,7 +139,7 @@ const languages = {
     },
     'zh-CN': {
         value: 'zh-CN',
-        name: '中文 (简体)',
+        name: '中文 (简体) (Alpha)',
         order: 18,
         url: zhCN,
     },

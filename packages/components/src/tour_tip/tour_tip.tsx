@@ -8,6 +8,7 @@ import {Placement} from 'tippy.js';
 import classNames from 'classnames';
 
 import {PunchOutCoordsHeightAndWidth} from '../common/hooks/useMeasurePunchouts';
+import {useClickOutsideRef} from '../common/hooks/useClickOutsideRef';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
@@ -39,6 +40,8 @@ type Props = {
     width?: string | number;
     zIndex?: number;
     className?: string;
+    showBackdrop?: boolean;
+    tippyBlueStyle?: boolean;
 
     // if you don't want punchOut just assign null, keep null as hook may return null first than actual value
     overlayPunchOut: PunchOutCoordsHeightAndWidth | null;
@@ -82,7 +85,10 @@ export const TourTip = ({
     showOptOut = true,
     width = 352,
     zIndex = 999,
+    showBackdrop = true,
+    tippyBlueStyle = false,
 }: Props) => {
+    const FIRST_STEP_INDEX = 0;
     const triggerRef = useRef(null);
     const onJump = (event: React.MouseEvent, jumpToStep: number) => {
         if (handleJump) {
@@ -90,12 +96,18 @@ export const TourTip = ({
         }
     };
 
+    useClickOutsideRef(triggerRef, (e: any) => {
+        if (!showBackdrop && handleDismiss) {
+            handleDismiss(e);
+        }
+    });
+
     // This needs to be changed if root-portal node isn't available to maybe body
     const rootPortal = document.getElementById('root-portal');
 
     const dots = [];
     if (!singleTip && tourSteps) {
-        for (let dot = 0; dot < (Object.values(tourSteps).length - 1); dot++) {
+        for (let dot = FIRST_STEP_INDEX; dot < (Object.values(tourSteps).length - 1); dot++) {
             let className = 'tour-tip__dot';
             let circularRing = 'tour-tip__dot-ring';
 
@@ -103,7 +115,6 @@ export const TourTip = ({
                 className += ' active';
                 circularRing += ' tour-tip__dot-ring-active';
             }
-
             dots.push(
                 <div className={circularRing}>
                     <a
@@ -206,14 +217,16 @@ export const TourTip = ({
             >
                 <PulsatingDot/>
             </div>
-            <TourTipBackdrop
-                show={show}
-                onDismiss={handleDismiss}
-                onPunchOut={handlePunchOut}
-                interactivePunchOut={interactivePunchOut}
-                overlayPunchOut={overlayPunchOut}
-                appendTo={rootPortal!}
-            />
+            {showBackdrop &&
+                <TourTipBackdrop
+                    show={show}
+                    onDismiss={handleDismiss}
+                    onPunchOut={handlePunchOut}
+                    interactivePunchOut={interactivePunchOut}
+                    overlayPunchOut={overlayPunchOut}
+                    appendTo={rootPortal!}
+                />
+            }
             {show && (
                 <Tippy
                     showOnCreate={show}
@@ -229,7 +242,11 @@ export const TourTip = ({
                     interactive={true}
                     appendTo={rootPortal!}
                     offset={offset}
-                    className={classNames('tour-tip__box', className)}
+                    className={classNames(
+                        'tour-tip__box',
+                        className,
+                        {'tippy-blue-style': tippyBlueStyle},
+                    )}
                     placement={placement}
                 />
             )}

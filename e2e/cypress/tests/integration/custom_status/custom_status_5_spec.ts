@@ -9,8 +9,6 @@
 
 // Group: @custom_status
 
-import set from 'lodash.set';
-
 describe('Custom Status - Verifying Where Custom Status Appears', () => {
     const customStatus = {
         emoji: 'grinning',
@@ -19,15 +17,12 @@ describe('Custom Status - Verifying Where Custom Status Appears', () => {
     let currentUser;
 
     before(() => {
-        cy.apiGetConfig().then(({config}) => {
-            set(config, 'TeamSettings.EnableCustomUserStatuses', true);
-            cy.apiUpdateConfig(config);
+        cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
 
-            // # Login as test user and visit channel
-            cy.apiInitSetup({loginAfter: true}).then(({team, user, channel}) => {
-                cy.visit(`/${team.name}/channels/${channel.name}`);
-                currentUser = user;
-            });
+        // # Login as test user and visit channel
+        cy.apiInitSetup({loginAfter: true}).then(({team, user, channel}) => {
+            cy.visit(`/${team.name}/channels/${channel.name}`);
+            currentUser = user;
         });
     });
 

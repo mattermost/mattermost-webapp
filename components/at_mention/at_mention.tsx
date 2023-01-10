@@ -12,7 +12,11 @@ import {Group} from '@mattermost/types/groups';
 import ProfilePopover from 'components/profile_popover';
 
 import {popOverOverlayPosition} from 'utils/position_utils';
-import {getUserFromMentionName} from 'utils/post_utils';
+import {getUserOrGroupFromMentionName} from 'utils/post_utils';
+import Constants from 'utils/constants';
+import {isKeyPressed} from 'utils/utils';
+
+import AtMentionGroup from 'components/at_mention/at_mention_group';
 
 const spaceRequiredForPopOver = 300;
 
@@ -37,7 +41,7 @@ type State = {
 }
 
 export default class AtMention extends React.PureComponent<Props, State> {
-    overlayRef: React.RefObject<HTMLAnchorElement>;
+    buttonRef: React.RefObject<HTMLAnchorElement>;
 
     static defaultProps: Partial<Props> = {
         isRHS: false,
@@ -53,15 +57,30 @@ export default class AtMention extends React.PureComponent<Props, State> {
             show: false,
         };
 
-        this.overlayRef = React.createRef();
+        this.buttonRef = React.createRef();
     }
 
-    handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        const targetBounds = this.overlayRef.current?.getBoundingClientRect();
+    showOverlay = (target?: HTMLAnchorElement) => {
+        const targetBounds = this.buttonRef.current?.getBoundingClientRect();
 
         if (targetBounds) {
             const placement = popOverOverlayPosition(targetBounds, window.innerHeight, spaceRequiredForPopOver);
-            this.setState({target: e.target as HTMLAnchorElement, show: !this.state.show, placement});
+            this.setState({target, show: !this.state.show, placement});
+        }
+    }
+
+    handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        this.showOverlay(e.target as HTMLAnchorElement);
+    }
+
+    handleKeyDown = (e: React.KeyboardEvent<HTMLAnchorElement>) => {
+        if (isKeyPressed(e, Constants.KeyCodes.ENTER) || isKeyPressed(e, Constants.KeyCodes.SPACE)) {
+            e.preventDefault();
+
+            // Prevent propagation so that the message textbox isn't focused
+            e.stopPropagation();
+            this.showOverlay(e.target as HTMLAnchorElement);
         }
     }
 
@@ -69,19 +88,15 @@ export default class AtMention extends React.PureComponent<Props, State> {
         this.setState({show: false});
     }
 
-    getGroupFromMentionName() {
-        const {groupsByName, mentionName} = this.props;
-        const mentionNameTrimmed = mentionName.toLowerCase().replace(/[._-]*$/, '');
-        return groupsByName?.[mentionNameTrimmed] || {};
-    }
-
     render() {
-        const user = getUserFromMentionName(this.props.usersByUsername, this.props.mentionName);
+        const user = getUserOrGroupFromMentionName(this.props.usersByUsername, this.props.mentionName) as UserProfile | '';
 
         if (!this.props.disableGroupHighlight && !user) {
-            const group = this.getGroupFromMentionName();
-            if (group.allow_reference) {
-                return <span className='group-mention-link'>{'@' + group.name}</span>;
+            const group = getUserOrGroupFromMentionName(this.props.groupsByName, this.props.mentionName) as Group | '';
+            if (group && group.allow_reference) {
+                return (<span>
+                    <AtMentionGroup group={group}/>
+                </span>);
             }
         }
 
@@ -90,40 +105,46 @@ export default class AtMention extends React.PureComponent<Props, State> {
         }
 
         const suffix = this.props.mentionName.substring(user.username.length);
+        const displayName = displayUsername(user, this.props.teammateNameDisplay);
 
-        let className = 'mention-link';
-        if (!this.props.disableHighlight && user.id === this.props.currentUserId) {
-            className += ' mention--highlight';
-        }
+        const highlightMention = !this.props.disableHighlight && user.id === this.props.currentUserId;
 
         return (
-            <span>
-                <Overlay
-                    placement={this.state.placement}
-                    show={this.state.show}
-                    target={this.state.target}
-                    rootClose={true}
-                    onHide={this.hideOverlay}
+            <>
+                <span
+                    className={highlightMention ? 'mention--highlight' : undefined}
                 >
-                    <ProfilePopover
-                        className='user-profile-popover'
-                        userId={user.id}
-                        src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
-                        isRHS={this.props.isRHS}
-                        hasMention={this.props.hasMention}
-                        hide={this.hideOverlay}
-                        channelId={this.props.channelId}
-                    />
-                </Overlay>
-                <a
-                    className={className}
-                    onClick={this.handleClick}
-                    ref={this.overlayRef}
-                >
-                    {'@' + displayUsername(user, this.props.teammateNameDisplay)}
-                </a>
+                    <Overlay
+                        placement={this.state.placement}
+                        show={this.state.show}
+                        target={this.state.target}
+                        rootClose={true}
+                        onHide={this.hideOverlay}
+                    >
+                        <ProfilePopover
+                            className='user-profile-popover'
+                            userId={user.id}
+                            src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
+                            isRHS={this.props.isRHS}
+                            hasMention={this.props.hasMention}
+                            hide={this.hideOverlay}
+                            channelId={this.props.channelId}
+                        />
+                    </Overlay>
+                    <a
+                        className='mention-link'
+                        onClick={this.handleClick}
+                        ref={this.buttonRef}
+                        aria-haspopup='dialog'
+                        role='button'
+                        tabIndex={0}
+                        onKeyDown={this.handleKeyDown}
+                    >
+                        {'@' + displayName}
+                    </a>
+                </span>
                 {suffix}
-            </span>
+            </>
         );
     }
 }

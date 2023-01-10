@@ -16,6 +16,7 @@ import {
 } from 'utils/constants';
 
 import NoInternetConnection from '../no_internet_connection/no_internet_connection';
+
 import './renew_link.scss';
 
 export interface RenewalLinkProps {
@@ -27,7 +28,7 @@ export interface RenewalLinkProps {
     customBtnText?: JSX.Element;
 }
 
-const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
+const RenewalLink = (props: RenewalLinkProps) => {
     const [renewalLink, setRenewalLink] = useState('');
     const [manualInterventionRequired, setManualInterventionRequired] = useState(false);
     useEffect(() => {
@@ -90,15 +91,13 @@ const RenewalLink: React.FC<RenewalLinkProps> = (props: RenewalLinkProps) => {
     }
 
     return (
-        <>
-            <button
-                className='btn btn-primary annnouncementBar__renewLicense'
-                disabled={props.isDisabled}
-                onClick={(e) => handleLinkClick(e)}
-            >
-                {btnText}
-            </button>
-        </>
+        <button
+            className='btn btn-primary annnouncementBar__renewLicense'
+            disabled={props.isDisabled}
+            onClick={(e) => handleLinkClick(e)}
+        >
+            {btnText}
+        </button>
     );
 };
 

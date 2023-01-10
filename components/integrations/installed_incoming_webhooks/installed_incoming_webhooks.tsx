@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import InstalledIncomingWebhook, {matchesFilter} from 'components/integrations/installed_incoming_webhook';
+
 import {Team} from '@mattermost/types/teams';
 import {Channel} from '@mattermost/types/channels';
 import {IncomingWebhook} from '@mattermost/types/integrations';
@@ -12,7 +14,6 @@ import {UserProfile} from '@mattermost/types/users';
 import {IDMappedObjects} from '@mattermost/types/utilities';
 
 import BackstageList from 'components/backstage/components/backstage_list';
-import InstalledIncomingWebhook, {matchesFilter} from 'components/integrations/installed_incoming_webhook.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import Constants from 'utils/constants';

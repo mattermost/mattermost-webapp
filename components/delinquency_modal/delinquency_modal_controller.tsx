@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-unused-prop-types */
+
 import React from 'react';
 
 import {Subscription} from '@mattermost/types/cloud';

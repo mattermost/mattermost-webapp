@@ -185,8 +185,8 @@
     }
 
     &:disabled {
-        border: rgba(var(--center-channel-text-rgb), 0.32);
-        color: rgba(var(--center-channel-text-rgb), 0.32);
+        border: rgba(var(--center-channel-color-rgb), 0.32);
+        color: rgba(var(--center-channel-color-rgb), 0.32);
         cursor: not-allowed;
     }
 
@@ -211,6 +211,13 @@
         border-width: 0;
         box-shadow: inset 0 0 0 2px var(--sidebar-text-active-border);
     }
+}
+
+@mixin button-xsmall {
+    height: 24px;
+    padding: 4px 6px;
+    font-size: 11px;
+    line-height: 16px;
 }
 
 @mixin button-small {

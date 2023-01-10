@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
@@ -186,7 +187,6 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                         <label>
                             <input
                                 type='checkbox'
-                                ref='postall'
                                 checked={this.state.hasPostAllRole || this.state.isSystemAdmin}
                                 disabled={this.state.isSystemAdmin}
                                 onChange={this.handlePostAllChange}
@@ -207,7 +207,6 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                         <label>
                             <input
                                 type='checkbox'
-                                ref='postallpublic'
                                 checked={this.state.hasPostAllPublicRole || this.state.hasPostAllRole || this.state.isSystemAdmin}
                                 disabled={this.state.hasPostAllRole || this.state.isSystemAdmin}
                                 onChange={this.handlePostAllPublicChange}
@@ -245,7 +244,6 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                             <label>
                                 <input
                                     type='checkbox'
-                                    ref='postall'
                                     checked={this.state.hasUserAccessTokenRole || this.state.isSystemAdmin}
                                     disabled={this.state.isSystemAdmin}
                                     onChange={this.handleUserAccessTokenChange}
@@ -394,4 +392,3 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
         );
     }
 }
-/* eslint-enable react/no-string-refs */

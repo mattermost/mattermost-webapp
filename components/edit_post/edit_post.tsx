@@ -12,8 +12,9 @@ import {Emoji, SystemEmoji} from '@mattermost/types/emojis';
 import {AppEvents, Constants, ModalIdentifiers, StoragePrefixes} from 'utils/constants';
 import {
     formatGithubCodePaste,
-    formatMarkdownTableMessage,
+    formatMarkdownMessage,
     getTable,
+    hasHtmlLink,
     isGitHubCodeBlock,
 } from 'utils/paste';
 import {postMessageOnKeyPress, splitMessageBasedOnCaretPosition} from 'utils/post_utils';
@@ -157,9 +158,9 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
             return;
         }
 
+        const hasLinks = hasHtmlLink(clipboardData);
         const table = getTable(clipboardData);
-
-        if (!table) {
+        if (!table && !hasLinks) {
             return;
         }
 
@@ -168,12 +169,12 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
         let message = editText;
         let newCaretPosition = selectionRange.start;
 
-        if (isGitHubCodeBlock(table.className)) {
+        if (table && isGitHubCodeBlock(table.className)) {
             const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart: (target as any).selectionStart, selectionEnd: (target as any).selectionEnd, message, clipboardData});
             message = formattedMessage;
             newCaretPosition = selectionRange.start + formattedCodeBlock.length;
-        } else if (table) {
-            message = formatMarkdownTableMessage(table, editText.trim(), newCaretPosition);
+        } else {
+            message = formatMarkdownMessage(clipboardData, editText.trim(), newCaretPosition);
             newCaretPosition = message.length - (editText.length - newCaretPosition);
         }
 

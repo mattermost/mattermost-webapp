@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useCallback, useEffect, useState} from 'react';
 import classNames from 'classnames';
 
@@ -42,6 +43,7 @@ function GifPlayer({gif, still, playing, toggle, propagation, playButton}: Props
         >
             <div className={playButton ? 'play_button' : ''}/>
             <img
+                crossOrigin='anonymous'
                 src={playing ? (gif || still) : (still || gif)}
             />
         </div>

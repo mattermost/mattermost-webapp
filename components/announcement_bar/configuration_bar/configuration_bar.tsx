@@ -5,18 +5,24 @@ import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {ClientConfig, WarnMetricStatus} from '@mattermost/types/config';
-
 import {daysToLicenseExpire, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod, isTrialLicense} from 'utils/license_utils';
-import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes} from 'utils/constants';
+import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes, Preferences, ConfigurationBanners, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {t} from 'utils/i18n';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
+import {getSkuDisplayName} from 'utils/subscription';
 
 import ackIcon from 'images/icons/check-circle-outline.svg';
 import alertIcon from 'images/icons/round-white-info-icon.svg';
+
 import warningIcon from 'images/icons/warning-icon.svg';
+
+import {trackEvent} from 'actions/telemetry_actions';
+
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
+import {ClientConfig, WarnMetricStatus} from '@mattermost/types/config';
+import {PreferenceType} from '@mattermost/types/preferences';
 
 import AnnouncementBar from '../default_announcement_bar';
 import TextDismissableBar from '../text_dismissable_bar';
@@ -29,20 +35,39 @@ type Props = {
     canViewSystemErrors: boolean;
     dismissedExpiringTrialLicense?: boolean;
     dismissedExpiringLicense?: boolean;
+    dismissedExpiredLicense?: boolean;
     dismissedNumberOfActiveUsersWarnMetricStatus?: boolean;
     dismissedNumberOfActiveUsersWarnMetricStatusAck?: boolean;
     dismissedNumberOfPostsWarnMetricStatus?: boolean;
     dismissedNumberOfPostsWarnMetricStatusAck?: boolean;
     siteURL: string;
+    currentUserId: string;
     warnMetricsStatus?: Record<string, WarnMetricStatus>;
     actions: {
         dismissNotice: (notice: string) => void;
+        savePreferences: (userId: string, preferences: PreferenceType[]) => (dispatch: DispatchFunc) => Promise<{
+            data: boolean;
+        }>;
     };
 };
 
-const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
+const ConfigurationAnnouncementBar = (props: Props) => {
     const dismissExpiringLicense = () => {
         props.actions.dismissNotice(AnnouncementBarMessages.LICENSE_EXPIRING);
+    };
+
+    const dismissExpiredLicense = () => {
+        trackEvent(
+            TELEMETRY_CATEGORIES.SELF_HOSTED_LICENSE_EXPIRED,
+            'dismissed_license_expired_banner',
+        );
+
+        props.actions.savePreferences(props.currentUserId, [{
+            category: Preferences.CONFIGURATION_BANNERS,
+            user_id: props.currentUserId,
+            name: ConfigurationBanners.LICENSE_EXPIRED,
+            value: 'true',
+        }]);
     };
 
     const dismissExpiringTrialLicense = () => {
@@ -114,7 +139,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                             className='advisor-icon'
                             src={alertIcon}
                         />
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='announcement_bar.number_active_users_warn_metric_status.text'
                             defaultMessage='You now have over {limit} users. We strongly recommend using advanced features for large-scale servers.'
                             values={{
@@ -132,7 +157,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                             className='advisor-icon'
                             src={alertIcon}
                         />
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='announcement_bar.number_of_posts_warn_metric_status.text'
                             defaultMessage='You now have over {limit} posts. We strongly recommend using advanced features for large-scale servers.'
                             values={{
@@ -160,7 +185,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
 
     // System administrators
     if (props.canViewSystemErrors) {
-        if (isLicensePastGracePeriod(props.license)) {
+        if ((isLicensePastGracePeriod(props.license) || isLicenseExpired(props.license)) && !props.dismissedExpiredLicense) {
             const message = (<>
                 <img
                     className='advisor-icon'
@@ -168,7 +193,10 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                 />
                 <FormattedMessage
                     id='announcement_bar.error.license_expired'
-                    defaultMessage='Enterprise license is expired and some features may be disabled.'
+                    defaultMessage='{licenseSku} license is expired and some features may be disabled.'
+                    values={{
+                        licenseSku: getSkuDisplayName(props.license.SkuShortName, props.license.IsGovSku === 'true'),
+                    }}
                 />
             </>);
             return (
@@ -181,31 +209,8 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                         </div>
                     }
                     tooltipMsg={message}
-                />
-            );
-        }
-
-        if (isLicenseExpired(props.license)) {
-            const message = (<>
-                <img
-                    className='advisor-icon'
-                    src={warningIcon}
-                />
-                <FormattedMessage
-                    id='announcement_bar.error.license_expired'
-                    defaultMessage='Enterprise license is expired and some features may be disabled.'
-                />
-            </>);
-            return (
-                <AnnouncementBar
-                    type={AnnouncementBarTypes.CRITICAL}
-                    message={
-                        <div className='announcement-bar__configuration'>
-                            {message}
-                            <RenewalLink telemetryInfo={renewLinkTelemetry}/>
-                        </div>
-                    }
-                    tooltipMsg={message}
+                    handleClose={dismissExpiredLicense}
+                    showCloseButton={true}
                 />
             );
         }
@@ -215,7 +220,7 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
             const purchaseLicense = (
                 <PurchaseLink
                     buttonTextElement={
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='announcement_bar.error.purchase_a_license_now'
                             defaultMessage='Purchase a License Now'
                         />
@@ -229,9 +234,10 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                         className='advisor-icon'
                         src={alertIcon}
                     />
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='announcement_bar.error.trial_license_expiring'
-                        defaultMessage='**There are {days} days left on your free trial.**'
+                        defaultMessage='There are {days} days left on your free trial.'
+                        tagName='strong'
                         values={{
                             days: daysUntilLicenseExpires,
                         }}
@@ -248,9 +254,10 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                             className='advisor-icon'
                             src={warningIcon}
                         />
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='announcement_bar.error.trial_license_expiring_last_day'
-                            defaultMessage={'**This is the last day of your free trial. Purchase a license now to continue using Mattermost Professional and Enterprise features.**'}
+                            tagName='strong'
+                            defaultMessage={'This is the last day of your free trial. Purchase a license now to continue using Mattermost Professional and Enterprise features.'}
                         />
                     </>
                 );
@@ -281,9 +288,10 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                 />
                 <FormattedMessage
                     id='announcement_bar.error.license_expiring'
-                    defaultMessage='Enterprise license expires on {date, date, long}.'
+                    defaultMessage='{licenseSku} license expires on {date, date, long}.'
                     values={{
                         date: new Date(parseInt(props.license?.ExpiresAt, 10)),
+                        licenseSku: getSkuDisplayName(props.license.SkuShortName, props.license.IsGovSku === 'true'),
                     }}
                 />
             </>);
@@ -339,7 +347,10 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
                             />
                             <FormattedMessage
                                 id={AnnouncementBarMessages.LICENSE_PAST_GRACE}
-                                defaultMessage='Enterprise license is expired and some features may be disabled. Please contact your System Administrator for details.'
+                                defaultMessage='{licenseSku} license is expired and some features may be disabled. Please contact your System Administrator for details.'
+                                values={{
+                                    licenseSku: getSkuDisplayName(props.license.SkuShortName, props.license.IsGovSku === 'true'),
+                                }}
                             />
                         </>
                     }

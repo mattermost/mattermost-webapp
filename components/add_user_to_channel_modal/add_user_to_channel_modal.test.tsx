@@ -15,7 +15,7 @@ describe('components/AddUserToChannelModal', () => {
             first_name: 'Fake',
             last_name: 'Person',
         }),
-        onHide: jest.fn(),
+        onExited: jest.fn(),
         actions: {
             addChannelMember: jest.fn().mockResolvedValue({}),
             getChannelMember: jest.fn().mockResolvedValue({}),
@@ -198,11 +198,9 @@ describe('components/AddUserToChannelModal', () => {
         });
 
         test('should match state when save is successful', async () => {
-            const onHide = jest.fn();
             const promise = Promise.resolve({});
             const props = {
                 ...baseProps,
-                onHide,
                 actions: {
                     ...baseProps.actions,
                     addChannelMember: () => promise,
@@ -225,15 +223,12 @@ describe('components/AddUserToChannelModal', () => {
             await promise;
             expect(wrapper.state().submitError).toEqual('');
             expect(wrapper.state().show).toBe(false);
-            expect(onHide).toHaveBeenCalled();
         });
 
         test('should match state when save fails', async () => {
-            const onHide = jest.fn();
             const promise = Promise.resolve({error: new Error('some error')});
             const props = {
                 ...baseProps,
-                onHide,
                 actions: {
                     ...baseProps.actions,
                     addChannelMember: () => promise,
@@ -253,7 +248,6 @@ describe('components/AddUserToChannelModal', () => {
             await promise;
             expect(wrapper.state().submitError).toEqual('some error');
             expect(wrapper.state().show).toBe(true);
-            expect(onHide).not.toHaveBeenCalled();
         });
     });
 });

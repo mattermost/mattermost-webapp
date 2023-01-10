@@ -10,6 +10,8 @@ import {getEmojiMap, getRecentEmojisData, getRecentEmojisNames, isCustomEmojiEna
 import {isCustomStatusEnabled, makeGetCustomStatus} from 'selectors/views/custom_status';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 
+import LocalStorageStore from 'stores/local_storage_store';
+
 import Constants, {ActionTypes, Preferences} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji';
 
@@ -194,3 +196,22 @@ export function loadCustomStatusEmojisForPostList(posts) {
     };
 }
 
+export function migrateRecentEmojis() {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const recentEmojisFromPreference = getRecentEmojisData(state);
+        if (recentEmojisFromPreference.length === 0) {
+            const recentEmojisFromLocalStorage = LocalStorageStore.getRecentEmojis(currentUserId);
+            if (recentEmojisFromLocalStorage) {
+                const parsedRecentEmojisFromLocalStorage = JSON.parse(recentEmojisFromLocalStorage);
+                const toSetRecentEmojiData = parsedRecentEmojisFromLocalStorage.map((emojiName) => ({name: emojiName, usageCount: 1}));
+                if (toSetRecentEmojiData.length > 0) {
+                    dispatch(savePreferences(currentUserId, [{category: Constants.Preferences.RECENT_EMOJIS, name: currentUserId, user_id: currentUserId, value: JSON.stringify(toSetRecentEmojiData)}]));
+                }
+                return {data: parsedRecentEmojisFromLocalStorage};
+            }
+        }
+        return {data: recentEmojisFromPreference};
+    };
+}

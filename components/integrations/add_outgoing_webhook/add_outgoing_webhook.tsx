@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React, {useState} from 'react';
+import {useHistory} from 'react-router-dom';
 
-import {browserHistory} from 'utils/browser_history';
 import {t} from 'utils/i18n';
 
 import AbstractOutgoingWebhook from 'components/integrations/abstract_outgoing_webhook.jsx';
@@ -44,6 +44,8 @@ export type Props = {
 };
 
 const AddOutgoingWebhook = ({team, actions, enablePostUsernameOverride, enablePostIconOverride}: Props): JSX.Element => {
+    const history = useHistory();
+
     const [serverError, setServerError] = useState('');
 
     const addOutgoingHook = async (hook: OutgoingWebhook) => {
@@ -51,7 +53,7 @@ const AddOutgoingWebhook = ({team, actions, enablePostUsernameOverride, enablePo
 
         const {data, error} = await actions.createOutgoingHook(hook);
         if (data) {
-            browserHistory.push(`/${team.name}/integrations/confirm?type=outgoing_webhooks&id=${data.id}`);
+            history.push(`/${team.name}/integrations/confirm?type=outgoing_webhooks&id=${data.id}`);
             return;
         }
 
