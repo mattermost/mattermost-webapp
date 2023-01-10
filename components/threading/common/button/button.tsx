@@ -30,7 +30,7 @@ function Button({
     return (
         <button
             {...attrs}
-            className={classNames('Button__prior Button___transparent', {'is-active': isActive, allowTextOverflow}, attrs.className)}
+            className={classNames('mm-button mm-button__transparent', {'is-active': isActive, allowTextOverflow}, attrs.className)}
         >
             {prepend && (
                 <span className='Button_prepended'>

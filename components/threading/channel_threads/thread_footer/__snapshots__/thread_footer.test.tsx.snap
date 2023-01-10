@@ -22,7 +22,7 @@ exports[`components/threading/channel_threads/thread_footer should match snapsho
         onClick={[Function]}
       >
         <button
-          className="Button Button___transparent is-active separated FollowButton"
+          className="mm-button mm-button__transparent is-active separated FollowButton"
           disabled={false}
           onClick={[Function]}
         >
@@ -860,7 +860,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
       }
     >
       <button
-        className="Button Button___transparent ReplyButton separated"
+        className="mm-button mm-button__transparent ReplyButton separated"
         onClick={[Function]}
       >
         <span
@@ -905,7 +905,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
         onClick={[Function]}
       >
         <button
-          className="Button Button___transparent is-active separated FollowButton"
+          className="mm-button mm-button__transparent is-active separated FollowButton"
           disabled={false}
           onClick={[Function]}
         >
@@ -1988,7 +1988,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
       }
     >
       <button
-        className="Button Button___transparent ReplyButton separated"
+        className="mm-button mm-button__transparent ReplyButton separated"
         onClick={[Function]}
       >
         <span
@@ -2033,7 +2033,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
         onClick={[Function]}
       >
         <button
-          className="Button Button___transparent is-active separated FollowButton"
+          className="mm-button mm-button__transparent is-active separated FollowButton"
           disabled={false}
           onClick={[Function]}
         >

@@ -44,7 +44,7 @@
     }
 }
 
-.Button__prior {
+.mm-button{
     position: relative;
     padding: 4px 10px;
     border-radius: 4px;
@@ -71,7 +71,7 @@
         opacity: 32%;
     }
 
-    &.Button___transparent {
+    &.mm-button__transparent {
         border: none;
         background: transparent;
 
@@ -130,9 +130,9 @@
     margin-left: var(--button-separator-gap, 0);
 }
 
-.separated:not(.Button__prior),
+.separated:not(.mm-button),
 .separated:not(:hover):not(.is-active) {
-    + .separated:not(.Button__prior),
+    + .separated:not(.mm-button),
     + .separated:not(:hover):not(.is-active) {
         position: relative;
 
