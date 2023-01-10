@@ -88,7 +88,6 @@ const Picker = styled.div`
     overflow: hidden;
     user-select: none;
     width: max-content;
-    z-index: 1100;
 `;
 
 function PostPriorityPicker({

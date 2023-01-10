@@ -10,7 +10,7 @@ import {openModal} from 'actions/views/modals';
 import {createPost} from 'actions/post_actions';
 import {removeDraft} from 'actions/views/drafts';
 import {PostDraft} from 'types/store/draft';
-import {specialMentionsInText} from 'utils/post_utils';
+import {hasRequestedPersistentNotifications, specialMentionsInText} from 'utils/post_utils';
 import {ModalIdentifiers} from 'utils/constants';
 
 import type {Channel} from '@mattermost/types/channels';
@@ -93,11 +93,7 @@ function ChannelDraft({
             return;
         }
 
-        if (
-            postPriorityEnabled &&
-            value?.metadata?.priority?.priority === PostPriority.URGENT &&
-            value?.metadata?.priority?.persistent_notifications
-        ) {
+        if (postPriorityEnabled && hasRequestedPersistentNotifications(value?.metadata?.priority)) {
             showPersistNotificationModal(id, post);
             return;
         }

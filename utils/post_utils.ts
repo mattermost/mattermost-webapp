@@ -39,7 +39,7 @@ import {Channel} from '@mattermost/types/channels';
 import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 import {ServerError} from '@mattermost/types/errors';
 import {Group} from '@mattermost/types/groups';
-import {Post} from '@mattermost/types/posts';
+import {Post, PostPriority, PostPriorityMetadata} from '@mattermost/types/posts';
 import {Reaction} from '@mattermost/types/reactions';
 import {UserProfile} from '@mattermost/types/users';
 
@@ -747,5 +747,12 @@ export function makeGetUserOrGroupMentionCountFromMessage(): (state: GlobalState
             });
             return count;
         },
+    );
+}
+
+export function hasRequestedPersistentNotifications(priority?: PostPriorityMetadata) {
+    return (
+        priority?.priority === PostPriority.URGENT &&
+        priority?.persistent_notifications
     );
 }

@@ -27,6 +27,7 @@ import {
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
     mentionsMinusSpecialMentionsInText,
+    hasRequestedPersistentNotifications,
 } from 'utils/post_utils';
 import {getTable, hasHtmlLink, formatMarkdownMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
@@ -682,8 +683,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         if (
             this.props.isPostPriorityEnabled &&
-            this.props.draft?.metadata?.priority?.priority === PostPriority.URGENT &&
-            this.props.draft?.metadata?.priority?.persistent_notifications
+            hasRequestedPersistentNotifications(this.props.draft?.metadata?.priority)
         ) {
             this.showPersistNotificationModal(this.state.message, hasSpecialMentions, updateChannel.type);
             this.isDraftSubmitting = false;
@@ -1629,7 +1629,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     fileUploadRef={this.fileUploadRef}
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}
-                    shouldDisable={!this.isValidPersistentNotifications()}
+                    disableSend={!this.isValidPersistentNotifications()}
                     labels={this.hasPrioritySet() ? (
                         <PriorityLabels
                             canRemove={!this.props.shouldShowPreview}

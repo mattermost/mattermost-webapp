@@ -101,7 +101,7 @@ type Props = {
     isThreadView?: boolean;
     additionalControls?: React.ReactNodeArray;
     labels?: React.ReactNode;
-    shouldDisable?: boolean;
+    disableSend?: boolean;
 }
 
 const AdvanceTextEditor = ({
@@ -157,7 +157,7 @@ const AdvanceTextEditor = ({
     isThreadView,
     additionalControls,
     labels,
-    shouldDisable = false,
+    disableSend = false,
 }: Props) => {
     const readOnlyChannel = !canPost;
     const {formatMessage} = useIntl();
@@ -293,7 +293,7 @@ const AdvanceTextEditor = ({
         );
     }
 
-    const disableSendButton = Boolean(readOnlyChannel || (!message.trim().length && !draft.fileInfos.length)) || shouldDisable;
+    const disableSendButton = Boolean(readOnlyChannel || (!message.trim().length && !draft.fileInfos.length)) || disableSend;
     const sendButton = readOnlyChannel ? null : (
         <SendButton
             disabled={disableSendButton}

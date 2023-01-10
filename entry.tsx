@@ -28,10 +28,7 @@ declare global {
 // This runs before we start to render anything.
 function preRenderSetup(callwhendone: () => void) {
     window.onerror = (msg, url, line, column, error) => {
-        if (
-            msg === 'ResizeObserver loop limit exceeded' ||
-            msg === 'ResizeObserver loop completed with undelivered notifications.'
-        ) {
+        if (msg === 'ResizeObserver loop limit exceeded') {
             return;
         }
 

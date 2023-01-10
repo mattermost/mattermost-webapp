@@ -25,12 +25,11 @@ function makeMapStateToProps() {
 
         const teamId = getCurrentTeamId(state);
         const channelUrl = getChannelURL(state, channel, teamId);
-        const postPriorityEnabled = isPostPriorityEnabled(state);
 
         return {
             channel,
             channelUrl,
-            postPriorityEnabled,
+            postPriorityEnabled: isPostPriorityEnabled(state),
         };
     };
 }

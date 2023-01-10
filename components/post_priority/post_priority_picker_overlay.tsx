@@ -126,7 +126,6 @@ function PostPriorityPickerOverlay({
                                 position: pickerStrategy,
                                 top: pickerY ?? 0,
                                 left: pickerX ?? 0,
-                                zIndex: 999,
                             }}
                             {...getPickerFloatingProps()}
                         >
