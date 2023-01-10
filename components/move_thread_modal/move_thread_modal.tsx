@@ -70,6 +70,7 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
     const [hasError, setHasError] = useState<boolean>(false);
     const [postError, setPostError] = useState<React.ReactNode>(null);
     const [selectedChannel, setSelectedChannel] = useState<ChannelOption>();
+    const [isButtonClicked, setIsButtonClicked] = useState<boolean>(false);
 
     const bodyRef = useRef<HTMLDivElement>();
 
@@ -136,13 +137,16 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
     );
 
     const handlePostError = (error: ClientError) => {
+        setIsButtonClicked(false);
         setPostError(error.message);
         setHasError(true);
         setTimeout(() => setHasError(false), Constants.ANIMATION_TIMEOUT);
     };
 
     const handleSubmit = async () => {
+        setIsButtonClicked(true);
         if (!selectedChannel) {
+            setIsButtonClicked(false);
             return;
         }
 
@@ -206,7 +210,7 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
                 id: 'move_thread_modal.button.cancel',
                 defaultMessage: 'Cancel',
             })}
-            isConfirmDisabled={!canMoveThread}
+            isConfirmDisabled={!canMoveThread || isButtonClicked}
             handleConfirm={handleSubmit}
             handleEnterKeyPress={handleSubmit}
             handleCancel={onHide}
