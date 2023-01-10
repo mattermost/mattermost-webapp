@@ -732,7 +732,8 @@ export function makeGetUserOrGroupMentionCountFromMessage(): (state: GlobalState
         getAllGroupsForReferenceByName,
         (message, users, groups) => {
             let count = 0;
-            const mentions = new Set(message.match(Constants.MENTIONS_REGEX) || []);
+            const markdownCleanedText = formatWithRenderer(message, new MentionableRenderer());
+            const mentions = new Set(markdownCleanedText.match(Constants.MENTIONS_REGEX) || []);
             mentions.forEach((mention) => {
                 const data = {...groups, ...users};
                 const userOrGroup = getUserOrGroupFromMentionName(data, mention.substring(1));
