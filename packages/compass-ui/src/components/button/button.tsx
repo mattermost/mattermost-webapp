@@ -12,7 +12,9 @@ const variantMap: Record<ButtonVariant, Exclude<MuiButtonProps['variant'], undef
     tertiary: 'text',
 };
 
-type Props = Omit<MuiButtonProps, 'sx' | 'variant' | 'color'> & {
+type IncludedMuiProps = 'size' | 'disabled';
+
+type Props = Pick<MuiButtonProps, IncludedMuiProps> & {
     destructive?: boolean;
     disabled?: boolean;
     variant?: ButtonVariant;

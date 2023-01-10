@@ -12,7 +12,7 @@
   "scripts": {
     "test": "test",
     "storybook": "start-storybook -p 6006",
-    "build": "node -v && rm -rf ./dist && npm run build:compile && npm run build:copy-files",
+    "IGNbuild": "node -v && rm -rf ./dist && npm run build:compile && npm run build:copy-files",
     "build:compile": "tsc -p \"./tsconfig.build.json\"",
     "build:copy-files": "node ./scripts/copy-files.js",
     "build-storybook": "build-storybook",
