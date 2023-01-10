@@ -718,6 +718,7 @@ export type ExperimentalSettings = {
     EnableRemoteClusterService: boolean;
     EnableAppBar: boolean;
     PatchPluginsReactDOM: boolean;
+    InteractiveDialogTriggerTimeoutMilliseconds: number;
 };
 
 export type AnalyticsSettings = {

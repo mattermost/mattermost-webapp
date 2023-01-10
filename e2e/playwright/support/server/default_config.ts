@@ -531,6 +531,7 @@ const defaultServerConfig: AdminConfig = {
         EnableRemoteClusterService: false,
         EnableAppBar: false,
         PatchPluginsReactDOM: false,
+        InteractiveDialogTriggerTimeoutMilliseconds: 5000,
     },
     AnalyticsSettings: {
         MaxUsersForStatistics: 2500,
