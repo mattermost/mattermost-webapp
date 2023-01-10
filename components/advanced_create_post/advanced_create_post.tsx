@@ -1353,6 +1353,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     applyMarkdown = (params: ApplyMarkdownOptions) => {
+        if (this.props.shouldShowPreview) {
+            return;
+        }
+
         const res = applyMarkdown(params);
 
         this.setState({

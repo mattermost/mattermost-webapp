@@ -69,15 +69,17 @@ const StyledCheckIcon = styled(CheckIcon)`
 `;
 
 const Menu = styled.ul`
-    display: block;
-    position: relative;
-    box-shadow: none;
-    border-radius: 0;
-    border: 0;
-    padding: 0 0 8px;
-    margin: 0;
-    color: var(--center-channel-color-rgb);
-    list-style: none;
+    &&& {
+        display: block;
+        position: relative;
+        box-shadow: none;
+        border-radius: 0;
+        border: 0;
+        padding: 0 0 8px;
+        margin: 0;
+        color: var(--center-channel-color-rgb);
+        list-style: none;
+    }
 `;
 
 function Item({

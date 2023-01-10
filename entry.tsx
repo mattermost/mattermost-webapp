@@ -13,7 +13,7 @@ import 'katex/dist/katex.min.css';
 import '@mattermost/compass-icons/css/compass-icons.css';
 import '@mattermost/components/dist/index.esm.css';
 
-import {isDevMode, setCSRFFromCookie} from 'utils/utils';
+import {setCSRFFromCookie} from 'utils/utils';
 import {AnnouncementBarTypes} from 'utils/constants';
 import store from 'stores/redux_store.jsx';
 import App from 'components/app';
@@ -35,11 +35,6 @@ function preRenderSetup(callwhendone: () => void) {
             return;
         }
 
-        let displayable = false;
-        if (isDevMode()) {
-            displayable = true;
-        }
-
         store.dispatch(
             logError(
                 {
@@ -48,7 +43,7 @@ function preRenderSetup(callwhendone: () => void) {
                     stack: error?.stack,
                     url,
                 },
-                displayable,
+                true,
                 true,
             ),
         );

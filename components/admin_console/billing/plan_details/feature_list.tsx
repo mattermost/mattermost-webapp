@@ -4,7 +4,7 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString, hasSomeLimits} from 'utils/limits';
+import {fallbackStarterLimits, asGBString, hasSomeLimits} from 'utils/limits';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import {CloudProducts} from 'utils/constants';
 
@@ -93,10 +93,7 @@ const FeatureList = (props: FeatureListProps) => {
         intl.formatMessage(
             {
                 id: 'admin.billing.subscription.planDetails.features.fileStorage',
-                defaultMessage: '{limit} file storage',
-            },
-            {
-                limit: asGBString(fallbackProfessionalLimits.files.totalStorage, intl.formatNumber),
+                defaultMessage: 'Unlimited file storage',
             },
         ),
         intl.formatMessage({
@@ -132,6 +129,10 @@ const FeatureList = (props: FeatureListProps) => {
             id: 'admin.billing.subscription.planDetails.features.readOnlyChannels',
             defaultMessage: 'Read-only announcement channels',
         }),
+        intl.formatMessage({
+            id: 'admin.billing.subscription.planDetails.features.sharedChannels',
+            defaultMessage: 'Shared channels (coming soon)',
+        }),
     ];
 
     const featuresCloudEnterprise = [
@@ -146,10 +147,6 @@ const FeatureList = (props: FeatureListProps) => {
         intl.formatMessage({
             id: 'admin.billing.subscription.planDetails.features.customRetentionPolicies',
             defaultMessage: 'Custom data retention policies',
-        }),
-        intl.formatMessage({
-            id: 'admin.billing.subscription.planDetails.features.sharedChannels',
-            defaultMessage: 'Shared channels (coming soon)',
         }),
         intl.formatMessage({
             id: 'admin.billing.subscription.planDetails.features.ldapSync',

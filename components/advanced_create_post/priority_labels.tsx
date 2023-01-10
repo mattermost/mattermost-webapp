@@ -68,7 +68,12 @@ const Close = styled.button`
     font-size: 17px;
     justify-content: center;
     margin-top: -1px;
+    opacity: 0.56;
     visibility: hidden;
+
+    &:hover {
+        opacity: 0.72;
+    }
 
     ${Priority}:hover & {
         visibility: visible;
@@ -120,7 +125,21 @@ function PriorityLabels({
             )}
             {requestedAck && (
                 <Acknowledgements hasError={hasError}>
-                    <CheckCircleOutlineIcon size={14}/>
+                    <OverlayTrigger
+                        placement='top'
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+                        overlay={(
+                            <Tooltip id='post-priority-picker-ack-tooltip'>
+                                <FormattedMessage
+                                    id={'post_priority.request_acknowledgement.tooltip'}
+                                    defaultMessage={'Acknowledgement will be requested'}
+                                />
+                            </Tooltip>
+                        )}
+                    >
+                        <CheckCircleOutlineIcon size={14}/>
+                    </OverlayTrigger>
                     {!(priority) && (
                         <FormattedMessage
                             id={'post_priority.request_acknowledgement'}
