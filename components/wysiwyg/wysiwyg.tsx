@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Editor} from '@tiptap/core';
-import isEqual from 'lodash/isEqual';
 import React, {memo, useEffect, useRef, useState} from 'react';
 import type {FormEvent} from 'react';
+import {Editor} from '@tiptap/core';
 import type {KeyboardShortcutCommand} from '@tiptap/core';
 import {EditorContent, useEditor} from '@tiptap/react';
 import type {JSONContent} from '@tiptap/react';
+import isEqual from 'lodash/isEqual';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
@@ -16,6 +16,10 @@ import FileUpload, {PostType} from 'components/file_upload';
 import type {FileUploadClass} from 'components/file_upload';
 import FilePreview from 'components/file_preview';
 import type {FilePreviewInfo} from 'components/file_preview';
+
+import Constants from 'utils/constants';
+
+import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 
 import type {FileInfo} from '@mattermost/types/files';
 import type {ServerError} from '@mattermost/types/errors';
@@ -210,6 +214,20 @@ const Wysiwyg = (props: Props) => {
     useEffect(() => {
         onAttachmentChange?.(attachments, uploads);
     }, [onAttachmentChange, attachments, uploads]);
+
+    // TODO: once we are able to replace the proprietary upload handler with the built-in mechanics we can use the
+    //       keyhandler from tiptap instead, which is more powerful
+    useEffect(() => {
+        const keyUploadHandler = (e: KeyboardEvent) => {
+            if (editor?.isFocused && cmdOrCtrlPressed(e) && !e.shiftKey && isKeyPressed(e, Constants.KeyCodes.U)) {
+                e.preventDefault();
+                fileUploadRef.current?.simulateInputClick();
+            }
+        };
+        document.addEventListener('keydown', keyUploadHandler);
+
+        return () => document.removeEventListener('keydown', keyUploadHandler);
+    }, [editor, fileUploadRef]);
 
     if (!editor) {
         return null;

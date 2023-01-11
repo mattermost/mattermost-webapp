@@ -16,7 +16,8 @@ import {History, HistoryOptions} from '@tiptap/extension-history';
 import {HorizontalRule, HorizontalRuleOptions} from '@tiptap/extension-horizontal-rule';
 import {Image, ImageOptions, inputRegex as imageInputRegex} from '@tiptap/extension-image';
 import {Italic, ItalicOptions} from '@tiptap/extension-italic';
-import {Link, LinkOptions} from '@tiptap/extension-link';
+import {LinkOptions} from '@tiptap/extension-link';
+
 import {ListItem, ListItemOptions} from '@tiptap/extension-list-item';
 import {OrderedList, OrderedListOptions} from '@tiptap/extension-ordered-list';
 import {Paragraph, ParagraphOptions} from '@tiptap/extension-paragraph';
@@ -31,6 +32,8 @@ import {PluginKey} from 'prosemirror-state';
 import {lowlight} from 'lowlight';
 
 import {Formatters, WysiwygConfig} from '../wysiwyg';
+
+import {Link} from './link';
 
 import {Codeblock, CodeBlockLowlightOptions} from './codeblock/codeblock';
 import {Table, TableOptions} from './table/table';

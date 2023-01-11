@@ -3,7 +3,7 @@
 
 import {useClickAway} from '@mattermost/compass-components/shared/hooks';
 import {Mark} from 'prosemirror-model';
-import React, {FormEvent, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import React, {FormEvent, useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {autoUpdate, flip, offset, useFloating} from '@floating-ui/react-dom';
 import {isNodeSelection, posToDOMRect} from '@tiptap/core';
 import {
@@ -42,7 +42,7 @@ const IconButton = (props: PIconButton) => (
 export type MarkdownLeafMode =
     | 'bold'
     | 'italic'
-    | 'link'
+    | 'mmLink'
     | 'strike'
     | 'code'
 
@@ -96,13 +96,13 @@ const makeLeafModeToolDefinitions = (editor: Editor): Array<ToolDefinition<Markd
     if (!editor.storage.core.disableFormatting.links) {
         // insert the link control definition at index 2
         controls.splice(2, 0, {
-            mode: 'link',
+            mode: 'mmLink',
             type: 'setLink',
             icon: LinkVariantIcon,
             ariaLabelDescriptor: {id: t('accessibility.button.link'), defaultMessage: 'link'},
             shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownLink,
-            action: () => {},
-            isActive: () => editor.isActive('link'),
+            action: () => editor.commands.toggleLinkOverlay(),
+            isActive: () => editor.isActive('mmLink'),
         });
     }
 
@@ -184,34 +184,44 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
             }),
         ],
     });
+    const linkInputRef = useRef<HTMLInputElement>(null);
 
     const {state} = editor;
     const {selection: {from, to}} = state;
     const selectedText = state.doc.textBetween(from, to, ' ') || '';
 
-    const linkMarkIsActive = editor.isActive('link');
+    const linkMarkIsActive = editor.isActive('mmLink');
 
     let marks: Mark[] = [];
     state.doc.nodesBetween(from, to, (node) => {
         marks = marks.concat(node.marks);
     });
 
-    const mark = marks.find((markItem) => markItem.type.name === 'link');
+    const mark = marks.find((markItem) => markItem.type.name === 'mmLink');
     const prevUrl = mark?.attrs.href ?? '';
 
     const [url, setUrl] = useState<string | null>(null);
     const [text, setText] = useState<string | null>(null);
 
+    const closeOverlay = useCallback(() => {
+        // clear the component state
+        setUrl(null);
+        setText(null);
+
+        // once done close the overlay
+        onClose?.();
+    }, [onClose]);
+
     useEffect(() => {
         const handleEscapeKey = (event: KeyboardEvent) => {
-            if (event.key === 'Esc' || event.key === 'Escape') {
-                onClose?.();
+            if (open && (event.key === 'Esc' || event.key === 'Escape')) {
+                closeOverlay();
             }
         };
         document.addEventListener('keydown', handleEscapeKey);
 
         return () => document.removeEventListener('keydown', handleEscapeKey);
-    }, [onClose]);
+    }, [open, closeOverlay]);
 
     useClickAway([refs.floating, buttonRef], onClose);
 
@@ -236,19 +246,14 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
     }, [reference, editor, open]);
 
     useEffect(() => {
+        if (open) {
+            linkInputRef.current?.focus();
+        }
+
         // reset the state values when we hide the overlay
         setUrl(null);
         setText(null);
     }, [open]);
-
-    const closeOverlay = () => {
-        // clear the component state
-        setUrl(null);
-        setText(null);
-
-        // once done close the overlay
-        onClose?.();
-    };
 
     if (!open) {
         return null;
@@ -277,16 +282,16 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
 
                     if (!newUrl) {
                         // if there is no URL set for the link it will remove the link mark
-                        editor.chain().focus().extendMarkRange('link').unsetLink().run();
+                        editor.chain().focus().extendMarkRange('mmLink').unsetLink().run();
                     } else if (selectedText === newText) {
                         // extend the range to the whole link (if no link mark is present it does not do anything)
                         // and change/add the url on it
-                        editor.chain().focus().extendMarkRange('link').setLink({href: newUrl}).run();
+                        editor.chain().focus().extendMarkRange('mmLink').setLink({href: newUrl}).run();
                     } else {
                         editor.
                             chain().
                             focus().
-                            extendMarkRange('link').
+                            extendMarkRange('mmLink').
                             deleteRange(editor.state.selection).
 
                             // insert the text (either the url or the text from the input field)
@@ -309,6 +314,7 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
                         color={'rgba(var(--center-channel-color-rgb), 0.64)'}
                     />
                     <LinkInput
+                        ref={linkInputRef}
                         type={'text'}
                         value={url ?? prevUrl}
                         placeholder={formatMessage({id: 'wysiwyg.input-label.link.url', defaultMessage: 'Type or paste a link'})}
@@ -358,25 +364,17 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
 
 const LeafModeControls = ({editor}: {editor: Editor}) => {
     const linkButtonRef = useRef<HTMLButtonElement>(null);
-    const [showLinkOverlay, setShowLinkOverlay] = useState(false);
 
     const codeBlockModeIsActive = editor.isActive('codeBlock');
     const leafModeControls = makeLeafModeToolDefinitions(editor).filter(Boolean);
-
-    const toggleLinkOverlay = () => {
-        if (!showLinkOverlay) {
-            editor.commands.extendMarkRange('link');
-        }
-        setShowLinkOverlay(!showLinkOverlay);
-    };
 
     return (
         <>
             <LinkOverlay
                 editor={editor}
-                open={showLinkOverlay}
+                open={editor.storage.mmLink.showOverlay}
                 buttonRef={linkButtonRef}
-                onClose={() => setShowLinkOverlay(false)}
+                onClose={() => editor.commands.toggleLinkOverlay()}
             />
             {leafModeControls.map((control) => (
                 <ToolbarControl
@@ -384,7 +382,7 @@ const LeafModeControls = ({editor}: {editor: Editor}) => {
                     key={`${control.type}_${control.mode}`}
                     mode={control.type}
                     Icon={control.icon}
-                    onClick={control.type === 'setLink' ? toggleLinkOverlay : control.action}
+                    onClick={control.action}
                     className={classNames({active: control.isActive?.()})}
                     disabled={codeBlockModeIsActive}
                     shortcutDescriptor={control.shortcutDescriptor}

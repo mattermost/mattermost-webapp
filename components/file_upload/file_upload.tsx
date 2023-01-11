@@ -572,9 +572,9 @@ export class FileUpload extends PureComponent<Props, State> {
         this.setState({menuOpen: false});
     }
 
-    simulateInputClick = (e: MouseEvent<HTMLButtonElement | HTMLAnchorElement> | TouchEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
+    simulateInputClick = (e?: MouseEvent<HTMLButtonElement | HTMLAnchorElement> | TouchEvent) => {
+        e?.preventDefault();
+        e?.stopPropagation();
         this.fileInput.current?.click();
     }
 
