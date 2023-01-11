@@ -51,7 +51,7 @@ const asAdmin = (highestLimit: LimitSummary | false): Props => ({isAdminUser: tr
 const asUser = (highestLimit: LimitSummary | false): Props => ({isAdminUser: false, highestLimit});
 const mkLimit = (id: LimitSummary['id'], usage: LimitSummary['usage'], limit: LimitSummary['limit']): LimitSummary => ({id, usage, limit});
 
-const tenGb = 10 * FileSizes.Gigabyte;
+const oneGb = FileSizes.Gigabyte;
 
 describe('useWords', () => {
     const tests: Test[] = [
@@ -103,38 +103,38 @@ describe('useWords', () => {
         },
         {
             label: 'shows file storage warn',
-            props: asAdmin(mkLimit(LimitTypes.fileStorage, 5 * FileSizes.Gigabyte, tenGb)),
+            props: asAdmin(mkLimit(LimitTypes.fileStorage, 0.5 * FileSizes.Gigabyte, oneGb)),
             expects: {
                 title: 'File storage limit',
-                description: /closer.*10GB.*limit/,
-                status: '5GB',
+                description: /closer.*1GB.*limit/,
+                status: '0.5GB',
             },
         },
         {
             label: 'shows file storage critical',
-            props: asAdmin(mkLimit(LimitTypes.fileStorage, 8 * FileSizes.Gigabyte, tenGb)),
+            props: asAdmin(mkLimit(LimitTypes.fileStorage, 0.8 * FileSizes.Gigabyte, oneGb)),
             expects: {
                 title: 'File storage limit',
-                description: /closer.*10GB.*limit/,
-                status: '8GB',
+                description: /closer.*1GB.*limit/,
+                status: '0.8GB',
             },
         },
         {
             label: 'shows file storage reached',
-            props: asAdmin(mkLimit(LimitTypes.fileStorage, 10 * FileSizes.Gigabyte, tenGb)),
+            props: asAdmin(mkLimit(LimitTypes.fileStorage, FileSizes.Gigabyte, oneGb)),
             expects: {
                 title: 'File storage limit',
-                description: /reached.*10GB.*limit/,
-                status: '10GB',
+                description: /reached.*1GB.*limit/,
+                status: '1GB',
             },
         },
         {
             label: 'shows file storage exceeded',
-            props: asAdmin(mkLimit(LimitTypes.fileStorage, 11 * FileSizes.Gigabyte, tenGb)),
+            props: asAdmin(mkLimit(LimitTypes.fileStorage, 1.1 * FileSizes.Gigabyte, oneGb)),
             expects: {
                 title: 'File storage limit',
-                description: /over.*10GB.*limit/,
-                status: '11GB',
+                description: /over.*1GB.*limit/,
+                status: '1.1GB',
             },
         },
         {
