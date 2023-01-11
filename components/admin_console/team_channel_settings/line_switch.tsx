@@ -22,7 +22,7 @@ type Props = {
 const LineSwitch = (props: Props): JSX.Element => {
     const {title, subTitle, singleLine, toggled, onToggle, children, offText, onText, disabled, last, id} = props;
     return (<div>
-        <div className='line-switch d-flex flex-sm-column flex-md-row align-items-sm-start align-items-center justify-content-md-between'>
+        <div className='line-switch d-flex flex-sm-column flex-md-row align-items-sm-start align-items-center'>
             <label className='line-switch__label'>{title}</label>
             <div
                 data-testid={id}

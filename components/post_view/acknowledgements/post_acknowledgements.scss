@@ -30,7 +30,7 @@
     &--disabled,
     &:disabled {
         background: rgba(var(--online-indicator-rgb), 0.08);
-        color: rgba(var(--online-indicator-rgb), 0.32);
+        cursor: not-allowed;
     }
 
     &:hover:enabled {
@@ -55,7 +55,6 @@
         &:disabled {
             background: rgba(var(--online-indicator-rgb), 0.8);
             color: #fff;
-            cursor: not-allowed;
 
             > svg {
                 margin-right: 3px;
