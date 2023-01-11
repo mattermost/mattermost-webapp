@@ -14,7 +14,6 @@ import {
 import {SalesInquiryIssue} from 'selectors/cloud';
 
 import {CloudProducts} from 'utils/constants';
-import {FileSizes} from 'utils/file_utils';
 import {asGBString, fallbackStarterLimits, hasSomeLimits} from 'utils/limits';
 
 import useGetLimits from 'components/common/hooks/useGetLimits';
@@ -23,15 +22,10 @@ import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import LimitCard from './limit_card';
-import SingleInlineLimit from './single_inline_limit';
 
 import './limits.scss';
 
-interface Props {
-    showAnnualCard?: boolean;
-}
-
-const Limits = (props: Props): JSX.Element | null => {
+const Limits = (): JSX.Element | null => {
     const intl = useIntl();
     const subscription = useSelector(getCloudSubscription);
     const products = useSelector(getCloudProducts);
@@ -44,8 +38,6 @@ const Limits = (props: Props): JSX.Element | null => {
     if (!subscriptionProduct || !limitsLoaded || !hasSomeLimits(cloudLimits)) {
         return null;
     }
-
-    const singleLimitPanel = subscriptionProduct.sku === CloudProducts.PROFESSIONAL;
 
     let title: React.ReactNode = null;
     let description: React.ReactNode = null;
@@ -147,59 +139,10 @@ const Limits = (props: Props): JSX.Element | null => {
                 )}
             </div>
         );
-    } else if (subscriptionProduct.sku === CloudProducts.PROFESSIONAL) {
-        title = (
-            <FormattedMessage
-                id='workspace_limits.upgrade_professional'
-                defaultMessage='Professional plan data limit'
-            />
-        );
-        description = intl.formatMessage(
-            {
-                id: 'workspace_limits.upgrade_reasons.professional',
-                defaultMessage: 'On the Professional plan you can only view the most recent {fileStorage} of files. With Enterprise, experience unlimited file storage.',
-            },
-            {
-                fileStorage: asGBString(cloudLimits?.files?.total_storage || FileSizes.Gigabyte * 250, intl.formatNumber),
-            },
-        );
-        currentUsage = cloudLimits?.files?.total_storage && (
-            <SingleInlineLimit
-                name={(
-                    <FormattedMessage
-                        id='workspace_limits.file_storage'
-                        defaultMessage='File Storage'
-                    />
-                )}
-                status={(
-                    <FormattedMessage
-                        id='workspace_limits.file_storage.single_usage'
-                        defaultMessage='{actual} of {limit}'
-                        values={{
-                            actual: asGBString(usage.files.totalStorage, intl.formatNumber),
-                            limit: asGBString(cloudLimits.files.total_storage, intl.formatNumber),
-
-                        }}
-                    />
-                )}
-                percent={Math.floor((usage.files.totalStorage / cloudLimits.files.total_storage) * 100)}
-                icon='icon-folder-outline'
-            />
-        );
     }
 
-    let panelClassname = 'ProductLimitsPanel';
-    if (singleLimitPanel) {
-        if (props.showAnnualCard) {
-            panelClassname += ' ProductLimitsPanel--left-panel';
-        } else {
-            panelClassname += ' ProductLimitsPanel--single-panel';
-        }
-    }
-    let actionsClassname = 'ProductLimitsPanel__actions';
-    if (singleLimitPanel) {
-        actionsClassname += ' ProductLimitsPanel__actions--single';
-    }
+    const panelClassname = 'ProductLimitsPanel';
+    const actionsClassname = 'ProductLimitsPanel__actions';
     return (
         <div className={panelClassname}>
             {title && (
@@ -236,17 +179,6 @@ const Limits = (props: Props): JSX.Element | null => {
                             })}
                         </button>
                     </>
-                )}
-                {subscriptionProduct.sku === CloudProducts.PROFESSIONAL && (
-                    <a
-                        onClick={openSalesLink}
-                        className='ProductLimitsPanel__contact-link'
-                    >
-                        <FormattedMessage
-                            id='workspace_limits.contact_to_upgrade'
-                            defaultMessage='Contact us to upgrade'
-                        />
-                    </a>
                 )}
             </div>
         </div>

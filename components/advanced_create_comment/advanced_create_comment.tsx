@@ -971,6 +971,10 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     }
 
     applyMarkdown = (options: ApplyMarkdownOptions) => {
+        if (this.props.shouldShowPreview) {
+            return;
+        }
+
         const res = applyMarkdown(options);
 
         const draft = this.state.draft!;
