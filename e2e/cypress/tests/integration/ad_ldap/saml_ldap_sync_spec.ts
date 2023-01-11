@@ -69,7 +69,7 @@ describe('AD / LDAP', () => {
         cy.verifyAccountNameSettings(samlLdapUser.firstname, samlLdapUser.lastname);
 
         // # Run LDAP Sync
-        cy.runLdapSync(admin as any);
+        cy.runLdapSync(admin);
 
         // Refresh make sure user not logged out.
         cy.reload();
@@ -104,7 +104,7 @@ describe('AD / LDAP', () => {
             firstname: newFirstName,
             lastname: newLastName,
         });
-        cy.runLdapSync(admin as any);
+        cy.runLdapSync(admin);
 
         // # Refresh make sure user not logged out.
         cy.reload();

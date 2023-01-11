@@ -69,7 +69,7 @@ describe('AD / LDAP', () => {
 
         // # Run LDAP Sync
         const admin = getAdminAccount();
-        cy.runLdapSync(admin as any);
+        cy.runLdapSync(admin);
 
         // # REgister as LDAP user
         cy.createLDAPUser({user: nonLDAPUser});
