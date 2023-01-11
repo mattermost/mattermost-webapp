@@ -233,7 +233,7 @@ const Wysiwyg = (props: Props) => {
         return null;
     }
 
-    const disableSendButton = editor.isEmpty;
+    const disableSendButton = editor.isEmpty && !attachments.length;
     const sendButton = readOnly ? null : (
         <SendButton
             disabled={disableSendButton}

@@ -1715,6 +1715,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     draft={draft}
                     config={wysiwygConfig}
                     additionalControls={additionalControls}
+                    onAttachmentChange={this.onAttachmentChange}
                 />
             );
         }

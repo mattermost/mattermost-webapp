@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {useClickAway} from '@mattermost/compass-components/shared/hooks';
-import {Mark} from 'prosemirror-model';
 import React, {FormEvent, useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {Mark} from 'prosemirror-model';
 import {autoUpdate, flip, offset, useFloating} from '@floating-ui/react-dom';
+import {useClickAway} from '@mattermost/compass-components/shared/hooks';
 import {isNodeSelection, posToDOMRect} from '@tiptap/core';
 import {
     CodeTagsIcon,
@@ -266,6 +266,7 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
                 position: strategy,
                 top: y ?? 0,
                 left: x ?? 0,
+                zIndex: 100,
             }}
         >
             <FloatingLinkContainer

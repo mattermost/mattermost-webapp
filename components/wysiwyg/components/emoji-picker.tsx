@@ -83,9 +83,21 @@ const EmojiPicker = ({editor}: Props) => {
             }
         };
 
+        const handleEscapeKey = (event: KeyboardEvent) => {
+            const {showEmojiPicker} = getLatest();
+            if (showEmojiPicker && (event.key === 'Esc' || event.key === 'Escape')) {
+                event.stopPropagation();
+                setShowEmojiPicker(false);
+            }
+        };
+
+        document.addEventListener('keydown', handleEscapeKey);
         document.addEventListener('mousedown', handleClickOutside);
 
-        return () => document.removeEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('keydown', handleEscapeKey);
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
     }, [getLatest]);
 
     useEffect(() => {
