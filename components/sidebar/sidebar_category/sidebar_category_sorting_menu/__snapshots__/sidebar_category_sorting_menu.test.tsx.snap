@@ -3,18 +3,18 @@
 exports[`components/sidebar/sidebar_category/sidebar_category_sorting_menu should match snapshot 1`] = `
 <Menu
   menuAriaLabel="Category Menu"
-  menuId="SidebarCategorySortingMenu-MenuList-category_id"
-  triggerAriaLabel="Category Menu"
-  triggerClassName="SidebarMenu_menuButton sortingMenu"
-  triggerElement={
+  menuButtonAriaLabel="Category Menu"
+  menuButtonChildren={
     <DotsVerticalIcon
       size={16}
     />
   }
-  triggerId="SidebarCategorySortingMenu-Button-category_id"
-  triggerTooltipClassName="hidden-xs"
-  triggerTooltipId="SidebarCategorySortingMenu-ButtonTooltip-category_id"
-  triggerTooltipText="Category options"
+  menuButtonClassName="SidebarMenu_menuButton sortingMenu"
+  menuButtonId="SidebarCategorySortingMenu-Button-category_id"
+  menuButtonTooltipClassName="hidden-xs"
+  menuButtonTooltipId="SidebarCategorySortingMenu-ButtonTooltip-category_id"
+  menuButtonTooltipText="Category options"
+  menuId="SidebarCategorySortingMenu-MenuList-category_id"
 >
   <SubMenu
     id="sortDirectMessages-category_id"
@@ -98,7 +98,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_sorting_menu shoul
       }
       onClick={[Function]}
     />
-    <MenuItemDivider />
+    <MenuItemSeparator />
     <MenuItem
       id="showDmCount-category_id-10"
       key="showDmCount-category_id-10"
@@ -140,7 +140,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_sorting_menu shoul
       onClick={[Function]}
     />
   </SubMenu>
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="openDirectMessage-category_id"
     labels={

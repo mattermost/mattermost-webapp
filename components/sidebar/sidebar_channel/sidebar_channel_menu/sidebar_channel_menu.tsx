@@ -13,7 +13,7 @@ import {
     LinkVariantIcon,
     AccountPlusOutlineIcon,
     DotsVerticalIcon,
-    LogoutVariantIcon,
+    ExitToAppIcon,
 } from '@mattermost/compass-icons/components';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -275,7 +275,7 @@ const SidebarChannelMenu = (props: Props) => {
             <Menu.Item
                 id={`leave-${props.channel.id}`}
                 onClick={handleLeaveChannel}
-                leadingElement={<LogoutVariantIcon size={18}/>}
+                leadingElement={<ExitToAppIcon size={18}/>}
                 labels={leaveChannelText}
                 isDestructive={true}
             />
@@ -284,13 +284,13 @@ const SidebarChannelMenu = (props: Props) => {
 
     return (
         <Menu.Container
-            triggerId={`SidebarChannelMenu-Button-${props.channel.id}`}
-            triggerElement={<DotsVerticalIcon size={16}/>}
-            triggerClassName='SidebarMenu_menuButton'
-            triggerAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
-            triggerTooltipId={`SidebarChannelMenu-ButtonTooltip-${props.channel.id}`}
-            triggerTooltipClassName='hidden-xs'
-            triggerTooltipText={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
+            menuButtonId={`SidebarChannelMenu-Button-${props.channel.id}`}
+            menuButtonChildren={<DotsVerticalIcon size={16}/>}
+            menuButtonClassName='SidebarMenu_menuButton'
+            menuButtonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
+            menuButtonTooltipId={`SidebarChannelMenu-ButtonTooltip-${props.channel.id}`}
+            menuButtonTooltipClassName='hidden-xs'
+            menuButtonTooltipText={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
             menuId={`SidebarChannelMenu-MenuList-${props.channel.id}`}
             menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
             onMenuToggle={props.onMenuToggle}
@@ -298,12 +298,12 @@ const SidebarChannelMenu = (props: Props) => {
             {markAsReadUnreadMenuItem}
             {favoriteUnfavoriteMenuItem}
             {muteUnmuteChannelMenuItem}
-            <Menu.Divider/>
+            <Menu.Separator/>
             <ChannelMoveToSubmenu channel={props.channel}/>
-            {(copyLinkMenuItem || addMembersMenuItem) && <Menu.Divider/>}
+            {(copyLinkMenuItem || addMembersMenuItem) && <Menu.Separator/>}
             {copyLinkMenuItem}
             {addMembersMenuItem}
-            {leaveChannelMenuItem && <Menu.Divider/>}
+            {leaveChannelMenuItem && <Menu.Separator/>}
             {leaveChannelMenuItem}
         </Menu.Container>
     );

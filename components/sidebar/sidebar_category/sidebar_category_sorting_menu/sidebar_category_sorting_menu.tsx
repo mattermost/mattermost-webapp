@@ -149,7 +149,7 @@ const SidebarCategorySortingMenu = (props: Props) => {
                 }
                 onClick={(event) => handlelimitVisibleDMsGMs(event, Constants.HIGHEST_DM_SHOW_COUNT)}
             />
-            <Menu.Divider/>
+            <Menu.Separator/>
             {Constants.DM_AND_GM_SHOW_COUNTS.map((dmGmShowCount) => (
                 <Menu.Item
                     id={`showDmCount-${props.category.id}-${dmGmShowCount}`}
@@ -178,19 +178,19 @@ const SidebarCategorySortingMenu = (props: Props) => {
 
     return (
         <Menu.Container
-            triggerId={`SidebarCategorySortingMenu-Button-${props.category.id}`}
-            triggerElement={<DotsVerticalIcon size={16}/>}
-            triggerClassName='SidebarMenu_menuButton sortingMenu'
-            triggerAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
-            triggerTooltipId={`SidebarCategorySortingMenu-ButtonTooltip-${props.category.id}`}
-            triggerTooltipText={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
-            triggerTooltipClassName='hidden-xs'
+            menuButtonId={`SidebarCategorySortingMenu-Button-${props.category.id}`}
+            menuButtonChildren={<DotsVerticalIcon size={16}/>}
+            menuButtonClassName='SidebarMenu_menuButton sortingMenu'
+            menuButtonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+            menuButtonTooltipId={`SidebarCategorySortingMenu-ButtonTooltip-${props.category.id}`}
+            menuButtonTooltipText={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
+            menuButtonTooltipClassName='hidden-xs'
             menuId={`SidebarCategorySortingMenu-MenuList-${props.category.id}`}
             menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
         >
             {sortDirectMessagesMenuItem}
             {showMessagesCountMenuItem}
-            <Menu.Divider/>
+            <Menu.Separator/>
             {openDirectMessageMenuItem}
         </Menu.Container>
     );

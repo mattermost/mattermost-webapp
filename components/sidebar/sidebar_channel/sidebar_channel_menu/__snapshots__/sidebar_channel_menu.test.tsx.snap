@@ -3,19 +3,19 @@
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot and contain correct buttons 1`] = `
 <Menu
   menuAriaLabel="Edit channel Menu"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
-  triggerAriaLabel="Edit channel Menu"
-  triggerClassName="SidebarMenu_menuButton"
-  triggerElement={
+  menuButtonAriaLabel="Edit channel Menu"
+  menuButtonChildren={
     <DotsVerticalIcon
       size={16}
     />
   }
-  triggerId="SidebarChannelMenu-Button-channel_id"
-  triggerTooltipClassName="hidden-xs"
-  triggerTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  triggerTooltipText="Channel options"
+  menuButtonClassName="SidebarMenu_menuButton"
+  menuButtonId="SidebarChannelMenu-Button-channel_id"
+  menuButtonTooltipClassName="hidden-xs"
+  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
+  menuButtonTooltipText="Channel options"
+  menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -62,7 +62,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -84,7 +84,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       }
     }
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="copyLink-channel_id"
     labels={
@@ -115,7 +115,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="leave-channel_id"
     isDestructive={true}
@@ -126,7 +126,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       />
     }
     leadingElement={
-      <LogoutVariantIcon
+      <ExitToAppIcon
         size={18}
       />
     }
@@ -138,19 +138,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot of rendered items when multiselecting channels - DM channels and public channels category 1`] = `
 <Menu
   menuAriaLabel="Edit channel Menu"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
-  triggerAriaLabel="Edit channel Menu"
-  triggerClassName="SidebarMenu_menuButton"
-  triggerElement={
+  menuButtonAriaLabel="Edit channel Menu"
+  menuButtonChildren={
     <DotsVerticalIcon
       size={16}
     />
   }
-  triggerId="SidebarChannelMenu-Button-channel_id"
-  triggerTooltipClassName="hidden-xs"
-  triggerTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  triggerTooltipText="Channel options"
+  menuButtonClassName="SidebarMenu_menuButton"
+  menuButtonId="SidebarChannelMenu-Button-channel_id"
+  menuButtonTooltipClassName="hidden-xs"
+  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
+  menuButtonTooltipText="Channel options"
+  menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -197,7 +197,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -219,7 +219,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       }
     }
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="copyLink-channel_id"
     labels={
@@ -250,7 +250,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="leave-channel_id"
     isDestructive={true}
@@ -261,7 +261,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       />
     }
     leadingElement={
-      <LogoutVariantIcon
+      <ExitToAppIcon
         size={18}
       />
     }
@@ -273,19 +273,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot of rendered items when multiselecting channels - public channels and DM category 1`] = `
 <Menu
   menuAriaLabel="Edit channel Menu"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
-  triggerAriaLabel="Edit channel Menu"
-  triggerClassName="SidebarMenu_menuButton"
-  triggerElement={
+  menuButtonAriaLabel="Edit channel Menu"
+  menuButtonChildren={
     <DotsVerticalIcon
       size={16}
     />
   }
-  triggerId="SidebarChannelMenu-Button-channel_id"
-  triggerTooltipClassName="hidden-xs"
-  triggerTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  triggerTooltipText="Channel options"
+  menuButtonClassName="SidebarMenu_menuButton"
+  menuButtonId="SidebarChannelMenu-Button-channel_id"
+  menuButtonTooltipClassName="hidden-xs"
+  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
+  menuButtonTooltipText="Channel options"
+  menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -332,7 +332,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -354,7 +354,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       }
     }
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="copyLink-channel_id"
     labels={
@@ -385,7 +385,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="leave-channel_id"
     isDestructive={true}
@@ -396,7 +396,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       />
     }
     leadingElement={
-      <LogoutVariantIcon
+      <ExitToAppIcon
         size={18}
       />
     }
@@ -408,19 +408,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is DM 1`] = `
 <Menu
   menuAriaLabel="Edit channel Menu"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
-  triggerAriaLabel="Edit channel Menu"
-  triggerClassName="SidebarMenu_menuButton"
-  triggerElement={
+  menuButtonAriaLabel="Edit channel Menu"
+  menuButtonChildren={
     <DotsVerticalIcon
       size={16}
     />
   }
-  triggerId="SidebarChannelMenu-Button-channel_id"
-  triggerTooltipClassName="hidden-xs"
-  triggerTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  triggerTooltipText="Channel options"
+  menuButtonClassName="SidebarMenu_menuButton"
+  menuButtonId="SidebarChannelMenu-Button-channel_id"
+  menuButtonTooltipClassName="hidden-xs"
+  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
+  menuButtonTooltipText="Channel options"
+  menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -467,7 +467,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -489,7 +489,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       }
     }
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="leave-channel_id"
     isDestructive={true}
@@ -500,7 +500,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <LogoutVariantIcon
+      <ExitToAppIcon
         size={18}
       />
     }
@@ -512,19 +512,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is Town Square 1`] = `
 <Menu
   menuAriaLabel="Edit channel Menu"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
-  triggerAriaLabel="Edit channel Menu"
-  triggerClassName="SidebarMenu_menuButton"
-  triggerElement={
+  menuButtonAriaLabel="Edit channel Menu"
+  menuButtonChildren={
     <DotsVerticalIcon
       size={16}
     />
   }
-  triggerId="SidebarChannelMenu-Button-channel_id"
-  triggerTooltipClassName="hidden-xs"
-  triggerTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  triggerTooltipText="Channel options"
+  menuButtonClassName="SidebarMenu_menuButton"
+  menuButtonId="SidebarChannelMenu-Button-channel_id"
+  menuButtonTooltipClassName="hidden-xs"
+  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
+  menuButtonTooltipText="Channel options"
+  menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -571,7 +571,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -593,7 +593,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       }
     }
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="copyLink-channel_id"
     labels={
@@ -630,19 +630,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is favorite 1`] = `
 <Menu
   menuAriaLabel="Edit channel Menu"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
-  triggerAriaLabel="Edit channel Menu"
-  triggerClassName="SidebarMenu_menuButton"
-  triggerElement={
+  menuButtonAriaLabel="Edit channel Menu"
+  menuButtonChildren={
     <DotsVerticalIcon
       size={16}
     />
   }
-  triggerId="SidebarChannelMenu-Button-channel_id"
-  triggerTooltipClassName="hidden-xs"
-  triggerTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  triggerTooltipText="Channel options"
+  menuButtonClassName="SidebarMenu_menuButton"
+  menuButtonId="SidebarChannelMenu-Button-channel_id"
+  menuButtonTooltipClassName="hidden-xs"
+  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
+  menuButtonTooltipText="Channel options"
+  menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -689,7 +689,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -711,7 +711,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       }
     }
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="copyLink-channel_id"
     labels={
@@ -742,7 +742,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="leave-channel_id"
     isDestructive={true}
@@ -753,7 +753,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <LogoutVariantIcon
+      <ExitToAppIcon
         size={18}
       />
     }
@@ -765,19 +765,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is muted 1`] = `
 <Menu
   menuAriaLabel="Edit channel Menu"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
-  triggerAriaLabel="Edit channel Menu"
-  triggerClassName="SidebarMenu_menuButton"
-  triggerElement={
+  menuButtonAriaLabel="Edit channel Menu"
+  menuButtonChildren={
     <DotsVerticalIcon
       size={16}
     />
   }
-  triggerId="SidebarChannelMenu-Button-channel_id"
-  triggerTooltipClassName="hidden-xs"
-  triggerTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  triggerTooltipText="Channel options"
+  menuButtonClassName="SidebarMenu_menuButton"
+  menuButtonId="SidebarChannelMenu-Button-channel_id"
+  menuButtonTooltipClassName="hidden-xs"
+  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
+  menuButtonTooltipText="Channel options"
+  menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -824,7 +824,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -846,7 +846,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       }
     }
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="copyLink-channel_id"
     labels={
@@ -877,7 +877,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="leave-channel_id"
     isDestructive={true}
@@ -888,7 +888,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <LogoutVariantIcon
+      <ExitToAppIcon
         size={18}
       />
     }
@@ -900,19 +900,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is private 1`] = `
 <Menu
   menuAriaLabel="Edit channel Menu"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
-  triggerAriaLabel="Edit channel Menu"
-  triggerClassName="SidebarMenu_menuButton"
-  triggerElement={
+  menuButtonAriaLabel="Edit channel Menu"
+  menuButtonChildren={
     <DotsVerticalIcon
       size={16}
     />
   }
-  triggerId="SidebarChannelMenu-Button-channel_id"
-  triggerTooltipClassName="hidden-xs"
-  triggerTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  triggerTooltipText="Channel options"
+  menuButtonClassName="SidebarMenu_menuButton"
+  menuButtonId="SidebarChannelMenu-Button-channel_id"
+  menuButtonTooltipClassName="hidden-xs"
+  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
+  menuButtonTooltipText="Channel options"
+  menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -959,7 +959,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -981,7 +981,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       }
     }
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="copyLink-channel_id"
     labels={
@@ -1012,7 +1012,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="leave-channel_id"
     isDestructive={true}
@@ -1023,7 +1023,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <LogoutVariantIcon
+      <ExitToAppIcon
         size={18}
       />
     }
@@ -1035,19 +1035,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is read 1`] = `
 <Menu
   menuAriaLabel="Edit channel Menu"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
-  triggerAriaLabel="Edit channel Menu"
-  triggerClassName="SidebarMenu_menuButton"
-  triggerElement={
+  menuButtonAriaLabel="Edit channel Menu"
+  menuButtonChildren={
     <DotsVerticalIcon
       size={16}
     />
   }
-  triggerId="SidebarChannelMenu-Button-channel_id"
-  triggerTooltipClassName="hidden-xs"
-  triggerTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  triggerTooltipText="Channel options"
+  menuButtonClassName="SidebarMenu_menuButton"
+  menuButtonId="SidebarChannelMenu-Button-channel_id"
+  menuButtonTooltipClassName="hidden-xs"
+  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
+  menuButtonTooltipText="Channel options"
+  menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -1094,7 +1094,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -1116,7 +1116,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       }
     }
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="copyLink-channel_id"
     labels={
@@ -1147,7 +1147,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="leave-channel_id"
     isDestructive={true}
@@ -1158,7 +1158,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <LogoutVariantIcon
+      <ExitToAppIcon
         size={18}
       />
     }
@@ -1170,19 +1170,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is unread 1`] = `
 <Menu
   menuAriaLabel="Edit channel Menu"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
-  triggerAriaLabel="Edit channel Menu"
-  triggerClassName="SidebarMenu_menuButton"
-  triggerElement={
+  menuButtonAriaLabel="Edit channel Menu"
+  menuButtonChildren={
     <DotsVerticalIcon
       size={16}
     />
   }
-  triggerId="SidebarChannelMenu-Button-channel_id"
-  triggerTooltipClassName="hidden-xs"
-  triggerTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  triggerTooltipText="Channel options"
+  menuButtonClassName="SidebarMenu_menuButton"
+  menuButtonId="SidebarChannelMenu-Button-channel_id"
+  menuButtonTooltipClassName="hidden-xs"
+  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
+  menuButtonTooltipText="Channel options"
+  menuId="SidebarChannelMenu-MenuList-channel_id"
+  onMenuToggle={[MockFunction]}
 >
   <MenuItem
     id="markAsRead-channel_id"
@@ -1229,7 +1229,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -1251,7 +1251,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       }
     }
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="copyLink-channel_id"
     labels={
@@ -1282,7 +1282,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     }
     onClick={[Function]}
   />
-  <MenuItemDivider />
+  <MenuItemSeparator />
   <MenuItem
     id="leave-channel_id"
     isDestructive={true}
@@ -1293,7 +1293,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       />
     }
     leadingElement={
-      <LogoutVariantIcon
+      <ExitToAppIcon
         size={18}
       />
     }

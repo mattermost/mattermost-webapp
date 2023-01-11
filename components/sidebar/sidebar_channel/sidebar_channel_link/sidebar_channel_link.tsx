@@ -251,7 +251,12 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     hasUrgent={hasUrgent}
                 />
                 <div
-                    className={classNames('SidebarMenu', {menuOpen: this.state.isMenuOpen})}
+                    className={classNames(
+                        'SidebarMenu',
+                        'MenuWrapper',
+                        {menuOpen: this.state.isMenuOpen},
+                        {'MenuWrapper--open': this.state.isMenuOpen},
+                    )}
                 >
                     <SidebarChannelMenu
                         channel={channel}

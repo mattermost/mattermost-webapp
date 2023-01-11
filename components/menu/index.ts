@@ -4,4 +4,4 @@
 export {Menu as Container} from './menu';
 export {SubMenu} from './sub_menu';
 export {MenuItem as Item} from './menu_item';
-export {MenuItemDivider as Divider} from './menu_item_divider';
+export {MenuItemSeparator as Separator} from './menu_item_separator';

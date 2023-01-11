@@ -121,13 +121,14 @@ const MenuItemStyled = styled(MuiMenuItem, {
             minHeight: '36px',
             maxHeight: '56px',
 
+            // aria expanded to add the active styling on parent sub menu item
+            '&.Mui-active, &[aria-expanded=\'true\']': {
+                'background-color': !isDestructive ? 'rgba(var(--button-bg-rgb), 0.08)' : 'background-color: rgba(var(--error-text-color-rgb), 0.16)',
+            },
+
             '&:hover': {
                 backgroundColor: !isDestructive ? 'rgba(var(--center-channel-color-rgb), 0.08)' : 'var(--error-text)',
                 color: isDestructive && 'var(--button-color)',
-            },
-
-            '&:active': {
-                'background-color': !isDestructive ? 'rgba(var(--button-bg-rgb), 0.08)' : 'background-color: rgba(var(--error-text-color-rgb), 0.16)',
             },
 
             '&.Mui-disabled': {
@@ -142,10 +143,14 @@ const MenuItemStyled = styled(MuiMenuItem, {
             '&.Mui-focusVisible .label-elements>:last-child, &.Mui-focusVisible .label-elements>:first-child, &.Mui-focusVisible .label-elements>:only-child': {
                 color: isDestructive && 'var(--button-color)',
             },
+            '&.Mui-focusVisible .leading-element': {
+                color: isDestructive && 'var(--button-color)',
+            },
 
             '&>.leading-element': {
                 width: '18px',
                 height: '18px',
+                marginInlineEnd: '10px',
                 color: !isDestructive ? 'rgba(var(--center-channel-color-rgb), 0.56)' : 'var(--error-text)',
             },
             '&:hover .leading-element': {
@@ -162,7 +167,6 @@ const MenuItemStyled = styled(MuiMenuItem, {
                 alignSelf: 'stretch',
                 fontWeight: 400,
                 textAlign: 'start',
-                paddingInlineStart: '8px',
                 gap: '4px',
                 lineHeight: '16px',
             },
@@ -198,6 +202,7 @@ const MenuItemStyled = styled(MuiMenuItem, {
             '&:hover .trailing-elements': {
                 color: 'rgba(var(--center-channel-color-rgb), 0.72)',
             },
+
         },
     }),
 );

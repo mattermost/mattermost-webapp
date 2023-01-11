@@ -120,7 +120,7 @@ const ChannelMoveToSubMenu = (props: Props) => {
         });
 
         const dividerAndNewCategory = [
-            <Menu.Divider key='ChannelMenu-moveToDivider'/>,
+            <Menu.Separator key='ChannelMenu-moveToDivider'/>,
             <Menu.Item
                 id={`moveToNewCategory-${props.channel.id}`}
                 key={`moveToNewCategory-${props.channel.id}`}

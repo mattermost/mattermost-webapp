@@ -231,22 +231,22 @@ const SidebarCategoryMenu = (props: Props) => {
 
     return (
         <Menu.Container
-            triggerId={`SidebarCategoryMenu-Button-${props.category.id}`}
-            triggerElement={<DotsVerticalIcon size={16}/>}
-            triggerClassName='SidebarMenu_menuButton'
-            triggerAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
-            triggerTooltipId={`SidebarCategoryMenu-ButtonTooltip-${props.category.id}`}
-            triggerTooltipText={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
-            triggerTooltipClassName='hidden-xs'
+            menuButtonId={`SidebarCategoryMenu-Button-${props.category.id}`}
+            menuButtonChildren={<DotsVerticalIcon size={16}/>}
+            menuButtonClassName='SidebarMenu_menuButton'
+            menuButtonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+            menuButtonTooltipId={`SidebarCategoryMenu-ButtonTooltip-${props.category.id}`}
+            menuButtonTooltipText={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
+            menuButtonTooltipClassName='hidden-xs'
             menuId={`SidebarChannelMenu-MenuList-${props.category.id}`}
             menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
         >
             {muteUnmuteCategoryMenuItem}
             {renameCategoryMenuItem}
             {deleteCategoryMenuItem}
-            <Menu.Divider/>
+            <Menu.Separator/>
             {sortChannelsMenuItem}
-            <Menu.Divider/>
+            <Menu.Separator/>
             {createNewCategoryMenuItem}
         </Menu.Container>
     );

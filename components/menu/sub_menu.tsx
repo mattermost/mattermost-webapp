@@ -19,7 +19,7 @@ import CompassDesignProvider from 'components/compass_design_provider';
 import GenericModal from 'components/generic_modal';
 
 import {MuiMenuStyled} from './menu_styled';
-import {MenuItem, Props as MenuItemProps} from './menu_item';
+import {MenuItem as ParentMenuItem, Props as MenuItemProps} from './menu_item';
 
 interface Props {
     id: MenuItemProps['id'];
@@ -115,11 +115,11 @@ export function SubMenu({id, leadingElement, labels, trailingElements, isDestruc
     };
 
     if (isMobileView) {
-        return (<MenuItem {...passedInTriggerButtonProps}/>);
+        return (<ParentMenuItem {...passedInTriggerButtonProps}/>);
     }
 
     return (
-        <MenuItem
+        <ParentMenuItem
             {...passedInTriggerButtonProps}
             {...rest} // pass through other props which might be coming in from the material-ui
             onMouseEnter={handleSubMenuOpen}
@@ -150,7 +150,7 @@ export function SubMenu({id, leadingElement, labels, trailingElements, isDestruc
                     {children}
                 </MuiMenuList>
             </MuiMenuStyled>
-        </MenuItem>
+        </ParentMenuItem>
     );
 }
 

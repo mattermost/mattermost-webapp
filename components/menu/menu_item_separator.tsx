@@ -5,17 +5,17 @@ import React from 'react';
 import {Divider} from '@mui/material';
 
 /**
- * A horizontal divider for use in menus.
+ * A horizontal separator for use in menus.
  * @example
  * <Menu.Container>
  *   <Menu.Item>
- *   <Menu.Divider />
+ *   <Menu.Separator />
  */
-export function MenuItemDivider() {
+export function MenuItemSeparator() {
     return (
         <Divider
             component='li'
-            aria-hidden={true}
+            aria-orientation='vertical'
         />
     );
 }

@@ -52,7 +52,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     unreadMentions={0}
   />
   <div
-    className="SidebarMenu"
+    className="SidebarMenu MenuWrapper"
   >
     <Connect(Component)
       channel={
@@ -134,7 +134,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     unreadMentions={0}
   />
   <div
-    className="SidebarMenu"
+    className="SidebarMenu MenuWrapper"
   >
     <Connect(Component)
       channel={
@@ -240,7 +240,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     unreadMentions={0}
   />
   <div
-    className="SidebarMenu"
+    className="SidebarMenu MenuWrapper"
   >
     <Connect(Component)
       channel={
@@ -322,7 +322,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     unreadMentions={2}
   />
   <div
-    className="SidebarMenu"
+    className="SidebarMenu MenuWrapper"
   >
     <Connect(Component)
       channel={
