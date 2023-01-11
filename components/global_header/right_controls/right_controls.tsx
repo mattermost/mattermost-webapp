@@ -26,7 +26,6 @@ import AtMentionsButton from './at_mentions_button/at_mentions_button';
 import SavedPostsButton from './saved_posts_button/saved_posts_button';
 import SettingsButton from './settings_button';
 import PlanUpgradeButton from './plan_upgrade_button';
-import SelfHostedPurchaseButton from './self_hosted_purchase_button';
 
 const RightControlsContainer = styled.div`
     display: flex;
@@ -34,6 +33,8 @@ const RightControlsContainer = styled.div`
     height: 40px;
     flex-shrink: 0;
     position: relative;
+    flex-basis: 30%;
+    justify-content: flex-end;
 
     > * + * {
         margin-left: 8px;
@@ -56,7 +57,6 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
             id={'RightControlsContainer'}
         >
             <PlanUpgradeButton/>
-            <SelfHostedPurchaseButton/>
             {isChannels(productId) ? (
                 <>
                     <AtMentionsButton/>

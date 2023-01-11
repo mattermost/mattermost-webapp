@@ -392,7 +392,7 @@ export default class AbstractCommand extends React.PureComponent {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_command.description.help'
-                                        defaultMessage='Describe your incoming webhook.'
+                                        defaultMessage='Describe your slash command.'
                                     />
                                 </div>
                             </div>

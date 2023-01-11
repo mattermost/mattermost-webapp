@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties, useCallback, useRef, useState} from 'react';
+import React, {CSSProperties, useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
@@ -29,8 +29,11 @@ import {Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
 import {FileInfo} from '@mattermost/types/files';
 import {Emoji} from '@mattermost/types/emojis';
+import AutoHeightSwitcher from '../common/auto_height_switcher';
 import RhsSuggestionList from '../suggestion/rhs_suggestion_list';
 import Tooltip from '../tooltip';
+
+import {FormattingBarSpacer, Separator} from './formatting_bar/formatting_bar';
 
 import TexteditorActions from './texteditor_actions';
 import FormattingBar from './formatting_bar';
@@ -39,6 +42,7 @@ import SendButton from './send_button';
 import {IconContainer} from './formatting_bar/formatting_icon';
 
 import './advanced_text_editor.scss';
+import ToggleFormattingBar from './toggle_formatting_bar/toggle_formatting_bar';
 
 type Props = {
 
@@ -160,9 +164,14 @@ const AdvanceTextEditor = ({
         'message input complimentary region',
     );
     const emojiPickerRef = useRef<HTMLButtonElement>(null);
+    const editorActionsRef = useRef<HTMLDivElement>(null);
+    const editorBodyRef = useRef<HTMLDivElement>(null);
 
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
+    const [showFormattingSpacer, setShowFormattingSpacer] = useState(shouldShowPreview);
+
+    const input = textboxRef.current?.getInputBox();
 
     const handleHeightChange = useCallback((height: number, maxHeight: number) => {
         setRenderScrollbar(height > maxHeight);
@@ -172,7 +181,7 @@ const AdvanceTextEditor = ({
                 setScrollbarWidth(Utils.scrollbarWidth(textboxRef.current.getInputBox()));
             }
         });
-    }, [textboxRef.current]);
+    }, [textboxRef]);
 
     const handleShowFormat = useCallback(() => {
         setShowPreview(!shouldShowPreview);
@@ -192,14 +201,12 @@ const AdvanceTextEditor = ({
     let attachmentPreview = null;
     if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0)) {
         attachmentPreview = (
-            <div>
-                <FilePreview
-                    fileInfos={draft.fileInfos}
-                    onRemove={removePreview}
-                    uploadsInProgress={draft.uploadsInProgress}
-                    uploadsProgressPercent={uploadsProgressPercent}
-                />
-            </div>
+            <FilePreview
+                fileInfos={draft.fileInfos}
+                onRemove={removePreview}
+                uploadsInProgress={draft.uploadsInProgress}
+                uploadsProgressPercent={uploadsProgressPercent}
+            />
         );
     }
 
@@ -299,13 +306,6 @@ const AdvanceTextEditor = ({
         />
     );
 
-    const extraControls = (
-        <>
-            {fileUploadJSX}
-            {emojiPicker}
-        </>
-    );
-
     let createMessage;
     if (currentChannel && !readOnlyChannel) {
         createMessage = formatMessage(
@@ -356,110 +356,184 @@ const AdvanceTextEditor = ({
         break;
     }
 
-    const formattingBar = readOnlyChannel ? null : (
-        <FormattingBar
-            applyMarkdown={applyMarkdown}
-            getCurrentMessage={getCurrentValue}
-            getCurrentSelection={getCurrentSelection}
-            isOpen={true}
-            disableControls={shouldShowPreview}
-            additionalControls={additionalControls}
-            extraControls={extraControls}
-            toggleAdvanceTextEditor={toggleAdvanceTextEditor}
-            showFormattingControls={!isFormattingBarHidden}
-            location={location}
+    const showFormattingBar = !isFormattingBarHidden && !readOnlyChannel;
+
+    const handleWidthChange = useCallback((width: number) => {
+        if (!editorBodyRef.current || !editorActionsRef.current || !input) {
+            return;
+        }
+
+        const maxWidth = editorBodyRef.current.offsetWidth - editorActionsRef.current.offsetWidth;
+
+        if (!message) {
+            // if we do not have a message we can just render the default state
+            input.style.maxWidth = `${maxWidth}px`;
+            setShowFormattingSpacer(false);
+            return;
+        }
+
+        const inputPaddingLeft = parseInt(window.getComputedStyle(input, null).paddingLeft || '0', 10);
+        const inputPaddingRight = parseInt(window.getComputedStyle(input, null).paddingRight || '0', 10);
+        const inputPaddingX = inputPaddingLeft + inputPaddingRight;
+        const currentWidth = width + inputPaddingX;
+
+        if (currentWidth >= maxWidth) {
+            input.style.maxWidth = '100%';
+            setShowFormattingSpacer(true);
+        } else {
+            input.style.maxWidth = `${maxWidth}px`;
+            setShowFormattingSpacer(false);
+        }
+    }, [message, input]);
+
+    useEffect(() => {
+        if (!message) {
+            handleWidthChange(0);
+        }
+    }, [handleWidthChange, message]);
+
+    useEffect(() => {
+        if (!input) {
+            return;
+        }
+
+        let padding = 16;
+        if (showFormattingBar) {
+            padding += 32;
+        }
+        if (renderScrollbar) {
+            padding += 8;
+        }
+
+        input.style.paddingRight = `${padding}px`;
+    }, [showFormattingBar, renderScrollbar, input]);
+
+    const formattingBar = (
+        <AutoHeightSwitcher
+            showSlot={showFormattingBar ? 1 : 2}
+            slot1={(
+                <FormattingBar
+                    applyMarkdown={applyMarkdown}
+                    getCurrentMessage={getCurrentValue}
+                    getCurrentSelection={getCurrentSelection}
+                    disableControls={shouldShowPreview}
+                    additionalControls={additionalControls}
+                    location={location}
+                />
+            )}
+            slot2={null}
+            shouldScrollIntoView={true}
         />
     );
 
     return (
-        <div
-            className={classNames('AdvancedTextEditor', {
-                'AdvancedTextEditor__attachment-disabled': !canUploadFiles,
-                scroll: renderScrollbar,
-            })}
-            style={
-                renderScrollbar && scrollbarWidth ? ({
-                    '--detected-scrollbar-width': `${scrollbarWidth}px`,
-                } as CSSProperties) : undefined
-            }
-        >
+        <>
             <div
-                id={'speak-'}
-                aria-live='assertive'
-                className='sr-only'
+                className={classNames('AdvancedTextEditor', {
+                    'AdvancedTextEditor__attachment-disabled': !canUploadFiles,
+                    scroll: renderScrollbar,
+                })}
+                style={
+                    renderScrollbar && scrollbarWidth ? ({
+                        '--detected-scrollbar-width': `${scrollbarWidth}px`,
+                    } as CSSProperties) : undefined
+                }
             >
-                {
+                <div
+                    id={'speak-'}
+                    aria-live='assertive'
+                    className='sr-only'
+                >
                     <FormattedMessage
                         id='channelView.login.successfull'
                         defaultMessage='Login Successfull'
                     />
-                }
-            </div>
-            <div
-                className={'AdvancedTextEditor__body'}
-                disabled={readOnlyChannel}
-            >
+                </div>
                 <div
-                    role='application'
-                    id='advancedTextEditorCell'
-                    data-a11y-sort-order='2'
-                    aria-label={
-                        Utils.localizeMessage(
+                    className={'AdvancedTextEditor__body'}
+                    disabled={readOnlyChannel}
+                >
+                    <div
+                        ref={editorBodyRef}
+                        role='application'
+                        id='advancedTextEditorCell'
+                        data-a11y-sort-order='2'
+                        aria-label={Utils.localizeMessage(
                             'channelView.login.successfull',
                             'Login Successfull',
-                        ) + ' ' + ariaLabelMessageInput
-                    }
-                    tabIndex={-1}
-                    className='AdvancedTextEditor__cell a11y__region'
-                >
-                    {labels}
-                    <Textbox
-                        hasLabels={Boolean(labels)}
-                        suggestionList={RhsSuggestionList}
-                        onChange={handleChange}
-                        onKeyPress={postMsgKeyPress}
-                        onKeyDown={handleKeyDown}
-                        onSelect={handleSelect}
-                        onMouseUp={handleMouseUpKeyUp}
-                        onKeyUp={handleMouseUpKeyUp}
-                        onComposition={emitTypingEvent}
-                        onHeightChange={handleHeightChange}
-                        handlePostError={handlePostError}
-                        value={messageValue}
-                        onBlur={handleBlur}
-                        emojiEnabled={enableEmojiPicker}
-                        createMessage={createMessage}
-                        channelId={channelId}
-                        id={textboxId}
-                        ref={textboxRef!}
-                        disabled={readOnlyChannel}
-                        characterLimit={maxPostSize}
-                        preview={shouldShowPreview}
-                        badConnection={badConnection}
-                        listenForMentionKeyClick={true}
-                        useChannelMentions={useChannelMentions}
-                        rootId={postId}
-                    />
-                    {attachmentPreview}
-                    <TexteditorActions
-                        placement='top'
+                        ) + ' ' + ariaLabelMessageInput}
+                        tabIndex={-1}
+                        className='AdvancedTextEditor__cell a11y__region'
                     >
-                        {showFormatJSX}
-                    </TexteditorActions>
-                    {formattingBar}
-                    <TexteditorActions
-                        placement='bottom'
-                    >
-                        {sendButton}
-                    </TexteditorActions>
+                        {labels}
+                        <Textbox
+                            hasLabels={Boolean(labels)}
+                            suggestionList={RhsSuggestionList}
+                            onChange={handleChange}
+                            onKeyPress={postMsgKeyPress}
+                            onKeyDown={handleKeyDown}
+                            onSelect={handleSelect}
+                            onMouseUp={handleMouseUpKeyUp}
+                            onKeyUp={handleMouseUpKeyUp}
+                            onComposition={emitTypingEvent}
+                            onHeightChange={handleHeightChange}
+                            handlePostError={handlePostError}
+                            value={messageValue}
+                            onBlur={handleBlur}
+                            emojiEnabled={enableEmojiPicker}
+                            createMessage={createMessage}
+                            channelId={channelId}
+                            id={textboxId}
+                            ref={textboxRef!}
+                            disabled={readOnlyChannel}
+                            characterLimit={maxPostSize}
+                            preview={shouldShowPreview}
+                            badConnection={badConnection}
+                            listenForMentionKeyClick={true}
+                            useChannelMentions={useChannelMentions}
+                            rootId={postId}
+                            onWidthChange={handleWidthChange}
+                        />
+                        {attachmentPreview}
+                        {!readOnlyChannel && (showFormattingBar || shouldShowPreview) && (
+                            <TexteditorActions
+                                placement='top'
+                                isScrollbarRendered={renderScrollbar}
+                            >
+                                {showFormatJSX}
+                            </TexteditorActions>
+                        )}
+                        {showFormattingSpacer || shouldShowPreview || attachmentPreview ? (
+                            <FormattingBarSpacer>
+                                {formattingBar}
+                            </FormattingBarSpacer>
+                        ) : formattingBar}
+                        {!readOnlyChannel && (
+                            <TexteditorActions
+                                ref={editorActionsRef}
+                                placement='bottom'
+                            >
+                                <ToggleFormattingBar
+                                    onClick={toggleAdvanceTextEditor}
+                                    active={showFormattingBar}
+                                    disabled={shouldShowPreview}
+                                />
+                                <Separator/>
+                                {fileUploadJSX}
+                                {emojiPicker}
+                                {sendButton}
+                            </TexteditorActions>
+                        )}
+                    </div>
+                    {showSendTutorialTip && currentChannel && prefillMessage && (
+                        <SendMessageTour
+                            prefillMessage={prefillMessage}
+                            currentChannel={currentChannel}
+                            currentUserId={currentUserId}
+                            currentChannelTeammateUsername={currentChannelTeammateUsername}
+                        />
+                    )}
                 </div>
-                {showSendTutorialTip && currentChannel && prefillMessage &&
-                    <SendMessageTour
-                        prefillMessage={prefillMessage}
-                        currentChannel={currentChannel}
-                        currentUserId={currentUserId}
-                        currentChannelTeammateUsername={currentChannelTeammateUsername}
-                    />}
             </div>
             <div
                 id='postCreateFooter'
@@ -475,7 +549,7 @@ const AdvanceTextEditor = ({
                     postId={postId}
                 />
             </div>
-        </div>
+        </>
     );
 };
 

@@ -35,7 +35,6 @@ import CloudEffects from 'components/cloud_effects';
 import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import {HFRoute} from 'components/header_footer_route/header_footer_route';
-import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
 import OpenPricingModalPost from 'components/custom_open_pricing_modal_post_renderer';
@@ -75,6 +74,7 @@ const LazyMfa = React.lazy(() => import('components/mfa/mfa_controller'));
 const LazyPreparingWorkspace = React.lazy(() => import('components/preparing_workspace'));
 const LazyTeamController = React.lazy(() => import('components/team_controller'));
 const LazyDelinquencyModalController = React.lazy(() => import('components/delinquency_modal'));
+const LazyOnBoardingTaskList = React.lazy(() => import('components/onboarding_tasklist'));
 
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url';
@@ -112,18 +112,23 @@ const Mfa = makeAsyncComponent('Mfa', LazyMfa);
 const PreparingWorkspace = makeAsyncComponent('PreparingWorkspace', LazyPreparingWorkspace);
 const TeamController = makeAsyncComponent('TeamController', LazyTeamController);
 const DelinquencyModalController = makeAsyncComponent('DelinquencyModalController', LazyDelinquencyModalController);
+const OnBoardingTaskList = makeAsyncComponent('OnboardingTaskList', LazyOnBoardingTaskList);
 
 type LoggedInRouteProps<T> = {
     component: React.ComponentType<T>;
     path: string;
+    theme?: Theme; // the routes that send the theme are the ones that will actually need to show the onboarding tasklist
 };
 function LoggedInRoute<T>(props: LoggedInRouteProps<T>) {
-    const {component: Component, ...rest} = props;
+    const {component: Component, theme, ...rest} = props;
     return (
         <Route
             {...rest}
             render={(routeProps: RouteComponentProps) => (
                 <LoggedIn {...routeProps}>
+                    {theme && <CompassThemeProvider theme={theme}>
+                        <OnBoardingTaskList/>
+                    </CompassThemeProvider>}
                     <Component {...(routeProps as unknown as T)}/>
                 </LoggedIn>
             )}
@@ -585,18 +590,14 @@ export default class Root extends React.PureComponent<Props, State> {
                     <Route
                         path={'/admin_console'}
                     >
-                        <>
-                            <Switch>
-                                <LoggedInRoute
-                                    path={'/admin_console'}
-                                    component={AdminConsole}
-                                />
-                                <RootRedirect/>
-                            </Switch>
-                            <CompassThemeProvider theme={this.props.theme}>
-                                <OnBoardingTaskList/>
-                            </CompassThemeProvider>
-                        </>
+                        <Switch>
+                            <LoggedInRoute
+                                theme={this.props.theme}
+                                path={'/admin_console'}
+                                component={AdminConsole}
+                            />
+                            <RootRedirect/>
+                        </Switch>
                     </Route>
                     <LoggedInHFTRoute
                         path={'/select_team'}
@@ -641,7 +642,6 @@ export default class Root extends React.PureComponent<Props, State> {
                         <SystemNotice/>
                         <GlobalHeader/>
                         <CloudEffects/>
-                        <OnBoardingTaskList/>
                         <TeamSidebar/>
                         <DelinquencyModalController/>
                         <Switch>
@@ -688,6 +688,7 @@ export default class Root extends React.PureComponent<Props, State> {
                                 />
                             ))}
                             <LoggedInRoute
+                                theme={this.props.theme}
                                 path={'/:team'}
                                 component={TeamController}
                             />

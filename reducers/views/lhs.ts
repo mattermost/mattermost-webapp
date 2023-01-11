@@ -5,7 +5,6 @@ import {combineReducers} from 'redux';
 
 import {TeamTypes, UserTypes} from 'mattermost-redux/action_types';
 import type {GenericAction} from 'mattermost-redux/types/actions';
-
 import {ActionTypes} from 'utils/constants';
 
 function isOpen(state = false, action: GenericAction) {
@@ -30,6 +29,19 @@ function isOpen(state = false, action: GenericAction) {
     }
 }
 
+function currentStaticPageId(state = '', action: GenericAction) {
+    switch (action.type) {
+    case ActionTypes.SELECT_STATIC_PAGE:
+        return action.data;
+    case UserTypes.LOGOUT_SUCCESS:
+        return '';
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     isOpen,
+
+    currentStaticPageId,
 });

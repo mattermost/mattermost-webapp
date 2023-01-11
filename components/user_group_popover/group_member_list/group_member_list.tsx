@@ -73,7 +73,7 @@ export type Props = {
     searchTerm: string;
 
     actions: {
-        getUsersInGroup: (groupId: string, page: number, perPage: number) => Promise<{ data: UserProfile[] }>;
+        getUsersInGroup: (groupId: string, page: number, perPage: number, sort: string) => Promise<{ data: UserProfile[] }>;
         openDirectChannelToUserId: (userId?: string) => Promise<{ error: ServerError }>;
         closeRightHandSide: () => void;
     };
@@ -117,7 +117,7 @@ const GroupMemberList = (props: Props) => {
 
     const loadNextPage = async () => {
         setNextPageLoadState(Load.LOADING);
-        const res = await actions.getUsersInGroup(group.id, nextPage, USERS_PER_PAGE);
+        const res = await actions.getUsersInGroup(group.id, nextPage, USERS_PER_PAGE, 'display_name');
         if (res.data) {
             setNextPage(nextPage + 1);
             setNextPageLoadState(Load.DONE);
@@ -170,7 +170,10 @@ const GroupMemberList = (props: Props) => {
                     key={user.id}
                     role='listitem'
                 >
-                    <UserButton onClick={() => showUserOverlay(user)}>
+                    <UserButton
+                        onClick={() => showUserOverlay(user)}
+                        aria-haspopup='dialog'
+                    >
                         <Avatar
                             username={user.username}
                             size={'sm'}
@@ -306,9 +309,12 @@ const UserListItem = styled.div<{first?: boolean; last?: boolean}>`
         background: rgba(var(--center-channel-color-rgb), 0.08);
     }
 
-    .group-member-list_gap,
-    .group-member-list_dm-button {
+    .group-member-list_gap {
         display: none;
+    }
+
+    .group-member-list_dm-button {
+        opacity: 0;
     }
 
     &:hover .group-member-list_gap,
@@ -318,7 +324,7 @@ const UserListItem = styled.div<{first?: boolean; last?: boolean}>`
 
     &:hover .group-member-list_dm-button,
     &:focus-within .group-member-list_dm-button {
-        display: flex;
+        opacity: 1;
     }
 `;
 
@@ -348,6 +354,7 @@ const DMContainer = styled.div`
     position: absolute;
     right: 20px;
     top: 0;
+    display: flex;
     align-items: center;
 `;
 

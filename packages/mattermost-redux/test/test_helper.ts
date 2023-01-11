@@ -3,6 +3,8 @@
 
 import nock from 'nock';
 
+import {randomUUID} from 'crypto';
+
 import {Bot} from '@mattermost/types/bots';
 import {Team, TeamMembership} from '@mattermost/types/teams';
 import {Role} from '@mattermost/types/roles';
@@ -344,6 +346,17 @@ class TestHelper {
             type: 'D',
             status: 'offline',
             teammate_id: `${otherUserId}`,
+            id: this.generateId(),
+            delete_at: 0,
+        };
+    }
+
+    fakeGmChannel = (...usernames: string[]) => {
+        return {
+            name: randomUUID(),
+            team_id: '',
+            display_name: usernames.join(','),
+            type: 'G',
             id: this.generateId(),
             delete_at: 0,
         };

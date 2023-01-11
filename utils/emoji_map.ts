@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {CustomEmoji} from '@mattermost/types/emojis';
+import {CustomEmoji, Emoji, SystemEmoji} from '@mattermost/types/emojis';
 
-import * as Emoji from 'utils/emoji';
+import {EmojiIndicesByAlias, EmojiIndicesByUnicode, Emojis} from 'utils/emoji';
 
 // Wrap the contents of the store so that we don't need to construct an ES6 map where most of the content
 // (the system emojis) will never change. It provides the get/has functions of a map and an iterator so
@@ -19,54 +19,58 @@ export default class EmojiMap {
         this.customEmojisArray = [...customEmojis];
     }
 
-    has(name: string) {
-        return Emoji.EmojiIndicesByAlias.has(name) || this.customEmojis.has(name);
+    has(name: string): boolean {
+        return EmojiIndicesByAlias.has(name) || this.customEmojis.has(name);
     }
 
-    hasSystemEmoji(name: string) {
-        return Emoji.EmojiIndicesByAlias.has(name);
+    hasSystemEmoji(name: string): boolean {
+        return EmojiIndicesByAlias.has(name);
     }
 
-    hasUnicode(codepoint: string) {
-        return Emoji.EmojiIndicesByUnicode.has(codepoint);
+    hasUnicode(codepoint: string): boolean {
+        return EmojiIndicesByUnicode.has(codepoint);
     }
 
-    get(name: string) {
-        if (Emoji.EmojiIndicesByAlias.has(name)) {
-            return Emoji.Emojis[Emoji.EmojiIndicesByAlias.get(name) as number];
+    get(name: string): Emoji | undefined {
+        if (EmojiIndicesByAlias.has(name)) {
+            return Emojis[EmojiIndicesByAlias.get(name) as number];
         }
 
         return this.customEmojis.get(name);
     }
 
-    getUnicode(codepoint: string) {
-        return Emoji.Emojis[Emoji.EmojiIndicesByUnicode.get(codepoint) as number];
+    getUnicode(codepoint: string): SystemEmoji | undefined {
+        return Emojis[EmojiIndicesByUnicode.get(codepoint) as number];
     }
 
-    [Symbol.iterator]() {
+    [Symbol.iterator](): Iterator<[string, Emoji]> {
         const customEmojisArray = this.customEmojisArray;
 
+        let systemIndex = 0;
+        let customIndex = 0;
+
         return {
-            systemIndex: 0,
-            customIndex: 0,
-            next() {
-                if (this.systemIndex < Emoji.Emojis.length) {
-                    const emoji = Emoji.Emojis[this.systemIndex];
+            next(): IteratorResult<[string, Emoji]> {
+                // We loop throgh system emojis first, by progressively incrementing systemIndex until we reach the end of system emojis array
+                if (systemIndex < Emojis.length) {
+                    const systemEmoji = Emojis[systemIndex] as SystemEmoji;
 
-                    this.systemIndex += 1;
+                    systemIndex += 1;
 
-                    return {value: [emoji.short_names[0], emoji]};
+                    return {value: [systemEmoji.short_names[0], systemEmoji]};
                 }
 
-                if (this.customIndex < customEmojisArray.length) {
-                    const emoji = customEmojisArray[this.customIndex][1];
+                // Then we loop through custom emojis
+                if (customIndex < customEmojisArray.length) {
+                    const customEmoji = customEmojisArray[customIndex][1] as CustomEmoji;
 
-                    this.customIndex += 1;
+                    customIndex += 1;
 
-                    return {value: [emoji.name, emoji]};
+                    return {value: [customEmoji.name, customEmoji]};
                 }
 
-                return {done: true};
+                // When we have looped through all, we return done
+                return {done: true, value: undefined};
             },
         };
     }

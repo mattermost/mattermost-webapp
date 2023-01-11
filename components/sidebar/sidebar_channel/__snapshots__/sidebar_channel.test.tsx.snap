@@ -3,11 +3,9 @@
 exports[`components/sidebar/sidebar_channel should match snapshot 1`] = `
 <li
   className="SidebarChannel expanded"
-  draggable="false"
   onAnimationEnd={[Function]}
   onAnimationStart={[Function]}
   role="listitem"
-  tabIndex={-1}
 >
   <Connect(SidebarBaseChannel)
     channel={
@@ -30,7 +28,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot 1`] = `
       }
     }
     currentTeamName="team_name"
-    isCollapsed={false}
   />
 </li>
 `;
@@ -38,11 +35,9 @@ exports[`components/sidebar/sidebar_channel should match snapshot 1`] = `
 exports[`components/sidebar/sidebar_channel should match snapshot when DM channel 1`] = `
 <li
   className="SidebarChannel expanded"
-  draggable="false"
   onAnimationEnd={[Function]}
   onAnimationStart={[Function]}
   role="listitem"
-  tabIndex={-1}
 >
   <Connect(injectIntl(SidebarDirectChannel))
     channel={
@@ -65,7 +60,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot when DM channe
       }
     }
     currentTeamName="team_name"
-    isCollapsed={false}
   />
 </li>
 `;
@@ -73,11 +67,9 @@ exports[`components/sidebar/sidebar_channel should match snapshot when DM channe
 exports[`components/sidebar/sidebar_channel should match snapshot when GM channel 1`] = `
 <li
   className="SidebarChannel expanded"
-  draggable="false"
   onAnimationEnd={[Function]}
   onAnimationStart={[Function]}
   role="listitem"
-  tabIndex={-1}
 >
   <Connect(SidebarGroupChannel)
     channel={
@@ -100,7 +92,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot when GM channe
       }
     }
     currentTeamName="team_name"
-    isCollapsed={false}
   />
 </li>
 `;
@@ -108,11 +99,9 @@ exports[`components/sidebar/sidebar_channel should match snapshot when GM channe
 exports[`components/sidebar/sidebar_channel should match snapshot when active 1`] = `
 <li
   className="SidebarChannel expanded active"
-  draggable="false"
   onAnimationEnd={[Function]}
   onAnimationStart={[Function]}
   role="listitem"
-  tabIndex={-1}
 >
   <Connect(SidebarBaseChannel)
     channel={
@@ -135,7 +124,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot when active 1`
       }
     }
     currentTeamName="team_name"
-    isCollapsed={false}
   />
 </li>
 `;
@@ -143,11 +131,9 @@ exports[`components/sidebar/sidebar_channel should match snapshot when active 1`
 exports[`components/sidebar/sidebar_channel should match snapshot when collapsed 1`] = `
 <li
   className="SidebarChannel collapsed"
-  draggable="false"
   onAnimationEnd={[Function]}
   onAnimationStart={[Function]}
   role="listitem"
-  tabIndex={-1}
 >
   <Connect(SidebarBaseChannel)
     channel={
@@ -170,7 +156,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot when collapsed
       }
     }
     currentTeamName="team_name"
-    isCollapsed={true}
   />
 </li>
 `;
@@ -178,11 +163,9 @@ exports[`components/sidebar/sidebar_channel should match snapshot when collapsed
 exports[`components/sidebar/sidebar_channel should match snapshot when unread 1`] = `
 <li
   className="SidebarChannel expanded unread"
-  draggable="false"
   onAnimationEnd={[Function]}
   onAnimationStart={[Function]}
   role="listitem"
-  tabIndex={-1}
 >
   <Connect(SidebarBaseChannel)
     channel={
@@ -205,7 +188,6 @@ exports[`components/sidebar/sidebar_channel should match snapshot when unread 1`
       }
     }
     currentTeamName="team_name"
-    isCollapsed={false}
   />
 </li>
 `;
