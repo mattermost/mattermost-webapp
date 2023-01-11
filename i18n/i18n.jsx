@@ -55,7 +55,7 @@ const languages = {
     },
     fr: {
         value: 'fr',
-        name: 'Français',
+        name: 'Français (Beta)',
         order: 4,
         url: fr,
     },

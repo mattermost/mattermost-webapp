@@ -156,7 +156,7 @@ describe('Custom emojis', () => {
             cy.uiSave().wait(TIMEOUTS.FIVE_SEC);
 
             // * Check for error
-            cy.wrap($form).find('.has-error').should('be.visible').and('have.text', 'Unable to create emoji. Image must be smaller than 1028 by 1028.');
+            cy.wrap($form).find('.has-error').should('be.visible').and('have.text', 'Unable to create emoji. Image must be less than 512 KiB in size.');
         });
     });
 });

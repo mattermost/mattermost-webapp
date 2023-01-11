@@ -13,22 +13,25 @@ import debounce from 'lodash/debounce';
 import * as ChannelUtils from 'utils/channel_utils';
 
 import {General} from 'mattermost-redux/constants';
-import {Channel} from '@mattermost/types/channels';
-import {ChannelCategory} from '@mattermost/types/channel_categories';
-import {Team} from '@mattermost/types/teams';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {DraggingState} from 'types/store';
 import {Constants, DraggingStates, DraggingStateTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
+import {StaticPage} from 'types/store/lhs';
+
+import GlobalThreadsLink from 'components/threading/global_threads_link';
+import DraftsLink from 'components/drafts/drafts_link';
+import ActivityAndInsightsLink
+    from 'components/activity_and_insights/activity_and_insights_link/activity_and_insights_link';
+
+import {Team} from '@mattermost/types/teams';
+import {ChannelCategory} from '@mattermost/types/channel_categories';
+import {Channel} from '@mattermost/types/channels';
 
 import SidebarCategory from '../sidebar_category';
 import UnreadChannelIndicator from '../unread_channel_indicator';
 import UnreadChannels from '../unread_channels';
-
-import GlobalThreadsLink from 'components/threading/global_threads_link';
-import DraftsLink from 'components/drafts/drafts_link';
-import ActivityAndInsightsLink from 'components/activity_and_insights/activity_and_insights_link/activity_and_insights_link';
 
 export function renderView(props: any) {
     return (
@@ -81,6 +84,8 @@ type Props = {
     showUnreadsCategory: boolean;
     collapsedThreads: boolean;
     hasUnreadThreads: boolean;
+    currentStaticPageId: string;
+    staticPages: StaticPage[];
 
     handleOpenMoreDirectChannelsModal: (e: Event) => void;
     onDragStart: (initial: DragStart) => void;
@@ -90,7 +95,7 @@ type Props = {
         moveChannelsInSidebar: (categoryId: string, targetIndex: number, draggableChannelId: string) => void;
         moveCategory: (teamId: string, categoryId: string, newIndex: number) => void;
         switchToChannelById: (channelId: string) => void;
-        switchToGlobalThreads: () => void;
+        switchToLhsStaticPage: (pageId: string) => void;
         close: () => void;
         setDraggingState: (data: DraggingState) => void;
         stopDragging: () => void;
@@ -114,7 +119,7 @@ const categoryHeaderHeight = 32;
 // that the channel is not under the unread indicator.
 const scrollMarginWithUnread = 55;
 
-export default class SidebarChannelList extends React.PureComponent<Props, State> {
+export default class SidebarList extends React.PureComponent<Props, State> {
     channelRefs: Map<string, HTMLLIElement>;
     scrollbar: React.RefObject<Scrollbars>;
     animate: SpringSystem;
@@ -173,6 +178,10 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
 
     getDisplayedChannelIds = () => {
         return this.props.displayedChannels.map((channel) => channel.id);
+    }
+
+    getDisplayedStaticPageIds = () => {
+        return this.props.staticPages.map((item) => item.id);
     }
 
     setChannelRef = (channelId: string, ref: HTMLLIElement) => {
@@ -296,11 +305,11 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         return this.getFirstUnreadChannelFromChannelIdArray(this.getDisplayedChannelIds().reverse());
     }
 
-    navigateByChannelId = (id: string) => {
-        if (this.props.collapsedThreads && id === '') {
-            this.props.actions.switchToGlobalThreads();
-        } else {
+    navigateById = (id: string) => {
+        if (this.props.staticPages.findIndex((i) => i.id === id) === -1) {
             this.props.actions.switchToChannelById(id);
+        } else {
+            this.props.actions.switchToLhsStaticPage(id);
         }
     }
 
@@ -308,30 +317,24 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
         if (e.altKey && !e.shiftKey && !e.ctrlKey && !e.metaKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
-            const allChannelIds = this.getDisplayedChannelIds();
-            const curChannelId = this.props.currentChannelId;
+            const staticPageIds = this.getDisplayedStaticPageIds();
+            const allIds = [...staticPageIds, ...this.getDisplayedChannelIds()];
 
-            if (this.props.collapsedThreads) {
-                // threads set channel id to ''
-                // add it to allChannelIds
-                allChannelIds.unshift('');
-            }
+            const curSelectedId = this.props.currentChannelId || this.props.currentStaticPageId;
+            const curIndex = allIds.indexOf(curSelectedId);
 
-            let curIndex = -1;
-            for (let i = 0; i < allChannelIds.length; i++) {
-                if (allChannelIds[i] === curChannelId) {
-                    curIndex = i;
-                }
-            }
-            let nextIndex = curIndex;
+            let nextIndex;
             if (Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
                 nextIndex = curIndex + 1;
             } else {
                 nextIndex = curIndex - 1;
             }
-            const nextChannelId = allChannelIds[Utils.mod(nextIndex, allChannelIds.length)];
-            this.navigateByChannelId(nextChannelId);
-            this.scrollToChannel(nextChannelId);
+
+            const nextId = allIds[Utils.mod(nextIndex, allIds.length)];
+            this.navigateById(nextId);
+            if (nextIndex >= staticPageIds.length) {
+                this.scrollToChannel(nextId);
+            }
         } else if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.K)) {
             this.props.handleOpenMoreDirectChannelsModal(e);
         }
@@ -368,7 +371,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
 
             if (nextIndex !== -1) {
                 const nextChannelId = allChannelIds[nextIndex];
-                this.navigateByChannelId(nextChannelId);
+                this.navigateById(nextChannelId);
                 this.scrollToChannel(nextChannelId);
             }
         }

@@ -6,7 +6,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {getChannel, getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {isPostPriorityEnabled, makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
+import {isPostAcknowledgementsEnabled, isPostPriorityEnabled, makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {
     getMyPreferences,
@@ -97,6 +97,7 @@ export function mapStateToProps() {
             canReply,
             isMobileView: getIsMobileView(state),
             isPostPriorityEnabled: isPostPriorityEnabled(state),
+            isPostAcknowledgementsEnabled: isPostAcknowledgementsEnabled(state),
         };
     };
 }

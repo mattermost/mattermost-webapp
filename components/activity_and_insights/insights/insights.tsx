@@ -6,17 +6,20 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
-import {selectChannel} from 'mattermost-redux/actions/channels';
 import LocalStorageStore from 'stores/local_storage_store';
 import {useGlobalState} from 'stores/hooks';
 
-import {CardSizes, InsightsWidgetTypes, TimeFrame, TimeFrames} from '@mattermost/types/insights';
+import {InsightsScopes, PreviousViewedTypes, suitePluginIds} from 'utils/constants';
+import {useProducts} from 'utils/products';
 
-import {InsightsScopes, PreviousViewedTypes} from 'utils/constants';
-
-import {GlobalState} from 'types/store';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
+import {selectLhsItem} from 'actions/views/lhs';
+import {GlobalState} from 'types/store';
+import {LhsItemType, LhsPage} from 'types/store/lhs';
+
+import {CardSizes, InsightsWidgetTypes, TimeFrame, TimeFrames} from '@mattermost/types/insights';
 
 import InsightsHeader from './insights_header/insights_header';
 import TopChannels from './top_channels/top_channels';
@@ -39,7 +42,15 @@ type SelectOption = {
 const Insights = () => {
     const dispatch = useDispatch();
 
-    const focalboardEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.focalboard);
+    // check if either of focalboard plugin or boards product is enabled
+    const focalboardPluginEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.focalboard);
+    let focalboardProductEnabled = false;
+    const products = useProducts();
+    if (products) {
+        focalboardProductEnabled = products.some((product) => product.pluginId === suitePluginIds.focalboard || product.pluginId === suitePluginIds.boards);
+    }
+    const focalboardEnabled = focalboardPluginEnabled || focalboardProductEnabled;
+
     const playbooksEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.playbooks);
     const currentUserId = useSelector(getCurrentUserId);
     const currentTeamId = useSelector(getCurrentTeamId);
@@ -63,7 +74,7 @@ const Insights = () => {
     }, []);
 
     useEffect(() => {
-        dispatch(selectChannel(''));
+        dispatch(selectLhsItem(LhsItemType.Page, LhsPage.Insights));
         dispatch(suppressRHS);
         const penultimateType = LocalStorageStore.getPreviousViewedType(currentUserId, currentTeamId);
 

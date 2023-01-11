@@ -93,7 +93,7 @@ import type {
     MarketplaceApp,
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
-import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse, PostAcknowledgement} from '@mattermost/types/posts';
+import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse, PostAcknowledgement, PostAnalytics} from '@mattermost/types/posts';
 import {Draft} from '@mattermost/types/drafts';
 import {BoardPatch, BoardsUsageResponse, BoardTemplate, Board, CreateBoardResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
@@ -1937,7 +1937,13 @@ export default class Client4 {
             `${this.getPostsRoute()}`,
             {method: 'post', body: JSON.stringify(post)},
         );
-        const analyticsData = {channel_id: result.channel_id, post_id: result.id, user_actual_id: result.user_id, root_id: result.root_id};
+        const analyticsData = {channel_id: result.channel_id, post_id: result.id, user_actual_id: result.user_id, root_id: result.root_id} as PostAnalytics;
+        if (post.metadata?.priority) {
+            analyticsData.priority = post.metadata.priority.priority;
+            analyticsData.requested_ack = post.metadata.priority.requested_ack;
+            analyticsData.persistent_notifications = post.metadata.priority.persistent_notifications;
+        }
+
         this.trackEvent('api', 'api_posts_create', analyticsData);
 
         if (result.root_id != null && result.root_id !== '') {
