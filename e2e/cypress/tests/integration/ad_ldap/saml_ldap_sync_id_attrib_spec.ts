@@ -72,13 +72,13 @@ describe('AD / LDAP', () => {
         const randomId = getRandomId();
         const newFirstName = `Firstname${randomId}`;
         const newLastName = `Lastname${randomId}`;
-        (cy as any).updateLDAPUser({
+        cy.updateLDAPUser({
             ...samlLdapUser,
             firstname: newFirstName,
             lastname: newLastName,
         });
         const admin = getAdminAccount();
-        cy.runLdapSync(admin as any);
+        cy.runLdapSync(admin);
 
         // # Reload the page
         cy.reload();

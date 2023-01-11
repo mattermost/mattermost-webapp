@@ -30,7 +30,7 @@ describe('AD / LDAP', () => {
         cy.apiRequireLicenseForFeature('LDAP', 'SAML');
 
         // # Create new LDAP user
-        (cy as any).createLDAPUser().then((user) => {
+        cy.createLDAPUser().then((user) => {
             samlLdapUser = user;
         });
 
@@ -99,7 +99,7 @@ describe('AD / LDAP', () => {
         const randomId = getRandomId();
         const newFirstName = `Firstname${randomId}`;
         const newLastName = `Lastname${randomId}`;
-        (cy as any).updateLDAPUser({
+        cy.updateLDAPUser({
             ...samlLdapUser,
             firstname: newFirstName,
             lastname: newLastName,

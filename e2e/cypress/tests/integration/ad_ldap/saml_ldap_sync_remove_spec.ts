@@ -25,7 +25,7 @@ describe('AD / LDAP', () => {
     let testTeamId;
 
     before(() => {
-        (cy as any).createLDAPUser().then((user) => {
+        cy.createLDAPUser().then((user) => {
             samlLdapUser = user;
         });
 
@@ -33,7 +33,7 @@ describe('AD / LDAP', () => {
         cy.apiRequireLicenseForFeature('LDAP', 'SAML');
 
         // # Create new LDAP user
-        (cy as any).createLDAPUser().then((user) => {
+        cy.createLDAPUser().then((user) => {
             samlLdapUser = user;
         });
 
@@ -72,7 +72,7 @@ describe('AD / LDAP', () => {
         cy.runLdapSync(admin as any);
 
         // # REgister as LDAP user
-        (cy as any).createLDAPUser({user: nonLDAPUser});
+        cy.createLDAPUser({user: nonLDAPUser});
 
         // # Add user to team
         cy.apiAdminLogin();
