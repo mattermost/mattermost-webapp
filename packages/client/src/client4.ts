@@ -3522,13 +3522,6 @@ export default class Client4 {
         );
     };
 
-    getBoardsUsage = () => {
-        return this.doFetch<BoardsUsageResponse>(
-            `${this.getBoardsRoute()}/limits`,
-            {method: 'get'},
-        );
-    }
-
     getBoardsTemplates = (teamId = '0') => {
         return this.doFetch<BoardTemplate[]>(
             `${this.getBoardsRoute()}/teams/${teamId}/templates`,

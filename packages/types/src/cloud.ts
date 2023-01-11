@@ -186,10 +186,6 @@ export type Limits = {
     teams?: {
         active?: number;
     };
-    boards?: {
-        cards?: number;
-        views?: number;
-    };
 }
 
 export interface CloudUsage {

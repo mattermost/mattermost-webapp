@@ -80,22 +80,6 @@ describe('useGetHighestThresholdCloudLimit', () => {
             expected: [LimitTypes.fileStorage],
         },
         {
-            label: 'reports boards limit surpassed',
-            limits: {
-                boards: {
-                    cards: boardsLimit,
-                },
-            },
-            usage: {
-                ...zeroUsage,
-                boards: {
-                    ...zeroUsage.boards,
-                    cards: boardsLimit + 1,
-                },
-            },
-            expected: [LimitTypes.boardsCards],
-        },
-        {
             label: 'reports messages and files limit surpasded',
             limits: {
                 messages: {
