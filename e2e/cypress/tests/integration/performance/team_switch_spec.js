@@ -6,25 +6,20 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
-import * as TIMEOUTS from '../../fixtures/timeouts';
 
 import {measurePerformance} from './utils.js';
 
 describe('Channel switch performance test', () => {
-    let testUser;
     let testTeam1;
     let testTeam2;
 
     beforeEach(() => {
-        cy.apiInitSetup().then(({team, user}) => {
-            testUser = user;
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam1 = team;
 
             // # Login as test user and go to town square
-            cy.apiLogin(testUser);
             cy.visit(`/${testTeam1.name}/channels/town-square`);
         });
-        cy.wait(TIMEOUTS.ONE_SEC);
         cy.apiCreateTeam('team-b', 'Team B').then(({team}) => {
             testTeam2 = team;
         });
