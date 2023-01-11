@@ -155,7 +155,7 @@ function Content(props: ContentProps) {
         formatMessage({id: 'pricing_modal.briefing.storageStarter', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackStarterLimits.files.totalStorage, formatNumber)}),
         formatMessage({id: 'pricing_modal.briefing.free.noLimitBoards', defaultMessage: 'Unlimited board cards'}),
         formatMessage({id: 'pricing_modal.briefing.free.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
-        formatMessage({id: 'pricing_modal.briefing.free.gitLabGitHubGSuite', defaultMessage: 'Gitlab, Github and GSuite SSO'}),
+        formatMessage({id: 'pricing_modal.briefing.free.gitLabGitHubGSuite', defaultMessage: 'GitLab, GitHub, and GSuite SSO'}),
         formatMessage({id: 'pricing_modal.extra_briefing.cloud.free.calls', defaultMessage: 'Group calls of up to 8 people, 1:1 calls, and screen share'}),
     ];
 
@@ -317,7 +317,7 @@ function Content(props: ContentProps) {
                                 formatMessage({id: 'pricing_modal.briefing.professional.messageBoardsIntegrationsCalls', defaultMessage: 'Unlimited access to messages and files'}),
                                 formatMessage({id: 'pricing_modal.briefing.professional.unLimitedTeams', defaultMessage: 'Unlimited teams'}),
                                 formatMessage({id: 'pricing_modal.briefing.professional.advancedPlaybook', defaultMessage: 'Advanced Playbook workflows with retrospectives'}),
-                                formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin and ADFS'}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin, and ADFS'}),
                                 formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoadLdap', defaultMessage: 'SSO support with AD/LDAP, Google, O365, OpenID'}),
                                 formatMessage({id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement'}),
                             ],
