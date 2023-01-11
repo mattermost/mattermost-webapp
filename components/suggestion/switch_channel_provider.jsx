@@ -19,7 +19,7 @@ import {
     getSortedAllTeamsUnreadChannels,
     getAllTeamsUnreadChannelIds,
 } from 'mattermost-redux/selectors/entities/channels';
-import ProfilePicture from '../profile_picture';
+
 import {getMyPreferences, isGroupChannelManuallyVisible, isCollapsedThreadsEnabled, insightsAreEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {
@@ -50,6 +50,8 @@ import * as Utils from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 import {Preferences} from 'mattermost-redux/constants';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
+
+import ProfilePicture from '../profile_picture';
 
 import Provider from './provider';
 import Suggestion from './suggestion.jsx';
@@ -425,8 +427,8 @@ export default class SwitchChannelProvider extends Provider {
                 return false;
             }
 
-            // Dispatch suggestions for local data
-            const channels = getChannelsInAllTeams(getState()).concat(getDirectAndGroupChannels(getState()));
+            // Dispatch suggestions for local data (filter out deleted and archived channels from local store data)
+            const channels = getChannelsInAllTeams(getState()).concat(getDirectAndGroupChannels(getState())).filter((c) => c.delete_at === 0);
             const users = Object.assign([], searchProfilesMatchingWithTerm(getState(), channelPrefix, false));
             const formattedData = this.formatList(channelPrefix, [ThreadsChannel, InsightsChannel, ...channels], users, true, true);
             if (formattedData) {
@@ -476,7 +478,9 @@ export default class SwitchChannelProvider extends Provider {
         }
 
         const currentUserId = getCurrentUserId(state);
-        const localChannelData = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state)) || [];
+
+        // filter out deleted and archived channels from local store data
+        const localChannelData = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state)).filter((c) => c.delete_at === 0) || [];
         const localUserData = Object.assign([], searchProfilesMatchingWithTerm(state, channelPrefix, false)) || [];
         const localFormattedData = this.formatList(channelPrefix, [ThreadsChannel, InsightsChannel, ...localChannelData], localUserData);
         const remoteChannelData = channelsFromServer.concat(getGroupChannels(state)) || [];
