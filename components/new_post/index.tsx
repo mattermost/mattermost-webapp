@@ -7,7 +7,7 @@ import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 import {showActionsDropdownPulsatingDot} from 'selectors/actions_menu';
 import {setActionsMenuInitialisationState} from 'mattermost-redux/actions/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getPost, makeGetCommentCountForPost, makeIsPostCommentMention} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, makeGetCommentCountForPost, makeIsPostCommentMention, isPostAcknowledgementsEnabled, isPostPriorityEnabled} from 'mattermost-redux/selectors/entities/posts';
 
 import {
     get,
@@ -80,7 +80,7 @@ function isConsecutivePost(state: GlobalState, ownProps: OwnProps) {
 
     let consecutivePost = false;
 
-    if (previousPost && post) {
+    if (previousPost && post && !post.metadata?.priority?.priority) {
         consecutivePost = areConsecutivePostsBySameUser(post, previousPost);
     }
     return consecutivePost;
@@ -223,6 +223,8 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isCommentMention: isPostCommentMention(state, post.id),
         parentPost,
         parentPostUser,
+        isPostAcknowledgementsEnabled: isPostAcknowledgementsEnabled(state),
+        isPostPriorityEnabled: isPostPriorityEnabled(state),
     };
 }
 

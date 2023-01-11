@@ -35,6 +35,7 @@ import EditPost from 'components/edit_post';
 import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
+import PostAcknowledgements from 'components/post_view/acknowledgements';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageContainer from 'components/post_view/post_message_view';
 import {getDateForUnixTicks, makeIsEligibleForClick} from 'utils/utils';
@@ -45,6 +46,8 @@ import {trackEvent} from 'actions/telemetry_actions';
 import CommentedOn from 'components/post_view/commented_on/commented_on';
 
 import {UserProfile} from '@mattermost/types/users';
+
+import PriorityLabel from 'components/post_priority/post_priority_label';
 
 import PostUserProfile from './user_profile';
 import PostOptions from './post_options';
@@ -107,6 +110,8 @@ export type Props = {
     parentPost?: Post;
     parentPostUser?: UserProfile | null;
     shortcutReactToLastPostEmittedFrom?: string;
+    isPostAcknowledgementsEnabled: boolean;
+    isPostPriorityEnabled: boolean;
 };
 
 const PostComponent = (props: Props): JSX.Element => {
@@ -424,6 +429,11 @@ const PostComponent = (props: Props): JSX.Element => {
         return idPrefix + `_${props.post.id}`;
     };
 
+    let priority;
+    if (post.metadata?.priority && props.isPostPriorityEnabled) {
+        priority = <span className='d-flex mr-2 ml-1'><PriorityLabel priority={post.metadata.priority.priority}/></span>;
+    }
+
     return (
         <div
             className={props.location === 'SEARCH' ? 'search-item__container' : undefined}
@@ -490,7 +500,7 @@ const PostComponent = (props: Props): JSX.Element => {
                                 {...props}
                                 isSystemMessage={isSystemMessage}
                             />
-                            <div className='col'>
+                            <div className='col d-flex align-items-center'>
                                 {
                                     <PostTime
                                         isPermalink={!(Posts.POST_DELETED === post.state || isPostPendingOrFailed(post))}
@@ -500,32 +510,33 @@ const PostComponent = (props: Props): JSX.Element => {
                                         timestampProps={{...props.timestampProps, style: props.isConsecutivePost && !props.compactDisplay ? 'narrow' : undefined}}
                                     />
                                 }
+                                {priority}
                                 {post.props && post.props.card &&
-                                <OverlayTrigger
-                                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                                    placement='top'
-                                    overlay={
-                                        <Tooltip>
-                                            <FormattedMessage
-                                                id='post_info.info.view_additional_info'
-                                                defaultMessage='View additional info'
-                                            />
-                                        </Tooltip>
-                                    }
-                                >
-                                    <button
-                                        className='card-icon__container icon--show style--none'
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            props.handleCardClick?.(props.post);
-                                        }}
+                                    <OverlayTrigger
+                                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                                        placement='top'
+                                        overlay={
+                                            <Tooltip>
+                                                <FormattedMessage
+                                                    id='post_info.info.view_additional_info'
+                                                    defaultMessage='View additional info'
+                                                />
+                                            </Tooltip>
+                                        }
                                     >
-                                        <InfoSmallIcon
-                                            className='icon icon__info'
-                                            aria-hidden='true'
-                                        />
-                                    </button>
-                                </OverlayTrigger>
+                                        <button
+                                            className='card-icon__container icon--show style--none'
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                props.handleCardClick?.(props.post);
+                                            }}
+                                        >
+                                            <InfoSmallIcon
+                                                className='icon icon__info'
+                                                aria-hidden='true'
+                                            />
+                                        </button>
+                                    </OverlayTrigger>
                                 }
                                 {visibleMessage}
                             </div>
@@ -562,9 +573,12 @@ const PostComponent = (props: Props): JSX.Element => {
                                 handleFileDropdownOpened={handleFileDropdownOpened}
                             />
                             }
-                            <ReactionList
-                                post={post}
-                            />
+                            <div className='post__body-reactions-acks'>
+                                {props.isPostAcknowledgementsEnabled && post.metadata?.priority?.requested_ack && (
+                                    <PostAcknowledgements postId={post.id}/>
+                                )}
+                                <ReactionList post={post}/>
+                            </div>
                             {threadFooter}
                         </div>
                     </div>

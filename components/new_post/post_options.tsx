@@ -9,7 +9,7 @@ import {Posts, Preferences} from 'mattermost-redux/constants/index';
 import {isPostEphemeral} from 'mattermost-redux/utils/post_utils';
 
 import {Locations} from 'utils/constants';
-import {isSystemMessage} from 'utils/post_utils';
+import {isSystemMessage, fromAutoResponder} from 'utils/post_utils';
 import {isMobile} from 'utils/utils';
 
 import {Post} from '@mattermost/types/posts';
@@ -72,6 +72,7 @@ const PostOptions = (props: Props): JSX.Element => {
 
     const isEphemeral = isPostEphemeral(post);
     const systemMessage = isSystemMessage(post);
+    const isFromAutoResponder = fromAutoResponder(post);
 
     const removePost = () => props.removePost(props.post);
 
@@ -107,7 +108,8 @@ const PostOptions = (props: Props): JSX.Element => {
 
     const isPostDeleted = post && post.state === Posts.POST_DELETED;
     const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu || showActionTip;
-    const showCommentIcon = !systemMessage && (isMobile || hoverLocal || (!post.root_id && Boolean(props.hasReplies)) || props.isFirstReply || props.canReply) && props.location === Locations.CENTER;
+    const showCommentIcon = isFromAutoResponder ||
+    (!systemMessage && (isMobile || hoverLocal || (!post.root_id && Boolean(props.hasReplies)) || props.isFirstReply || props.canReply) && props.location === Locations.CENTER);
     const commentIconExtraClass = isMobileView ? '' : 'pull-right';
 
     let commentIcon;
