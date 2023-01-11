@@ -43,6 +43,7 @@ import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
 import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
+import DowngradeFeedbackModal from 'components/downgrade_feedback_modal';
 
 import './content.scss';
 
@@ -252,23 +253,30 @@ function Content(props: ContentProps) {
                         planExtraInformation={<StarterDisclaimerCTA/>}
                         buttonDetails={{
                             action: () => {
-                                if (!starterProduct) {
-                                    return;
-                                }
-                                if (usage.teams.active > 1) {
-                                    dispatch(
-                                        openModal({
-                                            modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
-                                            dialogType: DowngradeTeamRemovalModal,
-                                            dialogProps: {
-                                                product_id: starterProduct?.id,
-                                                starterProduct,
-                                            },
-                                        }),
-                                    );
-                                } else {
-                                    downgrade('click_pricing_modal_free_card_downgrade_button');
-                                }
+                                // if (!starterProduct) {
+                                //     return;
+                                // }
+                                // if (usage.teams.active > 1) {
+                                //     dispatch(
+                                //         openModal({
+                                //             modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
+                                //             dialogType: DowngradeTeamRemovalModal,
+                                //             dialogProps: {
+                                //                 product_id: starterProduct?.id,
+                                //                 starterProduct,
+                                //             },
+                                //         }),
+                                //     );
+                                // } else {
+                                //     // downgrade('click_pricing_modal_free_card_downgrade_button');
+                                // }
+
+                                dispatch(
+                                    openModal({
+                                        modalId: ModalIdentifiers.SUCCESS_MODAL,
+                                        dialogType: DowngradeFeedbackModal,
+                                    }),
+                                );
                             },
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
                             disabled: isStarter || isEnterprise || !isAdmin || !currentSubscriptionIsMonthly,

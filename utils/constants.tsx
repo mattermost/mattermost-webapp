@@ -449,6 +449,7 @@ export const ModalIdentifiers = {
     WORK_TEMPLATES: 'work_template',
     DOWNGRADE_MODAL: 'downgrade_modal',
     PURCHASE_IN_PROGRESS: 'purchase_in_progress',
+    DOWNGRADE_FEEDBACK: 'downgrade_feedback',
 };
 
 export const UserStatuses = {
