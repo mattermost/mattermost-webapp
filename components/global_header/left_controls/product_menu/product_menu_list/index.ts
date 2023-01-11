@@ -4,6 +4,8 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
+import {ProductPlaybooksIcon} from '@mattermost/compass-icons/components';
+
 import {Action} from 'mattermost-redux/types/actions';
 
 import {getCloudSubscription, getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
@@ -27,8 +29,10 @@ import {GlobalState} from 'types/store';
 import {OnboardingTaskCategory, OnboardingTasksName, TaskNameMapToSteps} from 'components/onboarding_tasks';
 import {openModal} from 'actions/views/modals';
 import {ModalData} from 'types/actions';
-import {CloudProducts} from 'utils/constants';
+import {CloudProducts, suitePluginIds} from 'utils/constants';
 import {isCloudLicense} from 'utils/license_utils';
+
+import PlaybookRunner from 'components/channel_layout/playbook_runner';
 
 import ProductMenuList from './product_menu_list';
 
@@ -55,7 +59,10 @@ function mapStateToProps(state: GlobalState) {
     const step = getInt(state, OnboardingTaskCategory, OnboardingTasksName.VISIT_SYSTEM_CONSOLE, 0);
     const showVisitSystemConsoleTour = step === TaskNameMapToSteps[OnboardingTasksName.VISIT_SYSTEM_CONSOLE].STARTED;
     const enableCustomUserGroups = isCustomGroupsEnabled(state);
-    const showWorkTemplateButton = getFeatureFlagValue(state, 'WorkTemplate') === 'true';
+
+    const boardProductEnabled = Boolean(config.FeatureFlagBoardsProduct);
+    const pluginPlayboosInstalled = Boolean(state.plugins.plugins?.playbooks);
+    const showWorkTemplateButton = getFeatureFlagValue(state, 'WorkTemplate') === 'true' && boardProductEnabled && pluginPlayboosInstalled;
 
     const subscription = getCloudSubscription(state);
     const license = getLicense(state);
