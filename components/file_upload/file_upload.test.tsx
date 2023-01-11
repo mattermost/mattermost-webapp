@@ -9,7 +9,7 @@ import {clearFileInput} from 'utils/utils';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import FileUpload, {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
+import FileUpload, {FileUpload as FileUploadClass, PostType} from 'components/file_upload/file_upload';
 
 import {FilesWillUploadHook} from 'types/store/plugins';
 
@@ -66,7 +66,7 @@ describe('components/FileUpload', () => {
         onUploadError: jest.fn(),
         onUploadStart: jest.fn(),
         onUploadProgress: jest.fn(),
-        postType: 'post',
+        postType: PostType.post,
         maxFileSize: MaxFileSize,
         canUploadFiles: true,
         rootId: 'root_id',

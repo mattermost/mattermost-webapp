@@ -1,47 +1,48 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties, useCallback, useEffect, useRef, useState} from 'react';
-import classNames from 'classnames';
-import {FormattedMessage, useIntl} from 'react-intl';
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
 
-import {PostDraft} from 'types/store/draft';
+import classNames from 'classnames';
 
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import FilePreview from 'components/file_preview';
-import FileUpload from 'components/file_upload';
+import {FilePreviewInfo} from 'components/file_preview/file_preview';
+import FileUpload, {PostType} from 'components/file_upload';
+import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+import MessageSubmitError from 'components/message_submit_error';
 import MsgTyping from 'components/msg_typing';
+import OverlayTrigger from 'components/overlay_trigger';
 import Textbox, {TextboxElement} from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
-import MessageSubmitError from 'components/message_submit_error';
-import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {SendMessageTour} from 'components/tours/onboarding_tour';
-import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
-import OverlayTrigger from 'components/overlay_trigger';
-import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+import React, {CSSProperties, useCallback, useEffect, useRef, useState} from 'react';
+import {FormattedMessage, useIntl} from 'react-intl';
+
+import {PostDraft} from 'types/store/draft';
+import Constants, {Locations} from 'utils/constants';
+import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 
 import * as Utils from 'utils/utils';
-import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
-import Constants, {Locations} from 'utils/constants';
 
-import {Channel} from '@mattermost/types/channels';
-import {ServerError} from '@mattermost/types/errors';
 import {FileInfo} from '@mattermost/types/files';
+import {ServerError} from '@mattermost/types/errors';
 import {Emoji} from '@mattermost/types/emojis';
+import {Channel} from '@mattermost/types/channels';
 import AutoHeightSwitcher from '../common/auto_height_switcher';
 import RhsSuggestionList from '../suggestion/rhs_suggestion_list';
 import Tooltip from '../tooltip';
 
+import './advanced_text_editor.scss';
+import FormattingBar from './formatting_bar';
+
 import {FormattingBarSpacer, Separator} from './formatting_bar/formatting_bar';
+import {IconContainer} from './formatting_bar/formatting_icon';
+import SendButton from './send_button';
+import ShowFormat from './show_formatting';
 
 import TexteditorActions from './texteditor_actions';
-import FormattingBar from './formatting_bar';
-import ShowFormat from './show_formatting';
-import SendButton from './send_button';
-import {IconContainer} from './formatting_bar/formatting_icon';
-
-import './advanced_text_editor.scss';
 import ToggleFormattingBar from './toggle_formatting_bar/toggle_formatting_bar';
 
 type Props = {
@@ -214,9 +215,9 @@ const AdvanceTextEditor = ({
         return draft.fileInfos.length + draft.uploadsInProgress.length;
     };
 
-    let postType = 'post';
+    let postType = PostType.post;
     if (postId) {
-        postType = isThreadView ? 'thread' : 'comment';
+        postType = isThreadView ? PostType.thread : PostType.comment;
     }
 
     const fileUploadJSX = readOnlyChannel ? null : (

@@ -19,6 +19,7 @@ import {useFloating, autoUpdate, offset, flip, shift, size} from '@floating-ui/r
 import {FormattedMessage} from 'react-intl';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 import styled from 'styled-components';
+import {t} from 'utils/i18n';
 
 import Constants from 'utils/constants';
 
@@ -220,7 +221,7 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(({item
                         <Fragment key={id}>
                             {renderSeparators && type && type !== items[index - 1]?.type && (
                                 <ListGroupTitle>
-                                    <FormattedMessage id={`suggestion.mention.${type}`}/>
+                                    <FormattedMessage id={t(`suggestion.mention.${type}`)}/>
                                 </ListGroupTitle>
                             )}
                             <ListItem
