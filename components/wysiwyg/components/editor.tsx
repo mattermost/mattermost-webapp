@@ -5,8 +5,14 @@ import styled from 'styled-components';
 
 export const WysiwygContainer = styled.div`
     margin: 0 24px 24px;
-    border: 2px solid rgba(var(--center-channel-color-rgb), 0.32);
+    border: 2px solid rgba(var(--center-channel-color-rgb), 0.16);
     border-radius: 4px;
+
+    &:focus-within {
+        border: 2px solid rgba(var(--center-channel-color-rgb), 0.32);
+    }
+
+    transition: border 250ms ease-in-out;
 `;
 
 /**
