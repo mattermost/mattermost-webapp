@@ -127,7 +127,15 @@ export const Extensions = Extension.create<ExtensionOptions>({
         }
 
         if (this.options.code !== false) {
-            extensions.push(Code.configure(this.options?.code));
+            extensions.push(Code.configure(this.options?.code).extend({
+                addKeyboardShortcuts() {
+                    return {
+                        'Mod-Alt-c': ({editor}) => {
+                            return editor.chain().focus().toggleCode().run();
+                        },
+                    };
+                },
+            }));
         }
 
         if (this.options.dropcursor !== false) {
@@ -171,7 +179,15 @@ export const Extensions = Extension.create<ExtensionOptions>({
         }
 
         if (this.options.strike !== false) {
-            extensions.push(Strike.configure(this.options?.strike));
+            extensions.push(Strike.configure(this.options?.strike).extend({
+                addKeyboardShortcuts() {
+                    return {
+                        'Alt-X': ({editor}) => {
+                            return editor.chain().focus().toggleStrike().run();
+                        },
+                    };
+                },
+            }));
         }
 
         if (this.options.text !== false) {

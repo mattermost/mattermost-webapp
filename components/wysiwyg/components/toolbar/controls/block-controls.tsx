@@ -69,7 +69,7 @@ const makeBlockModeToolDefinitions = (editor: Editor): Array<ToolDefinition<Mark
                 type: 'toggleCodeBlock',
                 icon: CodeBlockIcon,
                 ariaLabelDescriptor: {id: t('accessibility.button.code_block'), defaultMessage: 'code block'},
-                shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownCode,
+                shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownCodeBlock,
                 action: () => editor.chain().focus().toggleCodeBlock().run(),
                 isActive: () => editor.isActive('codeBlock'),
             },

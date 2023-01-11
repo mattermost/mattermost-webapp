@@ -95,7 +95,7 @@ const makeLeafModeToolDefinitions = (editor: Editor): Array<ToolDefinition<Markd
 
     if (!editor.storage.core.disableFormatting.links) {
         // insert the link control definition at index 2
-        controls.splice(2, 0, {
+        controls.splice(3, 0, {
             mode: 'mmLink',
             type: 'setLink',
             icon: LinkVariantIcon,
