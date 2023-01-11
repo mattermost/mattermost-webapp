@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 import * as TIMEOUTS from '../../fixtures/timeouts';
+
 import {measurePerformance} from './utils.js';
 
 describe('Channel switch performance test', () => {
