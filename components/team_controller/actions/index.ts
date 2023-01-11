@@ -3,9 +3,6 @@
 
 import {batchActions} from 'redux-batched-actions';
 
-import {Team} from '@mattermost/types/teams';
-import {ServerError} from '@mattermost/types/errors';
-
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 import {getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
@@ -25,6 +22,9 @@ import {addUserToTeam} from 'actions/team_actions';
 import {fetchChannelsAndMembers} from 'actions/channel_actions';
 
 import LocalStorageStore from 'stores/local_storage_store';
+
+import {Team} from '@mattermost/types/teams';
+import {ServerError} from '@mattermost/types/errors';
 
 export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
     return async (dispatch, getState) => {
