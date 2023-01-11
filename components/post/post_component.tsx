@@ -575,7 +575,11 @@ const PostComponent = (props: Props): JSX.Element => {
                             }
                             <div className='post__body-reactions-acks'>
                                 {props.isPostAcknowledgementsEnabled && post.metadata?.priority?.requested_ack && (
-                                    <PostAcknowledgements postId={post.id}/>
+                                    <PostAcknowledgements
+                                        authorId={post.user_id}
+                                        isDeleted={post.state === Posts.POST_DELETED}
+                                        postId={post.id}
+                                    />
                                 )}
                                 <ReactionList post={post}/>
                             </div>
