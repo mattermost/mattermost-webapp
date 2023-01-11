@@ -17,6 +17,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
       teamId="team_id"
     >
       <button
+        aria-label="Create New Channel"
         className="btn outlineButton"
         onClick={[Function]}
         type="button"

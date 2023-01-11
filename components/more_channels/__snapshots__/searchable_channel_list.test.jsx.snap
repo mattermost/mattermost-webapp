@@ -16,6 +16,7 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
       />
     </span>
     <QuickInput
+      ariaLabel="Search Channels"
       className="form-control filter-textbox"
       clearable={true}
       id="searchChannelsTextbox"
@@ -52,6 +53,7 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
         onClick={[Function]}
       >
         <button
+          aria-label="Hide joined channels checkbox, not checked"
           className="get-app__checkbox"
         />
         <MemoizedFormattedMessage
