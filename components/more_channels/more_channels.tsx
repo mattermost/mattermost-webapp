@@ -22,6 +22,7 @@ import {ModalData} from 'types/actions';
 import {getHistory} from 'utils/browser_history';
 import {ModalIdentifiers, StoragePrefixes} from 'utils/constants';
 import {getRelativeChannelURL} from 'utils/url';
+import {localizeMessage} from 'utils/utils';
 
 import SearchableChannelList from './searchable_channel_list';
 
@@ -255,6 +256,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                         id={id}
                         className={buttonClassName}
                         onClick={this.handleNewChannel}
+                        aria-label={localizeMessage('more_channels.create', 'Create New Channel')}
                     >
                         {icon}
                         <FormattedMessage
