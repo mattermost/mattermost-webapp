@@ -65,9 +65,8 @@ const AddChannelDropdown = ({
             modalId: ModalIdentifiers.NEW_CHANNEL_MODAL,
             dialogType: NewChannelModal,
             dialogProps: {
-                // We want the New Channel modal to handle the return focus itself
-                handleReturnFocus: returnFocus,
-                returnFocus: undefined,
+                returnFocusOnExit: false,
+                returnFocus,
             },
         }));
         trackEvent('ui', 'ui_channels_create_channel_v2');
@@ -124,9 +123,8 @@ const AddChannelDropdown = ({
             dialogType: MoreDirectChannels,
             dialogProps: {
                 isExistingChannel: false,
-                // We want the DM modal to handle the return focus itself
-                handleReturnFocus: returnFocus,
-                returnFocus: undefined,
+                returnFocusOnExit: false,
+                returnFocus,
             },
         }));
         trackEvent('ui', 'ui_channels_dropdown_invite_people');

@@ -59,7 +59,12 @@ export default class ModalController extends React.PureComponent<Props> {
             if (modalState.hasOwnProperty(modalId)) {
                 const modal = modalState[modalId];
                 if (modal.open) {
-                    if (modal.dialogProps?.returnFocus) {
+                    let returnFocusOnExit = modal.dialogProps?.returnFocusOnExit;
+                    if (typeof returnFocusOnExit === 'undefined') {
+                        returnFocusOnExit = true;
+                    }
+
+                    if (returnFocusOnExit && modal.dialogProps?.returnFocus) {
                         returnFocus = modal.dialogProps?.returnFocus;
                     }
                     const modalComponent = React.createElement(modal.dialogType, Object.assign({}, modal.dialogProps, {
@@ -67,7 +72,7 @@ export default class ModalController extends React.PureComponent<Props> {
                             props.actions.closeModal(modalId);
                             // Call any onExited prop provided by whoever opened the modal, if one was provided
                             modal.dialogProps?.onExited?.();
-                            returnFocus();
+                            returnFocusOnExit && returnFocus();
                         },
                         onHide: props.actions.closeModal.bind(this, modalId),
                         key: `${modalId}_modal`,
