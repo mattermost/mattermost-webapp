@@ -8,10 +8,10 @@ import classNames from 'classnames';
 import {Posts} from 'mattermost-redux/constants/index';
 import {
     isMeMessage as checkIsMeMessage,
-    isPostPendingOrFailed,
-} from 'mattermost-redux/utils/post_utils';
+    isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
 
 import Constants, {A11yCustomEventTypes, AppEvents, Locations} from 'utils/constants';
+
 import * as PostUtils from 'utils/post_utils';
 
 import {Post} from '@mattermost/types/posts';
@@ -35,12 +35,19 @@ import EditPost from 'components/edit_post';
 import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
+import PostAcknowledgements from 'components/post_view/acknowledgements';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageContainer from 'components/post_view/post_message_view';
 import {getDateForUnixTicks, makeIsEligibleForClick} from 'utils/utils';
 import {getHistory} from 'utils/browser_history';
 
 import {trackEvent} from 'actions/telemetry_actions';
+
+import CommentedOn from 'components/post_view/commented_on/commented_on';
+
+import {UserProfile} from '@mattermost/types/users';
+
+import PriorityLabel from 'components/post_priority/post_priority_label';
 
 import PostUserProfile from './user_profile';
 import PostOptions from './post_options';
@@ -99,18 +106,29 @@ export type Props = {
     isFlaggedPosts?: boolean;
     isPinnedPosts?: boolean;
     clickToReply?: boolean;
+    isCommentMention?: boolean;
+    parentPost?: Post;
+    parentPostUser?: UserProfile | null;
+    shortcutReactToLastPostEmittedFrom?: string;
+    isPostAcknowledgementsEnabled: boolean;
+    isPostPriorityEnabled: boolean;
 };
 
 const PostComponent = (props: Props): JSX.Element => {
     const isSearchResultItem = (props.matches && props.matches.length > 0) || props.isMentionSearch || (props.term && props.term.length > 0);
+    const isRHS = props.location === Locations.RHS_ROOT || props.location === Locations.RHS_COMMENT || props.location === Locations.SEARCH;
     const postRef = useRef<HTMLDivElement>(null);
     const postHeaderRef = useRef<HTMLDivElement>(null);
+
     const [hover, setHover] = useState(false);
     const [a11yActive, setA11y] = useState(false);
     const [dropdownOpened, setDropdownOpened] = useState(false);
     const [fileDropdownOpened, setFileDropdownOpened] = useState(false);
     const [fadeOutHighlight, setFadeOutHighlight] = useState(false);
     const [alt, setAlt] = useState(false);
+
+    const isSystemMessage = PostUtils.isSystemMessage(props.post);
+    const fromAutoResponder = PostUtils.fromAutoResponder(props.post);
 
     useEffect(() => {
         if (props.shouldHighlight) {
@@ -131,18 +149,20 @@ const PostComponent = (props: Props): JSX.Element => {
         if (a11yActive) {
             postRef.current?.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
         }
-    }, [hover]);
+    }, []);
 
     useEffect(() => {
-        if (hover) {
-            removeKeyboardListeners();
-        }
+        return () => {
+            if (hover) {
+                removeKeyboardListeners();
+            }
 
-        if (postRef.current) {
-            postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, handleA11yActivateEvent);
-            postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, handleA11yDeactivateEvent);
-        }
-    }, [hover, postRef.current]);
+            if (postRef.current) {
+                postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, handleA11yActivateEvent);
+                postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, handleA11yDeactivateEvent);
+            }
+        };
+    }, []);
 
     const hasSameRoot = (props: Props) => {
         const post = props.post;
@@ -201,16 +221,16 @@ const PostComponent = (props: Props): JSX.Element => {
 
     const getClassName = () => {
         const post = props.post;
-        const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = checkIsMeMessage(post);
         const hovered =
-            fileDropdownOpened || dropdownOpened || a11yActive || props.isPostBeingEdited;
+            hover || fileDropdownOpened || dropdownOpened || a11yActive || props.isPostBeingEdited;
         return classNames('a11y__section post', {
             'post--highlight': props.shouldHighlight && !fadeOutHighlight,
             'same--root': hasSameRoot(props),
+            'other--root': !hasSameRoot(props) && !isSystemMessage,
             'post--bot': PostUtils.isFromBot(post),
             'post--editing': props.isPostBeingEdited,
-            'current--user': props.currentUserId === post.user_id,
+            'current--user': props.currentUserId === post.user_id && !isSystemMessage,
             'post--system': isSystemMessage || isMeMessage,
             'post--root': props.hasReplies && !(post.root_id && post.root_id.length > 0),
             'post--comment': post.root_id && post.root_id.length > 0 && !props.isCollapsedThreadsEnabled,
@@ -219,8 +239,9 @@ const PostComponent = (props: Props): JSX.Element => {
             'same--user': props.isConsecutivePost,
             'cursor--pointer': alt && !props.channelIsArchived,
             'post--hide-controls': post.failed || post.state === Posts.POST_DELETED,
-            'post--comment same--root': PostUtils.fromAutoResponder(post),
+            'post--comment same--root': fromAutoResponder,
             'post--pinned-or-flagged': (post.is_pinned || props.isFlagged) && props.location === Locations.CENTER,
+            'mention-comment': props.isCommentMention,
         });
     };
 
@@ -272,9 +293,6 @@ const PostComponent = (props: Props): JSX.Element => {
             return;
         }
 
-        const isSystemMessage = PostUtils.isSystemMessage(props.post);
-        const fromAutoResponder = PostUtils.fromAutoResponder(props.post);
-
         if (
             !e.altKey &&
             props.clickToReply &&
@@ -312,29 +330,49 @@ const PostComponent = (props: Props): JSX.Element => {
 
     const post = props.post;
 
-    const isSystemMessage = PostUtils.isSystemMessage(post);
-    const postClass = classNames('post__body', {'post--edited': PostUtils.isEdited(props.post)});
+    const postClass = classNames('post__body', {'post--edited': PostUtils.isEdited(props.post), 'search-item-snippet': isSearchResultItem});
+
+    let comment;
+    if (props.isFirstReply && props.parentPost && props.parentPostUser && post.type !== Constants.PostTypes.EPHEMERAL) {
+        comment = (
+            <CommentedOn
+                post={props.parentPost}
+                parentPostUser={props.parentPostUser}
+                onCommentClick={handleCommentClick}
+            />
+        );
+    }
 
     let visibleMessage = null;
+    if (isSystemMessage) {
+        visibleMessage = (
+            <span className='post__visibility'>
+                <FormattedMessage
+                    id='post_info.message.visible'
+                    defaultMessage='(Only visible to you)'
+                />
+            </span>
+        );
+    }
 
-    if (isSystemMessage && props.isBot) {
-        visibleMessage = (
-            <span className='post__visibility'>
-                <FormattedMessage
-                    id='post_info.message.visible'
-                    defaultMessage='(Only visible to you)'
-                />
-            </span>
+    let profilePic;
+    const hideProfilePicture = hasSameRoot(props) && (!post.root_id && !props.hasReplies) && !PostUtils.isFromBot(post);
+    if (!hideProfilePicture) {
+        profilePic = (
+            <PostProfilePicture
+                compactDisplay={props.compactDisplay}
+                post={post}
+                userId={post.user_id}
+            />
         );
-    } else if (isSystemMessage) {
-        visibleMessage = (
-            <span className='post__visibility'>
-                <FormattedMessage
-                    id='post_info.message.visible'
-                    defaultMessage='(Only visible to you)'
-                />
-            </span>
-        );
+
+        if (fromAutoResponder) {
+            profilePic = (
+                <span className='auto-responder'>
+                    {profilePic}
+                </span>
+            );
+        }
     }
 
     const message = isSearchResultItem ? (
@@ -352,7 +390,7 @@ const PostComponent = (props: Props): JSX.Element => {
                     searchMatches: props.matches,
                     mentionHighlight: props.isMentionSearch,
                 }}
-                isRHS={true}
+                isRHS={isRHS}
             />
         </PostBodyAdditionalContent>
     ) : (
@@ -360,6 +398,8 @@ const PostComponent = (props: Props): JSX.Element => {
             post={post}
             isEmbedVisible={props.isEmbedVisible}
             pluginPostTypes={props.pluginPostTypes}
+            isRHS={isRHS}
+            compactDisplay={props.compactDisplay}
         />
     );
 
@@ -367,22 +407,50 @@ const PostComponent = (props: Props): JSX.Element => {
     const threadFooter = props.location !== Locations.RHS_ROOT && props.isCollapsedThreadsEnabled && !post.root_id && (props.hasReplies || post.is_following) ? <ThreadFooter threadId={post.id}/> : null;
     const currentPostDay = getDateForUnixTicks(post.create_at);
     const channelDisplayName = getChannelName();
+
+    const getTestId = () => {
+        let idPrefix: string;
+        switch (props.location) {
+        case 'CENTER':
+            idPrefix = 'post';
+            break;
+        case 'RHS_ROOT':
+        case 'RHS_COMMENT':
+            idPrefix = 'rhsPost';
+            break;
+        case 'SEARCH':
+            idPrefix = 'searchResult';
+            break;
+
+        default:
+            idPrefix = 'post';
+        }
+
+        return idPrefix + `_${props.post.id}`;
+    };
+
+    let priority;
+    if (post.metadata?.priority && props.isPostPriorityEnabled) {
+        priority = <span className='d-flex mr-2 ml-1'><PriorityLabel priority={post.metadata.priority.priority}/></span>;
+    }
+
     return (
         <div
-            className={isSearchResultItem ? 'search-item__container' : ''}
+            className={props.location === 'SEARCH' ? 'search-item__container' : undefined}
+            data-testid={props.location === 'SEARCH' ? 'search-item-container' : undefined}
         >
             {isSearchResultItem && <DateSeparator date={currentPostDay}/>}
             <PostAriaLabelDiv
                 ref={postRef}
                 role='listitem'
-                id={'rhsPost_' + post.id}
-                tabIndex={-1}
+                id={getTestId()}
+                data-testid={props.location === 'CENTER' ? 'postView' : ''}
+                tabIndex={0}
                 post={post}
                 className={getClassName()}
                 onClick={handlePostClick}
                 onMouseOver={handleMouseOver}
                 onMouseLeave={handleMouseLeave}
-                data-a11y-sort-order={props.a11yIndex}
             >
                 {isSearchResultItem &&
                     <div
@@ -411,21 +479,17 @@ const PostComponent = (props: Props): JSX.Element => {
                 <PostPreHeader
                     isFlagged={props.isFlagged}
                     isPinned={post.is_pinned}
-                    skipPinned={props.isPinnedPosts}
-                    skipFlagged={props.isFlaggedPosts}
+                    skipPinned={props.location === 'SEARCH' && props.isPinnedPosts}
+                    skipFlagged={props.location === 'SEARCH' && props.isFlaggedPosts}
                     channelId={post.channel_id}
                 />
                 <div
                     role='application'
                     className='post__content'
+                    data-testid='postContent'
                 >
                     <div className='post__img'>
-                        <PostProfilePicture
-                            compactDisplay={props.compactDisplay}
-                            isRHS={true}
-                            post={post}
-                            userId={post.user_id}
-                        />
+                        {profilePic}
                     </div>
                     <div>
                         <div
@@ -436,42 +500,43 @@ const PostComponent = (props: Props): JSX.Element => {
                                 {...props}
                                 isSystemMessage={isSystemMessage}
                             />
-                            <div className='col'>
+                            <div className='col d-flex align-items-center'>
                                 {
                                     <PostTime
                                         isPermalink={!(Posts.POST_DELETED === post.state || isPostPendingOrFailed(post))}
                                         eventTime={post.create_at}
                                         postId={post.id}
-                                        location={Locations.RHS_COMMENT}
+                                        location={props.location}
                                         timestampProps={{...props.timestampProps, style: props.isConsecutivePost && !props.compactDisplay ? 'narrow' : undefined}}
                                     />
                                 }
+                                {priority}
                                 {post.props && post.props.card &&
-                                <OverlayTrigger
-                                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                                    placement='top'
-                                    overlay={
-                                        <Tooltip>
-                                            <FormattedMessage
-                                                id='post_info.info.view_additional_info'
-                                                defaultMessage='View additional info'
-                                            />
-                                        </Tooltip>
-                                    }
-                                >
-                                    <button
-                                        className='card-icon__container icon--show style--none'
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            props.handleCardClick?.(props.post);
-                                        }}
+                                    <OverlayTrigger
+                                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                                        placement='top'
+                                        overlay={
+                                            <Tooltip>
+                                                <FormattedMessage
+                                                    id='post_info.info.view_additional_info'
+                                                    defaultMessage='View additional info'
+                                                />
+                                            </Tooltip>
+                                        }
                                     >
-                                        <InfoSmallIcon
-                                            className='icon icon__info'
-                                            aria-hidden='true'
-                                        />
-                                    </button>
-                                </OverlayTrigger>
+                                        <button
+                                            className='card-icon__container icon--show style--none'
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                props.handleCardClick?.(props.post);
+                                            }}
+                                        >
+                                            <InfoSmallIcon
+                                                className='icon icon__info'
+                                                aria-hidden='true'
+                                            />
+                                        </button>
+                                    </OverlayTrigger>
                                 }
                                 {visibleMessage}
                             </div>
@@ -481,14 +546,18 @@ const PostComponent = (props: Props): JSX.Element => {
                                 setActionsMenuInitialisationState={props.actions.setActionsMenuInitialisationState}
                                 handleDropdownOpened={handleDropdownOpened}
                                 handleCommentClick={handleCommentClick}
-                                hover={hover}
+                                hover={hover || a11yActive}
                                 removePost={props.actions.removePost}
                                 isSearchResultsItem={Boolean(isSearchResultItem)}
                                 handleJumpClick={handleJumpClick}
                             />
                             }
                         </div>
-                        <div className={postClass} >
+                        {comment}
+                        <div
+                            className={postClass}
+                            id={isRHS ? undefined : `${post.id}_message`}
+                        >
                             {post.failed && <FailedPostOptions post={props.post}/>}
                             <AutoHeightSwitcher
                                 showSlot={showSlot}
@@ -504,9 +573,12 @@ const PostComponent = (props: Props): JSX.Element => {
                                 handleFileDropdownOpened={handleFileDropdownOpened}
                             />
                             }
-                            <ReactionList
-                                post={post}
-                            />
+                            <div className='post__body-reactions-acks'>
+                                {props.isPostAcknowledgementsEnabled && post.metadata?.priority?.requested_ack && (
+                                    <PostAcknowledgements postId={post.id}/>
+                                )}
+                                <ReactionList post={post}/>
+                            </div>
                             {threadFooter}
                         </div>
                     </div>

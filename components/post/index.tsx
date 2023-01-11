@@ -7,7 +7,7 @@ import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 import {showActionsDropdownPulsatingDot} from 'selectors/actions_menu';
 import {setActionsMenuInitialisationState} from 'mattermost-redux/actions/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getPost, makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, makeGetCommentCountForPost, makeIsPostCommentMention, isPostAcknowledgementsEnabled, isPostPriorityEnabled} from 'mattermost-redux/selectors/entities/posts';
 
 import {
     get,
@@ -24,7 +24,7 @@ import {closeRightHandSide, selectPost, selectPostCardFromRightHandSideSearch, s
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
 import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from 'selectors/emojis';
-import {getIsPostBeingEditedInRHS, isEmbedVisible} from 'selectors/posts';
+import {getIsPostBeingEdited, getIsPostBeingEditedInRHS, isEmbedVisible} from 'selectors/posts';
 import {getHighlightedPostId, getRhsState} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
 
@@ -32,7 +32,7 @@ import {GlobalState} from 'types/store';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {areConsecutivePostsBySameUser, shouldShowActionsMenu} from 'utils/post_utils';
-import {Preferences, RHSStates} from 'utils/constants';
+import {Locations, Preferences, RHSStates} from 'utils/constants';
 
 import {ExtendedPost, removePost} from 'mattermost-redux/actions/posts';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
@@ -51,6 +51,7 @@ interface OwnProps {
     postId?: string;
     teamId?: string;
     shouldHighlight?: boolean;
+    location: keyof typeof Locations;
 }
 
 function isFirstReply(post: Post, previousPost?: Post | null): boolean {
@@ -79,7 +80,7 @@ function isConsecutivePost(state: GlobalState, ownProps: OwnProps) {
 
     let consecutivePost = false;
 
-    if (previousPost && post) {
+    if (previousPost && post && !post.metadata?.priority?.priority) {
         consecutivePost = areConsecutivePostsBySameUser(post, previousPost);
     }
     return consecutivePost;
@@ -105,6 +106,15 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     if (!post) {
         return null;
     }
+    let parentPost;
+    let parentPostUser;
+
+    if (post.root_id) {
+        parentPost = getPost(state, post.root_id);
+        parentPostUser = parentPost ? getUser(state, parentPost.user_id) : null;
+    }
+
+    const isPostCommentMention = makeIsPostCommentMention();
     const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
@@ -197,7 +207,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         recentEmojis: emojis,
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         isExpanded: state.views.rhs.isSidebarExpanded,
-        isPostBeingEdited: getIsPostBeingEditedInRHS(state, post.id),
+        isPostBeingEdited: ownProps.location === Locations.CENTER ? !getIsPostBeingEditedInRHS(state, post.id) && getIsPostBeingEdited(state, post.id) : getIsPostBeingEditedInRHS(state, post.id),
         isMobileView: getIsMobileView(state),
         previewCollapsed,
         previewEnabled,
@@ -210,6 +220,11 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
         clickToReply: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CLICK_TO_REPLY, Preferences.CLICK_TO_REPLY_DEFAULT) === 'true',
+        isCommentMention: isPostCommentMention(state, post.id),
+        parentPost,
+        parentPostUser,
+        isPostAcknowledgementsEnabled: isPostAcknowledgementsEnabled(state),
+        isPostPriorityEnabled: isPostPriorityEnabled(state),
     };
 }
 
