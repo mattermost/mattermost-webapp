@@ -68,6 +68,8 @@ $app-bar-width: 48px;
 
             img {
                 border-radius: 50%;
+                width: $app-bar-icon-size;
+                height: $app-bar-icon-size;
             }
         }
 
