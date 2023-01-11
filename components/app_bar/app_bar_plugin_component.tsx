@@ -19,8 +19,6 @@ import PluginIcon from 'components/widgets/icons/plugin_icon';
 
 import NewChannelWithBoardTourTip from './new_channel_with_board_tour_tip';
 
-const IMAGE_SIZE = '24px';
-
 type PluginComponentProps = {
     component: AppBarComponent;
 }
@@ -69,8 +67,6 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
         <div className='app-bar__icon-inner'>
             <img
                 src={iconUrl}
-                width={IMAGE_SIZE}
-                height={IMAGE_SIZE}
                 onLoad={onImageLoadComplete}
                 onError={onImageLoadError}
             />
