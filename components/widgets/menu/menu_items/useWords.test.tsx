@@ -152,7 +152,7 @@ describe('useWords', () => {
             },
         },
         {
-            label: 'end user prompted to notify admin when over limit plans',
+            label: 'end user prompted to notify admin when over limit',
             props: asUser(mkLimit(LimitTypes.messageHistory, 11000, 10000)),
             expects: {
                 description: 'Notify admin',
