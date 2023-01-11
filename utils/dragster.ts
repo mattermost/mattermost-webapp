@@ -9,20 +9,22 @@ type Options = {
 }
 
 export default function dragster(query: string, options: Options) {
-    const noop = () => {}; // eslint-disable-line no-empty-function
+    const preventDefault = (e: Event) => {
+        e.preventDefault();
+    };
 
     const defaults = {
-        enter: noop,
-        leave: noop,
-        over: noop,
-        drop: noop,
+        enter: preventDefault,
+        leave: preventDefault,
+        over: preventDefault,
+        drop: preventDefault,
     };
 
     const settings = Object.assign(defaults, options);
     const node = document.querySelector(query);
 
     if (!node) {
-        return noop;
+        return () => {};
     }
 
     let first = false;
@@ -37,8 +39,6 @@ export default function dragster(query: string, options: Options) {
         first = true;
         const enterEvent = new CustomEvent('dragster:enter', {detail: event});
         node.dispatchEvent(enterEvent);
-
-        event.preventDefault();
     };
 
     const dragleave = (event: Event) => {
@@ -51,13 +51,11 @@ export default function dragster(query: string, options: Options) {
             const leaveEvent = new CustomEvent('dragster:leave', {detail: event});
             node.dispatchEvent(leaveEvent);
         }
-        event.preventDefault();
     };
 
     const dragover = (event: Event) => {
         const overEvent = new CustomEvent('dragster:over', {detail: event});
         node.dispatchEvent(overEvent);
-        event.preventDefault();
     };
 
     const drop = (event: Event) => {
@@ -70,7 +68,6 @@ export default function dragster(query: string, options: Options) {
             const dropEvent = new CustomEvent('dragster:drop', {detail: event});
             node.dispatchEvent(dropEvent);
         }
-        event.preventDefault();
     };
 
     node.addEventListener('dragenter', dragenter);

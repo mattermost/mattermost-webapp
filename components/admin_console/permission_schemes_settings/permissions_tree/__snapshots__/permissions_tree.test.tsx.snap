@@ -169,6 +169,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_custom_group_members",
               "edit_custom_group",
               "delete_custom_group",
+              "restore_custom_group",
             ],
           },
         ]
@@ -370,6 +371,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_custom_group_members",
               "edit_custom_group",
               "delete_custom_group",
+              "restore_custom_group",
             ],
           },
         ]
@@ -560,6 +562,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_custom_group_members",
               "edit_custom_group",
               "delete_custom_group",
+              "restore_custom_group",
             ],
           },
         ]
@@ -761,6 +764,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_custom_group_members",
               "edit_custom_group",
               "delete_custom_group",
+              "restore_custom_group",
             ],
           },
         ]
@@ -962,6 +966,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_custom_group_members",
               "edit_custom_group",
               "delete_custom_group",
+              "restore_custom_group",
             ],
           },
         ]
@@ -1163,6 +1168,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_custom_group_members",
               "edit_custom_group",
               "delete_custom_group",
+              "restore_custom_group",
             ],
           },
         ]
@@ -1371,6 +1377,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
               "manage_custom_group_members",
               "edit_custom_group",
               "delete_custom_group",
+              "restore_custom_group",
             ],
           },
         ]

@@ -48,7 +48,7 @@ describe('admin_console/system_role_permissions', () => {
                 {...props}
             />);
 
-        const expectedLength = 10;
+        const expectedLength = 8;
         let systemRolePermissionLength = wrapper.find(SystemRolePermission).length;
         expect(systemRolePermissionLength).toEqual(expectedLength);
         wrapper.setProps({permissionToUpdate: {

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import Permissions from './permissions';
 
 export const RESOURCE_KEYS = {
@@ -40,6 +41,9 @@ export const RESOURCE_KEYS = {
         COMPLIANCE_EXPORT: 'compliance.compliance_export',
         COMPLIANCE_MONITORING: 'compliance.compliance_monitoring',
         CUSTOM_TERMS_OF_SERVICE: 'compliance.custom_terms_of_service',
+    },
+    PRODUCTS: {
+        BOARDS: 'boards',
     },
     SITE: {
         CUSTOMIZATION: 'site.customization',
@@ -120,6 +124,7 @@ export const ResourceToSysConsolePermissionsTable: Record<string, string[]> = {
     [RESOURCE_KEYS.AUTHENTICATION.GUEST_ACCESS]: [Permissions.SYSCONSOLE_READ_AUTHENTICATION_GUEST_ACCESS, Permissions.SYSCONSOLE_WRITE_AUTHENTICATION_GUEST_ACCESS],
     plugins: [Permissions.SYSCONSOLE_READ_PLUGINS, Permissions.SYSCONSOLE_WRITE_PLUGINS],
     [RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT]: [Permissions.SYSCONSOLE_READ_INTEGRATIONS_INTEGRATION_MANAGEMENT, Permissions.SYSCONSOLE_WRITE_INTEGRATIONS_INTEGRATION_MANAGEMENT],
+    [RESOURCE_KEYS.PRODUCTS.BOARDS]: [Permissions.SYSCONSOLE_READ_PRODUCTS_BOARDS, Permissions.SYSCONSOLE_WRITE_PRODUCTS_BOARDS],
     [RESOURCE_KEYS.INTEGRATIONS.BOT_ACCOUNTS]: [Permissions.SYSCONSOLE_READ_INTEGRATIONS_BOT_ACCOUNTS, Permissions.SYSCONSOLE_WRITE_INTEGRATIONS_BOT_ACCOUNTS],
     [RESOURCE_KEYS.INTEGRATIONS.GIF]: [Permissions.SYSCONSOLE_READ_INTEGRATIONS_GIF, Permissions.SYSCONSOLE_WRITE_INTEGRATIONS_GIF],
     [RESOURCE_KEYS.INTEGRATIONS.CORS]: [Permissions.SYSCONSOLE_READ_INTEGRATIONS_CORS, Permissions.SYSCONSOLE_WRITE_INTEGRATIONS_CORS],

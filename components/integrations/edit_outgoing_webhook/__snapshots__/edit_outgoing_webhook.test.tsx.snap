@@ -226,9 +226,4 @@ exports[`components/integrations/EditOutgoingWebhook should match snapshot when 
 />
 `;
 
-exports[`components/integrations/EditOutgoingWebhook should match snapshot, loading 1`] = `
-<LoadingScreen
-  position="relative"
-  style={Object {}}
-/>
-`;
+exports[`components/integrations/EditOutgoingWebhook should match snapshot, loading 1`] = `<LoadingScreen />`;

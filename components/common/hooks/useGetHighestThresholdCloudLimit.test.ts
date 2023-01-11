@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {limitThresholds} from 'utils/limits';
+import {limitThresholds, LimitTypes} from 'utils/limits';
 import {FileSizes} from 'utils/file_utils';
 
-import useGetHighestThresholdCloudLimit, {LimitSummary, LimitTypes} from './useGetHighestThresholdCloudLimit';
+import useGetHighestThresholdCloudLimit, {LimitSummary} from './useGetHighestThresholdCloudLimit';
 
 jest.mock('react', () => ({
     useMemo: (fn: () => LimitSummary) => fn(),
@@ -36,7 +36,7 @@ const zeroUsage = {
 
 describe('useGetHighestThresholdCloudLimit', () => {
     const messageHistoryLimit = 10000;
-    const filesLimit = FileSizes.Gigabyte * 10;
+    const filesLimit = FileSizes.Gigabyte;
     const okMessageUsage = Math.floor((limitThresholds.warn / 100) * messageHistoryLimit) - 1;
     const warnMessageUsage = Math.ceil((limitThresholds.warn / 100) * messageHistoryLimit) + 1;
     const tests = [

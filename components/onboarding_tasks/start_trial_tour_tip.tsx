@@ -4,7 +4,7 @@
 import React, {useCallback} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
+import {TourTip, useMeasurePunchouts} from '@mattermost/components';
 
 import {TaskNameMapToSteps} from './constants';
 import {useHandleOnBoardingTaskData} from './onboarding_tasks_manager';

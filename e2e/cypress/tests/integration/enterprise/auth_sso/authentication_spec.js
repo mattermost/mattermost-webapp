@@ -31,12 +31,10 @@ describe('Authentication', () => {
     });
 
     it('MM-T1759 - Restrict Domains - Team invite open team', () => {
-        // # Enable open server and turn on user account creation and set restricted domain
+        // # Set restricted domain
         cy.apiUpdateConfig({
             TeamSettings: {
                 RestrictCreationToDomains: 'mattermost.com, test.com',
-                EnableUserCreation: true,
-                EnableOpenServer: true,
             },
         }).then(() => {
             cy.visit(`/admin_console/user_management/teams/${testTeam.id}`);
@@ -67,13 +65,10 @@ describe('Authentication', () => {
     });
 
     it('MM-T1761 - Enable Open Server - Create link appears if email account creation is false and other signin methods are true', () => {
-        // # Enable open server and turn on user account creation and set restricted domain
+        // # Disable sign up with email but enable LDAP
         cy.apiUpdateConfig({
             EmailSettings: {
                 EnableSignUpWithEmail: false,
-            },
-            TeamSettings: {
-                EnableOpenServer: true,
             },
             LdapSettings: {
                 Enable: true,
@@ -83,20 +78,18 @@ describe('Authentication', () => {
             cy.visit('/');
 
             // * Assert that create account button is visible
-            cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            cy.findByText('Don\'t have an account?', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
         });
     });
 
     it('MM-T1766 - Authentication - Email - Creation with email = true', () => {
-        // # Enable open server and turn on user account creation and set restricted domain
+        // # Enable user account creation and set restricted domain
         cy.apiUpdateConfig({
             EmailSettings: {
                 EnableSignUpWithEmail: true,
             },
             TeamSettings: {
                 RestrictCreationToDomains: 'mattermost.com, test.com',
-                EnableUserCreation: true,
-                EnableOpenServer: true,
             },
         }).then(() => {
             cy.apiLogout();

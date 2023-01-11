@@ -46,6 +46,12 @@ exports[`components/login/Login should match snapshot with base login 1`] = `
     <div
       className="login-body-action"
     >
+      <AlternateLink
+        alternateLinkLabel="Don't have an account?"
+        alternateLinkPath="/access_problem"
+        className="login-body-alternate-link"
+        onClick={[Function]}
+      />
       <div
         className="login-body-card"
       >

@@ -7,7 +7,8 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {localizeMessage} from 'utils/utils';
-import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
+
+import BackstageHeader from 'components/backstage/components/backstage_header';
 import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
@@ -409,7 +410,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_outgoing_webhook.triggerWords.help'
-                                        defaultMessage='Specify the trigger words that send an HTTP POST request to your application.  The trigger can be for the channel, the outgoing webhook, or both. If you select only Channel, trigger words are optional. If you select both, the message must match both values.'
+                                        defaultMessage='Specify the trigger words that send an HTTP POST request to your application. The trigger can be for the channel, the outgoing webhook, or both. If you select only Channel, trigger words are optional. If you select both, the message must match both values.'
                                     />
                                 </div>
                             </div>

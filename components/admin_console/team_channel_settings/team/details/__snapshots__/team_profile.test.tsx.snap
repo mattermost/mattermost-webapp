@@ -181,18 +181,14 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud restore sho
             <div
               className="mt-2"
             >
-              <FormattedMarkdownMessage
+              <FormattedMessage
                 defaultMessage="Summary of the team, including team name and description."
                 id="admin.team_settings.team_detail.profileDescription"
               >
-                <span
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "Summary of the team, including team name and description.",
-                    }
-                  }
-                />
-              </FormattedMarkdownMessage>
+                <span>
+                  Summary of the team, including team name and description.
+                </span>
+              </FormattedMessage>
             </div>
           </div>
         </div>
@@ -429,18 +425,14 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
             <div
               className="mt-2"
             >
-              <FormattedMarkdownMessage
+              <FormattedMessage
                 defaultMessage="Summary of the team, including team name and description."
                 id="admin.team_settings.team_detail.profileDescription"
               >
-                <span
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "Summary of the team, including team name and description.",
-                    }
-                  }
-                />
-              </FormattedMarkdownMessage>
+                <span>
+                  Summary of the team, including team name and description.
+                </span>
+              </FormattedMessage>
             </div>
           </div>
         </div>
@@ -810,18 +802,14 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
             <div
               className="mt-2"
             >
-              <FormattedMarkdownMessage
+              <FormattedMessage
                 defaultMessage="Summary of the team, including team name and description."
                 id="admin.team_settings.team_detail.profileDescription"
               >
-                <span
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "Summary of the team, including team name and description.",
-                    }
-                  }
-                />
-              </FormattedMarkdownMessage>
+                <span>
+                  Summary of the team, including team name and description.
+                </span>
+              </FormattedMessage>
             </div>
           </div>
         </div>

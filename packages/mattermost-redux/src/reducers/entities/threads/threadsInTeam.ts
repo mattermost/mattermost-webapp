@@ -166,8 +166,10 @@ function handleLeaveChannel(state: State, action: GenericAction, extra: ExtraDat
     for (const thread of extra.threadsToDelete) {
         if (nextState[teamId]) {
             const index = nextState[teamId].indexOf(thread.id);
-            nextState[teamId] = [...nextState[teamId].slice(0, index), ...nextState[teamId].slice(index + 1)];
-            threadDeleted = true;
+            if (index !== -1) {
+                nextState[teamId] = [...nextState[teamId].slice(0, index), ...nextState[teamId].slice(index + 1)];
+                threadDeleted = true;
+            }
         }
     }
 

@@ -10,7 +10,7 @@ import {DeepPartial} from '@mattermost/types/utilities';
 import * as Utils from 'utils/utils';
 import Card from 'components/card/card';
 import BlockableLink from 'components/admin_console/blockable_link';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import DropdownInputHybrid from 'components/widgets/inputs/dropdown_input_hybrid';
 import {keepForeverOption, yearsOption, daysOption, FOREVER, YEARS, DAYS} from 'components/admin_console/data_retention_settings/dropdown_options/dropdown_options';
 
@@ -119,7 +119,7 @@ export default class GlobalPolicyForm extends React.PureComponent<Props, State> 
             this.setState({serverError: error.message, saving: false});
         } else {
             this.props.actions.setNavigationBlocked(false);
-            browserHistory.push('/admin_console/compliance/data_retention_settings');
+            getHistory().push('/admin_console/compliance/data_retention_settings');
         }
     };
 

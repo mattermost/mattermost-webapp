@@ -3,8 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import {FormattedMessage} from 'react-intl';
 
 // import TestHelper from 'mattermost-redux/test/test_helper';
 import {TestHelper} from 'utils/test_helper';
@@ -51,7 +50,7 @@ describe('components/integrations/bots/AddBot', () => {
             />,
         )).toEqual(true);
         expect(wrapper.containsMatchingElement(
-            <FormattedMarkdownMessage
+            <FormattedMessage
                 id='admin.manage_roles.additionalRoles'
             />,
         )).toEqual(true);

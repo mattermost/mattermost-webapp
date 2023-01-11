@@ -15,7 +15,7 @@ import {getChannelIntroPluginComponents} from 'selectors/plugins';
 
 import {getTotalUsersStats} from 'mattermost-redux/actions/users';
 
-import {Preferences} from 'utils/constants';
+import {Preferences, suitePluginIds} from 'utils/constants';
 import {getDisplayNameByUser} from 'utils/utils';
 import {getCurrentLocale} from 'selectors/i18n';
 
@@ -33,7 +33,7 @@ function mapStateToProps(state: GlobalState) {
     const channel = getCurrentChannel(state) || {};
     const teammate = getDirectTeammate(state, channel.id);
     const creator = getUser(state, channel.creator_id);
-    const boardComponent = getChannelIntroPluginComponents(state).find((c) => c.pluginId === 'focalboard');
+    const boardComponent = getChannelIntroPluginComponents(state).find((c) => c.pluginId === suitePluginIds.focalboard);
 
     const usersLimit = 10;
 

@@ -23,6 +23,17 @@ function modalSearch(state = '', action: GenericAction) {
     }
 }
 
+function popoverSearch(state = '', action: GenericAction) {
+    switch (action.type) {
+    case SearchTypes.SET_POPOVER_SEARCH: {
+        return action.data.trim();
+    }
+
+    default:
+        return state;
+    }
+}
+
 function channelMembersRhsSearch(state = '', action: GenericAction) {
     switch (action.type) {
     case SearchTypes.SET_CHANNEL_MEMBERS_RHS_SEARCH: {
@@ -128,6 +139,7 @@ function channelListSearch(state: Partial<ViewsState['search']['channelListSearc
 
 export default combineReducers({
     modalSearch,
+    popoverSearch,
     channelMembersRhsSearch,
     modalFilters,
     systemUsersSearch,

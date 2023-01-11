@@ -292,6 +292,20 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
                   }
                 }
               />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Toggle unread/all channels:	Ctrl|Shift|U",
+                      "id": "shortcuts.nav.toggle_unreads",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Toggle unread/all channels:	⌘|Shift|U",
+                      "id": "shortcuts.nav.toggle_unreads.mac",
+                    },
+                  }
+                }
+              />
             </div>
           </div>
         </div>
@@ -920,6 +934,20 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal with Call
                   }
                 }
               />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Toggle unread/all channels:	Ctrl|Shift|U",
+                      "id": "shortcuts.nav.toggle_unreads",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Toggle unread/all channels:	⌘|Shift|U",
+                      "id": "shortcuts.nav.toggle_unreads.mac",
+                    },
+                  }
+                }
+              />
             </div>
           </div>
         </div>
@@ -1276,11 +1304,11 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal with Call
                   shortcut={
                     Object {
                       "default": Object {
-                        "defaultMessage": "Join call in current channel:	Ctrl|Shift|S",
+                        "defaultMessage": "Join call in current channel:	Ctrl|Alt|S",
                         "id": "shortcuts.calls.join_call",
                       },
                       "mac": Object {
-                        "defaultMessage": "Join call in current channel:	⌘|Shift|S",
+                        "defaultMessage": "Join call in current channel:	⌘|⌥|S",
                         "id": "shortcuts.calls.join_call.mac",
                       },
                     }

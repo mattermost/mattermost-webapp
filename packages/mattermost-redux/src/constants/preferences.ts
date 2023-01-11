@@ -4,6 +4,7 @@
 import {Theme, ThemeKey} from 'mattermost-redux/selectors/entities/preferences';
 
 const Preferences = {
+    APP_BAR: 'app_bar',
     CATEGORY_CHANNEL_OPEN_TIME: 'channel_open_time',
     CATEGORY_CHANNEL_APPROXIMATE_VIEW_TIME: 'channel_approximate_view_time',
     CATEGORY_DIRECT_CHANNEL_SHOW: 'direct_channel_show',
@@ -53,6 +54,7 @@ const Preferences = {
     ADVANCED_FILTER_JOIN_LEAVE: 'join_leave',
     ADVANCED_CODE_BLOCK_ON_CTRL_ENTER: 'code_block_ctrl_enter',
     ADVANCED_SEND_ON_CTRL_ENTER: 'send_on_ctrl_enter',
+    ADVANCED_SYNC_DRAFTS: 'sync_drafts',
     CATEGORY_WHATS_NEW_MODAL: 'whats_new_modal',
     HAS_SEEN_SIDEBAR_WHATS_NEW_MODAL: 'has_seen_sidebar_whats_new_modal',
 
@@ -71,6 +73,8 @@ const Preferences = {
 
     CATEGORY_UPGRADE_CLOUD: 'upgrade_cloud',
     SYSTEM_CONSOLE_LIMIT_REACHED: 'system_console_limit_reached',
+
+    NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED: 'channel_with_board_tip_showed',
 
     CATEGORY_THEME: 'theme',
     THEMES: {

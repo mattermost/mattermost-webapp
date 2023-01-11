@@ -9,7 +9,8 @@ import {Link} from 'react-router-dom';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {localizeMessage} from 'utils/utils';
-import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
+
+import BackstageHeader from 'components/backstage/components/backstage_header';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';

@@ -70,3 +70,48 @@ describe('Actions.Storage', () => {
         );
     });
 });
+
+describe('cleanLocalStorage', () => {
+    beforeAll(() => {
+        localStorage.clear();
+    });
+
+    afterEach(() => {
+        localStorage.clear();
+    });
+
+    test('should clear keys used for user profile colors in compact mode', () => {
+        const keys = [
+            'harrison-#0a111f',
+            'harrison-#090a0b',
+            'jira-#0a111f',
+            'jira-#090a0b',
+            'github-#090a0b',
+        ];
+
+        for (const key of keys) {
+            localStorage.setItem(key, key);
+        }
+
+        Actions.cleanLocalStorage();
+
+        expect(localStorage.length).toBe(0);
+    });
+
+    test('should not clear keys used for other things', () => {
+        const keys = [
+            'theme',
+            'was_logged_in',
+            '__landingPageSeen__',
+            'emoji-mart.frequently',
+        ];
+
+        for (const key of keys) {
+            localStorage.setItem(key, key);
+        }
+
+        Actions.cleanLocalStorage();
+
+        expect(localStorage.length).toBe(keys.length);
+    });
+});

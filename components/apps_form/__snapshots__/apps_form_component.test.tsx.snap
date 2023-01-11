@@ -65,6 +65,26 @@ exports[`AppsFormComponent should set match snapshot 1`] = `
       bsClass="modal-body"
       componentClass="div"
     >
+      <Fade
+        appear={false}
+        in={false}
+        mountOnEnter={false}
+        timeout={300}
+        unmountOnExit={false}
+      >
+        <div
+          className="apps-form-modal-body-common apps-form-modal-body-loaded"
+        >
+          <LoadingSpinner
+            style={
+              Object {
+                "fontSize": "24px",
+              }
+            }
+            text={null}
+          />
+        </div>
+      </Fade>
       <AppsFormHeader
         id="appsModalHeader"
         value="Header"
