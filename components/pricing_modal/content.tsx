@@ -33,8 +33,6 @@ import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 import YearlyMonthlyToggle from 'components/yearly_monthly_toggle';
 
-import {isAnnualSubscriptionEnabled} from 'mattermost-redux/selectors/entities/preferences';
-
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
 
@@ -67,8 +65,6 @@ function Content(props: ContentProps) {
     const subscription = useSelector(selectCloudSubscription);
     const product = useSelector(selectSubscriptionProduct);
     const products = useSelector(selectCloudProducts);
-
-    const annualSubscriptionEnabled = useSelector(isAnnualSubscriptionEnabled);
 
     const currentSubscriptionIsMonthly = product?.recurring_interval === RecurringIntervals.MONTH;
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
@@ -201,7 +197,7 @@ function Content(props: ContentProps) {
             </Modal.Header>
             <Modal.Body>
                 <div className='pricing-options-container'>
-                    {(annualSubscriptionEnabled && currentSubscriptionIsMonthly) &&
+                    {(currentSubscriptionIsMonthly) &&
                         <>
                             <div className='save-text'>
                                 {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
