@@ -197,10 +197,6 @@ export interface CloudUsage {
         history: number;
         historyLoaded: boolean;
     };
-    boards: {
-        cards: number;
-        cardsLoaded: boolean;
-    };
     teams: TeamsUsage;
 }
 

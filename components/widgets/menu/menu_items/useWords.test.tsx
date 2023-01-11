@@ -139,16 +139,23 @@ describe('useWords', () => {
         },
         {
             label: 'admin prompted to upgrade',
-            props: asAdmin(mkLimit(LimitTypes.messageHistory, 11000, 10000)),
+            props: asAdmin(mkLimit(LimitTypes.messageHistory, 6000, 10000)),
             expects: {
                 description: 'View upgrade options.',
             },
         },
         {
             label: 'end user prompted to view plans',
-            props: asUser(mkLimit(LimitTypes.messageHistory, 11000, 10000)),
+            props: asUser(mkLimit(LimitTypes.messageHistory, 6000, 10000)),
             expects: {
                 description: 'View plans',
+            },
+        },
+        {
+            label: 'end user prompted to notify admin when over limit plans',
+            props: asUser(mkLimit(LimitTypes.messageHistory, 11000, 10000)),
+            expects: {
+                description: 'Notify admin',
             },
         },
     ];
