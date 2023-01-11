@@ -1,7 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useRef, useState} from 'react';
+import {Editor} from '@tiptap/core';
+import isEqual from 'lodash/isEqual';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import type {FormEvent} from 'react';
 import type {KeyboardShortcutCommand} from '@tiptap/core';
 import {EditorContent, useEditor} from '@tiptap/react';
@@ -10,7 +12,7 @@ import type {JSONContent} from '@tiptap/react';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import type {NewPostDraft} from 'types/store/draft';
-import FileUpload from 'components/file_upload';
+import FileUpload, {PostType} from 'components/file_upload';
 import type {FileUploadClass} from 'components/file_upload';
 import FilePreview from 'components/file_preview';
 import type {FilePreviewInfo} from 'components/file_preview';
@@ -39,13 +41,16 @@ export enum Formatters {
 
 export type WysiwygConfig = {
     disableFormatting?: Formatters[];
+    enterHandling?: {
+        ctrlSend?: boolean;
+        codeBlockOnCtrlEnter?: boolean;
+    };
     keyHandlers?: Record<string, KeyboardShortcutCommand>;
     suggestions?: Omit<SuggestionConfig, 'emoji'>;
-    additionalControls?: React.ReactNode[];
     fileUpload?: {
         rootId: string;
         channelId: string;
-        postType: 'post' | 'thread' | 'comment';
+        postType: PostType;
     };
 };
 
@@ -95,82 +100,30 @@ type Props = PropsFromRedux & {
      * Content to display above the editors editable area.
      */
     headerContent?: React.ReactNode | React.ReactNode[];
+
+    /**
+     * Additional controls that get added to the formatting controls section
+     */
+    additionalControls?: React.ReactNode[];
 }
 
-export default (props: Props) => {
+const Wysiwyg = (props: Props) => {
     const {
         config = {},
         reduxConfig,
         onSubmit,
         onChange,
         onAttachmentChange,
+        additionalControls,
         placeholder,
         readOnly,
         useCustomEmojis,
-        ctrlSend,
-        codeBlockOnCtrlEnter,
         headerContent,
         draft,
         locale,
     } = props;
 
-    const editor = useEditor({
-        extensions: [
-            Extensions.configure({
-                config,
-                hardBreak: false,
-                placeholder: placeholder ? {placeholder} : false,
-                codeBlock: {defaultLanguage: 'css'},
-                table: {allowTableNodeSelection: true},
-                link: {
-                    linkOnPaste: false,
-                    openOnClick: false,
-                    HTMLAttributes: {class: 'wysiwyglink'},
-                },
-                suggestions: {
-                    emoji: {useCustomEmojis},
-                    mention: config?.suggestions?.mention,
-                    channel: config?.suggestions?.channel,
-                    command: config?.suggestions?.command,
-                },
-                keyHandling: {
-                    submitAction: handleSubmit,
-                    ctrlSend,
-                    codeBlockOnCtrlEnter,
-                    additionalHandlers: config?.keyHandlers,
-                },
-            }),
-        ],
-        content: draft?.content,
-        autofocus: 'end',
-        onUpdate: ({editor}) => {
-            // call the onChange function from the parent component (if available)
-            onChange?.(htmlToMarkdown(editor.getHTML()), editor.getJSON());
-        },
-    }, []);
-
-    // files currently attached to the editor
-    const [attachments, setAttachments] = useState<FileInfo[]>(draft?.fileInfos || []);
-
-    // files currently uploading
-    const [uploads, setUploads] = useState<string[]>(draft?.uploadsInProgress || []);
-
-    // percentage for the files that are uploading atm
-    const [uploadsProgress, setUploadsProgress] = useState<Record<string, FileInfo>>({});
-    const [error, setError] = useState<string>('');
-    const containerRef = useRef<HTMLDivElement>(null);
-    const fileUploadRef = useRef<FileUploadClass>(null);
-
-    // since the attachment state is now being handled internally fire the optional `onAttachmentChange` handler
-    useEffect(() => {
-        onAttachmentChange?.(attachments, uploads);
-    }, [onAttachmentChange, attachments, uploads]);
-
-    if (!editor) {
-        return null;
-    }
-
-    function handleSubmit(event?: React.FormEvent) {
+    const handleSubmit = async (editor: Editor, event?: React.FormEvent) => {
         event?.preventDefault();
 
         /**
@@ -195,20 +148,78 @@ export default (props: Props) => {
         // 1. fire the passed onSubmit function
         onSubmit();
 
-        // 2. clear the editor content
-        editor?.commands.clearContent(true);
+        if (!editor.isEmpty) {
+            // 2. clear the editor content
+            editor.commands.clearContent(true);
+        }
 
         // 3. clear all attachments and related state
         setAttachments([]);
         setUploads([]);
         setUploadsProgress({});
+    };
+
+    const editor = useEditor({
+        extensions: [
+            Extensions.configure({
+                config,
+                hardBreak: false,
+                placeholder: placeholder ? {placeholder} : false,
+                codeBlock: {defaultLanguage: 'css'},
+                table: {allowTableNodeSelection: true},
+                link: {
+                    linkOnPaste: false,
+                    openOnClick: false,
+                    HTMLAttributes: {class: 'wysiwyglink'},
+                },
+                suggestions: {
+                    emoji: {useCustomEmojis},
+                    mention: config?.suggestions?.mention,
+                    channel: config?.suggestions?.channel,
+                    command: config?.suggestions?.command,
+                },
+                keyHandling: {
+                    submitAction: handleSubmit,
+                    ctrlSend: config?.enterHandling?.ctrlSend,
+                    codeBlockOnCtrlEnter: config?.enterHandling?.codeBlockOnCtrlEnter,
+                    additionalHandlers: config?.keyHandlers,
+                },
+            }),
+        ],
+        content: draft?.content,
+        autofocus: 'end',
+        onUpdate: ({editor}) => {
+            // call the onChange function from the parent component (if available)
+            onChange?.(htmlToMarkdown(editor.getHTML()), editor.getJSON());
+        },
+    }, [config]);
+
+    // files currently attached to the editor
+    const [attachments, setAttachments] = useState<FileInfo[]>(draft?.fileInfos || []);
+
+    // files currently uploading
+    const [uploads, setUploads] = useState<string[]>(draft?.uploadsInProgress || []);
+
+    // percentage for the files that are uploading atm
+    const [uploadsProgress, setUploadsProgress] = useState<Record<string, FileInfo>>({});
+    const [error, setError] = useState<string>('');
+    const containerRef = useRef<HTMLDivElement>(null);
+    const fileUploadRef = useRef<FileUploadClass>(null);
+
+    // since the attachment state is now being handled internally fire the optional `onAttachmentChange` handler
+    useEffect(() => {
+        onAttachmentChange?.(attachments, uploads);
+    }, [onAttachmentChange, attachments, uploads]);
+
+    if (!editor) {
+        return null;
     }
 
     const disableSendButton = editor.isEmpty;
     const sendButton = readOnly ? null : (
         <SendButton
             disabled={disableSendButton}
-            handleSubmit={handleSubmit}
+            handleSubmit={(event) => handleSubmit(editor, event)}
         />
     );
 
@@ -283,7 +294,7 @@ export default (props: Props) => {
             onUploadProgress={handleUploadProgress}
             rootId={config?.fileUpload?.rootId || ''}
             channelId={config?.fileUpload?.channelId || ''}
-            postType={config?.fileUpload?.postType || 'post'}
+            postType={config?.fileUpload?.postType || PostType.post}
         />
     );
 
@@ -324,7 +335,7 @@ export default (props: Props) => {
     const toolbarProps = {
         editor,
         rightControls,
-        additionalControls: config?.additionalControls,
+        additionalControls,
     };
 
     return (
@@ -341,3 +352,9 @@ export default (props: Props) => {
         </>
     );
 };
+
+export default memo(Wysiwyg, (prevProps, nextProps) => {
+    return isEqual(prevProps.config, nextProps.config);
+});
+
+export type {Editor, JSONContent};

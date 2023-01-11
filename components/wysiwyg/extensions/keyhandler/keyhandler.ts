@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Extension} from '@tiptap/core';
+import {Editor, Extension} from '@tiptap/core';
 import type {KeyboardShortcutCommand} from '@tiptap/core';
 import type {PluginKey} from 'prosemirror-state';
+import React from 'react';
 
 export type KeyhandlerOptions = {
-    submitAction: () => void;
+    submitAction: (editor: Editor, event?: React.FormEvent) => void;
     ctrlSend?: boolean;
     codeBlockOnCtrlEnter?: boolean;
     additionalHandlers?: Record<string, KeyboardShortcutCommand>;
@@ -49,8 +50,8 @@ const KeyHandler =
                         return false;
                     }
 
-                    this.options.submitAction();
-                    return this.editor.commands.clearContent(true);
+                    this.options.submitAction(this.editor);
+                    return true;
                 },
 
                 'Mod-Enter': () => {
@@ -61,13 +62,13 @@ const KeyHandler =
                      * force calling the `onSubmit` function and clear the editor content
                      */
                     if (isCodeBlockActive && this.options.codeBlockOnCtrlEnter) {
-                        this.options.submitAction();
-                        return this.editor.commands.clearContent(true);
+                        this.options.submitAction(this.editor);
+                        return true;
                     }
 
                     if (!isCodeBlockActive && this.options.ctrlSend) {
-                        this.options.submitAction();
-                        return this.editor.commands.clearContent(true);
+                        this.options.submitAction(this.editor);
+                        return true;
                     }
 
                     /**

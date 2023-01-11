@@ -3,11 +3,8 @@
 
 import {connect, ConnectedProps} from 'react-redux';
 
-import {Preferences as PreferencesRedux} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
-import {Preferences} from 'utils/constants';
 import {isCustomEmojiEnabled} from 'selectors/emojis';
 import {getCurrentLocale} from 'selectors/i18n';
 import {GlobalState} from 'types/store';
@@ -19,8 +16,6 @@ function mapStateToProps(state: GlobalState) {
         reduxConfig: getConfig(state),
         useCustomEmojis: isCustomEmojiEnabled(state),
         locale: getCurrentLocale(state),
-        ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
-        codeBlockOnCtrlEnter: getBool(state, PreferencesRedux.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', true),
     };
 }
 

@@ -3,8 +3,6 @@
 
 /* eslint-disable max-lines */
 
-import {JSONContent} from '@tiptap/react';
-
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
@@ -48,7 +46,7 @@ import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
-import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
+import {FileUploadClass, PostType} from 'components/file_upload';
 import ResetStatusModal from 'components/reset_status_modal';
 import TextboxClass from 'components/textbox/textbox';
 import PostPriorityPickerOverlay from 'components/post_priority/post_priority_picker_overlay';
@@ -58,6 +56,8 @@ import {NewPostDraft} from 'types/store/draft';
 import {ModalData} from 'types/actions';
 
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
+
+import Wysiwyg, {WysiwygConfig, Editor, JSONContent} from 'components/wysiwyg';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {Post, PostMetadata, PostPriorityMetadata} from '@mattermost/types/posts';
@@ -73,7 +73,6 @@ import AdvancedTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_icon';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
-import Wysiwyg, {WysiwygConfig} from '../wysiwyg';
 const KeyCodes = Constants.KeyCodes;
 
 function isDraftEmpty(draft: NewPostDraft): boolean {
@@ -1534,8 +1533,25 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.handleDraftChange(updatedDraft);
     }
 
+    arrowUpHandling = ({editor}: {editor: Editor}) => {
+        if (editor.isEmpty) {
+            this.editLastPost();
+            return false;
+        }
+        return false;
+    };
+
     render() {
-        const {useLDAPGroupMentions, useCustomGroupMentions, currentChannel, currentTeamId, draft, canPost} = this.props;
+        const {
+            useLDAPGroupMentions,
+            useCustomGroupMentions,
+            currentChannel,
+            currentTeamId,
+            draft,
+            canPost,
+            ctrlSend,
+            codeBlockOnCtrlEnter,
+        } = this.props;
 
         let centerClass = '';
         if (!this.props.fullWidthTextBox) {
@@ -1662,15 +1678,12 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         if (this.props.isWysiwygEnabled) {
             const wysiwygConfig: WysiwygConfig = {
-                additionalControls,
+                enterHandling: {
+                    ctrlSend,
+                    codeBlockOnCtrlEnter,
+                },
                 keyHandlers: {
-                    ArrowUp: ({editor}) => {
-                        if (editor.isEmpty) {
-                            this.editLastPost();
-                            return false;
-                        }
-                        return false;
-                    },
+                    ArrowUp: this.arrowUpHandling,
                 },
                 suggestions: {
                     mention: {
@@ -1688,7 +1701,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 fileUpload: {
                     rootId: '',
                     channelId: currentChannel.id,
-                    postType: 'post',
+                    postType: PostType.post,
                 },
             };
 
@@ -1701,6 +1714,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     headerContent={priorityLabels}
                     draft={draft}
                     config={wysiwygConfig}
+                    additionalControls={additionalControls}
                 />
             );
         }

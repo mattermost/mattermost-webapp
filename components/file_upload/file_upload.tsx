@@ -80,6 +80,12 @@ const customStyles = {
     top: 'auto',
 };
 
+export enum PostType {
+    post = 'post',
+    thread = 'thread',
+    comment = 'comment',
+}
+
 export type Props = {
     channelId: string;
 
@@ -130,7 +136,7 @@ export type Props = {
     /**
      * Type of the object which the uploaded file is attached to
      */
-    postType: string;
+    postType: PostType;
 
     /**
      * The maximum uploaded file size.
@@ -185,11 +191,11 @@ export class FileUpload extends PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        if (this.props.postType === 'post') {
+        if (this.props.postType === PostType.post) {
             this.registerDragEvents('.row.main', '.center-file-overlay');
-        } else if (this.props.postType === 'comment') {
+        } else if (this.props.postType === PostType.comment) {
             this.registerDragEvents('.post-right__container', '.right-file-overlay');
-        } else if (this.props.postType === 'thread') {
+        } else if (this.props.postType === PostType.thread) {
             this.registerDragEvents('.ThreadPane', '.right-file-overlay');
         }
 
