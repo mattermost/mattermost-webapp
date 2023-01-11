@@ -151,10 +151,12 @@ function Content(props: ContentProps) {
     const hasLimits = hasSomeLimits(limits);
 
     const starterBriefing = [
-        formatMessage({id: 'pricing_modal.briefing.free.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board cards'}, {messages: formatNumber(fallbackStarterLimits.messages.history), boards: fallbackStarterLimits.boards.cards}),
+        formatMessage({id: 'pricing_modal.briefing.free.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages'}, {messages: formatNumber(fallbackStarterLimits.messages.history)}),
         formatMessage({id: 'pricing_modal.briefing.storageStarter', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackStarterLimits.files.totalStorage, formatNumber)}),
+        formatMessage({id: 'pricing_modal.briefing.free.noLimitBoards', defaultMessage: 'Unlimited board cards'}),
         formatMessage({id: 'pricing_modal.briefing.free.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
-        formatMessage({id: 'pricing_modal.extra_briefing.free.calls', defaultMessage: '1:1 voice calls and screen share'}),
+        formatMessage({id: 'pricing_modal.briefing.free.gitLabGitHubGSuite', defaultMessage: 'GitLab, GitHub, and GSuite SSO'}),
+        formatMessage({id: 'pricing_modal.extra_briefing.cloud.free.calls', defaultMessage: 'Group calls of up to 8 people, 1:1 calls, and screen share'}),
     ];
 
     const legacyStarterBriefing = [
@@ -312,10 +314,10 @@ function Content(props: ContentProps) {
                         briefing={{
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: [
-                                formatMessage({id: 'pricing_modal.briefing.professional.messageBoardsIntegrationsCalls', defaultMessage: 'Unlimited access to messages and boards history, teams, and calls'}),
-                                formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: 'Unlimited file storage'}),
+                                formatMessage({id: 'pricing_modal.briefing.professional.messageBoardsIntegrationsCalls', defaultMessage: 'Unlimited access to messages and files'}),
+                                formatMessage({id: 'pricing_modal.briefing.professional.unLimitedTeams', defaultMessage: 'Unlimited teams'}),
                                 formatMessage({id: 'pricing_modal.briefing.professional.advancedPlaybook', defaultMessage: 'Advanced Playbook workflows with retrospectives'}),
-                                formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin and ADFS'}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin, and ADFS'}),
                                 formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoadLdap', defaultMessage: 'SSO support with AD/LDAP, Google, O365, OpenID'}),
                                 formatMessage({id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement'}),
                             ],
@@ -380,11 +382,10 @@ function Content(props: ContentProps) {
                         briefing={{
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: [
-                                formatMessage({id: 'pricing_modal.briefing.enterprise.unlimitedFileStorage', defaultMessage: 'Unlimited file storage'}),
                                 formatMessage({id: 'pricing_modal.briefing.enterprise.groupSync', defaultMessage: 'AD/LDAP group sync'}),
-                                formatMessage({id: 'pricing_modal.briefing.enterprise.mobileSecurity', defaultMessage: 'Advanced mobile security via ID-only push notifications'}),
                                 formatMessage({id: 'pricing_modal.briefing.enterprise.rolesAndPermissions', defaultMessage: 'Advanced roles and permissions'}),
                                 formatMessage({id: 'pricing_modal.briefing.enterprise.advancedComplianceManagement', defaultMessage: 'Advanced compliance management'}),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.mobileSecurity', defaultMessage: 'Advanced mobile security via ID-only push notifications'}),
                                 formatMessage({id: 'pricing_modal.extra_briefing.enterprise.playBookAnalytics', defaultMessage: 'Playbook analytics dashboard'}),
                             ],
                         }}
