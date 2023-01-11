@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React, {CSSProperties, useCallback, useEffect, useRef, useState} from 'react';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
-
 import classNames from 'classnames';
 
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
@@ -17,13 +18,11 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Textbox, {TextboxElement} from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import {SendMessageTour} from 'components/tours/onboarding_tour';
-import React, {CSSProperties, useCallback, useEffect, useRef, useState} from 'react';
-import {FormattedMessage, useIntl} from 'react-intl';
 
 import {PostDraft} from 'types/store/draft';
+
 import Constants, {Locations} from 'utils/constants';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
-
 import * as Utils from 'utils/utils';
 
 import {FileInfo} from '@mattermost/types/files';

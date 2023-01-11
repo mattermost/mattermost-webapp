@@ -125,6 +125,8 @@ export const IconContainer = styled.button`
 export const DropdownContainer = styled(IconContainer)`
     width: auto;
     padding: 8px;
+    display: flex;
+    align-items: center;
 `;
 
 // TODO: add generic type for the mode

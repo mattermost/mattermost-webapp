@@ -19,8 +19,8 @@ import {useFloating, autoUpdate, offset, flip, shift, size} from '@floating-ui/r
 import {FormattedMessage} from 'react-intl';
 import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 import styled from 'styled-components';
-import {t} from 'utils/i18n';
 
+import {t} from 'utils/i18n';
 import Constants from 'utils/constants';
 
 const ListContainer = styled.ul`
@@ -238,5 +238,7 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(({item
         document.body,
     );
 });
+
+t('suggestion.mention.emoji');
 
 export default SuggestionList;
