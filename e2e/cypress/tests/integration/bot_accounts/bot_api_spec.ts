@@ -41,7 +41,7 @@ describe('Bot accounts ownership and API', () => {
         cy.apiUpdateConfig(newSettings);
 
         // # Create a test bot
-        cy.apiCreateBot({prefix: 'test-bot'}).then(({bot}) => {
+        cy.apiCreateBot().then(({bot}) => {
             ({user_id: botId, username: botUsername, display_name: botName} = bot);
             cy.apiPatchUserRoles(bot.user_id, ['system_admin', 'system_user']);
         });

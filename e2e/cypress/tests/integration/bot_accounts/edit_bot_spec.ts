@@ -27,7 +27,7 @@ describe('Edit bot', () => {
         });
     });
 
-    function createBot(userName: string, displayName?: string) {
+    function createBot(userName: string) {
         // # Go to bot integrations page
         cy.visit(`/${testTeam.name}/channels/town-square`);
         cy.uiOpenProductMenu('Integrations');
@@ -36,9 +36,6 @@ describe('Edit bot', () => {
 
         // # Fill and submit form
         cy.get('#username').type(userName);
-        if (displayName) {
-            cy.get('#displayName').type('Test Bot');
-        }
         cy.get('#saveBot').click();
 
         // * Verify confirmation page

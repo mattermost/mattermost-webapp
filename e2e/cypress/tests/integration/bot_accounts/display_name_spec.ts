@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Bot} from 'mattermost-redux/types/bots';
-
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -74,7 +72,7 @@ describe('Bot display name', () => {
                             should('have.text', bot.display_name);
                     }).then(() => {
                         // # Change display name after prior verification
-                        cy.wrap(client.patchBot(bot.user_id, {display_name: `NEW ${bot.display_name}`})).then((newBot: Bot) => {
+                        cy.wrap(client.patchBot(bot.user_id, {display_name: `NEW ${bot.display_name}`})).then((newBot: Cypress.Bot) => {
                             cy.postBotMessage({token, message: secondMessage, props, channelId: offTopicChannel.id}).
                                 its('id').
                                 should('exist').

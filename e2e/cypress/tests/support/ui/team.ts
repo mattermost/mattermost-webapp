@@ -37,13 +37,11 @@ declare global {
 
             /**
              * Wait for a message to get posted as the last post.
-             * @param {string} message - message to check if includes in the last post
-             * @returns {boolean} returns true if found or fail a test if not.
+             * @param {string} userName - username of a bot
              *
              * @example
-             *   const message = 'message';
-             *   cy.postMessage(message);
-             *   cy.uiWaitUntilMessagePostedIncludes(message);
+             * const userName = {bot}
+             *   cy.uiInviteMemberToCurrentTeam(userName);
              */
             uiInviteMemberToCurrentTeam: typeof uiInviteMemberToCurrentTeam;
         }

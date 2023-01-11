@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {BotPatch} from 'mattermost-redux/types/bots';
 import {ChainableT} from 'tests/types';
 
 import {getRandomId} from '../../utils';
@@ -13,7 +12,7 @@ import {getRandomId} from '../../utils';
 
 interface ApiCreateBotArg {
     prefix?: string;
-    bot?: BotPatch;
+    bot?: Cypress.BotPatch;
 }
 
 function apiCreateBot({prefix, bot = createBotPatch(prefix)}: ApiCreateBotArg): ChainableT<any> {
