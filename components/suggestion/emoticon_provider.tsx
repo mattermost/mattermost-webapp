@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Emoji} from '@mattermost/types/emojis.js';
+import {Emoji} from '@mattermost/types/emojis';
 
 import {Preferences} from 'utils/constants';
 
@@ -26,7 +26,7 @@ export const EMOJI_CATEGORY_SUGGESTION_BLOCKLIST = ['skintone'];
 type ProviderResults = {
     matchedPretext: string;
     terms: string[];
-    items: Array<Record<string, any>>;
+    items: MatchedEmoji[];
     component?: React.ReactNode;
 };
 
