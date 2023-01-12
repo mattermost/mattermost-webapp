@@ -1203,13 +1203,15 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     };
 
     onAttachmentChange = (fileInfos: FileInfo[], uploadsInProgress: string[]) => {
+        const {rootId} = this.props;
         const updatedDraft = {
             ...this.props.draft,
             fileInfos,
             uploadsInProgress,
         };
 
-        this.handleDraftChange(updatedDraft);
+        this.setState({draft: updatedDraft});
+        this.handleDraftChange(updatedDraft, rootId, true);
     }
 
     render() {

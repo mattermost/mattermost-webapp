@@ -11,7 +11,7 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isWysiwygEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {unsetEditingPost} from 'actions/post_actions';
 import {openModal} from 'actions/views/modals';
@@ -20,6 +20,7 @@ import {editPost} from 'actions/views/posts';
 import {getEditingPost} from 'selectors/posts';
 import {GlobalState} from 'types/store';
 import Constants, {StoragePrefixes} from 'utils/constants';
+
 import {setGlobalItem} from '../../actions/storage';
 import {getPostDraft} from '../../selectors/rhs';
 
@@ -53,6 +54,7 @@ function mapStateToProps(state: GlobalState) {
         maxPostSize: parseInt(config.MaxPostSize || '0', 10) || Constants.DEFAULT_CHARACTER_LIMIT,
         readOnlyChannel: !isCurrentUserSystemAdmin(state) && channel.name === Constants.DEFAULT_CHANNEL,
         useChannelMentions,
+        isWysiwgEnabled: isWysiwygEnabled(state),
     };
 }
 

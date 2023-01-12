@@ -58,6 +58,7 @@ export type Props = {
     };
     maxPostSize: number;
     useChannelMentions: boolean;
+    isWsiwygEnabled: boolean;
     editingPost: {
         post: Post | null;
         postId?: string;

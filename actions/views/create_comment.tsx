@@ -3,8 +3,6 @@
 
 import {createSelector} from 'reselect';
 
-import {Post} from '@mattermost/types/posts';
-
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
@@ -35,6 +33,8 @@ import {Constants, StoragePrefixes} from 'utils/constants';
 import type {PostDraft} from 'types/store/draft';
 import type {GlobalState} from 'types/store';
 import type {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+
+import {Post} from '@mattermost/types/posts';
 
 export function clearCommentDraftUploads() {
     return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (_key: string, draft: PostDraft) => {

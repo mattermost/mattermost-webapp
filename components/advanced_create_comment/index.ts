@@ -10,7 +10,7 @@ import {ModalData} from 'types/actions.js';
 
 import {ActionFunc, ActionResult, DispatchFunc} from 'mattermost-redux/types/actions.js';
 
-import {PostDraft} from 'types/store/draft';
+import {NewPostDraft} from 'types/store/draft';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
@@ -124,18 +124,18 @@ function makeMapStateToProps() {
 }
 
 function makeOnUpdateCommentDraft(rootId: string, channelId: string) {
-    return (draft?: PostDraft, save = false) => updateCommentDraft(rootId, draft ? {...draft, channelId, remote: false} : draft, save);
+    return (draft?: NewPostDraft, save = false) => updateCommentDraft(rootId, draft ? {...draft, channelId, remote: false} : draft, save);
 }
 
 function makeUpdateCommentDraftWithRootId(channelId: string) {
-    return (rootId: string, draft?: PostDraft, save = false) => updateCommentDraft(rootId, draft ? {...draft, channelId, remote: false} : draft, save);
+    return (rootId: string, draft?: NewPostDraft, save = false) => updateCommentDraft(rootId, draft ? {...draft, channelId, remote: false} : draft, save);
 }
 
 type Actions = {
     clearCommentDraftUploads: () => void;
-    onUpdateCommentDraft: (draft?: PostDraft, save?: boolean) => void;
-    updateCommentDraftWithRootId: (rootID: string, draft: PostDraft, save?: boolean) => void;
-    onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => void;
+    onUpdateCommentDraft: (draft?: NewPostDraft, save?: boolean) => void;
+    updateCommentDraftWithRootId: (rootID: string, draft: NewPostDraft, save?: boolean) => void;
+    onSubmit: (draft: NewPostDraft, options: {ignoreSlash: boolean}) => void;
     onResetHistoryIndex: () => void;
     onMoveHistoryIndexBack: () => void;
     onMoveHistoryIndexForward: () => void;
@@ -151,10 +151,10 @@ type Actions = {
 };
 
 function makeMapDispatchToProps() {
-    let onUpdateCommentDraft: (draft?: PostDraft, save?: boolean) => void;
-    let updateCommentDraftWithRootId: (rootID: string, draft: PostDraft, save?: boolean) => void;
+    let onUpdateCommentDraft: (draft?: NewPostDraft, save?: boolean) => void;
+    let updateCommentDraftWithRootId: (rootID: string, draft: NewPostDraft, save?: boolean) => void;
     let onSubmit: (
-        draft: PostDraft,
+        draft: NewPostDraft,
         options: {ignoreSlash: boolean},
     ) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onMoveHistoryIndexBack: () => (
