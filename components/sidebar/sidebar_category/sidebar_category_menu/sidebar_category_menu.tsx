@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, MouseEvent} from 'react';
+import React, {memo, MouseEvent, useState} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
+import classNames from 'classnames';
 
 import {
     BellOutlineIcon,
@@ -37,6 +38,8 @@ type OwnProps = {
 type Props = OwnProps & PropsFromRedux;
 
 const SidebarCategoryMenu = (props: Props) => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     const {formatMessage} = useIntl();
 
     let muteUnmuteCategoryMenuItem: JSX.Element | null = null;
@@ -229,26 +232,40 @@ const SidebarCategoryMenu = (props: Props) => {
         />
     );
 
+    function handleMenuToggle(isOpen: boolean) {
+        setIsMenuOpen(isOpen);
+    }
+
     return (
-        <Menu.Container
-            menuButtonId={`SidebarCategoryMenu-Button-${props.category.id}`}
-            menuButtonChildren={<DotsVerticalIcon size={16}/>}
-            menuButtonClassName='SidebarMenu_menuButton'
-            menuButtonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
-            menuButtonTooltipId={`SidebarCategoryMenu-ButtonTooltip-${props.category.id}`}
-            menuButtonTooltipText={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
-            menuButtonTooltipClassName='hidden-xs'
-            menuId={`SidebarChannelMenu-MenuList-${props.category.id}`}
-            menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+        <div
+            className={classNames(
+                'SidebarMenu',
+                'MenuWrapper',
+                {menuOpen: isMenuOpen},
+                {'MenuWrapper--open': isMenuOpen},
+            )}
         >
-            {muteUnmuteCategoryMenuItem}
-            {renameCategoryMenuItem}
-            {deleteCategoryMenuItem}
-            <Menu.Separator/>
-            {sortChannelsMenuItem}
-            <Menu.Separator/>
-            {createNewCategoryMenuItem}
-        </Menu.Container>
+            <Menu.Container
+                menuButtonId={`SidebarCategoryMenu-Button-${props.category.id}`}
+                menuButtonChildren={<DotsVerticalIcon size={16}/>}
+                menuButtonClassName='SidebarMenu_menuButton'
+                menuButtonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+                menuButtonTooltipId={`SidebarCategoryMenu-ButtonTooltip-${props.category.id}`}
+                menuButtonTooltipText={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
+                menuButtonTooltipClassName='hidden-xs'
+                menuId={`SidebarChannelMenu-MenuList-${props.category.id}`}
+                menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+                onMenuToggle={handleMenuToggle}
+            >
+                {muteUnmuteCategoryMenuItem}
+                {renameCategoryMenuItem}
+                {deleteCategoryMenuItem}
+                <Menu.Separator/>
+                {sortChannelsMenuItem}
+                <Menu.Separator/>
+                {createNewCategoryMenuItem}
+            </Menu.Container>
+        </div>
     );
 };
 

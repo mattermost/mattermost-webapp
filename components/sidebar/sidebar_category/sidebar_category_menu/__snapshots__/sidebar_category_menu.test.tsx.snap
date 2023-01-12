@@ -1,140 +1,145 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/sidebar/sidebar_category/sidebar_category_menu should match snapshot and contain correct buttons 1`] = `
-<Menu
-  menuAriaLabel="Category Menu"
-  menuButtonAriaLabel="Category Menu"
-  menuButtonChildren={
-    <DotsVerticalIcon
-      size={16}
-    />
-  }
-  menuButtonClassName="SidebarMenu_menuButton"
-  menuButtonId="SidebarCategoryMenu-Button-test_category_id"
-  menuButtonTooltipClassName="hidden-xs"
-  menuButtonTooltipId="SidebarCategoryMenu-ButtonTooltip-test_category_id"
-  menuButtonTooltipText="Category options"
-  menuId="SidebarChannelMenu-MenuList-test_category_id"
+<div
+  className="SidebarMenu MenuWrapper"
 >
-  <MenuItem
-    id="mute-test_category_id"
-    labels={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Mute Category"
-        id="sidebar_left.sidebar_category_menu.muteCategory"
+  <Menu
+    menuAriaLabel="Category Menu"
+    menuButtonAriaLabel="Category Menu"
+    menuButtonChildren={
+      <DotsVerticalIcon
+        size={16}
       />
     }
-    leadingElement={
-      <BellOutlineIcon
-        size={18}
-      />
-    }
-    onClick={[Function]}
-  />
-  <MenuItem
-    id="rename-test_category_id"
-    labels={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Rename Category"
-        id="sidebar_left.sidebar_category_menu.renameCategory"
-      />
-    }
-    leadingElement={
-      <PencilOutlineIcon
-        size={18}
-      />
-    }
-    onClick={[Function]}
-  />
-  <MenuItem
-    id="delete-test_category_id"
-    isDestructive={true}
-    labels={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Delete Category"
-        id="sidebar_left.sidebar_category_menu.deleteCategory"
-      />
-    }
-    leadingElement={
-      <TrashCanOutlineIcon
-        size={18}
-      />
-    }
-    onClick={[Function]}
-  />
-  <MenuItemSeparator />
-  <SubMenu
-    id="sortChannels-test_category_id"
-    labels={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Sort"
-        id="sidebar.sort"
-      />
-    }
-    leadingElement={
-      <SortAlphabeticalAscendingIcon
-        size={18}
-      />
-    }
-    menuId="sortChannels-test_category_id-menu"
-    trailingElements={
-      <React.Fragment>
-        <Memo(MemoizedFormattedMessage)
-          defaultMessage="Alphabetically"
-          id="user.settings.sidebar.sortAlpha"
-        />
-        <ChevronRightIcon
-          size={16}
-        />
-      </React.Fragment>
-    }
+    menuButtonClassName="SidebarMenu_menuButton"
+    menuButtonId="SidebarCategoryMenu-Button-test_category_id"
+    menuButtonTooltipClassName="hidden-xs"
+    menuButtonTooltipId="SidebarCategoryMenu-ButtonTooltip-test_category_id"
+    menuButtonTooltipText="Category options"
+    menuId="SidebarChannelMenu-MenuList-test_category_id"
+    onMenuToggle={[Function]}
   >
     <MenuItem
-      id="sortAplhabetical-test_category_id"
+      id="mute-test_category_id"
       labels={
         <Memo(MemoizedFormattedMessage)
-          defaultMessage="Alphabetically"
-          id="user.settings.sidebar.sortAlpha"
+          defaultMessage="Mute Category"
+          id="sidebar_left.sidebar_category_menu.muteCategory"
+        />
+      }
+      leadingElement={
+        <BellOutlineIcon
+          size={18}
         />
       }
       onClick={[Function]}
     />
     <MenuItem
-      id="sortByMostRecent-test_category_id"
+      id="rename-test_category_id"
       labels={
         <Memo(MemoizedFormattedMessage)
-          defaultMessage="Recent Activity"
-          id="sidebar.sortedByRecencyLabel"
+          defaultMessage="Rename Category"
+          id="sidebar_left.sidebar_category_menu.renameCategory"
+        />
+      }
+      leadingElement={
+        <PencilOutlineIcon
+          size={18}
         />
       }
       onClick={[Function]}
     />
     <MenuItem
-      id="sortManual-test_category_id"
+      id="delete-test_category_id"
+      isDestructive={true}
       labels={
         <Memo(MemoizedFormattedMessage)
-          defaultMessage="Manually"
-          id="sidebar.sortedManually"
+          defaultMessage="Delete Category"
+          id="sidebar_left.sidebar_category_menu.deleteCategory"
+        />
+      }
+      leadingElement={
+        <TrashCanOutlineIcon
+          size={18}
         />
       }
       onClick={[Function]}
     />
-  </SubMenu>
-  <MenuItemSeparator />
-  <MenuItem
-    id="create-test_category_id"
-    labels={
-      <Memo(MemoizedFormattedMessage)
-        defaultMessage="Create New Category"
-        id="sidebar_left.sidebar_category_menu.createCategory"
+    <MenuItemSeparator />
+    <SubMenu
+      id="sortChannels-test_category_id"
+      labels={
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Sort"
+          id="sidebar.sort"
+        />
+      }
+      leadingElement={
+        <SortAlphabeticalAscendingIcon
+          size={18}
+        />
+      }
+      menuId="sortChannels-test_category_id-menu"
+      trailingElements={
+        <React.Fragment>
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Alphabetically"
+            id="user.settings.sidebar.sortAlpha"
+          />
+          <ChevronRightIcon
+            size={16}
+          />
+        </React.Fragment>
+      }
+    >
+      <MenuItem
+        id="sortAplhabetical-test_category_id"
+        labels={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Alphabetically"
+            id="user.settings.sidebar.sortAlpha"
+          />
+        }
+        onClick={[Function]}
       />
-    }
-    leadingElement={
-      <FolderPlusOutlineIcon
-        size={18}
+      <MenuItem
+        id="sortByMostRecent-test_category_id"
+        labels={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Recent Activity"
+            id="sidebar.sortedByRecencyLabel"
+          />
+        }
+        onClick={[Function]}
       />
-    }
-    onClick={[Function]}
-  />
-</Menu>
+      <MenuItem
+        id="sortManual-test_category_id"
+        labels={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Manually"
+            id="sidebar.sortedManually"
+          />
+        }
+        onClick={[Function]}
+      />
+    </SubMenu>
+    <MenuItemSeparator />
+    <MenuItem
+      id="create-test_category_id"
+      labels={
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Create New Category"
+          id="sidebar_left.sidebar_category_menu.createCategory"
+        />
+      }
+      leadingElement={
+        <FolderPlusOutlineIcon
+          size={18}
+        />
+      }
+      onClick={[Function]}
+    />
+  </Menu>
+</div>
 `;

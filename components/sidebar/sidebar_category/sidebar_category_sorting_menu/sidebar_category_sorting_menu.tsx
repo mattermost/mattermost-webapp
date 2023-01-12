@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {MouseEvent, memo} from 'react';
+import React, {MouseEvent, memo, useState} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
+import classNames from 'classnames';
 
 import {
     SortAlphabeticalAscendingIcon,
@@ -33,6 +34,7 @@ type OwnProps = {
 type Props = OwnProps & PropsFromRedux;
 
 const SidebarCategorySortingMenu = (props: Props) => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const {formatMessage} = useIntl();
 
     function handleSortDirectMessages(event: MouseEvent<HTMLLIElement>, sorting: CategorySorting) {
@@ -176,23 +178,37 @@ const SidebarCategorySortingMenu = (props: Props) => {
         />
     );
 
+    function handleMenuToggle(isOpen: boolean) {
+        setIsMenuOpen(isOpen);
+    }
+
     return (
-        <Menu.Container
-            menuButtonId={`SidebarCategorySortingMenu-Button-${props.category.id}`}
-            menuButtonChildren={<DotsVerticalIcon size={16}/>}
-            menuButtonClassName='SidebarMenu_menuButton sortingMenu'
-            menuButtonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
-            menuButtonTooltipId={`SidebarCategorySortingMenu-ButtonTooltip-${props.category.id}`}
-            menuButtonTooltipText={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
-            menuButtonTooltipClassName='hidden-xs'
-            menuId={`SidebarCategorySortingMenu-MenuList-${props.category.id}`}
-            menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+        <div
+            className={classNames(
+                'SidebarMenu',
+                'MenuWrapper',
+                {menuOpen: isMenuOpen},
+                {'MenuWrapper--open': isMenuOpen},
+            )}
         >
-            {sortDirectMessagesMenuItem}
-            {showMessagesCountMenuItem}
-            <Menu.Separator/>
-            {openDirectMessageMenuItem}
-        </Menu.Container>
+            <Menu.Container
+                menuButtonId={`SidebarCategorySortingMenu-Button-${props.category.id}`}
+                menuButtonChildren={<DotsVerticalIcon size={16}/>}
+                menuButtonClassName='SidebarMenu_menuButton sortingMenu'
+                menuButtonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+                menuButtonTooltipId={`SidebarCategorySortingMenu-ButtonTooltip-${props.category.id}`}
+                menuButtonTooltipText={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
+                menuButtonTooltipClassName='hidden-xs'
+                menuId={`SidebarCategorySortingMenu-MenuList-${props.category.id}`}
+                menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+                onMenuToggle={handleMenuToggle}
+            >
+                {sortDirectMessagesMenuItem}
+                {showMessagesCountMenuItem}
+                <Menu.Separator/>
+                {openDirectMessageMenuItem}
+            </Menu.Container>
+        </div>
     );
 };
 

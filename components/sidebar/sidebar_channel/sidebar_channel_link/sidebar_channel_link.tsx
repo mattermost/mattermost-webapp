@@ -159,7 +159,9 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         }
     }
 
-    handleMenuToggle = (isMenuOpen: boolean): void => this.setState({isMenuOpen});
+    handleMenuToggle = (isMenuOpen: boolean) => {
+        this.setState({isMenuOpen});
+    }
 
     render(): JSX.Element {
         const {
