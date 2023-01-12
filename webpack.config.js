@@ -50,6 +50,11 @@ if (DEV) {
     }
 }
 
+// Track the build time so that we can bust any caches that may have incorrectly cached remote_entry.js from before we
+// started setting Cache-Control: no-cache for that file on the server. This can be removed in 2024 after those cached
+// entries are guaranteed to have expired.
+const buildTimestamp = Date.now();
+
 var config = {
     entry: ['./root.tsx', 'root.html'],
     output: {
@@ -380,7 +385,7 @@ async function initializeModuleFederation() {
         } else {
             // For production, hardcode the URLs of product containers to be based on the web app URL
             for (const product of products) {
-                remotes[product.name] = `${product.name}@[window.basename]/static/products/${product.name}/remote_entry.js`;
+                remotes[product.name] = `${product.name}@[window.basename]/static/products/${product.name}/remote_entry.js?bt=${buildTimestamp}`;
             }
         }
 
@@ -440,7 +445,7 @@ async function initializeModuleFederation() {
         './styles': './sass/styles.scss',
         './registry': 'module_registry',
     };
-    moduleFederationPluginOptions.filename = 'remote_entry.js';
+    moduleFederationPluginOptions.filename = `remote_entry.js?bt=${buildTimestamp}`;
 
     config.plugins.push(new ModuleFederationPlugin(moduleFederationPluginOptions));
 
