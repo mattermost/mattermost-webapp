@@ -320,6 +320,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                 modalHeaderText={title}
                 headerButton={createNewChannelButton('outlineButton')}
                 autoCloseOnConfirmButton={false}
+                tabIndex={-1}
             >
                 {body}
             </GenericModal>

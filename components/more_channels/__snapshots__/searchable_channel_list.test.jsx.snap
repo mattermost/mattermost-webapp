@@ -16,7 +16,7 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
       />
     </span>
     <QuickInput
-      ariaLabel="Search Channels"
+      aria-label="Search Channels"
       className="form-control filter-textbox"
       clearable={true}
       id="searchChannelsTextbox"
@@ -66,9 +66,11 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
   <div
     className="more-modal__list"
     role="application"
+    tabIndex={-1}
   >
     <div
       id="moreChannelsList"
+      tabIndex={-1}
     >
       <LoadingScreen />
     </div>

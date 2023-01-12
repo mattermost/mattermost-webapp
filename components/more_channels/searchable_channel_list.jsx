@@ -174,10 +174,10 @@ export default class SearchableChannelList extends React.PureComponent {
                 key={channel.id}
                 id={`ChannelRow-${channel.name}`}
                 onClick={(e) => this.handleJoin(channel, e)}
-                tabIndex='0'
-                onMouseEnter={() => this.handleAtivateRowId(channel.id)}
+                tabIndex={0}
+                onMouseEnter={() => this.handleActivateRowId(channel.id)}
                 onMouseLeave={this.handleDeactivateRowId}
-                onFocus={() => this.handleAtivateRowId(channel.id)}
+                onFocus={() => this.handleActivateRowId(channel.id)}
                 onBlur={this.handleDeactivateRowId}
             >
                 <div className='more-modal__details'>
@@ -243,7 +243,7 @@ export default class SearchableChannelList extends React.PureComponent {
         }
     }
 
-    handleAtivateRowId = (channelId) => this.setState({activeRowId: channelId});
+    handleActivateRowId = (channelId) => this.setState({activeRowId: channelId});
     handleDeactivateRowId = () => this.setState({activeRowId: null});
 
     render() {
@@ -347,7 +347,7 @@ export default class SearchableChannelList extends React.PureComponent {
                     clearable={true}
                     onClear={this.handleClear}
                     value={this.state.channelSearchValue}
-                    ariaLabel={localizeMessage('filtered_channels_list.search', 'Search Channels')}
+                    aria-label={localizeMessage('filtered_channels_list.search', 'Search Channels')}
                 />
             </div>
         );
@@ -406,9 +406,7 @@ export default class SearchableChannelList extends React.PureComponent {
             >
                 <button
                     className={hideJoinedButtonClass}
-                    aria-label={this.props.rememberHideJoinedChannelsChecked ?
-                        localizeMessage('more_channels.hide_joined_checked', 'Hide joined channels checkbox, checked') :
-                        localizeMessage('more_channels.hide_joined_not_checked', 'Hide joined channels checkbox, not checked')
+                    aria-label={this.props.rememberHideJoinedChannelsChecked ? localizeMessage('more_channels.hide_joined_checked', 'Hide joined channels checkbox, checked') : localizeMessage('more_channels.hide_joined_not_checked', 'Hide joined channels checkbox, not checked')
                     }
                 >
                     {this.props.rememberHideJoinedChannelsChecked ? <CheckboxCheckedIcon/> : null}
@@ -449,9 +447,11 @@ export default class SearchableChannelList extends React.PureComponent {
                     role='application'
                     ref='channelList'
                     className='more-modal__list'
+                    tabIndex={-1}
                 >
                     <div
                         id='moreChannelsList'
+                        tabIndex={-1}
                         ref={this.channelListScroll}
                     >
                         {listContent}

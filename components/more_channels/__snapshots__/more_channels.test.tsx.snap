@@ -38,6 +38,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
   }
   onExited={[Function]}
   show={true}
+  tabIndex={-1}
 >
   <LoadingScreen />
 </GenericModal>

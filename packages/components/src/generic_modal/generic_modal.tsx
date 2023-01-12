@@ -32,6 +32,7 @@ export type Props = {
     backdropClassName?: string;
     headerButton?: React.ReactNode;
     children: React.ReactNode;
+    tabIndex: number;
 };
 
 type State = {
@@ -45,6 +46,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
         autoCloseOnCancelButton: true,
         autoCloseOnConfirmButton: true,
         enforceFocus: true,
+        tabIndex: 0,
     };
 
     constructor(props: Props) {
@@ -168,7 +170,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
             >
                 <div
                     onKeyDown={this.onEnterKeyDown}
-                    tabIndex={0}
+                    tabIndex={this.props.tabIndex}
                     className='GenericModal__wrapper-enter-key-press-catcher'
                 >
                     <Modal.Header closeButton={true}>
