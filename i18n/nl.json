@@ -4401,7 +4401,7 @@
   "postlist.toast.searchHint": "Tip: Probeer {searchShortcut} om in dit kanaal te zoeken",
   "posts_view.loadMore": "Laad meer berichten",
   "posts_view.newMsg": "Nieuwe Berichten",
-  "postypes.custom_open_pricing_modal_post_renderer.and": "en",
+  "postypes.custom_open_pricing_modal_post_renderer.and": "en ",
   "postypes.custom_open_pricing_modal_post_renderer.availableOn": " - beschikbaar op {feature}",
   "postypes.custom_open_pricing_modal_post_renderer.downgradeNotfication": "{userRequests} vroegen om de werkruimte om te zetten naar een betaald plan",
   "postypes.custom_open_pricing_modal_post_renderer.learn_trial": "Meer informatie over de proefperiode",

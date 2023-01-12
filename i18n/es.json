@@ -4164,7 +4164,7 @@
   "postlist.toast.searchHint": "Sugerencia: Prueba {searchShortcut} para buscar en este canal",
   "posts_view.loadMore": "Cargar más mensajes",
   "posts_view.newMsg": "Nuevos Mensajes",
-  "postypes.custom_open_pricing_modal_post_renderer.and": "y",
+  "postypes.custom_open_pricing_modal_post_renderer.and": "y ",
   "postypes.custom_open_pricing_modal_post_renderer.availableOn": " - disponible en el {feature}",
   "postypes.custom_open_pricing_modal_post_renderer.members": "{members} miembros",
   "postypes.custom_open_pricing_modal_post_renderer.unknown": "@unknown",

@@ -12,8 +12,6 @@ import {Translations} from 'types/store/i18n';
 import {ActionTypes} from 'utils/constants';
 import en from 'i18n/en.json';
 
-import {fetchListing} from '../marketplace';
-
 const pluginTranslationSources: Record<string, TranslationPluginFunction> = {};
 
 export type TranslationPluginFunction = (locale: string) => Translations

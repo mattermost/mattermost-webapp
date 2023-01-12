@@ -4401,7 +4401,7 @@
   "postlist.toast.searchHint": "Совет: попробуйте {searchShortcut} для поиска на этом канале",
   "posts_view.loadMore": "Больше сообщений",
   "posts_view.newMsg": "Новые сообщения",
-  "postypes.custom_open_pricing_modal_post_renderer.and": "и",
+  "postypes.custom_open_pricing_modal_post_renderer.and": "и ",
   "postypes.custom_open_pricing_modal_post_renderer.availableOn": " - доступен на {feature}",
   "postypes.custom_open_pricing_modal_post_renderer.downgradeNotfication": "{userRequests} попросили перевести рабочее пространство на платный тарифный план",
   "postypes.custom_open_pricing_modal_post_renderer.learn_trial": "Узнать больше о пробной версии",

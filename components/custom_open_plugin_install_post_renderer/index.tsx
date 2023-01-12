@@ -84,21 +84,22 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
 
     useEffect(() => {
         if (requestedPluginsByPluginIds && marketplacePlugins.length && !Object.keys(pluginsByPluginIds).length) {
-            let plugins = {} as RequestedPlugins;
-            for (const pluginId of Object.keys(requestedPluginsByPluginIds)) {
-                const plugin = marketplacePlugins.find((marketplacePlugin) => marketplacePlugin.manifest.id === pluginId);
-                plugins = {
-                    ...plugins,
-                    [pluginId]: requestedPluginsByPluginIds[pluginId].reduce((acc: PluginRequest[], currPlugin: PluginRequest) => {
-                        const curr = {
-                            ...currPlugin,
-                            plugin_name: plugin?.manifest.name || pluginId,
-                            plugin_id: pluginId,
-                        };
-                        acc.push(curr);
-                        return acc;
-                    }, []),
+            const plugins = {} as RequestedPlugins;
+            const mPlugins = marketplacePlugins.reduce((acc, mPlugin) => {
+                return {
+                    ...acc,
+                    [mPlugin.manifest.id as keyof string]: mPlugin,
                 };
+            }, {}) as {[ key: string]: MarketplacePlugin};
+
+            for (const pluginId of Object.keys(requestedPluginsByPluginIds)) {
+                plugins[pluginId] = requestedPluginsByPluginIds[pluginId].map((currPlugin: PluginRequest) => {
+                    return {
+                        ...currPlugin,
+                        plugin_name: mPlugins[pluginId].manifest.name || pluginId,
+                        plugin_id: pluginId,
+                    };
+                });
                 dispatch(getMissingProfilesByIds(getUserIdsForUsersThatRequestedFeature(requestedPluginsByPluginIds[pluginId])));
             }
             setPluginsByPluginIds(plugins);
@@ -107,17 +108,9 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
 
     const getUserNamesForUsersThatRequestedFeature = (requests: PluginRequest[]): string[] => {
         const userNames = requests.map((req: PluginRequest) => {
-            return getUserNameForUser(req.user_id);
+            return '@' + userProfiles[req.user_id]?.username;
         });
-
         return userNames;
-    };
-
-    const getUserNameForUser = (userId: string) => {
-        const unknownName = formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.unknown', defaultMessage: '@unknown'});
-
-        const username = userProfiles[userId]?.username;
-        return username ? '@' + username : unknownName;
     };
 
     const markDownOptions = {
@@ -132,7 +125,7 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
         const messageBuilder: string[] = [];
         const userIds = Object.keys(requestedPluginsByUserIds);
         if (userIds.length === 1) {
-            messageBuilder.push(getUserNameForUser(userIds[0]));
+            messageBuilder.push('@' + userProfiles[userIds[0]]?.username);
 
             for (const pluginId of Object.keys(pluginsByPluginIds)) {
                 pluginNames = [
@@ -195,7 +188,7 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
                         let userName: string[] = [];
                         if (numberOfUserRequest === 1) {
                             const userId = uniqueUserRequestsForPlugins[0].user_id;
-                            userName.push(getUserNameForUser(userId));
+                            userName.push('@' + userProfiles[userId]?.username);
                             installRequests.push(userName[0]);
                         } else if (numberOfUserRequest === 2) {
                             userName = userName.concat(getUserNamesForUsersThatRequestedFeature(uniqueUserRequestsForPlugins));
@@ -338,7 +331,7 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
     return (
         <div>
             {customMessageBody}
-            {Object.keys(pluginsByPluginIds).length ? <RenderPluginButtons pluginsByPluginIds={pluginsByPluginIds}/> : <></>}
+            {Object.keys(pluginsByPluginIds).length ? <RenderPluginButtons pluginsByPluginIds={pluginsByPluginIds}/> : null}
         </div>
     );
 }

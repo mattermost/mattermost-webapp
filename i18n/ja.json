@@ -4383,7 +4383,7 @@
   "postlist.toast.searchHint": "ヒント：このチャンネルを検索するには {searchShortcut} をお試しください",
   "posts_view.loadMore": "もっとメッセージを読み込む",
   "posts_view.newMsg": "新しいメッセージ",
-  "postypes.custom_open_pricing_modal_post_renderer.and": "と",
+  "postypes.custom_open_pricing_modal_post_renderer.and": "と ",
   "postypes.custom_open_pricing_modal_post_renderer.availableOn": " - {feature} で利用可能",
   "postypes.custom_open_pricing_modal_post_renderer.downgradeNotfication": "{userRequests} がワークスペースを有償プランに戻すようリクエストしました",
   "postypes.custom_open_pricing_modal_post_renderer.learn_trial": "トライアルの詳細について",

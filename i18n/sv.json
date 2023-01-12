@@ -4390,7 +4390,7 @@
   "postlist.toast.searchHint": "Tips: Testa {searchShortcut} för att söka i aktuell kanal",
   "posts_view.loadMore": "Ladda mer meddelanden",
   "posts_view.newMsg": "Nya meddelanden",
-  "postypes.custom_open_pricing_modal_post_renderer.and": "och",
+  "postypes.custom_open_pricing_modal_post_renderer.and": "och ",
   "postypes.custom_open_pricing_modal_post_renderer.availableOn": " - finns på webbplatsen {feature}",
   "postypes.custom_open_pricing_modal_post_renderer.downgradeNotfication": "{userRequests} önskade att arbetsytan skulle ändras till ett betal-abonnemang",
   "postypes.custom_open_pricing_modal_post_renderer.learn_trial": "Läs mer om prova-på",
