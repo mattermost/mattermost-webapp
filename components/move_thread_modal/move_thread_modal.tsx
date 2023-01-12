@@ -192,7 +192,7 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
 
     return (
         <GenericModal
-            className='a11y__modal forward-post'
+            className='a11y__modal forward-post move-thread'
             id='forward-post-modal'
             show={true}
             enforceFocus={false}
