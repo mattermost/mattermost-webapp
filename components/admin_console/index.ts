@@ -5,8 +5,8 @@ import {connect, ConnectedProps} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {withRouter} from 'react-router-dom';
 
-import {AdminConfig} from '@mattermost/types/config';
 import {Role} from '@mattermost/types/roles';
+import {AdminConfig} from '@mattermost/types/config';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {getConfig, getEnvironmentConfig, updateConfig} from 'mattermost-redux/actions/admin';
@@ -14,7 +14,6 @@ import {loadRolesIfNeeded, editRole} from 'mattermost-redux/actions/roles';
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 import {getConfig as getGeneralConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
-import {selectChannel} from 'mattermost-redux/actions/channels';
 import {selectTeam} from 'mattermost-redux/actions/teams';
 import {isCurrentUserSystemAdmin, currentUserHasAnAdminRole, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -22,12 +21,14 @@ import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {General} from 'mattermost-redux/constants';
 
 import {setNavigationBlocked, deferNavigation, cancelNavigation, confirmNavigation} from 'actions/admin_actions.jsx';
+import {selectLhsItem} from 'actions/views/lhs';
 import {showNavigationPrompt} from 'selectors/views/admin';
 import {getAdminDefinition, getConsoleAccess} from 'selectors/admin_console';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {GlobalState} from 'types/store';
+import {LhsItemType} from 'types/store/lhs';
 
 import AdminConsole from './admin_console';
 
@@ -64,7 +65,7 @@ type Actions = {
     confirmNavigation: () => void;
     cancelNavigation: () => void;
     loadRolesIfNeeded: (roles: Iterable<string>) => ActionFunc;
-    selectChannel: (channelId: string) => void;
+    selectLhsItem: (type: LhsItemType, id?: string) => void;
     selectTeam: (teamId: string) => void;
     editRole: (role: Role) => void;
     updateConfig?: (config: AdminConfig) => ActionFunc;
@@ -82,7 +83,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             confirmNavigation,
             loadRolesIfNeeded,
             editRole,
-            selectChannel,
+            selectLhsItem,
             selectTeam,
         }, dispatch),
     };

@@ -7,7 +7,6 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 
@@ -42,7 +41,6 @@ function mapStateToProps(state: GlobalState) {
     return {
         isFreeTrial,
         daysLeftOnTrial,
-        analytics: state.entities.admin.analytics,
         userIsAdmin: isCurrentUserSystemAdmin(state),
         currentUser: getCurrentUser(state),
         isCloud,
@@ -56,7 +54,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators(
             {
                 savePreferences,
-                getStandardAnalytics,
                 openModal,
                 getCloudSubscription,
             },

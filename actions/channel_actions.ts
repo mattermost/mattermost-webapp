@@ -231,7 +231,7 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
                 channelMembersResponse = [...channelMembersResponse, ...data.channelMembers];
             } while (responsesPerPage === CHANNELS_AND_CHANNEL_MEMBERS_PER_PAGE);
         } catch (error) {
-            dispatch(logError(error as ServerError, true, true));
+            dispatch(logError(error as ServerError));
             return {error: error as ServerError};
         }
 
