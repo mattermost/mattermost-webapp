@@ -16,7 +16,7 @@ describe('Channel switch performance test', () => {
     let testUser;
     let teamName;
 
-    beforeEach(() => {
+    before(() => {
         cy.apiInitSetup().then(({team, user}) => {
             testUser = user;
             teamName = team;
