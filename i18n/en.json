@@ -4615,7 +4615,7 @@
   "self_hosted_signup.progress_step.applying_license": "Applying your {planName} license to your Mattermost instance",
   "self_hosted_signup.progress_step.submitting_payment": "Submitting payment information",
   "self_hosted_signup.progress_step.verifying_payment": "Verifying payment details",
-  "self_hosted_signup.purchase_in_progress.by_other": "{username} / {email} is currently attempting to purchase a paid license.",
+  "self_hosted_signup.purchase_in_progress.by_other": "{username} is currently attempting to purchase a paid license.",
   "self_hosted_signup.purchase_in_progress.by_self": "You are currently attempting to purchase in another browser window. Complete your purchase or close the other window(s).",
   "self_hosted_signup.purchase_in_progress.by_self_restart": "If you believe this to be a mistake, restart your purchase.",
   "self_hosted_signup.purchase_in_progress.reset": "Restart purchase",

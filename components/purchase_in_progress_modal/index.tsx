@@ -16,7 +16,7 @@ import {useControlPurchaseInProgressModal} from 'components/common/hooks/useCont
 import {STORAGE_KEY_PURCHASE_IN_PROGRESS} from 'components/self_hosted_purchase_modal/constants';
 
 import './index.scss';
-import { GlobalState } from '@mattermost/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 interface Props {
     purchaserEmail: string;
@@ -34,13 +34,16 @@ export default function PurchaseInProgressModal(props: Props) {
     );
 
     const sameUserAlreadyPurchasing = props.purchaserEmail === currentUser.email;
+    let username = '@' + purchaserUser.username;
+    if (purchaserUser.first_name && purchaserUser.last_name) {
+        username = purchaserUser.first_name + ' ' + purchaserUser.last_name;
+    }
     let description = (
         <FormattedMessage
             id='self_hosted_signup.purchase_in_progress.by_other'
-            defaultMessage='{username} / {email} is currently attempting to purchase a paid license.'
+            defaultMessage='{username} is currently attempting to purchase a paid license.'
             values={{
-                username: purchaserUser.username,
-                email: props.purchaserEmail,
+                username,
             }}
         />
     );
@@ -55,10 +58,10 @@ export default function PurchaseInProgressModal(props: Props) {
         );
         actionToTake = (
             <FormattedMessage
-                id="self_hosted_signup.purchase_in_progress.by_self_restart"
-                defaultMessage="If you believe this to be a mistake, restart your purchase."
+                id='self_hosted_signup.purchase_in_progress.by_self_restart'
+                defaultMessage='If you believe this to be a mistake, restart your purchase.'
             />
-        )
+        );
 
         genericModalProps.handleConfirm = () => {
             localStorage.removeItem(STORAGE_KEY_PURCHASE_IN_PROGRESS);
@@ -89,7 +92,7 @@ export default function PurchaseInProgressModal(props: Props) {
                 <div className='PurchaseInProgressModal__progress-description'>
                     {description}
                 </div>
-                {actionToTake && 
+                {actionToTake &&
                     <div className='PurchaseInProgressModal__progress-description'>
                         {actionToTake}
                     </div>
