@@ -47,9 +47,8 @@ describe('Multi-Team + DMs', () => {
 });
 
 function joinAllTeams() {
-    cy.intercept('GET', '**/api/v4/**').as('networkCalls');
     cy.visit('/select_team');
-    cy.wait('@networkCalls');
+    cy.findByText('All team communication in one place, searchable and accessible anywhere');
     cy.findAllByRole('link', {name: /Join Team/}).then(([firstTeam, nextTeam]) => {
         firstTeam.click();
 
