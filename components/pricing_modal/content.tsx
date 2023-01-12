@@ -140,7 +140,6 @@ function Content(props: ContentProps) {
 
         const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
         openDowngradeModal({trackingLocation: telemetryInfo});
-        dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
 
         const result = await dispatch(subscribeCloudSubscription(starterProduct.id, 0, downgradeFeedback));
 
@@ -156,7 +155,6 @@ function Content(props: ContentProps) {
         } else {
             dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
             dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
-            dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
 
             dispatch(
                 openModal({
@@ -277,6 +275,7 @@ function Content(props: ContentProps) {
                         planExtraInformation={<StarterDisclaimerCTA/>}
                         buttonDetails={{
                             action: () => {
+                                dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
                                 dispatch(
                                     openModal({
                                         modalId: ModalIdentifiers.DOWNGRADE_FEEDBACK,
