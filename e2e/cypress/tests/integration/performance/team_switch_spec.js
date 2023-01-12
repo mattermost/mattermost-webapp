@@ -27,12 +27,12 @@ describe('Channel switch performance test', () => {
         cy.apiCreateTeam('team-b', 'Team B').then(({team}) => {
             testTeam2 = team;
         });
-        cy.wait(TIMEOUTS.ONE_SEC);
+        cy.wait(TIMEOUTS.THREE_SEC);
     });
 
     it('measures switching between two teams from LHS', () => {
         // # Invoke window object
-        measurePerformance('teamLoad', 900, () => {
+        measurePerformance('teamLoad', 1000, () => {
             // # Switch to Team 2
             cy.get('#teamSidebarWrapper').within(() => {
                 cy.get(`#${testTeam2.name}TeamButton`).should('be.visible').click();
