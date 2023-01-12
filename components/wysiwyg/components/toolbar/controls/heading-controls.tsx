@@ -7,14 +7,20 @@ import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import {CSSTransition} from 'react-transition-group';
 import {offset, useFloating} from '@floating-ui/react-dom';
-import {CheckIcon, ChevronDownIcon} from '@mattermost/compass-icons/components';
+import {
+    CheckIcon,
+    ChevronDownIcon,
+    DrawIcon,
+    FormatHeader1Icon,
+    FormatHeader2Icon, FormatHeader3Icon, FormatHeader4Icon, FormatHeader5Icon, FormatHeader6Icon,
+} from '@mattermost/compass-icons/components';
 import type {Editor} from '@tiptap/react';
 
 import {t} from 'utils/i18n';
 
 import {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
-import type {WithOptional, WithRequired} from '@mattermost/types/utilities';
+import type {WithRequired} from '@mattermost/types/utilities';
 
 import {
     FloatingContainer,
@@ -23,7 +29,7 @@ import {
 import type {ToolDefinition} from '../toolbar_controls';
 import {useGetLatest} from '../toolbar_hooks';
 
-type HeadingToolDefinition = WithRequired<WithOptional<ToolDefinition<MarkdownHeadingMode, MarkdownHeadingType>, 'icon'>, 'labelDescriptor'>;
+type HeadingToolDefinition = WithRequired<ToolDefinition<MarkdownHeadingMode, MarkdownHeadingType>, 'labelDescriptor'>;
 
 export type MarkdownHeadingMode =
     | 'p'
@@ -42,6 +48,7 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     {
         mode: 'p',
         type: 'setParagraph',
+        icon: DrawIcon,
         labelDescriptor: {id: t('wysiwyg.tool-label.paragraph.label'), defaultMessage: 'Normal text'},
         ariaLabelDescriptor: {id: t('accessibility.button.paragraph'), defaultMessage: 'normal text'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownP,
@@ -51,6 +58,7 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     {
         mode: 'h1',
         type: 'toggleHeading',
+        icon: FormatHeader1Icon,
         labelDescriptor: {id: t('wysiwyg.tool-label.heading1.label'), defaultMessage: 'Heading 1'},
         ariaLabelDescriptor: {id: t('accessibility.button.heading1'), defaultMessage: 'heading 1'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownH1,
@@ -60,6 +68,7 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     {
         mode: 'h2',
         type: 'toggleHeading',
+        icon: FormatHeader2Icon,
         labelDescriptor: {id: t('wysiwyg.tool-label.heading2.label'), defaultMessage: 'Heading 2'},
         ariaLabelDescriptor: {id: t('accessibility.button.heading2'), defaultMessage: 'heading 2'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownH2,
@@ -69,6 +78,7 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     {
         mode: 'h3',
         type: 'toggleHeading',
+        icon: FormatHeader3Icon,
         labelDescriptor: {id: t('wysiwyg.tool-label.heading3.label'), defaultMessage: 'Heading 3'},
         ariaLabelDescriptor: {id: t('accessibility.button.heading3'), defaultMessage: 'heading 3'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownH3,
@@ -78,6 +88,7 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     {
         mode: 'h4',
         type: 'toggleHeading',
+        icon: FormatHeader4Icon,
         labelDescriptor: {id: t('wysiwyg.tool-label.heading4.label'), defaultMessage: 'Heading 4'},
         ariaLabelDescriptor: {id: t('accessibility.button.heading4'), defaultMessage: 'heading 4'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownH4,
@@ -87,6 +98,7 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     {
         mode: 'h5',
         type: 'toggleHeading',
+        icon: FormatHeader5Icon,
         labelDescriptor: {id: t('wysiwyg.tool-label.heading5.label'), defaultMessage: 'Heading 5'},
         ariaLabelDescriptor: {id: t('accessibility.button.heading5'), defaultMessage: 'heading 5'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownH5,
@@ -96,6 +108,7 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     {
         mode: 'h6',
         type: 'toggleHeading',
+        icon: FormatHeader6Icon,
         labelDescriptor: {id: t('wysiwyg.tool-label.heading6.label'), defaultMessage: 'Heading 6'},
         ariaLabelDescriptor: {id: t('accessibility.button.heading6'), defaultMessage: 'heading 6'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownH6,
@@ -104,13 +117,13 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     },
 ];
 
-const HeadingDropdownButton = styled(DropdownContainer)`
-    min-width: 120px;
+const HeadingDropdownButton = styled(DropdownContainer)(({useIcon}: {useIcon: boolean}) => css`
+    min-width: ${useIcon ? 'auto' : '120px'};
     justify-content: space-between;
     font-weight: 600;
-`;
+`);
 
-const HeadingControls = ({editor}: {editor: Editor}) => {
+const HeadingControls = ({editor, useIcon}: {editor: Editor; useIcon: boolean}) => {
     const {formatMessage} = useIntl();
     const [showHeadingControls, setShowHeadingControls] = useState(false);
 
@@ -165,25 +178,8 @@ const HeadingControls = ({editor}: {editor: Editor}) => {
         left: x ?? 0,
     };
 
-    const getHeadingLabel = () => {
-        switch (true) {
-        case editor.isActive('heading', {level: 1}):
-            return formatMessage(headingToolDefinitions[1].labelDescriptor);
-        case editor.isActive('heading', {level: 2}):
-            return formatMessage(headingToolDefinitions[2].labelDescriptor);
-        case editor.isActive('heading', {level: 3}):
-            return formatMessage(headingToolDefinitions[3].labelDescriptor);
-        case editor.isActive('heading', {level: 4}):
-            return formatMessage(headingToolDefinitions[4].labelDescriptor);
-        case editor.isActive('heading', {level: 5}):
-            return formatMessage(headingToolDefinitions[5].labelDescriptor);
-        case editor.isActive('heading', {level: 6}):
-            return formatMessage(headingToolDefinitions[6].labelDescriptor);
-        case editor.isActive('paragraph'):
-        default:
-            return formatMessage(headingToolDefinitions[0].labelDescriptor);
-        }
-    };
+    const {level = 0} = editor.getAttributes('heading');
+    const {icon: Icon, labelDescriptor} = headingToolDefinitions[level];
 
     const codeBlockModeIsActive = editor.isActive('codeBlock');
 
@@ -196,12 +192,17 @@ const HeadingControls = ({editor}: {editor: Editor}) => {
                 onClick={toggleHeadingControls}
                 aria-label={formatMessage({id: 'accessibility.button.formatting', defaultMessage: 'formatting'})}
                 disabled={codeBlockModeIsActive}
+                useIcon={useIcon}
             >
-                {getHeadingLabel()}
-                <ChevronDownIcon
-                    color={'currentColor'}
-                    size={18}
-                />
+                {useIcon ? <Icon size={18}/> : (
+                    <>
+                        {formatMessage(labelDescriptor)}
+                        <ChevronDownIcon
+                            color={'currentColor'}
+                            size={18}
+                        />
+                    </>
+                )}
             </HeadingDropdownButton>
             <CSSTransition
                 timeout={250}

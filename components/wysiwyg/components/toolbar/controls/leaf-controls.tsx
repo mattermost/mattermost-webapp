@@ -336,7 +336,7 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
                             destructive={true}
                             icon={'trash-can-outline'}
                             onClick={() => {
-                                editor.chain().focus().extendMarkRange('link').unsetLink().run();
+                                editor.chain().focus().extendMarkRange('mmLink').unsetLink().run();
                                 closeOverlay();
                             }}
                             aria-label={formatMessage({id: 'accessibility.button.link.delete', defaultMessage: 'remove link'})}
