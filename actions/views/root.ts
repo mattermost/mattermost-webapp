@@ -96,8 +96,6 @@ export function loadTranslations(locale: string, url: string) {
 
 export function registerCustomPostRenderer(type: string, component: any, id: string) {
     return async (dispatch: DispatchFunc) => {
-        dispatch(fetchListing());
-
         // piggyback on plugins state to register a custom post renderer
         dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_POST_COMPONENT,

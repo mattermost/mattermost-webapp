@@ -24,7 +24,7 @@ import {localizeMessage} from 'utils/utils';
 import {Post} from '@mattermost/types/posts';
 import {MarketplacePlugin} from '@mattermost/types/marketplace';
 import {GlobalState} from '../../types/store';
-import {installPlugin} from '../../actions/marketplace';
+import {fetchListing, installPlugin} from '../../actions/marketplace';
 import ToggleModalButton from '../toggle_modal_button';
 import {getError, getInstalledListing, getInstalling} from '../../selectors/views/marketplace';
 import LoadingWrapper from '../widgets/loading/loading_wrapper';
@@ -75,6 +75,12 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
     const marketplacePlugins: MarketplacePlugin[] = useSelector((state: GlobalState) => state.views.marketplace.plugins);
 
     const getUserIdsForUsersThatRequestedFeature = (requests: PluginRequest[]): string[] => requests.map((request: PluginRequest) => request.user_id);
+
+    useEffect(() => {
+        if (!marketplacePlugins.length) {
+            dispatch(fetchListing());
+        }
+    }, [dispatch, fetchListing]);
 
     useEffect(() => {
         if (requestedPluginsByPluginIds && marketplacePlugins.length && !Object.keys(pluginsByPluginIds).length) {
@@ -177,7 +183,10 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
             const pluginIds = Object.keys(pluginsByPluginIds);
 
             post = (
-                <ul style={usersListStyle}>
+                <ul
+                    style={usersListStyle}
+                    key={pluginIds.join('')}
+                >
                     {pluginIds.map((pluginId) => {
                         const plugins = pluginsByPluginIds[pluginId];
                         const uniqueUserRequestsForPlugins = uniqWith(plugins, (one, two) => one.user_id === two.user_id);
@@ -197,7 +206,7 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
                         }
                         installRequests.push(' ' + formatMessage({id: 'postypes.custom_open_plugin_install_post_rendered.plugin_requests', defaultMessage: 'requested installing the {pluginRequests} app.'}, {pluginRequests: uniqueUserRequestsForPlugins[0].plugin_name}));
                         return (
-                            <li key={props.post.id}>
+                            <li key={pluginId}>
                                 <Markdown
                                     postId={props.post.id}
                                     message={installRequests.join('')}
