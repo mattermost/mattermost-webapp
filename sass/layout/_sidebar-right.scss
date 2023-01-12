@@ -20,12 +20,7 @@
 
     #resizeRHSLine {
         &::after {
-            position: absolute;
-            left: 6px;
-            width: 4px;
-            height: 100%;
             background-color: var(--denim-sidebar-active-border);
-            content: '';
         }
     }
 }
@@ -43,14 +38,19 @@
     height: 100%;
     cursor: col-resize;
 
+    &::after {
+        position: absolute;
+        left: 6px;
+        width: 4px;
+        height: 100%;
+        background-color: transparent;
+        content: '';
+    }
+
     &:hover {
         &::after {
-            position: absolute;
-            left: 6px;
-            width: 4px;
-            height: 100%;
             background-color: var(--denim-sidebar-active-border);
-            content: '';
+            transition: background-color 400ms step-end;
         }
     }
 
