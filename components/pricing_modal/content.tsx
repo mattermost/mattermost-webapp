@@ -39,8 +39,9 @@ import {isAnnualSubscriptionEnabled} from 'mattermost-redux/selectors/entities/p
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
 
-import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import DowngradeFeedbackModal from 'components/downgrade_feedback_modal';
+
+import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
 import StartTrialCaution from './start_trial_caution';
@@ -111,7 +112,7 @@ function Content(props: ContentProps) {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
     };
 
-    const handleClickDowngrade = (downgradeFeedback?: DowngradeFeedback) => {
+    const handleClickDowngrade = async (downgradeFeedback?: DowngradeFeedback) => {
         setDowngradeFeedback(downgradeFeedback);
         if (!starterProduct) {
             return;
@@ -131,7 +132,7 @@ function Content(props: ContentProps) {
         } else {
             downgrade('click_pricing_modal_free_card_downgrade_button');
         }
-    }
+    };
 
     const downgrade = async (callerInfo: string) => {
         if (!starterProduct) {
@@ -281,11 +282,10 @@ function Content(props: ContentProps) {
                                         modalId: ModalIdentifiers.DOWNGRADE_FEEDBACK,
                                         dialogType: DowngradeFeedbackModal,
                                         dialogProps: {
-                                            onSubmit: handleClickDowngrade
-                                        }
+                                            onSubmit: handleClickDowngrade,
+                                        },
                                     }),
                                 );
-
                             },
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
                             disabled: isStarter || isEnterprise || !isAdmin || !currentSubscriptionIsMonthly,

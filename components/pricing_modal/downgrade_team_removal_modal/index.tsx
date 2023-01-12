@@ -29,7 +29,7 @@ import './downgrade_team_removal_modal.scss';
 type Props = {
     product_id: string;
     starterProduct: Product | null | undefined;
-    downgradeFeedback?: DowngradeFeedback
+    downgradeFeedback?: DowngradeFeedback;
 };
 
 function DowngradeTeamRemovalModal(props: Props) {

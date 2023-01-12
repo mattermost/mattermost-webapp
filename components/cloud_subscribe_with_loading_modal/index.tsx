@@ -29,7 +29,7 @@ type Props = RouteComponentProps & {
     onClose?: () => void;
     teamToKeep?: Team;
     selectedProduct?: Product | null | undefined;
-    downgradeFeedback?: DowngradeFeedback
+    downgradeFeedback?: DowngradeFeedback;
 };
 
 const MIN_PROCESSING_MILLISECONDS = 8000;

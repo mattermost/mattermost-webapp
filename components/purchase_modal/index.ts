@@ -29,7 +29,7 @@ import {closeModal, openModal} from 'actions/views/modals';
 import {completeStripeAddPaymentMethod, subscribeCloudSubscription} from 'actions/cloud';
 import {ModalData} from 'types/actions';
 import withGetCloudSubscription from 'components/common/hocs/cloud/with_get_cloud_subscription';
-import { DowngradeFeedback } from '@mattermost/types/cloud';
+import {DowngradeFeedback} from '@mattermost/types/cloud';
 
 const PurchaseModal = makeAsyncComponent('PurchaseModal', React.lazy(() => import('./purchase_modal')));
 

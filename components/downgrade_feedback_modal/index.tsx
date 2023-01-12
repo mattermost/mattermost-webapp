@@ -1,29 +1,33 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React, {useState} from 'react';
+
+import {FormattedMessage} from 'react-intl';
+import {useDispatch} from 'react-redux';
+
 import {GenericModal} from '@mattermost/components';
-import { DowngradeFeedback } from '@mattermost/types/cloud';
+import {DowngradeFeedback} from '@mattermost/types/cloud';
 import {closeModal} from 'actions/views/modals';
 import RadioButtonGroup from 'components/common/radio_group';
-import React, {useState} from 'react';
-import { useDispatch } from 'react-redux';
+
 import {ModalIdentifiers} from 'utils/constants';
 
 import './index.scss';
 
 type Props = {
-    onSubmit: (downgradeFeedback: DowngradeFeedback) => void
+    onSubmit: (downgradeFeedback: DowngradeFeedback) => void;
 }
 
 export default function DowngradeFeedbackModal(props: Props) {
     const optionOther = 'Other';
     const feedbackOptions: string[] = [
-        "Experienced technical issues",
-        "No longer need Cloud Professional features",
-        "Exploring other solutions",
-        "Too expensive",
+        'Experienced technical issues',
+        'No longer need Cloud Professional features',
+        'Exploring other solutions',
+        'Too expensive',
         optionOther,
-    ]
+    ];
 
     const [reason, setReason] = useState('');
     const [comments, setComments] = useState('');
@@ -38,8 +42,8 @@ export default function DowngradeFeedbackModal(props: Props) {
         }
         setReasonNotSelected(false);
 
-        setComments(comments.trim())
-        if (reason == optionOther && !comments) {
+        setComments(comments.trim());
+        if (reason === optionOther && !comments) {
             setCommentsNotProvided(true);
             return;
         }
@@ -47,7 +51,7 @@ export default function DowngradeFeedbackModal(props: Props) {
 
         props.onSubmit({reason, comments});
         dispatch(closeModal(ModalIdentifiers.DOWNGRADE_FEEDBACK));
-    }
+    };
 
     return (
         <GenericModal
@@ -58,7 +62,7 @@ export default function DowngradeFeedbackModal(props: Props) {
             <RadioButtonGroup
                 id='downgradeFeedbackRadioGroup'
                 testId='downgradeFeedbackRadioGroup'
-                values={feedbackOptions.map((option, i) => {
+                values={feedbackOptions.map((option) => {
                     return {
                         value: option,
                         key: option,
@@ -73,18 +77,35 @@ export default function DowngradeFeedbackModal(props: Props) {
                     className='DowngradeFeedback__FreeFormText'
                     placeholder='Please tell us why you are downgrading...'
                     rows={4}
-                    onChange={(e) => {setComments(e.target.value)}}
+                    onChange={(e) => {
+                        setComments(e.target.value);
+                    }}
                 />
-                {reasonNotSelected ? <span className='DowngradeFeedback__Error'>Please select a reason</span> : <></>}
-                {commentsNotProvided ? <span className='DowngradeFeedback__Error'>Please some comments</span> : <></>}
+                {reasonNotSelected ?
+                    <span className='DowngradeFeedback__Error'>
+                        <FormattedMessage
+                            id={'downgrade_feedback.select_reason'}
+                            defaultMessage={'Please select a reason'}
+                        />
+                    </span> : <></>}
+                {commentsNotProvided ?
+                    <span className='DowngradeFeedback__Error'>
+                        <FormattedMessage
+                            id={'downgrade_feedback.tell_us_why'}
+                            defaultMessage={'Please tell us why you are downgrading'}
+                        />
+                    </span> : <></>}
                 <button
                     className='btn btn-primary'
                     style={{width: '25%'}}
                     onClick={handleSubmitFeedback}
                 >
-                    Submit
+                    <FormattedMessage
+                        id={'downgrade_feedback.submit'}
+                        defaultMessage={'Submit'}
+                    />
                 </button>
             </div>
         </GenericModal>
-    )
+    );
 }

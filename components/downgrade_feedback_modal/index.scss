@@ -1,12 +1,12 @@
 .DowngradeFeedback {
     &__Error {
-        color: var(--error-text);
         margin-bottom: 10px;
+        color: var(--error-text);
     }
 
     &__FreeFormText {
-        font-Size: 15px;
-        margin-Bottom: 10px;
+        font-size: 15px;
+        margin-bottom: 10px;
         resize: 'none';
     }
 

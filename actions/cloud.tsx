@@ -15,6 +15,7 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
 import {CloudTypes} from 'mattermost-redux/action_types';
+import {DowngradeFeedback} from '@mattermost/types/cloud';
 
 // Returns true for success, and false for any error
 export function completeStripeAddPaymentMethod(
