@@ -1728,7 +1728,7 @@ function handlePersistentNotification(msg) {
     return async (doDispatch) => {
         const post = JSON.parse(msg.data.post);
 
-        doDispatch(sendDesktopNotification(post, msg.data, true));
+        doDispatch(sendDesktopNotification(post, msg.data));
     };
 }
 

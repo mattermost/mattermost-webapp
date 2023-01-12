@@ -28,7 +28,7 @@ const NOTIFY_TEXT_MAX_LENGTH = 50;
 // windows notification length is based windows chrome which supports 128 characters and is the lowest length of windows browsers
 const WINDOWS_NOTIFY_TEXT_MAX_LENGTH = 120;
 
-export function sendDesktopNotification(post, msgProps, persistent = false) {
+export function sendDesktopNotification(post, msgProps) {
     return async (dispatch, getState) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
@@ -68,21 +68,17 @@ export function sendDesktopNotification(post, msgProps, persistent = false) {
         const member = getMyChannelMember(state, post.channel_id);
         const isCrtReply = isCollapsedThreadsEnabled(state) && post.root_id !== '';
 
-        if (!member || (!persistent && isChannelMuted(member)) || userStatus === UserStatuses.DND || userStatus === UserStatuses.OUT_OF_OFFICE) {
+        if (!member || isChannelMuted(member) || userStatus === UserStatuses.DND || userStatus === UserStatuses.OUT_OF_OFFICE) {
             return;
         }
 
-        // we are bypassing channel member's notify props in the case of persistent notifications
-        let notifyLevel = (!persistent && member?.notify_props?.desktop) || NotificationLevels.DEFAULT;
+        let notifyLevel = member?.notify_props?.desktop || NotificationLevels.DEFAULT;
 
         if (notifyLevel === NotificationLevels.DEFAULT) {
             notifyLevel = user?.notify_props?.desktop || NotificationLevels.ALL;
         }
 
-        if (persistent && mentions.indexOf(currentUserId) === -1) {
-            // if there is a persistent notification only send to mentioned users
-            return;
-        } else if (notifyLevel === NotificationLevels.NONE) {
+        if (notifyLevel === NotificationLevels.NONE) {
             return;
         } else if (notifyLevel === NotificationLevels.MENTION && mentions.indexOf(user.id) === -1 && msgProps.channel_type !== Constants.DM_CHANNEL) {
             return;
@@ -242,3 +238,4 @@ const notifyMe = (title, body, channel, teamId, silent, soundName, url) => (disp
         });
     }
 };
+
