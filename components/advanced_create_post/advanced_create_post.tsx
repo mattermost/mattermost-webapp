@@ -1545,6 +1545,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         const {
             useLDAPGroupMentions,
             useCustomGroupMentions,
+            useChannelMentions,
             currentChannel,
             currentTeamId,
             draft,
@@ -1689,7 +1690,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     mention: {
                         teamId: currentTeamId,
                         channelId: currentChannel.id,
-                        useSpecialMentions: this.props.useChannelMentions,
+                        useSpecialMentions: useChannelMentions,
                         useGroupMentions: useLDAPGroupMentions || useCustomGroupMentions,
                     },
                     channel: {teamId: currentTeamId},

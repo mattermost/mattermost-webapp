@@ -25,7 +25,9 @@ import {ModalData} from 'types/actions';
 
 import {Emoji, SystemEmoji} from '@mattermost/types/emojis';
 import {Post} from '@mattermost/types/posts';
-import {PostDraft} from '../../types/store/draft';
+import {NewPostDraft} from '../../types/store/draft';
+import {PostType} from '../file_upload';
+import Wysiwyg, {JSONContent, WysiwygConfig} from '../wysiwyg';
 
 import EditPostFooter from './edit_post_footer';
 
@@ -37,7 +39,7 @@ type DialogProps = {
 export type Actions = {
     addMessageIntoHistory: (message: string) => void;
     editPost: (input: Partial<Post>) => Promise<Post>;
-    setDraft: (name: string, value: PostDraft | null) => void;
+    setDraft: (name: string, value: NewPostDraft | null) => void;
     unsetEditingPost: () => void;
     openModal: (input: ModalData<DialogProps>) => void;
     scrollPostListToBottom: () => void;
@@ -51,14 +53,12 @@ export type Props = {
     channelId: string;
     codeBlockOnCtrlEnter: boolean;
     ctrlSend: boolean;
-    draft: PostDraft;
+    draft: NewPostDraft;
     config: {
         EnableEmojiPicker?: string;
         EnableGifPicker?: string;
     };
     maxPostSize: number;
-    useChannelMentions: boolean;
-    isWsiwygEnabled: boolean;
     editingPost: {
         post: Post | null;
         postId?: string;
@@ -67,6 +67,10 @@ export type Props = {
         isRHS?: boolean;
     };
     actions: Actions;
+    isWysiwygEnabled: boolean;
+    useChannelMentions: boolean;
+    useCustomGroupMentions: boolean;
+    useLDAPGroupMentions: boolean;
 };
 
 export type State = {
@@ -85,7 +89,7 @@ const {KeyCodes} = Constants;
 const TOP_OFFSET = 0;
 const RIGHT_OFFSET = 10;
 
-const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, ...rest}: Props): JSX.Element | null => {
+const EditPost = ({editingPost, actions, canEditPost, config, channelId, teamId, draft, isWysiwygEnabled, ...rest}: Props): JSX.Element | null => {
     const [editText, setEditText] = useState<string>(
         draft.message || editingPost?.post?.message_source || editingPost?.post?.message || '',
     );
@@ -102,7 +106,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
     // using a ref here makes sure that the unmounting callback (saveDraft) is fired with the correct value.
     // If we would just use the editText value from the state it would be a stale since it is encapsuled in the
     // function closure on initial render
-    const draftRef = useRef<PostDraft>(draft);
+    const draftRef = useRef<NewPostDraft>(draft);
     const saveDraftFrame = useRef<number|null>();
 
     const draftStorageId = `${StoragePrefixes.EDIT_DRAFT}${editingPost.postId}`;
@@ -343,15 +347,19 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
         }
     };
 
-    const handleChange = (e: React.ChangeEvent<TextboxElement>) => {
-        const message = e.target.value;
-
+    const handleChange = (message: string, content?: JSONContent) => {
         draftRef.current = {
             ...draftRef.current,
             message,
+            content,
         };
 
         setEditText(message);
+    };
+
+    const handleChangeDepr = (e: React.ChangeEvent<TextboxElement>) => {
+        const message = e.target.value;
+        handleChange(message);
     };
 
     const handleHeightChange = (height: number, maxHeight: number) => setRenderScrollbar(height > maxHeight);
@@ -465,6 +473,43 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
         );
     }
 
+    if (!channelId && isWysiwygEnabled) {
+        const wysiwygConfig: WysiwygConfig = {
+            enterHandling: {
+                ctrlSend: rest.ctrlSend,
+                codeBlockOnCtrlEnter: rest.codeBlockOnCtrlEnter,
+            },
+            suggestions: {
+                mention: {
+                    teamId,
+                    channelId,
+                    useSpecialMentions: rest.useChannelMentions,
+                    useGroupMentions: rest.useLDAPGroupMentions || rest.useCustomGroupMentions,
+                },
+                channel: {teamId},
+                command: {
+                    teamId,
+                    channelId,
+                },
+            },
+            fileUpload: {
+                rootId: '',
+                channelId,
+                postType: PostType.post,
+            },
+        };
+
+        return (
+            <Wysiwyg
+                onSubmit={handleEdit}
+                onChange={handleChange}
+                noMargin={true}
+                draft={draft}
+                config={wysiwygConfig}
+            />
+        );
+    }
+
     return (
         <div
             className={classNames('post--editing__wrapper', {
@@ -475,7 +520,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
             <Textbox
                 tabIndex={0}
                 rootId={editingPost.post ? Utils.getRootId(editingPost.post) : ''}
-                onChange={handleChange}
+                onChange={handleChangeDepr}
                 onKeyPress={handleEditKeyPress}
                 onKeyDown={handleKeyDown}
                 onSelect={handleSelect}

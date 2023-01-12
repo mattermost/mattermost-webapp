@@ -6,12 +6,12 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {addMessageIntoHistory} from 'mattermost-redux/actions/posts';
 import {Preferences, Permissions} from 'mattermost-redux/constants';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {haveIChannelPermission, haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import {getBool, isWysiwygEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isCustomGroupsEnabled, isWysiwygEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {unsetEditingPost} from 'actions/post_actions';
 import {openModal} from 'actions/views/modals';
@@ -28,6 +28,7 @@ import EditPost, {Actions} from './edit_post';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
+    const license = getLicense(state);
     const editingPost = getEditingPost(state);
     const currentUserId = getCurrentUserId(state);
     const channelId = editingPost.post.channel_id;
@@ -40,6 +41,9 @@ function mapStateToProps(state: GlobalState) {
 
     const channel = getChannel(state, channelId);
     const useChannelMentions = haveIChannelPermission(state, teamId, channelId, Permissions.USE_CHANNEL_MENTIONS);
+    const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
+    const useCustomGroupMentions = isCustomGroupsEnabled(state) && haveICurrentChannelPermission(state, Permissions.USE_GROUP_MENTIONS);
+    const useLDAPGroupMentions = isLDAPEnabled && haveICurrentChannelPermission(state, Permissions.USE_GROUP_MENTIONS);
 
     return {
         canEditPost: haveIChannelPermission(state, teamId, channelId, editPermission),
@@ -54,7 +58,9 @@ function mapStateToProps(state: GlobalState) {
         maxPostSize: parseInt(config.MaxPostSize || '0', 10) || Constants.DEFAULT_CHARACTER_LIMIT,
         readOnlyChannel: !isCurrentUserSystemAdmin(state) && channel.name === Constants.DEFAULT_CHANNEL,
         useChannelMentions,
-        isWysiwgEnabled: isWysiwygEnabled(state),
+        isWysiwygEnabled: isWysiwygEnabled(state),
+        useCustomGroupMentions,
+        useLDAPGroupMentions,
     };
 }
 

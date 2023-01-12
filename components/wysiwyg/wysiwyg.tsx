@@ -25,7 +25,7 @@ import type {FileInfo} from '@mattermost/types/files';
 import type {ServerError} from '@mattermost/types/errors';
 
 // import all custom components, extensions, etc.
-import {EditorContainer, WysiwygContainer} from './components/editor';
+import {EditorContainer, WysiwygContainer, WysiwygLayout} from './components/editor';
 import EmojiPicker from './components/emoji-picker';
 import Toolbar from './components/toolbar';
 import SendButton from './components/send-button';
@@ -109,6 +109,11 @@ type Props = PropsFromRedux & {
      * Additional controls that get added to the formatting controls section
      */
     additionalControls?: React.ReactNode[];
+
+    /**
+     * Renders the Editor without the Layout/Structure component
+     */
+    noMargin?: boolean;
 }
 
 const Wysiwyg = (props: Props) => {
@@ -360,7 +365,7 @@ const Wysiwyg = (props: Props) => {
     };
 
     return (
-        <>
+        <WysiwygLayout>
             <WysiwygContainer>
                 <EditorContainer ref={containerRef}>
                     {headerContent}
@@ -370,7 +375,7 @@ const Wysiwyg = (props: Props) => {
                 <Toolbar {...toolbarProps}/>
             </WysiwygContainer>
             {error && error}
-        </>
+        </WysiwygLayout>
     );
 };
 

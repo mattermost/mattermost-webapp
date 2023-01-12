@@ -1,12 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
+
+export const WysiwygLayout = styled.div<{noMargin: boolean}>(({noMargin}: {noMargin: boolean}) => css`
+    padding: ${noMargin ? 0 : '0 24px 24px'};
+`);
 
 export const WysiwygContainer = styled.div`
-    margin: 0 24px 24px;
+    margin: 0;
     border: 2px solid rgba(var(--center-channel-color-rgb), 0.16);
     border-radius: 4px;
+    background-color: rgb(var(--center-channel-bg-rgb));
 
     &:focus-within {
         border: 2px solid rgba(var(--center-channel-color-rgb), 0.32);
