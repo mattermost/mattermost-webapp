@@ -16,7 +16,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getBool, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isCustomGroupsEnabled, isWysiwygEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getAllChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
@@ -24,7 +24,7 @@ import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-red
 import {Permissions, Preferences, Posts} from 'mattermost-redux/constants';
 import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {PreferenceType} from '@mattermost/types/preferences';
+
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import {connectionErrorCount} from 'selectors/views/system';
@@ -48,6 +48,8 @@ import {searchAssociatedGroupsForReference} from 'actions/views/group';
 
 import {getEmojiMap} from 'selectors/emojis';
 import {canUploadFiles} from 'utils/file_utils';
+
+import {PreferenceType} from '@mattermost/types/preferences';
 
 import AdvancedCreateComment from './advanced_create_comment';
 
@@ -116,6 +118,7 @@ function makeMapStateToProps() {
             useCustomGroupMentions,
             emojiMap: getEmojiMap(state),
             canUploadFiles: canUploadFiles(config),
+            isWysiwygEnabled: isWysiwygEnabled(state),
         };
     };
 }
