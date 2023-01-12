@@ -1,0 +1,3281 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`apps_view/AppsView should match snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <AppsView
+    location="test"
+    setTree={[MockFunction]}
+    tree={
+      Object {
+        "app_id": "app-view-builder-app",
+        "bindings": Array [
+          Object {
+            "bindings": Array [
+              Object {
+                "bindings": Array [
+                  Object {
+                    "label": "My Drive",
+                    "location": "my_drive",
+                    "selected": true,
+                    "submit": Object {
+                      "expand": Object {
+                        "channel": "summary",
+                      },
+                      "path": "/views/home/refresh/document-list",
+                      "state": Object {
+                        "drive_id": "my_drive",
+                      },
+                    },
+                  },
+                  Object {
+                    "label": "Shared With Me",
+                    "location": "shared_with_me",
+                    "submit": Object {
+                      "expand": Object {
+                        "channel": "summary",
+                      },
+                      "path": "/views/home/refresh/document-list",
+                      "state": Object {
+                        "drive_id": "shared_with_me",
+                      },
+                    },
+                  },
+                ],
+                "location": "drive-selection",
+                "subtype": "categories",
+                "type": "select",
+              },
+              Object {
+                "bindings": Array [
+                  Object {
+                    "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                    "label": "Folder",
+                    "location": "new_folder",
+                    "submit": Object {
+                      "expand": Object {
+                        "channel": "summary",
+                      },
+                      "path": "/views/home/refresh/document-list",
+                      "state": Object {
+                        "drive_id": "my_drive",
+                      },
+                    },
+                  },
+                  Object {
+                    "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                    "label": "Docs",
+                    "location": "new_document",
+                    "submit": Object {
+                      "expand": Object {
+                        "channel": "summary",
+                      },
+                      "path": "/views/home/refresh/document-list",
+                      "state": Object {
+                        "drive_id": "shared_with_me",
+                      },
+                    },
+                  },
+                ],
+                "label": "+ New",
+                "location": "new-object",
+                "subtype": "button",
+                "type": "select",
+              },
+            ],
+            "location": "button-row",
+            "subtype": "horizontal",
+            "type": "layout",
+          },
+          Object {
+            "location": "document-list",
+            "source": Object {
+              "expand": Object {
+                "channel": "summary",
+              },
+              "path": "/views/document-list",
+              "state": Object {
+                "drive_id": "my_drive",
+              },
+            },
+            "type": "view",
+          },
+        ],
+        "label": "Docs",
+        "location": "rhs",
+        "type": "view",
+      }
+    }
+  >
+    <AppsViewBlockFactory
+      app_id="app-view-builder-app"
+      binding={
+        Object {
+          "app_id": "app-view-builder-app",
+          "bindings": Array [
+            Object {
+              "bindings": Array [
+                Object {
+                  "bindings": Array [
+                    Object {
+                      "label": "My Drive",
+                      "location": "my_drive",
+                      "selected": true,
+                      "submit": Object {
+                        "expand": Object {
+                          "channel": "summary",
+                        },
+                        "path": "/views/home/refresh/document-list",
+                        "state": Object {
+                          "drive_id": "my_drive",
+                        },
+                      },
+                    },
+                    Object {
+                      "label": "Shared With Me",
+                      "location": "shared_with_me",
+                      "submit": Object {
+                        "expand": Object {
+                          "channel": "summary",
+                        },
+                        "path": "/views/home/refresh/document-list",
+                        "state": Object {
+                          "drive_id": "shared_with_me",
+                        },
+                      },
+                    },
+                  ],
+                  "location": "drive-selection",
+                  "subtype": "categories",
+                  "type": "select",
+                },
+                Object {
+                  "bindings": Array [
+                    Object {
+                      "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                      "label": "Folder",
+                      "location": "new_folder",
+                      "submit": Object {
+                        "expand": Object {
+                          "channel": "summary",
+                        },
+                        "path": "/views/home/refresh/document-list",
+                        "state": Object {
+                          "drive_id": "my_drive",
+                        },
+                      },
+                    },
+                    Object {
+                      "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                      "label": "Docs",
+                      "location": "new_document",
+                      "submit": Object {
+                        "expand": Object {
+                          "channel": "summary",
+                        },
+                        "path": "/views/home/refresh/document-list",
+                        "state": Object {
+                          "drive_id": "shared_with_me",
+                        },
+                      },
+                    },
+                  ],
+                  "label": "+ New",
+                  "location": "new-object",
+                  "subtype": "button",
+                  "type": "select",
+                },
+              ],
+              "location": "button-row",
+              "subtype": "horizontal",
+              "type": "layout",
+            },
+            Object {
+              "location": "document-list",
+              "source": Object {
+                "expand": Object {
+                  "channel": "summary",
+                },
+                "path": "/views/document-list",
+                "state": Object {
+                  "drive_id": "my_drive",
+                },
+              },
+              "type": "view",
+            },
+          ],
+          "label": "Docs",
+          "location": "rhs",
+          "type": "view",
+        }
+      }
+      context={
+        Object {
+          "app_id": "app-view-builder-app",
+          "channel_id": "channel1",
+          "location": "test",
+          "post_id": undefined,
+          "root_id": undefined,
+          "team_id": undefined,
+        }
+      }
+      handleBindingClick={[Function]}
+      tree={
+        Object {
+          "app_id": "app-view-builder-app",
+          "bindings": Array [
+            Object {
+              "bindings": Array [
+                Object {
+                  "bindings": Array [
+                    Object {
+                      "label": "My Drive",
+                      "location": "my_drive",
+                      "selected": true,
+                      "submit": Object {
+                        "expand": Object {
+                          "channel": "summary",
+                        },
+                        "path": "/views/home/refresh/document-list",
+                        "state": Object {
+                          "drive_id": "my_drive",
+                        },
+                      },
+                    },
+                    Object {
+                      "label": "Shared With Me",
+                      "location": "shared_with_me",
+                      "submit": Object {
+                        "expand": Object {
+                          "channel": "summary",
+                        },
+                        "path": "/views/home/refresh/document-list",
+                        "state": Object {
+                          "drive_id": "shared_with_me",
+                        },
+                      },
+                    },
+                  ],
+                  "location": "drive-selection",
+                  "subtype": "categories",
+                  "type": "select",
+                },
+                Object {
+                  "bindings": Array [
+                    Object {
+                      "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                      "label": "Folder",
+                      "location": "new_folder",
+                      "submit": Object {
+                        "expand": Object {
+                          "channel": "summary",
+                        },
+                        "path": "/views/home/refresh/document-list",
+                        "state": Object {
+                          "drive_id": "my_drive",
+                        },
+                      },
+                    },
+                    Object {
+                      "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                      "label": "Docs",
+                      "location": "new_document",
+                      "submit": Object {
+                        "expand": Object {
+                          "channel": "summary",
+                        },
+                        "path": "/views/home/refresh/document-list",
+                        "state": Object {
+                          "drive_id": "shared_with_me",
+                        },
+                      },
+                    },
+                  ],
+                  "label": "+ New",
+                  "location": "new-object",
+                  "subtype": "button",
+                  "type": "select",
+                },
+              ],
+              "location": "button-row",
+              "subtype": "horizontal",
+              "type": "layout",
+            },
+            Object {
+              "location": "document-list",
+              "source": Object {
+                "expand": Object {
+                  "channel": "summary",
+                },
+                "path": "/views/document-list",
+                "state": Object {
+                  "drive_id": "my_drive",
+                },
+              },
+              "type": "view",
+            },
+          ],
+          "label": "Docs",
+          "location": "rhs",
+          "type": "view",
+        }
+      }
+      viewComponent={[Function]}
+    >
+      <AppsViewBlock
+        app_id="app-view-builder-app"
+        binding={
+          Object {
+            "app_id": "app-view-builder-app",
+            "bindings": Array [
+              Object {
+                "bindings": Array [
+                  Object {
+                    "bindings": Array [
+                      Object {
+                        "label": "My Drive",
+                        "location": "my_drive",
+                        "selected": true,
+                        "submit": Object {
+                          "expand": Object {
+                            "channel": "summary",
+                          },
+                          "path": "/views/home/refresh/document-list",
+                          "state": Object {
+                            "drive_id": "my_drive",
+                          },
+                        },
+                      },
+                      Object {
+                        "label": "Shared With Me",
+                        "location": "shared_with_me",
+                        "submit": Object {
+                          "expand": Object {
+                            "channel": "summary",
+                          },
+                          "path": "/views/home/refresh/document-list",
+                          "state": Object {
+                            "drive_id": "shared_with_me",
+                          },
+                        },
+                      },
+                    ],
+                    "location": "drive-selection",
+                    "subtype": "categories",
+                    "type": "select",
+                  },
+                  Object {
+                    "bindings": Array [
+                      Object {
+                        "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                        "label": "Folder",
+                        "location": "new_folder",
+                        "submit": Object {
+                          "expand": Object {
+                            "channel": "summary",
+                          },
+                          "path": "/views/home/refresh/document-list",
+                          "state": Object {
+                            "drive_id": "my_drive",
+                          },
+                        },
+                      },
+                      Object {
+                        "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                        "label": "Docs",
+                        "location": "new_document",
+                        "submit": Object {
+                          "expand": Object {
+                            "channel": "summary",
+                          },
+                          "path": "/views/home/refresh/document-list",
+                          "state": Object {
+                            "drive_id": "shared_with_me",
+                          },
+                        },
+                      },
+                    ],
+                    "label": "+ New",
+                    "location": "new-object",
+                    "subtype": "button",
+                    "type": "select",
+                  },
+                ],
+                "location": "button-row",
+                "subtype": "horizontal",
+                "type": "layout",
+              },
+              Object {
+                "location": "document-list",
+                "source": Object {
+                  "expand": Object {
+                    "channel": "summary",
+                  },
+                  "path": "/views/document-list",
+                  "state": Object {
+                    "drive_id": "my_drive",
+                  },
+                },
+                "type": "view",
+              },
+            ],
+            "label": "Docs",
+            "location": "rhs",
+            "type": "view",
+          }
+        }
+        context={
+          Object {
+            "app_id": "app-view-builder-app",
+            "channel_id": "channel1",
+            "location": "test",
+            "post_id": undefined,
+            "root_id": undefined,
+            "team_id": undefined,
+          }
+        }
+        handleBindingClick={[Function]}
+        tree={
+          Object {
+            "app_id": "app-view-builder-app",
+            "bindings": Array [
+              Object {
+                "bindings": Array [
+                  Object {
+                    "bindings": Array [
+                      Object {
+                        "label": "My Drive",
+                        "location": "my_drive",
+                        "selected": true,
+                        "submit": Object {
+                          "expand": Object {
+                            "channel": "summary",
+                          },
+                          "path": "/views/home/refresh/document-list",
+                          "state": Object {
+                            "drive_id": "my_drive",
+                          },
+                        },
+                      },
+                      Object {
+                        "label": "Shared With Me",
+                        "location": "shared_with_me",
+                        "submit": Object {
+                          "expand": Object {
+                            "channel": "summary",
+                          },
+                          "path": "/views/home/refresh/document-list",
+                          "state": Object {
+                            "drive_id": "shared_with_me",
+                          },
+                        },
+                      },
+                    ],
+                    "location": "drive-selection",
+                    "subtype": "categories",
+                    "type": "select",
+                  },
+                  Object {
+                    "bindings": Array [
+                      Object {
+                        "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                        "label": "Folder",
+                        "location": "new_folder",
+                        "submit": Object {
+                          "expand": Object {
+                            "channel": "summary",
+                          },
+                          "path": "/views/home/refresh/document-list",
+                          "state": Object {
+                            "drive_id": "my_drive",
+                          },
+                        },
+                      },
+                      Object {
+                        "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                        "label": "Docs",
+                        "location": "new_document",
+                        "submit": Object {
+                          "expand": Object {
+                            "channel": "summary",
+                          },
+                          "path": "/views/home/refresh/document-list",
+                          "state": Object {
+                            "drive_id": "shared_with_me",
+                          },
+                        },
+                      },
+                    ],
+                    "label": "+ New",
+                    "location": "new-object",
+                    "subtype": "button",
+                    "type": "select",
+                  },
+                ],
+                "location": "button-row",
+                "subtype": "horizontal",
+                "type": "layout",
+              },
+              Object {
+                "location": "document-list",
+                "source": Object {
+                  "expand": Object {
+                    "channel": "summary",
+                  },
+                  "path": "/views/document-list",
+                  "state": Object {
+                    "drive_id": "my_drive",
+                  },
+                },
+                "type": "view",
+              },
+            ],
+            "label": "Docs",
+            "location": "rhs",
+            "type": "view",
+          }
+        }
+        viewComponent={[Function]}
+      >
+        <div
+          key="button-row"
+        >
+          <AppsViewBlockFactory
+            app_id="app-view-builder-app"
+            binding={
+              Object {
+                "bindings": Array [
+                  Object {
+                    "bindings": Array [
+                      Object {
+                        "label": "My Drive",
+                        "location": "my_drive",
+                        "selected": true,
+                        "submit": Object {
+                          "expand": Object {
+                            "channel": "summary",
+                          },
+                          "path": "/views/home/refresh/document-list",
+                          "state": Object {
+                            "drive_id": "my_drive",
+                          },
+                        },
+                      },
+                      Object {
+                        "label": "Shared With Me",
+                        "location": "shared_with_me",
+                        "submit": Object {
+                          "expand": Object {
+                            "channel": "summary",
+                          },
+                          "path": "/views/home/refresh/document-list",
+                          "state": Object {
+                            "drive_id": "shared_with_me",
+                          },
+                        },
+                      },
+                    ],
+                    "location": "drive-selection",
+                    "subtype": "categories",
+                    "type": "select",
+                  },
+                  Object {
+                    "bindings": Array [
+                      Object {
+                        "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                        "label": "Folder",
+                        "location": "new_folder",
+                        "submit": Object {
+                          "expand": Object {
+                            "channel": "summary",
+                          },
+                          "path": "/views/home/refresh/document-list",
+                          "state": Object {
+                            "drive_id": "my_drive",
+                          },
+                        },
+                      },
+                      Object {
+                        "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                        "label": "Docs",
+                        "location": "new_document",
+                        "submit": Object {
+                          "expand": Object {
+                            "channel": "summary",
+                          },
+                          "path": "/views/home/refresh/document-list",
+                          "state": Object {
+                            "drive_id": "shared_with_me",
+                          },
+                        },
+                      },
+                    ],
+                    "label": "+ New",
+                    "location": "new-object",
+                    "subtype": "button",
+                    "type": "select",
+                  },
+                ],
+                "location": "button-row",
+                "subtype": "horizontal",
+                "type": "layout",
+              }
+            }
+            context={
+              Object {
+                "app_id": "app-view-builder-app",
+                "channel_id": "channel1",
+                "location": "test",
+                "post_id": undefined,
+                "root_id": undefined,
+                "team_id": undefined,
+              }
+            }
+            handleBindingClick={[Function]}
+            tree={
+              Object {
+                "app_id": "app-view-builder-app",
+                "bindings": Array [
+                  Object {
+                    "bindings": Array [
+                      Object {
+                        "bindings": Array [
+                          Object {
+                            "label": "My Drive",
+                            "location": "my_drive",
+                            "selected": true,
+                            "submit": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/home/refresh/document-list",
+                              "state": Object {
+                                "drive_id": "my_drive",
+                              },
+                            },
+                          },
+                          Object {
+                            "label": "Shared With Me",
+                            "location": "shared_with_me",
+                            "submit": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/home/refresh/document-list",
+                              "state": Object {
+                                "drive_id": "shared_with_me",
+                              },
+                            },
+                          },
+                        ],
+                        "location": "drive-selection",
+                        "subtype": "categories",
+                        "type": "select",
+                      },
+                      Object {
+                        "bindings": Array [
+                          Object {
+                            "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                            "label": "Folder",
+                            "location": "new_folder",
+                            "submit": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/home/refresh/document-list",
+                              "state": Object {
+                                "drive_id": "my_drive",
+                              },
+                            },
+                          },
+                          Object {
+                            "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                            "label": "Docs",
+                            "location": "new_document",
+                            "submit": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/home/refresh/document-list",
+                              "state": Object {
+                                "drive_id": "shared_with_me",
+                              },
+                            },
+                          },
+                        ],
+                        "label": "+ New",
+                        "location": "new-object",
+                        "subtype": "button",
+                        "type": "select",
+                      },
+                    ],
+                    "location": "button-row",
+                    "subtype": "horizontal",
+                    "type": "layout",
+                  },
+                  Object {
+                    "location": "document-list",
+                    "source": Object {
+                      "expand": Object {
+                        "channel": "summary",
+                      },
+                      "path": "/views/document-list",
+                      "state": Object {
+                        "drive_id": "my_drive",
+                      },
+                    },
+                    "type": "view",
+                  },
+                ],
+                "label": "Docs",
+                "location": "rhs",
+                "type": "view",
+              }
+            }
+            viewComponent={[Function]}
+          >
+            <AppBindingLayout
+              app_id="app-view-builder-app"
+              binding={
+                Object {
+                  "bindings": Array [
+                    Object {
+                      "bindings": Array [
+                        Object {
+                          "label": "My Drive",
+                          "location": "my_drive",
+                          "selected": true,
+                          "submit": Object {
+                            "expand": Object {
+                              "channel": "summary",
+                            },
+                            "path": "/views/home/refresh/document-list",
+                            "state": Object {
+                              "drive_id": "my_drive",
+                            },
+                          },
+                        },
+                        Object {
+                          "label": "Shared With Me",
+                          "location": "shared_with_me",
+                          "submit": Object {
+                            "expand": Object {
+                              "channel": "summary",
+                            },
+                            "path": "/views/home/refresh/document-list",
+                            "state": Object {
+                              "drive_id": "shared_with_me",
+                            },
+                          },
+                        },
+                      ],
+                      "location": "drive-selection",
+                      "subtype": "categories",
+                      "type": "select",
+                    },
+                    Object {
+                      "bindings": Array [
+                        Object {
+                          "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                          "label": "Folder",
+                          "location": "new_folder",
+                          "submit": Object {
+                            "expand": Object {
+                              "channel": "summary",
+                            },
+                            "path": "/views/home/refresh/document-list",
+                            "state": Object {
+                              "drive_id": "my_drive",
+                            },
+                          },
+                        },
+                        Object {
+                          "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                          "label": "Docs",
+                          "location": "new_document",
+                          "submit": Object {
+                            "expand": Object {
+                              "channel": "summary",
+                            },
+                            "path": "/views/home/refresh/document-list",
+                            "state": Object {
+                              "drive_id": "shared_with_me",
+                            },
+                          },
+                        },
+                      ],
+                      "label": "+ New",
+                      "location": "new-object",
+                      "subtype": "button",
+                      "type": "select",
+                    },
+                  ],
+                  "location": "button-row",
+                  "subtype": "horizontal",
+                  "type": "layout",
+                }
+              }
+              context={
+                Object {
+                  "app_id": "app-view-builder-app",
+                  "channel_id": "channel1",
+                  "location": "test",
+                  "post_id": undefined,
+                  "root_id": undefined,
+                  "team_id": undefined,
+                }
+              }
+              handleBindingClick={[Function]}
+              tree={
+                Object {
+                  "app_id": "app-view-builder-app",
+                  "bindings": Array [
+                    Object {
+                      "bindings": Array [
+                        Object {
+                          "bindings": Array [
+                            Object {
+                              "label": "My Drive",
+                              "location": "my_drive",
+                              "selected": true,
+                              "submit": Object {
+                                "expand": Object {
+                                  "channel": "summary",
+                                },
+                                "path": "/views/home/refresh/document-list",
+                                "state": Object {
+                                  "drive_id": "my_drive",
+                                },
+                              },
+                            },
+                            Object {
+                              "label": "Shared With Me",
+                              "location": "shared_with_me",
+                              "submit": Object {
+                                "expand": Object {
+                                  "channel": "summary",
+                                },
+                                "path": "/views/home/refresh/document-list",
+                                "state": Object {
+                                  "drive_id": "shared_with_me",
+                                },
+                              },
+                            },
+                          ],
+                          "location": "drive-selection",
+                          "subtype": "categories",
+                          "type": "select",
+                        },
+                        Object {
+                          "bindings": Array [
+                            Object {
+                              "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                              "label": "Folder",
+                              "location": "new_folder",
+                              "submit": Object {
+                                "expand": Object {
+                                  "channel": "summary",
+                                },
+                                "path": "/views/home/refresh/document-list",
+                                "state": Object {
+                                  "drive_id": "my_drive",
+                                },
+                              },
+                            },
+                            Object {
+                              "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                              "label": "Docs",
+                              "location": "new_document",
+                              "submit": Object {
+                                "expand": Object {
+                                  "channel": "summary",
+                                },
+                                "path": "/views/home/refresh/document-list",
+                                "state": Object {
+                                  "drive_id": "shared_with_me",
+                                },
+                              },
+                            },
+                          ],
+                          "label": "+ New",
+                          "location": "new-object",
+                          "subtype": "button",
+                          "type": "select",
+                        },
+                      ],
+                      "location": "button-row",
+                      "subtype": "horizontal",
+                      "type": "layout",
+                    },
+                    Object {
+                      "location": "document-list",
+                      "source": Object {
+                        "expand": Object {
+                          "channel": "summary",
+                        },
+                        "path": "/views/document-list",
+                        "state": Object {
+                          "drive_id": "my_drive",
+                        },
+                      },
+                      "type": "view",
+                    },
+                  ],
+                  "label": "Docs",
+                  "location": "rhs",
+                  "type": "view",
+                }
+              }
+              viewComponent={[Function]}
+            >
+              <AppBindingLayoutHorizontal
+                app_id="app-view-builder-app"
+                binding={
+                  Object {
+                    "bindings": Array [
+                      Object {
+                        "bindings": Array [
+                          Object {
+                            "label": "My Drive",
+                            "location": "my_drive",
+                            "selected": true,
+                            "submit": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/home/refresh/document-list",
+                              "state": Object {
+                                "drive_id": "my_drive",
+                              },
+                            },
+                          },
+                          Object {
+                            "label": "Shared With Me",
+                            "location": "shared_with_me",
+                            "submit": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/home/refresh/document-list",
+                              "state": Object {
+                                "drive_id": "shared_with_me",
+                              },
+                            },
+                          },
+                        ],
+                        "location": "drive-selection",
+                        "subtype": "categories",
+                        "type": "select",
+                      },
+                      Object {
+                        "bindings": Array [
+                          Object {
+                            "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                            "label": "Folder",
+                            "location": "new_folder",
+                            "submit": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/home/refresh/document-list",
+                              "state": Object {
+                                "drive_id": "my_drive",
+                              },
+                            },
+                          },
+                          Object {
+                            "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                            "label": "Docs",
+                            "location": "new_document",
+                            "submit": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/home/refresh/document-list",
+                              "state": Object {
+                                "drive_id": "shared_with_me",
+                              },
+                            },
+                          },
+                        ],
+                        "label": "+ New",
+                        "location": "new-object",
+                        "subtype": "button",
+                        "type": "select",
+                      },
+                    ],
+                    "location": "button-row",
+                    "subtype": "horizontal",
+                    "type": "layout",
+                  }
+                }
+                context={
+                  Object {
+                    "app_id": "app-view-builder-app",
+                    "channel_id": "channel1",
+                    "location": "test",
+                    "post_id": undefined,
+                    "root_id": undefined,
+                    "team_id": undefined,
+                  }
+                }
+                handleBindingClick={[Function]}
+                tree={
+                  Object {
+                    "app_id": "app-view-builder-app",
+                    "bindings": Array [
+                      Object {
+                        "bindings": Array [
+                          Object {
+                            "bindings": Array [
+                              Object {
+                                "label": "My Drive",
+                                "location": "my_drive",
+                                "selected": true,
+                                "submit": Object {
+                                  "expand": Object {
+                                    "channel": "summary",
+                                  },
+                                  "path": "/views/home/refresh/document-list",
+                                  "state": Object {
+                                    "drive_id": "my_drive",
+                                  },
+                                },
+                              },
+                              Object {
+                                "label": "Shared With Me",
+                                "location": "shared_with_me",
+                                "submit": Object {
+                                  "expand": Object {
+                                    "channel": "summary",
+                                  },
+                                  "path": "/views/home/refresh/document-list",
+                                  "state": Object {
+                                    "drive_id": "shared_with_me",
+                                  },
+                                },
+                              },
+                            ],
+                            "location": "drive-selection",
+                            "subtype": "categories",
+                            "type": "select",
+                          },
+                          Object {
+                            "bindings": Array [
+                              Object {
+                                "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                "label": "Folder",
+                                "location": "new_folder",
+                                "submit": Object {
+                                  "expand": Object {
+                                    "channel": "summary",
+                                  },
+                                  "path": "/views/home/refresh/document-list",
+                                  "state": Object {
+                                    "drive_id": "my_drive",
+                                  },
+                                },
+                              },
+                              Object {
+                                "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                "label": "Docs",
+                                "location": "new_document",
+                                "submit": Object {
+                                  "expand": Object {
+                                    "channel": "summary",
+                                  },
+                                  "path": "/views/home/refresh/document-list",
+                                  "state": Object {
+                                    "drive_id": "shared_with_me",
+                                  },
+                                },
+                              },
+                            ],
+                            "label": "+ New",
+                            "location": "new-object",
+                            "subtype": "button",
+                            "type": "select",
+                          },
+                        ],
+                        "location": "button-row",
+                        "subtype": "horizontal",
+                        "type": "layout",
+                      },
+                      Object {
+                        "location": "document-list",
+                        "source": Object {
+                          "expand": Object {
+                            "channel": "summary",
+                          },
+                          "path": "/views/document-list",
+                          "state": Object {
+                            "drive_id": "my_drive",
+                          },
+                        },
+                        "type": "view",
+                      },
+                    ],
+                    "label": "Docs",
+                    "location": "rhs",
+                    "type": "view",
+                  }
+                }
+                viewComponent={[Function]}
+              >
+                <div
+                  className="horizontal-row"
+                >
+                  <AppsViewBlockFactory
+                    app_id="app-view-builder-app"
+                    binding={
+                      Object {
+                        "bindings": Array [
+                          Object {
+                            "label": "My Drive",
+                            "location": "my_drive",
+                            "selected": true,
+                            "submit": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/home/refresh/document-list",
+                              "state": Object {
+                                "drive_id": "my_drive",
+                              },
+                            },
+                          },
+                          Object {
+                            "label": "Shared With Me",
+                            "location": "shared_with_me",
+                            "submit": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/home/refresh/document-list",
+                              "state": Object {
+                                "drive_id": "shared_with_me",
+                              },
+                            },
+                          },
+                        ],
+                        "location": "drive-selection",
+                        "subtype": "categories",
+                        "type": "select",
+                      }
+                    }
+                    context={
+                      Object {
+                        "app_id": "app-view-builder-app",
+                        "channel_id": "channel1",
+                        "location": "test",
+                        "post_id": undefined,
+                        "root_id": undefined,
+                        "team_id": undefined,
+                      }
+                    }
+                    handleBindingClick={[Function]}
+                    key="drive-selection"
+                    tree={
+                      Object {
+                        "app_id": "app-view-builder-app",
+                        "bindings": Array [
+                          Object {
+                            "bindings": Array [
+                              Object {
+                                "bindings": Array [
+                                  Object {
+                                    "label": "My Drive",
+                                    "location": "my_drive",
+                                    "selected": true,
+                                    "submit": Object {
+                                      "expand": Object {
+                                        "channel": "summary",
+                                      },
+                                      "path": "/views/home/refresh/document-list",
+                                      "state": Object {
+                                        "drive_id": "my_drive",
+                                      },
+                                    },
+                                  },
+                                  Object {
+                                    "label": "Shared With Me",
+                                    "location": "shared_with_me",
+                                    "submit": Object {
+                                      "expand": Object {
+                                        "channel": "summary",
+                                      },
+                                      "path": "/views/home/refresh/document-list",
+                                      "state": Object {
+                                        "drive_id": "shared_with_me",
+                                      },
+                                    },
+                                  },
+                                ],
+                                "location": "drive-selection",
+                                "subtype": "categories",
+                                "type": "select",
+                              },
+                              Object {
+                                "bindings": Array [
+                                  Object {
+                                    "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                    "label": "Folder",
+                                    "location": "new_folder",
+                                    "submit": Object {
+                                      "expand": Object {
+                                        "channel": "summary",
+                                      },
+                                      "path": "/views/home/refresh/document-list",
+                                      "state": Object {
+                                        "drive_id": "my_drive",
+                                      },
+                                    },
+                                  },
+                                  Object {
+                                    "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                    "label": "Docs",
+                                    "location": "new_document",
+                                    "submit": Object {
+                                      "expand": Object {
+                                        "channel": "summary",
+                                      },
+                                      "path": "/views/home/refresh/document-list",
+                                      "state": Object {
+                                        "drive_id": "shared_with_me",
+                                      },
+                                    },
+                                  },
+                                ],
+                                "label": "+ New",
+                                "location": "new-object",
+                                "subtype": "button",
+                                "type": "select",
+                              },
+                            ],
+                            "location": "button-row",
+                            "subtype": "horizontal",
+                            "type": "layout",
+                          },
+                          Object {
+                            "location": "document-list",
+                            "source": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/document-list",
+                              "state": Object {
+                                "drive_id": "my_drive",
+                              },
+                            },
+                            "type": "view",
+                          },
+                        ],
+                        "label": "Docs",
+                        "location": "rhs",
+                        "type": "view",
+                      }
+                    }
+                    viewComponent={[Function]}
+                  >
+                    <div
+                      style={
+                        Object {
+                          "paddingLeft": "20px",
+                          "paddingRight": "20px",
+                        }
+                      }
+                    >
+                      <Select
+                        app_id="app-view-builder-app"
+                        binding={
+                          Object {
+                            "bindings": Array [
+                              Object {
+                                "label": "My Drive",
+                                "location": "my_drive",
+                                "selected": true,
+                                "submit": Object {
+                                  "expand": Object {
+                                    "channel": "summary",
+                                  },
+                                  "path": "/views/home/refresh/document-list",
+                                  "state": Object {
+                                    "drive_id": "my_drive",
+                                  },
+                                },
+                              },
+                              Object {
+                                "label": "Shared With Me",
+                                "location": "shared_with_me",
+                                "submit": Object {
+                                  "expand": Object {
+                                    "channel": "summary",
+                                  },
+                                  "path": "/views/home/refresh/document-list",
+                                  "state": Object {
+                                    "drive_id": "shared_with_me",
+                                  },
+                                },
+                              },
+                            ],
+                            "location": "drive-selection",
+                            "subtype": "categories",
+                            "type": "select",
+                          }
+                        }
+                        context={
+                          Object {
+                            "app_id": "app-view-builder-app",
+                            "channel_id": "channel1",
+                            "location": "test",
+                            "post_id": undefined,
+                            "root_id": undefined,
+                            "team_id": undefined,
+                          }
+                        }
+                        handleBindingClick={[Function]}
+                        tree={
+                          Object {
+                            "app_id": "app-view-builder-app",
+                            "bindings": Array [
+                              Object {
+                                "bindings": Array [
+                                  Object {
+                                    "bindings": Array [
+                                      Object {
+                                        "label": "My Drive",
+                                        "location": "my_drive",
+                                        "selected": true,
+                                        "submit": Object {
+                                          "expand": Object {
+                                            "channel": "summary",
+                                          },
+                                          "path": "/views/home/refresh/document-list",
+                                          "state": Object {
+                                            "drive_id": "my_drive",
+                                          },
+                                        },
+                                      },
+                                      Object {
+                                        "label": "Shared With Me",
+                                        "location": "shared_with_me",
+                                        "submit": Object {
+                                          "expand": Object {
+                                            "channel": "summary",
+                                          },
+                                          "path": "/views/home/refresh/document-list",
+                                          "state": Object {
+                                            "drive_id": "shared_with_me",
+                                          },
+                                        },
+                                      },
+                                    ],
+                                    "location": "drive-selection",
+                                    "subtype": "categories",
+                                    "type": "select",
+                                  },
+                                  Object {
+                                    "bindings": Array [
+                                      Object {
+                                        "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                        "label": "Folder",
+                                        "location": "new_folder",
+                                        "submit": Object {
+                                          "expand": Object {
+                                            "channel": "summary",
+                                          },
+                                          "path": "/views/home/refresh/document-list",
+                                          "state": Object {
+                                            "drive_id": "my_drive",
+                                          },
+                                        },
+                                      },
+                                      Object {
+                                        "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                        "label": "Docs",
+                                        "location": "new_document",
+                                        "submit": Object {
+                                          "expand": Object {
+                                            "channel": "summary",
+                                          },
+                                          "path": "/views/home/refresh/document-list",
+                                          "state": Object {
+                                            "drive_id": "shared_with_me",
+                                          },
+                                        },
+                                      },
+                                    ],
+                                    "label": "+ New",
+                                    "location": "new-object",
+                                    "subtype": "button",
+                                    "type": "select",
+                                  },
+                                ],
+                                "location": "button-row",
+                                "subtype": "horizontal",
+                                "type": "layout",
+                              },
+                              Object {
+                                "location": "document-list",
+                                "source": Object {
+                                  "expand": Object {
+                                    "channel": "summary",
+                                  },
+                                  "path": "/views/document-list",
+                                  "state": Object {
+                                    "drive_id": "my_drive",
+                                  },
+                                },
+                                "type": "view",
+                              },
+                            ],
+                            "label": "Docs",
+                            "location": "rhs",
+                            "type": "view",
+                          }
+                        }
+                        viewComponent={[Function]}
+                      >
+                        <div
+                          className="mm-app-bar-rhs-binding-select"
+                        >
+                          <SelectVariantCategories
+                            app_id="app-view-builder-app"
+                            binding={
+                              Object {
+                                "bindings": Array [
+                                  Object {
+                                    "label": "My Drive",
+                                    "location": "my_drive",
+                                    "selected": true,
+                                    "submit": Object {
+                                      "expand": Object {
+                                        "channel": "summary",
+                                      },
+                                      "path": "/views/home/refresh/document-list",
+                                      "state": Object {
+                                        "drive_id": "my_drive",
+                                      },
+                                    },
+                                  },
+                                  Object {
+                                    "label": "Shared With Me",
+                                    "location": "shared_with_me",
+                                    "submit": Object {
+                                      "expand": Object {
+                                        "channel": "summary",
+                                      },
+                                      "path": "/views/home/refresh/document-list",
+                                      "state": Object {
+                                        "drive_id": "shared_with_me",
+                                      },
+                                    },
+                                  },
+                                ],
+                                "location": "drive-selection",
+                                "subtype": "categories",
+                                "type": "select",
+                              }
+                            }
+                            context={
+                              Object {
+                                "app_id": "app-view-builder-app",
+                                "channel_id": "channel1",
+                                "location": "test",
+                                "post_id": undefined,
+                                "root_id": undefined,
+                                "team_id": undefined,
+                              }
+                            }
+                            handleBindingClick={[Function]}
+                            tree={
+                              Object {
+                                "app_id": "app-view-builder-app",
+                                "bindings": Array [
+                                  Object {
+                                    "bindings": Array [
+                                      Object {
+                                        "bindings": Array [
+                                          Object {
+                                            "label": "My Drive",
+                                            "location": "my_drive",
+                                            "selected": true,
+                                            "submit": Object {
+                                              "expand": Object {
+                                                "channel": "summary",
+                                              },
+                                              "path": "/views/home/refresh/document-list",
+                                              "state": Object {
+                                                "drive_id": "my_drive",
+                                              },
+                                            },
+                                          },
+                                          Object {
+                                            "label": "Shared With Me",
+                                            "location": "shared_with_me",
+                                            "submit": Object {
+                                              "expand": Object {
+                                                "channel": "summary",
+                                              },
+                                              "path": "/views/home/refresh/document-list",
+                                              "state": Object {
+                                                "drive_id": "shared_with_me",
+                                              },
+                                            },
+                                          },
+                                        ],
+                                        "location": "drive-selection",
+                                        "subtype": "categories",
+                                        "type": "select",
+                                      },
+                                      Object {
+                                        "bindings": Array [
+                                          Object {
+                                            "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                            "label": "Folder",
+                                            "location": "new_folder",
+                                            "submit": Object {
+                                              "expand": Object {
+                                                "channel": "summary",
+                                              },
+                                              "path": "/views/home/refresh/document-list",
+                                              "state": Object {
+                                                "drive_id": "my_drive",
+                                              },
+                                            },
+                                          },
+                                          Object {
+                                            "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                            "label": "Docs",
+                                            "location": "new_document",
+                                            "submit": Object {
+                                              "expand": Object {
+                                                "channel": "summary",
+                                              },
+                                              "path": "/views/home/refresh/document-list",
+                                              "state": Object {
+                                                "drive_id": "shared_with_me",
+                                              },
+                                            },
+                                          },
+                                        ],
+                                        "label": "+ New",
+                                        "location": "new-object",
+                                        "subtype": "button",
+                                        "type": "select",
+                                      },
+                                    ],
+                                    "location": "button-row",
+                                    "subtype": "horizontal",
+                                    "type": "layout",
+                                  },
+                                  Object {
+                                    "location": "document-list",
+                                    "source": Object {
+                                      "expand": Object {
+                                        "channel": "summary",
+                                      },
+                                      "path": "/views/document-list",
+                                      "state": Object {
+                                        "drive_id": "my_drive",
+                                      },
+                                    },
+                                    "type": "view",
+                                  },
+                                ],
+                                "label": "Docs",
+                                "location": "rhs",
+                                "type": "view",
+                              }
+                            }
+                            viewComponent={[Function]}
+                          >
+                            <div>
+                              <Dropdown
+                                Button={[Function]}
+                                app_id="app-view-builder-app"
+                                binding={
+                                  Object {
+                                    "bindings": Array [
+                                      Object {
+                                        "label": "My Drive",
+                                        "location": "my_drive",
+                                        "selected": true,
+                                        "submit": Object {
+                                          "expand": Object {
+                                            "channel": "summary",
+                                          },
+                                          "path": "/views/home/refresh/document-list",
+                                          "state": Object {
+                                            "drive_id": "my_drive",
+                                          },
+                                        },
+                                      },
+                                      Object {
+                                        "label": "Shared With Me",
+                                        "location": "shared_with_me",
+                                        "submit": Object {
+                                          "expand": Object {
+                                            "channel": "summary",
+                                          },
+                                          "path": "/views/home/refresh/document-list",
+                                          "state": Object {
+                                            "drive_id": "shared_with_me",
+                                          },
+                                        },
+                                      },
+                                    ],
+                                    "location": "drive-selection",
+                                    "subtype": "categories",
+                                    "type": "select",
+                                  }
+                                }
+                                context={
+                                  Object {
+                                    "app_id": "app-view-builder-app",
+                                    "channel_id": "channel1",
+                                    "location": "test",
+                                    "post_id": undefined,
+                                    "root_id": undefined,
+                                    "team_id": undefined,
+                                  }
+                                }
+                                handleBindingClick={[Function]}
+                                hint={
+                                  <Memo(MemoizedFormattedMessage)
+                                    defaultMessage="Categories"
+                                    id="the.id"
+                                  />
+                                }
+                                onSelect={[Function]}
+                                tree={
+                                  Object {
+                                    "app_id": "app-view-builder-app",
+                                    "bindings": Array [
+                                      Object {
+                                        "bindings": Array [
+                                          Object {
+                                            "bindings": Array [
+                                              Object {
+                                                "label": "My Drive",
+                                                "location": "my_drive",
+                                                "selected": true,
+                                                "submit": Object {
+                                                  "expand": Object {
+                                                    "channel": "summary",
+                                                  },
+                                                  "path": "/views/home/refresh/document-list",
+                                                  "state": Object {
+                                                    "drive_id": "my_drive",
+                                                  },
+                                                },
+                                              },
+                                              Object {
+                                                "label": "Shared With Me",
+                                                "location": "shared_with_me",
+                                                "submit": Object {
+                                                  "expand": Object {
+                                                    "channel": "summary",
+                                                  },
+                                                  "path": "/views/home/refresh/document-list",
+                                                  "state": Object {
+                                                    "drive_id": "shared_with_me",
+                                                  },
+                                                },
+                                              },
+                                            ],
+                                            "location": "drive-selection",
+                                            "subtype": "categories",
+                                            "type": "select",
+                                          },
+                                          Object {
+                                            "bindings": Array [
+                                              Object {
+                                                "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                                "label": "Folder",
+                                                "location": "new_folder",
+                                                "submit": Object {
+                                                  "expand": Object {
+                                                    "channel": "summary",
+                                                  },
+                                                  "path": "/views/home/refresh/document-list",
+                                                  "state": Object {
+                                                    "drive_id": "my_drive",
+                                                  },
+                                                },
+                                              },
+                                              Object {
+                                                "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                                "label": "Docs",
+                                                "location": "new_document",
+                                                "submit": Object {
+                                                  "expand": Object {
+                                                    "channel": "summary",
+                                                  },
+                                                  "path": "/views/home/refresh/document-list",
+                                                  "state": Object {
+                                                    "drive_id": "shared_with_me",
+                                                  },
+                                                },
+                                              },
+                                            ],
+                                            "label": "+ New",
+                                            "location": "new-object",
+                                            "subtype": "button",
+                                            "type": "select",
+                                          },
+                                        ],
+                                        "location": "button-row",
+                                        "subtype": "horizontal",
+                                        "type": "layout",
+                                      },
+                                      Object {
+                                        "location": "document-list",
+                                        "source": Object {
+                                          "expand": Object {
+                                            "channel": "summary",
+                                          },
+                                          "path": "/views/document-list",
+                                          "state": Object {
+                                            "drive_id": "my_drive",
+                                          },
+                                        },
+                                        "type": "view",
+                                      },
+                                    ],
+                                    "label": "Docs",
+                                    "location": "rhs",
+                                    "type": "view",
+                                  }
+                                }
+                                viewComponent={[Function]}
+                              >
+                                <MenuWrapper
+                                  animationComponent={[Function]}
+                                  className=""
+                                  onToggle={[Function]}
+                                  open={false}
+                                >
+                                  <div
+                                    className="MenuWrapper "
+                                    onClick={[Function]}
+                                  >
+                                    <OverlayTrigger
+                                      className="hidden-xs"
+                                      defaultOverlayShown={false}
+                                      delayShow={500}
+                                      overlay={
+                                        <Tooltip>
+                                          <Memo(MemoizedFormattedMessage)
+                                            defaultMessage="Categories"
+                                            id="the.id"
+                                          />
+                                        </Tooltip>
+                                      }
+                                      placement="top"
+                                      rootClose={true}
+                                      trigger={
+                                        Array [
+                                          "hover",
+                                          "focus",
+                                        ]
+                                      }
+                                    >
+                                      <OverlayTrigger
+                                        className="hidden-xs"
+                                        defaultOverlayShown={false}
+                                        delayShow={500}
+                                        overlay={
+                                          <OverlayWrapper
+                                            intl={
+                                              Object {
+                                                "defaultFormats": Object {},
+                                                "defaultLocale": "en",
+                                                "defaultRichTextElements": undefined,
+                                                "formatDate": [Function],
+                                                "formatDateTimeRange": [Function],
+                                                "formatDateToParts": [Function],
+                                                "formatDisplayName": [Function],
+                                                "formatList": [Function],
+                                                "formatListToParts": [Function],
+                                                "formatMessage": [Function],
+                                                "formatNumber": [Function],
+                                                "formatNumberToParts": [Function],
+                                                "formatPlural": [Function],
+                                                "formatRelativeTime": [Function],
+                                                "formatTime": [Function],
+                                                "formatTimeToParts": [Function],
+                                                "formats": Object {},
+                                                "formatters": Object {
+                                                  "getDateTimeFormat": [Function],
+                                                  "getDisplayNames": [Function],
+                                                  "getListFormat": [Function],
+                                                  "getMessageFormat": [Function],
+                                                  "getNumberFormat": [Function],
+                                                  "getPluralRules": [Function],
+                                                  "getRelativeTimeFormat": [Function],
+                                                },
+                                                "locale": "en",
+                                                "messages": Object {},
+                                                "onError": [Function],
+                                                "textComponent": "span",
+                                                "timeZone": "Etc/UTC",
+                                                "wrapRichTextChunksInFragment": undefined,
+                                              }
+                                            }
+                                          >
+                                            <Memo(MemoizedFormattedMessage)
+                                              defaultMessage="Categories"
+                                              id="the.id"
+                                            />
+                                          </OverlayWrapper>
+                                        }
+                                        placement="top"
+                                        rootClose={true}
+                                        trigger={
+                                          Array [
+                                            "hover",
+                                            "focus",
+                                          ]
+                                        }
+                                      >
+                                        <span
+                                          onBlur={[Function]}
+                                          onClick={[Function]}
+                                          onFocus={[Function]}
+                                          onMouseOut={[Function]}
+                                          onMouseOver={[Function]}
+                                        >
+                                          <CategoriesButton
+                                            Button={[Function]}
+                                            app_id="app-view-builder-app"
+                                            binding={
+                                              Object {
+                                                "bindings": Array [
+                                                  Object {
+                                                    "label": "My Drive",
+                                                    "location": "my_drive",
+                                                    "selected": true,
+                                                    "submit": Object {
+                                                      "expand": Object {
+                                                        "channel": "summary",
+                                                      },
+                                                      "path": "/views/home/refresh/document-list",
+                                                      "state": Object {
+                                                        "drive_id": "my_drive",
+                                                      },
+                                                    },
+                                                  },
+                                                  Object {
+                                                    "label": "Shared With Me",
+                                                    "location": "shared_with_me",
+                                                    "submit": Object {
+                                                      "expand": Object {
+                                                        "channel": "summary",
+                                                      },
+                                                      "path": "/views/home/refresh/document-list",
+                                                      "state": Object {
+                                                        "drive_id": "shared_with_me",
+                                                      },
+                                                    },
+                                                  },
+                                                ],
+                                                "location": "drive-selection",
+                                                "subtype": "categories",
+                                                "type": "select",
+                                              }
+                                            }
+                                            context={
+                                              Object {
+                                                "app_id": "app-view-builder-app",
+                                                "channel_id": "channel1",
+                                                "location": "test",
+                                                "post_id": undefined,
+                                                "root_id": undefined,
+                                                "team_id": undefined,
+                                              }
+                                            }
+                                            handleBindingClick={[Function]}
+                                            hint={
+                                              <Memo(MemoizedFormattedMessage)
+                                                defaultMessage="Categories"
+                                                id="the.id"
+                                              />
+                                            }
+                                            isMenuOpen={false}
+                                            onSelect={[Function]}
+                                            tree={
+                                              Object {
+                                                "app_id": "app-view-builder-app",
+                                                "bindings": Array [
+                                                  Object {
+                                                    "bindings": Array [
+                                                      Object {
+                                                        "bindings": Array [
+                                                          Object {
+                                                            "label": "My Drive",
+                                                            "location": "my_drive",
+                                                            "selected": true,
+                                                            "submit": Object {
+                                                              "expand": Object {
+                                                                "channel": "summary",
+                                                              },
+                                                              "path": "/views/home/refresh/document-list",
+                                                              "state": Object {
+                                                                "drive_id": "my_drive",
+                                                              },
+                                                            },
+                                                          },
+                                                          Object {
+                                                            "label": "Shared With Me",
+                                                            "location": "shared_with_me",
+                                                            "submit": Object {
+                                                              "expand": Object {
+                                                                "channel": "summary",
+                                                              },
+                                                              "path": "/views/home/refresh/document-list",
+                                                              "state": Object {
+                                                                "drive_id": "shared_with_me",
+                                                              },
+                                                            },
+                                                          },
+                                                        ],
+                                                        "location": "drive-selection",
+                                                        "subtype": "categories",
+                                                        "type": "select",
+                                                      },
+                                                      Object {
+                                                        "bindings": Array [
+                                                          Object {
+                                                            "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                                            "label": "Folder",
+                                                            "location": "new_folder",
+                                                            "submit": Object {
+                                                              "expand": Object {
+                                                                "channel": "summary",
+                                                              },
+                                                              "path": "/views/home/refresh/document-list",
+                                                              "state": Object {
+                                                                "drive_id": "my_drive",
+                                                              },
+                                                            },
+                                                          },
+                                                          Object {
+                                                            "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                                            "label": "Docs",
+                                                            "location": "new_document",
+                                                            "submit": Object {
+                                                              "expand": Object {
+                                                                "channel": "summary",
+                                                              },
+                                                              "path": "/views/home/refresh/document-list",
+                                                              "state": Object {
+                                                                "drive_id": "shared_with_me",
+                                                              },
+                                                            },
+                                                          },
+                                                        ],
+                                                        "label": "+ New",
+                                                        "location": "new-object",
+                                                        "subtype": "button",
+                                                        "type": "select",
+                                                      },
+                                                    ],
+                                                    "location": "button-row",
+                                                    "subtype": "horizontal",
+                                                    "type": "layout",
+                                                  },
+                                                  Object {
+                                                    "location": "document-list",
+                                                    "source": Object {
+                                                      "expand": Object {
+                                                        "channel": "summary",
+                                                      },
+                                                      "path": "/views/document-list",
+                                                      "state": Object {
+                                                        "drive_id": "my_drive",
+                                                      },
+                                                    },
+                                                    "type": "view",
+                                                  },
+                                                ],
+                                                "label": "Docs",
+                                                "location": "rhs",
+                                                "type": "view",
+                                              }
+                                            }
+                                            viewComponent={[Function]}
+                                          >
+                                            <h3
+                                              style={
+                                                Object {
+                                                  "cursor": "pointer",
+                                                }
+                                              }
+                                            >
+                                              My Drive
+                                            </h3>
+                                          </CategoriesButton>
+                                        </span>
+                                      </OverlayTrigger>
+                                    </OverlayTrigger>
+                                    <MenuWrapperAnimation
+                                      show={false}
+                                    >
+                                      <CSSTransition
+                                        classNames="MenuWrapperAnimation"
+                                        enter={true}
+                                        exit={true}
+                                        in={false}
+                                        mountOnEnter={true}
+                                        timeout={80}
+                                        unmountOnExit={true}
+                                      >
+                                        <Transition
+                                          appear={false}
+                                          enter={true}
+                                          exit={true}
+                                          in={false}
+                                          mountOnEnter={true}
+                                          onEnter={[Function]}
+                                          onEntered={[Function]}
+                                          onEntering={[Function]}
+                                          onExit={[Function]}
+                                          onExited={[Function]}
+                                          onExiting={[Function]}
+                                          timeout={80}
+                                          unmountOnExit={true}
+                                        />
+                                      </CSSTransition>
+                                    </MenuWrapperAnimation>
+                                  </div>
+                                </MenuWrapper>
+                              </Dropdown>
+                            </div>
+                          </SelectVariantCategories>
+                        </div>
+                      </Select>
+                    </div>
+                  </AppsViewBlockFactory>
+                  <AppsViewBlockFactory
+                    app_id="app-view-builder-app"
+                    binding={
+                      Object {
+                        "bindings": Array [
+                          Object {
+                            "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                            "label": "Folder",
+                            "location": "new_folder",
+                            "submit": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/home/refresh/document-list",
+                              "state": Object {
+                                "drive_id": "my_drive",
+                              },
+                            },
+                          },
+                          Object {
+                            "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                            "label": "Docs",
+                            "location": "new_document",
+                            "submit": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/home/refresh/document-list",
+                              "state": Object {
+                                "drive_id": "shared_with_me",
+                              },
+                            },
+                          },
+                        ],
+                        "label": "+ New",
+                        "location": "new-object",
+                        "subtype": "button",
+                        "type": "select",
+                      }
+                    }
+                    context={
+                      Object {
+                        "app_id": "app-view-builder-app",
+                        "channel_id": "channel1",
+                        "location": "test",
+                        "post_id": undefined,
+                        "root_id": undefined,
+                        "team_id": undefined,
+                      }
+                    }
+                    handleBindingClick={[Function]}
+                    key="new-object"
+                    tree={
+                      Object {
+                        "app_id": "app-view-builder-app",
+                        "bindings": Array [
+                          Object {
+                            "bindings": Array [
+                              Object {
+                                "bindings": Array [
+                                  Object {
+                                    "label": "My Drive",
+                                    "location": "my_drive",
+                                    "selected": true,
+                                    "submit": Object {
+                                      "expand": Object {
+                                        "channel": "summary",
+                                      },
+                                      "path": "/views/home/refresh/document-list",
+                                      "state": Object {
+                                        "drive_id": "my_drive",
+                                      },
+                                    },
+                                  },
+                                  Object {
+                                    "label": "Shared With Me",
+                                    "location": "shared_with_me",
+                                    "submit": Object {
+                                      "expand": Object {
+                                        "channel": "summary",
+                                      },
+                                      "path": "/views/home/refresh/document-list",
+                                      "state": Object {
+                                        "drive_id": "shared_with_me",
+                                      },
+                                    },
+                                  },
+                                ],
+                                "location": "drive-selection",
+                                "subtype": "categories",
+                                "type": "select",
+                              },
+                              Object {
+                                "bindings": Array [
+                                  Object {
+                                    "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                    "label": "Folder",
+                                    "location": "new_folder",
+                                    "submit": Object {
+                                      "expand": Object {
+                                        "channel": "summary",
+                                      },
+                                      "path": "/views/home/refresh/document-list",
+                                      "state": Object {
+                                        "drive_id": "my_drive",
+                                      },
+                                    },
+                                  },
+                                  Object {
+                                    "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                    "label": "Docs",
+                                    "location": "new_document",
+                                    "submit": Object {
+                                      "expand": Object {
+                                        "channel": "summary",
+                                      },
+                                      "path": "/views/home/refresh/document-list",
+                                      "state": Object {
+                                        "drive_id": "shared_with_me",
+                                      },
+                                    },
+                                  },
+                                ],
+                                "label": "+ New",
+                                "location": "new-object",
+                                "subtype": "button",
+                                "type": "select",
+                              },
+                            ],
+                            "location": "button-row",
+                            "subtype": "horizontal",
+                            "type": "layout",
+                          },
+                          Object {
+                            "location": "document-list",
+                            "source": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/document-list",
+                              "state": Object {
+                                "drive_id": "my_drive",
+                              },
+                            },
+                            "type": "view",
+                          },
+                        ],
+                        "label": "Docs",
+                        "location": "rhs",
+                        "type": "view",
+                      }
+                    }
+                    viewComponent={[Function]}
+                  >
+                    <div
+                      style={
+                        Object {
+                          "paddingLeft": "20px",
+                          "paddingRight": "20px",
+                        }
+                      }
+                    >
+                      <Select
+                        app_id="app-view-builder-app"
+                        binding={
+                          Object {
+                            "bindings": Array [
+                              Object {
+                                "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                "label": "Folder",
+                                "location": "new_folder",
+                                "submit": Object {
+                                  "expand": Object {
+                                    "channel": "summary",
+                                  },
+                                  "path": "/views/home/refresh/document-list",
+                                  "state": Object {
+                                    "drive_id": "my_drive",
+                                  },
+                                },
+                              },
+                              Object {
+                                "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                "label": "Docs",
+                                "location": "new_document",
+                                "submit": Object {
+                                  "expand": Object {
+                                    "channel": "summary",
+                                  },
+                                  "path": "/views/home/refresh/document-list",
+                                  "state": Object {
+                                    "drive_id": "shared_with_me",
+                                  },
+                                },
+                              },
+                            ],
+                            "label": "+ New",
+                            "location": "new-object",
+                            "subtype": "button",
+                            "type": "select",
+                          }
+                        }
+                        context={
+                          Object {
+                            "app_id": "app-view-builder-app",
+                            "channel_id": "channel1",
+                            "location": "test",
+                            "post_id": undefined,
+                            "root_id": undefined,
+                            "team_id": undefined,
+                          }
+                        }
+                        handleBindingClick={[Function]}
+                        tree={
+                          Object {
+                            "app_id": "app-view-builder-app",
+                            "bindings": Array [
+                              Object {
+                                "bindings": Array [
+                                  Object {
+                                    "bindings": Array [
+                                      Object {
+                                        "label": "My Drive",
+                                        "location": "my_drive",
+                                        "selected": true,
+                                        "submit": Object {
+                                          "expand": Object {
+                                            "channel": "summary",
+                                          },
+                                          "path": "/views/home/refresh/document-list",
+                                          "state": Object {
+                                            "drive_id": "my_drive",
+                                          },
+                                        },
+                                      },
+                                      Object {
+                                        "label": "Shared With Me",
+                                        "location": "shared_with_me",
+                                        "submit": Object {
+                                          "expand": Object {
+                                            "channel": "summary",
+                                          },
+                                          "path": "/views/home/refresh/document-list",
+                                          "state": Object {
+                                            "drive_id": "shared_with_me",
+                                          },
+                                        },
+                                      },
+                                    ],
+                                    "location": "drive-selection",
+                                    "subtype": "categories",
+                                    "type": "select",
+                                  },
+                                  Object {
+                                    "bindings": Array [
+                                      Object {
+                                        "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                        "label": "Folder",
+                                        "location": "new_folder",
+                                        "submit": Object {
+                                          "expand": Object {
+                                            "channel": "summary",
+                                          },
+                                          "path": "/views/home/refresh/document-list",
+                                          "state": Object {
+                                            "drive_id": "my_drive",
+                                          },
+                                        },
+                                      },
+                                      Object {
+                                        "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                        "label": "Docs",
+                                        "location": "new_document",
+                                        "submit": Object {
+                                          "expand": Object {
+                                            "channel": "summary",
+                                          },
+                                          "path": "/views/home/refresh/document-list",
+                                          "state": Object {
+                                            "drive_id": "shared_with_me",
+                                          },
+                                        },
+                                      },
+                                    ],
+                                    "label": "+ New",
+                                    "location": "new-object",
+                                    "subtype": "button",
+                                    "type": "select",
+                                  },
+                                ],
+                                "location": "button-row",
+                                "subtype": "horizontal",
+                                "type": "layout",
+                              },
+                              Object {
+                                "location": "document-list",
+                                "source": Object {
+                                  "expand": Object {
+                                    "channel": "summary",
+                                  },
+                                  "path": "/views/document-list",
+                                  "state": Object {
+                                    "drive_id": "my_drive",
+                                  },
+                                },
+                                "type": "view",
+                              },
+                            ],
+                            "label": "Docs",
+                            "location": "rhs",
+                            "type": "view",
+                          }
+                        }
+                        viewComponent={[Function]}
+                      >
+                        <div
+                          className="mm-app-bar-rhs-binding-select"
+                        >
+                          <SelectVariantButton
+                            app_id="app-view-builder-app"
+                            binding={
+                              Object {
+                                "bindings": Array [
+                                  Object {
+                                    "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                    "label": "Folder",
+                                    "location": "new_folder",
+                                    "submit": Object {
+                                      "expand": Object {
+                                        "channel": "summary",
+                                      },
+                                      "path": "/views/home/refresh/document-list",
+                                      "state": Object {
+                                        "drive_id": "my_drive",
+                                      },
+                                    },
+                                  },
+                                  Object {
+                                    "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                    "label": "Docs",
+                                    "location": "new_document",
+                                    "submit": Object {
+                                      "expand": Object {
+                                        "channel": "summary",
+                                      },
+                                      "path": "/views/home/refresh/document-list",
+                                      "state": Object {
+                                        "drive_id": "shared_with_me",
+                                      },
+                                    },
+                                  },
+                                ],
+                                "label": "+ New",
+                                "location": "new-object",
+                                "subtype": "button",
+                                "type": "select",
+                              }
+                            }
+                            context={
+                              Object {
+                                "app_id": "app-view-builder-app",
+                                "channel_id": "channel1",
+                                "location": "test",
+                                "post_id": undefined,
+                                "root_id": undefined,
+                                "team_id": undefined,
+                              }
+                            }
+                            handleBindingClick={[Function]}
+                            tree={
+                              Object {
+                                "app_id": "app-view-builder-app",
+                                "bindings": Array [
+                                  Object {
+                                    "bindings": Array [
+                                      Object {
+                                        "bindings": Array [
+                                          Object {
+                                            "label": "My Drive",
+                                            "location": "my_drive",
+                                            "selected": true,
+                                            "submit": Object {
+                                              "expand": Object {
+                                                "channel": "summary",
+                                              },
+                                              "path": "/views/home/refresh/document-list",
+                                              "state": Object {
+                                                "drive_id": "my_drive",
+                                              },
+                                            },
+                                          },
+                                          Object {
+                                            "label": "Shared With Me",
+                                            "location": "shared_with_me",
+                                            "submit": Object {
+                                              "expand": Object {
+                                                "channel": "summary",
+                                              },
+                                              "path": "/views/home/refresh/document-list",
+                                              "state": Object {
+                                                "drive_id": "shared_with_me",
+                                              },
+                                            },
+                                          },
+                                        ],
+                                        "location": "drive-selection",
+                                        "subtype": "categories",
+                                        "type": "select",
+                                      },
+                                      Object {
+                                        "bindings": Array [
+                                          Object {
+                                            "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                            "label": "Folder",
+                                            "location": "new_folder",
+                                            "submit": Object {
+                                              "expand": Object {
+                                                "channel": "summary",
+                                              },
+                                              "path": "/views/home/refresh/document-list",
+                                              "state": Object {
+                                                "drive_id": "my_drive",
+                                              },
+                                            },
+                                          },
+                                          Object {
+                                            "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                            "label": "Docs",
+                                            "location": "new_document",
+                                            "submit": Object {
+                                              "expand": Object {
+                                                "channel": "summary",
+                                              },
+                                              "path": "/views/home/refresh/document-list",
+                                              "state": Object {
+                                                "drive_id": "shared_with_me",
+                                              },
+                                            },
+                                          },
+                                        ],
+                                        "label": "+ New",
+                                        "location": "new-object",
+                                        "subtype": "button",
+                                        "type": "select",
+                                      },
+                                    ],
+                                    "location": "button-row",
+                                    "subtype": "horizontal",
+                                    "type": "layout",
+                                  },
+                                  Object {
+                                    "location": "document-list",
+                                    "source": Object {
+                                      "expand": Object {
+                                        "channel": "summary",
+                                      },
+                                      "path": "/views/document-list",
+                                      "state": Object {
+                                        "drive_id": "my_drive",
+                                      },
+                                    },
+                                    "type": "view",
+                                  },
+                                ],
+                                "label": "Docs",
+                                "location": "rhs",
+                                "type": "view",
+                              }
+                            }
+                            viewComponent={[Function]}
+                          >
+                            <Dropdown
+                              Button={[Function]}
+                              app_id="app-view-builder-app"
+                              binding={
+                                Object {
+                                  "bindings": Array [
+                                    Object {
+                                      "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                      "label": "Folder",
+                                      "location": "new_folder",
+                                      "submit": Object {
+                                        "expand": Object {
+                                          "channel": "summary",
+                                        },
+                                        "path": "/views/home/refresh/document-list",
+                                        "state": Object {
+                                          "drive_id": "my_drive",
+                                        },
+                                      },
+                                    },
+                                    Object {
+                                      "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                      "label": "Docs",
+                                      "location": "new_document",
+                                      "submit": Object {
+                                        "expand": Object {
+                                          "channel": "summary",
+                                        },
+                                        "path": "/views/home/refresh/document-list",
+                                        "state": Object {
+                                          "drive_id": "shared_with_me",
+                                        },
+                                      },
+                                    },
+                                  ],
+                                  "label": "+ New",
+                                  "location": "new-object",
+                                  "subtype": "button",
+                                  "type": "select",
+                                }
+                              }
+                              context={
+                                Object {
+                                  "app_id": "app-view-builder-app",
+                                  "channel_id": "channel1",
+                                  "location": "test",
+                                  "post_id": undefined,
+                                  "root_id": undefined,
+                                  "team_id": undefined,
+                                }
+                              }
+                              handleBindingClick={[Function]}
+                              hint={
+                                <Memo(MemoizedFormattedMessage)
+                                  defaultMessage="Actions"
+                                  id="the.id"
+                                />
+                              }
+                              onSelect={[Function]}
+                              tree={
+                                Object {
+                                  "app_id": "app-view-builder-app",
+                                  "bindings": Array [
+                                    Object {
+                                      "bindings": Array [
+                                        Object {
+                                          "bindings": Array [
+                                            Object {
+                                              "label": "My Drive",
+                                              "location": "my_drive",
+                                              "selected": true,
+                                              "submit": Object {
+                                                "expand": Object {
+                                                  "channel": "summary",
+                                                },
+                                                "path": "/views/home/refresh/document-list",
+                                                "state": Object {
+                                                  "drive_id": "my_drive",
+                                                },
+                                              },
+                                            },
+                                            Object {
+                                              "label": "Shared With Me",
+                                              "location": "shared_with_me",
+                                              "submit": Object {
+                                                "expand": Object {
+                                                  "channel": "summary",
+                                                },
+                                                "path": "/views/home/refresh/document-list",
+                                                "state": Object {
+                                                  "drive_id": "shared_with_me",
+                                                },
+                                              },
+                                            },
+                                          ],
+                                          "location": "drive-selection",
+                                          "subtype": "categories",
+                                          "type": "select",
+                                        },
+                                        Object {
+                                          "bindings": Array [
+                                            Object {
+                                              "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                              "label": "Folder",
+                                              "location": "new_folder",
+                                              "submit": Object {
+                                                "expand": Object {
+                                                  "channel": "summary",
+                                                },
+                                                "path": "/views/home/refresh/document-list",
+                                                "state": Object {
+                                                  "drive_id": "my_drive",
+                                                },
+                                              },
+                                            },
+                                            Object {
+                                              "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                              "label": "Docs",
+                                              "location": "new_document",
+                                              "submit": Object {
+                                                "expand": Object {
+                                                  "channel": "summary",
+                                                },
+                                                "path": "/views/home/refresh/document-list",
+                                                "state": Object {
+                                                  "drive_id": "shared_with_me",
+                                                },
+                                              },
+                                            },
+                                          ],
+                                          "label": "+ New",
+                                          "location": "new-object",
+                                          "subtype": "button",
+                                          "type": "select",
+                                        },
+                                      ],
+                                      "location": "button-row",
+                                      "subtype": "horizontal",
+                                      "type": "layout",
+                                    },
+                                    Object {
+                                      "location": "document-list",
+                                      "source": Object {
+                                        "expand": Object {
+                                          "channel": "summary",
+                                        },
+                                        "path": "/views/document-list",
+                                        "state": Object {
+                                          "drive_id": "my_drive",
+                                        },
+                                      },
+                                      "type": "view",
+                                    },
+                                  ],
+                                  "label": "Docs",
+                                  "location": "rhs",
+                                  "type": "view",
+                                }
+                              }
+                              viewComponent={[Function]}
+                            >
+                              <MenuWrapper
+                                animationComponent={[Function]}
+                                className=""
+                                onToggle={[Function]}
+                                open={false}
+                              >
+                                <div
+                                  className="MenuWrapper "
+                                  onClick={[Function]}
+                                >
+                                  <OverlayTrigger
+                                    className="hidden-xs"
+                                    defaultOverlayShown={false}
+                                    delayShow={500}
+                                    overlay={
+                                      <Tooltip>
+                                        <Memo(MemoizedFormattedMessage)
+                                          defaultMessage="Actions"
+                                          id="the.id"
+                                        />
+                                      </Tooltip>
+                                    }
+                                    placement="top"
+                                    rootClose={true}
+                                    trigger={
+                                      Array [
+                                        "hover",
+                                        "focus",
+                                      ]
+                                    }
+                                  >
+                                    <OverlayTrigger
+                                      className="hidden-xs"
+                                      defaultOverlayShown={false}
+                                      delayShow={500}
+                                      overlay={
+                                        <OverlayWrapper
+                                          intl={
+                                            Object {
+                                              "defaultFormats": Object {},
+                                              "defaultLocale": "en",
+                                              "defaultRichTextElements": undefined,
+                                              "formatDate": [Function],
+                                              "formatDateTimeRange": [Function],
+                                              "formatDateToParts": [Function],
+                                              "formatDisplayName": [Function],
+                                              "formatList": [Function],
+                                              "formatListToParts": [Function],
+                                              "formatMessage": [Function],
+                                              "formatNumber": [Function],
+                                              "formatNumberToParts": [Function],
+                                              "formatPlural": [Function],
+                                              "formatRelativeTime": [Function],
+                                              "formatTime": [Function],
+                                              "formatTimeToParts": [Function],
+                                              "formats": Object {},
+                                              "formatters": Object {
+                                                "getDateTimeFormat": [Function],
+                                                "getDisplayNames": [Function],
+                                                "getListFormat": [Function],
+                                                "getMessageFormat": [Function],
+                                                "getNumberFormat": [Function],
+                                                "getPluralRules": [Function],
+                                                "getRelativeTimeFormat": [Function],
+                                              },
+                                              "locale": "en",
+                                              "messages": Object {},
+                                              "onError": [Function],
+                                              "textComponent": "span",
+                                              "timeZone": "Etc/UTC",
+                                              "wrapRichTextChunksInFragment": undefined,
+                                            }
+                                          }
+                                        >
+                                          <Memo(MemoizedFormattedMessage)
+                                            defaultMessage="Actions"
+                                            id="the.id"
+                                          />
+                                        </OverlayWrapper>
+                                      }
+                                      placement="top"
+                                      rootClose={true}
+                                      trigger={
+                                        Array [
+                                          "hover",
+                                          "focus",
+                                        ]
+                                      }
+                                    >
+                                      <span
+                                        onBlur={[Function]}
+                                        onClick={[Function]}
+                                        onFocus={[Function]}
+                                        onMouseOut={[Function]}
+                                        onMouseOver={[Function]}
+                                      >
+                                        <Button
+                                          Button={[Function]}
+                                          app_id="app-view-builder-app"
+                                          binding={
+                                            Object {
+                                              "bindings": Array [
+                                                Object {
+                                                  "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                                  "label": "Folder",
+                                                  "location": "new_folder",
+                                                  "submit": Object {
+                                                    "expand": Object {
+                                                      "channel": "summary",
+                                                    },
+                                                    "path": "/views/home/refresh/document-list",
+                                                    "state": Object {
+                                                      "drive_id": "my_drive",
+                                                    },
+                                                  },
+                                                },
+                                                Object {
+                                                  "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                                  "label": "Docs",
+                                                  "location": "new_document",
+                                                  "submit": Object {
+                                                    "expand": Object {
+                                                      "channel": "summary",
+                                                    },
+                                                    "path": "/views/home/refresh/document-list",
+                                                    "state": Object {
+                                                      "drive_id": "shared_with_me",
+                                                    },
+                                                  },
+                                                },
+                                              ],
+                                              "label": "+ New",
+                                              "location": "new-object",
+                                              "subtype": "button",
+                                              "type": "select",
+                                            }
+                                          }
+                                          context={
+                                            Object {
+                                              "app_id": "app-view-builder-app",
+                                              "channel_id": "channel1",
+                                              "location": "test",
+                                              "post_id": undefined,
+                                              "root_id": undefined,
+                                              "team_id": undefined,
+                                            }
+                                          }
+                                          handleBindingClick={[Function]}
+                                          hint={
+                                            <Memo(MemoizedFormattedMessage)
+                                              defaultMessage="Actions"
+                                              id="the.id"
+                                            />
+                                          }
+                                          isMenuOpen={false}
+                                          onSelect={[Function]}
+                                          tree={
+                                            Object {
+                                              "app_id": "app-view-builder-app",
+                                              "bindings": Array [
+                                                Object {
+                                                  "bindings": Array [
+                                                    Object {
+                                                      "bindings": Array [
+                                                        Object {
+                                                          "label": "My Drive",
+                                                          "location": "my_drive",
+                                                          "selected": true,
+                                                          "submit": Object {
+                                                            "expand": Object {
+                                                              "channel": "summary",
+                                                            },
+                                                            "path": "/views/home/refresh/document-list",
+                                                            "state": Object {
+                                                              "drive_id": "my_drive",
+                                                            },
+                                                          },
+                                                        },
+                                                        Object {
+                                                          "label": "Shared With Me",
+                                                          "location": "shared_with_me",
+                                                          "submit": Object {
+                                                            "expand": Object {
+                                                              "channel": "summary",
+                                                            },
+                                                            "path": "/views/home/refresh/document-list",
+                                                            "state": Object {
+                                                              "drive_id": "shared_with_me",
+                                                            },
+                                                          },
+                                                        },
+                                                      ],
+                                                      "location": "drive-selection",
+                                                      "subtype": "categories",
+                                                      "type": "select",
+                                                    },
+                                                    Object {
+                                                      "bindings": Array [
+                                                        Object {
+                                                          "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                                          "label": "Folder",
+                                                          "location": "new_folder",
+                                                          "submit": Object {
+                                                            "expand": Object {
+                                                              "channel": "summary",
+                                                            },
+                                                            "path": "/views/home/refresh/document-list",
+                                                            "state": Object {
+                                                              "drive_id": "my_drive",
+                                                            },
+                                                          },
+                                                        },
+                                                        Object {
+                                                          "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                                                          "label": "Docs",
+                                                          "location": "new_document",
+                                                          "submit": Object {
+                                                            "expand": Object {
+                                                              "channel": "summary",
+                                                            },
+                                                            "path": "/views/home/refresh/document-list",
+                                                            "state": Object {
+                                                              "drive_id": "shared_with_me",
+                                                            },
+                                                          },
+                                                        },
+                                                      ],
+                                                      "label": "+ New",
+                                                      "location": "new-object",
+                                                      "subtype": "button",
+                                                      "type": "select",
+                                                    },
+                                                  ],
+                                                  "location": "button-row",
+                                                  "subtype": "horizontal",
+                                                  "type": "layout",
+                                                },
+                                                Object {
+                                                  "location": "document-list",
+                                                  "source": Object {
+                                                    "expand": Object {
+                                                      "channel": "summary",
+                                                    },
+                                                    "path": "/views/document-list",
+                                                    "state": Object {
+                                                      "drive_id": "my_drive",
+                                                    },
+                                                  },
+                                                  "type": "view",
+                                                },
+                                              ],
+                                              "label": "Docs",
+                                              "location": "rhs",
+                                              "type": "view",
+                                            }
+                                          }
+                                          viewComponent={[Function]}
+                                        >
+                                          <button
+                                            className="save-button btn btn-primary"
+                                            type="button"
+                                          >
+                                            + New
+                                          </button>
+                                        </Button>
+                                      </span>
+                                    </OverlayTrigger>
+                                  </OverlayTrigger>
+                                  <MenuWrapperAnimation
+                                    show={false}
+                                  >
+                                    <CSSTransition
+                                      classNames="MenuWrapperAnimation"
+                                      enter={true}
+                                      exit={true}
+                                      in={false}
+                                      mountOnEnter={true}
+                                      timeout={80}
+                                      unmountOnExit={true}
+                                    >
+                                      <Transition
+                                        appear={false}
+                                        enter={true}
+                                        exit={true}
+                                        in={false}
+                                        mountOnEnter={true}
+                                        onEnter={[Function]}
+                                        onEntered={[Function]}
+                                        onEntering={[Function]}
+                                        onExit={[Function]}
+                                        onExited={[Function]}
+                                        onExiting={[Function]}
+                                        timeout={80}
+                                        unmountOnExit={true}
+                                      />
+                                    </CSSTransition>
+                                  </MenuWrapperAnimation>
+                                </div>
+                              </MenuWrapper>
+                            </Dropdown>
+                          </SelectVariantButton>
+                        </div>
+                      </Select>
+                    </div>
+                  </AppsViewBlockFactory>
+                </div>
+              </AppBindingLayoutHorizontal>
+            </AppBindingLayout>
+          </AppsViewBlockFactory>
+        </div>
+        <div
+          key="document-list"
+        >
+          <AppsViewBlockFactory
+            app_id="app-view-builder-app"
+            binding={
+              Object {
+                "location": "document-list",
+                "source": Object {
+                  "expand": Object {
+                    "channel": "summary",
+                  },
+                  "path": "/views/document-list",
+                  "state": Object {
+                    "drive_id": "my_drive",
+                  },
+                },
+                "type": "view",
+              }
+            }
+            context={
+              Object {
+                "app_id": "app-view-builder-app",
+                "channel_id": "channel1",
+                "location": "test",
+                "post_id": undefined,
+                "root_id": undefined,
+                "team_id": undefined,
+              }
+            }
+            handleBindingClick={[Function]}
+            tree={
+              Object {
+                "app_id": "app-view-builder-app",
+                "bindings": Array [
+                  Object {
+                    "bindings": Array [
+                      Object {
+                        "bindings": Array [
+                          Object {
+                            "label": "My Drive",
+                            "location": "my_drive",
+                            "selected": true,
+                            "submit": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/home/refresh/document-list",
+                              "state": Object {
+                                "drive_id": "my_drive",
+                              },
+                            },
+                          },
+                          Object {
+                            "label": "Shared With Me",
+                            "location": "shared_with_me",
+                            "submit": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/home/refresh/document-list",
+                              "state": Object {
+                                "drive_id": "shared_with_me",
+                              },
+                            },
+                          },
+                        ],
+                        "location": "drive-selection",
+                        "subtype": "categories",
+                        "type": "select",
+                      },
+                      Object {
+                        "bindings": Array [
+                          Object {
+                            "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                            "label": "Folder",
+                            "location": "new_folder",
+                            "submit": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/home/refresh/document-list",
+                              "state": Object {
+                                "drive_id": "my_drive",
+                              },
+                            },
+                          },
+                          Object {
+                            "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                            "label": "Docs",
+                            "location": "new_document",
+                            "submit": Object {
+                              "expand": Object {
+                                "channel": "summary",
+                              },
+                              "path": "/views/home/refresh/document-list",
+                              "state": Object {
+                                "drive_id": "shared_with_me",
+                              },
+                            },
+                          },
+                        ],
+                        "label": "+ New",
+                        "location": "new-object",
+                        "subtype": "button",
+                        "type": "select",
+                      },
+                    ],
+                    "location": "button-row",
+                    "subtype": "horizontal",
+                    "type": "layout",
+                  },
+                  Object {
+                    "location": "document-list",
+                    "source": Object {
+                      "expand": Object {
+                        "channel": "summary",
+                      },
+                      "path": "/views/document-list",
+                      "state": Object {
+                        "drive_id": "my_drive",
+                      },
+                    },
+                    "type": "view",
+                  },
+                ],
+                "label": "Docs",
+                "location": "rhs",
+                "type": "view",
+              }
+            }
+            viewComponent={[Function]}
+          >
+            <AppsViewBlock
+              app_id="app-view-builder-app"
+              binding={
+                Object {
+                  "location": "document-list",
+                  "source": Object {
+                    "expand": Object {
+                      "channel": "summary",
+                    },
+                    "path": "/views/document-list",
+                    "state": Object {
+                      "drive_id": "my_drive",
+                    },
+                  },
+                  "type": "view",
+                }
+              }
+              context={
+                Object {
+                  "app_id": "app-view-builder-app",
+                  "channel_id": "channel1",
+                  "location": "test",
+                  "post_id": undefined,
+                  "root_id": undefined,
+                  "team_id": undefined,
+                }
+              }
+              handleBindingClick={[Function]}
+              tree={
+                Object {
+                  "app_id": "app-view-builder-app",
+                  "bindings": Array [
+                    Object {
+                      "bindings": Array [
+                        Object {
+                          "bindings": Array [
+                            Object {
+                              "label": "My Drive",
+                              "location": "my_drive",
+                              "selected": true,
+                              "submit": Object {
+                                "expand": Object {
+                                  "channel": "summary",
+                                },
+                                "path": "/views/home/refresh/document-list",
+                                "state": Object {
+                                  "drive_id": "my_drive",
+                                },
+                              },
+                            },
+                            Object {
+                              "label": "Shared With Me",
+                              "location": "shared_with_me",
+                              "submit": Object {
+                                "expand": Object {
+                                  "channel": "summary",
+                                },
+                                "path": "/views/home/refresh/document-list",
+                                "state": Object {
+                                  "drive_id": "shared_with_me",
+                                },
+                              },
+                            },
+                          ],
+                          "location": "drive-selection",
+                          "subtype": "categories",
+                          "type": "select",
+                        },
+                        Object {
+                          "bindings": Array [
+                            Object {
+                              "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                              "label": "Folder",
+                              "location": "new_folder",
+                              "submit": Object {
+                                "expand": Object {
+                                  "channel": "summary",
+                                },
+                                "path": "/views/home/refresh/document-list",
+                                "state": Object {
+                                  "drive_id": "my_drive",
+                                },
+                              },
+                            },
+                            Object {
+                              "icon": "https://imgs.search.brave.com/Ag7fXBLnY7FpZznBJ78SDwCoPDgbJBm2R0Y1WcFnVP4/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhs/b2suY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIxLzA0L0dv/b2dsZV9Ecml2ZV9p/Y29uLmpwZw",
+                              "label": "Docs",
+                              "location": "new_document",
+                              "submit": Object {
+                                "expand": Object {
+                                  "channel": "summary",
+                                },
+                                "path": "/views/home/refresh/document-list",
+                                "state": Object {
+                                  "drive_id": "shared_with_me",
+                                },
+                              },
+                            },
+                          ],
+                          "label": "+ New",
+                          "location": "new-object",
+                          "subtype": "button",
+                          "type": "select",
+                        },
+                      ],
+                      "location": "button-row",
+                      "subtype": "horizontal",
+                      "type": "layout",
+                    },
+                    Object {
+                      "location": "document-list",
+                      "source": Object {
+                        "expand": Object {
+                          "channel": "summary",
+                        },
+                        "path": "/views/document-list",
+                        "state": Object {
+                          "drive_id": "my_drive",
+                        },
+                      },
+                      "type": "view",
+                    },
+                  ],
+                  "label": "Docs",
+                  "location": "rhs",
+                  "type": "view",
+                }
+              }
+              viewComponent={[Function]}
+            />
+          </AppsViewBlockFactory>
+        </div>
+      </AppsViewBlock>
+    </AppsViewBlockFactory>
+  </AppsView>
+</Provider>
+`;
