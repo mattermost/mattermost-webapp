@@ -19,10 +19,17 @@ exports[`components/activity_and_insights/insights/top_reactions/top_reactions_b
         }
       }
     />
-    <Memo(RenderEmoji)
-      emojiName="grinning"
-      size={20}
-    />
+    <SimpleTooltip
+      content="grinning"
+      placement="bottom"
+    >
+      <span>
+        <Memo(RenderEmoji)
+          emojiName="grinning"
+          size={20}
+        />
+      </span>
+    </SimpleTooltip>
   </div>
   <div
     className="bar-chart-entry"
@@ -41,10 +48,17 @@ exports[`components/activity_and_insights/insights/top_reactions/top_reactions_b
         }
       }
     />
-    <Memo(RenderEmoji)
-      emojiName="tada"
-      size={20}
-    />
+    <SimpleTooltip
+      content="tada"
+      placement="bottom"
+    >
+      <span>
+        <Memo(RenderEmoji)
+          emojiName="tada"
+          size={20}
+        />
+      </span>
+    </SimpleTooltip>
   </div>
   <div
     className="bar-chart-entry"
@@ -63,10 +77,17 @@ exports[`components/activity_and_insights/insights/top_reactions/top_reactions_b
         }
       }
     />
-    <Memo(RenderEmoji)
-      emojiName="heart"
-      size={20}
-    />
+    <SimpleTooltip
+      content="heart"
+      placement="bottom"
+    >
+      <span>
+        <Memo(RenderEmoji)
+          emojiName="heart"
+          size={20}
+        />
+      </span>
+    </SimpleTooltip>
   </div>
   <div
     className="bar-chart-entry"
@@ -85,10 +106,17 @@ exports[`components/activity_and_insights/insights/top_reactions/top_reactions_b
         }
       }
     />
-    <Memo(RenderEmoji)
-      emojiName="laughing"
-      size={20}
-    />
+    <SimpleTooltip
+      content="laughing"
+      placement="bottom"
+    >
+      <span>
+        <Memo(RenderEmoji)
+          emojiName="laughing"
+          size={20}
+        />
+      </span>
+    </SimpleTooltip>
   </div>
   <div
     className="bar-chart-entry"
@@ -107,10 +135,17 @@ exports[`components/activity_and_insights/insights/top_reactions/top_reactions_b
         }
       }
     />
-    <Memo(RenderEmoji)
-      emojiName="+1"
-      size={20}
-    />
+    <SimpleTooltip
+      content="+1"
+      placement="bottom"
+    >
+      <span>
+        <Memo(RenderEmoji)
+          emojiName="+1"
+          size={20}
+        />
+      </span>
+    </SimpleTooltip>
   </div>
 </Fragment>
 `;

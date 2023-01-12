@@ -7,18 +7,24 @@ import {useIntl} from 'react-intl';
 
 import SwitchSelector from 'react-switch-selector';
 
+import classNames from 'classnames';
+
 import {trackEvent} from 'actions/telemetry_actions';
 
 import './index.scss';
 
+import {TELEMETRY_CATEGORIES} from 'utils/constants';
+
 interface Props {
     updatePrice: (isMonthly: boolean) => void;
+    isPurchases: boolean;
+    isInitialPlanMonthly: boolean;
 }
 
-function YearlyMonthlyToggle({updatePrice}: Props) {
+function YearlyMonthlyToggle(props: Props) {
     const {formatMessage} = useIntl();
-    const [isMonthly, setIsMonthly] = useState(true);
-    const [toggleBorderClassName, setToggleBorderClassName] = useState('toggle-border');
+    const [isMonthly, setIsMonthly] = useState(props.isInitialPlanMonthly);
+    const [moveBorder, setMoveBorder] = useState(false);
 
     const monthlyLabel = formatMessage({id: 'pricing_modal.monthly', defaultMessage: 'Monthly'});
     const yearlyLabel = formatMessage({id: 'pricing_modal.yearly', defaultMessage: 'Yearly'});
@@ -38,7 +44,7 @@ function YearlyMonthlyToggle({updatePrice}: Props) {
         {
             label: (
                 <p
-                    className={'text'}
+                    className={'label-text'}
                     id={isMonthly ? 'text-unselected' : 'text-selected'}
                 >
                     {yearlyLabel}
@@ -49,7 +55,7 @@ function YearlyMonthlyToggle({updatePrice}: Props) {
         {
             label: (
                 <p
-                    className={'text'}
+                    className={'label-text'}
                     id={isMonthly ? 'text-selected' : 'text-unselected'}
                 >
                     {monthlyLabel}
@@ -62,27 +68,32 @@ function YearlyMonthlyToggle({updatePrice}: Props) {
     const onToggleChange = () => {
         setIsMonthly(!isMonthly);
 
-        // isMonthly variable hasn't been updated to the latest value and currently represents the previous toggle state
-        // (ie. UI shows monthly selected but the isMonthly variable is still false at this point)
-
-        // controls the animation of the toggle border
-        if (isMonthly) {
-            setToggleBorderClassName('toggle-border move-left');
-        } else {
-            setToggleBorderClassName('toggle-border move-right');
+        // After the toggle has been clicked, moveBorder will always be true so it can continue to move if clicked again.
+        if (!moveBorder) {
+            setMoveBorder(true);
         }
 
-        trackEvent('cloud_pricing', 'click_yearly_toggle');
+        const telemetryCategory = props.isPurchases ? TELEMETRY_CATEGORIES.CLOUD_PURCHASING : TELEMETRY_CATEGORIES.CLOUD_PRICING;
+        trackEvent(telemetryCategory, 'click_yearly_toggle');
 
         // update the displayed price
-        updatePrice(!isMonthly);
+        props.updatePrice(!isMonthly);
     };
 
-    const initialSelectedIndex = options.findIndex(({value}) => value === 'Monthly');
+    const initialPlan = (props.isInitialPlanMonthly) ? monthlyLabel : yearlyLabel;
+    const initialSelectedIndex = options.findIndex(({value}) => value === initialPlan);
 
     return (
         <div className='toggle-monthly-yearly-container'>
-            <div className={toggleBorderClassName}/>
+            <div
+                className={classNames({
+                    'toggle-border': true,
+                    'toggle-border-yearly': !props.isInitialPlanMonthly,
+                    'move-border': moveBorder,
+                    'move-left': moveBorder && !isMonthly,
+                    'move-right': moveBorder && isMonthly,
+                })}
+            />
             <div
                 className='toggle-monthly-yearly'
                 tabIndex={0}

@@ -5,6 +5,7 @@ import React, {memo, ComponentProps, CSSProperties, useMemo, useEffect, useRef} 
 import {useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 import tinycolor from 'tinycolor2';
+import styled from 'styled-components';
 
 import {UserProfile} from '@mattermost/types/users';
 import {getUser as selectUser, makeDisplayNameGetter} from 'mattermost-redux/selectors/entities/users';
@@ -97,16 +98,16 @@ function UserAvatar({
                 content={name}
                 {...overlayProps}
             >
-                <button
+                <RoundButton
                     className={'style--none'}
-                    tabIndex={-1}
                     onClick={(e) => e.stopPropagation()}
                 >
                     <Avatar
                         url={imageURLForUser(userId, user?.last_picture_update)}
+                        tabIndex={-1}
                         {...props}
                     />
-                </button>
+                </RoundButton>
             </SimpleTooltip>
         </OverlayTrigger>
     );
@@ -149,7 +150,6 @@ function Avatars({
                     key={id}
                     userId={id}
                     size={size}
-                    tabIndex={0}
                     overlayProps={overlayProps}
                     disableProfileOverlay={disableProfileOverlay}
                 />
@@ -186,5 +186,9 @@ function Avatars({
         </div>
     );
 }
+
+const RoundButton = styled.button`
+    border-radius: 50%;
+`;
 
 export default memo(Avatars);

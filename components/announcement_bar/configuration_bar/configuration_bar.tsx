@@ -10,6 +10,7 @@ import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes, Preferen
 import {t} from 'utils/i18n';
 
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
+import {getSkuDisplayName} from 'utils/subscription';
 
 import ackIcon from 'images/icons/check-circle-outline.svg';
 import alertIcon from 'images/icons/round-white-info-icon.svg';
@@ -192,7 +193,10 @@ const ConfigurationAnnouncementBar = (props: Props) => {
                 />
                 <FormattedMessage
                     id='announcement_bar.error.license_expired'
-                    defaultMessage='Enterprise license is expired and some features may be disabled.'
+                    defaultMessage='{licenseSku} license is expired and some features may be disabled.'
+                    values={{
+                        licenseSku: getSkuDisplayName(props.license.SkuShortName, props.license.IsGovSku === 'true'),
+                    }}
                 />
             </>);
             return (
@@ -284,9 +288,10 @@ const ConfigurationAnnouncementBar = (props: Props) => {
                 />
                 <FormattedMessage
                     id='announcement_bar.error.license_expiring'
-                    defaultMessage='Enterprise license expires on {date, date, long}.'
+                    defaultMessage='{licenseSku} license expires on {date, date, long}.'
                     values={{
                         date: new Date(parseInt(props.license?.ExpiresAt, 10)),
+                        licenseSku: getSkuDisplayName(props.license.SkuShortName, props.license.IsGovSku === 'true'),
                     }}
                 />
             </>);
@@ -342,7 +347,10 @@ const ConfigurationAnnouncementBar = (props: Props) => {
                             />
                             <FormattedMessage
                                 id={AnnouncementBarMessages.LICENSE_PAST_GRACE}
-                                defaultMessage='Enterprise license is expired and some features may be disabled. Please contact your System Administrator for details.'
+                                defaultMessage='{licenseSku} license is expired and some features may be disabled. Please contact your System Administrator for details.'
+                                values={{
+                                    licenseSku: getSkuDisplayName(props.license.SkuShortName, props.license.IsGovSku === 'true'),
+                                }}
                             />
                         </>
                     }

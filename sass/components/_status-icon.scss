@@ -2,8 +2,9 @@
 
 .status-wrapper {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
     height: 32px;
+    align-items: center;
     align-self: center;
 
     .sidebar--left & {

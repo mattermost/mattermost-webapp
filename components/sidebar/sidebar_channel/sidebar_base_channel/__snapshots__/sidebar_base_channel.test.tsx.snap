@@ -28,7 +28,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
       className="icon icon-globe"
     />
   }
-  isCollapsed={false}
   label="channel_display_name"
   link="/team_name/channels/"
 />
@@ -62,7 +61,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
       className="icon icon-lock-outline"
     />
   }
-  isCollapsed={false}
   label="channel_display_name"
   link="/team_name/channels/"
 />
@@ -99,7 +97,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
       withTooltip={true}
     />
   }
-  isCollapsed={false}
   label="channel_display_name"
   link="/team_name/channels/"
 />
@@ -136,7 +133,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
       withTooltip={true}
     />
   }
-  isCollapsed={false}
   label="channel_display_name"
   link="/team_name/channels/"
 />

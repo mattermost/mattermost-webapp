@@ -1256,8 +1256,9 @@ export function getChannelModerations(state: GlobalState, channelId: string): Ch
     return state.entities.channels.channelModerations[channelId];
 }
 
+const EMPTY_OBJECT = {};
 export function getChannelMemberCountsByGroup(state: GlobalState, channelId: string): ChannelMemberCountsByGroup {
-    return state.entities.channels.channelMemberCountsByGroup[channelId] || {};
+    return state.entities.channels.channelMemberCountsByGroup[channelId] || EMPTY_OBJECT;
 }
 
 export function isFavoriteChannel(state: GlobalState, channelId: string): boolean {
@@ -1342,3 +1343,83 @@ export function getDirectTeammate(state: GlobalState, channelId: string): UserPr
 
     return undefined;
 }
+
+export function makeGetGmChannelMemberCount(): (state: GlobalState, channel: Channel) => number {
+    return createSelector(
+        'getChannelMemberCount',
+        getUserIdsInChannels,
+        getCurrentUserId,
+        (_state: GlobalState, channel: Channel) => channel,
+        (memberIds, userId, channel) => {
+            let membersCount = 0;
+            if (memberIds && memberIds[channel.id]) {
+                const groupMemberIds: Set<string> = memberIds[channel.id] as unknown as Set<string>;
+                membersCount = groupMemberIds.size;
+                if (groupMemberIds.has(userId)) {
+                    membersCount--;
+                }
+            }
+
+            return membersCount;
+        },
+    );
+}
+
+export const getMyActiveChannelIds = createSelector(
+    'getMyActiveChannels',
+    getMyChannels,
+    (channels) => channels.flatMap((chan) => {
+        if (chan.delete_at > 0) {
+            return [];
+        }
+        return chan.id;
+    }),
+);
+export const getRecentProfilesFromDMs: (state: GlobalState) => UserProfile[] = createSelector(
+    'getRecentProfilesFromDMs',
+    getAllChannels,
+    getUsers,
+    getCurrentUser,
+    getMyChannelMemberships,
+    (allChannels: IDMappedObjects<Channel>, users: IDMappedObjects<UserProfile>, currentUser: UserProfile, memberships: RelationOneToOne<Channel, ChannelMembership>) => {
+        if (!allChannels || !users) {
+            return [];
+        }
+        const recentChannelIds = Object.values(memberships).sort((aMembership, bMembership) => {
+            return bMembership.last_viewed_at - aMembership.last_viewed_at;
+        }).map((membership) => membership.channel_id);
+        const groupChannels = Object.values(allChannels).filter((channel: Channel) => channel.type === General.GM_CHANNEL);
+        const dmChannels = Object.values(allChannels).filter((channel: Channel) => channel.type === General.DM_CHANNEL);
+
+        const userProfilesByChannel: {[key: string]: UserProfile[]} = {};
+
+        dmChannels.forEach((channel) => {
+            if (channel.name) {
+                const otherUserId = getUserIdFromChannelName(currentUser.id, channel.name);
+                const userProfile = users[otherUserId];
+                if (userProfile) {
+                    userProfilesByChannel[channel.id] = [userProfile];
+                }
+            }
+        });
+
+        groupChannels.forEach((channel) => {
+            if (channel.display_name) {
+                const memberUsernames = channel.display_name.split(',').map((username) => username.trim()).filter((username) => username !== currentUser.username).sort();
+                const memberProfiles = memberUsernames.map((username) => {
+                    return Object.values(users).find((profile) => profile.username === username);
+                });
+                if (memberProfiles) {
+                    userProfilesByChannel[channel.id] = memberProfiles as UserProfile[];
+                }
+            }
+        });
+        const sortedUserProfiles: Set<UserProfile> = new Set<UserProfile>();
+        recentChannelIds.forEach((cid: string) => {
+            if (userProfilesByChannel[cid]) {
+                userProfilesByChannel[cid].forEach((user) => sortedUserProfiles.add(user));
+            }
+        });
+        return [...sortedUserProfiles];
+    },
+);

@@ -22,6 +22,7 @@ import {ChannelsAndDirectMessagesTour} from 'components/tours/onboarding_tour';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 import ChannelMentionBadge from '../channel_mention_badge';
+import ChannelPencilIcon from '../channel_pencil_icon';
 import SidebarChannelIcon from '../sidebar_channel_icon';
 import SidebarChannelMenu from '../sidebar_channel_menu';
 import {Channel} from '@mattermost/types/channels';
@@ -48,11 +49,6 @@ type Props = {
      * Checks if the current channel is muted
      */
     isMuted: boolean;
-
-    /**
-     * Checks if channel is collapsed
-     */
-    isCollapsed: boolean;
 
     isChannelSelected: boolean;
 
@@ -137,9 +133,11 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
 
     handleChannelClick = (event: React.MouseEvent<HTMLAnchorElement>): void => {
         mark('SidebarChannelLink#click');
-        trackEvent('ui', 'ui_channel_selected_v2');
-
         this.handleSelectChannel(event);
+
+        setTimeout(() => {
+            trackEvent('ui', 'ui_channel_selected_v2');
+        }, 0);
     }
 
     handleSelectChannel = (event: React.MouseEvent<HTMLAnchorElement>): void => {
@@ -233,7 +231,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         const content = (
             <>
                 <SidebarChannelIcon
-                    channel={channel}
+                    isDeleted={channel.delete_at !== 0}
                     icon={icon}
                 />
                 <div
@@ -247,6 +245,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                         channel={this.props.channel}
                     />
                 </div>
+                <ChannelPencilIcon id={channel.id}/>
                 <ChannelMentionBadge
                     unreadMentions={unreadMentions}
                     hasUrgent={hasUrgent}
@@ -255,7 +254,6 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     channel={channel}
                     channelLink={link}
                     isMenuOpen={this.state.isMenuOpen}
-                    isCollapsed={this.props.isCollapsed}
                     isUnread={isUnread}
                     closeHandler={this.props.closeHandler}
                     onToggleMenu={this.handleMenuToggle}
@@ -280,7 +278,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 aria-label={this.getAriaLabel()}
                 to={link}
                 onClick={this.handleChannelClick}
-                tabIndex={this.props.isCollapsed ? -1 : 0}
+                tabIndex={0}
             >
                 {content}
                 {channelsTutorialTip}

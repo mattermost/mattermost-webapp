@@ -6,6 +6,8 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {DotsVerticalIcon} from '@mattermost/compass-icons/components';
+
 import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -227,8 +229,11 @@ function ThreadItem({
                             />
                         )}
                     >
-                        <Button className='Button___icon'>
-                            <i className='Icon icon-dots-vertical'/>
+                        <Button
+                            marginTop={true}
+                            className='Button___icon'
+                        >
+                            <DotsVerticalIcon size={18}/>
                         </Button>
                     </SimpleTooltip>
                 </ThreadMenu>

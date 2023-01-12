@@ -8,9 +8,9 @@ import {Preferences} from 'mattermost-redux/constants';
 import {getConfig, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
-import store from 'stores/redux_store.jsx';
+import {isDevModeEnabled} from 'selectors/general';
 
-import {isDevMode} from 'utils/utils';
+import store from 'stores/redux_store.jsx';
 
 const SUPPORTS_CLEAR_MARKS = isSupported([performance.clearMarks]);
 const SUPPORTS_MARK = isSupported([performance.mark]);
@@ -27,7 +27,7 @@ export function isTelemetryEnabled(state) {
 }
 
 export function shouldTrackPerformance(state = store.getState()) {
-    return isDevMode(state) || isTelemetryEnabled(state);
+    return isDevModeEnabled(state) || isTelemetryEnabled(state);
 }
 
 export function trackEvent(category, event, props) {
@@ -41,7 +41,7 @@ export function trackEvent(category, event, props) {
 
     Client4.trackEvent(category, event, props);
 
-    if (isDevMode() && category === 'performance' && props) {
+    if (isDevModeEnabled(state) && category === 'performance' && props) {
         // eslint-disable-next-line no-console
         console.log(event + ' - ' + Object.entries(props).map(([key, value]) => `${key}: ${value}`).join(', '));
     }

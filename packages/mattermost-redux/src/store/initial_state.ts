@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {SelfHostedSignupProgress} from '@mattermost/types/hosted_customer';
 import {GlobalState} from '@mattermost/types/store';
 
 import {zeroStateLimitedViews} from '../reducers/entities/posts';
@@ -77,6 +78,7 @@ const state: GlobalState = {
                 },
             },
             limitedViews: zeroStateLimitedViews,
+            acknowledgements: {},
         },
         threads: {
             threadsInTeam: {},
@@ -208,6 +210,21 @@ const state: GlobalState = {
                 limitsLoaded: false,
             },
             errors: {},
+            selfHostedSignup: {
+                progress: SelfHostedSignupProgress.START,
+            },
+        },
+        hostedCustomer: {
+            signupProgress: SelfHostedSignupProgress.START,
+            products: {
+                products: {},
+                productsLoaded: false,
+            },
+            errors: {},
+            invoices: {
+                invoices: {},
+                invoicesLoaded: false,
+            },
         },
         usage: {
             files: {
@@ -232,6 +249,11 @@ const state: GlobalState = {
             topReactions: {},
             myTopReactions: {},
         },
+        worktemplates: {
+            categories: [],
+            templatesInCategory: {},
+            playbookTemplates: [],
+        },
     },
     errors: [],
     requests: {
@@ -253,6 +275,10 @@ const state: GlobalState = {
                 error: null,
             },
             updateChannel: {
+                status: 'not_started',
+                error: null,
+            },
+            getChannelsAndChannelMembers: {
                 status: 'not_started',
                 error: null,
             },
@@ -344,6 +370,7 @@ const state: GlobalState = {
         connected: false,
         lastConnectAt: 0,
         lastDisconnectAt: 0,
+        connectionId: '',
     },
 };
 export default state;

@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {markMostRecentPostInChannelAsUnread} from 'mattermost-redux/actions/channels';
 import {getCurrentUserId, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -14,7 +13,7 @@ import {makeGetChannelUnreadCount} from 'mattermost-redux/selectors/entities/cha
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {clearChannelSelection, multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
 import {getFirstChannelName} from 'selectors/onboarding';
-import {unsetEditingPost} from 'actions/post_actions';
+import {markMostRecentPostInChannelAsUnread, unsetEditingPost} from 'actions/post_actions';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
 import {

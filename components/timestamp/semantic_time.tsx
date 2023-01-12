@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {FC, ReactNode, memo, TimeHTMLAttributes} from 'react';
+import {DateTime} from 'luxon';
 
 export type Props = {
     value: Date;
@@ -11,14 +12,12 @@ export type Props = {
 const SemanticTime: FC<Props> = ({
     value,
     children,
-    'aria-label': label = value.toLocaleString(),
     ...props
 }: Props) => {
     return (
         <time
             {...props}
-            aria-label={label}
-            dateTime={value.toISOString()}
+            dateTime={DateTime.fromJSDate(value).toLocal().toISO({includeOffset: false})}
         >
             {children}
         </time>
