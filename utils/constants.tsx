@@ -2018,6 +2018,7 @@ export const searchFilesHintOptions = [{searchTerm: 'From:', message: {id: t('se
 t('suggestion.archive');
 t('suggestion.mention.channels');
 t('suggestion.mention.emoji');
+t('suggestion.mention.command');
 t('suggestion.mention.morechannels');
 t('suggestion.mention.unread.channels');
 t('suggestion.mention.unread');
