@@ -24,6 +24,7 @@ export default function RhsAppBinding() {
     if (binding) {
         view = (
             <AppsView
+                location='rhs'
                 tree={binding}
                 setTree={setRhsBinding}
             />

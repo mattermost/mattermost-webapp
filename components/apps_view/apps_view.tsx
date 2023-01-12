@@ -21,6 +21,7 @@ import {lookForBindingLocation, treeReplace} from './partial_refresh';
 import './apps_view_styles.scss';
 
 export type AppsViewProps = {
+    location: string;
     tree: AppBinding;
     setTree: (binding: AppBinding) => void;
 }
@@ -31,15 +32,18 @@ export function AppsView(props: AppsViewProps) {
 
     const dispatch = useDispatch();
     const channelID = useSelector(getCurrentChannelId);
-    const context = createCallContext(tree.app_id!, 'RHSView', channelID);
+    const context = createCallContext(tree.app_id!, props.location, channelID);
 
     const handleBindingClickBound = useCallback(async (binding: AppBinding) => {
         const res = await dispatch(handleBindingClick(binding, context, intl)) as DoAppCallResult;
 
-        const err = alert;
+        const err = (s: string) => {
+            // eslint-disable-next-line no-console
+            console.error(s);
+        };
 
         if (res.error) {
-            err(res.error.text);
+            err(res.error.text!);
             return res.error;
         }
 
@@ -50,7 +54,7 @@ export function AppsView(props: AppsViewProps) {
             dispatch(openAppsModal(callResp.form!, context));
             break;
         case AppCallResponseTypes.OK:
-            err(callResp.text);
+            err(callResp.text!);
             break;
         case AppCallResponseTypes.VIEW: {
             const newBlock = callResp.data as AppBinding | undefined;

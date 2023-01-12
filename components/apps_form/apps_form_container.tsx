@@ -30,17 +30,18 @@ type Props = {
 
 type State = {
     form?: AppForm;
+    savedPropsForm?: AppForm;
 }
 
 class AppsFormContainer extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
-        this.state = {form: props.form};
+        this.state = {form: props.form, savedPropsForm: props.form};
     }
 
     static getDerivedStateFromProps(props: Props, state: State) {
-        if (props.form !== state.form) {
-            return {form: props.form};
+        if (props.form !== state.savedPropsForm) {
+            return {form: props.form, savedPropsForm: props.form};
         }
 
         return state;

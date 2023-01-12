@@ -65,7 +65,7 @@ export type AppBinding = {
     // - For LocationPostMenu is the menu item text.
     // - For LocationChannelHeader is the dropdown text.
     // - For LocationCommand is the name of the command
-    label: string;
+    label?: string;
 
     // Hint is the secondary text to display
     // - LocationPostMenu: not used
