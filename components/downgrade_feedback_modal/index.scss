@@ -1,0 +1,18 @@
+.DowngradeFeedback {
+    &__Error {
+        color: var(--error-text);
+        margin-bottom: 10px;
+    }
+
+    &__FreeFormText {
+        font-Size: 15px;
+        margin-Bottom: 10px;
+        resize: 'none';
+    }
+
+    &__Submit {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+}

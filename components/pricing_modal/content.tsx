@@ -6,6 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {DowngradeFeedback} from '@mattermost/types/cloud';
 import {CloudLinks, CloudProducts, LicenseSkus, ModalIdentifiers, PaidFeatures, TELEMETRY_CATEGORIES, RecurringIntervals} from 'utils/constants';
 import {fallbackStarterLimits, asGBString, hasSomeLimits} from 'utils/limits';
 import {findProductBySkuAndInterval} from 'utils/products';
@@ -39,11 +40,11 @@ import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
 
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
+import DowngradeFeedbackModal from 'components/downgrade_feedback_modal';
 import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
 import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
-import DowngradeFeedbackModal from 'components/downgrade_feedback_modal';
 
 import './content.scss';
 
@@ -61,6 +62,7 @@ function Content(props: ContentProps) {
     const usage = useGetUsage();
     const [limits] = useGetLimits();
     const openPricingModalBackAction = useOpenPricingModal();
+    const [downgradeFeedback, setDowngradeFeedback] = useState<DowngradeFeedback|undefined>(undefined);
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.UpgradeEnterprise);
@@ -109,6 +111,28 @@ function Content(props: ContentProps) {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
     };
 
+    const handleClickDowngrade = (downgradeFeedback?: DowngradeFeedback) => {
+        setDowngradeFeedback(downgradeFeedback);
+        if (!starterProduct) {
+            return;
+        }
+        if (usage.teams.active > 1) {
+            dispatch(
+                openModal({
+                    modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
+                    dialogType: DowngradeTeamRemovalModal,
+                    dialogProps: {
+                        product_id: starterProduct?.id,
+                        starterProduct,
+                        downgradeFeedback,
+                    },
+                }),
+            );
+        } else {
+            downgrade('click_pricing_modal_free_card_downgrade_button');
+        }
+    }
+
     const downgrade = async (callerInfo: string) => {
         if (!starterProduct) {
             return;
@@ -118,7 +142,7 @@ function Content(props: ContentProps) {
         openDowngradeModal({trackingLocation: telemetryInfo});
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
 
-        const result = await dispatch(subscribeCloudSubscription(starterProduct.id));
+        const result = await dispatch(subscribeCloudSubscription(starterProduct.id, 0, downgradeFeedback));
 
         if (typeof result === 'boolean' && result) {
             dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
@@ -253,30 +277,16 @@ function Content(props: ContentProps) {
                         planExtraInformation={<StarterDisclaimerCTA/>}
                         buttonDetails={{
                             action: () => {
-                                // if (!starterProduct) {
-                                //     return;
-                                // }
-                                // if (usage.teams.active > 1) {
-                                //     dispatch(
-                                //         openModal({
-                                //             modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
-                                //             dialogType: DowngradeTeamRemovalModal,
-                                //             dialogProps: {
-                                //                 product_id: starterProduct?.id,
-                                //                 starterProduct,
-                                //             },
-                                //         }),
-                                //     );
-                                // } else {
-                                //     // downgrade('click_pricing_modal_free_card_downgrade_button');
-                                // }
-
                                 dispatch(
                                     openModal({
-                                        modalId: ModalIdentifiers.SUCCESS_MODAL,
+                                        modalId: ModalIdentifiers.DOWNGRADE_FEEDBACK,
                                         dialogType: DowngradeFeedbackModal,
+                                        dialogProps: {
+                                            onSubmit: handleClickDowngrade
+                                        }
                                     }),
                                 );
+
                             },
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
                             disabled: isStarter || isEnterprise || !isAdmin || !currentSubscriptionIsMonthly,

@@ -22,6 +22,7 @@ import {
     ValidBusinessEmail,
     LicenseExpandStatus,
     CreateSubscriptionRequest,
+    DowngradeFeedback,
 } from '@mattermost/types/cloud';
 import {
     SelfHostedSignupForm,
@@ -3955,10 +3956,10 @@ export default class Client4 {
         );
     }
 
-    subscribeCloudProduct = (productId: string, seats = 0) => {
+    subscribeCloudProduct = (productId: string, seats = 0, downgradeFeedBack: DowngradeFeedback|undefined = undefined) => {
         return this.doFetch<CloudCustomer>(
             `${this.getCloudRoute()}/subscription`,
-            {method: 'put', body: JSON.stringify({product_id: productId, seats})},
+            {method: 'put', body: JSON.stringify({product_id: productId, seats, downgrade_feedback: downgradeFeedBack})},
         );
     }
 

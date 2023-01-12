@@ -9,7 +9,7 @@ import {Modal} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {Team} from '@mattermost/types/teams';
-import {Product} from '@mattermost/types/cloud';
+import {DowngradeFeedback, Product} from '@mattermost/types/cloud';
 import {t} from 'utils/i18n';
 import RadioButtonGroup from 'components/common/radio_group';
 import DropdownInput, {ValueType} from 'components/dropdown_input';
@@ -29,6 +29,7 @@ import './downgrade_team_removal_modal.scss';
 type Props = {
     product_id: string;
     starterProduct: Product | null | undefined;
+    downgradeFeedback?: DowngradeFeedback
 };
 
 function DowngradeTeamRemovalModal(props: Props) {
@@ -82,6 +83,7 @@ function DowngradeTeamRemovalModal(props: Props) {
                 },
                 teamToKeep,
                 selectedProduct: props.starterProduct,
+                downgradeFeedback: props.downgradeFeedback,
             },
         }));
     };

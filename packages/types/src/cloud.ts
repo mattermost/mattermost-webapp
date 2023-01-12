@@ -225,3 +225,7 @@ export interface CreateSubscriptionRequest {
     internal_purchase_order?: string;
 }
 
+export type DowngradeFeedback = {
+    reason: string;
+    comments: string;
+}
