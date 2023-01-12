@@ -50,7 +50,6 @@ function mapStateToProps(state: GlobalState) {
         currentTeam: getCurrentTeam(state),
         theme: getTheme(state),
         isDelinquencyModal,
-        annualSubscription: true,
         usersCount: Number(getAdminAnalytics(state)!.TOTAL_USERS) || 1,
     };
 }

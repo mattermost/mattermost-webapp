@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -31,7 +31,6 @@ import PlanLabel from 'components/common/plan_label';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
-import YearlyMonthlyToggle from 'components/yearly_monthly_toggle';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
@@ -66,10 +65,8 @@ function Content(props: ContentProps) {
     const product = useSelector(selectSubscriptionProduct);
     const products = useSelector(selectCloudProducts);
 
-    const currentSubscriptionIsMonthly = product?.recurring_interval === RecurringIntervals.MONTH;
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
-    const monthlyProfessionalProduct = findProductBySkuAndInterval(products || {}, CloudProducts.PROFESSIONAL, RecurringIntervals.MONTH);
     const yearlyProfessionalProduct = findProductBySkuAndInterval(products || {}, CloudProducts.PROFESSIONAL, RecurringIntervals.YEAR);
 
     const starterProduct = Object.values(products || {}).find(((product) => {
@@ -161,22 +158,8 @@ function Content(props: ContentProps) {
     ];
 
     // Default professional price
-    const monthlyProfessionalPrice = monthlyProfessionalProduct ? monthlyProfessionalProduct.price_per_seat : 0;
-    const yearlyProfessionalPrice = yearlyProfessionalProduct ? yearlyProfessionalProduct.price_per_seat / 12 : 0;
-    const defaultProfessionalPrice = currentSubscriptionIsMonthly ? monthlyProfessionalPrice : yearlyProfessionalPrice;
-    const [professionalPrice, setProfessionalPrice] = useState(defaultProfessionalPrice);
-    const [isMonthlyPlan, setIsMonthlyPlan] = useState(true);
-
-    // Set professional price
-    const updateProfessionalPrice = (newIsMonthly: boolean) => {
-        if (newIsMonthly) {
-            setProfessionalPrice(monthlyProfessionalPrice);
-            setIsMonthlyPlan(true);
-        } else if (!newIsMonthly && yearlyProfessionalProduct) {
-            setProfessionalPrice(yearlyProfessionalPrice);
-            setIsMonthlyPlan(false);
-        }
-    };
+    const professionalPrice = yearlyProfessionalProduct ? yearlyProfessionalProduct.price_per_seat / 12 : 0;
+    const isMonthlyPlan = false;
 
     return (
         <div className='Content'>
@@ -197,18 +180,6 @@ function Content(props: ContentProps) {
             </Modal.Header>
             <Modal.Body>
                 <div className='pricing-options-container'>
-                    {(currentSubscriptionIsMonthly) &&
-                        <>
-                            <div className='save-text'>
-                                {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
-                            </div>
-                            <YearlyMonthlyToggle
-                                updatePrice={updateProfessionalPrice}
-                                isPurchases={false}
-                                isInitialPlanMonthly={true}
-                            />
-                        </>
-                    }
                     <div className='alert-option-container'>
                         <div className='alert-option'>
                             <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
@@ -265,7 +236,7 @@ function Content(props: ContentProps) {
                                 }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
-                            disabled: isStarter || isEnterprise || !isAdmin || !currentSubscriptionIsMonthly,
+                            disabled: isStarter || isEnterprise || !isAdmin,
                             customClass: ButtonCustomiserClasses.secondary,
                         }}
                         briefing={{
@@ -307,7 +278,7 @@ function Content(props: ContentProps) {
                         buttonDetails={{
                             action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button', isMonthlyPlan),
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
-                            disabled: !isAdmin || (isProfessional && !currentSubscriptionIsMonthly) || (isProfessional && currentSubscriptionIsMonthly === isMonthlyPlan) || (isEnterprise && !isEnterpriseTrial),
+                            disabled: !isAdmin || isProfessional || (isEnterprise && !isEnterpriseTrial),
                             customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
                         }}
                         briefing={{
