@@ -33,7 +33,10 @@ export const RenderedEmoji = (props: NodeViewProps) => {
             data-emoji-type={type}
             data-emoji-label={label}
         >
-            <RenderEmoji emojiName={label}/>
+            <RenderEmoji
+                emojiName={label}
+                size={21}
+            />
         </NodeViewWrapper>
     );
 };

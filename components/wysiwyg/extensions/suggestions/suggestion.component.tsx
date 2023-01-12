@@ -239,6 +239,4 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(({item
     );
 });
 
-t('suggestion.mention.emoji');
-
 export default SuggestionList;

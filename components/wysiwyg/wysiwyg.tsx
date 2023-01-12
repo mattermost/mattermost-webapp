@@ -169,7 +169,10 @@ const Wysiwyg = (props: Props) => {
                 config,
                 hardBreak: false,
                 placeholder: placeholder ? {placeholder} : false,
-                codeBlock: {defaultLanguage: 'css'},
+                codeBlock: {
+                    defaultLanguage: 'css',
+                    exitOnArrowDown: true,
+                },
                 table: {allowTableNodeSelection: true},
                 link: {
                     linkOnPaste: false,

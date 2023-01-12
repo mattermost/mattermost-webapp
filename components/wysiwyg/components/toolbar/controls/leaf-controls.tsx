@@ -155,9 +155,11 @@ const LinkInput = styled.input`
 
 const LinkInputHelp = styled.span`
     font-size: 10px;
-    line-height: 16px;
-    gap: 8px;
-    color: rgba(var(--center-channel-color-rgb), 0.56);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: rgba(var(--center-channel-color-rgb),0.56);
+    line-height: 15px;
 `;
 
 type LinkOverlayProps = {
