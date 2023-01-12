@@ -35,7 +35,6 @@ describe('Bot accounts ownership and API', () => {
         const newSettings = {
             ServiceSettings: {
                 EnforceMultifactorAuthentication: false,
-                EnableBotAccountCreation: true,
             },
         };
         cy.apiUpdateConfig(newSettings);

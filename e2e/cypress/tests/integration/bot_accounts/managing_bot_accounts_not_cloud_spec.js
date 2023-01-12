@@ -24,17 +24,6 @@ describe('Managing bot accounts', () => {
         cy.apiAdminLogin();
         cy.shouldHavePluginUploadEnabled();
 
-        // # Set ServiceSettings to expected values
-        const newSettings = {
-            ServiceSettings: {
-                EnableBotAccountCreation: true,
-            },
-            PluginSettings: {
-                Enable: true,
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
-
         // # Create a test bot
         cy.apiCreateBot({prefix: 'test-bot'});
 

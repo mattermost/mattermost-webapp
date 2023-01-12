@@ -17,11 +17,6 @@ describe('Edit bot', () => {
     let testTeam;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableBotAccountCreation: true,
-            },
-        });
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
         });
