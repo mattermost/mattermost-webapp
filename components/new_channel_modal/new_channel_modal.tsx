@@ -110,10 +110,10 @@ const NewChannelModal = (props: Props) => {
     const [urlError, setURLError] = useState('');
     const [purposeError, setPurposeError] = useState('');
     const [serverError, setServerError] = useState('');
-    const [selectedBoardTemplate, setSelectedBoardTemplate] = useState<BoardTemplate | null>(null);
 
     // create a board along with the channel
     const [addBoard, setAddBoard] = useState(false);
+    const [selectedBoardTemplate, setSelectedBoardTemplate] = useState<BoardTemplate | null>(null);
     const [boardTemplates, setBoardTemplates] = useState<BoardTemplate[]>([]);
     const newChannelWithBoardPulsatingDotState = useSelector((state: GlobalState) => getPreference(state, Preferences.APP_BAR, Preferences.NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED, ''));
     const EMPTY_BOARD = 'empty-board';
@@ -331,7 +331,7 @@ const NewChannelModal = (props: Props) => {
         e.stopPropagation();
     };
 
-    const canCreate = displayName && !displayNameError && url && !urlError && type && !purposeError && !serverError;
+    const canCreate = displayName && !displayNameError && url && !urlError && type && !purposeError && !serverError && (!addBoard || (addBoard && selectedBoardTemplate !== null));
 
     const showNewBoardTemplateSelector = async () => {
         setAddBoard((prev) => !prev);

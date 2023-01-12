@@ -66,7 +66,7 @@ describe('Components/SidebarHeader', () => {
                         historyLoaded: true,
                     },
                     files: {
-                        totalStorage: 10 * FileSizes.Gigabyte,
+                        totalStorage: FileSizes.Gigabyte,
                         totalStorageLoaded: true,
                     },
                     teams: {
@@ -101,7 +101,7 @@ describe('Components/SidebarHeader', () => {
                                 history: 10000,
                             },
                             files: {
-                                total_storage: 10 * FileSizes.Gigabyte,
+                                total_storage: FileSizes.Gigabyte,
                             },
                             teams: {
                                 active: 1,
