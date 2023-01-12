@@ -257,6 +257,44 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
         setText(null);
     }, [open]);
 
+    const handleSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // either we have a new url, or we take the previous one
+        const newUrl = url || prevUrl;
+
+        // same goes for this: either we have something typed for it or we take the previous/selected value
+        const newText = text || selectedText || newUrl || '';
+
+        if (!newUrl) {
+            // if there is no URL set for the link it will remove the link mark
+            editor.chain().focus().extendMarkRange('mmLink').unsetLink().run();
+        } else if (selectedText === newText) {
+            // extend the range to the whole link (if no link mark is present it does not do anything)
+            // and change/add the url on it
+            editor.chain().focus().extendMarkRange('mmLink').setLink({href: newUrl}).run();
+        } else {
+            editor.
+                chain().
+                focus().
+                extendMarkRange('mmLink').
+                deleteRange(editor.state.selection).
+
+                // insert the text (either the url or the text from the input field)
+                insertContentAt(from, newText).
+
+                // select the inserted text
+                setTextSelection({from, to: from + newText.length}).
+
+                // apply the link mark to it
+                setLink({href: newUrl}).
+                run();
+        }
+
+        closeOverlay();
+    }, [closeOverlay, editor, from, prevUrl, selectedText, text, url]);
+
     if (!open) {
         return null;
     }
@@ -273,43 +311,7 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
         >
             <FloatingLinkContainer
                 as={'form'}
-                onSubmit={(event: FormEvent<HTMLFormElement>) => {
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    // either we have a new url, or we take the previous one
-                    const newUrl = url || prevUrl;
-
-                    // same goes for this: either we have something typed for it or we take the previous/selected value
-                    const newText = text || selectedText || newUrl || '';
-
-                    if (!newUrl) {
-                        // if there is no URL set for the link it will remove the link mark
-                        editor.chain().focus().extendMarkRange('mmLink').unsetLink().run();
-                    } else if (selectedText === newText) {
-                        // extend the range to the whole link (if no link mark is present it does not do anything)
-                        // and change/add the url on it
-                        editor.chain().focus().extendMarkRange('mmLink').setLink({href: newUrl}).run();
-                    } else {
-                        editor.
-                            chain().
-                            focus().
-                            extendMarkRange('mmLink').
-                            deleteRange(editor.state.selection).
-
-                            // insert the text (either the url or the text from the input field)
-                            insertContentAt(from, newText).
-
-                            // select the inserted text
-                            setTextSelection({from, to: from + newText.length}).
-
-                            // apply the link mark to it
-                            setLink({href: newUrl}).
-                            run();
-                    }
-
-                    closeOverlay();
-                }}
+                onSubmit={handleSubmit}
             >
                 <LinkInputBox>
                     <LinkVariantIcon
