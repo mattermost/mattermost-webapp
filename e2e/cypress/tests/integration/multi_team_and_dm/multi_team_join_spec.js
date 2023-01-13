@@ -49,7 +49,7 @@ describe('Multi-Team + DMs', () => {
 function joinAllTeams() {
     cy.visit('/select_team');
     cy.findByText('All team communication in one place, searchable and accessible anywhere');
-    cy.findAllByRole('link', {name: /Join Team/}).then(([firstTeam, nextTeam]) => {
+    cy.findAllByText(/Team\s/).then(([firstTeam, nextTeam]) => {
         firstTeam.click();
 
         if (nextTeam) {
