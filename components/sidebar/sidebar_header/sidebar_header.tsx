@@ -131,7 +131,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                         className='SidebarHeaderMenuWrapper test-team-header'
                     >
                         <SidebarHeading>
-                            <button 
+                            <button
                                 className='style--none sidebar-header'
                                 ref={buttonRef}
                             >

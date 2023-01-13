@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
 
 type Modal = {
@@ -44,7 +45,7 @@ export default class ModalController extends React.PureComponent<Props> {
 
         const modalOutput = [];
 
-        let returnFocus = () => {
+        const returnFocus = () => {
             document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
                 A11yCustomEventTypes.FOCUS, {
                     detail: {
@@ -64,15 +65,19 @@ export default class ModalController extends React.PureComponent<Props> {
                         returnFocusOnExit = true;
                     }
 
-                    if (returnFocusOnExit && modal.dialogProps?.returnFocus) {
-                        returnFocus = modal.dialogProps?.returnFocus;
-                    }
                     const modalComponent = React.createElement(modal.dialogType, Object.assign({}, modal.dialogProps, {
                         onExited: () => {
                             props.actions.closeModal(modalId);
+
                             // Call any onExited prop provided by whoever opened the modal, if one was provided
                             modal.dialogProps?.onExited?.();
-                            returnFocusOnExit && returnFocus();
+
+                            // If we were given a returnFocus prop, use it. If not we fallback to the default behavior
+                            if (returnFocusOnExit && modal.dialogProps?.returnFocus) {
+                                modal.dialogProps?.returnFocus();
+                            } else if (returnFocusOnExit) {
+                                returnFocus();
+                            }
                         },
                         onHide: props.actions.closeModal.bind(this, modalId),
                         key: `${modalId}_modal`,
