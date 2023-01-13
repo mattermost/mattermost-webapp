@@ -39,14 +39,17 @@ describe('unread_with_bottom_start_toast', () => {
             cy.apiAddUserToChannel(channel.id, otherUser.id).then(() => {
                 cy.visit(`/${testTeam.name}/channels/${channel.name}`);
                 cy.uiClickSidebarItem('off-topic');
+                cy.postMessage('hi');
 
                 // # Add enough messages
                 for (let index = 0; index < 30; index++) {
                     cy.postMessageAs({sender: otherUser, message: `test message ${index}`, channelId: channel.id});
                 }
 
+                cy.postMessage('hello');
+
                 // # Switch to test channel
-                cy.wait(TIMEOUTS.ONE_SEC).uiClickSidebarItem(channel.name).wait(TIMEOUTS.ONE_SEC);
+                cy.uiClickSidebarItem(channel.name).wait(TIMEOUTS.HALF_SEC);
 
                 // * Verify the newest message is visible
                 cy.get('div.post__content').contains('test message 29').should('be.visible');
@@ -71,16 +74,17 @@ describe('unread_with_bottom_start_toast', () => {
             cy.apiAddUserToChannel(channel.id, otherUser.id).then(() => {
                 cy.visit(`/${testTeam.name}/channels/${channel.name}`);
                 cy.uiClickSidebarItem('off-topic');
+                cy.postMessage('hi');
 
                 // # Add enough messages
                 for (let index = 0; index < 30; index++) {
                     cy.postMessageAs({sender: otherUser, message: `test message ${index}`, channelId: channel.id});
                 }
 
-                cy.wait(TIMEOUTS.ONE_SEC);
+                cy.postMessage('hello');
 
                 // # Visit test channel
-                cy.uiClickSidebarItem(channel.name);
+                cy.uiClickSidebarItem(channel.name).wait(TIMEOUTS.HALF_SEC);
 
                 // * Verify the toast is visible with correct message
                 cy.get('div.toast').should('be.visible').contains('30 new messages');

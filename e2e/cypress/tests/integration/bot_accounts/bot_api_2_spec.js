@@ -243,7 +243,7 @@ describe('Bot accounts ownership and API', () => {
 
                 // # Enable the bot token again
                 cy.visit(`/${newTeam.name}/integrations/bots`);
-                cy.findByText('Bot Accounts');
+                cy.findAllByText('Bot Accounts');
 
                 cy.findByText(`${botName} (@${botUsername})`).scrollIntoView().then((el) => {
                     // # Make sure it's on the screen

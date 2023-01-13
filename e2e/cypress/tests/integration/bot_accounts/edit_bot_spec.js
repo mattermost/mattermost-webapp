@@ -17,8 +17,11 @@ describe('Edit bot', () => {
     let testTeam;
 
     before(() => {
-        cy.apiInitSetup().then(({team}) => {
+        cy.apiInitSetup().then(({team, townSquareUrl}) => {
             testTeam = team;
+
+            cy.visit(townSquareUrl);
+            cy.postMessage('hello');
         });
     });
 
@@ -63,29 +66,28 @@ describe('Edit bot', () => {
             cy.wrap(el.find('.bot-details__description')).should('have.text', description);
         });
     });
+
+    function createBot(userName, teamName) {
+        // # Go to bot integrations page
+        cy.uiOpenProductMenu('Integrations');
+        cy.get('a.integration-option[href$="/bots"]').click();
+        cy.get('#addBotAccount').click();
+
+        // # Fill and submit form
+        cy.get('#username').type(userName);
+        cy.get('#saveBot').click();
+
+        // * Verify confirmation page
+        cy.url().
+            should('include', `/${teamName}/integrations/confirm`).
+            should('match', /token=[a-zA-Z0-9]{26}/);
+
+        // * Verify confirmation form/token
+        cy.get('div.backstage-form').
+            should('include.text', 'Setup Successful').
+            should((confirmation) => {
+                expect(confirmation.text()).to.match(/Token: [a-zA-Z0-9]{26}/);
+            });
+        cy.get('#doneButton').click();
+    }
 });
-
-function createBot(userName, teamName) {
-    // # Go to bot integrations page
-    cy.visit(`/${teamName}/channels/town-square`);
-    cy.uiOpenProductMenu('Integrations');
-    cy.get('a.integration-option[href$="/bots"]').click();
-    cy.get('#addBotAccount').click();
-
-    // # Fill and submit form
-    cy.get('#username').type(userName);
-    cy.get('#saveBot').click();
-
-    // * Verify confirmation page
-    cy.url().
-        should('include', `/${teamName}/integrations/confirm`).
-        should('match', /token=[a-zA-Z0-9]{26}/);
-
-    // * Verify confirmation form/token
-    cy.get('div.backstage-form').
-        should('include.text', 'Setup Successful').
-        should((confirmation) => {
-            expect(confirmation.text()).to.match(/Token: [a-zA-Z0-9]{26}/);
-        });
-    cy.get('#doneButton').click();
-}
