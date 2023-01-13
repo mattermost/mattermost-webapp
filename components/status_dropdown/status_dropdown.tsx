@@ -451,6 +451,8 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
                 <button
                     className='status-wrapper style--none'
                     aria-label={menuAriaLabeltext}
+                    aria-expanded={this.props.isStatusDropdownOpen}
+                    aria-controls='statusDropdownMenu'
                 >
                     <CustomStatusEmoji
                         showTooltip={true}
