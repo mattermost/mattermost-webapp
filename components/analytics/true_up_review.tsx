@@ -45,9 +45,8 @@ const TrueUpReview: React.FC = () => {
     const license = useSelector(getLicense);
     const isLicensed = license.IsLicensed === 'true';
     const isStarter = getIsStarterLicense(license);
-    const isGovSku = license.IsGovSku === 'true';
 
-    // A license is eligible for true up if a licensed exists for the customer, are self-hosted (not cloud), and are not on starter/free 
+    // A license is eligible for true up if a licensed exists for the customer, are self-hosted (not cloud), and are not on starter/free
     const licenseIsTrueUpEligible = isLicensed && !isCloud && !isStarter;
     const telemetryEnabled = getConfig(getState()).EnableDiagnostics === 'true';
     const trueUpReviewError = useSelector((state: GlobalState) => {
