@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -112,7 +112,7 @@ function Content(props: ContentProps) {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
     };
 
-    const handleClickDowngrade = async (downgradeFeedback?: DowngradeFeedback) => {
+    const handleClickDowngrade = (downgradeFeedback?: DowngradeFeedback) => {
         setDowngradeFeedback(downgradeFeedback);
         if (!starterProduct) {
             return;
@@ -129,8 +129,6 @@ function Content(props: ContentProps) {
                     },
                 }),
             );
-        } else {
-            downgrade('click_pricing_modal_free_card_downgrade_button');
         }
     };
 
@@ -141,12 +139,14 @@ function Content(props: ContentProps) {
 
         const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
         openDowngradeModal({trackingLocation: telemetryInfo});
+        dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
 
         const result = await dispatch(subscribeCloudSubscription(starterProduct.id, 0, downgradeFeedback));
 
         if (typeof result === 'boolean' && result) {
             dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
             dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
+            dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
             dispatch(
                 openModal({
                     modalId: ModalIdentifiers.SUCCESS_MODAL,
@@ -207,6 +207,14 @@ function Content(props: ContentProps) {
             setIsMonthlyPlan(false);
         }
     };
+
+    useEffect(() => {
+        if (!downgradeFeedback) {
+            return;
+        }
+
+        downgrade('click_pricing_modal_free_card_downgrade_button');
+    }, [downgradeFeedback]);
 
     return (
         <div className='Content'>
@@ -276,7 +284,6 @@ function Content(props: ContentProps) {
                         planExtraInformation={<StarterDisclaimerCTA/>}
                         buttonDetails={{
                             action: () => {
-                                dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
                                 dispatch(
                                     openModal({
                                         modalId: ModalIdentifiers.DOWNGRADE_FEEDBACK,
