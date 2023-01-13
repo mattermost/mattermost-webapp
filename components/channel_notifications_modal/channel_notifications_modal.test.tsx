@@ -64,7 +64,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         expect(wrapper.state('desktopSound')).toEqual(DesktopSound.ON);
         expect(wrapper.state('desktopNotifySound')).toEqual('Bing');
         expect(wrapper.state('markUnreadNotifyLevel')).toEqual(NotificationLevels.ALL);
-        expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.DEFAULT);
+        expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.ALL);
         expect(wrapper.state('ignoreChannelMentions')).toEqual(IgnoreChannelMentions.OFF);
     });
 
@@ -188,7 +188,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         wrapper.instance().handleExit();
         expect(baseProps.onExited).toHaveBeenCalledTimes(3);
         expect(wrapper.state('activeSection')).toEqual(NotificationSections.NONE);
-        expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.DEFAULT);
+        expect(wrapper.state('pushNotifyLevel')).toEqual(NotificationLevels.ALL);
     });
 
     test('should match state on updateSection', () => {

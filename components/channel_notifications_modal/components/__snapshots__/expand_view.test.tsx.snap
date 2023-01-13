@@ -25,12 +25,13 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               <input
                 checked={true}
                 id="channelNotificationAllActivity"
-                name="channelDesktopNotifications"
+                name="channelNotifications"
                 onChange={[MockFunction]}
                 type="radio"
                 value="all"
               />
               <Describe
+                globalNotifyLevel="default"
                 memberNotifyLevel="all"
                 section="desktop"
               />
@@ -45,12 +46,13 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               <input
                 checked={false}
                 id="channelNotificationMentions"
-                name="channelDesktopNotifications"
+                name="channelNotifications"
                 onChange={[MockFunction]}
                 type="radio"
                 value="mention"
               />
               <Describe
+                globalNotifyLevel="default"
                 memberNotifyLevel="mention"
                 section="desktop"
               />
@@ -63,12 +65,13 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               <input
                 checked={false}
                 id="channelNotificationNever"
-                name="channelDesktopNotifications"
+                name="channelNotifications"
                 onChange={[MockFunction]}
                 type="radio"
                 value="none"
               />
               <Describe
+                globalNotifyLevel="default"
                 memberNotifyLevel="none"
                 section="desktop"
               />
@@ -243,8 +246,8 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
             className="form-legend"
           >
             <Memo(MemoizedFormattedMessage)
-              defaultMessage="Send desktop notifications"
-              id="channel_notifications.sendDesktop"
+              defaultMessage="Send mobile push notifications"
+              id="channel_notifications.sendMobilePush"
             />
           </legend>
           <div
@@ -256,12 +259,13 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               <input
                 checked={true}
                 id="channelNotificationAllActivity"
-                name="channelDesktopNotifications"
+                name="channelNotifications"
                 onChange={[MockFunction]}
                 type="radio"
                 value="all"
               />
               <Describe
+                globalNotifyLevel="default"
                 memberNotifyLevel="all"
                 section="push"
               />
@@ -276,12 +280,13 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               <input
                 checked={false}
                 id="channelNotificationMentions"
-                name="channelDesktopNotifications"
+                name="channelNotifications"
                 onChange={[MockFunction]}
                 type="radio"
                 value="mention"
               />
               <Describe
+                globalNotifyLevel="default"
                 memberNotifyLevel="mention"
                 section="push"
               />
@@ -294,12 +299,13 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
               <input
                 checked={false}
                 id="channelNotificationNever"
-                name="channelDesktopNotifications"
+                name="channelNotifications"
                 onChange={[MockFunction]}
                 type="radio"
                 value="none"
               />
               <Describe
+                globalNotifyLevel="default"
                 memberNotifyLevel="none"
                 section="push"
               />
