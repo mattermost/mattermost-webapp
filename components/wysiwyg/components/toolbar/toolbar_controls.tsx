@@ -4,7 +4,7 @@
 import React, {forwardRef, memo} from 'react';
 import type {ForwardedRef} from 'react';
 import {MessageDescriptor, useIntl} from 'react-intl';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import classNames from 'classnames';
 import IconProps from '@mattermost/compass-icons/components/props';
 
@@ -28,8 +28,8 @@ export type ToolDefinition<S extends string, T> = {
     shortcutDescriptor?: KeyboardShortcutDescriptor;
 };
 
-export const FloatingContainer = styled.div`
-    padding: 8px 0;
+export const FloatingContainer = styled.div(({compact}: {compact: boolean}) => css`
+    padding: ${compact ? '4px' : '8px 0'};
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     border-radius: 4px;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
@@ -77,7 +77,7 @@ export const FloatingContainer = styled.div`
         opacity: 0;
         z-index: -1;
     }
-`;
+`);
 
 export const IconContainer = styled.button`
     display: flex;

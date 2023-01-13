@@ -10,9 +10,13 @@ import {offset, useFloating} from '@floating-ui/react-dom';
 import {
     CheckIcon,
     ChevronDownIcon,
-    DrawIcon,
     FormatHeader1Icon,
-    FormatHeader2Icon, FormatHeader3Icon, FormatHeader4Icon, FormatHeader5Icon, FormatHeader6Icon,
+    FormatHeader2Icon,
+    FormatHeader3Icon,
+    FormatHeader4Icon,
+    FormatHeader5Icon,
+    FormatHeader6Icon,
+    FormatLetterCaseIcon,
 } from '@mattermost/compass-icons/components';
 import type {Editor} from '@tiptap/react';
 
@@ -22,7 +26,7 @@ import {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcu
 
 import type {WithRequired} from '@mattermost/types/utilities';
 
-import {
+import ToolbarControl, {
     FloatingContainer,
     DropdownContainer,
 } from '../toolbar_controls';
@@ -48,7 +52,7 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     {
         mode: 'p',
         type: 'setParagraph',
-        icon: DrawIcon,
+        icon: FormatLetterCaseIcon,
         labelDescriptor: {id: t('wysiwyg.tool-label.paragraph.label'), defaultMessage: 'Normal text'},
         ariaLabelDescriptor: {id: t('accessibility.button.paragraph'), defaultMessage: 'normal text'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownP,
@@ -165,7 +169,7 @@ const HeadingControls = ({editor, useIcon}: {editor: Editor; useIcon: boolean}) 
 
     useEffect(() => {
         update?.();
-    }, [update]);
+    }, [update, useIcon]);
 
     const toggleHeadingControls = useCallback((event?) => {
         event?.preventDefault();
@@ -212,22 +216,41 @@ const HeadingControls = ({editor, useIcon}: {editor: Editor; useIcon: boolean}) 
                 <FloatingContainer
                     ref={floating}
                     style={hiddenControlsContainerStyles}
+                    compact={useIcon}
                 >
-                    {headingToolDefinitions.map((control) => {
-                        return (
-                            <HeadingSelectOption
-                                key={`${control.type}_${control.mode}`}
-                                mode={control.mode}
-                                active={control.isActive?.()}
-                                onClick={() => {
-                                    control.action();
-                                    setShowHeadingControls(false);
-                                }}
-                                label={formatMessage(control.labelDescriptor)}
-                                aria-label={control.ariaLabelDescriptor ? formatMessage(control.ariaLabelDescriptor) : ''}
-                            />
-                        );
-                    })}
+                    {useIcon ? (
+                        <HeadingControlsCompact>
+                            {headingToolDefinitions.map((control) => (
+                                <ToolbarControl
+                                    key={`${control.type}_${control.mode}`}
+                                    mode={control.mode}
+                                    className={classNames({active: control.isActive?.()})}
+                                    onClick={() => {
+                                        control.action();
+                                        setShowHeadingControls(false);
+                                    }}
+                                    Icon={control.icon}
+                                    aria-label={control.ariaLabelDescriptor ? formatMessage(control.ariaLabelDescriptor) : ''}
+                                />
+                            ))}
+                        </HeadingControlsCompact>
+                    ) : (
+                        headingToolDefinitions.map((control) => {
+                            return (
+                                <HeadingSelectOption
+                                    key={`${control.type}_${control.mode}`}
+                                    mode={control.mode}
+                                    active={control.isActive?.()}
+                                    onClick={() => {
+                                        control.action();
+                                        setShowHeadingControls(false);
+                                    }}
+                                    label={formatMessage(control.labelDescriptor)}
+                                    aria-label={control.ariaLabelDescriptor ? formatMessage(control.ariaLabelDescriptor) : ''}
+                                />
+                            );
+                        })
+                    )}
                 </FloatingContainer>
             </CSSTransition></>
     );
@@ -338,5 +361,11 @@ const StyledHeadingSelectOption = styled.button(({mode}: {mode: HeadingSelectOpt
         `;
     }
 });
+
+const HeadingControlsCompact = styled.div`
+    display: flex;
+    gap: 4px;
+    flex-direction: row;
+`;
 
 export default HeadingControls;
