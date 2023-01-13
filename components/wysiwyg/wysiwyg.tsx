@@ -119,6 +119,7 @@ type Props = PropsFromRedux & {
 const Wysiwyg = (props: Props) => {
     const {
         config = {},
+        noMargin = false,
         reduxConfig,
         onSubmit,
         onChange,
@@ -175,7 +176,6 @@ const Wysiwyg = (props: Props) => {
                 hardBreak: false,
                 placeholder: placeholder ? {placeholder} : false,
                 codeBlock: {
-                    defaultLanguage: 'css',
                     exitOnArrowDown: true,
                 },
                 table: {allowTableNodeSelection: true},
@@ -365,7 +365,7 @@ const Wysiwyg = (props: Props) => {
     };
 
     return (
-        <WysiwygLayout>
+        <WysiwygLayout noMargin={noMargin}>
             <WysiwygContainer>
                 <EditorContainer ref={containerRef}>
                     {headerContent}

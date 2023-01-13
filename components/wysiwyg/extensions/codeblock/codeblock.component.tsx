@@ -10,12 +10,12 @@ import {ChevronDownIcon} from '@mattermost/compass-icons/components';
 import {NodeViewContent, NodeViewWrapper} from '@tiptap/react';
 import {NodeViewProps} from '@tiptap/core/src/types';
 
+import Constants from 'utils/constants';
+
 import {DropdownContainer} from '../../components/toolbar/toolbar_controls';
 import {useGetLatest} from '../../components/toolbar/toolbar_hooks';
 
 const StyledCodeBlock = styled(NodeViewWrapper)`
-    position: relative;
-
     ${DropdownContainer} {
         position: absolute;
         right: 8px;
@@ -125,6 +125,7 @@ export default ({node, updateAttributes, extension}: NodeViewProps) => {
 
     const {x, y, reference, floating, strategy, update, refs: {reference: buttonRef, floating: floatingRef}} = useFloating<HTMLButtonElement>({
         placement: 'top-end',
+        strategy: 'fixed',
         middleware: [
             offset({mainAxis: 4}),
             size({
@@ -149,7 +150,7 @@ export default ({node, updateAttributes, extension}: NodeViewProps) => {
 
     useEffect(() => {
         update?.();
-    }, [update]);
+    }, [update, showLanguageSelect]);
 
     useEffect(() => {
         const handleClickOutside: EventListener = (event) => {
@@ -167,12 +168,16 @@ export default ({node, updateAttributes, extension}: NodeViewProps) => {
             }
         };
 
+        document.addEventListener('scroll', handleClickOutside);
         document.addEventListener('mousedown', handleClickOutside);
 
-        return () => document.removeEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('scroll', handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
     }, [getLatest]);
 
-    const toggleHeadingControls = useCallback((event?) => {
+    const toggleLanguageSelector = useCallback((event?) => {
         event?.preventDefault();
         setShowLanguageSelect(!showLanguageSelect);
     }, [showLanguageSelect]);
@@ -181,6 +186,7 @@ export default ({node, updateAttributes, extension}: NodeViewProps) => {
         position: strategy,
         top: y ?? 0,
         left: x ?? 0,
+        maxHeight: Constants.SUGGESTION_LIST_MAXHEIGHT,
     };
 
     const languages = extension.options.lowlight.listLanguages();
@@ -191,7 +197,7 @@ export default ({node, updateAttributes, extension}: NodeViewProps) => {
                 id={'HiddenControlsButton' + location}
                 ref={reference}
                 className={classNames({active: showLanguageSelect})}
-                onClick={toggleHeadingControls}
+                onClick={toggleLanguageSelector}
             >
                 {language || defaultLanguage}
                 <ChevronDownIcon
@@ -214,7 +220,7 @@ export default ({node, updateAttributes, extension}: NodeViewProps) => {
                             onClick={(event) => {
                                 event.preventDefault();
                                 updateAttributes({language: lang});
-                                toggleHeadingControls();
+                                toggleLanguageSelector();
                             }}
                         >
                             {lang}

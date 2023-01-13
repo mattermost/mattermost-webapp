@@ -1,10 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {textblockTypeInputRule} from '@tiptap/core';
 import {CodeBlockLowlight, CodeBlockLowlightOptions} from '@tiptap/extension-code-block-lowlight';
 import {ReactNodeViewRenderer as renderReactNodeView} from '@tiptap/react';
+import {lowlight} from 'lowlight';
 
 import CodeBlockComponent from './codeblock.component';
+
+export const backtickInputRegex = /^```([a-z]+)?[\s\n]$/;
+export const tildeInputRegex = /^~~~([a-z]+)?[\s\n]$/;
 
 const Codeblock =
     CodeBlockLowlight.
@@ -31,6 +36,25 @@ const Codeblock =
                         return false;
                     },
                 };
+            },
+
+            addInputRules() {
+                return [
+                    textblockTypeInputRule({
+                        find: backtickInputRegex,
+                        type: this.type,
+                        getAttributes: (match) => ({
+                            language: lowlight.registered(match[1]) ? match[1] : 'plaintext',
+                        }),
+                    }),
+                    textblockTypeInputRule({
+                        find: tildeInputRegex,
+                        type: this.type,
+                        getAttributes: (match) => ({
+                            language: lowlight.registered(match[1]) ? match[1] : 'plaintext',
+                        }),
+                    }),
+                ];
             },
         });
 
