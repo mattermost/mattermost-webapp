@@ -26,7 +26,6 @@ describe('Channel switch performance test', () => {
     });
 
     it('measures switching between two channels from LHS', () => {
-        // # Invoke window object
         measurePerformance(
             'channelLoad',
             800,

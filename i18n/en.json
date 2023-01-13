@@ -3833,7 +3833,6 @@
   "intro_messages.addGroupsToTeam": "Add other groups to this team",
   "intro_messages.anyMember": " Any member can join and read this channel.",
   "intro_messages.beginning": "Beginning of {name}",
-  "intro_messages.createBoard": "Create a board",
   "intro_messages.creator": "This is the start of the {name} channel, created by {creator} on {date}.",
   "intro_messages.creatorPrivate": "This is the start of the {name} private channel, created by {creator} on {date}.",
   "intro_messages.default": "**Welcome to {display_name}!**\n \nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team.",
