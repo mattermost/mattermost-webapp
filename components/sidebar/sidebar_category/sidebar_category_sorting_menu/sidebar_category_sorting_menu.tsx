@@ -195,12 +195,12 @@ const SidebarCategorySortingMenu = (props: Props) => {
                 menuButtonId={`SidebarCategorySortingMenu-Button-${props.category.id}`}
                 menuButtonChildren={<DotsVerticalIcon size={16}/>}
                 menuButtonClassName='SidebarMenu_menuButton sortingMenu'
-                menuButtonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+                menuButtonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
                 menuButtonTooltipId={`SidebarCategorySortingMenu-ButtonTooltip-${props.category.id}`}
                 menuButtonTooltipText={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
                 menuButtonTooltipClassName='hidden-xs'
                 menuId={`SidebarCategorySortingMenu-MenuList-${props.category.id}`}
-                menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+                menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Edit category menu'})}
                 onMenuToggle={handleMenuToggle}
             >
                 {sortDirectMessagesMenuItem}

@@ -287,12 +287,12 @@ const SidebarChannelMenu = (props: Props) => {
             menuButtonId={`SidebarChannelMenu-Button-${props.channel.id}`}
             menuButtonChildren={<DotsVerticalIcon size={16}/>}
             menuButtonClassName='SidebarMenu_menuButton'
-            menuButtonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
+            menuButtonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
             menuButtonTooltipId={`SidebarChannelMenu-ButtonTooltip-${props.channel.id}`}
             menuButtonTooltipClassName='hidden-xs'
             menuButtonTooltipText={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
             menuId={`SidebarChannelMenu-MenuList-${props.channel.id}`}
-            menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
+            menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel menu'})}
             onMenuToggle={props.onMenuToggle}
         >
             {markAsReadUnreadMenuItem}

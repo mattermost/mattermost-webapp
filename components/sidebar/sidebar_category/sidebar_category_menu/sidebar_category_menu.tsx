@@ -175,6 +175,7 @@ const SidebarCategoryMenu = (props: Props) => {
                 </>
             }
             menuId={`sortChannels-${props.category.id}-menu`}
+            menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.sort.dropdownAriaLabel', defaultMessage: 'Sort submenu'})}
         >
             <Menu.Item
                 id={`sortAplhabetical-${props.category.id}`}
@@ -249,12 +250,12 @@ const SidebarCategoryMenu = (props: Props) => {
                 menuButtonId={`SidebarCategoryMenu-Button-${props.category.id}`}
                 menuButtonChildren={<DotsVerticalIcon size={16}/>}
                 menuButtonClassName='SidebarMenu_menuButton'
-                menuButtonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+                menuButtonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
                 menuButtonTooltipId={`SidebarCategoryMenu-ButtonTooltip-${props.category.id}`}
                 menuButtonTooltipText={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
                 menuButtonTooltipClassName='hidden-xs'
                 menuId={`SidebarChannelMenu-MenuList-${props.category.id}`}
-                menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+                menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Edit category menu'})}
                 onMenuToggle={handleMenuToggle}
             >
                 {muteUnmuteCategoryMenuItem}

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, MouseEvent} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {
@@ -41,6 +41,8 @@ type Props = {
 };
 
 const ChannelMoveToSubMenu = (props: Props) => {
+    const {formatMessage} = useIntl();
+
     const dispatch = useDispatch<DispatchFunc>();
 
     const allChannels = useSelector(getAllChannels);
@@ -189,6 +191,7 @@ const ChannelMoveToSubMenu = (props: Props) => {
             leadingElement={props.inHeaderDropdown ? null : <FolderMoveOutlineIcon size={18}/>}
             trailingElements={<ChevronRightIcon size={16}/>}
             menuId={`moveTo-${props.channel.id}-menu`}
+            menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo.dropdownAriaLabel', defaultMessage: 'Move to submenu'})}
         >
             {getMoveToCategorySubmenuItems(categories, currentCategory)}
         </Menu.SubMenu>

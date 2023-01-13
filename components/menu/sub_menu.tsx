@@ -127,25 +127,24 @@ export function SubMenu({id, leadingElement, labels, trailingElements, isDestruc
             onKeyDown={handleSubMenuParentItemKeyDown}
         >
             <MuiMenuStyled
-                id={menuId}
                 anchorEl={anchorElement}
                 open={isSubMenuOpen}
-                aria-label={menuAriaLabel}
-                className={A11yClassNames.POPUP}
                 asSubMenu={true}
                 anchorOrigin={originOfAnchorAndTransform.anchorOrigin}
                 transformOrigin={originOfAnchorAndTransform.transformOrigin}
                 sx={{pointerEvents: 'none'}} // disables the menu background wrapper for accessing submenu
             >
                 <MuiMenuList
+                    id={menuId}
                     component='ul'
-                    aria-hidden={true}
+                    aria-label={menuAriaLabel}
+                    className={A11yClassNames.POPUP}
+                    onKeyDown={handleSubMenuKeyDown}
                     sx={{
                         pointerEvents: 'auto', // reset pointer events to default from here on
                         paddingTop: 0,
                         paddingBottom: 0,
                     }}
-                    onKeyDown={handleSubMenuKeyDown}
                 >
                     {children}
                 </MuiMenuList>
