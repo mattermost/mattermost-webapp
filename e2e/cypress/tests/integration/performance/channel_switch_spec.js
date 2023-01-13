@@ -13,7 +13,6 @@
 import {measurePerformance} from './utils.js';
 
 describe('Channel switch performance test', () => {
-    let testUser;
     let teamName;
 
     before(() => {
