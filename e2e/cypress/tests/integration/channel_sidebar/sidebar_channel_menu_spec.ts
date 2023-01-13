@@ -37,7 +37,9 @@ describe('Sidebar channel menu', () => {
 
     it('MM-T3349_1 should be able to mark a channel as read', () => {
         // # Start in Town Square
-        cy.get('#sidebarItem_town-square').click();
+        cy.uiGetLHS().within(() => {
+            cy.findByText(townSquare).should('be.visible');
+        });
         cy.get('#channelHeaderTitle').should('contain', townSquare);
 
         // # Save the ID of the Town Square channel for later
@@ -52,7 +54,7 @@ describe('Sidebar channel menu', () => {
             cy.postMessageAs({
                 sender: sysadmin,
                 message: 'post1',
-                channelId: townSquareId.text(),
+                channelId: `${townSquareId}`,
             });
         });
 
@@ -60,8 +62,9 @@ describe('Sidebar channel menu', () => {
         cy.get('#sidebarItem_town-square').should(beUnread);
 
         // # Open the channel menu and select the Mark as Read option
-        cy.get('#sidebarItem_town-square').find('.SidebarMenu_menuButton').click({force: true});
-        cy.get('.SidebarMenu').contains('.MenuItem', 'Mark as Read').click();
+        cy.uiGetChannelSidebarMenu(townSquare).within(() => {
+            cy.findByText('Mark as Read').click();
+        });
 
         // * Verify that the Town Square channel is now read
         cy.get('#sidebarItem_town-square').should(beRead);
@@ -72,15 +75,17 @@ describe('Sidebar channel menu', () => {
         cy.uiGetLhsSection('CHANNELS').findByText(townSquare).should('be.visible');
 
         // # Open the channel menu and select the Favorite option
-        cy.get('#sidebarItem_town-square').find('.SidebarMenu_menuButton').click({force: true});
-        cy.get('.SidebarMenu').contains('.MenuItem', 'Favorite').click();
+        cy.uiGetChannelSidebarMenu(townSquare).within(() => {
+            cy.findByText('Favorite').click();
+        });
 
         // * Verify that the channel has moved to the FAVORITES category
         cy.uiGetLhsSection('FAVORITES').findByText(townSquare).should('be.visible');
 
         // # Open the channel menu and select the Unfavorite option
-        cy.get('#sidebarItem_town-square').find('.SidebarMenu_menuButton').click({force: true});
-        cy.get('.SidebarMenu').contains('.MenuItem', 'Unfavorite').click();
+        cy.uiGetChannelSidebarMenu(townSquare).within(() => {
+            cy.findByText('Unfavorite').click();
+        });
 
         // * Verify that the channel has moved back to the CHANNELS category
         cy.uiGetLhsSection('CHANNELS').findByText(townSquare).should('be.visible');
@@ -91,15 +96,17 @@ describe('Sidebar channel menu', () => {
         cy.get('#sidebarItem_town-square').should(beUnmuted);
 
         // # Open the channel menu and select the Mute Channel option
-        cy.get('#sidebarItem_town-square').find('.SidebarMenu_menuButton').click({force: true});
-        cy.get('.SidebarMenu').contains('.MenuItem', 'Mute Channel').click();
+        cy.uiGetChannelSidebarMenu(townSquare).within(() => {
+            cy.findByText('Mute Channel').click();
+        });
 
         // * Verify that the channel is now muted
         cy.get('#sidebarItem_town-square').should(beMuted);
 
         // # Open the channel menu and select the Unmute Channel option
-        cy.get('#sidebarItem_town-square').should('be.visible').find('.SidebarMenu').click({force: true});
-        cy.get('#sidebarItem_town-square').should('be.visible').find('.SidebarMenu').should('be.visible').contains('.MenuItem', 'Unmute Channel').click();
+        cy.uiGetChannelSidebarMenu(townSquare).within(() => {
+            cy.findByText('Unmute Channel').click();
+        });
 
         // // * Verify that the channel is no longer muted
         cy.get('#sidebarItem_town-square').should(beUnmuted);
@@ -112,14 +119,14 @@ describe('Sidebar channel menu', () => {
         cy.uiGetLhsSection('CHANNELS').findByText(townSquare).should('be.visible');
 
         // # Move the channel into a new category
-        cy.uiMoveChannelToCategory('town-square', categoryName, true);
+        cy.uiMoveChannelToCategory(townSquare, categoryName, true);
 
         // * Verify that Town Square has moved into the new category
         cy.uiGetLhsSection(categoryName).findByText(townSquare).should('be.visible');
         cy.uiGetLhsSection('CHANNELS').findByText(townSquare).should('not.exist');
 
         // # Move the channel back to Channels
-        cy.uiMoveChannelToCategory('town-square', 'Channels');
+        cy.uiMoveChannelToCategory(townSquare, 'Channels');
 
         // * Verify that Town Square has moved back to Channels
         cy.uiGetLhsSection(categoryName).findByText(townSquare).should('not.exist');
@@ -130,8 +137,9 @@ describe('Sidebar channel menu', () => {
         stubClipboard().as('clipboard');
 
         // # Open the channel menu and select the Copy Link option
-        cy.get('#sidebarItem_town-square').find('.SidebarMenu_menuButton').click({force: true});
-        cy.get('.SidebarMenu').contains('.MenuItem', 'Copy Link').click();
+        cy.uiGetChannelSidebarMenu(townSquare).within(() => {
+            cy.findByText('Copy Link').click();
+        });
 
         // Ensure that the clipboard contents are correct
         cy.get('@clipboard').its('wasCalled').should('eq', true);
@@ -142,8 +150,9 @@ describe('Sidebar channel menu', () => {
 
     it('MM-T3349_6 should be able to open the add other users to the channel', () => {
         // # Open the channel menu and select the Add Members option
-        cy.get('#sidebarItem_town-square').find('.SidebarMenu_menuButton').click({force: true});
-        cy.get('.SidebarMenu').contains('.MenuItem', 'Add Members').click();
+        cy.uiGetChannelSidebarMenu(townSquare).within(() => {
+            cy.findByText('Add Members').click();
+        });
 
         // * Verify that the modal appears and then close it
         cy.get('#addUsersToChannelModal').should('be.visible').findByText('Add people to Town Square');
@@ -167,7 +176,7 @@ describe('Sidebar channel menu', () => {
             cy.postMessageAs({
                 sender: sysadmin,
                 message: `@${userName} post1`,
-                channelId: townSquareId.text(),
+                channelId: `${townSquareId}`,
             });
         });
 

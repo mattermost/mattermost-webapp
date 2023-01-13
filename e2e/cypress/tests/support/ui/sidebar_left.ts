@@ -122,11 +122,11 @@ function uiGetSidebarInsightsButton(): ChainableT<JQuery> {
 Cypress.Commands.add('uiGetSidebarInsightsButton', uiGetSidebarInsightsButton);
 
 Cypress.Commands.add('uiGetChannelSidebarMenu', (channelName) => {
-    cy.get(`#sidebarItem_${channelName}`).
-        find('.SidebarMenu_menuButton').
-        click({force: true});
+    cy.uiGetLHS().within(() => {
+        cy.findByText(channelName).should('be.visible').parents('a').find('button').should('exist').click({force: true});
+    });
 
-    return cy.get('.dropdown-menu').should('be.visible');
+    return cy.findByRole('menu', {name: 'Edit channel menu'}).should('be.visible');
 });
 
 Cypress.Commands.add('uiClickSidebarItem', (name) => {

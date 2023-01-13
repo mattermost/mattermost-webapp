@@ -36,7 +36,7 @@ declare namespace Cypress {
          * @param [newCategory=false] create a new category to move into
          *
          * @example
-         *   cy.uiMoveChannelToCategory('town-square', 'general');
+         *   cy.uiMoveChannelToCategory('Town Square', 'Favorites');
          */
         uiMoveChannelToCategory(channelName: string, categoryName: string, newCategory: boolean = false);
     }
