@@ -29,25 +29,25 @@ export default function DowngradeFeedbackModal(props: Props) {
         optionOther,
     ];
 
+    const [feedbackChanged, setFeedbackChanged] = useState(false);
     const [reason, setReason] = useState('');
     const [comments, setComments] = useState('');
-    const [reasonNotSelected, setReasonNotSelected] = useState(false);
-    const [commentsNotProvided, setCommentsNotProvided] = useState(false);
+    const reasonNotSelected = reason === '';
+    const commentsNotProvided = comments === '';
+    
     const dispatch = useDispatch();
 
     const handleSubmitFeedback = () => {
         if (!reason) {
-            setReasonNotSelected(true);
             return;
         }
-        setReasonNotSelected(false);
+
+        setFeedbackChanged(true);
 
         setComments(comments.trim());
         if (reason === optionOther && !comments) {
-            setCommentsNotProvided(true);
             return;
         }
-        setCommentsNotProvided(false);
 
         props.onSubmit({reason, comments});
         dispatch(closeModal(ModalIdentifiers.DOWNGRADE_FEEDBACK));
@@ -81,14 +81,14 @@ export default function DowngradeFeedbackModal(props: Props) {
                         setComments(e.target.value);
                     }}
                 />
-                {reasonNotSelected ?
+                {feedbackChanged && reasonNotSelected ?
                     <span className='DowngradeFeedback__Error'>
                         <FormattedMessage
                             id={'downgrade_feedback.select_reason'}
                             defaultMessage={'Please select a reason'}
                         />
                     </span> : <></>}
-                {commentsNotProvided ?
+                {feedbackChanged && reason === optionOther && commentsNotProvided ?
                     <span className='DowngradeFeedback__Error'>
                         <FormattedMessage
                             id={'downgrade_feedback.tell_us_why'}
@@ -96,6 +96,7 @@ export default function DowngradeFeedbackModal(props: Props) {
                         />
                     </span> : <></>}
                 <button
+                    disabled={reasonNotSelected || (reason == optionOther && commentsNotProvided)}
                     className='btn btn-primary'
                     style={{width: '25%'}}
                     onClick={handleSubmitFeedback}
