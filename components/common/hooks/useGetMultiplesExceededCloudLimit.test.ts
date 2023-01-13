@@ -36,7 +36,7 @@ const zeroUsage = {
 
 describe('useGetHighestThresholdCloudLimit', () => {
     const messageHistoryLimit = 10000;
-    const filesLimit = FileSizes.Gigabyte * 10;
+    const filesLimit = FileSizes.Gigabyte;
     const boardsLimit = 5;
     const exceededMessageUsage = Math.ceil((limitThresholds.exceeded / 100) * messageHistoryLimit) + 1;
 
@@ -74,7 +74,7 @@ describe('useGetHighestThresholdCloudLimit', () => {
                 ...zeroUsage,
                 files: {
                     ...zeroUsage.files,
-                    totalStorage: FileSizes.Gigabyte * 2 * 10,
+                    totalStorage: FileSizes.Gigabyte * 2,
                 },
             },
             expected: [LimitTypes.fileStorage],
@@ -113,7 +113,7 @@ describe('useGetHighestThresholdCloudLimit', () => {
                 },
                 files: {
                     ...zeroUsage.files,
-                    totalStorage: FileSizes.Gigabyte * 2 * 10,
+                    totalStorage: FileSizes.Gigabyte * 2,
                 },
             },
             expected: [LimitTypes.messageHistory, LimitTypes.fileStorage],

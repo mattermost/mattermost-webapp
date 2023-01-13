@@ -7,8 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @cloud_only @cloud_trial
-// Skip:  @headless @electron // run on Chrome (headed) only
 
 import {getRandomLetter} from '../../../../utils/index';
 
