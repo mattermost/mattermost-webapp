@@ -39,7 +39,7 @@ export default function SectionTitle({section, isExpanded, isNotificationsSettin
         return (
             <FormattedMessage
                 id='channel_notifications.push'
-                defaultMessage='Send mobile push notifications'
+                defaultMessage='Mobile push notifications'
             />
         );
     } else if (section === NotificationSections.MARK_UNREAD) {
