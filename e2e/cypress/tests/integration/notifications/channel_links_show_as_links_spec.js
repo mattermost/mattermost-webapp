@@ -59,7 +59,7 @@ describe('Notifications', () => {
                     });
 
                     // # As receiver, set status to offline and logout
-                    cy.uiGetSetStatusButton().click();
+                    cy.findByLabelText('set status').should('be.visible').click();
                     cy.findByText('Offline').should('be.visible').click();
                     cy.apiLogout();
 
