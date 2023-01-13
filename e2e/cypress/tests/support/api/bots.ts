@@ -10,11 +10,6 @@ import {getRandomId} from '../../utils';
 // https://api.mattermost.com/#tag/bots
 // *****************************************************************************
 
-interface ApiCreateBotArg {
-    prefix?: string;
-    bot?: Cypress.BotPatch;
-}
-
 function apiCreateBot(prefix = 'bot'): ChainableT<any> {
     const bot = createBotPatch(prefix);
     return cy.request({
