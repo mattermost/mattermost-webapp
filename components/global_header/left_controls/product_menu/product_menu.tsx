@@ -29,6 +29,7 @@ import {
 } from 'components/onboarding_tasks';
 import {ExploreOtherToolsTourSteps, suitePluginIds} from 'utils/constants';
 import {useCurrentProductId, useProducts, isChannels} from 'utils/products';
+import {a11yFocus} from 'utils/utils';
 import {GlobalState} from 'types/store';
 
 import {useClickOutsideRef} from '../../hooks';
@@ -72,6 +73,8 @@ const ProductMenu = (): JSX.Element => {
     const switcherOpen = useSelector(isSwitcherOpen);
     const menuRef = useRef<HTMLDivElement>(null);
     const currentProductID = useCurrentProductId();
+    const returnFocusElement = document.activeElement as HTMLElement;
+    const returnFocus = () => a11yFocus(returnFocusElement);
 
     const enableTutorial = useSelector(getConfig).EnableTutorial === 'true';
     const currentUserId = useSelector(getCurrentUserId);
@@ -164,6 +167,7 @@ const ProductMenu = (): JSX.Element => {
                         isMessaging={isChannels(currentProductID)}
                         onClick={handleClick}
                         handleVisitConsoleClick={handleVisitConsoleClick}
+                        returnFocus={returnFocus}
                     />
                 </Menu>
             </MenuWrapper>

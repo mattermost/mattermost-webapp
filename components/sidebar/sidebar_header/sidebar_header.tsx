@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
@@ -23,6 +23,7 @@ import {useShowOnboardingTutorialStep} from 'components/tours/onboarding_tour';
 import {OnboardingTourSteps} from 'components/tours';
 
 import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
+import {a11yFocus} from 'utils/utils';
 
 type SidebarHeaderContainerProps = {
     id?: string;
@@ -102,12 +103,15 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
     const openAddChannelOpen = useCallback((open: boolean) => {
         dispatch(setAddChannelDropdown(open));
     }, []);
+    const buttonRef = useRef<HTMLButtonElement>(null);
 
     const [menuToggled, setMenuToggled] = useState(false);
 
     const handleMenuToggle = () => {
         setMenuToggled(!menuToggled);
     };
+
+    const returnFocus = () => a11yFocus(buttonRef.current);
 
     return (
         <>
@@ -127,7 +131,10 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                         className='SidebarHeaderMenuWrapper test-team-header'
                     >
                         <SidebarHeading>
-                            <button className='style--none sidebar-header'>
+                            <button 
+                                className='style--none sidebar-header'
+                                ref={buttonRef}
+                            >
                                 <span className='title'>{currentTeam.display_name}</span>
                                 <i className='icon icon-chevron-down'/>
                             </button>
@@ -135,6 +142,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                         <MainMenu
                             id='sidebarDropdownMenu'
                             usageDeltaTeams={usageDeltas.teams.active}
+                            returnFocus={returnFocus}
                         />
                     </MenuWrapper>
                 </OverlayTrigger>

@@ -54,10 +54,15 @@ export default class ChannelNavigator extends React.PureComponent<Props> {
         e.preventDefault();
 
         trackEvent('ui', 'ui_sidebar_open_channel_switcher_v2');
-
+        const activeElement = document.activeElement as HTMLElement;
+        
         this.props.actions.openModal({
             modalId: ModalIdentifiers.QUICK_SWITCH,
             dialogType: QuickSwitchModal,
+            dialogProps: {
+                returnFocusOnExit: false,
+                returnFocus: () => Utils.a11yFocus(activeElement)
+            },
         });
     }
 

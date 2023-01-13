@@ -21,6 +21,7 @@ type Props = {
     currentTeam: Team;
     onExited: () => void;
     onLoad?: () => void;
+    returnFocus?: () => void;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
     };
@@ -49,15 +50,25 @@ export default class TeamMembersModal extends React.PureComponent<Props, State> 
         this.setState({show: false});
     }
 
+    handleExited = () => {
+        this.props.onExited();
+        if (this.props.returnFocus) {
+            this.props.returnFocus();
+        }
+    }
+
     handleInvitePeople = () => {
         const {actions} = this.props;
 
         actions.openModal({
             modalId: ModalIdentifiers.INVITATION,
             dialogType: InvitationModal,
+            dialogProps: {
+                returnFocus: this.props.returnFocus,
+            },
         });
 
-        this.handleHide();
+        this.props.onExited();
     }
 
     render() {
@@ -71,7 +82,7 @@ export default class TeamMembersModal extends React.PureComponent<Props, State> 
                 dialogClassName='a11y__modal more-modal'
                 show={this.state.show}
                 onHide={this.handleHide}
-                onExited={this.props.onExited}
+                onExited={this.handleExited}
                 role='dialog'
                 aria-labelledby='teamMemberModalLabel'
                 id='teamMembersModal'

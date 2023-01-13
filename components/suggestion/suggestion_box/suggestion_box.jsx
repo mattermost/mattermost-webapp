@@ -734,7 +734,7 @@ export default class SuggestionBox extends React.PureComponent {
         } else {
             input.selectionStart = input.value.length;
         }
-        input.focus();
+        Utils.a11yFocus(input);
 
         this.handleChange({target: this.inputRef.current});
     }

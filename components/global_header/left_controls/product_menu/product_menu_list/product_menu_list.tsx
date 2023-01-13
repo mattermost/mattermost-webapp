@@ -48,6 +48,7 @@ export type Props = {
     handleVisitConsoleClick: React.MouseEventHandler<HTMLElement>;
     enableCustomUserGroups?: boolean;
     showWorkTemplateButton?: boolean;
+    returnFocus?: () => void;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         getPrevTrialLicense: () => void;
@@ -170,6 +171,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                     dialogType={UserGroupsModal}
                     dialogProps={{
                         backButtonAction: openGroupsModal,
+                        returnFocus: props.returnFocus,
                     }}
                     text={formatMessage({id: 'navbar_dropdown.userGroups', defaultMessage: 'User Groups'})}
                     icon={
@@ -253,6 +255,9 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                     id='about'
                     modalId={ModalIdentifiers.ABOUT}
                     dialogType={AboutBuildModal}
+                    dialogProps={{
+                        returnFocus: props.returnFocus,
+                    }}
                     text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: siteName})}
                     icon={
                         <Icon

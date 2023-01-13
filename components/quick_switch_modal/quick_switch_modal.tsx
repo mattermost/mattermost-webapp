@@ -39,6 +39,8 @@ export type Props = {
 
     isMobileView: boolean;
 
+    returnFocus?: () => void;
+
     actions: {
         joinChannelById: (channelId: string) => Promise<ActionResult>;
         switchToChannel: (channel: Channel) => Promise<ActionResult>;
@@ -51,11 +53,13 @@ type State = {
     hasSuggestions: boolean;
     shouldShowLoadingSpinner: boolean;
     pretext: string;
+    show: boolean;
 }
 
 export default class QuickSwitchModal extends React.PureComponent<Props, State> {
     private channelProviders: SwitchChannelProvider[];
     private switchBox: SuggestionBoxComponent|null;
+    private handleReturnFocus?: () => void = undefined;
 
     constructor(props: Props) {
         super(props);
@@ -64,12 +68,15 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
 
         this.switchBox = null;
 
+        this.handleReturnFocus = props.returnFocus;
+
         this.state = {
             text: '',
             mode: CHANNEL_MODE,
             hasSuggestions: true,
             shouldShowLoadingSpinner: true,
             pretext: '',
+            show: true,
         };
     }
 
@@ -94,8 +101,17 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
         this.focusPostTextbox();
         this.setState({
             text: '',
+            show: false,
         });
+    };
+
+    private handleOnExited = (): void => {
         this.props.onExited();
+        if (this.handleReturnFocus) {
+            this.handleReturnFocus();
+        } else {
+            this.focusPostTextbox();
+        }
     };
 
     private focusPostTextbox = (): void => {
@@ -103,7 +119,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
             setTimeout(() => {
                 const textbox = document.querySelector('#post_textbox') as HTMLElement;
                 if (textbox) {
-                    textbox.focus();
+                    Utils.a11yFocus(textbox);
                 }
             });
         }
@@ -127,11 +143,13 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
             }
             switchToChannel(selectedChannel).then((result: ActionResult) => {
                 if ('data' in result) {
+                    this.handleReturnFocus = undefined;
                     this.onHide();
                 }
             });
         } else {
             getHistory().push('/' + selected.name);
+            this.handleReturnFocus = undefined;
             this.onHide();
         }
     };
@@ -177,14 +195,15 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
         return (
             <Modal
                 dialogClassName='a11y__modal channel-switcher'
-                show={true}
+                show={this.state.show}
                 onHide={this.onHide}
+                onExited={this.handleOnExited}
                 enforceFocus={false}
-                restoreFocus={false}
+                restoreFocus={true}
                 role='dialog'
                 aria-labelledby='quickSwitchModalLabel'
                 aria-describedby='quickSwitchHeader'
-                animation={false}
+                animation={true}
             >
                 <Modal.Header
                     id='quickSwitchModalLabel'

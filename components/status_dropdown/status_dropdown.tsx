@@ -36,7 +36,7 @@ import {ModalData} from 'types/actions';
 import {Constants, ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {getCurrentDateTimeForTimezone, getCurrentMomentForTimezone} from 'utils/timezone';
-import {localizeMessage} from 'utils/utils';
+import {a11yFocus, localizeMessage} from 'utils/utils';
 
 import './status_dropdown.scss';
 
@@ -82,6 +82,7 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
         userId: '',
         profilePicture: '',
     }
+    private returnFocus = () => {};
 
     constructor(props: Props) {
         super(props);
@@ -159,6 +160,7 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
             dialogType: DndCustomTimePicker,
             dialogProps: {
                 currentDate: this.props.timezone ? getCurrentDateTimeForTimezone(this.props.timezone) : new Date(),
+                returnFocus: this.returnFocus,
             },
         };
 
@@ -169,7 +171,10 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
         const resetStatusModalData = {
             modalId: ModalIdentifiers.RESET_STATUS,
             dialogType: ResetStatusModal,
-            dialogProps: {newStatus: status},
+            dialogProps: {
+                newStatus: status,
+                returnFocus: this.returnFocus,
+            },
         };
 
         this.props.actions.openModal(resetStatusModalData);
@@ -222,6 +227,9 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
         const customStatusInputModalData = {
             modalId: ModalIdentifiers.CUSTOM_STATUS,
             dialogType: CustomStatusModal,
+            dialogProps: {
+                returnFocus: this.returnFocus,
+            },
         };
         this.props.actions.openModal(customStatusInputModalData);
     }
@@ -311,6 +319,9 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
                     ariaLabel={customStatusText || customStatusHelpText}
                     modalId={ModalIdentifiers.CUSTOM_STATUS}
                     dialogType={CustomStatusModal}
+                    dialogProps={{
+                        returnFocus: this.returnFocus,
+                    }}
                     className={classNames('MenuItem__primary-text custom_status__row', {
                         flex: customStatus?.text.length === 0,
                     })}
@@ -337,6 +348,11 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
                 </Menu.ItemToggleModalRedux>
             </Menu.Group>
         );
+    }
+
+    setReturnFocus = () => {
+        const activeElement = document.activeElement as HTMLElement;
+        this.returnFocus = () => a11yFocus(activeElement);
     }
 
     render = (): JSX.Element => {
@@ -453,6 +469,7 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
                     aria-label={menuAriaLabeltext}
                     aria-expanded={this.props.isStatusDropdownOpen}
                     aria-controls='statusDropdownMenu'
+                    onClick={this.setReturnFocus}
                 >
                     <CustomStatusEmoji
                         showTooltip={true}
@@ -566,7 +583,10 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
                             ariaLabel='Profile'
                             modalId={ModalIdentifiers.USER_SETTINGS}
                             dialogType={UserSettingsModal}
-                            dialogProps={{isContentProductSettings: false}}
+                            dialogProps={{
+                                isContentProductSettings: false,
+                                returnFocus: this.returnFocus,
+                            }}
                             text={localizeMessage('navbar_dropdown.profileSettings', 'Profile')}
                             icon={(
                                 <Icon

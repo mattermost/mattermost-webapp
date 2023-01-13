@@ -68,6 +68,7 @@ export type Props = {
     };
     guestAccessEnabled: boolean;
     canInviteTeamMember: boolean;
+    returnFocus?: () => void;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         showMentions: () => void;
@@ -174,6 +175,9 @@ export class MainMenu extends React.PureComponent<Props> {
                         defaultMessage: 'Add people to the team',
                     })}
                     icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+                    dialogProps={{
+                        returnFocus: this.props.returnFocus,
+                    }}
                 />
             );
         }
@@ -400,6 +404,9 @@ export class MainMenu extends React.PureComponent<Props> {
                             show={teamIsGroupConstrained && isLicensedForLDAPGroups}
                             modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
                             dialogType={AddGroupsToTeamModal}
+                            dialogProps={{
+                                returnFocus: this.props.returnFocus,
+                            }}
                             text={formatMessage({id: 'navbar_dropdown.addGroupsToTeam', defaultMessage: 'Add Groups to Team'})}
                         />
                     </TeamPermissionGate>
@@ -417,6 +424,9 @@ export class MainMenu extends React.PureComponent<Props> {
                             id='teamSettings'
                             modalId={ModalIdentifiers.TEAM_SETTINGS}
                             dialogType={TeamSettingsModal}
+                            dialogProps={{
+                                returnFocus: this.props.returnFocus,
+                            }}
                             text={formatMessage({id: 'navbar_dropdown.teamSettings', defaultMessage: 'Team Settings'})}
                         />
                     </TeamPermissionGate>
@@ -428,7 +438,10 @@ export class MainMenu extends React.PureComponent<Props> {
                             id='manageGroups'
                             show={teamIsGroupConstrained && isLicensedForLDAPGroups}
                             modalId={ModalIdentifiers.MANAGE_TEAM_GROUPS}
-                            dialogProps={{teamID: teamId}}
+                            dialogProps={{
+                                teamID: teamId,
+                                returnFocus: this.props.returnFocus,
+                            }}
                             dialogType={TeamGroupsManageModal}
                             text={formatMessage({id: 'navbar_dropdown.manageGroups', defaultMessage: 'Manage Groups'})}
                         />
@@ -441,6 +454,10 @@ export class MainMenu extends React.PureComponent<Props> {
                             id='manageMembers'
                             modalId={ModalIdentifiers.TEAM_MEMBERS}
                             dialogType={TeamMembersModal}
+                            dialogProps={{
+                                returnFocus: this.props.returnFocus,
+                                returnFocusOnExit: false,
+                            }}
                             text={formatMessage({id: 'navbar_dropdown.manageMembers', defaultMessage: 'Manage Members'})}
                         />
                     </TeamPermissionGate>
@@ -453,6 +470,10 @@ export class MainMenu extends React.PureComponent<Props> {
                             id='viewMembers'
                             modalId={ModalIdentifiers.TEAM_MEMBERS}
                             dialogType={TeamMembersModal}
+                            dialogProps={{
+                                returnFocus: this.props.returnFocus,
+                                returnFocusOnExit: false,
+                            }}
                             text={formatMessage({id: 'navbar_dropdown.viewMembers', defaultMessage: 'View Members'})}
                         />
                     </TeamPermissionGate>
@@ -468,6 +489,9 @@ export class MainMenu extends React.PureComponent<Props> {
                         show={!teamIsGroupConstrained && this.props.experimentalPrimaryTeam !== this.props.teamName}
                         modalId={ModalIdentifiers.LEAVE_TEAM}
                         dialogType={LeaveTeamModal}
+                        dialogProps={{
+                            returnFocus: this.props.returnFocus,
+                        }}
                         text={formatMessage({id: 'navbar_dropdown.leave', defaultMessage: 'Leave Team'})}
                     />
                 </Menu.Group>
