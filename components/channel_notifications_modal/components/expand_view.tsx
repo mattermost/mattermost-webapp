@@ -82,17 +82,23 @@ export default function ExpandView({
         <div key='channel-notification-level-radio'>
             {(section === NotificationSections.DESKTOP || section === NotificationSections.PUSH) &&
             <fieldset>
-                <legend className='form-legend'>
+                { section === NotificationSections.DESKTOP && <legend className='form-legend'>
                     <FormattedMessage
                         id='channel_notifications.sendDesktop'
                         defaultMessage='Send desktop notifications'
                     />
-                </legend>
+                </legend>}
+                { section === NotificationSections.PUSH && <legend className='form-legend'>
+                    <FormattedMessage
+                        id='channel_notifications.sendMobilePush'
+                        defaultMessage='Send mobile push notifications'
+                    />
+                </legend>}
                 <div className='radio'>
                     <label className=''>
                         <input
                             id='channelNotificationAllActivity'
-                            name='channelDesktopNotifications'
+                            name='channelNotifications'
                             type='radio'
                             value={NotificationLevels.ALL}
                             checked={memberNotifyLevel === NotificationLevels.ALL}
@@ -101,6 +107,7 @@ export default function ExpandView({
                         <Describe
                             section={section}
                             memberNotifyLevel={NotificationLevels.ALL}
+                            globalNotifyLevel={globalNotifyLevel}
                         />
                     </label>
                 </div>
@@ -108,7 +115,7 @@ export default function ExpandView({
                     <label className=''>
                         <input
                             id='channelNotificationMentions'
-                            name='channelDesktopNotifications'
+                            name='channelNotifications'
                             type='radio'
                             value={NotificationLevels.MENTION}
                             checked={memberNotifyLevel === NotificationLevels.MENTION}
@@ -117,6 +124,7 @@ export default function ExpandView({
                         <Describe
                             section={section}
                             memberNotifyLevel={NotificationLevels.MENTION}
+                            globalNotifyLevel={globalNotifyLevel}
                         />
                     </label>
                 </div>
@@ -124,7 +132,7 @@ export default function ExpandView({
                     <label>
                         <input
                             id='channelNotificationNever'
-                            name='channelDesktopNotifications'
+                            name='channelNotifications'
                             type='radio'
                             value={NotificationLevels.NONE}
                             checked={memberNotifyLevel === NotificationLevels.NONE}
@@ -133,6 +141,7 @@ export default function ExpandView({
                         <Describe
                             section={section}
                             memberNotifyLevel={NotificationLevels.NONE}
+                            globalNotifyLevel={globalNotifyLevel}
                         />
                     </label>
                 </div>
