@@ -36,7 +36,7 @@ describe('Bot accounts - CRUD Testing', () => {
         cy.apiUpdateConfig(newSettings);
 
         // # Create a test bot
-        cy.apiCreateBot({prefix: 'stay-enabled-bot'});
+        cy.apiCreateBot();
 
         // # Create and visit new channel
         cy.apiInitSetup().then(({team}) => {

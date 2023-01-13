@@ -100,7 +100,7 @@ describe('Bot accounts ownership and API', () => {
         cy.apiAdminLogin();
 
         // * This call will fail if bot was not created
-        cy.apiCreateBot({prefix: 'test-bot'});
+        cy.apiCreateBot();
     });
 
     it('MM-T1865 Create post as bot', () => {
@@ -183,7 +183,7 @@ describe('Bot accounts ownership and API', () => {
         cy.apiAdminLogin();
 
         // # Create a test bot (member)
-        cy.apiCreateBot({prefix: 'test-bot'}).then(({bot}) => {
+        cy.apiCreateBot().then(({bot}) => {
             // # Create token for the bot
             cy.apiCreateToken(bot.user_id).then(({token}) => {
                 // # Logout to allow posting as bot

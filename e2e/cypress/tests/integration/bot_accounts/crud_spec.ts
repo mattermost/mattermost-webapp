@@ -37,7 +37,7 @@ describe('Bot accounts - CRUD Testing', () => {
     beforeEach(() => {
         // # Create a test bot
 
-        cy.apiCreateBot({prefix: 'stay-enabled-bot'}).then(({bot}) => {
+        cy.apiCreateBot().then(({bot}) => {
             testBot = bot;
         });
     });

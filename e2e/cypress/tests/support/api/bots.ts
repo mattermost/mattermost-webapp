@@ -15,7 +15,8 @@ interface ApiCreateBotArg {
     bot?: Cypress.BotPatch;
 }
 
-function apiCreateBot({prefix, bot = createBotPatch(prefix)}: ApiCreateBotArg): ChainableT<any> {
+function apiCreateBot(prefix = 'bot'): ChainableT<any> {
+    const bot = createBotPatch(prefix);
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/bots',
@@ -80,7 +81,7 @@ declare global {
              *       // do something with bot
              *   });
              */
-            apiCreateBot({bot, prefix}?: ApiCreateBotArg): Chainable<{bot: Bot & {fullDisplayName: string}}>;
+            apiCreateBot(prefix?: string): Chainable<{bot: Bot & {fullDisplayName: string}}>;
 
             /**
              * Get bots.

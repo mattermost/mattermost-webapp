@@ -40,7 +40,7 @@ describe('Bot display name', () => {
     it('MM-T1813 Display name for bots stays current', () => {
         cy.makeClient({user: otherSysadmin}).then((client) => {
             // # Create a bot and get bot user id
-            cy.apiCreateBot({prefix: 'stay-enabled-bot'}).then(({bot}) => {
+            cy.apiCreateBot().then(({bot}) => {
                 const botUserId = bot.user_id;
                 const firstMessage = 'This is the first message from a bot that will change its name';
                 const secondMessage = 'This is the second message from a bot that has changed its name';
