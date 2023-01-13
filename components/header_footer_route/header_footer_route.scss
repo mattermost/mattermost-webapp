@@ -7,11 +7,11 @@
     position: relative;
     display: flex;
     overflow: hidden;
+    width: 100%;
     min-height: 100%;
     flex-direction: column;
     margin: 0 auto;
     grid-area: center;
-    width: 100%;
 
     .header-footer-route-container {
         display: flex;
