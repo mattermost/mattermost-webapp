@@ -45,7 +45,7 @@ describe('Channel routing', () => {
             cy.get('#channel_name').clear().type('uzsfmtmniifsjgesce4u7yznyh__uzsfmtmniifsjgesce5u7yznyh', {force: true}).wait(TIMEOUTS.HALF_SEC);
             cy.get('#save-button').should('be.visible').click();
 
-            // # Assert the error occured with the appropriate message
+            // # Assert the error occurred with the appropriate message
             cy.get('.input__help').should('have.class', 'error');
             cy.get('.input__help').should('have.text', 'User IDs are not allowed in channel URLs.');
             cy.findByText('Cancel').click();
@@ -62,13 +62,33 @@ describe('Channel routing', () => {
             cy.get('#input_new-channel-modal-name').type('uzsfmtmniifsjgesce4u7yznyh__uzsfmtmniifsjgesce5u7yznyh', {force: true}).wait(TIMEOUTS.HALF_SEC);
             cy.findByText('Create channel').should('be.visible').click();
 
-            // * Assert the error occured with the appropriate message
+            // * Assert the error occurred with the appropriate message
             cy.get('.genericModalError').should('be.visible').within(() => {
-                cy.get('span').should('have.text', 'Invalid channel name. User ids are not permitted in channel name for non-direct message channels.');
+                cy.findByText('Channel names can\'t be in a hexadecimal format. Please enter a different channel name.');
             });
 
-            // # close the create channel modal
-            cy.findByText('Cancel').click();
+            // # Close the create channel modal
+            cy.uiCancelButton().click();
+        });
+    });
+
+    it('MM-T884_3 Creating a new channel validates against gm-like names being used as channel name', () => {
+        // # click on create public channel
+        cy.uiBrowseOrCreateChannel('Create New Channel').click();
+
+        // * Verify that the new channel modal is visible
+        cy.findByRole('dialog', {name: 'Create a new channel'}).within(() => {
+            // # Add the new channel name with invalid name and press Create Channel
+            cy.findByPlaceholderText('Enter a name for your new channel').type('71b03afcbb2d503d49f87f057549c43db4e19f92', {force: true}).wait(TIMEOUTS.HALF_SEC);
+            cy.uiGetButton('Create channel').click();
+
+            // * Assert the error occurred with the appropriate message
+            cy.get('.genericModalError').should('be.visible').within(() => {
+                cy.findByText('Channel names can\'t be in a hexadecimal format. Please enter a different channel name.');
+            });
+
+            // # Close the create channel modal
+            cy.uiCancelButton().click();
         });
     });
 

@@ -12,8 +12,9 @@ import {renderWithIntl} from 'tests/react_testing_utils';
 import mockStore from 'tests/test_store';
 import {FileSizes} from 'utils/file_utils';
 
-import {GlobalState} from '@mattermost/types/store';
 import {Constants} from 'utils/constants';
+
+import {GlobalState} from '@mattermost/types/store';
 
 import {Subscription} from '@mattermost/types/cloud';
 
@@ -24,7 +25,7 @@ const freeLimits = {
         history: 10000,
     },
     files: {
-        total_storage: 10 * FileSizes.Gigabyte,
+        total_storage: FileSizes.Gigabyte,
     },
     teams: {
         active: 1,

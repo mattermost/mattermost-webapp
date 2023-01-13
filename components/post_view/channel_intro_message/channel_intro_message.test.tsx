@@ -27,12 +27,6 @@ describe('components/post_view/ChannelIntroMessages', () => {
         update_at: 1508265709607,
     } as Channel;
 
-    // type PluginComponent
-    const boardComponent = {
-        id: 'board',
-        pluginId: 'board',
-    };
-
     const user1 = {id: 'user1', roles: 'system_user'};
     const users = [
         {id: 'user1', roles: 'system_user'},
@@ -62,16 +56,6 @@ describe('components/post_view/ChannelIntroMessages', () => {
             );
             expect(wrapper).toMatchSnapshot();
         });
-
-        test('should match snapshot, with boards', () => {
-            const wrapper = shallow(
-                <ChannelIntroMessage
-                    {...baseProps}
-                    boardComponent={boardComponent}
-                />,
-            );
-            expect(wrapper).toMatchSnapshot();
-        });
     });
 
     describe('test Group Channel', () => {
@@ -93,22 +77,11 @@ describe('components/post_view/ChannelIntroMessages', () => {
             expect(wrapper).toMatchSnapshot();
         });
 
-        test('should match snapshot, with profiles, without boards', () => {
+        test('should match snapshot, with profiles', () => {
             const wrapper = shallow(
                 <ChannelIntroMessage
                     {...props}
                     channelProfiles={users}
-                />,
-            );
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('should match snapshot, with profiles, with boards', () => {
-            const wrapper = shallow(
-                <ChannelIntroMessage
-                    {...props}
-                    channelProfiles={users}
-                    boardComponent={boardComponent}
                 />,
             );
             expect(wrapper).toMatchSnapshot();
@@ -134,23 +107,12 @@ describe('components/post_view/ChannelIntroMessages', () => {
             expect(wrapper).toMatchSnapshot();
         });
 
-        test('should match snapshot, with teammate, without boards', () => {
+        test('should match snapshot, with teammate', () => {
             const wrapper = shallow(
                 <ChannelIntroMessage
                     {...props}
                     teammate={user1 as UserProfile}
                     teammateName='my teammate'
-                />,
-            );
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('should match snapshot, with teammate, with boards', () => {
-            const wrapper = shallow(
-                <ChannelIntroMessage
-                    {...props}
-                    teammate={user1 as UserProfile}
-                    boardComponent={boardComponent}
                 />,
             );
             expect(wrapper).toMatchSnapshot();
@@ -178,7 +140,7 @@ describe('components/post_view/ChannelIntroMessages', () => {
             expect(wrapper).toMatchSnapshot();
         });
 
-        test('should match snapshot, no boards', () => {
+        test('should match snapshot', () => {
             const wrapper = shallow(
                 <ChannelIntroMessage
                     {...props}
@@ -188,35 +150,22 @@ describe('components/post_view/ChannelIntroMessages', () => {
             expect(wrapper).toMatchSnapshot();
         });
 
-        test('should match snapshot, with boards', () => {
-            const wrapper = shallow(
-                <ChannelIntroMessage
-                    {...props}
-                    teamIsGroupConstrained={true}
-                    boardComponent={boardComponent}
-                />,
-            );
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('should match snapshot, with boards. enableUserCreation', () => {
+        test('should match snapshot, with enableUserCreation', () => {
             const wrapper = shallow(
                 <ChannelIntroMessage
                     {...props}
                     enableUserCreation={true}
-                    boardComponent={boardComponent}
                 />,
             );
             expect(wrapper).toMatchSnapshot();
         });
 
-        test('should match snapshot, with boards, enable, group constrained', () => {
+        test('should match snapshot, with enable, group constrained', () => {
             const wrapper = shallow(
                 <ChannelIntroMessage
                     {...props}
                     enableUserCreation={true}
                     teamIsGroupConstrained={true}
-                    boardComponent={boardComponent}
                 />,
             );
             expect(wrapper).toMatchSnapshot();
@@ -234,20 +183,10 @@ describe('components/post_view/ChannelIntroMessages', () => {
             channel: directChannel,
         };
 
-        test('should match snapshot, without boards', () => {
+        test('should match snapshot', () => {
             const wrapper = shallow(
                 <ChannelIntroMessage
                     {...props}
-                />,
-            );
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('should match snapshot, with boards', () => {
-            const wrapper = shallow(
-                <ChannelIntroMessage
-                    {...props}
-                    boardComponent={boardComponent}
                 />,
             );
             expect(wrapper).toMatchSnapshot();
