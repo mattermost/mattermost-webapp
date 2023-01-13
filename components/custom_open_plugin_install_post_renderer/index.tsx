@@ -26,7 +26,7 @@ import {MarketplacePlugin} from '@mattermost/types/marketplace';
 import {GlobalState} from '../../types/store';
 import {fetchListing, installPlugin} from '../../actions/marketplace';
 import ToggleModalButton from '../toggle_modal_button';
-import {getError, getInstalledListing, getInstalling} from '../../selectors/views/marketplace';
+import {getError, getInstalledListing, getInstalling, getPlugins} from '../../selectors/views/marketplace';
 import LoadingWrapper from '../widgets/loading/loading_wrapper';
 
 type PluginRequest = {
@@ -60,6 +60,91 @@ const usersListStyle = {
     margin: '20px 0',
 };
 
+
+const RenderPluginButton = (props: {installedListing: MarketplacePlugin[]; pluginRequest: PluginRequest}) => {
+    const dispatch = useDispatch();
+
+    const installing = useSelector((state: GlobalState) => getInstalling(state, props.pluginRequest.plugin_id));
+    const error = useSelector((state: GlobalState) => getError(state, props.pluginRequest.plugin_id));
+
+    const isInstalled = props.installedListing.some((plugin) => plugin.manifest.id === props.pluginRequest.plugin_id);
+    const name = props.pluginRequest.plugin_name;
+
+    if (!error && !isInstalled) {
+        return (
+            <button
+                onClick={() => {
+                    dispatch(installPlugin(props.pluginRequest.plugin_id));
+                }}
+                className='btn btn-primary'
+                disabled={installing}
+            >
+                <LoadingWrapper
+                    loading={installing}
+                    text={localizeMessage('marketplace_modal.installing', 'Installing...')}
+                >
+                    <FormattedMessage
+                        id='marketplace_modal.list.install.plugin'
+                        defaultMessage={`Install ${name}`}
+                        values={{
+                            plugin: name,
+                        }}
+                    />
+                </LoadingWrapper>
+            </button>
+        );
+    } else if (!error && isInstalled && !installing) {
+        return (
+            <Link
+                to={'/admin_console/plugins/plugin_' + props.pluginRequest.plugin_id}
+            >
+                <button
+                    onClick={() => null /*this.onConfigure*/}
+                    className='btn btn-outline'
+                >
+                    <FormattedMessage
+                        id='marketplace_modal.list.configure.plugin'
+                        defaultMessage={`Configure ${name}`}
+                        values={{
+                            plugin: name,
+                        }}
+                    />
+                </button>
+            </Link>
+        );
+    }
+    return null;
+};
+
+const RenderPluginButtons = (props: {pluginsByPluginIds: RequestedPlugins}) => {
+    const installedListing = useSelector(getInstalledListing) as MarketplacePlugin[];
+    const pluginRequests = Object.values(props.pluginsByPluginIds).map((request) => request[0]);
+
+    /*for (const pluginId of Object.keys(props.pluginsByPluginIds)) {
+        const pluginName = props.pluginsByPluginIds[pluginId][0].plugin_name;
+        pluginDetails = [
+            ...pluginDetails,
+            {pluginName, pluginId},
+        ];
+    }*/
+    return (
+        <div
+            style={buttonsStyle}
+        >
+            {pluginRequests.map((pluginRequest) => {
+                return (
+                    <div key={pluginRequest.plugin_name}>
+                        <RenderPluginButton
+                            installedListing={installedListing}
+                            pluginRequest={pluginRequest}
+                        />
+                    </div>
+                );
+            })}
+        </div>
+    );
+};
+
 export default function OpenPluginInstallPost(props: {post: Post}) {
     const customMessageBody = [];
 
@@ -72,7 +157,7 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
     const requestedPluginsByUserIds = postProps?.requested_plugins_by_user_ids;
 
     const userProfiles = useSelector(getUsers);
-    const marketplacePlugins: MarketplacePlugin[] = useSelector((state: GlobalState) => state.views.marketplace.plugins);
+    const marketplacePlugins: MarketplacePlugin[] = useSelector(getPlugins);
 
     const getUserIdsForUsersThatRequestedFeature = (requests: PluginRequest[]): string[] => requests.map((request: PluginRequest) => request.user_id);
 
@@ -80,9 +165,10 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
         if (!marketplacePlugins.length) {
             dispatch(fetchListing());
         }
-    }, [dispatch, fetchListing]);
+    }, [dispatch, fetchListing, marketplacePlugins.length]);
 
     useEffect(() => {
+        // process the plugins once the marketplace plugins are fetched and the plugins are available from the props
         if (requestedPluginsByPluginIds && marketplacePlugins.length && !Object.keys(pluginsByPluginIds).length) {
             const plugins = {} as RequestedPlugins;
             const mPlugins = marketplacePlugins.reduce((acc, mPlugin) => {
@@ -237,96 +323,7 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
         }
     }
 
-    const RenderPluginButton = (props: {installedListing: MarketplacePlugin[]; pluginDetail: {pluginName: string; pluginId: string}}) => {
-        const installing = useSelector((state: GlobalState) => getInstalling(state, props.pluginDetail.pluginId));
-        const error = useSelector((state: GlobalState) => getError(state, props.pluginDetail.pluginId));
 
-        const isInstalled = props.installedListing.some((plugin) => plugin.manifest.id === props.pluginDetail.pluginId);
-        const name = props.pluginDetail?.pluginName;
-
-        const actionButton = () => {
-            if (!error && !isInstalled) {
-                return (
-                    <button
-                        onClick={() => {
-                            dispatch(installPlugin(props.pluginDetail.pluginId));
-                        }}
-                        className='btn btn-primary'
-                        disabled={installing}
-                    >
-                        <LoadingWrapper
-                            loading={installing}
-                            text={localizeMessage('marketplace_modal.installing', 'Installing...')}
-                        >
-                            <FormattedMessage
-                                id='marketplace_modal.list.install.plugin'
-                                defaultMessage={`Install ${name}`}
-                                values={{
-                                    plugin: name,
-                                }}
-                            />
-                        </LoadingWrapper>
-                    </button>
-                );
-            } else if (!error && isInstalled && !installing) {
-                return (
-                    <Link
-                        to={'/admin_console/plugins/plugin_' + props.pluginDetail.pluginId}
-                    >
-                        <button
-                            onClick={() => null /*this.onConfigure*/}
-                            className='btn btn-outline'
-                        >
-                            <FormattedMessage
-                                id='marketplace_modal.list.configure.plugin'
-                                defaultMessage={`Configure ${name}`}
-                                values={{
-                                    plugin: name,
-                                }}
-                            />
-                        </button>
-                    </Link>
-                );
-            }
-            return <></>;
-        };
-        return (
-            <>
-                {actionButton()}
-            </>
-        );
-    };
-
-    const RenderPluginButtons = (props: {pluginsByPluginIds: RequestedPlugins}) => {
-        const installedListing = useSelector(getInstalledListing) as MarketplacePlugin[];
-        let pluginDetails: Array<{pluginName: string; pluginId: string}> = [];
-
-        for (const pluginId of Object.keys(props.pluginsByPluginIds)) {
-            const pluginName = pluginsByPluginIds[pluginId][0].plugin_name;
-            pluginDetails = [
-                ...pluginDetails,
-                {pluginName, pluginId},
-            ];
-        }
-
-        return (
-            <div
-                style={buttonsStyle}
-            >
-                {[...pluginDetails].map((pluginDetail) => {
-                    return (
-                        <div key={pluginDetail.pluginName}>
-                            <RenderPluginButton
-                                installedListing={installedListing}
-                                pluginDetail={pluginDetail}
-                            />
-                        </div>
-                    );
-                })}
-            </div>
-
-        );
-    };
 
     return (
         <div>

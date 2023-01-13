@@ -85,27 +85,19 @@ const IntegrationsPreview = ({items, categoryId}: IntegrationPreviewSectionProps
         }
     }, [haveIWritePluginPermission]);
 
-    const uninstalledPlugins = items.reduce((acc: IntegrationPreviewSectionItemsProps[], curr: IntegrationPreviewSectionItemsProps) => {
-        if (!curr.installed) {
-            return [
-                ...acc,
-                curr,
-            ];
-        }
-        return acc;
-    }, [] as IntegrationPreviewSectionItemsProps[]);
+    const pluginsToInstall = items.filter((item) => !item.installed);
 
     const createWarningMessage = () => {
-        if (uninstalledPlugins.length === 1) {
+        if (pluginsToInstall.length === 1) {
             return formatMessage(
                 {
                     id: 'work_templates.preview.integrations.admin_install.single_plugin',
                     defaultMessage: '{plugin} will not be added until admin installs it.',
                 },
                 {
-                    plugin: uninstalledPlugins[0].name,
+                    plugin: pluginsToInstall[0].name,
                 });
-        } else if (uninstalledPlugins.length > 1) {
+        } else if (pluginsToInstall.length > 1) {
             return formatMessage({
                 id: 'work_templates.preview.integrations.admin_install.multiple_plugin',
                 defaultMessage: 'Integrations will not be added until admin installs them.',
