@@ -16,6 +16,8 @@ import {DropdownContainer} from '../../components/toolbar/toolbar_controls';
 import {useGetLatest} from '../../components/toolbar/toolbar_hooks';
 
 const StyledCodeBlock = styled(NodeViewWrapper)`
+    position: relative;
+
     ${DropdownContainer} {
         position: absolute;
         right: 8px;
@@ -117,7 +119,9 @@ const Option = styled.button`
 
 export default ({node, updateAttributes, extension}: NodeViewProps) => {
     const {attrs: {language}, textContent} = node;
-    const {options: {defaultLanguage}} = extension;
+    const {options: {defaultLanguage, lowlight}} = extension;
+
+    const detectedLanguage = language ?? lowlight.highlightAuto(textContent).data.language;
 
     const [showLanguageSelect, setShowLanguageSelect] = useState(false);
 
@@ -199,7 +203,7 @@ export default ({node, updateAttributes, extension}: NodeViewProps) => {
                 className={classNames({active: showLanguageSelect})}
                 onClick={toggleLanguageSelector}
             >
-                {language || defaultLanguage}
+                {detectedLanguage || defaultLanguage}
                 <ChevronDownIcon
                     color={'currentColor'}
                     size={18}
