@@ -14,13 +14,20 @@ type Props = {
 }
 
 export default function SectionTitle({section, isExpanded, isNotificationsSettingSameAsGlobal, onClickResetButton}: Props) {
-    if (section === NotificationSections.DESKTOP) {
+    if (section === NotificationSections.DESKTOP || section === NotificationSections.PUSH) {
         return (
             <div className='d-flex justify-content-between'>
+                {section === NotificationSections.DESKTOP &&
                 <FormattedMessage
                     id='channel_notifications.desktopNotifications'
                     defaultMessage='Desktop notifications'
-                />
+                />}
+
+                {section === NotificationSections.PUSH &&
+                <FormattedMessage
+                    id='channel_notifications.push'
+                    defaultMessage='Mobile push notifications'
+                />}
                 {isExpanded && !isNotificationsSettingSameAsGlobal &&
                 <button
                     className='d-flex align-items-center color--link cursor--pointer style--none '
@@ -34,13 +41,6 @@ export default function SectionTitle({section, isExpanded, isNotificationsSettin
                 </button>
                 }
             </div>
-        );
-    } else if (section === NotificationSections.PUSH) {
-        return (
-            <FormattedMessage
-                id='channel_notifications.push'
-                defaultMessage='Mobile push notifications'
-            />
         );
     } else if (section === NotificationSections.MARK_UNREAD) {
         return (
