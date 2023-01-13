@@ -37,9 +37,7 @@ module.exports = async ({sender, message, channelId, rootId, createAt = 0, baseU
             },
         });
     } catch (err) {
-        if (err.response) {
-            response = err.response;
-        }
+        expect(Boolean(err)).to.equal(false);
     }
 
     return {status: response.status, data: response.data};
