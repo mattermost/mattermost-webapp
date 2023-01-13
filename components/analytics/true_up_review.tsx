@@ -47,10 +47,8 @@ const TrueUpReview: React.FC = () => {
     const isStarter = getIsStarterLicense(license);
     const isGovSku = license.IsGovSku === 'true';
 
-    // A license is eligible for true up if a licensed exists for the customer, are self-hosted (not cloud) and, if for cases
-    // where the license is starter/free, the license holds a government SKU. If the license is starter/free and the license
-    // does not hold a government SKU, then the license is not eligible for true up review.
-    const licenseIsTrueUpEligible = isLicensed && !isCloud && (isStarter ? isGovSku : true);
+    // A license is eligible for true up if a licensed exists for the customer, are self-hosted (not cloud), and are not on starter/free 
+    const licenseIsTrueUpEligible = isLicensed && !isCloud && !isStarter;
     const telemetryEnabled = getConfig(getState()).EnableDiagnostics === 'true';
     const trueUpReviewError = useSelector((state: GlobalState) => {
         const errors = getSelfHostedErrors(state);
