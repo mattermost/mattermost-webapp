@@ -8,6 +8,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import * as Utils from 'utils/utils';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {DesktopSound, IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants';
@@ -290,7 +291,12 @@ export default class ChannelNotificationsModal extends React.PureComponent<Props
 
     handleUpdateDesktopSound = (desktopSound: ChannelNotifyProps['desktop_sound']) => this.setState({desktopSound})
 
-    handleUpdateDesktopNotifySound = (desktopNotifySound: ChannelNotifyProps['desktop_notification_sound']) => this.setState({desktopNotifySound})
+    handleUpdateDesktopNotifySound = (desktopNotifySound: ChannelNotifyProps['desktop_notification_sound']) => {
+        if (desktopNotifySound) {
+            Utils.tryNotificationSound(desktopNotifySound);
+        }
+        this.setState({desktopNotifySound});
+    }
 
     handleSubmitMarkUnreadLevel = () => {
         const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
