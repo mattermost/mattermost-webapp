@@ -136,7 +136,7 @@ const closeDirectMessage = (sender, recipient, team) => {
         );
 
         // # Close the DM via sidebar channel menu
-        cy.uiGetChannelSidebarMenu(channelDmWithFirstUser.name).within(() => {
+        cy.uiGetChannelSidebarMenu(channelDmWithFirstUser.name, true).within(() => {
             cy.findByText('Close Conversation').click();
         });
     });

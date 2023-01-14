@@ -23,13 +23,9 @@ Cypress.Commands.add('uiCreateSidebarCategory', (categoryName = `category-${getR
     return cy.wrap({displayName: categoryName});
 });
 
-Cypress.Commands.add('uiMoveChannelToCategory', (channelName, categoryName, newCategory = false) => {
-    cy.uiGetLHS().within(() => {
-        cy.findByText(channelName).should('be.visible').parents('a').find('button').should('exist').click({force: true});
-    });
-
+Cypress.Commands.add('uiMoveChannelToCategory', (channelName, categoryName, newCategory = false, isChannelId = false) => {
     // # Open the channel menu, select Move to
-    cy.findAllByRole('menu', {name: 'Edit channel menu'}).should('be.visible').within(() => {
+    cy.uiGetChannelSidebarMenu(channelName, isChannelId).within(() => {
         cy.findByText('Move to...').should('be.visible').trigger('mouseover');
     });
 
