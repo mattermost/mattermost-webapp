@@ -4,30 +4,26 @@
 import React, {useEffect, useState} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
-
 import {Link} from 'react-router-dom';
-
 import {uniqWith} from 'lodash';
-
-import MarketplaceModal from 'components/plugin_marketplace';
-
-import Markdown from 'components/markdown';
-
-import {getUsers} from 'mattermost-redux/selectors/entities/users';
-
-import {ModalIdentifiers} from 'utils/constants';
-
-import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
-
-import {localizeMessage} from 'utils/utils';
 
 import {Post} from '@mattermost/types/posts';
 import {MarketplacePlugin} from '@mattermost/types/marketplace';
-import {GlobalState} from '../../types/store';
-import {fetchListing, installPlugin} from '../../actions/marketplace';
-import ToggleModalButton from '../toggle_modal_button';
-import {getError, getInstalledListing, getInstalling, getPlugins} from '../../selectors/views/marketplace';
-import LoadingWrapper from '../widgets/loading/loading_wrapper';
+
+import MarketplaceModal from 'components/plugin_marketplace';
+import Markdown from 'components/markdown';
+
+import {getUsers} from 'mattermost-redux/selectors/entities/users';
+import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
+
+import {ModalIdentifiers} from 'utils/constants';
+import {localizeMessage} from 'utils/utils';
+
+import {GlobalState} from 'types/store';
+import {fetchListing, installPlugin} from 'actions/marketplace';
+import ToggleModalButton from 'components/toggle_modal_button';
+import {getError, getInstalledListing, getInstalling, getPlugins} from 'selectors/views/marketplace';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 type PluginRequest = {
     user_id: string;
@@ -59,7 +55,6 @@ const buttonsStyle = {
 const usersListStyle = {
     margin: '20px 0',
 };
-
 
 const RenderPluginButton = (props: {installedListing: MarketplacePlugin[]; pluginRequest: PluginRequest}) => {
     const dispatch = useDispatch();
@@ -95,9 +90,7 @@ const RenderPluginButton = (props: {installedListing: MarketplacePlugin[]; plugi
         );
     } else if (!error && isInstalled && !installing) {
         return (
-            <Link
-                to={'/admin_console/plugins/plugin_' + props.pluginRequest.plugin_id}
-            >
+            <Link to={'/admin_console/plugins/plugin_' + props.pluginRequest.plugin_id}>
                 <button
                     onClick={() => null /*this.onConfigure*/}
                     className='btn btn-outline'
@@ -120,17 +113,8 @@ const RenderPluginButtons = (props: {pluginsByPluginIds: RequestedPlugins}) => {
     const installedListing = useSelector(getInstalledListing) as MarketplacePlugin[];
     const pluginRequests = Object.values(props.pluginsByPluginIds).map((request) => request[0]);
 
-    /*for (const pluginId of Object.keys(props.pluginsByPluginIds)) {
-        const pluginName = props.pluginsByPluginIds[pluginId][0].plugin_name;
-        pluginDetails = [
-            ...pluginDetails,
-            {pluginName, pluginId},
-        ];
-    }*/
     return (
-        <div
-            style={buttonsStyle}
-        >
+        <div style={buttonsStyle}>
             {pluginRequests.map((pluginRequest) => {
                 return (
                     <div key={pluginRequest.plugin_name}>
@@ -322,8 +306,6 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
             customMessageBody.push(instructions);
         }
     }
-
-
 
     return (
         <div>

@@ -144,7 +144,7 @@ const IntegrationsPreview = ({items, categoryId}: IntegrationPreviewSectionProps
                         ctaText={notifyAdminCTA}
                         notifyRequestData={{
                             required_plan: `${WORK_TEMPLATES}-${categoryId}`,
-                            required_feature: uninstalledPlugins.map((plugin) => plugin.id).join(','),
+                            required_feature: pluginsToInstall.map((plugin) => plugin.id).join(','),
                             trial_notification: false,
                         }}
                     />

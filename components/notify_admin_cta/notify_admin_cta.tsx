@@ -5,9 +5,8 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
-import {useGetNotifyAdmin, NotifyStatus, NotifyStatusValues} from 'components/common/hooks/useGetNotifyAdmin';
-
 import {NotifyAdminRequest} from '@mattermost/types/cloud';
+import {NotifyStatus, NotifyStatusValues, useGetNotifyAdmin} from 'components/common/hooks/useGetNotifyAdmin';
 
 const Span = styled.span`
     font-family: 'Open Sans';
@@ -17,7 +16,7 @@ const Span = styled.span`
     line-height: 16px;
 `;
 
-const Button = styled.button<{ notified: boolean }>`
+const Button = styled.button<{notified: boolean}>`
     border: none;
     background: none;
     color: ${(props: any) => (props.notified ? 'var(--denim-status-online)' : 'var(--denim-button-bg)')};
