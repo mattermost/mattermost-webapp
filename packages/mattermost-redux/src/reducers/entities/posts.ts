@@ -5,7 +5,7 @@ import {ChannelTypes, GeneralTypes, PostTypes, UserTypes, ThreadTypes, InsightTy
 
 import {comparePosts, isPermalink, shouldUpdatePost} from 'mattermost-redux/utils/post_utils';
 import {Posts} from 'mattermost-redux/constants';
-import {PostTypes as PostConstant} from 'utils/constants';
+import {PostTypes as PostConstant} from 'mattermost-redux/constants/posts';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
@@ -1220,18 +1220,12 @@ export function acknowledgements(state: RelationOneToOne<Post, Record<UserProfil
     switch (action.type) {
     case PostTypes.CREATE_ACK_POST_SUCCESS: {
         const ack = action.data as PostAcknowledgement;
-
-        if (!state[ack.post_id]) {
-            return {
-                ...state,
-                [ack.post_id]: ack.acknowledged_at,
-            };
-        }
+        const oldState = state[ack.post_id] || {};
 
         return {
             ...state,
             [ack.post_id]: {
-                ...state[ack.post_id],
+                ...oldState,
                 [ack.user_id]: ack.acknowledged_at,
             },
         };

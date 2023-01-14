@@ -231,6 +231,8 @@ describe('components/AdvancedCreateComment', () => {
         wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()};
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft).toHaveBeenCalled();
 
         // Empty message case
@@ -245,6 +247,7 @@ describe('components/AdvancedCreateComment', () => {
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
         // Message with no space at the end
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
             expect.objectContaining({message: 'test :smile:  '}),
         );
@@ -256,6 +259,7 @@ describe('components/AdvancedCreateComment', () => {
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
         // Message with space at the end
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft.mock.calls[2][0]).toEqual(
             expect.objectContaining({message: 'test  :smile:  '}),
         );
@@ -371,6 +375,8 @@ describe('components/AdvancedCreateComment', () => {
         const uploadCompleteFileInfo = [{id: '3', name: 'ccc', create_at: 300}];
         const expectedNewFileInfos = fileInfos.concat(uploadCompleteFileInfo);
         instance.handleFileUploadComplete(uploadCompleteFileInfo, [3], null, props.rootId);
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(updateCommentDraftWithRootId).toHaveBeenCalled();
         expect(updateCommentDraftWithRootId.mock.calls[0][0]).toEqual(props.rootId);
         expect(updateCommentDraftWithRootId.mock.calls[0][1]).toEqual(
@@ -510,7 +516,7 @@ describe('components/AdvancedCreateComment', () => {
         expect(baseProps.onUpdateCommentDraft).not.toHaveBeenCalled();
 
         jest.runOnlyPendingTimers();
-
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(baseProps.onUpdateCommentDraft).toHaveBeenCalled();
         expect(baseProps.onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({message: testMessage}),
@@ -1086,6 +1092,8 @@ describe('components/AdvancedCreateComment', () => {
         wrapper.setState({draft});
 
         wrapper.instance().removePreview(3);
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft).toHaveBeenCalled();
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({fileInfos: [{id: 1}, {id: 2}]}),
@@ -1093,6 +1101,8 @@ describe('components/AdvancedCreateComment', () => {
         expect(wrapper.state().draft.fileInfos).toEqual([{id: 1}, {id: 2}]);
 
         wrapper.instance().removePreview(5);
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
             expect.objectContaining({uploadsInProgress: [4, 6]}),
         );

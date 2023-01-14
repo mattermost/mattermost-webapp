@@ -92,6 +92,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             dialogType: PurchaseModal,
             dialogProps: {
                 callerCTA: 'feature_discovery_subscribe_button',
+                isInitialPlanMonthly: true,
             },
         });
     }
@@ -173,7 +174,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                     'admin.ldap_feature_discovery.call_to_action.primary',
                     'Start trial',
                 )}
-                telemetryId={'start_cloud_trial_feature_discovery'}
+                telemetryId={`start_self_hosted_trial_from_${this.props.featureName}`}
                 btnClass='btn btn-primary'
                 renderAsButton={true}
                 trackingPage={this.props.featureName}

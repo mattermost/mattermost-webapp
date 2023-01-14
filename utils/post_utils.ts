@@ -218,7 +218,7 @@ export const groupsMentionedInText = (text: string, groups: Map<string, Group> |
     return ret;
 };
 
-export function shouldFocusMainTextbox(e: KeyboardEvent, activeElement: Element | null): boolean {
+export function shouldFocusMainTextbox(e: React.KeyboardEvent | KeyboardEvent, activeElement: Element | null): boolean {
     if (!e) {
         return false;
     }

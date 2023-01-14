@@ -117,7 +117,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
             className="form__help"
           >
             <MemoizedFormattedMessage
-              defaultMessage="This is the default public or private channel that receives the webhook payloads.  When setting up the webhook, you must belong to the private channel."
+              defaultMessage="This is the default public or private channel that receives the webhook payloads. When setting up the webhook, you must belong to the private channel."
               id="add_incoming_webhook.channel.help"
             />
           </div>
@@ -378,7 +378,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
             className="form__help"
           >
             <MemoizedFormattedMessage
-              defaultMessage="This is the default public or private channel that receives the webhook payloads.  When setting up the webhook, you must belong to the private channel."
+              defaultMessage="This is the default public or private channel that receives the webhook payloads. When setting up the webhook, you must belong to the private channel."
               id="add_incoming_webhook.channel.help"
             />
           </div>
@@ -639,7 +639,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
             className="form__help"
           >
             <MemoizedFormattedMessage
-              defaultMessage="This is the default public or private channel that receives the webhook payloads.  When setting up the webhook, you must belong to the private channel."
+              defaultMessage="This is the default public or private channel that receives the webhook payloads. When setting up the webhook, you must belong to the private channel."
               id="add_incoming_webhook.channel.help"
             />
           </div>
@@ -903,7 +903,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
             className="form__help"
           >
             <MemoizedFormattedMessage
-              defaultMessage="This is the default public or private channel that receives the webhook payloads.  When setting up the webhook, you must belong to the private channel."
+              defaultMessage="This is the default public or private channel that receives the webhook payloads. When setting up the webhook, you must belong to the private channel."
               id="add_incoming_webhook.channel.help"
             />
           </div>
@@ -1131,7 +1131,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
             className="form__help"
           >
             <MemoizedFormattedMessage
-              defaultMessage="This is the default public or private channel that receives the webhook payloads.  When setting up the webhook, you must belong to the private channel."
+              defaultMessage="This is the default public or private channel that receives the webhook payloads. When setting up the webhook, you must belong to the private channel."
               id="add_incoming_webhook.channel.help"
             />
           </div>
@@ -1359,7 +1359,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
             className="form__help"
           >
             <MemoizedFormattedMessage
-              defaultMessage="This is the default public or private channel that receives the webhook payloads.  When setting up the webhook, you must belong to the private channel."
+              defaultMessage="This is the default public or private channel that receives the webhook payloads. When setting up the webhook, you must belong to the private channel."
               id="add_incoming_webhook.channel.help"
             />
           </div>

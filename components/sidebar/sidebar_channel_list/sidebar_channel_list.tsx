@@ -27,6 +27,7 @@ import UnreadChannelIndicator from '../unread_channel_indicator';
 import UnreadChannels from '../unread_channels';
 
 import GlobalThreadsLink from 'components/threading/global_threads_link';
+import DraftsLink from 'components/drafts/drafts_link';
 import ActivityAndInsightsLink from 'components/activity_and_insights/activity_and_insights_link/activity_and_insights_link';
 
 export function renderView(props: any) {
@@ -539,6 +540,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
             <>
                 <ActivityAndInsightsLink/>
                 <GlobalThreadsLink/>
+                <DraftsLink/>
                 <div
                     id='sidebar-left'
                     role='application'

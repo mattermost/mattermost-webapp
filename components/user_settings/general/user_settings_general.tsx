@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 /* eslint-disable react/no-string-refs */
+/* eslint-disable max-lines */
 
 import React from 'react';
 import {defineMessages, FormattedDate, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
@@ -15,12 +16,12 @@ import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 
 import LocalizedIcon from 'components/localized_icon';
-import SettingItemMin from 'components/setting_item_min';
 import SettingPicture from 'components/setting_picture';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import {AnnouncementBarMessages, AnnouncementBarTypes, AcceptedProfileImageTypes, Constants, ValidationErrors} from 'utils/constants';
 
 import {UserProfile} from '@mattermost/types/users';
+import SettingItem from 'components/setting_item';
 
 const holders = defineMessages({
     usernameReserved: {
@@ -158,6 +159,7 @@ type State = {
     emailError?: string;
 }
 
+// eslint-disable-next-line react/require-optimization
 export class UserSettingsGeneralTab extends React.Component<Props, State> {
     public submitActive = false;
 
@@ -478,8 +480,9 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
     createEmailSection() {
         const {formatMessage} = this.props.intl;
 
-        let emailSection;
-        if (this.props.activeSection === 'email') {
+        const active = this.props.activeSection === 'email';
+        let max = null;
+        if (active) {
             const emailVerificationEnabled = this.props.requireEmailVerification;
             const inputs = [];
 
@@ -701,7 +704,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                 );
             }
 
-            emailSection = (
+            max = (
                 <SettingItemMax
                     title={
                         <FormattedMessage
@@ -717,97 +720,90 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     updateSection={this.updateSection}
                 />
             );
-        } else {
-            let describe: JSX.Element|string = '';
-            if (this.props.user.auth_service === '') {
-                describe = this.props.user.email;
-            } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.general.loginGitlab'
-                        defaultMessage='Login done through GitLab ({email})'
-                        values={{
-                            email: this.state.originalEmail,
-                        }}
-                    />
-                );
-            } else if (this.props.user.auth_service === Constants.GOOGLE_SERVICE) {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.general.loginGoogle'
-                        defaultMessage='Login done through Google Apps ({email})'
-                        values={{
-                            email: this.state.originalEmail,
-                        }}
-                    />
-                );
-            } else if (this.props.user.auth_service === Constants.OFFICE365_SERVICE) {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.general.loginOffice365'
-                        defaultMessage='Login done through Office 365 ({email})'
-                        values={{
-                            email: this.state.originalEmail,
-                        }}
-                    />
-                );
-            } else if (this.props.user.auth_service === Constants.LDAP_SERVICE) {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.general.loginLdap'
-                        defaultMessage='Login done through AD/LDAP ({email})'
-                        values={{
-                            email: this.state.originalEmail,
-                        }}
-                    />
-                );
-            } else if (this.props.user.auth_service === Constants.SAML_SERVICE) {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.general.loginSaml'
-                        defaultMessage='Login done through SAML ({email})'
-                        values={{
-                            email: this.state.originalEmail,
-                        }}
-                    />
-                );
-            }
+        }
 
-            emailSection = (
-                <SettingItemMin
-                    title={
-                        <FormattedMessage
-                            id='user.settings.general.email'
-                            defaultMessage='Email'
-                        />
-                    }
-                    describe={describe}
-                    section={'email'}
-                    updateSection={this.updateSection}
+        let describe: JSX.Element|string = '';
+        if (this.props.user.auth_service === '') {
+            describe = this.props.user.email;
+        } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.general.loginGitlab'
+                    defaultMessage='Login done through GitLab ({email})'
+                    values={{
+                        email: this.state.originalEmail,
+                    }}
+                />
+            );
+        } else if (this.props.user.auth_service === Constants.GOOGLE_SERVICE) {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.general.loginGoogle'
+                    defaultMessage='Login done through Google Apps ({email})'
+                    values={{
+                        email: this.state.originalEmail,
+                    }}
+                />
+            );
+        } else if (this.props.user.auth_service === Constants.OFFICE365_SERVICE) {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.general.loginOffice365'
+                    defaultMessage='Login done through Office 365 ({email})'
+                    values={{
+                        email: this.state.originalEmail,
+                    }}
+                />
+            );
+        } else if (this.props.user.auth_service === Constants.LDAP_SERVICE) {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.general.loginLdap'
+                    defaultMessage='Login done through AD/LDAP ({email})'
+                    values={{
+                        email: this.state.originalEmail,
+                    }}
+                />
+            );
+        } else if (this.props.user.auth_service === Constants.SAML_SERVICE) {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.general.loginSaml'
+                    defaultMessage='Login done through SAML ({email})'
+                    values={{
+                        email: this.state.originalEmail,
+                    }}
                 />
             );
         }
 
-        return emailSection;
+        return (
+            <SettingItem
+                active={active}
+                areAllSectionsInactive={this.props.activeSection === ''}
+                title={
+                    <FormattedMessage
+                        id='user.settings.general.email'
+                        defaultMessage='Email'
+                    />
+                }
+                describe={describe}
+                section={'email'}
+                updateSection={this.updateSection}
+                max={max}
+            />
+        );
     }
 
-    render() {
+    createNameSection = () => {
         const user = this.props.user;
         const {formatMessage} = this.props.intl;
 
-        let clientError = null;
-        if (this.state.clientError) {
-            clientError = this.state.clientError;
-        }
-        let serverError = null;
-        if (this.state.serverError) {
-            serverError = this.state.serverError;
-        }
+        const active = this.props.activeSection === 'name';
+        let max = null;
+        if (active) {
+            const inputs = [];
 
-        let nameSection;
-        const inputs = [];
-
-        if (this.props.activeSection === 'name') {
             let extraInfo;
             let submit = null;
             if (
@@ -911,56 +907,67 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                 submit = this.submitName;
             }
 
-            nameSection = (
+            max = (
                 <SettingItemMax
                     title={formatMessage(holders.fullName)}
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.sectionIsSaving}
-                    serverError={serverError}
-                    clientError={clientError}
+                    serverError={this.state.serverError}
+                    clientError={this.state.clientError}
                     updateSection={this.updateSection}
                     extraInfo={extraInfo}
                 />
             );
-        } else {
-            let describe: JSX.Element|string = '';
-
-            if (user.first_name && user.last_name) {
-                describe = user.first_name + ' ' + user.last_name;
-            } else if (user.first_name) {
-                describe = user.first_name;
-            } else if (user.last_name) {
-                describe = user.last_name;
-            } else {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.general.emptyName'
-                        defaultMessage="Click 'Edit' to add your full name"
-                    />
-                );
-                if (Utils.isMobile()) {
-                    describe = (
-                        <FormattedMessage
-                            id='user.settings.general.mobile.emptyName'
-                            defaultMessage='Click to add your full name'
-                        />
-                    );
-                }
-            }
-
-            nameSection = (
-                <SettingItemMin
-                    title={formatMessage(holders.fullName)}
-                    describe={describe}
-                    section={'name'}
-                    updateSection={this.updateSection}
-                />
-            );
         }
 
-        let nicknameSection;
-        if (this.props.activeSection === 'nickname') {
+        let describe: JSX.Element|string = '';
+
+        if (user.first_name && user.last_name) {
+            describe = user.first_name + ' ' + user.last_name;
+        } else if (user.first_name) {
+            describe = user.first_name;
+        } else if (user.last_name) {
+            describe = user.last_name;
+        } else {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.general.emptyName'
+                    defaultMessage="Click 'Edit' to add your full name"
+                />
+            );
+            if (Utils.isMobile()) {
+                describe = (
+                    <FormattedMessage
+                        id='user.settings.general.mobile.emptyName'
+                        defaultMessage='Click to add your full name'
+                    />
+                );
+            }
+        }
+
+        return (
+            <SettingItem
+                active={active}
+                areAllSectionsInactive={this.props.activeSection === ''}
+                title={formatMessage(holders.fullName)}
+                describe={describe}
+                section={'name'}
+                updateSection={this.updateSection}
+                max={max}
+            />
+        );
+    }
+
+    createNicknameSection = () => {
+        const user = this.props.user;
+        const {formatMessage} = this.props.intl;
+
+        const active = this.props.activeSection === 'nickname';
+        let max = null;
+        if (active) {
+            const inputs = [];
+
             let extraInfo;
             let submit = null;
             if ((this.props.user.auth_service === 'ldap' && this.props.ldapNicknameAttributeSet) || (this.props.user.auth_service === Constants.SAML_SERVICE && this.props.samlNicknameAttributeSet)) {
@@ -1017,51 +1024,61 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                 submit = this.submitNickname;
             }
 
-            nicknameSection = (
+            max = (
                 <SettingItemMax
                     title={formatMessage(holders.nickname)}
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.sectionIsSaving}
-                    serverError={serverError}
-                    clientError={clientError}
+                    serverError={this.state.serverError}
+                    clientError={this.state.clientError}
                     updateSection={this.updateSection}
                     extraInfo={extraInfo}
                 />
             );
-        } else {
-            let describe: JSX.Element|string = '';
-            if (user.nickname) {
-                describe = user.nickname;
-            } else {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.general.emptyNickname'
-                        defaultMessage="Click 'Edit' to add a nickname"
-                    />
-                );
-                if (Utils.isMobile()) {
-                    describe = (
-                        <FormattedMessage
-                            id='user.settings.general.mobile.emptyNickname'
-                            defaultMessage='Click to add a nickname'
-                        />
-                    );
-                }
-            }
-
-            nicknameSection = (
-                <SettingItemMin
-                    title={formatMessage(holders.nickname)}
-                    describe={describe}
-                    section={'nickname'}
-                    updateSection={this.updateSection}
-                />
-            );
         }
 
-        let usernameSection;
-        if (this.props.activeSection === 'username') {
+        let describe: JSX.Element|string = '';
+        if (user.nickname) {
+            describe = user.nickname;
+        } else {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.general.emptyNickname'
+                    defaultMessage="Click 'Edit' to add a nickname"
+                />
+            );
+            if (Utils.isMobile()) {
+                describe = (
+                    <FormattedMessage
+                        id='user.settings.general.mobile.emptyNickname'
+                        defaultMessage='Click to add a nickname'
+                    />
+                );
+            }
+        }
+
+        return (
+            <SettingItem
+                active={active}
+                areAllSectionsInactive={this.props.activeSection === ''}
+                title={formatMessage(holders.nickname)}
+                describe={describe}
+                section={'nickname'}
+                updateSection={this.updateSection}
+                max={max}
+            />
+        );
+    }
+
+    createUsernameSection = () => {
+        const {formatMessage} = this.props.intl;
+
+        const active = this.props.activeSection === 'username';
+        let max = null;
+        if (active) {
+            const inputs = [];
+
             let extraInfo;
             let submit = null;
             if (this.props.user.auth_service === '') {
@@ -1119,31 +1136,41 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                 );
             }
 
-            usernameSection = (
+            max = (
                 <SettingItemMax
                     title={formatMessage(holders.username)}
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.sectionIsSaving}
-                    serverError={serverError}
-                    clientError={clientError}
+                    serverError={this.state.serverError}
+                    clientError={this.state.clientError}
                     updateSection={this.updateSection}
                     extraInfo={extraInfo}
                 />
             );
-        } else {
-            usernameSection = (
-                <SettingItemMin
-                    title={formatMessage(holders.username)}
-                    describe={this.props.user.username}
-                    section={'username'}
-                    updateSection={this.updateSection}
-                />
-            );
         }
+        return (
+            <SettingItem
+                active={active}
+                areAllSectionsInactive={this.props.activeSection === ''}
+                title={formatMessage(holders.username)}
+                describe={this.props.user.username}
+                section={'username'}
+                updateSection={this.updateSection}
+                max={max}
+            />
+        );
+    }
 
-        let positionSection;
-        if (this.props.activeSection === 'position') {
+    createPositionSection = () => {
+        const user = this.props.user;
+        const {formatMessage} = this.props.intl;
+
+        const active = this.props.activeSection === 'position';
+        let max = null;
+        if (active) {
+            const inputs = [];
+
             let extraInfo: JSX.Element|string;
             let submit = null;
             if ((this.props.user.auth_service === Constants.LDAP_SERVICE && this.props.ldapPositionAttributeSet) || (this.props.user.auth_service === Constants.SAML_SERVICE && this.props.samlPositionAttributeSet)) {
@@ -1201,53 +1228,61 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                 submit = this.submitPosition;
             }
 
-            positionSection = (
+            max = (
                 <SettingItemMax
                     title={formatMessage(holders.position)}
                     inputs={inputs}
                     submit={submit}
                     saving={this.state.sectionIsSaving}
-                    serverError={serverError}
-                    clientError={clientError}
+                    serverError={this.state.serverError}
+                    clientError={this.state.clientError}
                     updateSection={this.updateSection}
                     extraInfo={extraInfo}
                 />
             );
-        } else {
-            let describe: JSX.Element|string = '';
-            if (user.position) {
-                describe = user.position;
-            } else {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.general.emptyPosition'
-                        defaultMessage="Click 'Edit' to add your job title / position"
-                    />
-                );
-                if (Utils.isMobile()) {
-                    describe = (
-                        <FormattedMessage
-                            id='user.settings.general.mobile.emptyPosition'
-                            defaultMessage='Click to add your job title / position'
-                        />
-                    );
-                }
-            }
-
-            positionSection = (
-                <SettingItemMin
-                    title={formatMessage(holders.position)}
-                    describe={describe}
-                    section={'position'}
-                    updateSection={this.updateSection}
-                />
-            );
         }
 
-        const emailSection = this.createEmailSection();
+        let describe: JSX.Element|string = '';
+        if (user.position) {
+            describe = user.position;
+        } else {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.general.emptyPosition'
+                    defaultMessage="Click 'Edit' to add your job title / position"
+                />
+            );
+            if (Utils.isMobile()) {
+                describe = (
+                    <FormattedMessage
+                        id='user.settings.general.mobile.emptyPosition'
+                        defaultMessage='Click to add your job title / position'
+                    />
+                );
+            }
+        }
 
-        let pictureSection;
-        if (this.props.activeSection === 'picture') {
+        return (
+            <SettingItem
+                active={active}
+                areAllSectionsInactive={this.props.activeSection === ''}
+                title={formatMessage(holders.position)}
+                describe={describe}
+                section={'position'}
+                updateSection={this.updateSection}
+                max={max}
+            />
+        );
+    }
+
+    createPictureSection = () => {
+        const user = this.props.user;
+        const {formatMessage} = this.props.intl;
+
+        const active = this.props.activeSection === 'picture';
+        let max = null;
+
+        if (active) {
             let submit = null;
             let setDefault = null;
             let helpText = null;
@@ -1275,15 +1310,15 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                 );
             }
 
-            pictureSection = (
+            max = (
                 <SettingPicture
                     title={formatMessage(holders.profilePicture)}
                     onSubmit={submit}
                     onSetDefault={setDefault}
                     src={imgSrc}
                     defaultImageSrc={Utils.defaultImageURLForUser(user.id)}
-                    serverError={serverError}
-                    clientError={clientError}
+                    serverError={this.state.serverError}
+                    clientError={this.state.clientError}
                     updateSection={(e: React.MouseEvent) => {
                         this.updateSection('');
                         e.preventDefault();
@@ -1296,38 +1331,52 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     helpText={helpText}
                 />
             );
-        } else {
-            let minMessage: JSX.Element|string = formatMessage(holders.uploadImage);
-            if (Utils.isMobile()) {
-                minMessage = formatMessage(holders.uploadImageMobile);
-            }
-            if (user.last_picture_update) {
-                minMessage = (
-                    <FormattedMessage
-                        id='user.settings.general.imageUpdated'
-                        defaultMessage='Image last updated {date}'
-                        values={{
-                            date: (
-                                <FormattedDate
-                                    value={new Date(user.last_picture_update)}
-                                    day='2-digit'
-                                    month='short'
-                                    year='numeric'
-                                />
-                            ),
-                        }}
-                    />
-                );
-            }
-            pictureSection = (
-                <SettingItemMin
-                    title={formatMessage(holders.profilePicture)}
-                    describe={minMessage}
-                    section={'picture'}
-                    updateSection={this.updateSection}
+        }
+
+        let minMessage: JSX.Element|string = formatMessage(holders.uploadImage);
+        if (Utils.isMobile()) {
+            minMessage = formatMessage(holders.uploadImageMobile);
+        }
+        if (user.last_picture_update) {
+            minMessage = (
+                <FormattedMessage
+                    id='user.settings.general.imageUpdated'
+                    defaultMessage='Image last updated {date}'
+                    values={{
+                        date: (
+                            <FormattedDate
+                                value={new Date(user.last_picture_update)}
+                                day='2-digit'
+                                month='short'
+                                year='numeric'
+                            />
+                        ),
+                    }}
                 />
             );
         }
+        return (
+            <SettingItem
+                active={active}
+                areAllSectionsInactive={this.props.activeSection === ''}
+                title={formatMessage(holders.profilePicture)}
+                describe={minMessage}
+                section={'picture'}
+                updateSection={this.updateSection}
+                max={max}
+            />
+        );
+    }
+
+    render() {
+        const {formatMessage} = this.props.intl;
+
+        const nameSection = this.createNameSection();
+        const nicknameSection = this.createNicknameSection();
+        const usernameSection = this.createUsernameSection();
+        const positionSection = this.createPositionSection();
+        const emailSection = this.createEmailSection();
+        const pictureSection = this.createPictureSection();
 
         return (
             <div id='generalSettings'>

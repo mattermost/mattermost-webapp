@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {AnimationEvent} from 'react';
+import React, {AnimationEvent, ReactNode} from 'react';
 import {Draggable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
@@ -105,7 +105,7 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
         return this.props.getChannelRef(this.props.channel.id);
     }
 
-    setRef = (refMethod?: (element: HTMLLIElement) => any) => {
+    setRef = (refMethod?: (element: HTMLLIElement) => void) => {
         return (ref: HTMLLIElement) => {
             this.props.setChannelRef(this.props.channel.id, ref);
             refMethod?.(ref);
@@ -139,20 +139,31 @@ export default class SidebarChannel extends React.PureComponent<Props, State> {
             autoSortedCategoryIds,
         } = this.props;
 
-        let ChannelComponent: React.ComponentType<{channel: Channel; currentTeamName: string; isCollapsed: boolean}> = SidebarBaseChannel;
-        if (channel.type === Constants.DM_CHANNEL) {
-            ChannelComponent = SidebarDirectChannel;
+        let component: ReactNode;
+        if (!this.state.show) {
+            component = null;
+        } else if (channel.type === Constants.DM_CHANNEL) {
+            component = (
+                <SidebarDirectChannel
+                    channel={channel}
+                    currentTeamName={currentTeamName}
+                />
+            );
         } else if (channel.type === Constants.GM_CHANNEL) {
-            ChannelComponent = SidebarGroupChannel;
+            component = (
+                <SidebarGroupChannel
+                    channel={channel}
+                    currentTeamName={currentTeamName}
+                />
+            );
+        } else {
+            component = (
+                <SidebarBaseChannel
+                    channel={channel}
+                    currentTeamName={currentTeamName}
+                />
+            );
         }
-
-        const component = this.state.show ? (
-            <ChannelComponent
-                isCollapsed={this.isCollapsed(this.props)}
-                channel={channel}
-                currentTeamName={currentTeamName}
-            />
-        ) : null;
 
         let wrappedComponent: React.ReactNode;
 
