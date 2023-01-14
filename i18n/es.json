@@ -5141,11 +5141,9 @@
   "workspace_limits.boards_cards.short": "Tarjetas de Tablero",
   "workspace_limits.boards_cards.usage": "{actual} de {limit} tarjetas ({percent}%)",
   "workspace_limits.boards_cards.usage.short": "Tarjetas {actual} / {limit}",
-  "workspace_limits.contact_to_upgrade": "Contáctanos para actualizar",
   "workspace_limits.file_storage": "Almacenamiento de archivos",
   "workspace_limits.file_storage.short": "Archivos",
   "workspace_limits.file_storage.short.usage": "{actual} / {limit}",
-  "workspace_limits.file_storage.single_usage": "{actual} de {limit}",
   "workspace_limits.file_storage.usage": "{actual} de {limit} ({percent}%)",
   "workspace_limits.menu_limit.board_card": "Límite de tarjeta de tablero",
   "workspace_limits.menu_limit.file_storage": "Límite de almacenamiento de archivos",
@@ -5168,7 +5166,6 @@
   "workspace_limits.message_history.short.usage": "{actual} / {limit}",
   "workspace_limits.message_history.usage": "{actual} de {limit} mensajes ({percent}%)",
   "workspace_limits.modals.close": "Cerrar",
-  "workspace_limits.modals.informational.description.professionalLimits": "{planName} está restringito a {storage} almacenamiento de archivos",
   "workspace_limits.modals.informational.title": "Límites {planName}",
   "workspace_limits.modals.limits_reached.title": "Límite alcanzado {limitName}",
   "workspace_limits.modals.limits_reached.title.message_history": "Historial de mensajes",
@@ -5181,8 +5178,5 @@
   "workspace_limits.teams_limit_reached.tool_tip": "Haz alcanzado el límite de equipo para tu plan actual. Considera actualizar para desarchivar este equipo o archivar tus otros equipos",
   "workspace_limits.teams_limit_reached.upgrade_to_unarchive": "Actualizar para desarchivar",
   "workspace_limits.upgrade": "Actualizar {planName} para evitar límites de datos",
-  "workspace_limits.upgrade_button": "Actualizar",
-  "workspace_limits.upgrade_professional": "Límite de datos del plan Professional",
-  "workspace_limits.upgrade_reasons.professional": "En el plan Professional sólo puedes ver los {fileStorage} más recientes de archivos. Con Enterprise, experimenta almacenamiento ilimitado de archivos.",
   "yourcomputer": "Tu computador"
 }
