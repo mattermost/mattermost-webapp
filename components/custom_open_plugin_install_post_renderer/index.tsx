@@ -178,9 +178,15 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
 
     const getUserNamesForUsersThatRequestedFeature = (requests: PluginRequest[]): string[] => {
         const userNames = requests.map((req: PluginRequest) => {
-            return '@' + userProfiles[req.user_id]?.username;
+            return getUserNameForUser(req.user_id);
         });
         return userNames;
+    };
+
+    const getUserNameForUser = (userId: string) => {
+        const unknownName = formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.unknown', defaultMessage: '@unknown'});
+        const username = userProfiles[userId]?.username;
+        return username ? '@' + username : unknownName;
     };
 
     const markDownOptions = {
