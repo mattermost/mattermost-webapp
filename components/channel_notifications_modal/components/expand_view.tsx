@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, useRef} from 'react';
+import React, {ChangeEvent, useMemo, useRef} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 
@@ -18,6 +18,8 @@ import {DesktopSound, IgnoreChannelMentions, NotificationLevels, NotificationSec
 import SettingItemMax from 'components/setting_item_max';
 
 import {isDesktopApp} from 'utils/user_agent';
+
+import {ChannelNotifyProps} from '@mattermost/types/channels';
 
 import Describe from './describe';
 import ExtraInfo from './extra_info';
@@ -39,6 +41,7 @@ type Props = {
     onSubmit: (setting?: string) => void;
     isNotificationsSettingSameAsGlobal?: boolean;
     globalNotifyLevel?: string;
+    globalNotificationSound?: ChannelNotifyProps['desktop_notification_sound'];
     memberNotifyLevel: string;
     memberThreadsNotifyLevel?: string;
     memberDesktopSound?: string;
@@ -48,12 +51,11 @@ type Props = {
 }
 
 const sounds = Array.from(Utils.notificationSounds.keys());
-const options = sounds.map((sound) => {
-    return {value: sound, label: sound};
-});
 
-const makeReactSelectValue = (option: string) => {
-    return {value: option, label: option};
+const makeDefaultOptionLabel = (option: string) => `${option} (default)`;
+
+const makeReactSelectValue = (option: string, isDefault: boolean) => {
+    return {value: option, label: isDefault ? makeDefaultOptionLabel(option) : option};
 };
 
 export default function ExpandView({
@@ -63,6 +65,7 @@ export default function ExpandView({
     memberDesktopSound,
     memberDesktopNotificationSound,
     globalNotifyLevel,
+    globalNotificationSound,
     isNotificationsSettingSameAsGlobal,
     onChange,
     onChangeThreads,
@@ -75,6 +78,10 @@ export default function ExpandView({
     ignoreChannelMentions,
 }: Props) {
     const isCRTEnabled = useSelector(isCollapsedThreadsEnabled);
+
+    const soundOptions = useMemo(() => sounds.map((sound) => {
+        return {value: sound, label: sound === globalNotificationSound ? makeDefaultOptionLabel(sound) : sound};
+    }), [globalNotificationSound]);
 
     const dropdownSoundRef = useRef<ReactSelect>(null);
 
@@ -313,10 +320,10 @@ export default function ExpandView({
                                 className='react-select notification-sound-dropdown'
                                 classNamePrefix='react-select'
                                 id='channelSoundNotification'
-                                options={options}
+                                options={soundOptions}
                                 clearable={false}
                                 onChange={onChangeNotificationSound}
-                                value={makeReactSelectValue(memberDesktopNotificationSound ?? '')}
+                                value={makeReactSelectValue(memberDesktopNotificationSound ?? '', memberDesktopNotificationSound === globalNotificationSound)}
                                 isSearchable={false}
                                 ref={dropdownSoundRef}
                             />

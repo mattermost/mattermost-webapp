@@ -47,6 +47,11 @@ export default class NotificationSection extends React.PureComponent {
         globalNotificationLevel: PropTypes.string,
 
         /**
+         * User's global notification sound
+         */
+        globalNotificationSound: PropTypes.string,
+
+        /**
          * onChange handles update of desktop notification level
          */
         onChange: PropTypes.func.isRequired,
@@ -112,6 +117,7 @@ export default class NotificationSection extends React.PureComponent {
         const {
             expand,
             globalNotificationLevel,
+            globalNotificationSound,
             memberNotificationLevel,
             memberThreadsNotificationLevel,
             memberDesktopSound,
@@ -133,6 +139,7 @@ export default class NotificationSection extends React.PureComponent {
                     memberDesktopSound={memberDesktopSound}
                     memberDesktopNotificationSound={memberDesktopNotificationSound}
                     globalNotifyLevel={globalNotificationLevel}
+                    globalNotificationSound={globalNotificationSound}
                     ignoreChannelMentions={ignoreChannelMentions}
                     isNotificationsSettingSameAsGlobal={isNotificationsSettingSameAsGlobal}
                     onChange={this.handleOnChange}

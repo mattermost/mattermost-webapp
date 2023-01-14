@@ -442,6 +442,7 @@ export default class ChannelNotificationsModal extends React.PureComponent<Props
                                         memberDesktopSound={desktopSound}
                                         memberDesktopNotificationSound={desktopNotifySound}
                                         globalNotificationLevel={currentUser.notify_props ? currentUser.notify_props.desktop : NotificationLevels.ALL}
+                                        globalNotificationSound={currentUser.notify_props ? currentUser.notify_props.desktop_notification_sound : 'Bing'}
                                         isNotificationsSettingSameAsGlobal={isNotificationsSettingSameAsGlobal}
                                         onChange={this.handleUpdateDesktopNotifyLevel}
                                         onChangeThreads={this.handleUpdateDesktopThreadsNotifyLevel}
