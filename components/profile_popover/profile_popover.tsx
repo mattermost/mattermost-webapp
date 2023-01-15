@@ -270,7 +270,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         }
     }
 
-    handleShowDirectChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    handleShowDirectChannel = (e: React.MouseEvent<HTMLButtonElement>) => {
         const {actions} = this.props;
         e.preventDefault();
         if (!this.props.user) {
