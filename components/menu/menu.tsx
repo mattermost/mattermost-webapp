@@ -21,8 +21,8 @@ import GenericModal from 'components/generic_modal';
 import {MuiMenuStyled} from './menu_styled';
 
 const OVERLAY_TIME_DELAY = 500;
-const MENU_OPEN_ANIMATION_DUREATION = 150;
-const MENU_CLOSE_ANIMATION_DUREATION = 100;
+const MENU_OPEN_ANIMATION_DURATION = 150;
+const MENU_CLOSE_ANIMATION_DURATION = 100;
 
 interface Props {
     menuButtonId?: string;
@@ -181,8 +181,8 @@ export function Menu(props: Props) {
                     mountOnEnter: true,
                     unmountOnExit: true,
                     timeout: {
-                        enter: MENU_OPEN_ANIMATION_DUREATION,
-                        exit: MENU_CLOSE_ANIMATION_DUREATION,
+                        enter: MENU_OPEN_ANIMATION_DURATION,
+                        exit: MENU_CLOSE_ANIMATION_DURATION,
                     },
                 }}
             >

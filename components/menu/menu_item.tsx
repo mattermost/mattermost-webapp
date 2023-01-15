@@ -122,7 +122,7 @@ const MenuItemStyled = styled(MuiMenuItem, {
             maxHeight: '56px',
 
             // aria expanded to add the active styling on parent sub menu item
-            '&.Mui-active, &[aria-expanded=\'true\']': {
+            '&.Mui-active, &[aria-expanded="true"]': {
                 'background-color': !isDestructive ? 'rgba(var(--button-bg-rgb), 0.08)' : 'background-color: rgba(var(--error-text-color-rgb), 0.16)',
             },
 

@@ -91,12 +91,12 @@ const SidebarCategoryMenu = (props: Props) => {
                 isDestructive={true}
                 onClick={handleDeleteCategory}
                 leadingElement={<TrashCanOutlineIcon size={18}/>}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='sidebar_left.sidebar_category_menu.deleteCategory'
                         defaultMessage='Delete Category'
                     />
-                }
+                )}
             />
         );
 
@@ -116,12 +116,12 @@ const SidebarCategoryMenu = (props: Props) => {
                 id={`rename-${props.category.id}`}
                 onClick={handleRenameCategory}
                 leadingElement={<PencilOutlineIcon size={18}/>}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='sidebar_left.sidebar_category_menu.renameCategory'
                         defaultMessage='Rename Category'
                     />
-                }
+                )}
             />
         );
     }
@@ -162,49 +162,49 @@ const SidebarCategoryMenu = (props: Props) => {
         <Menu.SubMenu
             id={`sortChannels-${props.category.id}`}
             leadingElement={sortChannelsIcon}
-            labels={
+            labels={(
                 <FormattedMessage
                     id='sidebar.sort'
                     defaultMessage='Sort'
                 />
-            }
-            trailingElements={
+            )}
+            trailingElements={(
                 <>
                     {sortChannelsSelectedValue}
                     <ChevronRightIcon size={16}/>
                 </>
-            }
+            )}
             menuId={`sortChannels-${props.category.id}-menu`}
             menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.sort.dropdownAriaLabel', defaultMessage: 'Sort submenu'})}
         >
             <Menu.Item
                 id={`sortAplhabetical-${props.category.id}`}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='user.settings.sidebar.sortAlpha'
                         defaultMessage='Alphabetically'
                     />
-                }
+                )}
                 onClick={(event) => handleSortChannels(event, CategorySorting.Alphabetical)}
             />
             <Menu.Item
                 id={`sortByMostRecent-${props.category.id}`}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='sidebar.sortedByRecencyLabel'
                         defaultMessage='Recent Activity'
                     />
-                }
+                )}
                 onClick={(event) => handleSortChannels(event, CategorySorting.Recency)}
             />
             <Menu.Item
                 id={`sortManual-${props.category.id}`}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='sidebar.sortedManually'
                         defaultMessage='Manually'
                     />
-                }
+                )}
                 onClick={(event) => handleSortChannels(event, CategorySorting.Manual)}
             />
         </Menu.SubMenu>
@@ -224,12 +224,12 @@ const SidebarCategoryMenu = (props: Props) => {
             id={`create-${props.category.id}`}
             onClick={handleCreateCategory}
             leadingElement={<FolderPlusOutlineIcon size={18}/>}
-            labels={
+            labels={(
                 <FormattedMessage
                     id='sidebar_left.sidebar_category_menu.createCategory'
                     defaultMessage='Create New Category'
                 />
-            }
+            )}
         />
     );
 

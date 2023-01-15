@@ -65,12 +65,12 @@ const SidebarCategorySortingMenu = (props: Props) => {
         <Menu.SubMenu
             id={`sortDirectMessages-${props.category.id}`}
             leadingElement={sortDirectMessagesIcon}
-            labels={
+            labels={(
                 <FormattedMessage
                     id='sidebar.sort'
                     defaultMessage='Sort'
                 />
-            }
+            )}
             trailingElements={
                 <>
                     {sortDirectMessagesSelectedValue}
@@ -81,22 +81,22 @@ const SidebarCategorySortingMenu = (props: Props) => {
         >
             <Menu.Item
                 id={`sortAlphabetical-${props.category.id}`}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='user.settings.sidebar.sortAlpha'
                         defaultMessage='Alphabetically'
                     />
-                }
+                )}
                 onClick={(event) => handleSortDirectMessages(event, CategorySorting.Alphabetical)}
             />
             <Menu.Item
                 id={`sortByMostRecent-${props.category.id}`}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='sidebar.sortedByRecencyLabel'
                         defaultMessage='Recent Activity'
                     />
-                }
+                )}
                 onClick={(event) => handleSortDirectMessages(event, CategorySorting.Recency)}
             />
         </Menu.SubMenu>
@@ -127,28 +127,28 @@ const SidebarCategorySortingMenu = (props: Props) => {
         <Menu.SubMenu
             id={`showMessagesCount-${props.category.id}`}
             leadingElement={<AccountMultipleOutlineIcon size={18}/>}
-            labels={
+            labels={(
                 <FormattedMessage
                     id='sidebar.show'
                     defaultMessage='Show'
                 />
-            }
-            trailingElements={
+            )}
+            trailingElements={(
                 <>
                     {showMessagesCountSelectedValue}
                     <ChevronRightIcon size={16}/>
                 </>
-            }
+            )}
             menuId={`showMessagesCount-${props.category.id}-menu`}
         >
             <Menu.Item
                 id={`showAllDms-${props.category.id}`}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='sidebar.allDirectMessages'
                         defaultMessage='All direct messages'
                     />
-                }
+                )}
                 onClick={(event) => handlelimitVisibleDMsGMs(event, Constants.HIGHEST_DM_SHOW_COUNT)}
             />
             <Menu.Separator/>
