@@ -5,6 +5,7 @@ exports[`components/ProfilePopover should disable start call button when user is
   customStatus={null}
   enableLastActiveTime={true}
   id="user-profile-popover"
+  isAnyModalOpen={false}
   isCallsDefaultEnabledOnAllChannels={true}
   isCallsEnabled={true}
   isCustomStatusEnabled={true}
@@ -350,6 +351,7 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
   customStatus={null}
   enableLastActiveTime={true}
   id="user-profile-popover"
+  isAnyModalOpen={false}
   isCallsDefaultEnabledOnAllChannels={true}
   isCallsEnabled={true}
   isCustomStatusEnabled={true}
@@ -614,9 +616,9 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
   customStatus={null}
   enableLastActiveTime={true}
   id="user-profile-popover"
+  isAnyModalOpen={false}
   isCallsDefaultEnabledOnAllChannels={true}
   isCallsEnabled={true}
-  isAnyModalOpen={false}
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
@@ -962,9 +964,9 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
   customStatus={null}
   enableLastActiveTime={true}
   id="user-profile-popover"
+  isAnyModalOpen={false}
   isCallsDefaultEnabledOnAllChannels={true}
   isCallsEnabled={true}
-  isAnyModalOpen={false
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
@@ -1328,9 +1330,9 @@ exports[`components/ProfilePopover should match snapshot when calls are disabled
   customStatus={null}
   enableLastActiveTime={true}
   id="user-profile-popover"
+  isAnyModalOpen={false}
   isCallsDefaultEnabledOnAllChannels={true}
   isCallsEnabled={false}
-  isAnyModalOpen={false}
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
@@ -1650,9 +1652,9 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
   }
   enableLastActiveTime={true}
   id="user-profile-popover"
+  isAnyModalOpen={false}
   isCallsDefaultEnabledOnAllChannels={true}
   isCallsEnabled={true}
-  isAnyModalOpen={false}
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
@@ -2043,9 +2045,9 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
   }
   enableLastActiveTime={true}
   id="user-profile-popover"
+  isAnyModalOpen={false}
   isCallsDefaultEnabledOnAllChannels={true}
   isCallsEnabled={true}
-  isAnyModalOpen={false}
   isCustomStatusEnabled={true}
   isCustomStatusExpired={true}
   isInCurrentTeam={true}
@@ -2391,9 +2393,9 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
   customStatus={null}
   enableLastActiveTime={true}
   id="user-profile-popover"
+  isAnyModalOpen={false}
   isCallsDefaultEnabledOnAllChannels={true}
   isCallsEnabled={true}
-  isAnyModalOpen={false}
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
@@ -2677,9 +2679,9 @@ exports[`components/ProfilePopover should match snapshot with last active displa
   customStatus={null}
   enableLastActiveTime={true}
   id="user-profile-popover"
+  isAnyModalOpen={false}
   isCallsDefaultEnabledOnAllChannels={true}
   isCallsEnabled={true}
-  isAnyModalOpen={false}
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
@@ -3025,9 +3027,9 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
   customStatus={null}
   enableLastActiveTime={false}
   id="user-profile-popover"
+  isAnyModalOpen={false}
   isCallsDefaultEnabledOnAllChannels={true}
   isCallsEnabled={true}
-  isAnyModalOpen={false}
   isCustomStatusEnabled={true}
   isCustomStatusExpired={false}
   isInCurrentTeam={true}
@@ -3386,6 +3388,7 @@ exports[`components/ProfilePopover should show the start call button when isCall
     enableLastActiveTime={true}
     enableTimezone={false}
     hide={[MockFunction]}
+    isAnyModalOpen={false}
     isCallsCanBeDisabledOnSpecificChannels={false}
     isCallsDefaultEnabledOnAllChannels={false}
     isCallsEnabled={true}
@@ -3515,6 +3518,7 @@ exports[`components/ProfilePopover should show the start call button when isCall
           "wrapRichTextChunksInFragment": undefined,
         }
       }
+      isAnyModalOpen={false}
       isCallsCanBeDisabledOnSpecificChannels={false}
       isCallsDefaultEnabledOnAllChannels={false}
       isCallsEnabled={true}
@@ -3582,6 +3586,7 @@ exports[`components/ProfilePopover should show the start call button when isCall
         customStatus={null}
         enableLastActiveTime={true}
         id="user-profile-popover"
+        isAnyModalOpen={false}
         isCallsCanBeDisabledOnSpecificChannels={false}
         isCallsDefaultEnabledOnAllChannels={false}
         isCallsEnabled={true}
