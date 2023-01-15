@@ -48,12 +48,12 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`markAsRead-${props.channel.id}`}
                 onClick={handleMarkAsRead}
                 leadingElement={<MarkAsUnreadIcon size={18}/>}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='sidebar_left.sidebar_channel_menu.markAsRead'
                         defaultMessage='Mark as Read'
                     />
-                }
+                )}
             />
 
         );
@@ -70,11 +70,12 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`markAsUnread-${props.channel.id}`}
                 onClick={handleMarkAsUnread}
                 leadingElement={<MarkAsUnreadIcon size={18}/>}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='sidebar_left.sidebar_channel_menu.markAsUnread'
                         defaultMessage='Mark as Unread'
-                    />}
+                    />
+                )}
             />
         );
     }
@@ -93,12 +94,12 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`unfavorite-${props.channel.id}`}
                 onClick={handleUnfavoriteChannel}
                 leadingElement={<StarIcon size={18}/>}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='sidebar_left.sidebar_channel_menu.unfavoriteChannel'
                         defaultMessage='Unfavorite'
                     />
-                }
+                )}
             />
         );
     } else {
@@ -115,12 +116,12 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`favorite-${props.channel.id}`}
                 onClick={handleFavoriteChannel}
                 leadingElement={<StarOutlineIcon size={18}/>}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='sidebar_left.sidebar_channel_menu.favoriteChannel'
                         defaultMessage='Favorite'
                     />
-                }
+                )}
             />
         );
     }
@@ -201,12 +202,12 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`copyLink-${props.channel.id}`}
                 onClick={handleCopyLink}
                 leadingElement={<LinkVariantIcon size={18}/>}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='sidebar_left.sidebar_channel_menu.copyLink'
                         defaultMessage='Copy Link'
                     />
-                }
+                )}
             />
         );
     }
@@ -229,12 +230,12 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`addMembers-${props.channel.id}`}
                 onClick={handleAddMembers}
                 leadingElement={<AccountPlusOutlineIcon size={18}/>}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='sidebar_left.sidebar_channel_menu.addMembers'
                         defaultMessage='Add Members'
                     />
-                }
+                )}
             />
         );
     }
@@ -284,16 +285,22 @@ const SidebarChannelMenu = (props: Props) => {
 
     return (
         <Menu.Container
-            menuButtonId={`SidebarChannelMenu-Button-${props.channel.id}`}
-            menuButtonChildren={<DotsVerticalIcon size={16}/>}
-            menuButtonClassName='SidebarMenu_menuButton'
-            menuButtonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
-            menuButtonTooltipId={`SidebarChannelMenu-ButtonTooltip-${props.channel.id}`}
-            menuButtonTooltipClassName='hidden-xs'
-            menuButtonTooltipText={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
-            menuId={`SidebarChannelMenu-MenuList-${props.channel.id}`}
-            menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel menu'})}
-            onMenuToggle={props.onMenuToggle}
+            menuButton={{
+                id: `SidebarChannelMenu-Button-${props.channel.id}`,
+                class: 'SidebarMenu_menuButton',
+                'aria-label': formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'}),
+                children: <DotsVerticalIcon size={16}/>,
+            }}
+            menuButtonTooltip={{
+                id: `SidebarChannelMenu-ButtonTooltip-${props.channel.id}`,
+                class: 'hidden-xs',
+                text: formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'}),
+            }}
+            menu={{
+                id: `SidebarChannelMenu-MenuList-${props.channel.id}`,
+                'aria-label': formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel menu'}),
+                onToggle: props.onMenuToggle,
+            }}
         >
             {markAsReadUnreadMenuItem}
             {favoriteUnfavoriteMenuItem}

@@ -2,20 +2,30 @@
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot and contain correct buttons 1`] = `
 <Menu
-  menuAriaLabel="Edit channel menu"
-  menuButtonAriaLabel="Channel options"
-  menuButtonChildren={
-    <DotsVerticalIcon
-      size={16}
-    />
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
   }
-  menuButtonClassName="SidebarMenu_menuButton"
-  menuButtonId="SidebarChannelMenu-Button-channel_id"
-  menuButtonTooltipClassName="hidden-xs"
-  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  menuButtonTooltipText="Channel options"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -137,20 +147,30 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot of rendered items when multiselecting channels - DM channels and public channels category 1`] = `
 <Menu
-  menuAriaLabel="Edit channel menu"
-  menuButtonAriaLabel="Channel options"
-  menuButtonChildren={
-    <DotsVerticalIcon
-      size={16}
-    />
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
   }
-  menuButtonClassName="SidebarMenu_menuButton"
-  menuButtonId="SidebarChannelMenu-Button-channel_id"
-  menuButtonTooltipClassName="hidden-xs"
-  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  menuButtonTooltipText="Channel options"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -272,20 +292,30 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot of rendered items when multiselecting channels - public channels and DM category 1`] = `
 <Menu
-  menuAriaLabel="Edit channel menu"
-  menuButtonAriaLabel="Channel options"
-  menuButtonChildren={
-    <DotsVerticalIcon
-      size={16}
-    />
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
   }
-  menuButtonClassName="SidebarMenu_menuButton"
-  menuButtonId="SidebarChannelMenu-Button-channel_id"
-  menuButtonTooltipClassName="hidden-xs"
-  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  menuButtonTooltipText="Channel options"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -407,20 +437,30 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is DM 1`] = `
 <Menu
-  menuAriaLabel="Edit channel menu"
-  menuButtonAriaLabel="Channel options"
-  menuButtonChildren={
-    <DotsVerticalIcon
-      size={16}
-    />
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
   }
-  menuButtonClassName="SidebarMenu_menuButton"
-  menuButtonId="SidebarChannelMenu-Button-channel_id"
-  menuButtonTooltipClassName="hidden-xs"
-  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  menuButtonTooltipText="Channel options"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -511,20 +551,30 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is Town Square 1`] = `
 <Menu
-  menuAriaLabel="Edit channel menu"
-  menuButtonAriaLabel="Channel options"
-  menuButtonChildren={
-    <DotsVerticalIcon
-      size={16}
-    />
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
   }
-  menuButtonClassName="SidebarMenu_menuButton"
-  menuButtonId="SidebarChannelMenu-Button-channel_id"
-  menuButtonTooltipClassName="hidden-xs"
-  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  menuButtonTooltipText="Channel options"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -629,20 +679,30 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is favorite 1`] = `
 <Menu
-  menuAriaLabel="Edit channel menu"
-  menuButtonAriaLabel="Channel options"
-  menuButtonChildren={
-    <DotsVerticalIcon
-      size={16}
-    />
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
   }
-  menuButtonClassName="SidebarMenu_menuButton"
-  menuButtonId="SidebarChannelMenu-Button-channel_id"
-  menuButtonTooltipClassName="hidden-xs"
-  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  menuButtonTooltipText="Channel options"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -764,20 +824,30 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is muted 1`] = `
 <Menu
-  menuAriaLabel="Edit channel menu"
-  menuButtonAriaLabel="Channel options"
-  menuButtonChildren={
-    <DotsVerticalIcon
-      size={16}
-    />
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
   }
-  menuButtonClassName="SidebarMenu_menuButton"
-  menuButtonId="SidebarChannelMenu-Button-channel_id"
-  menuButtonTooltipClassName="hidden-xs"
-  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  menuButtonTooltipText="Channel options"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -899,20 +969,30 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is private 1`] = `
 <Menu
-  menuAriaLabel="Edit channel menu"
-  menuButtonAriaLabel="Channel options"
-  menuButtonChildren={
-    <DotsVerticalIcon
-      size={16}
-    />
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
   }
-  menuButtonClassName="SidebarMenu_menuButton"
-  menuButtonId="SidebarChannelMenu-Button-channel_id"
-  menuButtonTooltipClassName="hidden-xs"
-  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  menuButtonTooltipText="Channel options"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -1034,20 +1114,30 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is read 1`] = `
 <Menu
-  menuAriaLabel="Edit channel menu"
-  menuButtonAriaLabel="Channel options"
-  menuButtonChildren={
-    <DotsVerticalIcon
-      size={16}
-    />
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
   }
-  menuButtonClassName="SidebarMenu_menuButton"
-  menuButtonId="SidebarChannelMenu-Button-channel_id"
-  menuButtonTooltipClassName="hidden-xs"
-  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  menuButtonTooltipText="Channel options"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
   <MenuItem
     id="markAsUnread-channel_id"
@@ -1169,20 +1259,30 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is unread 1`] = `
 <Menu
-  menuAriaLabel="Edit channel menu"
-  menuButtonAriaLabel="Channel options"
-  menuButtonChildren={
-    <DotsVerticalIcon
-      size={16}
-    />
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
   }
-  menuButtonClassName="SidebarMenu_menuButton"
-  menuButtonId="SidebarChannelMenu-Button-channel_id"
-  menuButtonTooltipClassName="hidden-xs"
-  menuButtonTooltipId="SidebarChannelMenu-ButtonTooltip-channel_id"
-  menuButtonTooltipText="Channel options"
-  menuId="SidebarChannelMenu-MenuList-channel_id"
-  onMenuToggle={[MockFunction]}
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
   <MenuItem
     id="markAsRead-channel_id"

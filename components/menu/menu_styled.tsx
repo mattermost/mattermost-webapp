@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import MuiMenu, {MenuProps} from '@mui/material/Menu';
+import MuiMenu, {MenuProps as MuiMenuProps} from '@mui/material/Menu';
 import {styled} from '@mui/material/styles';
 
-interface Props extends MenuProps {
+interface Props extends MuiMenuProps {
     asSubMenu?: boolean;
 }
 

@@ -21,6 +21,8 @@ import GenericModal from 'components/generic_modal';
 import {MuiMenuStyled} from './menu_styled';
 import {MenuItem as ParentMenuItem, Props as MenuItemProps} from './menu_item';
 
+import './sub_menu.scss';
+
 interface Props {
     id: MenuItemProps['id'];
     leadingElement?: MenuItemProps['leadingElement'];
@@ -120,8 +122,8 @@ export function SubMenu({id, leadingElement, labels, trailingElements, isDestruc
 
     return (
         <ParentMenuItem
-            {...passedInTriggerButtonProps}
             {...rest} // pass through other props which might be coming in from the material-ui
+            {...passedInTriggerButtonProps}
             onMouseEnter={handleSubMenuOpen}
             onMouseLeave={handleSubMenuClose}
             onKeyDown={handleSubMenuParentItemKeyDown}

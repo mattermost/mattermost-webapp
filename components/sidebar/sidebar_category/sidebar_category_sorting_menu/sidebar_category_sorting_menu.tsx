@@ -65,12 +65,12 @@ const SidebarCategorySortingMenu = (props: Props) => {
         <Menu.SubMenu
             id={`sortDirectMessages-${props.category.id}`}
             leadingElement={sortDirectMessagesIcon}
-            labels={
+            labels={(
                 <FormattedMessage
                     id='sidebar.sort'
                     defaultMessage='Sort'
                 />
-            }
+            )}
             trailingElements={
                 <>
                     {sortDirectMessagesSelectedValue}
@@ -81,22 +81,22 @@ const SidebarCategorySortingMenu = (props: Props) => {
         >
             <Menu.Item
                 id={`sortAlphabetical-${props.category.id}`}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='user.settings.sidebar.sortAlpha'
                         defaultMessage='Alphabetically'
                     />
-                }
+                )}
                 onClick={(event) => handleSortDirectMessages(event, CategorySorting.Alphabetical)}
             />
             <Menu.Item
                 id={`sortByMostRecent-${props.category.id}`}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='sidebar.sortedByRecencyLabel'
                         defaultMessage='Recent Activity'
                     />
-                }
+                )}
                 onClick={(event) => handleSortDirectMessages(event, CategorySorting.Recency)}
             />
         </Menu.SubMenu>
@@ -127,28 +127,28 @@ const SidebarCategorySortingMenu = (props: Props) => {
         <Menu.SubMenu
             id={`showMessagesCount-${props.category.id}`}
             leadingElement={<AccountMultipleOutlineIcon size={18}/>}
-            labels={
+            labels={(
                 <FormattedMessage
                     id='sidebar.show'
                     defaultMessage='Show'
                 />
-            }
-            trailingElements={
+            )}
+            trailingElements={(
                 <>
                     {showMessagesCountSelectedValue}
                     <ChevronRightIcon size={16}/>
                 </>
-            }
+            )}
             menuId={`showMessagesCount-${props.category.id}-menu`}
         >
             <Menu.Item
                 id={`showAllDms-${props.category.id}`}
-                labels={
+                labels={(
                     <FormattedMessage
                         id='sidebar.allDirectMessages'
                         defaultMessage='All direct messages'
                     />
-                }
+                )}
                 onClick={(event) => handlelimitVisibleDMsGMs(event, Constants.HIGHEST_DM_SHOW_COUNT)}
             />
             <Menu.Separator/>
@@ -192,16 +192,22 @@ const SidebarCategorySortingMenu = (props: Props) => {
             )}
         >
             <Menu.Container
-                menuButtonId={`SidebarCategorySortingMenu-Button-${props.category.id}`}
-                menuButtonChildren={<DotsVerticalIcon size={16}/>}
-                menuButtonClassName='SidebarMenu_menuButton sortingMenu'
-                menuButtonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
-                menuButtonTooltipId={`SidebarCategorySortingMenu-ButtonTooltip-${props.category.id}`}
-                menuButtonTooltipText={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
-                menuButtonTooltipClassName='hidden-xs'
-                menuId={`SidebarCategorySortingMenu-MenuList-${props.category.id}`}
-                menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Edit category menu'})}
-                onMenuToggle={handleMenuToggle}
+                menuButton={{
+                    id: `SidebarCategorySortingMenu-Button-${props.category.id}`,
+                    'aria-label': formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'}),
+                    class: 'SidebarMenu_menuButton sortingMenu',
+                    children: <DotsVerticalIcon size={16}/>,
+                }}
+                menuButtonTooltip={{
+                    id: `SidebarCategorySortingMenu-ButtonTooltip-${props.category.id}`,
+                    text: formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'}),
+                    class: 'hidden-xs',
+                }}
+                menu={{
+                    id: `SidebarCategorySortingMenu-MenuList-${props.category.id}`,
+                    'aria-label': formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Edit category menu'}),
+                    onToggle: handleMenuToggle,
+                }}
             >
                 {sortDirectMessagesMenuItem}
                 {showMessagesCountMenuItem}

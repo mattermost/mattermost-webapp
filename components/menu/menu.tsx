@@ -21,22 +21,37 @@ import GenericModal from 'components/generic_modal';
 import {MuiMenuStyled} from './menu_styled';
 
 const OVERLAY_TIME_DELAY = 500;
-const MENU_OPEN_ANIMATION_DUREATION = 150;
-const MENU_CLOSE_ANIMATION_DUREATION = 100;
+const MENU_OPEN_ANIMATION_DURATION = 150;
+const MENU_CLOSE_ANIMATION_DURATION = 100;
+
+type MenuButtonProps = {
+    id: string;
+    'aria-label'?: string;
+    class?: string;
+    children: ReactNode;
+}
+
+type MenuButtonTooltipProps = {
+    id: string;
+    placement?: 'top' | 'bottom' | 'left' | 'right';
+    class?: string;
+    text: string;
+}
+
+type MenuProps = {
+    id: string;
+    'aria-label'?: string;
+
+    /**
+     * @warning Make the styling of your components such a way that they dont need this handler
+     */
+    onToggle?: (isOpen: boolean) => void;
+}
 
 interface Props {
-    menuButtonId?: string;
-    menuButtonAriaLabel?: string;
-    menuButtonClassName?: string;
-    menuButtonChildren: ReactNode;
-    menuButtonTooltipId?: string;
-    menuButtonTooltipPlacement?: 'top' | 'bottom' | 'left' | 'right';
-    menuButtonTooltipText?: string;
-    menuButtonTooltipClassName?: string;
-    menuId: string;
-    menuAriaLabel?: string;
-    onMenuToggle?: (isOpen: boolean) => void; // Probably dont use this, but its there if you have to
-    freezeCloseOnClick?: boolean;
+    menuButton: MenuButtonProps;
+    menuButtonTooltip?: MenuButtonTooltipProps;
+    menu: MenuProps;
     children: ReactNode[];
 }
 
@@ -68,9 +83,7 @@ export function Menu(props: Props) {
     }
 
     function handleMenuClick() {
-        if (!props.freezeCloseOnClick) {
-            setAnchorElement(null);
-        }
+        setAnchorElement(null);
     }
 
     function handleMenuKeyDown(event: KeyboardEvent<HTMLDivElement>) {
@@ -91,12 +104,12 @@ export function Menu(props: Props) {
         if (isMobileView) {
             dispatch(
                 openModal<MenuModalProps>({
-                    modalId: props.menuId,
+                    modalId: `${props.menuButton.id}-${props.menu.id}`,
                     dialogType: MenuModal,
                     dialogProps: {
-                        menuButtonId: props.menuButtonId,
-                        menuId: props.menuId,
-                        menuAriaLabel: props.menuAriaLabel,
+                        menuButtonId: props.menuButton.id,
+                        menuId: props.menu.id,
+                        menuAriaLabel: props.menu?.['aria-label'] ?? '',
                         children: props.children,
                     },
                 }),
@@ -107,38 +120,38 @@ export function Menu(props: Props) {
     }
 
     function handleMenuButtonMouseDown() {
-        // This is needed to prevent focus-visible being set on clicking menubutton with mouse
+        // This is needed to prevent focus-visible being set on clicking menuitems with mouse
         setDisableAutoFocusItem(true);
     }
 
     function renderMenuButton() {
-        // We construct the menu button here so we can set onClick correctly here to support both web and mobile view
+        // We construct the menu button so we can set onClick correctly here to support both web and mobile view
         const triggerElement = (
             <button
-                id={props.menuButtonId}
-                aria-controls={props.menuId}
+                id={props.menuButton.id}
+                aria-controls={props.menu.id}
                 aria-haspopup={true}
                 aria-expanded={isMenuOpen}
-                aria-label={props.menuButtonAriaLabel}
-                className={props.menuButtonClassName}
+                aria-label={props.menuButton?.['aria-label'] ?? ''}
+                className={props.menuButton?.class ?? ''}
                 onClick={handleMenuButtonClick}
                 onMouseDown={handleMenuButtonMouseDown}
             >
-                {props.menuButtonChildren}
+                {props.menuButton.children}
             </button>
         );
 
-        if (props.menuButtonTooltipText && !isMobileView) {
+        if (props.menuButtonTooltip && props.menuButtonTooltip.text && !isMobileView) {
             return (
                 <OverlayTrigger
                     delayShow={OVERLAY_TIME_DELAY}
-                    placement={props?.menuButtonTooltipPlacement ?? 'top'}
+                    placement={props?.menuButtonTooltip?.placement ?? 'top'}
                     overlay={
                         <Tooltip
-                            id={props.menuButtonTooltipId}
-                            className={props.menuButtonTooltipClassName}
+                            id={props.menuButtonTooltip.id}
+                            className={props.menuButtonTooltip?.class ?? ''}
                         >
-                            {props.menuButtonTooltipText}
+                            {props.menuButtonTooltip.text}
                         </Tooltip>
                     }
                     disabled={isMenuOpen}
@@ -152,8 +165,8 @@ export function Menu(props: Props) {
     }
 
     useEffect(() => {
-        if (props.onMenuToggle) {
-            props.onMenuToggle(isMenuOpen);
+        if (props.menu.onToggle) {
+            props.menu.onToggle(isMenuOpen);
         }
     }, [isMenuOpen]);
 
@@ -172,17 +185,17 @@ export function Menu(props: Props) {
                 onClick={handleMenuClick}
                 onKeyDown={handleMenuKeyDown}
                 className={A11yClassNames.POPUP}
-                disableAutoFocusItem={disableAutoFocusItem}
+                disableAutoFocusItem={disableAutoFocusItem} // This is not anti-pattern, see handleMenuButtonMouseDown
                 MenuListProps={{
-                    id: props.menuId,
-                    'aria-label': props.menuAriaLabel,
+                    id: props.menu.id,
+                    'aria-label': props.menu?.['aria-label'] ?? '',
                 }}
                 TransitionProps={{
                     mountOnEnter: true,
                     unmountOnExit: true,
                     timeout: {
-                        enter: MENU_OPEN_ANIMATION_DUREATION,
-                        exit: MENU_CLOSE_ANIMATION_DUREATION,
+                        enter: MENU_OPEN_ANIMATION_DURATION,
+                        exit: MENU_CLOSE_ANIMATION_DURATION,
                     },
                 }}
             >
@@ -193,9 +206,9 @@ export function Menu(props: Props) {
 }
 
 interface MenuModalProps {
-    menuButtonId: Props['menuButtonId'];
-    menuId: Props['menuId'];
-    menuAriaLabel: Props['menuAriaLabel'];
+    menuButtonId: MenuButtonProps['id'];
+    menuId: MenuProps['id'];
+    menuAriaLabel: MenuProps['aria-label'];
     children: Props['children'];
 }
 

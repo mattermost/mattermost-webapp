@@ -5,20 +5,30 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
   className="SidebarMenu MenuWrapper"
 >
   <Menu
-    menuAriaLabel="Edit category menu"
-    menuButtonAriaLabel="Category options"
-    menuButtonChildren={
-      <DotsVerticalIcon
-        size={16}
-      />
+    menu={
+      Object {
+        "aria-label": "Edit category menu",
+        "id": "SidebarChannelMenu-MenuList-test_category_id",
+        "onToggle": [Function],
+      }
     }
-    menuButtonClassName="SidebarMenu_menuButton"
-    menuButtonId="SidebarCategoryMenu-Button-test_category_id"
-    menuButtonTooltipClassName="hidden-xs"
-    menuButtonTooltipId="SidebarCategoryMenu-ButtonTooltip-test_category_id"
-    menuButtonTooltipText="Category options"
-    menuId="SidebarChannelMenu-MenuList-test_category_id"
-    onMenuToggle={[Function]}
+    menuButton={
+      Object {
+        "aria-label": "Category options",
+        "children": <DotsVerticalIcon
+          size={16}
+        />,
+        "class": "SidebarMenu_menuButton",
+        "id": "SidebarCategoryMenu-Button-test_category_id",
+      }
+    }
+    menuButtonTooltip={
+      Object {
+        "class": "hidden-xs",
+        "id": "SidebarCategoryMenu-ButtonTooltip-test_category_id",
+        "text": "Category options",
+      }
+    }
   >
     <MenuItem
       id="mute-test_category_id"
