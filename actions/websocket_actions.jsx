@@ -1516,8 +1516,7 @@ export function handleCloudSubscriptionChanged(msg) {
         const state = doGetState();
         const license = getLicense(state);
 
-        // eslint-disable-next-line no-console
-        console.log('handleCloudSubscriptionChanged', {msg});
+        dispatch(logError({type: 'critical', message: JSON.stringify(msg)}, true, true));
 
         if (license.Cloud === 'true') {
             if (msg.data.limits) {
