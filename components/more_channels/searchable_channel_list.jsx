@@ -154,6 +154,7 @@ export default class SearchableChannelList extends React.PureComponent {
                 onClick={(e) => this.handleJoin(channel, e)}
                 className={joinViewChannelButtonClass}
                 disabled={this.state.joiningChannel}
+                tabIndex={-1}
                 aria-label={this.isMemberOfChannel(channel.id) ? localizeMessage('more_channels.view', 'View') : localizeMessage('joinChannel.JoinButton', 'Join')}
             >
                 <LoadingWrapper
