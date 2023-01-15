@@ -285,16 +285,22 @@ const SidebarChannelMenu = (props: Props) => {
 
     return (
         <Menu.Container
-            menuButtonId={`SidebarChannelMenu-Button-${props.channel.id}`}
-            menuButtonChildren={<DotsVerticalIcon size={16}/>}
-            menuButtonClassName='SidebarMenu_menuButton'
-            menuButtonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
-            menuButtonTooltipId={`SidebarChannelMenu-ButtonTooltip-${props.channel.id}`}
-            menuButtonTooltipClassName='hidden-xs'
-            menuButtonTooltipText={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
-            menuId={`SidebarChannelMenu-MenuList-${props.channel.id}`}
-            menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel menu'})}
-            onMenuToggle={props.onMenuToggle}
+            menuButton={{
+                id: `SidebarChannelMenu-Button-${props.channel.id}`,
+                class: 'SidebarMenu_menuButton',
+                'aria-label': formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'}),
+                children: <DotsVerticalIcon size={16}/>,
+            }}
+            menuButtonTooltip={{
+                id: `SidebarChannelMenu-ButtonTooltip-${props.channel.id}`,
+                class: 'hidden-xs',
+                text: formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'}),
+            }}
+            menu={{
+                id: `SidebarChannelMenu-MenuList-${props.channel.id}`,
+                'aria-label': formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel menu'}),
+                onToggle: props.onMenuToggle,
+            }}
         >
             {markAsReadUnreadMenuItem}
             {favoriteUnfavoriteMenuItem}

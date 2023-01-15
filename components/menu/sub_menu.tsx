@@ -122,8 +122,8 @@ export function SubMenu({id, leadingElement, labels, trailingElements, isDestruc
 
     return (
         <ParentMenuItem
-            {...passedInTriggerButtonProps}
             {...rest} // pass through other props which might be coming in from the material-ui
+            {...passedInTriggerButtonProps}
             onMouseEnter={handleSubMenuOpen}
             onMouseLeave={handleSubMenuClose}
             onKeyDown={handleSubMenuParentItemKeyDown}
