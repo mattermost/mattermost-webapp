@@ -21,6 +21,8 @@ import GenericModal from 'components/generic_modal';
 import {MuiMenuStyled} from './menu_styled';
 import {MenuItem as ParentMenuItem, Props as MenuItemProps} from './menu_item';
 
+import './sub_menu.scss';
+
 interface Props {
     id: MenuItemProps['id'];
     leadingElement?: MenuItemProps['leadingElement'];
