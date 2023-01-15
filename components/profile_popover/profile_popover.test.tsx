@@ -53,6 +53,7 @@ describe('components/ProfilePopover', () => {
         isCallsEnabled: true,
         isCallsDefaultEnabledOnAllChannels: true,
         teammateNameDisplay: General.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
+        isAnyModalOpen: false,
     };
 
     const initialState = {

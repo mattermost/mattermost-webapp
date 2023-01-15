@@ -178,6 +178,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     isCallsDefaultEnabledOnAllChannels?: boolean;
     isCallsCanBeDisabledOnSpecificChannels?: boolean;
     dMChannelId?: string;
+    isAnyModalOpen: boolean;
 }
 type ProfilePopoverState = {
     loadingDMChannel?: string;
@@ -262,7 +263,14 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             },
         ));
     }
-    handleShowDirectChannel = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+    componentDidUpdate(prevProps: ProfilePopoverProps) {
+        if (this.props.isAnyModalOpen !== prevProps.isAnyModalOpen) {
+            this.props.hide?.();
+        }
+    }
+
+    handleShowDirectChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
         const {actions} = this.props;
         e.preventDefault();
         if (!this.props.user) {

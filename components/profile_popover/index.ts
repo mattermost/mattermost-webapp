@@ -27,6 +27,7 @@ import {closeModal, openModal} from 'actions/views/modals';
 import {areTimezonesEnabledAndSupported, getCurrentUserTimezone} from 'selectors/general';
 import {getRhsState, getSelectedPost} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
+import {isAnyModalOpen} from 'selectors/views/modals';
 import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 
 import {ModalData} from 'types/actions';
@@ -122,6 +123,7 @@ function makeMapStateToProps() {
             isCallsCanBeDisabledOnSpecificChannels: callsConfig?.AllowEnableCalls,
             dMChannelId: getChannelByName(state, getDirectChannelName(currentUserId, userId))?.id,
             teammateNameDisplay: getTeammateNameDisplaySetting(state),
+            isAnyModalOpen: isAnyModalOpen(state),
         };
     };
 }
