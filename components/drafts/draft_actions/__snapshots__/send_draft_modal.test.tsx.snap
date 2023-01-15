@@ -25,6 +25,7 @@ exports[`components/drafts/draft_actions/send_draft_modal should have called onC
   modalHeaderText="Send message now"
   onExited={[MockFunction]}
   show={true}
+  tabIndex={0}
 >
   <MemoizedFormattedMessage
     defaultMessage="Are you sure you want to send this message to <strong>{displayName}</strong>?"
@@ -64,6 +65,7 @@ exports[`components/drafts/draft_actions/send_draft_modal should have called onE
     }
   }
   show={true}
+  tabIndex={0}
 >
   <MemoizedFormattedMessage
     defaultMessage="Are you sure you want to send this message to <strong>{displayName}</strong>?"
