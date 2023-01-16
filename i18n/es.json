@@ -4605,7 +4605,7 @@
   "team_settings_modal.title": "Configurar Equipo",
   "team_sidebar.join": "Otros equipos a los que te puedes unir",
   "terms_of_service.agreeButton": "Acepto",
-  "terms_of_service.api_error": "No se puede completar la solicitud. Si el problema persiste, contacta a tu Administrador de Sistema.",
+  "terms_of_service.api_error": "No se ha podido completar la solicitud. Si el problema persiste, póngase en contacto con el administrador del sistema.",
   "terms_of_service.disagreeButton": "No acepto",
   "test": "Texto del Botón",
   "textbox.bold": "**negritas**",
