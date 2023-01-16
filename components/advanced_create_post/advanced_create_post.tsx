@@ -465,15 +465,18 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.handleEmojiClose();
     }
 
-    doSubmit = async (e?: React.FormEvent) => {
-        const {id: channelId} = this.props.currentChannel;
+    doSubmit_DEPR = async (e?: React.FormEvent) => {
         e?.preventDefault();
+        await this.doSubmit(this.state.message);
+    }
+
+    doSubmit = async (msg: string) => {
+        let message = msg;
+        const {id: channelId} = this.props.currentChannel;
 
         if (this.props.draft.uploadsInProgress.length > 0 || this.state.submitting) {
             return;
         }
-
-        let {message} = this.state;
 
         let ignoreSlash = false;
         const serverError = this.state.serverError;
@@ -576,11 +579,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.draftsForChannel[channelId] = null;
     }
 
-    handleNotifyAllConfirmation = () => {
-        this.doSubmit();
-    }
-
-    showNotifyAllModal = (mentions: string[], channelTimezoneCount: number, memberNotifyCount: number) => {
+    showNotifyAllModal = (mentions: string[], channelTimezoneCount: number, memberNotifyCount: number, message: string) => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.NOTIFY_CONFIRM_MODAL,
             dialogType: NotifyConfirmModal,
@@ -588,7 +587,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 mentions,
                 channelTimezoneCount,
                 memberNotifyCount,
-                onConfirm: () => this.handleNotifyAllConfirmation(),
+                onConfirm: () => this.doSubmit(message),
             },
         });
     }
@@ -607,7 +606,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         return command === 'online' || command === 'away' || command === 'dnd' || command === 'offline';
     };
 
-    handleSubmit = async (e?: React.FormEvent) => {
+    handleSubmit_DEPR = async (e?: React.FormEvent) => {
         const {
             currentChannel: updateChannel,
             userIsOutOfOffice,
@@ -668,7 +667,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
 
         if (memberNotifyCount > 0) {
-            this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
+            this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount, this.state.message);
             this.isDraftSubmitting = false;
             return;
         }
@@ -718,7 +717,119 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             return;
         }
 
-        await this.doSubmit(e);
+        await this.doSubmit_DEPR(e);
+    }
+
+    handleSubmit = async (message: string) => {
+        const {
+            currentChannel: updateChannel,
+            userIsOutOfOffice,
+            groupsWithAllowReference,
+            channelMemberCountsByGroup,
+            currentChannelMembersCount,
+            useLDAPGroupMentions,
+            useCustomGroupMentions,
+            useChannelMentions,
+            enableConfirmNotificationsToChannel,
+        } = this.props;
+
+        this.isDraftSubmitting = true;
+
+        const notificationsToChannel = enableConfirmNotificationsToChannel && useChannelMentions;
+        let memberNotifyCount = 0;
+        let channelTimezoneCount = 0;
+        let mentions: string[] = [];
+
+        const specialMentions = specialMentionsInText(message);
+        const hasSpecialMentions = Object.values(specialMentions).includes(true);
+
+        if (enableConfirmNotificationsToChannel && !hasSpecialMentions && (useLDAPGroupMentions || useCustomGroupMentions)) {
+            // Groups mentioned in users text
+            const mentionGroups = groupsMentionedInText(message, groupsWithAllowReference);
+            if (mentionGroups.length > 0) {
+                mentionGroups.
+                    forEach((group) => {
+                        if (group.source === GroupSource.Ldap && !useLDAPGroupMentions) {
+                            return;
+                        }
+                        if (group.source === GroupSource.Custom && !useCustomGroupMentions) {
+                            return;
+                        }
+                        const mappedValue = channelMemberCountsByGroup[group.id];
+                        if (mappedValue && mappedValue.channel_member_count > Constants.NOTIFY_ALL_MEMBERS && mappedValue.channel_member_count > memberNotifyCount) {
+                            memberNotifyCount = mappedValue.channel_member_count;
+                            channelTimezoneCount = mappedValue.channel_member_timezones_count;
+                        }
+                        mentions.push(`@${group.name}`);
+                    });
+                mentions = [...new Set(mentions)];
+            }
+        }
+
+        if (notificationsToChannel && currentChannelMembersCount > Constants.NOTIFY_ALL_MEMBERS && hasSpecialMentions) {
+            memberNotifyCount = currentChannelMembersCount - 1;
+
+            for (const k in specialMentions) {
+                if (specialMentions[k]) {
+                    mentions.push('@' + k);
+                }
+            }
+
+            if (this.props.isTimezoneEnabled) {
+                const {data} = await this.props.actions.getChannelTimezones(this.props.currentChannel.id);
+                channelTimezoneCount = data ? data.length : 0;
+            }
+        }
+
+        if (memberNotifyCount > 0) {
+            this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount, message);
+            this.isDraftSubmitting = false;
+            return;
+        }
+
+        const status = this.getStatusFromSlashCommand();
+        if (userIsOutOfOffice && this.isStatusSlashCommand(status)) {
+            const resetStatusModalData = {
+                modalId: ModalIdentifiers.RESET_STATUS,
+                dialogType: ResetStatusModal,
+                dialogProps: {newStatus: status},
+            };
+
+            this.props.actions.openModal(resetStatusModalData);
+
+            this.isDraftSubmitting = false;
+            return;
+        }
+
+        if (trimRight(message) === '/header') {
+            const editChannelHeaderModalData = {
+                modalId: ModalIdentifiers.EDIT_CHANNEL_HEADER,
+                dialogType: EditChannelHeaderModal,
+                dialogProps: {channel: updateChannel},
+            };
+
+            this.props.actions.openModal(editChannelHeaderModalData);
+
+            this.isDraftSubmitting = false;
+            return;
+        }
+
+        const isDirectOrGroup =
+            updateChannel.type === Constants.DM_CHANNEL || updateChannel.type === Constants.GM_CHANNEL;
+        if (!isDirectOrGroup && trimRight(message) === '/purpose') {
+            const editChannelPurposeModalData = {
+                modalId: ModalIdentifiers.EDIT_CHANNEL_PURPOSE,
+                dialogType: EditChannelPurposeModal,
+                dialogProps: {channel: updateChannel},
+            };
+
+            this.props.actions.openModal(editChannelPurposeModalData);
+
+            this.isDraftSubmitting = false;
+            return;
+        }
+
+        await this.doSubmit(message);
     }
 
     sendMessage = async (originalPost: Post) => {
@@ -841,9 +952,9 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             }
 
             if (withClosedCodeBlock && message) {
-                this.setState({message}, () => this.handleSubmit(e));
+                this.setState({message}, () => this.handleSubmit_DEPR(e));
             } else {
-                this.handleSubmit(e);
+                this.handleSubmit_DEPR(e);
             }
 
             this.setShowPreview(false);
@@ -859,29 +970,28 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
     handleChange_DEPR = (e: React.ChangeEvent<TextboxElement>) => {
         const message = e.currentTarget.value;
-        this.handleChange(message);
-    }
 
-    handleChange = (message: string, content?: JSONContent) => {
         let serverError = this.state.serverError;
         if (isErrorInvalidSlashCommand(serverError)) {
             serverError = null;
         }
 
-        if (message !== this.state.message) {
-            this.setState({
-                message,
-                serverError,
-            });
+        this.setState({
+            message,
+            serverError,
+        });
 
-            const draft = {
-                ...this.props.draft,
-                message,
-                content,
-            };
+        this.handleChange(message);
+    }
 
-            this.handleDraftChange(draft);
-        }
+    handleChange = (message: string, content?: JSONContent) => {
+        const draft = {
+            ...this.props.draft,
+            message,
+            content,
+        };
+
+        this.handleDraftChange(draft);
     }
 
     handleDraftChange = (draft: NewPostDraft, instant = false) => {
@@ -1726,7 +1836,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 id='create_post'
                 ref={this.topDiv}
                 className={centerClass}
-                onSubmit={this.handleSubmit}
+                onSubmit={this.handleSubmit_DEPR}
             >
                 {
                     this.props.canPost &&
@@ -1748,7 +1858,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     isFormattingBarHidden={this.state.isFormattingBarHidden}
                     draft={this.props.draft}
                     showSendTutorialTip={this.props.showSendTutorialTip}
-                    handleSubmit={this.handleSubmit}
+                    handleSubmit={this.handleSubmit_DEPR}
                     removePreview={this.removePreview}
                     setShowPreview={this.setShowPreview}
                     shouldShowPreview={this.props.shouldShowPreview}

@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, useEffect, useRef, useState} from 'react';
-import type {FormEvent} from 'react';
 import {Editor} from '@tiptap/core';
 import type {KeyboardShortcutCommand} from '@tiptap/core';
 import {EditorContent, useEditor} from '@tiptap/react';
@@ -64,7 +63,7 @@ type Props = PropsFromRedux & {
      * Function to handle submitting the content.
      * Receives a FormEvent, current Markdown and current JSONContent values from the editor as optional parameters.
      */
-    onSubmit: (e?: FormEvent, markdownText?: string, json?: JSONContent) => void;
+    onSubmit: (markdownText: string, json?: JSONContent) => void;
 
     /**
      * Function to handle changes in the editors content.
@@ -156,7 +155,7 @@ const Wysiwyg = (props: Props) => {
          */
 
         // 1. fire the passed onSubmit function
-        onSubmit();
+        await onSubmit(htmlToMarkdown(editor.getHTML()), editor.getJSON());
 
         if (!editor.isEmpty) {
             // 2. clear the editor content
@@ -380,7 +379,7 @@ const Wysiwyg = (props: Props) => {
 };
 
 export default memo(Wysiwyg, (prevProps, nextProps) => {
-    return isEqual(prevProps.config, nextProps.config);
+    return isEqual(prevProps.config, nextProps.config) && isEqual(prevProps.additionalControls, nextProps.additionalControls);
 });
 
 export type {Editor, JSONContent};
