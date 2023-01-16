@@ -10,41 +10,46 @@
 import {measurePerformance} from './utils.js';
 
 describe('Channel switch performance test', () => {
-    let testUser;
     let testTeam1;
     let testTeam2;
 
-    beforeEach(() => {
-        cy.apiInitSetup().then(({team, user}) => {
-            testUser = user;
+    before(() => {
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam1 = team;
 
             // # Login as test user and go to town square
-            cy.apiLogin(testUser);
-            cy.visit(`/${testTeam1.name}/channels/town-square`);
-        });
+            cy.apiCreateTeam('team-b', 'Team B').then(({team: team2}) => {
+                testTeam2 = team2;
 
-        cy.apiCreateTeam('team-b', 'Team B').then(({team}) => {
-            testTeam2 = team;
+                // # Go to town square
+                cy.visit(`/${testTeam1.name}/channels/town-square`);
+                cy.get('#teamSidebarWrapper').should('be.visible');
+                cy.get(`#${testTeam2.name}TeamButton`).should('be.visible');
+            });
         });
     });
 
     it('measures switching between two teams from LHS', () => {
         // # Invoke window object
-        measurePerformance('teamLoad', 900, () => {
-            // # Switch to Team 2
-            cy.get('#teamSidebarWrapper').within(() => {
-                cy.get(`#${testTeam2.name}TeamButton`).should('be.visible').click();
-            });
+        measurePerformance(
+            'teamLoad',
+            900,
+            () => {
+                // # Switch to Team 2
+                cy.get('#teamSidebarWrapper').within(() => {
+                    cy.get(`#${testTeam2.name}TeamButton`).should('be.visible').click();
+                });
 
-            // * Expect that the user has switched teams
-            return expectActiveTeamToBe(testTeam2.display_name, testTeam2.name);
-        },
+                // * Expect that the user has switched teams
+                return expectActiveTeamToBe(testTeam2.display_name, testTeam2.name);
+            },
 
-        // # Reset test run so we can start on the initially specified team
-        () => {
-            cy.visit(`/${testTeam1.name}/channels/town-square`);
-        },
+            // # Reset test run so we can start on the initially specified team
+            () => {
+                cy.visit(`/${testTeam1.name}/channels/town-square`);
+                cy.get('#teamSidebarWrapper').should('be.visible');
+                cy.get(`#${testTeam2.name}TeamButton`).should('be.visible');
+            },
         );
     });
 });
