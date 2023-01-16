@@ -413,7 +413,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         const currentMessage = this.state.message === '' ? '' : `${this.state.message}\n`;
         this.applyMarkdown({
             message: `${currentMessage} > ${this.state.quoteText}\n\n`,
-            markdownMode: 'bold', // todo sinan check can it be something other thun bold
+            markdownMode: 'bold',
             selectionStart: null,
             selectionEnd: null,
         });
