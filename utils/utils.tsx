@@ -879,8 +879,6 @@ type CoordParams = {
 }
 
 export function getQuoteButtonCoords(coordParams: CoordParams) {
-    // const {paddingLeft} = getComputedStyle(startingSelectedElement?.firstElementChild); // todo sinan parseInt, and also for code get width of firstChild of startingSelectedElement
-    // console.log('paddingLeft: ', paddingLeft)
     const {quoteButtonPosition, rects, additionalSpaces} = coordParams;
     let positionX = rects[0].x - additionalSpaces.spaceX;
     let positionY = rects[0].y - additionalSpaces.spaceY;
@@ -934,15 +932,18 @@ export function getSelectionData(): SelectionData | null {
     const startingSelectedElement = findParentPostMessage(startingNode);
     const endingSelectedElement = findParentPostMessage(endingNode);
 
+    // todo sinan evaluate to split calculating additional space to seperate function
     const isElementQuote = startingNode?.offsetParent?.nodeName === 'BLOCKQUOTE';
     const isElementCode = startingNode?.nodeName === 'CODE';
     const isElementSyntaxHighlightedCode = startingNode?.previousElementSibling?.classList.contains('post-code__line-numbers') || false;
+    const startingNodeCssInfo = startingNode?.parentElement && getComputedStyle(startingNode?.parentElement);
+    const startingNodePaddingLeft = parseInt(startingNodeCssInfo?.paddingLeft || '0', 10);
 
     let spaceForMultilineSelection = 0;
     if (isElementQuote) {
-        spaceForMultilineSelection = 38;
+        spaceForMultilineSelection = startingNodePaddingLeft;
     } else if (isElementCode) {
-        spaceForMultilineSelection = isElementSyntaxHighlightedCode ? (8.5 + 26 + 24) : 8.5; // based on my calculation 24 should be 12 because of 12 margin right on code numbers
+        spaceForMultilineSelection = isElementSyntaxHighlightedCode ? (startingNodePaddingLeft + 26 + 24) : startingNodePaddingLeft;
     }
 
     return {
