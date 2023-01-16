@@ -71,8 +71,8 @@ export const getChannelHeaderMenuPluginComponents = createShallowSelector(
     },
 );
 
-export const getChannelIntroPluginComponents = createSelector(
-    'getChannelIntroPluginComponents',
+export const getChannelIntroPluginButtons = createSelector(
+    'getChannelIntroPluginButtons',
     (state: GlobalState) => state.plugins.components.ChannelIntroButton,
     (components = []) => {
         return components;
