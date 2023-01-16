@@ -5,8 +5,6 @@ import shallowEqual from 'shallow-equals';
 
 import * as reselect from 'reselect';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function memoizeResult<F extends Function>(func: F, measure: Function | undefined = undefined): F {
     let lastArgs: IArguments|null = null;
@@ -110,23 +108,4 @@ export function isEmail(email: string): boolean {
     // - followed by at least one character that is not a space, comma, or @ symbol
     // this prevents <Outlook Style> outlook.style@domain.com addresses and multiple comma-separated addresses from being accepted
     return (/^[^ ,@]+@[^ ,@]+$/).test(email);
-}
-
-export function buildQueryString(parameters: Dictionary<any>): string {
-    const keys = Object.keys(parameters);
-    if (keys.length === 0) {
-        return '';
-    }
-
-    let query = '?';
-    for (let i = 0; i < keys.length; i++) {
-        const key = keys[i];
-        query += key + '=' + encodeURIComponent(parameters[key]);
-
-        if (i < keys.length - 1) {
-            query += '&';
-        }
-    }
-
-    return query;
 }

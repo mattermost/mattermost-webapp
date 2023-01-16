@@ -3,7 +3,8 @@
 
 import React from 'react';
 
-import {CustomStatusDuration} from 'mattermost-redux/types/users';
+import {General} from 'mattermost-redux/constants';
+import {CustomStatusDuration} from '@mattermost/types/users';
 
 import ProfilePopover from 'components/profile_popover/profile_popover';
 
@@ -31,6 +32,7 @@ describe('components/ProfilePopover', () => {
         canManageAnyChannelMembersInCurrentTeam: true,
         isCustomStatusEnabled: true,
         isCustomStatusExpired: false,
+        isMobileView: false,
         actions: {
             getMembershipForEntities: jest.fn(),
             openDirectChannelToUserId: jest.fn(),
@@ -38,6 +40,15 @@ describe('components/ProfilePopover', () => {
             closeModal: jest.fn(),
             loadBot: jest.fn(),
         },
+        lastActivityTimestamp: 1632146562846,
+        enableLastActiveTime: true,
+        timestampUnits: [
+            'now',
+            'minute',
+            'hour',
+        ],
+        teammateNameDisplay: General.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
+        isAnyModalOpen: false,
     };
 
     test('should match snapshot', () => {
@@ -158,6 +169,30 @@ describe('components/ProfilePopover', () => {
             ...baseProps,
             isCustomStatusExpired: true,
             customStatus,
+        };
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with last active display', () => {
+        const props = {
+            ...baseProps,
+            status: 'offline',
+        };
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with no last active display because it is disabled', () => {
+        const props = {
+            ...baseProps,
+            enableLastActiveTime: false,
         };
 
         const wrapper = shallowWithIntl(

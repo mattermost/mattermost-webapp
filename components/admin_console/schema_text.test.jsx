@@ -64,7 +64,7 @@ describe('SchemaText', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should open most links in the current window like FormattedMarkdownMessage', () => {
+    test('should open external markdown links in the new window', () => {
         const props = {
             ...baseProps,
             isMarkdown: true,
@@ -74,7 +74,21 @@ describe('SchemaText', () => {
         const wrapper = shallow(<SchemaText {...props}/>);
 
         expect(wrapper.find('span').prop('dangerouslySetInnerHTML')).toEqual({
-            __html: 'This is <a href="https://example.com">a link</a>',
+            __html: 'This is <a href="https://example.com" rel="noopener noreferrer" target="_blank">a link</a>',
+        });
+    });
+
+    test('should open internal markdown links in the same window', () => {
+        const props = {
+            ...baseProps,
+            isMarkdown: true,
+            text: 'This is [a link](http://localhost:8065/api/v4/users/src_id)',
+        };
+
+        const wrapper = shallow(<SchemaText {...props}/>);
+
+        expect(wrapper.find('span').prop('dangerouslySetInnerHTML')).toEqual({
+            __html: 'This is <a href="http://localhost:8065/api/v4/users/src_id">a link</a>',
         });
     });
 

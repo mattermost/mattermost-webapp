@@ -97,9 +97,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
             delayShow={400}
             overlay={
               <Tooltip
-                bsClass="tooltip"
                 id="urlTooltip"
-                placement="right"
               >
                 fake-channel/channels
               </Tooltip>

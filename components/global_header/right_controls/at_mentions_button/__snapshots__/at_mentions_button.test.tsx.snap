@@ -6,9 +6,7 @@ exports[`components/global/AtMentionsButton should match snapshot 1`] = `
   delayShow={400}
   overlay={
     <Tooltip
-      bsClass="tooltip"
       id="recentMentions"
-      placement="right"
     >
       <Memo(MemoizedFormattedMessage)
         defaultMessage="Recent mentions"
@@ -36,11 +34,14 @@ exports[`components/global/AtMentionsButton should match snapshot 1`] = `
   trigger={
     Array [
       "hover",
+      "focus",
     ]
   }
 >
   <ForwardRef
-    aria-label="Select to toggle a list of recent mentions."
+    aria-controls="searchContainer"
+    aria-expanded={false}
+    aria-label="Recent mentions"
     compact={true}
     icon="at"
     inverted={true}

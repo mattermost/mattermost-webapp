@@ -26,9 +26,6 @@ describe('ReducerRegistry', () => {
         reducerRegistry.register('testReducer', testReducer);
         const reducers = reducerRegistry.getReducers();
         assert.ok(reducers.testReducer);
-        assert.ok(reducers.entities);
-        assert.ok(reducers.requests);
-        assert.ok(reducers.errors);
     });
 });
 

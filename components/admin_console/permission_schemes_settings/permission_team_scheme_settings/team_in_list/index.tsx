@@ -8,7 +8,7 @@ import {getTeamStats as loadTeamStats} from 'mattermost-redux/actions/teams';
 
 import {getTeamStats} from 'mattermost-redux/selectors/entities/teams';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import TeamInList from './team_in_list';

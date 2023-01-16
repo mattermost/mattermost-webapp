@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {TestHelper} from '../../../../utils/test_helper';
 
@@ -43,6 +43,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
             promoteGuestToUser: jest.fn().mockResolvedValue({data: true}),
             demoteUserToGuest: jest.fn().mockResolvedValue({data: true}),
             loadBots: jest.fn(() => Promise.resolve([])),
+            createGroupTeamsAndChannels: jest.fn().mockResolvedValue({data: true}),
         },
         config: {
             GuestAccountsSettings: {

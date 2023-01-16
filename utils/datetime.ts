@@ -2,9 +2,8 @@
 // See LICENSE.txt for license information.
 
 import moment from 'moment-timezone';
-import {Unit} from '@formatjs/intl-relativetimeformat';
 
-const shouldTruncate = new Map<Unit, boolean>([
+const shouldTruncate = new Map<Intl.RelativeTimeFormatUnit, boolean>([
     ['year', true],
     ['quarter', true],
     ['month', true],
@@ -19,7 +18,7 @@ export function isWithin(
     a: Date,
     b: Date,
     timeZone: string = new Intl.DateTimeFormat().resolvedOptions().timeZone,
-    unit: Unit,
+    unit: Intl.RelativeTimeFormatUnit,
     threshold = 1,
     truncateEndpoints = shouldTruncate.get(unit) || false,
 ): boolean {
@@ -31,7 +30,7 @@ export function isEqual(
     a: Date,
     b: Date,
     timeZone: string = new Intl.DateTimeFormat().resolvedOptions().timeZone,
-    unit: Unit,
+    unit: Intl.RelativeTimeFormatUnit,
     threshold = 1,
     truncateEndpoints = shouldTruncate.get(unit) || false,
 ): boolean {
@@ -42,7 +41,7 @@ export function getDiff(
     a: Date,
     b: Date,
     timeZone: string = new Intl.DateTimeFormat().resolvedOptions().timeZone,
-    unit: Unit,
+    unit: Intl.RelativeTimeFormatUnit,
     truncateEndpoints = shouldTruncate.get(unit) || false,
 ): number {
     const momentA = moment.utc(a.getTime());

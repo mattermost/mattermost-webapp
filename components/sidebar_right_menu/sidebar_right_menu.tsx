@@ -8,8 +8,7 @@ import {CSSTransition} from 'react-transition-group';
 
 import * as GlobalActions from 'actions/global_actions';
 import {Constants} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
-import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
+import * as Utils from 'utils/utils';
 
 import MainMenu from 'components/main_menu';
 
@@ -20,7 +19,6 @@ type Action = {
 type Props = {
     isOpen: boolean;
     teamDisplayName?: string;
-    showTutorialTip: boolean;
     siteName?: string;
     actions: Action;
 };
@@ -42,12 +40,6 @@ export default class SidebarRightMenu extends React.PureComponent<Props> {
             teamDisplayName = this.props.teamDisplayName;
         }
 
-        let tutorialTip = null;
-        if (this.props.showTutorialTip) {
-            tutorialTip = <MenuTutorialTip onBottom={true}/>;
-            this.props.actions.openRhsMenu();
-        }
-
         return (
             <div
                 className={classNames('sidebar--menu', {'move--left': this.props.isOpen && Utils.isMobile()})}
@@ -63,7 +55,6 @@ export default class SidebarRightMenu extends React.PureComponent<Props> {
                 </div>
 
                 <div className='nav-pills__container mobile-main-menu'>
-                    {tutorialTip}
                     <CSSTransition
                         in={this.props.isOpen && Utils.isMobile()}
                         classNames='MobileRightSidebarMenu'

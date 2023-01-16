@@ -1,5 +1,3 @@
-@import 'compass/utilities';
-@import 'compass/css3';
 @import 'utils/variables';
 
 .toast {
@@ -9,6 +7,7 @@
     height: 32px;
     margin: 10px 15px 0;
     background-color: var(--button-bg);
+    border-radius: 4px;
     color: var(--button-color);
     cursor: default;
     font-size: 13px;
@@ -16,17 +15,15 @@
     opacity: 0;
     visibility: hidden;
 
-    @include border-radius(4px);
-
     svg {
         fill: var(--button-color);
         vertical-align: middle;
     }
 
     body.enable-animations & {
-        @include transition-property(opacity, visibility);
-        @include transition-duration(0s);
-        @include transition-timing-function(ease-in-out);
+        transition-duration: 0s;
+        transition-property: opacity, visibility;
+        transition-timing-function: ease-in-out;
     }
 
     .toast__jump {
@@ -78,9 +75,9 @@
     visibility: visible;
 
     body.enable-animations & {
-        @include transition-property(opacity, visibility);
-        @include transition-duration(0s);
-        @include transition-timing-function(ease-in-out);
+        transition-duration: 0s;
+        transition-property: opacity, visibility;
+        transition-timing-function: ease-in-out;
     }
 }
 

@@ -7,15 +7,15 @@ import React from 'react';
 
 import {Permissions} from 'mattermost-redux/constants';
 
-import {UserProfile as UserProfileRedux} from 'mattermost-redux/types/users';
+import {UserProfile as UserProfileRedux} from '@mattermost/types/users';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import LocalizedIcon from 'components/localized_icon';
 import ProfilePicture from 'components/profile_picture';
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import ToggleModalButton from 'components/toggle_modal_button';
 import UserProfile from 'components/user_profile';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
@@ -23,10 +23,11 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import EditIcon from 'components/widgets/icons/fa_edit_icon';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
-import {getMonthLong, t} from 'utils/i18n.jsx';
-import * as Utils from 'utils/utils.jsx';
+import {getMonthLong, t} from 'utils/i18n';
+import * as Utils from 'utils/utils';
 
 import AddMembersButton from './add_members_button';
+import PluggableIntroButtons from './pluggable_intro_buttons';
 
 type Props = {
     currentUserId: string;
@@ -123,6 +124,7 @@ function createGMIntroMessage(channel: Channel, centeredIntro: string, profiles:
                         }}
                     />
                 </p>
+                <PluggableIntroButtons channel={channel}/>
                 {createSetHeaderButton(channel)}
             </div>
         );
@@ -147,6 +149,13 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate?
     const channelIntroId = 'channelIntro';
     if (teammate) {
         const src = teammate ? Utils.imageURLForUser(teammate.id, teammate.last_picture_update) : '';
+
+        let pluggableButton = null;
+        let setHeaderButton = null;
+        if (!teammate?.is_bot) {
+            pluggableButton = <PluggableIntroButtons channel={channel}/>;
+            setHeaderButton = createSetHeaderButton(channel);
+        }
 
         return (
             <div
@@ -178,7 +187,8 @@ function createDMIntroMessage(channel: Channel, centeredIntro: string, teammate?
                         }}
                     />
                 </p>
-                {teammate?.is_bot ? null : createSetHeaderButton(channel)}
+                {pluggableButton}
+                {setHeaderButton}
             </div>
         );
     }
@@ -222,6 +232,7 @@ function createOffTopicIntroMessage(channel: Channel, centeredIntro: string, sta
             totalUsers={totalUsers}
             usersLimit={usersLimit}
             channel={channel}
+            pluginButtons={<PluggableIntroButtons channel={channel}/>}
         />
     );
 
@@ -267,7 +278,9 @@ export function createDefaultIntroMessage(
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
 
     let setHeaderButton = null;
+    let pluginButtons = null;
     if (!isReadOnly) {
+        pluginButtons = <PluggableIntroButtons channel={channel}/>;
         const children = createSetHeaderButton(channel);
         if (children) {
             setHeaderButton = (
@@ -298,10 +311,11 @@ export function createDefaultIntroMessage(
                             totalUsers={totalUsers}
                             usersLimit={usersLimit}
                             channel={channel}
+                            pluginButtons={pluginButtons}
                         />
                     }
                     {teamIsGroupConstrained &&
-                    <ToggleModalButtonRedux
+                    <ToggleModalButton
                         className='intro-links color--link'
                         modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
                         dialogType={AddGroupsToTeamModal}
@@ -315,7 +329,7 @@ export function createDefaultIntroMessage(
                             id='intro_messages.addGroupsToTeam'
                             defaultMessage='Add other groups to this team'
                         />
-                    </ToggleModalButtonRedux>
+                    </ToggleModalButton>
                     }
                 </TeamPermissionGate>
             </TeamPermissionGate>
@@ -357,6 +371,7 @@ export function createDefaultIntroMessage(
                 }
             </p>
             {teamInviteLink}
+            {teamIsGroupConstrained && pluginButtons}
             {teamIsGroupConstrained && setHeaderButton}
             <br/>
         </div>
@@ -491,6 +506,7 @@ function createStandardIntroMessage(channel: Channel, centeredIntro: string, sta
             usersLimit={usersLimit}
             channel={channel}
             setHeader={setHeaderButton}
+            pluginButtons={<PluggableIntroButtons channel={channel}/>}
         />
     );
 
@@ -526,10 +542,10 @@ function createSetHeaderButton(channel: Channel) {
     }
 
     return (
-        <ToggleModalButtonRedux
+        <ToggleModalButton
             modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
             ariaLabel={Utils.localizeMessage('intro_messages.setHeader', 'Set a Header')}
-            className={'intro-links color--link setHeaderButton'}
+            className={'intro-links color--link channelIntroButton'}
             dialogType={EditChannelHeaderModal}
             dialogProps={{channel}}
         >
@@ -538,6 +554,6 @@ function createSetHeaderButton(channel: Channel) {
                 id='intro_messages.setHeader'
                 defaultMessage='Set a Header'
             />
-        </ToggleModalButtonRedux>
+        </ToggleModalButton>
     );
 }

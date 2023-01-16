@@ -6,16 +6,16 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import NewChannelFlow from 'components/new_channel_flow';
+import NewChannelModal from 'components/new_channel_modal/new_channel_modal';
 import SearchableChannelList from 'components/searchable_channel_list.jsx';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 import {ModalData} from 'types/actions';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {ModalIdentifiers} from 'utils/constants';
 import {getRelativeChannelURL} from 'utils/url';
 
@@ -87,8 +87,8 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
     handleNewChannel = () => {
         this.handleExit();
         this.props.actions.openModal({
-            modalId: ModalIdentifiers.NEW_CHANNEL_FLOW,
-            dialogType: NewChannelFlow,
+            modalId: ModalIdentifiers.NEW_CHANNEL_MODAL,
+            dialogType: NewChannelModal,
         });
     }
 
@@ -118,7 +118,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         if (result.error) {
             this.setState({serverError: result.error.message});
         } else {
-            browserHistory.push(getRelativeChannelURL(teamName, channel.name));
+            getHistory().push(getRelativeChannelURL(teamName, channel.name));
             this.handleHide();
         }
 

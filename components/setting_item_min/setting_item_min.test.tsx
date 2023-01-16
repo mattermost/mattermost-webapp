@@ -13,6 +13,7 @@ describe('components/SettingItemMin', () => {
         section: 'section',
         updateSection: jest.fn(),
         describe: 'describe',
+        isMobileView: false,
         actions: {
             updateActiveSection: jest.fn(),
         },

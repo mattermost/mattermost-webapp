@@ -16,16 +16,20 @@ describe('components/ConfigurationBar', () => {
             Id: '1234',
             IsLicensed: 'true',
             ExpiresAt: Date.now() + millisPerDay,
+            ShortSkuName: 'skuShortName',
         },
         config: {
             sendEmailNotifications: false,
         },
         dismissedExpiringLicense: false,
+        dismissedExpiredLicense: false,
         siteURL: '',
         totalUsers: 100,
         actions: {
             dismissNotice: jest.fn(),
+            savePreferences: jest.fn(),
         },
+        currentUserId: 'user-id',
     };
 
     test('should match snapshot, expired, in grace period', () => {
@@ -48,6 +52,24 @@ describe('components/ConfigurationBar', () => {
 
     test('should match snapshot, expired, regular user', () => {
         const props = {...baseProps, canViewSystemErrors: false, license: {Id: '1234', IsLicensed: 'true', ExpiresAt: Date.now() - (11 * millisPerDay)}};
+        const wrapper = shallowWithIntl(
+            <ConfigurationBar {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, expired, cloud license, show nothing', () => {
+        const props = {...baseProps, canViewSystemErrors: false, license: {Id: '1234', IsLicensed: 'true', Cloud: 'true', ExpiresAt: Date.now() - (11 * millisPerDay)}};
+        const wrapper = shallowWithIntl(
+            <ConfigurationBar {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, expiring, cloud license, show nothing', () => {
+        const props = {...baseProps, canViewSystemErrors: false, license: {Id: '1234', IsLicensed: 'true', Cloud: 'true', ExpiresAt: Date.now()}};
         const wrapper = shallowWithIntl(
             <ConfigurationBar {...props}/>,
         );

@@ -51,4 +51,16 @@ describe('components/FilePreviewModalInfo', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot where post is missing and avoid crash', () => {
+        mockState.entities.users.profiles = {user_id: mockedUser};
+        mockState.entities.channels.channels = {channel_id: mockedChannel};
+        baseProps.post = undefined;
+        const wrapper = shallow<typeof FilePreviewModalInfo>(
+            <FilePreviewModalInfo
+                {...baseProps}
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
 });

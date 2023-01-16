@@ -1,10 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import {Client4} from 'mattermost-redux/client';
 
@@ -12,6 +10,7 @@ import {uploadBrandImage, deleteBrandImage} from 'actions/admin_actions.jsx';
 import {Constants} from 'utils/constants';
 import FormError from 'components/form_error';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 const HTTP_STATUS_OK = 200;
 
@@ -102,7 +101,7 @@ export default class BrandImageSetting extends React.PureComponent<Props, State>
               e.target?.result;
 
                 if (src) {
-                    $(img).attr('src', src); // eslint-disable-line jquery/no-attr
+                    img.setAttribute('src', src);
                 }
             };
 
@@ -116,11 +115,11 @@ export default class BrandImageSetting extends React.PureComponent<Props, State>
         if (!this.fileInputRef.current) {
             return;
         }
-        const element = $(this.fileInputRef.current) as any;
-        if (element.prop('files').length > 0) {
+        const element = this.fileInputRef.current;
+        if (element.files && element.files.length > 0) {
             this.props.setSaveNeeded();
             this.setState({
-                brandImage: element.prop('files')[0],
+                brandImage: element.files[0],
                 deleteBrandImage: false,
             });
         }

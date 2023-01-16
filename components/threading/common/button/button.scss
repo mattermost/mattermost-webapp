@@ -100,6 +100,10 @@
     .Button_label {
         display: inline-block;
         max-width: 100%;
+
+        &.margin_top {
+            margin-top: 4px;
+        }
     }
 
     .Button_prepended {

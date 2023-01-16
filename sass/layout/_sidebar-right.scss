@@ -1,51 +1,35 @@
 @charset "utf-8";
 
-.sidebar--right {
-    @include translateX(100%);
+.sidebar--right--width-holder {
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
 
-    position: absolute;
-    z-index: 11;
-    right: 0;
+    width: 400px;
+    transition: width 0.25s 0s ease-in, z-index 0.25s 0s step-end;
+}
+
+.sidebar--right {
     width: 400px;
     height: 100%;
     padding: 0;
+    transform: translateX(100%);
 
-    body.announcement-bar--fixed & {
-        height: calc(100% - #{$announcement-bar-height});
-    }
-
-    &.move--left {
+    &.is-open {
         transition: width 0.25s 0s ease-in, z-index 0.25s 0s step-end;
     }
 
-    &.sidebar--right--expanded {
-        @include box-shadow(0 8px 24px alpha-color($black, 0.24));
-
+    &.expanded {
         z-index: 13;
+        box-shadow: 0 8px 24px alpha-color($black, 0.24);
 
         .sidebar-right__body {
             overflow: hidden;
         }
 
-        &.move--left {
+        &.is-open {
             transition: width 0.25s 0s ease-in, z-index 0.15s 0.1s step-start;
         }
-
-        .sidebar--right__bg {
-            visibility: visible;
-        }
-    }
-
-    .sidebar--right__bg {
-        position: absolute;
-        z-index: 5;
-        top: -70px;
-        left: -500%;
-        // Since the element (sidebar--right__bg) is tied to the sidebar, we need to expand beyond it, we're given an arbitrary large width and left positioning so that it may take the width completely
-        width: 1000%;
-        height: 110%;
-        background-color: transparent;
-        visibility: hidden;
     }
 
     .sidebar-right__table {
@@ -67,20 +51,13 @@
         }
     }
 
-    .channel-archived-warning {
-        padding: 20px;
-    }
-
     .sidebar--right__content {
-        @include display-flex;
-        @include flex-direction(column);
-
+        display: flex;
         height: 100%;
+        flex-direction: column;
     }
 
     .sidebar--right__back {
-        @include single-transition(all, 0.2s, ease-in);
-
         display: flex;
         width: 2.4rem;
         height: 2.4rem;
@@ -91,6 +68,7 @@
         color: rgba(var(--center-channel-color-rgb), 0.56);
         font-size: 12px;
         text-decoration: none;
+        transition: all 0.2s ease-in;
 
         &:hover {
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -104,29 +82,18 @@
     }
 
     .sidebar-right__body {
-        @include display-flex;
-        @include flex(1 1 auto);
-        @include flex-direction(column);
-
-        height: calc(100% - 56px);
+        display: flex;
+        height: 100%;
+        flex: 1 1 auto;
+        flex-direction: column;
         border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
         background: v(center-channel-bg);
-
-        .loading-screen {
-            position: relative;
-            height: 40px;
-            padding: 0;
-
-            .loading__content {
-                height: 40px;
-            }
-        }
 
         .info-card {
             padding: 5px 15px 60px 15px;
         }
 
-        .scrollbar--view {
+        .post-right__content {
             .emoji-picker--active & {
                 pointer-events: none;
             }
@@ -134,13 +101,12 @@
     }
 
     .sidebar__overlay {
-        @include opacity(0.1);
-
         position: absolute;
         z-index: 5;
         width: 100%;
         height: 100%;
         background-color: $yellow;
+        opacity: 0.1;
         pointer-events: none;
     }
 
@@ -204,6 +170,21 @@
         }
     }
 
+    .sidebar--right__title__subtitle {
+        overflow: hidden;
+        height: 2.4rem;
+        padding: 0 8px;
+        border-left: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        margin: 0 0 0 8px;
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-family: "Open Sans", sans-serif;
+        font-size: 12px;
+        font-weight: normal;
+        line-height: 2.4rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     .sidebar--right__follow__thread {
         height: 2.4rem;
         margin-right: 4px;
@@ -212,10 +193,9 @@
     }
 
     .sidebar--right__header {
-        @include flex(0 0 56px);
-
         display: flex;
         overflow: hidden;
+        flex: 0 0 56px;
         align-items: center;
         justify-content: space-between;
         padding: 0 16px 0 0;
@@ -236,8 +216,7 @@
     }
 
     .sidebar--right__loading {
-        @include opacity(0.7);
-
+        opacity: 0.7;
         text-align: center;
 
         .fa {
@@ -246,12 +225,11 @@
     }
 
     .sidebar--right__subheader {
-        @include single-transition(width, 0.25s, ease-in);
-
         width: 100%;
         padding-bottom: 10vh;
         margin: auto;
         font-size: 1em;
+        transition: width 0.25s ease-in;
 
         &.search__hints {
             margin: 0;
@@ -263,10 +241,9 @@
         }
 
         ul {
-            @include opacity(0.7);
-
             padding: 0 0 0 30px;
             margin: 0;
+            opacity: 0.7;
         }
 
         li {
@@ -275,11 +252,10 @@
         }
 
         .usage__icon {
-            @include opacity(0.9);
-
             position: relative;
             top: 3px;
             margin: 0 3px;
+            opacity: 0.9;
         }
 
         &.sidebar-expanded {
@@ -292,18 +268,11 @@
     }
 }
 
-.sidebar-right-container {
-    height: calc(100% - 63px);
-}
-
 .sidebar-collapse__container {
     display: none;
 }
 
 .sidebar-collapse {
-    @include single-transition(all, 0.2s, linear);
-    @include translateX(0);
-
     z-index: 5;
     display: flex;
     width: 45px;
@@ -312,6 +281,8 @@
     justify-content: center;
     cursor: pointer;
     text-align: center;
+    transform: translateX(0);
+    transition: all 0.2s linear;
 
     .fa {
         position: relative;
@@ -323,6 +294,8 @@
 @media screen and (min-width: 769px) {
     // adjust RHS position and height
     #sidebar-right {
+        // If this is changed, the interaction with the App Bar icons must be tested
+        //(see .app-bar__icon in components/app_bar/app_bar.scss)
         z-index: 20;
         top: 0;
 

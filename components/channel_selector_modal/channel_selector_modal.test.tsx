@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import ChannelSelectorModal from 'components/channel_selector_modal/channel_selector_modal';
-import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {ChannelWithTeamData} from '@mattermost/types/channels';
 import {TestHelper} from 'utils/test_helper';
 
 describe('components/ChannelSelectorModal', () => {

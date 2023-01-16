@@ -4,8 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Team} from 'mattermost-redux/types/teams';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Team} from '@mattermost/types/teams';
+import {Channel} from '@mattermost/types/channels';
 
 import {ChannelProfile} from './channel_profile';
 

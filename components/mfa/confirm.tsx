@@ -5,11 +5,11 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants';
-import {isKeyPressed} from 'utils/utils.jsx';
+import {isKeyPressed} from 'utils/utils';
 
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -45,7 +45,7 @@ export default class Confirm extends React.PureComponent<Props> {
     }
 
     onKeyPress = (e: KeyboardEvent | React.FormEvent<HTMLFormElement>): void => {
-        if (isKeyPressed(e, KeyCodes.ENTER)) {
+        if (isKeyPressed(e as KeyboardEvent, KeyCodes.ENTER)) {
             this.submit(e);
         }
     }

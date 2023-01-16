@@ -1,12 +1,4 @@
 .RenewLicenseCard {
-    display: flex;
-    padding: 32px 54px 18px 32px;
-    border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
-    margin-bottom: 20px;
-    background-color: var(--sys-center-channel-bg);
-    border-radius: 4px;
-    box-shadow: 0 2px 3px #00000014;
-
     .annnouncementBar__purchaseNow {
         display: block;
         padding: 12px 20px;
@@ -21,6 +13,10 @@
             font-weight: 600;
             line-height: 14px;
         }
+    }
+
+    &__buttons {
+        display: flex;
     }
 }
 

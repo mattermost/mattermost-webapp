@@ -6,16 +6,16 @@ import {FormattedMessage} from 'react-intl';
 
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {Permissions} from 'mattermost-redux/constants';
-import {AdminConfig} from 'mattermost-redux/types/config';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {Bot} from 'mattermost-redux/types/bots';
+import {AdminConfig} from '@mattermost/types/config';
+import {UserProfile} from '@mattermost/types/users';
+import {ServerError} from '@mattermost/types/errors';
+import {Bot} from '@mattermost/types/bots';
+import {DeepPartial} from '@mattermost/types/utilities';
 
 import {adminResetMfa} from 'actions/admin_actions.jsx';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {Constants} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 import {getSiteURL} from 'utils/url';
 import {emitUserLoggedOutEvent} from 'actions/global_actions';
@@ -37,7 +37,7 @@ export type Props = {
     index: number;
     totalUsers: number;
     config: DeepPartial<AdminConfig>;
-    bots: Dictionary<Bot>;
+    bots: Record<string, Bot>;
     isLicensed: boolean;
     isDisabled: boolean;
     actions: {
@@ -46,6 +46,7 @@ export type Props = {
         promoteGuestToUser: (id: string) => Promise<{error: ServerError}>;
         demoteUserToGuest: (id: string) => Promise<{error: ServerError}>;
         loadBots: (page?: number, size?: number) => Promise<unknown>;
+        createGroupTeamsAndChannels: (userId: string) => Promise<{error: ServerError}>;
     };
     doPasswordReset: (user: UserProfile) => void;
     doEmailReset: (user: UserProfile) => void;
@@ -60,6 +61,7 @@ type State = {
     showRevokeSessionsModal: boolean;
     showPromoteToUserModal: boolean;
     showDemoteToGuestModal: boolean;
+    showCreateGroupMembershipsModal: boolean;
     user: UserProfile | null;
     role: string | null;
 }
@@ -73,6 +75,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
             showRevokeSessionsModal: false,
             showPromoteToUserModal: false,
             showDemoteToGuestModal: false,
+            showCreateGroupMembershipsModal: false,
             user: null,
             role: null,
         };
@@ -192,19 +195,57 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
             for (const bot of Object.values(this.props.bots)) {
                 if ((bot.owner_id === user.id) && this.state.showDeactivateMemberModal && (bot.delete_at === 0)) {
                     messageForUsersWithBotAccounts = (
-                        <FormattedMarkdownMessage
-                            id='deactivate_member_modal.desc.for_users_with_bot_accounts'
-                            defaultMessage='This action deactivates {username}.\n \n * They will be logged out and not have access to any teams or channels on this system.\n * Bot accounts they manage will be disabled along with their integrations. To enable them again, go to [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). [Learn more about bot accounts](!https://mattermost.com/pl/default-bot-accounts).\n \n \n'
-                            values={{
-                                username: user.username,
-                                siteURL: getSiteURL(),
-                            }}
-                        />);
+                        <>
+                            <ul>
+                                <li>
+                                    <FormattedMessage
+                                        id='deactivate_member_modal.desc.for_users_with_bot_accounts1'
+                                        defaultMessage='This action deactivates {username}'
+                                        values={{
+                                            username: user.username,
+                                        }}
+                                    />
+                                </li>
+                                <li>
+                                    <FormattedMessage
+                                        id='deactivate_member_modal.desc.for_users_with_bot_accounts2'
+                                        defaultMessage='They will be logged out and not have access to any teams or channels on this system.'
+                                    />
+                                </li>
+                                <li>
+                                    <FormattedMessage
+                                        id='deactivate_member_modal.desc.for_users_with_bot_accounts3'
+                                        defaultMessage='Bot accounts they manage will be disabled along with their integrations. To enable them again, go to <linkBots>Integrations > Bot Accounts</linkBots>. <linkDocumentation>Learn more about bot accounts</linkDocumentation>.'
+                                        values={{
+                                            siteURL: getSiteURL(),
+                                            linkBots: (msg: React.ReactNode) => (
+                                                <a
+                                                    href={`${getSiteURL()}/_redirect/integrations/bots`}
+                                                >
+                                                    {msg}
+                                                </a>
+                                            ),
+                                            linkDocumentation: (msg: React.ReactNode) => (
+                                                <a
+                                                    href='https://mattermost.com/pl/default-bot-accounts'
+                                                    target='_blank'
+                                                    rel='noreferrer'
+                                                >
+                                                    {msg}
+                                                </a>
+                                            ),
+                                        }}
+                                    />
+                                </li>
+                            </ul>
+                            <p/>
+                            <p/>
+                        </>
+                    );
                     break;
                 }
             }
         }
-
         const message = (
             <div>
                 {messageForUsersWithBotAccounts || defaultMessage}
@@ -243,6 +284,24 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
     handleShowRevokeSessionsModal = (e: {preventDefault: () => void}) => {
         e.preventDefault();
         this.setState({showRevokeSessionsModal: true});
+    }
+
+    handleShowCreateGroupSyncableMembershipsModal = (e: {preventDefault: () => void}) => {
+        e.preventDefault();
+        this.setState({showCreateGroupMembershipsModal: true});
+    }
+
+    handleCreateGroupSyncableMemberships = async () => {
+        const {error} = await this.props.actions.createGroupTeamsAndChannels(this.props.user.id);
+        if (error) {
+            this.props.onError(error);
+        }
+
+        this.setState({showCreateGroupMembershipsModal: false});
+    }
+
+    handleCreateGroupSyncableMembershipsCancel = () => {
+        this.setState({showCreateGroupMembershipsModal: false});
     }
 
     handleRevokeSessions = async () => {
@@ -418,6 +477,55 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         );
     }
 
+    renderCreateGroupSyncablesMembershipsModal = () => {
+        const title = (
+            <FormattedMessage
+                id='create_group_memberships_modal.title'
+                defaultMessage='Re-add {username} to teams and channels'
+                values={{
+                    username: this.props.user.username,
+                }}
+            />
+        );
+
+        const message = (
+            <FormattedMessage
+                id='create_group_memberships_modal.desc'
+                defaultMessage="You're about to add or re-add {username} to teams and channels based on their LDAP group membership. You can revert this change at any time."
+                values={{
+                    username: this.props.user.username,
+                }}
+            />
+        );
+
+        const createGroupMembershipsButton = (
+            <FormattedMessage
+                id='create_group_memberships_modal.create'
+                defaultMessage='Yes'
+            />
+        );
+
+        const cancelGroupMembershipsButton = (
+            <FormattedMessage
+                id='create_group_memberships_modal.cancel'
+                defaultMessage='No'
+            />
+        );
+
+        return (
+            <ConfirmModal
+                show={this.state.showCreateGroupMembershipsModal}
+                title={title}
+                message={message}
+                confirmButtonClass='btn btn-danger'
+                cancelButtonText={cancelGroupMembershipsButton}
+                confirmButtonText={createGroupMembershipsButton}
+                onConfirm={this.handleCreateGroupSyncableMemberships}
+                onCancel={this.handleCreateGroupSyncableMembershipsCancel}
+            />
+        );
+    }
+
     renderAccessToken = () => {
         const userAccessTokensEnabled = this.props.enableUserAccessTokens;
         if (!userAccessTokensEnabled) {
@@ -516,6 +624,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         const revokeSessionsModal = this.renderRevokeSessionsModal();
         const promoteToUserModal = this.renderPromoteToUserModal();
         const demoteToGuestModal = this.renderDemoteToGuestModal();
+        const createGroupSyncablesMembershipsModal = this.renderCreateGroupSyncablesMembershipsModal();
 
         const {index, totalUsers} = this.props;
         return (
@@ -524,6 +633,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                 {revokeSessionsModal}
                 {promoteToUserModal}
                 {demoteToGuestModal}
+                {createGroupSyncablesMembershipsModal}
                 <MenuWrapper
                     isDisabled={this.props.isDisabled}
                 >
@@ -601,6 +711,13 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                                 show={showRevokeSessions}
                                 onClick={this.handleShowRevokeSessionsModal}
                                 text={Utils.localizeMessage('admin.user_item.revokeSessions', 'Revoke Sessions')}
+                            />
+                        </SystemPermissionGate>
+                        <SystemPermissionGate permissions={[Permissions.SYSCONSOLE_WRITE_USERMANAGEMENT_GROUPS]}>
+                            <Menu.ItemAction
+                                show={user.auth_service === Constants.LDAP_SERVICE}
+                                onClick={this.handleShowCreateGroupSyncableMembershipsModal}
+                                text={Utils.localizeMessage('admin.user_item.createGroupTeamChannelMemberships', 'Re-sync user via LDAP groups')}
                             />
                         </SystemPermissionGate>
                     </Menu>

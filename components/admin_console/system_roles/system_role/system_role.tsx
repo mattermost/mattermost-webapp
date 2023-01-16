@@ -5,17 +5,16 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {uniq, difference} from 'lodash';
 
-import {Role} from 'mattermost-redux/types/roles';
+import {Role} from '@mattermost/types/roles';
 import {Client4} from 'mattermost-redux/client';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {UserProfile} from '@mattermost/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import Constants from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import FormError from 'components/form_error';
 import BlockableLink from 'components/admin_console/blockable_link';
@@ -40,13 +39,13 @@ type Props = {
 }
 
 type State = {
-    usersToAdd: Dictionary<UserProfile>;
-    usersToRemove: Dictionary<UserProfile>;
+    usersToAdd: Record<string, UserProfile>;
+    usersToRemove: Record<string, UserProfile>;
     permissionsToUpdate: PermissionsToUpdate;
     updatedRolePermissions: string[];
     saving: boolean;
     saveNeeded: boolean;
-    serverError: JSX.Element | null;
+    serverError: JSX.Element | undefined;
     saveKey: number;
 }
 
@@ -59,7 +58,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
             usersToRemove: {},
             saving: false,
             saveNeeded: false,
-            serverError: null,
+            serverError: undefined,
             permissionsToUpdate: {},
             saveKey: 0,
             updatedRolePermissions: [],
@@ -121,7 +120,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         this.setState({saving: true, saveNeeded: false});
         const {usersToRemove, usersToAdd, updatedRolePermissions, permissionsToUpdate} = this.state;
         const {role, actions: {editRole, updateUserRoles, setNavigationBlocked}} = this.props;
-        let serverError = null;
+        let serverError;
 
         // Do not update permissions if sysadmin or if roles have not been updated (to prevent overrwiting roles with no permissions)
         if (role.name !== Constants.PERMISSIONS_SYSTEM_ADMIN && Object.keys(permissionsToUpdate).length > 0) {
@@ -179,7 +178,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         }
 
         if (serverError === null) {
-            browserHistory.push('/admin_console/user_management/system_roles');
+            getHistory().push('/admin_console/user_management/system_roles');
         }
         setNavigationBlocked(serverError !== null);
         this.setState({

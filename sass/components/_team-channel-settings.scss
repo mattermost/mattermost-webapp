@@ -1,11 +1,11 @@
 @charset 'UTF-8';
 
 span.greyed-out {
-    @include opacity(0.4);
+    opacity: 0.4;
 }
 
 .row-content {
-    @include opacity(0.8);
+    opacity: 0.8;
 }
 
 .groups-list-no-padding {

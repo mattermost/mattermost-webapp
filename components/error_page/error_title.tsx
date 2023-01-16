@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {ErrorPageTypes} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 type Props = {
     type?: string | null;
@@ -29,6 +29,14 @@ const ErrorTitle: React.FC<Props> = ({type, title}: Props) => {
                 <FormattedMessage
                     id='permalink.error.title'
                     defaultMessage='Message Not Found'
+                />
+            );
+            break;
+        case ErrorPageTypes.CLOUD_ARCHIVED:
+            errorTitle = (
+                <FormattedMessage
+                    id='cloud_archived.error.title'
+                    defaultMessage='Message Archived'
                 />
             );
             break;

@@ -2,16 +2,24 @@
 
 exports[`components/ConfigurationBar should match snapshot, expired 1`] = `
 <Connect(AnnouncementBar)
+  handleClose={[Function]}
   message={
-    <React.Fragment>
+    <div
+      className="announcement-bar__configuration"
+    >
       <React.Fragment>
         <img
           className="advisor-icon"
           src={null}
         />
         <Memo(MemoizedFormattedMessage)
-          defaultMessage="Enterprise license is expired and some features may be disabled."
+          defaultMessage="{licenseSku} license is expired and some features may be disabled."
           id="announcement_bar.error.license_expired"
+          values={
+            Object {
+              "licenseSku": "Enterprise",
+            }
+          }
         />
       </React.Fragment>
       <Memo(Connect(RenewalLink))
@@ -22,8 +30,9 @@ exports[`components/ConfigurationBar should match snapshot, expired 1`] = `
           }
         }
       />
-    </React.Fragment>
+    </div>
   }
+  showCloseButton={true}
   tooltipMsg={
     <React.Fragment>
       <img
@@ -31,8 +40,13 @@ exports[`components/ConfigurationBar should match snapshot, expired 1`] = `
         src={null}
       />
       <Memo(MemoizedFormattedMessage)
-        defaultMessage="Enterprise license is expired and some features may be disabled."
+        defaultMessage="{licenseSku} license is expired and some features may be disabled."
         id="announcement_bar.error.license_expired"
+        values={
+          Object {
+            "licenseSku": "Enterprise",
+          }
+        }
       />
     </React.Fragment>
   }
@@ -40,18 +54,28 @@ exports[`components/ConfigurationBar should match snapshot, expired 1`] = `
 />
 `;
 
+exports[`components/ConfigurationBar should match snapshot, expired, cloud license, show nothing 1`] = `""`;
+
 exports[`components/ConfigurationBar should match snapshot, expired, in grace period 1`] = `
 <Connect(AnnouncementBar)
+  handleClose={[Function]}
   message={
-    <React.Fragment>
+    <div
+      className="announcement-bar__configuration"
+    >
       <React.Fragment>
         <img
           className="advisor-icon"
           src={null}
         />
         <Memo(MemoizedFormattedMessage)
-          defaultMessage="Enterprise license is expired and some features may be disabled."
+          defaultMessage="{licenseSku} license is expired and some features may be disabled."
           id="announcement_bar.error.license_expired"
+          values={
+            Object {
+              "licenseSku": "Enterprise",
+            }
+          }
         />
       </React.Fragment>
       <Memo(Connect(RenewalLink))
@@ -62,8 +86,9 @@ exports[`components/ConfigurationBar should match snapshot, expired, in grace pe
           }
         }
       />
-    </React.Fragment>
+    </div>
   }
+  showCloseButton={true}
   tooltipMsg={
     <React.Fragment>
       <img
@@ -71,8 +96,13 @@ exports[`components/ConfigurationBar should match snapshot, expired, in grace pe
         src={null}
       />
       <Memo(MemoizedFormattedMessage)
-        defaultMessage="Enterprise license is expired and some features may be disabled."
+        defaultMessage="{licenseSku} license is expired and some features may be disabled."
         id="announcement_bar.error.license_expired"
+        values={
+          Object {
+            "licenseSku": "Enterprise",
+          }
+        }
       />
     </React.Fragment>
   }
@@ -89,13 +119,20 @@ exports[`components/ConfigurationBar should match snapshot, expired, regular use
         src={null}
       />
       <Memo(MemoizedFormattedMessage)
-        defaultMessage="Enterprise license is expired and some features may be disabled. Please contact your System Administrator for details."
+        defaultMessage="{licenseSku} license is expired and some features may be disabled. Please contact your System Administrator for details."
         id="announcement_bar.error.past_grace"
+        values={
+          Object {
+            "licenseSku": "Enterprise",
+          }
+        }
       />
     </React.Fragment>
   }
   type="critical"
 />
 `;
+
+exports[`components/ConfigurationBar should match snapshot, expiring, cloud license, show nothing 1`] = `""`;
 
 exports[`components/ConfigurationBar should match snapshot, show nothing 1`] = `""`;

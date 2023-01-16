@@ -15,7 +15,7 @@ import {
 } from 'mattermost-redux/actions/admin';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
+import {appsFeatureFlagEnabled} from 'mattermost-redux/selectors/entities/apps';
 
 import PluginManagement from './plugin_management';
 
@@ -23,7 +23,7 @@ function mapStateToProps(state: any) {
     return {
         plugins: state.entities.admin.plugins,
         pluginStatuses: state.entities.admin.pluginStatuses,
-        appsEnabled: appsEnabled(state),
+        appsFeatureFlagEnabled: appsFeatureFlagEnabled(state),
     };
 }
 

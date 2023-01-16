@@ -1,6 +1,8 @@
 @charset "UTF-8";
 
 .emoji-picker {
+    pointer-events: auto;
+
     li.custom-emoji-tab:not(.active) {
         a {
             width: max-content;

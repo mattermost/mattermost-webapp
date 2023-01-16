@@ -50,7 +50,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             navigating: false,
         };
 
-        if (Utils.isMobile() && !BrowserStore.hasSeenLandingPage()) {
+        if (!BrowserStore.hasSeenLandingPage()) {
             BrowserStore.setLandingPageSeen(true);
         }
     }

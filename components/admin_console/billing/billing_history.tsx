@@ -1,31 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
-import {FormattedDate, FormattedMessage, FormattedNumber} from 'react-intl';
+import React, {useEffect} from 'react';
+import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {getCloudProducts, getCloudSubscription, getInvoices} from 'mattermost-redux/actions/cloud';
-import {Client4} from 'mattermost-redux/client';
-import {Invoice} from 'mattermost-redux/types/cloud';
-import {GlobalState} from 'mattermost-redux/types/store';
-
-import LoadingSpinner from 'components/widgets/loading/loading_spinner';
-
+import {getInvoices} from 'mattermost-redux/actions/cloud';
+import {getSelfHostedInvoices as getSelfHostedInvoicesAction} from 'actions/hosted_customer';
+import {getCloudErrors, getCloudInvoices, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
+import {getSelfHostedErrors, getSelfHostedInvoices} from 'mattermost-redux/selectors/entities/hosted_customer';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
+
+import CloudFetchError from 'components/cloud_fetch_error';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history.svg';
+import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history_svg';
 
 import {CloudLinks} from 'utils/constants';
 
+import BillingHistoryTable from './billing_history_table';
+
 import './billing_history.scss';
-
-type Props = {
-
-};
-
-const PAGE_LENGTH = 4;
 
 const noBillingHistorySection = (
     <div className='BillingHistory__noHistory'>
@@ -40,7 +35,7 @@ const noBillingHistorySection = (
             />
         </div>
         <a
-            target='_new'
+            target='_blank'
             rel='noopener noreferrer'
             href={CloudLinks.BILLING_DOCS}
             className='BillingHistory__noHistory-link'
@@ -54,196 +49,20 @@ const noBillingHistorySection = (
     </div>
 );
 
-const getPaymentStatus = (status: string) => {
-    switch (status) {
-    case 'failed':
-        return (
-            <div className='BillingHistory__paymentStatus failed'>
-                <i className='icon icon-alert-outline'/>
-                <FormattedMessage
-                    id='admin.billing.history.paymentFailed'
-                    defaultMessage='Payment failed'
-                />
-            </div>
-        );
-    case 'paid':
-        return (
-            <div className='BillingHistory__paymentStatus paid'>
-                <i className='icon icon-check-circle-outline'/>
-                <FormattedMessage
-                    id='admin.billing.history.paid'
-                    defaultMessage='Paid'
-                />
-            </div>
-        );
-    default:
-        return (
-            <div className='BillingHistory__paymentStatus pending'>
-                <i className='icon icon-check-circle-outline'/>
-                <FormattedMessage
-                    id='admin.billing.history.pending'
-                    defaultMessage='Pending'
-                />
-            </div>
-        );
-    }
-};
-
-const BillingHistory: React.FC<Props> = () => {
+const BillingHistory = () => {
     const dispatch = useDispatch();
-    const invoices = useSelector((state: GlobalState) => state.entities.cloud.invoices);
-    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
-    const product = useSelector((state: GlobalState) => {
-        if (state.entities.cloud.products && subscription) {
-            return state.entities.cloud.products[subscription?.product_id];
-        }
-        return undefined;
-    });
+    const isCloud = useSelector(isCurrentLicenseCloud);
+    const invoices = useSelector(isCloud ? getCloudInvoices : getSelfHostedInvoices);
+    const {invoices: invoicesError} = useSelector(isCloud ? getCloudErrors : getSelfHostedErrors);
 
-    const [billingHistory, setBillingHistory] = useState<Invoice[] | undefined>(undefined);
-    const [firstRecord, setFirstRecord] = useState(1);
-
-    const previousPage = () => {
-        if (firstRecord > PAGE_LENGTH) {
-            setFirstRecord(firstRecord - PAGE_LENGTH);
-        }
-    };
-    const nextPage = () => {
-        if (invoices && (firstRecord + PAGE_LENGTH) < Object.values(invoices).length) {
-            setFirstRecord(firstRecord + PAGE_LENGTH);
-        }
-
-        // TODO: When server paging, check if there are more invoices
-    };
     useEffect(() => {
-        dispatch(getCloudProducts());
-        dispatch(getCloudSubscription());
-        dispatch(getInvoices());
         pageVisited('cloud_admin', 'pageview_billing_history');
     }, []);
-
     useEffect(() => {
-        if (invoices && Object.values(invoices).length) {
-            const invoicesByDate = Object.values(invoices).sort((a, b) => b.period_start - a.period_start);
-            setBillingHistory(invoicesByDate.slice(firstRecord - 1, (firstRecord - 1) + PAGE_LENGTH));
-        }
-    }, [invoices, firstRecord]);
-
-    const paging = (
-        <div className='BillingHistory__paging'>
-            <FormattedMarkdownMessage
-                id='admin.billing.history.pageInfo'
-                defaultMessage='{startRecord} - {endRecord} of {totalRecords}'
-                values={{
-                    startRecord: firstRecord,
-                    endRecord: Math.min(firstRecord + (PAGE_LENGTH - 1), Object.values(invoices || []).length),
-                    totalRecords: Object.values(invoices || []).length,
-                }}
-            />
-            <button
-                onClick={previousPage}
-                disabled={firstRecord <= PAGE_LENGTH}
-            >
-                <i className='icon icon-chevron-left'/>
-            </button>
-            <button
-                onClick={nextPage}
-                disabled={!invoices || (firstRecord + PAGE_LENGTH) >= Object.values(invoices).length}
-            >
-                <i className='icon icon-chevron-right'/>
-            </button>
-        </div>
-    );
-
-    const billingHistoryTable = billingHistory && (
-        <>
-            <table className='BillingHistory__table'>
-                <tr className='BillingHistory__table-header'>
-                    <th>
-                        <FormattedMessage
-                            id='admin.billing.history.date'
-                            defaultMessage='Date'
-                        />
-                    </th>
-                    <th>
-                        <FormattedMessage
-                            id='admin.billing.history.description'
-                            defaultMessage='Description'
-                        />
-                    </th>
-                    <th className='BillingHistory__table-headerTotal'>
-                        <FormattedMessage
-                            id='admin.billing.history.total'
-                            defaultMessage='Total'
-                        />
-                    </th>
-                    <th>
-                        <FormattedMessage
-                            id='admin.billing.history.status'
-                            defaultMessage='Status'
-                        />
-                    </th>
-                    <th>{''}</th>
-                </tr>
-                {billingHistory.map((invoice: Invoice) => {
-                    const fullUsers = invoice.line_items.filter((item) => item.type === 'full').reduce((val, item) => val + item.quantity, 0);
-                    const partialUsers = invoice.line_items.filter((item) => item.type === 'partial').reduce((val, item) => val + item.quantity, 0);
-
-                    return (
-                        <tr
-                            className='BillingHistory__table-row'
-                            key={invoice.id}
-                        >
-                            <td>
-                                <FormattedDate
-                                    value={new Date(invoice.period_start)}
-                                    month='2-digit'
-                                    day='2-digit'
-                                    year='numeric'
-                                    timeZone='UTC'
-                                />
-                            </td>
-                            <td>
-                                <div>{product?.name}</div>
-                                <div className='BillingHistory__table-bottomDesc'>
-                                    <FormattedMarkdownMessage
-                                        id='admin.billing.history.usersAndRates'
-                                        defaultMessage='{fullUsers} users at full rate, {partialUsers} users with partial charges'
-                                        values={{
-                                            fullUsers,
-                                            partialUsers,
-                                        }}
-                                    />
-                                </div>
-                            </td>
-                            <td className='BillingHistory__table-total'>
-                                <FormattedNumber
-                                    value={(invoice.total / 100.0)}
-                                    // eslint-disable-next-line react/style-prop-object
-                                    style='currency'
-                                    currency='USD'
-                                />
-                            </td>
-                            <td>
-                                {getPaymentStatus(invoice.status)}
-                            </td>
-                            <td className='BillingHistory__table-invoice'>
-                                <a
-                                    target='_new'
-                                    rel='noopener noreferrer'
-                                    href={Client4.getInvoicePdfUrl(invoice.id)}
-                                >
-                                    <i className='icon icon-file-pdf-outline'/>
-                                </a>
-                            </td>
-                        </tr>
-                    );
-                })}
-            </table>
-            {paging}
-        </>
-    );
-
+        dispatch(isCloud ? getInvoices() : getSelfHostedInvoicesAction());
+    }, [isCloud]);
+    const billingHistoryTable = invoices && <BillingHistoryTable invoices={invoices}/>;
+    const areInvoicesEmpty = Object.keys(invoices || {}).length === 0;
     return (
         <div className='wrapper--fixed BillingHistory'>
             <FormattedAdminHeader
@@ -252,7 +71,8 @@ const BillingHistory: React.FC<Props> = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-                    <div className='BillingHistory__card'>
+                    {invoicesError && <CloudFetchError/>}
+                    {!invoicesError && <div className='BillingHistory__card'>
                         <div className='BillingHistory__cardHeader'>
                             <div className='BillingHistory__cardHeaderText'>
                                 <div className='BillingHistory__cardHeaderText-top'>
@@ -273,9 +93,7 @@ const BillingHistory: React.FC<Props> = () => {
                         <div className='BillingHistory__cardBody'>
                             {invoices != null && (
                                 <>
-                                    {billingHistory ?
-                                        billingHistoryTable :
-                                        noBillingHistorySection}
+                                    {areInvoicesEmpty ? noBillingHistorySection : billingHistoryTable}
                                 </>
                             )}
                             {invoices == null && (
@@ -284,7 +102,7 @@ const BillingHistory: React.FC<Props> = () => {
                                 </div>
                             )}
                         </div>
-                    </div>
+                    </div>}
                 </div>
             </div>
         </div>

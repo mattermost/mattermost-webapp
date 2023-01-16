@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {ProgressBar} from 'react-bootstrap';
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay';
 import {getFileTypeFromMime} from 'utils/file_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import {FilePreviewInfo} from './file_preview';
 
@@ -31,7 +32,7 @@ export default class FileProgressPreview extends React.PureComponent<Props> {
         if (fileInfo) {
             percent = fileInfo.percent ? fileInfo.percent : 0;
             const percentTxt = ` (${percent.toFixed(0)}%)`;
-            const fileType = getFileTypeFromMime(fileInfo.type);
+            const fileType = getFileTypeFromMime(fileInfo.type || '');
             previewImage = <div className={'file-icon ' + Utils.getIconClassName(fileType)}/>;
 
             fileNameComponent = (

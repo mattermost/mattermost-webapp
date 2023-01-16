@@ -5,7 +5,7 @@ import {Client4} from 'mattermost-redux/client';
 import {BotTypes} from 'mattermost-redux/action_types';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {Bot, BotPatch} from 'mattermost-redux/types/bots';
+import {Bot, BotPatch} from '@mattermost/types/bots';
 
 import {bindClientFunc} from './helpers';
 

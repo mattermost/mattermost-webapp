@@ -3,13 +3,13 @@
 
 import {combineReducers} from 'redux';
 
-import {FileTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
+import {FileTypes, InsightTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
-import {FileInfo, FileSearchResultItem} from 'mattermost-redux/types/files';
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {Post} from '@mattermost/types/posts';
+import {FileInfo, FileSearchResultItem} from '@mattermost/types/files';
+import {TopThread} from '@mattermost/types/insights';
 
-export function files(state: Dictionary<FileInfo> = {}, action: GenericAction) {
+export function files(state: Record<string, FileInfo> = {}, action: GenericAction) {
     switch (action.type) {
     case FileTypes.RECEIVED_UPLOAD_FILES:
     case FileTypes.RECEIVED_FILES_FOR_POST: {
@@ -27,13 +27,24 @@ export function files(state: Dictionary<FileInfo> = {}, action: GenericAction) {
     case PostTypes.RECEIVED_POST: {
         const post = action.data;
 
-        return storeFilesForPost(state, post);
+        return storeAllFilesForPost(storeFilesForPost, state, post);
+    }
+
+    case InsightTypes.RECEIVED_TOP_THREADS:
+    case InsightTypes.RECEIVED_MY_TOP_THREADS: {
+        const threads: TopThread[] = Object.values(action.data.items);
+
+        return threads.reduce((nextState, thread) => {
+            return storeAllFilesForPost(storeFilesForPost, nextState, thread.post);
+        }, state);
     }
 
     case PostTypes.RECEIVED_POSTS: {
         const posts: Post[] = Object.values(action.data.posts);
 
-        return posts.reduce(storeFilesForPost, state);
+        return posts.reduce((nextState, post) => {
+            return storeAllFilesForPost(storeFilesForPost, nextState, post);
+        }, state);
     }
 
     case PostTypes.POST_DELETED:
@@ -58,7 +69,7 @@ export function files(state: Dictionary<FileInfo> = {}, action: GenericAction) {
     }
 }
 
-export function filesFromSearch(state: Dictionary<FileSearchResultItem> = {}, action: GenericAction) {
+export function filesFromSearch(state: Record<string, FileSearchResultItem> = {}, action: GenericAction) {
     switch (action.type) {
     case FileTypes.RECEIVED_FILES_FOR_SEARCH: {
         return {...state,
@@ -73,7 +84,26 @@ export function filesFromSearch(state: Dictionary<FileSearchResultItem> = {}, ac
     }
 }
 
-function storeFilesForPost(state: Dictionary<FileInfo>, post: Post) {
+function storeAllFilesForPost(storeFilesCallback: (state: Record<string, any>, post: Post) => any, state: any, post: Post) {
+    let currentState = state;
+
+    // Handle permalink embedded files
+    if (post.metadata && post.metadata.embeds) {
+        const embeds = post.metadata.embeds;
+
+        currentState = embeds.reduce((nextState, embed) => {
+            if (embed && embed.type === 'permalink' && embed.data && 'post' in embed.data && embed.data.post) {
+                return storeFilesCallback(nextState, embed.data.post);
+            }
+
+            return nextState;
+        }, currentState);
+    }
+
+    return storeFilesCallback(currentState, post);
+}
+
+function storeFilesForPost(state: Record<string, FileInfo>, post: Post) {
     if (!post.metadata || !post.metadata.files) {
         return state;
     }
@@ -91,7 +121,7 @@ function storeFilesForPost(state: Dictionary<FileInfo>, post: Post) {
     }, state);
 }
 
-export function fileIdsByPostId(state: Dictionary<string[]> = {}, action: GenericAction) {
+export function fileIdsByPostId(state: Record<string, string[]> = {}, action: GenericAction) {
     switch (action.type) {
     case FileTypes.RECEIVED_FILES_FOR_POST: {
         const {data, postId} = action;
@@ -105,13 +135,15 @@ export function fileIdsByPostId(state: Dictionary<string[]> = {}, action: Generi
     case PostTypes.RECEIVED_POST: {
         const post = action.data;
 
-        return storeFilesIdsForPost(state, post);
+        return storeAllFilesForPost(storeFilesIdsForPost, state, post);
     }
 
     case PostTypes.RECEIVED_POSTS: {
         const posts: Post[] = Object.values(action.data.posts);
 
-        return posts.reduce(storeFilesIdsForPost, state);
+        return posts.reduce((nextState, post) => {
+            return storeAllFilesForPost(storeFilesIdsForPost, nextState, post);
+        }, state);
     }
 
     case PostTypes.POST_DELETED:
@@ -132,7 +164,7 @@ export function fileIdsByPostId(state: Dictionary<string[]> = {}, action: Generi
     }
 }
 
-function storeFilesIdsForPost(state: Dictionary<string[]>, post: Post) {
+function storeFilesIdsForPost(state: Record<string, string[]>, post: Post) {
     if (!post.metadata || !post.metadata.files) {
         return state;
     }

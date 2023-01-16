@@ -30,12 +30,11 @@
 }
 
 .form-control {
-    @include border-radius($border-rad);
-
+    border-radius: $border-rad;
     text-align: left;
 
     &:focus {
-        @include box-shadow(none);
+        box-shadow: none;
     }
 
     &.no-padding {

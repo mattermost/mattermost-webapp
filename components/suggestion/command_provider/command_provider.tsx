@@ -9,7 +9,7 @@ import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
 import {Client4} from 'mattermost-redux/client';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
-import {AutocompleteSuggestion, CommandArgs} from 'mattermost-redux/types/integrations';
+import {AutocompleteSuggestion, CommandArgs} from '@mattermost/types/integrations';
 
 import globalStore from 'stores/redux_store';
 
@@ -194,6 +194,7 @@ export default class CommandProvider extends Provider {
                             Hint: hint,
                             Description: cmd.auto_complete_desc,
                             IconData: '',
+                            type: Constants.Integrations.COMMAND,
                         });
                     }
                 });
@@ -249,6 +250,7 @@ export default class CommandProvider extends Provider {
                             Hint: s.Hint,
                             Description: s.Description,
                             IconData: s.IconData,
+                            type: Constants.Integrations.COMMAND,
                         });
                     }
                 });
@@ -272,6 +274,7 @@ export default class CommandProvider extends Provider {
                         Hint: '',
                         Description: 'Select this option or use ' + cmd + '+Enter to execute the current command.',
                         IconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
+                        type: Constants.Integrations.COMMAND,
                     });
                 }
 

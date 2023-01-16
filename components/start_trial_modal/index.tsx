@@ -1,23 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {Modal, Button} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import {isModalOpen} from 'selectors/views/modals';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {ModalIdentifiers} from 'utils/constants';
+import {GlobalState} from 'types/store';
 import {closeModal, openModal} from 'actions/views/modals';
-import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {requestTrialLicense} from 'actions/admin_actions';
-import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
+import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_modal';
+
+import {makeAsyncComponent} from 'components/async_load';
+import useGetTotalUsersNoBots from 'components/common/hooks/useGetTotalUsersNoBots';
+
+import {ModalIdentifiers} from 'utils/constants';
 
 import StartTrialModalSvg from './start_trial_modal_svg';
+
+const TrialBenefitsModal = makeAsyncComponent('TrialBenefisModal', React.lazy(() => import('components/trial_benefits_modal/trial_benefits_modal')));
 
 import './start_trial_modal.scss';
 
@@ -36,13 +39,9 @@ function StartTrialModal(props: Props): JSX.Element | null {
     const [status, setLoadStatus] = useState(TrialLoadStatus.NotStarted);
     const dispatch = useDispatch<DispatchFunc>();
 
-    useEffect(() => {
-        dispatch(getStandardAnalytics());
-    }, []);
-
     const {formatMessage} = useIntl();
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.START_TRIAL_MODAL));
-    const stats = useSelector((state: GlobalState) => state.entities.admin.analytics);
+    const totalUsers = useGetTotalUsersNoBots(true) || 0;
 
     const openTrialBenefitsModal = async () => {
         await dispatch(openModal({
@@ -54,11 +53,7 @@ function StartTrialModal(props: Props): JSX.Element | null {
 
     const requestLicense = async () => {
         setLoadStatus(TrialLoadStatus.Started);
-        let users = 0;
-        if (stats && (typeof stats.TOTAL_USERS === 'number')) {
-            users = stats.TOTAL_USERS;
-        }
-        const requestedUsers = Math.max(users, 30);
+        const requestedUsers = Math.max(totalUsers, 30);
         const {error} = await dispatch(requestTrialLicense(requestedUsers, true, true, 'license'));
         if (error) {
             setLoadStatus(TrialLoadStatus.Failed);
@@ -96,7 +91,8 @@ function StartTrialModal(props: Props): JSX.Element | null {
 
     return (
         <Modal
-            className={'StartTrialModal'}
+            className='StartTrialModal'
+            dialogClassName='a11y__modal'
             show={show}
             id='startTrialModal'
             role='dialog'
@@ -136,9 +132,29 @@ function StartTrialModal(props: Props): JSX.Element | null {
                 </div>
                 <div className='disclaimer'>
                     <span>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='start_trial.modal.disclaimer'
-                            defaultMessage='By clicking “Start 30-day trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://about.mattermost.com/default-privacy-policy/) and receiving product emails.'
+                            defaultMessage='By clicking “Start free 30-day trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
+                            values={{
+                                linkEvaluation: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://mattermost.com/software-evaluation-agreement'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                                linkPrivacy: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://mattermost.com/privacy-policy/'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                         />
                     </span>
                 </div>

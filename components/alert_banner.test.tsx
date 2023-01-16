@@ -31,4 +31,34 @@ describe('Components/AlertBanner', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot when icon disabled', () => {
+        const wrapper = shallow(
+            <AlertBanner
+                hideIcon={true}
+                mode='info'
+                message='message'
+                title='title'
+                variant='app'
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when buttons are passed', () => {
+        const wrapper = shallow(
+            <AlertBanner
+                hideIcon={true}
+                mode='info'
+                message='message'
+                title='title'
+                variant='app'
+                actionButtonLeft={<div id='actionButtonLeft'/>}
+                actionButtonRight={<div id='actionButtonRight'/>}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });

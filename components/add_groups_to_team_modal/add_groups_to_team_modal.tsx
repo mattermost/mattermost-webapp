@@ -5,12 +5,10 @@ import React, {RefObject} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Groups} from 'mattermost-redux/constants';
-
-import {Group, GroupsWithCount, SyncablePatch, SyncableType} from 'mattermost-redux/types/groups';
+import {Group, GroupsWithCount, SyncablePatch, SyncableType} from '@mattermost/types/groups';
 
 import Constants from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import groupsAvatar from 'images/groups-avatar.png';
@@ -144,7 +142,7 @@ export default class AddGroupsToTeamModal extends React.PureComponent<Props, Sta
         this.setState({saving: true});
 
         await Promise.all(groupIDs.map(async (groupID) => {
-            const {error} = await this.props.actions.linkGroupSyncable(groupID, this.props.currentTeamId, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, scheme_admin: false});
+            const {error} = await this.props.actions.linkGroupSyncable(groupID, this.props.currentTeamId, SyncableType.Team, {auto_add: true, scheme_admin: false});
             this.handleResponse(error);
             if (!error) {
                 this.handleHide();

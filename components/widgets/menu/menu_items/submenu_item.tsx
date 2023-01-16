@@ -4,8 +4,10 @@
 import React, {CSSProperties} from 'react';
 import classNames from 'classnames';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {showMobileSubMenuModal} from 'actions/global_actions';
+
+import type {Menu} from 'types/store/plugins';
 
 import './menu_item.scss';
 import Constants from 'utils/constants';
@@ -37,7 +39,7 @@ export type Props = {
     text: React.ReactNode;
     selectedValueText?: React.ReactNode;
     renderSelected?: boolean;
-    subMenu?: Props[];
+    subMenu?: Menu[];
     subMenuClass?: string;
     icon?: React.ReactNode;
     action?: (id?: string) => void;
@@ -50,6 +52,8 @@ export type Props = {
     styleSelectableItem?: boolean;
     extraText?: string;
     rightDecorator?: React.ReactNode;
+    isHeader?: boolean;
+    tabIndex?: number;
 }
 
 type State = {
@@ -85,8 +89,12 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
 
     private onClick = (event: React.SyntheticEvent<HTMLElement>) => {
         event.preventDefault();
-        const {id, postId, subMenu, action, root} = this.props;
+        const {id, postId, subMenu, action, root, isHeader} = this.props;
         const isMobile = Utils.isMobile();
+        if (isHeader) {
+            event.stopPropagation();
+            return;
+        }
         if (isMobile) {
             if (subMenu && subMenu.length) { // if contains a submenu, call openModal with it
                 if (!root) { //required to close only the original menu
@@ -128,7 +136,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected, rightDecorator} = this.props;
+        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected, rightDecorator, tabIndex} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
@@ -168,10 +176,17 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                 >
                     {hasSubmenu ? subMenu!.map((s) => {
                         const hasDivider = s.id === 'ChannelMenu-moveToDivider';
+                        let aria = ariaLabel;
+                        if (s.action) {
+                            aria = s.text === selectedValueText ?
+                                s.text + ' ' + Utils.localizeMessage('sidebar.menu.item.selected', 'selected') :
+                                s.text + ' ' + Utils.localizeMessage('sidebar.menu.item.notSelected', 'not selected');
+                        }
                         return (
                             <span
                                 className={classNames(['SubMenuItemContainer', {hasDivider}])}
                                 key={s.id}
+                                tabIndex={s.id.includes('Divider') ? 1 : 0}
                             >
                                 <SubMenuItem
                                     id={s.id}
@@ -182,9 +197,11 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                                     subMenu={s.subMenu}
                                     action={s.action}
                                     filter={s.filter}
-                                    ariaLabel={ariaLabel}
+                                    ariaLabel={aria}
                                     root={false}
                                     direction={s.direction}
+                                    isHeader={s.isHeader}
+                                    tabIndex={1}
                                 />
                                 {s.text === selectedValueText && <span className='sorting-menu-checkbox'>
                                     <i className='icon-check'/>
@@ -202,6 +219,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                 role='menuitem'
                 id={id + '_menuitem'}
                 ref={this.node}
+                onClick={this.onClick}
             >
                 <div
                     className={classNames([{styleSelectableItemDiv: styleSelectableItem}])}
@@ -210,7 +228,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     onMouseEnter={this.show}
                     onMouseLeave={this.hide}
                     onClick={this.onClick}
-                    tabIndex={0}
+                    tabIndex={tabIndex ?? 0}
                     onKeyDown={this.handleKeyDown}
                 >
                     <div className={icon ? 'grid' : 'flex'}>

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {Client4} from 'mattermost-redux/client';
 import {EmojiTypes} from 'mattermost-redux/action_types';
 import {General, Emoji} from '../constants';
@@ -9,16 +10,15 @@ import {parseNeededCustomEmojisFromText} from 'mattermost-redux/utils/emoji_util
 
 import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
-import {SystemEmoji, CustomEmoji} from 'mattermost-redux/types/emojis';
-
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {CustomEmoji} from '@mattermost/types/emojis';
 
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 
 import {getProfilesByIds} from './users';
-export let systemEmojis: Map<string, SystemEmoji> = new Map();
-export function setSystemEmojis(emojis: Map<string, SystemEmoji>) {
+
+export let systemEmojis: Set<string> = new Set();
+export function setSystemEmojis(emojis: Set<string>) {
     systemEmojis = emojis;
 }
 
@@ -132,7 +132,7 @@ export function getCustomEmojis(
 
 export function loadProfilesForCustomEmojis(emojis: CustomEmoji[]): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const usersToLoad: Dictionary<boolean> = {};
+        const usersToLoad: Record<string, boolean> = {};
         emojis.forEach((emoji: CustomEmoji) => {
             if (!getState().entities.users.profiles[emoji.creator_id]) {
                 usersToLoad[emoji.creator_id] = true;
@@ -144,44 +144,6 @@ export function loadProfilesForCustomEmojis(emojis: CustomEmoji[]): ActionFunc {
         if (userIds.length > 0) {
             await dispatch(getProfilesByIds(userIds));
         }
-
-        return {data: true};
-    };
-}
-
-export function getAllCustomEmojis(perPage: number = General.PAGE_SIZE_MAXIMUM): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        dispatch({
-            type: EmojiTypes.CLEAR_CUSTOM_EMOJIS,
-            data: null,
-        });
-
-        let hasMore = true;
-        let page = 0;
-        const allEmojis = [];
-
-        do {
-            try {
-                let emojis = [];
-                emojis = await Client4.getCustomEmojis(page, perPage, Emoji.SORT_BY_NAME); // eslint-disable-line no-await-in-loop
-                if (emojis.length < perPage) {
-                    hasMore = false;
-                } else {
-                    page += 1;
-                }
-                allEmojis.push(...emojis);
-            } catch (error) {
-                forceLogoutIfNecessary(error, dispatch, getState);
-
-                dispatch(logError(error));
-                return {error: true};
-            }
-        } while (hasMore);
-
-        dispatch({
-            type: EmojiTypes.RECEIVED_CUSTOM_EMOJIS,
-            data: allEmojis,
-        });
 
         return {data: true};
     };

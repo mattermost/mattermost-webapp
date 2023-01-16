@@ -10,6 +10,20 @@ export function setModalSearchTerm(term) {
     };
 }
 
+export function setPopoverSearchTerm(term) {
+    return {
+        type: SearchTypes.SET_POPOVER_SEARCH,
+        data: term,
+    };
+}
+
+export function setChannelMembersRhsSearchTerm(term) {
+    return {
+        type: SearchTypes.SET_CHANNEL_MEMBERS_RHS_SEARCH,
+        data: term,
+    };
+}
+
 export function setModalFilters(filters = {}) {
     return {
         type: SearchTypes.SET_MODAL_FILTERS,

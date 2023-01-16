@@ -3,37 +3,37 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {Dispatch} from 'redux';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {Emoji} from '@mattermost/types/emojis';
 
 import {Locations} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 
 const TOP_OFFSET = -7;
 
 type LocationTypes = 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT';
 
-type Props = {
+export type Props = {
     channelId?: string;
     postId: string;
     teamId: string;
-    getDotMenuRef: () => HTMLDivElement;
+    getDotMenuRef: () => HTMLDivElement | null;
     location: LocationTypes;
     showEmojiPicker: boolean;
-    toggleEmojiPicker: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    toggleEmojiPicker: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     actions: {
-        addReaction: (postId: string, emojiName: string) => (dispatch: Dispatch) => void;
+        addReaction: (postId: string, emojiName: string) => (dispatch: Dispatch) => {data: boolean};
     };
 }
 
@@ -82,11 +82,9 @@ export default class PostReaction extends React.PureComponent<Props, State> {
                         show={showEmojiPicker}
                         target={this.props.getDotMenuRef}
                         onHide={this.props.toggleEmojiPicker}
-                        onEmojiClose={this.props.toggleEmojiPicker}
                         onEmojiClick={this.handleAddEmoji}
                         topOffset={TOP_OFFSET}
                         spaceRequiredAbove={spaceRequiredAbove}
-                        n={true}
                         spaceRequiredBelow={spaceRequiredBelow}
                     />
                     <OverlayTrigger

@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {isMobile} from 'utils/utils.jsx';
+import {a11yFocus} from 'utils/utils';
+
 import EditIcon from 'components/widgets/icons/fa_edit_icon';
 
 interface Props {
@@ -12,7 +13,7 @@ interface Props {
     /**
      * Settings title
      */
-    title: JSX.Element | string;
+    title: ReactNode | string;
 
     /**
      * Option to disable opening the setting
@@ -32,17 +33,16 @@ interface Props {
     /**
      * Settings description
      */
-    describe?: JSX.Element | JSX.Element[] | string;
+    describe?: ReactNode;
 
+    isMobileView: boolean;
 }
 
 export default class SettingItemMin extends React.PureComponent<Props> {
     private edit: HTMLButtonElement | null = null;
 
-    componentDidMount() {
-        if (this.edit) {
-            this.edit.focus();
-        }
+    focus(): void {
+        a11yFocus(this.edit);
     }
 
     private getEdit = (node: HTMLButtonElement) => {
@@ -58,7 +58,7 @@ export default class SettingItemMin extends React.PureComponent<Props> {
         let editButton = null;
         let describeSection = null;
 
-        if (!this.props.disableOpen && isMobile()) {
+        if (!this.props.disableOpen && this.props.isMobileView) {
             editButton = (
                 <div className='section-min__edit'>
                     <button
@@ -67,6 +67,7 @@ export default class SettingItemMin extends React.PureComponent<Props> {
                         onClick={this.handleUpdateSection}
                         ref={this.getEdit}
                         aria-labelledby={this.props.section + 'Title ' + this.props.section + 'Edit'}
+                        aria-expanded={false}
                     >
                         <EditIcon/>
                         {this.props.describe}
@@ -82,6 +83,7 @@ export default class SettingItemMin extends React.PureComponent<Props> {
                         onClick={this.handleUpdateSection}
                         ref={this.getEdit}
                         aria-labelledby={this.props.section + 'Title ' + this.props.section + 'Edit'}
+                        aria-expanded={false}
                     >
                         <EditIcon/>
                         <FormattedMessage

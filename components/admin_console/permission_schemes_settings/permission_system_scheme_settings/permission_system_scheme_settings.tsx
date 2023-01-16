@@ -5,12 +5,12 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import GeneralConstants from 'mattermost-redux/constants/general';
-import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
-import {Role} from 'mattermost-redux/types/roles';
+import {ClientConfig, ClientLicense} from '@mattermost/types/config';
+import {Role} from '@mattermost/types/roles';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {PermissionsScope, DefaultRolePermissions} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import {t} from 'utils/i18n';
 
 import ConfirmModal from 'components/confirm_modal';
@@ -19,10 +19,10 @@ import LoadingScreen from 'components/loading_screen';
 import FormError from 'components/form_error';
 import BlockableLink from 'components/admin_console/blockable_link';
 import AdminPanelTogglable from 'components/widgets/admin_console/admin_panel_togglable';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import PermissionsTree, {EXCLUDED_PERMISSIONS} from '../permissions_tree';
 import GuestPermissionsTree, {GUEST_INCLUDED_PERMISSIONS} from '../guest_permissions_tree';
+import PermissionsTreePlaybooks from '../permissions_tree_playbooks';
 
 type Props = {
     config: Partial<ClientConfig>;
@@ -67,6 +67,10 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
                 system_admin: true,
                 team_admin: true,
                 channel_admin: true,
+                playbook_member: true,
+                playbook_admin: true,
+                run_member: true,
+                run_admin: true,
             },
             urlParams: new URLSearchParams(props.location.search),
         };
@@ -77,6 +81,10 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
             GeneralConstants.TEAM_USER_ROLE,
             GeneralConstants.CHANNEL_ADMIN_ROLE,
             GeneralConstants.CHANNEL_USER_ROLE,
+            GeneralConstants.PLAYBOOK_ADMIN_ROLE,
+            GeneralConstants.PLAYBOOK_MEMBER_ROLE,
+            GeneralConstants.RUN_ADMIN_ROLE,
+            GeneralConstants.RUN_MEMBER_ROLE,
             GeneralConstants.SYSTEM_GUEST_ROLE,
             GeneralConstants.TEAM_GUEST_ROLE,
             GeneralConstants.CHANNEL_GUEST_ROLE,
@@ -139,12 +147,18 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
                 system_admin: props.roles.system_admin,
                 team_admin: props.roles.team_admin,
                 channel_admin: props.roles.channel_admin,
+                playbook_admin: props.roles.playbook_admin,
+                playbook_member: props.roles.playbook_member,
+                run_admin: props.roles.run_admin,
+                run_member: props.roles.run_member,
                 all_users: {
                     name: 'all_users',
                     display_name: 'All members',
                     permissions: props.roles.system_user.permissions?.
                         concat(props.roles.team_user.permissions).
-                        concat(props.roles.channel_user.permissions),
+                        concat(props.roles.channel_user.permissions).
+                        concat(props.roles.playbook_member.permissions).
+                        concat(props.roles.run_member.permissions),
                 },
                 guests: {
                     name: 'guests',
@@ -170,6 +184,14 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
             channel_user: {
                 ...this.props.roles.channel_user,
                 permissions: role.permissions?.filter((p) => PermissionsScope[p] === 'channel_scope'),
+            },
+            playbook_member: {
+                ...this.props.roles.playbook_member,
+                permissions: role.permissions?.filter((p) => PermissionsScope[p] === 'playbook_scope'),
+            },
+            run_member: {
+                ...this.props.roles.run_member,
+                permissions: role.permissions?.filter((p) => PermissionsScope[p] === 'run_scope'),
             },
         };
     }
@@ -207,6 +229,11 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
                 roles.channel_user.permissions?.push(permission);
             }
         }
+        for (const permission of this.props.roles.playbook_member.permissions) {
+            if (EXCLUDED_PERMISSIONS.includes(permission)) {
+                roles.playbook_member.permissions?.push(permission);
+            }
+        }
         return roles;
     }
 
@@ -232,15 +259,28 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
     handleSubmit = async () => {
         const teamAdminPromise = this.props.actions.editRole(this.state.roles.team_admin);
         const channelAdminPromise = this.props.actions.editRole(this.state.roles.channel_admin);
-        const roles = this.restoreExcludedPermissions(this.deriveRolesFromAllUsers(this.state.roles.all_users));
-        const guestRoles = this.restoreGuestPermissions(this.deriveRolesFromGuests(this.state.roles.guests));
-        const systemUserPromise = this.props.actions.editRole(roles.system_user);
-        const teamUserPromise = this.props.actions.editRole(roles.team_user);
-        const channelUserPromise = this.props.actions.editRole(roles.channel_user);
+        const playbookAdminPromise = this.props.actions.editRole(this.state.roles.playbook_admin);
 
-        const promises = [teamAdminPromise, channelAdminPromise, systemUserPromise, teamUserPromise, channelUserPromise];
+        const derivedRoles = this.restoreExcludedPermissions(this.deriveRolesFromAllUsers(this.state.roles.all_users));
+        const systemUserPromise = this.props.actions.editRole(derivedRoles.system_user);
+        const teamUserPromise = this.props.actions.editRole(derivedRoles.team_user);
+        const channelUserPromise = this.props.actions.editRole(derivedRoles.channel_user);
+        const playbookMemberPromise = this.props.actions.editRole(derivedRoles.playbook_member);
+        const runMemberPromise = this.props.actions.editRole(derivedRoles.run_member);
+
+        const promises = [
+            teamAdminPromise,
+            channelAdminPromise,
+            systemUserPromise,
+            teamUserPromise,
+            channelUserPromise,
+            playbookAdminPromise,
+            playbookMemberPromise,
+            runMemberPromise,
+        ];
 
         if (this.haveGuestAccountsPermissions()) {
+            const guestRoles = this.restoreGuestPermissions(this.deriveRolesFromGuests(this.state.roles.guests));
             const systemGuestPromise = this.props.actions.editRole(guestRoles.system_guest);
             const teamGuestPromise = this.props.actions.editRole(guestRoles.team_guest);
             const channelGuestPromise = this.props.actions.editRole(guestRoles.channel_guest);
@@ -328,9 +368,20 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
                         <div className={'banner info'}>
                             <div className='banner__content'>
                                 <span>
-                                    <FormattedMarkdownMessage
+                                    <FormattedMessage
                                         id='admin.permissions.systemScheme.introBanner'
-                                        defaultMessage='Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied in specific teams.'
+                                        defaultMessage='Configure the default permissions for Team Admins, Channel Admins and other members. This scheme is inherited by all teams unless a <link>Team Override Scheme</link>is applied in specific teams.'
+                                        values={{
+                                            link: (msg: React.ReactNode) => (
+                                                <a
+                                                    href='https://docs.mattermost.com/onboard/advanced-permissions.html'
+                                                    target='_blank'
+                                                    rel='noreferrer'
+                                                >
+                                                    {msg}
+                                                </a>
+                                            ),
+                                        }}
                                     />
                                 </span>
                             </div>
@@ -393,6 +444,26 @@ export default class PermissionSystemSchemeSettings extends React.PureComponent<
                                 onToggle={this.togglePermission}
                                 selectRow={this.selectRow}
                                 readOnly={this.props.isDisabled}
+                            />
+                        </AdminPanelTogglable>
+
+                        <AdminPanelTogglable
+                            className='permissions-block'
+                            open={this.state.openRoles.playbook_admin}
+                            onToggle={() => this.toggleRole('playbook_admin')}
+                            titleId={t('admin.permissions.systemScheme.playbookAdmin')}
+                            titleDefault='Playbook Administrator'
+                            subtitleId={t('admin.permissions.systemScheme.playbookAdminSubtitle')}
+                            subtitleDefault='Permissions granted to administrators of a playbook.'
+                        >
+                            <PermissionsTreePlaybooks
+                                role={this.state.roles.playbook_admin}
+                                parentRole={this.state.roles.all_users}
+                                scope={'playbook_scope'}
+                                onToggle={this.togglePermission}
+                                selectRow={this.selectRow}
+                                readOnly={this.props.isDisabled || false}
+                                license={this.props.license}
                             />
                         </AdminPanelTogglable>
 

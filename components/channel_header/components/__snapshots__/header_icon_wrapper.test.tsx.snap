@@ -7,10 +7,8 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className="channel-files"
         id="channelFilesTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Channel files"
@@ -22,6 +20,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     trigger={
       Array [
         "hover",
+        "focus",
       ]
     }
   >
@@ -45,10 +44,8 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className="text-nowrap"
         id="flaggedTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Saved posts"
@@ -60,6 +57,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     trigger={
       Array [
         "hover",
+        "focus",
       ]
     }
   >
@@ -84,10 +82,8 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className=""
         id="recentMentionsTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Recent mentions"
@@ -115,6 +111,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     trigger={
       Array [
         "hover",
+        "focus",
       ]
     }
   >
@@ -139,10 +136,8 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className="pinned-posts"
         id="pinnedPostTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Pinned posts"
@@ -154,6 +149,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     trigger={
       Array [
         "hover",
+        "focus",
       ]
     }
   >
@@ -178,10 +174,8 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className=""
         id="pluginTooltip"
-        placement="right"
       >
         <span>
           plugin_tooltip_text
@@ -192,6 +186,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     trigger={
       Array [
         "hover",
+        "focus",
       ]
     }
   >
@@ -209,19 +204,21 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
 `;
 
 exports[`components/channel_header/components/HeaderIconWrapper should match snapshot, on PluginIcon without tooltipText 1`] = `
-<div
-  className="flex-child"
->
-  <button
-    className="button_class"
-    id="button_id"
-    onClick={[Function]}
+<Fragment>
+  <div
+    className="flex-child"
   >
-    <i
-      className="fa fa-anchor"
-    />
-  </button>
-</div>
+    <button
+      className="button_class"
+      id="button_id"
+      onClick={[Function]}
+    >
+      <i
+        className="fa fa-anchor"
+      />
+    </button>
+  </div>
+</Fragment>
 `;
 
 exports[`components/channel_header/components/HeaderIconWrapper should match snapshot, on SearchIcon 1`] = `
@@ -231,10 +228,8 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     delayShow={400}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className=""
         id="searchTooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Search"
@@ -246,6 +241,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     trigger={
       Array [
         "hover",
+        "focus",
       ]
     }
   >

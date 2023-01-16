@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {Client4} from 'mattermost-redux/client';
 
-import {AutocompleteSuggestion} from 'mattermost-redux/types/integrations';
+import {AutocompleteSuggestion} from '@mattermost/types/integrations';
 
 import CommandProvider, {CommandSuggestion, Results} from './command_provider';
 
@@ -47,6 +47,7 @@ describe('CommandProvider', () => {
                 Hint: 'hint',
                 IconData: 'icon_data',
                 Description: 'description',
+                type: 'commands',
             }]);
             Client4.getCommandAutocompleteSuggestionsList = mockFunc;
 
@@ -69,6 +70,7 @@ describe('CommandProvider', () => {
                     Hint: 'hint',
                     IconData: 'icon_data',
                     Description: 'description',
+                    type: 'commands',
                 }],
                 component: CommandSuggestion,
             };
@@ -86,6 +88,7 @@ describe('CommandProvider', () => {
                 Hint: 'hint',
                 IconData: 'icon_data',
                 Description: 'description',
+                type: 'commands',
             }]);
             Client4.getCommandAutocompleteSuggestionsList = mockFunc;
 
@@ -108,6 +111,7 @@ describe('CommandProvider', () => {
                     Hint: 'hint',
                     IconData: 'icon_data',
                     Description: 'description',
+                    type: 'commands',
                 }],
                 component: CommandSuggestion,
             };

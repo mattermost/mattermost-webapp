@@ -4,15 +4,16 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
+import {AnalyticsRow, PluginAnalyticsRow, IndexedPluginAnalyticsRow} from '@mattermost/types/admin';
+import {ClientLicense} from '@mattermost/types/config';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+import {ActivatedUserCard} from 'components/analytics/activated_users_card';
+
+import {GlobalState} from 'types/store';
 
 import DoughnutChart from '../doughnut_chart';
 import LineChart from '../line_chart';
@@ -30,11 +31,21 @@ const StatTypes = Constants.StatTypes;
 
 type Props = {
     isLicensed: boolean;
-    stats?: Dictionary<number | AnalyticsRow[]>;
+    stats?: Record<string, number | AnalyticsRow[]>;
+    license: ClientLicense;
+    pluginStatHandlers: GlobalState['plugins']['siteStatsHandlers'];
 }
 
-export default class SystemAnalytics extends React.PureComponent<Props> {
-    public componentDidMount() {
+type State = {
+    pluginSiteStats: Record<string, PluginAnalyticsRow>;
+}
+
+export default class SystemAnalytics extends React.PureComponent<Props, State> {
+    state = {
+        pluginSiteStats: {} as Record<string, PluginAnalyticsRow>,
+    };
+
+    public async componentDidMount() {
         AdminActions.getStandardAnalytics();
         AdminActions.getPostsPerDayAnalytics();
         AdminActions.getBotPostsPerDayAnalytics();
@@ -43,6 +54,29 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
         if (this.props.isLicensed) {
             AdminActions.getAdvancedAnalytics();
         }
+        this.fetchPluginStats();
+    }
+
+    // fetchPluginStats does a call for each one of the registered handlers,
+    // wait and set the data in the state
+    private async fetchPluginStats() {
+        const pluginKeys = Object.keys(this.props.pluginStatHandlers);
+        if (!pluginKeys.length) {
+            return;
+        }
+
+        const allHandlers = Object.values(this.props.pluginStatHandlers).map((handler) => handler());
+        const allStats = await Promise.all(allHandlers);
+
+        const allStatsIndexed: IndexedPluginAnalyticsRow = {};
+        allStats.forEach((pluginStats, idx) => {
+            Object.entries(pluginStats).forEach(([name, value]) => {
+                const key = `${pluginKeys[idx]}.${name}`;
+                allStatsIndexed[key] = value;
+            });
+        });
+
+        this.setState({pluginSiteStats: allStatsIndexed});
     }
 
     private getStatValue(stat: number | AnalyticsRow[]): number | undefined {
@@ -74,9 +108,20 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
             banner = (
                 <div className='banner'>
                     <div className='banner__content'>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='analytics.system.skippedIntensiveQueries'
-                            defaultMessage='To maximize performance, some statistics are disabled. You can [re-enable them in config.json](!https://docs.mattermost.com/administration/statistics.html).'
+                            defaultMessage='To maximize performance, some statistics are disabled. You can <link>re-enable them in config.json</link>.'
+                            values={{
+                                link: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://docs.mattermost.com/administration/statistics.html'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                         />
                     </div>
                 </div>
@@ -212,7 +257,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
             );
 
             advancedStats = (
-                <div>
+                <>
                     <StatisticCount
                         id='websocketConns'
                         title={
@@ -246,7 +291,7 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                         icon='fa-terminal'
                         count={this.getStatValue(stats[StatTypes.TOTAL_READ_DB_CONNECTIONS])}
                     />
-                </div>
+                </>
             );
 
             const channelTypeData = formatChannelDoughtnutData(stats[StatTypes.TOTAL_PUBLIC_CHANNELS], stats[StatTypes.TOTAL_PRIVATE_GROUPS]);
@@ -287,17 +332,26 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
             );
         }
 
+        const isCloud = this.props.license.Cloud === 'true';
         const userCount = (
+            <ActivatedUserCard
+                activatedUsers={this.getStatValue(stats[StatTypes.TOTAL_USERS])}
+                seatsPurchased={parseInt(this.props.license.Users, 10)}
+                isCloud={isCloud}
+            />
+        );
+
+        const seatsPurchased = (
             <StatisticCount
-                id='totalActiveUsers'
+                id='seatPurchased'
                 title={
                     <FormattedMessage
-                        id='analytics.system.totalUsers'
-                        defaultMessage='Total Active Users'
+                        id='analytics.system.seatsPurchased'
+                        defaultMessage='Total paid users'
                     />
                 }
-                icon='fa-user'
-                count={this.getStatValue(stats[StatTypes.TOTAL_USERS])}
+                icon='fa-users'
+                count={parseInt(this.props.license.Users, 10)}
             />
         );
 
@@ -368,60 +422,49 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
             />
         );
 
-        let firstRow;
-        let secondRow;
-        if (isLicensed && skippedIntensiveQueries) {
-            firstRow = (
-                <div>
+        // Extract plugin stats that should be displayed and pass them to widget
+        const pluginSiteStats = (
+            <>
+                {Object.entries(this.state.pluginSiteStats).map(([key, stat]) =>
+                    (
+                        <StatisticCount
+                            id={key}
+                            key={'pluginstat.' + key}
+                            title={stat.name}
+                            icon={stat.icon}
+                            count={stat.value}
+                        />
+                    ),
+                )}
+            </>
+        );
+
+        let systemCards;
+        if (isLicensed) {
+            systemCards = (
+                <>
                     {userCount}
+                    {isCloud ? null : seatsPurchased}
                     {teamCount}
                     {channelCount}
-                    {sessionCount}
-                </div>
-            );
-
-            secondRow = (
-                <div>
-                    {commandCount}
-                    {incomingCount}
-                    {outgoingCount}
-                </div>
-            );
-        } else if (isLicensed && !skippedIntensiveQueries) {
-            firstRow = (
-                <div>
-                    {userCount}
-                    {teamCount}
-                    {channelCount}
-                    {postCount}
-                </div>
-            );
-
-            secondRow = (
-                <div>
+                    {skippedIntensiveQueries ? null : postCount}
                     {sessionCount}
                     {commandCount}
                     {incomingCount}
                     {outgoingCount}
-                </div>
+                </>
             );
         } else if (!isLicensed) {
-            firstRow = (
-                <div>
+            systemCards = (
+                <>
                     {userCount}
+                    {isCloud || !isLicensed ? null : seatsPurchased}
                     {teamCount}
                     {channelCount}
-                    {postCount}
-                </div>
+                    {skippedIntensiveQueries ? null : postCount}
+                </>
             );
         }
-
-        const thirdRow = (
-            <div>
-                {dailyActiveUsers}
-                {monthlyActiveUsers}
-            </div>
-        );
 
         return (
             <div className='wrapper--fixed team_statistics'>
@@ -432,11 +475,12 @@ export default class SystemAnalytics extends React.PureComponent<Props> {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         {banner}
-                        <div className='row'>
-                            {firstRow}
-                            {secondRow}
-                            {thirdRow}
+                        <div className='grid-statistics'>
+                            {systemCards}
+                            {dailyActiveUsers}
+                            {monthlyActiveUsers}
                             {advancedStats}
+                            {pluginSiteStats}
                         </div>
                         {advancedGraphs}
                         {postTotalGraph}

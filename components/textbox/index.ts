@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {bindActionCreators, Dispatch} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 
 import {getAssociatedGroupsForReference} from 'mattermost-redux/selectors/entities/groups';
@@ -12,30 +12,25 @@ import {makeGetProfilesForThread} from 'mattermost-redux/selectors/entities/post
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {getCurrentUserId, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
-import {makeAddLastViewAtToProfiles} from 'mattermost-redux/selectors/entities/utils';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {GlobalState} from '@mattermost/types/store';
+import {Action} from 'mattermost-redux/types/actions';
 
 import {autocompleteUsersInChannel} from 'actions/views/channel';
 import {searchAssociatedGroupsForReference} from 'actions/views/group';
 import {autocompleteChannels} from 'actions/channel_actions';
 
-import Textbox from './textbox';
+import Textbox, {Props as TextboxProps} from './textbox';
 
 type Props = {
     channelId: string;
     rootId?: string;
 };
 
-/* eslint-disable camelcase */
-
-const getProfilesInChannelOptions = {active: true};
+export type TextboxElement = HTMLInputElement | HTMLTextAreaElement;
 
 const makeMapStateToProps = () => {
-    const getProfilesInChannel = makeGetProfilesInChannel();
-    const addLastViewAtToProfiles = makeAddLastViewAtToProfiles();
     const getProfilesForThread = makeGetProfilesForThread();
     return (state: GlobalState, ownProps: Props) => {
         const teamId = getCurrentTeamId(state);
@@ -46,25 +41,24 @@ const makeMapStateToProps = () => {
             Permissions.USE_GROUP_MENTIONS,
         );
         const autocompleteGroups = useGroupMentions ? getAssociatedGroupsForReference(state, teamId, ownProps.channelId) : null;
-        const profilesInChannel = getProfilesInChannel(state, ownProps.channelId, getProfilesInChannelOptions);
-        const profilesWithLastViewAtInChannel = addLastViewAtToProfiles(state, profilesInChannel);
 
         return {
             currentUserId: getCurrentUserId(state),
             currentTeamId: teamId,
-            profilesInChannel: profilesWithLastViewAtInChannel,
             autocompleteGroups,
             priorityProfiles: getProfilesForThread(state, ownProps.rootId ?? ''),
         };
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
-    actions: bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    actions: bindActionCreators<ActionCreatorsMapObject<Action>, TextboxProps['actions']>({
         autocompleteUsersInChannel,
         autocompleteChannels,
         searchAssociatedGroupsForReference,
     }, dispatch),
 });
+
+export {Textbox as TextboxClass};
 
 export default connect(makeMapStateToProps, mapDispatchToProps, null, {forwardRef: true})(Textbox);

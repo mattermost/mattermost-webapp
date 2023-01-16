@@ -4,16 +4,17 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
-
 import logoImage from 'images/logo.png';
+
+import {AuthChangeResponse} from '@mattermost/types/users';
+
 import BackButton from 'components/common/back_button';
 import OAuthToEmail from 'components/claim/components/oauth_to_email';
 import EmailToOAuth from 'components/claim/components/email_to_oauth';
 import LDAPToEmail from 'components/claim/components/ldap_to_email';
 import EmailToLDAP from 'components/claim/components/email_to_ldap';
 
-interface PasswordConfig {
+export interface PasswordConfig {
     minimumLength: number;
     requireLowercase: boolean;
     requireUppercase: boolean;
@@ -25,7 +26,7 @@ type Location = {
     search: string;
 }
 
-type Props = {
+export type Props = {
     location: Location;
     siteName?: string;
     ldapLoginFieldName?: string;
@@ -34,7 +35,7 @@ type Props = {
         url: string;
     };
     actions: {
-        switchLdapToEmail: (ldapPassword: string, email: string, emailPassword: string, mfaCode?: string) => ActionFunc;
+        switchLdapToEmail: (ldapPassword: string, email: string, emailPassword: string, mfaCode?: string) => Promise<{data: AuthChangeResponse; error: {server_error_id: string; message: string}}>;
     };
 }
 
@@ -72,7 +73,7 @@ export default class ClaimController extends React.PureComponent<Props> {
                                     render={() => (
                                         <EmailToOAuth
                                             newType={newType}
-                                            email={email}
+                                            email={email || ''}
                                             siteName={this.props.siteName}
                                         />
                                     )}

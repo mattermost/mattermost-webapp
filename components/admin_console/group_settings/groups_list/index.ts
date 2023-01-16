@@ -9,7 +9,7 @@ import {createSelector} from 'reselect';
 import {linkLdapGroup, unlinkLdapGroup, getLdapGroups as fetchLdapGroups} from 'mattermost-redux/actions/admin';
 import {getLdapGroups, getLdapGroupsCount} from 'mattermost-redux/selectors/entities/admin';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import GroupsList from './groups_list';

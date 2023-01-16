@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {shallow} from 'enzyme';
 import React from 'react';
+import {shallow} from 'enzyme';
+
+import {TestHelper} from 'utils/test_helper';
 
 import FileAttachment from 'components/file_attachment';
 import SingleImageView from 'components/single_image_view';
-
-import {TestHelper} from 'utils/test_helper';
 
 import FileAttachmentList from './file_attachment_list';
 
@@ -30,7 +30,9 @@ describe('FileAttachmentList', () => {
         isEmbedVisible: false,
         locale: 'en',
         handleFileDropdownOpened: jest.fn(),
-        actions: {getMissingFilesForPost: jest.fn()},
+        actions: {
+            openModal: jest.fn(),
+        },
     };
 
     test('should render a FileAttachment for a single file', () => {
@@ -111,29 +113,5 @@ describe('FileAttachmentList', () => {
 
         expect(wrapper.find(SingleImageView).exists()).toBe(false);
         expect(wrapper.find(FileAttachment).exists()).toBe(true);
-    });
-
-    test('should match state on handleImageClick', () => {
-        const wrapper = shallow<FileAttachmentList>(
-            <FileAttachmentList {...baseProps}/>,
-        );
-
-        wrapper.setState({showPreviewModal: false, startImgIndex: 0});
-        const newImageIndex = 1;
-        wrapper.instance().handleImageClick(newImageIndex);
-
-        expect(wrapper.state('showPreviewModal')).toEqual(true);
-        expect(wrapper.state('startImgIndex')).toEqual(newImageIndex);
-    });
-
-    test('should match state on hidePreviewModal', () => {
-        const wrapper = shallow<FileAttachmentList>(
-            <FileAttachmentList {...baseProps}/>,
-        );
-
-        wrapper.setState({showPreviewModal: true});
-        wrapper.instance().hidePreviewModal();
-
-        expect(wrapper.state('showPreviewModal')).toEqual(false);
     });
 });

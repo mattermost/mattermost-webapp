@@ -5,8 +5,9 @@ import {createSelector} from 'reselect';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Role} from '@mattermost/types/roles';
+import {GlobalState} from '@mattermost/types/store';
+import {UserProfile} from '@mattermost/types/users';
 
 export type PermissionsOptions = {
     channel?: string;
@@ -34,26 +35,29 @@ export const getMySystemPermissions: (state: GlobalState) => Set<string> = creat
     'getMySystemPermissions',
     getMySystemRoles,
     getRoles,
-    (mySystemRoles: Set<string>, roles) => {
-        const permissions = new Set<string>();
+    (mySystemRoles: Set<string>, allRoles) => {
+        return getPermissionsForRoles(allRoles, mySystemRoles);
+    },
+);
 
-        for (const roleName of mySystemRoles) {
-            if (roles[roleName]) {
-                for (const permission of roles[roleName].permissions) {
-                    permissions.add(permission);
-                }
-            }
+export function haveISystemPermission(state: GlobalState, options: PermissionsOptions) {
+    return getMySystemPermissions(state).has(options.permission);
+}
+
+export function getPermissionsForRoles(allRoles: Record<string, Role>, roleSet: Set<string>) {
+    const permissions = new Set<string>();
+
+    for (const roleName of roleSet) {
+        const role = allRoles[roleName];
+
+        if (!role) {
+            continue;
         }
 
-        return permissions;
-    },
-);
+        for (const permission of role.permissions) {
+            permissions.add(permission);
+        }
+    }
 
-export const haveISystemPermission: (state: GlobalState, options: PermissionsOptions) => boolean = createSelector(
-    'haveISystemPermission',
-    getMySystemPermissions,
-    (state: GlobalState, options: PermissionsOptions) => options.permission,
-    (permissions, permission) => {
-        return permissions.has(permission);
-    },
-);
+    return permissions;
+}

@@ -3,9 +3,8 @@
 }
 
 .groups-list {
-    @include single-transition(all, 0.4s, ease-in-out, 0s);
-
     padding: 2rem 2rem 2rem 2rem;
+    transition: all 0.4s ease-in-out 0s;
 
     &.groups-list-less-padding {
         padding: 0;
@@ -540,7 +539,7 @@
     .group-teams-and-channels--body {
         padding: 20px;
 
-        .group-teams-and-channels-row.has-clidren {
+        .group-teams-and-channels-row.has-children {
             .type {
                 margin-left: 20px;
             }

@@ -2,8 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {useSelector} from 'react-redux';
+
 import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import classNames from 'classnames';
+
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {isFileAttachmentsEnabled} from 'utils/file_utils';
 
 interface SearchTerm {
     searchTerm: string;
@@ -19,6 +24,8 @@ type Props = {
     highlightedIndex?: number;
     onOptionHover?: (index: number) => void;
     onSearchTypeSelected?: (searchType: 'files' | 'messages') => void;
+    onElementBlur?: () => void;
+    onElementFocus?: () => void;
     searchType?: 'files' | 'messages' | '';
 }
 
@@ -28,6 +35,8 @@ const SearchHint = (props: Props): JSX.Element => {
             props.onOptionHover(optionIndex);
         }
     };
+    const config = useSelector(getConfig);
+    const isFileAttachmentEnabled = isFileAttachmentsEnabled(config);
 
     if (props.onSearchTypeSelected) {
         if (!props.searchType) {
@@ -46,6 +55,8 @@ const SearchHint = (props: Props): JSX.Element => {
                         <button
                             className={classNames({highlighted: props.highlightedIndex === 0})}
                             onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('messages')}
+                            onBlur={() => props.onElementBlur && props.onElementBlur()}
+                            onFocus={() => props.onElementFocus && props.onElementFocus()}
                         >
                             <i className='icon icon-message-text-outline'/>
                             <FormattedMessage
@@ -53,16 +64,19 @@ const SearchHint = (props: Props): JSX.Element => {
                                 defaultMessage='Messages'
                             />
                         </button>
-                        <button
-                            className={classNames({highlighted: props.highlightedIndex === 1})}
-                            onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('files')}
-                        >
-                            <i className='icon icon-file-text-outline'/>
-                            <FormattedMessage
-                                id='search_bar.usage.search_type_files'
-                                defaultMessage='Files'
-                            />
-                        </button>
+                        { isFileAttachmentEnabled &&
+                            <button
+                                className={classNames({highlighted: props.highlightedIndex === 1})}
+                                onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('files')}
+                                onBlur={() => props.onElementBlur && props.onElementBlur()}
+                                onFocus={() => props.onElementFocus && props.onElementFocus()}
+                            >
+                                <i className='icon icon-file-text-outline'/>
+                                <FormattedMessage
+                                    id='search_bar.usage.search_type_files'
+                                    defaultMessage='Files'
+                                />
+                            </button>}
                     </div>
                 </div>
             );

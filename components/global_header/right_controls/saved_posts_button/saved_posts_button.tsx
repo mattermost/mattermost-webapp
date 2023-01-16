@@ -2,19 +2,20 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {closeRightHandSide, showFlaggedPosts} from 'actions/views/rhs';
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 import {getRhsState} from 'selectors/rhs';
 import {GlobalState} from 'types/store';
 import Constants, {RHSStates} from 'utils/constants';
 
 const SavedPostsButton = (): JSX.Element | null => {
+    const {formatMessage} = useIntl();
     const dispatch = useDispatch();
     const rhsState = useSelector((state: GlobalState) => getRhsState(state));
 
@@ -38,7 +39,7 @@ const SavedPostsButton = (): JSX.Element | null => {
 
     return (
         <OverlayTrigger
-            trigger={['hover']}
+            trigger={['hover', 'focus']}
             delayShow={Constants.OVERLAY_TIME_DELAY}
             placement='bottom'
             overlay={tooltip}
@@ -50,7 +51,9 @@ const SavedPostsButton = (): JSX.Element | null => {
                 onClick={savedPostsButtonClick}
                 inverted={true}
                 compact={true}
-                aria-label='Select to toggle a list of saved posts.' // proper wording and translation needed
+                aria-expanded={rhsState === RHSStates.FLAG}
+                aria-controls='searchContainer' // Must be changed if the ID of the container changes
+                aria-label={formatMessage({id: 'channel_header.flagged', defaultMessage: 'Saved posts'})}
             />
         </OverlayTrigger>
     );

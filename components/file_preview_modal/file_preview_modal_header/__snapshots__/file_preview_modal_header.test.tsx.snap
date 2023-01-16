@@ -16,10 +16,13 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
     totalFiles={3}
   />
   <Memo(FilePreviewModalMainActions)
+    canCopyContent={true}
     canDownloadFiles={true}
+    content=""
     enablePublicLink={false}
     fileInfo={
       Object {
+        "archived": false,
         "clientId": "client_id",
         "create_at": 1,
         "delete_at": 1,
@@ -41,7 +44,7 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
     handleNext={[MockFunction]}
     handlePrev={[MockFunction]}
     isExternalFile={false}
-    isMobile={false}
+    isMobileView={false}
     onGetPublicLink={[MockFunction]}
     showOnlyClose={false}
     showPublicLink={false}
@@ -55,10 +58,13 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
   className="file-preview-modal-header"
 >
   <Memo(FilePreviewModalMainActions)
+    canCopyContent={true}
     canDownloadFiles={true}
+    content=""
     enablePublicLink={false}
     fileInfo={
       Object {
+        "archived": false,
         "clientId": "client_id",
         "create_at": 1,
         "delete_at": 1,
@@ -80,7 +86,7 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
     handleNext={[MockFunction]}
     handlePrev={[MockFunction]}
     isExternalFile={false}
-    isMobile={true}
+    isMobileView={true}
     onGetPublicLink={[MockFunction]}
     showOnlyClose={true}
     showPublicLink={false}

@@ -126,29 +126,6 @@ describe('Reducers.Storage', () => {
         );
     });
 
-    it('Storage.CLEAR', () => {
-        const nextState = storageReducer(
-            {
-                storage: {
-                    key: {value: 'value', timestamp: now},
-                    excluded: {value: 'not-cleared', timestamp: now},
-                },
-            },
-            {
-                type: StorageTypes.CLEAR,
-                data: {
-                    exclude: ['excluded'],
-                },
-            },
-        );
-        assert.deepEqual(
-            nextState.storage,
-            {
-                excluded: {value: 'not-cleared', timestamp: now},
-            },
-        );
-    });
-
     describe('Storage.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX', () => {
         it('should call the provided action on the given objects', () => {
             const state = storageReducer({

@@ -6,32 +6,32 @@ import React from 'react';
 import classNames from 'classnames';
 
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileInfo} from '@mattermost/types/files';
 
 import SizeAwareImage from 'components/size_aware_image';
-import {FileTypes} from 'utils/constants';
+import {FileTypes, ModalIdentifiers} from 'utils/constants';
 import {
     getFileType,
 } from 'utils/utils';
 
 import FilePreviewModal from 'components/file_preview_modal';
 
+import type {PropsFromRedux} from './index';
+
 const PREVIEW_IMAGE_MIN_DIMENSION = 50;
 
-type Props = {
+interface Props extends PropsFromRedux {
     postId: string;
-    fileInfo?: FileInfo;
+    fileInfo: FileInfo;
     isRhsOpen: boolean;
+    enablePublicLink: boolean;
     compactDisplay?: boolean;
     isEmbedVisible?: boolean;
-    actions: {
-        toggleEmbedVisibility: (postId: string) => void;
-    };
+    isInPermalink?: boolean;
 }
 
 type State = {
     loaded: boolean;
-    showPreviewModal: boolean;
     dimensions: {
         width: number;
         height: number;
@@ -39,17 +39,15 @@ type State = {
 }
 
 export default class SingleImageView extends React.PureComponent<Props, State> {
-    private mounted: boolean;
+    private mounted = false;
     static defaultProps = {
         compactDisplay: false,
     };
 
     constructor(props: Props) {
         super(props);
-        this.mounted = true;
         this.state = {
             loaded: false,
-            showPreviewModal: false,
             dimensions: {
                 width: props.fileInfo?.width || 0,
                 height: props.fileInfo?.height || 0,
@@ -85,19 +83,28 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
 
     handleImageClick = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
-        this.setState({showPreviewModal: true});
-    }
 
-    hidePreviewModal = () => {
-        this.setState({showPreviewModal: false});
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.FILE_PREVIEW_MODAL,
+            dialogType: FilePreviewModal,
+            dialogProps: {
+                fileInfos: [this.props.fileInfo],
+                postId: this.props.postId,
+                startIndex: 0,
+            },
+        });
     }
 
     toggleEmbedVisibility = () => {
         this.props.actions.toggleEmbedVisibility(this.props.postId);
     }
 
+    getFilePublicLink = () => {
+        return this.props.actions.getFilePublicLink(this.props.fileInfo.id);
+    }
+
     render() {
-        const {fileInfo, compactDisplay} = this.props;
+        const {fileInfo, compactDisplay, isInPermalink} = this.props;
         const {
             loaded,
         } = this.state;
@@ -161,7 +168,10 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
                             'compact-display': compactDisplay,
                         })}
                     >
-                        <div onClick={this.handleImageClick}>
+                        <div
+                            id='image-name-text'
+                            onClick={this.handleImageClick}
+                        >
                             {fileInfo.name}
                         </div>
                     </div>
@@ -169,8 +179,8 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
             </div>
         );
 
-        let viewImageModal;
         let fadeInClass = '';
+        let permalinkClass = '';
 
         const fileType = getFileType(fileInfo.extension);
         let styleIfSvgWithDimensions = {};
@@ -191,21 +201,16 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
         }
 
         if (loaded) {
-            viewImageModal = (
-                <FilePreviewModal
-                    show={this.state.showPreviewModal}
-                    onModalDismissed={this.hidePreviewModal}
-                    fileInfos={[fileInfo]}
-                    postId={this.props.postId}
-                />
-            );
-
             fadeInClass = 'image-fade-in';
+        }
+
+        if (isInPermalink) {
+            permalinkClass = 'image-permalink';
         }
 
         return (
             <div
-                className='file-view--single'
+                className={classNames('file-view--single', permalinkClass)}
             >
                 <div
                     className='file__image'
@@ -213,27 +218,31 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
                     {fileHeader}
                     {this.props.isEmbedVisible &&
                     <div
-                        className='image-container'
+                        className={classNames('image-container', permalinkClass)}
                         style={imageContainerStyle}
                     >
                         <div
                             className={classNames('image-loaded', fadeInClass, svgClass)}
                             style={styleIfSvgWithDimensions}
                         >
-                            <SizeAwareImage
-                                onClick={this.handleImageClick}
-                                className={minPreviewClass}
-                                src={previewURL}
-                                dimensions={this.state.dimensions}
-                                fileInfo={this.props.fileInfo}
-                                onImageLoaded={this.imageLoaded}
-                                showLoader={this.props.isEmbedVisible}
-                                handleSmallImageContainer={true}
-                            />
+                            <div className={classNames(permalinkClass)}>
+                                <SizeAwareImage
+                                    onClick={this.handleImageClick}
+                                    className={classNames(minPreviewClass, permalinkClass)}
+                                    src={previewURL}
+                                    dimensions={this.state.dimensions}
+                                    fileInfo={this.props.fileInfo}
+                                    fileURL={fileURL}
+                                    onImageLoaded={this.imageLoaded}
+                                    showLoader={this.props.isEmbedVisible}
+                                    handleSmallImageContainer={true}
+                                    enablePublicLink={this.props.enablePublicLink}
+                                    getFilePublicLink={this.getFilePublicLink}
+                                />
+                            </div>
                         </div>
                     </div>
                     }
-                    {viewImageModal}
                 </div>
             </div>
         );

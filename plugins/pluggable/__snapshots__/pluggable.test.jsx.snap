@@ -14,16 +14,42 @@ exports[`plugins/Pluggable should match snapshot with extended component 1`] = `
   pluggableName="PopoverSection1"
   theme={Object {}}
 >
-  <ProfilePopoverPlugin
+  <PluggableErrorBoundary
     key="PopoverSection1undefined"
-    theme={Object {}}
   >
-    <span
-      id="pluginId"
+    <ProfilePopoverPlugin
+      theme={Object {}}
+      webSocketClient={
+        WebSocketClient {
+          "closeCallback": null,
+          "closeListeners": Set {},
+          "conn": null,
+          "connectFailCount": 0,
+          "connectionId": "",
+          "connectionUrl": null,
+          "errorCallback": null,
+          "errorListeners": Set {},
+          "eventCallback": null,
+          "firstConnectCallback": null,
+          "firstConnectListeners": Set {},
+          "messageListeners": Set {},
+          "missedEventCallback": null,
+          "missedMessageListeners": Set {},
+          "reconnectCallback": null,
+          "reconnectListeners": Set {},
+          "responseCallbacks": Object {},
+          "responseSequence": 1,
+          "serverSequence": 0,
+        }
+      }
     >
-      ProfilePopoverPlugin
-    </span>
-  </ProfilePopoverPlugin>
+      <span
+        id="pluginId"
+      >
+        ProfilePopoverPlugin
+      </span>
+    </ProfilePopoverPlugin>
+  </PluggableErrorBoundary>
 </Pluggable>
 `;
 
@@ -41,16 +67,42 @@ exports[`plugins/Pluggable should match snapshot with extended component with pl
   pluggableName="PopoverSection1"
   theme={Object {}}
 >
-  <ProfilePopoverPlugin
+  <PluggableErrorBoundary
     key="PopoverSection1undefined"
-    theme={Object {}}
   >
-    <span
-      id="pluginId"
+    <ProfilePopoverPlugin
+      theme={Object {}}
+      webSocketClient={
+        WebSocketClient {
+          "closeCallback": null,
+          "closeListeners": Set {},
+          "conn": null,
+          "connectFailCount": 0,
+          "connectionId": "",
+          "connectionUrl": null,
+          "errorCallback": null,
+          "errorListeners": Set {},
+          "eventCallback": null,
+          "firstConnectCallback": null,
+          "firstConnectListeners": Set {},
+          "messageListeners": Set {},
+          "missedEventCallback": null,
+          "missedMessageListeners": Set {},
+          "reconnectCallback": null,
+          "reconnectListeners": Set {},
+          "responseCallbacks": Object {},
+          "responseSequence": 1,
+          "serverSequence": 0,
+        }
+      }
     >
-      ProfilePopoverPlugin
-    </span>
-  </ProfilePopoverPlugin>
+      <span
+        id="pluginId"
+      >
+        ProfilePopoverPlugin
+      </span>
+    </ProfilePopoverPlugin>
+  </PluggableErrorBoundary>
 </Pluggable>
 `;
 
@@ -92,16 +144,42 @@ exports[`plugins/Pluggable should match snapshot with null pluggableId 1`] = `
   pluggableName="PopoverSection1"
   theme={Object {}}
 >
-  <ProfilePopoverPlugin
+  <PluggableErrorBoundary
     key="PopoverSection1undefined"
-    theme={Object {}}
   >
-    <span
-      id="pluginId"
+    <ProfilePopoverPlugin
+      theme={Object {}}
+      webSocketClient={
+        WebSocketClient {
+          "closeCallback": null,
+          "closeListeners": Set {},
+          "conn": null,
+          "connectFailCount": 0,
+          "connectionId": "",
+          "connectionUrl": null,
+          "errorCallback": null,
+          "errorListeners": Set {},
+          "eventCallback": null,
+          "firstConnectCallback": null,
+          "firstConnectListeners": Set {},
+          "messageListeners": Set {},
+          "missedEventCallback": null,
+          "missedMessageListeners": Set {},
+          "reconnectCallback": null,
+          "reconnectListeners": Set {},
+          "responseCallbacks": Object {},
+          "responseSequence": 1,
+          "serverSequence": 0,
+        }
+      }
     >
-      ProfilePopoverPlugin
-    </span>
-  </ProfilePopoverPlugin>
+      <span
+        id="pluginId"
+      >
+        ProfilePopoverPlugin
+      </span>
+    </ProfilePopoverPlugin>
+  </PluggableErrorBoundary>
 </Pluggable>
 `;
 
@@ -121,15 +199,41 @@ exports[`plugins/Pluggable should match snapshot with valid pluggableId 1`] = `
   pluggableName="PopoverSection1"
   theme={Object {}}
 >
-  <ProfilePopoverPlugin
+  <PluggableErrorBoundary
     key="PopoverSection1pluggableId"
-    theme={Object {}}
   >
-    <span
-      id="pluginId"
+    <ProfilePopoverPlugin
+      theme={Object {}}
+      webSocketClient={
+        WebSocketClient {
+          "closeCallback": null,
+          "closeListeners": Set {},
+          "conn": null,
+          "connectFailCount": 0,
+          "connectionId": "",
+          "connectionUrl": null,
+          "errorCallback": null,
+          "errorListeners": Set {},
+          "eventCallback": null,
+          "firstConnectCallback": null,
+          "firstConnectListeners": Set {},
+          "messageListeners": Set {},
+          "missedEventCallback": null,
+          "missedMessageListeners": Set {},
+          "reconnectCallback": null,
+          "reconnectListeners": Set {},
+          "responseCallbacks": Object {},
+          "responseSequence": 1,
+          "serverSequence": 0,
+        }
+      }
     >
-      ProfilePopoverPlugin
-    </span>
-  </ProfilePopoverPlugin>
+      <span
+        id="pluginId"
+      >
+        ProfilePopoverPlugin
+      </span>
+    </ProfilePopoverPlugin>
+  </PluggableErrorBoundary>
 </Pluggable>
 `;

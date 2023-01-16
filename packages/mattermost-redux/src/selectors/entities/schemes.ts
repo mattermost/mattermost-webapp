@@ -8,10 +8,10 @@ import {ScopeTypes} from 'mattermost-redux/constants/schemes';
 import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getTeams} from 'mattermost-redux/selectors/entities/teams';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {Scheme} from 'mattermost-redux/types/schemes';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {Team} from 'mattermost-redux/types/teams';
+import {Channel} from '@mattermost/types/channels';
+import {Scheme} from '@mattermost/types/schemes';
+import {GlobalState} from '@mattermost/types/store';
+import {Team} from '@mattermost/types/teams';
 
 export function getSchemes(state: GlobalState): {
     [x: string]: Scheme;

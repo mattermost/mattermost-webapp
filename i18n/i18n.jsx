@@ -6,6 +6,7 @@ import bg from './bg.json';
 import de from './de.json';
 import enAU from './en_AU.json';
 import es from './es.json';
+import fa from './fa.json';
 import fr from './fr.json';
 import hu from './hu.json';
 import it from './it.json';
@@ -54,7 +55,7 @@ const languages = {
     },
     fr: {
         value: 'fr',
-        name: 'Français',
+        name: 'Français (Beta)',
         order: 4,
         url: fr,
     },
@@ -84,13 +85,13 @@ const languages = {
     },
     'pt-BR': {
         value: 'pt-BR',
-        name: 'Português (Brasil)',
+        name: 'Português (Brasil) (Alpha)',
         order: 9,
         url: ptBR,
     },
     ro: {
         value: 'ro',
-        name: 'Română',
+        name: 'Română (Alpha)',
         order: 10,
         url: ro,
     },
@@ -108,7 +109,7 @@ const languages = {
     },
     bg: {
         value: 'bg',
-        name: 'Български',
+        name: 'Български (Alpha)',
         order: 13,
         url: bg,
     },
@@ -124,28 +125,34 @@ const languages = {
         order: 15,
         url: uk,
     },
+    fa: {
+        value: 'fa',
+        name: 'فارسی (Alpha)',
+        order: 16,
+        url: fa,
+    },
     ko: {
         value: 'ko',
         name: '한국어 (Alpha)',
-        order: 16,
+        order: 17,
         url: ko,
     },
     'zh-CN': {
         value: 'zh-CN',
-        name: '中文 (简体)',
-        order: 17,
+        name: '中文 (简体) (Alpha)',
+        order: 18,
         url: zhCN,
     },
     'zh-TW': {
         value: 'zh-TW',
         name: '中文 (繁體)',
-        order: 18,
+        order: 19,
         url: zhTW,
     },
     ja: {
         value: 'ja',
         name: '日本語',
-        order: 19,
+        order: 20,
         url: ja,
     },
 };
@@ -173,16 +180,4 @@ export function getLanguageInfo(locale) {
 
 export function isLanguageAvailable(locale) {
     return Boolean(getLanguages()[locale]);
-}
-
-export function doAddLocaleData() {
-    if (!Intl.PluralRules) {
-        // eslint-disable-next-line global-require
-        require('@formatjs/intl-pluralrules/polyfill-locales');
-    }
-
-    if (!Intl.RelativeTimeFormat) {
-        // eslint-disable-next-line global-require
-        require('@formatjs/intl-relativetimeformat/polyfill-locales');
-    }
 }

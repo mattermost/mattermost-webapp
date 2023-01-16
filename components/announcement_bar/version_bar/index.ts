@@ -3,13 +3,13 @@
 
 import {connect} from 'react-redux';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import VersionBar from './version_bar';
 
 function mapStateToProps(state: GlobalState) {
     return {
-        serverVersion: state.entities.general.serverVersion,
+        buildHash: state.entities.general.config.BuildHash,
     };
 }
 

@@ -4,12 +4,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {AuthorType, MarketplacePlugin, ReleaseStage} from 'mattermost-redux/types/marketplace';
-import type {PluginStatusRedux} from 'mattermost-redux/types/plugins';
+import {AuthorType, MarketplacePlugin, ReleaseStage} from '@mattermost/types/marketplace';
+import type {PluginStatusRedux} from '@mattermost/types/plugins';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import {AllListing, InstalledListing, MarketplaceModal, MarketplaceModalProps} from './marketplace_modal';
+import MarketplaceModal, {AllListing, InstalledListing, MarketplaceModalProps} from './marketplace_modal';
 
 jest.mock('actions/telemetry_actions.jsx', () => {
     const original = jest.requireActual('actions/telemetry_actions.jsx');
@@ -128,6 +128,7 @@ describe('components/marketplace/', () => {
                     return Promise.resolve({});
                 }),
                 setFirstAdminVisitMarketplaceStatus: jest.fn(),
+                getPluginStatuses: jest.fn(),
             },
         };
 

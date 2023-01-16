@@ -3,9 +3,8 @@
 
 import {createSelector} from 'reselect';
 
-import {Bot} from 'mattermost-redux/types/bots';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {Bot} from '@mattermost/types/bots';
+import {GlobalState} from '@mattermost/types/store';
 import {getUsers} from 'mattermost-redux/selectors/entities/common';
 
 export const ExternalBotAccountNames: string[] = ['mattermost-advisor'];
@@ -14,12 +13,12 @@ export function getBotAccounts(state: GlobalState) {
     return state.entities.bots.accounts;
 }
 
-export const getExternalBotAccounts: (state: GlobalState) => Dictionary<Bot> = createSelector(
+export const getExternalBotAccounts: (state: GlobalState) => Record<string, Bot> = createSelector(
     'getExternalBotAccounts',
     getBotAccounts,
     getUsers,
     (botAccounts, userProfiles) => {
-        const nextState: Dictionary<Bot> = {};
+        const nextState: Record<string, Bot> = {};
         Object.values(botAccounts).forEach((botAccount) => {
             const botUser = userProfiles[botAccount.user_id];
             if (botUser && !ExternalBotAccountNames.includes(botUser.username)) {

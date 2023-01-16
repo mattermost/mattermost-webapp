@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 const WebsocketEvents = {
     POSTED: 'posted',
     POST_EDITED: 'post_edited',
@@ -52,5 +53,6 @@ const WebsocketEvents = {
     THREAD_FOLLOW_CHANGED: 'thread_follow_changed',
     THREAD_READ_CHANGED: 'thread_read_changed',
     FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED: 'first_admin_visit_marketplace_status_received',
+    GROUP_MEMBER_DELETED: 'group_member_deleted',
 };
 export default WebsocketEvents;

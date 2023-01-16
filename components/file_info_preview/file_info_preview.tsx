@@ -3,14 +3,11 @@
 
 import React from 'react';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
+import {FileInfo} from '@mattermost/types/files';
 
 type Props = {
-    fileInfo: {
-        name: string;
-        extension: string;
-        size: number;
-    };
+    fileInfo: FileInfo;
     fileUrl: string;
     canDownloadFiles: boolean;
 };

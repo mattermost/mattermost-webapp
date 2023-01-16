@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
@@ -27,17 +27,21 @@ type StateProps = {
 
 export type Props = OwnProps & StateProps;
 
-function mapStateToProps(state: GlobalState): StateProps {
-    const currentUserId = getCurrentUserId(state);
+function makeMapStateToProps() {
+    const getUserTimezone = makeGetUserTimezone();
 
-    let timeZone: TimestampProps['timeZone'];
+    return (state: GlobalState): StateProps => {
+        const currentUserId = getCurrentUserId(state);
 
-    if (areTimezonesEnabledAndSupported(state)) {
-        timeZone = getUserCurrentTimezone(getUserTimezone(state, currentUserId)) ?? undefined;
-    }
+        let timeZone: TimestampProps['timeZone'];
 
-    const isMilitaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false);
-    return {isMilitaryTime, timeZone};
+        if (areTimezonesEnabledAndSupported(state)) {
+            timeZone = getUserCurrentTimezone(getUserTimezone(state, currentUserId)) ?? undefined;
+        }
+
+        const isMilitaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false);
+        return {isMilitaryTime, timeZone};
+    };
 }
 
-export default connect<StateProps, null, OwnProps, GlobalState>(mapStateToProps)(PostEditedIndicator);
+export default connect<StateProps, null, OwnProps, GlobalState>(makeMapStateToProps)(PostEditedIndicator);

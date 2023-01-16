@@ -328,7 +328,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
 
 exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannelsRow should match snapshot, when has children 1`] = `
 <tr
-  className="group-teams-and-channels-row has-clidren"
+  className="group-teams-and-channels-row has-children"
 >
   <ConfirmModal
     confirmButtonClass="btn btn-primary"
@@ -411,7 +411,7 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
 
 exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannelsRow should match snapshot, when has children and is collapsed 1`] = `
 <tr
-  className="group-teams-and-channels-row has-clidren collapsed"
+  className="group-teams-and-channels-row has-children collapsed"
 >
   <ConfirmModal
     confirmButtonClass="btn btn-primary"

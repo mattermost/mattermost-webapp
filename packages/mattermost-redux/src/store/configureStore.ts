@@ -1,14 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {createStore, applyMiddleware, Store, combineReducers} from 'redux';
+import {
+    applyMiddleware,
+    legacy_createStore,
+    Reducer,
+    Store,
+} from 'redux';
 import thunk from 'redux-thunk';
-import {composeWithDevTools} from 'redux-devtools-extension/developmentOnly';
+import {composeWithDevToolsDevelopmentOnly} from '@redux-devtools/extension';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {Action, Reducer} from 'mattermost-redux/types/actions';
+import {GlobalState} from '@mattermost/types/store';
 
-import serviceReducer from '../reducers';
+import serviceReducers from '../reducers';
 
 import reducerRegistry from './reducer_registry';
 
@@ -19,41 +23,54 @@ import initialState from './initial_state';
  * Configures and constructs the redux store. Accepts the following parameters:
  * preloadedState - Any preloaded state to be applied to the store after it is initially configured.
  * appReducer - An object containing any app-specific reducer functions that the client needs.
- * persistConfig - Any additional configuration data to be passed into redux-persist aside from the default values.
- * getAppReducer - A function that returns the appReducer as defined above. Only used in development to enable hot reloading.
+ * getAppReducers - A function that returns the appReducer as defined above. Only used in development to enable hot reloading.
  */
-export default function configureStore(preloadedState: any, appReducer: any, persistConfig: any, getAppReducer: any): Store {
-    const baseState = Object.assign({}, initialState, preloadedState);
+export default function configureStore<S extends GlobalState>({
+    appReducers,
+    getAppReducers,
+    preloadedState,
+}: {
+    appReducers: Record<string, Reducer>;
+    getAppReducers: () => Record<string, Reducer>;
+    preloadedState: Partial<S>;
+}): Store {
+    const baseState = {
+        ...initialState,
+        ...preloadedState,
+    };
 
-    let middleware = applyMiddleware(thunk);
-    middleware = composeWithDevTools(middleware);
-
-    const store = createStore(
-        createReducer(baseState, serviceReducer as any, appReducer),
-        baseState,
-        middleware,
-    );
-
-    reducerRegistry.setChangeListener((reducers: any) => {
-        store.replaceReducer(createReducer(baseState, reducers));
+    const composeEnhancers = composeWithDevToolsDevelopmentOnly({
+        shouldHotReload: false,
+        trace: true,
+        traceLimit: 25,
+        autoPause: true,
     });
 
-    // launch store persistor
-    if (persistConfig.persist) {
-        persistConfig.persist(store, persistConfig.persistOptions, persistConfig.persistCallback);
-    }
+    const middleware = applyMiddleware(thunk);
+
+    const enhancers = composeEnhancers(middleware);
+
+    const baseReducer = createReducer(serviceReducers, appReducers);
+
+    const store = legacy_createStore(
+        baseReducer,
+        baseState,
+        enhancers,
+    );
+
+    reducerRegistry.setChangeListener((reducers: Record<string, Reducer>) => {
+        store.replaceReducer(createReducer(reducers, serviceReducers, appReducers));
+    });
 
     if (module.hot) {
-    // Enable Webpack hot module replacement for reducers
+        // Enable Webpack hot module replacement for reducers
         module.hot.accept(() => {
-            const nextServiceReducer = require('../reducers').default; // eslint-disable-line global-require
-            let nextAppReducer;
-            if (getAppReducer) {
-                nextAppReducer = getAppReducer(); // eslint-disable-line global-require
-            }
-            const registryReducers = combineReducers(reducerRegistry.getReducers()) as Reducer<GlobalState, Action>;
+            const registryReducers = reducerRegistry.getReducers();
+            const nextServiceReducers = require('../reducers').default; // eslint-disable-line global-require
+            const nextAppReducers = getAppReducers();
 
-            store.replaceReducer(createReducer(baseState, registryReducers, nextServiceReducer, nextAppReducer));
+            // Ensure registryReducers comes first so that stored service/app reducers are replaced by the new ones
+            store.replaceReducer(createReducer(registryReducers, nextServiceReducers, nextAppReducers));
         });
     }
 

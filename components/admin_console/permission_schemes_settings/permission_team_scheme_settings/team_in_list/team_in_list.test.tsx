@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import TeamInList
     from 'components/admin_console/permission_schemes_settings/permission_team_scheme_settings/team_in_list/team_in_list';
-import {TeamType} from 'mattermost-redux/types/teams';
+import {TeamType} from '@mattermost/types/teams';
 
 describe('components/admin_console/permission_schemes_settings/permission_team_scheme_settings/team_in_list/team_in_list', () => {
     test('should match snapshot with team', () => {

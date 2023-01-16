@@ -69,88 +69,49 @@ describe('Actions.Storage', () => {
             [['prefix_test1', 1], ['prefix_test2', 2]],
         );
     });
+});
 
-    it('clear', async () => {
-        store.dispatch(Actions.setGlobalItem('key', 'value'));
-        store.dispatch(Actions.setGlobalItem('excluded', 'not-cleared'));
-
-        store.dispatch(Actions.clear({exclude: ['excluded']}));
-
-        assert.equal(store.getState().storage.storage.excluded.value, 'not-cleared');
-        assert.equal(typeof store.getState().storage.storage.key, 'undefined');
+describe('cleanLocalStorage', () => {
+    beforeAll(() => {
+        localStorage.clear();
     });
 
-    it('rehydrate', async () => {
-        const RealDate = Date;
-        const now = new Date(1487076708000);
-        global.Date = class extends RealDate {
-            constructor() {
-                super();
-                return new RealDate(now);
-            }
-        };
-
-        const persistor = {
-            pause: jest.fn(),
-            resume: jest.fn(),
-        };
-
-        store.dispatch(Actions.storageRehydrate({test: '123'}, persistor));
-
-        assert.equal(store.getState().storage.storage.test.value, '123');
-        assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), now.valueOf());
-
-        store.dispatch(Actions.storageRehydrate({test: '456'}, persistor));
-
-        assert.equal(store.getState().storage.storage.test.value, '456');
-        assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), now.valueOf());
-
-        store.dispatch(Actions.storageRehydrate({test2: '789'}, persistor));
-
-        assert.equal(store.getState().storage.storage.test.value, '456');
-        assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), now.valueOf());
-        assert.equal(store.getState().storage.storage.test2.value, '789');
-        assert.equal(store.getState().storage.storage.test2.timestamp.valueOf(), now.valueOf());
-
-        global.Date = RealDate;
+    afterEach(() => {
+        localStorage.clear();
     });
 
-    it('rehydrate-with-timestamp', async () => {
-        const now = new Date();
-        const persistor = {
-            pause: jest.fn(),
-            resume: jest.fn(),
-        };
+    test('should clear keys used for user profile colors in compact mode', () => {
+        const keys = [
+            'harrison-#0a111f',
+            'harrison-#090a0b',
+            'jira-#0a111f',
+            'jira-#090a0b',
+            'github-#090a0b',
+        ];
 
-        store.dispatch(Actions.storageRehydrate({test: JSON.stringify({value: '123', timestamp: now})}, persistor));
+        for (const key of keys) {
+            localStorage.setItem(key, key);
+        }
 
-        assert.equal(store.getState().storage.storage.test.value, '123');
-        assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), now.valueOf());
+        Actions.cleanLocalStorage();
 
-        const older = new Date(now);
-        older.setSeconds(now.getSeconds() - 2);
+        expect(localStorage.length).toBe(0);
+    });
 
-        store.dispatch(Actions.storageRehydrate({test: JSON.stringify({value: '456', timestamp: older})}, persistor));
+    test('should not clear keys used for other things', () => {
+        const keys = [
+            'theme',
+            'was_logged_in',
+            '__landingPageSeen__',
+            'emoji-mart.frequently',
+        ];
 
-        assert.equal(store.getState().storage.storage.test.value, '123');
-        assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), now.valueOf());
+        for (const key of keys) {
+            localStorage.setItem(key, key);
+        }
 
-        const newer = new Date(now);
-        newer.setSeconds(now.getSeconds() + 2);
+        Actions.cleanLocalStorage();
 
-        store.dispatch(Actions.storageRehydrate({test: JSON.stringify({value: '456', timestamp: newer})}, persistor));
-
-        assert.equal(store.getState().storage.storage.test.value, '456');
-        assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), newer.valueOf());
-
-        const newest = new Date(now);
-        newest.setSeconds(now.getSeconds() + 10);
-
-        store.dispatch(Actions.storageRehydrate({test2: JSON.stringify({value: '789', timestamp: newest})}, persistor));
-
-        assert.equal(store.getState().storage.storage.test.value, '456');
-        assert.equal(store.getState().storage.storage.test.timestamp.valueOf(), newer.valueOf());
-        assert.equal(store.getState().storage.storage.test2.value, '789');
-        assert.equal(store.getState().storage.storage.test2.timestamp.valueOf(), newest.valueOf());
+        expect(localStorage.length).toBe(keys.length);
     });
 });

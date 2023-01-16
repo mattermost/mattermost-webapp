@@ -5,16 +5,15 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Role} from 'mattermost-redux/types/roles';
+import {UserProfile} from '@mattermost/types/users';
+import {Role} from '@mattermost/types/roles';
 
 import {filterProfilesStartingWithTerm, profileListToMap, isGuest} from 'mattermost-redux/utils/user_utils';
 import {filterProfiles} from 'mattermost-redux/selectors/entities/users';
 
 import {Client4} from 'mattermost-redux/client';
 
-import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
+import {displayEntireNameForUser, localizeMessage} from 'utils/utils';
 import ProfilePicture from 'components/profile_picture';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
@@ -50,7 +49,7 @@ type State = {
     term: string;
 }
 
-function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Dictionary<UserProfile> {
+function searchUsersToAdd(users: Record<string, UserProfile>, term: string): Record<string, UserProfile> {
     const profilesList: UserProfile[] = Object.keys(users).map((key) => users[key]);
     const filteredProfilesList = filterProfilesStartingWithTerm(profilesList, term);
     return filterProfiles(profileListToMap(filteredProfilesList), {});

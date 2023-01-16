@@ -10,20 +10,23 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
-import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
+import {isSystemMessage, isUserAddedInChannel} from 'mattermost-redux/utils/post_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {isThreadOpen} from 'selectors/views/threads';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
 import {showNotification} from 'utils/notifications';
-import {isDesktopApp, isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import {isDesktopApp, isMobileApp, isWindowsApp} from 'utils/user_agent';
+import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 import {stripMarkdown} from 'utils/markdown';
 
 const NOTIFY_TEXT_MAX_LENGTH = 50;
+
+// windows notification length is based windows chrome which supports 128 characters and is the lowest length of windows browsers
+const WINDOWS_NOTIFY_TEXT_MAX_LENGTH = 120;
 
 export function sendDesktopNotification(post, msgProps) {
     return async (dispatch, getState) => {
@@ -34,7 +37,7 @@ export function sendDesktopNotification(post, msgProps) {
             return;
         }
 
-        if (isSystemMessage(post)) {
+        if (isSystemMessage(post) && !isUserAddedInChannel(post, currentUserId)) {
             return;
         }
 
@@ -134,8 +137,10 @@ export function sendDesktopNotification(post, msgProps) {
         });
 
         let strippedMarkdownNotifyText = stripMarkdown(notifyText);
-        if (strippedMarkdownNotifyText.length > NOTIFY_TEXT_MAX_LENGTH) {
-            strippedMarkdownNotifyText = strippedMarkdownNotifyText.substring(0, NOTIFY_TEXT_MAX_LENGTH - 1) + '...';
+
+        const notifyTextMaxLength = isWindowsApp() ? WINDOWS_NOTIFY_TEXT_MAX_LENGTH : NOTIFY_TEXT_MAX_LENGTH;
+        if (strippedMarkdownNotifyText.length > notifyTextMaxLength) {
+            strippedMarkdownNotifyText = strippedMarkdownNotifyText.substring(0, notifyTextMaxLength - 1) + '...';
         }
 
         let body = `@${username}`;
@@ -169,7 +174,7 @@ export function sendDesktopNotification(post, msgProps) {
         }
         notify = notify || !state.views.browser.focused;
 
-        const soundName = user.notify_props !== undefined && user.notify_props.desktop_notification_sound !== undefined ? user.notify_props.desktop_notification_sound : 'None';
+        const soundName = user.notify_props !== undefined && user.notify_props.desktop_notification_sound !== undefined ? user.notify_props.desktop_notification_sound : 'Bing';
 
         if (notify) {
             const updatedState = getState();
@@ -182,7 +187,7 @@ export function sendDesktopNotification(post, msgProps) {
             dispatch(notifyMe(title, body, channel, teamId, !sound, soundName, url));
 
             //Don't add extra sounds on native desktop clients
-            if (sound && !isWindowsApp() && !isMacApp() && !isMobileApp()) {
+            if (sound && !isDesktopApp() && !isMobileApp()) {
                 Utils.ding(soundName);
             }
         }
@@ -226,7 +231,7 @@ const notifyMe = (title, body, channel, teamId, silent, soundName, url) => (disp
             silent,
             onClick: () => {
                 window.focus();
-                browserHistory.push(url);
+                getHistory().push(url);
             },
         }).catch((error) => {
             dispatch(logError(error));

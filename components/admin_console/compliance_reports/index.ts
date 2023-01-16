@@ -11,10 +11,9 @@ import {getComplianceReports as selectComplianceReports, getConfig} from 'matter
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {Compliance} from 'mattermost-redux/types/compliance';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {Compliance} from '@mattermost/types/compliance';
+import {GlobalState} from '@mattermost/types/store';
+import {UserProfile} from '@mattermost/types/users';
 
 import ComplianceReports from './compliance_reports';
 
@@ -28,7 +27,7 @@ const getUsersForReports = createSelector(
     (state: GlobalState) => state.entities.users.profiles,
     (state: GlobalState) => state.entities.admin.complianceReports,
     (users, reports) => {
-        const usersMap: Dictionary<UserProfile> = {};
+        const usersMap: Record<string, UserProfile> = {};
         Object.values(reports).forEach((r) => {
             const u = users[r.user_id];
             if (u) {

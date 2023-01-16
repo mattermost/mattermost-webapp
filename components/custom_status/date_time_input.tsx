@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useEffect, useState, useCallback} from 'react';
 import {useSelector} from 'react-redux';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
@@ -7,6 +8,7 @@ import {DayModifiers, NavbarElementProps} from 'react-day-picker';
 import {useIntl} from 'react-intl';
 
 import moment, {Moment} from 'moment-timezone';
+import MomentUtils from 'react-day-picker/moment';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
@@ -144,6 +146,8 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                 </span>
                 <DayPickerInput
                     value={time.toDate()}
+                    format='yyyy-MM-DD'
+                    formatDate={MomentUtils.formatDate}
                     onDayChange={handleDayChange}
                     inputProps={{
                         readOnly: true,

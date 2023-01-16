@@ -8,14 +8,13 @@ import {Posts} from 'mattermost-redux/constants';
 
 import RhsRootPost from 'components/rhs_root_post/rhs_root_post.jsx';
 import EmojiMap from 'utils/emoji_map';
-import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
-import {Locations} from 'utils/constants';
 
 jest.mock('utils/post_utils', () => ({
     isEdited: jest.fn().mockReturnValue(true),
     isSystemMessage: jest.fn().mockReturnValue(false),
     fromAutoResponder: jest.fn().mockReturnValue(false),
+    isFromWebhook: jest.fn().mockReturnValue(false),
 }));
 
 describe('components/RhsRootPost', () => {
@@ -62,6 +61,8 @@ describe('components/RhsRootPost', () => {
         },
         emojiMap: new EmojiMap(new Map()),
         collapsedThreadsEnabled: false,
+        isMobileView: false,
+        isPostPriorityEnabled: true,
     };
 
     test('should match snapshot', () => {
@@ -188,16 +189,14 @@ describe('components/RhsRootPost', () => {
         expect(props.actions.markPostAsUnread).not.toHaveBeenCalled();
     });
 
-    test('should pass props correctly to PostFlagIcon', () => {
+    test('should match snapshot hovered', () => {
         const wrapper = shallow(
             <RhsRootPost {...baseProps}/>,
         );
 
-        const flagIcon = wrapper.find(PostFlagIcon);
-        expect(flagIcon).toHaveLength(1);
-        expect(flagIcon.prop('location')).toEqual(Locations.RHS_ROOT);
-        expect(flagIcon.prop('postId')).toEqual(baseProps.post.id);
-        expect(flagIcon.prop('isFlagged')).toEqual(baseProps.isFlagged);
+        wrapper.setState({hover: true});
+
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should pass props correctly to PostPreHeader', () => {
@@ -210,5 +209,25 @@ describe('components/RhsRootPost', () => {
         expect(postPreHeader.prop('isFlagged')).toEqual(baseProps.isFlagged);
         expect(postPreHeader.prop('isPinned')).toEqual(baseProps.post.is_pinned);
         expect(postPreHeader.prop('channelId')).toEqual(baseProps.post.channel_id);
+    });
+
+    test('should match snapshot when post priority is enabled', () => {
+        const props = {
+            ...baseProps,
+            post: {
+                ...baseProps.post,
+                metadata: {
+                    ...baseProps.post.metadata,
+                    priority: {
+                        priority: 'important',
+                    },
+                },
+            },
+        };
+        const wrapper = shallow(
+            <RhsRootPost {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

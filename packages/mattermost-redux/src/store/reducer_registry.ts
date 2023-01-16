@@ -1,19 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Reducer} from 'mattermost-redux/types/actions';
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {Reducer} from 'redux';
 
 // Based on http://nicolasgallagher.com/redux-modules-and-code-splitting/
 export class ReducerRegistry {
-    emitChange?: (reducers: Dictionary<Reducer>) => void;
-    reducers: Dictionary<Reducer> = {};
+    emitChange?: (reducers: Record<string, Reducer>) => void;
+    reducers: Record<string, Reducer> = {};
 
-    setReducers = (reducers: Dictionary<Reducer>): void => {
+    setReducers = (reducers: Record<string, Reducer>): void => {
         this.reducers = reducers;
     }
 
-    getReducers = (): Dictionary<Reducer> => {
+    getReducers = (): Record<string, Reducer> => {
         return {...this.reducers};
     }
 
@@ -24,7 +23,7 @@ export class ReducerRegistry {
         }
     }
 
-    setChangeListener = (listener: (reducers: Dictionary<Reducer>) => void): void => {
+    setChangeListener = (listener: (reducers: Record<string, Reducer>) => void): void => {
         this.emitChange = listener;
     }
 }

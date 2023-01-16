@@ -8,8 +8,11 @@ import Flex from '@mattermost/compass-components/utilities/layout/Flex';
 
 import {closeRightHandSide, showMentions} from 'actions/views/rhs';
 import Search from 'components/search';
-import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
+
+import {getRhsState} from 'selectors/rhs';
+
 import {GlobalState} from 'types/store';
+
 import {
     Constants,
     RHSStates,
@@ -19,31 +22,26 @@ import * as Utils from 'utils/utils';
 const GlobalSearchNav = (): JSX.Element => {
     const dispatch = useDispatch();
     const rhsState = useSelector((state: GlobalState) => getRhsState(state));
-    const isRhsOpen = useSelector((state: GlobalState) => getIsRhsOpen(state));
 
     useEffect(() => {
+        const handleShortcut = (e: KeyboardEvent) => {
+            if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
+                if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
+                    e.preventDefault();
+                    if (rhsState === RHSStates.MENTION) {
+                        dispatch(closeRightHandSide());
+                    } else {
+                        dispatch(showMentions());
+                    }
+                }
+            }
+        };
+
         document.addEventListener('keydown', handleShortcut);
         return () => {
             document.removeEventListener('keydown', handleShortcut);
         };
-    }, []);
-
-    const searchMentions = () => {
-        if (rhsState === RHSStates.MENTION) {
-            dispatch(closeRightHandSide());
-        } else {
-            dispatch(showMentions());
-        }
-    };
-
-    const handleShortcut = (e: KeyboardEvent) => {
-        if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
-            if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
-                e.preventDefault();
-                searchMentions();
-            }
-        }
-    };
+    }, [rhsState, dispatch]);
 
     return (
         <Flex
@@ -53,7 +51,6 @@ const GlobalSearchNav = (): JSX.Element => {
             alignment='center'
         >
             <Search
-                isFocus={Utils.isMobile() || (isRhsOpen && Boolean(rhsState))}
                 enableFindShortcut={true}
             />
         </Flex>

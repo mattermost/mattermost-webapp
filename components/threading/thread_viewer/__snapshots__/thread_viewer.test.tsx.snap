@@ -42,7 +42,6 @@ exports[`components/threading/ThreadViewer should match snapshot 1`] = `
             "id",
           ]
         }
-        removePost={[MockFunction]}
         selected={
           Object {
             "channel_id": "channel_id",

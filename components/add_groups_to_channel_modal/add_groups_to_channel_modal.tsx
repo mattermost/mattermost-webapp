@@ -5,16 +5,14 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Groups} from 'mattermost-redux/constants';
-
-import {Group, SyncablePatch} from 'mattermost-redux/types/groups';
+import {Group, SyncablePatch, SyncableType} from '@mattermost/types/groups';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 import Constants from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import groupsAvatar from 'images/groups-avatar.png';
@@ -143,7 +141,7 @@ export default class AddGroupsToChannelModal extends React.PureComponent<Props, 
         this.setState({saving: true});
 
         await Promise.all(groupIDs.map(async (groupID) => {
-            const {error} = await this.props.actions.linkGroupSyncable(groupID, this.props.currentChannelId, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true});
+            const {error} = await this.props.actions.linkGroupSyncable(groupID, this.props.currentChannelId, SyncableType.Channel, {auto_add: true});
             this.handleResponse(error);
             if (!error) {
                 this.handleHide();

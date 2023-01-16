@@ -5,14 +5,16 @@ import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import Chart, {ChartOptions} from 'chart.js';
+import Chart from 'chart.js/auto';
+import {ChartOptions} from 'chart.js';
 
 type Props = {
     title: React.ReactNode;
-    width: number;
-    height: number;
+    width?: number;
+    height?: number;
     data?: any;
     id: string;
+    options?: ChartOptions;
 }
 
 export default class LineChart extends React.PureComponent<Props> {
@@ -27,28 +29,36 @@ export default class LineChart extends React.PureComponent<Props> {
         /*
          * Chart width
          */
-        width: PropTypes.number.isRequired,
+        width: PropTypes.number,
 
         /*
          * Chart height
          */
-        height: PropTypes.number.isRequired,
+        height: PropTypes.number,
 
         /*
          * Chart data
          */
         data: PropTypes.object,
+
+        /*
+         * Chart options
+         */
+        options: PropTypes.object,
     };
 
     public chart: Chart | null = null;
     public chartOptions: ChartOptions = {
-        legend: {
-            display: false,
+        plugins: {
+            legend: {
+                display: false,
+            },
         },
     };
 
     public componentDidMount(): void {
         this.initChart();
+        window.addEventListener('resize', this.resizeChart);
     }
 
     public componentDidUpdate(prevProps: Props): void {
@@ -77,6 +87,13 @@ export default class LineChart extends React.PureComponent<Props> {
         if (this.chart) {
             this.chart.destroy();
         }
+        window.removeEventListener('resize', this.resizeChart);
+    }
+
+    private resizeChart = () => {
+        if (this.chart && this.canvasRef.current && this.chart.options.responsive) {
+            this.canvasRef.current.style.width = '100%';
+        }
     }
 
     public initChart = (update?: boolean): void => {
@@ -86,10 +103,15 @@ export default class LineChart extends React.PureComponent<Props> {
 
         const ctx = this.canvasRef.current.getContext('2d') as CanvasRenderingContext2D;
         const dataCopy: any = JSON.parse(JSON.stringify(this.props.data));
-        this.chart = new Chart(ctx, {type: 'line', data: dataCopy, options: this.chartOptions || {}});
+        let options = this.chartOptions || {};
+        if (this.props.options) {
+            options = {...options, ...this.props.options};
+        }
 
         if (update) {
-            this.chart.update();
+            this.chart?.update();
+        } else {
+            this.chart = new Chart(ctx, {type: 'line', data: dataCopy, options: options || {}});
         }
     }
 

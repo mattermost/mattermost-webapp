@@ -1,21 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {TestHelper} from 'utils/test_helper';
 
 import ProductMenuList, {Props as ProductMenuListProps} from './product_menu_list';
-
-jest.mock('react-intl', () => {
-    const reactIntl = jest.requireActual('react-intl');
-    return {
-        ...reactIntl,
-        useIntl: () => reactIntl.createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
-    };
-});
 
 describe('components/global/product_switcher_menu', () => {
     // Neccessary for components enhanced by HOCs due to issue with enzyme.
@@ -45,7 +38,16 @@ describe('components/global/product_switcher_menu', () => {
         canManageSystemBots: false,
         canManageIntegrations: true,
         enablePluginMarketplace: false,
+        showVisitSystemConsoleTour: false,
+        isStarterFree: false,
+        isFreeTrial: false,
         onClick: () => jest.fn,
+        handleVisitConsoleClick: () => jest.fn,
+        enableCustomUserGroups: false,
+        actions: {
+            openModal: jest.fn(),
+            getPrevTrialLicense: jest.fn(),
+        },
     };
 
     test('should match snapshot with id', () => {
@@ -73,6 +75,50 @@ describe('components/global/product_switcher_menu', () => {
         };
         const wrapper = shallow(<ProductMenuList {...props}/>);
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match userGroups snapshot with cloud free', () => {
+        const props = {
+            ...defaultProps,
+            enableCustomUserGroups: false,
+            isStarterFree: true,
+            isFreeTrial: false,
+        };
+        const wrapper = shallow(<ProductMenuList {...props}/>);
+        expect(wrapper.find('#userGroups')).toMatchSnapshot();
+    });
+
+    test('should match userGroups snapshot with cloud free trial', () => {
+        const props = {
+            ...defaultProps,
+            enableCustomUserGroups: false,
+            isStarterFree: false,
+            isFreeTrial: true,
+        };
+        const wrapper = shallow(<ProductMenuList {...props}/>);
+        expect(wrapper.find('#userGroups')).toMatchSnapshot();
+    });
+
+    test('should match userGroups snapshot with EnableCustomGroups config', () => {
+        const props = {
+            ...defaultProps,
+            enableCustomUserGroups: true,
+            isStarterFree: false,
+            isFreeTrial: false,
+        };
+        const wrapper = shallow(<ProductMenuList {...props}/>);
+        expect(wrapper.find('#userGroups')).toMatchSnapshot();
+    });
+
+    test('user groups button is disabled for free', () => {
+        const props = {
+            ...defaultProps,
+            enableCustomUserGroups: true,
+            isStarterFree: true,
+            isFreeTrial: false,
+        };
+        const wrapper = getMenuWrapper(props);
+        expect(wrapper.find('#userGroups').prop('disabled')).toBe(true);
     });
 
     describe('should show integrations', () => {

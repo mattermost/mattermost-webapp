@@ -24,7 +24,11 @@ import bots from './bots';
 import channelCategories from './channel_categories';
 import apps from './apps';
 import cloud from './cloud';
+import hostedCustomer from './hosted_customer';
+import usage from './usage';
 import threads from './threads';
+import insights from './insights';
+import worktemplates from './work_templates';
 
 export default combineReducers({
     general,
@@ -49,4 +53,8 @@ export default combineReducers({
     channelCategories,
     apps,
     cloud,
+    insights,
+    usage,
+    hostedCustomer,
+    worktemplates,
 });

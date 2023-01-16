@@ -1,11 +1,6 @@
-@import 'compass/utilities';
-@import 'compass/css3';
 @import 'utils/variables';
 
 .FileSearchResultItem {
-    @include single-transition(box-shadow, 0.15s, ease);
-    @include border-radius(4px);
-
     display: flex;
     overflow: hidden;
     max-width: 600px;
@@ -16,8 +11,10 @@
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     margin: 0 14px 8px 14px;
     background: transparent;
+    border-radius: 4px;
     color: var(--center-channel-color);
     cursor: pointer;
+    transition: box-shadow 0.15s ease;
 
     .Menu__content {
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
@@ -38,9 +35,8 @@
     &:hover,
     &:focus-within,
     &.keep-open {
-        @include box-shadow(0 2px 3px 0 rgba($black, 0.1), 0 2px 3px 0 rgba($black, 0.1));
-
         overflow: visible;
+        box-shadow: 0 2px 3px 0 rgba($black, 0.1), 0 2px 3px 0 rgba($black, 0.1);
 
         .action-icon {
             display: flex;
@@ -101,9 +97,6 @@
     }
 
     .action-icon {
-        @include single-transition(opacity, 0.15s, ease);
-        @include border-radius(4px);
-
         display: flex;
         width: 32px;
         min-width: 32px;
@@ -111,11 +104,13 @@
         justify-content: center;
         margin-left: 8px;
         background-color: var(--center-channel-bg);
+        border-radius: 4px;
         color: rgba(var(--center-channel-color-rgb), 0.72);
         cursor: pointer;
         fill: rgba(var(--center-channel-color-rgb), 0.72);
         opacity: 0;
         text-decoration: none;
+        transition: opacity 0.15s ease;
 
         &.download-icon {
             margin-right: 6px;

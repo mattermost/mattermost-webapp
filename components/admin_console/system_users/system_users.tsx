@@ -8,12 +8,11 @@ import {debounce} from 'mattermost-redux/actions/helpers';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ServerError} from '@mattermost/types/errors';
+import {Team} from '@mattermost/types/teams';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {GetFilteredUsersStatsOpts, UserProfile, UsersStats} from '@mattermost/types/users';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-
-import {getStandardAnalytics} from 'actions/admin_actions';
 import {Constants, UserSearchOptions, SearchUserTeamFilter, UserFilters} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
@@ -100,6 +99,10 @@ type Props = {
          * Function to log errors
          */
         logError: (error: {type: string; message: string}) => void;
+        getFilteredUsersStats: (filters: GetFilteredUsersStatsOpts) => Promise<{
+            data?: UsersStats;
+            error?: ServerError;
+        }>;
     };
 };
 
@@ -136,6 +139,7 @@ export default class SystemUsers extends React.PureComponent<Props, State> {
             loadProfilesWithoutTeam,
             loadProfilesAndTeamMembers,
             getTeamStats,
+            getFilteredUsersStats,
         } = this.props.actions;
 
         if (this.props.searchTerm) {
@@ -148,7 +152,7 @@ export default class SystemUsers extends React.PureComponent<Props, State> {
         if (teamId === SearchUserTeamFilter.ALL_USERS) {
             await Promise.all([
                 getProfiles(0, Constants.PROFILE_CHUNK_SIZE, options),
-                getStandardAnalytics(),
+                getFilteredUsersStats({include_bots: false, include_deleted: true}),
             ]);
         } else if (teamId === SearchUserTeamFilter.NO_TEAM) {
             await loadProfilesWithoutTeam(0, Constants.PROFILE_CHUNK_SIZE, options);
@@ -353,6 +357,7 @@ export default class SystemUsers extends React.PureComponent<Props, State> {
                         <option value=''>{Utils.localizeMessage('admin.system_users.allUsers', 'All Users')}</option>
                         <option value={UserFilters.SYSTEM_ADMIN}>{Utils.localizeMessage('admin.system_users.system_admin', 'System Admin')}</option>
                         <option value={UserFilters.SYSTEM_GUEST}>{Utils.localizeMessage('admin.system_users.guest', 'Guest')}</option>
+                        <option value={UserFilters.ACTIVE}>{Utils.localizeMessage('admin.system_users.active', 'Active')}</option>
                         <option value={UserFilters.INACTIVE}>{Utils.localizeMessage('admin.system_users.inactive', 'Inactive')}</option>
                     </select>
                 </label>

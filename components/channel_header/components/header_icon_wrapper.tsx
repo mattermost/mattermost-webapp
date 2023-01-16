@@ -3,17 +3,18 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Tooltip} from 'react-bootstrap';
 
 import OverlayTrigger from 'components/overlay_trigger';
-
-import {localizeMessage} from 'utils/utils.jsx';
-import {Constants} from 'utils/constants';
-import {t} from 'utils/i18n';
+import Tooltip from 'components/tooltip';
+import NewChannelWithBoardTourTip from 'components/app_bar/new_channel_with_board_tour_tip';
 import KeyboardShortcutSequence, {
     KEYBOARD_SHORTCUTS,
     KeyboardShortcutDescriptor,
 } from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+
+import {localizeMessage} from 'utils/utils';
+import {Constants, suitePluginIds} from 'utils/constants';
+import {t} from 'utils/i18n';
 
 type Props = {
     ariaLabel?: boolean;
@@ -24,6 +25,7 @@ type Props = {
     tooltipKey: string;
     tooltipText?: React.ReactNode;
     isRhsOpen?: boolean;
+    pluginId?: string;
 }
 
 type TooltipInfo = {
@@ -34,7 +36,7 @@ type TooltipInfo = {
     keyboardShortcut?: KeyboardShortcutDescriptor;
 }
 
-const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
+const HeaderIconWrapper = (props: Props) => {
     const {
         ariaLabel,
         buttonClass,
@@ -44,6 +46,7 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
         tooltipKey,
         tooltipText,
         isRhsOpen,
+        pluginId,
     } = props;
 
     const toolTips: Record<string, TooltipInfo> = {
@@ -77,6 +80,24 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
             id: 'channelFilesTooltip',
             messageID: t('channel_header.channelFiles'),
             message: 'Channel files',
+        },
+        openChannelInfo: {
+            class: 'channel-info',
+            id: 'channelInfoTooltip',
+            messageID: t('channel_header.openChannelInfo'),
+            message: 'View Info',
+        },
+        closeChannelInfo: {
+            class: 'channel-info',
+            id: 'channelInfoTooltip',
+            messageID: t('channel_header.closeChannelInfo'),
+            message: 'Close info',
+        },
+        channelMembers: {
+            class: 'channel-info',
+            id: 'channelMembersTooltip',
+            messageID: t('channel_header.channelMembers'),
+            message: 'Members',
         },
     };
 
@@ -124,11 +145,13 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
         ariaLabelText = `${localizeMessage(toolTips[tooltipKey].messageID, toolTips[tooltipKey].message)}`;
     }
 
+    const boardsEnabled = pluginId === suitePluginIds.focalboard || pluginId === suitePluginIds.boards;
+
     if (tooltip) {
         return (
             <div>
                 <OverlayTrigger
-                    trigger={['hover']}
+                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={isRhsOpen ? <></> : tooltip}
@@ -142,20 +165,34 @@ const HeaderIconWrapper: React.FC<Props> = (props: Props) => {
                         {iconComponent}
                     </button>
                 </OverlayTrigger>
+                {boardsEnabled &&
+                    <NewChannelWithBoardTourTip
+                        pulsatingDotPlacement={'start'}
+                        pulsatingDotTranslate={{x: 0, y: -22}}
+                    />
+                }
             </div>
         );
     }
 
     return (
-        <div className='flex-child'>
-            <button
-                id={buttonId}
-                className={buttonClass || 'channel-header__icon'}
-                onClick={onClick}
-            >
-                {iconComponent}
-            </button>
-        </div>
+        <>
+            <div className='flex-child'>
+                <button
+                    id={buttonId}
+                    className={buttonClass || 'channel-header__icon'}
+                    onClick={onClick}
+                >
+                    {iconComponent}
+                </button>
+            </div>
+            {boardsEnabled &&
+                <NewChannelWithBoardTourTip
+                    pulsatingDotPlacement={'start'}
+                    pulsatingDotTranslate={{x: 0, y: -22}}
+                />
+            }
+        </>
     );
 };
 

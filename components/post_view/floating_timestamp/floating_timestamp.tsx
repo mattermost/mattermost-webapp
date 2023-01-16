@@ -12,17 +12,16 @@ const DATE_RANGES = [
 ];
 type Props = {
     isScrolling: boolean;
-    isMobile: boolean;
     createAt: Date | number;
     toastPresent: boolean;
-    isRhsPost: boolean;
+    isRhsPost?: boolean;
 }
 
 export default class FloatingTimestamp extends React.PureComponent<Props> {
     render() {
-        const {isMobile, createAt, isScrolling, isRhsPost, toastPresent} = this.props;
+        const {createAt, isScrolling, isRhsPost, toastPresent} = this.props;
 
-        if (!isMobile || createAt === 0) {
+        if (createAt === 0) {
             return null;
         }
 

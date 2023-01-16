@@ -7,6 +7,8 @@ import {SearchTypes} from 'utils/constants';
 describe('Reducers.Search', () => {
     const initialState = {
         modalSearch: '',
+        popoverSearch: '',
+        channelMembersRhsSearch: '',
         modalFilters: {},
         systemUsersSearch: {},
         userGridSearch: {},
@@ -75,6 +77,23 @@ describe('Reducers.Search', () => {
         expect(nextState).toEqual({
             ...initialState,
             userGridSearch: {term: 'something', filters: {team_id: '1', channel_roles: ['channel_admin']}},
+        });
+    });
+
+    test('should set and trim channel member rhs search', () => {
+        const nextState = searchReducer(
+            {
+                channelMembersRhsSearch: '',
+            },
+            {
+                type: SearchTypes.SET_CHANNEL_MEMBERS_RHS_SEARCH,
+                data: 'data',
+            },
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            channelMembersRhsSearch: 'data',
         });
     });
 });

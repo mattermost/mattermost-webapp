@@ -9,14 +9,27 @@ import {GlobalState} from 'types/store/index.js';
 import {
     closeRightHandSide,
     toggleRhsExpanded,
+    goBack,
 } from 'actions/views/rhs';
-import {getIsRhsExpanded} from 'selectors/rhs';
+import {getIsRhsExpanded, getPreviousRhsState} from 'selectors/rhs';
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
+
+import {RHSStates} from 'utils/constants';
 
 import SearchResultsHeader from './search_results_header';
 
 function mapStateToProps(state: GlobalState) {
+    const previousRhsState = getPreviousRhsState(state);
+    const canGoBack = previousRhsState === RHSStates.CHANNEL_INFO ||
+        previousRhsState === RHSStates.CHANNEL_MEMBERS ||
+        previousRhsState === RHSStates.CHANNEL_FILES ||
+        previousRhsState === RHSStates.PIN;
+
     return {
         isExpanded: getIsRhsExpanded(state),
+        channelId: getCurrentChannelId(state),
+        previousRhsState,
+        canGoBack,
     };
 }
 
@@ -25,6 +38,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
         actions: bindActionCreators({
             closeRightHandSide,
             toggleRhsExpanded,
+            goBack,
         }, dispatch),
     };
 }

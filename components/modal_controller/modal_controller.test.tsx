@@ -4,10 +4,11 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
 import {mount} from 'enzyme';
 
 import {closeModal} from 'actions/views/modals';
+
+import mockStore from 'tests/test_store';
 
 import ModalController from '.';
 
@@ -47,8 +48,6 @@ class TestModal extends React.PureComponent<TestModalProps, TestModalState> {
 }
 
 describe('components/ModalController', () => {
-    const mockStore = configureStore();
-
     const modalId = 'test_modal';
 
     test('component should match snapshot without any modals', () => {
@@ -69,7 +68,7 @@ describe('components/ModalController', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('div').first().html()).toBe('<div></div>');
+        expect(wrapper.find('ModalController > *').length).toBe(0);
         expect(document.getElementsByClassName('modal-dialog').length).toBeFalsy();
     });
 

@@ -141,7 +141,7 @@ State
                     onClick={this.toggleCollapse}
                 />
             );
-            extraClasses += ' has-clidren';
+            extraClasses += ' has-children';
         }
 
         if (this.props.collapsed) {

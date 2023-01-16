@@ -32,9 +32,7 @@ exports[`components/admin_console/team_channel_settings/group/UsersToRemoveGroup
     defaultOverlayShown={false}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         id="groupsTooltip"
-        placement="right"
       >
         group1, group2, group3
       </Tooltip>

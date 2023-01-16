@@ -5,6 +5,8 @@ import {connect} from 'react-redux';
 
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
+import {getIsMobileView} from 'selectors/views/browser';
+
 import {GlobalState} from 'types/store';
 
 import PostTime from './post_time';
@@ -15,6 +17,7 @@ type OwnProps = {
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     return {
+        isMobileView: getIsMobileView(state),
         teamUrl: ownProps.teamName ? `/${ownProps.teamName}` : getCurrentRelativeTeamUrl(state),
     };
 }

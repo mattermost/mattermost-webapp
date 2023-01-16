@@ -2,11 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
-import {CustomStatusDuration, UserProfile} from 'mattermost-redux/types/users';
+import {CustomStatusDuration, UserProfile} from '@mattermost/types/users';
 
 import {fakeDate} from 'tests/helpers/date';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import StatusDropdown from './status_dropdown';
 
@@ -26,6 +27,7 @@ describe('components/StatusDropdown', () => {
         setStatus: jest.fn(),
         unsetCustomStatus: jest.fn(),
         setStatusDropdown: jest.fn(),
+        savePreferences: jest.fn(),
     };
 
     const baseProps = {
@@ -41,16 +43,18 @@ describe('components/StatusDropdown', () => {
             automaticTimezone: 'America/New_York',
             manualTimezone: '',
         },
+        status: 'away',
         isTimezoneEnabled: true,
         isMilitaryTime: false,
         isCustomStatusEnabled: false,
         isCustomStatusExpired: false,
         isStatusDropdownOpen: false,
         showCustomStatusPulsatingDot: false,
+        showCompleteYourProfileTour: false,
     };
 
     test('should match snapshot in default state', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <StatusDropdown {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -62,7 +66,7 @@ describe('components/StatusDropdown', () => {
             profilePicture: 'http://localhost:8065/api/v4/users/jsx5jmdiyjyuzp9rzwfaf5pwjo/image?_=1590519110944',
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <StatusDropdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -74,7 +78,7 @@ describe('components/StatusDropdown', () => {
             isStatusDropdownOpen: true,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <StatusDropdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -87,7 +91,7 @@ describe('components/StatusDropdown', () => {
             isCustomStatusEnabled: true,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <StatusDropdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -101,7 +105,7 @@ describe('components/StatusDropdown', () => {
             showCustomStatusPulsatingDot: true,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <StatusDropdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -121,7 +125,7 @@ describe('components/StatusDropdown', () => {
             customStatus,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <StatusDropdown {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -142,9 +146,50 @@ describe('components/StatusDropdown', () => {
             customStatus,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <StatusDropdown {...props}/>,
         );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should show clear status button when custom status is set', () => {
+        const customStatus = {
+            emoji: 'calendar',
+            text: 'In a meeting',
+            duration: CustomStatusDuration.TODAY,
+            expires_at: '2021-05-03T23:59:59.000Z',
+        };
+        const props = {
+            ...baseProps,
+            isStatusDropdownOpen: true,
+            isCustomStatusEnabled: true,
+            isCustomStatusExpired: false,
+            customStatus,
+        };
+
+        const wrapper = shallowWithIntl(
+            <StatusDropdown {...props}/>,
+        );
+
+        expect(wrapper.find('.status-dropdown-menu__clear-container').exists()).toBe(true);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should not show clear status button when custom status is not set', () => {
+        const customStatus = undefined;
+        const props = {
+            ...baseProps,
+            isStatusDropdownOpen: true,
+            isCustomStatusEnabled: true,
+            isCustomStatusExpired: false,
+            customStatus,
+        };
+
+        const wrapper = shallowWithIntl(
+            <StatusDropdown {...props}/>,
+        );
+
+        expect(wrapper.find('.status-dropdown-menu__clear-container').exists()).toBe(false);
         expect(wrapper).toMatchSnapshot();
     });
 });

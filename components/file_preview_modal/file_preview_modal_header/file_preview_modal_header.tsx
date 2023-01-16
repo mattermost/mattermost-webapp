@@ -1,30 +1,36 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo} from 'react';
 
-import Post from '../../post_view/post/post';
+import {FileInfo} from '@mattermost/types/files';
 
-import './file_preview_modal_header.scss';
+import {Post} from '@mattermost/types/posts';
+
 import FilePreviewModalInfo from '../file_preview_modal_info/file_preview_modal_info';
 import FilePreviewModalMainNav from '../file_preview_modal_main_nav/file_preview_modal_main_nav';
 import FilePreviewModalMainActions from '../file_preview_modal_main_actions/file_preview_modal_main_actions';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {LinkInfo} from '../types';
+
+import './file_preview_modal_header.scss';
 
 interface Props {
-    isMobile: boolean;
+    isMobileView: boolean;
     fileIndex: number;
-    fileInfo: FileInfo;
+    fileInfo: FileInfo | LinkInfo;
     totalFiles: number;
     filename: string;
-    post: React.ComponentProps<typeof Post>;
+    post: Post;
     fileURL: string;
     showPublicLink?: boolean;
     enablePublicLink: boolean;
     canDownloadFiles: boolean;
+    canCopyContent: boolean;
     isExternalFile: boolean;
     handlePrev: () => void;
     handleNext: () => void;
     handleModalClose: () => void;
+    content: string;
 }
 
 const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, ...actionProps}: Props) => {
@@ -42,13 +48,13 @@ const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, .
     const actions = (
         <FilePreviewModalMainActions
             {...actionProps}
-            showOnlyClose={actionProps.isMobile}
+            showOnlyClose={actionProps.isMobileView}
             usedInside='Header'
         />);
     return (
         <div className='file-preview-modal-header'>
-            {actionProps.isMobile && actions}
-            {!actionProps.isMobile &&
+            {actionProps.isMobileView && actions}
+            {!actionProps.isMobileView &&
             <FilePreviewModalInfo
                 showFileName={true}
                 post={post}
@@ -56,7 +62,7 @@ const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, .
             />
             }
             {mainActions}
-            {!actionProps.isMobile && actions}
+            {!actionProps.isMobileView && actions}
         </div>
     );
 };

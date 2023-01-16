@@ -5,11 +5,11 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
 
 import EmojiMap from 'utils/emoji_map';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import InteractiveDialog from './interactive_dialog.jsx';
 
@@ -61,8 +61,6 @@ describe('components/interactive_dialog/InteractiveDialog', () => {
     });
 
     describe('default select element in Interactive Dialog', () => {
-        const mockStore = configureStore();
-
         test('should be enabled by default', () => {
             const selectElement = {
                 data_source: '',
@@ -96,7 +94,6 @@ describe('components/interactive_dialog/InteractiveDialog', () => {
     });
 
     describe('bool element in Interactive Dialog', () => {
-        const mockStore = configureStore();
         const element = {
             data_source: '',
             display_name: 'Boolean Selector',

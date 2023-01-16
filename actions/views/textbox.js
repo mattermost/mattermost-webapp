@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {ActionTypes} from '../../utils/constants';
 
 export function setShowPreviewOnCreateComment(showPreview) {
@@ -19,13 +20,6 @@ export function setShowPreviewOnCreatePost(showPreview) {
 export function setShowPreviewOnEditChannelHeaderModal(showPreview) {
     return {
         type: ActionTypes.SET_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL,
-        showPreview,
-    };
-}
-
-export function setShowPreviewOnEditPostModal(showPreview) {
-    return {
-        type: ActionTypes.SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL,
         showPreview,
     };
 }

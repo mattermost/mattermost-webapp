@@ -6,31 +6,36 @@
 
 .admin-console {
     height: 100%;
-    padding-left: 220px;
     color: #333;
+    grid-area: center;
     -webkit-overflow-scrolling: touch;
+
+    > div {
+        width: 100%;
+        height: 100%;
+    }
 
     .wrapper--fixed {
         display: flex;
-        height: calc(100vh - #{$backstage-bar-height});
+        height: 100%;
         flex-direction: column;
 
         // Fix for Safari on iOS MM-24361
         @supports (-webkit-touch-callout: none) {
             height: -webkit-fill-available;
         }
-
-        .announcement-bar--fixed & {
-            height: calc(100vh - #{$announcement-bar-height} - #{$backstage-bar-height});
-        }
     }
 
     .admin-console__wrapper {
+        position: relative;
         overflow: auto;
         height: 100%;
         -webkit-flex: 1 1 auto;
         flex: 1 1 auto;
         padding: 20px;
+        margin-right: 5px;
+        scrollbar-color: var(--center-channel-color-32) #fff0;
+        scrollbar-width: thin;
     }
 
     .admin-console__content {
@@ -92,7 +97,7 @@
         }
 
         .divider {
-            @include opacity(1);
+            opacity: 1;
         }
     }
 
@@ -129,9 +134,8 @@
         background-color: $white;
 
         &:focus:not(.Input) {
-            @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6));
-
             border-color: #66afe9;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
             outline: 0;
         }
 
@@ -172,6 +176,8 @@
     }
 
     .form-horizontal {
+        height: 100%;
+
         .control-label {
             padding-right: 0;
             font-weight: 600;
@@ -182,6 +188,10 @@
             .control-label {
                 font-weight: normal;
             }
+        }
+
+        .help-text {
+            white-space: pre-line;
         }
 
         .form-group {
@@ -198,8 +208,6 @@
             margin: 0 10px 10px 0;
 
             input {
-                @include opacity(0);
-
                 position: absolute;
                 z-index: 5;
                 top: 0;
@@ -208,6 +216,7 @@
                 height: 100%;
                 padding-left: 100%;
                 cursor: pointer;
+                opacity: 0;
 
                 &[disabled] {
                     cursor: not-allowed;
@@ -381,9 +390,8 @@
     }
 
     .member-count {
-        @include opacity(0.7);
-
         margin-top: 8px;
+        opacity: 0.7;
     }
 
     .admin-console__header {
@@ -441,13 +449,12 @@
         background: white;
 
         .save-button {
-            @include opacity(1);
-
             min-width: 100px;
             height: 34px;
             margin: 0 10px;
             background: $light-gray;
             color: alpha-color($black, 0.5);
+            opacity: 1;
 
             &.btn-primary {
                 background: $primary-color;
@@ -456,16 +463,15 @@
         }
 
         .cancel-button {
-            @include border-radius($border-rad);
-            @include single-transition(all, 0.15s, ease);
-
             display: flex;
             min-width: 100px;
             height: 34px;
             align-items: center;
             justify-content: center;
             margin: 0 10px 0 0;
+            border-radius: $border-rad;
             text-decoration: none;
+            transition: all 0.15s ease;
 
             &:hover {
                 background-color: $primary-color;
@@ -530,18 +536,9 @@
         margin-top: 10px;
         margin-bottom: 0;
         color: $dark-gray;
+        font-size: 12px;
         font-weight: 400;
     }
-}
-
-.job-table__cancel-button {
-    cursor: pointer;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 0;
-    text-decoration: none;
-    vertical-align: middle;
 }
 
 .job-table__table {
@@ -561,15 +558,12 @@
 }
 
 .admin-sidebar {
-    position: fixed;
     z-index: 10;
-    top: $backstage-bar-height;
-    left: 0;
     display: flex;
     width: 220px;
-    height: calc(100% - #{$announcement-bar-height});
     flex-direction: column;
     background: #111;
+    grid-area: lhs;
 
     .filter-container {
         position: relative;
@@ -655,6 +649,10 @@
         ul {
             padding-bottom: 20px;
             margin-top: 1px;
+
+            &.nav-stacked.task-list-shown {
+                padding-bottom: 72px;
+            }
         }
     }
 
@@ -732,6 +730,19 @@
         text-transform: uppercase;
     }
 
+    .sidebar-section-indicator {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+
+        i {
+            color: alpha-color($white, 0.5);
+            font-size: 14px;
+            line-height: 14px;
+        }
+    }
+
     .sidebar-subsection-title {
         padding: 6px 35px 6px 30px;
 
@@ -756,21 +767,33 @@
         &:hover {
             color: lighten($primary-color, 10);
             text-decoration: none;
+
+            i {
+                color: lighten($primary-color, 10);
+            }
         }
 
         &--active {
             background: alpha-color($white, 0.1);
             color: $white;
 
+            i {
+                color: $white;
+            }
+
             &:hover,
             &:focus {
                 background: alpha-color($white, 0.1);
                 color: $white;
+
+                i {
+                    color: $white;
+                }
             }
 
             &::after {
                 position: absolute;
-                top: 3px;
+                top: 2px;
                 right: -1px;
                 display: inline-block;
                 color: whitesmoke;
@@ -958,7 +981,7 @@
 
         // Override default react-bootstrap style
         .dropdown-toggle {
-            @include box-shadow(none);
+            box-shadow: none;
         }
     }
 }
@@ -992,7 +1015,7 @@
 }
 
 .admin-setting-user__fullname {
-    @include opacity(0.5);
+    opacity: 0.5;
 }
 
 .password__group-addon {
@@ -1022,11 +1045,4 @@
 div[disabled] {
     opacity: 0.7;
     pointer-events: none;
-}
-
-.enterprise-license-text {
-    padding: 10px;
-    border: 1px solid $light-gray;
-    background: white;
-    text-align: justify;
 }

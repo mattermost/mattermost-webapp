@@ -6,9 +6,8 @@ import {FormattedMessage} from 'react-intl';
 import debounce from 'lodash/debounce';
 import {Tabs, Tab, SelectCallback} from 'react-bootstrap';
 
-import {PluginStatusRedux} from 'mattermost-redux/types/plugins';
-import type {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
-import {Dictionary} from 'mattermost-redux/types/utilities';
+import {PluginStatusRedux} from '@mattermost/types/plugins';
+import type {MarketplaceApp, MarketplacePlugin} from '@mattermost/types/marketplace';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
@@ -16,7 +15,7 @@ import QuickInput from 'components/quick_input';
 import LocalizedInput from 'components/localized_input/localized_input';
 import PluginIcon from 'components/widgets/icons/plugin_icon';
 import LoadingScreen from 'components/loading_screen';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {t} from 'utils/i18n';
@@ -96,13 +95,14 @@ export type MarketplaceModalProps = {
     listing: Array<MarketplacePlugin | MarketplaceApp>;
     installedListing: Array<MarketplacePlugin | MarketplaceApp>;
     siteURL: string;
-    pluginStatuses?: Dictionary<PluginStatusRedux>;
+    pluginStatuses?: Record<string, PluginStatusRedux>;
     firstAdminVisitMarketplaceStatus: boolean;
     actions: {
         closeModal: () => void;
         fetchListing(localOnly?: boolean): Promise<{error?: Error}>;
         filterListing(filter: string): Promise<{error?: Error}>;
-        setFirstAdminVisitMarketplaceStatus: () => void;
+        setFirstAdminVisitMarketplaceStatus(): Promise<void>;
+        getPluginStatuses(): Promise<void>;
     };
 };
 
@@ -114,8 +114,8 @@ type MarketplaceModalState = {
 };
 
 // MarketplaceModal is the marketplace modal.
-export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps, MarketplaceModalState> {
-    private filterRef: React.RefObject<QuickInput>;
+export default class MarketplaceModal extends React.PureComponent<MarketplaceModalProps, MarketplaceModalState> {
+    private filterRef: React.RefObject<HTMLInputElement>;
 
     constructor(props: MarketplaceModalProps) {
         super(props);
@@ -134,6 +134,7 @@ export class MarketplaceModal extends React.PureComponent<MarketplaceModalProps,
         trackEvent('plugins', 'ui_marketplace_opened');
 
         this.fetchListing();
+        this.props.actions.getPluginStatuses();
         if (!this.props.firstAdminVisitMarketplaceStatus) {
             trackEvent('plugins', 'ui_first_admin_visit_marketplace_status');
 

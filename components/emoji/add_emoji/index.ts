@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {createCustomEmoji} from 'mattermost-redux/actions/emojis';
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
-import {CustomEmoji} from 'mattermost-redux/types/emojis';
+import {CustomEmoji} from '@mattermost/types/emojis';
 
 import {getEmojiMap} from 'selectors/emojis';
 

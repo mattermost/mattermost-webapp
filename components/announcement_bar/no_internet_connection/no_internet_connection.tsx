@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -11,12 +12,12 @@ import './no_internet_connection.scss';
 import NoInternetConnectionSvg from './no-internet-connection-svg';
 
 type NoInternetConnectionProps = {
-    onHide: () => void;
+    onExited: () => void;
 };
 const NoInternetConnection: React.FC<NoInternetConnectionProps> = (props: NoInternetConnectionProps) => {
     return (
         <GenericModal
-            onHide={props.onHide}
+            onExited={props.onExited}
             modalHeaderText=''
         >
             <div className='noInternetConnection__container'>

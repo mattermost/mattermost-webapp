@@ -5,10 +5,10 @@ import {createSelector} from 'reselect';
 
 import {General} from 'mattermost-redux/constants';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {ClientConfig, FeatureFlags, ClientLicense} from 'mattermost-redux/types/config';
-
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
+
+import {GlobalState} from '@mattermost/types/store';
+import {ClientConfig, FeatureFlags, ClientLicense} from '@mattermost/types/config';
 
 export function getConfig(state: GlobalState): Partial<ClientConfig> {
     return state.entities.general.config;
@@ -25,16 +25,14 @@ export function getLicense(state: GlobalState): ClientLicense {
     return state.entities.general.license;
 }
 
-export function getCurrentUrl(state: GlobalState): string {
-    return state.entities.general.credentials.url;
-}
+export const isCloudLicense: (state: GlobalState) => boolean = createSelector(
+    'isCloudLicense',
+    getLicense,
+    (license: ClientLicense) => license?.Cloud === 'true',
+);
 
 export function warnMetricsStatus(state: GlobalState): any {
     return state.entities.general.warnMetricsStatus;
-}
-
-export function getSubscriptionStats(state: GlobalState): any {
-    return state.entities.cloud.subscriptionStats;
 }
 
 export function isCompatibleWithJoinViewTeamPermissions(state: GlobalState): boolean {
@@ -99,3 +97,19 @@ export const getServerVersion = (state: GlobalState): string => {
 export function getFirstAdminVisitMarketplaceStatus(state: GlobalState): boolean {
     return state.entities.general.firstAdminVisitMarketplaceStatus;
 }
+
+export function getFirstAdminSetupComplete(state: GlobalState): boolean {
+    return state.entities.general.firstAdminCompleteSetup;
+}
+
+export function isPerformanceDebuggingEnabled(state: GlobalState): boolean {
+    return state.entities.general.config.EnableClientPerformanceDebugging === 'true';
+}
+
+export const isMarketplaceEnabled: (state: GlobalState) => boolean = createSelector(
+    'isMarketplaceEnabled',
+    getConfig,
+    (config) => {
+        return config.PluginsEnabled === 'true' && config.EnableMarketplace === 'true';
+    },
+);

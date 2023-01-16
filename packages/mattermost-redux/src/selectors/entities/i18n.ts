@@ -5,7 +5,7 @@ import {General} from 'mattermost-redux/constants';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 export function getCurrentUserLocale(state: GlobalState, defaultLocale = General.DEFAULT_LOCALE) {
     const currentUser = getCurrentUser(state);

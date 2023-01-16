@@ -3,19 +3,25 @@
 exports[`components/threading/global_threads/thread_item should report total number of replies 1`] = `
 <article
   className="ThreadItem"
+  id=""
   onClick={[Function]}
   tabIndex={0}
 >
   <h1>
-    <span>
-      Someone
-    </span>
-    <Memo(Badge)
-      className=""
-      onClick={[Function]}
+    <div
+      className="ThreadItem__author"
     >
-      Team name
-    </Memo(Badge)>
+      Someone
+    </div>
+    <div
+      className="d-flex align-items-center"
+    >
+      <Memo(Badge)
+        onClick={[Function]}
+      >
+        Team name
+      </Memo(Badge)>
+    </div>
     <Connect(injectIntl(Timestamp))
       className="alt-hidden"
       day="numeric"
@@ -51,9 +57,10 @@ exports[`components/threading/global_threads/thread_item should report total num
       >
         <Memo(Button)
           className="Button___icon"
+          marginTop={true}
         >
-          <i
-            className="Icon icon-dots-vertical"
+          <DotsVerticalIcon
+            size={18}
           />
         </Memo(Button)>
       </SimpleTooltip>
@@ -112,6 +119,7 @@ exports[`components/threading/global_threads/thread_item should report total num
 exports[`components/threading/global_threads/thread_item should report unread mentions 1`] = `
 <article
   className="ThreadItem has-unreads"
+  id=""
   onClick={[Function]}
   tabIndex={0}
 >
@@ -125,15 +133,20 @@ exports[`components/threading/global_threads/thread_item should report unread me
         2
       </div>
     </div>
-    <span>
-      Someone
-    </span>
-    <Memo(Badge)
-      className=""
-      onClick={[Function]}
+    <div
+      className="ThreadItem__author"
     >
-      Team name
-    </Memo(Badge)>
+      Someone
+    </div>
+    <div
+      className="d-flex align-items-center"
+    >
+      <Memo(Badge)
+        onClick={[Function]}
+      >
+        Team name
+      </Memo(Badge)>
+    </div>
     <Connect(injectIntl(Timestamp))
       className="alt-hidden"
       day="numeric"
@@ -169,9 +182,10 @@ exports[`components/threading/global_threads/thread_item should report unread me
       >
         <Memo(Button)
           className="Button___icon"
+          marginTop={true}
         >
-          <i
-            className="Icon icon-dots-vertical"
+          <DotsVerticalIcon
+            size={18}
           />
         </Memo(Button)>
       </SimpleTooltip>
@@ -230,6 +244,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
 exports[`components/threading/global_threads/thread_item should report unread messages 1`] = `
 <article
   className="ThreadItem has-unreads"
+  id=""
   onClick={[Function]}
   tabIndex={0}
 >
@@ -241,15 +256,20 @@ exports[`components/threading/global_threads/thread_item should report unread me
         className="dot-unreads"
       />
     </div>
-    <span>
-      Someone
-    </span>
-    <Memo(Badge)
-      className=""
-      onClick={[Function]}
+    <div
+      className="ThreadItem__author"
     >
-      Team name
-    </Memo(Badge)>
+      Someone
+    </div>
+    <div
+      className="d-flex align-items-center"
+    >
+      <Memo(Badge)
+        onClick={[Function]}
+      >
+        Team name
+      </Memo(Badge)>
+    </div>
     <Connect(injectIntl(Timestamp))
       className="alt-hidden"
       day="numeric"
@@ -285,9 +305,10 @@ exports[`components/threading/global_threads/thread_item should report unread me
       >
         <Memo(Button)
           className="Button___icon"
+          marginTop={true}
         >
-          <i
-            className="Icon icon-dots-vertical"
+          <DotsVerticalIcon
+            size={18}
           />
         </Memo(Button)>
       </SimpleTooltip>

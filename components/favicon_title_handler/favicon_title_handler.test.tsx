@@ -4,8 +4,8 @@
 import React, {ComponentProps} from 'react';
 import {ShallowWrapper} from 'enzyme';
 
-import {ChannelType} from 'mattermost-redux/types/channels';
-import {TeamType} from 'mattermost-redux/types/teams';
+import {ChannelType} from '@mattermost/types/channels';
+import {TeamType} from '@mattermost/types/teams';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -45,6 +45,8 @@ describe('components/FaviconTitleHandler', () => {
         }),
         currentTeammate: null,
         inGlobalThreads: false,
+        inDrafts: false,
+        inActivityAndInsights: false,
     };
 
     test('set correctly the title when needed', () => {
@@ -132,5 +134,19 @@ describe('components/FaviconTitleHandler', () => {
             unreadStatus: false,
         });
         expect(instance.updateFavicon).lastCalledWith('None');
+    });
+
+    test('should display correct title when in drafts', () => {
+        const wrapper = shallowWithIntl(
+            <FaviconTitleHandler
+                {...defaultProps}
+                inDrafts={true}
+                currentChannel={undefined}
+                siteName={undefined}
+            />,
+        ) as unknown as ShallowWrapper<Props, any, FaviconTitleHandlerClass>;
+        wrapper.instance().updateTitle();
+
+        expect(document.title).toBe('Drafts - Test team display name');
     });
 });

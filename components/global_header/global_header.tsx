@@ -5,11 +5,13 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import {useCurrentProductId} from 'utils/products';
+
 import CenterControls from './center_controls/center_controls';
 import LeftControls from './left_controls/left_controls';
 import RightControls from './right_controls/right_controls';
 
-import {useCurrentProductId, useIsLoggedIn, useProducts} from './hooks';
+import {useIsLoggedIn} from './hooks';
 
 const GlobalHeaderContainer = styled.header`
     position: relative;
@@ -22,6 +24,7 @@ const GlobalHeaderContainer = styled.header`
     border-bottom: solid 1px rgba(var(--center-channel-color-rgb), 0.08);
     color: rgba(var(--global-header-text-rgb), 0.64);
     padding: 0 12px;
+    z-index: 99;
 
     > * + * {
         margin-left: 12px;
@@ -34,8 +37,7 @@ const GlobalHeaderContainer = styled.header`
 
 const GlobalHeader = (): JSX.Element | null => {
     const isLoggedIn = useIsLoggedIn();
-    const products = useProducts();
-    const currentProductID = useCurrentProductId(products);
+    const currentProductID = useCurrentProductId();
 
     if (!isLoggedIn) {
         return null;

@@ -1,18 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import React, {CSSProperties} from 'react';
 import truncate from 'lodash/truncate';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {PostAction, PostActionOption} from 'mattermost-redux/types/integration_actions';
-import {MessageAttachment as MessageAttachmentType, MessageAttachmentField} from 'mattermost-redux/types/message_attachments';
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {PostImage} from 'mattermost-redux/types/posts';
+import {PostAction, PostActionOption} from '@mattermost/types/integration_actions';
+import {
+    MessageAttachment as MessageAttachmentType,
+    MessageAttachmentField,
+} from '@mattermost/types/message_attachments';
+import {PostImage} from '@mattermost/types/posts';
 
 import {isUrlSafe} from 'utils/url';
-import {Constants} from 'utils/constants';
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
 import {TextFormattingOptions} from 'utils/text_formatting';
@@ -26,6 +29,8 @@ import ActionButton from '../action_button';
 import ActionMenu from '../action_menu';
 
 import {trackEvent} from 'actions/telemetry_actions';
+import FilePreviewModal from '../../../file_preview_modal';
+import {ModalData} from 'types/actions';
 
 type Props = {
 
@@ -47,10 +52,11 @@ type Props = {
     /**
      * images object for dimensions
      */
-    imagesMetadata?: Dictionary<PostImage>;
+    imagesMetadata?: Record<string, PostImage>;
 
     actions: {
         doPostActionWithCookie: (postId: string, actionId: string, actionCookie: string, selectedOption?: string) => Promise<ActionResult>;
+        openModal: <P>(modalData: ModalData<P>) => void;
     };
 
     currentRelativeTeamUrl: string;
@@ -306,6 +312,32 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
 
     handleFormattedTextClick = (e: React.MouseEvent) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl);
 
+    getFileExtensionFromUrl = (url: string) => {
+        const index = url.lastIndexOf('.');
+        return index > 0 ? url.substring(index + 1) : null;
+    };
+
+    showModal = (e: {preventDefault: () => void}, link: string) => {
+        e.preventDefault();
+
+        const extension = this.getFileExtensionFromUrl(link);
+
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.FILE_PREVIEW_MODAL,
+            dialogType: FilePreviewModal,
+            dialogProps: {
+                postId: this.props.postId,
+                fileInfos: [{
+                    has_preview_image: false,
+                    link,
+                    extension: extension ?? '',
+                    name: link,
+                }],
+                startIndex: 0,
+            },
+        });
+    }
+
     render() {
         const {attachment, options} = this.props;
         let preTextClass = '';
@@ -435,6 +467,7 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
                                 onImageLoaded={this.handleHeightReceivedForImageUrl}
                                 src={imageUrl}
                                 dimensions={imageMetadata}
+                                onClick={this.showModal}
                             />
                         )}
                     </ExternalImage>
@@ -504,35 +537,39 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
             useBorderStyle = {borderLeftColor: attachment.color};
         }
 
+        const hasContent = author.length > 0 || Boolean(title) || Boolean(thumb) || Boolean(attachmentText) || Boolean(image) || Boolean(fields) || Boolean(footer) || Boolean(actions);
+
         return (
             <div
                 className={'attachment ' + preTextClass}
-                ref='attachment'
                 onClick={this.handleFormattedTextClick}
             >
                 {preText}
-                <div className='attachment__content'>
-                    <div
-                        className={useBorderStyle ? 'clearfix attachment__container' : 'clearfix attachment__container attachment__container--' + attachment.color}
-                        style={useBorderStyle}
-                    >
-                        {author}
-                        {title}
-                        <div>
-                            <div
-                                className={thumb ? 'attachment__body' : 'attachment__body attachment__body--no_thumb'}
-                            >
-                                {attachmentText}
-                                {image}
-                                {fields}
-                                {footer}
-                                {actions}
+                {
+                    hasContent &&
+                    <div className='attachment__content'>
+                        <div
+                            className={useBorderStyle ? 'clearfix attachment__container' : 'clearfix attachment__container attachment__container--' + attachment.color}
+                            style={useBorderStyle}
+                        >
+                            {author}
+                            {title}
+                            <div>
+                                <div
+                                    className={thumb ? 'attachment__body' : 'attachment__body attachment__body--no_thumb'}
+                                >
+                                    {attachmentText}
+                                    {image}
+                                    {fields}
+                                    {footer}
+                                    {actions}
+                                </div>
+                                {thumb}
+                                <div style={style.footer}/>
                             </div>
-                            {thumb}
-                            <div style={style.footer}/>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         );
     }
@@ -541,4 +578,3 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
 const style = {
     footer: {clear: 'both'} as CSSProperties,
 };
-/* eslint-enable react/no-string-refs */

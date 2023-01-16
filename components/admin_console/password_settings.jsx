@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 
 import AdminSettings from './admin_settings';
@@ -258,26 +259,30 @@ export default class PasswordSettings extends AdminSettings {
                         </div>
                     </Setting>
                 </div>
-                <TextSetting
-                    id='maximumLoginAttempts'
-                    label={
-                        <FormattedMessage
-                            id='admin.service.attemptTitle'
-                            defaultMessage='Maximum Login Attempts:'
-                        />
-                    }
-                    placeholder={Utils.localizeMessage('admin.service.attemptExample', 'E.g.: "10"')}
-                    helpText={
-                        <FormattedMessage
-                            id='admin.service.attemptDescription'
-                            defaultMessage='Login attempts allowed before user is locked out and required to reset password via email.'
-                        />
-                    }
-                    value={this.state.maximumLoginAttempts}
-                    onChange={this.handleChange}
-                    setByEnv={this.isSetByEnv('ServiceSettings.MaximumLoginAttempts')}
-                    disabled={this.props.isDisabled}
-                />
+                {!this.props.config.ExperimentalSettings?.RestrictSystemAdmin &&
+                (
+                    <TextSetting
+                        id='maximumLoginAttempts'
+                        label={
+                            <FormattedMessage
+                                id='admin.service.attemptTitle'
+                                defaultMessage='Maximum Login Attempts:'
+                            />
+                        }
+                        placeholder={Utils.localizeMessage('admin.service.attemptExample', 'E.g.: "10"')}
+                        helpText={
+                            <FormattedMessage
+                                id='admin.service.attemptDescription'
+                                defaultMessage='Login attempts allowed before user is locked out and required to reset password via email.'
+                            />
+                        }
+                        value={this.state.maximumLoginAttempts}
+                        onChange={this.handleChange}
+                        setByEnv={this.isSetByEnv('ServiceSettings.MaximumLoginAttempts')}
+                        disabled={this.props.isDisabled}
+                    />
+                )
+                }
             </SettingsGroup>
         );
     }

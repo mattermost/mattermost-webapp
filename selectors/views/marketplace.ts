@@ -4,7 +4,7 @@
 import {createSelector} from 'reselect';
 
 import {isPlugin} from 'mattermost-redux/utils/marketplace';
-import type {MarketplaceApp, MarketplacePlugin} from 'mattermost-redux/types/marketplace';
+import type {MarketplaceApp, MarketplacePlugin} from '@mattermost/types/marketplace';
 
 import {GlobalState} from 'types/store';
 

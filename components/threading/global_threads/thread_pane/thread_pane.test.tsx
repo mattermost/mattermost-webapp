@@ -6,12 +6,13 @@ import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
 
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
+import TestHelper from 'packages/mattermost-redux/test/test_helper';
 jest.mock('mattermost-redux/actions/threads');
-
 import Header from 'components/widgets/header';
-
 import FollowButton from 'components/threading/common/follow_button';
 import Button from 'components/threading/common/button';
+
+import {UserProfile} from '@mattermost/types/users';
 
 import ThreadPane from './thread_pane';
 
@@ -36,14 +37,6 @@ jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch,
 }));
 
-jest.mock('react-intl', () => {
-    const reactIntl = jest.requireActual('react-intl');
-    return {
-        ...reactIntl,
-        useIntl: () => reactIntl.createIntl({locale: 'en', defaultLocale: 'en', timeZone: 'Etc/UTC', textComponent: 'span'}),
-    };
-});
-
 describe('components/threading/global_threads/thread_pane', () => {
     let props: ComponentProps<typeof ThreadPane>;
     let mockThread: typeof props['thread'];
@@ -63,6 +56,10 @@ describe('components/threading/global_threads/thread_pane', () => {
         props = {
             thread: mockThread,
         };
+
+        const user1 = TestHelper.fakeUserWithId('uid');
+        const profiles: Record<string, UserProfile> = {};
+        profiles[user1.id] = user1;
 
         mockState = {
             entities: {
@@ -93,6 +90,7 @@ describe('components/threading/global_threads/thread_pane', () => {
                     },
                 },
                 users: {
+                    profiles,
                     currentUserId: 'uid',
                 },
             },

@@ -6,13 +6,13 @@ import {IntlShape, injectIntl} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+import {PreferenceType} from '@mattermost/types/preferences';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import ProfilePicture from 'components/profile_picture';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants';
 
 import SidebarChannelLink from '../sidebar_channel_link';
@@ -25,7 +25,6 @@ type Props = {
     currentUserId: string;
     redirectChannel: string;
     active: boolean;
-    isCollapsed: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean}>;
         leaveDirectChannel: (channelId: string) => Promise<{data: boolean}>;
@@ -44,7 +43,7 @@ class SidebarDirectChannel extends React.PureComponent<Props> {
         trackEvent('ui', 'ui_direct_channel_x_button_clicked');
 
         if (this.props.active) {
-            browserHistory.push(`/${this.props.currentTeamName}/channels/${this.props.redirectChannel}`);
+            getHistory().push(`/${this.props.currentTeamName}/channels/${this.props.redirectChannel}`);
         }
     }
 
@@ -107,7 +106,6 @@ class SidebarDirectChannel extends React.PureComponent<Props> {
                 label={displayName}
                 closeHandler={this.handleLeaveChannel}
                 icon={this.getIcon()}
-                isCollapsed={this.props.isCollapsed}
             />
         );
     }

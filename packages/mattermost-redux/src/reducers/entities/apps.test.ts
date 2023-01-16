@@ -1,14 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AppsTypes} from '../../action_types';
-import {AppBinding} from '../../types/apps';
+import {AppBinding, AppForm} from '@mattermost/types/apps';
+
+import {AppsTypes} from 'mattermost-redux/action_types';
 
 import * as Reducers from './apps';
 
 describe('bindings', () => {
     const initialState: AppBinding[] = [];
-
+    const basicSubmitForm: AppForm = {
+        submit: {
+            path: '/submit_url',
+        },
+    };
     test('No element get filtered', () => {
         const data = [
             {
@@ -18,7 +23,7 @@ describe('bindings', () => {
                     {
                         location: 'locA',
                         label: 'a',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -29,7 +34,7 @@ describe('bindings', () => {
                     {
                         location: 'locA',
                         label: 'a',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -41,7 +46,7 @@ describe('bindings', () => {
                         location: 'locB',
                         label: 'b',
                         icon: 'icon',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -52,7 +57,7 @@ describe('bindings', () => {
                     {
                         location: 'locC',
                         label: 'c',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -78,7 +83,7 @@ describe('bindings', () => {
                     {
                         location: 'locA',
                         label: 'a',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -89,7 +94,7 @@ describe('bindings', () => {
                     {
                         location: 'locA',
                         label: 'a',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -101,12 +106,12 @@ describe('bindings', () => {
                         location: 'locB',
                         label: 'b',
                         icon: 'icon',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                     {
                         location: 'locC',
                         label: 'c',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -116,13 +121,13 @@ describe('bindings', () => {
                 bindings: [
                     {
                         icon: 'icon',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                     {
                         location: 'locC',
                         label: 'c',
                         icon: 'icon',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -132,12 +137,12 @@ describe('bindings', () => {
                 bindings: [
                     {
                         location: 'locB',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                     {
                         location: 'locC',
                         label: 'c',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -148,7 +153,7 @@ describe('bindings', () => {
                     {
                         location: 'locC',
                         label: 'c',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -172,12 +177,12 @@ describe('bindings', () => {
                 location: '/post_menu',
                 bindings: [
                     {
-                        call: {},
+                        form: basicSubmitForm,
                     },
                     {
                         location: 'locB',
                         label: 'a',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -188,12 +193,12 @@ describe('bindings', () => {
                     {
                         location: 'locA',
                         label: 'a',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                     {
                         location: 'locB',
                         label: 'b',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -202,7 +207,7 @@ describe('bindings', () => {
                 location: '/post_menu',
                 bindings: [
                     {
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -214,7 +219,7 @@ describe('bindings', () => {
                         location: 'locB',
                         label: 'b',
                         icon: 'icon',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -225,7 +230,7 @@ describe('bindings', () => {
                     {
                         location: 'locC',
                         label: 'c',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -251,12 +256,12 @@ describe('bindings', () => {
                     {
                         location: 'locA',
                         label: 'a',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                     {
                         location: 'locB',
                         label: 'a',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -268,7 +273,7 @@ describe('bindings', () => {
                         location: 'locB',
                         label: 'b',
                         icon: 'icon',
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -281,12 +286,12 @@ describe('bindings', () => {
                         label: 'c',
                         bindings: [
                             {
-                                call: {},
+                                form: basicSubmitForm,
                             },
                             {
                                 location: 'subC2',
                                 label: 'c2',
-                                call: {},
+                                form: basicSubmitForm,
                             },
                         ],
                     },
@@ -295,7 +300,7 @@ describe('bindings', () => {
                         label: 'd',
                         bindings: [
                             {
-                                call: {},
+                                form: basicSubmitForm,
                             },
                         ],
                     },
@@ -306,7 +311,7 @@ describe('bindings', () => {
                 location: '/command',
                 bindings: [
                     {
-                        call: {},
+                        form: basicSubmitForm,
                     },
                 ],
             },
@@ -317,17 +322,16 @@ describe('bindings', () => {
                     {
                         location: 'locC',
                         label: 'c',
-                        call: {},
                         bindings: [
                             {
                                 location: 'subC1',
                                 label: 'c1',
-                                call: {},
+                                form: basicSubmitForm,
                             },
                             {
                                 location: 'subC2',
                                 label: 'c2',
-                                call: {},
+                                form: basicSubmitForm,
                             },
                         ],
                     },
@@ -345,5 +349,152 @@ describe('bindings', () => {
 
         expect(state).toMatchSnapshot();
     });
+
+    test('Apps plugin gets disabled', () => {
+        const initialState: AppBinding[] = [
+            {
+                app_id: '1',
+                location: '/post_menu',
+                label: 'post_menu',
+                bindings: [
+                    {
+                        app_id: '1',
+                        location: 'locA',
+                        label: 'a',
+                    },
+                ],
+            },
+        ] as AppBinding[];
+
+        const state = Reducers.mainBindings(
+            initialState,
+            {
+                type: AppsTypes.APPS_PLUGIN_DISABLED,
+            },
+        );
+
+        expect(state).toEqual([]);
+    });
 });
 
+describe('pluginEnabled', () => {
+    test('Apps plugin gets enabled', () => {
+        let state = Reducers.pluginEnabled(
+            true,
+            {
+                type: AppsTypes.APPS_PLUGIN_ENABLED,
+            },
+        );
+
+        expect(state).toBe(true);
+
+        state = Reducers.pluginEnabled(
+            false,
+            {
+                type: AppsTypes.APPS_PLUGIN_ENABLED,
+            },
+        );
+
+        expect(state).toBe(true);
+    });
+
+    test('Apps plugin gets disabled', () => {
+        let state = Reducers.pluginEnabled(
+            true,
+            {
+                type: AppsTypes.APPS_PLUGIN_DISABLED,
+            },
+        );
+
+        expect(state).toBe(false);
+
+        state = Reducers.pluginEnabled(
+            false,
+            {
+                type: AppsTypes.APPS_PLUGIN_DISABLED,
+            },
+        );
+
+        expect(state).toBe(false);
+    });
+
+    test('Apps plugin gets disabled', () => {
+        let state = Reducers.pluginEnabled(
+            true,
+            {
+                type: AppsTypes.APPS_PLUGIN_DISABLED,
+            },
+        );
+
+        expect(state).toBe(false);
+
+        state = Reducers.pluginEnabled(
+            false,
+            {
+                type: AppsTypes.APPS_PLUGIN_DISABLED,
+            },
+        );
+
+        expect(state).toBe(false);
+    });
+
+    test('Apps plugin gets disabled', () => {
+        let state = Reducers.pluginEnabled(
+            true,
+            {
+                type: AppsTypes.APPS_PLUGIN_DISABLED,
+            },
+        );
+
+        expect(state).toBe(false);
+
+        state = Reducers.pluginEnabled(
+            false,
+            {
+                type: AppsTypes.APPS_PLUGIN_DISABLED,
+            },
+        );
+
+        expect(state).toBe(false);
+    });
+
+    test('Bindings are succesfully fetched', () => {
+        let state = Reducers.pluginEnabled(
+            true,
+            {
+                type: AppsTypes.RECEIVED_APP_BINDINGS,
+            },
+        );
+
+        expect(state).toBe(true);
+
+        state = Reducers.pluginEnabled(
+            false,
+            {
+                type: AppsTypes.RECEIVED_APP_BINDINGS,
+            },
+        );
+
+        expect(state).toBe(true);
+    });
+
+    test('Bindings fail to fetch', () => {
+        let state = Reducers.pluginEnabled(
+            true,
+            {
+                type: AppsTypes.FAILED_TO_FETCH_APP_BINDINGS,
+            },
+        );
+
+        expect(state).toBe(false);
+
+        state = Reducers.pluginEnabled(
+            false,
+            {
+                type: AppsTypes.FAILED_TO_FETCH_APP_BINDINGS,
+            },
+        );
+
+        expect(state).toBe(false);
+    });
+});

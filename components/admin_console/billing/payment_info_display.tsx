@@ -7,13 +7,15 @@ import {useSelector} from 'react-redux';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import BlockableLink from 'components/admin_console/blockable_link';
-import CreditCardSvg from 'components/common/svg_images_components/credit_card.svg';
+import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 
 import {GlobalState} from 'types/store';
 
-import PaymentDetails from './payment_details';
-
 import './payment_info_display.scss';
+import useGetSubscription from 'components/common/hooks/useGetSubscription';
+import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
+
+import PaymentDetails from './payment_details';
 
 const addInfoButton = (
     <div className='PaymentInfoDisplay__addInfo'>
@@ -58,8 +60,9 @@ const noPaymentInfoSection = (
 
 const PaymentInfoDisplay: React.FC = () => {
     const paymentInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
-
-    if (!paymentInfo) {
+    const subscription = useGetSubscription();
+    const openPurchaseModal = useOpenCloudPurchaseModal({});
+    if (!paymentInfo || !subscription) {
         return null;
     }
 
@@ -70,20 +73,21 @@ const PaymentInfoDisplay: React.FC = () => {
             <div className='PaymentInfoDisplay__paymentInfo'>
                 <PaymentDetails/>
                 <div className='PaymentInfoDisplay__paymentInfo-edit'>
-                    { // TODO: remove payment info?
-                    /* <a
-                        href='#'
-                        onClick={() => null}
-                        className='PaymentInfoDisplay__paymentInfo-editButton'
-                    >
-                        <i className='icon icon-trash-can-outline'/>
-                    </a> */}
-                    <BlockableLink
-                        to='/admin_console/billing/payment_info_edit'
-                        className='PaymentInfoDisplay__paymentInfo-editButton'
-                    >
-                        <i className='icon icon-pencil-outline'/>
-                    </BlockableLink>
+                    {subscription.delinquent_since ? (
+                        <div
+                            className='PaymentInfoDisplay__paymentInfo-editButton'
+                            onClick={() => openPurchaseModal({trackingLocation: 'edit_payment_info'})}
+                        >
+                            <i className='icon icon-pencil-outline'/>
+                        </div>
+                    ) : (
+                        <BlockableLink
+                            to='/admin_console/billing/payment_info_edit'
+                            className='PaymentInfoDisplay__paymentInfo-editButton'
+                        >
+                            <i className='icon icon-pencil-outline'/>
+                        </BlockableLink>
+                    )}
                 </div>
             </div>
         );

@@ -16,6 +16,7 @@ type Props = {
     titleDefault: string;
     subtitleId: string;
     subtitleDefault: string;
+    subtitleValues?: any;
     url: string;
     disabled?: boolean;
     linkTextId: string;
@@ -46,6 +47,7 @@ const AdminPanelWithLink = (props: Props) => {
             titleDefault={props.titleDefault}
             subtitleId={props.subtitleId}
             subtitleDefault={props.subtitleDefault}
+            subtitleValues={props.subtitleValues}
             button={button}
         >
             {props.children}

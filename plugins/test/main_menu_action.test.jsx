@@ -31,21 +31,29 @@ describe('plugins/MainMenuActions', () => {
         canCreateOrDeleteCustomEmoji: true,
         canManageIntegrations: true,
         moreTeamsToJoin: true,
+        guestAccessEnabled: true,
         teamIsGroupConstrained: true,
-        showGettingStarted: true,
+        teamUrl: '/team',
+        location: {
+            pathname: '/team',
+        },
         actions: {
             openModal: jest.fn(),
             showMentions: jest.fn(),
             showFlaggedPosts: jest.fn(),
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
-            unhideNextSteps: jest.fn(),
-            getCloudSubscription: jest.fn(),
-            getSubscriptionStats: jest.fn(),
+            getCloudLimits: jest.fn(),
         },
         isCloud: false,
+        isStarterFree: false,
         subscription: {},
         userIsAdmin: true,
+        isFirstAdmin: false,
+        canInviteTeamMember: false,
+        isFreeTrial: false,
+        teamsLimitReached: false,
+        usageDeltaTeams: -1,
     };
 
     test('should match snapshot in web view', () => {
@@ -55,10 +63,10 @@ describe('plugins/MainMenuActions', () => {
             />,
         );
 
-        wrapper = wrapper.find('MainMenu').shallow();
+        wrapper = wrapper.shallow();
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.findWhere((node) => node.key() === 'someplugin_pluginmenuitem')).toHaveLength(0);
+        expect(wrapper.findWhere((node) => node.key() === 'someplugin_pluginmenuitem')).toHaveLength(1);
     });
 
     test('should match snapshot in mobile view with some plugin and ability to click plugin', () => {
@@ -73,7 +81,7 @@ describe('plugins/MainMenuActions', () => {
             />,
         );
 
-        wrapper = wrapper.find('MainMenu').shallow();
+        wrapper = wrapper.shallow();
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.findWhere((node) => node.key() === 'someplugin_pluginmenuitem')).toHaveLength(1);

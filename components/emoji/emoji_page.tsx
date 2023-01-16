@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permission_gate';
 
 import EmojiList from './emoji_list';

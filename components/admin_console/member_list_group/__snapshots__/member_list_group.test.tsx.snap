@@ -36,16 +36,11 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
             "name": <UserGridName
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "test0@test.com",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "Name0",
                   "id": "id0",
                   "is_bot": false,
@@ -55,7 +50,6 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",
@@ -88,16 +82,11 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
             "name": <UserGridName
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "test1@test.com",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "Name1",
                   "id": "id1",
                   "is_bot": false,
@@ -107,7 +96,6 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",
@@ -140,16 +128,11 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
             "name": <UserGridName
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "test2@test.com",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "Name2",
                   "id": "id2",
                   "is_bot": false,
@@ -159,7 +142,6 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",
@@ -192,16 +174,11 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
             "name": <UserGridName
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "test3@test.com",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "Name3",
                   "id": "id3",
                   "is_bot": false,
@@ -211,7 +188,6 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",
@@ -244,16 +220,11 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
             "name": <UserGridName
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "test4@test.com",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "Name4",
                   "id": "id4",
                   "is_bot": false,
@@ -263,7 +234,6 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",
@@ -296,16 +266,11 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
             "name": <UserGridName
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "test5@test.com",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "Name5",
                   "id": "id5",
                   "is_bot": false,
@@ -315,7 +280,6 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",
@@ -348,16 +312,11 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
             "name": <UserGridName
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "test6@test.com",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "Name6",
                   "id": "id6",
                   "is_bot": false,
@@ -367,7 +326,6 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",
@@ -400,16 +358,11 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
             "name": <UserGridName
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "test7@test.com",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "Name7",
                   "id": "id7",
                   "is_bot": false,
@@ -419,7 +372,6 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",
@@ -452,16 +404,11 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
             "name": <UserGridName
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "test8@test.com",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "Name8",
                   "id": "id8",
                   "is_bot": false,
@@ -471,7 +418,6 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",
@@ -504,16 +450,11 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
             "name": <UserGridName
               user={
                 Object {
-                  "allow_marketing": false,
-                  "auth_data": "",
                   "auth_service": "",
                   "bot_description": "",
-                  "bot_last_icon_update": 0,
                   "create_at": 0,
                   "delete_at": 0,
                   "email": "test9@test.com",
-                  "email_verified": true,
-                  "failed_attempts": 0,
                   "first_name": "Name9",
                   "id": "id9",
                   "is_bot": false,
@@ -523,7 +464,6 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
                   "last_picture_update": 0,
                   "locale": "",
                   "mfa_active": false,
-                  "mfa_secret": "",
                   "nickname": "",
                   "notify_props": Object {
                     "channel": "false",

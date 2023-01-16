@@ -4,28 +4,20 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {Provider} from 'react-redux';
-
 import ReactDOM from 'react-dom';
 import {
     defineMessages,
-    FormattedMessage,
     injectIntl,
     IntlShape,
 } from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {StatusOK} from 'mattermost-redux/types/client4';
-
+import {UserProfile} from '@mattermost/types/users';
+import {StatusOK} from '@mattermost/types/client4';
 import store from 'stores/redux_store.jsx';
-
-import CollapsedReplyThreadsModal from 'components/collapsed_reply_threads_modal';
-
-import {ModalData} from 'types/actions';
-
-import Constants, {ModalIdentifiers} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import Constants from 'utils/constants';
+import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
-import ConfirmModal from '../../confirm_modal';
+import ConfirmModal from 'components/confirm_modal';
 
 const UserSettings = React.lazy(() => import(/* webpackPrefetch: true */ 'components/user_settings'));
 const SettingsSidebar = React.lazy(() => import(/* webpackPrefetch: true */ '../../settings_sidebar'));
@@ -77,10 +69,8 @@ export type Props = {
     currentUser: UserProfile;
     onExited: () => void;
     intl: IntlShape;
-    collapsedThreads: boolean;
     isContentProductSettings: boolean;
     actions: {
-        openModal: <P>(modalData: ModalData<P>) => void;
         sendVerificationEmail: (email: string) => Promise<{
             data: StatusOK;
             error: {
@@ -101,7 +91,6 @@ type State = {
 
 class UserSettingsModal extends React.PureComponent<Props, State> {
     private requireConfirm: boolean;
-    private showCRTBetaModal: boolean;
     private customConfirmAction: ((handleConfirm: () => void) => void) | null;
     private modalBodyRef: React.RefObject<Modal>;
     private afterConfirm: (() => void) | null;
@@ -119,7 +108,6 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
         };
 
         this.requireConfirm = false;
-        this.showCRTBetaModal = false;
 
         // Used when settings want to override the default confirm modal with their own
         // If set by a child, it will be called in place of showing the regular confirm
@@ -155,14 +143,6 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
             const el = ReactDOM.findDOMNode(this.modalBodyRef.current) as any;
             el.scrollTop = 0;
         }
-
-        // we use the showCRTBetaModal to track change of collapsedThreads between states
-        // but NOT when both prev and current collapsedThreads prop is the same
-        if (this.props.collapsedThreads && !prevProps.collapsedThreads) {
-            this.showCRTBetaModal = true;
-        } else if (!this.props.collapsedThreads && prevProps.collapsedThreads) {
-            this.showCRTBetaModal = false;
-        }
     }
 
     handleKeyDown = (e: KeyboardEvent) => {
@@ -191,13 +171,6 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
             active_section: '',
         });
         this.props.onExited();
-
-        if (this.showCRTBetaModal) {
-            this.props.actions.openModal({
-                modalId: ModalIdentifiers.COLLAPSED_REPLY_THREADS_MODAL,
-                dialogType: CollapsedReplyThreadsModal,
-            });
-        }
     }
 
     // Called to hide the settings pane when on mobile
@@ -285,7 +258,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
             this.showConfirmModal(() => this.updateSection(section, true));
         } else {
             this.setState({
-                active_section: section!,
+                active_section: section ?? '',
             });
         }
     }
@@ -306,6 +279,14 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
             tabs.push({name: 'security', uiName: formatMessage(holders.security), icon: 'icon fa fa-lock', iconTitle: Utils.localizeMessage('user.settings.security.icon', 'Security Settings Icon')});
         }
 
+        const title = this.props.isContentProductSettings ? formatMessage({
+            id: 'global_header.productSettings',
+            defaultMessage: 'Settings',
+        }) : formatMessage({
+            id: 'user.settings.modal.title',
+            defaultMessage: 'Profile',
+        });
+
         return (
             <Modal
                 id='accountSettingsModal'
@@ -315,7 +296,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                 onExited={this.handleHidden}
                 enforceFocus={this.state.enforceFocus}
                 role='dialog'
-                aria-labelledby='accountSettingsModalLabel'
+                aria-label={title}
             >
                 <Modal.Header
                     id='accountSettingsHeader'
@@ -325,17 +306,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                         componentClass='h1'
                         id='accountSettingsModalLabel'
                     >
-                        {this.props.isContentProductSettings ? (
-                            <FormattedMessage
-                                id='global_header.productSettings'
-                                defaultMessage='Settings'
-                            />
-                        ) : (
-                            <FormattedMessage
-                                id='user.settings.modal.title'
-                                defaultMessage='Profile'
-                            />
-                        )}
+                        {title}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body ref={this.modalBodyRef}>

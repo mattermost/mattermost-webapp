@@ -3,11 +3,9 @@
 
 import React from 'react';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-
 type Modal = {
     open: boolean;
-    dialogProps: Dictionary<any>;
+    dialogProps: Record<string, any>;
     dialogType: React.ComponentType;
 }
 
@@ -35,12 +33,12 @@ type Props = {
 }
 
 export default class ModalController extends React.PureComponent<Props> {
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
         const {modals, ...props} = this.props;
         const {modalState} = modals;
 
         if (!modals) {
-            return <div/>;
+            return null;
         }
 
         const modalOutput = [];
@@ -66,7 +64,7 @@ export default class ModalController extends React.PureComponent<Props> {
         }
 
         return (
-            <div>{modalOutput}</div>
+            <>{modalOutput}</>
         );
     }
 }

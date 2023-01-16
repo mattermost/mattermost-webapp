@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 export default {
     CONFIG_CHANGED: 'config_changed',
     SERVER_VERSION_CHANGED: 'server_version_changed',
@@ -13,7 +14,6 @@ export default {
     JOBS_CHUNK_SIZE: 50,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
     STATUS_INTERVAL: 60000,
-    AUTOCOMPLETE_LIMIT_DEFAULT: 25,
     AUTOCOMPLETE_SPLIT_CHARACTERS: ['.', '-', '_'],
     OUT_OF_OFFICE: 'ooo',
     OFFLINE: 'offline',
@@ -39,6 +39,10 @@ export default {
     SYSTEM_USER_ACCESS_TOKEN_ROLE: 'system_user_access_token',
     SYSTEM_POST_ALL_ROLE: 'system_post_all',
     SYSTEM_POST_ALL_PUBLIC_ROLE: 'system_post_all_public',
+    PLAYBOOK_ADMIN_ROLE: 'playbook_admin',
+    PLAYBOOK_MEMBER_ROLE: 'playbook_member',
+    RUN_ADMIN_ROLE: 'run_admin',
+    RUN_MEMBER_ROLE: 'run_member',
     ALLOW_EDIT_POST_ALWAYS: 'always',
     ALLOW_EDIT_POST_NEVER: 'never',
     ALLOW_EDIT_POST_TIME_LIMIT: 'time_limit',
@@ -47,16 +51,14 @@ export default {
     RESTRICT_DIRECT_MESSAGE_TEAM: 'team',
     SWITCH_TO_DEFAULT_CHANNEL: 'switch_to_default_channel',
     DEFAULT_CHANNEL: 'town-square',
-    DM_CHANNEL: 'D',
-    OPEN_CHANNEL: 'O',
-    PRIVATE_CHANNEL: 'P',
-    GM_CHANNEL: 'G',
+    DM_CHANNEL: 'D' as const,
+    OPEN_CHANNEL: 'O' as const,
+    PRIVATE_CHANNEL: 'P' as const,
+    GM_CHANNEL: 'G' as const,
     ARCHIVED_CHANNEL: 'archive',
     PUSH_NOTIFY_APPLE_REACT_NATIVE: 'apple_rn',
     PUSH_NOTIFY_ANDROID_REACT_NATIVE: 'android_rn',
     STORE_REHYDRATION_COMPLETE: 'store_hydation_complete',
-    OFFLINE_STORE_RESET: 'offline_store_reset',
-    OFFLINE_STORE_PURGE: 'offline_store_purge',
     TEAMMATE_NAME_DISPLAY: {
         SHOW_USERNAME: 'username',
         SHOW_NICKNAME_FULLNAME: 'nickname_full_name',
@@ -73,4 +75,5 @@ export default {
     DEFAULT_OFF: 'default_off',
     ALWAYS_ON: 'always_on',
     DEFAULT_GROUP: 'board',
+    CUSTOM_GROUP_USER_ROLE: 'custom_group_user',
 };

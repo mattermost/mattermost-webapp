@@ -4,13 +4,13 @@
 import React from 'react';
 import {mount} from 'enzyme';
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
 
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 
+import mockStore from 'tests/test_store';
+
 describe('components/permissions_gates', () => {
-    const mockStore = configureStore();
     const state = {
         entities: {
             channels: {

@@ -37,6 +37,7 @@ describe('ProductNoticesModal', () => {
         currentTeamId: 'currentTeamId',
         socketStatus: {
             connected: true,
+            connectionId: '',
             lastConnectAt: 1599760193593,
             lastDisconnectAt: 0,
         },
@@ -116,11 +117,11 @@ describe('ProductNoticesModal', () => {
         expect(baseProps.actions.updateNoticesAsViewed).toHaveBeenCalledWith([noticesData[1].id]);
     });
 
-    test('Should clear state on onHide with a timer', async () => {
+    test('Should clear state on onExited with a timer', async () => {
         jest.useFakeTimers();
         const wrapper = shallow(<ProductNoticesModal {...baseProps}/>);
         await baseProps.actions.getInProductNotices();
-        wrapper.find(GenericModal).prop('onHide')?.();
+        wrapper.find(GenericModal).prop('onExited')?.();
         jest.runOnlyPendingTimers();
         expect(wrapper.state('noticesData')).toEqual([]);
         expect(wrapper.state('presentNoticeIndex')).toEqual(0);

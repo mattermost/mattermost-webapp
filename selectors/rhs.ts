@@ -4,18 +4,18 @@
 import {createSelector} from 'reselect';
 
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
-import {Post, PostType} from 'mattermost-redux/types/posts';
+import {Post, PostType} from '@mattermost/types/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {Channel} from 'mattermost-redux/types/channels';
-import {$ID} from 'mattermost-redux/types/utilities';
+import {Channel} from '@mattermost/types/channels';
 
-import {makeGetGlobalItem} from 'selectors/storage';
-import {PostTypes} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {makeGetGlobalItem, makeGetGlobalItemWithDefault} from 'selectors/storage';
+import {PostTypes, StoragePrefixes} from 'utils/constants';
+import {localizeMessage} from 'utils/utils';
 import {GlobalState} from 'types/store';
-import {RhsState, FakePost, PostDraft, SearchType} from 'types/store/rhs';
+import {RhsState, FakePost, SearchType} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 
-export function getSelectedPostId(state: GlobalState): $ID<Post> {
+export function getSelectedPostId(state: GlobalState): Post['id'] {
     return state.views.rhs.selectedPostId;
 }
 
@@ -23,11 +23,11 @@ export function getSelectedPostFocussedAt(state: GlobalState): number {
     return state.views.rhs.selectedPostFocussedAt;
 }
 
-export function getSelectedPostCardId(state: GlobalState): $ID<Post> {
+export function getSelectedPostCardId(state: GlobalState): Post['id'] {
     return state.views.rhs.selectedPostCardId;
 }
 
-export function getHighlightedPostId(state: GlobalState): $ID<Post> {
+export function getHighlightedPostId(state: GlobalState): Post['id'] {
     return state.views.rhs.highlightedPostId;
 }
 
@@ -57,6 +57,12 @@ export function getPluggableId(state: GlobalState) {
     return state.views.rhs.pluggableId;
 }
 
+export function getActiveRhsComponent(state: GlobalState) {
+    const pluggableId = getPluggableId(state);
+    const components = state.plugins.components.RightHandSidebarComponent;
+    return components.find((c) => c.id === pluggableId);
+}
+
 function getRealSelectedPost(state: GlobalState) {
     return state.entities.posts.posts[getSelectedPostId(state)];
 }
@@ -67,7 +73,7 @@ export const getSelectedPost = createSelector(
     getRealSelectedPost,
     getSelectedChannelId,
     getCurrentUserId,
-    (selectedPostId: $ID<Post>, selectedPost: Post, selectedPostChannelId: $ID<Channel>, currentUserId): Post|FakePost => {
+    (selectedPostId: Post['id'], selectedPost: Post, selectedPostChannelId: Channel['id'], currentUserId): Post|FakePost => {
         if (selectedPost) {
             return selectedPost;
         }
@@ -89,7 +95,10 @@ export function getRhsState(state: GlobalState): RhsState {
 }
 
 export function getPreviousRhsState(state: GlobalState): RhsState {
-    return state.views.rhs.previousRhsState;
+    if (state.views.rhs.previousRhsStates === null || state.views.rhs.previousRhsStates.length === 0) {
+        return null;
+    }
+    return state.views.rhs.previousRhsStates[state.views.rhs.previousRhsStates.length - 1];
 }
 
 export function getSearchTerms(state: GlobalState): string {
@@ -120,8 +129,30 @@ export function getIsSearchGettingMore(state: GlobalState): boolean {
     return state.entities.search.isSearchGettingMore;
 }
 
+export function makeGetChannelDraft() {
+    const defaultDraft = Object.freeze({message: '', fileInfos: [], uploadsInProgress: [], createAt: 0, updateAt: 0, channelId: '', rootId: ''});
+    const getDraft = makeGetGlobalItemWithDefault(defaultDraft);
+
+    return (state: GlobalState, channelId: string): PostDraft => {
+        const draft = getDraft(state, StoragePrefixes.DRAFT + channelId);
+        if (
+            typeof draft.message !== 'undefined' &&
+            typeof draft.uploadsInProgress !== 'undefined' &&
+            typeof draft.fileInfos !== 'undefined'
+        ) {
+            return draft;
+        }
+
+        return defaultDraft;
+    };
+}
+
 export function getPostDraft(state: GlobalState, prefixId: string, suffixId: string): PostDraft {
-    const defaultDraft = {message: '', fileInfos: [], uploadsInProgress: []};
+    const defaultDraft = {message: '', fileInfos: [], uploadsInProgress: [], createAt: 0, updateAt: 0, channelId: '', rootId: ''};
+
+    if (prefixId === StoragePrefixes.COMMENT_DRAFT) {
+        defaultDraft.rootId = suffixId;
+    }
     const draft = makeGetGlobalItem(prefixId + suffixId, defaultDraft)(state);
 
     if (
@@ -149,4 +180,8 @@ export function getIsRhsMenuOpen(state: GlobalState): boolean {
 
 export function getIsRhsExpanded(state: GlobalState): boolean {
     return state.views.rhs.isSidebarExpanded;
+}
+
+export function getIsEditingMembers(state: GlobalState): boolean {
+    return state.views.rhs.editChannelMembers === true;
 }

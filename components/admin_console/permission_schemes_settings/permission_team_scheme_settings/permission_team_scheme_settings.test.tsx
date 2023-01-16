@@ -45,6 +45,18 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
             channel_guest: {
                 permissions: [],
             },
+            playbook_admin: {
+                permissions: [],
+            },
+            playbook_member: {
+                permissions: [],
+            },
+            run_admin: {
+                permissions: [],
+            },
+            run_member: {
+                permissions: [],
+            },
             aaa: {
                 permissions: [],
             },
@@ -61,6 +73,18 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 permissions: [],
             },
             fff: {
+                permissions: [],
+            },
+            ggg: {
+                permissions: [],
+            },
+            hhh: {
+                permissions: [],
+            },
+            iii: {
+                permissions: [],
+            },
+            jjj: {
                 permissions: [],
             },
         },
@@ -147,6 +171,10 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 default_channel_admin_role: 'ddd',
                 default_team_guest_role: 'eee',
                 default_channel_guest_role: 'fff',
+                default_playbook_admin_role: 'ggg',
+                default_playbook_member_role: 'hhh',
+                default_run_admin_role: 'iii',
+                default_run_member_role: 'jjj',
             },
         }));
         const updateTeamScheme = jest.fn().mockImplementation(() => Promise.resolve({}));
@@ -159,7 +187,7 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
 
         expect(wrapper).toMatchSnapshot();
         await wrapper.instance().handleSubmit();
-        expect(editRole).toHaveBeenCalledTimes(6);
+        expect(editRole).toHaveBeenCalledTimes(9);
     });
 
     test('should show error if createScheme fails', async () => {
@@ -188,6 +216,10 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 default_channel_admin_role: 'ddd',
                 default_team_guest_role: 'eee',
                 default_channel_guest_role: 'fff',
+                default_playbook_admin_role: 'ggg',
+                default_playbook_member_role: 'hhh',
+                default_run_admin_role: 'iii',
+                default_run_member_role: 'jjj',
             },
         }));
         const updateTeamScheme = jest.fn().mockImplementation(() => Promise.resolve({}));
@@ -247,6 +279,10 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 default_channel_admin_role: 'ddd',
                 default_team_guest_role: 'eee',
                 default_channel_guest_role: 'fff',
+                default_playbook_admin_role: 'ggg',
+                default_playbook_member_role: 'hhh',
+                default_run_admin_role: 'iii',
+                default_run_member_role: 'jjj',
             },
         };
 
@@ -278,6 +314,10 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 default_channel_admin_role: 'ddd',
                 default_team_guest_role: 'eee',
                 default_channel_guest_role: 'fff',
+                default_playbook_admin_role: 'ggg',
+                default_playbook_member_role: 'hhh',
+                default_run_admin_role: 'iii',
+                default_run_member_role: 'jjj',
             },
             roles: {
                 aaa: {
@@ -329,6 +369,10 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 default_channel_admin_role: 'ddd',
                 default_team_guest_role: 'eee',
                 default_channel_guest_role: 'fff',
+                default_playbook_admin_role: 'ggg',
+                default_playbook_member_role: 'hhh',
+                default_run_admin_role: 'iii',
+                default_run_member_role: 'jjj',
             },
         };
 
@@ -360,6 +404,10 @@ describe('components/admin_console/permission_schemes_settings/permission_team_s
                 default_channel_admin_role: 'ddd',
                 default_team_guest_role: 'eee',
                 default_channel_guest_role: 'fff',
+                default_playbook_admin_role: 'ggg',
+                default_playbook_member_role: 'hhh',
+                default_run_admin_role: 'iii',
+                default_run_member_role: 'jjj',
             },
         };
 

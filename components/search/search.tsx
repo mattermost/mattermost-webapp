@@ -5,10 +5,13 @@ import React, {ChangeEvent, MouseEvent, FormEvent, useEffect, useState, useRef} 
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
+import {useSelector} from 'react-redux';
+
+import {getCurrentChannelNameForSearchShortcut} from 'mattermost-redux/selectors/entities/channels';
 import {isServerVersionGreaterThanOrEqualTo} from 'utils/server_version';
 import {isDesktopApp, getDesktopVersion, isMacApp} from 'utils/user_agent';
 import Constants, {searchHintOptions, RHSStates, searchFilesHintOptions} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import SearchHint from 'components/search_hint/search_hint';
@@ -16,8 +19,8 @@ import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
 import Popover from 'components/widgets/popover';
-import UserGuideDropdown from 'components/rhs_search_nav/components/user_guide_dropdown';
 
+import UserGuideDropdown from 'components/search/user_guide_dropdown';
 import SearchBar from 'components/search_bar/search_bar';
 import SearchResults from 'components/search_results';
 import Provider from 'components/suggestion/provider';
@@ -68,12 +71,23 @@ const determineVisibleSearchHintOptions = (searchTerms: string, searchType: Sear
 };
 
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
-    const {actions, searchTerms, searchType, currentChannel, hideSearchBar, enableFindShortcut} = props;
+    const {
+        actions,
+        currentChannel,
+        enableFindShortcut,
+        hideSearchBar,
+        isMobileView,
+        searchTerms,
+        searchType,
+        hideMobileSearchBarInRHS,
+    } = props;
 
     const intl = useIntl();
+    const currentChannelName = useSelector(getCurrentChannelNameForSearchShortcut);
 
     // generate intial component state and setters
     const [focused, setFocused] = useState<boolean>(false);
+    const [dropdownFocused, setDropdownFocused] = useState<boolean>(false);
     const [keepInputFocused, setKeepInputFocused] = useState<boolean>(false);
     const [indexChangedViaKeyPress, setIndexChangedViaKeyPress] = useState<boolean>(false);
     const [highlightedSearchHintIndex, setHighlightedSearchHintIndex] = useState<number>(-1);
@@ -110,7 +124,9 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     actions.openRHSSearch();
                     setKeepInputFocused(true);
                 }
-                actions.updateSearchTermsForShortcut();
+                if (currentChannelName) {
+                    actions.updateSearchTermsForShortcut();
+                }
                 handleFocus();
             }
         };
@@ -119,27 +135,19 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [hideSearchBar]);
+    }, [hideSearchBar, currentChannelName]);
 
     useEffect((): void => {
-        if (!Utils.isMobile()) {
+        if (!isMobileView) {
             setVisibleSearchHintOptions(determineVisibleSearchHintOptions(searchTerms, searchType));
         }
-    }, [searchTerms, searchType]);
+    }, [isMobileView, searchTerms, searchType]);
 
     useEffect((): void => {
-        if (!Utils.isMobile() && focused && keepInputFocused) {
+        if (!isMobileView && focused && keepInputFocused) {
             handleBlur();
         }
-    }, [searchTerms]);
-
-    useEffect((): void => {
-        if (props.isFocus && !props.isRhsOpen) {
-            handleFocus();
-        } else {
-            handleBlur();
-        }
-    }, [props.isRhsOpen]);
+    }, [isMobileView, searchTerms]);
 
     // handle cloding of rhs-flyout
     const handleClose = (): void => actions.closeRightHandSide();
@@ -160,9 +168,12 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 setFocused(false);
             }
         }, 0);
-
         updateHighlightedSearchHint();
     };
+
+    const handleDropdownBlur = () => setDropdownFocused(false);
+
+    const handleDropdownFocus = () => setDropdownFocused(true);
 
     const handleSearchHintSelection = (): void => {
         if (focused) {
@@ -182,6 +193,14 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     const handleUpdateSearchTerms = (terms: string): void => {
         actions.updateSearchTerms(terms);
         updateHighlightedSearchHint();
+    };
+
+    const handleOnSearchTypeSelected = (searchType || searchTerms) ? undefined : (value: SearchType) => {
+        actions.updateSearchType(value);
+        if (!searchType) {
+            setDropdownFocused(false);
+        }
+        setFocused(true);
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -263,7 +282,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     };
 
     const handleSearchOnSuccess = (): void => {
-        if (Utils.isMobile()) {
+        if (isMobileView) {
             handleClear();
         }
     };
@@ -398,7 +417,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             return <></>;
         }
 
-        const helpClass = `search-help-popover${(focused && termsUsed <= 2) ? ' visible' : ''}`;
+        const helpClass = `search-help-popover${((dropdownFocused || focused) && termsUsed <= 2) ? ' visible' : ''}`;
 
         return (
             <Popover
@@ -413,7 +432,9 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     onMouseDown={handleSearchHintSelection}
                     highlightedIndex={highlightedSearchHintIndex}
                     onOptionHover={setHoverHintIndex}
-                    onSearchTypeSelected={(searchType || searchTerms) ? undefined : (value: SearchType) => actions.updateSearchType(value)}
+                    onSearchTypeSelected={handleOnSearchTypeSelected}
+                    onElementBlur={handleDropdownBlur}
+                    onElementFocus={handleDropdownFocus}
                     searchType={searchType}
                 />
             </Popover>
@@ -448,13 +469,12 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 suggestionProviders={suggestionProviders.current}
                 isSideBarRight={props.isSideBarRight}
                 isSearchingTerm={props.isSearchingTerm}
-                isFocus={props.isFocus}
                 getFocus={props.getFocus}
                 searchTerms={searchTerms}
                 searchType={searchType}
                 clearSearchType={() => actions.updateSearchType('')}
             >
-                {!Utils.isMobile() && renderHintPopover()}
+                {!props.isMobileView && renderHintPopover()}
             </SearchBar>
         </>
     );
@@ -492,14 +512,16 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     return (
         <div className='sidebar--right__content'>
-            <div className='search-bar__container channel-header alt'>
-                <div className='sidebar-right__table'>
-                    {renderSearchBar()}
-                    {renderMentionButton()}
-                    {renderFlagBtn()}
-                    <UserGuideDropdown/>
+            {!hideMobileSearchBarInRHS && (
+                <div className='search-bar__container channel-header alt'>
+                    <div className='sidebar-right__table'>
+                        {renderSearchBar()}
+                        {renderMentionButton()}
+                        {renderFlagBtn()}
+                        <UserGuideDropdown/>
+                    </div>
                 </div>
-            </div>
+            )}
             {props.searchVisible ? (
                 <SearchResults
                     isMentionSearch={props.isMentionSearch}
@@ -527,8 +549,8 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 const defaultProps: Partial<Props> = {
     searchTerms: '',
     channelDisplayName: '',
-    isFocus: false,
     isSideBarRight: false,
+    hideMobileSearchBarInRHS: false,
     getFocus: () => {},
 };
 

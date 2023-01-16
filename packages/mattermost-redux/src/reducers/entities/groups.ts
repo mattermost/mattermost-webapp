@@ -4,11 +4,10 @@
 import {combineReducers} from 'redux';
 
 import {GroupTypes} from 'mattermost-redux/action_types';
-import {GroupChannel, GroupSyncablesState, GroupTeam, Group} from 'mattermost-redux/types/groups';
+import {GroupChannel, GroupSyncablesState, GroupTeam, Group} from '@mattermost/types/groups';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Dictionary} from 'mattermost-redux/types/utilities';
 
-function syncables(state: Dictionary<GroupSyncablesState> = {}, action: GenericAction) {
+function syncables(state: Record<string, GroupSyncablesState> = {}, action: GenericAction) {
     switch (action.type) {
     case GroupTypes.RECEIVED_GROUP_TEAMS: {
         return {
@@ -141,13 +140,44 @@ function syncables(state: Dictionary<GroupSyncablesState> = {}, action: GenericA
     }
 }
 
-function myGroups(state: any = {}, action: GenericAction) {
+function myGroups(state: string[] = [], action: GenericAction) {
     switch (action.type) {
-    case GroupTypes.RECEIVED_MY_GROUPS: {
-        const nextState = {...state};
-        for (const group of action.data) {
-            nextState[group.id] = group;
+    case GroupTypes.ADD_MY_GROUP: {
+        const groupId = action.id;
+        const nextState = [...state];
+        if (state.indexOf(groupId) === -1) {
+            nextState.push(groupId);
         }
+        return nextState;
+    }
+    case GroupTypes.RECEIVED_MY_GROUPS: {
+        const groups: Group[] = action.data;
+        const nextState = [...state];
+
+        groups.forEach((group) => {
+            const index = state.indexOf(group.id);
+
+            if (index === -1) {
+                nextState.push(group.id);
+            }
+        });
+
+        return nextState;
+    }
+    case GroupTypes.REMOVE_MY_GROUP:
+    case GroupTypes.ARCHIVED_GROUP: {
+        const groupId = action.id;
+        const index = state.indexOf(groupId);
+
+        if (index === -1) {
+            // There's nothing to remove
+            return state;
+        }
+
+        // Remove the group ID from my groups list
+        const nextState = [...state];
+        nextState.splice(index, 1);
+
         return nextState;
     }
     default:
@@ -169,8 +199,9 @@ function stats(state: any = {}, action: GenericAction) {
     }
 }
 
-function groups(state: Dictionary<Group> = {}, action: GenericAction) {
+function groups(state: Record<string, Group> = {}, action: GenericAction) {
     switch (action.type) {
+    case GroupTypes.CREATE_GROUP_SUCCESS:
     case GroupTypes.PATCHED_GROUP:
     case GroupTypes.RECEIVED_GROUP: {
         return {
@@ -178,6 +209,7 @@ function groups(state: Dictionary<Group> = {}, action: GenericAction) {
             [action.data.id]: action.data,
         };
     }
+    case GroupTypes.RECEIVED_MY_GROUPS:
     case GroupTypes.RECEIVED_GROUPS: {
         const nextState = {...state};
         for (const group of action.data) {
@@ -207,6 +239,11 @@ function groups(state: Dictionary<Group> = {}, action: GenericAction) {
             nextState[group.id] = group;
         }
 
+        return nextState;
+    }
+    case GroupTypes.ARCHIVED_GROUP: {
+        const nextState = {...state};
+        Reflect.deleteProperty(nextState, action.id);
         return nextState;
     }
     default:

@@ -1,20 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {shallow} from 'enzyme';
 import React from 'react';
-import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 import moment from 'moment-timezone';
 
 import {General} from 'mattermost-redux/constants';
 import * as i18Selectors from 'selectors/i18n';
 
+import mockStore from 'tests/test_store';
+
 import DateTimeInput from './date_time_input';
 
 jest.mock('selectors/i18n');
 
 describe('components/custom_status/date_time_input', () => {
-    const mockStore = configureStore();
     const store = mockStore({});
 
     (i18Selectors.getCurrentLocale as jest.Mock).mockReturnValue(General.DEFAULT_LOCALE);

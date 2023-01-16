@@ -9,13 +9,16 @@ exports[`components/sidebar should match snapshot 1`] = `
 >
   <SidebarHeader
     canCreateChannel={true}
+    canCreateCustomGroups={true}
     canJoinPublicChannel={true}
     handleOpenDirectMessagesModal={[Function]}
     invitePeopleModal={[Function]}
     showCreateCategoryModal={[Function]}
+    showCreateUserGroupModal={[Function]}
     showMoreChannelsModal={[Function]}
     showNewChannelModal={[Function]}
     unreadFilterEnabled={false}
+    userGroupsEnabled={false}
   />
   <div
     aria-label="channel navigator region"
@@ -30,9 +33,11 @@ exports[`components/sidebar should match snapshot 1`] = `
       handleOpenDirectMessagesModal={[Function]}
       invitePeopleModal={[Function]}
       showCreateCategoryModal={[Function]}
+      showCreateUserGroupModal={[Function]}
       showMoreChannelsModal={[Function]}
       showNewChannelModal={[Function]}
       unreadFilterEnabled={false}
+      userGroupsEnabled={false}
     />
   </div>
   <div
@@ -42,13 +47,12 @@ exports[`components/sidebar should match snapshot 1`] = `
       pluggableName="LeftSidebarHeader"
     />
   </div>
-  <Connect(SidebarChannelList)
+  <Connect(SidebarList)
     handleOpenMoreDirectChannelsModal={[Function]}
     onDragEnd={[Function]}
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
-  <Connect(SidebarNextSteps) />
 </div>
 `;
 
@@ -59,13 +63,16 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
 >
   <SidebarHeader
     canCreateChannel={true}
+    canCreateCustomGroups={true}
     canJoinPublicChannel={true}
     handleOpenDirectMessagesModal={[Function]}
     invitePeopleModal={[Function]}
     showCreateCategoryModal={[Function]}
+    showCreateUserGroupModal={[Function]}
     showMoreChannelsModal={[Function]}
     showNewChannelModal={[Function]}
     unreadFilterEnabled={false}
+    userGroupsEnabled={false}
   />
   <div
     aria-label="channel navigator region"
@@ -80,9 +87,11 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
       handleOpenDirectMessagesModal={[Function]}
       invitePeopleModal={[Function]}
       showCreateCategoryModal={[Function]}
+      showCreateUserGroupModal={[Function]}
       showMoreChannelsModal={[Function]}
       showNewChannelModal={[Function]}
       unreadFilterEnabled={false}
+      userGroupsEnabled={false}
     />
   </div>
   <div
@@ -92,13 +101,12 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
       pluggableName="LeftSidebarHeader"
     />
   </div>
-  <Connect(SidebarChannelList)
+  <Connect(SidebarList)
     handleOpenMoreDirectChannelsModal={[Function]}
     onDragEnd={[Function]}
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
-  <Connect(SidebarNextSteps) />
   <Connect(MoreDirectChannels)
     isExistingChannel={false}
     onModalDismissed={[Function]}
@@ -113,13 +121,16 @@ exports[`components/sidebar should match snapshot when more channels modal is op
 >
   <SidebarHeader
     canCreateChannel={true}
+    canCreateCustomGroups={true}
     canJoinPublicChannel={true}
     handleOpenDirectMessagesModal={[Function]}
     invitePeopleModal={[Function]}
     showCreateCategoryModal={[Function]}
+    showCreateUserGroupModal={[Function]}
     showMoreChannelsModal={[Function]}
     showNewChannelModal={[Function]}
     unreadFilterEnabled={false}
+    userGroupsEnabled={false}
   />
   <div
     aria-label="channel navigator region"
@@ -134,9 +145,11 @@ exports[`components/sidebar should match snapshot when more channels modal is op
       handleOpenDirectMessagesModal={[Function]}
       invitePeopleModal={[Function]}
       showCreateCategoryModal={[Function]}
+      showCreateUserGroupModal={[Function]}
       showMoreChannelsModal={[Function]}
       showNewChannelModal={[Function]}
       unreadFilterEnabled={false}
+      userGroupsEnabled={false}
     />
   </div>
   <div
@@ -146,12 +159,11 @@ exports[`components/sidebar should match snapshot when more channels modal is op
       pluggableName="LeftSidebarHeader"
     />
   </div>
-  <Connect(SidebarChannelList)
+  <Connect(SidebarList)
     handleOpenMoreDirectChannelsModal={[Function]}
     onDragEnd={[Function]}
     onDragStart={[Function]}
   />
   <Connect(DataPrefetch) />
-  <Connect(SidebarNextSteps) />
 </div>
 `;

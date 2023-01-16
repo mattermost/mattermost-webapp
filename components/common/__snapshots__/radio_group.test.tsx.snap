@@ -3,6 +3,7 @@
 exports[`/components/common/RadioButtonGroup should match snapshot 1`] = `
 <div
   className="radio-list"
+  data-testid=""
 >
   <div
     className="radio"

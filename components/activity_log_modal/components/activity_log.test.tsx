@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {General} from 'mattermost-redux/constants';
 
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import ActivityLog from 'components/activity_log_modal/components/activity_log';
 import {TestHelper} from 'utils/test_helper';
 
@@ -27,6 +27,15 @@ describe('components/activity_log_modal/ActivityLog', () => {
     test('should match snapshot', () => {
         const wrapper = shallow(
             <ActivityLog {...baseProps}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with mobile props', () => {
+        const mobileDeviceIdProps = Object.assign({}, baseProps, {currentSession: {...baseProps.currentSession, device_id: 'apple'}});
+        const wrapper = shallow(
+            <ActivityLog {...mobileDeviceIdProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();

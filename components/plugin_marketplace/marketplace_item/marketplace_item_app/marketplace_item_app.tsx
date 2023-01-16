@@ -5,7 +5,7 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import type {MarketplaceLabel} from 'mattermost-redux/types/marketplace';
+import type {MarketplaceLabel} from '@mattermost/types/marketplace';
 
 import MarketplaceItem from '../marketplace_item';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';

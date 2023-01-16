@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {shallow} from 'enzyme';
 
@@ -9,8 +10,6 @@ import {Button} from 'react-bootstrap';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import TeamUrl from 'components/create_team/components/team_url/team_url';
 import Constants from 'utils/constants';
-
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 jest.mock('images/logo.png', () => 'logo.png');
 
@@ -22,7 +21,7 @@ describe('/components/create_team/components/display_name', () => {
             wizard: 'display_name',
         },
         actions: {
-            checkIfTeamExists: jest.fn().mockResolvedValue({exists: true}),
+            checkIfTeamExists: jest.fn().mockResolvedValue({data: true}),
             createTeam: jest.fn().mockResolvedValue({data: {name: 'test-team'}}),
             trackEvent: jest.fn(),
         },
@@ -58,8 +57,8 @@ describe('/components/create_team/components/display_name', () => {
 
     test('should successfully submit', async () => {
         const checkIfTeamExists = jest.fn().
-            mockResolvedValueOnce({exists: true}).
-            mockResolvedValue({exists: false});
+            mockResolvedValueOnce({data: true}).
+            mockResolvedValue({data: false});
 
         const actions = {...defaultProps.actions, checkIfTeamExists};
         const props = {...defaultProps, actions};
@@ -101,7 +100,7 @@ describe('/components/create_team/components/display_name', () => {
         wrapper.find('button').simulate('click', {preventDefault: () => jest.fn()});
         expect(wrapper.state('nameError')).toEqual(chatLengthError);
 
-        (wrapper.find('.form-control').instance() as unknown as HTMLInputElement).value = 'should_trigger_an_error_because_it_exceeds_MAX_TEAMNAME_LENGTH';
+        (wrapper.find('.form-control').instance() as unknown as HTMLInputElement).value = 'a'.repeat(Constants.MAX_TEAMNAME_LENGTH + 1);
         wrapper.find('.form-control').simulate('change');
         wrapper.find('button').simulate('click', {preventDefault: () => jest.fn()});
         expect(wrapper.state('nameError')).toEqual(chatLengthError);
@@ -125,11 +124,6 @@ describe('/components/create_team/components/display_name', () => {
         (wrapper.find('.form-control').instance() as unknown as HTMLInputElement).value = 'channel';
         wrapper.find('.form-control').simulate('change');
         wrapper.find('button').simulate('click', {preventDefault: () => jest.fn()});
-        expect(wrapper.state('nameError')).toEqual(
-            <FormattedMarkdownMessage
-                defaultMessage='This URL [starts with a reserved word](!https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url) or is unavailable. Please try another.'
-                id='create_team.team_url.taken'
-            />,
-        );
+        expect((wrapper as any).state('nameError').props.id).toEqual('create_team.team_url.taken');
     });
 });

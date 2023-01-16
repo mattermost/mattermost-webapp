@@ -5,11 +5,12 @@ import React, {createRef, RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
 import ReactSelect from 'react-select';
 
-import {AdminConfig} from 'mattermost-redux/types/config';
-import {DataRetentionCustomPolicies, DataRetentionCustomPolicy} from 'mattermost-redux/types/data_retention';
+import {AdminConfig} from '@mattermost/types/config';
+import {DataRetentionCustomPolicies, DataRetentionCustomPolicy} from '@mattermost/types/data_retention';
+import {DeepPartial} from '@mattermost/types/utilities';
 
 import {JobTypes} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import Card from 'components/card/card';
 import TitleAndButtonCardHeader from 'components/card/title_and_button_card_header/title_and_button_card_header';
@@ -17,8 +18,9 @@ import TitleAndButtonCardHeader from 'components/card/title_and_button_card_head
 import JobsTable from 'components/admin_console/jobs';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import {browserHistory} from 'utils/browser_history';
-import {JobTypeBase, JobType} from 'mattermost-redux/types/jobs';
+import {getHistory} from 'utils/browser_history';
+import {JobTypeBase, JobType} from '@mattermost/types/jobs';
+
 import {ActionResult} from 'mattermost-redux/types/actions';
 import './data_retention_settings.scss';
 
@@ -64,8 +66,10 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
         await this.props.actions.deleteDataRetentionCustomPolicy(id);
         this.loadPage(0);
     }
+
+    includeBoards = this.props.config.PluginSettings?.PluginStates?.focalboard?.Enable && this.props.config.FeatureFlags?.BoardsDataRetention
     getGlobalPolicyColumns = (): Column[] => {
-        return [
+        const columns: Column[] = [
             {
                 name: (
                     <FormattedMessage
@@ -93,15 +97,31 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 ),
                 field: 'files',
             },
+        ];
+        if (this.includeBoards) {
+            columns.push(
+                {
+                    name: (
+                        <FormattedMessage
+                            id='admin.data_retention.globalPoliciesTable.boards'
+                            defaultMessage='Boards'
+                        />
+                    ),
+                    field: 'boards',
+                },
+            );
+        }
+        columns.push(
             {
                 name: '',
                 field: 'actions',
                 className: 'actionIcon',
             },
-        ];
+        );
+        return columns;
     }
     getCustomPolicyColumns = (): Column[] => {
-        return [
+        const columns: Column[] = [
             {
                 name: (
                     <FormattedMessage
@@ -135,6 +155,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 className: 'actionIcon',
             },
         ];
+        return columns;
     }
     getMessageRetentionSetting = (enabled: boolean | undefined, days: number | undefined): JSX.Element => {
         if (!enabled) {
@@ -182,6 +203,11 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                         {this.getMessageRetentionSetting(DataRetentionSettings?.EnableFileDeletion, DataRetentionSettings?.FileRetentionDays)}
                     </div>
                 ),
+                boards: (
+                    <div data-testid='global_boards_retention_cell'>
+                        {this.getMessageRetentionSetting(DataRetentionSettings?.EnableBoardsDeletion, DataRetentionSettings?.BoardsRetentionDays)}
+                    </div>
+                ),
                 actions: (
                     <MenuWrapper
                         isDisabled={false}
@@ -200,7 +226,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                             <Menu.ItemAction
                                 show={true}
                                 onClick={() => {
-                                    browserHistory.push('/admin_console/compliance/data_retention_settings/global_policy');
+                                    getHistory().push('/admin_console/compliance/data_retention_settings/global_policy');
                                 }}
                                 text={Utils.localizeMessage('admin.data_retention.globalPoliciesTable.edit', 'Edit')}
                                 disabled={false}
@@ -211,7 +237,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 ),
             },
             onClick: () => {
-                browserHistory.push('/admin_console/compliance/data_retention_settings/global_policy');
+                getHistory().push('/admin_console/compliance/data_retention_settings/global_policy');
             },
         }];
     }
@@ -280,7 +306,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                 <Menu.ItemAction
                                     show={true}
                                     onClick={() => {
-                                        browserHistory.push(`/admin_console/compliance/data_retention_settings/custom_policy/${policy.id}`);
+                                        getHistory().push(`/admin_console/compliance/data_retention_settings/custom_policy/${policy.id}`);
                                     }}
                                     text={Utils.localizeMessage('admin.data_retention.globalPoliciesTable.edit', 'Edit')}
                                     disabled={false}
@@ -298,7 +324,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                     ),
                 },
                 onClick: () => {
-                    browserHistory.push(`/admin_console/compliance/data_retention_settings/custom_policy/${policy.id}`);
+                    getHistory().push(`/admin_console/compliance/data_retention_settings/custom_policy/${policy.id}`);
                 },
             };
         });
@@ -500,7 +526,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                         />
                                     }
                                     onClick={() => {
-                                        browserHistory.push('/admin_console/compliance/data_retention_settings/custom_policy');
+                                        getHistory().push('/admin_console/compliance/data_retention_settings/custom_policy');
                                     }}
                                 />
                             </Card.Header>
@@ -555,7 +581,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                 expanded={true}
                             >
                                 <JobsTable
-                                    jobType={JobTypes.DATA_RETENTION}
+                                    jobType={JobTypes.DATA_RETENTION as JobType}
                                     hideJobCreateButton={true}
                                     className={'job-table__data-retention'}
                                     disabled={String(DataRetentionSettings?.EnableMessageDeletion) !== 'true' && String(DataRetentionSettings?.EnableFileDeletion) !== 'true'}

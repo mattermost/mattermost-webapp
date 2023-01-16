@@ -2,12 +2,14 @@
 // See LICENSE.txt for license information.
 
 import assert from 'assert';
+
 import nock from 'nock';
+
+import {SyncableType} from '@mattermost/types/groups';
 
 import * as Actions from 'mattermost-redux/actions/groups';
 import {Client4} from 'mattermost-redux/client';
 
-import {Groups} from '../constants';
 import TestHelper from 'mattermost-redux/test/test_helper';
 import configureStore from 'mattermost-redux/test/test_store';
 
@@ -86,8 +88,8 @@ describe('Actions.Groups', () => {
             get(`/groups/${groupID}/channels`).
             reply(200, groupChannels);
 
-        await Actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_TEAM)(store.dispatch, store.getState);
-        await Actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_CHANNEL)(store.dispatch, store.getState);
+        await Actions.getGroupSyncables(groupID, SyncableType.Team)(store.dispatch, store.getState);
+        await Actions.getGroupSyncables(groupID, SyncableType.Channel)(store.dispatch, store.getState);
 
         const state = store.getState();
 
@@ -104,7 +106,7 @@ describe('Actions.Groups', () => {
         const groupID = '5rgoajywb3nfbdtyafbod47rya';
 
         const response = {
-            id: '5rgoajywb3nfbdtyafbod47rya',
+            id: groupID,
             name: '8b7ks7ngqbgndqutka48gfzaqh',
             display_name: 'Test Group 0',
             description: '',
@@ -117,7 +119,7 @@ describe('Actions.Groups', () => {
         };
 
         nock(Client4.getBaseRoute()).
-            get(`/groups/${groupID}`).
+            get(`/groups/${groupID}?include_member_count=false`).
             reply(200, response);
 
         await Actions.getGroup(groupID)(store.dispatch, store.getState);
@@ -162,8 +164,8 @@ describe('Actions.Groups', () => {
             post(`/groups/${groupID}/channels/${channelID}/link`).
             reply(200, groupChannelResponse);
 
-        await Actions.linkGroupSyncable(groupID, teamID, Groups.SYNCABLE_TYPE_TEAM)(store.dispatch, store.getState);
-        await Actions.linkGroupSyncable(groupID, channelID, Groups.SYNCABLE_TYPE_CHANNEL)(store.dispatch, store.getState);
+        await Actions.linkGroupSyncable(groupID, teamID, SyncableType.Team)(store.dispatch, store.getState);
+        await Actions.linkGroupSyncable(groupID, channelID, SyncableType.Channel)(store.dispatch, store.getState);
 
         const state = store.getState();
         const syncables = state.entities.groups.syncables;
@@ -204,8 +206,8 @@ describe('Actions.Groups', () => {
             post(`/groups/${groupID}/channels/${channelID}/link`).
             reply(200, groupChannelResponse);
 
-        await Actions.linkGroupSyncable(groupID, teamID, Groups.SYNCABLE_TYPE_TEAM)(store.dispatch, store.getState);
-        await Actions.linkGroupSyncable(groupID, channelID, Groups.SYNCABLE_TYPE_CHANNEL)(store.dispatch, store.getState);
+        await Actions.linkGroupSyncable(groupID, teamID, SyncableType.Team)(store.dispatch, store.getState);
+        await Actions.linkGroupSyncable(groupID, channelID, SyncableType.Channel)(store.dispatch, store.getState);
 
         let state = store.getState();
         let syncables = state.entities.groups.syncables;
@@ -225,8 +227,8 @@ describe('Actions.Groups', () => {
             delete(`/groups/${groupID}/channels/${channelID}/link`).
             reply(204, {ok: true});
 
-        await Actions.unlinkGroupSyncable(groupID, teamID, Groups.SYNCABLE_TYPE_TEAM)(store.dispatch, store.getState);
-        await Actions.unlinkGroupSyncable(groupID, channelID, Groups.SYNCABLE_TYPE_CHANNEL)(store.dispatch, store.getState);
+        await Actions.unlinkGroupSyncable(groupID, teamID, SyncableType.Team)(store.dispatch, store.getState);
+        await Actions.unlinkGroupSyncable(groupID, channelID, SyncableType.Channel)(store.dispatch, store.getState);
 
         state = store.getState();
         syncables = state.entities.groups.syncables;
@@ -768,8 +770,8 @@ describe('Actions.Groups', () => {
             put(`/groups/${groupID}/channels/${channelID}/patch`).
             reply(200, groupChannelResponse);
 
-        await Actions.patchGroupSyncable(groupID, teamID, Groups.SYNCABLE_TYPE_TEAM, groupSyncablePatch)(store.dispatch, store.getState);
-        await Actions.patchGroupSyncable(groupID, channelID, Groups.SYNCABLE_TYPE_CHANNEL, groupSyncablePatch)(store.dispatch, store.getState);
+        await Actions.patchGroupSyncable(groupID, teamID, SyncableType.Team, groupSyncablePatch)(store.dispatch, store.getState);
+        await Actions.patchGroupSyncable(groupID, channelID, SyncableType.Channel, groupSyncablePatch)(store.dispatch, store.getState);
 
         const state = store.getState();
         const groupSyncables = state.entities.groups.syncables[groupID];

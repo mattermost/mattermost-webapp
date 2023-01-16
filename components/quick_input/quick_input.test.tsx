@@ -4,7 +4,7 @@
 import React from 'react';
 import {mount} from 'enzyme';
 
-import QuickInput from 'components/quick_input/index';
+import {QuickInput} from './quick_input';
 
 describe('components/QuickInput', () => {
     test.each([

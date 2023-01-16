@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {ChannelType} from 'mattermost-redux/types/channels';
+import {ChannelType} from '@mattermost/types/channels';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {TestHelper} from 'utils/test_helper';
@@ -34,7 +34,6 @@ describe('components/sidebar/sidebar_channel/sidebar_direct_channel', () => {
         currentUserId: 'current_user_id',
         redirectChannel: 'redirect-channel',
         active: false,
-        isCollapsed: false,
         isMobile: false,
         actions: {
             savePreferences: jest.fn(),

@@ -4,14 +4,14 @@
 import React from 'react';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {TeamMembership, TeamStats, GetTeamMembersOpts} from 'mattermost-redux/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+import {TeamMembership, TeamStats, GetTeamMembersOpts} from '@mattermost/types/teams';
 import {Teams} from 'mattermost-redux/constants';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 
-import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
+import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container';
 import TeamMembersDropdown from 'components/team_members_dropdown';
 
 const USERS_PER_PAGE = 50;
@@ -140,7 +140,7 @@ export default class MemberListTeam extends React.PureComponent<Props, State> {
     }
 
     render() {
-        let teamMembersDropdown = null;
+        let teamMembersDropdown;
         if (this.props.canManageTeamMembers) {
             teamMembersDropdown = [TeamMembersDropdown];
         }

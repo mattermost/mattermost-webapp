@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import {imageURLForTeam} from 'utils/utils';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 type Props = {
     team: Team;

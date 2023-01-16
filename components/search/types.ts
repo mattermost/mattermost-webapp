@@ -4,8 +4,11 @@
 import React from 'react';
 import {Action} from 'redux';
 
-import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
+import {ActionFunc} from 'mattermost-redux/types/actions';
+
+import {Channel} from '@mattermost/types/channels';
+import {ServerError} from '@mattermost/types/errors';
+import {UserAutocomplete} from '@mattermost/types/autocomplete';
 
 import {SearchType} from 'types/store/rhs';
 
@@ -14,7 +17,6 @@ export type SearchFilterType = 'all' | 'documents' | 'spreadsheets' | 'presentat
 export type OwnProps = {
     isSideBarRight?: boolean;
     isSideBarRightOpen?: boolean;
-    isFocus: boolean;
     hideSearchBar?: boolean;
     enableFindShortcut?: boolean;
     channelDisplayName?: string;
@@ -29,11 +31,13 @@ export type StateProps = {
     searchTerms: string;
     searchType: SearchType;
     searchVisible: boolean;
+    hideMobileSearchBarInRHS: boolean;
     isMentionSearch: boolean;
     isFlaggedPosts: boolean;
     isPinnedPosts: boolean;
     isChannelFiles: boolean;
     currentChannel?: Channel;
+    isMobileView: boolean;
 }
 
 export type DispatchProps = {
@@ -47,8 +51,8 @@ export type DispatchProps = {
         showFlaggedPosts: () => void;
         setRhsExpanded: (expanded: boolean) => Action;
         closeRightHandSide: () => void;
-        autocompleteChannelsForSearch: (term: string, success?: () => void, error?: () => void) => void;
-        autocompleteUsersInTeam: (username: string) => DispatchFunc;
+        autocompleteChannelsForSearch: (term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void) => ActionFunc;
+        autocompleteUsersInTeam: (username: string) => Promise<UserAutocomplete>;
         updateRhsState: (rhsState: string) => void;
         getMorePostsForSearch: () => ActionFunc;
         openRHSSearch: () => void;

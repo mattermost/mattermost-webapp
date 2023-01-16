@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable @typescript-eslint/naming-convention */
 
 import {connect} from 'react-redux';
 
@@ -13,8 +12,8 @@ import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {setNavigationBlocked} from 'actions/admin_actions.jsx';
 
-import {AdminConfig} from 'mattermost-redux/types/config';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {AdminConfig} from '@mattermost/types/config';
+import {ServerError} from '@mattermost/types/errors';
 
 import GlobalPolicyForm from './global_policy_form';
 

@@ -6,14 +6,15 @@ import {shallow} from 'enzyme';
 
 import {AdvancedSections} from 'utils/constants';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 
 import JoinLeaveSection from 'components/user_settings/advanced/join_leave_section/join_leave_section';
 
 describe('components/user_settings/advanced/JoinLeaveSection', () => {
     const defaultProps = {
-        activeSection: '',
+        active: false,
+        areAllSectionsInactive: false,
         currentUserId: 'current_user_id',
         joinLeave: 'true',
         onUpdateSection: jest.fn(),
@@ -36,7 +37,7 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
         expect(wrapper.find(SettingItemMax).exists()).toEqual(false);
         expect(wrapper.find(SettingItemMin).exists()).toEqual(true);
 
-        wrapper.setProps({activeSection: AdvancedSections.JOIN_LEAVE});
+        wrapper.setProps({active: true});
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find(SettingItemMax).exists()).toEqual(true);
         expect(wrapper.find(SettingItemMin).exists()).toEqual(false);

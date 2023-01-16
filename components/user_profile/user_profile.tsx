@@ -3,16 +3,20 @@
 
 import React, {PureComponent} from 'react';
 
-import {UserProfile as UserProfileType} from 'mattermost-redux/types/users';
+import {UserProfile as UserProfileType} from '@mattermost/types/users';
 
-import {imageURLForUser, isMobile} from 'utils/utils.jsx';
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
+
+import {imageURLForUser, isMobile} from 'utils/utils';
 
 import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
 import ProfilePopover from 'components/profile_popover';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import SharedUserIndicator from 'components/shared_user_indicator';
+
+import {generateColor} from './utils';
 
 export type UserProfileProps = {
     userId: string;
@@ -24,11 +28,13 @@ export type UserProfileProps = {
     user?: UserProfileType;
     disablePopover?: boolean;
     displayUsername?: boolean;
+    colorize?: boolean;
     hasMention?: boolean;
     hideStatus?: boolean;
     isRHS?: boolean;
     overwriteImage?: React.ReactNode;
     channelId?: string;
+    theme?: Theme;
 }
 
 export default class UserProfile extends PureComponent<UserProfileProps> {
@@ -42,6 +48,7 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
         isRHS: false,
         overwriteImage: '',
         overwriteName: '',
+        colorize: false,
     }
 
     hideProfilePopover = (): void => {
@@ -69,6 +76,8 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
             user,
             userId,
             channelId,
+            colorize,
+            theme,
         } = this.props;
 
         let name: React.ReactNode;
@@ -80,8 +89,23 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
 
         const ariaName: string = typeof name === 'string' ? name.toLowerCase() : '';
 
+        let userColor = '#000000';
+        if (user && theme) {
+            userColor = generateColor(user.username, theme.centerChannelBg);
+        }
+
+        let userStyle;
+        if (colorize) {
+            userStyle = {color: userColor};
+        }
+
         if (disablePopover) {
-            return <div className='user-popover'>{name}</div>;
+            return (
+                <div
+                    className='user-popover'
+                    style={userStyle}
+                >{name}</div>
+            );
         }
 
         let placement = 'right';
@@ -108,7 +132,7 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
             <React.Fragment>
                 <OverlayTrigger
                     ref={this.setOverlaynRef}
-                    trigger='click'
+                    trigger={['click']}
                     placement={placement}
                     rootClose={true}
                     overlay={
@@ -130,6 +154,7 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
                     <button
                         aria-label={ariaName}
                         className='user-popover style--none'
+                        style={userStyle}
                     >
                         {name}
                     </button>

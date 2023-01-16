@@ -15,15 +15,14 @@ describe('components/widgets/admin_console/FormattedAdminHeader', () => {
             />,
         );
         expect(wrapper).toMatchInlineSnapshot(`
-<AdminHeader>
-  <injectIntl(FormattedMarkdownMessage)
-    defaultMessage="default message"
-    id="string.id"
-    values={Object {}}
-  />
-</AdminHeader>
-`,
-        );
+            <AdminHeader>
+              <FormattedMarkdownMessage
+                defaultMessage="default message"
+                id="string.id"
+                values={Object {}}
+              />
+            </AdminHeader>
+        `);
     });
 
     test('render component with all props', () => {
@@ -37,18 +36,17 @@ describe('components/widgets/admin_console/FormattedAdminHeader', () => {
             />,
         );
         expect(wrapper).toMatchInlineSnapshot(`
-<AdminHeader>
-  <injectIntl(FormattedMarkdownMessage)
-    defaultMessage="default message"
-    id="string.id"
-    values={
-      Object {
-        "a_key": "a_value",
-      }
-    }
-  />
-</AdminHeader>
-`,
-        );
+            <AdminHeader>
+              <FormattedMarkdownMessage
+                defaultMessage="default message"
+                id="string.id"
+                values={
+                  Object {
+                    "a_key": "a_value",
+                  }
+                }
+              />
+            </AdminHeader>
+        `);
     });
 });

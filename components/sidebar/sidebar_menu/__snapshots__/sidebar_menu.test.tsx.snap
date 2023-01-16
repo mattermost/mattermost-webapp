@@ -13,10 +13,8 @@ exports[`components/sidebar/sidebar_menu should match snapshot 1`] = `
     disabled={false}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className="hidden-xs"
         id="new-group-tooltip"
-        placement="right"
       >
         some tooltip text
       </Tooltip>

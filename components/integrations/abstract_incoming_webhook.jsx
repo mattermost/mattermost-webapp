@@ -6,11 +6,11 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
+import BackstageHeader from 'components/backstage/components/backstage_header';
 import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 export default class AbstractIncomingWebhook extends React.PureComponent {
     static propTypes = {
@@ -254,7 +254,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_incoming_webhook.channel.help'
-                                        defaultMessage='This is the default public or private channel that receives the webhook payloads.  When setting up the webhook, you must belong to the private channel.'
+                                        defaultMessage='This is the default public or private channel that receives the webhook payloads. When setting up the webhook, you must belong to the private channel.'
                                     />
                                 </div>
                             </div>

@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import HelpLinks from 'components/help/components/help_links';
 import {HelpLink} from 'components/help/types';
 
@@ -35,9 +35,20 @@ export default function HelpCommands(): JSX.Element {
             </h2>
 
             <p>
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='help.commands.intro2'
-                    defaultMessage='Built-in slash commands come with all Mattermost installations. See the [product documentation](!https://docs.mattermost.com/messaging/executing-slash-commands.html) for a list of available built-in slash commands.'
+                    defaultMessage='Built-in slash commands come with all Mattermost installations. See the <link>product documentation</link> for a list of available built-in slash commands.'
+                    values={{
+                        link: (msg: React.ReactNode) => (
+                            <a
+                                href='https://docs.mattermost.com/messaging/executing-slash-commands.html'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                    }}
                 />
             </p>
             <p>
@@ -70,9 +81,21 @@ export default function HelpCommands(): JSX.Element {
             </p>
 
             <p>
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='help.commands.custom2'
-                    defaultMessage='Custom slash commands are disabled by default and can be enabled by the System Admin in the System Console by going to **Integrations > Integration Management**. Learn about configuring custom slash commands in the [developer   documentation](!https://developers.mattermost.com/integrate/slash-commands/).'
+                    defaultMessage='Custom slash commands are disabled by default and can be enabled by the System Admin in the System Console by going to <strong>Integrations > Integration Management</strong>. Learn about configuring custom slash commands in the <link>developer documentation</link>.'
+                    values={{
+                        link: (msg: React.ReactNode) => (
+                            <a
+                                href='https://developers.mattermost.com/integrate/slash-commands/'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                {msg}
+                            </a>
+                        ),
+                        strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
+                    }}
                 />
             </p>
 

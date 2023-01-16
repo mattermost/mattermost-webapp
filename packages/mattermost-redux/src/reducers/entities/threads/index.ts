@@ -3,10 +3,10 @@
 
 import {ChannelTypes, PostTypes, ThreadTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
-import {ThreadsState, UserThread} from 'mattermost-redux/types/threads';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {IDMappedObjects} from 'mattermost-redux/types/utilities';
+import {Post} from '@mattermost/types/posts';
+import {ThreadsState, UserThread} from '@mattermost/types/threads';
+import {UserProfile} from '@mattermost/types/users';
+import {IDMappedObjects} from '@mattermost/types/utilities';
 
 import {threadsInTeamReducer, unreadThreadsInTeamReducer} from './threadsInTeam';
 import {countsReducer, countsIncludingDirectReducer} from './counts';
@@ -112,6 +112,7 @@ export const threadsReducer = (state: ThreadsState['threads'] = {}, action: Gene
     }
     case UserTypes.LOGOUT_SUCCESS:
         return {};
+    case ChannelTypes.RECEIVED_CHANNEL_DELETED:
     case ChannelTypes.LEAVE_CHANNEL: {
         if (!extra.threadsToDelete || extra.threadsToDelete.length === 0) {
             return state;
@@ -169,7 +170,10 @@ function reducer(state: ThreadsState = initialState, action: GenericAction): Thr
     };
 
     // acting as a 'middleware'
-    if (action.type === ChannelTypes.LEAVE_CHANNEL) {
+    if (
+        action.type === ChannelTypes.LEAVE_CHANNEL ||
+        action.type === ChannelTypes.RECEIVED_CHANNEL_DELETED
+    ) {
         if (!action.data.viewArchivedChannels) {
             extra.threadsToDelete = getThreadsOfChannel(state.threads, action.data.id);
         }

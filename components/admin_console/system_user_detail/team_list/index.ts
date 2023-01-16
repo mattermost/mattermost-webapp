@@ -12,7 +12,7 @@ import {
 } from 'mattermost-redux/actions/teams';
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership} from '@mattermost/types/teams';
 
 import {getCurrentLocale} from 'selectors/i18n';
 

@@ -8,17 +8,17 @@ import {Stats} from 'mattermost-redux/constants';
 import PluginState from 'mattermost-redux/constants/plugins';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {ClusterInfo, AnalyticsRow} from 'mattermost-redux/types/admin';
-import {Audit} from 'mattermost-redux/types/audits';
-import {Compliance} from 'mattermost-redux/types/compliance';
-import {AdminConfig, EnvironmentConfig} from 'mattermost-redux/types/config';
-import {MixedUnlinkedGroupRedux} from 'mattermost-redux/types/groups';
-import {PluginRedux, PluginStatusRedux} from 'mattermost-redux/types/plugins';
-import {SamlCertificateStatus, SamlMetadataResponse} from 'mattermost-redux/types/saml';
-import {Team} from 'mattermost-redux/types/teams';
-import {UserAccessToken, UserProfile} from 'mattermost-redux/types/users';
-import {Dictionary, RelationOneToOne, IDMappedObjects} from 'mattermost-redux/types/utilities';
-import {DataRetentionCustomPolicy} from 'mattermost-redux/types/data_retention';
+import {ClusterInfo, AnalyticsRow} from '@mattermost/types/admin';
+import {Audit} from '@mattermost/types/audits';
+import {Compliance} from '@mattermost/types/compliance';
+import {AdminConfig, EnvironmentConfig} from '@mattermost/types/config';
+import {MixedUnlinkedGroupRedux} from '@mattermost/types/groups';
+import {PluginRedux, PluginStatusRedux} from '@mattermost/types/plugins';
+import {SamlCertificateStatus, SamlMetadataResponse} from '@mattermost/types/saml';
+import {Team} from '@mattermost/types/teams';
+import {UserAccessToken, UserProfile} from '@mattermost/types/users';
+import {RelationOneToOne, IDMappedObjects} from '@mattermost/types/utilities';
+import {DataRetentionCustomPolicy} from '@mattermost/types/data_retention';
 
 function logs(state: string[] = [], action: GenericAction) {
     switch (action.type) {
@@ -33,7 +33,7 @@ function logs(state: string[] = [], action: GenericAction) {
     }
 }
 
-function audits(state: Dictionary<Audit> = {}, action: GenericAction) {
+function audits(state: Record<string, Audit> = {}, action: GenericAction) {
     switch (action.type) {
     case AdminTypes.RECEIVED_AUDITS: {
         const nextState = {...state};
@@ -100,7 +100,7 @@ function environmentConfig(state: Partial<EnvironmentConfig> = {}, action: Gener
     }
 }
 
-function complianceReports(state: Dictionary<Compliance> = {}, action: GenericAction) {
+function complianceReports(state: Record<string, Compliance> = {}, action: GenericAction) {
     switch (action.type) {
     case AdminTypes.RECEIVED_COMPLIANCE_REPORT: {
         const nextState = {...state};
@@ -148,7 +148,7 @@ function samlCertStatus(state: Partial<SamlCertificateStatus> = {}, action: Gene
     }
 }
 
-export function convertAnalyticsRowsToStats(data: AnalyticsRow[], name: string): Dictionary<number | AnalyticsRow[]> {
+export function convertAnalyticsRowsToStats(data: AnalyticsRow[], name: string): Record<string, number | AnalyticsRow[]> {
     const stats: any = {};
     const clonedData = [...data];
 
@@ -237,7 +237,7 @@ export function convertAnalyticsRowsToStats(data: AnalyticsRow[], name: string):
     return stats;
 }
 
-function analytics(state: Dictionary<number | AnalyticsRow[]> = {}, action: GenericAction) {
+function analytics(state: Record<string, number | AnalyticsRow[]> = {}, action: GenericAction) {
     switch (action.type) {
     case AdminTypes.RECEIVED_SYSTEM_ANALYTICS: {
         const stats = convertAnalyticsRowsToStats(action.data, action.name);
@@ -251,7 +251,7 @@ function analytics(state: Dictionary<number | AnalyticsRow[]> = {}, action: Gene
     }
 }
 
-function teamAnalytics(state: RelationOneToOne<Team, Dictionary<number | AnalyticsRow[]>> = {}, action: GenericAction) {
+function teamAnalytics(state: RelationOneToOne<Team, Record<string, number | AnalyticsRow[]>> = {}, action: GenericAction) {
     switch (action.type) {
     case AdminTypes.RECEIVED_TEAM_ANALYTICS: {
         const nextState = {...state};
@@ -268,7 +268,7 @@ function teamAnalytics(state: RelationOneToOne<Team, Dictionary<number | Analyti
     }
 }
 
-function userAccessTokens(state: Dictionary<UserAccessToken> = {}, action: GenericAction) {
+function userAccessTokens(state: Record<string, UserAccessToken> = {}, action: GenericAction) {
     switch (action.type) {
     case AdminTypes.RECEIVED_USER_ACCESS_TOKEN: {
         return {...state, [action.data.id]: action.data};
@@ -311,10 +311,10 @@ function userAccessTokens(state: Dictionary<UserAccessToken> = {}, action: Gener
     }
 }
 
-function userAccessTokensByUser(state: RelationOneToOne<UserProfile, Dictionary<UserAccessToken>> = {}, action: GenericAction) {
+function userAccessTokensByUser(state: RelationOneToOne<UserProfile, Record<string, UserAccessToken>> = {}, action: GenericAction) {
     switch (action.type) {
     case AdminTypes.RECEIVED_USER_ACCESS_TOKEN: { // UserAccessToken
-        const nextUserState: UserAccessToken | Dictionary<UserAccessToken> = {...(state[action.data.user_id] || {})};
+        const nextUserState: UserAccessToken | Record<string, UserAccessToken> = {...(state[action.data.user_id] || {})};
         nextUserState[action.data.id] = action.data;
 
         return {...state, [action.data.user_id]: nextUserState};
@@ -387,7 +387,7 @@ function userAccessTokensByUser(state: RelationOneToOne<UserProfile, Dictionary<
     }
 }
 
-function plugins(state: Dictionary<PluginRedux> = {}, action: GenericAction) {
+function plugins(state: Record<string, PluginRedux> = {}, action: GenericAction) {
     switch (action.type) {
     case AdminTypes.RECEIVED_PLUGINS: {
         const nextState = {...state};
@@ -433,7 +433,7 @@ function plugins(state: Dictionary<PluginRedux> = {}, action: GenericAction) {
     }
 }
 
-function pluginStatuses(state: Dictionary<PluginStatusRedux> = {}, action: GenericAction) {
+function pluginStatuses(state: Record<string, PluginStatusRedux> = {}, action: GenericAction) {
     switch (action.type) {
     case AdminTypes.RECEIVED_PLUGIN_STATUSES: {
         const nextState: any = {};
@@ -461,6 +461,7 @@ function pluginStatuses(state: Dictionary<PluginStatusRedux> = {}, action: Gener
                 version: (nextState[id] && nextState[id].version) || plugin.version,
                 active: pluginState > 0,
                 state: pluginState,
+                error: plugin.error,
                 instances,
             };
         }
@@ -479,6 +480,21 @@ function pluginStatuses(state: Dictionary<PluginStatusRedux> = {}, action: Gener
             [pluginId]: {
                 ...state[pluginId],
                 state: PluginState.PLUGIN_STATE_STARTING,
+            },
+        };
+    }
+
+    case AdminTypes.ENABLE_PLUGIN_FAILURE: {
+        const pluginId = action.data;
+        if (!state[pluginId]) {
+            return state;
+        }
+
+        return {
+            ...state,
+            [pluginId]: {
+                ...state[pluginId],
+                state: PluginState.PLUGIN_STATE_NOT_RUNNING,
             },
         };
     }
@@ -529,7 +545,7 @@ function ldapGroupsCount(state = 0, action: GenericAction) {
     }
 }
 
-function ldapGroups(state: Dictionary<MixedUnlinkedGroupRedux> = {}, action: GenericAction) {
+function ldapGroups(state: Record<string, MixedUnlinkedGroupRedux> = {}, action: GenericAction) {
     switch (action.type) {
     case AdminTypes.RECEIVED_LDAP_GROUPS: {
         const nextState: any = {};
@@ -608,8 +624,10 @@ function dataRetentionCustomPolicies(state: IDMappedObjects<DataRetentionCustomP
 
     case AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICIES: {
         const nextState = {...state};
-        for (const dataRetention of action.data.policies) {
-            nextState[dataRetention.id] = dataRetention;
+        if (action.data.policies) {
+            for (const dataRetention of action.data.policies) {
+                nextState[dataRetention.id] = dataRetention;
+            }
         }
         return nextState;
     }

@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {UserStatus} from 'mattermost-redux/types/users';
+import {UserStatus} from '@mattermost/types/users';
 
 import GenericModal from 'components/generic_modal';
 
@@ -16,9 +16,10 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import './dnd_custom_time_picker_modal.scss';
 import {toUTCUnix} from 'utils/datetime';
+import {localizeMessage} from 'utils/utils';
 
 type Props = {
-    onHide: () => void;
+    onExited: () => void;
     userId: string;
     currentDate: Date;
     actions: {
@@ -79,8 +80,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         };
     }
 
-    handleConfirm = (event: any) => {
-        event.preventDefault();
+    handleConfirm = () => {
         const hours = parseInt(this.state.selectedTime.split(':')[0], 10);
         const minutes = parseInt(this.state.selectedTime.split(':')[1], 10);
         const endTime = new Date(this.state.selectedDate);
@@ -95,7 +95,6 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             manual: true,
             last_activity_at: toUTCUnix(this.props.currentDate),
         });
-        this.props.onHide();
     }
 
     handleDaySelection = (day: Date) => {
@@ -164,9 +163,12 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
 
         return (
             <GenericModal
-                onHide={this.props.onHide}
+                ariaLabel={localizeMessage('dnd_custom_time_picker_modal.defaultMsg', 'Disable notifications until')}
+                onExited={this.props.onExited}
                 modalHeaderText={modalHeaderText}
                 confirmButtonText={confirmButtonText}
+                handleConfirm={this.handleConfirm}
+                handleEnterKeyPress={this.handleConfirm}
                 id='dndCustomTimePickerModal'
                 className={'DndModal modal-overflow'}
             >
@@ -216,15 +218,6 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                             {timeMenuItems}
                         </Menu>
                     </MenuWrapper>
-                </div>
-                <div className='DndModal__footer'>
-                    <button
-                        type='button'
-                        className='btn btn-primary'
-                        onClick={this.handleConfirm}
-                    >
-                        {confirmButtonText}
-                    </button>
                 </div>
             </GenericModal>
         );

@@ -4,13 +4,14 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {OAuthApp} from 'mattermost-redux/types/integrations';
+import {OAuthApp} from '@mattermost/types/integrations';
 
-import {localizeMessage} from 'utils/utils.jsx';
-import BackstageList from 'components/backstage/components/backstage_list.jsx';
+import {localizeMessage} from 'utils/utils';
+
+import BackstageList from 'components/backstage/components/backstage_list';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InstalledOAuthApp from '../installed_oauth_app';
 import {matchesFilter} from '../installed_oauth_app/installed_oauth_app';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 type Props = {
 
@@ -145,7 +146,7 @@ export default class InstalledOAuthApps extends React.PureComponent<Props, State
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='https://docs.mattermost.com/developer/oauth-2-0-applications.html'
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/'
                                 >
                                     <FormattedMessage
                                         id='installed_oauth_apps.help.oauthApplications'
@@ -157,7 +158,7 @@ export default class InstalledOAuthApps extends React.PureComponent<Props, State
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='https://about.mattermost.com/default-app-directory/'
+                                    href='https://mattermost.com/marketplace/'
                                 >
                                     <FormattedMessage
                                         id='installed_oauth_apps.help.appDirectory'

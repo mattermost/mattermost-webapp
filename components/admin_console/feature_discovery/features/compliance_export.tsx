@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
+import {LicenseSkus} from 'utils/constants';
 
 import FeatureDiscovery from '../index';
 
@@ -13,6 +14,7 @@ const ComplianceExportFeatureDiscovery: React.FC = () => {
     return (
         <FeatureDiscovery
             featureName='compliance_export'
+            minimumSKURequiredForFeature={LicenseSkus.Enterprise}
             titleID='admin.compliance_export_feature_discovery.title'
             titleDefault='Run compliance exports with Mattermost Enterprise'
             copyID='admin.compliance_export_feature_discovery.copy'

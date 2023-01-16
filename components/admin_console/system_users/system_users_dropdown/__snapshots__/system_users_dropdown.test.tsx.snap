@@ -2,7 +2,7 @@
 
 exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown renderDeactivateMemberModal should not render the bot accounts warning in case the user do not have any bot accounts 1`] = `
 <div>
-  <injectIntl(FormattedMarkdownMessage)
+  <FormattedMarkdownMessage
     defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\\\\n"
     id="deactivate_member_modal.desc"
     values={
@@ -11,7 +11,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       }
     }
   />
-  <injectIntl(FormattedMarkdownMessage)
+  <FormattedMarkdownMessage
     defaultMessage="Are you sure you want to deactivate {username}?"
     id="deactivate_member_modal.desc.confirm"
     values={
@@ -25,7 +25,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
 
 exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown renderDeactivateMemberModal should not render the bot accounts warning. owner_id has no enabled bot accounts 1`] = `
 <div>
-  <injectIntl(FormattedMarkdownMessage)
+  <FormattedMarkdownMessage
     defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\\\\n"
     id="deactivate_member_modal.desc"
     values={
@@ -34,7 +34,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       }
     }
   />
-  <injectIntl(FormattedMarkdownMessage)
+  <FormattedMarkdownMessage
     defaultMessage="Are you sure you want to deactivate {username}?"
     id="deactivate_member_modal.desc.confirm"
     values={
@@ -48,17 +48,43 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
 
 exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown renderDeactivateMemberModal should render the bot accounts warning. owner_id has enabled bot accounts 1`] = `
 <div>
-  <injectIntl(FormattedMarkdownMessage)
-    defaultMessage="This action deactivates {username}.\\\\n \\\\n * They will be logged out and not have access to any teams or channels on this system.\\\\n * Bot accounts they manage will be disabled along with their integrations. To enable them again, go to [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). [Learn more about bot accounts](!https://mattermost.com/pl/default-bot-accounts).\\\\n \\\\n \\\\n"
-    id="deactivate_member_modal.desc.for_users_with_bot_accounts"
-    values={
-      Object {
-        "siteURL": "http://localhost:8065",
-        "username": "some-user",
-      }
-    }
-  />
-  <injectIntl(FormattedMarkdownMessage)
+  <React.Fragment>
+    <ul>
+      <li>
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="This action deactivates {username}"
+          id="deactivate_member_modal.desc.for_users_with_bot_accounts1"
+          values={
+            Object {
+              "username": "some-user",
+            }
+          }
+        />
+      </li>
+      <li>
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="They will be logged out and not have access to any teams or channels on this system."
+          id="deactivate_member_modal.desc.for_users_with_bot_accounts2"
+        />
+      </li>
+      <li>
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Bot accounts they manage will be disabled along with their integrations. To enable them again, go to <linkBots>Integrations > Bot Accounts</linkBots>. <linkDocumentation>Learn more about bot accounts</linkDocumentation>."
+          id="deactivate_member_modal.desc.for_users_with_bot_accounts3"
+          values={
+            Object {
+              "linkBots": [Function],
+              "linkDocumentation": [Function],
+              "siteURL": "http://localhost:8065",
+            }
+          }
+        />
+      </li>
+    </ul>
+    <p />
+    <p />
+  </React.Fragment>
+  <FormattedMarkdownMessage
     defaultMessage="Are you sure you want to deactivate {username}?"
     id="deactivate_member_modal.desc.confirm"
     values={
@@ -82,7 +108,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     }
     message={
       <div>
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\\\\n"
           id="deactivate_member_modal.desc"
           values={
@@ -91,7 +117,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
             }
           }
         />
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="Are you sure you want to deactivate {username}?"
           id="deactivate_member_modal.desc.confirm"
           values={
@@ -215,6 +241,47 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       <Memo(MemoizedFormattedMessage)
         defaultMessage="Demote User {username} to Guest"
         id="demote_to_user_modal.title"
+        values={
+          Object {
+            "username": "some-user",
+          }
+        }
+      />
+    }
+  />
+  <ConfirmModal
+    cancelButtonText={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="No"
+        id="create_group_memberships_modal.cancel"
+      />
+    }
+    confirmButtonClass="btn btn-danger"
+    confirmButtonText={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Yes"
+        id="create_group_memberships_modal.create"
+      />
+    }
+    message={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="You're about to add or re-add {username} to teams and channels based on their LDAP group membership. You can revert this change at any time."
+        id="create_group_memberships_modal.desc"
+        values={
+          Object {
+            "username": "some-user",
+          }
+        }
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Re-add {username} to teams and channels"
+        id="create_group_memberships_modal.title"
         values={
           Object {
             "username": "some-user",
@@ -319,6 +386,19 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
           text="Revoke Sessions"
         />
       </Connect(SystemPermissionGate)>
+      <Connect(SystemPermissionGate)
+        permissions={
+          Array [
+            "sysconsole_write_user_management_groups",
+          ]
+        }
+      >
+        <MenuItemAction
+          onClick={[Function]}
+          show={false}
+          text="Re-sync user via LDAP groups"
+        />
+      </Connect(SystemPermissionGate)>
     </Menu>
   </MenuWrapper>
 </Fragment>
@@ -336,7 +416,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     }
     message={
       <div>
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\\\\n"
           id="deactivate_member_modal.desc"
           values={
@@ -345,7 +425,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
             }
           }
         />
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="Are you sure you want to deactivate {username}?"
           id="deactivate_member_modal.desc.confirm"
           values={
@@ -477,6 +557,47 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       />
     }
   />
+  <ConfirmModal
+    cancelButtonText={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="No"
+        id="create_group_memberships_modal.cancel"
+      />
+    }
+    confirmButtonClass="btn btn-danger"
+    confirmButtonText={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Yes"
+        id="create_group_memberships_modal.create"
+      />
+    }
+    message={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="You're about to add or re-add {username} to teams and channels based on their LDAP group membership. You can revert this change at any time."
+        id="create_group_memberships_modal.desc"
+        values={
+          Object {
+            "username": "some-user",
+          }
+        }
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Re-add {username} to teams and channels"
+        id="create_group_memberships_modal.title"
+        values={
+          Object {
+            "username": "some-user",
+          }
+        }
+      />
+    }
+  />
   <MenuWrapper
     animationComponent={[Function]}
     className=""
@@ -571,6 +692,19 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
           onClick={[Function]}
           show={true}
           text="Revoke Sessions"
+        />
+      </Connect(SystemPermissionGate)>
+      <Connect(SystemPermissionGate)
+        permissions={
+          Array [
+            "sysconsole_write_user_management_groups",
+          ]
+        }
+      >
+        <MenuItemAction
+          onClick={[Function]}
+          show={false}
+          text="Re-sync user via LDAP groups"
         />
       </Connect(SystemPermissionGate)>
     </Menu>

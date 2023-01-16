@@ -8,19 +8,21 @@ import {Dropdown, Tooltip} from 'react-bootstrap';
 import {RootCloseWrapper} from 'react-overlays';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {Theme} from 'mattermost-redux/types/themes';
-import {AppBinding, AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
-import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
+import {AppBinding} from '@mattermost/types/apps';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
-import {DoAppCall, PostEphemeralCallResponseForChannel} from 'types/apps';
+import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForChannel} from 'types/apps';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
-import {Constants} from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
+
 import {PluginComponent} from 'types/store/plugins';
-import {createCallContext, createCallRequest} from 'utils/apps';
+
+import {createCallContext} from 'utils/apps';
+import {Constants} from 'utils/constants';
 
 type CustomMenuProps = {
     open?: boolean;
@@ -100,12 +102,14 @@ type ChannelHeaderPlugProps = {
     appBindings?: AppBinding[];
     appsEnabled: boolean;
     channel: Channel;
-    channelMember: ChannelMembership;
+    channelMember?: ChannelMembership;
     theme: Theme;
+    sidebarOpen: boolean;
+    shouldShowAppBar: boolean;
     actions: {
-        doAppCall: DoAppCall;
+        handleBindingClick: HandleBindingClick;
         postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
-        openAppsModal: (form: AppForm, call: AppCallRequest) => void;
+        openAppsModal: OpenAppsModal;
     };
 }
 
@@ -119,11 +123,23 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         appBindings: [],
     }
 
+    private disableButtonsClosingRHS = false;
+
     constructor(props: ChannelHeaderPlugProps) {
         super(props);
         this.state = {
             dropdownOpen: false,
         };
+    }
+
+    componentDidUpdate(prevProps: ChannelHeaderPlugProps) {
+        if (prevProps.sidebarOpen && !this.props.sidebarOpen) {
+            this.disableButtonsClosingRHS = true;
+
+            setTimeout(() => {
+                this.disableButtonsClosingRHS = false;
+            }, Constants.CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT);
+        }
     }
 
     toggleDropdown = (dropdownOpen: boolean) => {
@@ -134,7 +150,15 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         this.toggleDropdown(false);
     }
 
-    fireActionAndClose = (action: (channel: Channel, channelMember: ChannelMembership) => void) => {
+    fireAction = (action: (channel: Channel, channelMember?: ChannelMembership) => void) => {
+        if (this.disableButtonsClosingRHS) {
+            return;
+        }
+
+        action(this.props.channel, this.props.channelMember);
+    }
+
+    fireActionAndClose = (action: (channel: Channel, channelMember?: ChannelMembership) => void) => {
         action(this.props.channel, this.props.channelMember);
         this.onClose();
     }
@@ -145,21 +169,21 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
                 key={'channelHeaderButton' + plug.id}
                 buttonClass='channel-header__icon'
                 iconComponent={plug.icon!}
-                onClick={() => plug.action!(this.props.channel, this.props.channelMember)}
+                onClick={() => this.fireAction(plug.action!)}
                 buttonId={plug.id}
                 tooltipKey={'plugin'}
                 tooltipText={plug.tooltipText ? plug.tooltipText : plug.dropdownText}
+                pluginId={plug.pluginId}
             />
         );
     }
 
     onBindingClick = async (binding: AppBinding) => {
-        const {channel, intl} = this.props;
-
-        const call = binding.form?.call || binding.call;
-        if (!call) {
+        if (this.disableButtonsClosingRHS) {
             return;
         }
+
+        const {channel, intl} = this.props;
 
         const context = createCallContext(
             binding.app_id,
@@ -167,18 +191,12 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
             this.props.channel.id,
             this.props.channel.team_id,
         );
-        const callRequest = createCallRequest(call, context);
 
-        if (binding.form) {
-            this.props.actions.openAppsModal(binding.form, callRequest);
-            return;
-        }
-
-        const res = await this.props.actions.doAppCall(callRequest, AppCallTypes.SUBMIT, intl);
+        const res = await this.props.actions.handleBindingClick(binding, context, intl);
 
         if (res.error) {
             const errorResponse = res.error;
-            const errorMessage = errorResponse.error || intl.formatMessage({
+            const errorMessage = errorResponse.text || intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error occurred.',
             });
@@ -189,12 +207,16 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         const callResp = res.data!;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
-            if (callResp.markdown) {
-                this.props.actions.postEphemeralCallResponseForChannel(callResp, callResp.markdown, channel.id);
+            if (callResp.text) {
+                this.props.actions.postEphemeralCallResponseForChannel(callResp, callResp.text, channel.id);
             }
             break;
         case AppCallResponseTypes.NAVIGATE:
+            break;
         case AppCallResponseTypes.FORM:
+            if (callResp.form) {
+                this.props.actions.openAppsModal(callResp.form, context);
+            }
             break;
         default: {
             const errorMessage = this.props.intl.formatMessage({
@@ -248,7 +270,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
 
         let items = componentItems;
         if (this.props.appsEnabled) {
-            items = componentItems.concat(appBindings.filter((binding) => binding.call).map((binding) => {
+            items = componentItems.concat(appBindings.map((binding) => {
                 return (
                     <li
                         key={'channelHeaderPlug' + binding.app_id + binding.location}
@@ -321,7 +343,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
     render() {
         const components = this.props.components || [];
         const appBindings = this.props.appsEnabled ? this.props.appBindings || [] : [];
-        if (components.length === 0 && appBindings.length === 0) {
+        if (this.props.shouldShowAppBar || (components.length === 0 && appBindings.length === 0)) {
             return null;
         } else if ((components.length + appBindings.length) <= 15) {
             let componentButtons = components.filter((plug) => plug.icon && plug.action).map(this.createComponentButton);

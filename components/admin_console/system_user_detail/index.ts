@@ -11,11 +11,11 @@ import {addUserToTeam} from 'mattermost-redux/actions/teams';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {TeamMembership} from '@mattermost/types/teams';
 
 import {setNavigationBlocked} from 'actions/admin_actions.jsx';
 

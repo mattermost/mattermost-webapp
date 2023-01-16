@@ -4,8 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
-import {Theme} from 'mattermost-redux/types/themes';
 
 import NavigationButton from './navigation_button';
 

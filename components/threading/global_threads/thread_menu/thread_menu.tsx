@@ -6,11 +6,10 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
 import {Preferences} from 'mattermost-redux/constants';
-import {$ID} from 'mattermost-redux/types/utilities';
-import {UserThread} from 'mattermost-redux/types/threads';
+import {UserThread} from '@mattermost/types/threads';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
-import {setThreadFollow, updateThreadRead} from 'mattermost-redux/actions/threads';
+import {setThreadFollow, updateThreadRead, markLastPostInThreadAsUnread} from 'mattermost-redux/actions/threads';
 import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
 
 import {
@@ -32,7 +31,7 @@ import {useThreadRouting} from '../../hooks';
 import './thread_menu.scss';
 
 type Props = {
-    threadId: $ID<UserThread>;
+    threadId: UserThread['id'];
     isFollowing?: boolean;
     hasUnreads: boolean;
     children: ReactNode;
@@ -63,7 +62,11 @@ function ThreadMenu({
         const lastViewedAt = hasUnreads ? Date.now() : unreadTimestamp;
 
         dispatch(manuallyMarkThreadAsUnread(threadId, lastViewedAt));
-        dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, lastViewedAt));
+        if (hasUnreads) {
+            dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, Date.now()));
+        } else {
+            dispatch(markLastPostInThreadAsUnread(currentUserId, currentTeamId, threadId));
+        }
     }, [
         currentUserId,
         currentTeamId,

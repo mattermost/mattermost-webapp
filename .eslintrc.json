@@ -3,16 +3,16 @@
   "extends": [
     "plugin:mattermost/react",
     "plugin:cypress/recommended",
-    "plugin:jquery/deprecated"
+    "plugin:react-hooks/recommended"
   ],
   "plugins": [
-    "babel",
+    "@babel/eslint-plugin",
     "mattermost",
     "import",
     "cypress",
-    "jquery",
     "no-only-tests",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "formatjs"
   ],
   "parser": "@typescript-eslint/parser",
   "env": {
@@ -27,9 +27,17 @@
     }
   },
   "rules": {
+    "header/header": [
+      2,
+      "line",
+      " Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.\n See LICENSE.txt for license information.",
+      2
+    ],
+    "no-duplicate-imports": 0,
+    "import/no-duplicates": 2,
     "max-nested-callbacks": ["error", 10],
     "no-unused-expressions": 0,
-    "babel/no-unused-expressions": 2,
+    "@babel/no-unused-expressions": 2,
     "eol-last": ["error", "always"],
     "import/no-unresolved": 2,
     "import/order": [
@@ -61,6 +69,14 @@
         ]
       }
     ],
+    "react/no-unknown-property": [
+      2,
+      {
+        "ignore": [
+          "mask-type"
+        ]
+      }
+    ],
     "react/no-string-refs": 2,
     "no-only-tests/no-only-tests": ["error", {"focus": ["only", "skip"]}],
     "react/style-prop-object": [2, {
@@ -70,7 +86,9 @@
       "paths": [
         {"name": "react-bootstrap", "importNames": ["OverlayTrigger"], "message": "Please use OverlayTrigger from '/components/overlay_trigger' instead"}
       ]
-    }]
+    }],
+    "max-lines": ["warn", {"max": 800, "skipBlankLines": true, "skipComments": true}],
+    "formatjs/no-multiple-whitespaces": ["error"]
   },
   "overrides": [
     {
@@ -133,7 +151,7 @@
       }
     },
     {
-      "files": ["tests/**", "**/*.test.*", "tests/*.js"],
+      "files": ["tests/**", "**/*.test.*", "tests/*.js", "packages/mattermost-redux/test/*"],
       "env": {
         "jest": true
       },
@@ -142,6 +160,7 @@
         "global-require": 0,
         "max-lines": 0,
         "new-cap": 0,
+        "no-empty-function": 0,
         "no-import-assign": 0,
         "no-process-env": 0,
         "prefer-arrow-callback": 0
@@ -150,58 +169,9 @@
     {
       "files": ["e2e/**"],
       "rules": {
-        "babel/no-unused-expressions": 0,
+        "@babel/no-unused-expressions": 0,
         "func-names": 0,
         "import/no-unresolved": 0,
-        "jquery/no-ajax": 0,
-        "jquery/no-ajax-events": 0,
-        "jquery/no-animate": 0,
-        "jquery/no-attr": 0,
-        "jquery/no-bind": 0,
-        "jquery/no-class": 0,
-        "jquery/no-clone": 0,
-        "jquery/no-closest": 0,
-        "jquery/no-css": 0,
-        "jquery/no-data": 0,
-        "jquery/no-deferred": 0,
-        "jquery/no-delegate": 0,
-        "jquery/no-each": 0,
-        "jquery/no-extend": 0,
-        "jquery/no-fade": 0,
-        "jquery/no-filter": 0,
-        "jquery/no-find": 0,
-        "jquery/no-global-eval": 0,
-        "jquery/no-grep": 0,
-        "jquery/no-has": 0,
-        "jquery/no-hide": 0,
-        "jquery/no-html": 0,
-        "jquery/no-in-array": 0,
-        "jquery/no-is-array": 0,
-        "jquery/no-is-function": 0,
-        "jquery/no-is": 0,
-        "jquery/no-load": 0,
-        "jquery/no-map": 0,
-        "jquery/no-merge": 0,
-        "jquery/no-param": 0,
-        "jquery/no-parent": 0,
-        "jquery/no-parents": 0,
-        "jquery/no-parse-html": 0,
-        "jquery/no-prop": 0,
-        "jquery/no-proxy": 0,
-        "jquery/no-ready": 0,
-        "jquery/no-serialize": 0,
-        "jquery/no-show": 0,
-        "jquery/no-size": 0,
-        "jquery/no-sizzle": 0,
-        "jquery/no-slide": 0,
-        "jquery/no-submit": 0,
-        "jquery/no-text": 0,
-        "jquery/no-toggle": 0,
-        "jquery/no-trigger": 0,
-        "jquery/no-trim": 0,
-        "jquery/no-val": 0,
-        "jquery/no-when": 0,
-        "jquery/no-wrap": 0,
         "max-nested-callbacks": 0,
         "no-process-env": 0,
         "no-unused-expressions": 0

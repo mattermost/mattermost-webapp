@@ -5,13 +5,13 @@ import React, {useRef} from 'react';
 import {useSelector} from 'react-redux';
 import {useIntl} from 'react-intl';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {GlobalState} from 'types/store';
 
 import {makeCreateAriaLabelForPost} from 'utils/post_utils';
 
-type Props = React.HTMLProps<HTMLDivElement> & {
+export type Props = React.HTMLProps<HTMLDivElement> & {
     labelPrefix?: string;
     post: Post;
 }

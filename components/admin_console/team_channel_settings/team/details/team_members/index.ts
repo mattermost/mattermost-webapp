@@ -4,9 +4,8 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
+import {ServerError} from '@mattermost/types/errors';
+import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from '@mattermost/types/users';
 import {GenericAction, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
 import {filterProfilesStartingWithTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
@@ -19,15 +18,15 @@ import {getProfilesInTeam, searchProfilesInTeam, filterProfiles, getFilteredUser
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'types/store';
-import {loadProfilesAndReloadTeamMembers, searchProfilesAndTeamMembers} from 'actions/user_actions.jsx';
+import {loadProfilesAndReloadTeamMembers, searchProfilesAndTeamMembers} from 'actions/user_actions';
 import {setUserGridSearch, setUserGridFilters} from 'actions/views/search';
 
 import TeamMembers from './team_members';
 
 type Props = {
     teamId: string;
-    usersToAdd: Dictionary<UserProfile>;
-    usersToRemove: Dictionary<UserProfile>;
+    usersToAdd: Record<string, UserProfile>;
+    usersToRemove: Record<string, UserProfile>;
 };
 
 type Actions = {
@@ -48,7 +47,7 @@ type Actions = {
     setUserGridFilters: (filters: GetFilteredUsersStatsOpts) => ActionResult;
 };
 
-function searchUsersToAdd(users: Dictionary<UserProfile>, term: string): Dictionary<UserProfile> {
+function searchUsersToAdd(users: Record<string, UserProfile>, term: string): Record<string, UserProfile> {
     const profiles = filterProfilesStartingWithTerm(Object.keys(users).map((key) => users[key]), term);
     const filteredProfilesMap = filterProfiles(profileListToMap(profiles), {});
 

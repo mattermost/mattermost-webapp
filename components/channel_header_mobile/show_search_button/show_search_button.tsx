@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 import SearchIcon from 'components/widgets/icons/search_icon';
 

@@ -7,8 +7,9 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 import {cloneDeep} from 'lodash';
 
-import {isEmptyObject, windowHeight} from 'utils/utils.jsx';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
+
+import {isEmptyObject} from 'utils/utils';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
@@ -17,9 +18,10 @@ import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 export default class SuggestionList extends React.PureComponent {
     static propTypes = {
         ariaLiveRef: PropTypes.object,
+        inputRef: PropTypes.object,
         open: PropTypes.bool.isRequired,
         position: PropTypes.oneOf(['top', 'bottom']),
-        renderDividers: PropTypes.bool,
+        renderDividers: PropTypes.arrayOf(PropTypes.string),
         renderNoResults: PropTypes.bool,
         onCompleteWord: PropTypes.func.isRequired,
         preventClose: PropTypes.func,
@@ -31,12 +33,11 @@ export default class SuggestionList extends React.PureComponent {
         terms: PropTypes.array.isRequired,
         selection: PropTypes.string.isRequired,
         components: PropTypes.array.isRequired,
-        wrapperHeight: PropTypes.number,
         suggestionBoxAlgn: PropTypes.object,
     };
 
     static defaultProps = {
-        renderDividers: false,
+        renderDividers: [],
         renderNoResults: false,
     };
 
@@ -44,10 +45,15 @@ export default class SuggestionList extends React.PureComponent {
         super(props);
 
         this.contentRef = React.createRef();
+        this.wrapperRef = React.createRef();
         this.itemRefs = new Map();
         this.suggestionReadOut = React.createRef();
         this.currentLabel = '';
         this.currentItem = {};
+    }
+
+    componentDidMount() {
+        this.updateMaxHeight();
     }
 
     componentDidUpdate(prevProps) {
@@ -58,10 +64,31 @@ export default class SuggestionList extends React.PureComponent {
         if (!isEmptyObject(this.currentItem)) {
             this.generateLabel(this.currentItem);
         }
+
+        if (this.props.items.length > 0 && prevProps.items.length === 0) {
+            this.updateMaxHeight();
+        }
     }
 
     componentWillUnmount() {
         this.removeLabel();
+    }
+
+    updateMaxHeight = () => {
+        if (!this.props.inputRef?.current) {
+            return;
+        }
+
+        const inputHeight = this.props.inputRef.current.clientHeight ?? 0;
+
+        this.maxHeight = Math.min(
+            window.innerHeight - (inputHeight + Constants.POST_MODAL_PADDING),
+            Constants.SUGGESTION_LIST_MAXHEIGHT,
+        );
+
+        if (this.contentRef.current) {
+            this.contentRef.current.style['max-height'] = this.maxHeight;
+        }
     }
 
     announceLabel() {
@@ -90,6 +117,8 @@ export default class SuggestionList extends React.PureComponent {
             }
         } else if (item.type === 'mention.channels') {
             this.currentLabel = item.channel.display_name;
+        } else if (item.emoji) {
+            this.currentLabel = item.name;
         }
 
         if (this.currentLabel) {
@@ -161,13 +190,14 @@ export default class SuggestionList extends React.PureComponent {
     }
 
     renderDivider(type) {
+        const id = type ? 'suggestion.' + type : 'suggestion.default';
         return (
             <div
                 key={type + '-divider'}
                 className='suggestion-list__divider'
             >
                 <span>
-                    <FormattedMessage id={'suggestion.' + type}/>
+                    <FormattedMessage id={id}/>
                 </span>
             </div>
         );
@@ -192,6 +222,8 @@ export default class SuggestionList extends React.PureComponent {
     }
 
     render() {
+        const {renderDividers} = this.props;
+
         if (!this.props.open || this.props.cleared) {
             return null;
         }
@@ -206,7 +238,7 @@ export default class SuggestionList extends React.PureComponent {
             items.push(this.renderNoResults());
         }
 
-        let dividerRendered = false;
+        let prevItemType = null;
         for (let i = 0; i < this.props.items.length; i++) {
             const item = this.props.items[i];
             const term = this.props.terms[i];
@@ -214,10 +246,9 @@ export default class SuggestionList extends React.PureComponent {
 
             // ReactComponent names need to be upper case when used in JSX
             const Component = this.props.components[i];
-
-            if (!dividerRendered && item.type === 'mention.recent.channels') {
+            if ((renderDividers.includes('all') || renderDividers.includes(item.type)) && prevItemType !== item.type) {
                 items.push(this.renderDivider(item.type));
-                dividerRendered = true;
+                prevItemType = item.type;
             }
 
             if (item.loading) {
@@ -244,22 +275,18 @@ export default class SuggestionList extends React.PureComponent {
         }
         const mainClass = 'suggestion-list suggestion-list--' + this.props.position;
         const contentClass = 'suggestion-list__content suggestion-list__content--' + this.props.position;
-        let maxHeight = Constants.SUGGESTION_LIST_MAXHEIGHT;
-        if (this.props.wrapperHeight) {
-            maxHeight = Math.min(
-                windowHeight() - (this.props.wrapperHeight + Constants.POST_MODAL_PADDING),
-                Constants.SUGGESTION_LIST_MAXHEIGHT,
-            );
-        }
 
         return (
-            <div className={mainClass}>
+            <div
+                ref={this.wrapperRef}
+                className={mainClass}
+            >
                 <div
                     id='suggestionList'
                     role='list'
                     ref={this.contentRef}
                     style={{
-                        maxHeight,
+                        maxHeight: this.maxHeight,
                         ...this.getTransform(),
                     }}
                     className={contentClass}

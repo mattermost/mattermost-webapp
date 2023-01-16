@@ -10,12 +10,12 @@ import Constants, {UserStatuses} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
 
-import {Post} from 'mattermost-redux/types/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Post} from '@mattermost/types/posts';
+import {UserProfile} from '@mattermost/types/users';
 
 type Props = {
     availabilityStatusOnPosts: string;
-    compactDisplay: boolean;
+    compactDisplay?: boolean;
     enablePostIconOverride: boolean;
     hasImageProxy: boolean;
     isBusy?: boolean;

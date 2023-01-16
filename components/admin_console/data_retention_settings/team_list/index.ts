@@ -11,19 +11,18 @@ import {teamListToMap, filterTeamsStartingWithTerm} from 'mattermost-redux/utils
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
-import {Team, TeamSearchOpts} from 'mattermost-redux/types/teams';
+import {Team, TeamSearchOpts} from '@mattermost/types/teams';
 
 import {GlobalState} from 'types/store';
 import {setTeamListSearch} from 'actions/views/search';
 
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {DataRetentionCustomPolicy} from 'mattermost-redux/types/data_retention';
+import {DataRetentionCustomPolicy} from '@mattermost/types/data_retention';
 
 import TeamList from './team_list';
 
 type OwnProps = {
     policyId?: string;
-    teamsToAdd: Dictionary<Team>;
+    teamsToAdd: Record<string, Team>;
 }
 
 type Actions = {
@@ -32,7 +31,7 @@ type Actions = {
     setTeamListSearch: (term: string) => ActionResult;
 }
 
-function searchTeamsToAdd(teams: Dictionary<Team>, term: string): Dictionary<Team> {
+function searchTeamsToAdd(teams: Record<string, Team>, term: string): Record<string, Team> {
     const filteredTeams = filterTeamsStartingWithTerm(Object.keys(teams).map((key) => teams[key]), term);
     return teamListToMap(filteredTeams);
 }

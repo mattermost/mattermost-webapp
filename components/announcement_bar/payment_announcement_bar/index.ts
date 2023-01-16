@@ -7,10 +7,15 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {getCloudSubscription, getCloudCustomer} from 'mattermost-redux/actions/cloud';
 
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {
+    getCloudSubscription as selectCloudSubscription,
+    getCloudCustomer as selectCloudCustomer,
+    getSubscriptionProduct,
+} from 'mattermost-redux/selectors/entities/cloud';
+import {CloudProducts} from 'utils/constants';
 
 import {openModal} from 'actions/views/modals';
 
@@ -19,11 +24,15 @@ import {GlobalState} from 'types/store';
 import PaymentAnnouncementBar from './payment_announcement_bar';
 
 function mapStateToProps(state: GlobalState) {
+    const subscription = selectCloudSubscription(state);
+    const customer = selectCloudCustomer(state);
+    const subscriptionProduct = getSubscriptionProduct(state);
     return {
         userIsAdmin: isCurrentUserSystemAdmin(state),
         isCloud: getLicense(state).Cloud === 'true',
-        subscription: state.entities.cloud.subscription,
-        customer: state.entities.cloud.customer,
+        subscription,
+        customer,
+        isStarterFree: subscriptionProduct?.sku === CloudProducts.STARTER,
     };
 }
 
@@ -32,7 +41,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators(
             {
                 savePreferences,
-                getStandardAnalytics,
                 openModal,
                 getCloudSubscription,
                 getCloudCustomer,

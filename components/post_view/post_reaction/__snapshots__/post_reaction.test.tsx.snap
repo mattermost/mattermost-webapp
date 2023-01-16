@@ -12,9 +12,7 @@ exports[`components/post_view/PostReaction should match snapshot 1`] = `
 >
   <EmojiPickerOverlay
     enableGifPicker={false}
-    n={true}
     onEmojiClick={[Function]}
-    onEmojiClose={[MockFunction]}
     onHide={[MockFunction]}
     show={false}
     spaceRequiredAbove={476}
@@ -28,10 +26,8 @@ exports[`components/post_view/PostReaction should match snapshot 1`] = `
     delayShow={500}
     overlay={
       <Tooltip
-        bsClass="tooltip"
         className="hidden-xs"
         id="reaction-icon-tooltip"
-        placement="right"
       >
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Add Reaction"

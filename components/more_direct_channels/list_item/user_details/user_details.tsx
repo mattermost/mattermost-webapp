@@ -8,7 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import BotBadge from 'components/widgets/badges/bot_badge';

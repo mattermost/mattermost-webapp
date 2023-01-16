@@ -1,37 +1,22 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {RouteComponentProps} from 'react-router-dom';
 
 import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
-import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay';
-import NextStepsView from 'components/next_steps_view';
 import PostView from 'components/post_view';
-import {clearMarks, mark, measure, trackEvent} from 'actions/telemetry_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import AdvancedCreatePost from 'components/advanced_create_post';
 
-type Props = {
-    channelId: string;
-    deactivatedChannel: boolean;
-    channelRolesLoading: boolean;
-    match: {
-        url: string;
-        params: {
-            postid?: string;
-        };
-    };
-    showNextStepsEphemeral: boolean;
-    channelIsArchived: boolean;
-    viewArchivedChannels: boolean;
-    isCloud: boolean;
-    actions: {
-        goToLastViewedChannel: () => Promise<{data: boolean}>;
-    };
-};
+import type {PropsFromRedux} from './index';
+
+export type Props = PropsFromRedux & RouteComponentProps<{
+    postid?: string;
+}>;
 
 type State = {
     channelId: string;
@@ -76,7 +61,9 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
         return null;
     }
+
     channelViewRef: React.RefObject<HTMLDivElement>;
+
     constructor(props: Props) {
         super(props);
 
@@ -95,43 +82,18 @@ export default class ChannelView extends React.PureComponent<Props, State> {
     }
 
     onClickCloseChannel = () => {
-        this.props.actions.goToLastViewedChannel();
+        this.props.goToLastViewedChannel();
     }
 
     componentDidUpdate(prevProps: Props) {
         if (prevProps.channelId !== this.props.channelId || prevProps.channelIsArchived !== this.props.channelIsArchived) {
-            mark('ChannelView#componentDidUpdate');
-
-            const [dur1] = measure('SidebarChannelLink#click', 'ChannelView#componentDidUpdate');
-            const [dur2] = measure('TeamLink#click', 'ChannelView#componentDidUpdate');
-
-            clearMarks([
-                'SidebarChannelLink#click',
-                'ChannelView#componentDidUpdate',
-                'TeamLink#click',
-            ]);
-
-            if (dur1 !== -1) {
-                trackEvent('performance', 'channel_switch', {duration: Math.round(dur1)});
-            }
-            if (dur2 !== -1) {
-                trackEvent('performance', 'team_switch', {duration: Math.round(dur2)});
-            }
             if (this.props.channelIsArchived && !this.props.viewArchivedChannels) {
-                this.props.actions.goToLastViewedChannel();
+                this.props.goToLastViewedChannel();
             }
         }
     }
 
     render() {
-        const {channelIsArchived} = this.props;
-
-        if (this.props.showNextStepsEphemeral) {
-            return (
-                <NextStepsView/>
-            );
-        }
-
         let createPost;
         if (this.props.deactivatedChannel) {
             createPost = (
@@ -158,7 +120,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                     </div>
                 </div>
             );
-        } else if (channelIsArchived) {
+        } else if (this.props.channelIsArchived) {
             createPost = (
                 <div
                     className='post-create__container'
@@ -184,15 +146,13 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                     </div>
                 </div>
             );
-        } else if (!this.props.channelRolesLoading) {
+        } else {
             createPost = (
                 <div
-                    className='post-create__container'
+                    className='post-create__container AdvancedTextEditor__ctr'
                     id='post-create'
                 >
-                    <CreatePost
-                        getChannelView={this.getChannelView}
-                    />
+                    <AdvancedCreatePost getChannelView={this.getChannelView}/>
                 </div>
             );
         }
@@ -218,4 +178,3 @@ export default class ChannelView extends React.PureComponent<Props, State> {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

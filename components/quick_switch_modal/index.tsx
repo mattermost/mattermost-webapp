@@ -8,7 +8,17 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {joinChannelById, switchToChannel} from 'actions/views/channel';
 
+import {getIsMobileView} from 'selectors/views/browser';
+
+import {GlobalState} from 'types/store';
+
 import QuickSwitchModal, {Props} from './quick_switch_modal';
+
+function mapStateToProps(state: GlobalState) {
+    return {
+        isMobileView: getIsMobileView(state),
+    };
+}
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
@@ -19,4 +29,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(QuickSwitchModal);
+export default connect(mapStateToProps, mapDispatchToProps)(QuickSwitchModal);

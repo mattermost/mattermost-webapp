@@ -3,7 +3,7 @@
 
 import {General} from 'mattermost-redux/constants';
 
-import * as TeamUtils from 'utils/team_utils.jsx';
+import * as TeamUtils from 'utils/team_utils';
 
 describe('TeamUtils.filterAndSortTeamsByDisplayName', () => {
     const teamA = {id: 'team_id_a', name: 'team-a', display_name: 'Team A', delete_at: 0};

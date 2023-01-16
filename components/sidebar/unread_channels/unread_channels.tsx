@@ -4,13 +4,12 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {SidebarCategoryHeaderStatic} from '../sidebar_category_header';
 import SidebarChannel from '../sidebar_channel';
 
 type Props = {
-    getChannelRef: (channelId: string) => HTMLLIElement | undefined;
     setChannelRef: (channelId: string, ref: HTMLLIElement) => void;
     unreadChannels: Channel[];
 };
@@ -37,11 +36,9 @@ export default function UnreadChannels(props: Props) {
                                 channelIndex={index}
                                 channelId={channel.id}
                                 setChannelRef={props.setChannelRef}
-                                getChannelRef={props.getChannelRef}
                                 isCategoryCollapsed={false}
                                 isCategoryDragged={false}
                                 isDraggable={false}
-                                isDropDisabled={true}
                                 isAutoSortedCategory={true}
                             />
                         );

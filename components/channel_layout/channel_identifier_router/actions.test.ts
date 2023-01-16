@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import thunk from 'redux-thunk';
-import configureStore from 'redux-mock-store';
+import nock from 'nock';
 
 import {getChannelByNameAndTeamName, getChannelMember, joinChannel} from 'mattermost-redux/actions/channels';
 import {getUserByEmail} from 'mattermost-redux/actions/users';
+import {Client4} from 'mattermost-redux/client';
+import TestHelper from 'packages/mattermost-redux/test/test_helper';
 
 import {emitChannelClickEvent} from 'actions/global_actions';
 import {
@@ -16,6 +17,7 @@ import {
     goToDirectChannelByEmail,
     getPathFromIdentifier,
 } from 'components/channel_layout/channel_identifier_router/actions';
+import mockStore from 'tests/test_store';
 import {joinPrivateChannelPrompt} from 'utils/channel_utils';
 
 jest.mock('actions/global_actions', () => ({
@@ -41,20 +43,19 @@ jest.mock('utils/channel_utils', () => ({
     }),
 }));
 
-const mockStore = configureStore([thunk]);
-
 describe('Actions', () => {
     const channel1 = {id: 'channel_id1', name: 'achannel', team_id: 'team_id1'};
     const channel2 = {id: 'channel_id2', name: 'achannel', team_id: 'team_id2'};
     const channel3 = {id: 'channel_id3', name: 'achannel3', team_id: 'team_id1', type: 'O'};
     const channel4 = {id: 'channel_id4', name: 'additional-abilities---community-systems', team_id: 'team_id1', type: 'O'};
     const channel5 = {id: 'channel_id5', name: 'some-group-channel', team_id: 'team_id1', type: 'G'};
+    const channel6 = {id: 'channel_id6', name: '12345678901234567890123456', team_id: 'team_id1', type: 'O'};
 
     const initialState = {
         entities: {
             channels: {
                 currentChannelId: 'channel_id1',
-                channels: {channel_id1: channel1, channel_id2: channel2, channel_id3: channel3, channel_id4: channel4, channel_id5: channel5},
+                channels: {channel_id1: channel1, channel_id2: channel2, channel_id3: channel3, channel_id4: channel4, channel_id5: channel5, channel_id6: channel6},
                 myMembers: {channel_id1: {channel_id: 'channel_id1', user_id: 'current_user_id'}, channel_id2: {channel_id: 'channel_id2', user_id: 'current_user_id'}},
                 channelsInTeam: {team_id1: ['channel_id1'], team_id2: ['channel_id2']},
             },
@@ -81,53 +82,46 @@ describe('Actions', () => {
     };
 
     describe('getPathFromIdentifier', () => {
-        test('Should return channel_name if identifier is a channel name', () => {
-            const path = getPathFromIdentifier((initialState as any), 'channels', 'channelName');
-            expect(path).toEqual('channel_name');
+        test.each([
+            {desc: 'identifier is a channel name', expected: 'channel_name', path: 'channels', identifier: 'channelName'},
+            {desc: 'identifier is a group id', expected: 'group_channel_group_id', path: 'channels', identifier: '9c992e32cc7b3e5651f68b0ead4935fdf40d67ff'},
+            {desc: 'channel exists and is type G', expected: 'group_channel_group_id', path: 'channels', identifier: 'some-group-channel'},
+            {desc: 'identifier is a group id', expected: 'group_channel_group_id', path: 'messages', identifier: '9c992e32cc7b3e5651f68b0ead4935fdf40d67ff'},
+            {desc: 'identifier looks like a group id but matching channel is an open channel', expected: 'channel_name', path: 'channels', identifier: 'additional-abilities--community-systems'},
+            {desc: 'identifier is in the format userid--userid2', expected: 'channel_name', path: 'channels', identifier: '3y8ujrgtbfn78ja5nfms3qm5jw--3y8ujrgtbfn78ja5nfms3qm5jw'},
+            {desc: 'identifier is the username', expected: 'direct_channel_username', path: 'messages', identifier: '@user1'},
+            {desc: 'identifier is the user email', expected: 'direct_channel_email', path: 'messages', identifier: 'user1@bladekick.com'},
+            {desc: 'identifier is the user id', expected: 'direct_channel_user_id', path: 'messages', identifier: '3y8ujrgtbfn78ja5nfms3qm5jw'},
+            {desc: 'the path is not right', expected: 'error', path: 'messages', identifier: 'test'},
+        ])('Should return $expected if $desc', async ({expected, path, identifier}) => {
+            const res = await getPathFromIdentifier((initialState as any), path, identifier);
+            expect(res).toEqual(expected);
         });
-        test('Should return channel_id if identifier is a channel id', () => {
-            const path = getPathFromIdentifier((initialState as any), 'channels', 'pjz4yj7jw7nzmmo3upi4htmt1y');
-            expect(path).toEqual('channel_id');
-        });
-        test('Should return group_id path if identifier is a group id', () => {
-            const path = getPathFromIdentifier((initialState as any), 'channels', '9c992e32cc7b3e5651f68b0ead4935fdf40d67ff');
-            expect(path).toEqual('group_channel_group_id');
-        });
-        test('Should return group_id path if channel exists and is type G', () => {
-            const path = getPathFromIdentifier((initialState as any), 'channels', 'some-group-channel');
-            expect(path).toEqual('group_channel_group_id');
-        });
-        test('Should return group_id path if identifier is a group id', () => {
-            const path = getPathFromIdentifier((initialState as any), 'messages', '9c992e32cc7b3e5651f68b0ead4935fdf40d67ff');
-            expect(path).toEqual('group_channel_group_id');
-        });
-        test('Should return direct channel path if identifier is in the format userid__userid2', () => {
-            const path = getPathFromIdentifier((initialState as any), 'channels', '3y8ujrgtbfn78ja5nfms3qm5jw__3y8ujrgtbfn78ja5nfms3qm5jw');
-            expect(path).toEqual('direct_channel_user_ids');
-        });
-        test('Should return channel by name path if identifier looks like a group id but matching channel is an open channel', () => {
-            const path = getPathFromIdentifier((initialState as any), 'channels', 'additional-abilities---community-systems');
-            expect(path).toEqual('channel_name');
-        });
-        test('Should return channel by name path if identifier is in the format userid--userid2', () => {
-            const path = getPathFromIdentifier((initialState as any), 'channels', '3y8ujrgtbfn78ja5nfms3qm5jw--3y8ujrgtbfn78ja5nfms3qm5jw');
-            expect(path).toEqual('channel_name');
-        });
-        test('Should return direct channel by username if identifier is the username', () => {
-            const path = getPathFromIdentifier((initialState as any), 'messages', '@user1');
-            expect(path).toEqual('direct_channel_username');
-        });
-        test('Should return direct channel by email if identifier is the user email', () => {
-            const path = getPathFromIdentifier((initialState as any), 'messages', 'user1@bladekick.com');
-            expect(path).toEqual('direct_channel_email');
-        });
-        test('Should return direct channel by id if identifier is the user id', () => {
-            const path = getPathFromIdentifier((initialState as any), 'messages', '3y8ujrgtbfn78ja5nfms3qm5jw');
-            expect(path).toEqual('direct_channel_user_id');
-        });
-        test('Should return error in case the path is not right', () => {
-            const path = getPathFromIdentifier((initialState as any), 'messages', 'test');
-            expect(path).toEqual('error');
+
+        describe('identifier is 26 char long', () => {
+            beforeAll(() => {
+                TestHelper.initBasic(Client4);
+            });
+
+            afterAll(() => {
+                TestHelper.tearDown();
+            });
+
+            test.each([
+                {desc: 'fetching a channel by id succeeds', expected: 'channel_id', statusCode: 200, identifier: 'pjz4yj7jw7nzmmo3upi4htmt1y'},
+                {desc: 'fetching a channel by id fails status 404', expected: 'channel_name', statusCode: 404, identifier: 'channelnamethatis26charlon'},
+                {desc: 'fetching a channel by id fails status not 404', expected: 'error', statusCode: 403, identifier: 'channelnamethatis26charlon'},
+                {desc: 'identifier is a channel name stored in redux (no fetching happens)', expected: 'channel_name', identifier: '12345678901234567890123456'},
+            ])('Should return $expected if $desc', async ({expected, statusCode, identifier}) => {
+                const scope = nock(Client4.getBaseRoute()).
+                    get(`/channels/${identifier}`).
+                    reply(statusCode, {status_code: statusCode});
+
+                const res = await getPathFromIdentifier((initialState as any), 'channels', identifier);
+                expect(res).toEqual(expected);
+
+                expect(scope.isDone()).toBe(Boolean(statusCode));
+            });
         });
     });
 

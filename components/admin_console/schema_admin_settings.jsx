@@ -4,14 +4,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
-import {Overlay, Tooltip} from 'react-bootstrap';
+import {Overlay} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
 import * as I18n from 'i18n/i18n.jsx';
 
 import Constants from 'utils/constants';
 import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import RequestButton from 'components/admin_console/request_button/request_button';
 import BooleanSetting from 'components/admin_console/boolean_setting';
 import TextSetting from 'components/admin_console/text_setting';
@@ -28,6 +28,7 @@ import RemoveFileSetting from 'components/admin_console/remove_file_setting.jsx'
 import SchemaText from 'components/admin_console/schema_text';
 import SaveButton from 'components/save_button';
 import FormError from 'components/form_error';
+import Tooltip from 'components/tooltip';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -382,6 +383,10 @@ export default class SchemaAdminSettings extends React.PureComponent {
 
     buildButtonSetting = (setting) => {
         const handleRequestAction = (success, error) => {
+            if (this.state.saveNeeded !== false) {
+                error({message: Utils.localizeMessage('admin_settings.save_unsaved_changes', 'Please save unsaved changes first')});
+                return;
+            }
             const successCallback = (data) => {
                 const metadata = new Map(Object.entries(data));
                 const settings = (this.props.schema && this.props.schema.settings) || [];
@@ -447,6 +452,17 @@ export default class SchemaAdminSettings extends React.PureComponent {
             value = setting.dynamic_value(value, this.props.config, this.state, this.props.license);
         }
 
+        let footer = null;
+        if (setting.validate) {
+            const err = setting.validate(value).error();
+            footer = err ? (
+                <FormError
+                    type='backstrage'
+                    error={err}
+                />
+            ) : footer;
+        }
+
         return (
             <TextSetting
                 key={this.props.schema.id + '_text_' + setting.key}
@@ -460,6 +476,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
                 maxLength={setting.max_length}
+                footer={footer}
             />
         );
     }
@@ -1072,6 +1089,34 @@ export default class SchemaAdminSettings extends React.PureComponent {
             );
         }
         return null;
+    }
+
+    canSave = () => {
+        if (!this.props.schema || !this.props.schema.settings) {
+            return true;
+        }
+
+        for (const setting of this.props.schema.settings) {
+            // Some settings are actually not settings (banner)
+            // and don't have a key, skip those ones
+            if (!('key' in setting)) {
+                continue;
+            }
+
+            // don't validate elements set by env.
+            if (this.isSetByEnv(setting.key)) {
+                continue;
+            }
+
+            if (setting.validate) {
+                const result = setting.validate(this.state[setting.key]);
+                if (!result.isValid()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     render = () => {

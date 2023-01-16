@@ -267,10 +267,8 @@ exports[`components/admin_console/permission_schemes_settings/permissions_scheme
       delayShow={400}
       overlay={
         <Tooltip
-          bsClass="tooltip"
           className="team-scheme-extra-teams-overlay"
           id="id-extra-teams-overlay"
-          placement="right"
         >
           <span
             className="team"

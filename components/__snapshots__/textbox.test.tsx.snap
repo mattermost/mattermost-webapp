@@ -10,7 +10,12 @@ exports[`components/TextBox should match snapshot with additional, optional prop
     contextId="channelId"
     disabled={true}
     id="someid"
-    inputComponent={[Function]}
+    inputComponent={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "render": [Function],
+      }
+    }
     isRHS={true}
     listComponent={[Function]}
     listPosition="top"
@@ -29,6 +34,7 @@ exports[`components/TextBox should match snapshot with additional, optional prop
     providers={
       Array [
         AtMentionProvider {
+          "addLastViewAtToProfiles": [Function],
           "autocompleteGroups": Array [
             Object {
               "id": "gid1",
@@ -38,22 +44,17 @@ exports[`components/TextBox should match snapshot with additional, optional prop
             },
           ],
           "autocompleteUsersInChannel": [Function],
+          "channelId": "channelId",
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "forceDispatch": false,
+          "getProfilesInChannel": [Function],
           "lastCompletedWord": "",
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
           "priorityProfiles": undefined,
-          "profilesInChannel": Array [
-            Object {
-              "id": "id1",
-            },
-            Object {
-              "id": "id2",
-            },
-          ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
           "triggerCharacter": "@",
@@ -62,6 +63,7 @@ exports[`components/TextBox should match snapshot with additional, optional prop
         ChannelMentionProvider {
           "autocompleteChannels": [MockFunction],
           "disableDispatches": false,
+          "forceDispatch": false,
           "lastCompletedWord": "",
           "lastPrefixTrimmed": "",
           "lastPrefixWithNoResults": "",
@@ -72,6 +74,7 @@ exports[`components/TextBox should match snapshot with additional, optional prop
         },
         EmoticonProvider {
           "disableDispatches": false,
+          "forceDispatch": false,
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
@@ -79,7 +82,11 @@ exports[`components/TextBox should match snapshot with additional, optional prop
         },
       ]
     }
-    renderDividers={true}
+    renderDividers={
+      Array [
+        "all",
+      ]
+    }
     spellCheck="true"
     style={
       Object {
@@ -93,11 +100,15 @@ exports[`components/TextBox should match snapshot with additional, optional prop
     onBlur={[Function]}
     onKeyDown={[Function]}
     onKeyPress={[Function]}
-    onSelect={[Function]}
     tabIndex={0}
   >
     <Connect(PostMarkdown)
       channelId="channelId"
+      imageProps={
+        Object {
+          "hideUtilities": true,
+        }
+      }
       isRHS={true}
       mentionKeys={Array []}
       message="some test text"
@@ -115,13 +126,17 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
     className="form-control custom-textarea"
     contextId="channelId"
     id="someid"
-    inputComponent={[Function]}
+    inputComponent={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "render": [Function],
+      }
+    }
     isRHS={false}
     listComponent={[Function]}
     listenForMentionKeyClick={false}
     onBlur={[Function]}
     onChange={[Function]}
-    onHeightChange={[Function]}
     onKeyDown={[Function]}
     onKeyPress={[Function]}
     onKeyUp={[Function]}
@@ -131,6 +146,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
     providers={
       Array [
         AtMentionProvider {
+          "addLastViewAtToProfiles": [Function],
           "autocompleteGroups": Array [
             Object {
               "id": "gid1",
@@ -140,22 +156,17 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
             },
           ],
           "autocompleteUsersInChannel": [Function],
+          "channelId": "channelId",
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "forceDispatch": false,
+          "getProfilesInChannel": [Function],
           "lastCompletedWord": "",
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
           "priorityProfiles": undefined,
-          "profilesInChannel": Array [
-            Object {
-              "id": "id1",
-            },
-            Object {
-              "id": "id2",
-            },
-          ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
           "triggerCharacter": "@",
@@ -164,6 +175,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
         ChannelMentionProvider {
           "autocompleteChannels": [MockFunction],
           "disableDispatches": false,
+          "forceDispatch": false,
           "lastCompletedWord": "",
           "lastPrefixTrimmed": "",
           "lastPrefixWithNoResults": "",
@@ -174,6 +186,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
         },
         EmoticonProvider {
           "disableDispatches": false,
+          "forceDispatch": false,
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
@@ -181,7 +194,11 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
         },
       ]
     }
-    renderDividers={true}
+    renderDividers={
+      Array [
+        "all",
+      ]
+    }
     spellCheck="true"
     style={
       Object {
@@ -202,13 +219,17 @@ exports[`components/TextBox should throw error when new property is too long 1`]
     className="form-control custom-textarea"
     contextId="channelId"
     id="someid"
-    inputComponent={[Function]}
+    inputComponent={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "render": [Function],
+      }
+    }
     isRHS={false}
     listComponent={[Function]}
     listenForMentionKeyClick={false}
     onBlur={[Function]}
     onChange={[Function]}
-    onHeightChange={[Function]}
     onKeyDown={[Function]}
     onKeyPress={[Function]}
     onKeyUp={[Function]}
@@ -218,6 +239,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
     providers={
       Array [
         AtMentionProvider {
+          "addLastViewAtToProfiles": [Function],
           "autocompleteGroups": Array [
             Object {
               "id": "gid1",
@@ -227,22 +249,17 @@ exports[`components/TextBox should throw error when new property is too long 1`]
             },
           ],
           "autocompleteUsersInChannel": [Function],
+          "channelId": "channelId",
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "forceDispatch": false,
+          "getProfilesInChannel": [Function],
           "lastCompletedWord": "",
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
           "priorityProfiles": undefined,
-          "profilesInChannel": Array [
-            Object {
-              "id": "id1",
-            },
-            Object {
-              "id": "id2",
-            },
-          ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
           "triggerCharacter": "@",
@@ -251,6 +268,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
         ChannelMentionProvider {
           "autocompleteChannels": [MockFunction],
           "disableDispatches": false,
+          "forceDispatch": false,
           "lastCompletedWord": "",
           "lastPrefixTrimmed": "",
           "lastPrefixWithNoResults": "",
@@ -261,6 +279,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
         },
         EmoticonProvider {
           "disableDispatches": false,
+          "forceDispatch": false,
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
@@ -268,7 +287,11 @@ exports[`components/TextBox should throw error when new property is too long 1`]
         },
       ]
     }
-    renderDividers={true}
+    renderDividers={
+      Array [
+        "all",
+      ]
+    }
     spellCheck="true"
     style={
       Object {
@@ -289,13 +312,17 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
     className="form-control custom-textarea"
     contextId="channelId"
     id="someid"
-    inputComponent={[Function]}
+    inputComponent={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "render": [Function],
+      }
+    }
     isRHS={false}
     listComponent={[Function]}
     listenForMentionKeyClick={false}
     onBlur={[Function]}
     onChange={[Function]}
-    onHeightChange={[Function]}
     onKeyDown={[Function]}
     onKeyPress={[Function]}
     onKeyUp={[Function]}
@@ -305,6 +332,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
     providers={
       Array [
         AtMentionProvider {
+          "addLastViewAtToProfiles": [Function],
           "autocompleteGroups": Array [
             Object {
               "id": "gid1",
@@ -314,22 +342,17 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
             },
           ],
           "autocompleteUsersInChannel": [Function],
+          "channelId": "channelId",
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "forceDispatch": false,
+          "getProfilesInChannel": [Function],
           "lastCompletedWord": "",
           "lastPrefixWithNoResults": "",
           "latestComplete": true,
           "latestPrefix": "",
           "priorityProfiles": undefined,
-          "profilesInChannel": Array [
-            Object {
-              "id": "id1",
-            },
-            Object {
-              "id": "id2",
-            },
-          ],
           "requestStarted": false,
           "searchAssociatedGroupsForReference": [Function],
           "triggerCharacter": "@",
@@ -338,6 +361,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
         ChannelMentionProvider {
           "autocompleteChannels": [MockFunction],
           "disableDispatches": false,
+          "forceDispatch": false,
           "lastCompletedWord": "",
           "lastPrefixTrimmed": "",
           "lastPrefixWithNoResults": "",
@@ -348,6 +372,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
         },
         EmoticonProvider {
           "disableDispatches": false,
+          "forceDispatch": false,
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
@@ -355,7 +380,11 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
         },
       ]
     }
-    renderDividers={true}
+    renderDividers={
+      Array [
+        "all",
+      ]
+    }
     spellCheck="true"
     style={
       Object {

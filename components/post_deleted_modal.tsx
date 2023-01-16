@@ -6,21 +6,33 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 type Props = {
-    show: boolean;
-    onHide: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onExited: () => void;
 }
 
-export default class PostDeletedModal extends React.Component<Props> {
-    public shouldComponentUpdate(nextProps: Props): boolean {
-        return nextProps.show !== this.props.show;
+type State = {
+    show: boolean;
+}
+
+export default class PostDeletedModal extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            show: true,
+        };
+    }
+
+    private handleHide = () => {
+        this.setState({show: false});
     }
 
     public render(): JSX.Element {
         return (
             <Modal
                 dialogClassName='a11y__modal'
-                show={this.props.show}
-                onHide={this.props.onHide}
+                show={this.state.show}
+                onHide={this.handleHide}
+                onExited={this.props.onExited}
                 role='dialog'
                 aria-labelledby='postDeletedModalLabel'
                 data-testid='postDeletedModal'
@@ -49,7 +61,7 @@ export default class PostDeletedModal extends React.Component<Props> {
                         type='button'
                         className='btn btn-primary'
                         autoFocus={true}
-                        onClick={this.props.onHide}
+                        onClick={this.handleHide}
                         data-testid='postDeletedModalOkButton'
                     >
                         <FormattedMessage

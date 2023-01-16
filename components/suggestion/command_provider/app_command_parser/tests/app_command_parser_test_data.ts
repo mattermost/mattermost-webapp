@@ -105,7 +105,7 @@ export const viewCommand: AppBinding = {
     location: '/command/jira/issue/view',
     description: 'View details of a Jira issue',
     form: {
-        call: {
+        submit: {
             path: '/view-issue',
         },
         fields: [
@@ -116,6 +116,9 @@ export const viewCommand: AppBinding = {
                 type: AppFieldTypes.DYNAMIC_SELECT,
                 hint: 'The Jira project hint',
                 is_required: true,
+                lookup: {
+                    path: '/view-issue-lookup',
+                },
             },
             {
                 name: 'issue',
@@ -137,7 +140,7 @@ export const createCommand: AppBinding = {
     icon: 'Create icon',
     hint: 'Create hint',
     form: {
-        call: {
+        submit: {
             path: '/create-issue',
         },
         fields: [
@@ -147,6 +150,9 @@ export const createCommand: AppBinding = {
                 description: 'The Jira project description',
                 type: AppFieldTypes.DYNAMIC_SELECT,
                 hint: 'The Jira project hint',
+                lookup: {
+                    path: '/create-issue-lookup',
+                },
             },
             {
                 name: 'summary',
@@ -191,7 +197,7 @@ export const restCommand: AppBinding = {
     icon: 'rest icon',
     hint: 'rest hint',
     form: {
-        call: {
+        submit: {
             path: '/create-issue',
         },
         fields: [
@@ -254,6 +260,9 @@ export const testBindings: AppBinding[] = [
                     label: 'sub1',
                     description: 'Some Description',
                     form: {
+                        submit: {
+                            path: '/submit_other',
+                        },
                         fields: [{
                             name: 'fieldname',
                             label: 'fieldlabel',

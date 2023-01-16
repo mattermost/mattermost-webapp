@@ -8,7 +8,7 @@ import {getMissingProfilesByIds, getMissingProfilesByUsernames} from 'mattermost
 import {Preferences} from 'mattermost-redux/constants';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, makeGetProfilesByIdsAndUsernames} from 'mattermost-redux/selectors/entities/users';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import CombinedSystemMessage from './combined_system_message';

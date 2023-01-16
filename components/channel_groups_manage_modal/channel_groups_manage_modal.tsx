@@ -4,17 +4,15 @@
 import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
-import Groups from 'mattermost-redux/constants/groups';
+import {Group, SyncableType} from '@mattermost/types/groups';
 
-import {Group} from 'mattermost-redux/types/groups';
-
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 
 import {ModalIdentifiers} from 'utils/constants';
 
-import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
+import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal';
 
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 
@@ -25,7 +23,7 @@ import Menu from 'components/widgets/menu/menu';
 
 import {ModalData} from 'types/actions';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 type Props = {
     channel: Channel;
@@ -49,7 +47,7 @@ class ChannelGroupsManageModal extends React.PureComponent<Props> {
         };
     };
 
-    public onClickRemoveGroup = (item: Group, listModal: any) => this.props.actions.unlinkGroupSyncable(item.id, this.props.channel.id, Groups.SYNCABLE_TYPE_CHANNEL).then(async () => {
+    public onClickRemoveGroup = (item: Group, listModal: any) => this.props.actions.unlinkGroupSyncable(item.id, this.props.channel.id, SyncableType.Channel).then(async () => {
         listModal.setState({loading: true});
         const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
         listModal.setState({loading: false, items, totalCount});
@@ -65,7 +63,7 @@ class ChannelGroupsManageModal extends React.PureComponent<Props> {
     };
 
     public setChannelMemberStatus = async (item: Group, listModal: any, isChannelAdmin: boolean) => {
-        this.props.actions.patchGroupSyncable(item.id, this.props.channel.id, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: isChannelAdmin}).then(async () => {
+        this.props.actions.patchGroupSyncable(item.id, this.props.channel.id, SyncableType.Channel, {scheme_admin: isChannelAdmin}).then(async () => {
             listModal.setState({loading: true});
             const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
             await this.props.actions.getMyChannelMember(this.props.channel.id);

@@ -6,11 +6,11 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {GlobalState} from 'types/store';
-import {deleteAndRemovePost} from 'actions/post_actions.jsx';
+import {deleteAndRemovePost} from 'actions/post_actions';
 
 import DeletePostModal from './delete_post_modal';
 
@@ -19,8 +19,8 @@ type Actions = {
 };
 
 type Props = {
-    channelName: string;
-    teamName: string;
+    channelName?: string;
+    teamName?: string;
     post: Post;
     commentCount: number;
     isRHS: boolean;

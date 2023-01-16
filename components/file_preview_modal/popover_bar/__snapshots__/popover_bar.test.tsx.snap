@@ -14,9 +14,7 @@ exports[`components/file_preview_modal/popover_bar/PopoverBar should match snaps
       key="zoomOut"
       overlay={
         <Tooltip
-          bsClass="tooltip"
           id="zoom-out-icon-tooltip"
-          placement="right"
         >
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Zoom Out"
@@ -46,9 +44,7 @@ exports[`components/file_preview_modal/popover_bar/PopoverBar should match snaps
       key="zoomReset"
       overlay={
         <Tooltip
-          bsClass="tooltip"
           id="zoom-reset-icon-tooltip"
-          placement="right"
         >
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Reset Zoom"
@@ -78,9 +74,7 @@ exports[`components/file_preview_modal/popover_bar/PopoverBar should match snaps
       key="zoomIn"
       overlay={
         <Tooltip
-          bsClass="tooltip"
           id="zoom-in-icon-tooltip"
-          placement="right"
         >
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Zoom In"

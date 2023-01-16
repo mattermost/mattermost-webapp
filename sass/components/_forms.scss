@@ -16,7 +16,7 @@
 }
 
 .form-control {
-    @include input-placeholder {
+    ::placeholder {
         color: inherit;
     }
 
@@ -35,14 +35,13 @@
 }
 
 .input__help {
-    @include opacity(0.8);
-
     margin: 10px 0 0 0;
     color: inherit;
+    opacity: 0.8;
     word-break: break-word;
 
     &.dark {
-        @include opacity(1);
+        opacity: 1;
     }
 
     &.error {
@@ -62,12 +61,11 @@
         text-align: left;
 
         &.light {
-            @include opacity(0.6);
-
             padding-top: 2px;
             font-size: 1.05em;
             font-style: italic;
             font-weight: normal;
+            opacity: 0.6;
         }
     }
 
@@ -156,7 +154,7 @@
 
     span {
         &:last-child {
-            @include opacity(0.8);
+            opacity: 0.8;
         }
     }
 }

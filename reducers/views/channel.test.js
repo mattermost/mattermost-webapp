@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {GeneralTypes, UserTypes} from 'mattermost-redux/action_types';
+import {GeneralTypes, UserTypes, ChannelTypes} from 'mattermost-redux/action_types';
 
 import channelReducer from 'reducers/views/channel';
 import {ActionTypes} from 'utils/constants';
@@ -99,6 +99,46 @@ describe('Reducers.channel', () => {
             );
 
             expect(nextState).toEqual(initialState);
+        });
+
+        test('should clear lastUnreadChannel on dispatch of LEAVE_CHANNEL', () => {
+            const modifiedState = {
+                ...initialState,
+                lastUnreadChannel: {
+                    channelId: '1',
+                    hadMentions: true,
+                },
+            };
+
+            const nextState = channelReducer(
+                modifiedState,
+                {
+                    type: ChannelTypes.LEAVE_CHANNEL,
+                    data: {id: '1'},
+                },
+            );
+
+            expect(nextState).toEqual(initialState);
+        });
+
+        test('should not clear lastUnreadChannel on dispatch of LEAVE_CHANNEL on another channel', () => {
+            const modifiedState = {
+                ...initialState,
+                lastUnreadChannel: {
+                    channelId: '1',
+                    hadMentions: true,
+                },
+            };
+
+            const nextState = channelReducer(
+                modifiedState,
+                {
+                    type: ChannelTypes.LEAVE_CHANNEL,
+                    data: {id: '2'},
+                },
+            );
+
+            expect(nextState).toEqual(modifiedState);
         });
     });
 });

@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import AddChannelDropdown from '../add_channel_dropdown';
-import {AddChannelButtonTreatments} from 'mattermost-redux/constants/config';
 
 import ChannelNavigator, {Props} from './channel_navigator';
 
@@ -14,11 +13,11 @@ let props: Props;
 describe('Components/ChannelNavigator', () => {
     beforeEach(() => {
         props = {
-            addChannelButton: AddChannelButtonTreatments.NONE,
             canGoForward: true,
             canGoBack: true,
             canJoinPublicChannel: true,
             showMoreChannelsModal: jest.fn(),
+            showCreateUserGroupModal: jest.fn(),
             invitePeopleModal: jest.fn(),
             showNewChannelModal: jest.fn(),
             showCreateCategoryModal: jest.fn(),
@@ -26,10 +25,9 @@ describe('Components/ChannelNavigator', () => {
             unreadFilterEnabled: true,
             canCreateChannel: true,
             showUnreadsCategory: true,
-            townSquareDisplayName: 'idk',
-            offTopicDisplayName: 'idk',
-            showTutorialTip: true,
             isQuickSwitcherOpen: false,
+            userGroupsEnabled: false,
+            canCreateCustomGroups: true,
             actions: {
                 openModal: jest.fn(),
                 closeModal: jest.fn(),
@@ -39,19 +37,7 @@ describe('Components/ChannelNavigator', () => {
         };
     });
 
-    it('should show AddChannelDropdown when there is no A/B treatment', () => {
-        const wrapper = shallow(<ChannelNavigator {...props}/>);
-        expect(wrapper.find(AddChannelDropdown).length).toBe(1);
-    });
-
-    it('should show AddChannelDropdown when A/B treatment is unknown', () => {
-        delete props.addChannelButton;
-        const wrapper = shallow(<ChannelNavigator {...props}/>);
-        expect(wrapper.find(AddChannelDropdown).length).toBe(1);
-    });
-
-    it('should not show AddChannelDropdown when there is an active A/B treatment', () => {
-        props.addChannelButton = AddChannelButtonTreatments.BY_TEAM_NAME;
+    it('should not show AddChannelDropdown', () => {
         const wrapper = shallow(<ChannelNavigator {...props}/>);
         expect(wrapper.find(AddChannelDropdown).length).toBe(0);
     });

@@ -8,9 +8,10 @@ exports[`components/widgets/team-icon basic icon 1`] = `
     className="TeamIcon__content no-hover"
   >
     <div
-      aria-label="Team Initials"
+      aria-label="test Team Initials"
       className="TeamIcon__initials TeamIcon__initials__sm"
       data-testid="teamIconInitial"
+      role="img"
     >
       te
     </div>
@@ -26,9 +27,10 @@ exports[`components/widgets/team-icon icon with hover 1`] = `
     className="TeamIcon__content "
   >
     <div
-      aria-label="Team Initials"
+      aria-label="test Team Initials"
       className="TeamIcon__initials TeamIcon__initials__sm"
       data-testid="teamIconInitial"
+      role="img"
     >
       te
     </div>
@@ -44,9 +46,10 @@ exports[`components/widgets/team-icon image icon 1`] = `
     className="TeamIcon__content no-hover"
   >
     <div
-      aria-label="Team Icon"
+      aria-label="test Team Image"
       className="TeamIcon__image TeamIcon__sm"
       data-testid="teamIconImage"
+      role="img"
       style={
         Object {
           "backgroundImage": "url('http://example.com/image.png')",
@@ -65,9 +68,10 @@ exports[`components/widgets/team-icon small icon 1`] = `
     className="TeamIcon__content no-hover"
   >
     <div
-      aria-label="Team Initials"
+      aria-label="test Team Initials"
       className="TeamIcon__initials TeamIcon__initials__sm"
       data-testid="teamIconInitial"
+      role="img"
     >
       te
     </div>

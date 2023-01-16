@@ -2,8 +2,9 @@
 
 .status-wrapper {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
     height: 32px;
+    align-items: center;
     align-self: center;
 
     .sidebar--left & {
@@ -78,11 +79,10 @@
             visibility: hidden;
 
             i {
-                @include opacity(1);
-
                 position: relative;
                 top: 4px;
                 font-size: 10px;
+                opacity: 1;
             }
         }
 
@@ -113,10 +113,10 @@
 .status-selector {
     .status {
         body.enable-animations & {
-            @include transition-property(opacity, visibility);
-            @include transition-duration($transition-quick);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-out, step-start);
+            transition-delay: 0s;
+            transition-duration: $transition-quick;
+            transition-property: opacity, visibility;
+            transition-timing-function: ease-out, step-start;
         }
 
         opacity: 1;
@@ -171,7 +171,7 @@
         &.online--icon,
         &.away--icon,
         &.dnd--icon {
-            @include opacity(1);
+            opacity: 1;
         }
     }
 

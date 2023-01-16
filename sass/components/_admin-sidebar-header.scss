@@ -18,10 +18,10 @@
 
         .header__info {
             @include clearfix;
-            @include flex-grow(1);
 
             position: relative;
             width: 100%;
+            flex-grow: 1;
             padding: 3px 15px 0 8px;
             color: $white;
 
@@ -36,27 +36,25 @@
             }
 
             .user__name {
-                @include opacity(0.8);
-
                 font-weight: 400;
+                opacity: 0.8;
             }
         }
 
         .menu-icon {
-            @include opacity(0.8);
-
             margin-right: 10px;
             fill: $white;
+            opacity: 0.8;
         }
 
         &:hover {
             .user__name,
             .menu-icon {
-                @include opacity(1);
+                opacity: 1;
             }
 
             > div > img {
-                @include opacity(0.8);
+                opacity: 0.8;
             }
         }
     }

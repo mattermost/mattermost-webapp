@@ -2,20 +2,21 @@
 // See LICENSE.txt for license information.
 
 import React, {ChangeEvent, MouseEvent} from 'react';
-import {Modal, Tooltip} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {Team} from 'mattermost-redux/types/teams';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {Channel} from '@mattermost/types/channels';
+import {Team} from '@mattermost/types/teams';
+import {ServerError} from '@mattermost/types/errors';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 import OverlayTrigger from 'components/overlay_trigger';
-import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants.jsx';
+import Tooltip from 'components/tooltip';
+import {getHistory} from 'utils/browser_history';
+import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
 import {getShortenedURL, validateChannelUrl} from 'utils/url';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 const holders = defineMessages({
     maxLength: {
@@ -190,7 +191,7 @@ export class RenameChannelModal extends React.PureComponent<Props, State> {
     onSaveSuccess = () => {
         this.handleHide();
         this.unsetError();
-        browserHistory.push('/' + this.props.team.name + '/channels/' + this.state.channelName);
+        getHistory().push('/' + this.props.team.name + '/channels/' + this.state.channelName);
     }
 
     handleCancel = (e?: MouseEvent) => {
@@ -253,7 +254,7 @@ export class RenameChannelModal extends React.PureComponent<Props, State> {
         }
 
         const fullUrl = this.props.currentTeamUrl + '/channels';
-        const shortUrl = getShortenedURL(fullUrl, 35);
+        const shortUrl = `${getShortenedURL(fullUrl, 35)}/`;
         const urlTooltip = (
             <Tooltip id='urlTooltip'>{fullUrl}</Tooltip>
         );

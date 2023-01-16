@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AppCallResponseType, AppCallType, AppExpandLevel, AppFieldType} from 'mattermost-redux/types/apps';
+import {AppCallResponseType, AppExpandLevel, AppFieldType} from '@mattermost/types/apps';
 
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are
@@ -10,6 +10,7 @@ import {AppCallResponseType, AppCallType, AppExpandLevel, AppFieldType} from 'ma
 export const AppBindingLocations = {
     POST_MENU_ITEM: '/post_menu',
     CHANNEL_HEADER_ICON: '/channel_header',
+    APP_BAR: '/app_bar',
     COMMAND: '/command',
     IN_POST: '/in_post',
 };
@@ -24,13 +25,6 @@ export const AppCallResponseTypes: { [name: string]: AppCallResponseType } = {
     FORM: 'form',
     CALL: 'call',
     NAVIGATE: 'navigate',
-};
-
-export const AppCallTypes: { [name: string]: AppCallType } = {
-    SUBMIT: 'submit',
-    LOOKUP: 'lookup',
-    FORM: 'form',
-    CANCEL: 'cancel',
 };
 
 export const AppExpandLevels: { [name: string]: AppExpandLevel } = {

@@ -15,10 +15,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         id="admin.support.termsOfServiceTitle"
       />
     </AdminHeader>
-    <LoadingScreen
-      position="relative"
-      style={Object {}}
-    />
+    <LoadingScreen />
     <div
       className="admin-console-save"
     >
@@ -54,9 +51,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -79,10 +74,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         id="admin.support.termsOfServiceTitle"
       />
     </AdminHeader>
-    <LoadingScreen
-      position="relative"
-      style={Object {}}
-    />
+    <LoadingScreen />
     <div
       className="admin-console-save"
     >
@@ -118,9 +110,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -143,10 +133,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         id="admin.support.termsOfServiceTitle"
       />
     </AdminHeader>
-    <LoadingScreen
-      position="relative"
-      style={Object {}}
-    />
+    <LoadingScreen />
     <div
       className="admin-console-save"
     >
@@ -182,9 +169,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>
@@ -207,10 +192,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         id="admin.support.termsOfServiceTitle"
       />
     </AdminHeader>
-    <LoadingScreen
-      position="relative"
-      style={Object {}}
-    />
+    <LoadingScreen />
     <div
       className="admin-console-save"
     >
@@ -246,9 +228,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
         target={null}
       >
         <Tooltip
-          bsClass="tooltip"
           id="error-tooltip"
-          placement="right"
         />
       </Overlay>
     </div>

@@ -1,16 +1,14 @@
 @charset 'UTF-8';
 
 .multi-select__container {
-    display: table;
+    display: flex;
     width: 100%;
+    justify-content: space-between;
     padding: 0 15px;
 
     .btn {
-        display: table-cell;
-        min-width: 60px;
         height: 36px;
         margin-left: 16px;
-        vertical-align: top;
     }
 }
 
@@ -36,16 +34,15 @@
 
     > div:not(.multi-select__note),
     > span {
-        @include opacity(0.6);
+        opacity: 0.6;
     }
 }
 
 .multi-select__note {
-    @include border-radius(3px);
-
     display: table;
     width: 100%;
     padding: 8px 13px;
+    border-radius: 3px;
 
     > div {
         display: table-cell;

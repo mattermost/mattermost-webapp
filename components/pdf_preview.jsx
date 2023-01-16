@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import PDFJS from 'pdfjs-dist';
 import debounce from 'lodash/debounce';
 
 import {getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
@@ -132,8 +131,7 @@ export default class PDFPreview extends React.PureComponent {
 
         const page = this.state.pdfPages[pageIndex];
         const context = canvas.getContext('2d');
-        const viewport = page.getViewport(this.props.scale);
-
+        const viewport = page.getViewport({scale: this.props.scale});
         this[`pdfCanvasRef-${pageIndex}`].current.height = viewport.height;
         this[`pdfCanvasRef-${pageIndex}`].current.width = viewport.width;
 
@@ -146,8 +144,17 @@ export default class PDFPreview extends React.PureComponent {
         this.pdfPagesRendered[pageIndex] = true;
     }
 
-    getPdfDocument = () => {
-        PDFJS.getDocument(this.props.fileUrl).then(this.onDocumentLoad).catch(this.onDocumentLoadError);
+    getPdfDocument = async () => {
+        try {
+            const PDFJS = await import('pdfjs-dist');
+            const worker = await import('pdfjs-dist/build/pdf.worker.entry.js');
+            PDFJS.GlobalWorkerOptions.workerSrc = worker;
+
+            const pdf = await PDFJS.getDocument(this.props.fileUrl).promise;
+            this.onDocumentLoad(pdf);
+        } catch (err) {
+            this.onDocumentLoadError(err);
+        }
     }
 
     onDocumentLoad = (pdf) => {
@@ -171,11 +178,10 @@ export default class PDFPreview extends React.PureComponent {
         const page = await pdf.getPage(pageIndex + 1);
 
         const pdfPages = Object.assign({}, this.state.pdfPages);
-        pdfPages[page.pageIndex] = page;
+        pdfPages[pageIndex] = page;
 
         const pdfPagesLoaded = Object.assign({}, this.state.pdfPagesLoaded);
-        pdfPagesLoaded[page.pageIndex] = true;
-
+        pdfPagesLoaded[pageIndex] = true;
         this.setState({pdfPages, pdfPagesLoaded});
 
         return page;

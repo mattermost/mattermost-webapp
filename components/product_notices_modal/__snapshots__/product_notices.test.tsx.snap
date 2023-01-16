@@ -13,13 +13,14 @@ exports[`ProductNoticesModal Match snapshot for single notice 1`] = `
   }
   enforceFocus={true}
   handleConfirm={[Function]}
+  handleEnterKeyPress={[Function]}
   id="genericModal"
   modalHeaderText={
     <span>
       title
     </span>
   }
-  onHide={[Function]}
+  onExited={[Function]}
   show={true}
 >
   <span
@@ -63,13 +64,14 @@ exports[`ProductNoticesModal Match snapshot for user notice 1`] = `
   enforceFocus={true}
   handleCancel={[Function]}
   handleConfirm={[Function]}
+  handleEnterKeyPress={[Function]}
   id="genericModal"
   modalHeaderText={
     <span>
       title
     </span>
   }
-  onHide={[Function]}
+  onExited={[Function]}
   show={true}
 >
   <span
@@ -134,13 +136,14 @@ exports[`ProductNoticesModal Should match snapshot for system admin notice 1`] =
   }
   enforceFocus={true}
   handleConfirm={[Function]}
+  handleEnterKeyPress={[Function]}
   id="genericModal"
   modalHeaderText={
     <span>
       for sysadmin
     </span>
   }
-  onHide={[Function]}
+  onExited={[Function]}
   show={true}
 >
   <span

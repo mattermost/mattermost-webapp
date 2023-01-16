@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {UserSearchOptions, UserListOptions, UserFilters} from 'utils/constants';
 
 export type FilterOptions = Record<string, string | boolean>
@@ -24,6 +25,8 @@ export function getUserOptionsFromFilter(filter: string | undefined): FilterOpti
         options[UserListOptions.ROLE] = UserFilters.SYSTEM_GUEST;
     } else if (filter === UserFilters.INACTIVE) {
         options[UserListOptions.INACTIVE] = true;
+    } else if (filter === UserFilters.ACTIVE) {
+        options[UserListOptions.ACTIVE] = true;
     }
     return options;
 }

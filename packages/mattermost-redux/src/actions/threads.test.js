@@ -6,11 +6,13 @@ import nock from 'nock';
 import {
     getThread as fetchThread,
     getThreads as fetchThreads,
+    getThreadCounts as fetchThreadCounts,
 } from 'mattermost-redux/actions/threads';
 
 import {
     getThread,
     getThreadsInCurrentTeam,
+    getThreadCountsInCurrentTeam,
 } from 'mattermost-redux/selectors/entities/threads';
 
 import {Client4} from 'mattermost-redux/client';
@@ -131,7 +133,7 @@ describe('Actions.Threads', () => {
 
         const mockResponse = {
             threads: [mockThread0, mockThread1, mockThread2],
-            count: 3,
+            total: 0,
             total_unread_mentions: 0,
             total_unread_threads: 0,
         };
@@ -146,5 +148,29 @@ describe('Actions.Threads', () => {
         expect(error).toBeUndefined();
         expect(data).toBeDefined();
         expect(threads).toEqual([threadId0, threadId1, threadId2]);
+    });
+
+    test('getThreadCounts', async () => {
+        const mockResponse = {
+            threads: null,
+            total: 3,
+            total_unread_mentions: 1,
+            total_unread_threads: 2,
+        };
+
+        nock(Client4.getBaseRoute()).
+            get((uri) => uri.includes(`/users/${currentUserId}/teams/${currentTeamId}/threads`)).
+            reply(200, mockResponse);
+
+        const {error, data} = await store.dispatch(fetchThreadCounts(currentUserId, currentTeamId));
+        const state = store.getState();
+        const counts = getThreadCountsInCurrentTeam(state);
+        expect(error).toBeUndefined();
+        expect(data).toBeDefined();
+        expect(counts).toEqual({
+            total: 3,
+            total_unread_mentions: 1,
+            total_unread_threads: 2,
+        });
     });
 });

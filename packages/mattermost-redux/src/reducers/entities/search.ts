@@ -1,14 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {combineReducers} from 'redux';
 
 import {PostTypes, PreferenceTypes, SearchTypes, UserTypes} from 'mattermost-redux/action_types';
 import {Preferences} from 'mattermost-redux/constants';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {PreferenceType} from '@mattermost/types/preferences';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
-import {Dictionary} from 'mattermost-redux/types/utilities';
-import {Search} from 'mattermost-redux/types/search';
+import {Post} from '@mattermost/types/posts';
+import {Search} from '@mattermost/types/search';
 
 function results(state: string[] = [], action: GenericAction) {
     switch (action.type) {
@@ -54,7 +54,7 @@ function fileResults(state: string[] = [], action: GenericAction) {
     }
 }
 
-function matches(state: Dictionary<string[]> = {}, action: GenericAction) {
+function matches(state: Record<string, string[]> = {}, action: GenericAction) {
     switch (action.type) {
     case SearchTypes.RECEIVED_SEARCH_POSTS:
         if (action.isGettingMore) {
@@ -72,7 +72,7 @@ function matches(state: Dictionary<string[]> = {}, action: GenericAction) {
     }
     case SearchTypes.REMOVE_SEARCH_POSTS:
     case UserTypes.LOGOUT_SUCCESS:
-        return [];
+        return {};
 
     default:
         return state;
@@ -141,7 +141,7 @@ function flagged(state: string[] = [], action: GenericAction) {
     }
 }
 
-function removePinnedPost(state: Dictionary<string[]>, post: Post) {
+function removePinnedPost(state: Record<string, string[]>, post: Post) {
     if (post && state[post.channel_id]) {
         const postId = post.id;
         const channelId = post.channel_id;
@@ -160,7 +160,7 @@ function removePinnedPost(state: Dictionary<string[]>, post: Post) {
     return state;
 }
 
-function pinned(state: Dictionary<string[]> = {}, action: GenericAction) {
+function pinned(state: Record<string, string[]> = {}, action: GenericAction) {
     switch (action.type) {
     case SearchTypes.RECEIVED_SEARCH_PINNED_POSTS: {
         const {channelId, pinned: posts} = action.data;
@@ -206,14 +206,14 @@ function pinned(state: Dictionary<string[]> = {}, action: GenericAction) {
         return state;
     }
     case UserTypes.LOGOUT_SUCCESS:
-        return [];
+        return {};
 
     default:
         return state;
     }
 }
 
-function recent(state: Dictionary<Search[]> = {}, action: GenericAction) {
+function recent(state: Record<string, Search[]> = {}, action: GenericAction) {
     const {data, type} = action;
 
     switch (type) {
@@ -303,6 +303,26 @@ function isSearchGettingMore(state = false, action: GenericAction) {
     }
 }
 
+function isLimitedResults(state = -1, action: GenericAction): number {
+    switch (action.type) {
+    case SearchTypes.SEARCH_POSTS_REQUEST: {
+        if (!action.isGettingMore) {
+            return -1;
+        }
+        return state;
+    }
+    case SearchTypes.RECEIVED_SEARCH_POSTS: {
+        if (action.data?.first_inaccessible_post_time) {
+            return action.data.first_inaccessible_post_time || 0;
+        }
+        return state;
+    }
+    default: {
+        return state;
+    }
+    }
+}
+
 export default combineReducers({
 
     // An ordered array with posts ids of flagged posts
@@ -332,4 +352,8 @@ export default combineReducers({
 
     // Boolean true if we are getting more search results
     isSearchGettingMore,
+
+    // Boolean true if the search returns results inaccessible because
+    // they are beyond a cloud workspace's message limits.
+    isLimitedResults,
 });

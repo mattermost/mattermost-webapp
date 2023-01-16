@@ -8,9 +8,8 @@ import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {$ID} from 'mattermost-redux/types/utilities';
-import {Channel} from 'mattermost-redux/types/channels';
-import {Post} from 'mattermost-redux/types/posts';
+import {Channel} from '@mattermost/types/channels';
+import {Post} from '@mattermost/types/posts';
 
 import {FakePost} from 'types/store/rhs';
 
@@ -22,8 +21,7 @@ import ThreadViewerVirtualized from './virtualized_thread_viewer';
 
 type OwnProps = {
     channel: Channel;
-    openTime: number;
-    postIds: Array<$ID<Post | FakePost>>;
+    postIds: Array<Post['id'] | FakePost['id']>;
     selected: Post | FakePost;
     useRelativeTimestamp: boolean;
 }

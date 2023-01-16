@@ -16,9 +16,8 @@ import TeamSelectorModal from 'components/team_selector_modal';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import {Groups} from 'mattermost-redux/constants';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {ChannelWithTeamData} from '@mattermost/types/channels';
 import {
     Group,
     GroupChannel,
@@ -26,9 +25,9 @@ import {
     GroupTeam,
     SyncablePatch,
     SyncableType,
-} from 'mattermost-redux/types/groups';
-import {Team} from 'mattermost-redux/types/teams';
-import {UserProfile} from 'mattermost-redux/types/users';
+} from '@mattermost/types/groups';
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
 
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
@@ -86,7 +85,7 @@ export type State = {
     groupMentionName?: string;
     saving: boolean;
     saveNeeded: boolean;
-    serverError: JSX.Element | null;
+    serverError: JSX.Element | undefined;
     hasAllowReferenceChanged: boolean;
     hasGroupMentionNameChanged: boolean;
     teamsToAdd: GroupTeam[];
@@ -117,7 +116,7 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
             groupMentionName: props.group.name,
             saving: false,
             saveNeeded: false,
-            serverError: null,
+            serverError: undefined,
             hasAllowReferenceChanged: false,
             hasGroupMentionNameChanged: false,
             teamsToAdd: [],
@@ -134,8 +133,8 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
         actions.getGroup(groupID);
 
         Promise.all([
-            actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_TEAM),
-            actions.getGroupSyncables(groupID, Groups.SYNCABLE_TYPE_CHANNEL),
+            actions.getGroupSyncables(groupID, SyncableType.Team),
+            actions.getGroupSyncables(groupID, SyncableType.Channel),
             actions.getGroupStats(groupID),
         ]).then(() => {
             this.setState({
@@ -259,12 +258,12 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
         const newState: Partial<State> = {
             saveNeeded: true,
             itemsToRemove,
-            serverError: null,
+            serverError: undefined,
         };
         const syncableType = this.syncableTypeFromEntryType(type);
 
         let makeAPIRequest = true;
-        if (syncableType === Groups.SYNCABLE_TYPE_CHANNEL) {
+        if (syncableType === SyncableType.Channel) {
             newState.channelsToAdd = channelsToAdd?.filter(
                 (item) => item.channel_id !== id,
             );
@@ -273,7 +272,7 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
             ) {
                 makeAPIRequest = false;
             }
-        } else if (syncableType === Groups.SYNCABLE_TYPE_TEAM) {
+        } else if (syncableType === SyncableType.Team) {
             newState.teamsToAdd = teamsToAdd?.filter(
                 (item) => item.team_id !== id,
             );
@@ -286,7 +285,7 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
         }
 
         if (
-            this.syncableTypeFromEntryType(type) === Groups.SYNCABLE_TYPE_TEAM
+            this.syncableTypeFromEntryType(type) === SyncableType.Team
         ) {
             newState.groupTeams = groupTeams?.filter((gt) => gt.team_id !== id);
         } else {
@@ -302,10 +301,10 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
         switch (entryType) {
         case 'public-team':
         case 'private-team':
-            return Groups.SYNCABLE_TYPE_TEAM;
+            return SyncableType.Team;
         case 'public-channel':
         case 'private-channel':
-            return Groups.SYNCABLE_TYPE_CHANNEL;
+            return SyncableType.Channel;
         default:
             return null;
         }
@@ -325,7 +324,7 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
         rolesToChange[key] = schemeAdmin;
 
         if (
-            this.syncableTypeFromEntryType(type) === Groups.SYNCABLE_TYPE_TEAM
+            this.syncableTypeFromEntryType(type) === SyncableType.Team
         ) {
             listToUpdate = groupTeams;
             getId = (item: GroupTeam) => item.team_id;
@@ -398,11 +397,11 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
         await Promise.all([
             this.props.actions.getGroupSyncables(
                 this.props.groupID,
-                Groups.SYNCABLE_TYPE_CHANNEL,
+                SyncableType.Channel,
             ),
             this.props.actions.getGroupSyncables(
                 this.props.groupID,
-                Groups.SYNCABLE_TYPE_TEAM,
+                SyncableType.Team,
             ),
         ]);
 
@@ -418,14 +417,14 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
     };
 
     roleChangeKey = (groupTeamOrChannel: {
-        type?: Groups;
+        type?: SyncableType;
         team_id?: string;
         channel_id?: string;
     }) => {
         let id;
         if (
             this.syncableTypeFromEntryType(groupTeamOrChannel.type) ===
-            Groups.SYNCABLE_TYPE_TEAM
+            SyncableType.Team
         ) {
             id = groupTeamOrChannel.team_id;
         } else {
@@ -441,7 +440,7 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
             hasAllowReferenceChanged,
             hasGroupMentionNameChanged,
         } = this.state;
-        let serverError = null;
+        let serverError;
 
         const GroupNameIsTakenError = (
             <FormattedMessage
@@ -567,7 +566,7 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
                     this.props.actions.link(
                         this.props.groupID,
                         groupTeam.team_id,
-                        Groups.SYNCABLE_TYPE_TEAM,
+                        SyncableType.Team,
                         {
                             auto_add: true,
                             scheme_admin: Boolean(groupTeam.scheme_admin),
@@ -585,7 +584,7 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
                     this.props.actions.link(
                         this.props.groupID,
                         groupChannel.channel_id,
-                        Groups.SYNCABLE_TYPE_CHANNEL,
+                        SyncableType.Channel,
                         {
                             auto_add: true,
                             scheme_admin: groupChannel.scheme_admin,

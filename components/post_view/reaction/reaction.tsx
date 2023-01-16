@@ -2,12 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Tooltip} from 'react-bootstrap';
 
-import {Post} from 'mattermost-redux/types/posts';
-import {Reaction as ReactionType} from 'mattermost-redux/types/reactions';
+import {Post} from '@mattermost/types/posts';
+import {Reaction as ReactionType} from '@mattermost/types/reactions';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import * as Utils from 'utils/utils';
 
@@ -236,9 +236,9 @@ export default class Reaction extends React.PureComponent<Props, State> {
                     ref={this.reactionButtonRef}
                 >
                     <span className='d-flex align-items-center'>
-                        <span
+                        <img
                             className='Reaction__emoji emoticon'
-                            style={{backgroundImage: 'url(' + this.props.emojiImageUrl + ')'}}
+                            src={this.props.emojiImageUrl}
                         />
                         <span
                             ref={this.reactionCountRef}

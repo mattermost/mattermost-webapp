@@ -4,7 +4,7 @@
 import React, {CSSProperties} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Audit} from 'mattermost-redux/types/audits';
+import {Audit} from '@mattermost/types/audits';
 
 import ComplianceReports from 'components/admin_console/compliance_reports';
 import AuditTable from 'components/audit_table';

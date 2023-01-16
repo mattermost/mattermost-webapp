@@ -1,26 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {Redirect, RouteComponentProps} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
-import {Overlay, Tooltip} from 'react-bootstrap';
+import {Overlay} from 'react-bootstrap';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership} from '@mattermost/types/teams';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
-import {$ID} from 'mattermost-redux/types/utilities';
-
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 import {adminResetMfa, adminResetEmail} from 'actions/admin_actions.jsx';
 
 import {Constants} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 
 import BlockableLink from 'components/admin_console/blockable_link';
@@ -32,6 +31,7 @@ import ConfirmModal from 'components/confirm_modal';
 import SaveButton from 'components/save_button';
 import FormError from 'components/form_error';
 import TeamSelectorModal from 'components/team_selector_modal';
+import Tooltip from 'components/tooltip';
 
 import TeamList from 'components/admin_console/system_user_detail/team_list';
 import EmailIcon from 'components/widgets/icons/email_icon';
@@ -53,7 +53,7 @@ export type Props = {
 
 export type State = {
     teams: TeamMembership[];
-    teamIds: Array<$ID<Team>>;
+    teamIds: Array<Team['id']>;
     loading: boolean;
     searching: boolean;
     showPasswordModal: boolean;

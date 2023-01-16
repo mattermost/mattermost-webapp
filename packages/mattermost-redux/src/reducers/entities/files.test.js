@@ -80,6 +80,37 @@ describe('reducers/entities/files', () => {
                     file2: {id: 'file2', post_id: 'post'},
                 });
             });
+
+            it('should save files for permalinks', () => {
+                const state = deepFreeze({});
+                const action = {
+                    type: actionType,
+                    data: {
+                        id: 'post',
+                        metadata: {
+                            embeds: [{
+                                type: 'permalink',
+                                data: {
+                                    post: {
+                                        id: 'post-2',
+                                        metadata: {
+                                            files: [{id: 'file1', post_id: 'post'}, {id: 'file2', post_id: 'post'}],
+                                        },
+                                    },
+                                },
+                            }],
+                        },
+                    },
+                };
+
+                const nextState = filesReducer(state, action);
+
+                assert.notStrictEqual(nextState, state);
+                assert.deepStrictEqual(nextState, {
+                    file1: {id: 'file1', post_id: 'post'},
+                    file2: {id: 'file2', post_id: 'post'},
+                });
+            });
         };
 
         describe('RECEIVED_NEW_POST', testForSinglePost(PostTypes.RECEIVED_NEW_POST));
@@ -178,6 +209,59 @@ describe('reducers/entities/files', () => {
                     file2: {id: 'file2', post_id: 'post1'},
                     file3: {id: 'file3', post_id: 'post2'},
                     file4: {id: 'file4', post_id: 'post2'},
+                });
+            });
+
+            it('should save files for permalinks', () => {
+                const state = deepFreeze({});
+                const action = {
+                    type: PostTypes.RECEIVED_POSTS,
+                    data: {
+                        posts: {
+                            post1: {
+                                id: 'post',
+                                metadata: {
+                                    embeds: [{
+                                        type: 'permalink',
+                                        data: {
+                                            post: {
+                                                id: 'post-1-embed',
+                                                metadata: {
+                                                    files: [{id: 'file1', post_id: 'post'}, {id: 'file2', post_id: 'post'}],
+                                                },
+                                            },
+                                        },
+                                    }],
+                                },
+                            },
+                            post2: {
+                                id: 'post',
+                                metadata: {
+                                    embeds: [{
+                                        type: 'permalink',
+                                        data: {
+                                            post: {
+                                                id: 'post-2-embed',
+                                                metadata: {
+                                                    files: [{id: 'file3', post_id: 'post'}, {id: 'file4', post_id: 'post'}],
+                                                },
+                                            },
+                                        },
+                                    }],
+                                },
+                            },
+                        },
+                    },
+                };
+
+                const nextState = filesReducer(state, action);
+
+                assert.notStrictEqual(nextState, state);
+                assert.deepStrictEqual(nextState, {
+                    file1: {id: 'file1', post_id: 'post'},
+                    file2: {id: 'file2', post_id: 'post'},
+                    file3: {id: 'file3', post_id: 'post'},
+                    file4: {id: 'file4', post_id: 'post'},
                 });
             });
         });
@@ -315,6 +399,51 @@ describe('reducers/entities/files', () => {
 
                     assert.notEqual(nextState, state);
                     assert.deepEqual(nextState, {
+                        post: ['file1', 'file2'],
+                    });
+                });
+            });
+
+            describe('new files in permalink', () => {
+                const action = {
+                    type: actionType,
+                    data: {
+                        id: 'post1',
+                        metadata: {
+                            embeds: [{
+                                type: 'permalink',
+                                data: {
+                                    post: {
+                                        id: 'post',
+                                        metadata: {
+                                            files: [{id: 'file1', post_id: 'post'}, {id: 'file2', post_id: 'post'}],
+                                        },
+                                    },
+                                },
+                            }],
+                        },
+                    },
+                };
+
+                it('no previous state', () => {
+                    const state = deepFreeze({});
+                    const nextState = fileIdsByPostIdReducer(state, action);
+
+                    assert.notStrictEqual(nextState, state);
+                    assert.deepStrictEqual(nextState, {
+                        post: ['file1', 'file2'],
+                    });
+                });
+
+                it('with previous state', () => {
+                    const state = deepFreeze({
+                        post: ['fileOld'],
+                    });
+                    const nextState = fileIdsByPostIdReducer(state, action);
+
+                    assert.notStrictEqual(nextState, state);
+                    assert.deepStrictEqual(nextState, {
+
                         post: ['file1', 'file2'],
                     });
                 });
@@ -460,6 +589,55 @@ describe('reducers/entities/files', () => {
                 });
             });
 
+            describe('new files for single post in permalink', () => {
+                const action = {
+                    type: PostTypes.RECEIVED_POSTS,
+                    data: {
+                        posts: {
+                            post1: {
+                                id: 'post1',
+                                metadata: {
+                                    embeds: [{
+                                        type: 'permalink',
+                                        data: {
+                                            post: {
+                                                id: 'post',
+                                                metadata: {
+                                                    files: [{id: 'file1', post_id: 'post'}, {id: 'file2', post_id: 'post'}],
+                                                },
+                                            },
+                                        },
+                                    }],
+                                },
+                            },
+                        },
+
+                    },
+                };
+
+                it('no previous state', () => {
+                    const state = deepFreeze({});
+                    const nextState = fileIdsByPostIdReducer(state, action);
+
+                    assert.notStrictEqual(nextState, state);
+                    assert.deepStrictEqual(nextState, {
+                        post: ['file1', 'file2'],
+                    });
+                });
+
+                it('with previous state', () => {
+                    const state = deepFreeze({
+                        post: ['fileOld'],
+                    });
+                    const nextState = fileIdsByPostIdReducer(state, action);
+
+                    assert.notStrictEqual(nextState, state);
+                    assert.deepStrictEqual(nextState, {
+                        post: ['file1', 'file2'],
+                    });
+                });
+            });
+
             describe('should save files for multiple posts', () => {
                 const action = {
                     type: PostTypes.RECEIVED_POSTS,
@@ -503,6 +681,75 @@ describe('reducers/entities/files', () => {
 
                     assert.notEqual(nextState, state);
                     assert.deepEqual(nextState, {
+                        post1: ['file1', 'file2'],
+                        post2: ['file3', 'file4'],
+                    });
+                });
+            });
+
+            describe('should save files for multiple posts with permalinks', () => {
+                const action = {
+                    type: PostTypes.RECEIVED_POSTS,
+                    data: {
+                        posts: {
+                            post3: {
+                                id: 'post',
+                                metadata: {
+                                    embeds: [{
+                                        type: 'permalink',
+                                        data: {
+                                            post: {
+                                                id: 'post1',
+                                                metadata: {
+                                                    files: [{id: 'file1', post_id: 'post1'}, {id: 'file2', post_id: 'post1'}],
+                                                },
+                                            },
+                                        },
+                                    }],
+                                },
+                            },
+                            post4: {
+                                id: 'post',
+                                metadata: {
+                                    embeds: [{
+                                        type: 'permalink',
+                                        data: {
+                                            post: {
+                                                id: 'post2',
+                                                metadata: {
+                                                    files: [{id: 'file3', post_id: 'post2'}, {id: 'file4', post_id: 'post2'}],
+                                                },
+                                            },
+                                        },
+                                    }],
+                                },
+                            },
+                        },
+                    },
+                };
+
+                it('no previous state for post1', () => {
+                    const state = deepFreeze({
+                        post2: ['fileOld2'],
+                    });
+                    const nextState = fileIdsByPostIdReducer(state, action);
+
+                    assert.notStrictEqual(nextState, state);
+                    assert.deepStrictEqual(nextState, {
+                        post1: ['file1', 'file2'],
+                        post2: ['file3', 'file4'],
+                    });
+                });
+
+                it('previous state for post1', () => {
+                    const state = deepFreeze({
+                        post1: ['fileOld1'],
+                        post2: ['fileOld2'],
+                    });
+                    const nextState = fileIdsByPostIdReducer(state, action);
+
+                    assert.notStrictEqual(nextState, state);
+                    assert.deepStrictEqual(nextState, {
                         post1: ['file1', 'file2'],
                         post2: ['file3', 'file4'],
                     });
