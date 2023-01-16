@@ -219,6 +219,18 @@ const PostComponent = (props: Props): JSX.Element => {
         return name;
     };
 
+    const getPostHeaderVisible = (): boolean | null => {
+        const boundingRectOfPostInfo: DOMRect | undefined = postHeaderRef.current?.getBoundingClientRect();
+
+        let isPostHeaderVisibleToUser: boolean | null = null;
+        if (boundingRectOfPostInfo) {
+            isPostHeaderVisibleToUser = (boundingRectOfPostInfo.top - 65) > 0 &&
+                boundingRectOfPostInfo.bottom < (window.innerHeight - 85);
+        }
+
+        return isPostHeaderVisibleToUser;
+    };
+
     const getClassName = () => {
         const post = props.post;
         const isMeMessage = checkIsMeMessage(post);
@@ -550,6 +562,7 @@ const PostComponent = (props: Props): JSX.Element => {
                                 removePost={props.actions.removePost}
                                 isSearchResultsItem={Boolean(isSearchResultItem)}
                                 handleJumpClick={handleJumpClick}
+                                isPostHeaderVisible={getPostHeaderVisible()}
                             />
                             }
                         </div>

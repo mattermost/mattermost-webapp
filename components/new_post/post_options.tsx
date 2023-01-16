@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode, useRef, useState} from 'react';
+import React, {ReactNode, useEffect, useRef, useState} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
@@ -42,13 +42,19 @@ type Props = {
     isExpanded?: boolean;
     hover?: boolean;
     isMobileView: boolean;
-    a11yActive?: boolean;
     hasReplies?: boolean;
     isFirstReply?: boolean;
     isSearchResultsItem?: boolean;
     canReply?: boolean;
     replyCount?: number;
     location: keyof typeof Locations;
+    isLastPost?: boolean;
+    shortcutReactToLastPostEmittedFrom?: string;
+    isPostHeaderVisible?: boolean | null;
+    isPostBeingEdited?: boolean;
+    actions: {
+        emitShortcutReactToLastPostFrom: (emittedFrom: 'CENTER' | 'RHS_ROOT' | 'NO_WHERE') => void;
+    };
 };
 
 const PostOptions = (props: Props): JSX.Element => {
@@ -59,6 +65,17 @@ const PostOptions = (props: Props): JSX.Element => {
     const [showActionsMenu, setShowActionsMenu] = useState(false);
     const [showActionTip, setShowActionTip] = useState(false);
 
+    useEffect(() => {
+        if (props.isLastPost &&
+            (props.shortcutReactToLastPostEmittedFrom === Locations.CENTER ||
+                props.shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT ||
+                props.shortcutReactToLastPostEmittedFrom === Locations.RHS_COMMENT) &&
+                props.isPostHeaderVisible) {
+            toggleEmojiPicker();
+            props.actions.emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
+        }
+    }, [props.isLastPost, props.shortcutReactToLastPostEmittedFrom]);
+
     const {
         channelIsArchived,
         collapsedThreadsEnabled,
@@ -66,7 +83,6 @@ const PostOptions = (props: Props): JSX.Element => {
         post,
         oneClickReactionsEnabled,
         showActionsMenuPulsatingDot,
-        a11yActive,
         isMobileView,
     } = props;
 
@@ -238,9 +254,7 @@ const PostOptions = (props: Props): JSX.Element => {
                 </a>
             </div>
         );
-    } else if ((isMobileView ||
-                hoverLocal ||
-                a11yActive)) {
+    } else if (!props.isPostBeingEdited) {
         options = (
             <div
                 ref={dotMenuRef}
