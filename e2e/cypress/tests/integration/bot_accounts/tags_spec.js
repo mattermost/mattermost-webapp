@@ -19,11 +19,6 @@ describe('Bot tags', () => {
     let postId;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableBotAccountCreation: true,
-            },
-        });
         cy.apiInitSetup().then((out) => {
             team = out.team;
             channel = out.channel;

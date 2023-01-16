@@ -10,6 +10,7 @@ import {General} from 'mattermost-redux/constants';
 import {OverActiveUserLimits, Preferences, StatTypes} from 'utils/constants';
 import {renderWithIntlAndStore} from 'tests/react_testing_utils';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {getLicenseExpandStatus} from 'mattermost-redux/actions/cloud';
 import {TestHelper} from 'utils/test_helper';
 import {generateId} from 'utils/utils';
 
@@ -31,6 +32,10 @@ jest.mock('mattermost-redux/actions/preferences', () => ({
     savePreferences: jest.fn(),
 }));
 
+jest.mock('mattermost-redux/actions/cloud', () => ({
+    getLicenseExpandStatus: jest.fn(),
+}));
+
 const seatsPurchased = 40;
 const email = 'test@mattermost.com';
 
@@ -42,6 +47,7 @@ const text5PercentageState = `Your workspace user count has exceeded your paid l
 const text10PercentageState = `Your workspace user count has exceeded your paid license seat count by ${seatsMinimumFor10PercentageState - seatsPurchased} seats. Purchase additional seats to remain compliant.`;
 
 const contactSalesTextLink = 'Contact Sales';
+const expandSeatsTextLink = 'Purchase additional seats';
 
 const licenseId = generateId();
 
@@ -71,6 +77,9 @@ describe('components/overage_users_banner', () => {
                 },
             },
             general: {
+                config: {
+                    CWSURL: 'http://testing',
+                },
                 license: {
                     IsLicensed: 'true',
                     IssuedAt: '1517714643650',
@@ -86,6 +95,12 @@ describe('components/overage_users_banner', () => {
             },
             preferences: {
                 myPreferences: {},
+            },
+            cloud: {
+                subscriptionStats: {
+                    is_expandable: false,
+                    getRequestState: 'IDLE',
+                },
             },
         },
     };
@@ -110,6 +125,7 @@ describe('components/overage_users_banner', () => {
         renderComponent();
 
         expect(screen.queryByText('Your workspace user count has exceeded your paid license seat count by', {exact: false})).not.toBeInTheDocument();
+        expect(getLicenseExpandStatus).not.toBeCalled();
     });
 
     it('should not render the banner because we are not admins', () => {
@@ -131,6 +147,7 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.queryByText('Your workspace user count has exceeded your paid license seat count by', {exact: false})).not.toBeInTheDocument();
+        expect(getLicenseExpandStatus).not.toBeCalled();
     });
 
     it('should not render the banner because it\'s cloud licenese', () => {
@@ -146,6 +163,7 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.queryByText('Your workspace user count has exceeded your paid license seat count by', {exact: false})).not.toBeInTheDocument();
+        expect(getLicenseExpandStatus).not.toBeCalled();
     });
 
     it('should not render the 5% banner because we have dissmised it', () => {
@@ -173,10 +191,19 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.queryByText(text5PercentageState)).not.toBeInTheDocument();
+        expect(getLicenseExpandStatus).not.toBeCalled();
     });
 
     it('should render the banner because we are over 5% and we don\'t have any preferences', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
+
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                is_expandable: false,
+                getRequestState: 'OK',
+            },
+        };
 
         store.entities.admin = {
             ...store.entities.admin,
@@ -195,6 +222,14 @@ describe('components/overage_users_banner', () => {
 
     it('should render the banner because we are over 5% and we have preferences from one old banner', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
+
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                is_expandable: false,
+                getRequestState: 'OK',
+            },
+        };
 
         store.entities.preferences.myPreferences = TestHelper.getPreferencesMock(
             [
@@ -249,6 +284,14 @@ describe('components/overage_users_banner', () => {
     it('should render the banner because we are over 10%', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                is_expandable: false,
+                getRequestState: 'OK',
+            },
+        };
+
         store.entities.admin = {
             ...store.entities.admin,
             analytics: {
@@ -262,5 +305,57 @@ describe('components/overage_users_banner', () => {
 
         expect(screen.getByText(text10PercentageState)).toBeInTheDocument();
         expect(screen.getByText(contactSalesTextLink)).toBeInTheDocument();
+    });
+
+    it('should render the  warning banner with expansion seats CTA if the license is expendable', () => {
+        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
+
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                ...store.entities.cloud.subscriptionStats,
+                is_expandable: true,
+                getRequestState: 'OK',
+            },
+        };
+
+        store.entities.admin = {
+            ...store.entities.admin,
+            analytics: {
+                [StatTypes.TOTAL_USERS]: seatsMinimumFor5PercentageState,
+            },
+        };
+
+        renderComponent({
+            store,
+        });
+
+        expect(screen.getByText(expandSeatsTextLink)).toBeInTheDocument();
+    });
+
+    it('should render the error banner with expansion seats CTA if the license is be expendable', () => {
+        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
+
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                ...store.entities.cloud.subscriptionStats,
+                is_expandable: true,
+                getRequestState: 'OK',
+            },
+        };
+
+        store.entities.admin = {
+            ...store.entities.admin,
+            analytics: {
+                [StatTypes.TOTAL_USERS]: seatsMinimumFor10PercentageState,
+            },
+        };
+
+        renderComponent({
+            store,
+        });
+
+        expect(screen.getByText(expandSeatsTextLink)).toBeInTheDocument();
     });
 });

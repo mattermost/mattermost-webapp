@@ -3,9 +3,9 @@
 
 import moment from 'moment';
 
-import {ClientLicense} from '@mattermost/types/config';
-
 import {LicenseSkus} from 'utils/constants';
+
+import {ClientLicense} from '@mattermost/types/config';
 
 const LICENSE_EXPIRY_NOTIFICATION = 1000 * 60 * 60 * 24 * 60; // 60 days
 const LICENSE_GRACE_PERIOD = 1000 * 60 * 60 * 24 * 10; // 10 days
@@ -94,3 +94,8 @@ export const isEnterpriseLicense = (license?: ClientLicense) => {
 };
 
 export const isNonEnterpriseLicense = (license?: ClientLicense) => !isEnterpriseLicense(license);
+
+export const licenseSKUWithFirstLetterCapitalized = (license: ClientLicense) => {
+    const sku = license.SkuShortName;
+    return sku.charAt(0).toUpperCase() + sku.slice(1);
+};

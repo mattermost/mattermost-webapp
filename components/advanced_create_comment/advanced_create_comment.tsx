@@ -219,6 +219,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     private saveDraftFrame?: number | null;
 
     private isDraftSubmitting = false;
+    private isDraftEdited = false;
 
     private readonly textboxRef: React.RefObject<TextboxClass>;
     private readonly fileUploadRef: React.RefObject<FileUploadClass>;
@@ -295,7 +296,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
         window.removeEventListener('beforeunload', this.saveDraftWithShow);
         window.removeEventListener('mouseup', this.getSelectionText);
-        this.saveDraftWithShow();
+        this.saveDraftOnUnmount();
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
@@ -417,6 +418,20 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                 getChannelMemberCountsByGroup(channelId, isTimezoneEnabled);
             }
         }
+    }
+
+    saveDraftOnUnmount = () => {
+        if (!this.isDraftEdited || !this.state.draft) {
+            return;
+        }
+
+        const updatedDraft = {
+            ...this.state.draft,
+            show: !isDraftEmpty(this.state.draft),
+            remote: false,
+        } as PostDraft;
+
+        this.props.onUpdateCommentDraft(updatedDraft, true);
     }
 
     saveDraftWithShow = () => {
@@ -854,6 +869,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     }
 
     handleDraftChange = (draft: PostDraft, rootId?: string, save = false) => {
+        this.isDraftEdited = true;
+
         if (this.saveDraftFrame) {
             clearTimeout(this.saveDraftFrame);
         }
@@ -1040,6 +1057,10 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     }
 
     applyMarkdown = (options: ApplyMarkdownOptions) => {
+        if (this.props.shouldShowPreview) {
+            return;
+        }
+
         const res = applyMarkdown(options);
 
         const draft = this.state.draft!;
@@ -1059,6 +1080,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     }
 
     handleFileUploadChange = () => {
+        this.isDraftEdited = true;
         this.focusTextbox();
     }
 

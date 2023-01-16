@@ -86,8 +86,8 @@ describe('components/post_view/AddMembersButton', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, setHeader and createBoard', () => {
-        const createBoard = (
+    test('should match snapshot, setHeader and pluginButtons', () => {
+        const pluginButtons = (
             <button>
                 {'Create a board'}
             </button>
@@ -102,7 +102,7 @@ describe('components/post_view/AddMembersButton', () => {
             usersLimit: 10,
             channel,
             setHeader,
-            createBoard,
+            pluginButtons,
         };
         const wrapper = mount(
             <Provider store={store}>

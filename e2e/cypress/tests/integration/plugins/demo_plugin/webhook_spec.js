@@ -11,7 +11,6 @@
 // Group: @plugin @not_cloud
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
-import * as MESSAGES from '../../../fixtures/messages';
 import {demoPlugin} from '../../../utils/plugins';
 
 describe('Demo plugin - Webhook events', () => {
@@ -80,7 +79,7 @@ describe('Demo plugin - Webhook events', () => {
     it('MM-T2408_1 - User posts a message Webhook event', () => {
         // # Post message
         cy.visit(`/${team1.name}/channels/off-topic`);
-        cy.postMessage(MESSAGES.SMALL);
+        cy.postMessage('MM-T2408_1');
 
         // * Verify message is posted in the demo channel
         cy.visit(`/${team1.name}/channels/demo_plugin`);
@@ -89,7 +88,8 @@ describe('Demo plugin - Webhook events', () => {
 
     it('MM-T2408_2 - User joined a channel Webhook event', () => {
         // # Join channel
-        cy.visit(`/${team1.name}/channels/${testChannel}`);
+        cy.visit(`/${team1.name}/channels/${testChannel}`).wait(TIMEOUTS.ONE_SEC);
+        cy.postMessage('MM-T2408_2');
 
         // * Verify message is posted in the demo channel
         cy.visit(`/${team1.name}/channels/demo_plugin`);
@@ -109,7 +109,7 @@ describe('Demo plugin - Webhook events', () => {
     it('MM-T2408_4 - User edited a message Webhook event', () => {
         // # Post message
         cy.visit(`/${team1.name}/channels/off-topic`);
-        cy.postMessage(MESSAGES.SMALL);
+        cy.postMessage('MM-T2408_4');
 
         // # Get last post ID
         cy.getLastPostId().then((postID) => {
@@ -124,7 +124,7 @@ describe('Demo plugin - Webhook events', () => {
                 should('be.visible').
                 and('be.focused').
                 wait(TIMEOUTS.HALF_SEC).
-                type(MESSAGES.TINY).
+                type('MM-T2408_4 edited').
                 type('{enter}');
 
             // # Open demo plugin channel
@@ -138,7 +138,7 @@ describe('Demo plugin - Webhook events', () => {
     it('MM-T2408_5 - User adds a reaction to a message Webhook event', () => {
         // # Post message
         cy.visit(`/${team1.name}/channels/off-topic`);
-        cy.postMessage(MESSAGES.SMALL);
+        cy.postMessage('MM-T2408_5');
 
         cy.getLastPostId().then((postId) => {
             // # Click the add reaction icon
