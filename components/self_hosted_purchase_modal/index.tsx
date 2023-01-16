@@ -691,11 +691,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                 <SelfHostedCard
                                     desiredPlanName={desiredPlanName}
                                     desiredProduct={desiredProduct}
-                                    seats={state.seats}
                                     currentUsers={currentUsers}
-                                    updateSeats={(seats: Seats) => {
-                                        dispatch({type: 'set_seats', data: seats});
-                                    }}
                                     canSubmit={canSubmitForm}
                                     submit={submit}
                                 />
