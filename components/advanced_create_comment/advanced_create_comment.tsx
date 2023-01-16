@@ -26,7 +26,7 @@ import {
 import {getTable, hasHtmlLink, formatMarkdownMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
 
 import NotifyConfirmModal from 'components/notify_confirm_modal';
-import {FileUpload as FileUploadClass, PostType} from 'components/file_upload/file_upload';
+import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import PostDeletedModal from 'components/post_deleted_modal';
 import {NewPostDraft} from 'types/store/draft';
 
@@ -54,7 +54,7 @@ import AdvancedTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {TextboxClass, TextboxElement} from '../textbox';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
-import Wysiwyg, {Editor, JSONContent, WysiwygConfig} from '../wysiwyg';
+import {Editor, JSONContent} from '../wysiwyg';
 
 const KeyCodes = Constants.KeyCodes;
 
@@ -1217,49 +1217,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     render() {
         const draft = this.state.draft!;
 
-        if (this.props.isWysiwygEnabled) {
-            const {currentTeamId, channelId, ctrlSend, codeBlockOnCtrlEnter, useLDAPGroupMentions, useCustomGroupMentions, rootId, canPost} = this.props;
-
-            const wysiwygConfig: WysiwygConfig = {
-                enterHandling: {
-                    ctrlSend,
-                    codeBlockOnCtrlEnter,
-                },
-                keyHandlers: {
-                    ArrowUp: this.arrowUpHandling,
-                },
-                suggestions: {
-                    mention: {
-                        teamId: currentTeamId,
-                        channelId,
-                        useSpecialMentions: this.props.useChannelMentions,
-                        useGroupMentions: useLDAPGroupMentions || useCustomGroupMentions,
-                    },
-                    channel: {teamId: currentTeamId},
-                    command: {
-                        teamId: currentTeamId,
-                        channelId,
-                    },
-                },
-                fileUpload: {
-                    rootId,
-                    channelId,
-                    postType: PostType.post,
-                },
-            };
-
-            return (
-                <Wysiwyg
-                    onSubmit={this.handleSubmit}
-                    onChange={this.handleChange}
-                    readOnly={!canPost}
-                    placeholder={Utils.localizeMessage('create_comment.addComment', 'Reply to this thread...')}
-                    draft={draft}
-                    config={wysiwygConfig}
-                    onAttachmentChange={this.onAttachmentChange}
-                />
-            );
-        }
         return (
             <form onSubmit={this.handleSubmit}>
                 {
