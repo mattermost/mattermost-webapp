@@ -1280,7 +1280,7 @@
   "admin.license.choose": "Choose File",
   "admin.license.confirm-license-removal.cancel": "Cancel",
   "admin.license.confirm-license-removal.confirm": "Confirm",
-  "admin.license.confirm-license-removal.subtitle": "Removing the license will downgrade your server from Enterprise to Free. You may lose information. ",
+  "admin.license.confirm-license-removal.subtitle": "Removing the license will downgrade your server from {currentSKU} to Free. You may lose information. ",
   "admin.license.confirm-license-removal.title": "Are you sure?",
   "admin.license.enterprise.license_required_upgrade": "A license is required to unlock enterprise features",
   "admin.license.enterprise.restart": "Restart Server",
