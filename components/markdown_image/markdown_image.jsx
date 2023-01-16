@@ -38,6 +38,7 @@ export default class MarkdownImage extends React.PureComponent {
         actions: PropTypes.shape({
             openModal: PropTypes.func,
         }).isRequired,
+        hideUtilities: PropTypes.bool,
     }
 
     constructor(props) {
@@ -178,6 +179,7 @@ export default class MarkdownImage extends React.PureComponent {
                     }
 
                     const {height, width, title, postId, onImageHeightChanged} = this.props;
+                    const hideUtilities = this.isHeaderChangeMessage() || this.props.hideUtilities;
 
                     let imageElement = (
                         <SizeAwareImage
@@ -190,6 +192,7 @@ export default class MarkdownImage extends React.PureComponent {
                             dimensions={imageMetadata}
                             showLoader={false}
                             onClick={this.showModal}
+                            hideUtilities={hideUtilities}
                             onImageLoadFail={this.handleLoadFail}
                             onImageLoaded={this.handleImageLoaded}
                         />

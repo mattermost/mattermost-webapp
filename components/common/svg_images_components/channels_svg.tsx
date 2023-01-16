@@ -3,12 +3,17 @@
 
 import React from 'react';
 
-export default () => (
+type SvgProps = {
+    width?: number;
+    height?: number;
+}
+
+export default (props: SvgProps) => (
     <svg
-        width='104'
-        height='104'
+        width={props.width ? props.width.toString() : '104'}
+        height={props.height ? props.height.toString() : '104'}
+        fill='var(--center-channel-bg)'
         viewBox='0 0 104 104'
-        fill='none'
         xmlns='http://www.w3.org/2000/svg'
     >
         <g clipPath='url(#clip0_615_72261)'>

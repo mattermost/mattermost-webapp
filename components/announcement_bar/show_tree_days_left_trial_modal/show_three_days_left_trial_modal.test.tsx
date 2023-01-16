@@ -80,7 +80,7 @@ describe('components/sidebar/show_three_days_left_trial_modal', () => {
                                 history: 10000,
                             },
                             files: {
-                                total_storage: 10 * FileSizes.Gigabyte,
+                                total_storage: FileSizes.Gigabyte,
                             },
                             teams: {
                                 active: 1,
