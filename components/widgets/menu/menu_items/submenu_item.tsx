@@ -47,6 +47,7 @@ export type Props = {
     ariaLabel?: string;
     root?: boolean;
     show?: boolean;
+    showMenu?: boolean;
     direction?: 'left' | 'right';
     openUp?: boolean;
     styleSelectableItem?: boolean;
@@ -68,6 +69,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         direction: 'left',
         subMenuClass: 'pl-4',
         renderSelected: true,
+        showMenu: true,
     };
 
     public constructor(props: Props) {
@@ -136,8 +138,11 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected, rightDecorator, tabIndex} = this.props;
+        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected, rightDecorator, tabIndex, showMenu, subMenuClass} = this.props;
         const isMobile = Utils.isMobile();
+        if (!showMenu) {
+            return null;
+        }
 
         if (filter && !filter(id)) {
             return ('');
@@ -171,16 +176,14 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         if (!isMobile) {
             subMenuContent = (
                 <ul
-                    className={classNames(['a11y__popup Menu dropdown-menu SubMenu', {styleSelectableItem}])}
+                    className={classNames(['a11y__popup Menu dropdown-menu SubMenu', {styleSelectableItem}, subMenuClass])}
                     style={subMenuStyle}
                 >
                     {hasSubmenu ? subMenu!.map((s) => {
                         const hasDivider = s.id === 'ChannelMenu-moveToDivider';
                         let aria = ariaLabel;
                         if (s.action) {
-                            aria = s.text === selectedValueText ?
-                                s.text + ' ' + Utils.localizeMessage('sidebar.menu.item.selected', 'selected') :
-                                s.text + ' ' + Utils.localizeMessage('sidebar.menu.item.notSelected', 'not selected');
+                            aria = s.text === selectedValueText ? s.text + ' ' + Utils.localizeMessage('sidebar.menu.item.selected', 'selected') : s.text + ' ' + Utils.localizeMessage('sidebar.menu.item.notSelected', 'not selected');
                         }
                         return (
                             <span

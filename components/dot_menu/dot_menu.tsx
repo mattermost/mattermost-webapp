@@ -3,7 +3,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import {FormattedDate, FormattedMessage, FormattedTime, injectIntl, IntlShape} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 import {Post} from '@mattermost/types/posts';
@@ -11,6 +11,7 @@ import {UserThread} from '@mattermost/types/threads';
 
 import {Locations, ModalIdentifiers, Constants, TELEMETRY_LABELS, Preferences} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
+import PostReminderCustomTimePicker from 'components/post_reminder_time_picker_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import DelayedAction from 'utils/delayed_action';
@@ -24,6 +25,9 @@ import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 import ForwardPostModal from '../forward_post_modal';
 import Badge from '../widgets/badges/badge';
+
+import {toUTCUnix} from 'utils/datetime';
+import {getCurrentMomentForTimezone} from 'utils/timezone';
 
 import {ChangeEvent, trackDotMenuEvent} from './utils';
 import './dot_menu.scss';
@@ -58,6 +62,8 @@ type Props = {
     currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     teamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     isMobileView: boolean;
+    timezone?: string;
+    isMilitaryTime: boolean;
     showForwardPostNewLabel: boolean;
 
     /**
@@ -110,10 +116,14 @@ type Props = {
         setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
 
         /**
+         * Function to add a post reminder
+         */
+        addPostReminder: (postId: string, userId: string, timestamp: number) => void;
+
+        /**
          * Function to set a global storage item on the store
          */
         setGlobalItem: (name: string, value: any) => void;
-
     }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;
@@ -333,6 +343,44 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.props.handleCommentClick?.(e);
     }
 
+    setPostReminder = (id: string): void => {
+        const currentDate = getCurrentMomentForTimezone(this.props.timezone);
+        let endTime = currentDate;
+        switch (id) {
+        case 'thirty_minutes':
+            // add 30 minutes in current time
+            endTime = currentDate.add(30, 'minutes');
+            break;
+        case 'one_hour':
+            // add 1 hour in current time
+            endTime = currentDate.add(1, 'hour');
+            break;
+        case 'two_hours':
+            // add 2 hours in current time
+            endTime = currentDate.add(2, 'hours');
+            break;
+        case 'tomorrow':
+            // add one day in current date
+            endTime = currentDate.add(1, 'day');
+            break;
+        }
+
+        this.props.actions.addPostReminder(this.props.userId, this.props.post.id, toUTCUnix(endTime.toDate()));
+    }
+
+    setCustomPostReminder = (): void => {
+        const postReminderCustomTimePicker = {
+            modalId: ModalIdentifiers.POST_REMINDER_CUSTOM_TIME_PICKER,
+            dialogType: PostReminderCustomTimePicker,
+            dialogProps: {
+                postId: this.props.post.id,
+                currentDate: new Date(),
+            },
+        };
+
+        this.props.actions.openModal(postReminderCustomTimePicker);
+    }
+
     tooltip = (
         <Tooltip
             id='dotmenu-icon-tooltip'
@@ -454,6 +502,15 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         });
     }
 
+    postReminderTimes = [
+
+        {id: 'thirty_minutes', label: 'post_info.post_reminder.sub_menu.thirty_minutes', labelDefault: '30 mins'},
+        {id: 'one_hour', label: 'post_info.post_reminder.sub_menu.one_hour', labelDefault: '1 hour'},
+        {id: 'two_hours', label: 'post_info.post_reminder.sub_menu.two_hours', labelDefault: '2 hours'},
+        {id: 'tomorrow', label: 'post_info.post_reminder.sub_menu.tomorrow', labelDefault: 'Tomorrow'},
+        {id: 'custom', label: 'post_info.post_reminder.sub_menu.custom', labelDefault: 'Custom'},
+    ];
+
     render(): JSX.Element {
         const isFollowingThread = this.props.isFollowingThread ?? this.props.isMentionedInRootPost;
         const isMobile = this.props.isMobileView;
@@ -464,6 +521,55 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             </span>
         );
 
+        const postReminderHeaderText = (
+            <>
+                <span className={'postReminderMenuHeader'}>
+                    {Utils.localizeMessage('post_info.post_reminder.sub_menu.header', 'Set a reminder for:')}
+                </span>
+            </>
+        );
+
+        const postReminderSubMenuItems = [
+            {
+                id: 'postReminderSubMenu-header',
+                direction: 'right',
+                text: postReminderHeaderText,
+                isHeader: true,
+            } as any,
+        ].concat(
+            this.postReminderTimes.map(({id, label, labelDefault}) => {
+                let text: React.ReactNode = Utils.localizeMessage(label, labelDefault);
+                if (id === 'tomorrow') {
+                    const tomorrow = getCurrentMomentForTimezone(this.props.timezone).add(1, 'day').toDate();
+                    text = (
+                        <>
+                            {text}
+                            <span className={`postReminder-${id}_timestamp`}>
+                                <FormattedDate
+                                    value={tomorrow}
+                                    weekday='short'
+                                />
+                                {', '}
+                                <FormattedTime
+                                    value={tomorrow}
+                                    timeStyle='short'
+                                    hour12={!this.props.isMilitaryTime}
+                                />
+                            </span>
+                        </>
+                    );
+                }
+                return {
+                    id: `postReminder-${id}`,
+                    direction: 'right',
+                    text,
+                    action: id === 'custom' ? () => this.setCustomPostReminder() : () => this.setPostReminder(id),
+                } as any;
+            }),
+        );
+
+        const fromWebhook = this.props.post.props?.from_webhook === 'true';
+        const fromBot = this.props.post.props?.from_bot === 'true';
         this.canPostBeForwarded = !(isSystemMessage);
 
         const forwardPostItemText = (
@@ -579,6 +685,16 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         icon={this.props.isFlagged ? Utils.getMenuItemIcon('icon-bookmark') : Utils.getMenuItemIcon('icon-bookmark-outline')}
                         rightDecorator={<ShortcutKey shortcutKey='S'/>}
                         onClick={this.handleFlagMenuItemActivated}
+                    />
+                    <Menu.ItemSubMenu
+                        direction={'left'}
+                        icon={Utils.getMenuItemIcon('icon-clock-outline')}
+                        id={`remind_post_${this.props.post.id}`}
+                        openUp={this.state.openUp}
+                        showMenu={!isSystemMessage}
+                        subMenu={postReminderSubMenuItems}
+                        subMenuClass={this.props.location === Locations.CENTER ? 'postReminderSubMenu' : 'postReminderSubMenuRHS'}
+                        text={Utils.localizeMessage('post_info.post_reminder.menu', 'Remind')}
                     />
                     <Menu.ItemAction
                         id={`unpin_post_${this.props.post.id}`}

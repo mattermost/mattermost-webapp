@@ -17,4 +17,18 @@
             }
         }
     }
+
+    #postReminderSubMenu-header {
+        font-weight: bold;
+        pointer-events: none;
+    }
+
+    #postReminder-tomorrow .postReminder-tomorrow_timestamp {
+        float: right;
+        opacity: 0.7;
+    }
+
+    .postReminderSubMenuRHS {
+        left: 0;
+    }
 }

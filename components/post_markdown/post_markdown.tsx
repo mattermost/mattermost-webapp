@@ -49,6 +49,11 @@ type Props = {
     hasPluginTooltips?: boolean;
     isUserCanManageMembers?: boolean;
     mentionKeys: MentionKey[];
+
+    /**
+     * Whether the user prefers Military time
+     */
+    isMilitaryTime?: boolean;
 }
 
 export default class PostMarkdown extends React.PureComponent<Props> {
@@ -73,7 +78,7 @@ export default class PostMarkdown extends React.PureComponent<Props> {
         const {post, mentionKeys} = this.props;
 
         if (post) {
-            const renderedSystemMessage = renderSystemMessage(post, this.props.channel, this.props.isUserCanManageMembers);
+            const renderedSystemMessage = renderSystemMessage(post, this.props.channel, this.props.isUserCanManageMembers, this.props.isMilitaryTime);
             if (renderedSystemMessage) {
                 return <div>{renderedSystemMessage}</div>;
             }
