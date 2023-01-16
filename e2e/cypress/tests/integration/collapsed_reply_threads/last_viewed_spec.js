@@ -78,7 +78,7 @@ describe('Collapsed Reply Threads', () => {
 
     it('MM-T4843_1 should go to threads view when switching a team if that was the last view on that team', () => {
         // # Go to the ‘Threads’ view on Team A
-        cy.uiGetSidebarThreadsButton().click();
+        cy.uiGetSidebarThreadsButton().click().wait(TIMEOUTS.ONE_SEC);
 
         // # Switch to Team B
         cy.get(`#${teamB.name}TeamButton`, {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
@@ -95,7 +95,7 @@ describe('Collapsed Reply Threads', () => {
 
     it('MM-T4843_2 should go to threads view when threads view is the penultimate view and leave the current channel', () => {
         // # Go to the ‘Threads’ view on Team A
-        cy.uiGetSidebarThreadsButton().click();
+        cy.uiGetSidebarThreadsButton().click().wait(TIMEOUTS.ONE_SEC);
 
         // # Switch to Test Channel
         cy.uiClickSidebarItem(testChannel.name);

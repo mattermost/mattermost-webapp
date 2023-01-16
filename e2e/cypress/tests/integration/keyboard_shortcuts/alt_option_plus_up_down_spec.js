@@ -62,6 +62,7 @@ describe('Keyboard Shortcuts', () => {
         verifyChannelSwitch(testTeam.name, privateChannel, townSquare, '{uparrow}');
         verifyChannelSwitch(testTeam.name, offTopic, privateChannel, '{uparrow}');
         verifyChannelSwitch(testTeam.name, publicChannel, offTopic, '{uparrow}');
+        cy.get('body').type('{alt}{uparrow}').type('{alt}{uparrow}');
 
         // * Should switch to Insights
         verifyChannelSwitch(testTeam.name, insightsSidebar, publicChannel, '{uparrow}');
@@ -81,6 +82,7 @@ describe('Keyboard Shortcuts', () => {
         verifyChannelSwitch(testTeam.name, privateChannel, offTopic, '{downarrow}');
         verifyChannelSwitch(testTeam.name, townSquare, privateChannel, '{downarrow}');
         verifyChannelSwitch(testTeam.name, dmWithSysadmin, townSquare, '{downarrow}');
+        cy.get('body').type('{alt}{downarrow}').type('{alt}{downarrow}');
 
         // * Should switch to top (Insights) when current channel is at the very bottom
         verifyChannelSwitch(testTeam.name, insightsSidebar, dmWithSysadmin, '{downarrow}');
