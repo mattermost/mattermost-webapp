@@ -1512,11 +1512,11 @@ function handleCloudPaymentStatusUpdated() {
 }
 
 export function handleCloudSubscriptionChanged(msg) {
+    // eslint-disable-next-line no-console
+    console.log('websocket_actions handleCloudSubscriptionChanged', {data: msg.data});
     return (doDispatch, doGetState) => {
         const state = doGetState();
         const license = getLicense(state);
-
-        dispatch(logError({type: 'critical', message: JSON.stringify(msg)}, true, true));
 
         if (license.Cloud === 'true') {
             if (msg.data.limits) {

@@ -12,6 +12,8 @@ import {Product, Subscription, CloudCustomer, Invoice, Limits, SelfHostedSignupP
 export function subscription(state: Subscription | null = null, action: GenericAction) {
     switch (action.type) {
     case CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION: {
+        // eslint-disable-next-line no-console
+        console.log('reducers/entities/cloud subscription', action.data);
         return action.data;
     }
     default:
@@ -101,6 +103,8 @@ const emptyLimits = {
 export function limits(state: LimitsReducer = emptyLimits, action: GenericAction) {
     switch (action.type) {
     case CloudTypes.RECEIVED_CLOUD_LIMITS: {
+        // eslint-disable-next-line no-console
+        console.log('reducers/entities/cloud limits', action.data);
         return {
             limits: action.data,
             limitsLoaded: true,

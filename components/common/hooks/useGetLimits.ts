@@ -22,14 +22,14 @@ export default function useGetLimits(): [Limits, boolean] {
     const [refreshCloudLimits, setRefreshCloudLimits] = useState(false);
     const [requestedLimits, setRequestedLimits] = useState(false);
 
-    const limitsReceived = !requestedLimits && !cloudLimitsReceived;
+    const needCloudLimits = (!requestedLimits && !cloudLimitsReceived) || refreshCloudLimits;
 
     const ensureUpdatedData = () => {
         dispatch(getCloudLimitsAction());
     };
 
     useEffect(() => {
-        if (!limitsReceived) {
+        if (!needCloudLimits || !refreshCloudLimits) {
             return;
         }
 
@@ -39,10 +39,10 @@ export default function useGetLimits(): [Limits, boolean] {
         if (trialExpired) {
             setRefreshCloudLimits(true);
         }
-    }, [subscription, limitsReceived]);
+    }, [subscription, needCloudLimits]);
 
     useEffect(() => {
-        if (isLoggedIn && isCloud && (!limitsReceived || refreshCloudLimits)) {
+        if (isLoggedIn && isCloud && needCloudLimits) {
             setTimeout(ensureUpdatedData, TIME_UNTIL_CACHE_PURGE_GUESS);
             setRequestedLimits(true);
 
