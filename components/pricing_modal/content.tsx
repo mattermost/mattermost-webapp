@@ -213,7 +213,7 @@ function Content(props: ContentProps) {
             return;
         }
 
-        // downgrade('click_pricing_modal_free_card_downgrade_button');
+        downgrade('click_pricing_modal_free_card_downgrade_button');
     }, [downgradeFeedback]);
 
     return (

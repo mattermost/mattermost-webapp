@@ -96,13 +96,12 @@ describe('Feedback modal', () => {
         // # Click the free action (downgrade).
         cy.get('#free_action').should('be.enabled').click();
 
-
         // * Downgrade feedback should exist.
         cy.get('.DowngradeFeedback__Submit').should('exist');
 
         // # Click the other option, requiring extra comments.
         cy.get('input[value="Other"]').click();
-        
+
         // * The submit button should be disabled.
         cy.get('.DowngradeFeedback__Submit > button').should('exit').should('be.enabled').click();
 

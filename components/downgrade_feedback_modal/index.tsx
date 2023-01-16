@@ -34,7 +34,7 @@ export default function DowngradeFeedbackModal(props: Props) {
     const [comments, setComments] = useState('');
     const reasonNotSelected = reason === '';
     const commentsNotProvided = comments === '';
-    
+
     const dispatch = useDispatch();
 
     const handleSubmitFeedback = () => {
