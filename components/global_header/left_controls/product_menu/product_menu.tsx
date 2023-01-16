@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useRef} from 'react';
+import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -13,8 +14,8 @@ import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import {BoardsTourTip, PlaybooksTourTip} from 'components/onboarding_explore_tools_tour';
-import {FINISHED, TutorialTourName} from 'components/onboarding_tour';
+import {BoardsTourTip, PlaybooksTourTip} from 'components/tours/onboarding_explore_tools_tour';
+import {FINISHED, TutorialTourName} from 'components/tours';
 
 import {isSwitcherOpen} from 'selectors/views/product_menu';
 
@@ -26,12 +27,11 @@ import {
     TaskNameMapToSteps,
     useHandleOnBoardingTaskData,
 } from 'components/onboarding_tasks';
-
+import {ExploreOtherToolsTourSteps, suitePluginIds} from 'utils/constants';
+import {useCurrentProductId, useProducts, isChannels} from 'utils/products';
 import {GlobalState} from 'types/store';
 
-import {suitePluginIds} from 'utils/constants';
-
-import {useClickOutsideRef, useCurrentProductId, useProducts} from '../../hooks';
+import {useClickOutsideRef} from '../../hooks';
 
 import ProductBranding from './product_branding';
 import ProductMenuItem from './product_menu_item';
@@ -66,11 +66,12 @@ export const ProductMenuButton = styled(IconButton).attrs(() => ({
 `;
 
 const ProductMenu = (): JSX.Element => {
+    const {formatMessage} = useIntl();
     const products = useProducts();
     const dispatch = useDispatch();
     const switcherOpen = useSelector(isSwitcherOpen);
     const menuRef = useRef<HTMLDivElement>(null);
-    const currentProductID = useCurrentProductId(products);
+    const currentProductID = useCurrentProductId();
 
     const enableTutorial = useSelector(getConfig).EnableTutorial === 'true';
     const currentUserId = useSelector(getCurrentUserId);
@@ -79,14 +80,11 @@ const ProductMenu = (): JSX.Element => {
     const exploreToolsTourTriggered = triggerStep === GenericTaskSteps.STARTED;
 
     const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
-    const focalboard = pluginsList.focalboard;
+    const boards = pluginsList.focalboard;
     const playbooks = pluginsList.playbooks;
 
-    const boardsStep = 0;
-    const playbooksStep = focalboard ? 1 : 0;
-
-    const showBoardsTour = enableTutorial && tutorialStep === boardsStep && exploreToolsTourTriggered && focalboard;
-    const showPlaybooksTour = enableTutorial && tutorialStep === playbooksStep && exploreToolsTourTriggered && playbooks;
+    const showBoardsTour = enableTutorial && tutorialStep === ExploreOtherToolsTourSteps.BOARDS_TOUR && exploreToolsTourTriggered && boards;
+    const showPlaybooksTour = enableTutorial && tutorialStep === ExploreOtherToolsTourSteps.PLAYBOOKS_TOUR && exploreToolsTourTriggered && playbooks;
 
     const handleClick = () => dispatch(setProductMenuSwitcherOpen(!switcherOpen));
 
@@ -100,7 +98,7 @@ const ProductMenu = (): JSX.Element => {
     };
 
     useClickOutsideRef(menuRef, () => {
-        if (exploreToolsTourTriggered) {
+        if (exploreToolsTourTriggered || !switcherOpen) {
             return;
         }
         dispatch(setProductMenuSwitcherOpen(false));
@@ -110,13 +108,14 @@ const ProductMenu = (): JSX.Element => {
         let tourTip;
 
         // focalboard
-        if (product.pluginId === suitePluginIds.focalboard && showBoardsTour) {
+        const boardsEnabled = product.pluginId === suitePluginIds.focalboard || product.pluginId === suitePluginIds.boards;
+        if (boardsEnabled && showBoardsTour) {
             tourTip = (<BoardsTourTip singleTip={!playbooks}/>);
         }
 
         // playbooks
         if (product.pluginId === suitePluginIds.playbooks && showPlaybooksTour) {
-            tourTip = (<PlaybooksTourTip singleTip={!focalboard}/>);
+            tourTip = (<PlaybooksTourTip singleTip={!boards}/>);
         }
 
         return (
@@ -141,25 +140,28 @@ const ProductMenu = (): JSX.Element => {
                 <ProductMenuContainer onClick={handleClick}>
                     <ProductMenuButton
                         active={switcherOpen}
-                        aria-label='Select to open product switch menu.'
+                        aria-expanded={switcherOpen}
+                        aria-label={formatMessage({id: 'global_header.productSwitchMenu', defaultMessage: 'Product switch menu'})}
+                        aria-controls='product-switcher-menu'
                     />
                     <ProductBranding/>
                 </ProductMenuContainer>
                 <Menu
                     listId={'product-switcher-menu-dropdown'}
                     className={'product-switcher-menu'}
+                    id={'product-switcher-menu'}
                     ariaLabel={'switcherOpen'}
                 >
                     <ProductMenuItem
                         destination={'/'}
                         icon={'product-channels'}
                         text={'Channels'}
-                        active={currentProductID === null}
+                        active={isChannels(currentProductID)}
                         onClick={handleClick}
                     />
                     {productItems}
                     <ProductMenuList
-                        isMessaging={currentProductID === null}
+                        isMessaging={isChannels(currentProductID)}
                         onClick={handleClick}
                         handleVisitConsoleClick={handleVisitConsoleClick}
                     />

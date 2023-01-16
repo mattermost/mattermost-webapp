@@ -178,13 +178,13 @@ describe('Image Link Preview', () => {
             {
                 filename: 'image-1000x40.jpg',
                 originalSize: {width: 1000, height: 40},
-                thumbnailSize: {width: 951, height: 38},
+                thumbnailSize: {width: 948, height: 38},
                 containerSize: {height: 46},
             },
             {
                 filename: 'image-1600x40.jpg',
                 originalSize: {width: 1600, height: 40},
-                thumbnailSize: {width: 951, height: 24},
+                thumbnailSize: {width: 948, height: 24},
                 previewSize: {width: 1204, height: 30},
                 containerSize: {height: 46},
             },
@@ -230,7 +230,7 @@ describe('Image Link Preview', () => {
                     click();
             });
 
-            // * Verify image preview modal is opened
+            //* Verify image preview modal is opened
             cy.uiGetFilePreviewModal().within(() => {
                 // * Verify we have the image inside the modal
                 cy.uiGetContentFilePreviewModal().find('img').should((imagePreview) => {
@@ -244,8 +244,8 @@ describe('Image Link Preview', () => {
                         expect(imagePreview.width()).to.be.closeTo(previewSize.width, 1);
                     } else {
                         // * It should match original dimension for images less than viewport size
-                        expect(imagePreview.height()).to.equal(originalSize.height);
-                        expect(imagePreview.width()).to.be.equal(originalSize.width);
+                        expect(imagePreview.height()).to.closeTo(originalSize.height, 1);
+                        expect(imagePreview.width()).to.be.closeTo(originalSize.width, 1);
                     }
                 });
             });

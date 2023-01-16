@@ -75,7 +75,7 @@ declare namespace Cypress {
 
         /**
          * Open channel menu
-         * @param {string} item - such as `'View Info'`, `'Notification Preferences'`, `'Team Settings'` and other items in the main menu.
+         * @param {string} [menu] - such as `'View Info'`, `'Notification Preferences'`, `'Team Settings'` and other items in the main menu.
          * @return the channel menu
          *
          * @example

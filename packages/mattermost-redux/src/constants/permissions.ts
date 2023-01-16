@@ -255,6 +255,7 @@ const values = {
     MANAGE_CUSTOM_GROUP_MEMBERS: 'manage_custom_group_members',
     EDIT_CUSTOM_GROUP: 'edit_custom_group',
     DELETE_CUSTOM_GROUP: 'delete_custom_group',
+    RESTORE_CUSTOM_GROUP: 'restore_custom_group',
 };
 
 values.SYSCONSOLE_READ_PERMISSIONS = [

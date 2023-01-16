@@ -15,6 +15,7 @@ import {
     canManageAnyChannelMembersInCurrentTeam,
     getCurrentChannelId,
 } from 'mattermost-redux/selectors/entities/channels';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions';
 import {getMembershipForEntities} from 'actions/views/profile_popover';
@@ -23,6 +24,7 @@ import {closeModal, openModal} from 'actions/views/modals';
 import {areTimezonesEnabledAndSupported, getCurrentUserTimezone} from 'selectors/general';
 import {getRhsState, getSelectedPost} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
+import {isAnyModalOpen} from 'selectors/views/modals';
 
 import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {Action} from 'mattermost-redux/types/actions';
@@ -87,6 +89,8 @@ function makeMapStateToProps() {
             enableLastActiveTime,
             timestampUnits,
             isMobileView: getIsMobileView(state),
+            teammateNameDisplay: getTeammateNameDisplaySetting(state),
+            isAnyModalOpen: isAnyModalOpen(state),
         };
     };
 }

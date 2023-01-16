@@ -2,18 +2,21 @@
 // See LICENSE.txt for license information.
 
 import {PostWithFormatData} from 'mattermost-redux/selectors/entities/posts';
-import {Post} from '@mattermost/types/posts';
-import {Reaction} from '@mattermost/types/reactions';
-import {GlobalState} from '@mattermost/types/store';
 
 import {Posts, Preferences} from 'mattermost-redux/constants';
 
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
+
 import {makeGetProfilesForReactions} from 'mattermost-redux/selectors/entities/users';
+
+import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
+
+import {Post} from '@mattermost/types/posts';
+import {Reaction} from '@mattermost/types/reactions';
+import {GlobalState} from '@mattermost/types/store';
 
 import TestHelper from '../../../test/test_helper';
 
-import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 import {UserProfile} from '@mattermost/types/users';
 
 const p = (override: Partial<PostWithFormatData>) => Object.assign(TestHelper.getPostMock(override), override);
@@ -790,11 +793,22 @@ describe('Selectors.Posts', () => {
     });
 
     describe('getPostIdsForThread', () => {
+        const user1 = TestHelper.fakeUserWithId();
+        const profiles: Record<string, UserProfile> = {};
+        profiles[user1.id] = user1;
+
         it('single post', () => {
             const getPostIdsForThread = Selectors.makeGetPostIdsForThread();
 
             const state = {
                 entities: {
+                    users: {
+                        currentUserId: user1.id,
+                        profiles,
+                    },
+                    preferences: {
+                        myPreferences: {},
+                    },
                     posts: {
                         posts: {
                             1001: {id: '1001', create_at: 1001},
@@ -819,6 +833,13 @@ describe('Selectors.Posts', () => {
 
             const state = {
                 entities: {
+                    users: {
+                        currentUserId: user1.id,
+                        profiles,
+                    },
+                    preferences: {
+                        myPreferences: {},
+                    },
                     posts: {
                         posts: {
                             1001: {id: '1001', create_at: 1001},
@@ -843,6 +864,13 @@ describe('Selectors.Posts', () => {
 
             let state = {
                 entities: {
+                    users: {
+                        currentUserId: user1.id,
+                        profiles,
+                    },
+                    preferences: {
+                        myPreferences: {},
+                    },
                     posts: {
                         posts: {
                             1001: {id: '1001', create_at: 1001},
@@ -955,6 +983,13 @@ describe('Selectors.Posts', () => {
 
             const state = {
                 entities: {
+                    users: {
+                        currentUserId: user1.id,
+                        profiles,
+                    },
+                    preferences: {
+                        myPreferences: {},
+                    },
                     posts: {
                         posts: {
                             1001: {id: '1001', create_at: 1001},
@@ -2457,6 +2492,9 @@ describe('makeGetProfilesForThread', () => {
                     },
                     currentUserId: 'user1',
                 },
+                preferences: {
+                    myPreferences: {},
+                },
             },
         } as unknown as GlobalState;
 
@@ -2482,6 +2520,9 @@ describe('makeGetProfilesForThread', () => {
                         user2,
                     },
                     currentUserId: 'user2',
+                },
+                preferences: {
+                    myPreferences: {},
                 },
             },
         } as unknown as GlobalState;

@@ -6,7 +6,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {getChannel, getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {isPostPriorityEnabled, makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
+import {isPostAcknowledgementsEnabled, isPostPriorityEnabled, makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {
     getMyPreferences,
@@ -59,7 +59,8 @@ export function mapStateToProps() {
         const channel = getChannel(state, post.channel_id) || {delete_at: 0};
 
         const currentTeam = getCurrentTeam(state);
-        let teamName = currentTeam.name;
+        const teamId = currentTeam?.id ?? '';
+        let teamName = currentTeam?.name ?? '';
         let teamDisplayName = '';
 
         const memberships = getTeamMemberships(state);
@@ -75,7 +76,7 @@ export function mapStateToProps() {
             teamName = team?.name || currentTeam.name;
         }
 
-        const canReply = isDMorGM || (channel.team_id === currentTeam.id);
+        const canReply = isDMorGM || (channel.team_id === teamId);
         const directTeammate = getDirectTeammate(state, channel.id);
 
         return {
@@ -96,6 +97,7 @@ export function mapStateToProps() {
             canReply,
             isMobileView: getIsMobileView(state),
             isPostPriorityEnabled: isPostPriorityEnabled(state),
+            isPostAcknowledgementsEnabled: isPostAcknowledgementsEnabled(state),
         };
     };
 }

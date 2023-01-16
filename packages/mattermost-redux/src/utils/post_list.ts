@@ -25,7 +25,7 @@ export const DATE_LINE = 'date-';
 export const START_OF_NEW_MESSAGES = 'start-of-new-messages';
 export const MAX_COMBINED_SYSTEM_POSTS = 100;
 
-function shouldShowJoinLeaveMessages(state: GlobalState) {
+export function shouldShowJoinLeaveMessages(state: GlobalState) {
     // This setting is true or not set if join/leave messages are to be displayed
     return getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.ADVANCED_FILTER_JOIN_LEAVE, true);
 }

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 
 import {useSelector} from 'react-redux';
@@ -31,10 +32,10 @@ export interface AddMembersButtonProps {
     usersLimit: number;
     channel: Channel;
     setHeader?: React.ReactNode;
-    createBoard?: React.ReactNode;
+    pluginButtons?: React.ReactNode;
 }
 
-const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader, createBoard}: AddMembersButtonProps) => {
+const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader, pluginButtons}: AddMembersButtonProps) => {
     const currentTeamId = useSelector(getCurrentTeamId);
 
     if (!totalUsers) {
@@ -51,13 +52,13 @@ const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLim
         >
             {inviteUsers && !isPrivate ? (
                 <LessThanMaxFreeUsers
-                    createBoard={createBoard}
+                    pluginButtons={pluginButtons}
                     setHeader={setHeader}
                 />
             ) : (
                 <MoreThanMaxFreeUsers
                     channel={channel}
-                    createBoard={createBoard}
+                    pluginButtons={pluginButtons}
                     setHeader={setHeader}
                 />
             )}
@@ -65,12 +66,12 @@ const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLim
     );
 };
 
-const LessThanMaxFreeUsers = ({setHeader, createBoard}: {setHeader: React.ReactNode; createBoard: React.ReactNode}) => {
+const LessThanMaxFreeUsers = ({setHeader, pluginButtons}: {setHeader: React.ReactNode; pluginButtons: React.ReactNode}) => {
     const {formatMessage} = useIntl();
 
     return (
         <>
-            {createBoard}
+            {pluginButtons}
             {setHeader}
             <div className='LessThanMaxFreeUsers'>
                 <EmptyStateThemeableSvg
@@ -104,7 +105,7 @@ const LessThanMaxFreeUsers = ({setHeader, createBoard}: {setHeader: React.ReactN
     );
 };
 
-const MoreThanMaxFreeUsers = ({channel, setHeader, createBoard}: {channel: Channel; setHeader: React.ReactNode; createBoard: React.ReactNode}) => {
+const MoreThanMaxFreeUsers = ({channel, setHeader, pluginButtons}: {channel: Channel; setHeader: React.ReactNode; pluginButtons: React.ReactNode}) => {
     const {formatMessage} = useIntl();
 
     const modalId = channel.group_constrained ? ModalIdentifiers.ADD_GROUPS_TO_CHANNEL : ModalIdentifiers.CHANNEL_INVITE;
@@ -151,7 +152,7 @@ const MoreThanMaxFreeUsers = ({channel, setHeader, createBoard}: {channel: Chann
                     </ToggleModalButton>
                 </ChannelPermissionGate>
             </div>
-            {createBoard}
+            {pluginButtons}
             {setHeader}
         </div>
     );

@@ -39,14 +39,13 @@ type State = {
 }
 
 export default class SingleImageView extends React.PureComponent<Props, State> {
-    private mounted: boolean;
+    private mounted = false;
     static defaultProps = {
         compactDisplay: false,
     };
 
     constructor(props: Props) {
         super(props);
-        this.mounted = true;
         this.state = {
             loaded: false,
             dimensions: {

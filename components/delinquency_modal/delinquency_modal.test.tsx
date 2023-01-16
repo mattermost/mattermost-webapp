@@ -86,10 +86,10 @@ describe('components/deliquency_modal/deliquency_modal', () => {
         jest.clearAllMocks();
     });
 
-    it('should save preferences and track stayOnFremium if admin click Stay on Starter (Free Plan)', () => {
+    it('should save preferences and track stayOnFremium if admin click Stay on Free', () => {
         renderComponent({});
 
-        fireEvent.click(screen.getByText('Stay on Starter (Free Plan)'));
+        fireEvent.click(screen.getByText('Stay on Free'));
 
         expect(savePreferences).toBeCalledTimes(1);
         expect(savePreferences).toBeCalledWith(initialStates.entities.users.profiles.current_user_id.id, [{

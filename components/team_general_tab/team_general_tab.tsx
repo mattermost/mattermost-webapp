@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import React, {ChangeEvent, MouseEvent, ReactNode} from 'react';
@@ -9,9 +10,9 @@ import Constants from 'utils/constants';
 import {imageURLForTeam, isMobile, localizeMessage, moveCursorToEnd} from 'utils/utils';
 import {t} from 'utils/i18n';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
-import SettingPicture from 'components/setting_picture.jsx';
+import SettingPicture from 'components/setting_picture';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
 
@@ -320,7 +321,7 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
     render() {
         const team = this.props.team;
 
-        const clientError = this.state.clientError ?? null;
+        const clientError = this.state.clientError;
         const serverError = this.state.serverError ?? null;
 
         let inviteSection;
@@ -640,10 +641,7 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
                     >
                         <span aria-hidden='true'>{'×'}</span>
                     </button>
-                    <h4
-                        className='modal-title'
-                        ref='title'
-                    >
+                    <h4 className='modal-title'>
                         <div className='modal-back'>
                             <span onClick={this.props.collapseModal}>
                                 <BackIcon/>
@@ -655,10 +653,7 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
                         />
                     </h4>
                 </div>
-                <div
-                    ref='wrapper'
-                    className='user-settings'
-                >
+                <div className='user-settings'>
                     <h3 className='tab-header'>
                         <FormattedMessage
                             id='general_tab.title'

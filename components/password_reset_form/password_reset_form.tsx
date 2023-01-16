@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import classNames from 'classnames';
 import React, {useState, useRef, memo} from 'react';
 import {FormattedMessage} from 'react-intl';
-import classNames from 'classnames';
+import {useHistory} from 'react-router-dom';
 
 import {ServerError} from '@mattermost/types/errors';
-import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import LocalizedInput from 'components/localized_input/localized_input';
 
@@ -21,6 +21,8 @@ interface Props {
 }
 
 const PasswordResetForm = ({location, siteName, actions}: Props) => {
+    const history = useHistory();
+
     const [error, setError] = useState<React.ReactNode>(null);
 
     const passwordInput = useRef<HTMLInputElement>(null);
@@ -36,7 +38,7 @@ const PasswordResetForm = ({location, siteName, actions}: Props) => {
         }
         const {data, error} = await actions.resetUserPassword(token, password);
         if (data) {
-            browserHistory.push('/login?extra=' + Constants.PASSWORD_CHANGE);
+            history.push('/login?extra=' + Constants.PASSWORD_CHANGE);
             setError(null);
         } else if (error) {
             setError(error.message);

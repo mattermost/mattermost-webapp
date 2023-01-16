@@ -154,7 +154,7 @@ describe('Profile > Profile Settings > Email', () => {
             expect(data.subject).to.equal(`[${siteName}] Verify new email address`);
 
             // * Verify the body
-            expect(data.body).to.contain('You updated your email');
+            expect(data.body).to.contain('You successfully updated your email');
             const matched = data.body[6].match(reUrl);
             assert(matched.length > 0);
 
@@ -209,7 +209,7 @@ describe('Profile > Profile Settings > Email', () => {
             expect(data.subject).to.equal(`[${siteName}] Verify new email address`);
 
             // * Verify email body
-            expect(data.body[1]).to.contain('You updated your email');
+            expect(data.body[1]).to.contain('You successfully updated your email');
             const matched = data.body[6].match(reUrl);
             assert(matched.length > 0);
 

@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @channel
 
-describe('Channel routing', () => {
+describe('New Channel modal with Boards enabled', () => {
     let testTeam;
 
     before(() => {
@@ -23,22 +23,10 @@ describe('Channel routing', () => {
             cy.visit(`/${testTeam.name}/channels/town-square`);
         });
 
-        cy.apiUpdateConfig({
-            PluginSettings: {
-                Enable: true,
-                EnableMarketplace: true,
-                EnableRemoteMarketplace: true,
-                MarketplaceURL: 'https://api.integrations.mattermost.com',
-                PluginStates: {
-                    focalboard: {
-                        Enable: true,
-                    },
-                },
-            },
-        });
+        cy.shouldHaveFeatureFlag('BoardsProduct', true);
     });
 
-    it('MM-T5141 Channel URL validation for spaces between characters', () => {
+    it('MM-T5141 New Channel is created with an associated Board', () => {
         // # Create new channel with board
         const channelName = 'Test Channel With Board';
         cy.uiCreateChannel({

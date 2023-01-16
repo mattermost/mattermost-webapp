@@ -6,21 +6,15 @@ import {Redirect} from 'react-router-dom';
 
 import semver from 'semver';
 
-import {viewChannel} from 'mattermost-redux/actions/channels';
-
 import * as GlobalActions from 'actions/global_actions';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
 import * as UserAgent from 'utils/user_agent';
 import LoadingScreen from 'components/loading_screen';
 import {getBrowserTimezone} from 'utils/timezone';
-import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import BrowserStore from 'stores/browser_store';
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
-
-const dispatch = store.dispatch;
-const getState = store.getState;
 
 const BACKSPACE_CHAR = 8;
 
@@ -41,6 +35,7 @@ export type Props = {
     actions: {
         autoUpdateTimezone: (deviceTimezone: string) => void;
         getChannelURLAction: (channel: Channel, teamId: string, url: string) => void;
+        viewChannel: (channelId: string, prevChannelId?: string) => void;
     };
     showTermsOfService: boolean;
     location: {
@@ -218,7 +213,7 @@ export default class LoggedIn extends React.PureComponent<Props> {
         // remove the event listener to prevent getting stuck in a loop
         window.removeEventListener('beforeunload', this.handleBeforeUnload);
         if (document.cookie.indexOf('MMUSERID=') > -1) {
-            viewChannel('', this.props.currentChannelId || '')(dispatch, getState);
+            this.props.actions.viewChannel('', this.props.currentChannelId || '');
         }
         WebSocketActions.close();
     }

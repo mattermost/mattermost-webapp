@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @not_cloud @extend_session @ldap
 
 import ldapUsers from '../../../../fixtures/ldap_users.json';

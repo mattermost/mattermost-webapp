@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 Cypress.Commands.add('uiGetProductMenuButton', () => {
-    return cy.findByRole('button', {name: 'Select to open product switch menu.'}).should('be.visible');
+    return cy.findByRole('button', {name: 'Product switch menu'}).should('be.visible');
 });
 
 Cypress.Commands.add('uiGetProductMenu', () => {
@@ -27,7 +27,7 @@ Cypress.Commands.add('uiOpenProductMenu', (item = '') => {
 });
 
 Cypress.Commands.add('uiGetSetStatusButton', () => {
-    return cy.findByRole('button', {name: 'set status'}).should('be.visible');
+    return cy.findByRole('button', {name: /Select to open profile and status menu\./i}).should('be.visible');
 });
 
 Cypress.Commands.add('uiGetProfileHeader', () => {
@@ -72,7 +72,7 @@ Cypress.Commands.add('uiOpenHelpMenu', (item = '') => {
 });
 
 Cypress.Commands.add('uiGetHelpButton', () => {
-    return cy.findByRole('button', {name: 'Select to toggle the help menu.'}).should('be.visible');
+    return cy.findByRole('button', {name: 'Help'}).should('be.visible');
 });
 
 Cypress.Commands.add('uiGetHelpMenu', (options = {visible: true}) => {
@@ -111,15 +111,19 @@ Cypress.Commands.add('uiGetSearchBox', () => {
 });
 
 Cypress.Commands.add('uiGetRecentMentionButton', () => {
-    return cy.findByRole('button', {name: 'Select to toggle a list of recent mentions.'}).should('be.visible');
+    return cy.findByRole('button', {name: 'Recent mentions'}).should('be.visible');
 });
 
 Cypress.Commands.add('uiGetSavedPostButton', () => {
-    return cy.findByRole('button', {name: 'Select to toggle a list of saved posts.'}).should('be.visible');
+    return cy.findByRole('button', {name: 'Saved posts'}).should('be.visible');
 });
 
 Cypress.Commands.add('uiGetSettingsButton', () => {
-    return cy.findByRole('button', {name: 'Select to open the settings modal.'}).should('be.visible');
+    return cy.findByRole('button', {name: 'Settings'}).should('be.visible');
+});
+
+Cypress.Commands.add('uiGetChannelInfoButton', () => {
+    return cy.findByRole('button', {name: 'View Info'}).should('be.visible');
 });
 
 Cypress.Commands.add('uiGetSettingsModal', () => {
@@ -136,7 +140,7 @@ Cypress.Commands.add('uiOpenSettingsModal', (section = '') => {
     }
 
     // # Click on a particular section
-    cy.findByRoleExtended('button', {name: section}).should('be.visible').click();
+    cy.findByRoleExtended('tab', {name: section}).should('be.visible').click();
 
     return cy.uiGetSettingsModal();
 });

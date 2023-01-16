@@ -52,6 +52,24 @@ describe('components/SizeAwareImage', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should render a mini preview when showLoader is true and preview is set', () => {
+        const props = {
+            ...baseProps,
+            fileInfo: {
+                ...baseProps.fileInfo,
+                mime_type: 'mime_type',
+                mini_preview: 'mini_preview',
+            },
+        };
+
+        const wrapper = mount(<SizeAwareImage {...props}/>);
+
+        wrapper.setState({loaded: false, error: false});
+
+        const src = wrapper.find('.image-loading__container img').prop('src');
+        expect(src).toEqual('data:mime_type;base64,mini_preview');
+    });
+
     test('should have display set to initial in loaded state', () => {
         const wrapper = mount(<SizeAwareImage {...baseProps}/>);
         wrapper.setState({loaded: true, error: false});

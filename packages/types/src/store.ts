@@ -6,6 +6,7 @@ import {Bot} from './bots';
 import {ChannelsState} from './channels';
 import {ChannelCategoriesState} from './channel_categories';
 import {CloudState, CloudUsage} from './cloud';
+import {HostedCustomerState} from './hosted_customer';
 import {EmojisState} from './emojis';
 import {FilesState} from './files';
 import {GeneralState} from './general';
@@ -30,6 +31,7 @@ import {UsersState} from './users';
 import {AppsState} from './apps';
 import {InsightsState} from './insights';
 import {GifsState} from './gifs';
+import {WorkTemplatesState} from './work_templates';
 
 export type GlobalState = {
     entities: {
@@ -66,8 +68,10 @@ export type GlobalState = {
         channelCategories: ChannelCategoriesState;
         apps: AppsState;
         cloud: CloudState;
+        hostedCustomer: HostedCustomerState;
         usage: CloudUsage;
         insights: InsightsState;
+        worktemplates: WorkTemplatesState;
     };
     errors: any[];
     requests: {
@@ -84,5 +88,6 @@ export type GlobalState = {
         connected: boolean;
         lastConnectAt: number;
         lastDisconnectAt: number;
+        connectionId: string;
     };
 };

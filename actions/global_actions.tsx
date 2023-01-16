@@ -26,7 +26,7 @@ import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/act
 import {Team} from '@mattermost/types/teams';
 import {calculateUnreadCount} from 'mattermost-redux/utils/channel_utils';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {handleNewPost} from 'actions/post_actions';
 import {stopPeriodicStatusUpdates} from 'actions/status_actions';
 import {loadProfilesForSidebar} from 'actions/user_actions';
@@ -274,9 +274,9 @@ export function emitUserLoggedOutEvent(redirectTo = '/', shouldSignalLogout = tr
 
         clearUserCookie();
 
-        browserHistory.push(redirectTo);
+        getHistory().push(redirectTo);
     }).catch(() => {
-        browserHistory.push(redirectTo);
+        getHistory().push(redirectTo);
     });
 }
 
@@ -372,7 +372,7 @@ export async function redirectUserToDefaultTeam() {
 
     let myTeams = getMyTeams(state);
     if (myTeams.length === 0) {
-        browserHistory.push('/select_team');
+        getHistory().push('/select_team');
         return;
     }
 
@@ -385,7 +385,7 @@ export async function redirectUserToDefaultTeam() {
         const channel = await getTeamRedirectChannelIfIsAccesible(user, team);
         if (channel) {
             dispatch(selectChannel(channel.id));
-            browserHistory.push(`/${team.name}/channels/${channel.name}`);
+            getHistory().push(`/${team.name}/channels/${channel.name}`);
             return;
         }
     }
@@ -397,10 +397,10 @@ export async function redirectUserToDefaultTeam() {
         const channel = await getTeamRedirectChannelIfIsAccesible(user, myTeam); // eslint-disable-line no-await-in-loop
         if (channel) {
             dispatch(selectChannel(channel.id));
-            browserHistory.push(`/${myTeam.name}/channels/${channel.name}`);
+            getHistory().push(`/${myTeam.name}/channels/${channel.name}`);
             return;
         }
     }
 
-    browserHistory.push('/select_team');
+    getHistory().push('/select_team');
 }

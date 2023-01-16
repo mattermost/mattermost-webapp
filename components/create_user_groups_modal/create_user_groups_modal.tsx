@@ -73,7 +73,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
         const value = e.target.value;
         let mention = this.state.mention;
         if (!this.state.mentionUpdatedManually) {
-            mention = value.replace(/[^A-Za-z0-9@]/g, '').toLowerCase();
+            mention = value.replace(/[^A-Za-z0-9.\-_@]/g, '').toLowerCase();
             if (mention.substring(0, 1) !== '@') {
                 mention = `@${mention}`;
             }
@@ -129,8 +129,8 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
             return;
         }
 
-        const mentionRegEx = new RegExp(/[^A-Za-z0-9]/g);
-        if (mentionRegEx.test(mention)) {
+        const mentionRegEx = new RegExp(/^[a-z0-9.\-_]+$/);
+        if (!mentionRegEx.test(mention)) {
             this.setState({mentionInputErrorText: Utils.localizeMessage('user_groups_modal.mentionInvalidError', 'Invalid character in mention.'), saving: false});
             return;
         }

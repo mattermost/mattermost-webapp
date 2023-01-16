@@ -100,7 +100,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
   }
   saving={false}
   section=""
-  server_error=""
+  serverError=""
   submit={[MockFunction]}
   title={
     <SectionTitle
@@ -172,7 +172,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
   }
   saving={false}
   section=""
-  server_error=""
+  serverError=""
   submit={[MockFunction]}
   title={
     <SectionTitle
@@ -283,7 +283,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
   }
   saving={false}
   section=""
-  server_error=""
+  serverError=""
   submit={[MockFunction]}
   title={
     <SectionTitle

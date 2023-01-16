@@ -27,11 +27,12 @@ describe('components/sidebar/sidebar_channel', () => {
             scheme_id: '',
             group_constrained: false,
         },
+        channelId: 'channel_id',
+        isDraggable: false,
         channelIndex: 0,
         currentTeamName: 'team_name',
         unreadMentions: 0,
         isUnread: false,
-        getChannelRef: jest.fn(),
         setChannelRef: jest.fn(),
         isCategoryCollapsed: false,
         isCurrentChannel: false,
@@ -49,12 +50,7 @@ describe('components/sidebar/sidebar_channel', () => {
             <SidebarChannel {...baseProps}/>,
         );
 
-        const draggable = wrapper.dive().find('PrivateDraggable').first();
-        const children: any = draggable.prop('children')!;
-        const inner = shallow(
-            children({}, {}),
-        );
-        expect(inner).toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot when collapsed', () => {
@@ -67,12 +63,7 @@ describe('components/sidebar/sidebar_channel', () => {
             <SidebarChannel {...props}/>,
         );
 
-        const draggable = wrapper.dive().find('PrivateDraggable').first();
-        const children: any = draggable.prop('children')!;
-        const inner = shallow(
-            children({}, {}),
-        );
-        expect(inner).toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot when unread', () => {
@@ -86,12 +77,7 @@ describe('components/sidebar/sidebar_channel', () => {
             <SidebarChannel {...props}/>,
         );
 
-        const draggable = wrapper.dive().find('PrivateDraggable').first();
-        const children: any = draggable.prop('children')!;
-        const inner = shallow(
-            children({}, {}),
-        );
-        expect(inner).toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot when active', () => {
@@ -104,12 +90,7 @@ describe('components/sidebar/sidebar_channel', () => {
             <SidebarChannel {...props}/>,
         );
 
-        const draggable = wrapper.dive().find('PrivateDraggable').first();
-        const children: any = draggable.prop('children')!;
-        const inner = shallow(
-            children({}, {}),
-        );
-        expect(inner).toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot when DM channel', () => {
@@ -125,12 +106,7 @@ describe('components/sidebar/sidebar_channel', () => {
             <SidebarChannel {...props}/>,
         );
 
-        const draggable = wrapper.dive().find('PrivateDraggable').first();
-        const children: any = draggable.prop('children')!;
-        const inner = shallow(
-            children({}, {}),
-        );
-        expect(inner).toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot when GM channel', () => {
@@ -146,12 +122,7 @@ describe('components/sidebar/sidebar_channel', () => {
             <SidebarChannel {...props}/>,
         );
 
-        const draggable = wrapper.dive().find('PrivateDraggable').first();
-        const children: any = draggable.prop('children')!;
-        const inner = shallow(
-            children({}, {}),
-        );
-        expect(inner).toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should not be collapsed when there are unread messages', () => {
@@ -161,11 +132,11 @@ describe('components/sidebar/sidebar_channel', () => {
             isUnread: true,
         };
 
-        const wrapper = shallow<SidebarChannel>(
+        const wrapper = shallow(
             <SidebarChannel {...props}/>,
         );
 
-        expect(wrapper.instance().isCollapsed(wrapper.instance().props)).toBe(false);
+        expect(wrapper.find('.expanded')).toHaveLength(1);
     });
 
     test('should not be collapsed if channel is current channel', () => {
@@ -175,10 +146,10 @@ describe('components/sidebar/sidebar_channel', () => {
             isCurrentChannel: true,
         };
 
-        const wrapper = shallow<SidebarChannel>(
+        const wrapper = shallow(
             <SidebarChannel {...props}/>,
         );
 
-        expect(wrapper.instance().isCollapsed(wrapper.instance().props)).toBe(false);
+        expect(wrapper.find('.expanded')).toHaveLength(1);
     });
 });

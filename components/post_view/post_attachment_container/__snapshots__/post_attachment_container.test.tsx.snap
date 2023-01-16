@@ -1,25 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PostAttachmentContainer should render correctly 1`] = `
-<div
-  className="attachment attachment--permalink"
-  onClick={[Function]}
-  role="button"
+<ContextProvider
+  value={
+    Object {
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "notify": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        },
+        "unsubscribe": null,
+      },
+    }
+  }
 >
-  <div
-    className="attachment__content attachment__content--permalink"
+  <PostAttachmentContainer
+    className="permalink"
+    link="/test/pl/1"
   >
-    <div
-      className="clearfix attachment__container attachment__container--permalink"
-    >
-      <div
-        className="attachment__body__wrap attachment__body__wrap--permalink"
-      >
-        <p>
-          some children
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+    <p>
+      some children
+    </p>
+  </PostAttachmentContainer>
+</ContextProvider>
 `;
