@@ -5,10 +5,16 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
-import {StatusOK} from '@mattermost/types/client4';
-import {Action, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
+import {getFilteredUsersStats} from 'mattermost-redux/actions/users';
 import {uploadLicense, removeLicense, getPrevTrialLicense} from 'mattermost-redux/actions/admin';
+
+import {StatusOK} from '@mattermost/types/client4';
+import {GetFilteredUsersStatsOpts, UsersStats} from '@mattermost/types/users';
+import {ServerError} from '@mattermost/types/errors';
+
+import {Action, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getFilteredUsersStats as selectFilteredUserStats} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 import {ModalData} from 'types/actions';
@@ -23,7 +29,7 @@ function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
 
     return {
-        stats: state.entities.admin.analytics,
+        totalUsers: selectFilteredUserStats(state)?.total_users_count || 0,
         upgradedFromTE: config.UpgradedFromTE === 'true',
         prevTrialLicense: state.entities.admin.prevTrialLicense,
     };
@@ -44,7 +50,7 @@ type Actions = {
     ping: PromiseStatusFunc;
     requestTrialLicense: (users: number, termsAccepted: boolean, receiveEmailsAccepted: boolean, featureName: string) => Promise<ActionResult>;
     openModal: <P>(modalData: ModalData<P>) => void;
-
+    getFilteredUsersStats: (filters: GetFilteredUsersStatsOpts) => Promise<{ data?: UsersStats | undefined; error?: ServerError | undefined}>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -60,6 +66,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             ping,
             requestTrialLicense,
             openModal,
+            getFilteredUsersStats,
         }, dispatch),
     };
 }

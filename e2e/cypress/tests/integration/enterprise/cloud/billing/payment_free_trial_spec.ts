@@ -7,8 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @cloud_only @cloud_trial
-// Skip:  @headless @electron // run on Chrome (headed) only
 
 function simulateSubscription() {
     cy.intercept('GET', '**/api/v4/cloud/subscription', {
@@ -77,6 +77,7 @@ describe('System Console - Payment Information section', () => {
                 id: 'uniqueID',
                 creator_id: '123randomId',
                 create_at: 1665763513000,
+                first_purchase_alt_payment_method: '{"ach":false,"wire":false,"other":true,"otherPaymentOption":"Test Payment Option"}',
                 billing_address: {city: '',
                     country: '',
                     line1: '',
@@ -98,7 +99,7 @@ describe('System Console - Payment Information section', () => {
             }}).as('feedbackResponse');
         cy.get('.UpgradeMattermostCloud__upgradeButton').click();
         cy.get('button#monthlySubscription').as('paymentFeedbackLink').should('be.visible').should('have.text', 'Looking for other payment options?').click();
-        cy.get('div.GatherIntentModal__header').should('be.visible');
+        cy.get('.Form-section-title').should('be.visible');
         cy.get('input#wire').should('be.not.checked');
         cy.get('input#ach').should('be.not.checked');
         cy.get('input#other').should('be.not.checked');
@@ -108,10 +109,8 @@ describe('System Console - Payment Information section', () => {
 
         cy.get('input#wire').as('wireOption').check();
         cy.get('button#submitFeedback').as('savebutton').should('be.enabled');
-        cy.get('@wireOption').uncheck();
+        cy.get('@wireOption').check();
 
-        cy.get('input#other').check();
-        cy.get('textarea#other-payment-option').should('be.visible').type('Test Payment Option');
         cy.get('@savebutton').should('be.enabled').click();
         cy.wait('@feedbackResponse');
         cy.get('span.savedFeedback__text').should('be.visible').should('have.text', 'Thanks for sharing feedback!');

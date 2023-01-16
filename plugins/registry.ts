@@ -188,19 +188,20 @@ export default class PluginRegistry {
     // Accepts the following:
     // - icon - React element to use as the button's icon
     // - action - a function called when the button is clicked, passed the channel and channel member as arguments
-    // - tooltipText - string or React element shown for tooltip appear on hover
+    // - text - a localized string to use as the button's text
     registerChannelIntroButtonAction = reArg([
         'icon',
         'action',
-        'tooltipText',
+        'text',
     ], ({
         icon,
         action,
-        tooltipText,
+        text,
     }: {
         icon: ReactResolvable;
         action: PluginComponent['action'];
-        tooltipText: ReactResolvable;
+        tooltipText: string;
+        text: string;
     }) => {
         const id = generateId();
 
@@ -209,18 +210,12 @@ export default class PluginRegistry {
             pluginId: this.id,
             icon: resolveReactElement(icon),
             action,
-            tooltipText: resolveReactElement(tooltipText),
+            text,
         };
 
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
             name: 'ChannelIntroButton',
-            data,
-        });
-
-        store.dispatch({
-            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
-            name: 'MobileChannelIntroButton',
             data,
         });
 

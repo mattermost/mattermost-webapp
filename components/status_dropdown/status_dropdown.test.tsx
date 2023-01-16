@@ -43,6 +43,7 @@ describe('components/StatusDropdown', () => {
             automaticTimezone: 'America/New_York',
             manualTimezone: '',
         },
+        status: 'away',
         isTimezoneEnabled: true,
         isMilitaryTime: false,
         isCustomStatusEnabled: false,
