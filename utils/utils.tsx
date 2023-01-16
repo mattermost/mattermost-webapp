@@ -931,8 +931,18 @@ export function getSelectionData(): SelectionData | null {
     const endingNode = selection.focusNode?.parentElement;
     const startingSelectedElement = findParentPostMessage(startingNode);
     const endingSelectedElement = findParentPostMessage(endingNode);
+    const spaceForMultilineSelection = getSpaceForMultiline(startingNode);
 
-    // todo sinan evaluate to split calculating additional space to seperate function
+    return {
+        startingSelectedElement,
+        endingSelectedElement,
+        selection,
+        rects,
+        spaceForMultilineSelection,
+    };
+}
+
+function getSpaceForMultiline(startingNode?: HTMLElement | null): number {
     const isElementQuote = startingNode?.offsetParent?.nodeName === 'BLOCKQUOTE';
     const isElementCode = startingNode?.nodeName === 'CODE';
     const isElementSyntaxHighlightedCode = startingNode?.previousElementSibling?.classList.contains('post-code__line-numbers') || false;
@@ -946,13 +956,7 @@ export function getSelectionData(): SelectionData | null {
         spaceForMultilineSelection = isElementSyntaxHighlightedCode ? (startingNodePaddingLeft + 26 + 24) : startingNodePaddingLeft;
     }
 
-    return {
-        startingSelectedElement,
-        endingSelectedElement,
-        selection,
-        rects,
-        spaceForMultilineSelection,
-    };
+    return spaceForMultilineSelection;
 }
 
 export function getViewportSize(win?: Window) {
