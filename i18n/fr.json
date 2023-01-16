@@ -3542,7 +3542,6 @@
   "intro_messages.addGroupsToTeam": "Ajouter des autres groupes à cette équipe",
   "intro_messages.anyMember": " Tout membre peut rejoindre et lire ce canal.",
   "intro_messages.beginning": "Début de {name}",
-  "intro_messages.createBoard": "Créer un Board",
   "intro_messages.creator": "Ceci est le début du canal {name}, créé par {creator} le {date}.",
   "intro_messages.creatorPrivate": "Ceci est le début du canal privé {name}, créé par {creator} le {date}.",
   "intro_messages.default": "**Bienvenue dans {display_name}**\n\nPubliez ici les messages que vous souhaitez que tout le monde voie. Chaque utilisateur devient un membre permanent de ce canal lorsqu'il rejoint l'équipe.",
