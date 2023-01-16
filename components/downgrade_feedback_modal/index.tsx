@@ -96,7 +96,7 @@ export default function DowngradeFeedbackModal(props: Props) {
                         />
                     </span> : <></>}
                 <button
-                    disabled={reasonNotSelected || (reason == optionOther && commentsNotProvided)}
+                    disabled={reasonNotSelected || (reason === optionOther && commentsNotProvided)}
                     className='btn btn-primary'
                     style={{width: '25%'}}
                     onClick={handleSubmitFeedback}
