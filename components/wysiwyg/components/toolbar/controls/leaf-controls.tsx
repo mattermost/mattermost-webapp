@@ -101,7 +101,7 @@ const makeLeafModeToolDefinitions = (editor: Editor): Array<ToolDefinition<Markd
             icon: LinkVariantIcon,
             ariaLabelDescriptor: {id: t('accessibility.button.link'), defaultMessage: 'link'},
             shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownLink,
-            action: () => editor.commands.toggleLinkOverlay(),
+            action: () => editor.chain().focus().extendMarkRange('mmLink').toggleLinkOverlay().run(),
             isActive: () => editor.isActive('mmLink'),
         });
     }
@@ -271,9 +271,21 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
             // if there is no URL set for the link it will remove the link mark
             editor.chain().focus().extendMarkRange('mmLink').unsetLink().run();
         } else if (selectedText === newText) {
-            // extend the range to the whole link (if no link mark is present it does not do anything)
-            // and change/add the url on it
-            editor.chain().focus().extendMarkRange('mmLink').setLink({href: newUrl}).run();
+            /**
+             * extend the range to the whole link (if no link mark is present it does not do anything) and change/add
+             * the url on it. Finally move the cursor to the end of the string (selected text)
+             */
+            editor.
+                chain().
+                focus().
+                extendMarkRange('mmLink').
+
+                // apply the link mark
+                setLink({href: newUrl}).
+
+                // move the cursor to the end of the inserted text
+                setTextSelection({from: from + selectedText.length, to: from + selectedText.length}).
+                run();
         } else {
             editor.
                 chain().
@@ -289,6 +301,9 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
 
                 // apply the link mark to it
                 setLink({href: newUrl}).
+
+                // move the cursor to the end of the inserted text
+                setTextSelection({from: from + newText.length, to: from + newText.length}).
                 run();
         }
 

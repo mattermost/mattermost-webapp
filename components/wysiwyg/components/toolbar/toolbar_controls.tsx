@@ -28,7 +28,7 @@ export type ToolDefinition<S extends string, T> = {
     shortcutDescriptor?: KeyboardShortcutDescriptor;
 };
 
-export const FloatingContainer = styled.div(({compact}: {compact: boolean}) => css`
+export const FloatingContainer = styled.div(({compact}: {compact?: boolean}) => css`
     padding: ${compact ? '4px' : '8px 0'};
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     border-radius: 4px;
