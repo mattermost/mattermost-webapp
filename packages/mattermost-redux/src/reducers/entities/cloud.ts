@@ -13,6 +13,8 @@ export function subscription(state: Subscription | null = null, action: GenericA
     switch (action.type) {
     case CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION: {
         // eslint-disable-next-line no-console
+        console.trace();
+        // eslint-disable-next-line no-console
         console.log('reducers/entities/cloud subscription', action.data);
         return action.data;
     }
