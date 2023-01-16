@@ -141,7 +141,7 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
     return (<div className='col col__name'>
         {userProfile}
         {botIndicator}
-        {customStatus}
+        {props.location === Locations.CENTER && customStatus}
     </div>);
 };
 
