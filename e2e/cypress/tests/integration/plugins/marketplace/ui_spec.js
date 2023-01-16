@@ -229,7 +229,7 @@ describe('Plugin Marketplace', () => {
     it('MM-T1986 change tab to "All Plugins" when "Install Plugins" link is clicked', () => {
         cy.get('#marketplaceTabs').scrollIntoView().should('be.visible').within(() => {
             // # Switch tab to installed plugin
-            cy.findByRole('tab', {name: /Installed/}).should('be.visible').and('have.attr', 'aria-selected', 'false').click();
+            cy.findByRole('button', {name: /Installed/}).should('be.visible').and('have.attr', 'aria-selected', 'false').click();
 
             // * Verify installed plugins tab should be active
             cy.get('#marketplaceTabs-tab-allListing').should('be.visible').parent().should('not.have.class', 'active');
@@ -239,7 +239,7 @@ describe('Plugin Marketplace', () => {
             cy.findByText('Install Plugins').should('be.visible').click();
 
             // * Verify all plugins tab should be active
-            cy.findByRole('tab', {name: 'All'}).should('be.visible').and('have.attr', 'aria-selected', 'true');
+            cy.findByRole('button', {name: 'All'}).should('be.visible').and('have.attr', 'aria-selected', 'true');
             cy.get('#marketplaceTabs-tab-allListing').should('be.visible').parent().should('have.class', 'active');
             cy.get('#marketplaceTabs-tab-installed').should('be.visible').parent().should('not.have.class', 'active');
         });

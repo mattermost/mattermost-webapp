@@ -12,7 +12,7 @@ Cypress.Commands.add('uiOpenProfileModal', (section = '') => {
     }
 
     // # Click on a particular section
-    cy.findByRoleExtended('tab', {name: section}).should('be.visible').click();
+    cy.findByRoleExtended('button', {name: section}).should('be.visible').click();
 
     return profileSettingsModal();
 });
