@@ -331,6 +331,9 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     }
 
     getSelectionText = () => {
+        if (this.state.showQuoteButton) {
+            this.setState({showQuoteButton: false});
+        }
         const selectionData = Utils.getSelectionData();
         if (!selectionData) {
             return;
@@ -365,12 +368,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             quoteText: text,
             quoteButtonPosition,
         });
-
-        setTimeout(() => {
-            if (this.state.showQuoteButton) {
-                this.setState({showQuoteButton: false});
-            }
-        }, 5000);
     }
 
     handlePostQuote = () => {

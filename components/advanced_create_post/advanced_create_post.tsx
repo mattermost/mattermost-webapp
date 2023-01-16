@@ -369,8 +369,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.saveDraftWithShow();
     }
 
-    // todo sinan: copy code related logic to advanced_create_comment
     getSelectionText = () => {
+        if (this.state.showQuoteButton) {
+            this.setState({showQuoteButton: false});
+        }
         const selectionData = Utils.getSelectionData();
         if (!selectionData) {
             return;
@@ -405,12 +407,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             quoteText: text,
             quoteButtonPosition,
         });
-
-        setTimeout(() => {
-            if (this.state.showQuoteButton) {
-                this.setState({showQuoteButton: false});
-            }
-        }, 5000);
     }
 
     handlePostQuote = () => {
