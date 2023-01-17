@@ -185,6 +185,7 @@
 
         > span {
             display: flex;
+            align-items: center;
             justify-content: space-between;
         }
 
@@ -279,7 +280,7 @@
     display: inline-block;
     overflow: hidden;
     max-width: 150px;
-    height: 17px;
+    height: 16px;
     text-overflow: ellipsis;
     white-space: nowrap;
 }

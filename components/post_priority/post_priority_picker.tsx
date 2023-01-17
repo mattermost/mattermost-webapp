@@ -10,7 +10,7 @@ import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckC
 
 import {getPersistentNotificationInterval, isPersistentNotificationsEnabled, isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities/posts';
 
-import Badge from 'components/widgets/badges/badge';
+import BetaTag from '../widgets/tag/beta_tag';
 
 import {PostPriority, PostPriorityMetadata} from '@mattermost/types/posts';
 
@@ -22,10 +22,6 @@ type Props = {
     onClose: () => void;
     onApply: (props: PostPriorityMetadata) => void;
 }
-
-const Beta = styled(Badge)`
-    margin-left: 8px;
-`;
 
 const UrgentIcon = styled(AlertOutlineIcon)`
     fill: rgb(var(--semantic-color-danger));
@@ -50,7 +46,8 @@ const PersistentNotificationsIcon = styled(BellRingOutlineIcon)`
 const Header = styled.h4`
     align-items: center;
     display: flex;
-    font-family: Open Sans;
+    gap: 8px;
+    font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0;
@@ -150,13 +147,7 @@ function PostPriorityPicker({
                     id: 'post_priority.picker.header',
                     defaultMessage: 'Message priority',
                 })}
-                <Beta
-                    uppercase={true}
-                    variant='info'
-                    size='xs'
-                >
-                    {'BETA'}
-                </Beta>
+                <BetaTag/>
                 <Feedback
                     href={feedbackLink}
                     target='_blank'
