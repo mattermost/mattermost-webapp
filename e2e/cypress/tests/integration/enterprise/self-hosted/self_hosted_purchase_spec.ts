@@ -10,7 +10,7 @@
 // e.g. not_cloud cloud because we always want to exclude running automatically
 // until we create the special self-hosted run setup
 // Stage: @prod
-// Group: @enterprise @not_cloud @cloud
+// Group: @enterprise @not_cloud @cloud @hosted_customer
 
 // To run this locally, the necessary test setup is:
 // * Ensure on latest mattermost-webapp, mattermost-server, enterprise
