@@ -28,11 +28,16 @@ import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 import ExpiryTime from 'components/custom_status/expiry_time';
-import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from '@mattermost/types/users';
-import {ServerError} from '@mattermost/types/errors';
+
 import {ModalData} from 'types/actions';
 
+import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from '@mattermost/types/users';
+import {ServerError} from '@mattermost/types/errors';
+
 import './profile_popover.scss';
+import BotTag from '../widgets/tag/bot_tag';
+import GuestTag from '../widgets/tag/guest_tag';
+import Tag from '../widgets/tag/tag';
 
 interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'>{
 
@@ -723,49 +728,44 @@ ProfilePopoverState
         );
         let roleTitle;
         if (this.props.user.is_bot) {
-            roleTitle = (
-                <span className='user-popover__role'>
-                    {Utils.localizeMessage('bots.is_bot', 'BOT')}
-                </span>
-            );
+            roleTitle = <BotTag size={'sm'}/>;
         } else if (isGuest(this.props.user.roles)) {
-            roleTitle = (
-                <span className='user-popover__role'>
-                    {Utils.localizeMessage('post_info.guest', 'GUEST')}
-                </span>
-            );
+            roleTitle = <GuestTag size={'sm'}/>;
         } else if (isSystemAdmin(this.props.user.roles)) {
             roleTitle = (
-                <span className='user-popover__role'>
-                    {Utils.localizeMessage(
+                <Tag
+                    size={'sm'}
+                    text={Utils.localizeMessage(
                         'admin.permissions.roles.system_admin.name',
                         'System Admin',
                     )}
-                </span>
+                />
             );
         } else if (this.props.isTeamAdmin) {
             roleTitle = (
-                <span className='user-popover__role'>
-                    {Utils.localizeMessage(
+                <Tag
+                    size={'sm'}
+                    text={Utils.localizeMessage(
                         'admin.permissions.roles.team_admin.name',
                         'Team Admin',
                     )}
-                </span>
+                />
             );
         } else if (this.props.isChannelAdmin) {
             roleTitle = (
-                <span className='user-popover__role'>
-                    {Utils.localizeMessage(
+                <Tag
+                    size={'sm'}
+                    text={Utils.localizeMessage(
                         'admin.permissions.roles.channel_admin.name',
                         'Channel Admin',
                     )}
-                </span>
+                />
             );
         }
-        let title: React.ReactNode = `@${this.props.user.username}`;
+        let title: React.ReactNode = <span className='user-popover__username'>{`@${this.props.user.username}`}</span>;
         if (this.props.overwriteName) {
-            title = this.props.overwriteName;
-            roleTitle = '';
+            title = <span className='user-popover__username'>{this.props.overwriteName}</span>;
+            roleTitle = null;
         } else if (this.props.hasMention) {
             title = (
                 <button
@@ -773,9 +773,8 @@ ProfilePopoverState
                     onClick={this.handleMentionKeyClick}
                 >
                     {title}
-                </button>);
-        } else {
-            title = <span className='user-popover__username'>{title}</span>;
+                </button>
+            );
         }
         title = (
             <span data-testid={`profilePopoverTitle_${this.props.user.username}`}>

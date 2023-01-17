@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import Tag from 'components/widgets/tag/tag';
+
 import {fileSizeToString, copyToClipboard, localizeMessage} from 'utils/utils';
 import {getHistory} from 'utils/browser_history';
 import {getSiteURL} from 'utils/url';
@@ -12,7 +14,6 @@ import Constants, {ModalIdentifiers} from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import Menu from 'components/widgets/menu/menu';
-import Badge from 'components/widgets/badges/badge';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import FileThumbnail from 'components/file_attachment/file_thumbnail';
 import Timestamp, {RelativeRanges} from 'components/timestamp';
@@ -104,14 +105,14 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
         if (channelType === Constants.DM_CHANNEL) {
             channelName = (
                 <FormattedMessage
-                    id='search_item.file_badge.direct_message'
+                    id='search_item.file_tag.direct_message'
                     defaultMessage='Direct Message'
                 />
             );
         } else if (channelType === Constants.GM_CHANNEL) {
             channelName = (
                 <FormattedMessage
-                    id='search_item.file_badge.group_message'
+                    id='search_item.file_tag.group_message'
                     defaultMessage='Group Message'
                 />
             );
@@ -130,7 +131,12 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
                     <div className='fileData'>
                         <div className='fileDataName'>{fileInfo.name}</div>
                         <div className='fileMetadata'>
-                            {channelName && <Badge className='file-search-channel-name'>{channelName}</Badge>}
+                            {channelName && (
+                                <Tag
+                                    className='file-search-channel-name'
+                                    text={channelName}
+                                />
+                            )}
                             <span>{fileSizeToString(fileInfo.size)}</span>
                             <span>{' • '}</span>
                             <Timestamp
