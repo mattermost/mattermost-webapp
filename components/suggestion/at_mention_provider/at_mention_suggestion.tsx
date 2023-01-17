@@ -4,22 +4,23 @@
 import React, {ReactNode} from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
+import classNames from 'classnames';
+
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
-import BotBadge from 'components/widgets/badges/bot_badge';
-import GuestBadge from 'components/widgets/badges/guest_badge';
 import SharedUserIndicator from 'components/shared_user_indicator';
 import Avatar from 'components/widgets/users/avatar';
-import Badge from 'components/widgets/badges/badge';
-
+import Tag from 'components/widgets/tag/tag';
+import BotTag from 'components/widgets/tag/bot_tag';
+import GuestTag from 'components/widgets/tag/guest_tag';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import StatusIcon from 'components/status_icon';
 
 import Suggestion from '../suggestion.jsx';
 
-import {UserProfile} from '../command_provider/app_command_parser/app_command_parser_dependencies.js';
+import {UserProfile} from '@mattermost/types/users';
 
 interface Item extends UserProfile {
     display_name: string;
@@ -35,8 +36,7 @@ interface Group extends Item {
 class AtMentionSuggestion extends Suggestion {
     render() {
         const {intl} = this.props;
-        const isSelection: boolean = this.props.isSelection;
-        const item: Item = this.props.item;
+        const {isSelection, item} = this.props;
 
         let itemname: string;
         let description: ReactNode;
@@ -45,12 +45,10 @@ class AtMentionSuggestion extends Suggestion {
         if (item.username === 'all') {
             itemname = 'all';
             description = (
-                <span className='ml-2'>
-                    <FormattedMessage
-                        id='suggestion.mention.all'
-                        defaultMessage='Notifies everyone in this channel'
-                    />
-                </span>
+                <FormattedMessage
+                    id='suggestion.mention.all'
+                    defaultMessage='Notifies everyone in this channel'
+                />
             );
             icon = (
                 <span className='suggestion-list__icon suggestion-list__icon--large'>
@@ -63,12 +61,10 @@ class AtMentionSuggestion extends Suggestion {
         } else if (item.username === 'channel') {
             itemname = 'channel';
             description = (
-                <span className='ml-2'>
-                    <FormattedMessage
-                        id='suggestion.mention.channel'
-                        defaultMessage='Notifies everyone in this channel'
-                    />
-                </span>
+                <FormattedMessage
+                    id='suggestion.mention.channel'
+                    defaultMessage='Notifies everyone in this channel'
+                />
             );
             icon = (
                 <span className='suggestion-list__icon suggestion-list__icon--large'>
@@ -81,12 +77,10 @@ class AtMentionSuggestion extends Suggestion {
         } else if (item.username === 'here') {
             itemname = 'here';
             description = (
-                <span className='ml-2'>
-                    <FormattedMessage
-                        id='suggestion.mention.here'
-                        defaultMessage='Notifies everyone online in this channel'
-                    />
-                </span>
+                <FormattedMessage
+                    id='suggestion.mention.here'
+                    defaultMessage='Notifies everyone online in this channel'
+                />
             );
             icon = (
                 <span className='suggestion-list__icon suggestion-list__icon--large'>
@@ -114,20 +108,10 @@ class AtMentionSuggestion extends Suggestion {
 
             if (item.isCurrentUser) {
                 if (item.first_name || item.last_name) {
-                    description = (
-                        <span className='ml-2'>
-                            {Utils.getFullName(item)}
-                        </span>
-                    );
+                    description = Utils.getFullName(item);
                 }
             } else if (item.first_name || item.last_name || item.nickname) {
-                description = (
-                    <span className='ml-2'>
-                        {`${Utils.getFullName(item)} ${
-                            item.nickname ? `(${item.nickname})` : ''
-                        }`.trim()}
-                    </span>
-                );
+                description = `${Utils.getFullName(item)} ${item.nickname ? `(${item.nickname})` : ''}`.trim();
             }
 
             icon = (
@@ -155,52 +139,42 @@ class AtMentionSuggestion extends Suggestion {
             );
         }
 
-        let youElement = null;
-        if (item.isCurrentUser) {
-            youElement =
-            (<span className='ml-1'>
-                <FormattedMessage
-                    id='suggestion.user.isCurrent'
-                    defaultMessage='(you)'
-                />
-            </span>);
-        }
+        const youElement = item.isCurrentUser ? (
+            <FormattedMessage
+                id='suggestion.user.isCurrent'
+                defaultMessage='(you)'
+            />
+        ) : null;
 
-        let className = 'suggestion-list__item';
-        if (isSelection) {
-            className += ' suggestion--selected';
-        }
-
-        let sharedIcon;
-        if (item.remote_id) {
-            sharedIcon = (
-                <SharedUserIndicator
-                    className='shared-user-icon'
-                    withTooltip={true}
-                />
-            );
-        }
+        const sharedIcon = item.remote_id ? (
+            <SharedUserIndicator
+                className='shared-user-icon'
+                withTooltip={true}
+            />
+        ) : null;
 
         let countBadge;
         if (item.type === Constants.MENTION_GROUPS) {
             countBadge = (
                 <span className='suggestion-list__group-count'>
-                    <Badge>
-                        <FormattedMessage
-                            id='suggestion.group.members'
-                            defaultMessage='{member_count} {member_count, plural, one {member} other {members}}'
-                            values={{
-                                member_count: (item as Group).member_count,
-                            }}
-                        />
-                    </Badge>
+                    <Tag
+                        text={
+                            <FormattedMessage
+                                id='suggestion.group.members'
+                                defaultMessage='{member_count} {member_count, plural, one {member} other {members}}'
+                                values={{
+                                    member_count: (item as Group).member_count,
+                                }}
+                            />
+                        }
+                    />
                 </span>
             );
         }
 
         return (
             <div
-                className={className}
+                className={classNames('suggestion-list__item', {'suggestion--selected': isSelection})}
                 data-testid={`mentionSuggestion_${itemname}`}
                 onClick={this.handleClick}
                 onMouseMove={this.handleMouseMove}
@@ -211,18 +185,12 @@ class AtMentionSuggestion extends Suggestion {
                     <span className='suggestion-list__main'>
                         {'@' + itemname}
                     </span>
-                    <BotBadge
-                        show={Boolean(item.is_bot)}
-                        className='badge-autocomplete'
-                    />
+                    {item.is_bot && <BotTag/>}
                     {customStatus}
                     {description}
                     {youElement}
                     {sharedIcon}
-                    <GuestBadge
-                        show={isGuest(item.roles)}
-                        className='badge-autocomplete'
-                    />
+                    {isGuest(item.roles) && <GuestTag/>}
                 </span>
                 {countBadge}
             </div>
