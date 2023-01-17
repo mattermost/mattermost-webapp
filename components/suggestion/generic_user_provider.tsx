@@ -3,13 +3,14 @@
 
 import React from 'react';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
-import GuestBadge from 'components/widgets/badges/guest_badge';
-import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 
 import Provider from './provider';
@@ -59,13 +60,10 @@ class UserSuggestion extends Suggestion {
                     <span className='suggestion-list__main'>
                         {'@' + username}
                     </span>
-                    <span>
-                        {' '}
-                        {description}
-                    </span>
+                    {description}
                 </div>
-                <BotBadge show={Boolean(item.is_bot)}/>
-                <GuestBadge show={isGuest(item.roles)}/>
+                {item.is_bot && <BotTag/>}
+                {isGuest(item.roles) && <GuestTag/>}
             </div>
         );
     }
