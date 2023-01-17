@@ -1519,12 +1519,13 @@ export function handleCloudSubscriptionChanged(msg) {
         const license = getLicense(state);
 
         if (license.Cloud === 'true') {
-            if (msg.data.limits) {
-                doDispatch({
-                    type: CloudTypes.RECEIVED_CLOUD_LIMITS,
-                    data: msg.data.limits,
-                });
-            }
+            doDispatch({
+                type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+                data: msg.data.limits ?? {
+                    limits: {},
+                    limitsLoaded: false,
+                },
+            });
 
             if (msg.data.subscription) {
                 doDispatch({

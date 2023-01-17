@@ -106,6 +106,8 @@ export function limits(state: LimitsReducer = emptyLimits, action: GenericAction
     switch (action.type) {
     case CloudTypes.RECEIVED_CLOUD_LIMITS: {
         // eslint-disable-next-line no-console
+        console.trace();
+        // eslint-disable-next-line no-console
         console.log('reducers/entities/cloud limits', action.data);
         return {
             limits: action.data,
