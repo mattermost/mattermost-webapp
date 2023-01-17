@@ -104,108 +104,105 @@ interface MenuItemStyledProps extends MuiMenuItemProps {
     hasSecondaryLabel?: boolean;
 }
 
+/* eslint-disable no-negated-condition */
 const MenuItemStyled = styled(MuiMenuItem, {
     shouldForwardProp: (prop) => prop !== 'isDestructive' && prop !== 'hasSecondaryLabel',
 })<MenuItemStyledProps>(
-    ({isDestructive = false, hasSecondaryLabel = false}) => {
-        const hasOnlyPrimaryLabel = !hasSecondaryLabel;
-        const isRegular = !isDestructive;
+    ({isDestructive = false, hasSecondaryLabel = false}) => ({
+        '&.MuiMenuItem-root': {
+            fontFamily: '"Open Sans", sans-serif',
+            color: !isDestructive ? 'var(--center-channel-color)' : 'var(--error-text)',
+            padding: '6px 20px',
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'nowrap',
+            justifyContent: 'flex-start',
+            alignItems: !hasSecondaryLabel ? 'center' : 'flex-start',
+            minHeight: '36px',
+            maxHeight: '56px',
 
-        return ({
-            '&.MuiMenuItem-root': {
-                fontFamily: '"Open Sans", sans-serif',
-                color: isRegular ? 'var(--center-channel-color)' : 'var(--error-text)',
-                padding: '6px 20px',
+            // aria expanded to add the active styling on parent sub menu item
+            '&.Mui-active, &[aria-expanded="true"]': {
+                'background-color': !isDestructive ? 'rgba(var(--button-bg-rgb), 0.08)' : 'background-color: rgba(var(--error-text-color-rgb), 0.16)',
+            },
+
+            '&:hover': {
+                backgroundColor: !isDestructive ? 'rgba(var(--center-channel-color-rgb), 0.08)' : 'var(--error-text)',
+                color: isDestructive && 'var(--button-color)',
+            },
+
+            '&.Mui-disabled': {
+                color: 'rgba(var(--center-channel-color-rgb), 0.32)',
+            },
+
+            '&.Mui-focusVisible': {
+                boxShadow: !isDestructive ? '0 0 0 2px var(--denim-sidebar-active-border) inset' : '0 0 0 2px rgba(var(--button-color-rgb), 0.16) inset',
+                backgroundColor: !isDestructive ? 'var(--center-channel-bg)' : 'var(--error-text)',
+                color: isDestructive && 'var(--button-color)',
+            },
+            '&.Mui-focusVisible .label-elements>:last-child, &.Mui-focusVisible .label-elements>:first-child, &.Mui-focusVisible .label-elements>:only-child': {
+                color: isDestructive && 'var(--button-color)',
+            },
+            '&.Mui-focusVisible .leading-element': {
+                color: isDestructive && 'var(--button-color)',
+            },
+
+            '&>.leading-element': {
+                width: '18px',
+                height: '18px',
+                marginInlineEnd: '10px',
+                color: !isDestructive ? 'rgba(var(--center-channel-color-rgb), 0.56)' : 'var(--error-text)',
+            },
+            '&:hover .leading-element': {
+                color: !isDestructive ? 'rgba(var(--center-channel-color-rgb), 0.72)' : 'var(--button-color)',
+            },
+
+            '&>.label-elements': {
+                display: 'flex',
+                flex: '1 0 auto',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+                flexWrap: 'nowrap',
+                alignSelf: 'stretch',
+                fontWeight: 400,
+                textAlign: 'start',
+                gap: '4px',
+                lineHeight: '16px',
+            },
+
+            '&>.label-elements>:last-child': {
+                fontSize: '12px',
+                color: !isDestructive ? 'rgba(var(--center-channel-color-rgb), 0.56)' : 'var(--error-text)',
+            },
+            '&:hover .label-elements>:last-child': {
+                color: isDestructive && 'var(--button-color)',
+            },
+
+            '&>.label-elements>:first-child, &>.label-elements>:only-child': {
+                fontSize: '14px',
+                color: !isDestructive ? 'var(--center-channel-color)' : 'var(--error-text)',
+            },
+            '&:hover .label-elements>:first-child, &:hover .label-elements>:only-child': {
+                color: isDestructive && 'var(--button-color)',
+            },
+
+            '&>.trailing-elements': {
                 display: 'flex',
                 flexDirection: 'row',
                 flexWrap: 'nowrap',
-                justifyContent: 'flex-start',
-                alignItems: hasOnlyPrimaryLabel ? 'center' : 'flex-start',
-                minHeight: '36px',
-                maxHeight: '56px',
-
-                // aria expanded to add the active styling on parent sub menu item
-                '&.Mui-active, &[aria-expanded="true"]': {
-                    'background-color': isRegular ? 'rgba(var(--button-bg-rgb), 0.08)' : 'background-color: rgba(var(--error-text-color-rgb), 0.16)',
-                },
-
-                '&:hover': {
-                    backgroundColor: isRegular ? 'rgba(var(--center-channel-color-rgb), 0.08)' : 'var(--error-text)',
-                    color: isDestructive && 'var(--button-color)',
-                },
-
-                '&.Mui-disabled': {
-                    color: 'rgba(var(--center-channel-color-rgb), 0.32)',
-                },
-
-                '&.Mui-focusVisible': {
-                    boxShadow: isRegular ? '0 0 0 2px var(--sidebar-text-active-border) inset' : '0 0 0 2px rgba(var(--button-color-rgb), 0.16) inset',
-                    backgroundColor: isRegular ? 'var(--center-channel-bg)' : 'var(--error-text)',
-                    color: isDestructive && 'var(--button-color)',
-                },
-                '&.Mui-focusVisible .label-elements>:last-child, &.Mui-focusVisible .label-elements>:first-child, &.Mui-focusVisible .label-elements>:only-child': {
-                    color: isDestructive && 'var(--button-color)',
-                },
-                '&.Mui-focusVisible .leading-element': {
-                    color: isDestructive && 'var(--button-color)',
-                },
-
-                '&>.leading-element': {
-                    width: '18px',
-                    height: '18px',
-                    marginInlineEnd: '10px',
-                    color: isRegular ? 'rgba(var(--center-channel-color-rgb), 0.56)' : 'var(--error-text)',
-                },
-                '&:hover .leading-element': {
-                    color: isRegular ? 'rgba(var(--center-channel-color-rgb), 0.72)' : 'var(--button-color)',
-                },
-
-                '&>.label-elements': {
-                    display: 'flex',
-                    flex: '1 0 auto',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'flex-start',
-                    flexWrap: 'nowrap',
-                    alignSelf: 'stretch',
-                    fontWeight: 400,
-                    textAlign: 'start',
-                    gap: '4px',
-                    lineHeight: '16px',
-                },
-
-                '&>.label-elements>:last-child': {
-                    fontSize: '12px',
-                    color: isRegular ? 'rgba(var(--center-channel-color-rgb), 0.56)' : 'var(--error-text)',
-                },
-                '&:hover .label-elements>:last-child': {
-                    color: isDestructive && 'var(--button-color)',
-                },
-
-                '&>.label-elements>:first-child, &>.label-elements>:only-child': {
-                    fontSize: '14px',
-                    color: isRegular ? 'var(--center-channel-color)' : 'var(--error-text)',
-                },
-                '&:hover .label-elements>:first-child, &:hover .label-elements>:only-child': {
-                    color: isDestructive && 'var(--button-color)',
-                },
-
-                '&>.trailing-elements': {
-                    display: 'flex',
-                    flexDirection: 'row',
-                    flexWrap: 'nowrap',
-                    justifyContent: 'flex-end',
-                    color: 'rgba(var(--center-channel-color-rgb), 0.56)',
-                    gap: '4px',
-                    marginInlineStart: '24px',
-                    fontSize: '12px',
-                    lineHeight: '16px',
-                    alignItems: 'center',
-                },
-                '&:hover .trailing-elements': {
-                    color: 'rgba(var(--center-channel-color-rgb), 0.72)',
-                },
+                justifyContent: 'flex-end',
+                color: !isDestructive ? 'rgba(var(--center-channel-color-rgb), 0.56)' : 'var(--error-text)',
+                gap: '4px',
+                marginInlineStart: '24px',
+                fontSize: '12px',
+                lineHeight: '16px',
+                alignItems: 'center',
             },
-        });
-    },
+            '&:hover .trailing-elements': {
+                color: !isDestructive ? 'rgba(var(--center-channel-color-rgb), 0.72)' : 'var(--button-color)',
+            },
+
+        },
+    }),
 );
