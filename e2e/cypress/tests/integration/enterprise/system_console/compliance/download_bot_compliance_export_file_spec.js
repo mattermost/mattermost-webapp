@@ -34,7 +34,6 @@ describe('Compliance Export', () => {
             },
             ServiceSettings: {
                 EnforceMultifactorAuthentication: false,
-                EnableBotAccountCreation: true,
             },
         });
 

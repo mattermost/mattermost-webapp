@@ -18,6 +18,9 @@ import {components, IndicatorProps, OptionProps, SingleValueProps, ValueType} fr
 
 import AsyncSelect from 'react-select/async';
 
+import BotTag from 'components/widgets/tag/bot_tag';
+import GuestTag from 'components/widgets/tag/guest_tag';
+
 import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getMyTeams, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
@@ -30,8 +33,6 @@ import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import ProfilePicture from 'components/profile_picture';
 import SharedChannelIndicator from 'components/shared_channel_indicator';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider';
-import BotBadge from 'components/widgets/badges/bot_badge';
-import GuestBadge from 'components/widgets/badges/guest_badge';
 
 import {ProviderResult} from 'components/suggestion/provider';
 
@@ -108,18 +109,11 @@ const FormattedOption = (props: ChannelOption & {className: string; isSingleValu
 
     let tag = null;
     if (details.type === Constants.DM_CHANNEL) {
-        tag = (
-            <>
-                <BotBadge
-                    show={Boolean(teammate?.is_bot)}
-                    className='badge-autocomplete'
-                />
-                <GuestBadge
-                    show={Boolean(teammate && isGuest(teammate.roles))}
-                    className='badge-autocomplete'
-                />
-            </>
-        );
+        if (teammate?.is_bot) {
+            tag = <BotTag/>;
+        } else if (isGuest(teammate?.roles ?? '')) {
+            tag = <GuestTag/>;
+        }
 
         const emojiStyle = {
             marginBottom: 2,
