@@ -24,9 +24,7 @@ const Badge = styled.span`
     color: #fff;
 
     background-color: ${(props: {priority: PostPriority}) => {
-        return props.priority === PostPriority.URGENT ?
-            'rgb(var(--semantic-color-danger))' :
-            'rgb(var(--semantic-color-info))';
+        return props.priority === PostPriority.URGENT ? 'rgb(var(--semantic-color-danger))' : 'rgb(var(--semantic-color-info))';
     }}
 `;
 
@@ -41,13 +39,9 @@ export default function PriorityLabel({priority, className}: Props) {
             priority={priority}
         >
             {priority === PostPriority.URGENT ? (
-                <AlertOutlineIcon
-                    size={14}
-                />
+                <AlertOutlineIcon size={14}/>
             ) : (
-                <AlertCircleOutlineIcon
-                    size={14}
-                />
+                <AlertCircleOutlineIcon size={14}/>
             )}
         </Badge>
     );
