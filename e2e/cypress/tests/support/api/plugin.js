@@ -173,9 +173,26 @@ Cypress.Commands.add('apiRemovePluginById', (pluginId) => {
 });
 
 Cypress.Commands.add('apiUninstallAllPlugins', () => {
+    // # Uninstall all plugins
     cy.apiGetAllPlugins().then(({plugins}) => {
         const {active, inactive} = plugins;
         inactive.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
         active.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
+    });
+
+    // * Check that all plugins are uninstalled
+    cy.apiGetAllPlugins().then(({plugins}) => {
+        const {active, inactive} = plugins;
+
+        // # Log all uninstalled plugins for debugging
+        if (active.length) {
+            cy.log(JSON.stringify(active));
+        }
+        if (inactive.length) {
+            cy.log(JSON.stringify(active));
+        }
+
+        expect(active.length).to.equal(0);
+        expect(inactive.length).to.equal(0);
     });
 });

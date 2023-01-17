@@ -16,6 +16,37 @@ import {getAdminAccount} from '../../../../support/env';
 describe('System Console > Site Statistics', () => {
     let testTeam;
 
+    const statDataTestIds = [
+        'totalActiveUsers',
+        'seatPurchased',
+        'totalTeams',
+        'totalChannels',
+        'totalPosts',
+        'totalSessions',
+        'totalCommands',
+        'incomingWebhooks',
+        'outgoingWebhooks',
+        'dailyActiveUsers',
+        'monthlyActiveUsers',
+        'websocketConns',
+        'masterDbConns',
+        'replicaDbConns'];
+
+    const titleTestIds = [
+        'totalActiveUsersTitle',
+        'totalTeamsTitle',
+        'totalChannelsTitle',
+        'totalPostsTitle',
+        'totalSessionsTitle',
+        'totalCommandsTitle',
+        'incomingWebhooksTitle',
+        'outgoingWebhooksTitle',
+        'dailyActiveUsersTitle',
+        'monthlyActiveUsersTitle',
+        'websocketConnsTitle',
+        'masterDbConnsTitle',
+        'replicaDbConnsTitle'];
+
     before(() => {
         // * Check if server has license
         cy.apiRequireLicense();
@@ -27,35 +58,36 @@ describe('System Console > Site Statistics', () => {
     });
 
     it('MM-T904 Site Statistics displays expected content categories', () => {
+        cy.intercept('GET', '**/api/v4/analytics/**').as('analytics');
+
         // # Visit site statistics page.
         cy.visit('/admin_console/reporting/system_analytics');
+        cy.wait('@analytics');
 
         // * Check that the header has loaded correctly and contains the expected text.
         cy.get('.admin-console__header span', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', 'System Statistics');
 
         // * Check that the rows for the table were generated.
-        cy.get('.admin-console__content .row').should('have.length', 5);
+        cy.get('.admin-console__content .row').should('have.length', 4);
 
         // * Check that the title content for the stats is as expected.
-        cy.get('.admin-console__content .row').eq(0).find('.title').eq(0).should('contain', 'Total Active Users');
-        cy.get('.admin-console__content .row').eq(0).find('.title').eq(1).should('contain', 'Total Teams');
-        cy.get('.admin-console__content .row').eq(0).find('.title').eq(2).should('contain', 'Total Channels');
-        cy.get('.admin-console__content .row').eq(0).find('.title').eq(3).should('contain', 'Total Posts');
-        cy.get('.admin-console__content .row').eq(0).find('.title').eq(4).should('contain', 'Total Sessions');
-        cy.get('.admin-console__content .row').eq(0).find('.title').eq(5).should('contain', 'Total Commands');
-        cy.get('.admin-console__content .row').eq(0).find('.title').eq(6).should('contain', 'Incoming Webhooks');
-        cy.get('.admin-console__content .row').eq(0).find('.title').eq(7).should('contain', 'Outgoing Webhooks');
-        cy.get('.admin-console__content .row').eq(0).find('.title').eq(8).should('contain', 'Daily Active Users');
-        cy.get('.admin-console__content .row').eq(0).find('.title').eq(9).should('contain', 'Monthly Active Users');
-        cy.get('.admin-console__content .row').eq(0).find('.title').eq(10).should('contain', 'WebSocket Conns');
-        cy.get('.admin-console__content .row').eq(0).find('.title').eq(11).should('contain', 'Master DB Conns');
+        cy.findByTestId('totalActiveUsersTitle').should('contain', 'Total Active Users');
+        cy.findByTestId('seatPurchasedTitle').should('contain', 'Total paid users');
+        cy.findByTestId('totalTeamsTitle').should('contain', 'Total Teams');
+        cy.findByTestId('totalChannelsTitle').should('contain', 'Total Channels');
+        cy.findByTestId('totalPostsTitle').should('contain', 'Total Posts');
+        cy.findByTestId('totalSessionsTitle').should('contain', 'Total Sessions');
+        cy.findByTestId('totalCommandsTitle').should('contain', 'Total Commands');
+        cy.findByTestId('incomingWebhooksTitle').should('contain', 'Incoming Webhooks');
+        cy.findByTestId('outgoingWebhooksTitle').should('contain', 'Outgoing Webhooks');
+        cy.findByTestId('dailyActiveUsersTitle').should('contain', 'Daily Active Users');
+        cy.findByTestId('monthlyActiveUsersTitle').should('contain', 'Monthly Active Users');
+        cy.findByTestId('websocketConnsTitle').should('contain', 'WebSocket Conns');
+        cy.findByTestId('masterDbConnsTitle').should('contain', 'Master DB Conns');
+        cy.findByTestId('replicaDbConnsTitle').should('contain', 'Replica DB Conns');
 
-        // * Check that some of the values for the stats are valid.
-        cy.get('.admin-console__content .row').eq(0).find('.content').each((el) => {
-            cy.waitUntil(() => cy.wrap(el).then((content) => {
-                return content[0].innerText !== 'Loading...';
-            }));
-            cy.wrap(el).eq(0).invoke('text').then(parseFloat).should('be.gte', 0);
+        statDataTestIds.forEach((locator) => {
+            cy.findByTestId(locator).invoke('text').then(parseFloat).should('be.gte', 0);
         });
     });
 
@@ -132,10 +164,7 @@ describe('System Console > Site Statistics', () => {
             // * Once in site statistics, check and make sure the boxes are truncated or not according to image on test
             cy.visit('/admin_console/reporting/system_analytics');
 
-            const testIds = ['totalActiveUsersTitle', 'totalTeamsTitle', 'totalChannelsTitle', 'totalPostsTitle', 'totalSessionsTitle', 'totalCommandsTitle', 'incomingWebhooksTitle',
-                'outgoingWebhooksTitle', 'dailyActiveUsersTitle', 'monthlyActiveUsersTitle', 'websocketConnsTitle', 'masterDbConnsTitle', 'replicaDbConnsTitle'];
-
-            testIds.forEach((id) => {
+            titleTestIds.forEach((id) => {
                 let expectedResult = false;
                 if (id === 'totalCommandsTitle' || id === 'masterDbConnsTitle' || id === 'replicaDbConnsTitle') {
                     expectedResult = true;
