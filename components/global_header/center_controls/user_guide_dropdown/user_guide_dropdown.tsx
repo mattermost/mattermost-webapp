@@ -136,7 +136,9 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                         active={this.state.buttonActive}
                         inverted={true}
                         compact={true}
-                        aria-label='Select to toggle the help menu.' // proper wording and translation needed
+                        aria-controls='AddChannelDropdown'
+                        aria-expanded={this.state.buttonActive}
+                        aria-label={intl.formatMessage({id: 'channel_header.userHelpGuide', defaultMessage: 'Help'})}
                     />
                 </OverlayTrigger>
                 <Menu

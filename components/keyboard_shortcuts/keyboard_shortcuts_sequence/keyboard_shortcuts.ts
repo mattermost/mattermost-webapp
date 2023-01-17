@@ -393,12 +393,22 @@ export const KEYBOARD_SHORTCUTS = {
     },
     msgShowFormatting: {
         default: {
-            id: t('shortcuts.msgs.markdown.formatting'),
-            defaultMessage: 'Show/Hide Formatting:\tCtrl|Alt|T',
+            id: t('shortcuts.msgs.markdown.formatting.show'),
+            defaultMessage: 'Show Formatting:\tCtrl|Alt|T',
         },
         mac: {
-            id: t('shortcuts.msgs.markdown.formatting.mac'),
-            defaultMessage: 'Show/Hide Formatting:\t⌘|⌥|T',
+            id: t('shortcuts.msgs.markdown.formatting.show.mac'),
+            defaultMessage: 'Show Formatting:\t⌘|⌥|T',
+        },
+    },
+    msgHideFormatting: {
+        default: {
+            id: t('shortcuts.msgs.markdown.formatting.hide'),
+            defaultMessage: 'Hide Formatting:\tCtrl|Alt|T',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.formatting.hide.mac'),
+            defaultMessage: 'Hide Formatting:\t⌘|⌥|T',
         },
     },
     msgShowEmojiPicker: {

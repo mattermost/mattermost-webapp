@@ -37,12 +37,12 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
             Company: 'Mattermost Inc.',
             Users: '100',
         },
-        config: {},
         prevTrialLicense: {
             IsLicensed: 'false',
         },
         upgradedFromTE: false,
         enterpriseReady: true,
+        totalUsers: 10,
         actions: {
             getLicenseConfig: jest.fn(),
             uploadLicense: jest.fn(),
@@ -54,9 +54,7 @@ describe('components/admin_console/license_settings/LicenseSettings', () => {
             getPrevTrialLicense: jest.fn(),
             upgradeToE0Status: jest.fn().mockImplementation(() => Promise.resolve({percentage: 0, error: null})),
             openModal: jest.fn(),
-        },
-        stats: {
-            TOTAL_USERS: 10,
+            getFilteredUsersStats: jest.fn(),
         },
     };
 

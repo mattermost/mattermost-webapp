@@ -8,19 +8,19 @@ import {FormattedMessage} from 'react-intl';
 
 import semver from 'semver';
 
-import SettingItemMax from 'components/setting_item_max';
-
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import Constants, {NotificationLevels} from 'utils/constants';
-import {localizeMessage, moveCursorToEnd} from 'utils/utils';
+import {a11yFocus, localizeMessage, moveCursorToEnd} from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 import {t} from 'utils/i18n';
 
-import SettingItemMin from 'components/setting_item_min';
+import SettingItem from 'components/setting_item';
 import LocalizedIcon from 'components/localized_icon';
 
 import {UserNotifyProps, UserProfile} from '@mattermost/types/users';
+
+import SettingItemMax from 'components/setting_item_max';
 
 import DesktopNotificationSettings from './desktop_notification_setting/desktop_notification_settings';
 import EmailNotificationSetting from './email_notification_setting';
@@ -270,11 +270,20 @@ export default class NotificationsTab extends React.PureComponent<Props, State> 
         this.setState({pushThreads});
     }
 
-    handleNotifyCommentsRadio = (notifyCommentsLevel: UserNotifyProps['comments']): void => this.setState({notifyCommentsLevel});
+    handleNotifyCommentsRadio = (notifyCommentsLevel: UserNotifyProps['comments'], e?: React.ChangeEvent): void => {
+        this.setState({notifyCommentsLevel});
+        a11yFocus(e?.currentTarget as HTMLElement);
+    }
 
-    handlePushRadio = (pushActivity: UserNotifyProps['push']): void => this.setState({pushActivity});
+    handlePushRadio = (pushActivity: UserNotifyProps['push'], e?: React.ChangeEvent): void => {
+        this.setState({pushActivity});
+        a11yFocus(e?.currentTarget as HTMLElement);
+    }
 
-    handlePushStatusRadio = (pushStatus: UserNotifyProps['push_status']): void => this.setState({pushStatus});
+    handlePushStatusRadio = (pushStatus: UserNotifyProps['push_status'], e?: React.ChangeEvent): void => {
+        this.setState({pushStatus});
+        a11yFocus(e?.currentTarget as HTMLElement);
+    }
 
     handleEmailRadio = (enableEmail: UserNotifyProps['email']): void => this.setState({enableEmail});
 
@@ -305,10 +314,12 @@ export default class NotificationsTab extends React.PureComponent<Props, State> 
     }
 
     createPushNotificationSection = () => {
-        if (this.props.activeSection === 'push') {
-            const inputs = [];
-            let submit = null;
+        const active = this.props.activeSection === 'push';
+        const inputs = [];
+        let submit = null;
+        let max = null;
 
+        if (active) {
             if (this.props.sendPushNotifications) {
                 const pushActivityRadio = [false, false, false];
                 if (this.state.pushActivity === NotificationLevels.ALL) {
@@ -516,8 +527,7 @@ export default class NotificationsTab extends React.PureComponent<Props, State> 
                     </div>,
                 );
             }
-
-            return (
+            max = (
                 <SettingItemMax
                     title={localizeMessage('user.settings.notifications.push', 'Mobile Push Notifications')}
                     inputs={inputs}
@@ -592,21 +602,25 @@ export default class NotificationsTab extends React.PureComponent<Props, State> 
         }
 
         return (
-            <SettingItemMin
+            <SettingItem
+                active={active}
+                areAllSectionsInactive={this.props.activeSection === ''}
                 title={localizeMessage('user.settings.notifications.push', 'Mobile Push Notifications')}
                 describe={describe}
                 section={'push'}
                 updateSection={this.handleUpdateSection}
+                max={max}
             />
         );
     }
 
-    render() {
+    createKeysSection = () => {
         const serverError = this.state.serverError;
         const user = this.props.user;
+        const active = this.props.activeSection === 'keys';
 
-        let keysSection;
-        if (this.props.activeSection === 'keys') {
+        let max = null;
+        if (active) {
             const inputs = [];
 
             if (user.first_name) {
@@ -720,65 +734,73 @@ export default class NotificationsTab extends React.PureComponent<Props, State> 
                 </span>
             );
 
-            keysSection = (
+            max = (
                 <SettingItemMax
                     title={localizeMessage('user.settings.notifications.wordsTrigger', 'Words That Trigger Mentions')}
                     inputs={inputs}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
                     serverError={serverError}
-                    updateSection={this.handleUpdateSection}
                     extraInfo={extraInfo}
-                />
-            );
-        } else {
-            let keys = ['@' + user.username];
-            if (this.state.firstNameKey) {
-                keys.push(user.first_name);
-            }
-            if (this.state.usernameKey) {
-                keys.push(user.username);
-            }
-
-            if (this.state.channelKey) {
-                keys.push('@channel');
-                keys.push('@all');
-                keys.push('@here');
-            }
-            if (this.state.customKeys.length > 0) {
-                keys = keys.concat(this.state.customKeys.split(','));
-            }
-
-            let describe: JSX.Element | string = '';
-            for (let i = 0; i < keys.length; i++) {
-                if (keys[i] !== '') {
-                    describe += '"' + keys[i] + '", ';
-                }
-            }
-
-            if (describe.length > 0) {
-                describe = describe.substring(0, describe.length - 2);
-            } else {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.notifications.noWords'
-                        defaultMessage='No words configured'
-                    />
-                );
-            }
-
-            keysSection = (
-                <SettingItemMin
-                    title={localizeMessage('user.settings.notifications.wordsTrigger', 'Words That Trigger Mentions')}
-                    describe={describe}
-                    section={'keys'}
                     updateSection={this.handleUpdateSection}
                 />
             );
         }
 
-        let commentsSection;
-        if (this.props.activeSection === 'comments') {
+        let keys = ['@' + user.username];
+        if (this.state.firstNameKey) {
+            keys.push(user.first_name);
+        }
+        if (this.state.usernameKey) {
+            keys.push(user.username);
+        }
+
+        if (this.state.channelKey) {
+            keys.push('@channel');
+            keys.push('@all');
+            keys.push('@here');
+        }
+        if (this.state.customKeys.length > 0) {
+            keys = keys.concat(this.state.customKeys.split(','));
+        }
+
+        let describe: JSX.Element | string = '';
+        for (let i = 0; i < keys.length; i++) {
+            if (keys[i] !== '') {
+                describe += '"' + keys[i] + '", ';
+            }
+        }
+
+        if (describe.length > 0) {
+            describe = describe.substring(0, describe.length - 2);
+        } else {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.notifications.noWords'
+                    defaultMessage='No words configured'
+                />
+            );
+        }
+
+        return (
+            <SettingItem
+                active={active}
+                areAllSectionsInactive={this.props.activeSection === ''}
+                title={localizeMessage('user.settings.notifications.wordsTrigger', 'Words That Trigger Mentions')}
+                describe={describe}
+                section={'keys'}
+                updateSection={this.handleUpdateSection}
+                max={max}
+
+            />);
+    }
+
+    createCommentsSection = () => {
+        const serverError = this.state.serverError;
+
+        const active = this.props.activeSection === 'comments';
+        let max = null;
+        if (active) {
             const commentsActive = [false, false, false];
             if (this.state.notifyCommentsLevel === 'never') {
                 commentsActive[2] = true;
@@ -854,7 +876,7 @@ export default class NotificationsTab extends React.PureComponent<Props, State> 
                 </span>
             );
 
-            commentsSection = (
+            max = (
                 <SettingItemMax
                     title={localizeMessage('user.settings.notifications.comments', 'Reply notifications')}
                     extraInfo={extraInfo}
@@ -865,87 +887,97 @@ export default class NotificationsTab extends React.PureComponent<Props, State> 
                     updateSection={this.handleUpdateSection}
                 />
             );
-        } else {
-            let describe: JSX.Element;
-            if (this.state.notifyCommentsLevel === 'never') {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.notifications.commentsNever'
-                        defaultMessage="Do not trigger notifications on messages in reply threads unless I'm mentioned"
-                    />
-                );
-            } else if (this.state.notifyCommentsLevel === 'root') {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.notifications.commentsRoot'
-                        defaultMessage='Trigger notifications on messages in threads that I start'
-                    />
-                );
-            } else {
-                describe = (
-                    <FormattedMessage
-                        id='user.settings.notifications.commentsAny'
-                        defaultMessage='Trigger notifications on messages in reply threads that I start or participate in'
-                    />
-                );
-            }
+        }
 
-            commentsSection = (
-                <SettingItemMin
-                    title={localizeMessage('user.settings.notifications.comments', 'Reply notifications')}
-                    describe={describe}
-                    section={'comments'}
-                    updateSection={this.handleUpdateSection}
+        let describe: JSX.Element;
+        if (this.state.notifyCommentsLevel === 'never') {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.notifications.commentsNever'
+                    defaultMessage="Do not trigger notifications on messages in reply threads unless I'm mentioned"
+                />
+            );
+        } else if (this.state.notifyCommentsLevel === 'root') {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.notifications.commentsRoot'
+                    defaultMessage='Trigger notifications on messages in threads that I start'
+                />
+            );
+        } else {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.notifications.commentsAny'
+                    defaultMessage='Trigger notifications on messages in reply threads that I start or participate in'
                 />
             );
         }
 
-        let autoResponderSection;
-        if (this.props.enableAutoResponder) {
-            if (this.props.activeSection === 'auto-responder') {
-                autoResponderSection = (
-                    <div>
-                        <ManageAutoResponder
-                            autoResponderActive={this.state.autoResponderActive}
-                            autoResponderMessage={this.state.autoResponderMessage || ''}
-                            updateSection={this.handleUpdateSection}
-                            setParentState={this.setStateValue}
-                            submit={this.handleSubmit}
-                            error={this.state.serverError}
-                            saving={this.state.isSaving}
-                        />
-                        <div className='divider-dark'/>
-                    </div>
-                );
-            } else {
-                const describe = this.state.autoResponderActive ? (
-                    <FormattedMessage
-                        id='user.settings.notifications.autoResponderEnabled'
-                        defaultMessage='Enabled'
-                    />
-                ) : (
-                    <FormattedMessage
-                        id='user.settings.notifications.autoResponderDisabled'
-                        defaultMessage='Disabled'
-                    />
-                );
+        return (
+            <SettingItem
+                active={active}
+                title={localizeMessage('user.settings.notifications.comments', 'Reply notifications')}
+                describe={describe}
+                section={'comments'}
+                updateSection={this.handleUpdateSection}
+                max={max}
+                areAllSectionsInactive={this.props.activeSection === ''}
+            />
+        );
+    }
 
-                autoResponderSection = (
-                    <SettingItemMin
-                        title={
-                            <FormattedMessage
-                                id='user.settings.notifications.autoResponder'
-                                defaultMessage='Automatic Direct Message Replies'
+    createAutoResponderSection = () => {
+        if (this.props.enableAutoResponder) {
+            const describe = this.state.autoResponderActive ? (
+                <FormattedMessage
+                    id='user.settings.notifications.autoResponderEnabled'
+                    defaultMessage='Enabled'
+                />
+            ) : (
+                <FormattedMessage
+                    id='user.settings.notifications.autoResponderDisabled'
+                    defaultMessage='Disabled'
+                />
+            );
+
+            return (
+                <SettingItem
+                    active={this.props.activeSection === 'auto-responder'}
+                    areAllSectionsInactive={this.props.activeSection === ''}
+                    title={
+                        <FormattedMessage
+                            id='user.settings.notifications.autoResponder'
+                            defaultMessage='Automatic Direct Message Replies'
+                        />
+                    }
+                    describe={describe}
+                    section={'auto-responder'}
+                    updateSection={this.handleUpdateSection}
+                    max={(
+                        <div>
+                            <ManageAutoResponder
+                                autoResponderActive={this.state.autoResponderActive}
+                                autoResponderMessage={this.state.autoResponderMessage || ''}
+                                updateSection={this.handleUpdateSection}
+                                setParentState={this.setStateValue}
+                                submit={this.handleSubmit}
+                                error={this.state.serverError}
+                                saving={this.state.isSaving}
                             />
-                        }
-                        describe={describe}
-                        section={'auto-responder'}
-                        updateSection={this.handleUpdateSection}
-                    />
-                );
-            }
+                            <div className='divider-dark'/>
+                        </div>
+                    )}
+                />
+            );
         }
 
+        return null;
+    }
+
+    render() {
+        const autoResponderSection = this.createAutoResponderSection();
+        const commentsSection = this.createCommentsSection();
+        const keysSection = this.createKeysSection();
         const pushNotificationSection = this.createPushNotificationSection();
         const enableEmailProp = this.state.enableEmail === 'true';
 
@@ -1008,6 +1040,7 @@ export default class NotificationsTab extends React.PureComponent<Props, State> 
                         active={this.props.activeSection === 'desktop'}
                         selectedSound={this.state.desktopNotificationSound || 'default'}
                         isCollapsedThreadsEnabled={this.props.isCollapsedThreadsEnabled}
+                        areAllSectionsInactive={this.props.activeSection === ''}
                     />
                     <div className='divider-light'/>
                     <EmailNotificationSetting

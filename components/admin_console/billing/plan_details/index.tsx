@@ -5,9 +5,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 
-import {GlobalState} from 'types/store';
-
 import {getSubscriptionProduct, getCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
+
+import useGetTotalUsersNoBots from 'components/common/hooks/useGetTotalUsersNoBots';
 
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {TrialPeriodDays} from 'utils/constants';
@@ -26,14 +26,15 @@ type Props = {
     subscriptionPlan: string | undefined;
 }
 const PlanDetails = ({isFreeTrial, subscriptionPlan}: Props) => {
-    const userCount = useSelector((state: GlobalState) => state.entities.admin.analytics!.TOTAL_USERS) as number;
     const subscription = useSelector(getCloudSubscription);
     const product = useSelector(getSubscriptionProduct);
     const daysLeftOnTrial = Math.min(
         getRemainingDaysFromFutureTimestamp(subscription?.trial_end_at),
         TrialPeriodDays.TRIAL_30_DAYS,
     );
-    if (!product) {
+    const userCount = useGetTotalUsersNoBots();
+
+    if (!product || !userCount) {
         return null;
     }
 
