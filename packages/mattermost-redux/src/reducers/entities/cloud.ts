@@ -120,7 +120,12 @@ export function limits(state: LimitsReducer = emptyLimits, action: GenericAction
 export function clearLimits(state: LimitsReducer = emptyLimits, action: GenericAction) {
     switch (action.type) {
     case CloudTypes.CLEAR_CLOUD_LIMITS:
-        return emptyLimits;
+        // eslint-disable-next-line no-console
+        console.log('reducers/entities/cloud clearLimits', action.data);
+        return {
+            limits: null,
+            limitsLoaded: false,
+        };
     default:
         return state;
     }

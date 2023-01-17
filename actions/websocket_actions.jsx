@@ -1519,18 +1519,25 @@ export function handleCloudSubscriptionChanged(msg) {
         const license = getLicense(state);
 
         if (license.Cloud === 'true') {
-            doDispatch({
-                type: CloudTypes.RECEIVED_CLOUD_LIMITS,
-                data: msg.data.limits ?? {
-                    limits: {},
-                    limitsLoaded: false,
-                },
-            });
-
             if (msg.data.subscription) {
                 doDispatch({
                     type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
                     data: msg.data.subscription,
+                });
+            }
+
+            if (msg.data.limits) {
+                doDispatch({
+                    type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+                    data: msg.data.limits,
+                });
+            } else {
+                doDispatch({
+                    type: CloudTypes.CLEAR_CLOUD_LIMITS,
+                    data: {
+                        limits: null,
+                        limitsLoaded: false,
+                    },
                 });
             }
         }
