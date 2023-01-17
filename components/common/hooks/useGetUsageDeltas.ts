@@ -46,7 +46,7 @@ export default function useGetUsageDeltas(): CloudUsage {
                 },
             }
         );
-    }, [usage, limits]);
+    }, [usage, limits, limitsLoaded]);
 
     return usageDelta;
 }
