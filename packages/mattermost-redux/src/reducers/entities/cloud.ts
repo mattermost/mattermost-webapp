@@ -119,13 +119,14 @@ export function limits(state: LimitsReducer = emptyLimits, action: GenericAction
 
 export function clearLimits(state: LimitsReducer = emptyLimits, action: GenericAction) {
     switch (action.type) {
-    case CloudTypes.CLEAR_CLOUD_LIMITS:
+    case CloudTypes.CLEAR_CLOUD_LIMITS: {
         // eslint-disable-next-line no-console
-        console.log('reducers/entities/cloud clearLimits', action.data);
+        console.log('reducers/entities/cloud clearLimits');
         return {
             limits: {},
             limitsLoaded: false,
         };
+    }
     default:
         return state;
     }
