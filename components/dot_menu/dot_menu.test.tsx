@@ -3,12 +3,12 @@
 
 import React from 'react';
 
-import {PostType} from '@mattermost/types/posts';
-
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {Locations} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
+
+import {PostType} from '@mattermost/types/posts';
 
 import * as dotUtils from './utils';
 jest.mock('./utils');
@@ -36,6 +36,7 @@ describe('components/dot_menu/DotMenu', () => {
             markPostAsUnread: jest.fn(),
             postEphemeralCallResponseForPost: jest.fn(),
             setThreadFollow: jest.fn(),
+            addPostReminder: jest.fn(),
             setGlobalItem: jest.fn(),
         },
         canEdit: false,
@@ -48,6 +49,7 @@ describe('components/dot_menu/DotMenu', () => {
         threadId: 'post_id_1',
         threadReplyCount: 0,
         userId: 'user_id_1',
+        isMilitaryTime: false,
         showForwardPostNewLabel: false,
     };
 

@@ -43,6 +43,7 @@ import Tag from '../widgets/tag/tag';
 import {ChangeEvent, trackDotMenuEvent} from './utils';
 
 import './dot_menu.scss';
+import {PostReminderSubmenu} from './post_reminder_submenu';
 
 type ShortcutKeyProps = {
     shortcutKey: string;
@@ -75,6 +76,8 @@ type Props = {
     teamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     isMobileView: boolean;
     showForwardPostNewLabel: boolean;
+    timezone?: string;
+    isMilitaryTime: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -203,7 +206,18 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.disableCanEditPostByTime();
     }
 
+    componentDidUpdate(prevProps: Props): void {
+        if (!prevProps.isMenuOpen && this.props.isMenuOpen) {
+            window.addEventListener('keydown', this.onShortcutKeyDown);
+        }
+
+        if (prevProps.isMenuOpen && !this.props.isMenuOpen) {
+            window.removeEventListener('keydown', this.onShortcutKeyDown);
+        }
+    }
+
     componentWillUnmount(): void {
+        window.removeEventListener('keydown', this.onShortcutKeyDown);
         this.editDisableAction.cancel();
     }
 
@@ -338,11 +352,11 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.props.handleCommentClick?.(e);
     }
 
-    isKeyboardEvent = (e: React.KeyboardEvent): any => {
+    isKeyboardEvent = (e: KeyboardEvent): any => {
         return (e).getModifierState !== undefined;
     }
 
-    onShortcutKeyDown = (e: React.KeyboardEvent): void => {
+    onShortcutKeyDown = (e: KeyboardEvent): void => {
         e.preventDefault();
         if (!this.isKeyboardEvent(e)) {
             return;
@@ -558,7 +572,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leadingElement={<ReplyOutlineIcon size={18}/>}
                         trailingElements={<ShortcutKey shortcutKey='R'/>}
                         onClick={this.handleCommentClick}
-                        onKeyDown={this.onShortcutKeyDown}
                     />
                 }
                 {this.canPostBeForwarded &&
@@ -568,7 +581,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leadingElement={<ArrowRightBoldOutlineIcon size={18}/>}
                         trailingElements={<ShortcutKey shortcutKey='Shift + F'/>}
                         onClick={this.handleForwardMenuItemActivated}
-                        onKeyDown={this.onShortcutKeyDown}
                     />
                 }
                 <ChannelPermissionGate
@@ -587,7 +599,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                             }
                             leadingElement={<EmoticonPlusOutlineIcon size={18}/>}
                             onClick={this.handleAddReactionMenuItemActivated}
-                            onKeyDown={this.onShortcutKeyDown}
                         />
                     }
                 </ChannelPermissionGate>
@@ -606,7 +617,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         labels={followPostLabel()}
                         leadingElement={isFollowingThread ? <MessageMinusOutlineIcon size={18}/> : <MessageCheckOutlineIcon size={18}/>}
                         onClick={this.handleSetThreadFollow}
-                        onKeyDown={this.onShortcutKeyDown}
                     />
                 }
                 {Boolean(!isSystemMessage && !this.props.channelIsArchived && this.props.location !== Locations.SEARCH) &&
@@ -621,7 +631,14 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leadingElement={<MarkAsUnreadIcon size={18}/>}
                         trailingElements={<ShortcutKey shortcutKey='U'/>}
                         onClick={this.handleMarkPostAsUnread}
-                        onKeyDown={this.onShortcutKeyDown}
+                    />
+                }
+                {!isSystemMessage &&
+                    <PostReminderSubmenu
+                        userId={this.props.userId}
+                        post={this.props.post}
+                        isMilitaryTime={this.props.isMilitaryTime}
+                        timezone={this.props.timezone}
                     />
                 }
                 {!isSystemMessage &&
@@ -631,7 +648,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leadingElement={this.props.isFlagged ? <BookmarkIcon size={18}/> : <BookmarkOutlineIcon size={18}/>}
                         trailingElements={<ShortcutKey shortcutKey='S'/>}
                         onClick={this.handleFlagMenuItemActivated}
-                        onKeyDown={this.onShortcutKeyDown}
                     />
                 }
                 {Boolean(!isSystemMessage && !this.props.isReadOnly) &&
@@ -641,7 +657,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leadingElement={this.props.post.is_pinned ? <PinIcon size={18}/> : <PinOutlineIcon size={18}/>}
                         trailingElements={<ShortcutKey shortcutKey='P'/>}
                         onClick={this.handlePinMenuItemActivated}
-                        onKeyDown={this.onShortcutKeyDown}
                     />
                 }
                 {!isSystemMessage && (this.state.canEdit || this.state.canDelete) && <Menu.Separator/>}
@@ -656,7 +671,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leadingElement={<LinkVariantIcon size={18}/>}
                         trailingElements={<ShortcutKey shortcutKey='K'/>}
                         onClick={this.copyLink}
-                        onKeyDown={this.onShortcutKeyDown}
                     />
                 }
                 {!isSystemMessage && <Menu.Separator/>}
@@ -671,7 +685,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leadingElement={<PencilOutlineIcon size={18}/>}
                         trailingElements={<ShortcutKey shortcutKey='E'/>}
                         onClick={this.handleEditMenuItemActivated}
-                        onKeyDown={this.onShortcutKeyDown}
                     />
                 }
                 {!isSystemMessage &&
@@ -685,7 +698,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         leadingElement={<ContentCopyIcon size={18}/>}
                         trailingElements={<ShortcutKey shortcutKey='C'/>}
                         onClick={this.copyText}
-                        onKeyDown={this.onShortcutKeyDown}
                     />
                 }
                 {this.state.canDelete &&
@@ -700,7 +712,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                             />}
                         onClick={this.handleDeleteMenuItemActivated}
                         isDestructive={true}
-                        onKeyDown={this.onShortcutKeyDown}
                     />
                 }
             </Menu.Container>

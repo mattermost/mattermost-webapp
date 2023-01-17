@@ -4,12 +4,12 @@
 import React from 'react';
 import memoize from 'memoize-one';
 
-import {Post} from '@mattermost/types/posts';
-import {Channel} from '@mattermost/types/channels';
-
 import Markdown from 'components/markdown';
 
 import {MentionKey, TextFormattingOptions} from 'utils/text_formatting';
+
+import {Post} from '@mattermost/types/posts';
+import {Channel} from '@mattermost/types/channels';
 
 import {renderSystemMessage} from './system_message_helpers';
 
@@ -55,6 +55,11 @@ type Props = {
      * @default true
      */
     showPostEditedIndicator?: boolean;
+
+    /**
+     * Whether the user prefers Military time
+     */
+    isMilitaryTime?: boolean;
 }
 
 export default class PostMarkdown extends React.PureComponent<Props> {
@@ -80,7 +85,7 @@ export default class PostMarkdown extends React.PureComponent<Props> {
         const {post, mentionKeys} = this.props;
 
         if (post) {
-            const renderedSystemMessage = renderSystemMessage(post, this.props.channel, this.props.isUserCanManageMembers);
+            const renderedSystemMessage = renderSystemMessage(post, this.props.channel, this.props.isUserCanManageMembers, this.props.isMilitaryTime);
             if (renderedSystemMessage) {
                 return <div>{renderedSystemMessage}</div>;
             }
