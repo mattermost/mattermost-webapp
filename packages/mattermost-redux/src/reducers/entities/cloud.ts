@@ -116,6 +116,15 @@ export function limits(state: LimitsReducer = emptyLimits, action: GenericAction
         return state;
     }
 }
+
+export function clearLimits(state: LimitsReducer = emptyLimits, action: GenericAction) {
+    switch (action.type) {
+    case CloudTypes.CLEAR_CLOUD_LIMITS:
+        return emptyLimits;
+    default:
+        return state;
+    }
+}
 export interface ErrorsReducer {
     subscription?: true;
     products?: true;
@@ -243,4 +252,6 @@ export default combineReducers({
 
     // state related to self-hosted workspaces purchasing a license not tied to a customer-web-server user.
     selfHostedSignup,
+
+    clearLimits,
 });
