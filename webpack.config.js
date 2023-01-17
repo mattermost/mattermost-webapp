@@ -366,8 +366,8 @@ async function initializeModuleFederation() {
         } else if (DEV) {
             // For development, identify which product dev servers are available
 
-            // Wait a second for product dev servers to start up if they were started at the same time as this one
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            // Wait for 5 seconds for product dev servers to start up if they were started at the same time as this one
+            await new Promise((resolve) => setTimeout(resolve, 5000));
 
             const productsFound = await Promise.all(products.map((product) => isWebpackDevServerAvailable(product.baseUrl)));
             for (let i = 0; i < products.length; i++) {
