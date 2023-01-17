@@ -7,14 +7,21 @@ import {localizeMessage} from 'utils/utils';
 import {ChannelHeaderDropdownItems} from 'components/channel_header_dropdown';
 import Menu from 'components/widgets/menu/menu';
 
-export default class ChannelHeaderDropdown extends React.PureComponent {
+export type Props = {
+    buttonRef?: React.RefObject<HTMLButtonElement>;
+};
+
+export default class ChannelHeaderDropdown extends React.PureComponent<Props> {
     render() {
         return (
             <Menu
                 id='channelHeaderDropdownMenu'
                 ariaLabel={localizeMessage('channel_header.menuAriaLabel', 'Channel Menu').toLowerCase()}
             >
-                <ChannelHeaderDropdownItems isMobile={false}/>
+                <ChannelHeaderDropdownItems 
+                    isMobile={false}
+                    buttonRef={this.props.buttonRef}
+                />
             </Menu>
         );
     }

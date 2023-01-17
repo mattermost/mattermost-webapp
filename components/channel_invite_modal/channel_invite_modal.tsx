@@ -116,6 +116,10 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
         this.props.actions.loadStatusesForProfilesList(this.props.profilesInCurrentChannel);
     };
 
+    public onExited = (): void => {
+        this.props.onExited();
+    };
+
     public handleInviteError = (err: any): void => {
         if (err) {
             this.setState({
@@ -430,7 +434,8 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 dialogClassName='a11y__modal channel-invite'
                 show={this.state.show}
                 onHide={this.onHide}
-                onExited={this.props.onExited}
+                onExited={this.onExited}
+                restoreFocus={true}
                 role='dialog'
                 aria-labelledby='channelInviteModalLabel'
             >

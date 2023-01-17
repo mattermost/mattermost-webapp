@@ -45,11 +45,13 @@ export default class ModalController extends React.PureComponent<Props> {
 
         const modalOutput = [];
 
+        const activeElement = document.activeElement;
+
         const returnFocus = () => {
             document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
                 A11yCustomEventTypes.FOCUS, {
                     detail: {
-                        target: document.activeElement as HTMLElement,
+                        target: activeElement as HTMLElement,
                         keyboardOnly: true,
                     },
                 },

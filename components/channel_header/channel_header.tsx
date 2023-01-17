@@ -108,6 +108,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
     headerDescriptionRef: RefObject<HTMLSpanElement>;
     headerPopoverTextMeasurerRef: RefObject<HTMLDivElement>;
     headerOverlayRef: RefObject<BaseOverlayTrigger>;
+    channelHeaderButtonRef: RefObject<HTMLButtonElement>;
     getHeaderMarkdownOptions: (channelNamesMap: Record<string, any>) => Record<string, any>;
     getPopoverMarkdownOptions: (channelNamesMap: Record<string, any>) => Record<string, any>;
 
@@ -117,6 +118,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
         this.headerDescriptionRef = React.createRef();
         this.headerPopoverTextMeasurerRef = React.createRef();
         this.headerOverlayRef = React.createRef();
+        this.channelHeaderButtonRef = React.createRef();
 
         this.state = {
             popoverOverlayWidth: 0,
@@ -773,6 +775,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                     >
                         <button
                             className={`channel-header__trigger style--none ${this.state.titleMenuOpen ? 'active' : ''}`}
+                            ref={this.channelHeaderButtonRef}
                             aria-label={formatMessage({id: 'channel_header.menuAriaLabel', defaultMessage: 'Channel Menu'}).toLowerCase()}
                         >
                             <strong
@@ -794,7 +797,9 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                             />
                         </button>
                     </div>
-                    <ChannelHeaderDropdown/>
+                    <ChannelHeaderDropdown
+                        buttonRef={this.channelHeaderButtonRef}
+                    />
                 </MenuWrapper>
                 {toggleFavorite}
             </React.Fragment>
