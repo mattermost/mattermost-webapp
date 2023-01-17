@@ -612,8 +612,7 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').should('exist');
 
         // * Click the free action (downgrade).
-        cy.get('#free').should('exist');
-        cy.get('#free').contains('Contact Support');
+        cy.get('#free').should('exist').contains('Contact Support');
         cy.get('#free_action').should('be.enabled').click();
     });
 });
