@@ -123,7 +123,7 @@ export function clearLimits(state: LimitsReducer = emptyLimits, action: GenericA
         // eslint-disable-next-line no-console
         console.log('reducers/entities/cloud clearLimits', action.data);
         return {
-            limits: null,
+            limits: {},
             limitsLoaded: false,
         };
     default:
@@ -177,6 +177,11 @@ export function errors(state: ErrorsReducer = emptyErrors, action: GenericAction
         return newState;
     }
     case CloudTypes.RECEIVED_CLOUD_LIMITS: {
+        const newState = Object.assign({}, state);
+        delete newState.limits;
+        return newState;
+    }
+    case CloudTypes.CLEAR_CLOUD_LIMITS: {
         const newState = Object.assign({}, state);
         delete newState.limits;
         return newState;
