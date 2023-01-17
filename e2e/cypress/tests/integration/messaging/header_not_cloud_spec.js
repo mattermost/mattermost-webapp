@@ -18,16 +18,6 @@ describe('Header', () => {
         cy.shouldNotRunOnCloudEdition();
         cy.shouldHavePluginUploadEnabled();
 
-        // # Enable Bots and plugins
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableBotAccountCreation: true,
-            },
-            PluginSettings: {
-                Enable: true,
-            },
-        });
-
         // # Setup and visit town-square
         cy.apiInitSetup().then(({team}) => {
             cy.visit(`/${team.name}/channels/town-square`);
