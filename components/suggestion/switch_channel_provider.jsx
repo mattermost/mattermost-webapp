@@ -43,6 +43,7 @@ import SharedChannelIndicator from 'components/shared_channel_indicator';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import ProfilePicture from 'components/profile_picture';
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants';
@@ -51,7 +52,7 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 import {Preferences} from 'mattermost-redux/constants';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
-import ProfilePicture from '../profile_picture';
+import classnames from 'classnames';
 
 import Provider from './provider';
 import Suggestion from './suggestion.jsx';
@@ -254,7 +255,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 {icon}
                 <div className='suggestion-list__ellipsis suggestion-list__flex'>
                     <span className='suggestion-list__main'>
-                        <span className={item.unread && !channelIsArchived ? 'suggestion-list__unread' : ''}>{name}</span>
+                        <span className={classnames({'suggestion-list__unread': item.unread && !channelIsArchived})}>{name}</span>
                         {showSlug && <span className='ml-2 suggestion-list__desc'>{description}</span>}
                     </span>
                     {customStatus}
