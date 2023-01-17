@@ -17,6 +17,7 @@ import {
     CloudProducts,
 } from 'utils/constants';
 import {GlobalState} from 'types/store';
+import {getCloudLimits as getCloudLimitsAction} from 'actions/cloud';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetSubscription from 'components/common/hooks/useGetSubscription';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
@@ -83,6 +84,8 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
         if (!isSystemAdmin(currentUser.roles)) {
             return false;
         }
+
+        dispatch(getCloudLimitsAction());
 
         console.log('CloudTrialEndAnnouncementBar', {subscription});
         console.log('CloudTrialEndAnnouncementBar', {limits});
