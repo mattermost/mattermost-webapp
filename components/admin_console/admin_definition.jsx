@@ -220,6 +220,7 @@ export const it = {
 
 export const validators = {
     isRequired: (text, textDefault) => (value) => new ValidationResult(Boolean(value), text, textDefault),
+    minValue: (min, text, textDefault) => (value) => new ValidationResult((value >= min), text, textDefault),
 };
 
 const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
@@ -2902,6 +2903,7 @@ const AdminDefinition = {
                             it.configIsFalse('ServiceSettings', 'PostPriority'),
                             it.configIsFalse('ServiceSettings', 'AllowPersistentNotifications'),
                         ),
+                        validate: validators.minValue(2, t('admin.posts.persistentNotificationsInterval.minValue'), 'Frequency cannot not be set to less than 2 minutes'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
