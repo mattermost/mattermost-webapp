@@ -4,11 +4,11 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import GuestBadge from './guest_badge';
+import BotTag from './bot_tag';
 
-describe('components/widgets/badges/GuestBadge', () => {
+describe('components/widgets/tag/BotTag', () => {
     test('should match the snapshot', () => {
-        const wrapper = shallow(<GuestBadge className={'test'}/>);
+        const wrapper = shallow(<BotTag className={'test'}/>);
         expect(wrapper).toMatchSnapshot();
     });
 });

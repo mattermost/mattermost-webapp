@@ -4,14 +4,15 @@
 import React, {EventHandler, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Post} from '@mattermost/types/posts';
+import Tag from 'components/widgets/tag/tag';
+import BotTag from 'components/widgets/tag/bot_tag';
 
 import Constants from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
 import PostInfo from 'components/post_view/post_info';
 import UserProfile from 'components/user_profile';
-import BotBadge from 'components/widgets/badges/bot_badge';
-import Badge from 'components/widgets/badges/badge';
+
+import {Post} from '@mattermost/types/posts';
 
 import PostHeaderCustomStatus from './post_header_custom_status';
 
@@ -108,7 +109,10 @@ export default class PostHeader extends React.PureComponent<Props> {
         let colon;
 
         if (fromWebhook) {
-            if (post.props.override_username && this.props.enablePostUsernameOverride) {
+            if (
+                post.props.override_username &&
+                this.props.enablePostUsernameOverride
+            ) {
                 userProfile = (
                     <UserProfile
                         userId={post.user_id}
@@ -129,7 +133,7 @@ export default class PostHeader extends React.PureComponent<Props> {
             }
 
             if (!this.props.isBot) {
-                indicator = (<BotBadge/>);
+                indicator = <BotTag/>;
             }
         } else if (fromAutoResponder) {
             userProfile = (
@@ -142,12 +146,14 @@ export default class PostHeader extends React.PureComponent<Props> {
             );
 
             indicator = (
-                <Badge>
-                    <FormattedMessage
-                        id='post_info.auto_responder'
-                        defaultMessage='AUTOMATIC REPLY'
-                    />
-                </Badge>
+                <Tag
+                    text={
+                        <FormattedMessage
+                            id='post_info.auto_responder'
+                            defaultMessage='AUTOMATIC REPLY'
+                        />
+                    }
+                />
             );
         } else if (isSystemMessage && this.props.isBot) {
             userProfile = (
@@ -173,7 +179,7 @@ export default class PostHeader extends React.PureComponent<Props> {
         }
 
         if (this.props.compactDisplay) {
-            colon = (<strong className='colon'>{':'}</strong>);
+            colon = <strong className='colon'>{':'}</strong>;
         }
 
         const customStatus = (
