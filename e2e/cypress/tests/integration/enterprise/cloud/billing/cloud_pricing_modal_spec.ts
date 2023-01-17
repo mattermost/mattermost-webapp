@@ -608,7 +608,6 @@ describe('Pricing modal', () => {
         cy.apiAdminLogin();
         cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
 
-
         // * Pricing modal should be open
         cy.get('#pricingModal').should('exist');
 
@@ -616,5 +615,5 @@ describe('Pricing modal', () => {
         cy.get('#free').should('exist');
         cy.get('#free').contains('Contact Support');
         cy.get('#free_action').should('be.enabled').click();
-    })
+    });
 });
