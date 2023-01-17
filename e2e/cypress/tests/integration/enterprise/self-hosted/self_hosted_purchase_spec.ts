@@ -9,7 +9,7 @@
 
 // e.g. not_cloud cloud because we always want to exclude running automatically
 // until we create the special self-hosted run setup
-// Stage: @prod
+// Stage: @dev
 // Group: @enterprise @not_cloud @cloud @hosted_customer
 
 // To run this locally, the necessary test setup is:
@@ -24,7 +24,6 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 function verifyPurchaseModal() {
     cy.contains('Provide your payment details');
-    cy.contains('Contact Sales');
     cy.contains('Contact Sales');
     cy.contains('Compare plans');
     cy.contains('Credit Card');
@@ -314,11 +313,12 @@ describe('Self hosted Purchase', () => {
         // # Fill form with too low of a number of seats
         fillForm({...defaultSuccessForm, seats: 1}, getCurrentUsers());
 
-        // * Verify form can not be submitted
-        cy.contains('Upgrade').should('not.be.enabled');
-
-        // # Fill form the same number of seats as current users
         getCurrentUsers().then((currentUsers) => {
+            // * Verify form can not be submitted
+            cy.contains(`Your workspace currently has ${currentUsers} users`).should('not.be.enabled');
+            cy.contains('Upgrade').should('not.be.enabled');
+
+            // # Fill form the same number of seats as current users
             cy.findByTestId('selfHostedPurchaseSeatsInput').clear().type(currentUsers.toString());
         });
 
