@@ -7,11 +7,9 @@ import styled from 'styled-components';
 
 import {CSSTransition} from 'react-transition-group';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {AccordionItemType} from 'components/common/accordion/accordion';
-
-import {fetchListing} from 'actions/marketplace';
 
 import {GlobalState} from 'types/store';
 
@@ -28,6 +26,7 @@ import PreviewSection from './preview/section';
 export interface PreviewProps {
     className?: string;
     template: WorkTemplate;
+    pluginsEnabled: boolean;
 }
 
 interface IllustrationAnimations {
@@ -47,9 +46,8 @@ const ANIMATE_TIMEOUTS = {
     exit: 200,
 };
 
-const Preview = ({template, className}: PreviewProps) => {
+const Preview = ({template, className, pluginsEnabled}: PreviewProps) => {
     const {formatMessage} = useIntl();
-    const dispatch = useDispatch();
 
     const nodeRefForPrior = useRef(null);
     const nodeRefForCurrent = useRef(null);
@@ -71,10 +69,6 @@ const Preview = ({template, className}: PreviewProps) => {
             },
         };
     });
-
-    useEffect(() => {
-        dispatch(fetchListing());
-    }, []);
 
     useEffect(() => {
         if (illustrationDetails.prior.animateIn) {
@@ -122,6 +116,9 @@ const Preview = ({template, className}: PreviewProps) => {
     }, [template.content]);
 
     useEffect(() => {
+        if (!pluginsEnabled) {
+            return;
+        }
         const intg =
             availableIntegrations?.
                 flatMap((integration) => {
@@ -144,7 +141,7 @@ const Preview = ({template, className}: PreviewProps) => {
         if (intg?.length) {
             setIntegrations(intg);
         }
-    }, [plugins, availableIntegrations]);
+    }, [plugins, availableIntegrations, pluginsEnabled]);
 
     // building accordion items
     const accordionItemsData: AccordionItemType[] = [];
@@ -196,7 +193,7 @@ const Preview = ({template, className}: PreviewProps) => {
             )],
         });
     }
-    if (integrations?.length) {
+    if (integrations?.length && pluginsEnabled) {
         accordionItemsData.push({
             id: 'integrations',
             title: 'Integrations',

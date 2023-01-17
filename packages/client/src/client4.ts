@@ -133,7 +133,7 @@ import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
 import {LeastActiveChannelsResponse, TopChannelResponse, TopReactionResponse, TopThreadResponse, TopDMsResponse} from '@mattermost/types/insights';
 
-import {Category, WorkTemplate} from '@mattermost/types/work_templates';
+import {Category, ExecuteWorkTemplateRequest, ExecuteWorkTemplateResponse, WorkTemplate} from '@mattermost/types/work_templates';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
@@ -358,6 +358,13 @@ export default class Client4 {
         return this.doFetch<WorkTemplate[]>(
             `${this.getBaseWorkTemplate()}/categories/${categoryId}/templates`,
             {method: 'get'},
+        );
+    }
+
+    executeWorkTemplate = (req: ExecuteWorkTemplateRequest) => {
+        return this.doFetch<ExecuteWorkTemplateResponse>(
+            `${this.getBaseWorkTemplate()}/execute`,
+            {method: 'post', body: JSON.stringify(req)},
         );
     }
 
