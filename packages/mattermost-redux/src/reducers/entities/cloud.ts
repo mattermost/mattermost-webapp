@@ -106,6 +106,9 @@ export function limits(state: LimitsReducer = emptyLimits, action: GenericAction
             limitsLoaded: true,
         };
     }
+    case CloudTypes.CLEAR_CLOUD_LIMITS: {
+        return emptyLimits;
+    }
     default:
         return state;
     }
@@ -157,6 +160,11 @@ export function errors(state: ErrorsReducer = emptyErrors, action: GenericAction
         return newState;
     }
     case CloudTypes.RECEIVED_CLOUD_LIMITS: {
+        const newState = Object.assign({}, state);
+        delete newState.limits;
+        return newState;
+    }
+    case CloudTypes.CLEAR_CLOUD_LIMITS: {
         const newState = Object.assign({}, state);
         delete newState.limits;
         return newState;

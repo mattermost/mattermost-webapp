@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useMemo} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
@@ -16,7 +16,8 @@ import {
     CloudProducts,
 } from 'utils/constants';
 import {GlobalState} from 'types/store';
-import {getCloudLimits as getCloudLimitsAction} from 'actions/cloud';
+
+// import {getCloudLimits as getCloudLimitsAction} from 'actions/cloud';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetSubscription from 'components/common/hooks/useGetSubscription';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
@@ -42,7 +43,8 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
         getCurrentUser(state),
     );
     const subscriptionProduct = useSelector((state: GlobalState) => getSubscriptionProduct(state));
-    const [loadCloudLimits, setLoadCloudLimits] = useState(true);
+
+    // const [reloadCloudLimits, setReloadCloudLimits] = useState(true);
 
     const openPricingModal = useOpenPricingModal();
 
@@ -85,14 +87,15 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
             return false;
         }
         return true;
-    }, [currentUser, limits, preferences, subscription, subscriptionProduct]);
+    }, [currentUser?.roles, limits, preferences, subscription, subscriptionProduct]);
 
-    useEffect(() => {
-        if (loadCloudLimits && shouldShowBanner) {
+    // Reload cloud limits after trial ended
+    /* useEffect(() => {
+        if (reloadCloudLimits && shouldShowBanner) {
             dispatch(getCloudLimitsAction());
-            setLoadCloudLimits(false);
+            setReloadCloudLimits(false);
         }
-    }, [shouldShowBanner, loadCloudLimits]);
+    }, [shouldShowBanner, reloadCloudLimits]); */
 
     if (!shouldShowBanner) {
         return null;

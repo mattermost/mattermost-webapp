@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Limits} from '@mattermost/types/cloud';
 import {getCloudLimits, getCloudLimitsLoaded, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {getCloudLimits as getCloudLimitsAction} from 'actions/cloud';
+import useGetSubscription from 'components/common/hooks/useGetSubscription';
 import {useIsLoggedIn} from 'components/global_header/hooks';
 
 export default function useGetLimits(): [Limits, boolean] {
@@ -14,8 +15,18 @@ export default function useGetLimits(): [Limits, boolean] {
     const isLoggedIn = useIsLoggedIn();
     const cloudLimits = useSelector(getCloudLimits);
     const cloudLimitsReceived = useSelector(getCloudLimitsLoaded);
+    const subscription = useGetSubscription();
     const dispatch = useDispatch();
     const [requestedLimits, setRequestedLimits] = useState(false);
+
+    const trialEnd = subscription?.trial_end_at ?? 0;
+    const trialExpired = trialEnd !== 0 && trialEnd < Date.now();
+
+    useEffect(() => {
+        if (trialExpired) {
+            setRequestedLimits(false);
+        }
+    }, [trialExpired]);
 
     useEffect(() => {
         if (isLoggedIn && isCloud && !requestedLimits && !cloudLimitsReceived) {
