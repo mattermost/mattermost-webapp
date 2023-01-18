@@ -102,7 +102,7 @@ const EmojiPicker = ({editor}: Props) => {
 
     useEffect(() => {
         update?.();
-    }, [update]);
+    }, [update, showEmojiPicker]);
 
     const toggleEmojiPicker = useCallback((event?) => {
         event?.preventDefault();
