@@ -1,0 +1,26 @@
+.ScreeningInProgressModal {
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 32px;
+        text-align: center;
+    }
+
+    &__title {
+        span {
+            font-size: 22px;
+            font-weight: bold;
+        }
+    }
+
+    &__description {
+        padding-top: 20px;
+
+        span {
+            padding-right: 32px;
+            padding-left: 32px;
+        }
+    }
+}

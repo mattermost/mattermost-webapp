@@ -27,7 +27,10 @@ import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 
 import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
 
-import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
+import {
+    useControlAirGappedSelfHostedPurchaseModal,
+    useControlScreeningInProgressModal,
+} from 'components/common/hooks/useControlModal';
 
 import ContactSalesCTA from './contact_sales_cta';
 import StartTrialCaution from './start_trial_caution';
@@ -46,7 +49,7 @@ function SelfHostedContent(props: ContentProps) {
     useFetchAdminConfig();
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
-    const canUseSelfHostedSignup = useCanSelfHostedSignup();
+    const selfHostedSignupAvailable = useCanSelfHostedSignup();
 
     const [products, productsLoaded] = useGetSelfHostedProducts();
     const professionalProductId = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL)?.id || '';
@@ -86,6 +89,7 @@ function SelfHostedContent(props: ContentProps) {
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
 
     const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
+    const controlScreeningInProgressModal = useControlScreeningInProgressModal();
 
     const closePricingModal = () => {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
@@ -223,9 +227,13 @@ function SelfHostedContent(props: ContentProps) {
                                     return;
                                 }
 
-                                if (!canUseSelfHostedSignup) {
+                                if (!selfHostedSignupAvailable.ok) {
                                     closePricingModal();
-                                    controlAirgappedModal.open();
+                                    if (selfHostedSignupAvailable.screeningInProgress) {
+                                        controlScreeningInProgressModal.open();
+                                    } else {
+                                        controlAirgappedModal.open();
+                                    }
                                     return;
                                 }
 
