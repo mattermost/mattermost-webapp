@@ -154,7 +154,7 @@ export class MainMenu extends React.PureComponent<Props> {
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
         const teamsLimitReached = this.props.isStarterFree && !this.props.isFreeTrial && this.props.usageDeltaTeams >= 0;
-        const createTeamRestricted = this.props.isCloud && (this.props.isFreeTrial || teamsLimitReached);
+        const createTeamRestricted = true; // this.props.isCloud && (this.props.isFreeTrial || teamsLimitReached);
 
         const {formatMessage} = this.props.intl;
 
@@ -483,7 +483,7 @@ export class MainMenu extends React.PureComponent<Props> {
                                 <RestrictedIndicator
                                     feature={PaidFeatures.CREATE_MULTIPLE_TEAMS}
                                     minimumPlanRequiredForFeature={LicenseSkus.Professional}
-                                    blocked={!this.props.isFreeTrial}
+                                    blocked={true}
                                     tooltipMessage={formatMessage({
                                         id: 'navbar_dropdown.create.tooltip.cloudFreeTrial',
                                         defaultMessage: 'During your trial you are able to create multiple teams. These teams will be archived after your trial.',
