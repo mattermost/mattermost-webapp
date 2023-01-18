@@ -294,7 +294,7 @@ function verifySearchAutocomplete(index, type = 'user') {
                 cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', userAriaLabel);
             });
         } else if (type === 'channel') {
-            cy.get('.ml-2').invoke('text').then((text) => {
+            cy.get('.suggestion-list__ellipsis').invoke('text').then((text) => {
                 const channel = text.split('~')[1].toLowerCase().trim();
                 cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', channel);
             });
@@ -305,9 +305,9 @@ function verifySearchAutocomplete(index, type = 'user') {
 function verifyMessageAutocomplete(index, type = 'user') {
     cy.get('#suggestionList').find('.suggestion-list__item').eq(index).should('be.visible').and('have.class', 'suggestion--selected').within((el) => {
         if (type === 'user') {
-            cy.get('.suggestion-list__main').invoke('text').then((username) => {
-                cy.get('.ml-2').invoke('text').then((fullName) => {
-                    const usernameFullNameNickName = getUserMentionAriaLabel(username + ' ' + fullName);
+            cy.get('.suggestion-list__ellipsis').invoke('text').then((fullText) => {
+                cy.get('.suggestion-list__main').invoke('text').then((username) => {
+                    const usernameFullNameNickName = getUserMentionAriaLabel(`${username} ${fullText.split(username)[1]}`);
                     cy.wrap(el).parents('.textarea-wrapper').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', usernameFullNameNickName);
                 });
             });

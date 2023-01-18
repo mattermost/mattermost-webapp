@@ -102,14 +102,14 @@ describe('Guest Account - Guest User Experience', () => {
         cy.postMessage('testing');
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(($el) => {
-                cy.wrap($el).find('.post__header .Badge').should('be.visible');
+                cy.wrap($el).find('.post__header .Tag').should('be.visible');
                 cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
             });
         });
 
         // * Verify Guest Badge in Guest User's Profile Popover
         cy.get('#user-profile-popover').should('be.visible').within(($el) => {
-            cy.wrap($el).find('.user-popover__role').should('be.visible').and('have.text', 'GUEST');
+            cy.wrap($el).find('.GuestTag').should('be.visible').and('have.text', 'GUEST');
         });
 
         // # Close the profile popover
@@ -162,7 +162,7 @@ describe('Guest Account - Guest User Experience', () => {
         cy.postMessage('testing');
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(($el) => {
-                cy.wrap($el).find('.post__header .Badge').should('not.exist');
+                cy.wrap($el).find('.post__header .Tag').should('not.exist');
                 cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
             });
         });

@@ -249,14 +249,6 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
       className="more-modal__name"
     >
       <span>
-        <BotBadge
-          className=""
-          show={false}
-        />
-        <GuestBadge
-          className=""
-          show={false}
-        />
         <span
           className="light"
           style={
