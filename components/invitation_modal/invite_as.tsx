@@ -112,7 +112,7 @@ export default function InviteAs(props: Props) {
                     defaultMessage: 'Collaborate with users outside of your organization while tightly controlling their access to channels and team members. Upgrade to the Professional plan to create unlimited user groups.',
                 })}
                 ctaExtraContent={(
-                    <span className='badge-text'>
+                    <span className='tag-text'>
                         {ctaExtraContentMsg}
                     </span>
                 )}
@@ -136,7 +136,7 @@ export default function InviteAs(props: Props) {
         badges = {
             matchVal: InviteType.GUEST as string,
             badgeContent: restrictedIndicator,
-            extraClass: 'Badge__restricted-indicator-badge',
+            extraClass: 'Tag__restricted-indicator-badge',
         };
         extraGuestLegend = false;
     }
