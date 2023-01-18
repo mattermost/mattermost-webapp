@@ -61,6 +61,13 @@ export function checkHadPriorTrial(state: GlobalState): boolean {
     return Boolean(subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0);
 }
 
+export function isCloudTrialExpired(state: GlobalState): boolean {
+    const subscription = getCloudSubscription(state);
+    const trialEnd = subscription?.trial_end_at ?? 0;
+    const trialExpired = subscription?.is_free_trial === 'false' && trialEnd !== 0 && trialEnd < Date.now();
+    return trialExpired;
+}
+
 export function isCurrentLicenseCloud(state: GlobalState): boolean {
     const license = getLicense(state);
     return license?.Cloud === 'true';
