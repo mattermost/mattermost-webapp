@@ -64,6 +64,11 @@ exports[`components/Menu should match snapshot with guest access disabled and no
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -96,6 +101,11 @@ exports[`components/Menu should match snapshot with guest access disabled and no
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -121,6 +131,7 @@ exports[`components/Menu should match snapshot with guest access disabled and no
       <MenuItemToggleModalRedux
         dialogProps={
           Object {
+            "returnFocus": undefined,
             "teamID": "team-id",
           }
         }
@@ -148,6 +159,12 @@ exports[`components/Menu should match snapshot with guest access disabled and no
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+            "returnFocusOnExit": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -173,6 +190,12 @@ exports[`components/Menu should match snapshot with guest access disabled and no
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+            "returnFocusOnExit": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -195,6 +218,11 @@ exports[`components/Menu should match snapshot with guest access disabled and no
     />
     <MenuItemToggleModalRedux
       className="destructive"
+      dialogProps={
+        Object {
+          "returnFocus": undefined,
+        }
+      }
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -247,6 +275,11 @@ exports[`components/Menu should match snapshot with id 1`] = `
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -271,6 +304,11 @@ exports[`components/Menu should match snapshot with id 1`] = `
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -296,6 +334,11 @@ exports[`components/Menu should match snapshot with id 1`] = `
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -321,6 +364,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
       <MenuItemToggleModalRedux
         dialogProps={
           Object {
+            "returnFocus": undefined,
             "teamID": "team-id",
           }
         }
@@ -348,6 +392,12 @@ exports[`components/Menu should match snapshot with id 1`] = `
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+            "returnFocusOnExit": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -373,6 +423,12 @@ exports[`components/Menu should match snapshot with id 1`] = `
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+            "returnFocusOnExit": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -395,6 +451,11 @@ exports[`components/Menu should match snapshot with id 1`] = `
     />
     <MenuItemToggleModalRedux
       className="destructive"
+      dialogProps={
+        Object {
+          "returnFocus": undefined,
+        }
+      }
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -446,6 +507,11 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -470,6 +536,11 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -495,6 +566,11 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -520,6 +596,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       <MenuItemToggleModalRedux
         dialogProps={
           Object {
+            "returnFocus": undefined,
             "teamID": "team-id",
           }
         }
@@ -547,6 +624,12 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+            "returnFocusOnExit": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -572,6 +655,12 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+            "returnFocusOnExit": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -594,6 +683,11 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     />
     <MenuItemToggleModalRedux
       className="destructive"
+      dialogProps={
+        Object {
+          "returnFocus": undefined,
+        }
+      }
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -776,6 +870,11 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -1057,6 +1156,11 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -1081,6 +1185,11 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -1106,6 +1215,11 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -1131,6 +1245,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       <MenuItemToggleModalRedux
         dialogProps={
           Object {
+            "returnFocus": undefined,
             "teamID": "team-id",
           }
         }
@@ -1158,6 +1273,12 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+            "returnFocusOnExit": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -1183,6 +1304,12 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+            "returnFocusOnExit": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -1205,6 +1332,11 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     />
     <MenuItemToggleModalRedux
       className="destructive"
+      dialogProps={
+        Object {
+          "returnFocus": undefined,
+        }
+      }
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -1387,6 +1519,11 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -1670,6 +1807,11 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -1694,6 +1836,11 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -1719,6 +1866,11 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -1744,6 +1896,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       <MenuItemToggleModalRedux
         dialogProps={
           Object {
+            "returnFocus": undefined,
             "teamID": "team-id",
           }
         }
@@ -1771,6 +1924,12 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+            "returnFocusOnExit": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -1796,6 +1955,12 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+            "returnFocusOnExit": false,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -1818,6 +1983,11 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     />
     <MenuItemToggleModalRedux
       className="destructive"
+      dialogProps={
+        Object {
+          "returnFocus": undefined,
+        }
+      }
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -2015,6 +2185,11 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       teamId="team-id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),

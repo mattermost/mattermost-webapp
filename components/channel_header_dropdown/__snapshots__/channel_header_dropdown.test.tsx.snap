@@ -150,6 +150,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "update_at": 0,
             "username": "some-user",
           },
+          "returnFocus": [Function],
         }
       }
       dialogType={
@@ -258,6 +259,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
               "type": "O",
               "update_at": 0,
             },
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -277,6 +279,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
         dialogProps={
           Object {
             "isExistingChannel": true,
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -327,6 +330,11 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
       teamId="team_id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": [Function],
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -344,6 +352,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
         dialogProps={
           Object {
             "channelID": "test-channel-id",
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -442,6 +451,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "type": "O",
             "update_at": 0,
           },
+          "returnFocus": [Function],
         }
       }
       dialogType={
@@ -486,6 +496,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
               "type": "O",
               "update_at": 0,
             },
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -521,6 +532,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
               "type": "O",
               "update_at": 0,
             },
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -556,6 +568,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
               "type": "O",
               "update_at": 0,
             },
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -586,6 +599,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
           Object {
             "channelDisplayName": "name",
             "channelId": "test-channel-id",
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -939,6 +953,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "update_at": 0,
             "username": "some-user",
           },
+          "returnFocus": [Function],
         }
       }
       dialogType={
@@ -1047,6 +1062,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
               "type": "O",
               "update_at": 0,
             },
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -1066,6 +1082,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
         dialogProps={
           Object {
             "isExistingChannel": true,
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -1116,6 +1133,11 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
       teamId="team_id"
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "returnFocus": [Function],
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -1133,6 +1155,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
         dialogProps={
           Object {
             "channelID": "test-channel-id",
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -1231,6 +1254,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "type": "O",
             "update_at": 0,
           },
+          "returnFocus": [Function],
         }
       }
       dialogType={
@@ -1275,6 +1299,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
               "type": "O",
               "update_at": 0,
             },
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -1310,6 +1335,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
               "type": "O",
               "update_at": 0,
             },
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -1345,6 +1371,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
               "type": "O",
               "update_at": 0,
             },
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -1375,6 +1402,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
           Object {
             "channelDisplayName": "name",
             "channelId": "test-channel-id",
+            "returnFocus": [Function],
           }
         }
         dialogType={

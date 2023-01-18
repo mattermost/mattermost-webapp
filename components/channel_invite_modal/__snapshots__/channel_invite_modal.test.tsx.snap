@@ -24,7 +24,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
       "remove": [Function],
     }
   }
-  onExited={[MockFunction]}
+  onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -137,7 +137,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
       "remove": [Function],
     }
   }
-  onExited={[MockFunction]}
+  onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -305,7 +305,7 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
       "remove": [Function],
     }
   }
-  onExited={[MockFunction]}
+  onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}

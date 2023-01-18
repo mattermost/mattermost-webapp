@@ -128,6 +128,7 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
       dialogProps={
         Object {
           "backButtonAction": [Function],
+          "returnFocus": undefined,
         }
       }
       dialogType={
@@ -193,6 +194,11 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
       url="test–link"
     />
     <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "returnFocus": undefined,
+        }
+      }
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -344,6 +350,7 @@ exports[`components/global/product_switcher_menu should match snapshot with most
       dialogProps={
         Object {
           "backButtonAction": [Function],
+          "returnFocus": undefined,
         }
       }
       dialogType={
@@ -409,6 +416,11 @@ exports[`components/global/product_switcher_menu should match snapshot with most
       url="test–link"
     />
     <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "returnFocus": undefined,
+        }
+      }
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),
@@ -437,6 +449,7 @@ exports[`components/global/product_switcher_menu should match userGroups snapsho
   dialogProps={
     Object {
       "backButtonAction": [Function],
+      "returnFocus": undefined,
     }
   }
   dialogType={
@@ -467,6 +480,7 @@ exports[`components/global/product_switcher_menu should match userGroups snapsho
   dialogProps={
     Object {
       "backButtonAction": [Function],
+      "returnFocus": undefined,
     }
   }
   dialogType={
@@ -510,6 +524,7 @@ exports[`components/global/product_switcher_menu should match userGroups snapsho
   dialogProps={
     Object {
       "backButtonAction": [Function],
+      "returnFocus": undefined,
     }
   }
   dialogType={
@@ -680,6 +695,7 @@ exports[`components/global/product_switcher_menu should show integrations should
       dialogProps={
         Object {
           "backButtonAction": [Function],
+          "returnFocus": undefined,
         }
       }
       dialogType={
@@ -745,6 +761,11 @@ exports[`components/global/product_switcher_menu should show integrations should
       url="test–link"
     />
     <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "returnFocus": undefined,
+        }
+      }
       dialogType={
         Object {
           "$$typeof": Symbol(react.memo),

@@ -302,7 +302,6 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
           "user_id": "",
         }
       }
-      handleOpenDirectMessagesModal={[Function]}
       isCollapsed={false}
       isMenuOpen={false}
       onToggleMenu={[Function]}
@@ -429,7 +428,6 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
           "user_id": "",
         }
       }
-      handleOpenDirectMessagesModal={[Function]}
       isCollapsed={false}
       isMenuOpen={false}
       onToggleMenu={[Function]}

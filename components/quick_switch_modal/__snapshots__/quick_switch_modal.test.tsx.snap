@@ -2,7 +2,7 @@
 
 exports[`components/QuickSwitchModal should match snapshot 1`] = `
 <Modal
-  animation={false}
+  animation={true}
   aria-describedby="quickSwitchHeader"
   aria-labelledby="quickSwitchModalLabel"
   autoFocus={true}
@@ -24,9 +24,10 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
       "remove": [Function],
     }
   }
+  onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
-  restoreFocus={false}
+  restoreFocus={true}
   role="dialog"
   show={true}
 >

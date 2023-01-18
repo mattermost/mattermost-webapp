@@ -6,6 +6,11 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  menuButtonRef={
+    Object {
+      "current": null,
+    }
+  }
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
@@ -67,6 +72,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       }
     }
     openUp={false}
+    returnFocus={[Function]}
   />
   <MenuGroup>
     <MenuItemAction
@@ -115,6 +121,11 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  menuButtonRef={
+    Object {
+      "current": null,
+    }
+  }
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
@@ -176,6 +187,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       }
     }
     openUp={false}
+    returnFocus={[Function]}
   />
   <MenuGroup>
     <MenuItemAction
@@ -224,6 +236,11 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  menuButtonRef={
+    Object {
+      "current": null,
+    }
+  }
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
@@ -285,6 +302,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       }
     }
     openUp={false}
+    returnFocus={[Function]}
   />
   <MenuGroup>
     <MenuItemAction
@@ -333,6 +351,11 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  menuButtonRef={
+    Object {
+      "current": null,
+    }
+  }
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
@@ -394,6 +417,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       }
     }
     openUp={false}
+    returnFocus={[Function]}
   />
   <MenuGroup />
   <MenuGroup>
@@ -419,6 +443,11 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  menuButtonRef={
+    Object {
+      "current": null,
+    }
+  }
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
@@ -480,6 +509,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       }
     }
     openUp={false}
+    returnFocus={[Function]}
   />
   <MenuGroup>
     <MenuItemAction
@@ -514,6 +544,11 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  menuButtonRef={
+    Object {
+      "current": null,
+    }
+  }
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
@@ -575,6 +610,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       }
     }
     openUp={false}
+    returnFocus={[Function]}
   />
   <MenuGroup>
     <MenuItemAction
@@ -623,6 +659,11 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  menuButtonRef={
+    Object {
+      "current": null,
+    }
+  }
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
@@ -684,6 +725,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       }
     }
     openUp={false}
+    returnFocus={[Function]}
   />
   <MenuGroup>
     <MenuItemAction
@@ -732,6 +774,11 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  menuButtonRef={
+    Object {
+      "current": null,
+    }
+  }
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
@@ -793,6 +840,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       }
     }
     openUp={false}
+    returnFocus={[Function]}
   />
   <MenuGroup>
     <MenuItemAction
@@ -841,6 +889,11 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  menuButtonRef={
+    Object {
+      "current": null,
+    }
+  }
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
@@ -902,6 +955,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       }
     }
     openUp={false}
+    returnFocus={[Function]}
   />
   <MenuGroup>
     <MenuItemAction
@@ -950,6 +1004,11 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
   buttonAriaLabel="Channel Menu"
   id="SidebarChannelMenu-channel_id"
   isMenuOpen={true}
+  menuButtonRef={
+    Object {
+      "current": null,
+    }
+  }
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
@@ -1011,6 +1070,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
       }
     }
     openUp={false}
+    returnFocus={[Function]}
   />
   <MenuGroup>
     <MenuItemAction

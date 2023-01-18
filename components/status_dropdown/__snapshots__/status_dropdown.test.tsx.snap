@@ -12,6 +12,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
     aria-expanded={false}
     aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
+    onClick={[Function]}
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -197,6 +198,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
         dialogProps={
           Object {
             "isContentProductSettings": false,
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -249,6 +251,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
     aria-expanded={true}
     aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
+    onClick={[Function]}
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -308,6 +311,11 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
       <MenuItemToggleModalRedux
         ariaLabel="In a meeting"
         className="MenuItem__primary-text custom_status__row"
+        dialogProps={
+          Object {
+            "returnFocus": [Function],
+          }
+        }
         dialogType={[Function]}
         id="status-menu-custom-status"
         modalId="custom_status"
@@ -515,6 +523,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
         dialogProps={
           Object {
             "isContentProductSettings": false,
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -567,6 +576,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
     aria-expanded={true}
     aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
+    onClick={[Function]}
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -626,6 +636,11 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
       <MenuItemToggleModalRedux
         ariaLabel="Set a Custom Status"
         className="MenuItem__primary-text custom_status__row"
+        dialogProps={
+          Object {
+            "returnFocus": [Function],
+          }
+        }
         dialogType={[Function]}
         id="status-menu-custom-status"
         modalId="custom_status"
@@ -785,6 +800,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         dialogProps={
           Object {
             "isContentProductSettings": false,
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -837,6 +853,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
     aria-expanded={true}
     aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
+    onClick={[Function]}
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -896,6 +913,11 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
       <MenuItemToggleModalRedux
         ariaLabel="Set a Custom Status"
         className="MenuItem__primary-text custom_status__row"
+        dialogProps={
+          Object {
+            "returnFocus": [Function],
+          }
+        }
         dialogType={[Function]}
         id="status-menu-custom-status"
         modalId="custom_status"
@@ -1055,6 +1077,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
         dialogProps={
           Object {
             "isContentProductSettings": false,
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -1107,6 +1130,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
     aria-expanded={true}
     aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
+    onClick={[Function]}
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -1166,6 +1190,11 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
       <MenuItemToggleModalRedux
         ariaLabel="Set a Custom Status"
         className="MenuItem__primary-text custom_status__row"
+        dialogProps={
+          Object {
+            "returnFocus": [Function],
+          }
+        }
         dialogType={[Function]}
         id="status-menu-custom-status"
         modalId="custom_status"
@@ -1326,6 +1355,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         dialogProps={
           Object {
             "isContentProductSettings": false,
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -1378,6 +1408,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
     aria-expanded={false}
     aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
+    onClick={[Function]}
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -1571,6 +1602,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
         dialogProps={
           Object {
             "isContentProductSettings": false,
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -1623,6 +1655,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
     aria-expanded={true}
     aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
+    onClick={[Function]}
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -1808,6 +1841,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
         dialogProps={
           Object {
             "isContentProductSettings": false,
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -1860,6 +1894,7 @@ exports[`components/StatusDropdown should not show clear status button when cust
     aria-expanded={true}
     aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
+    onClick={[Function]}
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -1919,6 +1954,11 @@ exports[`components/StatusDropdown should not show clear status button when cust
       <MenuItemToggleModalRedux
         ariaLabel="Set a Custom Status"
         className="MenuItem__primary-text custom_status__row"
+        dialogProps={
+          Object {
+            "returnFocus": [Function],
+          }
+        }
         dialogType={[Function]}
         id="status-menu-custom-status"
         modalId="custom_status"
@@ -2078,6 +2118,7 @@ exports[`components/StatusDropdown should not show clear status button when cust
         dialogProps={
           Object {
             "isContentProductSettings": false,
+            "returnFocus": [Function],
           }
         }
         dialogType={
@@ -2130,6 +2171,7 @@ exports[`components/StatusDropdown should show clear status button when custom s
     aria-expanded={true}
     aria-label="Current status: Away. Select to open profile and status menu."
     className="status-wrapper style--none"
+    onClick={[Function]}
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -2189,6 +2231,11 @@ exports[`components/StatusDropdown should show clear status button when custom s
       <MenuItemToggleModalRedux
         ariaLabel="In a meeting"
         className="MenuItem__primary-text custom_status__row"
+        dialogProps={
+          Object {
+            "returnFocus": [Function],
+          }
+        }
         dialogType={[Function]}
         id="status-menu-custom-status"
         modalId="custom_status"
@@ -2396,6 +2443,7 @@ exports[`components/StatusDropdown should show clear status button when custom s
         dialogProps={
           Object {
             "isContentProductSettings": false,
+            "returnFocus": [Function],
           }
         }
         dialogType={

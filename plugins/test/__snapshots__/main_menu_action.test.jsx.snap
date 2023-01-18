@@ -152,6 +152,11 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
         teamId="someteamid"
       >
         <MenuItemToggleModalRedux
+          dialogProps={
+            Object {
+              "returnFocus": undefined,
+            }
+          }
           dialogType={
             Object {
               "$$typeof": Symbol(react.memo),
@@ -449,6 +454,11 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
         teamId="someteamid"
       >
         <MenuItemToggleModalRedux
+          dialogProps={
+            Object {
+              "returnFocus": undefined,
+            }
+          }
           dialogType={
             Object {
               "$$typeof": Symbol(react.memo),
@@ -473,6 +483,11 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
         teamId="someteamid"
       >
         <MenuItemToggleModalRedux
+          dialogProps={
+            Object {
+              "returnFocus": undefined,
+            }
+          }
           dialogType={
             Object {
               "$$typeof": Symbol(react.memo),
@@ -498,6 +513,11 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
         teamId="someteamid"
       >
         <MenuItemToggleModalRedux
+          dialogProps={
+            Object {
+              "returnFocus": undefined,
+            }
+          }
           dialogType={
             Object {
               "$$typeof": Symbol(react.memo),
@@ -523,6 +543,7 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
         <MenuItemToggleModalRedux
           dialogProps={
             Object {
+              "returnFocus": undefined,
               "teamID": "someteamid",
             }
           }
@@ -550,6 +571,12 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
         teamId="someteamid"
       >
         <MenuItemToggleModalRedux
+          dialogProps={
+            Object {
+              "returnFocus": undefined,
+              "returnFocusOnExit": false,
+            }
+          }
           dialogType={
             Object {
               "$$typeof": Symbol(react.memo),
@@ -575,6 +602,12 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
         teamId="someteamid"
       >
         <MenuItemToggleModalRedux
+          dialogProps={
+            Object {
+              "returnFocus": undefined,
+              "returnFocusOnExit": false,
+            }
+          }
           dialogType={
             Object {
               "$$typeof": Symbol(react.memo),
@@ -597,6 +630,11 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
       />
       <MenuItemToggleModalRedux
         className="destructive"
+        dialogProps={
+          Object {
+            "returnFocus": undefined,
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),

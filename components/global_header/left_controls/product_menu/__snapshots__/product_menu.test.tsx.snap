@@ -53,6 +53,7 @@ exports[`components/global/product_switcher should have an active button state w
         handleVisitConsoleClick={[Function]}
         isMessaging={true}
         onClick={[Function]}
+        returnFocus={[Function]}
       />
     </Menu>
   </MenuWrapper>
@@ -148,6 +149,7 @@ exports[`components/global/product_switcher should match snapshot with product s
         handleVisitConsoleClick={[Function]}
         isMessaging={true}
         onClick={[Function]}
+        returnFocus={[Function]}
       />
     </Menu>
   </MenuWrapper>
@@ -207,6 +209,7 @@ exports[`components/global/product_switcher should render once when there are no
         handleVisitConsoleClick={[Function]}
         isMessaging={true}
         onClick={[Function]}
+        returnFocus={[Function]}
       />
     </Menu>
   </MenuWrapper>
@@ -266,6 +269,7 @@ exports[`components/global/product_switcher should render the correct amount of 
         handleVisitConsoleClick={[Function]}
         isMessaging={true}
         onClick={[Function]}
+        returnFocus={[Function]}
       />
     </Menu>
   </MenuWrapper>
