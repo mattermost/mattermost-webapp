@@ -21,10 +21,6 @@ const Span = styled.span`
 font-weight: 600;
 `;
 
-const A = styled.a`
-color: var(--denim-button-bg);
-`;
-
 function StartTrialCaution() {
     const {formatMessage} = useIntl();
 

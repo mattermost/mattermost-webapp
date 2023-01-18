@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import TrialBenefitsModalStepMore from 'components/trial_benefits_modal/trial_benefits_modal_step_more';
 
 import './learn_more_trial_modal_step.scss';
-import { AboutLinks, LicenseLinks } from 'utils/constants';
+import {AboutLinks, LicenseLinks} from 'utils/constants';
 
 export type LearnMoreTrialModalStepProps = {
     id: string;
