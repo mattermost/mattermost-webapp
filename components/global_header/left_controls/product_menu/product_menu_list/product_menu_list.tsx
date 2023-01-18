@@ -18,7 +18,7 @@ import {VisitSystemConsoleTour} from 'components/onboarding_tasks';
 import UserGroupsModal from 'components/user_groups_modal';
 import WorkTemplateModal from 'components/work_templates';
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
-import {LicenseSkus, ModalIdentifiers, PaidFeatures} from 'utils/constants';
+import {LicenseSkus, ModalIdentifiers, MattermostFeatures} from 'utils/constants';
 import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 import {ModalData} from 'types/actions';
@@ -182,7 +182,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                     sibling={(isStarterFree || isFreeTrial) && (
                         <RestrictedIndicator
                             blocked={isStarterFree}
-                            feature={PaidFeatures.CUSTOM_USER_GROUPS}
+                            feature={MattermostFeatures.CUSTOM_USER_GROUPS}
                             minimumPlanRequiredForFeature={LicenseSkus.Professional}
                             tooltipMessage={formatMessage({
                                 id: 'navbar_dropdown.userGroups.tooltip.cloudFreeTrial',

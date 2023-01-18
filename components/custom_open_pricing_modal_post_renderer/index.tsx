@@ -13,7 +13,7 @@ import {getUsers} from 'mattermost-redux/selectors/entities/users';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 import {openModal} from 'actions/views/modals';
 import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_trial_modal';
-import {ModalIdentifiers, PaidFeatures} from 'utils/constants';
+import {ModalIdentifiers, MattermostFeatures} from 'utils/constants';
 import {trackEvent} from 'actions/telemetry_actions';
 import {mapFeatureIdToTranslation} from 'utils/notify_admin_utils';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
@@ -87,7 +87,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
         }
     }, [dispatch, requestFeatures]);
 
-    const isDowngradeNotification = (featureId: string) => featureId === PaidFeatures.UPGRADE_DOWNGRADED_WORKSPACE;
+    const isDowngradeNotification = (featureId: string) => featureId === MattermostFeatures.UPGRADE_DOWNGRADED_WORKSPACE;
 
     const customMessageBody = [];
 
@@ -132,8 +132,8 @@ export default function OpenPricingModalPost(props: {post: Post}) {
 
     const mapFeatureToPlan = (feature: string) => {
         switch (feature) {
-        case PaidFeatures.ALL_ENTERPRISE_FEATURES:
-        case PaidFeatures.CUSTOM_USER_GROUPS:
+        case MattermostFeatures.ALL_ENTERPRISE_FEATURES:
+        case MattermostFeatures.CUSTOM_USER_GROUPS:
             allProfessional = false;
             return MinimumPlansForFeature.Enterprise;
         default:

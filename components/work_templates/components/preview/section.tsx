@@ -11,7 +11,7 @@ import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import store from 'stores/redux_store';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 
-import {WORK_TEMPLATES} from 'utils/constants';
+import {MattermostFeatures} from 'utils/constants';
 
 interface GenericPreviewSectionProps {
     items: Array<{ id: string; name?: string; illustration?: string }>;
@@ -140,11 +140,11 @@ const IntegrationsPreview = ({items, categoryId}: IntegrationPreviewSectionProps
                     </div>
 
                     <NotifyAdminCTA
-                        callerInfo={'worktemplate-' + categoryId}
+                        callerInfo={`${MattermostFeatures.PLUGIN_FEATURE}-${categoryId}`}
                         ctaText={notifyAdminCTA}
                         notifyRequestData={{
-                            required_plan: `${WORK_TEMPLATES}-${categoryId}`,
-                            required_feature: pluginsToInstall.map((plugin) => plugin.id).join(','),
+                            required_plan: pluginsToInstall.map((plugin) => plugin.id).join(','),
+                            required_feature: `${MattermostFeatures.PLUGIN_FEATURE}-${categoryId}`,
                             trial_notification: false,
                         }}
                     />
