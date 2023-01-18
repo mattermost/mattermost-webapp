@@ -118,6 +118,7 @@ function PostPriorityPickerOverlay({
                         context={pickerContext}
                         modal={true}
                         returnFocus={false}
+                        initialFocus={-1}
                     >
                         <div
                             ref={pickerFloating}
