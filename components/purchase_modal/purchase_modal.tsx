@@ -3,7 +3,7 @@
 
 /* eslint-disable max-lines */
 
-import React, {ReactNode, useState} from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
@@ -11,9 +11,6 @@ import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/
 import {Elements} from '@stripe/react-stripe-js';
 
 import {isEmpty} from 'lodash';
-import classNames from 'classnames';
-
-import {CloudCustomer, Product, Invoice} from '@mattermost/types/cloud';
 
 import {localizeMessage, getNextBillingDate} from 'utils/utils';
 
@@ -26,13 +23,10 @@ import {
     CloudProducts,
     BillingSchemes,
     ModalIdentifiers,
-    ItemStatus,
     RecurringIntervals,
 } from 'utils/constants';
 import {findProductByID} from 'utils/products';
-import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
-import Input from 'components/widgets/inputs/input/input';
 import PaymentDetails from 'components/admin_console/billing/payment_details';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
 import RootPortal from 'components/root_portal';
@@ -44,9 +38,18 @@ import BackgroundSvg from 'components/common/svg_images_components/background_sv
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import PricingModal from 'components/pricing_modal';
 import PlanLabel from 'components/common/plan_label';
+import Consequences from 'components/self_hosted_purchase_modal/consequences';
+import SeatsCalculator, {errorInvalidNumber, Seats} from 'components/self_hosted_purchase_modal/seats_calculator';
+
 import {ModalData} from 'types/actions';
-import {Team} from '@mattermost/types/teams';
+
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
+
+import {CloudCustomer, Product, Invoice} from '@mattermost/types/cloud';
+
+import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
+
+import {Team} from '@mattermost/types/teams';
 
 import PaymentForm from '../payment_form/payment_form';
 
@@ -82,7 +85,7 @@ type CardProps = {
     topColor?: string;
     plan: string;
     price?: string;
-    rate?: string;
+    rate?: string | ReactNode;
     buttonDetails: ButtonDetails;
     planBriefing?: JSX.Element | null; // can be removed once Yearly Subscriptions are available
     planLabel?: JSX.Element;
@@ -90,13 +93,6 @@ type CardProps = {
     hideBillingCycle?: boolean;
     preButtonContent?: React.ReactNode;
     afterButtonContent?: React.ReactNode;
-    isCloud: boolean;
-    usersCount: number;
-    monthlyPrice: number;
-    yearlyPrice: number;
-    intl: IntlShape;
-    updateInputUserCount: (userCount: number) => void;
-    setUserCountError: (hasError: boolean) => void;
 }
 
 type Props = {
@@ -113,7 +109,6 @@ type Props = {
     isDelinquencyModal?: boolean;
     invoices?: Invoice[];
     isCloudDelinquencyGreaterThan90Days: boolean;
-    annualSubscription: boolean;
     usersCount: number;
 
     // callerCTA is information about the cta that opened this modal. This helps us provide a telemetry path
@@ -201,7 +196,7 @@ function getSelectedProduct(
     if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
         nextSku = CloudProducts.ENTERPRISE;
     }
-    return findProductInDictionary(products, null, nextSku, RecurringIntervals.MONTH);
+    return findProductInDictionary(products, null, nextSku, RecurringIntervals.YEAR);
 }
 
 export function Card(props: CardProps) {
@@ -211,172 +206,7 @@ export function Card(props: CardProps) {
         window.open(CloudLinks.BILLING_DOCS, '_blank');
     };
 
-    const [usersCount, setUsersCount] = useState(props.usersCount.toString());
-    const [monthlyPrice, setMonthlyPrice] = useState(props.monthlyPrice * props.usersCount);
-    const displayPrice = props.yearlyPrice;
-    const [errorMessage, setErrorMessage] = useState('');
-
-    const {formatMessage} = props.intl;
-
-    const checkValidNumber = (value: number) => {
-        return value >= 0 && value % 1 === 0;
-    };
-
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value;
-        const numValue = Number(value);
-
-        if (value === '' || (numValue !== null && checkValidNumber(numValue))) {
-            if (value === '' || numValue === 0) {
-                setUsersCount('');
-            } else {
-                setUsersCount(numValue.toString());
-            }
-            setMonthlyPrice(numValue * props.monthlyPrice);
-            props.updateInputUserCount(numValue);
-        }
-    };
-
-    const userCountTooltip = (
-        <Tooltip
-            id='userCount__tooltip'
-            className='userCountTooltip'
-        >
-            <div className='tooltipTitle'>
-                <FormattedMessage
-                    defaultMessage={'Current User Count'}
-                    id={'admin.billing.subscription.userCount.tooltipTitle'}
-                />
-            </div>
-            <div className='tooltipText'>
-                <FormattedMessage
-                    defaultMessage={'You must purchase at least the current number of active users.'}
-                    id={'admin.billing.subscription.userCount.tooltipText'}
-                />
-            </div>
-        </Tooltip>
-    );
-
-    const tooFewUsersErrorMessage = formatMessage({
-        id: 'admin.billing.subscription.userCount.minError',
-        defaultMessage: 'Your workspace currently has {num} users',
-    }, {num: props.usersCount});
-
-    const tooManyUsersErrorMessage = formatMessage({
-        id: 'admin.billing.subscription.userCount.maxError',
-        defaultMessage: 'Your workspace only supports up to {num} users',
-    }, {num: Constants.MAX_PURCHASE_SEATS});
-
-    const isValid = () => {
-        const numUsersCount = Number(usersCount) ?? 0;
-        let isValidInput = true;
-
-        if (numUsersCount < props.usersCount) {
-            if (errorMessage !== tooFewUsersErrorMessage) {
-                setErrorMessage(tooFewUsersErrorMessage);
-            }
-            isValidInput = false;
-        }
-
-        if (numUsersCount > Constants.MAX_PURCHASE_SEATS) {
-            if (errorMessage !== tooManyUsersErrorMessage) {
-                setErrorMessage(tooManyUsersErrorMessage);
-            }
-            isValidInput = false;
-        }
-
-        props.setUserCountError(!isValidInput);
-        return isValidInput;
-    };
-
-    const cloudYearlyPlan = (
-        <>
-            <div className='flex-grid'>
-                <div
-                    className={
-                        classNames({
-                            user_seats_container: true,
-                            error: !isValid(),
-                        })
-                    }
-                >
-                    <Input
-                        name='UserSeats'
-                        type='text'
-                        value={usersCount}
-                        onChange={onChange}
-                        placeholder={'Seats'}
-                        wrapperClassName='user_seats'
-                        inputClassName='user_seats'
-                        maxLength={String(Constants.MAX_PURCHASE_SEATS).length + 1}
-                        customMessage={isValid() ? null : {
-                            type: ItemStatus.ERROR,
-                            value: errorMessage,
-                        }}
-                        autoComplete='off'
-                        required={true}
-                    />
-                </div>
-                <div className='icon'>
-                    <OverlayTrigger
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='right'
-                        overlay={userCountTooltip}
-                    >
-                        <i className='icon-information-outline'/>
-                    </OverlayTrigger>
-                </div>
-            </div>
-            <table>
-                <tbody>
-                    <tr>
-                        <td className='monthly_price'>
-                            <FormattedMessage
-                                defaultMessage={`${usersCount} seats x 12 months`}
-                                id={'admin.billing.subscription.yearlyPlanEquation'}
-                                values={{
-                                    numSeats: usersCount,
-                                }}
-                            />
-                        </td>
-                        <td className='monthly_price'>{`$${monthlyPrice * 12}`}</td>
-                    </tr>
-                    <tr>
-                        <td className='total_price'>
-                            <FormattedMessage
-                                defaultMessage={'Total'}
-                                id={'admin.billing.subscription.total'}
-                            />
-                        </td>
-                        <td className='total_price'>{`$${monthlyPrice * 12}`}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div className='enable_annual_sub'>
-                <button
-                    className={'plan_action_btn ' + props.buttonDetails.customClass}
-                    disabled={props.buttonDetails.disabled}
-                    onClick={props.buttonDetails.action}
-                >{props.buttonDetails.text}</button>
-            </div>
-            <div className='plan_billing_cycle'>
-                <FormattedMessage
-                    defaultMessage={'Your credit card will be charged today.'}
-                    id={'admin.billing.subscription.creditCardCharge'}
-                />
-                <a
-                    onClick={seeHowBillingWorks}
-                >
-                    <FormattedMessage
-                        defaultMessage={'See how billing works.'}
-                        id={'admin.billing.subscription.howItWorks'}
-                    />
-                </a>
-            </div>
-        </>
-    );
-
-    const selfHostedCardContent = (
+    const cardContent = (
         <div className='PlanCard'>
             {props.planLabel && props.planLabel}
             <div
@@ -419,23 +249,8 @@ export function Card(props: CardProps) {
         </div>
     );
 
-    const cloudCardContent = (
-        <div className='PlanCard'>
-            <div className='bottom bottom-monthly-yearly'>
-                <div
-                    className='plan_price_rate_section'
-                >
-                    <h4 className='plan_name'>{props.plan}</h4>
-                    <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{`$${displayPrice}`}</h1>
-                    <p className='plan_text'>{'/user/month'}</p>
-                </div>
-                {cloudYearlyPlan}
-            </div>
-        </div>
-    );
-
     return (
-        props.isCloud ? cloudCardContent : selfHostedCardContent
+        cardContent
     );
 }
 
@@ -809,19 +624,8 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             );
         }
 
-        const showPlanLabel =
-                    this.state.selectedProduct?.sku ===
-                    CloudProducts.PROFESSIONAL && !this.props.annualSubscription;
+        const showPlanLabel = this.state.selectedProduct?.sku === CloudProducts.PROFESSIONAL;
         const {formatMessage} = this.props.intl;
-
-        const getYearlyPrice = () => {
-            if (!this.state.selectedProduct) {
-                return 0;
-            }
-
-            const crossSellsToProduct = findProductByID(this.props.products || {}, this.state.selectedProduct.cross_sells_to);
-            return crossSellsToProduct ? crossSellsToProduct.price_per_seat / 12 : this.state.selectedProduct.price_per_seat;
-        };
 
         const checkIsYearlyProfessionalProduct = (product: Product | null | undefined) => {
             if (!product) {
@@ -829,6 +633,8 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             }
             return product.recurring_interval === RecurringIntervals.YEAR && product.sku === CloudProducts.PROFESSIONAL;
         };
+
+        const yearlyProductMonthlyPrice = parseInt(this.state.selectedProductPrice || '0', 10) / 12;
 
         return (
             <>
@@ -842,9 +648,14 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     plan={this.getPlanNameFromProductName(
                         this.state.selectedProduct ? this.state.selectedProduct.name : '',
                     )}
-                    price={this.state.selectedProductPrice ?? ''}
-                    rate='/user/month'
-                    planBriefing={this.props.annualSubscription ? null : this.paymentFooterText()}
+                    price={yearlyProductMonthlyPrice.toString()}
+                    rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month, <b>billed annually</b>'}, {
+                        b: (chunks: React.ReactNode | React.ReactNodeArray) => (
+                            <b>
+                                {chunks}
+                            </b>
+                        )})}
+                    planBriefing={<></>}
                     buttonDetails={{
                         action: this.handleSubmitClick,
                         text: 'Upgrade',
@@ -872,13 +683,21 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             />
                         ) : undefined
                     }
-                    isCloud={true}
-                    usersCount={this.state.usersCount}
-                    monthlyPrice={this.state.selectedProduct?.price_per_seat ?? 0}
-                    yearlyPrice={getYearlyPrice()}
-                    intl={this.props.intl}
-                    setUserCountError={(hasError: boolean) => this.setState({userCountError: hasError})}
-                    updateInputUserCount={(newUsersCount: number) => this.setState({inputUserCount: newUsersCount})}
+                    preButtonContent={(
+                        <SeatsCalculator
+                            price={yearlyProductMonthlyPrice}
+                            seats={{
+                                quantity: this.state.inputUserCount.toString(),
+                                error: this.state.inputUserCount.toString() === '0' ? errorInvalidNumber : '',
+                            }}
+                            existingUsers={this.props.usersCount}
+                            onChange={(seats: Seats) => {
+                                this.setState({inputUserCount: parseInt(seats.quantity, 10) || 0});
+                            }}
+                        />
+                    )}
+                    afterButtonContent={<Consequences/>}
+                    hideBillingCycle={true}
                 />
             </>
         );
