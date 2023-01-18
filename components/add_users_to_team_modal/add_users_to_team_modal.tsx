@@ -5,6 +5,9 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {UserProfile} from '@mattermost/types/users';
 import {Team} from '@mattermost/types/teams';
 
@@ -13,8 +16,7 @@ import {Client4} from 'mattermost-redux/client';
 import {displayEntireNameForUser, localizeMessage} from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 import ProfilePicture from 'components/profile_picture';
-import GuestBadge from 'components/widgets/badges/guest_badge';
-import BotBadge from 'components/widgets/badges/bot_badge';
+
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 
@@ -126,14 +128,8 @@ export default class AddUsersToTeamModal extends React.PureComponent<Props, Stat
                 <div className='more-modal__details'>
                     <div className='more-modal__name'>
                         {displayEntireNameForUser(option)}
-                        <BotBadge
-                            show={Boolean(option.is_bot)}
-                            className='badge-popoverlist'
-                        />
-                        <GuestBadge
-                            show={isGuest(option.roles)}
-                            className='popoverlist'
-                        />
+                        {option.is_bot && <BotTag/>}
+                        {isGuest(option.roles) && <GuestTag className='popoverlist'/>}
                     </div>
                 </div>
                 <div className='more-modal__actions'>
