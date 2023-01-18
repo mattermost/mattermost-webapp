@@ -53,8 +53,6 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 import {Preferences} from 'mattermost-redux/constants';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
-import classnames from 'classnames';
-
 import Provider from './provider';
 import Suggestion from './suggestion.jsx';
 
