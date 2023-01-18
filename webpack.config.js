@@ -50,6 +50,11 @@ if (DEV) {
     }
 }
 
+// Track the build time so that we can bust any caches that may have incorrectly cached remote_entry.js from before we
+// started setting Cache-Control: no-cache for that file on the server. This can be removed in 2024 after those cached
+// entries are guaranteed to have expired.
+const buildTimestamp = Date.now();
+
 var config = {
     entry: ['./root.tsx', 'root.html'],
     output: {
@@ -361,8 +366,8 @@ async function initializeModuleFederation() {
         } else if (DEV) {
             // For development, identify which product dev servers are available
 
-            // Wait a second for product dev servers to start up if they were started at the same time as this one
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            // Wait for 5 seconds for product dev servers to start up if they were started at the same time as this one
+            await new Promise((resolve) => setTimeout(resolve, 5000));
 
             const productsFound = await Promise.all(products.map((product) => isWebpackDevServerAvailable(product.baseUrl)));
             for (let i = 0; i < products.length; i++) {
@@ -380,7 +385,7 @@ async function initializeModuleFederation() {
         } else {
             // For production, hardcode the URLs of product containers to be based on the web app URL
             for (const product of products) {
-                remotes[product.name] = `${product.name}@[window.basename]/static/products/${product.name}/remote_entry.js`;
+                remotes[product.name] = `${product.name}@[window.basename]/static/products/${product.name}/remote_entry.js?bt=${buildTimestamp}`;
             }
         }
 
@@ -440,7 +445,7 @@ async function initializeModuleFederation() {
         './styles': './sass/styles.scss',
         './registry': 'module_registry',
     };
-    moduleFederationPluginOptions.filename = 'remote_entry.js';
+    moduleFederationPluginOptions.filename = `remote_entry.js?bt=${buildTimestamp}`;
 
     config.plugins.push(new ModuleFederationPlugin(moduleFederationPluginOptions));
 

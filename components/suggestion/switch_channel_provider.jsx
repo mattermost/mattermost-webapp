@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {UserTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 import {
@@ -40,8 +43,6 @@ import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/
 import {logError} from 'mattermost-redux/actions/errors';
 import {sortChannelsByTypeAndDisplayName, isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import SharedChannelIndicator from 'components/shared_channel_indicator';
-import BotBadge from 'components/widgets/badges/bot_badge';
-import GuestBadge from 'components/widgets/badges/guest_badge';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import ProfilePicture from 'components/profile_picture';
 import {getPostDraft} from 'selectors/rhs';
@@ -177,18 +178,11 @@ class SwitchChannelSuggestion extends Suggestion {
         let tag = null;
         let customStatus = null;
         if (channel.type === Constants.DM_CHANNEL) {
-            tag = (
-                <React.Fragment>
-                    <BotBadge
-                        show={Boolean(teammate && teammate.is_bot)}
-                        className='badge-autocomplete'
-                    />
-                    <GuestBadge
-                        show={Boolean(teammate && isGuest(teammate.roles))}
-                        className='badge-autocomplete'
-                    />
-                </React.Fragment>
-            );
+            if (teammate && teammate.is_bot) {
+                tag = <BotTag/>;
+            } else if (isGuest(teammate ? teammate.roles : '')) {
+                tag = <GuestTag/>;
+            }
 
             customStatus = (
                 <CustomStatusEmoji
@@ -256,7 +250,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 <div className='suggestion-list__ellipsis suggestion-list__flex'>
                     <span className='suggestion-list__main'>
                         <span className={classnames({'suggestion-list__unread': item.unread && !channelIsArchived})}>{name}</span>
-                        {showSlug && <span className='ml-2 suggestion-list__desc'>{description}</span>}
+                        {showSlug && <span className='suggestion-list__desc'>{description}</span>}
                     </span>
                     {customStatus}
                     {sharedIcon}

@@ -18,7 +18,6 @@ describe('Bot display name', () => {
         // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
-                EnableBotAccountCreation: true,
                 EnableUserAccessTokens: false,
             },
         };

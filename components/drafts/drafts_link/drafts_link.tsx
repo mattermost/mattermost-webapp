@@ -15,6 +15,8 @@ import {makeGetDraftsCount} from 'selectors/drafts';
 
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
 
+import DraftsTourTip from './drafts_tour_tip/drafts_tour_tip';
+
 import './drafts_link.scss';
 
 const getDraftsCount = makeGetDraftsCount();
@@ -44,6 +46,7 @@ function DraftsLink() {
             <li
                 className='SidebarChannel'
                 tabIndex={-1}
+                id={'sidebar-drafts-button'}
             >
                 <NavLink
                     to={`${url}/drafts`}
@@ -67,6 +70,7 @@ function DraftsLink() {
                         <ChannelMentionBadge unreadMentions={count}/>
                     )}
                 </NavLink>
+                <DraftsTourTip/>
             </li>
         </ul>
     );
