@@ -12,6 +12,8 @@ import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import CloudTrialEndAnnouncementBar from './index';
 
+jest.mock('lodash/debounce', () => jest.fn((fn) => fn));
+
 describe('components/global/CloudTrialEndAnnouncementBar', () => {
     const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
 
