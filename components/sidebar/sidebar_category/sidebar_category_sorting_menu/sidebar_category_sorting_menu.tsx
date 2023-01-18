@@ -1,11 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {MouseEvent, useState, memo} from 'react';
+import React, {useState, memo} from 'react';
 import {useIntl} from 'react-intl';
 import {useDispatch} from 'react-redux';
-
-import {openModal} from 'actions/views/modals';
 
 import {
     SortAlphabeticalAscendingIcon,
@@ -14,13 +12,15 @@ import {
     AccountPlusOutlineIcon,
 } from '@mattermost/compass-icons/components';
 
+import {openModal} from 'actions/views/modals';
+
 import {ChannelCategory, CategorySorting} from '@mattermost/types/channel_categories';
 
 import {Preferences} from 'mattermost-redux/constants';
 
 import {Menu as SubMenu} from 'types/store/plugins';
 
-import Constants, { ModalIdentifiers } from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -124,7 +124,7 @@ const SidebarCategorySortingMenu = (props: Props) => {
             },
         }));
         trackEvent('ui', 'ui_channels_more_direct_v2');
-    }
+    };
 
     return (
         <SidebarMenu

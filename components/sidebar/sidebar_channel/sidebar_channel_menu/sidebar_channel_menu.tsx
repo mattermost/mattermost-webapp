@@ -40,7 +40,7 @@ const SidebarChannelMenu = (props: Props) => {
 
     const returnFocus = () => {
         a11yFocus(menuButtonRef.current);
-    }
+    };
 
     if (props.isUnread) {
         function handleMarkAsRead() {

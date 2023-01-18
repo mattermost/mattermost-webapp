@@ -261,9 +261,11 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         let isCollapsible = true;
         if (isNewCategory) {
             newLabel = (
-                <div className={classNames('SidebarCategory_newLabel',{
-                    menuIsOpen: this.state.isMenuOpen,
-                })}>
+                <div
+                    className={classNames('SidebarCategory_newLabel', {
+                        menuIsOpen: this.state.isMenuOpen,
+                    })}
+                >
                     <FormattedMessage
                         id='sidebar_left.sidebar_category.newLabel'
                         defaultMessage='new'

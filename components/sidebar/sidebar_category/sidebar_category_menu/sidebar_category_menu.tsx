@@ -74,7 +74,7 @@ const SidebarCategoryMenu = (props: Props) => {
                 dialogType: DeleteCategoryModal,
                 dialogProps: {
                     category: props.category,
-                    returnFocus: returnFocus,
+                    returnFocus,
                 },
             });
         }
