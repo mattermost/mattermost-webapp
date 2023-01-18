@@ -148,7 +148,7 @@
             .PlanCard {
                 position: relative;
                 width: 280px;
-                height: 428px;
+                height: auto;
 
                 .planLabel {
                     position: absolute;
@@ -175,11 +175,12 @@
 
                 .bottom {
                     &:not(.delinquency, .bottom-monthly-yearly) {
-                        height: 363px;
+                        height: auto;
                     }
 
                     padding-right: 24px;
                     padding-left: 24px;
+                    padding-bottom: 24px;
                     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
                     background-color: var(--center-channel-bg);
                     border-radius: 0 0 4px 4px;
