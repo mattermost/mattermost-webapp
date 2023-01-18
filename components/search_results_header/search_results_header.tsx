@@ -29,7 +29,6 @@ const BackButtonIcon = styled(LocalizedIcon)`
 
 type Props = {
     isExpanded: boolean;
-    channelId: string;
     previousRhsState?: RhsState;
     canGoBack: boolean;
     children?: React.ReactNode;
