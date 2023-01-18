@@ -50,7 +50,7 @@ export default defineConfig({
         setupNodeEvents(on, config) {
             return require('./tests/plugins/index.js')(on, config); // eslint-disable-line global-require
         },
-        baseUrl: 'http://localhost:8065',
+        baseUrl: process.env.MM_SERVICESETTINGS_SITEURL || 'http://localhost:8065',
         excludeSpecPattern: '**/node_modules/**/*',
         specPattern: 'tests/integration/**/*_spec.{js,ts}',
         supportFile: 'tests/support/index.js',

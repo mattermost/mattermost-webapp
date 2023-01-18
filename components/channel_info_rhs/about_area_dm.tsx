@@ -5,12 +5,13 @@ import React from 'react';
 import styled from 'styled-components';
 import {useIntl} from 'react-intl';
 
-import {Channel} from '@mattermost/types/channels';
+import BotTag from 'components/widgets/tag/bot_tag';
+import GuestTag from 'components/widgets/tag/guest_tag';
 import Markdown from 'components/markdown';
 import ProfilePicture from 'components/profile_picture';
 import {Client4} from 'mattermost-redux/client';
-import BotBadge from 'components/widgets/badges/bot_badge';
-import GuestBadge from 'components/widgets/badges/guest_badge';
+
+import {Channel} from '@mattermost/types/channels';
 
 import {DMUser} from './channel_info_rhs';
 import LineLimiter from './components/linelimiter';
@@ -55,12 +56,14 @@ const UserInfo = styled.div`
 
 const UsernameContainer = styled.div`
     display: flex;
+    gap: 8px
 `;
 
 const UserPosition = styled.div`
     line-height: 20px;
+
     p {
-        margin-bottom: 0px;
+        margin-bottom: 0;
     }
 `;
 
@@ -102,8 +105,8 @@ const AboutAreaDM = ({channel, dmUser, actions}: Props) => {
                 <UserInfo>
                     <UsernameContainer>
                         <Username>{dmUser.display_name}</Username>
-                        {dmUser.user.is_bot && <BotBadge/>}
-                        {dmUser.is_guest && <GuestBadge/>}
+                        {dmUser.user.is_bot && <BotTag/>}
+                        {dmUser.is_guest && <GuestTag/>}
                     </UsernameContainer>
                     <UserPosition>
                         <Markdown message={dmUser.user.is_bot ? dmUser.user.bot_description : dmUser.user.position}/>

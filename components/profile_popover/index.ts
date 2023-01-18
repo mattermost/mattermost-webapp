@@ -24,6 +24,7 @@ import {closeModal, openModal} from 'actions/views/modals';
 import {areTimezonesEnabledAndSupported, getCurrentUserTimezone} from 'selectors/general';
 import {getRhsState, getSelectedPost} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
+import {isAnyModalOpen} from 'selectors/views/modals';
 
 import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {Action} from 'mattermost-redux/types/actions';
@@ -89,6 +90,7 @@ function makeMapStateToProps() {
             timestampUnits,
             isMobileView: getIsMobileView(state),
             teammateNameDisplay: getTeammateNameDisplaySetting(state),
+            isAnyModalOpen: isAnyModalOpen(state),
         };
     };
 }
