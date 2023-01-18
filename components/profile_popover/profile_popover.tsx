@@ -42,6 +42,9 @@ import Tooltip from 'components/tooltip';
 import Badge from 'components/widgets/badges/badge';
 
 import './profile_popover.scss';
+import BotTag from '../widgets/tag/bot_tag';
+import GuestTag from '../widgets/tag/guest_tag';
+import Tag from '../widgets/tag/tag';
 
 interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'> {
 
@@ -800,58 +803,38 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         );
         let roleTitle;
         if (this.props.user.is_bot) {
-            roleTitle = (
-                <Badge
-                    className='user-popover__role'
-                    uppercase={true}
-                >
-                    {Utils.localizeMessage('bots.is_bot', 'BOT')}
-                </Badge>
-            );
+            roleTitle = <BotTag size={'sm'}/>;
         } else if (isGuest(this.props.user.roles)) {
-            roleTitle = (
-                <Badge
-                    className='user-popover__role'
-                    uppercase={true}
-                >
-                    {Utils.localizeMessage('post_info.guest', 'GUEST')}
-                </Badge>
-            );
+            roleTitle = <GuestTag size={'sm'}/>;
         } else if (isSystemAdmin(this.props.user.roles)) {
             roleTitle = (
-                <Badge
-                    className='user-popover__role'
-                    uppercase={true}
-                >
-                    {Utils.localizeMessage(
+                <Tag
+                    size={'sm'}
+                    text={Utils.localizeMessage(
                         'admin.permissions.roles.system_admin.name',
                         'System Admin',
                     )}
-                </Badge>
+                />
             );
         } else if (this.props.isTeamAdmin) {
             roleTitle = (
-                <Badge
-                    className='user-popover__role'
-                    uppercase={true}
-                >
-                    {Utils.localizeMessage(
+                <Tag
+                    size={'sm'}
+                    text={Utils.localizeMessage(
                         'admin.permissions.roles.team_admin.name',
                         'Team Admin',
                     )}
-                </Badge>
+                />
             );
         } else if (this.props.isChannelAdmin) {
             roleTitle = (
-                <Badge
-                    className='user-popover__role'
-                    uppercase={true}
-                >
-                    {Utils.localizeMessage(
+                <Tag
+                    size={'sm'}
+                    text={Utils.localizeMessage(
                         'admin.permissions.roles.channel_admin.name',
                         'Channel Admin',
                     )}
-                </Badge>
+                />
             );
         }
         const title = (

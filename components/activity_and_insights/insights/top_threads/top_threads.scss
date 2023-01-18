@@ -4,29 +4,18 @@
         display: flex;
         align-items: center;
         margin-bottom: 4px;
+        gap: 8px;
 
         .display-name {
             overflow: hidden;
-            margin-left: 8px;
             color: var(--center-channel-color);
-            font-family: 'Open Sans';
+            font-family: 'Open Sans', sans-serif;
             font-size: 12px;
             font-style: normal;
             font-weight: 600;
             line-height: 16px;
             text-overflow: ellipsis;
             white-space: nowrap;
-        }
-
-        .Badge {
-            overflow: hidden;
-            flex: 2;
-
-            .Badge__box {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
         }
 
         .reply-count {
@@ -43,7 +32,7 @@
 
             span {
                 color: rgba(var(--center-channel-color-rgb), 0.64);
-                font-family: 'Open Sans';
+                font-family: 'Open Sans', sans-serif;
                 font-size: 11px;
                 font-style: normal;
                 font-weight: 600;
@@ -60,7 +49,7 @@
         margin: 0;
         -webkit-box-orient: vertical;
         color: rgba(var(--center-channel-color-rgb), 0.72);
-        font-family: 'Open Sans';
+        font-family: 'Open Sans', sans-serif;
         font-size: 12px;
         font-style: normal;
         font-weight: 400;

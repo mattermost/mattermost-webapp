@@ -26,9 +26,6 @@ describe('Bot accounts - CRUD Testing', () => {
             EmailSettings: {
                 SMTPServer: '',
             },
-            ServiceSettings: {
-                EnableBotAccountCreation: true,
-            },
             PluginSettings: {
                 Enable: true,
             },
