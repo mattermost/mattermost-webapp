@@ -20,7 +20,7 @@ export default function useGetSubscription(): Subscription | undefined {
     const [requestedSubscription, setRequestedSubscription] = useState(false);
 
     useEffect(() => {
-        if (license.Cloud === 'true' && !retrievedCloudSub && !requestedSubscription) {
+        if (license?.Cloud === 'true' && !retrievedCloudSub && !requestedSubscription) {
             dispatch(getCloudSubscriptionAction());
             setRequestedSubscription(true);
         }
