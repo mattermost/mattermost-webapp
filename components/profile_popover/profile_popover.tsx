@@ -39,7 +39,6 @@ import CustomStatusText from 'components/custom_status/custom_status_text';
 import ExpiryTime from 'components/custom_status/expiry_time';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import Badge from 'components/widgets/badges/badge';
 
 import './profile_popover.scss';
 import BotTag from '../widgets/tag/bot_tag';
@@ -803,12 +802,23 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         );
         let roleTitle;
         if (this.props.user.is_bot) {
-            roleTitle = <BotTag size={'sm'}/>;
+            roleTitle = (
+                <BotTag
+                    className='user-popover__role'
+                    size={'sm'}
+                />
+            );
         } else if (isGuest(this.props.user.roles)) {
-            roleTitle = <GuestTag size={'sm'}/>;
+            roleTitle = (
+                <GuestTag
+                    className='user-popover__role'
+                    size={'sm'}
+                />
+            );
         } else if (isSystemAdmin(this.props.user.roles)) {
             roleTitle = (
                 <Tag
+                    className='user-popover__role'
                     size={'sm'}
                     text={Utils.localizeMessage(
                         'admin.permissions.roles.system_admin.name',
@@ -819,6 +829,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         } else if (this.props.isTeamAdmin) {
             roleTitle = (
                 <Tag
+                    className='user-popover__role'
                     size={'sm'}
                     text={Utils.localizeMessage(
                         'admin.permissions.roles.team_admin.name',
@@ -829,6 +840,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         } else if (this.props.isChannelAdmin) {
             roleTitle = (
                 <Tag
+                    className='user-popover__role'
                     size={'sm'}
                     text={Utils.localizeMessage(
                         'admin.permissions.roles.channel_admin.name',
