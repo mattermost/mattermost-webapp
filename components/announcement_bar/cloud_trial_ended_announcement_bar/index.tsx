@@ -85,7 +85,7 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
             return false;
         }
         return true;
-    }, [currentUser.roles, limits, preferences, subscription, subscriptionProduct]);
+    }, [currentUser, limits, preferences, subscription, subscriptionProduct]);
 
     useEffect(() => {
         if (loadCloudLimits && shouldShowBanner) {
