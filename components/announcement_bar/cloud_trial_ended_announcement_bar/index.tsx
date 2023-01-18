@@ -5,7 +5,6 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
-import {debounce} from 'lodash';
 
 import {t} from 'utils/i18n';
 
@@ -45,7 +44,7 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
 
     const openPricingModal = useOpenPricingModal();
 
-    const shouldShowBanner = debounce(() => {
+    const shouldShowBanner = () => {
         if (!subscription || !subscriptionProduct) {
             return false;
         }
@@ -84,7 +83,7 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
             return false;
         }
         return true;
-    }, 500);
+    };
 
     if (!shouldShowBanner()) {
         return null;
