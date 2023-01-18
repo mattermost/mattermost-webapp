@@ -4394,7 +4394,6 @@
   "pricing_modal.rate.userPerMonth": "kullanıcı/ay",
   "pricing_modal.reviewDeploymentOptions": "Dağıtım seçeneklerini gözden geçirin",
   "pricing_modal.saveWithYearly": "Yıllık alarak %20 indirim kazanın!",
-  "pricing_modal.start_trial.disclaimer": "<span>30 günlük ücretsiz denemeyi başlat</span> üzerine tıklayarak, <a>Mattermost yazılım değerlendirme sözleşmesi</a> metnini ve ürün ile ilgili e-postaları almayı kabul ediyorum.",
   "pricing_modal.subtitle": "Başlamak için bir tarife seçin",
   "pricing_modal.title": "Bir tarife seçin",
   "pricing_modal.wantToTry": "Denemek ister misiniz? ",

@@ -4445,7 +4445,6 @@
   "pricing_modal.rate.userPerMonth": "USD ユーザー/月",
   "pricing_modal.reviewDeploymentOptions": "デプロイオプションを確認する",
   "pricing_modal.saveWithYearly": "年間契約で 20% OFF!",
-  "pricing_modal.start_trial.disclaimer": "<span>30日間の無料トライアルを試してみる</span> を選択すると、<a>Mattermost Software Evaluation Agreement と Privacy Policy</a> に同意したことになり、製品メールを受信するようになります。",
   "pricing_modal.subtitle": "プランを選んで開始",
   "pricing_modal.title": "プランを選択する",
   "pricing_modal.wantToTry": "試してみますか? ",
