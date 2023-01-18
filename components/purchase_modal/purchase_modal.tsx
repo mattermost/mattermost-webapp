@@ -97,7 +97,6 @@ type CardProps = {
     intl: IntlShape;
     updateInputUserCount: (userCount: number) => void;
     setUserCountError: (hasError: boolean) => void;
-    isCurrentPlanMonthlyProfessional: boolean;
 }
 
 type Props = {
@@ -214,8 +213,6 @@ export function Card(props: CardProps) {
 
     const [usersCount, setUsersCount] = useState(props.usersCount.toString());
     const [monthlyPrice, setMonthlyPrice] = useState(props.monthlyPrice * props.usersCount);
-    const [yearlyPrice, setYearlyPrice] = useState(props.yearlyPrice * props.usersCount);
-    const [priceDifference, setPriceDifference] = useState((props.monthlyPrice - props.yearlyPrice) * props.usersCount);
     const displayPrice = props.yearlyPrice;
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -236,8 +233,6 @@ export function Card(props: CardProps) {
                 setUsersCount(numValue.toString());
             }
             setMonthlyPrice(numValue * props.monthlyPrice);
-            setYearlyPrice(numValue * props.yearlyPrice);
-            setPriceDifference((props.monthlyPrice - props.yearlyPrice) * numValue);
             props.updateInputUserCount(numValue);
         }
     };
@@ -294,7 +289,7 @@ export function Card(props: CardProps) {
         return isValidInput;
     };
 
-    const yearlyPlan = (
+    const cloudYearlyPlan = (
         <>
             <div className='flex-grid'>
                 <div
@@ -346,16 +341,6 @@ export function Card(props: CardProps) {
                         </td>
                         <td className='monthly_price'>{`$${monthlyPrice * 12}`}</td>
                     </tr>
-
-                    <tr>
-                        <td className='yearly_savings'>
-                            <FormattedMessage
-                                defaultMessage={'Yearly Savings'}
-                                id={'admin.billing.subscription.yearlySavings'}
-                            />
-                        </td>
-                        <td className='yearly_savings'>{`-$${priceDifference * 12}`}</td>
-                    </tr>
                     <tr>
                         <td className='total_price'>
                             <FormattedMessage
@@ -363,7 +348,7 @@ export function Card(props: CardProps) {
                                 id={'admin.billing.subscription.total'}
                             />
                         </td>
-                        <td className='total_price'>{`$${yearlyPrice * 12}`}</td>
+                        <td className='total_price'>{`$${monthlyPrice * 12}`}</td>
                     </tr>
                 </tbody>
             </table>
@@ -434,40 +419,17 @@ export function Card(props: CardProps) {
         </div>
     );
 
-    const getPlanCardMessage = () => {
-        if (props.isCurrentPlanMonthlyProfessional) {
-            return (
-                <FormattedMessage
-                    id='admin.billing.subscription.planDetails.currentPlan'
-                    defaultMessage='Current Plan'
-                />
-            );
-        }
-
-        return (
-            <FormattedMessage
-                defaultMessage={'Save 20% with Yearly.'}
-                id={'pricing_modal.saveWithYearly'}
-            />
-        );
-    };
-
     const cloudCardContent = (
         <div className='PlanCard'>
             <div className='bottom bottom-monthly-yearly'>
-                <div className='save_text'>
-                    {getPlanCardMessage()}
-                </div>
-                {/* the style below will eventually be added to the plan_price_rate_section once the annualSubscription feature flag is removed*/}
                 <div
                     className='plan_price_rate_section'
-                    style={{height: '125px'}}
                 >
                     <h4 className='plan_name'>{props.plan}</h4>
                     <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{`$${displayPrice}`}</h1>
                     <p className='plan_text'>{'/user/month'}</p>
                 </div>
-                {yearlyPlan}
+                {cloudYearlyPlan}
             </div>
         </div>
     );
@@ -861,11 +823,11 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             return crossSellsToProduct ? crossSellsToProduct.price_per_seat / 12 : this.state.selectedProduct.price_per_seat;
         };
 
-        const checkIsMonthlyProfessionalProduct = (product: Product | null | undefined) => {
+        const checkIsYearlyProfessionalProduct = (product: Product | null | undefined) => {
             if (!product) {
                 return false;
             }
-            return product.recurring_interval === RecurringIntervals.MONTH && product.sku === CloudProducts.PROFESSIONAL;
+            return product.recurring_interval === RecurringIntervals.YEAR && product.sku === CloudProducts.PROFESSIONAL;
         };
 
         return (
@@ -889,13 +851,12 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         customClass:
                             !this.state.paymentInfoIsValid ||
                             this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE || this.state.userCountError ||
-                            (checkIsMonthlyProfessionalProduct(this.state.currentProduct)) ?
-                                ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
+                            (checkIsYearlyProfessionalProduct(this.state.currentProduct)) ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
                         disabled:
                             !this.state.paymentInfoIsValid ||
                             this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE ||
                             this.state.userCountError ||
-                            (checkIsMonthlyProfessionalProduct(this.state.currentProduct)),
+                            (checkIsYearlyProfessionalProduct(this.state.currentProduct)),
                     }}
                     planLabel={
                         showPlanLabel ? (
@@ -918,7 +879,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     intl={this.props.intl}
                     setUserCountError={(hasError: boolean) => this.setState({userCountError: hasError})}
                     updateInputUserCount={(newUsersCount: number) => this.setState({inputUserCount: newUsersCount})}
-                    isCurrentPlanMonthlyProfessional={checkIsMonthlyProfessionalProduct(this.state.currentProduct)}
                 />
             </>
         );
