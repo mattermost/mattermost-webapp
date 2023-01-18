@@ -6,6 +6,8 @@ import {Link} from 'react-router-dom';
 
 import {ConnectedComponent} from 'react-redux';
 
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {Client4} from 'mattermost-redux/client';
 
 import {UserProfile} from '@mattermost/types/users';
@@ -14,7 +16,6 @@ import {ServerError} from '@mattermost/types/errors';
 
 import * as Utils from 'utils/utils';
 import ProfilePicture from 'components/profile_picture';
-import BotBadge from 'components/widgets/badges/bot_badge';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -142,10 +143,7 @@ export default class UserListRowWithError extends React.PureComponent<Props, Sta
                                 <Link to={'/admin_console/user_management/user/' + this.props.user.id}>
                                     {Utils.displayEntireNameForUser(this.props.user)}
                                 </Link>
-                                <BotBadge
-                                    className='badge-admin'
-                                    show={Boolean(this.props.user.is_bot)}
-                                />
+                                {this.props.user.is_bot && <BotTag/>}
                             </div>
                             <div
                                 id={userCountEmail || undefined}

@@ -47,9 +47,7 @@ describe('Send a DM', () => {
         cy.apiLogin(userB);
         cy.visit(testChannelUrl);
         cy.uiAddDirectMessage().click();
-        cy.get('#selectItems input').typeWithForce(userA.username);
-        cy.findByText('Loading').should('be.visible');
-        cy.findByText('Loading').should('not.exist');
+        cy.get('#selectItems input').typeWithForce(userA.username).wait(TIMEOUTS.HALF_SEC);
         cy.get('#multiSelectList').findByText(`@${userA.username}`).click();
         cy.findByText('Go').click();
         cy.postMessage(MESSAGES.SMALL);

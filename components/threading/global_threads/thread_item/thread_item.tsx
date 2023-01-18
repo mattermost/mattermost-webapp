@@ -19,26 +19,25 @@ import * as Utils from 'utils/utils';
 import {CrtTutorialSteps, Preferences} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import {getIsMobileView} from 'selectors/views/browser';
-import Badge from 'components/widgets/badges/badge';
+import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
 import Timestamp from 'components/timestamp';
 import Avatars from 'components/widgets/users/avatars';
 import Button from 'components/threading/common/button';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
 import CRTListTutorialTip from 'components/tours/crt_tour/crt_list_tutorial_tip';
 import Markdown from 'components/markdown';
-import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
+import Tag from 'components/widgets/tag/tag';
 import PriorityBadge from 'components/post_priority/post_priority_badge';
 
-import {UserThread} from '@mattermost/types/threads';
-import {Post, PostPriority} from '@mattermost/types/posts';
 import {Channel} from '@mattermost/types/channels';
+import {Post, PostPriority} from '@mattermost/types/posts';
+import {UserThread} from '@mattermost/types/threads';
 
 import {THREADING_TIME} from '../../common/options';
 import {useThreadRouting} from '../../hooks';
 import ThreadMenu from '../thread_menu';
 
 import Attachment from './attachments';
-
 import './thread_item.scss';
 
 export type OwnProps = {
@@ -194,9 +193,10 @@ function ThreadItem({
                 <div className='ThreadItem__author'>{postAuthor}</div>
                 <div className='d-flex align-items-center'>
                     {channel && postAuthor !== channel?.display_name && (
-                        <Badge onClick={goToInChannelHandler}>
-                            {channel?.display_name}
-                        </Badge>
+                        <Tag
+                            onClick={goToInChannelHandler}
+                            text={channel?.display_name}
+                        />
                     )}
                     {isPostPriorityEnabled && (
                         thread.is_urgent && (
