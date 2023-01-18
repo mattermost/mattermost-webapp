@@ -1315,7 +1315,6 @@
   "admin.license.renewalCard.reviewNumbers": "Просмотрите ваши цифры ниже, чтобы убедиться, что вы обновляете для правильного количества пользователей.",
   "admin.license.renewalCard.usersNumbers": "**Активные пользователи:** {activeUsersNum}",
   "admin.license.title": "Редакция и лицензия",
-  "admin.license.trial-request.accept-terms": "Нажав <strong>Попробовать</strong>, я принимаю <linkEvaluation>Соглашение об оценке программного обеспечения Mattermost</linkEvaluation>, <linkPrivacy>Политику конфиденциальности</linkPrivacy>, и получение сообщений электронной почты о продукте.",
   "admin.license.trial-request.embargoed": "Нам не удалось обработать запрос из-за ограничений для стран, на которые распространяется эмбарго. <link>Подробнее читайте в нашей документации</link> или обращайтесь по адресу legal@mattermost.com, если у вас есть вопросы об экспортных ограничениях.",
   "admin.license.trial-request.startTrial": "Начать использовать пробную версию",
   "admin.license.trial-request.title": "Попробуйте Mattermost Enterprise Edition бесплатно в течение следующих 30 дней. Никаких обязательств в покупке или кредитной карте не требуется. ",

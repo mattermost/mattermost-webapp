@@ -965,7 +965,6 @@
   "admin.license.keyRemove": "移除企業授權並降級伺服器",
   "admin.license.removing": "授權移除中...",
   "admin.license.title": "版本與授權",
-  "admin.license.trial-request.accept-terms": "點擊 <strong>開始試用</strong> 代表同意 <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>，<linkPrivacy>隱私政策</linkPrivacy>跟收到產品郵件。",
   "admin.license.upgraded-restart": "已升級執行檔到企業版，請重新啟動伺服器以使用新執行檔。可以在此重新啟動：",
   "admin.lockTeammateNameDisplay": "鎖定所以使用者的團隊名稱顯示：",
   "admin.lockTeammateNameDisplayHelpText": "啟用時，禁止使用者改變 主選單 > 帳號設定 > 顯示 > 團隊成員名稱顯示  下的設定。",

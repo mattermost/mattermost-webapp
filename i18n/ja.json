@@ -1306,7 +1306,6 @@
   "admin.license.renewalCard.reviewNumbers": "正しいユーザー数が入力されているかどうか、下記の数値を確認してください。",
   "admin.license.renewalCard.usersNumbers": "**アクティブユーザー:** {activeUsersNum}",
   "admin.license.title": "Editionとライセンス",
-  "admin.license.trial-request.accept-terms": "<strong>トライアル開始</strong>をクリックすると、<linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation> と <linkPrivacy>プライバシーポリシー</linkPrivacy> に同意したことになり、製品に関する電子メールを受信するようになります。",
   "admin.license.trial-request.embargoed": "禁輸国に対する制限のため、リクエストを処理することができませんでした。<link> 詳細についてはドキュメントを参照してください</link>。また、輸出制限に関する質問は legal@mattermost.com までご連絡ください。",
   "admin.license.trial-request.startTrial": "トライアル開始",
   "admin.license.trial-request.title": "Mattermost Enterprise Editionを30日間無料で体験できます。購入やクレジットカードの登録は必要ありません。 ",
