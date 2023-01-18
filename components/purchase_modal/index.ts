@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {Stripe} from '@stripe/stripe-js';
 
-import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
+import {getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {getClientConfig} from 'mattermost-redux/actions/general';
 import {getCloudProducts, getCloudSubscription, getInvoices} from 'mattermost-redux/actions/cloud';
@@ -21,6 +21,7 @@ import {BillingDetails} from 'types/cloud/sku';
 
 import {isModalOpen} from 'selectors/views/modals';
 import {getCloudContactUsLink, InquiryType, getCloudDelinquentInvoices, isCloudDelinquencyGreaterThan90Days} from 'selectors/cloud';
+import {isDevModeEnabled} from 'selectors/general';
 
 import {ModalIdentifiers} from 'utils/constants';
 
@@ -39,7 +40,7 @@ function mapStateToProps(state: GlobalState) {
     return {
         show: isModalOpen(state, ModalIdentifiers.CLOUD_PURCHASE),
         products: state.entities.cloud!.products,
-        isDevMode: getConfig(state).EnableDeveloper === 'true',
+        isDevMode: isDevModeEnabled(state),
         contactSupportLink: getCloudContactUsLink(state)(InquiryType.Technical),
         invoices: getCloudDelinquentInvoices(state),
         isCloudDelinquencyGreaterThan90Days: isCloudDelinquencyGreaterThan90Days(state),

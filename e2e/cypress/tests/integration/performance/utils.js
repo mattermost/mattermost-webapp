@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-export const measurePerformance = (name, upperLimit, callback, reset, runs = 5) => {
+export const measurePerformance = (name, upperLimit, callback, reset, runs = 6) => {
     return cy.window().its('performance').then((performance) => {
         const durations = [];
 

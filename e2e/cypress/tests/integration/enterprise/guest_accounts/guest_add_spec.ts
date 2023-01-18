@@ -83,7 +83,7 @@ describe('Guest Account - Guest User Experience', () => {
         // * Verify Guest Badge is not displayed at Search auto-complete
         cy.get('#search-autocomplete__popover').should('be.visible');
         cy.contains('.suggestion-list__item', guestUser.username).should('be.visible').within(($el) => {
-            cy.wrap($el).find('.Badge').should('not.exist');
+            cy.wrap($el).find('.Tag').should('not.exist');
         });
     });
 });
