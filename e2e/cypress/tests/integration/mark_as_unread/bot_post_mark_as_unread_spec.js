@@ -20,14 +20,6 @@ describe('Bot post unread message', () => {
     let testTeam;
 
     before(() => {
-        // # Set ServiceSettings to expected values
-        const newSettings = {
-            ServiceSettings: {
-                EnableBotAccountCreation: true,
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
-
         // # Create and visit new channel
         cy.apiInitSetup({
             promoteNewUserAsAdmin: true,

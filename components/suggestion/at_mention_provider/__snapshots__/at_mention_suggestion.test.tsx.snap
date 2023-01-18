@@ -91,20 +91,6 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
       >
         @user2
       </span>
-      <BotBadge
-        className="badge-autocomplete"
-        show={false}
-      >
-        <Memo(Badge)
-          className="BotBadge badge-autocomplete"
-          show={false}
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="BOT"
-            id="post_info.bot"
-          />
-        </Memo(Badge)>
-      </BotBadge>
       <Component
         emojiSize={15}
         emojiStyle={
@@ -117,25 +103,7 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
       >
         <div />
       </Component>
-      <span
-        className="ml-2"
-      >
-        a b (c)
-      </span>
-      <GuestBadge
-        className="badge-autocomplete"
-        show={false}
-      >
-        <Memo(Badge)
-          className="GuestBadge badge-autocomplete"
-          show={false}
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="GUEST"
-            id="post_info.guest"
-          />
-        </Memo(Badge)>
-      </GuestBadge>
+      a b (c)
     </span>
   </div>
 </AtMentionSuggestion>
@@ -233,20 +201,6 @@ exports[`at mention suggestion Should not display nick name of the signed in use
       >
         @user
       </span>
-      <BotBadge
-        className="badge-autocomplete"
-        show={false}
-      >
-        <Memo(Badge)
-          className="BotBadge badge-autocomplete"
-          show={false}
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="BOT"
-            id="post_info.bot"
-          />
-        </Memo(Badge)>
-      </BotBadge>
       <Component
         emojiSize={15}
         emojiStyle={
@@ -259,37 +213,15 @@ exports[`at mention suggestion Should not display nick name of the signed in use
       >
         <div />
       </Component>
-      <span
-        className="ml-2"
+      a b
+      <FormattedMessage
+        defaultMessage="(you)"
+        id="suggestion.user.isCurrent"
       >
-        a b
-      </span>
-      <span
-        className="ml-1"
-      >
-        <FormattedMessage
-          defaultMessage="(you)"
-          id="suggestion.user.isCurrent"
-        >
-          <span>
-            (you)
-          </span>
-        </FormattedMessage>
-      </span>
-      <GuestBadge
-        className="badge-autocomplete"
-        show={false}
-      >
-        <Memo(Badge)
-          className="GuestBadge badge-autocomplete"
-          show={false}
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="GUEST"
-            id="post_info.guest"
-          />
-        </Memo(Badge)>
-      </GuestBadge>
+        <span>
+          (you)
+        </span>
+      </FormattedMessage>
     </span>
   </div>
 </AtMentionSuggestion>

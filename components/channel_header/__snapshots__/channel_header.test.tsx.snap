@@ -53,10 +53,6 @@ exports[`components/ChannelHeader should match snapshot with last active display
                           }
                         }
                       />
-                      <GuestBadge
-                        className=""
-                        show={false}
-                      />
                     </span>
                   </strong>
                   <span
@@ -381,10 +377,6 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
                             "displayname": "some-user",
                           }
                         }
-                      />
-                      <GuestBadge
-                        className=""
-                        show={false}
                       />
                     </span>
                   </strong>
@@ -2813,10 +2805,6 @@ exports[`components/ChannelHeader should render properly when custom status is e
                           }
                         }
                       />
-                      <GuestBadge
-                        className=""
-                        show={false}
-                      />
                     </span>
                   </strong>
                   <span
@@ -3141,10 +3129,6 @@ exports[`components/ChannelHeader should render properly when custom status is s
                             "displayname": "some-user",
                           }
                         }
-                      />
-                      <GuestBadge
-                        className=""
-                        show={false}
                       />
                     </span>
                   </strong>
