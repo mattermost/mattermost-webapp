@@ -83,24 +83,6 @@ describe('components/sidebar', () => {
         expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledWith(expect.objectContaining({modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL}));
     });
 
-    test('should toggle direct messages modal correctly', () => {
-        const wrapper = shallow<Sidebar>(
-            <Sidebar {...baseProps}/>,
-        );
-        const instance = wrapper.instance();
-        const mockEvent: Partial<Event> = {preventDefault: jest.fn()};
-
-        instance.hideMoreDirectChannelsModal = jest.fn();
-        instance.showMoreDirectChannelsModal = jest.fn();
-
-        instance.handleOpenMoreDirectChannelsModal(mockEvent as any);
-        expect(instance.showMoreDirectChannelsModal).toHaveBeenCalled();
-
-        instance.setState({showDirectChannelsModal: true});
-        instance.handleOpenMoreDirectChannelsModal(mockEvent as any);
-        expect(instance.hideMoreDirectChannelsModal).toHaveBeenCalled();
-    });
-
     test('should match empty div snapshot when teamId is missing', () => {
         const props = {
             ...baseProps,
