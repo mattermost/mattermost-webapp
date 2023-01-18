@@ -33,7 +33,7 @@ export default function AirGappedSelfHostedPurhcaseModal() {
                 <div className='ScreeningInProgressModal__description'>
                     <FormattedMessage
                         id={'self_hosted_signup.screening_description'}
-                        defaultMessage={'We are checking whether your purchase is export compliant. If it is, the purchase will be completed and you will be emailed your license in up to 3 days.'}
+                        defaultMessage={'We are checking whether your purchase is export compliant. You will be notified by email of the outcome within 3 days of the date you attempted purchase. If the purchase is export compliant, the email will also contain your purchased license.'}
                     />
                 </div>
             </div>
