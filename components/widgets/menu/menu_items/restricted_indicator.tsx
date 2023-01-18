@@ -105,34 +105,36 @@ const RestrictedIndicator = ({
                     </Tooltip>
                 )}
             >
-                {useModal && blocked ? (
-                    <ToggleModalButton
-                        id={`${feature}-restricted-indicator`.replaceAll('.', '_')}
-                        className='RestrictedIndicator__button'
-                        modalId={ModalIdentifiers.FEATURE_RESTRICTED_MODAL}
-                        dialogType={FeatureRestrictedModal}
-                        onClick={handleClickCallback}
-                        dialogProps={{
-                            titleAdminPreTrial,
-                            messageAdminPreTrial,
-                            titleAdminPostTrial,
-                            messageAdminPostTrial,
-                            titleEndUser,
-                            messageEndUser,
-                            customSecondaryButton: customSecondaryButtonInModal,
-                            feature,
-                            minimumPlanRequiredForFeature,
-                        }}
-                    >
-                        {icon}
-                        {ctaExtraContent}
-                    </ToggleModalButton>
-                ) : (
-                    <div className='RestrictedIndicator__content'>
-                        {icon}
-                        {ctaExtraContent}
-                    </div>
-                )}
+                <div className='RestrictedIndicator__content'>
+                    {useModal && blocked ? (
+                        <ToggleModalButton
+                            id={`${feature}-restricted-indicator`.replaceAll('.', '_')}
+                            className='RestrictedIndicator__button'
+                            modalId={ModalIdentifiers.FEATURE_RESTRICTED_MODAL}
+                            dialogType={FeatureRestrictedModal}
+                            onClick={handleClickCallback}
+                            dialogProps={{
+                                titleAdminPreTrial,
+                                messageAdminPreTrial,
+                                titleAdminPostTrial,
+                                messageAdminPostTrial,
+                                titleEndUser,
+                                messageEndUser,
+                                customSecondaryButton: customSecondaryButtonInModal,
+                                feature,
+                                minimumPlanRequiredForFeature,
+                            }}
+                        >
+                            {icon}
+                            {ctaExtraContent}
+                        </ToggleModalButton>
+                    ) : (
+                        <>
+                            {icon}
+                            {ctaExtraContent}
+                        </>
+                    )}
+                </div>
             </OverlayTrigger>
         </span>
     );
