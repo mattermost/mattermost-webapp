@@ -12,7 +12,7 @@ import {bindClientFunc} from './helpers';
 export function getCloudSubscription(): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getSubscription,
-        onSuccess: [CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION, CloudTypes.CLEAR_CLOUD_LIMITS],
+        onSuccess: [CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION],
         onFailure: CloudTypes.CLOUD_SUBSCRIPTION_FAILED,
         onRequest: CloudTypes.CLOUD_SUBSCRIPTION_REQUEST,
     });
