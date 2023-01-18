@@ -88,13 +88,13 @@ function Content(props: ContentProps) {
         isDelinquencyModal: true,
     });
     const openDowngradeModal = useOpenDowngradeModal();
-    const openPurchaseModal = (callerInfo: string, isMonthlyPlan: boolean) => {
+    const openPurchaseModal = (callerInfo: string) => {
         props.onHide();
         const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
         if (subscription?.delinquent_since) {
             openCloudDelinquencyModal({trackingLocation: telemetryInfo});
         }
-        openCloudPurchaseModal({trackingLocation: telemetryInfo}, isMonthlyPlan);
+        openCloudPurchaseModal({trackingLocation: telemetryInfo});
     };
 
     const closePricingModal = () => {
@@ -161,7 +161,6 @@ function Content(props: ContentProps) {
 
     // Default professional price
     const professionalPrice = yearlyProfessionalProduct ? yearlyProfessionalProduct.price_per_seat / 12 : 0;
-    const isMonthlyPlan = false;
 
     return (
         <div className='Content'>
@@ -278,7 +277,7 @@ function Content(props: ContentProps) {
                                 callerInfo='professional_plan_pricing_modal_card'
                             />) : undefined}
                         buttonDetails={{
-                            action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button', isMonthlyPlan),
+                            action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button'),
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: !isAdmin || isProfessional || (isEnterprise && !isEnterpriseTrial),
                             customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
