@@ -6,13 +6,14 @@ import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory, useRouteMatch} from 'react-router-dom';
 
-import Badge from 'components/widgets/badges/badge';
+import Tag from 'components/widgets/tag/tag';
 
 import {Preferences} from 'mattermost-redux/constants';
 
 import {showDraftsPulsatingDotAndTourTip} from 'selectors/drafts';
-import {TourTip, useMeasurePunchouts} from '@mattermost/components';
 import {setDraftsTourTipPreference} from 'actions/views/drafts';
+
+import {TourTip, useMeasurePunchouts} from '@mattermost/components';
 
 const title = (
     <span className='d-flex align-items-center'>
@@ -20,12 +21,15 @@ const title = (
             id='drafts.tutorialTip.title'
             defaultMessage='Drafts'
         />
-        <Badge variant='success'>
-            <FormattedMessage
-                id='badge.label.new'
-                defaultMessage='NEW'
-            />
-        </Badge>
+        <Tag
+            variant='success'
+            text={(
+                <FormattedMessage
+                    id='tag.default.new'
+                    defaultMessage='NEW'
+                />
+            )}
+        />
     </span>
 );
 

@@ -204,6 +204,9 @@ function sysadminSetup(user) {
     // # Disable plugins not included in prepackaged
     cy.apiDisableNonPrepackagedPlugins();
 
+    // # Deactivate test bots if any
+    cy.apiDeactivateTestBots();
+
     // # Check if default team is present; create if not found.
     cy.apiGetTeamsForUser().then(({teams}) => {
         const defaultTeam = teams && teams.length > 0 && teams.find((team) => team.name === DEFAULT_TEAM.name);
