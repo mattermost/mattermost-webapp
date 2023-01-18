@@ -51,7 +51,6 @@ type Props = {
 };
 
 type State = {
-    showDirectChannelsModal: boolean;
     isDragging: boolean;
 };
 
@@ -59,7 +58,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            showDirectChannelsModal: false,
             isDragging: false,
         };
     }
@@ -125,15 +123,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         }
     }
 
-    showMoreDirectChannelsModal = () => {
-        this.setState({showDirectChannelsModal: true});
-        trackEvent('ui', 'ui_channels_more_direct_v2');
-    }
-
-    hideMoreDirectChannelsModal = () => {
-        this.setState({showDirectChannelsModal: false});
-    }
-
     showCreateCategoryModal = () => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.EDIT_CATEGORY,
@@ -181,11 +170,17 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     handleOpenMoreDirectChannelsModal = (e: Event) => {
         e.preventDefault();
-        if (this.state.showDirectChannelsModal) {
-            this.hideMoreDirectChannelsModal();
-        } else {
-            this.showMoreDirectChannelsModal();
-        }
+        const activeElemnt = document.activeElement;
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.MORE_DM_CHANNELS,
+            dialogType: MoreDirectChannels,
+            dialogProps: {
+                isExistingChannel: false,
+                returnFocusOnExit: false,
+                returnFocus: () => Utils.a11yFocus(activeElemnt as HTMLElement),
+            },
+        });
+        trackEvent('ui', 'ui_channels_more_direct_v2');
     }
 
     onDragStart = () => {
@@ -194,24 +189,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
 
     onDragEnd = () => {
         this.setState({isDragging: false});
-    }
-
-    renderModals = () => {
-        let moreDirectChannelsModal;
-        if (this.state.showDirectChannelsModal) {
-            moreDirectChannelsModal = (
-                <MoreDirectChannels
-                    onModalDismissed={this.hideMoreDirectChannelsModal}
-                    isExistingChannel={false}
-                />
-            );
-        }
-
-        return (
-            <React.Fragment>
-                {moreDirectChannelsModal}
-            </React.Fragment>
-        );
     }
 
     render() {
@@ -267,7 +244,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     onDragEnd={this.onDragEnd}
                 />
                 <DataPrefetch/>
-                {this.renderModals()}
             </div>
         );
     }

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, memo} from 'react';
+import React, {useState, memo, useRef} from 'react';
 import {useIntl} from 'react-intl';
 
 import {
@@ -23,6 +23,7 @@ import {Menu as SubMenu} from 'types/store/plugins';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import {ModalIdentifiers} from 'utils/constants';
+import {a11yFocus} from 'utils/utils';
 
 import DeleteCategoryModal from 'components/delete_category_modal';
 import EditCategoryModal from 'components/edit_category_modal';
@@ -41,8 +42,11 @@ type Props = OwnProps & PropsFromRedux;
 
 const SidebarCategoryMenu = (props: Props) => {
     const [openUp, setOpenUp] = useState(false);
+    const menuButtonRef: React.RefObject<HTMLButtonElement> = useRef(null);
 
     const {formatMessage} = useIntl();
+
+    const returnFocus = () => a11yFocus(menuButtonRef.current);
 
     let muteUnmuteCategoryMenuItem: JSX.Element | null = null;
     if (props.category.type !== CategoryTypes.DIRECT_MESSAGES) {
@@ -70,6 +74,7 @@ const SidebarCategoryMenu = (props: Props) => {
                 dialogType: DeleteCategoryModal,
                 dialogProps: {
                     category: props.category,
+                    returnFocus: returnFocus,
                 },
             });
         }
@@ -91,6 +96,7 @@ const SidebarCategoryMenu = (props: Props) => {
                 dialogProps: {
                     categoryId: props.category.id,
                     initialCategoryName: props.category.display_name,
+                    returnFocus,
                 },
             });
         }
@@ -155,6 +161,9 @@ const SidebarCategoryMenu = (props: Props) => {
         props.openModal({
             modalId: ModalIdentifiers.EDIT_CATEGORY,
             dialogType: EditCategoryModal,
+            dialogProps: {
+                returnFocus,
+            },
         });
         trackEvent('ui', 'ui_sidebar_category_menu_createCategory');
     }
@@ -168,6 +177,8 @@ const SidebarCategoryMenu = (props: Props) => {
             onOpenDirectionChange={handleOpenDirectionChange}
             onToggleMenu={handleToggleMenu}
             tooltipText={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
+            menuButtonRef={menuButtonRef}
+            tabIndex={0}
         >
             <Menu.Group>
                 {muteUnmuteCategoryMenuItem}

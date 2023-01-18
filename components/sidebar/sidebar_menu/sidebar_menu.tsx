@@ -25,6 +25,7 @@ type Props = {
     draggingState: DraggingState;
     tabIndex?: number;
     additionalClass?: string;
+    menuButtonRef?: React.RefObject<HTMLButtonElement>;
 };
 
 type State = {
@@ -44,7 +45,7 @@ export default class SidebarMenu extends React.PureComponent<Props, State> {
         };
 
         this.menuWrapperRef = React.createRef();
-        this.menuButtonRef = React.createRef();
+        this.menuButtonRef = props.menuButtonRef || React.createRef();
     }
 
     componentDidUpdate(prevProps: Props) {

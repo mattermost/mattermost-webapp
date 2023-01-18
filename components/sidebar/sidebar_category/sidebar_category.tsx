@@ -261,7 +261,9 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         let isCollapsible = true;
         if (isNewCategory) {
             newLabel = (
-                <div className='SidebarCategory_newLabel'>
+                <div className={classNames('SidebarCategory_newLabel',{
+                    menuIsOpen: this.state.isMenuOpen,
+                })}>
                     <FormattedMessage
                         id='sidebar_left.sidebar_category.newLabel'
                         defaultMessage='new'
@@ -297,7 +299,6 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 <React.Fragment>
                     <SidebarCategorySortingMenu
                         category={category}
-                        handleOpenDirectMessagesModal={this.handleOpenDirectMessagesModal}
                         isCollapsed={category.collapsed}
                         isMenuOpen={this.state.isMenuOpen}
                         onToggleMenu={this.handleMenuToggle}
@@ -370,7 +371,6 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                         <div
                             className={classNames('SidebarChannelGroup a11y__section', {
                                 dropDisabled: this.isDropDisabled(),
-                                menuIsOpen: this.state.isMenuOpen,
                                 capture: this.props.draggingState.state === DraggingStates.CAPTURE,
                                 isCollapsed: category.collapsed,
                             })}

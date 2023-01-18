@@ -127,7 +127,7 @@ const AddChannelDropdown = ({
                 returnFocus,
             },
         }));
-        trackEvent('ui', 'ui_channels_dropdown_invite_people');
+        trackEvent('ui', 'ui_channels_more_direct_v2');
     };
 
     const renderDropdownItems = () => {

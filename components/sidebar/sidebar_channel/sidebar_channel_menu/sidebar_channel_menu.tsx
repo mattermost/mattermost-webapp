@@ -23,7 +23,7 @@ import SidebarMenu from 'components/sidebar/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
-import {copyToClipboard} from 'utils/utils';
+import {a11yFocus, copyToClipboard} from 'utils/utils';
 
 import type {PropsFromRedux, OwnProps} from './index';
 
@@ -32,10 +32,16 @@ type Props = PropsFromRedux & OwnProps;
 const SidebarChannelMenu = (props: Props) => {
     const isLeaving = useRef(false);
     const [openUp, setOpenUp] = useState(false);
+    const menuButtonRef: React.RefObject<HTMLButtonElement> = useRef(null);
 
     const {formatMessage} = useIntl();
 
     let markAsReadMenuItem: JSX.Element | null = null;
+
+    const returnFocus = () => {
+        a11yFocus(menuButtonRef.current);
+    }
+
     if (props.isUnread) {
         function handleMarkAsRead() {
             props.markChannelAsRead(props.channel.id);
@@ -161,7 +167,10 @@ const SidebarChannelMenu = (props: Props) => {
             props.openModal({
                 modalId: ModalIdentifiers.CHANNEL_INVITE,
                 dialogType: ChannelInviteModal,
-                dialogProps: {channel: props.channel},
+                dialogProps: {
+                    channel: props.channel,
+                    returnFocus,
+                },
             });
             trackEvent('ui', 'ui_sidebar_channel_menu_addMembers');
         }
@@ -235,6 +244,7 @@ const SidebarChannelMenu = (props: Props) => {
             onToggleMenu={onToggleMenu}
             tooltipText={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
             tabIndex={0}
+            menuButtonRef={menuButtonRef}
         >
             {props.isMenuOpen && (
                 <>
@@ -247,6 +257,7 @@ const SidebarChannelMenu = (props: Props) => {
                     <ChannelMoveToSubMenu
                         channel={props.channel}
                         openUp={openUp}
+                        returnFocus={returnFocus}
                     />
                     <Menu.Group>
                         {copyLinkMenuItem}

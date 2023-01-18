@@ -38,6 +38,7 @@ type Props = {
     channel: Channel;
     openUp: boolean;
     inHeaderDropdown?: boolean;
+    returnFocus?: () => void;
 };
 
 const ChannelMoveToSubMenu = (props: Props) => {
@@ -69,6 +70,7 @@ const ChannelMoveToSubMenu = (props: Props) => {
             dialogType: EditCategoryModal,
             dialogProps: {
                 channelIdsToAdd: multiSelectedChannelIds.indexOf(props.channel.id) === -1 ? [props.channel.id] : multiSelectedChannelIds,
+                returnFocus: props.returnFocus,
             },
         }));
         trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');

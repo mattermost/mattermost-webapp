@@ -3,6 +3,9 @@
 
 import React, {MouseEvent, useState, memo} from 'react';
 import {useIntl} from 'react-intl';
+import {useDispatch} from 'react-redux';
+
+import {openModal} from 'actions/views/modals';
 
 import {
     SortAlphabeticalAscendingIcon,
@@ -17,18 +20,20 @@ import {Preferences} from 'mattermost-redux/constants';
 
 import {Menu as SubMenu} from 'types/store/plugins';
 
-import Constants from 'utils/constants';
+import Constants, { ModalIdentifiers } from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
 import SidebarMenu from 'components/sidebar/sidebar_menu';
 import Menu from 'components/widgets/menu/menu';
+import MoreDirectChannels from 'components/more_direct_channels';
+
+import {a11yFocus} from 'utils/utils';
 
 import type {PropsFromRedux} from './index';
 
 type OwnProps = {
     category: ChannelCategory;
-    handleOpenDirectMessagesModal: (e: MouseEvent<HTMLButtonElement>) => void;
     isCollapsed: boolean;
     isMenuOpen: boolean;
     onToggleMenu: (isMenuOpen: boolean) => void;
@@ -38,6 +43,10 @@ type Props = OwnProps & PropsFromRedux;
 
 const SidebarCategorySortingMenu = (props: Props) => {
     const [openUp, setOpenUp] = useState(false);
+
+    const activeElement = document.activeElement as HTMLElement;
+
+    const dispatch = useDispatch();
 
     const {formatMessage} = useIntl();
 
@@ -103,6 +112,20 @@ const SidebarCategorySortingMenu = (props: Props) => {
         }
     }
 
+    const handleOpenMoreDirectChannelsModal = (e: Event) => {
+        e.preventDefault();
+        dispatch(openModal({
+            modalId: ModalIdentifiers.MORE_DM_CHANNELS,
+            dialogType: MoreDirectChannels,
+            dialogProps: {
+                isExistingChannel: false,
+                returnFocusOnExit: false,
+                returnFocus: () => a11yFocus(activeElement),
+            },
+        }));
+        trackEvent('ui', 'ui_channels_more_direct_v2');
+    }
+
     return (
         <SidebarMenu
             id={'SidebarCategorySortingMenu'}
@@ -141,7 +164,7 @@ const SidebarCategorySortingMenu = (props: Props) => {
                 <Menu.Group>
                     <Menu.ItemAction
                         id={'openDirectMessageMenuItem'}
-                        onClick={props.handleOpenDirectMessagesModal}
+                        onClick={handleOpenMoreDirectChannelsModal}
                         icon={<AccountPlusOutlineIcon size={16}/>}
                         text={formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}
                     />

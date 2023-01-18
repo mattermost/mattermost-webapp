@@ -820,15 +820,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
         cursor: pointer;
     }
 
-    .SidebarChannelGroup.menuIsOpen ~ .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
-        background-color: inherit !important;
-
-        .SidebarCategory_newLabel {
-            display: none;
-        }
-    }
-
-    .SidebarChannelGroup.menuIsOpen .SidebarCategory_newLabel {
+    .SidebarChannelGroup .SidebarCategory_newLabel.menuIsOpen {
         display: none;
     }
 
