@@ -1083,6 +1083,12 @@
             float: right;
         }
     }
+
+    .more-modal_loading {
+        .loading__content p {
+            display: none;
+        }
+    }
 }
 
 .team-selector-modal,
