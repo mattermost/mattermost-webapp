@@ -897,10 +897,6 @@ $sidebarOpacityAnimationDuration: 0.15s;
         .SidebarChannelGroup_content {
             padding-bottom: 14px;
             margin-bottom: 0;
-
-            &.hasFollowingSibling {
-                padding-bottom: 0;
-            }
         }
 
         .followingSibling {
@@ -974,10 +970,6 @@ $sidebarOpacityAnimationDuration: 0.15s;
     .SidebarChannelGroup.a11y--active .SidebarChannelGroup_content {
         padding-bottom: 14px;
         margin-bottom: 0;
-
-        &.hasFollowingSibling {
-            padding-bottom: 0;
-        }
     }
 
     .SidebarChannelGroup.a11y--active .followingSibling {
