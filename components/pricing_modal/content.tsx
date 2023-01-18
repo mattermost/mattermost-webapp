@@ -70,7 +70,7 @@ function Content(props: ContentProps) {
 
     const annualSubscriptionEnabled = useSelector(isAnnualSubscriptionEnabled);
 
-    const contactSupportLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
+    const contactSupportLink = useSelector(getCloudContactUsLink)(InquiryType.Technical);
 
     const currentSubscriptionIsMonthly = product?.recurring_interval === RecurringIntervals.MONTH;
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
