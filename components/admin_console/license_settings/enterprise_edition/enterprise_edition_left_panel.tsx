@@ -60,7 +60,10 @@ const EnterpriseEditionLeftPanel = ({
     const skuName = getSkuDisplayName(unsanitizedLicense.SkuShortName, unsanitizedLicense.IsGovSku === 'true');
     const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(unsanitizedLicense.ExpiresAt, 10));
     return (
-        <div className='EnterpriseEditionLeftPanel'>
+        <div
+            className='EnterpriseEditionLeftPanel'
+            data-testid='EnterpriseEditionLeftPanel'
+        >
             <div className='pre-title'>
                 <FormattedMessage
                     id='admin.license.enterpriseEdition'
