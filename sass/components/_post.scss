@@ -2298,6 +2298,18 @@
 }
 
 #restorePostModal {
+    .modal-body {
+        max-height: calc(100vh - 128px - 61px - 88px);
+
+        .GenericModal__header {
+            padding-top: 0;
+        }
+    }
+
+    .modal-content {
+        padding-top: 44px;
+    }
+
     .modal-footer {
         padding-top: 28px;
     }
