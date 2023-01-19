@@ -26,6 +26,7 @@ const MENU_CLOSE_ANIMATION_DURATION = 100;
 
 type MenuButtonProps = {
     id: string;
+    dateTestId?: string;
     'aria-label'?: string;
     class?: string;
     children: ReactNode;
@@ -135,6 +136,7 @@ export function Menu(props: Props) {
         const triggerElement = (
             <button
                 id={props.menuButton.id}
+                data-testid={props.menuButton.dateTestId}
                 aria-controls={props.menu.id}
                 aria-haspopup={true}
                 aria-expanded={isMenuOpen}

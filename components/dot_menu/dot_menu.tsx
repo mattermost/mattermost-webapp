@@ -544,6 +544,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             <Menu.Container
                 menuButton={{
                     id: `PostDotMenu-Button-${this.props.post.id}`,
+                    dateTestId: `PostDotMenu-Button-${this.props.post.id}`,
                     class: classNames('post-menu__item', {
                         'post-menu__item--active': this.props.isMenuOpen,
                     }),
@@ -563,6 +564,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             >
                 {!isSystemMessage && this.props.location === Locations.CENTER &&
                     <Menu.Item
+                        id={`reply_to_post_${this.props.post.id}`}
+                        data-testid={`reply_to_post_${this.props.post.id}`}
                         labels={
                             <FormattedMessage
                                 id='post_info.reply'
@@ -577,6 +580,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                 {this.canPostBeForwarded &&
                     <Menu.Item
                         id={`forward_post_${this.props.post.id}`}
+                        data-testid={`forward_post_${this.props.post.id}`}
                         labels={forwardPostItemText}
                         leadingElement={<ArrowRightBoldOutlineIcon size={18}/>}
                         trailingElements={<ShortcutKey shortcutKey='Shift + F'/>}
@@ -591,6 +595,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     {Boolean(isMobile && !isSystemMessage && !this.props.isReadOnly && this.props.enableEmojiPicker) &&
                         <Menu.Item
                             id={`post_reaction_${this.props.post.id}`}
+                            data-testid={`post_reaction_${this.props.post.id}`}
                             labels={
                                 <FormattedMessage
                                     id='rhs_root.mobile.add_reaction'
@@ -613,6 +618,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                 ) &&
                     <Menu.Item
                         id={`follow_post_thread_${this.props.post.id}`}
+                        data-testid={`follow_post_thread_${this.props.post.id}`}
                         trailingElements={<ShortcutKey shortcutKey='F'/>}
                         labels={followPostLabel()}
                         leadingElement={isFollowingThread ? <MessageMinusOutlineIcon size={18}/> : <MessageCheckOutlineIcon size={18}/>}
@@ -622,6 +628,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                 {Boolean(!isSystemMessage && !this.props.channelIsArchived && this.props.location !== Locations.SEARCH) &&
                     <Menu.Item
                         id={`unread_post_${this.props.post.id}`}
+                        data-testid={`unread_post_${this.props.post.id}`}
                         labels={
                             <FormattedMessage
                                 id='post_info.unread'
@@ -644,6 +651,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                 {!isSystemMessage &&
                     <Menu.Item
                         id={`save_post_${this.props.post.id}`}
+                        data-testid={`save_post_${this.props.post.id}`}
                         labels={this.props.isFlagged ? removeFlag : saveFlag}
                         leadingElement={this.props.isFlagged ? <BookmarkIcon size={18}/> : <BookmarkOutlineIcon size={18}/>}
                         trailingElements={<ShortcutKey shortcutKey='S'/>}
@@ -653,6 +661,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                 {Boolean(!isSystemMessage && !this.props.isReadOnly) &&
                     <Menu.Item
                         id={`pin_post_${this.props.post.id}`}
+                        data-testid={`pin_post_${this.props.post.id}`}
                         labels={this.props.post.is_pinned ? unPinPost : pinPost}
                         leadingElement={this.props.post.is_pinned ? <PinIcon size={18}/> : <PinOutlineIcon size={18}/>}
                         trailingElements={<ShortcutKey shortcutKey='P'/>}
@@ -663,6 +672,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                 {!isSystemMessage &&
                     <Menu.Item
                         id={`permalink_${this.props.post.id}`}
+                        data-testid={`permalink_${this.props.post.id}`}
                         labels={
                             <FormattedMessage
                                 id='post_info.permalink'
@@ -677,6 +687,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                 {this.state.canEdit &&
                     <Menu.Item
                         id={`edit_post_${this.props.post.id}`}
+                        data-testid={`edit_post_${this.props.post.id}`}
                         labels={
                             <FormattedMessage
                                 id='post_info.edit'
@@ -690,6 +701,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                 {!isSystemMessage &&
                     <Menu.Item
                         id={`copy_${this.props.post.id}`}
+                        data-testid={`copy_${this.props.post.id}`}
                         labels={
                             <FormattedMessage
                                 id='post_info.copy'
@@ -703,6 +715,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                 {this.state.canDelete &&
                     <Menu.Item
                         id={`delete_post_${this.props.post.id}`}
+                        data-testid={`delete_post_${this.props.post.id}`}
                         leadingElement={<TrashCanOutlineIcon size={18}/>}
                         trailingElements={deleteShortcutText}
                         labels={

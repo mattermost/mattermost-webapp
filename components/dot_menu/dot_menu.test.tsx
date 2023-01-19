@@ -2,13 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {screen, fireEvent} from '@testing-library/react';
+import {Provider} from 'react-redux';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-
 import {Locations} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
+import mockStore from 'tests/test_store';
 
 import {PostType} from '@mattermost/types/posts';
+import {renderWithIntl} from '../../tests/react_testing_utils';
 
 import * as dotUtils from './utils';
 jest.mock('./utils');
@@ -16,6 +19,99 @@ jest.mock('./utils');
 import DotMenu, {DotMenuClass} from './dot_menu';
 
 describe('components/dot_menu/DotMenu', () => {
+    const latestPost = {
+        id: 'latest_post_id',
+        user_id: 'current_user_id',
+        message: 'test msg',
+        channel_id: 'other_gm_channel',
+        create_at: Date.now(),
+    };
+    const state = {
+        entities: {
+            general: {
+                config: {},
+            },
+            channels: {
+                myMembers: {
+                    current_channel_id: {
+                        channel_id: 'current_channel_id',
+                        user_id: 'current_user_id',
+                    },
+                    direct_other_user: {
+                        channel_id: 'direct_other_user',
+                        user_id: 'current_user_id',
+                        roles: 'channel_role',
+                        last_viewed_at: 10,
+                    },
+                    channel_other_user: {
+                        channel_id: 'channel_other_user',
+                    },
+                },
+                channels: {
+                    direct_other_user: {
+                        id: 'direct_other_user',
+                        name: 'current_user_id__other_user',
+                    },
+                },
+                messageCounts: {
+                    direct_other_user: {
+                        root: 2,
+                        total: 2,
+                    },
+                },
+            },
+            preferences: {
+                myPreferences: {
+                },
+            },
+            users: {
+                profiles: {
+                    current_user_id: {roles: 'system_role'},
+                    other_user1: {
+                        id: 'other_user1',
+                        display_name: 'other_user1',
+                        username: 'other_user1',
+                    },
+                },
+                currentUserId: 'current_user_id',
+                profilesInChannel: {
+                    current_user_id: ['user_1'],
+                },
+            },
+            teams: {
+                currentTeamId: 'currentTeamId',
+                teams: {
+                    currentTeamId: {
+                        id: 'currentTeamId',
+                        display_name: 'test',
+                        type: 'O',
+                    },
+                },
+            },
+            posts: {
+                posts: {
+                    [latestPost.id]: latestPost,
+                },
+                postsInChannel: {
+                    other_gm_channel: [
+                        {order: [latestPost.id], recent: true},
+                    ],
+                },
+                postsInThread: {},
+            },
+        },
+        views: {
+            browser: {
+                focused: false,
+                windowSize: 'desktopView',
+            },
+            modals: {
+                modalState: {},
+                showLaunchingWorkspace: false,
+            },
+        },
+    };
+    const store = mockStore(state);
     const baseProps = {
         post: TestHelper.getPostMock({id: 'post_id_1', is_pinned: false, type: '' as PostType}),
         isLicensed: false,
@@ -44,7 +140,7 @@ describe('components/dot_menu/DotMenu', () => {
         isReadOnly: false,
         teamId: 'team_id_1',
         isFollowingThread: false,
-        isCollapsedThreadsEnabled: false,
+        isCollapsedThreadsEnabled: true,
         isMobileView: false,
         threadId: 'post_id_1',
         threadReplyCount: 0,
@@ -77,8 +173,10 @@ describe('components/dot_menu/DotMenu', () => {
             canEdit: true,
             canDelete: true,
         };
-        const wrapper = shallowWithIntl(
-            <DotMenu {...props}/>,
+        const wrapper = renderWithIntl(
+            <Provider store={store}>
+                <DotMenu {...props}/>
+            </Provider>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -89,8 +187,10 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             showForwardPostNewLabel: true,
         };
-        const wrapper = shallowWithIntl(
-            <DotMenu {...props}/>,
+        const wrapper = renderWithIntl(
+            <Provider store={store}>
+                <DotMenu {...props}/>
+            </Provider>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -101,19 +201,30 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             showForwardPostNewLabel: false,
         };
-        const wrapper = shallowWithIntl(
-            <DotMenu {...props}/>,
+        const wrapper = renderWithIntl(
+            <Provider store={store}>
+                <DotMenu {...props}/>
+            </Provider>,
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should show mark as unread when channel is not archived', () => {
-        const wrapper = shallowWithIntl(
-            <DotMenu {...baseProps}/>,
+        const props = {
+            ...baseProps,
+            location: Locations.CENTER,
+        };
+        renderWithIntl(
+            <Provider store={store}>
+                <DotMenu {...props}/>
+            </Provider>,
         );
-
-        expect(wrapper.find(`#unread_post_${baseProps.post.id}`).prop('show')).toBe(true);
+        screen.debug(undefined, 300000);
+        const button = screen.getByTestId(`PostDotMenu-Button-${baseProps.post.id}`);
+        fireEvent.click(button);
+        const menuItem = screen.getByTestId(`unread_post_${baseProps.post.id}`);
+        expect(menuItem).toBeVisible();
     });
 
     test('should not show mark as unread when channel is archived', () => {
@@ -121,11 +232,15 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             channelIsArchived: true,
         };
-        const wrapper = shallowWithIntl(
-            <DotMenu {...props}/>,
+        renderWithIntl(
+            <Provider store={store}>
+                <DotMenu {...props}/>
+            </Provider>,
         );
-
-        expect(wrapper.find(`#unread_post_${baseProps.post.id}`).prop('show')).toBe(false);
+        const button = screen.getByTestId(`PostDotMenu-Button-${baseProps.post.id}`);
+        fireEvent.click(button);
+        const menuItem = screen.queryByTestId(`unread_post_${baseProps.post.id}`);
+        expect(menuItem).toBeNull();
     });
 
     test('should not show mark as unread in search', () => {
@@ -133,11 +248,15 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             location: Locations.SEARCH,
         };
-        const wrapper = shallowWithIntl(
-            <DotMenu {...props}/>,
+        renderWithIntl(
+            <Provider store={store}>
+                <DotMenu {...props}/>
+            </Provider>,
         );
-
-        expect(wrapper.find(`#unread_post_${baseProps.post.id}`).prop('show')).toBe(false);
+        const button = screen.getByTestId(`PostDotMenu-Button-${baseProps.post.id}`);
+        fireEvent.click(button);
+        const menuItem = screen.queryByTestId(`unread_post_${baseProps.post.id}`);
+        expect(menuItem).toBeNull();
     });
 
     describe('RHS', () => {
@@ -145,7 +264,23 @@ describe('components/dot_menu/DotMenu', () => {
             [true, {location: Locations.RHS_ROOT, isCollapsedThreadsEnabled: true}],
             [true, {location: Locations.RHS_COMMENT, isCollapsedThreadsEnabled: true}],
             [true, {location: Locations.CENTER, isCollapsedThreadsEnabled: true}],
+        ])('follow message/thread menu item should be shown only in RHS and center channel when CRT is enabled', (showing, caseProps) => {
+            const props = {
+                ...baseProps,
+                ...caseProps,
+            };
+            renderWithIntl(
+                <Provider store={store}>
+                    <DotMenu {...props}/>
+                </Provider>,
+            );
+            const button = screen.getByTestId(`PostDotMenu-Button-${baseProps.post.id}`);
+            fireEvent.click(button);
+            const menuItem = screen.getByTestId(`follow_post_thread_${baseProps.post.id}`);
+            expect(menuItem).toBeVisible();
+        });
 
+        test.each([
             [false, {location: Locations.RHS_ROOT, isCollapsedThreadsEnabled: false}],
             [false, {location: Locations.RHS_COMMENT, isCollapsedThreadsEnabled: false}],
             [false, {location: Locations.CENTER, isCollapsedThreadsEnabled: false}],
@@ -156,12 +291,15 @@ describe('components/dot_menu/DotMenu', () => {
                 ...baseProps,
                 ...caseProps,
             };
-
-            const wrapper = shallowWithIntl(
-                <DotMenu {...props}/>,
+            renderWithIntl(
+                <Provider store={store}>
+                    <DotMenu {...props}/>
+                </Provider>,
             );
-
-            expect(wrapper.find(`#follow_post_thread_${baseProps.post.id}`).prop('show')).toBe(showing);
+            const button = screen.getByTestId(`PostDotMenu-Button-${baseProps.post.id}`);
+            fireEvent.click(button);
+            const menuItem = screen.queryByTestId(`follow_post_thread_${baseProps.post.id}`);
+            expect(menuItem).toBeNull();
         });
 
         test.each([
@@ -175,18 +313,22 @@ describe('components/dot_menu/DotMenu', () => {
                 ...caseProps,
                 location: Locations.RHS_ROOT,
             };
-
-            const wrapper = shallowWithIntl(
-                <DotMenu {...props}/>,
+            renderWithIntl(
+                <Provider store={store}>
+                    <DotMenu {...props}/>
+                </Provider>,
             );
-
-            expect(wrapper.find(`#follow_post_thread_${baseProps.post.id}`).prop('text')).toBe(text);
+            const button = screen.getByTestId(`PostDotMenu-Button-${baseProps.post.id}`);
+            fireEvent.click(button);
+            const menuItem = screen.getByTestId(`follow_post_thread_${baseProps.post.id}`);
+            expect(menuItem).toBeVisible();
+            expect(menuItem).toHaveTextContent(text);
         });
 
         test.each([
             [false, {isFollowingThread: true}],
             [true, {isFollowingThread: false}],
-        ])('should call setThreadFollow with following as %s', (following, caseProps) => {
+        ])('should call setThreadFollow with following as %s', async (following, caseProps) => {
             const spySetThreadFollow = jest.fn();
             const spy = jest.spyOn(dotUtils, 'trackDotMenuEvent');
 
@@ -199,13 +341,17 @@ describe('components/dot_menu/DotMenu', () => {
                     setThreadFollow: spySetThreadFollow,
                 },
             };
-
-            const wrapper = shallowWithIntl(
-                <DotMenu {...props}/>,
+            renderWithIntl(
+                <Provider store={store}>
+                    <DotMenu {...props}/>
+                </Provider>,
             );
-
-            wrapper.find(`#follow_post_thread_${baseProps.post.id}`).simulate('click');
-
+            const button = screen.getByTestId(`PostDotMenu-Button-${baseProps.post.id}`);
+            fireEvent.click(button);
+            screen.debug(undefined, 300000);
+            const menuItem = screen.getByTestId(`follow_post_thread_${baseProps.post.id}`);
+            expect(menuItem).toBeVisible();
+            fireEvent.click(menuItem);
             expect(spy).toHaveBeenCalled();
             expect(spySetThreadFollow).toHaveBeenCalledWith(
                 'user_id_1',
