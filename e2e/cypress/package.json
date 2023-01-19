@@ -64,6 +64,7 @@
     "yargs": "17.6.2"
   },
   "scripts": {
+    "postinstall": "patch-package",
     "check-types": "tsc -b",
     "cypress:open": "cross-env TZ=Etc/UTC cypress open",
     "cypress:run": "cross-env TZ=Etc/UTC cypress run --browser chrome --config excludeSpecPattern='**/enterprise/**/*.{js,ts}'",
@@ -79,5 +80,8 @@
     "test": "start-test start:webhook 3000 test:ci",
     "test:ci": "node run_tests.js",
     "uniq-meta": "grep -r \"^// $META:\" cypress | grep -ow '@\\w*' | sort | uniq"
+  },
+  "dependencies": {
+    "patch-package": "6.5.1"
   }
 }

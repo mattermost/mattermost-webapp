@@ -49,14 +49,13 @@ describe('Keyboard Shortcuts', () => {
         // # Verify that the 'Keyboard Shortcuts' modal displays the CTRL/CMD+U shortcut
         cy.get('.section').eq(2).within(() => {
             cy.findByText('Files').should('be.visible');
-            cy.get('.shortcut-line').within(() => {
-                if (isMac()) {
-                    cy.findByText('⌘').should('be.visible');
-                } else {
-                    cy.findByText('Ctrl').should('be.visible');
-                }
-                cy.findByText('U').should('be.visible');
-            });
+            cy.get('.shortcut-line').should('be.visible').as('shortcutLine');
+            if (isMac()) {
+                cy.get('@shortcutLine').findByText('⌘').should('be.visible');
+            } else {
+                cy.get('@shortcutLine').findByText('Ctrl').should('be.visible');
+            }
+            cy.get('@shortcutLine').findByText('U').should('be.visible');
         });
 
         // # Type CTRL/CMD+/ to close the 'Keyboard Shortcuts' modal
@@ -147,9 +146,7 @@ describe('Keyboard Shortcuts', () => {
         cy.uiGetPostTextBox().clear().type('@' + userName.substring(0, 5)).wait(TIMEOUTS.HALF_SEC);
 
         // # Select the focused on user from the list using TAB
-        cy.get('#suggestionList').should('be.visible').within(() => {
-            cy.focused().tab();
-        });
+        cy.get('#suggestionList').should('be.visible').focused().tab();
 
         // # Verify that the correct user name has been selected
         cy.uiGetPostTextBox().should('contain', userName);
@@ -171,9 +168,7 @@ describe('Keyboard Shortcuts', () => {
         cy.get('body').type('{downarrow}').wait(TIMEOUTS.HALF_SEC);
 
         // # Select the fourth emoji from the top using TAB
-        cy.get('#suggestionList').should('be.visible').within(() => {
-            cy.focused().tab();
-        });
+        cy.get('#suggestionList').should('be.visible').focused().tab();
 
         // # Verify that the correct selection has been made
         cy.uiGetPostTextBox().should('contain', emojiName);
