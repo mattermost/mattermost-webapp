@@ -6,8 +6,11 @@ import {FormattedMessage} from 'react-intl';
 
 import {UserProfile} from '@mattermost/types/users';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
+import {isMobile} from 'utils/user_agent';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LocalizedInput from 'components/localized_input/localized_input';
@@ -77,6 +80,7 @@ export default class Setup extends React.PureComponent<Props, State> {
             this.props.history.push('/');
             return;
         }
+        trackEvent('mfa_setup', 'mfa_setup_page_loaded', {isMobile: isMobile()});
 
         this.props.actions.generateMfaSecret().then(({data, error}) => {
             if (error) {
@@ -117,7 +121,7 @@ export default class Setup extends React.PureComponent<Props, State> {
 
                 return;
             }
-
+            trackEvent('mfa_setup', 'mfa_setup_saved', {isMobile: isMobile()});
             this.props.history.push('/mfa/confirm');
         });
     }

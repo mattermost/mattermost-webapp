@@ -6,8 +6,10 @@ import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
+import {isMobile} from 'utils/user_agent';
 
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -41,6 +43,7 @@ export default class Confirm extends React.PureComponent<Props> {
 
     submit = (e: KeyboardEvent | React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
+        trackEvent('mfa_setup', 'mfa_confirmed', {isMobile: isMobile()})
         redirectUserToDefaultTeam();
     }
 

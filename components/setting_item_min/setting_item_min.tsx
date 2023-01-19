@@ -51,6 +51,7 @@ export default class SettingItemMin extends React.PureComponent<Props> {
 
     handleUpdateSection = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
+        e.stopPropagation();
         this.props.updateSection(this.props.section);
     }
 

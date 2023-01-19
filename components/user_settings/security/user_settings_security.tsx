@@ -9,11 +9,14 @@ import {Link} from 'react-router-dom';
 
 import SettingItemMax from 'components/setting_item_max';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
+import {isMobile} from 'utils/user_agent';
 import icon50 from 'images/icon50x50.png';
 import AccessHistoryModal from 'components/access_history_modal';
 import ActivityLogModal from 'components/activity_log_modal';
@@ -210,6 +213,9 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
 
     handleUpdateSection = (section: string) => {
         if (section) {
+            if (section === SECTION_MFA) {
+                trackEvent('security_settings', 'expand_mfa_section', {isMobile: isMobile()});
+            }
             this.props.updateSection(section);
         } else {
             switch (this.props.activeSection) {

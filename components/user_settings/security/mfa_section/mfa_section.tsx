@@ -9,6 +9,9 @@ import SettingItemMin from 'components/setting_item_min';
 import SettingItemMinComponent from 'components/setting_item_min/setting_item_min';
 
 import {getHistory} from 'utils/browser_history';
+import {isMobile} from 'utils/user_agent';
+
+import {trackEvent} from 'actions/telemetry_actions';
 
 const SECTION_MFA = 'mfa';
 
@@ -58,6 +61,7 @@ export default class MfaSection extends React.PureComponent<Props, State> {
     public setupMfa = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
 
+        trackEvent('security_settings', 'click_setup_mfa', {isMobile: isMobile()});
         getHistory().push('/mfa/setup');
     };
 
