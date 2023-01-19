@@ -24,8 +24,9 @@ import type {FileInfo} from '@mattermost/types/files';
 import type {ServerError} from '@mattermost/types/errors';
 
 // import all custom components, extensions, etc.
-import {EditorContainer, WysiwygContainer, WysiwygLayout} from './components/editor';
+import {EditorContainer, EditorContentWrapper, WysiwygContainer, WysiwygLayout} from './components/editor';
 import EmojiPicker from './components/emoji-picker';
+import {PriorityLabels} from './components/priority-labels';
 import Toolbar from './components/toolbar';
 import SendButton from './components/send-button';
 import {Extensions} from './extensions';
@@ -55,21 +56,29 @@ export type WysiwygConfig = {
         channelId: string;
         postType: PostType;
     };
+    enablePriority?: boolean;
 };
+
+export type MessageData = {
+    content?: JSONContent;
+    metadata?: NewPostDraft['metadata'];
+} | null
 
 type Props = PropsFromRedux & {
 
     /**
      * Function to handle submitting the content.
-     * Receives a FormEvent, current Markdown and current JSONContent values from the editor as optional parameters.
+     * Receives the current Markdown string as mandatory, as well as an object containing JSONContent and metadata
+     * values from the editor as optional parameters.
      */
-    onSubmit: (markdownText: string, json?: JSONContent) => void;
+    onSubmit: (markdownText: string, data?: MessageData) => void;
 
     /**
      * Function to handle changes in the editors content.
-     * Receives the current Markdown and JSONContent values from the editor as optional parameters.
+     * Receives the current Markdown string as mandatory, as well as an object containing JSONContent and metadata
+     * values from the editor as optional parameters.
      */
-    onChange?: (markdownText: string, json?: JSONContent) => void;
+    onChange?: (markdownText: string, data?: MessageData) => void;
 
     /**
      * Function to handle changes in file attachments.
@@ -100,16 +109,6 @@ type Props = PropsFromRedux & {
     readOnly?: boolean;
 
     /**
-     * Content to display above the editors editable area.
-     */
-    headerContent?: React.ReactNode | React.ReactNode[];
-
-    /**
-     * Additional controls that get added to the formatting controls section
-     */
-    additionalControls?: React.ReactNode[];
-
-    /**
      * Renders the Editor without the Layout/Structure component
      */
     noMargin?: boolean;
@@ -123,14 +122,14 @@ const Wysiwyg = (props: Props) => {
         onSubmit,
         onChange,
         onAttachmentChange,
-        additionalControls,
         placeholder,
         readOnly,
         useCustomEmojis,
-        headerContent,
         draft,
         locale,
     } = props;
+
+    const [metadata, setMetadata] = useState<NewPostDraft['metadata']|null>(draft?.metadata);
 
     const handleSubmit = async (editor: Editor, event?: React.FormEvent) => {
         event?.preventDefault();
@@ -155,7 +154,7 @@ const Wysiwyg = (props: Props) => {
          */
 
         // 1. fire the passed onSubmit function
-        await onSubmit(htmlToMarkdown(editor.getHTML()), editor.getJSON());
+        await onSubmit(htmlToMarkdown(editor.getHTML()), {content: editor.getJSON()});
 
         if (!editor.isEmpty) {
             // 2. clear the editor content
@@ -166,6 +165,7 @@ const Wysiwyg = (props: Props) => {
         setAttachments([]);
         setUploads([]);
         setUploadsProgress({});
+        setMetadata(null);
     };
 
     const editor = useEditor({
@@ -201,7 +201,15 @@ const Wysiwyg = (props: Props) => {
         autofocus: 'end',
         onUpdate: ({editor}) => {
             // call the onChange function from the parent component (if available)
-            onChange?.(htmlToMarkdown(editor.getHTML()), editor.getJSON());
+            onChange?.(htmlToMarkdown(editor.getHTML()), {content: editor.getJSON()});
+        },
+        onTransaction({editor, transaction}) {
+            // The editor state has changed.
+            if (transaction.getMeta('priority') !== undefined) {
+                const updatedMetadata = {...metadata, priority: transaction.getMeta('priority')};
+                setMetadata(updatedMetadata);
+                onChange?.(htmlToMarkdown(editor.getHTML()), {content: editor.getJSON(), metadata: updatedMetadata});
+            }
         },
     }, [config]);
 
@@ -360,15 +368,19 @@ const Wysiwyg = (props: Props) => {
     const toolbarProps = {
         editor,
         rightControls,
-        additionalControls,
     };
 
     return (
         <WysiwygLayout noMargin={noMargin}>
             <WysiwygContainer>
                 <EditorContainer ref={containerRef}>
-                    {headerContent}
-                    <EditorContent editor={editor}/>
+                    <PriorityLabels
+                        editor={editor}
+                        priority={metadata?.priority}
+                    />
+                    <EditorContentWrapper>
+                        <EditorContent editor={editor}/>
+                    </EditorContentWrapper>
                     {attachmentPreview}
                 </EditorContainer>
                 <Toolbar {...toolbarProps}/>
@@ -379,7 +391,7 @@ const Wysiwyg = (props: Props) => {
 };
 
 export default memo(Wysiwyg, (prevProps, nextProps) => {
-    return isEqual(prevProps.config, nextProps.config) && isEqual(prevProps.additionalControls, nextProps.additionalControls);
+    return isEqual(prevProps.config, nextProps.config);
 });
 
 export type {Editor, JSONContent};

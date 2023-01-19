@@ -57,7 +57,7 @@ import {ModalData} from 'types/actions';
 
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 
-import Wysiwyg, {WysiwygConfig, Editor, JSONContent} from 'components/wysiwyg';
+import Wysiwyg, {WysiwygConfig, Editor, MessageData} from 'components/wysiwyg';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {Post, PostMetadata, PostPriorityMetadata} from '@mattermost/types/posts';
@@ -984,11 +984,12 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.handleChange(message);
     }
 
-    handleChange = (message: string, content?: JSONContent) => {
+    handleChange = (message: string, data?: MessageData) => {
         const draft = {
             ...this.props.draft,
             message,
-            content,
+            content: data?.content,
+            metadata: data?.metadata,
         };
 
         this.handleDraftChange(draft);
@@ -1669,6 +1670,53 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             centerClass = 'center';
         }
 
+        if (!currentChannel?.id) {
+            return null;
+        }
+
+        if (this.props.isWysiwygEnabled) {
+            const wysiwygConfig: WysiwygConfig = {
+                enterHandling: {
+                    ctrlSend,
+                    codeBlockOnCtrlEnter,
+                },
+                keyHandlers: {
+                    ArrowUp: this.arrowUpHandling,
+                },
+                suggestions: {
+                    mention: {
+                        teamId: currentTeamId,
+                        channelId: currentChannel.id,
+                        useSpecialMentions: useChannelMentions,
+                        useGroupMentions: useLDAPGroupMentions || useCustomGroupMentions,
+                    },
+                    channel: {teamId: currentTeamId},
+                    command: {
+                        teamId: currentTeamId,
+                        channelId: currentChannel.id,
+                    },
+                },
+                fileUpload: {
+                    rootId: '',
+                    channelId: currentChannel.id,
+                    postType: PostType.post,
+                },
+                enablePriority: this.props.isPostPriorityEnabled,
+            };
+
+            return (
+                <Wysiwyg
+                    onSubmit={this.handleSubmit}
+                    onChange={this.handleChange}
+                    readOnly={!canPost}
+                    placeholder={`Write to ${currentChannel.display_name}`}
+                    draft={draft}
+                    config={wysiwygConfig}
+                    onAttachmentChange={this.onAttachmentChange}
+                />
+            );
+        }
+
         const additionalControls = [
             this.props.isPostPriorityEnabled && (
                 <React.Fragment key='PostPriorityPicker'>
@@ -1782,54 +1830,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 </div>
             ) : undefined
         );
-
-        if (!currentChannel?.id) {
-            return null;
-        }
-
-        if (this.props.isWysiwygEnabled) {
-            const wysiwygConfig: WysiwygConfig = {
-                enterHandling: {
-                    ctrlSend,
-                    codeBlockOnCtrlEnter,
-                },
-                keyHandlers: {
-                    ArrowUp: this.arrowUpHandling,
-                },
-                suggestions: {
-                    mention: {
-                        teamId: currentTeamId,
-                        channelId: currentChannel.id,
-                        useSpecialMentions: useChannelMentions,
-                        useGroupMentions: useLDAPGroupMentions || useCustomGroupMentions,
-                    },
-                    channel: {teamId: currentTeamId},
-                    command: {
-                        teamId: currentTeamId,
-                        channelId: currentChannel.id,
-                    },
-                },
-                fileUpload: {
-                    rootId: '',
-                    channelId: currentChannel.id,
-                    postType: PostType.post,
-                },
-            };
-
-            return (
-                <Wysiwyg
-                    onSubmit={this.handleSubmit}
-                    onChange={this.handleChange}
-                    readOnly={!canPost}
-                    placeholder={`Write to ${currentChannel.display_name}`}
-                    headerContent={priorityLabels}
-                    draft={draft}
-                    config={wysiwygConfig}
-                    additionalControls={additionalControls}
-                    onAttachmentChange={this.onAttachmentChange}
-                />
-            );
-        }
 
         return (
             <form

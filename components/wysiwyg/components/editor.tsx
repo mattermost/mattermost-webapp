@@ -135,3 +135,10 @@ export const EditorContainer = styled.div`
         padding-left: 0;
     }
 `;
+
+/**
+ * This is needed to prevent "jumping" post lists when editing, or rerenderings due to external state changes
+ */
+export const EditorContentWrapper = styled.div`
+    min-height: 19px;
+`;

@@ -103,6 +103,7 @@ export const Extensions = Extension.create<ExtensionOptions>({
     addStorage() {
         return {
             disableFormatting: this.options?.config?.disableFormatting || [],
+            enablePriority: this.options?.config?.enablePriority || false,
         };
     },
 

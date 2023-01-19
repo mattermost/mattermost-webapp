@@ -18,6 +18,7 @@ import {useGetLatest} from '../../../advanced_text_editor/formatting_bar/hooks';
 import BlockModeControls from './controls/block-controls';
 import HeadingControls from './controls/heading-controls';
 import LeafModeControls from './controls/leaf-controls';
+import {PriorityControls} from './controls/priority-controls';
 import TableControls from './controls/table-controls';
 import ToolbarControl from './toolbar_controls';
 
@@ -136,12 +137,6 @@ interface ToolbarProps {
     editor: Editor;
 
     /**
-     * controls that enhance the message,
-     * e.g: message priority picker
-     */
-    additionalControls?: React.ReactNode | React.ReactNode[];
-
-    /**
      * controls shown aligned to the very right of the toolbar
      * (built for adding in send buttons, etc.)
      */
@@ -150,7 +145,6 @@ interface ToolbarProps {
 
 const Toolbar = (props: ToolbarProps): JSX.Element => {
     const {
-        additionalControls,
         rightControls,
         editor,
     } = props;
@@ -200,8 +194,7 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
         update?.();
     }, [isWide, update, showHiddenControls]);
 
-    const filteredAdditionalControls = Array.isArray(additionalControls) ? additionalControls.filter(Boolean) : [];
-    const {disableFormatting} = editor.storage.core;
+    const {disableFormatting, enablePriority} = editor.storage.core;
 
     const toggleHiddenControls = useCallback((event?) => {
         event?.preventDefault();
@@ -229,12 +222,12 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
                         <Separator/>
                         <BlockModeControls editor={editor}/>
                         {disableFormatting?.includes(Formatters.table) ? null : <TableControls editor={editor}/>}
-                        {filteredAdditionalControls.length ? (
+                        {enablePriority && (
                             <>
                                 <Separator/>
-                                {filteredAdditionalControls}
+                                <PriorityControls editor={editor}/>
                             </>
-                        ) : null}
+                        )}
                     </>
                 ) : (
                     <>
@@ -258,12 +251,12 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
                             >
                                 <BlockModeControls editor={editor}/>
                                 {disableFormatting?.includes(Formatters.table) ? null : <TableControls editor={editor}/>}
-                                {filteredAdditionalControls.length ? (
+                                {enablePriority && (
                                     <>
                                         <Separator/>
-                                        {filteredAdditionalControls}
+                                        <PriorityControls editor={editor}/>
                                     </>
-                                ) : null}
+                                )}
                             </HiddenControlsContainer>
                         </CSSTransition>
                     </>

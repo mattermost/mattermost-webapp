@@ -4,7 +4,7 @@
 import {JSONContent} from '@tiptap/react';
 
 import {FileInfo} from '@mattermost/types/files';
-import {PostPriority} from '@mattermost/types/posts';
+import {PostPriorityMetadata} from '@mattermost/types/posts';
 
 export type DraftInfo = {
     id: string;
@@ -24,11 +24,7 @@ export type PostDraft = {
     show?: boolean;
     remote?: boolean;
     metadata?: {
-        priority?: {
-            priority: PostPriority|'';
-            requested_ack?: boolean;
-            persistent_notifications?: boolean;
-        };
+        priority?: PostPriorityMetadata;
     };
 };
 
