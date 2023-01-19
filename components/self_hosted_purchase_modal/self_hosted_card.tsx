@@ -93,6 +93,7 @@ export default function SelfHostedCard(props: Props) {
                         price={props.desiredProduct?.price_per_seat}
                         seats={props.seats}
                         existingUsers={props.currentUsers}
+                        isCloud={false}
                         onChange={props.updateSeats}
                     />
                 )}

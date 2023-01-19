@@ -18,6 +18,7 @@ interface Props {
     price: number;
     seats: Seats;
     existingUsers: number;
+    isCloud: boolean;
     onChange: (seats: Seats) => void;
 }
 
@@ -41,7 +42,7 @@ export const errorInvalidNumber = (
     />
 );
 
-function validateSeats(seats: string, annualPricePerSeat: number, minSeats: number): Seats {
+function validateSeats(seats: string, annualPricePerSeat: number, minSeats: number, cloud: boolean): Seats {
     if (seats === '') {
         return {
             quantity: '',
@@ -67,11 +68,17 @@ function validateSeats(seats: string, annualPricePerSeat: number, minSeats: numb
             }}
         />
     );
+
+    let errorPrefix = 'Self-serve';
+    if (cloud) {
+        errorPrefix = 'Cloud';
+    }
     const tooManyUsersErrorMessage = (
         <FormattedMessage
             id='self_hosted_signup.error_max_seats'
-            defaultMessage='Self-serve license purchase only supports purchases up to {num} users'
+            defaultMessage='{prefix} license purchase only supports purchases up to {num} users'
             values={{
+                prefix: errorPrefix,
                 num: <FormattedNumber value={maxSeats}/>,
             }}
         />
@@ -109,10 +116,10 @@ export default function SeatsCalculator(props: Props) {
             // nulls out the customMessage. By forcefully creating a new react element error,
             // it will trigger the error still existing, and the error will keep being shown
             // in the input component
-            props.onChange(validateSeats(props.seats.quantity, annualPricePerSeat, props.existingUsers));
+            props.onChange(validateSeats(props.seats.quantity, annualPricePerSeat, props.existingUsers, props.isCloud));
             return;
         }
-        props.onChange(validateSeats(value, annualPricePerSeat, props.existingUsers));
+        props.onChange(validateSeats(value, annualPricePerSeat, props.existingUsers, props.isCloud));
     };
 
     const maxSeats = calculateMaxUsers(annualPricePerSeat);

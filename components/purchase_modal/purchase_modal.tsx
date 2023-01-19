@@ -144,9 +144,8 @@ type State = {
     isUpgradeFromTrial: boolean;
     buttonClickedInfo: string;
     selectedProductPrice: string | null;
-    userCountError: boolean;
     usersCount: number;
-    inputUserCount: number;
+    seats: Seats;
 }
 
 /**
@@ -353,9 +352,11 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             isUpgradeFromTrial: props.isFreeTrial,
             buttonClickedInfo: '',
             selectedProductPrice: getSelectedProduct(props.products, props.productId, false)?.price_per_seat.toString() || null,
-            userCountError: false,
             usersCount: this.props.usersCount,
-            inputUserCount: this.props.usersCount,
+            seats: {
+                quantity: this.props.usersCount.toString(),
+                error: this.props.usersCount.toString() === '0' ? errorInvalidNumber : null,
+            },
         };
     }
 
@@ -661,12 +662,12 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         text: 'Upgrade',
                         customClass:
                             !this.state.paymentInfoIsValid ||
-                            this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE || this.state.userCountError ||
+                            this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE || this.state.seats.error !== null ||
                             (checkIsYearlyProfessionalProduct(this.state.currentProduct)) ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
                         disabled:
                             !this.state.paymentInfoIsValid ||
                             this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE ||
-                            this.state.userCountError ||
+                            this.state.seats.error !== null ||
                             (checkIsYearlyProfessionalProduct(this.state.currentProduct)),
                     }}
                     planLabel={
@@ -686,13 +687,11 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     preButtonContent={(
                         <SeatsCalculator
                             price={yearlyProductMonthlyPrice}
-                            seats={{
-                                quantity: this.state.inputUserCount.toString(),
-                                error: this.state.inputUserCount.toString() === '0' ? errorInvalidNumber : '',
-                            }}
+                            seats={this.state.seats}
                             existingUsers={this.props.usersCount}
+                            isCloud={true}
                             onChange={(seats: Seats) => {
-                                this.setState({inputUserCount: parseInt(seats.quantity, 10) || 0});
+                                this.setState({seats});
                             }}
                         />
                     )}
@@ -839,7 +838,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                         telemetryProps={{
                                             callerInfo: this.state.buttonClickedInfo,
                                         }}
-                                        usersCount={this.state.inputUserCount}
+                                        usersCount={parseInt(this.state.seats.quantity, 10)}
                                     />
                                 </div>
                             ) : null}
