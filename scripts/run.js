@@ -3,39 +3,40 @@
 
 /* eslint-disable no-console, no-process-env */
 
-const fs = require('fs');
-
 const chalk = require('chalk');
 const concurrently = require('concurrently');
 
 const {makeRunner} = require('./runner.js');
-const {getWorkspaceCommands} = require('./utils.js');
+const {getProductStartCommands, getWorkspaceCommands} = require('./utils.js');
 
 async function watchAll(useRunner) {
-    const commands = [];
-
-    commands.unshift(...getWorkspaceCommands('run'));
-
-    if (fs.existsSync('../focalboard')) {
-        console.log(chalk.inverse.bold('Focalboard found. Starting Boards product.') + '\n');
-
-        if (!useRunner) {
-            commands.unshift({command: 'make watch-product', cwd: '../focalboard', name: 'boards', prefixColor: 'red'});
-        }
-    } else if (!useRunner) {
-        console.log(chalk.inverse.bold('Focalboard not found. Not starting Boards product.') + '\n');
+    if (!useRunner) {
+        console.log(chalk.inverse.bold('Watching web app and all subpackages...'));
     }
 
-    commands.unshift({command: 'npm:run:webapp', name: 'webapp', prefixColor: 'cyan'});
+    const commands = [
+        {command: 'npm:run:webapp', name: 'webapp', prefixColor: 'cyan'},
+    ];
+
+    const productCommands = getProductStartCommands();
+    commands.push(...productCommands);
+
+    if (!useRunner) {
+        if (productCommands.length > 0) {
+            console.log(chalk.green('Found products: ' + productCommands.map((command) => command.name).join(', ')));
+        } else {
+            console.log(chalk.yellow('No products found'));
+        }
+    }
+
+    commands.push(...getWorkspaceCommands('run'));
 
     let runner;
     if (useRunner) {
         runner = makeRunner(commands);
     }
 
-    if (!useRunner) {
-        console.log(chalk.inverse.bold('Watching web app and all subpackages...') + '\n');
-    }
+    console.log('\n');
 
     const {result, commands: runningCommands} = concurrently(
         commands,
