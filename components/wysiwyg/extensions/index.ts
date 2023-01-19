@@ -220,7 +220,15 @@ export const Extensions = Extension.create<ExtensionOptions>({
         }
 
         if (!disableFormatting.includes(Formatters.table) && this.options.table !== false) {
-            extensions.push(Table.configure(this.options?.table));
+            extensions.push(Table.configure(this.options?.table).extend({
+                renderHTML({node}) {
+                    // this might be the right place to force a header row if it is not present
+                    // atlassian has a library with ProseMirror utils that might be of help here: https://github.com/atlassian/prosemirror-utils
+                    console.log('#### node of the inserted table', node); // eslint-disable-line no-console
+
+                    return ['table', {class: 'markdown__table'}, ['tbody', 0]];
+                },
+            }));
         }
 
         if (this.options.suggestions?.mention) {
