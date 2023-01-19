@@ -9,8 +9,8 @@ import {fromAutoResponder, isFromWebhook} from 'utils/post_utils';
 
 import {Post} from '@mattermost/types/posts';
 
-import BotBadge from 'components/widgets/badges/bot_badge';
-import Badge from 'components/widgets/badges/badge';
+import Tag from 'components/widgets/tag/tag';
+import BotTag from 'components/widgets/tag/bot_tag';
 import UserProfile from 'components/user_profile';
 import PostHeaderCustomStatus from 'components/post_view/post_header/post_header_custom_status';
 
@@ -89,7 +89,7 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
                 />
             );
 
-            botIndicator = (<BotBadge className='col col__name'/>);
+            botIndicator = (<BotTag/>);
         } else if (isFromAutoResponder) {
             userProfile = (
                 <span className='auto-responder'>
@@ -104,12 +104,14 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
                 </span>
             );
             botIndicator = (
-                <Badge className='col col__name'>
-                    <FormattedMessage
-                        id='post_info.auto_responder'
-                        defaultMessage='AUTOMATIC REPLY'
-                    />
-                </Badge>
+                <Tag
+                    text={
+                        <FormattedMessage
+                            id='post_info.auto_responder'
+                            defaultMessage='AUTOMATIC REPLY'
+                        />
+                    }
+                />
             );
         } else if (isSystemMessage && isBot) {
             userProfile = (
