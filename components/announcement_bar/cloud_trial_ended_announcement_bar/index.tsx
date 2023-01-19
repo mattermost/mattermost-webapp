@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
@@ -42,10 +42,11 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
         getCurrentUser(state),
     );
     const subscriptionProduct = useSelector((state: GlobalState) => getSubscriptionProduct(state));
+    const [show, setShow] = useState(false);
 
     const openPricingModal = useOpenPricingModal();
 
-    const shouldShowBanner = debounce(() => {
+    const shouldShowBanner = useMemo(() => {
         if (!subscription || !subscriptionProduct) {
             return false;
         }
@@ -84,14 +85,15 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
             return false;
         }
         return true;
+    }, [subscription, subscriptionProduct, limits, preferences, currentUser?.roles]);
+
+    const debouncedShouldShowBanner = debounce(() => {
+        setShow(shouldShowBanner);
     }, 500);
 
-    const [show, setShow] = useState(shouldShowBanner() ?? false);
-
     useEffect(() => {
-        const shouldShow = shouldShowBanner();
-        setShow(shouldShow ?? false);
-    }, [subscription, subscriptionProduct, limits, preferences, currentUser?.roles, shouldShowBanner]);
+        debouncedShouldShowBanner();
+    }, [debouncedShouldShowBanner]);
 
     if (!show) {
         return null;
