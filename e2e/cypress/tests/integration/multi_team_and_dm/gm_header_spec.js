@@ -111,7 +111,7 @@ describe('Multi-user group header', () => {
         editHeader(header);
 
         cy.contains('#channelHeaderDescription span button.mention-link', `@${testUser.username}`).should('exist');
-        cy.contains('#channelHeaderDescription span.mention--highlight a.mention-link', `@${testUser.username}`).should('not.exist');
+        cy.contains('#channelHeaderDescription span.mention--highlight button.mention-link', `@${testUser.username}`).should('not.exist');
     });
 
     const editHeader = (header) => {

@@ -32,8 +32,10 @@ import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostReaction from 'components/post_view/post_reaction';
 import ReactionList from 'components/post_view/reaction_list';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
-import BotBadge from 'components/widgets/badges/bot_badge';
-import Badge from 'components/widgets/badges/badge';
+
+import Tag from 'components/widgets/tag/tag';
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import UserProfile from 'components/user_profile';
@@ -429,7 +431,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
                     />
                 );
 
-                botIndicator = (<BotBadge className='col col__name'/>);
+                botIndicator = <BotTag className='col col__name'/>;
             } else if (fromAutoResponder) {
                 userProfile = (
                     <span className='auto-responder'>
@@ -445,12 +447,15 @@ export default class RhsComment extends React.PureComponent<Props, State> {
                     </span>
                 );
                 botIndicator = (
-                    <Badge className='col col__name'>
-                        <FormattedMessage
-                            id='post_info.auto_responder'
-                            defaultMessage='AUTOMATIC REPLY'
-                        />
-                    </Badge>
+                    <Tag
+                        className='col col__name'
+                        text={(
+                            <FormattedMessage
+                                id='post_info.auto_responder'
+                                defaultMessage='AUTOMATIC REPLY'
+                            />
+                        )}
+                    />
                 );
             } else if (isSystemMessage && this.props.isBot) {
                 userProfile = (
