@@ -136,7 +136,7 @@ export default ({node, updateAttributes, extension}: NodeViewProps) => {
                 apply({availableHeight}) {
                     if (floatingRef.current) {
                         Object.assign(floatingRef.current.style, {
-                            maxHeight: `${availableHeight}px`,
+                            maxHeight: `${Constants.SUGGESTION_LIST_MAXHEIGHT > availableHeight ? availableHeight : Constants.SUGGESTION_LIST_MAXHEIGHT}px`,
                         });
                     }
                 },
