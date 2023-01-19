@@ -3,6 +3,8 @@
 
 /* eslint-disable no-console, no-process-env */
 
+const fs = require('fs');
+
 const chalk = require('chalk');
 const concurrently = require('concurrently');
 
@@ -14,8 +16,14 @@ async function watchAll(useRunner) {
 
     commands.unshift(...getWorkspaceCommands('run'));
 
-    if (process.env.MM_FEATUREFLAGS_BoardsProduct) {
-        commands.unshift({command: 'make watch-product', cwd: '../focalboard', name: 'boards', prefixColor: 'red'});
+    if (fs.existsSync('../focalboard')) {
+        console.log(chalk.inverse.bold('Focalboard found. Starting Boards product.') + '\n');
+
+        if (!useRunner) {
+            commands.unshift({command: 'make watch-product', cwd: '../focalboard', name: 'boards', prefixColor: 'red'});
+        }
+    } else if (!useRunner) {
+        console.log(chalk.inverse.bold('Focalboard not found. Not starting Boards product.') + '\n');
     }
 
     commands.unshift({command: 'npm:run:webapp', name: 'webapp', prefixColor: 'cyan'});
