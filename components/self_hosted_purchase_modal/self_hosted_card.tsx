@@ -80,7 +80,6 @@ export default function SelfHostedCard(props: Props) {
                 topColor='#4A69AC'
                 plan={props.desiredPlanName}
                 price={`${props.desiredProduct?.price_per_seat?.toString()}`}
-                seeHowBillingWorks={seeHowBillingWorks}
                 rate={intl.formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month, <b>billed annually</b>'}, {
                     b: (chunks: React.ReactNode | React.ReactNodeArray) => (
                         <b>
@@ -97,7 +96,7 @@ export default function SelfHostedCard(props: Props) {
                         onChange={props.updateSeats}
                     />
                 )}
-                afterButtonContent={<Consequences/>}
+                afterButtonContent={<Consequences isCloud={false}/>}
                 buttonDetails={{
                     action: props.submit,
                     disabled: !props.canSubmit,
@@ -118,7 +117,6 @@ export default function SelfHostedCard(props: Props) {
                         />
                     ) : undefined
                 }
-                hideBillingCycle={true}
             />
         </>
     );

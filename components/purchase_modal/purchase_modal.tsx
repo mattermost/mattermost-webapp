@@ -89,8 +89,6 @@ type CardProps = {
     buttonDetails: ButtonDetails;
     planBriefing?: JSX.Element | null; // can be removed once Yearly Subscriptions are available
     planLabel?: JSX.Element;
-    seeHowBillingWorks?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-    hideBillingCycle?: boolean;
     preButtonContent?: React.ReactNode;
     afterButtonContent?: React.ReactNode;
 }
@@ -199,12 +197,6 @@ function getSelectedProduct(
 }
 
 export function Card(props: CardProps) {
-    const seeHowBillingWorks = props.seeHowBillingWorks || function seeHowBillingWorks(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-        e.preventDefault();
-        trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_see_how_billing_works');
-        window.open(CloudLinks.BILLING_DOCS, '_blank');
-    };
-
     const cardContent = (
         <div className='PlanCard'>
             {props.planLabel && props.planLabel}
@@ -227,22 +219,6 @@ export function Card(props: CardProps) {
                         onClick={props.buttonDetails.action}
                     >{props.buttonDetails.text}</button>
                 </div>
-                {!props.hideBillingCycle && <div className='plan_billing_cycle'>
-                    <FormattedMessage
-                        defaultMessage={
-                            'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
-                        }
-                        id={'admin.billing.subscription.freeTrialDisclaimer'}
-                    />
-                    <a
-                        onClick={seeHowBillingWorks}
-                    >
-                        <FormattedMessage
-                            defaultMessage={'See how billing works.'}
-                            id={'admin.billing.subscription.howItWorks'}
-                        />
-                    </a>
-                </div>}
                 {props.afterButtonContent}
             </div>
         </div>
@@ -695,8 +671,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             }}
                         />
                     )}
-                    afterButtonContent={<Consequences/>}
-                    hideBillingCycle={true}
+                    afterButtonContent={<Consequences isCloud={true}/>}
                 />
             </>
         );

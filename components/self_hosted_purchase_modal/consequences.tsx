@@ -8,17 +8,27 @@ import {FormattedMessage} from 'react-intl';
 import {
     TELEMETRY_CATEGORIES,
     HostedCustomerLinks,
+    CloudLinks,
 } from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
-export function seeHowBillingWorks(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+export function seeHowBillingWorks(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, cloud: boolean) {
     e.preventDefault();
-    trackEvent(TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING, 'click_see_how_billing_works');
-    window.open(HostedCustomerLinks.BILLING_DOCS, '_blank');
+    if (cloud) {
+        trackEvent(TELEMETRY_CATEGORIES.CLOUD_PURCHASING, 'click_see_how_billing_works');
+        window.open(CloudLinks.BILLING_DOCS, '_blank');
+    } else {
+        trackEvent(TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING, 'click_see_how_billing_works');
+        window.open(HostedCustomerLinks.BILLING_DOCS, '_blank');
+    }
 }
 
-export default function Consequences() {
+type Props = {
+    isCloud: boolean;
+}
+
+export default function Consequences(props: Props) {
     return (
         <div className='signup-consequences'>
             <FormattedMessage
@@ -27,7 +37,7 @@ export default function Consequences() {
                 values={{
                     a: (chunks: React.ReactNode) => (
                         <a
-                            onClick={seeHowBillingWorks}
+                            onClick={(e) => seeHowBillingWorks(e, props.isCloud)}
                         >
                             {chunks}
                         </a>
