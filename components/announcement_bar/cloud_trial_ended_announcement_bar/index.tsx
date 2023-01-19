@@ -1,11 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState, useMemo} from 'react';
+import React, {useEffect, useState, useMemo, useRef} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
-import {debounce} from 'lodash';
 
 import {t} from 'utils/i18n';
 
@@ -43,6 +42,7 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
     );
     const subscriptionProduct = useSelector((state: GlobalState) => getSubscriptionProduct(state));
     const [show, setShow] = useState(false);
+    const showTimeout = useRef<NodeJS.Timeout>();
 
     const openPricingModal = useOpenPricingModal();
 
@@ -87,13 +87,21 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
         return true;
     }, [subscription, subscriptionProduct, limits, preferences, currentUser?.roles]);
 
-    const debouncedShouldShowBanner = debounce(() => {
-        setShow(shouldShowBanner);
-    }, 500);
-
     useEffect(() => {
-        debouncedShouldShowBanner();
-    }, [debouncedShouldShowBanner]);
+        if (showTimeout.current) {
+            clearTimeout(showTimeout.current);
+        }
+
+        showTimeout.current = setTimeout(() => {
+            setShow(shouldShowBanner);
+        }, 1000);
+
+        return () => {
+            if (showTimeout.current) {
+                clearTimeout(showTimeout.current);
+            }
+        };
+    }, [shouldShowBanner]);
 
     if (!show) {
         return null;
