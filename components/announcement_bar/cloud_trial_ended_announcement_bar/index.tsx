@@ -45,8 +45,6 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
 
     const openPricingModal = useOpenPricingModal();
 
-    const [show, setShow] = useState(false);
-
     const shouldShowBanner = debounce(() => {
         if (!subscription || !subscriptionProduct) {
             return false;
@@ -87,6 +85,8 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
         }
         return true;
     }, 500);
+
+    const [show, setShow] = useState(shouldShowBanner() ?? false);
 
     useEffect(() => {
         const shouldShow = shouldShowBanner();
