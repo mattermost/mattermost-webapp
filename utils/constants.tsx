@@ -271,6 +271,7 @@ export const ActionTypes = keyMirror({
     TOGGLE_LHS: null,
     OPEN_LHS: null,
     CLOSE_LHS: null,
+    SELECT_STATIC_PAGE: null,
 
     SET_SHOW_PREVIEW_ON_CREATE_COMMENT: null,
     SET_SHOW_PREVIEW_ON_CREATE_POST: null,
@@ -549,6 +550,10 @@ export const A11yCustomEventTypes = {
 export type A11yFocusEventDetail = {
     target: HTMLElement | null | undefined;
     keyboardOnly: boolean;
+}
+
+export function isA11yFocusEventDetail(o: unknown): o is A11yFocusEventDetail {
+    return Boolean(o && typeof o === 'object' && 'keyboardOnly' in o);
 }
 
 export const AppEvents = {
@@ -1076,9 +1081,9 @@ export const DocLinks = {
 
 export const LicenseLinks = {
     CONTACT_SALES: 'https://mattermost.com/contact-sales/',
-    SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/software-evaluation-agreement/',
     TRIAL_INFO_LINK: 'https://mattermost.com/trial',
     EMBARGOED_COUNTRIES: 'https://mattermost.com/pl/limitations-for-embargoed-countries',
+    SOFTWARE_SERVICES_LICENSE_AGREEMENT: 'https://mattermost.com/pl/software-and-services-license-agreement',
 };
 
 export const BillingSchemes = {

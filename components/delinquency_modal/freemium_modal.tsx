@@ -33,7 +33,7 @@ const DescriptionMessages: Record<DescriptionStatusKey, JSX.Element> = {
     noLimits: (
         <FormattedMessage
             id='cloud_delinquency.modal.workspace_downgraded_freemium'
-            defaultMessage='Cloud Free is restricted to 10,000 message history, 10GB file storage, and 500 board cards.'
+            defaultMessage='Cloud Free is restricted to 10,000 message history, 1GB file storage, and 500 board cards.'
         >
             {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>

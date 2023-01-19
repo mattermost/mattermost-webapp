@@ -91,6 +91,9 @@ describe('component/user_group_popover', () => {
             },
         },
         views: {
+            modals: {
+                modalState: {},
+            },
             search: {
                 popoverSearch: '',
             },
