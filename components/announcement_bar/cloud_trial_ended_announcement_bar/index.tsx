@@ -89,7 +89,8 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
     }, 500);
 
     useEffect(() => {
-        setShow(shouldShowBanner() ?? false);
+        const shouldShow = shouldShowBanner();
+        setShow(shouldShow ?? false);
     }, [subscription, subscriptionProduct, limits, preferences, currentUser?.roles, shouldShowBanner]);
 
     if (!show) {
