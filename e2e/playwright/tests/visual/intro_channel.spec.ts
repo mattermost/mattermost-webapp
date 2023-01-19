@@ -2,22 +2,21 @@
 // See LICENSE.txt for license information.
 
 import {test, expect} from '@playwright/test';
-import {Eyes} from '@applitools/eyes-playwright';
 
-import {initSetup} from '@support/server';
-import {ChannelPage, LoginPage} from '@support/ui/page';
-import {hideTeamHeader, hidePostHeaderTime} from '@support/ui/style';
-import {matchSnapshot} from '@support/visual';
+import {initSetup} from '@e2e-support/server';
+import {ChannelPage, LoginPage} from '@e2e-support/ui/page';
+import {hideTeamHeader, hidePostHeaderTime} from '@e2e-support/ui/style';
+import {matchSnapshot, Applitools} from '@e2e-support/visual';
 
-let eyes: Eyes;
+let applitools: Applitools = {};
 
 test.afterAll(async () => {
-    await eyes?.close();
+    await applitools.eyes?.close();
 });
 
 test('Intro to channel as regular user', async ({page, isMobile, browserName, viewport}, testInfo) => {
     const testArgs = {page, isMobile, browserName, viewport};
-    const {adminConfig, user} = await initSetup({withDefaultProfileImage: true});
+    const {adminConfig, user} = await initSetup();
 
     // Go to login page
     const loginPage = new LoginPage(page, adminConfig);
@@ -38,5 +37,5 @@ test('Intro to channel as regular user', async ({page, isMobile, browserName, vi
     await page.addStyleTag({content: hideTeamHeader + hidePostHeaderTime});
 
     // Match snapshot of channel intro page
-    ({eyes} = await matchSnapshot(testInfo, testArgs));
+    applitools = await matchSnapshot(testInfo, testArgs);
 });

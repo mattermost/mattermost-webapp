@@ -24,7 +24,7 @@ const limits = {
             history: 10000,
         },
         files: {
-            total_storage: 10 * FileSizes.Gigabyte,
+            total_storage: FileSizes.Gigabyte,
         },
         teams: {
             active: 1,
@@ -231,7 +231,7 @@ describe('components/select_results/SearchLimitsBanner', () => {
 
     test('should show banner for CLOUD when doing cloud files search above the limit in Free product', () => {
         const aboveFilesLimitUsage = JSON.parse(JSON.stringify(usage));
-        aboveFilesLimitUsage.files.totalStorage = 11 * FileSizes.Gigabyte; // above limit of 10GB
+        aboveFilesLimitUsage.files.totalStorage = 1.1 * FileSizes.Gigabyte; // above limit of 1GB
 
         const state = {
             entities: {
@@ -263,9 +263,9 @@ describe('components/select_results/SearchLimitsBanner', () => {
         expect(wrapper.find('#files_search_limits_banner').exists()).toEqual(true);
     });
 
-    test('should show banner for CLOUD when doing cloud files search above the limit in PROFESSIONAL product', () => {
+    test('should not show banner for CLOUD when doing cloud files search above the limit in PROFESSIONAL product', () => {
         const aboveFilesLimitUsage = JSON.parse(JSON.stringify(usage));
-        aboveFilesLimitUsage.files.totalStorage = 11 * FileSizes.Gigabyte; // above limit of 10GB. This limit is higher in professional
+        aboveFilesLimitUsage.files.totalStorage = 1.1 * FileSizes.Gigabyte; // above limit of 1GB. This limit is higher in professional
 
         const state = {
             entities: {
@@ -287,13 +287,16 @@ describe('components/select_results/SearchLimitsBanner', () => {
                         product_id: 'prod_2', // professional
                     },
                     products,
-                    limits,
+                    limits: {
+                        limits: {},
+                        limitsLoaded: false,
+                    },
                 },
                 usage: aboveFilesLimitUsage,
             },
         };
         const store = mockStore(state);
         const wrapper = mountWithIntl(<Provider store={store}><SearchLimitsBanner searchType='files'/></Provider>);
-        expect(wrapper.find('#files_search_limits_banner').exists()).toEqual(true);
+        expect(wrapper.find('#files_search_limits_banner').exists()).toEqual(false);
     });
 });

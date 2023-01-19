@@ -25,7 +25,7 @@ fix-style: node_modules ## Fix JS file ESLint issues
 
 	npm run fix
 
-check-types: node_modules ## Checks TS file for TypeScript confirmity
+check-types: node_modules e2e/playwright/node_modules ## Checks TS file for TypeScript confirmity
 	@echo Checking for TypeScript compliance
 
 	npm run check-types
@@ -48,9 +48,14 @@ ifeq ($(CI),false)
 else
 	# This runs in CI with NODE_ENV=production which doesn't install devDependencies without this flag
 	npm ci --include=dev
+
 endif
 
 	touch $@
+
+e2e/playwright/node_modules:
+	@echo Install Playwright and its dependencies
+	cd e2e/playwright && npm install
 
 build: node_modules ## Builds app
 	@echo Building Mattermost Web App
@@ -150,6 +155,9 @@ clean-e2e:
 
 emojis: ## Creates emoji JSON, JSX and Go files and extracts emoji images from the system font
 	SERVER_DIR=$(BUILD_SERVER_DIR) npm run make-emojis
+	@if [ -e $(BUILD_SERVER_DIR)/model/emoji_data.go ]; then \
+		gofmt -w $(BUILD_SERVER_DIR)/model/emoji_data.go; \
+	fi
 
 ## Help documentatin à la https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 help:

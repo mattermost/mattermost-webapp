@@ -2,9 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {useSelector} from 'react-redux';
+
 import styled from 'styled-components';
 
 import {ProductIdentifier} from '@mattermost/types/products';
+
+import {GlobalState} from 'types/store';
 
 import Pluggable from 'plugins/pluggable';
 import {
@@ -12,9 +16,11 @@ import {
     useShowOnboardingTutorialStep,
 } from 'components/tours/onboarding_tour';
 import StatusDropdown from 'components/status_dropdown';
-import {OnboardingTourSteps} from 'components/tours';
+import {OnboardingTourSteps, OnboardingTourStepsForGuestUsers} from 'components/tours';
 
 import {isChannels} from 'utils/products';
+
+import {isCurrentUserGuestUser} from 'mattermost-redux/selectors/entities/users';
 
 import AtMentionsButton from './at_mentions_button/at_mentions_button';
 import SavedPostsButton from './saved_posts_button/saved_posts_button';
@@ -27,6 +33,8 @@ const RightControlsContainer = styled.div`
     height: 40px;
     flex-shrink: 0;
     position: relative;
+    flex-basis: 30%;
+    justify-content: flex-end;
 
     > * + * {
         margin-left: 8px;
@@ -38,7 +46,11 @@ export type Props = {
 }
 
 const RightControls = ({productId = null}: Props): JSX.Element => {
-    const showCustomizeTip = useShowOnboardingTutorialStep(OnboardingTourSteps.CUSTOMIZE_EXPERIENCE);
+    // guest validation to see which point the messaging tour tip starts
+    const isGuestUser = useSelector((state: GlobalState) => isCurrentUserGuestUser(state));
+    const tourStep = isGuestUser ? OnboardingTourStepsForGuestUsers.CUSTOMIZE_EXPERIENCE : OnboardingTourSteps.CUSTOMIZE_EXPERIENCE;
+
+    const showCustomizeTip = useShowOnboardingTutorialStep(tourStep);
 
     return (
         <RightControlsContainer

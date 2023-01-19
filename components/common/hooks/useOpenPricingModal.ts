@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
-import {ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import PricingModal from 'components/pricing_modal';
 
 import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
@@ -20,7 +20,7 @@ export default function useOpenPricingModal() {
     let category;
     return (telemetryProps?: TelemetryProps) => {
         if (isCloud) {
-            category = 'cloud_pricing';
+            category = TELEMETRY_CATEGORIES.CLOUD_PRICING;
         } else {
             category = 'self_hosted_pricing';
         }

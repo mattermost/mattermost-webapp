@@ -78,6 +78,7 @@ export type TeamUnread = {
 
     thread_count?: number;
     thread_mention_count?: number;
+    thread_urgent_mention_count?: number;
 };
 
 export type GetTeamMembersOpts = {

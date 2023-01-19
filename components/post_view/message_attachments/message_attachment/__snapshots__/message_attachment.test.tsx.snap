@@ -724,3 +724,19 @@ exports[`components/post_view/MessageAttachment should match value on renderPost
   />
 </div>
 `;
+
+exports[`components/post_view/MessageAttachment should not render content box if there is no content 1`] = `
+<div
+  className="attachment attachment--pretext"
+  onClick={[Function]}
+>
+  <div
+    className="attachment__thumb-pretext"
+  >
+    <Connect(Markdown)
+      message="This is a pretext."
+      postId="post_id"
+    />
+  </div>
+</div>
+`;

@@ -118,43 +118,46 @@ export default class ActivityLog extends React.PureComponent<Props, State> {
         let devicePicture: string | undefined = '';
         let deviceTitle = '';
 
-        if (currentSession.props.platform === 'Windows') {
-            devicePicture = 'fa fa-windows';
-            deviceTitle = localizeMessage('device_icons.windows', 'Windows Icon');
-        } else if (this.isMobileSession(currentSession)) {
+        if (this.isMobileSession(currentSession)) {
             const sessionInfo = this.mobileSessionInfo(currentSession);
             devicePicture = sessionInfo.devicePicture;
             devicePlatform = sessionInfo.devicePlatform;
-        } else if (currentSession.props.platform === 'Macintosh' ||
-            currentSession.props.platform === 'iPhone') {
-            devicePicture = 'fa fa-apple';
-            deviceTitle = localizeMessage('device_icons.apple', 'Apple Icon');
-        } else if (currentSession.props.platform === 'Linux') {
-            if (currentSession.props.os.indexOf('Android') >= 0) {
-                devicePlatform = (
-                    <FormattedMessage
-                        id='activity_log_modal.android'
-                        defaultMessage='Android'
-                    />
-                );
-                devicePicture = 'fa fa-android';
-                deviceTitle = localizeMessage('device_icons.android', 'Android Icon');
-            } else {
+            deviceTitle = sessionInfo.deviceTitle || deviceTitle;
+        } else {
+            if (currentSession.props.platform === 'Windows') {
+                devicePicture = 'fa fa-windows';
+                deviceTitle = localizeMessage('device_icons.windows', 'Windows Icon');
+            } else if (currentSession.props.platform === 'Macintosh' ||
+                currentSession.props.platform === 'iPhone') {
+                devicePicture = 'fa fa-apple';
+                deviceTitle = localizeMessage('device_icons.apple', 'Apple Icon');
+            } else if (currentSession.props.platform === 'Linux') {
+                if (currentSession.props.os.indexOf('Android') >= 0) {
+                    devicePlatform = (
+                        <FormattedMessage
+                            id='activity_log_modal.android'
+                            defaultMessage='Android'
+                        />
+                    );
+                    devicePicture = 'fa fa-android';
+                    deviceTitle = localizeMessage('device_icons.android', 'Android Icon');
+                } else {
+                    devicePicture = 'fa fa-linux';
+                    deviceTitle = localizeMessage('device_icons.linux', 'Linux Icon');
+                }
+            } else if (currentSession.props.os.indexOf('Linux') !== -1) {
                 devicePicture = 'fa fa-linux';
                 deviceTitle = localizeMessage('device_icons.linux', 'Linux Icon');
             }
-        } else if (currentSession.props.os.indexOf('Linux') !== -1) {
-            devicePicture = 'fa fa-linux';
-            deviceTitle = localizeMessage('device_icons.linux', 'Linux Icon');
-        }
 
-        if (currentSession.props.browser.indexOf('Desktop App') !== -1) {
-            devicePlatform = (
-                <FormattedMessage
-                    id='activity_log_modal.desktop'
-                    defaultMessage='Native Desktop App'
-                />
-            );
+            if (currentSession.props.browser.indexOf('Desktop App') !== -1) {
+                devicePlatform = (
+                    <FormattedMessage
+                        id='activity_log_modal.desktop'
+                        defaultMessage='Native Desktop App'
+                    />
+                );
+            }
         }
 
         return (

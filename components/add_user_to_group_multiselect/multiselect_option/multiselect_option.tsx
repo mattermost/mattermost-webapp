@@ -4,6 +4,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {Client4} from 'mattermost-redux/client';
 import {UserProfile} from '@mattermost/types/users';
 import {RelationOneToOne} from '@mattermost/types/utilities';
@@ -12,8 +15,7 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 import {displayEntireNameForUser} from 'utils/utils';
 import ProfilePicture from 'components/profile_picture';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
-import GuestBadge from 'components/widgets/badges/guest_badge';
-import BotBadge from 'components/widgets/badges/bot_badge';
+
 import {Value} from 'components/multiselect/multiselect';
 
 type UserProfileValue = Value & UserProfile;
@@ -50,14 +52,8 @@ const MultiSelectOption = React.forwardRef(({
             <div className='more-modal__details'>
                 <div className='more-modal__name'>
                     {displayEntireNameForUser(option)}
-                    <BotBadge
-                        show={Boolean(option.is_bot)}
-                        className='badge-popoverlist'
-                    />
-                    <GuestBadge
-                        show={isGuest(option.roles)}
-                        className='popoverlist'
-                    />
+                    {option.is_bot && <BotTag/>}
+                    {isGuest(option.roles) && <GuestTag className='popoverlist'/>}
                 </div>
             </div>
             <div className='more-modal__actions'>

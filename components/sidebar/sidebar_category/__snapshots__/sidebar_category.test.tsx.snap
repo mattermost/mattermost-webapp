@@ -33,7 +33,7 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
     muted={false}
     onClick={[Function]}
   >
-    <Connect(injectIntl(SidebarCategoryMenu))
+    <Connect(Component)
       category={
         Object {
           "channel_ids": Array [
@@ -63,11 +63,10 @@ exports[`components/sidebar/sidebar_category should match snapshot 2`] = `
       <Connect(SidebarChannel)
         channelId="channel_id"
         channelIndex={0}
-        getChannelRef={[MockFunction]}
         isAutoSortedCategory={true}
         isCategoryCollapsed={false}
         isCategoryDragged={false}
-        isDropDisabled={false}
+        isDraggable={true}
         key="channel_id"
         setChannelRef={[MockFunction]}
       />
@@ -109,7 +108,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
     muted={false}
     onClick={[Function]}
   >
-    <Connect(injectIntl(SidebarCategoryMenu))
+    <Connect(Component)
       category={
         Object {
           "channel_ids": Array [
@@ -139,11 +138,10 @@ exports[`components/sidebar/sidebar_category should match snapshot when collapse
       <Connect(SidebarChannel)
         channelId="channel_id"
         channelIndex={0}
-        getChannelRef={[MockFunction]}
         isAutoSortedCategory={true}
         isCategoryCollapsed={true}
         isCategoryDragged={false}
-        isDropDisabled={false}
+        isDraggable={true}
         key="channel_id"
         setChannelRef={[MockFunction]}
       />
@@ -193,7 +191,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when isNewCat
         id="sidebar_left.sidebar_category.newLabel"
       />
     </div>
-    <Connect(injectIntl(SidebarCategoryMenu))
+    <Connect(Component)
       category={
         Object {
           "channel_ids": Array [],
@@ -288,7 +286,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
     muted={false}
     onClick={[Function]}
   >
-    <Connect(injectIntl(SidebarCategorySortingMenu))
+    <Connect(Component)
       category={
         Object {
           "channel_ids": Array [
@@ -365,11 +363,10 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
       <Connect(SidebarChannel)
         channelId="channel_id"
         channelIndex={0}
-        getChannelRef={[MockFunction]}
         isAutoSortedCategory={true}
         isCategoryCollapsed={false}
         isCategoryDragged={false}
-        isDropDisabled={false}
+        isDraggable={true}
         key="channel_id"
         setChannelRef={[MockFunction]}
       />
@@ -416,7 +413,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
     muted={false}
     onClick={[Function]}
   >
-    <Connect(injectIntl(SidebarCategorySortingMenu))
+    <Connect(Component)
       category={
         Object {
           "channel_ids": Array [

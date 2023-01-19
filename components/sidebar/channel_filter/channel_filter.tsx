@@ -66,6 +66,8 @@ export class ChannelFilter extends React.PureComponent<Props> {
             tooltipMessage = intl.formatMessage({id: 'sidebar_left.channel_filter.showAllChannels', defaultMessage: 'Show all channels'});
         }
 
+        const unreadsAriaLabel = intl.formatMessage({id: 'sidebar_left.channel_filter.filterUnreadAria', defaultMessage: 'unreads filter'});
+
         const tooltip = (
             <Tooltip
                 id='new-group-tooltip'
@@ -93,7 +95,7 @@ export class ChannelFilter extends React.PureComponent<Props> {
                             active: unreadFilterEnabled,
                         })}
                         onClick={this.toggleUnreadFilter}
-                        aria-label={tooltipMessage}
+                        aria-label={unreadsAriaLabel}
                     >
                         <i className='icon icon-filter-variant'/>
                     </a>
