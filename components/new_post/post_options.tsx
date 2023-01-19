@@ -67,9 +67,7 @@ const PostOptions = (props: Props): JSX.Element => {
 
     useEffect(() => {
         if (props.isLastPost &&
-            (props.shortcutReactToLastPostEmittedFrom === Locations.CENTER ||
-                props.shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT ||
-                props.shortcutReactToLastPostEmittedFrom === Locations.RHS_COMMENT) &&
+            (props.shortcutReactToLastPostEmittedFrom === props.location) &&
                 props.isPostHeaderVisible) {
             toggleEmojiPicker();
             props.actions.emitShortcutReactToLastPostFrom(Locations.NO_WHERE);

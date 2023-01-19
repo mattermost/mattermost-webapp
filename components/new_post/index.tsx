@@ -19,7 +19,7 @@ import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/use
 
 import {Emoji} from '@mattermost/types/emojis';
 import {Post} from '@mattermost/types/posts';
-import {closeRightHandSide, selectPost, selectPostCardFromRightHandSideSearch, setRhsExpanded} from 'actions/views/rhs';
+import {closeRightHandSide, selectPost, selectPostCardFromRightHandSideSearch, setRhsExpanded, selectPostFromRightHandSideSearch} from 'actions/views/rhs';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
@@ -235,6 +235,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             emitShortcutReactToLastPostFrom,
             setActionsMenuInitialisationState,
             selectPost,
+            selectPostFromRightHandSideSearch,
             setRhsExpanded,
             removePost: removePostAndCloseRHS,
             closeRightHandSide,
