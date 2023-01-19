@@ -11,8 +11,8 @@ export const areWorkTemplatesEnabled = createSelector(
     (state: GlobalState) => getFeatureFlagValue(state, 'WorkTemplate') === 'true',
     (state: GlobalState) => getFeatureFlagValue(state, 'BoardsProduct') === 'true',
     (state: GlobalState) => Boolean(state.plugins.plugins?.playbooks),
-    (workTemplateFF, boardProductEnabled, pluginPlayboosInstalled) => {
-        return workTemplateFF && boardProductEnabled && pluginPlayboosInstalled;
+    (workTemplateFF, boardProductEnabled, pluginPlaybooksInstalled) => {
+        return workTemplateFF && boardProductEnabled && pluginPlaybooksInstalled;
     },
 );
 
