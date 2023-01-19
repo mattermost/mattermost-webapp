@@ -12,7 +12,7 @@ import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import CloudTrialEndAnnouncementBar from './index';
 
-jest.mock('lodash/debounce', () => jest.fn((fn) => fn));
+jest.useFakeTimers('legacy');
 
 describe('components/global/CloudTrialEndAnnouncementBar', () => {
     const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
@@ -140,9 +140,11 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
             </reactRedux.Provider>,
         );
 
-        expect(
-            wrapper.find('AnnouncementBar').exists(),
-        ).toEqual(true);
+        process.nextTick(() => {
+            expect(
+                wrapper.find('AnnouncementBar').exists(),
+            ).toEqual(true);
+        });
     });
 
     it('Should show banner cloudArchived teams exist', () => {
@@ -171,7 +173,9 @@ describe('components/global/CloudTrialEndAnnouncementBar', () => {
             </reactRedux.Provider>,
         );
 
-        expect(wrapper.find('AnnouncementBar').exists()).toEqual(true);
+        process.nextTick(() => {
+            expect(wrapper.find('AnnouncementBar').exists()).toEqual(true);
+        });
     });
 
     it('should not show banner if on free trial', () => {
