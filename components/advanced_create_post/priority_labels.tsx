@@ -19,7 +19,7 @@ import {PostPriorityMetadata} from '@mattermost/types/posts';
 type Props = {
     canRemove: boolean;
     hasError: boolean;
-    specialMentions: {[key: string]: boolean};
+    specialMentions?: {[key: string]: boolean};
     onRemove?: () => void;
     padding?: CSSProperties['padding'];
     persistentNotifications?: PostPriorityMetadata['persistent_notifications'];
@@ -151,7 +151,7 @@ function PriorityLabels({
             )}
             {hasError && (
                 <Error>
-                    {Object.values(specialMentions).includes(true) ? <HasSpecialMentions specialMentions={specialMentions}/> : <HasNoMentions/>}
+                    {(specialMentions && Object.values(specialMentions).includes(true)) ? <HasSpecialMentions specialMentions={specialMentions}/> : <HasNoMentions/>}
                 </Error>
             )}
             {canRemove && (
