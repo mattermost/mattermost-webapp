@@ -958,9 +958,15 @@ exports[`components/advanced_create_post should match snapshot, post priority en
       <Memo(PriorityLabels)
         canRemove={true}
         hasError={false}
-        hasSpecialMentions={false}
         onRemove={[Function]}
         priority="important"
+        specialMentions={
+          Object {
+            "all": false,
+            "channel": false,
+            "here": false,
+          }
+        }
       />
     }
     location="CENTER"

@@ -770,7 +770,6 @@ exports[`components/drafts/panel/panel_body should match snapshot for priority 1
             <Memo(PriorityLabels)
               canRemove={false}
               hasError={false}
-              hasSpecialMentions={false}
               padding="0 0 0 8px"
               priority="important"
               requestedAck={false}
@@ -1117,7 +1116,6 @@ exports[`components/drafts/panel/panel_body should match snapshot for requested_
             <Memo(PriorityLabels)
               canRemove={false}
               hasError={false}
-              hasSpecialMentions={false}
               padding="0 0 0 8px"
               priority=""
               requestedAck={true}
