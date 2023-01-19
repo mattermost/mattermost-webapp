@@ -129,4 +129,17 @@ describe('components/channel_header/components/UserGuideDropdown', () => {
 
         expect(wrapper.find('#reportAProblemLink').exists()).toBe(false);
     });
+
+    test('Should not show items if links are null', () => {
+        const props = {
+            ...baseProps,
+            reportAProblemLink: '',
+            helpLink: '',
+        };
+        const wrapper = shallowWithIntl(
+            <UserGuideDropdown {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });

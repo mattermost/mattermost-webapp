@@ -77,4 +77,17 @@ describe('UserGuideDropdown', () => {
         wrapper.find(Menu.ItemExternalLink).find('#askTheCommunityLink').prop('onClick')!({} as unknown as React.MouseEvent);
         expect(trackEvent).toBeCalledWith('ui', 'help_ask_the_community');
     });
+
+    test('Should not show items if links are null', () => {
+        const props = {
+            ...baseProps,
+            reportAProblemLink: '',
+            helpLink: '',
+        };
+        const wrapper = shallowWithIntl(
+            <UserGuideDropdown {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });

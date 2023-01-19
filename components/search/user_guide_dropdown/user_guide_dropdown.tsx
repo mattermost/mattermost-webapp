@@ -65,16 +65,20 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                         onClick={this.askTheCommunityClick}
                     />
                 )}
-                <Menu.ItemExternalLink
-                    id='helpResourcesLink'
-                    url={this.props.helpLink}
-                    text={intl.formatMessage({id: 'userGuideHelp.helpResources', defaultMessage: 'Help resources'})}
-                />
-                <Menu.ItemExternalLink
-                    id='reportAProblemLink'
-                    url={this.props.reportAProblemLink}
-                    text={intl.formatMessage({id: 'userGuideHelp.reportAProblem', defaultMessage: 'Report a problem'})}
-                />
+                {this.props.helpLink && (
+                    <Menu.ItemExternalLink
+                        id='helpResourcesLink'
+                        url={this.props.helpLink}
+                        text={intl.formatMessage({id: 'userGuideHelp.helpResources', defaultMessage: 'Help resources'})}
+                    />
+                )}
+                {this.props.reportAProblemLink && (
+                    <Menu.ItemExternalLink
+                        id='reportAProblemLink'
+                        url={this.props.reportAProblemLink}
+                        text={intl.formatMessage({id: 'userGuideHelp.reportAProblem', defaultMessage: 'Report a problem'})}
+                    />
+                )}
                 <Menu.ItemAction
                     id='keyboardShortcuts'
                     onClick={this.openKeyboardShortcutsModal}

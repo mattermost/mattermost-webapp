@@ -1,5 +1,71 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/channel_header/components/UserGuideDropdown Should not show items if links are null 1`] = `
+<MenuWrapper
+  animationComponent={[Function]}
+  className="userGuideHelp"
+  id="helpMenuPortal"
+  onToggle={[Function]}
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={500}
+    overlay={
+      <Tooltip
+        className="hidden-xs"
+        id="userGuideHelpTooltip"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Help"
+          id="channel_header.userHelpGuide"
+        />
+      </Tooltip>
+    }
+    placement="bottom"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <ForwardRef
+      active={false}
+      aria-controls="AddChannelDropdown"
+      aria-expanded={false}
+      aria-label="Help"
+      compact={true}
+      icon="help-circle-outline"
+      inverted={true}
+      onClick={[Function]}
+      size="sm"
+    />
+  </OverlayTrigger>
+  <Menu
+    ariaLabel="Add Channel Dropdown"
+    id="AddChannelDropdown"
+    openLeft={true}
+    openUp={false}
+  >
+    <MenuGroup>
+      <MenuItemExternalLink
+        id="askTheCommunityLink"
+        onClick={[Function]}
+        show={true}
+        text="Ask the community"
+        url="https://mattermost.com/pl/default-ask-mattermost-community/"
+      />
+      <MenuItemAction
+        id="keyboardShortcuts"
+        onClick={[Function]}
+        show={true}
+        text="Keyboard shortcuts"
+      />
+    </MenuGroup>
+  </Menu>
+</MenuWrapper>
+`;
+
 exports[`components/channel_header/components/UserGuideDropdown should match snapshot 1`] = `
 <MenuWrapper
   animationComponent={[Function]}
