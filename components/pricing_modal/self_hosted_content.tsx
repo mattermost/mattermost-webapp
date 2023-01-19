@@ -224,8 +224,14 @@ function SelfHostedContent(props: ContentProps) {
                                 }
 
                                 if (!canUseSelfHostedSignup) {
-                                    closePricingModal();
-                                    controlAirgappedModal.open();
+                                    // closePricingModal();
+                                    // controlAirgappedModal.open();
+                                    // NOTE: This behavior of directly opening the link is to
+                                    // work around in v7.8 (an Extended Support Release),
+                                    // an issue where self-hosted purchase is not actually ready
+                                    // for use. Work in https://mattermost.atlassian.net/browse/MM-49772
+                                    // should revert this behavior and instead open the airgapped modal
+                                    window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
                                     return;
                                 }
 
