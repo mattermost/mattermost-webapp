@@ -590,13 +590,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         });
     }
 
-    showPersistNotificationModal = (message: string, hasSpecialMentions: boolean, channelType: Channel['type']) => {
+    showPersistNotificationModal = (message: string, specialMentions: {[key: string]: boolean}, channelType: Channel['type']) => {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.PERSIST_NOTIFICATION_CONFIRM_MODAL,
             dialogType: PersistNotificationConfirmModal,
             dialogProps: {
                 currentChannelTeammateUsername: this.props.currentChannelTeammateUsername,
-                hasSpecialMentions,
+                specialMentions,
                 channelType,
                 message,
                 onConfirm: this.handleNotifyAllConfirmation,
@@ -685,7 +685,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.props.isPostPriorityEnabled &&
             hasRequestedPersistentNotifications(this.props.draft?.metadata?.priority)
         ) {
-            this.showPersistNotificationModal(this.state.message, hasSpecialMentions, updateChannel.type);
+            this.showPersistNotificationModal(this.state.message, specialMentions, updateChannel.type);
             this.isDraftSubmitting = false;
             return;
         } else if (memberNotifyCount > 0) {
@@ -1553,9 +1553,12 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         return mentions.length > 0;
     }
 
+    getSpecialMentions = (): {[key: string]: boolean} => {
+        return specialMentionsInText(this.state.message);
+    }
+
     hasSpecialMentions = (): boolean => {
-        const specialMentions = specialMentionsInText(this.state.message);
-        return Object.values(specialMentions).includes(true);
+        return Object.values(this.getSpecialMentions()).includes(true);
     }
 
     render() {
@@ -1634,7 +1637,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                         <PriorityLabels
                             canRemove={!this.props.shouldShowPreview}
                             hasError={!this.isValidPersistentNotifications()}
-                            hasSpecialMentions={this.hasSpecialMentions()}
+                            specialMentions={this.getSpecialMentions()}
                             onRemove={this.handleRemovePriority}
                             persistentNotifications={draft!.metadata!.priority?.persistent_notifications}
                             priority={draft!.metadata!.priority?.priority}

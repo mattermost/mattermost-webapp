@@ -15,9 +15,11 @@ import {GenericModal} from '@mattermost/components';
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
 
+import {HasNoMentions, HasSpecialMentions} from './post_priority/error_messages';
+
 type Props = {
     currentChannelTeammateUsername?: UserProfile['username'];
-    hasSpecialMentions: boolean;
+    specialMentions: {[key: string]: boolean};
     channelType: Channel['type'];
     message: string;
     onConfirm: () => void;
@@ -27,7 +29,7 @@ type Props = {
 function PersistNotificationConfirmModal({
     channelType,
     currentChannelTeammateUsername,
-    hasSpecialMentions,
+    specialMentions,
     message,
     onConfirm,
     onExited,
@@ -67,12 +69,9 @@ function PersistNotificationConfirmModal({
                 defaultMessage='Send'
             />
         );
-    } else if (hasSpecialMentions) {
+    } else if (Object.values(specialMentions).includes(true)) {
         body = (
-            <FormattedMessage
-                id='persist_notification.special_mentions.description'
-                defaultMessage='Cannot use @channel, @all or @here to mention recipients of persistent notifications'
-            />
+            <HasSpecialMentions specialMentions={specialMentions}/>
         );
         confirmBtn = (
             <FormattedMessage
@@ -81,12 +80,7 @@ function PersistNotificationConfirmModal({
             />
         );
     } else if (count === 0) {
-        title = (
-            <FormattedMessage
-                id='persist_notification.too_few.title'
-                defaultMessage='Recipients must be @mentioned'
-            />
-        );
+        title = <HasNoMentions/>;
         body = (
             <FormattedMessage
                 id='persist_notification.too_few.description'

@@ -114,9 +114,7 @@ function PostPriorityPicker({
                 persistent_notifications: false,
             });
             onClose();
-        } else if (type === PostPriority.URGENT) {
-            setRequestedAck(true);
-        } else {
+        } else if (type !== PostPriority.URGENT) {
             setPersistentNotifications(false);
         }
     }, [onApply, onClose, postAcknowledgementsEnabled]);

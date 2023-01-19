@@ -65,16 +65,13 @@ function ChannelDraft({
     }, [dispatch, history, value.fileInfos, channel.id, channelUrl]);
 
     const showPersistNotificationModal = useCallback((id: string, post: Post) => {
-        const specialMentions = specialMentionsInText(post.message);
-        const hasSpecialMentions = Object.values(specialMentions).includes(true);
-
         dispatch(openModal({
             modalId: ModalIdentifiers.PERSIST_NOTIFICATION_CONFIRM_MODAL,
             dialogType: PersistNotificationConfirmModal,
             dialogProps: {
                 message: post.message,
                 channelType: channel.type,
-                hasSpecialMentions,
+                specialMentions: specialMentionsInText(post.message),
                 onConfirm: () => doSubmit(id, post),
             },
         }));

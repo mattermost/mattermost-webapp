@@ -10,6 +10,7 @@ import {CheckCircleOutlineIcon, BellRingOutlineIcon} from '@mattermost/compass-i
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import PriorityLabel from 'components/post_priority/post_priority_label';
+import {HasNoMentions, HasSpecialMentions} from 'components/post_priority/error_messages';
 
 import Constants from 'utils/constants';
 
@@ -18,7 +19,7 @@ import {PostPriorityMetadata} from '@mattermost/types/posts';
 type Props = {
     canRemove: boolean;
     hasError: boolean;
-    hasSpecialMentions: boolean;
+    specialMentions: {[key: string]: boolean};
     onRemove?: () => void;
     padding?: CSSProperties['padding'];
     persistentNotifications?: PostPriorityMetadata['persistent_notifications'];
@@ -89,7 +90,7 @@ const Error = styled.div`
 function PriorityLabels({
     canRemove,
     hasError,
-    hasSpecialMentions,
+    specialMentions,
     onRemove,
     padding,
     persistentNotifications,
@@ -150,17 +151,7 @@ function PriorityLabels({
             )}
             {hasError && (
                 <Error>
-                    {hasSpecialMentions ? (
-                        <FormattedMessage
-                            id={'post_priority.error.special_mentions'}
-                            defaultMessage={'Cannot use @channel, @all or @here to mention recipients of persistent notifications'}
-                        />
-                    ) : (
-                        <FormattedMessage
-                            id={'post_priority.error.no_mentions'}
-                            defaultMessage={'Recipients must be @mentioned'}
-                        />
-                    )}
+                    {Object.values(specialMentions).includes(true) ? <HasSpecialMentions specialMentions={specialMentions}/> : <HasNoMentions/>}
                 </Error>
             )}
             {canRemove && (
