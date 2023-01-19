@@ -205,7 +205,7 @@
 
         .suggestion-list__main {
             overflow: hidden;
-            max-width: 89%;
+            width: 100%;
             color: rgba(var(--center-channel-color-rgb), 1);
             text-overflow: ellipsis;
             white-space: nowrap;
