@@ -162,6 +162,15 @@ const LinkInputHelp = styled.span`
     line-height: 15px;
 `;
 
+const HiddenSubmitButton = styled.button`
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+    margin: 0;
+    padding: 0;
+`;
+
 type LinkOverlayProps = {
     editor: Editor;
     open: boolean;
@@ -206,12 +215,12 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
     const [text, setText] = useState<string | null>(null);
 
     const closeOverlay = useCallback(() => {
+        // close the overlay
+        onClose?.();
+
         // clear the component state
         setUrl(null);
         setText(null);
-
-        // once done close the overlay
-        onClose?.();
     }, [onClose]);
 
     useEffect(() => {
@@ -372,9 +381,9 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
                         onChange={(event) => setText(event.target.value)}
                     />
                 </LinkInputBox>
-                <input
+                <HiddenSubmitButton
                     type='submit'
-                    hidden={true}
+                    tabIndex={-1}
                 />
             </FloatingLinkContainer>
         </div>,
