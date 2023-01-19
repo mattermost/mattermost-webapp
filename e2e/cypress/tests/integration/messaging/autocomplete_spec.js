@@ -334,9 +334,8 @@ describe('autocomplete', () => {
             cy.get(`#post_${post.id}`).find('.user-popover').click();
 
             // * Popover should have rendered to screen
-            cy.get('#user-profile-popover').should('be.visible').within(($el) => {
-                cy.wrap($el).find('.user-popover__username').should('be.visible').click();
-            });
+            cy.findByLabelText(`Profile for ${otherUser.username}`).should('be.visible').
+                findByText(`@${otherUser.username}`).click();
         });
 
         cy.uiGetPostTextBox().type('{enter}');
