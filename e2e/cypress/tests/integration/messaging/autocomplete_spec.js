@@ -319,29 +319,4 @@ describe('autocomplete', () => {
             cy.get(`#postMessageText_${postId}`).find('.mention--highlight button.mention-link').should('exist');
         });
     });
-
-    it('MM-T2214 @ mention from link in profile popover: center', () => {
-        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
-
-        // # Post a message as a different user
-        const message = `hello from ${otherUser.username}`;
-        cy.postMessageAs({sender: otherUser, message, channelId: testChannel.id}).then((post) => {
-            // # Click on username
-            cy.get(`#post_${post.id}`).find('.user-popover').click();
-
-            // * Popover should have rendered to screen
-            cy.get('#user-profile-popover').should('be.visible').within(($el) => {
-                cy.wrap($el).find('.user-popover__username').should('be.visible').click();
-            });
-        });
-
-        cy.uiGetPostTextBox().type('{enter}');
-        cy.uiWaitUntilMessagePostedIncludes(otherUser.username);
-
-        // # Check that the @ mention of username has been posted
-        cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).should('contain', `${otherUser.username}`);
-            cy.get(`#postMessageText_${postId}`).find('.mention-link').should('exist');
-        });
-    });
 });

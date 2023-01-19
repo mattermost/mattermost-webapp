@@ -1191,7 +1191,6 @@
   "admin.license.renewalCard.reviewNumbers": "Прегледайте числата си по-долу, за да сте сигурни, че подновявате за правилния брой потребители.",
   "admin.license.renewalCard.usersNumbers": "**Активни потребители:** {activeUsersNum}",
   "admin.license.title": "Издание и лиценз",
-  "admin.license.trial-request.accept-terms": "С натискане върху <strong>Започни пробен период</strong>, приемам <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Политика за поверителност</linkPrivacy> и получаване на ел.поща за продукти.",
   "admin.license.trial-request.title": "Изпробвайте Mattermost Корпоративна версия безплатно през следващите 30 дни. Не се изисква покупка или кредитна карта. ",
   "admin.license.trialCard.contactSales": "Връзка продажби",
   "admin.license.trialCard.description": "Срокът на безплатната пробна версия ще изтече след **{daysCount} {daysCount, plural, one {ден} other {дни}}**. Посетете нашия клиентски портал, за да закупите лиценз сега и да продължите да използвате функциите на Mattermost Professional и Enterprise след края на пробния период.",
