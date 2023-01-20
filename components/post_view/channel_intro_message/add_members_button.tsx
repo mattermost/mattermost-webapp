@@ -13,6 +13,8 @@ import {Channel} from '@mattermost/types/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Permissions} from 'mattermost-redux/constants';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import ToggleModalButton from 'components/toggle_modal_button';
 import InvitationModal from 'components/invitation_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
@@ -89,6 +91,7 @@ const LessThanMaxFreeUsers = ({setHeader, pluginButtons}: {setHeader: React.Reac
                         className='intro-links color--link cursor--pointer'
                         modalId={ModalIdentifiers.INVITATION}
                         dialogType={InvitationModal}
+                        onClick={() => trackEvent('ui', 'ui_channel_intro_invite_button_clicked')}
                     >
                         <i
                             className='icon-email-plus-outline'
