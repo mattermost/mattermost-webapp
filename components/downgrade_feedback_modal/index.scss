@@ -15,22 +15,22 @@
         }
 
         .radio-list > .radio {
-            margin-bottom: 20px
-        };
+            margin-bottom: 20px;
+        }
 
         .close {
-            margin-top: 12px
+            margin-top: 12px;
         }
     }
 
     &__Title {
-        font-weight: 600;
-        font-size: 22px;
-        font-family: 'Metropolis';
-        color: var(--sys-denim-center-channel-text);
-        line-height: 28px;
-        margin-bottom: 30px;
         margin-top: 10px;
+        margin-bottom: 30px;
+        color: var(--sys-denim-center-channel-text);
+        font-family: 'Metropolis';
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 28px;
     }
 
     &__Error {
@@ -40,13 +40,13 @@
 
     &__FreeFormText {
         width: 100%;
+        padding: 10px;
+        border-color: rgba(var(--sys-denim-center-channel-text-rgb), 0.16);
         margin-bottom: 15px;
+        border-radius: 4px;
+        color: black;
         font-size: 15px;
         resize: 'none';
-        border-color: rgba(var(--sys-denim-center-channel-text-rgb), 0.16);
-        border-radius: 4px;
-        padding: 10px;
-        color: black;
     }
 
     &__Submit {
@@ -59,11 +59,11 @@
         }
 
         .btn-secondary {
-            background-color: rgba(var(--denim-button-bg-rgb), 0.08);
-            color: var(--denim-button-bg);
             width: 90px;
             margin-left: auto;
+            background-color: rgba(var(--denim-button-bg-rgb), 0.08);
             border-radius: 4px;
+            color: var(--denim-button-bg);
         }
 
         .btn-primary {
