@@ -93,10 +93,10 @@ function DowngradeTeamRemovalModal(props: Props) {
                 },
                 teamToKeep,
                 selectedProduct: props.starterProduct,
-                downgradeFeedback: downgradeFeedback,
+                downgradeFeedback,
             },
         }));
-    }
+    };
 
     const getSelectedTeam = () => {
         let teamIdToKeep = '';

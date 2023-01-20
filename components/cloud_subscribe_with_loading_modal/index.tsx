@@ -59,7 +59,7 @@ function CloudSubscribeWithLoad(props: Props) {
         }
 
         const productUpdated = await dispatch(subscribeCloudSubscription(
-            props.selectedProduct?.id as string, 0, props.downgradeFeedback
+            props.selectedProduct?.id as string, 0, props.downgradeFeedback,
         ));
 
         // the action subscribeCloudSubscription returns a true boolean when successful and an error when it fails
