@@ -1286,7 +1286,6 @@
   "admin.license.renewalCard.reviewNumbers": "Revisa los numeros de abajo para asegurar que la renovación es por el número de usuarios correcto.",
   "admin.license.renewalCard.usersNumbers": "**Usuarios Activos:** {activeUsersNum}",
   "admin.license.title": "Edición y Licencia",
-  "admin.license.trial-request.accept-terms": "Al hacer clic en <strong>Iniciar prueba</strong>, acepto el <linkEvaluation>Acuerdo de Evaluación del Software Mattermost</linkEvaluation> , la <linkPrivacy>Política de privacidad</linkPrivacy> y recibir correos electrónicos del producto.",
   "admin.license.trial-request.embargoed": "No fuimos capaces de procesar la petición debido a las limitaciones para países embargados. <link>Aprende más en nuestra documentación</link>, o comunícate a legal@mattermost.com para preguntas sobre las limitaciones de exportación.",
   "admin.license.trial-request.startTrial": "Comenzar prueba",
   "admin.license.trial-request.title": "Experimente Mattermost Edición Enterprise de forma gratuita por los próximos 30 días. Sin obligación de compra o tarjeta de crédito requerida. ",
