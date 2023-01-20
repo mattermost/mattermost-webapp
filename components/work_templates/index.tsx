@@ -79,6 +79,7 @@ const WorkTemplateModal = () => {
     const [selectedVisibility, setSelectedVisibility] = useState(Visibility.Public);
     const [currentCategoryId, setCurrentCategoryId] = useState('');
     const [isCreating, setIsCreating] = useState(false);
+    const [errorText, setErrorText] = useState('');
 
     const categories = useSelector((state: GlobalState) => state.entities.worktemplates.categories);
     const workTemplates = useSelector((state: GlobalState) => state.entities.worktemplates.templatesInCategory);
@@ -110,6 +111,11 @@ const WorkTemplateModal = () => {
         };
     }, [dispatch]);
 
+    // error resetter
+    useEffect(() => {
+        setErrorText('');
+    }, [currentCategoryId, modalState, selectedTemplate]);
+
     const changeCategory = (category: Category) => {
         setCurrentCategoryId(category.id);
         if (workTemplates[category.id]?.length) {
@@ -130,7 +136,7 @@ const WorkTemplateModal = () => {
     const handleTemplateSelected = (template: WorkTemplate, quickUse: boolean) => {
         setSelectedTemplate(template);
         if (quickUse) {
-            create(template, '', Visibility.Public);
+            execute(template, '', Visibility.Public);
             return;
         }
 
@@ -145,7 +151,7 @@ const WorkTemplateModal = () => {
         setSelectedVisibility(visibility);
     };
 
-    const create = async (template: WorkTemplate, name = '', visibility = Visibility.Public) => {
+    const execute = async (template: WorkTemplate, name = '', visibility = Visibility.Public) => {
         const pbTemplates = [];
         for (const item of template.content) {
             if (item.playbook) {
@@ -169,6 +175,7 @@ const WorkTemplateModal = () => {
 
         if (error) {
             setIsCreating(false);
+            setErrorText(error.message);
             return;
         }
         let firstChannelId = '';
@@ -204,7 +211,7 @@ const WorkTemplateModal = () => {
         cancelButtonText = formatMessage({id: 'work_templates.customize.modal_cancel_button', defaultMessage: 'Back'});
         cancelButtonAction = () => setModalState(ModalState.Preview);
         confirmButtonText = formatMessage({id: 'work_templates.customize.modal_create_button', defaultMessage: 'Create'});
-        confirmButtonAction = () => create(selectedTemplate!, selectedName, selectedVisibility);
+        confirmButtonAction = () => execute(selectedTemplate!, selectedName, selectedVisibility);
         break;
     }
 
@@ -227,6 +234,7 @@ const WorkTemplateModal = () => {
             isConfirmDisabled={isCreating}
             autoCloseOnCancelButton={false}
             autoCloseOnConfirmButton={false}
+            errorText={errorText}
         >
             {modalState === ModalState.Menu && (
                 <Menu
