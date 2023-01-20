@@ -5,6 +5,7 @@ import React, {useState} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 import {useDispatch} from 'react-redux';
+import classNames from 'classnames';
 
 import {GenericModal} from '@mattermost/components';
 import {DowngradeFeedback} from '@mattermost/types/cloud';
@@ -29,22 +30,15 @@ export default function DowngradeFeedbackModal(props: Props) {
         optionOther,
     ];
 
-    const [feedbackChanged, setFeedbackChanged] = useState(false);
     const [reason, setReason] = useState('');
     const [comments, setComments] = useState('');
     const reasonNotSelected = reason === '';
     const commentsNotProvided = comments === '';
+    const downgradeDisabled = reasonNotSelected || (reason === optionOther && commentsNotProvided);
 
     const dispatch = useDispatch();
 
     const handleSubmitFeedback = () => {
-        if (!reason) {
-            return;
-        }
-
-        setFeedbackChanged(true);
-
-        setComments(comments.trim());
         if (reason === optionOther && !comments) {
             return;
         }
@@ -53,12 +47,21 @@ export default function DowngradeFeedbackModal(props: Props) {
         dispatch(closeModal(ModalIdentifiers.DOWNGRADE_FEEDBACK));
     };
 
+    const handleCancel = () => {
+        dispatch(closeModal(ModalIdentifiers.DOWNGRADE_FEEDBACK));
+    };
+
     return (
         <GenericModal
-            onExited={() => {
-                dispatch(closeModal(ModalIdentifiers.DOWNGRADE_FEEDBACK));
-            }}
+            onExited={handleCancel}
+            className='DowngradeFeedback__Container'
         >
+            <span className='DowngradeFeedback__Title'>
+                <FormattedMessage
+                    id={'downgrade_feedback.title'}
+                    defaultMessage={'Please share your reason for downgrading'}
+                />
+            </span>
             <RadioButtonGroup
                 id='downgradeFeedbackRadioGroup'
                 testId='downgradeFeedbackRadioGroup'
@@ -72,38 +75,33 @@ export default function DowngradeFeedbackModal(props: Props) {
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
             />
+            <textarea
+                className='DowngradeFeedback__FreeFormText'
+                placeholder='Please tell us why you are downgrading...'
+                rows={3}
+                onChange={(e) => {
+                    setComments(e.target.value.trim());
+                }}
+                style={{display: reason === optionOther ? '' : 'none', resize: 'none'}}
+            />
             <div className='DowngradeFeedback__Submit'>
-                <textarea
-                    className='DowngradeFeedback__FreeFormText'
-                    placeholder='Please tell us why you are downgrading...'
-                    rows={4}
-                    onChange={(e) => {
-                        setComments(e.target.value);
-                    }}
-                />
-                {feedbackChanged && reasonNotSelected ?
-                    <span className='DowngradeFeedback__Error'>
-                        <FormattedMessage
-                            id={'downgrade_feedback.select_reason'}
-                            defaultMessage={'Please select a reason'}
-                        />
-                    </span> : <></>}
-                {feedbackChanged && reason === optionOther && commentsNotProvided ?
-                    <span className='DowngradeFeedback__Error'>
-                        <FormattedMessage
-                            id={'downgrade_feedback.tell_us_why'}
-                            defaultMessage={'Please tell us why you are downgrading'}
-                        />
-                    </span> : <></>}
                 <button
-                    disabled={reasonNotSelected || (reason === optionOther && commentsNotProvided)}
-                    className='btn btn-primary'
-                    style={{width: '25%'}}
+                    className='btn btn-secondary'
+                    onClick={handleCancel}
+                >
+                    <FormattedMessage
+                        id={'downgrade_feedback.cancel'}
+                        defaultMessage={'Cancel'}
+                    />
+                </button>
+                <button
+                    disabled={downgradeDisabled}
+                    className={classNames('btn btn-primary', {disabled: downgradeDisabled})}
                     onClick={handleSubmitFeedback}
                 >
                     <FormattedMessage
-                        id={'downgrade_feedback.submit'}
-                        defaultMessage={'Submit'}
+                        id={'downgrade_feedback.downgrade'}
+                        defaultMessage={'Downgrade'}
                     />
                 </button>
             </div>

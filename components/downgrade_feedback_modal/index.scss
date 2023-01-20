@@ -1,18 +1,75 @@
 .DowngradeFeedback {
+    &__Container {
+        padding: 15px;
+
+        .GenericModal__body {
+            padding-top: 10px;
+        }
+
+        .modal-content {
+            border: 1px solid rgb(0 0 0 / 12%);
+        }
+
+        .radio-list {
+            margin-bottom: 25px;
+        }
+
+        .radio-list > .radio {
+            margin-bottom: 20px
+        };
+
+        .close {
+            margin-top: 12px
+        }
+    }
+
+    &__Title {
+        font-weight: 600;
+        font-size: 22px;
+        font-family: 'Metropolis';
+        color: var(--sys-denim-center-channel-text);
+        line-height: 28px;
+        margin-bottom: 30px;
+        margin-top: 10px;
+    }
+
     &__Error {
         margin-bottom: 10px;
         color: var(--error-text);
     }
 
     &__FreeFormText {
-        margin-bottom: 10px;
+        width: 100%;
+        margin-bottom: 15px;
         font-size: 15px;
         resize: 'none';
+        border-color: rgba(var(--sys-denim-center-channel-text-rgb), 0.16);
+        border-radius: 4px;
+        padding: 10px;
+        color: black;
     }
 
     &__Submit {
         display: flex;
-        flex-direction: column;
-        margin-bottom: 10px;
+
+        .disabled {
+            background-color: rgba(var(--center-channel-text-rgb), 0.08);
+            color: rgba(var(--center-channel-text-rgb), 0.32);
+            font-weight: 600;
+        }
+
+        .btn-secondary {
+            background-color: rgba(var(--denim-button-bg-rgb), 0.08);
+            color: var(--denim-button-bg);
+            width: 90px;
+            margin-left: auto;
+            border-radius: 4px;
+        }
+
+        .btn-primary {
+            width: 90px;
+            margin-left: 10px;
+            border-radius: 4px;
+        }
     }
 }
