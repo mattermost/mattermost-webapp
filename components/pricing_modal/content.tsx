@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -63,7 +63,6 @@ function Content(props: ContentProps) {
     const usage = useGetUsage();
     const [limits] = useGetLimits();
     const openPricingModalBackAction = useOpenPricingModal();
-    const [downgradeFeedback, setDowngradeFeedback] = useState<DowngradeFeedback|undefined>(undefined);
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.UpgradeEnterprise);
@@ -73,6 +72,8 @@ function Content(props: ContentProps) {
     const products = useSelector(selectCloudProducts);
 
     const annualSubscriptionEnabled = useSelector(isAnnualSubscriptionEnabled);
+
+    const contactSupportLink = useSelector(getCloudContactUsLink)(InquiryType.Technical);
 
     const currentSubscriptionIsMonthly = product?.recurring_interval === RecurringIntervals.MONTH;
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
@@ -94,6 +95,8 @@ function Content(props: ContentProps) {
         isPostTrial = true;
     }
 
+    const freeTierText = !isStarter && !currentSubscriptionIsMonthly ? formatMessage({id: 'pricing_modal.btn.contactSupport', defaultMessage: 'Contact Support'}) : formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'});
+
     const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
     const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
         isDelinquencyModal: true,
@@ -113,26 +116,10 @@ function Content(props: ContentProps) {
     };
 
     const handleClickDowngrade = (downgradeFeedback?: DowngradeFeedback) => {
-        setDowngradeFeedback(downgradeFeedback);
-        if (!starterProduct) {
-            return;
-        }
-        if (usage.teams.active > 1) {
-            dispatch(
-                openModal({
-                    modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
-                    dialogType: DowngradeTeamRemovalModal,
-                    dialogProps: {
-                        product_id: starterProduct?.id,
-                        starterProduct,
-                        downgradeFeedback,
-                    },
-                }),
-            );
-        }
+        downgrade('click_pricing_modal_free_card_downgrade_button', downgradeFeedback);
     };
 
-    const downgrade = async (callerInfo: string) => {
+    const downgrade = async (callerInfo: string, downgradeFeedback?: DowngradeFeedback) => {
         if (!starterProduct) {
             return;
         }
@@ -208,14 +195,6 @@ function Content(props: ContentProps) {
         }
     };
 
-    useEffect(() => {
-        if (!downgradeFeedback) {
-            return;
-        }
-
-        downgrade('click_pricing_modal_free_card_downgrade_button');
-    }, [downgradeFeedback]);
-
     return (
         <div className='Content'>
             <Modal.Header className='PricingModal__header'>
@@ -284,18 +263,40 @@ function Content(props: ContentProps) {
                         planExtraInformation={<StarterDisclaimerCTA/>}
                         buttonDetails={{
                             action: () => {
-                                dispatch(
-                                    openModal({
-                                        modalId: ModalIdentifiers.DOWNGRADE_FEEDBACK,
-                                        dialogType: DowngradeFeedbackModal,
-                                        dialogProps: {
-                                            onSubmit: handleClickDowngrade,
-                                        },
-                                    }),
-                                );
+                                if (!isStarter && !currentSubscriptionIsMonthly) {
+                                    window.open(contactSupportLink, '_blank');
+                                    return;
+                                }
+
+                                if (!starterProduct) {
+                                    return;
+                                }
+
+                                if (usage.teams.active > 1) {
+                                    dispatch(
+                                        openModal({
+                                            modalId: ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM,
+                                            dialogType: DowngradeTeamRemovalModal,
+                                            dialogProps: {
+                                                product_id: starterProduct?.id,
+                                                starterProduct,
+                                            },
+                                        }),
+                                    );
+                                } else {
+                                    dispatch(
+                                        openModal({
+                                            modalId: ModalIdentifiers.DOWNGRADE_FEEDBACK,
+                                            dialogType: DowngradeFeedbackModal,
+                                            dialogProps: {
+                                                onSubmit: handleClickDowngrade,
+                                            },
+                                        }),
+                                    );
+                                }
                             },
-                            text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
-                            disabled: isStarter || isEnterprise || !isAdmin || !currentSubscriptionIsMonthly,
+                            text: freeTierText,
+                            disabled: isStarter || isEnterprise || !isAdmin,
                             customClass: ButtonCustomiserClasses.secondary,
                         }}
                         briefing={{

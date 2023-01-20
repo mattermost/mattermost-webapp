@@ -159,6 +159,10 @@ body.app__body #root {
             position: relative;
             left: 65px;
         }
+
+        .announcement-bar {
+            grid-area: header;
+        }
     }
 
     @media screen and (min-width: 768px) and (max-width: 1200px) {

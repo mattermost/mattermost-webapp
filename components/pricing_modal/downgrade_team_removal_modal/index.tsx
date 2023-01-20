@@ -25,11 +25,11 @@ import {GlobalState} from 'types/store';
 import {fallbackStarterLimits, asGBString} from 'utils/limits';
 
 import './downgrade_team_removal_modal.scss';
+import DowngradeFeedbackModal from 'components/downgrade_feedback_modal';
 
 type Props = {
     product_id: string;
     starterProduct: Product | null | undefined;
-    downgradeFeedback?: DowngradeFeedback;
 };
 
 function DowngradeTeamRemovalModal(props: Props) {
@@ -58,6 +58,16 @@ function DowngradeTeamRemovalModal(props: Props) {
     const onConfirmDowngrade = async () => {
         dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
+        dispatch(openModal({
+            modalId: ModalIdentifiers.DOWNGRADE_FEEDBACK,
+            dialogType: DowngradeFeedbackModal,
+            dialogProps: {
+                onSubmit: downgrade,
+            },
+        }));
+    };
+
+    const downgrade = (downgradeFeedback: DowngradeFeedback) => {
         const teamToKeep = getSelectedTeam();
         dispatch(openModal({
             modalId: ModalIdentifiers.CLOUD_SUBSCRIBE_WITH_LOADING_MODAL,
@@ -83,10 +93,10 @@ function DowngradeTeamRemovalModal(props: Props) {
                 },
                 teamToKeep,
                 selectedProduct: props.starterProduct,
-                downgradeFeedback: props.downgradeFeedback,
+                downgradeFeedback: downgradeFeedback,
             },
         }));
-    };
+    }
 
     const getSelectedTeam = () => {
         let teamIdToKeep = '';
