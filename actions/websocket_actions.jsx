@@ -560,6 +560,7 @@ export function handleEvent(msg) {
         break;
     case SocketEvents.APPS_FRAMEWORK_PLUGIN_ENABLED:
         dispatch(handleAppsPluginEnabled());
+        dispatch(handleRefreshAppsBindings());
         break;
     case SocketEvents.APPS_FRAMEWORK_PLUGIN_DISABLED:
         dispatch(handleAppsPluginDisabled());
