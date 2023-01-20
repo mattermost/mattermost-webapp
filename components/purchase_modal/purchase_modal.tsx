@@ -26,6 +26,7 @@ import {
     ModalIdentifiers,
     ItemStatus,
     RecurringIntervals,
+    LicenseLinks,
 } from 'utils/constants';
 import {findProductByID} from 'utils/products';
 import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
@@ -267,6 +268,32 @@ export function Card(props: CardProps) {
         }
     };
 
+    const licenseAgreement = (
+        <>
+            <br/>
+            <br/>
+            <FormattedMessage
+                defaultMessage={
+                    'By clicking {buttonContent}, you agree to the <linkAgreement>{legalText}</linkAgreement>'
+                }
+                id={'admin.billing.subscription.byClickingYouAgree'}
+                values={{
+                    buttonContent: props.buttonDetails.text.toLowerCase(),
+                    legalText: LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT_TEXT,
+                    linkAgreement: (legalText: React.ReactNode) => (
+                        <a
+                            href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
+                            target='_blank'
+                            rel='noreferrer'
+                        >
+                            {legalText}
+                        </a>
+                    ),
+                }}
+            />
+        </>
+    )
+
     const userCountTooltip = (
         <Tooltip
             id='userCount__tooltip'
@@ -318,6 +345,7 @@ export function Card(props: CardProps) {
                         id={'admin.billing.subscription.howItWorks'}
                     />
                 </a>
+                {licenseAgreement}
             </div>
         </>
     );
@@ -447,6 +475,7 @@ export function Card(props: CardProps) {
                         id={'admin.billing.subscription.howItWorks'}
                     />
                 </a>
+                {licenseAgreement}
             </div>
         </>
     );
@@ -488,6 +517,7 @@ export function Card(props: CardProps) {
                             id={'admin.billing.subscription.howItWorks'}
                         />
                     </a>
+                    {licenseAgreement}
                 </div>}
                 {props.afterButtonContent}
             </div>
