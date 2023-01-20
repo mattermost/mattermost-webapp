@@ -29,7 +29,7 @@ const Pluggable = makeAsyncComponent('Pluggable', lazy(() => import('plugins/plu
 
 const WAKEUP_CHECK_INTERVAL = 30000; // 30 seconds
 const WAKEUP_THRESHOLD = 60000; // 60 seconds
-const UNREAD_CHECK_TIME_MILLISECONDS = 10000;
+const UNREAD_CHECK_TIME_MILLISECONDS = 120 * 1000;
 
 declare global {
     interface Window {
