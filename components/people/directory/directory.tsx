@@ -62,9 +62,9 @@ const Directory = () => {
     const initialLoad = useCallback(async () => {
         setPage(0);
         setIsNextPageLoading(false);
-        let options = {
-            include_total_count: true, 
-            exclude_bots: true
+        const options = {
+            include_total_count: true,
+            exclude_bots: true,
         };
 
         let data = null;
@@ -110,7 +110,7 @@ const Directory = () => {
         setIsNextPageLoading(false);
     }, Constants.SEARCH_TIMEOUT_MILLISECONDS, false, () => {});
 
-    const updateValues = async (values: FilterValues, optionKey: string) => {
+    const updateValues = async (values: FilterValues) => {
         const options = {
             ...values,
         };
@@ -121,7 +121,17 @@ const Directory = () => {
         } else {
             setTeamId('');
         }
-    }
+    };
+
+    const selectedPeople = useCallback(() => {
+        if (searchTerm) {
+            return searchPeople;
+        }
+        if (teamId) {
+            return peopleInTeam;
+        }
+        return people;
+    }, [searchTerm, searchPeople, teamId, peopleInTeam, people]);
 
     return (
         <div className='people-directory'>
@@ -160,7 +170,7 @@ const Directory = () => {
                 </div>
             </header>
             <PeopleList
-                people={searchTerm ? searchPeople : teamId ? peopleInTeam : people}
+                people={selectedPeople()}
                 hasNextPage={people.length < totalCount}
                 isNextPageLoading={isNextPageLoading}
                 searchTerms={searchTerm}

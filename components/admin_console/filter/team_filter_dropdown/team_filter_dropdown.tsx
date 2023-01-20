@@ -261,7 +261,7 @@ class TeamFilterDropdown extends React.PureComponent<Props, State> {
 
         const createFilterCheckbox = (team: Team) => {
             let isDisabled = false;
-            let isSelected = selectedTeamIds.includes(team.id);
+            const isSelected = selectedTeamIds.includes(team.id);
             if (this.props.maxSelectable && selectedTeamIds.length >= this.props.maxSelectable && !isSelected) {
                 isDisabled = true;
             }
