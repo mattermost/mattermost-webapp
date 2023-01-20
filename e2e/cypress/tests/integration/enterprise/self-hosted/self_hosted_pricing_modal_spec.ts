@@ -9,7 +9,7 @@
 
 // Group: @enterprise @not_cloud
 
-function withTrialBefore(trialed) {
+function withTrialBefore(trialed: string) {
     cy.intercept('GET', '**/api/v4/trial-license/prev', {
         statusCode: 200,
         body: {
@@ -19,7 +19,7 @@ function withTrialBefore(trialed) {
     });
 }
 
-function withTrialLicense(trial) {
+function withTrialLicense(trial: string) {
     cy.intercept('GET', '**/api/v4/license/client?format=old', {
         statusCode: 200,
         body: {
@@ -30,8 +30,8 @@ function withTrialLicense(trial) {
 }
 
 describe('Self hosted Pricing modal', () => {
-    let urlL;
-    let createdUser;
+    let urlL: string | undefined;
+    let createdUser: Cypress.UserProfile | undefined;
 
     before(() => {
         cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
@@ -172,7 +172,7 @@ describe('Self hosted Pricing modal', () => {
     it('Upgrade button should open air gapped modal when hosted signup is not available', () => {
         cy.apiAdminLogin();
 
-        cy.intercept('GET', '/signup_available', {
+        cy.intercept('GET', '**/api/v4/hosted_customer/signup_available', {
             statusCode: 501,
             body: {
                 message: 'An unknown error occurred. Please try again or contact support.',

@@ -16,7 +16,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {makeAsyncComponent} from 'components/async_load';
 import useGetTotalUsersNoBots from 'components/common/hooks/useGetTotalUsersNoBots';
 
-import {ModalIdentifiers} from 'utils/constants';
+import {AboutLinks, LicenseLinks, ModalIdentifiers} from 'utils/constants';
 
 import StartTrialModalSvg from './start_trial_modal_svg';
 
@@ -134,11 +134,11 @@ function StartTrialModal(props: Props): JSX.Element | null {
                     <span>
                         <FormattedMessage
                             id='start_trial.modal.disclaimer'
-                            defaultMessage='By clicking “Start free 30-day trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
+                            defaultMessage='By clicking “Start free 30-day trial”, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
                             values={{
                                 linkEvaluation: (msg: React.ReactNode) => (
                                     <a
-                                        href='https://mattermost.com/software-evaluation-agreement'
+                                        href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
                                         target='_blank'
                                         rel='noreferrer'
                                     >
@@ -147,7 +147,7 @@ function StartTrialModal(props: Props): JSX.Element | null {
                                 ),
                                 linkPrivacy: (msg: React.ReactNode) => (
                                     <a
-                                        href='https://mattermost.com/privacy-policy/'
+                                        href={AboutLinks.PRIVACY_POLICY}
                                         target='_blank'
                                         rel='noreferrer'
                                     >
