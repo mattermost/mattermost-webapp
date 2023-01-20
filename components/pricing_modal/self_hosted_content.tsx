@@ -224,7 +224,7 @@ function SelfHostedContent(props: ContentProps) {
                                 }
 
                                 if (!signupAvailable.ok) {
-                                    if (!signupAvailable.cwsServiceOn) {
+                                    if (signupAvailable.cwsContacted && !signupAvailable.cwsServiceOn) {
                                         window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
                                         return;
                                     }
