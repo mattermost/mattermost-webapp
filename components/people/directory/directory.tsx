@@ -73,9 +73,7 @@ const Directory = () => {
 
     return (
         <div className='people-directory'>
-            <header
-                className={classNames('header directory-header')}
-            >
+            <header className={classNames('header directory-header')}>
                 <div className='top'>
                     <span className='people-title'>
                         <FormattedMessage

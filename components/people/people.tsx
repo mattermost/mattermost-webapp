@@ -44,15 +44,15 @@ export default function People() {
         >
             <Sidebar/>
             <Switch>
+                <Route path={`${path}/groups`}>
+                    <Groups/>
+                </Route>
                 <Redirect
                     from={`${path}/@:username`}
                     to={`${path}/:username`}
                 />
                 <Route path={`${path}/:username`}>
                     <Profile/>
-                </Route>
-                <Route path={`${path}/groups/:group`}>
-                    <Groups/>
                 </Route>
                 <Route>
                     <Directory/>
