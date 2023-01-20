@@ -73,6 +73,7 @@ import AdvancedTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_icon';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
+import MsgTyping from '../msg_typing';
 const KeyCodes = Constants.KeyCodes;
 
 function isDraftEmpty(draft: NewPostDraft): boolean {
@@ -1708,11 +1709,17 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 <Wysiwyg
                     onSubmit={this.handleSubmit}
                     onChange={this.handleChange}
-                    readOnly={!canPost}
-                    placeholder={`Write to ${currentChannel.display_name}`}
-                    draft={draft}
-                    config={wysiwygConfig}
                     onAttachmentChange={this.onAttachmentChange}
+                    config={wysiwygConfig}
+                    readOnly={!canPost}
+                    draft={draft}
+                    placeholder={`Write to ${currentChannel.display_name}`}
+                    footerContent={(
+                        <MsgTyping
+                            channelId={currentChannel.id}
+                            postId={''}
+                        />
+                    )}
                 />
             );
         }

@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
 
-export const WysiwygLayout = styled.div<{noMargin: boolean}>(({noMargin}: {noMargin: boolean}) => css`
-    padding: ${noMargin ? 0 : '0 24px 24px'};
-`);
+export const WysiwygLayout = styled.div<{noMargin: boolean}>`
+    padding: ${({noMargin}) => (noMargin ? 0 : '0 24px')};
+`;
 
 export const WysiwygContainer = styled.div`
     margin: 0;
@@ -136,9 +136,14 @@ export const EditorContainer = styled.div`
     }
 `;
 
-/**
- * This is needed to prevent "jumping" post lists when editing, or rerenderings due to external state changes
- */
-export const EditorContentWrapper = styled.div`
-    min-height: 19px;
+export const EditorMessageFooter = styled.div`
+    margin: 4px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+`;
+
+export const EditorError = styled.span`
+    font-size: 13px;
+    color: rgba(var(--error-text-color-rgb));
 `;

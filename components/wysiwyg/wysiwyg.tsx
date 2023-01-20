@@ -24,7 +24,13 @@ import type {FileInfo} from '@mattermost/types/files';
 import type {ServerError} from '@mattermost/types/errors';
 
 // import all custom components, extensions, etc.
-import {EditorContainer, EditorContentWrapper, WysiwygContainer, WysiwygLayout} from './components/editor';
+import {
+    EditorContainer,
+    EditorError,
+    EditorMessageFooter,
+    WysiwygContainer,
+    WysiwygLayout,
+} from './components/editor';
 import EmojiPicker from './components/emoji-picker';
 import {PriorityLabels} from './components/priority-labels';
 import Toolbar from './components/toolbar';
@@ -104,6 +110,11 @@ type Props = PropsFromRedux & {
     placeholder?: string;
 
     /**
+     * Display an error message below the editor
+     */
+    errorMessage?: string;
+
+    /**
      * Disables editing and formatting funcitonalities.
      */
     readOnly?: boolean;
@@ -112,6 +123,11 @@ type Props = PropsFromRedux & {
      * Renders the Editor without the Layout/Structure component
      */
     noMargin?: boolean;
+
+    /**
+     * Elements to show in the footer element of the editor (if any)
+     */
+    footerContent?: React.ReactElement;
 }
 
 const Wysiwyg = (props: Props) => {
@@ -127,6 +143,8 @@ const Wysiwyg = (props: Props) => {
         useCustomEmojis,
         draft,
         locale,
+        footerContent,
+        errorMessage,
     } = props;
 
     const [metadata, setMetadata] = useState<NewPostDraft['metadata']|null>(draft?.metadata);
@@ -221,7 +239,7 @@ const Wysiwyg = (props: Props) => {
 
     // percentage for the files that are uploading atm
     const [uploadsProgress, setUploadsProgress] = useState<Record<string, FileInfo>>({});
-    const [error, setError] = useState<string>('');
+    const [fileError, setFileError] = useState<string>('');
     const containerRef = useRef<HTMLDivElement>(null);
     const fileUploadRef = useRef<FileUploadClass>(null);
 
@@ -300,12 +318,12 @@ const Wysiwyg = (props: Props) => {
         const errorMessage = typeof err === 'string' ? err : err.message;
 
         if (!clientId) {
-            setError(errorMessage);
+            setFileError(errorMessage);
             return;
         }
 
         removeIdsFromUploads([clientId]);
-        setError(errorMessage);
+        setFileError(errorMessage);
     };
 
     const handleUploadProgress = (filePreviewInfo: FilePreviewInfo) => {
@@ -341,7 +359,7 @@ const Wysiwyg = (props: Props) => {
 
     const removePreview = (id: string) => {
         // Clear previous errors
-        setError('');
+        setFileError('');
 
         // id can either be the id of an uploaded file or the client id of an in progress upload
         let index = attachments.findIndex((info) => info.id === id);
@@ -370,6 +388,8 @@ const Wysiwyg = (props: Props) => {
         rightControls,
     };
 
+    const showFooter = fileError || footerContent;
+
     return (
         <WysiwygLayout noMargin={noMargin}>
             <WysiwygContainer>
@@ -378,14 +398,18 @@ const Wysiwyg = (props: Props) => {
                         editor={editor}
                         priority={metadata?.priority}
                     />
-                    <EditorContentWrapper>
-                        <EditorContent editor={editor}/>
-                    </EditorContentWrapper>
+                    <EditorContent editor={editor}/>
                     {attachmentPreview}
                 </EditorContainer>
                 <Toolbar {...toolbarProps}/>
             </WysiwygContainer>
-            {error && error}
+            {showFooter && (
+                <EditorMessageFooter>
+                    {errorMessage && <EditorError>{errorMessage}</EditorError>}
+                    {fileError && <EditorError>{fileError}</EditorError>}
+                    {footerContent}
+                </EditorMessageFooter>
+            )}
         </WysiwygLayout>
     );
 };
