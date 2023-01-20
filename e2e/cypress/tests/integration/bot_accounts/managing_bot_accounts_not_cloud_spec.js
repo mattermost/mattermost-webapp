@@ -18,25 +18,7 @@ describe('Managing bot accounts', () => {
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
-    });
-
-    beforeEach(() => {
-        cy.apiAdminLogin();
         cy.shouldHavePluginUploadEnabled();
-
-        // # Set ServiceSettings to expected values
-        const newSettings = {
-            ServiceSettings: {
-                EnableBotAccountCreation: true,
-            },
-            PluginSettings: {
-                Enable: true,
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
-
-        // # Create a test bot
-        cy.apiCreateBot({prefix: 'test-bot'});
 
         // # Create and visit new channel
         cy.apiInitSetup().then(({team}) => {
@@ -44,24 +26,8 @@ describe('Managing bot accounts', () => {
         });
     });
 
-    it('MM-T1853 Bots managed plugins can be created when Enable Bot Account Creation is set to false', () => {
-        // # Upload and enable "matterpoll" plugin
-        cy.apiUploadAndEnablePlugin(matterpollPlugin);
-
-        // # Visit bot config
-        cy.visit('/admin_console/integrations/bot_accounts');
-
-        // # Click 'false' to disable
-        cy.findByTestId('ServiceSettings.EnableBotAccountCreationfalse', {timeout: TIMEOUTS.ONE_MIN}).click();
-
-        // # Save
-        cy.findByTestId('saveSetting').should('be.enabled').click();
-
-        // # Visit the integrations
-        cy.visit(`/${newTeam.name}/integrations/bots`);
-
-        // * Validate that plugin installed ok
-        cy.contains('Matterpoll (@matterpoll)', {timeout: TIMEOUTS.ONE_MIN});
+    beforeEach(() => {
+        cy.apiAdminLogin();
     });
 
     it('MM-T1859 Bot is kept active when owner is disabled', () => {
@@ -111,5 +77,25 @@ describe('Managing bot accounts', () => {
                     and('contain.text', bot.username);
             });
         });
+    });
+
+    it('MM-T1853 Bots managed plugins can be created when Enable Bot Account Creation is set to false', () => {
+        // # Upload and enable "matterpoll" plugin
+        cy.apiUploadAndEnablePlugin(matterpollPlugin);
+
+        // # Visit bot config
+        cy.visit('/admin_console/integrations/bot_accounts');
+
+        // # Click 'false' to disable
+        cy.findByTestId('ServiceSettings.EnableBotAccountCreationfalse', {timeout: TIMEOUTS.ONE_MIN}).click();
+
+        // # Save
+        cy.findByTestId('saveSetting').should('be.enabled').click();
+
+        // # Visit the integrations
+        cy.visit(`/${newTeam.name}/integrations/bots`);
+
+        // * Validate that plugin installed ok
+        cy.contains('Matterpoll (@matterpoll)', {timeout: TIMEOUTS.ONE_MIN});
     });
 });

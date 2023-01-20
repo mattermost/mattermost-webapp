@@ -5,19 +5,16 @@ import React, {CSSProperties} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from '@mattermost/types/users';
-import {AnalyticsRow} from '@mattermost/types/admin';
+import {GetFilteredUsersStatsOpts, UsersStats, UserProfile} from '@mattermost/types/users';
+import {ServerError} from '@mattermost/types/errors';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {WarnMetricStatus} from '@mattermost/types/config';
 
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
-import {Constants, ModalIdentifiers, WarnMetricTypes} from 'utils/constants';
+import {ModalIdentifiers, WarnMetricTypes} from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import * as AdminActions from 'actions/admin_actions.jsx';
-
-const StatTypes = Constants.StatTypes;
 
 import * as Utils from 'utils/utils';
 
@@ -29,12 +26,15 @@ type Props = {
     telemetryId?: string;
     show: boolean;
     closeParentComponent?: () => Promise<void>;
-    stats?: Record<string, number | AnalyticsRow[]>;
+    totalUsers?: number;
     warnMetricStatus: WarnMetricStatus;
     actions: {
         closeModal: (modalId: string) => void;
-        getStandardAnalytics: () => void;
         sendWarnMetricAck: (warnMetricId: string, forceAck: boolean) => Promise<ActionResult>;
+        getFilteredUsersStats: (filters: GetFilteredUsersStatsOpts) => Promise<{
+            data?: UsersStats;
+            error?: ServerError;
+        }>;
     };
 }
 
@@ -63,7 +63,7 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
     }
 
     componentDidMount() {
-        AdminActions.getStandardAnalytics();
+        this.props.actions.getFilteredUsersStats({include_bots: false, include_deleted: false});
     }
 
     onContactUsClick = async (e: any) => {
@@ -120,8 +120,8 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
         mailBody += 'Email ' + this.props.user.email;
         mailBody += '\r\n';
 
-        if (this.props.stats && this.props.stats[StatTypes.TOTAL_USERS]) {
-            mailBody += 'Registered Users ' + this.props.stats[StatTypes.TOTAL_USERS];
+        if (this.props.totalUsers) {
+            mailBody += 'Registered Users ' + this.props.totalUsers;
             mailBody += '\r\n';
         }
         mailBody += 'Site URL ' + getSiteURL();

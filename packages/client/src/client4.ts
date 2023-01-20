@@ -27,7 +27,7 @@ import {
     SelfHostedSignupForm,
     SelfHostedSignupCustomerResponse,
     SelfHostedSignupSuccessResponse,
-    SelfHostedSignupProgress,
+    SelfHostedSignupBootstrapResponse,
 } from '@mattermost/types/hosted_customer';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
@@ -93,7 +93,7 @@ import type {
     MarketplaceApp,
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
-import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse, PostAcknowledgement} from '@mattermost/types/posts';
+import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse, PostAcknowledgement, PostAnalytics} from '@mattermost/types/posts';
 import {Draft} from '@mattermost/types/drafts';
 import {BoardPatch, BoardsUsageResponse, BoardTemplate, Board, CreateBoardResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
@@ -122,7 +122,7 @@ import {
     GetFilteredUsersStatsOpts,
     UserCustomStatus,
 } from '@mattermost/types/users';
-import {DeepPartial, RelationOneToOne, ValueOf} from '@mattermost/types/utilities';
+import {DeepPartial, RelationOneToOne} from '@mattermost/types/utilities';
 import {ProductNotices} from '@mattermost/types/product_notices';
 import {
     DataRetentionCustomPolicies,
@@ -498,7 +498,7 @@ export default class Client4 {
     }
 
     getBoardsRoute() {
-        return this.useBoardsProduct ? '/plugins/boards/api/v2' : '/plugins/focalboard/api/v2';
+        return `${this.url}/plugins/${this.useBoardsProduct ? 'boards' : 'focalboard'}/api/v2`;
     }
 
     getCSRFFromCookie() {
@@ -1937,7 +1937,13 @@ export default class Client4 {
             `${this.getPostsRoute()}`,
             {method: 'post', body: JSON.stringify(post)},
         );
-        const analyticsData = {channel_id: result.channel_id, post_id: result.id, user_actual_id: result.user_id, root_id: result.root_id};
+        const analyticsData = {channel_id: result.channel_id, post_id: result.id, user_actual_id: result.user_id, root_id: result.root_id} as PostAnalytics;
+        if (post.metadata?.priority) {
+            analyticsData.priority = post.metadata.priority.priority;
+            analyticsData.requested_ack = post.metadata.priority.requested_ack;
+            analyticsData.persistent_notifications = post.metadata.priority.persistent_notifications;
+        }
+
         this.trackEvent('api', 'api_posts_create', analyticsData);
 
         if (result.root_id != null && result.root_id !== '') {
@@ -3869,7 +3875,7 @@ export default class Client4 {
         if (reset) {
             query = '?reset=true';
         }
-        return this.doFetch<{progress: ValueOf<typeof SelfHostedSignupProgress>}>(
+        return this.doFetch<SelfHostedSignupBootstrapResponse>(
             `${this.getHostedCustomerRoute()}/bootstrap${query}`,
             {method: 'post'},
         );
@@ -4123,6 +4129,13 @@ export default class Client4 {
      */
     fetchWithGraphQL = async <DataResponse>(query: string) => {
         return this.doFetch<DataResponse>(this.getGraphQLUrl(), {method: 'post', body: query});
+    }
+
+    getCallsChannelState = (channelId: string) => {
+        return this.doFetch<{enabled: boolean; id: string}>(
+            `${this.url}/plugins/${'com.mattermost.calls'}/${channelId}`,
+            {method: 'get'},
+        );
     }
 
     // Client Helpers
