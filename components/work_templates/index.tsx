@@ -146,9 +146,15 @@ const WorkTemplateModal = () => {
     };
 
     const create = async (template: WorkTemplate, name = '', visibility = Visibility.Public) => {
-        const pbTemplates = template.content.filter((item) => item.playbook).map((item) => {
-            return playbookTemplates.find((pb) => pb.title === item.playbook!.template)!;
-        });
+        const pbTemplates = [];
+        for (const item of template.content) {
+            if (item.playbook) {
+                const pbTemplate = playbookTemplates.find((pb) => pb.title === item.playbook.template);
+                if (pbTemplate) {
+                    pbTemplates.push(pbTemplate);
+                }
+            }
+        }
 
         const req: ExecuteWorkTemplateRequest = {
             team_id: teamId,
