@@ -277,7 +277,7 @@ export default class Root extends React.PureComponent<Props, State> {
                 anonymousId: '00000000000000000000000000',
             });
 
-            const utmParams = this.captureUTMCampaign();
+            const utmParams = this.captureUTMParams();
             rudderAnalytics.ready(() => {
                 Client4.setTelemetryHandler(new RudderTelemetryHandler());
                 if (utmParams) {
@@ -389,7 +389,7 @@ export default class Root extends React.PureComponent<Props, State> {
         GlobalActions.redirectUserToDefaultTeam();
     }
 
-    captureUTMCampaign() {
+    captureUTMParams() {
         const qs = new URLSearchParams(window.location.search);
 
         // list of key that we want to track
