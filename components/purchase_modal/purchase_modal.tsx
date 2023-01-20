@@ -292,7 +292,7 @@ export function Card(props: CardProps) {
                 }}
             />
         </>
-    )
+    );
 
     const userCountTooltip = (
         <Tooltip
