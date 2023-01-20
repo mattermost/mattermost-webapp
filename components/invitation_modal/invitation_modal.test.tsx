@@ -49,7 +49,15 @@ let props = defaultProps;
 describe('InvitationModal', () => {
     const state = {
         entities: {
+            admin: {
+                prevTrialLicense: {
+                    IsLicensed: 'true',
+                },
+            },
             general: {
+                config: {
+                    BuildEnterpriseReady: 'true',
+                },
                 license: {
                     IsLicensed: 'true',
                     Cloud: 'true',

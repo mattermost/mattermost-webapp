@@ -261,6 +261,16 @@ export const KEYBOARD_SHORTCUTS = {
             defaultMessage: 'View channel info:\t⌘|Shift|I',
         },
     },
+    navToggleUnreads: {
+        default: {
+            id: t('shortcuts.nav.toggle_unreads'),
+            defaultMessage: 'Toggle unread/all channels:\tCtrl|Shift|U',
+        },
+        mac: {
+            id: t('shortcuts.nav.toggle_unreads.mac'),
+            defaultMessage: 'Toggle unread/all channels:\t⌘|Shift|U',
+        },
+    },
     msgEdit: {
         id: t('shortcuts.msgs.edit'),
         defaultMessage: 'Edit last message in channel:\tUp',

@@ -11,7 +11,7 @@ import store from 'stores/redux_store.jsx';
 
 import {Constants} from 'utils/constants';
 
-import Provider from './provider.jsx';
+import Provider from './provider';
 import Suggestion from './suggestion.jsx';
 
 export class ChannelMentionSuggestion extends Suggestion {

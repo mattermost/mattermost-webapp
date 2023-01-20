@@ -117,9 +117,10 @@ const StartTrialBtn = ({
         // it will be too late to wait for the render cycle to happen again
         // to close over the updated value
         const updatedStatus = await requestLicense();
-        await openTrialBenefitsModal(updatedStatus);
         if (onClick && updatedStatus === TrialLoadStatus.Success) {
             onClick();
+        } else {
+            await openTrialBenefitsModal(updatedStatus);
         }
         trackEvent(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,

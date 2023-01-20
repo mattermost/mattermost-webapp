@@ -56,14 +56,14 @@ describe('DM/GM filtering and sorting', () => {
         // # Expand the DM category (so that we can check all unread DMs quickly without the sidebar scrolling being an issue)
         cy.get('button.SidebarChannelGroupHeader_groupButton:contains(DIRECT MESSAGES)').should('be.visible').click();
 
-        // * Verify that there are 20 DMs shown in the sidebar
-        cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES) a[id^="sidebarItem"]').should('have.length', 20);
+        // * Verify that there are 40 DMs shown in the sidebar
+        cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES) a[id^="sidebarItem"]').should('have.length', 40);
 
         // # Go to Sidebar Settings
         cy.uiOpenSettingsModal('Sidebar');
 
-        // * Verify that the default setting for DMs shown is 20
-        cy.get('#limitVisibleGMsDMsDesc').should('be.visible').should('contain', '20');
+        // * Verify that the default setting for DMs shown is 40
+        cy.get('#limitVisibleGMsDMsDesc').should('be.visible').should('contain', '40');
 
         // # Click Edit
         cy.get('#limitVisibleGMsDMsEdit').should('be.visible').click();

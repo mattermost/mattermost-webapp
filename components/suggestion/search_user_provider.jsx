@@ -8,7 +8,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 import SharedUserIndicator from 'components/shared_user_indicator';
 
-import Provider from './provider.jsx';
+import Provider from './provider';
 import Suggestion from './suggestion.jsx';
 
 class SearchUserSuggestion extends Suggestion {

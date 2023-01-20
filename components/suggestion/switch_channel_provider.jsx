@@ -51,7 +51,7 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 import {Preferences} from 'mattermost-redux/constants';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
-import Provider from './provider.jsx';
+import Provider from './provider';
 import Suggestion from './suggestion.jsx';
 
 const getState = store.getState;

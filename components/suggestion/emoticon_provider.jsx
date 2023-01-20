@@ -14,7 +14,7 @@ import * as Emoticons from 'utils/emoticons';
 import {compareEmojis, emojiMatchesSkin} from 'utils/emoji_utils';
 
 import Suggestion from './suggestion.jsx';
-import Provider from './provider.jsx';
+import Provider from './provider';
 
 export const MIN_EMOTICON_LENGTH = 2;
 export const EMOJI_CATEGORY_SUGGESTION_BLOCKLIST = ['skintone'];

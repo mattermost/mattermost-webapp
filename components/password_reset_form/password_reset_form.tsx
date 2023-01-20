@@ -29,19 +29,6 @@ const PasswordResetForm = ({location, siteName, actions}: Props) => {
         e.preventDefault();
 
         const password = passwordInput.current!.value;
-        if (!password || password.length < Constants.MIN_PASSWORD_LENGTH) {
-            setError(
-                <FormattedMessage
-                    id='password_form.error'
-                    defaultMessage='Please enter at least {chars} characters.'
-                    values={{
-                        chars: Constants.MIN_PASSWORD_LENGTH,
-                    }}
-                />,
-            );
-            return;
-        }
-
         const token = (new URLSearchParams(location.search)).get('token');
 
         if (typeof token !== 'string') {

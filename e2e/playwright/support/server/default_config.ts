@@ -521,7 +521,6 @@ const defaultServerConfig: AdminConfig = {
         LinkMetadataTimeoutMilliseconds: 5000,
         RestrictSystemAdmin: false,
         UseNewSAMLLibrary: false,
-        CloudBilling: false,
         EnableSharedChannels: false,
         EnableRemoteClusterService: false,
         EnableAppBar: false,

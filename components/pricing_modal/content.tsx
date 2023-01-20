@@ -332,14 +332,12 @@ function Content(props: ContentProps) {
                                 {title: formatMessage({id: 'pricing_modal.addons.premiumSupport', defaultMessage: 'Premium support'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.missionCritical', defaultMessage: 'Mission-critical 24x7'})},
                                 {title: '1hr-L1, 2hr-L2'},
-                                {title: formatMessage({id: 'pricing_modal.addons.licensing4', defaultMessage: 'Licensing for up to 4 standalone, non-production environments'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.USSupport', defaultMessage: 'U.S.- only based support'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.dedicatedDeployment', defaultMessage: 'Dedicated virtual secure cloud deployment (Cloud)'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.dedicatedK8sCluster', defaultMessage: 'Dedicated Kubernetes cluster'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.dedicatedDB', defaultMessage: 'Dedicated database'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.dedicatedEncryption', defaultMessage: 'Dedicated encryption keys 99%'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.uptimeGuarantee', defaultMessage: '99% uptime guarantee'})},
-                                {title: formatMessage({id: 'pricing_modal.addons.multiServerLicensing', defaultMessage: 'Multi-server licensing (Self-Hosted)'})},
                             ],
                         }}
                     />

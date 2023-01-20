@@ -40,6 +40,7 @@
     "localforage": "1.10.0",
     "lodash.intersection": "4.4.0",
     "lodash.mapkeys": "4.6.0",
+    "lodash.set": "4.3.2",
     "lodash.without": "4.4.0",
     "lodash.xor": "4.5.0",
     "mattermost-redux": "5.33.1",

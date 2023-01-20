@@ -103,7 +103,6 @@ export type ClientConfig = {
     EnforceMultifactorAuthentication: string;
     ExperimentalClientSideCertCheck: string;
     ExperimentalClientSideCertEnable: string;
-    ExperimentalCloudBilling: string;
     ExperimentalDataPrefetch: string;
     ExperimentalEnableAuthenticationTransfer: string;
     ExperimentalEnableAutomaticReplies: string;
@@ -673,7 +672,6 @@ export type ExperimentalSettings = {
     LinkMetadataTimeoutMilliseconds: number;
     RestrictSystemAdmin: boolean;
     UseNewSAMLLibrary: boolean;
-    CloudBilling: boolean;
 };
 
 export type AnalyticsSettings = {

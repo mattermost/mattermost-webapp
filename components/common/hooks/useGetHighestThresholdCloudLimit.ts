@@ -4,7 +4,7 @@
 import {useMemo} from 'react';
 
 import {CloudUsage, Limits} from '@mattermost/types/cloud';
-import {limitThresholds} from 'utils/limits';
+import {limitThresholds, LimitTypes} from 'utils/limits';
 
 interface MaybeLimitSummary {
     id: typeof LimitTypes[keyof typeof LimitTypes];
@@ -25,13 +25,6 @@ function refineToDefined(...args: MaybeLimitSummary[]): LimitSummary[] {
         return acc;
     }, []);
 }
-
-export const LimitTypes = {
-    messageHistory: 'messageHistory',
-    fileStorage: 'fileStorage',
-    enabledIntegrations: 'enabledIntegrations',
-    boardsCards: 'boardsCards',
-} as const;
 
 // Hook used to tell if some limit status should be surfaced to the user
 // for further attention, for example for prompting the user to upgrade

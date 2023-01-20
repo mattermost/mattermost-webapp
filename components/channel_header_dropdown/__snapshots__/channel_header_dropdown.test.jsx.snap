@@ -379,9 +379,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
         text="Archive Channel"
       />
     </Connect(ChannelPermissionGate)>
-  </MenuGroup>
-  <MenuGroup />
-  <MenuGroup>
     <Connect(LeaveChannel)
       channel={
         Object {
@@ -410,6 +407,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
       isArchived={false}
     />
   </MenuGroup>
+  <MenuGroup />
   <MenuGroup>
     <Connect(ChannelPermissionGate)
       channelId="test-channel-id"
@@ -825,24 +823,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
         text="Archive Channel"
       />
     </Connect(ChannelPermissionGate)>
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemAction
-      id="plugin-1_pluginmenuitem"
-      key="plugin-1_pluginmenuitem"
-      onClick={[Function]}
-      show={true}
-      text="plugin-1-text"
-    />
-    <MenuItemAction
-      id="plugin-2_pluginmenuitem"
-      key="plugin-2_pluginmenuitem"
-      onClick={[Function]}
-      show={true}
-      text="plugin-2-text"
-    />
-  </MenuGroup>
-  <MenuGroup>
     <Connect(LeaveChannel)
       channel={
         Object {
@@ -869,6 +849,22 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
     <Connect(CloseChannel)
       id="channelCloseChannel"
       isArchived={false}
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      id="plugin-1_pluginmenuitem"
+      key="plugin-1_pluginmenuitem"
+      onClick={[Function]}
+      show={true}
+      text="plugin-1-text"
+    />
+    <MenuItemAction
+      id="plugin-2_pluginmenuitem"
+      key="plugin-2_pluginmenuitem"
+      onClick={[Function]}
+      show={true}
+      text="plugin-2-text"
     />
   </MenuGroup>
   <MenuGroup>

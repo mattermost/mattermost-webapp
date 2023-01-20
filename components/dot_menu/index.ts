@@ -17,8 +17,6 @@ import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {Post} from '@mattermost/types/posts';
-
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 
 import {ModalData} from 'types/actions';
@@ -46,6 +44,8 @@ import {Locations, Preferences} from 'utils/constants';
 import {allAtMentions} from 'utils/text_formatting';
 
 import {matchUserMentionTriggersWithMessageMentions} from 'utils/post_utils';
+
+import {Post} from '@mattermost/types/posts';
 import {setGlobalItem} from '../../actions/storage';
 import {getGlobalItem} from '../../selectors/storage';
 
@@ -57,7 +57,7 @@ type Props = {
     handleCommentClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
     handleCardClick?: (post: Post) => void;
     handleDropdownOpened: (open: boolean) => void;
-    handleAddReactionClick: () => void;
+    handleAddReactionClick?: () => void;
     isMenuOpen: boolean;
     isReadOnly?: boolean;
     enableEmojiPicker?: boolean;
@@ -148,7 +148,7 @@ type Actions = {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject, Actions>({
             flagPost,
             unflagPost,
             setEditingPost,

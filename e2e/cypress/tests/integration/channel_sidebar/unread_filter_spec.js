@@ -204,6 +204,34 @@ describe('Channel sidebar unread filter', () => {
         // * Verify that the muted channel without a mention has reappeared
         cy.get(`#sidebarItem_${unreadChannelName}`).should('be.visible');
     });
+
+    it('MM-T5192 should toggle between unreads and all channels with shortcut usage', () => {
+        // * Verify that the unread filter is not enabled
+        cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible');
+
+        // # Create a couple of new channels, one of which is unread and one of which is not
+        const readChannelName = `shortcutread${randomId}`;
+        const unreadChannelName = `shortcutunread${randomId}`;
+        createChannel(teamId, readChannelName);
+        createChannel(teamId, unreadChannelName, 'test');
+
+        // * Verify that the channels are correctly read and unread
+        cy.get(`#sidebarItem_${readChannelName}`).should(beRead);
+        cy.get(`#sidebarItem_${unreadChannelName}`).should(beUnread);
+
+        enableUnreadFilterWithShortcut();
+
+        // * Verify that the read channel has been hidden
+        cy.get(`#sidebarItem_${readChannelName}`).should('not.exist');
+
+        // * Verify that the unread channel is still visible
+        cy.get(`#sidebarItem_${unreadChannelName}`).should('be.visible').should(beUnread);
+
+        disableUnreadFilterWithShortcut();
+
+        // * Verify that the read channel has reappeared
+        cy.get(`#sidebarItem_${readChannelName}`).should('be.visible').should(beRead);
+    });
 });
 
 function enableUnreadFilter() {
@@ -217,6 +245,22 @@ function enableUnreadFilter() {
 function disableUnreadFilter() {
     // # Enable the unread filter
     cy.get('.SidebarFilters_filterButton').click();
+
+    // * Verify that the unread filter is disabled
+    cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('not.exist');
+}
+
+function enableUnreadFilterWithShortcut() {
+    // # Enable the unread filter with shorcut
+    cy.get('body').cmdOrCtrlShortcut('{shift}U');
+
+    // * Verify that the unread filter is enabled
+    cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('be.visible');
+}
+
+function disableUnreadFilterWithShortcut() {
+    // # Enable the unread filter with shortcut
+    cy.get('body').cmdOrCtrlShortcut('{shift}U');
 
     // * Verify that the unread filter is disabled
     cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('not.exist');

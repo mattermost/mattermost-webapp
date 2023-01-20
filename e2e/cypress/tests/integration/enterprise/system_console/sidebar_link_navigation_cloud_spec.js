@@ -21,7 +21,6 @@ describe('System Console - Cloud', () => {
         const newSettings = {
             ExperimentalSettings: {
                 RestrictSystemAdmin: true,
-                CloudBilling: true,
             },
         };
         cy.apiUpdateConfig(newSettings);

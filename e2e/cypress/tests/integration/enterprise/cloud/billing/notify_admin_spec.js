@@ -98,11 +98,11 @@ function creatNewTeamNotification() {
     cy.get('.test-team-header').click().then(() => {
         cy.get('#mattermost_feature_create_multiple_teams-restricted-indicator').click();
     });
-
     cy.get('#FeatureRestrictedModal').should('exist');
-
-    cy.get('#button-plans').click();
-
+    cy.get('#button-plans').as('notifyButton').should('have.text', 'Notify admin').click();
+    cy.get('@notifyButton').should('have.text', 'Notified!');
+    cy.get('@notifyButton').click();
+    cy.get('@notifyButton').should('have.text', 'Already notified!').should('be.disabled');
     cy.get('.close').click();
 }
 

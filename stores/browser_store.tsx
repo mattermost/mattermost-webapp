@@ -45,6 +45,7 @@ class BrowserStoreClass {
             const logoutId = Utils.generateId();
 
             Utils.removePrefixFromLocalStorage(StoragePrefixes.ANNOUNCEMENT);
+            Utils.removePrefixFromLocalStorage(StoragePrefixes.DELINQUENCY);
 
             sessionStorage.setItem(StoragePrefixes.LOGOUT, logoutId);
             localStorage.setItem(StoragePrefixes.LOGOUT, logoutId);

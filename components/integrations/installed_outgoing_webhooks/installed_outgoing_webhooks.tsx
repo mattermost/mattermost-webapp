@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {localizeMessage} from 'utils/utils';
 import Constants from 'utils/constants';
 
-import BackstageList from 'components/backstage/components/backstage_list.jsx';
+import BackstageList from 'components/backstage/components/backstage_list';
 import InstalledOutgoingWebhook, {matchesFilter} from 'components/integrations/installed_outgoing_webhook.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 

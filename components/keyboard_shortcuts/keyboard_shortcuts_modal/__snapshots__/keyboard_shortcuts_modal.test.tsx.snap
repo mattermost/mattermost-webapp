@@ -292,6 +292,20 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
                   }
                 }
               />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Toggle unread/all channels:	Ctrl|Shift|U",
+                      "id": "shortcuts.nav.toggle_unreads",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Toggle unread/all channels:	⌘|Shift|U",
+                      "id": "shortcuts.nav.toggle_unreads.mac",
+                    },
+                  }
+                }
+              />
             </div>
           </div>
         </div>
@@ -916,6 +930,20 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal with Call
                     "mac": Object {
                       "defaultMessage": "View channel info:	⌘|Shift|I",
                       "id": "shortcuts.nav.open_channel_info.mac",
+                    },
+                  }
+                }
+              />
+              <Memo(KeyboardShortcutSequence)
+                shortcut={
+                  Object {
+                    "default": Object {
+                      "defaultMessage": "Toggle unread/all channels:	Ctrl|Shift|U",
+                      "id": "shortcuts.nav.toggle_unreads",
+                    },
+                    "mac": Object {
+                      "defaultMessage": "Toggle unread/all channels:	⌘|Shift|U",
+                      "id": "shortcuts.nav.toggle_unreads.mac",
                     },
                   }
                 }

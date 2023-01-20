@@ -270,6 +270,12 @@ var config = {
             filename: 'root.html',
             inject: 'head',
             template: 'root.html',
+            meta: {
+                csp: {
+                    'http-equiv': 'Content-Security-Policy',
+                    content: generateCSP(),
+                },
+            },
         }),
         new CopyWebpackPlugin({
             patterns: [
@@ -379,6 +385,20 @@ var config = {
         // }),
     ],
 };
+
+function generateCSP() {
+    let csp = 'script-src \'self\' cdn.rudderlabs.com/ js.stripe.com/v3';
+
+    if (DEV) {
+        // react-hot-loader and development source maps require eval
+        csp += ' \'unsafe-eval\'';
+
+        // Focalboard runs on http://localhost:9006
+        csp += ' http://localhost:9006';
+    }
+
+    return csp;
+}
 
 async function initializeModuleFederation() {
     function makeSingletonSharedModules(packageNames) {

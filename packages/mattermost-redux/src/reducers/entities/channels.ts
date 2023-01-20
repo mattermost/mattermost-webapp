@@ -508,12 +508,17 @@ function receiveChannelMember(state: RelationOneToOne<Channel, ChannelMembership
         return state;
     }
 
-    if (existingChannelMember && updatedChannelMember.last_viewed_at < existingChannelMember.last_viewed_at) {
+    // https://github.com/mattermost/mattermost-webapp/pull/10589 and
+    // https://github.com/mattermost/mattermost-webapp/pull/11094
+    if (existingChannelMember &&
+        updatedChannelMember.last_viewed_at < existingChannelMember.last_viewed_at &&
+        updatedChannelMember.last_update_at <= existingChannelMember.last_update_at) {
         // The last_viewed_at should almost never decrease upon receiving a member, so if it does, assume that the
         // unread state of the existing channel member is correct. See MM-44900 for more information.
         updatedChannelMember = {
             ...received,
             last_viewed_at: Math.max(existingChannelMember.last_viewed_at, received.last_viewed_at),
+            last_update_at: Math.max(existingChannelMember.last_update_at, received.last_update_at),
             msg_count: Math.max(existingChannelMember.msg_count, received.msg_count),
             msg_count_root: Math.max(existingChannelMember.msg_count_root, received.msg_count_root),
             mention_count: Math.min(existingChannelMember.mention_count, received.mention_count),

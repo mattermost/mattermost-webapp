@@ -15,7 +15,7 @@ import {Emoji} from '@mattermost/types/emojis';
 import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import GenericModal from 'components/generic_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import RenderEmoji from 'components/emoji/render_emoji';
 import QuickInput, {MaxLengthInput} from 'components/quick_input';
 import {makeGetCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatingDot, isCustomStatusExpired} from 'selectors/views/custom_status';
@@ -345,7 +345,6 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                                 target={getCustomStatusControlRef}
                                 show={showEmojiPicker}
                                 onHide={handleEmojiClose}
-                                onEmojiClose={handleEmojiClose}
                                 onEmojiClick={handleEmojiClick}
                                 rightOffset={calculateRightOffSet()}
                                 leftOffset={3}

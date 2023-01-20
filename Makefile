@@ -107,8 +107,8 @@ clean: ## Clears cached; deletes node_modules and dist directories
 	rm -rf dist
 	rm -rf node_modules
 
-	rm .eslintcache
-	rm .stylelintcache
+	rm -f .eslintcache
+	rm -f .stylelintcache
 
 e2e-test: node_modules
 	@echo E2E: Running mattermost-mysql-e2e

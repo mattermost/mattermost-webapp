@@ -110,7 +110,7 @@ declare namespace Cypress {
          *       // do something with user
          *   });
          */
-        apiGetUserByEmail(email: string): Chainable<UserProfile>;
+        apiGetUserByEmail(email: string): Chainable<{user: UserProfile}>;
 
         /**
          * Get users by usernames.
@@ -205,7 +205,12 @@ declare namespace Cypress {
          * @example
          *   cy.apiCreateUser(options);
          */
-        apiCreateUser(options: Record<string, any>): Chainable<{user: UserProfile}>;
+        apiCreateUser(options?: {
+            user?: Partial<UserProfile>;
+            prefix?: string;
+            bypassTutorial?: boolean;
+            showOnboarding?: boolean;
+        }): Chainable<{user: UserProfile}>;
 
         /**
          * Create a new guest user with an options to set name prefix and be able to bypass tutorial steps.

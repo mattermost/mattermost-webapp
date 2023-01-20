@@ -67,7 +67,7 @@ const LearnMoreTrialModal = (
 
     // no need to check if is cloud trial or if it have had prev cloud trial because the button that show this modal takes care of that
     if (isCloud) {
-        startTrialBtnMsg = formatMessage({id: 'menu.cloudFree.tryFreeFor30Days', defaultMessage: 'Try free for 30 days'});
+        startTrialBtnMsg = formatMessage({id: 'trial_btn.free.tryFreeFor30Days', defaultMessage: 'Try free for 30 days'});
         startTrialBtn = (
             <CloudStartTrialButton
                 message={startTrialBtnMsg}

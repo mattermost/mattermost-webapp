@@ -144,10 +144,10 @@
 
                 &:hover {
                     background-color: var(--dnd-indicator) !important;
-                    color: var(--sidebar-text);
+                    color: var(--button-color);
 
                     i {
-                        color: var(--sidebar-text) !important;
+                        color: var(--button-color) !important;
                     }
                 }
             }

@@ -12,11 +12,10 @@ import {General} from 'mattermost-redux/constants';
 
 import BotDefaultIcon from 'images/bot_default_icon.png';
 
-import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
+import BackstageHeader from 'components/backstage/components/backstage_header';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import SpinnerButton from 'components/spinner_button';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import FormError from 'components/form_error';
 
 import {browserHistory} from 'utils/browser_history';
@@ -627,9 +626,20 @@ export default class AddBot extends React.PureComponent<Props, State> {
                         </div>
                         <div className='row bot-profile__section'>
                             <div className='col-md-5 col-sm-8 col-sm-offset-4'>
-                                <FormattedMarkdownMessage
+                                <FormattedMessage
                                     id='admin.manage_roles.additionalRoles'
-                                    defaultMessage='Select additional permissions for the account. [Read more about roles and permissions](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/).'
+                                    defaultMessage='Select additional permissions for the account. <link>Read more about roles and permissions</link>.'
+                                    values={{
+                                        link: (msg: React.ReactNode) => (
+                                            <a
+                                                href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
+                                                target='_blank'
+                                                rel='noreferrer'
+                                            >
+                                                {msg}
+                                            </a>
+                                        ),
+                                    }}
                                 />
                             </div>
                         </div>

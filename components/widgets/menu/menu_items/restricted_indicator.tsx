@@ -11,7 +11,7 @@ import ToggleModalButton from 'components/toggle_modal_button';
 import Tooltip from 'components/tooltip';
 
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
-import {Constants, ModalIdentifiers} from 'utils/constants';
+import {Constants, LicenseSkus, ModalIdentifiers} from 'utils/constants';
 
 import './restricted_indicator.scss';
 
@@ -32,6 +32,10 @@ type RestrictedIndicatorProps = {
     customSecondaryButtonInModal?: {msg: string; action: () => void};
     feature?: string;
     minimumPlanRequiredForFeature?: string;
+}
+
+function capitalizeFirstLetter(s: string) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 const RestrictedIndicator = ({
@@ -59,14 +63,18 @@ const RestrictedIndicator = ({
             return formatMessage(
                 {
                     id: 'restricted_indicator.tooltip.message.blocked',
-                    defaultMessage: 'This is a professional feature, available with a free {trialLength}-day trial',
+                    defaultMessage: 'This is a paid feature, available with a free {trialLength}-day trial',
                 }, {
                     trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
                 },
             );
         }
 
-        return typeof tooltipMessageBlocked === 'string' ? tooltipMessageBlocked : formatMessage(tooltipMessageBlocked, {trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS});
+        return typeof tooltipMessageBlocked === 'string' ? tooltipMessageBlocked : formatMessage(tooltipMessageBlocked, {
+            trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
+            article: minimumPlanRequiredForFeature === LicenseSkus.Enterprise ? 'an' : 'a',
+            minimumPlanRequiredForFeature,
+        });
     }, [tooltipMessageBlocked]);
 
     const icon = <i className={classNames('RestrictedIndicator__icon-tooltip', 'icon', blocked ? 'icon-key-variant' : 'trial')}/>;
@@ -85,7 +93,7 @@ const RestrictedIndicator = ({
                 overlay={(
                     <Tooltip className='RestrictedIndicator__icon-tooltip'>
                         <span className='title'>
-                            {tooltipTitle || formatMessage({id: 'restricted_indicator.tooltip.title', defaultMessage: 'Professional feature'})}
+                            {tooltipTitle || formatMessage({id: 'restricted_indicator.tooltip.title', defaultMessage: '{minimumPlanRequiredForFeature} feature'}, {minimumPlanRequiredForFeature: capitalizeFirstLetter(minimumPlanRequiredForFeature!)})}
                         </span>
                         <span className='message'>
                             {blocked ? (
