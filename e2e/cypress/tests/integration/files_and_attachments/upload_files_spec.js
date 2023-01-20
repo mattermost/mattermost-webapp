@@ -136,16 +136,16 @@ describe('Upload Files', () => {
             });
 
             // * Verify image preview modal is opened
-            cy.uiGetFilePreviewModal().within(() => {
-                // * Download button should exist
-                cy.uiGetDownloadFilePreviewModal().then((downloadLink) => {
-                    expect(downloadLink.attr('download')).to.equal(file.filename);
+            cy.uiGetFilePreviewModal().as('filePreviewModal');
 
-                    const fileAttachmentURL = downloadLink.attr('href');
+            // * Download button should exist
+            cy.get('@filePreviewModal').uiGetDownloadFilePreviewModal().then((downloadLink) => {
+                expect(downloadLink.attr('download')).to.equal(file.filename);
 
-                    // * Verify that download link has correct name
-                    downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, file.filename, 'attachment');
-                });
+                const fileAttachmentURL = downloadLink.attr('href');
+
+                // * Verify that download link has correct name
+                downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, file.filename, 'attachment');
             });
 
             // # Close the modal
@@ -170,16 +170,16 @@ describe('Upload Files', () => {
             cy.uiGetFileThumbnail(filename).click();
 
             // * Verify image preview modal is opened
-            cy.uiGetFilePreviewModal().within(() => {
-                // * Download button should exist
-                cy.uiGetDownloadFilePreviewModal().then((downloadLink) => {
-                    expect(downloadLink.attr('download')).to.equal(filename);
+            cy.uiGetFilePreviewModal().as('filePreviewModal');
 
-                    const fileAttachmentURL = downloadLink.attr('href');
+            // * Download button should exist
+            cy.get('@filePreviewModal').uiGetDownloadFilePreviewModal().then((downloadLink) => {
+                expect(downloadLink.attr('download')).to.equal(filename);
 
-                    // * Verify that download link has correct name
-                    downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, filename, 'attachment');
-                });
+                const fileAttachmentURL = downloadLink.attr('href');
+
+                // * Verify that download link has correct name
+                downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, filename, 'attachment');
             });
 
             // # Close the modal
@@ -342,27 +342,27 @@ describe('Upload Files', () => {
         cy.uiOpenFilePreviewModal();
 
         // * Verify image preview modal is opened
-        cy.uiGetFilePreviewModal().within(() => {
-            // * Should show first file
-            cy.uiGetHeaderFilePreviewModal().within(() => {
-                cy.findByText(attachmentFilesList[0].filename);
-            });
+        cy.uiGetFilePreviewModal().as('filePreviewModal');
 
-            // # Move to the next element using right arrow
-            cy.uiGetArrowRightFilePreviewModal().click();
+        // * Should show first file
+        cy.get('@filePreviewModal').uiGetHeaderFilePreviewModal().within(() => {
+            cy.findByText(attachmentFilesList[0].filename);
+        });
 
-            // * Should show second file
-            cy.uiGetHeaderFilePreviewModal().within(() => {
-                cy.findByText(attachmentFilesList[1].filename);
-            });
+        // # Move to the next element using right arrow
+        cy.get('@filePreviewModal').uiGetArrowRightFilePreviewModal().click();
 
-            // # Move back to the previous element using left arrow
-            cy.uiGetArrowLeftFilePreviewModal().click();
+        // * Should show second file
+        cy.get('@filePreviewModal').uiGetHeaderFilePreviewModal().within(() => {
+            cy.findByText(attachmentFilesList[1].filename);
+        });
 
-            // * Should show first file again
-            cy.uiGetHeaderFilePreviewModal().within(() => {
-                cy.findByText(attachmentFilesList[0].filename);
-            });
+        // # Move back to the previous element using left arrow
+        cy.get('@filePreviewModal').uiGetArrowLeftFilePreviewModal().click();
+
+        // * Should show first file again
+        cy.get('@filePreviewModal').uiGetHeaderFilePreviewModal().within(() => {
+            cy.findByText(attachmentFilesList[0].filename);
         });
     });
 
@@ -399,24 +399,24 @@ describe('Upload Files', () => {
         cy.uiGetFileThumbnail(filename).click();
 
         // * Verify image preview modal is opened
-        cy.uiGetFilePreviewModal().within(() => {
-            cy.uiGetContentFilePreviewModal().find('img').should((img) => {
-                // * Image aspect ratio is maintained
-                expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 1);
-            });
+        cy.uiGetFilePreviewModal().as('filePreviewModal');
 
-            // * Download button should exist
-            cy.uiGetDownloadFilePreviewModal().then((downloadLink) => {
-                expect(downloadLink.attr('download')).to.equal(filename);
-
-                const fileAttachmentURL = downloadLink.attr('href');
-
-                // * Verify that download link has correct name
-                downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, filename, 'attachment');
-            });
-
-            // # Close modal
-            cy.uiCloseFilePreviewModal();
+        cy.get('@filePreviewModal').uiGetContentFilePreviewModal().find('img').should((img) => {
+            // * Image aspect ratio is maintained
+            expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 1);
         });
+
+        // * Download button should exist
+        cy.get('@filePreviewModal').uiGetDownloadFilePreviewModal().then((downloadLink) => {
+            expect(downloadLink.attr('download')).to.equal(filename);
+
+            const fileAttachmentURL = downloadLink.attr('href');
+
+            // * Verify that download link has correct name
+            downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, filename, 'attachment');
+        });
+
+        // # Close modal
+        cy.uiCloseFilePreviewModal();
     });
 });
