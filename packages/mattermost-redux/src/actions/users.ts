@@ -334,10 +334,18 @@ export function getProfilesByUsernames(usernames: string[]): ActionFunc {
 export function getProfilesInTeam(teamId: string, page: number, perPage: number = General.PROFILE_CHUNK_SIZE, sort = '', options: any = {}): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const {currentUserId} = getState().entities.users;
-        let profiles;
+        let response: UserProfile[] | UserProfilesWithTotalCount;
+        let profiles: UserProfile[] = [];
 
         try {
-            profiles = await Client4.getProfilesInTeam(teamId, page, perPage, sort, options);
+            response = await Client4.getProfilesInTeam(teamId, page, perPage, sort, options);
+            if (options.include_total_count) {
+                response = response as UserProfilesWithTotalCount;
+                profiles = response.users;
+            } else {
+                response = response as UserProfile[];
+                profiles = response;
+            }
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
@@ -356,7 +364,7 @@ export function getProfilesInTeam(teamId: string, page: number, perPage: number 
             },
         ]));
 
-        return {data: profiles};
+        return {data: response};
     };
 }
 

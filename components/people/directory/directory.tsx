@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
-import {getProfiles as fetchProfiles, searchProfiles} from 'mattermost-redux/actions/users';
+import {getProfiles as fetchProfiles, searchProfiles, getProfilesInTeam as fetchProfilesInTeam} from 'mattermost-redux/actions/users';
 import {getProfiles, getProfilesInTeam} from 'mattermost-redux/selectors/entities/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {GlobalState} from '@mattermost/types/store';
@@ -67,16 +67,16 @@ const Directory = () => {
             exclude_bots: true
         };
 
-        if (teamId) {
-            options = {
-                ...options,
-                team_id: teamId,
-            };
-        }
-        const {data: response} = await dispatch(fetchProfiles(0, 60, options)) as ActionResult;
+        let data = null;
 
-        if (response.total_count) {
-            setTotalCount(response.total_count);
+        if (teamId) {
+            data = await dispatch(fetchProfilesInTeam(teamId, 0, 60, '', options)) as ActionResult;
+        } else {
+            data = await dispatch(fetchProfiles(0, 60, options)) as ActionResult;
+        }
+
+        if (data.data.total_count) {
+            setTotalCount(data.data.total_count);
         }
     }, [teamId]);
 
@@ -115,8 +115,11 @@ const Directory = () => {
             ...values,
         };
         setFilterValues(options);
-        if (Array.isArray(options.team_ids.value) && options.team_ids.value.length > 0) {
-            setTeamId(options.team_ids.value[0]);
+        const teamIds = options.team_ids.value;
+        if (Array.isArray(teamIds) && teamIds.length > 0) {
+            setTeamId(teamIds[0]);
+        } else {
+            setTeamId('');
         }
     }
 
@@ -157,7 +160,7 @@ const Directory = () => {
                 </div>
             </header>
             <PeopleList
-                people={searchTerm ? searchPeople : peopleInTeam || people}
+                people={searchTerm ? searchPeople : teamId ? peopleInTeam : people}
                 hasNextPage={people.length < totalCount}
                 isNextPageLoading={isNextPageLoading}
                 searchTerms={searchTerm}

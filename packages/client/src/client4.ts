@@ -802,7 +802,7 @@ export default class Client4 {
     };
 
     getProfilesInTeam = (teamId: string, page = 0, perPage = PER_PAGE_DEFAULT, sort = '', options = {}) => {
-        return this.doFetch<UserProfile[]>(
+        return this.doFetch<UserProfile[] | UserProfilesWithTotalCount>(
             `${this.getUsersRoute()}${buildQueryString({...options, in_team: teamId, page, per_page: perPage, sort})}`,
             {method: 'get'},
         );
