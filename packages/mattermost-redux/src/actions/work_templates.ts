@@ -27,8 +27,6 @@ export function getWorkTemplates(categoryId: string): ActionFunc {
 export function executeWorkTemplate(req: ExecuteWorkTemplateRequest): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.executeWorkTemplate,
-        onRequest: WorkTemplatesType.EXECUTE_WORK_TEMPLATE_REQUEST,
-        onSuccess: [WorkTemplatesType.EXECUTE_WORK_TEMPLATE_SUCCESS],
         params: [req],
     });
 }
