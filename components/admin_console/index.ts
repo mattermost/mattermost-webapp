@@ -17,6 +17,7 @@ import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 import {selectTeam} from 'mattermost-redux/actions/teams';
 import {isCurrentUserSystemAdmin, currentUserHasAnAdminRole, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {General} from 'mattermost-redux/constants';
 
@@ -55,6 +56,7 @@ function mapStateToProps(state: GlobalState) {
         consoleAccess,
         cloud: state.entities.cloud,
         team,
+        currentTheme: getTheme(state),
     };
 }
 
