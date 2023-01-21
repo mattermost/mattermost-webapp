@@ -17,13 +17,11 @@ import {getUsers} from 'mattermost-redux/selectors/entities/users';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
 import {ModalIdentifiers} from 'utils/constants';
-import {localizeMessage} from 'utils/utils';
 
 import {GlobalState} from 'types/store';
 import {fetchListing, installPlugin} from 'actions/marketplace';
 import ToggleModalButton from 'components/toggle_modal_button';
 import {getError, getInstalledListing, getInstalling, getPlugins} from 'selectors/views/marketplace';
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 type PluginRequest = {
     user_id: string;
@@ -42,91 +40,76 @@ type CustomPostProps = {
     requested_plugins_by_user_ids: RequestedPlugins;
 }
 
-const buttonsStyle = {
-    display: 'flex',
-    gap: '10px',
-    padding: '12px',
-    borderRadius: '4px',
-    border: '1px solid rgba(var(--center-channel-color-rgb), 0.16)',
-    width: 'max-content',
-    margin: '10px 0',
-};
-
 const usersListStyle = {
     margin: '20px 0',
 };
 
-const RenderPluginButton = (props: {installedListing: MarketplacePlugin[]; pluginRequest: PluginRequest}) => {
+const InstallLink = (props: {pluginId: string; pluginName: string}) => {
     const dispatch = useDispatch();
 
-    const installing = useSelector((state: GlobalState) => getInstalling(state, props.pluginRequest.plugin_id));
-    const error = useSelector((state: GlobalState) => getError(state, props.pluginRequest.plugin_id));
-
-    const isInstalled = props.installedListing.some((plugin) => plugin.manifest.id === props.pluginRequest.plugin_id);
-    const name = props.pluginRequest.plugin_name;
-
-    if (!error && !isInstalled) {
-        return (
-            <button
-                onClick={() => {
-                    dispatch(installPlugin(props.pluginRequest.plugin_id));
+    return (
+        <Link
+            to='#'
+            onClick={() => dispatch(installPlugin(props.pluginId))}
+            style={{color: 'var(--denim-button-bg)', fontWeight: '600'}}
+        >
+            <FormattedMessage
+                id='marketplace_modal.list.install.plugin'
+                defaultMessage={`Install ${props.pluginName}`}
+                values={{
+                    plugin: props.pluginName,
                 }}
-                className='btn btn-primary'
-                disabled={installing}
-            >
-                <LoadingWrapper
-                    loading={installing}
-                    text={localizeMessage('marketplace_modal.installing', 'Installing...')}
-                >
-                    <FormattedMessage
-                        id='marketplace_modal.list.install.plugin'
-                        defaultMessage={`Install ${name}`}
-                        values={{
-                            plugin: name,
-                        }}
-                    />
-                </LoadingWrapper>
-            </button>
-        );
-    } else if (!error && isInstalled && !installing) {
-        return (
-            <Link to={'/admin_console/plugins/plugin_' + props.pluginRequest.plugin_id}>
-                <button
-                    onClick={() => null /*this.onConfigure*/}
-                    className='btn btn-outline'
-                >
-                    <FormattedMessage
-                        id='marketplace_modal.list.configure.plugin'
-                        defaultMessage={`Configure ${name}`}
-                        values={{
-                            plugin: name,
-                        }}
-                    />
-                </button>
-            </Link>
-        );
-    }
-    return null;
+            />
+        </Link>
+    );
 };
 
-const RenderPluginButtons = (props: {pluginsByPluginIds: RequestedPlugins}) => {
-    const installedListing = useSelector(getInstalledListing) as MarketplacePlugin[];
-    const pluginRequests = Object.values(props.pluginsByPluginIds).map((request) => request[0]);
-
+const ConfigureLink = (props: {pluginId: string; pluginName: string}) => {
     return (
-        <div style={buttonsStyle}>
-            {pluginRequests.map((pluginRequest) => {
-                return (
-                    <div key={pluginRequest.plugin_name}>
-                        <RenderPluginButton
-                            installedListing={installedListing}
-                            pluginRequest={pluginRequest}
-                        />
-                    </div>
-                );
-            })}
-        </div>
+        <Link
+            to={'/admin_console/plugins/plugin_' + props.pluginId}
+            style={{color: 'var(--denim-button-bg)', fontWeight: '600'}}
+        >
+            <FormattedMessage
+                id='marketplace_modal.list.configure.plugin'
+                defaultMessage={`Configure ${props.pluginName}`}
+                values={{
+                    plugin: props.pluginName,
+                }}
+            />
+        </Link>
     );
+};
+
+const InstallAndConfigureLink = (props: {pluginId: string; pluginName: string}) => {
+    const installedListing = useSelector(getInstalledListing) as MarketplacePlugin[];
+    const error = useSelector((state: GlobalState) => getError(state, props.pluginId));
+
+    const isInstalled = installedListing.some((plugin) => plugin.manifest.id === props.pluginId);
+    const installing = useSelector((state: GlobalState) => getInstalling(state, props.pluginId));
+    if (installing) {
+        return (
+            <span style={{fontStyle: 'italic', color: 'var(--online-indicator)', fontWeight: '600'}}>
+                <FormattedMessage
+                    id='marketplace_modal.installing'
+                    defaultMessage='Installing...'
+                />
+            </span>
+        );
+    } else if (!isInstalled && !error) {
+        return (
+            <InstallLink
+                pluginId={props.pluginId}
+                pluginName={props.pluginName}
+            />);
+    } else if (isInstalled && !error) {
+        return (
+            <ConfigureLink
+                pluginId={props.pluginId}
+                pluginName={props.pluginName}
+            />);
+    }
+    return null;
 };
 
 export default function OpenPluginInstallPost(props: {post: Post}) {
@@ -176,6 +159,27 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
         }
     }, [dispatch, marketplacePlugins, requestedPluginsByPluginIds, pluginsByPluginIds]);
 
+    const createUsernameMessage = (requests: PluginRequest[]) => {
+        if (requests.length >= 5) {
+            return formatMessage({
+                id: 'postypes.custom_open_pricing_modal_post_renderer.members',
+                defaultMessage: '{members} members',
+            }, {members: requests.length});
+        }
+
+        let usernameMessage;
+        const users = getUserNamesForUsersThatRequestedFeature(requests);
+
+        if (users.length === 1) {
+            usernameMessage = users[0];
+        } else {
+            const lastUser = users.splice(-1, 1)[0];
+            users.push(formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.and', defaultMessage: 'and'}) + ' ' + lastUser);
+            usernameMessage = users.join(', ').replace(/,([^,]*)$/, '$1');
+        }
+
+        return usernameMessage;
+    };
     const getUserNamesForUsersThatRequestedFeature = (requests: PluginRequest[]): string[] => {
         const userNames = requests.map((req: PluginRequest) => {
             return getUserNameForUser(req.user_id);
@@ -194,32 +198,20 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
         atPlanMentions: true,
         markdown: false,
     };
-
-    if (Object.keys(pluginsByPluginIds).length && requestedPluginsByUserIds) {
+    const pluginIds = Object.keys(pluginsByPluginIds);
+    if (pluginIds.length && requestedPluginsByUserIds) {
         let post;
-        let pluginNames: string[] = [];
         const messageBuilder: string[] = [];
         const userIds = Object.keys(requestedPluginsByUserIds);
-        if (userIds.length === 1) {
+        if (userIds.length === 1 && pluginIds.length === 1) {
+            const pluginName = pluginsByPluginIds[pluginIds[0]][0].plugin_name;
             messageBuilder.push('@' + userProfiles[userIds[0]]?.username);
-
-            for (const pluginId of Object.keys(pluginsByPluginIds)) {
-                pluginNames = [
-                    ...pluginNames,
-                    pluginsByPluginIds[pluginId][0].plugin_name,
-                ];
-            }
-
-            messageBuilder.push(' ' + formatMessage({id: 'postypes.custom_open_plugin_install_post_rendered.plugin_requests', defaultMessage: 'requested installing the {pluginRequests}'}, {pluginRequests: [...pluginNames].join(', ').replace(/,([^,]*)$/, ' and $1')}));
-            messageBuilder.push(formatMessage({
-                id: 'postypes.custom_open_plugin_install_post_rendered.plugin_requests_count',
-                defaultMessage: '{pluginCount, plural, =1 { app. } other { apps. }}',
-            }, {pluginCount: pluginNames.length}));
+            messageBuilder.push(' ' + formatMessage({id: 'postypes.custom_open_plugin_install_post_rendered.plugin_request', defaultMessage: 'requested installing the {pluginRequests} app.'}, {pluginRequests: pluginName}));
 
             const instructions = (
                 <FormattedMessage
                     id='postypes.custom_open_plugin_install_post_rendered.plugin_instructions'
-                    defaultMessage='Click below to install it or visit <marketplaceLink>Marketplace</marketplaceLink> to view all plugins.'
+                    defaultMessage='<pluginApp></pluginApp> or visit <marketplaceLink>Marketplace</marketplaceLink> to view all plugins.'
                     values={{
                         marketplaceLink: (text: string) => (
                             <ToggleModalButton
@@ -230,7 +222,12 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
                             >
                                 {text}
                             </ToggleModalButton>
-
+                        ),
+                        pluginApp: () => (
+                            <InstallAndConfigureLink
+                                pluginId={pluginIds[0]}
+                                pluginName={pluginName}
+                            />
                         ),
                     }}
                 />);
@@ -244,10 +241,11 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
                         options={markDownOptions}
                         userIds={getUserIdsForUsersThatRequestedFeature(requestedPluginsByUserIds[userIds[0]])}
                     />
+                    {' '}
                     {instructions}
                 </>);
             customMessageBody.push(post);
-        } else if (userIds.length > 1) {
+        } else {
             messageBuilder.push(formatMessage({id: 'postypes.custom_open_plugin_install_post_rendered.app_installation_request_text', defaultMessage: 'You’ve received the following app installation requests:'}));
             const pluginIds = Object.keys(pluginsByPluginIds);
 
@@ -259,21 +257,10 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
                     {pluginIds.map((pluginId) => {
                         const plugins = pluginsByPluginIds[pluginId];
                         const uniqueUserRequestsForPlugins = uniqWith(plugins, (one, two) => one.user_id === two.user_id);
-                        const numberOfUserRequest = uniqueUserRequestsForPlugins.length;
                         const installRequests = [];
-                        let userName: string[] = [];
-                        if (numberOfUserRequest === 1) {
-                            const userId = uniqueUserRequestsForPlugins[0].user_id;
-                            userName.push('@' + userProfiles[userId]?.username);
-                            installRequests.push(userName[0]);
-                        } else if (numberOfUserRequest === 2) {
-                            userName = userName.concat(getUserNamesForUsersThatRequestedFeature(uniqueUserRequestsForPlugins));
-                            const andMessage = formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.and', defaultMessage: 'and'});
-                            installRequests.push(userName.join(` ${andMessage} `));
-                        } else {
-                            installRequests.push(formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.members', defaultMessage: '{members} members'}, {members: numberOfUserRequest}));
-                        }
-                        installRequests.push(' ' + formatMessage({id: 'postypes.custom_open_plugin_install_post_rendered.plugin_requests', defaultMessage: 'requested installing the {pluginRequests} app.'}, {pluginRequests: uniqueUserRequestsForPlugins[0].plugin_name}));
+                        installRequests.push(createUsernameMessage(uniqueUserRequestsForPlugins));
+                        installRequests.push(' ' + formatMessage({id: 'postypes.custom_open_plugin_install_post_rendered.plugin_request', defaultMessage: 'requested installing the {pluginRequests} app.'}, {pluginRequests: uniqueUserRequestsForPlugins[0].plugin_name}));
+
                         return (
                             <li key={pluginId}>
                                 <Markdown
@@ -281,6 +268,11 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
                                     message={installRequests.join('')}
                                     options={markDownOptions}
                                     userIds={getUserIdsForUsersThatRequestedFeature(requestedPluginsByUserIds[userIds[0]])}
+                                />
+                                {' '}
+                                <InstallAndConfigureLink
+                                    pluginId={pluginId}
+                                    pluginName={uniqueUserRequestsForPlugins[0].plugin_name}
                                 />
                             </li>
                         );
@@ -291,7 +283,7 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
             const instructions = (
                 <FormattedMessage
                     id='postypes.custom_open_plugin_install_post_rendered.plugins_instructions'
-                    defaultMessage='Install the apps below or visit <marketplaceLink>Marketplace</marketplaceLink> to view all plugins.'
+                    defaultMessage='Install the apps or visit <marketplaceLink>Marketplace</marketplaceLink> to view all plugins.'
                     values={{
                         marketplaceLink: (text: string) => (
                             <ToggleModalButton
@@ -302,7 +294,6 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
                             >
                                 {text}
                             </ToggleModalButton>
-
                         ),
                     }}
                 />);
@@ -316,7 +307,6 @@ export default function OpenPluginInstallPost(props: {post: Post}) {
     return (
         <div>
             {customMessageBody}
-            {Object.keys(pluginsByPluginIds).length ? <RenderPluginButtons pluginsByPluginIds={pluginsByPluginIds}/> : null}
         </div>
     );
 }
