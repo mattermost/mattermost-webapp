@@ -34,6 +34,9 @@ import {GlobalState} from 'types/store';
 import {getPostsByIds, getPost as fetchPost} from 'mattermost-redux/actions/posts';
 
 import {getChannel} from 'mattermost-redux/actions/channels';
+import {getThread as fetchThread} from 'mattermost-redux/actions/threads';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getThread} from 'mattermost-redux/selectors/entities/threads';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -508,6 +511,18 @@ export function selectPostById(postId: string) {
             return {data: true};
         }
         return {data: false};
+    };
+}
+
+export function prefetchThread(postId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const teamId = getCurrentTeamId(state);
+        const currentUserId = getCurrentUserId(state);
+
+        const thread = getThread(state, postId) ?? (await dispatch(fetchThread(currentUserId, teamId, postId, isCollapsedThreadsEnabled(state)))).data;
+
+        return {data: thread};
     };
 }
 

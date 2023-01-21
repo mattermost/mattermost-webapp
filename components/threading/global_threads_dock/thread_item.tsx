@@ -29,6 +29,8 @@ import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
 import {markLastPostInThreadAsUnread, updateThreadRead} from 'mattermost-redux/actions/threads';
 import {getCurrentTeamId} from '../../../../mattermost-mobile/app/mm-redux/selectors/entities/common';
 
+import {prefetchThread} from 'actions/views/rhs';
+
 import {BarItem} from './bar_item';
 import {useDockedThreads} from './dock';
 
@@ -44,6 +46,7 @@ const ThreadItem = ({id}: Props): React.ReactElement | null => {
     const {open, close, isOpen, minimize, isExpanded, expand} = useDockedThreads(id);
     const {goToInChannel} = useThreadRouting();
     const {formatMessage} = useIntl();
+    dispatch(prefetchThread(id));
 
     const currentUserId = useSelector(getCurrentUserId);
     const post = useSelector((state: GlobalState) => getPost(state, id));
