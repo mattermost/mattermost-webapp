@@ -114,7 +114,7 @@ const WorkTemplateModal = () => {
     // error resetter
     useEffect(() => {
         setErrorText('');
-    }, [currentCategoryId, modalState, selectedTemplate]);
+    }, [currentCategoryId, modalState, selectedTemplate, selectedVisibility]);
 
     const changeCategory = (category: Category) => {
         setCurrentCategoryId(category.id);
@@ -231,7 +231,7 @@ const WorkTemplateModal = () => {
             handleCancel={cancelButtonAction}
             confirmButtonText={confirmButtonText}
             handleConfirm={confirmButtonAction}
-            isConfirmDisabled={isCreating}
+            isConfirmDisabled={isCreating || (modalState === ModalState.Customize && errorText !== '')}
             autoCloseOnCancelButton={false}
             autoCloseOnConfirmButton={false}
             errorText={errorText}
