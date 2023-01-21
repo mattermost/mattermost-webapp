@@ -240,9 +240,17 @@ function initRequestCountingIfNecessary() {
         for (const entry of entries.getEntries()) {
             const url = entry.name;
 
-            if (url.includes('/api/v4/') && (entry.initiatorType === 'fetch' || entry.initiatorType === 'xmlhttprequest')) {
-                requestCount += 1;
+            if (!url.includes('/api/v4/') && !url.includes('/api/v5/')) {
+                // Don't count requests made outside of the MM server's API
+                continue;
             }
+
+            if (entry.initiatorType !== 'fetch' && entry.initiatorType !== 'xmlhttprequest') {
+                // Only look for API requests made by code and ignore things like attachments thumbnails
+                continue;
+            }
+
+            requestCount += 1;
         }
     });
     requestObserver.observe({type: 'resource', buffered: true});
