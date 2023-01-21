@@ -584,6 +584,20 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
                                 </div>
                             )}
                         </Menu.ItemToggleModalRedux>
+                        <Menu.ItemToggleModalRedux
+                            id='productSettings'
+                            ariaLabel='Settings'
+                            modalId={ModalIdentifiers.USER_SETTINGS}
+                            dialogType={UserSettingsModal}
+                            dialogProps={{isContentProductSettings: true}}
+                            text={localizeMessage('navbar_dropdown.productSettings', 'Settings')}
+                            icon={(
+                                <Icon
+                                    size={16}
+                                    glyph={'cog-outline'}
+                                />
+                            )}
+                        />
                     </Menu.Group>
                     <Menu.Group>
                         <Menu.ItemAction

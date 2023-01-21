@@ -24,7 +24,7 @@ import {isCurrentUserGuestUser} from 'mattermost-redux/selectors/entities/users'
 
 import AtMentionsButton from './at_mentions_button/at_mentions_button';
 import SavedPostsButton from './saved_posts_button/saved_posts_button';
-import SettingsButton from './settings_button';
+import HistoryButton from './history_button';
 import PlanUpgradeButton from './plan_upgrade_button';
 
 const RightControlsContainer = styled.div`
@@ -61,7 +61,7 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
                 <>
                     <AtMentionsButton/>
                     <SavedPostsButton/>
-                    <SettingsButton/>
+                    <HistoryButton/>
                     {showCustomizeTip && <CustomizeYourExperienceTour/>}
                 </>
             ) : (

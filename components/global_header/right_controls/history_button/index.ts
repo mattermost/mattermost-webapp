@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {openModal} from 'actions/views/modals';
 
-import SettingsButton from './settings_button';
+import HistoryButton from './history_button';
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
@@ -17,4 +17,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(SettingsButton);
+export default connect(null, mapDispatchToProps)(HistoryButton);
