@@ -3,8 +3,6 @@
 
 import React, {useEffect} from 'react';
 
-import {ClockOutlineIcon} from '@mattermost/compass-icons/components';
-
 import {useSelector, useDispatch} from 'react-redux';
 
 import {useGlobalState} from 'stores/hooks';
@@ -18,23 +16,56 @@ import {GlobalState} from 'types/store';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
 import ThreadItem from './thread_item';
-import {BarItem} from './bar_item';
 
 const DOCKED_THREADS = 'docked_threads';
+const DOCKED_THREADS_OPEN = 'docked_threads_open';
 
-export const useDockedThreads = () => {
+export const useDockedThreads = (threadId?: string) => {
     const [threadIds, setThreadIds] = useGlobalState<string[]>([], DOCKED_THREADS);
+    const [openThreadIds, setOpenThreadIdsInner] = useGlobalState<Record<string, number>>({}, DOCKED_THREADS_OPEN);
+
+    const setIsOpen = (id: string, num?: number) => {
+        if (typeof num === 'number') {
+            setOpenThreadIdsInner((state) => ({...state, [id]: num}));
+        } else {
+            setOpenThreadIdsInner((state) => {
+                // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-unused-vars
+                const {[id]: _, ...rest} = state;
+                return {...rest};
+            });
+        }
+    };
 
     const open = (id: string) => {
+        setIsOpen(id, 1);
+        if (threadIds.includes(id)) {
+            return;
+        }
         setThreadIds([...threadIds.filter((threadId) => threadId !== id), id]);
+    };
+
+    const minimize = (id: string) => {
+        setIsOpen(id, 0);
+    };
+
+    const expand = (id: string, num = isExpanded ? 1 : 2) => {
+        setIsOpen(id, num);
     };
 
     const close = (id: string) => {
         setThreadIds(threadIds.filter((threadId) => threadId !== id));
+        setIsOpen(id, 0);
     };
+
+    const isOpen = threadId && openThreadIds[threadId] >= 1;
+    const isExpanded = threadId && openThreadIds[threadId] === 2;
 
     return {
         threadIds,
+        isOpen,
+        isExpanded,
+        minimize,
+        expand,
         open,
         close,
     };
@@ -66,6 +97,10 @@ const DockDock = () => {
     const {threadIds} = useDockedThreads();
     useEnsureDeps(threadIds);
 
+    if (!threadIds.length) {
+        return null;
+    }
+
     return (
         <footer
             css={`
@@ -95,25 +130,11 @@ const DockDock = () => {
                     );
                 })}
             </div>
-            <BarItem>
-                {'Threads'}
-            </BarItem>
-            <ThreadHistory/>
+            {/* <BarItem>
+                <ClockOutlineIcon size={18}/>
+                {'Recent'}
+            </BarItem> */}
         </footer>
-    );
-};
-
-const HistoryButton = () => {
-    return (
-        <BarItem>
-            <ClockOutlineIcon size={18}/>
-        </BarItem>
-    );
-};
-
-const ThreadHistory = () => {
-    return (
-        <HistoryButton/>
     );
 };
 

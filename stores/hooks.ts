@@ -9,8 +9,9 @@ import {createSelector} from 'reselect';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {makeGetGlobalItem} from 'selectors/storage';
+import {getGlobalItem, makeGetGlobalItem} from 'selectors/storage';
 import {setGlobalItem} from 'actions/storage';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 export const currentUserAndTeamSuffix = createSelector('currentUserAndTeamSuffix', [
     getCurrentUserId,
@@ -39,16 +40,30 @@ export const currentUserSuffix = createSelector('currentUserSuffix', [
 export function useGlobalState<TVal>(
     initialValue: TVal,
     name: string,
-): [TVal, (value: TVal) => ReturnType<typeof setGlobalItem>] {
+): [TVal, React.Dispatch<React.SetStateAction<TVal>>] {
     const dispatch = useDispatch();
     const suffix = useSelector(currentUserAndTeamSuffix);
     const storedKey = `${name}${suffix}`;
 
     const value = useSelector(makeGetGlobalItem(storedKey, initialValue), shallowEqual);
-    const setValue = useCallback((newValue) => dispatch(setGlobalItem(storedKey, newValue)), [storedKey]);
+    const setValue = useCallback((update) => {
+        return dispatch((dispatch: DispatchFunc, getState: GetStateFunc) => {
+            const v = getGlobalItem(getState(), storedKey, initialValue);
+            dispatch(setGlobalItem(storedKey, resolve(update, v)));
+        });
+    }, [storedKey]);
 
     return [
         value,
         setValue,
     ];
 }
+
+type ResolvableFunction<TVal> = (...TArgs: any) => TVal;
+
+export type Resolvable<TVal> = ResolvableFunction<TVal> | TVal;
+
+export function resolve<TVal>(prop: Resolvable<TVal>, ...args: any): TVal {
+    return typeof prop === 'function' ? (prop as ResolvableFunction<TVal>)(...args) : prop;
+}
+

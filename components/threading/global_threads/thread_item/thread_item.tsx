@@ -32,12 +32,14 @@ import PriorityBadge from 'components/post_priority/post_priority_badge';
 import {Channel} from '@mattermost/types/channels';
 import {Post, PostPriority} from '@mattermost/types/posts';
 import {UserThread} from '@mattermost/types/threads';
+import {useDockedThreads} from 'components/threading/global_threads_dock/dock';
 
 import {THREADING_TIME} from '../../common/options';
 import {useThreadRouting} from '../../hooks';
 import ThreadMenu from '../thread_menu';
 
 import Attachment from './attachments';
+
 import './thread_item.scss';
 
 export type OwnProps = {
@@ -78,6 +80,7 @@ function ThreadItem({
 }: Props & OwnProps): React.ReactElement|null {
     const dispatch = useDispatch();
     const {select, goToInChannel, currentTeamId} = useThreadRouting();
+    const {open} = useDockedThreads();
     const {formatMessage} = useIntl();
     const isMobileView = useSelector(getIsMobileView);
     const currentUserId = useSelector(getCurrentUserId);
@@ -133,6 +136,11 @@ function ThreadItem({
         unreadTimestamp,
     ]);
 
+    const openHandler = useCallback((e: MouseEvent<HTMLDivElement>) => {
+        console.log(e);
+        open(threadId);
+    }, [open, threadId]);
+
     const imageProps = useMemo(() => ({
         onImageHeightChanged: () => {},
         onImageLoaded: () => {},
@@ -176,6 +184,7 @@ function ThreadItem({
             tabIndex={0}
             id={isFirstThreadInList ? 'tutorial-threads-mobile-list' : ''}
             onClick={selectHandler}
+            onAuxClick={openHandler}
         >
             <h1>
                 {Boolean(newMentions || newReplies) && (
