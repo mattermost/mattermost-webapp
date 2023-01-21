@@ -247,7 +247,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 {icon}
                 <div className='suggestion-list__ellipsis suggestion-list__flex'>
                     <span className='suggestion-list__main'>
-                        <span className={classnames({'suggestion-list__unread': item.unread && !channelIsArchived})}>{name}</span>
+                        <span className={classNames({'suggestion-list__unread': item.unread && !channelIsArchived})}>{name}</span>
                         {showSlug && <span className='suggestion-list__desc'>{description}</span>}
                     </span>
                     {customStatus}
