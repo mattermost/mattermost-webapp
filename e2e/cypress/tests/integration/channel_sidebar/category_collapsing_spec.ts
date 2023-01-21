@@ -47,20 +47,18 @@ describe('Channel sidebar', () => {
         // # Check that the CHANNELS group header is visible
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible').as('channelsGroup');
 
-        cy.get('.SidebarChannelGroup').should('exist').and('be.visible').within(() => {
-            // * Verify that both channels are visible when not collapsed
-            cy.findByText('Town Square').should('exist').and('be.visible');
-            cy.findByText('Off-Topic').should('exist').and('be.visible');
-        });
+        // * Verify that both channels are visible when not collapsed
+        cy.get('.SidebarChannelGroup').should('be.visible').as('sidebarChannelGroup');
+        cy.get('@sidebarChannelGroup').findByText('Town Square').should('exist').and('be.visible');
+        cy.get('@sidebarChannelGroup').findByText('Off-Topic').should('be.visible');
 
         // # Click on CHANNELS
         cy.get('@channelsGroup').click();
 
-        cy.get('.SidebarChannelGroup').should('exist').and('be.visible').within(() => {
-            // * Verify that both channels are visible when not collapsed
-            cy.findByText('Town Square').should('exist').and('be.visible');
-            cy.findByText('Off-Topic').should('not.exist');
-        });
+        // * Verify that both channels are visible when not collapsed
+        cy.get('.SidebarChannelGroup').should('be.visible').as('sidebarChannelGroup');
+        cy.get('@sidebarChannelGroup').findByText('Town Square').should('be.visible');
+        cy.get('@sidebarChannelGroup').findByText('Off-Topic').should('not.exist');
     });
 
     it('should collapse channels that are not unread channels', () => {
@@ -77,20 +75,18 @@ describe('Channel sidebar', () => {
             // # Check that the CHANNELS group header is visible
             cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible').as('channelsGroup');
 
-            cy.get('.SidebarChannelGroup').should('exist').and('be.visible').within(() => {
-                // * Verify that all channels are visible
-                cy.findByText('Off-Topic').should('exist').and('be.visible');
-                cy.findByText(uniqueChannelName).should('exist').and('be.visible');
-            });
+            // * Verify that all channels are visible
+            cy.get('.SidebarChannelGroup').should('be.visible').as('sidebarChannelGroup');
+            cy.get('.SidebarChannelGroup').findByText('Off-Topic').should('exist').and('be.visible');
+            cy.get('.SidebarChannelGroup').findByText(uniqueChannelName).should('exist').and('be.visible');
 
             // # Click on CHANNELS
             cy.get('@channelsGroup').click();
 
-            cy.get('.SidebarChannelGroup').should('exist').and('be.visible').within(() => {
-                // * Verify that Off-Topic is no longer visible but Channel Test still is
-                cy.findByText('Off-Topic').should('not.exist');
-                cy.findByText(uniqueChannelName).should('be.visible').and('exist');
-            });
+            // * Verify that Off-Topic is no longer visible but Channel Test still is
+            cy.get('.SidebarChannelGroup').should('be.visible').as('sidebarChannelGroup');
+            cy.get('@sidebarChannelGroup').findByText('Off-Topic').should('not.exist');
+            cy.get('@sidebarChannelGroup').findByText(uniqueChannelName).should('be.visible');
         });
     });
 
