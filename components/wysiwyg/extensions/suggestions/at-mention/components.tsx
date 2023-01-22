@@ -14,6 +14,7 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {getLongDisplayNameParts, imageURLForUser} from 'utils/utils';
 import {GlobalState} from 'types/store';
+import {t} from 'utils/i18n';
 
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import ProfilePicture from 'components/profile_picture';
@@ -159,3 +160,7 @@ export {
     GroupMentionItem,
     SpecialMentionItem,
 };
+
+t('suggestion.mention.all');
+t('suggestion.mention.channel');
+t('suggestion.mention.here');

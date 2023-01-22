@@ -11,9 +11,9 @@ import {CSSTransition} from 'react-transition-group';
 import styled from 'styled-components';
 import type {Editor} from '@tiptap/react';
 
-import {Formatters} from 'components/wysiwyg';
+import {useGetLatest} from 'components/advanced_text_editor/formatting_bar/hooks';
 
-import {useGetLatest} from '../../../advanced_text_editor/formatting_bar/hooks';
+import {Formatters} from '../../';
 
 import BlockModeControls from './controls/block-controls';
 import HeadingControls from './controls/heading-controls';

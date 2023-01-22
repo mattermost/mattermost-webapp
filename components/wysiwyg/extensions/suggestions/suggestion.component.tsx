@@ -221,7 +221,7 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(({item
                         <Fragment key={id}>
                             {renderSeparators && type && type !== items[index - 1]?.type && (
                                 <ListGroupTitle>
-                                    <FormattedMessage id={t(`suggestion.mention.${type}`)}/>
+                                    <FormattedMessage id={`suggestion.mention.${type}`}/>
                                 </ListGroupTitle>
                             )}
                             <ListItem
@@ -240,3 +240,11 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(({item
 });
 
 export default SuggestionList;
+
+t('suggestion.mention.channels');
+t('suggestion.mention.command');
+t('suggestion.mention.emoji');
+t('suggestion.mention.groups');
+t('suggestion.mention.members');
+t('suggestion.mention.nonmembers');
+t('suggestion.mention.special');
