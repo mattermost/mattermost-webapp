@@ -141,6 +141,13 @@ body.app__body #root {
     }
 
     @media screen and (max-width: 768px) {
+        grid-template:
+            'announcement' min-content
+            'header' min-content
+            'center'
+            'footer' min-content
+            / auto
+        ;
         .team-sidebar,
         #SidebarContainer,
         #channel_view,
@@ -152,6 +159,10 @@ body.app__body #root {
         #SidebarContainer.move--right {
             position: relative;
             left: 65px;
+        }
+
+        .announcement-bar {
+            grid-area: header;
         }
     }
 
