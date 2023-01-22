@@ -109,7 +109,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
 
     // handle tabbing through modal to keep focus within modal
     handleTab = (e: KeyboardEvent) => {
-        const focusableElements = this.modalRef?.current?.modalQuerySelectorAll('button:not(#joinViewChannelButton), input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        const focusableElements = this.modalRef?.current?.modalQuerySelectorAll('button:not(#joinViewChannelButton), input, [tabindex]:not([tabindex="-1"])');
         if (!focusableElements) {
             return;
         }
