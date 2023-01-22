@@ -6,7 +6,7 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {daysToLicenseExpire, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod, isTrialLicense} from 'utils/license_utils';
-import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes, Preferences, ConfigurationBanners, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes, Preferences, ConfigurationBanners, Constants, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
@@ -252,7 +252,7 @@ const ConfigurationAnnouncementBar = (props: Props) => {
 
             const {w} = getViewportSize();
             if (daysUntilLicenseExpires < 1) {
-                const viewportBasedMessage = w < 768 ? formatMessage({
+                const viewportBasedMessage = w < Constants.MOBILE_SCREEN_WIDTH ? formatMessage({
                     id: 'announcement_bar.error.trial_license_expiring_last_day.short',
                     defaultMessage: 'This is the last day of your free trial.'},
                 ) : formatMessage({
