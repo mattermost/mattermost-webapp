@@ -56,6 +56,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
             show: props.show!,
         };
     }
+    modalRef = React.createRef<HTMLDivElement>();
 
     onHide = () => {
         this.setState({show: false});
@@ -91,6 +92,8 @@ export class GenericModal extends React.PureComponent<Props, State> {
             }
         }
     }
+
+    public modalQuerySelectorAll = (selectors: string): NodeListOf<Element> | undefined => this.modalRef?.current?.querySelectorAll(selectors);
 
     render() {
         let confirmButton;
@@ -172,6 +175,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
                     onKeyDown={this.onEnterKeyDown}
                     tabIndex={this.props.tabIndex}
                     className='GenericModal__wrapper-enter-key-press-catcher'
+                    ref={this.modalRef}
                 >
                     <Modal.Header closeButton={true}>
                         {this.props.compassDesign && headerText}

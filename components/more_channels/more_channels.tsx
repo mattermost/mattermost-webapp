@@ -20,7 +20,7 @@ import LoadingScreen from 'components/loading_screen';
 import {ModalData} from 'types/actions';
 
 import {getHistory} from 'utils/browser_history';
-import {ModalIdentifiers, StoragePrefixes} from 'utils/constants';
+import Constants, {ModalIdentifiers, StoragePrefixes} from 'utils/constants';
 import {getRelativeChannelURL} from 'utils/url';
 import {localizeMessage} from 'utils/utils';
 
@@ -75,6 +75,7 @@ type State = {
 export default class MoreChannels extends React.PureComponent<Props, State> {
     public searchTimeoutId: number;
     activeChannels: Channel[] = [];
+    modalRef = React.createRef<GenericModal>();
 
     constructor(props: Props) {
         super(props);
@@ -98,7 +99,36 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             await this.props.actions.getArchivedChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
         }
         await this.props.channels.forEach((channel) => this.props.actions.getChannelStats(channel.id));
+        document.addEventListener('keydown', this.handleTab);
         this.loadComplete();
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleTab);
+    }
+
+    // handle tabbing through modal to keep focus within modal
+    handleTab = (e: KeyboardEvent) => {
+        const focusableElements = this.modalRef?.current?.modalQuerySelectorAll('button:not(#joinViewChannelButton), input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (!focusableElements) {
+            return;
+        }
+        const firstElement = focusableElements[0] as HTMLElement;
+        const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+        if (e.key !== Constants.KeyCodes.TAB[0]) {
+            return;
+        }
+
+        if (e.shiftKey) {
+            if (document.activeElement === firstElement) {
+                lastElement.focus();
+                e.preventDefault();
+            }
+        } else if (document.activeElement === lastElement) {
+            firstElement.focus();
+            e.preventDefault();
+        }
     }
 
     loadComplete = () => {
@@ -321,6 +351,8 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                 headerButton={createNewChannelButton('outlineButton')}
                 autoCloseOnConfirmButton={false}
                 tabIndex={-1}
+                ref={this.modalRef}
+                aria-modal={true}
             >
                 {body}
             </GenericModal>

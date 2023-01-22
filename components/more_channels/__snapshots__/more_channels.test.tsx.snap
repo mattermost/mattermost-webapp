@@ -3,6 +3,7 @@
 exports[`components/MoreChannels should match snapshot and state 1`] = `
 <GenericModal
   aria-labelledby="moreChannelsModalLabel"
+  aria-modal={true}
   autoCloseOnCancelButton={true}
   autoCloseOnConfirmButton={false}
   compassDesign={true}
