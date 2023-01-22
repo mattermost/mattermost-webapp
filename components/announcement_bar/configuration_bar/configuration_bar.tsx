@@ -11,6 +11,7 @@ import {t} from 'utils/i18n';
 
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 import {getSkuDisplayName} from 'utils/subscription';
+import {getViewportSize} from 'utils/utils';
 
 import ackIcon from 'images/icons/check-circle-outline.svg';
 import alertIcon from 'images/icons/round-white-info-icon.svg';
@@ -52,6 +53,8 @@ type Props = {
 };
 
 const ConfigurationAnnouncementBar = (props: Props) => {
+    const {formatMessage} = props.intl;
+
     const dismissExpiringLicense = () => {
         props.actions.dismissNotice(AnnouncementBarMessages.LICENSE_EXPIRING);
     };
@@ -247,18 +250,22 @@ const ConfigurationAnnouncementBar = (props: Props) => {
 
             let announcementBarType = AnnouncementBarTypes.ANNOUNCEMENT;
 
+            const {w} = getViewportSize();
             if (daysUntilLicenseExpires < 1) {
+                const viewportBasedMessage = w < 768 ? formatMessage({
+                    id: 'announcement_bar.error.trial_license_expiring_last_day.short',
+                    defaultMessage: 'This is the last day of your free trial.'},
+                ) : formatMessage({
+                    id: 'announcement_bar.error.trial_license_expiring_last_day',
+                    defaultMessage: 'This is the last day of your free trial. Purchase a license now to continue using Mattermost Professional and Enterprise features.',
+                });
                 message = (
                     <>
                         <img
                             className='advisor-icon'
                             src={warningIcon}
                         />
-                        <FormattedMessage
-                            id='announcement_bar.error.trial_license_expiring_last_day'
-                            tagName='strong'
-                            defaultMessage={'This is the last day of your free trial. Purchase a license now to continue using Mattermost Professional and Enterprise features.'}
-                        />
+                        <strong>{viewportBasedMessage}</strong>
                     </>
                 );
                 announcementBarType = AnnouncementBarTypes.CRITICAL;
@@ -358,8 +365,6 @@ const ConfigurationAnnouncementBar = (props: Props) => {
             );
         }
     }
-
-    const {formatMessage} = props.intl;
 
     if (props.config?.SendEmailNotifications !== 'true' &&
             props.config?.EnablePreviewModeBanner === 'true'
