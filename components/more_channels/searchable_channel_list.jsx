@@ -151,6 +151,7 @@ export default class SearchableChannelList extends React.PureComponent {
 
         const joinViewChannelButton = (
             <button
+                id='joinViewChannelButton'
                 onClick={(e) => this.handleJoin(channel, e)}
                 className={joinViewChannelButtonClass}
                 disabled={this.state.joiningChannel}
@@ -176,10 +177,10 @@ export default class SearchableChannelList extends React.PureComponent {
                 id={`ChannelRow-${channel.name}`}
                 onClick={(e) => this.handleJoin(channel, e)}
                 tabIndex={0}
-                onMouseEnter={() => this.handleActivateRowId(channel.id)}
-                onMouseLeave={this.handleDeactivateRowId}
-                onFocus={() => this.handleActivateRowId(channel.id)}
-                onBlur={this.handleDeactivateRowId}
+                onMouseEnter={() => this.toggleActiveRowId(channel.id)}
+                onMouseLeave={() => this.toggleActiveRowId(null)}
+                onFocus={() => this.toggleActiveRowId(channel.id)}
+                onBlur={() => this.toggleActiveRowId(null)}
             >
                 <div className='more-modal__details'>
                     <div
@@ -244,8 +245,7 @@ export default class SearchableChannelList extends React.PureComponent {
         }
     }
 
-    handleActivateRowId = (channelId) => this.setState({activeRowId: channelId});
-    handleDeactivateRowId = () => this.setState({activeRowId: null});
+    toggleActiveRowId = (channelId) => this.setState({activeRowId: channelId});
 
     render() {
         const channels = this.props.channels;
