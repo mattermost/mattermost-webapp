@@ -27,7 +27,7 @@ import {Emoji, SystemEmoji} from '@mattermost/types/emojis';
 import {Post} from '@mattermost/types/posts';
 import {NewPostDraft} from '../../types/store/draft';
 import {PostType} from '../file_upload';
-import Wysiwyg, {JSONContent, WysiwygConfig} from '../wysiwyg';
+import Wysiwyg, {MessageData, WysiwygConfig} from '../wysiwyg';
 
 import EditPostFooter from './edit_post_footer';
 
@@ -347,11 +347,11 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, teamId,
         }
     };
 
-    const handleChange = (message: string, content?: JSONContent) => {
+    const handleChange = (message: string, data?: MessageData) => {
         draftRef.current = {
             ...draftRef.current,
             message,
-            content,
+            content: data?.content,
         };
 
         setEditText(message);
