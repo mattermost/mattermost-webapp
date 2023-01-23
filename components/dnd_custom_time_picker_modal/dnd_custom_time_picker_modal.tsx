@@ -172,7 +172,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
 
     handlePopperOpenState= (isOpen: boolean) => {
         this.setState({
-            isPopperOpen: isOpen,
+            isPopperOpen: true,
         });
     };
 
@@ -220,7 +220,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         );
 
         const dayPickerProps: DayPickerProps = {
-            initialFocus: isPopperOpen,
+            initialFocus: true,
             mode: 'single',
             selected: selectedDate,
             onDayClick: this.handleDaySelection,
@@ -245,7 +245,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             >
                 <div className='DndModal__content'>
                     <DatePicker
-                        isPopperOpen={isPopperOpen}
+                        isPopperOpen={true}
                         handlePopperOpenState={this.handlePopperOpenState}
                         locale={this.props.locale}
                         datePickerProps={dayPickerProps}
