@@ -45,7 +45,7 @@ import Pluggable from 'plugins/pluggable';
 
 import BrowserStore from 'stores/browser_store';
 
-import Constants, {SidebarSize, StoragePrefixes, WindowSizes} from 'utils/constants';
+import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
 import {EmojiIndicesByAlias} from 'utils/emoji';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
@@ -86,6 +86,8 @@ import {UserProfile} from '@mattermost/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import WelcomePostRenderer from 'components/welcome_post_renderer';
+
+import WindowSizeObserver from 'components/window_size_observer/WindowSizeObserver';
 
 import {applyLuxonDefaults} from './effects';
 
@@ -140,8 +142,6 @@ const noop = () => {}; // eslint-disable-line no-empty-function
 
 export type Actions = {
     emitBrowserWindowResized: (size?: string) => void;
-    setLhsSize: (sidebarSize?: SidebarSize) => void;
-    setRhsSize: (sidebarSize?: SidebarSize) => void;
     getFirstAdminSetupComplete: () => Promise<ActionResult>;
     getProfiles: (page?: number, pageSize?: number, options?: Record<string, any>) => Promise<ActionResult>;
     migrateRecentEmojis: () => void;
@@ -176,10 +176,6 @@ export default class Root extends React.PureComponent<Props, State> {
     private smallDesktopMediaQuery: MediaQueryList;
     private tabletMediaQuery: MediaQueryList;
     private mobileMediaQuery: MediaQueryList;
-    private smallSidebarMediaQuery: MediaQueryList;
-    private mediumSidebarMediaQuery: MediaQueryList;
-    private largeSidebarMediaQuery: MediaQueryList;
-    private xLargeSidebarMediaQuery: MediaQueryList;
     private mounted: boolean;
 
     // The constructor adds a bunch of event listeners,
@@ -228,13 +224,7 @@ export default class Root extends React.PureComponent<Props, State> {
         this.tabletMediaQuery = window.matchMedia(`(min-width: ${Constants.MOBILE_SCREEN_WIDTH + 1}px) and (max-width: ${Constants.TABLET_SCREEN_WIDTH}px)`);
         this.mobileMediaQuery = window.matchMedia(`(max-width: ${Constants.MOBILE_SCREEN_WIDTH}px)`);
 
-        this.smallSidebarMediaQuery = window.matchMedia(`(max-width: ${Constants.SMALL_SIDEBAR_BREAKPOINT}px)`);
-        this.mediumSidebarMediaQuery = window.matchMedia(`(min-width: ${Constants.SMALL_SIDEBAR_BREAKPOINT + 1}px) and (max-width: ${Constants.MEDIUM_SIDEBAR_BREAKPOINT}px)`);
-        this.largeSidebarMediaQuery = window.matchMedia(`(min-width: ${Constants.MEDIUM_SIDEBAR_BREAKPOINT + 1}px) and (max-width: ${Constants.LARGE_SIDEBAR_BREAKPOINT}px)`);
-        this.xLargeSidebarMediaQuery = window.matchMedia(`(min-width: ${Constants.LARGE_SIDEBAR_BREAKPOINT + 1}px)`);
-
         this.updateWindowSize();
-        this.updateSidebarSize();
 
         store.subscribe(() => applyLuxonDefaults(store.getState()));
     }
@@ -456,20 +446,6 @@ export default class Root extends React.PureComponent<Props, State> {
             window.addEventListener('resize', this.handleWindowResizeEvent);
         }
 
-        if (this.smallSidebarMediaQuery.addEventListener) {
-            this.xLargeSidebarMediaQuery.addEventListener('change', this.handleSidebarMediaQueryChangeEvent);
-            this.largeSidebarMediaQuery.addEventListener('change', this.handleSidebarMediaQueryChangeEvent);
-            this.mediumSidebarMediaQuery.addEventListener('change', this.handleSidebarMediaQueryChangeEvent);
-            this.smallSidebarMediaQuery.addEventListener('change', this.handleSidebarMediaQueryChangeEvent);
-        } else if (this.smallSidebarMediaQuery.addListener) {
-            this.xLargeSidebarMediaQuery.addListener(this.handleSidebarMediaQueryChangeEvent);
-            this.largeSidebarMediaQuery.addListener(this.handleSidebarMediaQueryChangeEvent);
-            this.mediumSidebarMediaQuery.addListener(this.handleSidebarMediaQueryChangeEvent);
-            this.smallSidebarMediaQuery.addListener(this.handleSidebarMediaQueryChangeEvent);
-        } else {
-            window.addEventListener('resize', this.setSidebarSizeWhenWindowResized);
-        }
-
         measurePageLoadTelemetry();
         trackSelectorMetrics();
     }
@@ -490,20 +466,6 @@ export default class Root extends React.PureComponent<Props, State> {
             this.mobileMediaQuery.removeListener(this.handleMediaQueryChangeEvent);
         } else {
             window.removeEventListener('resize', this.handleWindowResizeEvent);
-        }
-
-        if (this.smallSidebarMediaQuery.removeEventListener) {
-            this.xLargeSidebarMediaQuery.removeEventListener('change', this.handleSidebarMediaQueryChangeEvent);
-            this.largeSidebarMediaQuery.removeEventListener('change', this.handleSidebarMediaQueryChangeEvent);
-            this.mediumSidebarMediaQuery.removeEventListener('change', this.handleSidebarMediaQueryChangeEvent);
-            this.smallSidebarMediaQuery.removeEventListener('change', this.handleSidebarMediaQueryChangeEvent);
-        } else if (this.smallSidebarMediaQuery.removeListener) {
-            this.xLargeSidebarMediaQuery.removeListener(this.handleSidebarMediaQueryChangeEvent);
-            this.largeSidebarMediaQuery.removeListener(this.handleSidebarMediaQueryChangeEvent);
-            this.mediumSidebarMediaQuery.removeListener(this.handleSidebarMediaQueryChangeEvent);
-            this.smallSidebarMediaQuery.removeListener(this.handleSidebarMediaQueryChangeEvent);
-        } else {
-            window.removeEventListener('resize', this.setSidebarSizeWhenWindowResized);
         }
     }
 
@@ -536,20 +498,9 @@ export default class Root extends React.PureComponent<Props, State> {
         this.props.actions.emitBrowserWindowResized();
     }, 100);
 
-    setSidebarSizeWhenWindowResized = throttle(() => {
-        this.props.actions.setLhsSize();
-        this.props.actions.setRhsSize();
-    }, 100);
-
     handleMediaQueryChangeEvent = (e: MediaQueryListEvent) => {
         if (e.matches) {
             this.updateWindowSize();
-        }
-    }
-
-    handleSidebarMediaQueryChangeEvent = (e: MediaQueryListEvent) => {
-        if (e.matches) {
-            this.updateSidebarSize();
         }
     }
 
@@ -578,27 +529,6 @@ export default class Root extends React.PureComponent<Props, State> {
             break;
         case this.mobileMediaQuery.matches:
             this.props.actions.emitBrowserWindowResized(WindowSizes.MOBILE_VIEW);
-            break;
-        }
-    }
-
-    updateSidebarSize = () => {
-        switch (true) {
-        case this.xLargeSidebarMediaQuery.matches:
-            this.props.actions.setLhsSize(SidebarSize.XLARGE);
-            this.props.actions.setRhsSize(SidebarSize.XLARGE);
-            break;
-        case this.largeSidebarMediaQuery.matches:
-            this.props.actions.setLhsSize(SidebarSize.LARGE);
-            this.props.actions.setRhsSize(SidebarSize.LARGE);
-            break;
-        case this.mediumSidebarMediaQuery.matches:
-            this.props.actions.setLhsSize(SidebarSize.MEDIUM);
-            this.props.actions.setRhsSize(SidebarSize.MEDIUM);
-            break;
-        case this.smallSidebarMediaQuery.matches:
-            this.props.actions.setLhsSize(SidebarSize.SMALL);
-            this.props.actions.setRhsSize(SidebarSize.SMALL);
             break;
         }
     }
@@ -709,6 +639,7 @@ export default class Root extends React.PureComponent<Props, State> {
                                 transitionDirection={Animations.Reasons.EnterFromBefore}
                             />
                         )}
+                        <WindowSizeObserver/>
                         <ModalController/>
                         <AnnouncementBarController/>
                         <SystemNotice/>

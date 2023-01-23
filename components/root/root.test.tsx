@@ -63,8 +63,6 @@ describe('components/Root', () => {
             savePreferences: jest.fn(),
             registerCustomPostRenderer: jest.fn(),
             initializeProducts: jest.fn(),
-            setLhsSize: jest.fn(),
-            setRhsSize: jest.fn(),
         },
         permalinkRedirectTeamName: '',
         showLaunchingWorkspace: false,

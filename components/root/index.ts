@@ -23,8 +23,6 @@ import {shouldShowAppBar} from 'selectors/plugins';
 import {migrateRecentEmojis} from 'actions/emoji_actions';
 import {emitBrowserWindowResized} from 'actions/views/browser';
 import {loadConfigAndMe, registerCustomPostRenderer} from 'actions/views/root';
-import {setLhsSize} from 'actions/views/lhs';
-import {setRhsSize} from 'actions/views/rhs';
 
 import {initializeProducts} from 'plugins/products';
 
@@ -71,8 +69,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
             getProfiles,
             migrateRecentEmojis,
             registerCustomPostRenderer,
-            setLhsSize,
-            setRhsSize,
             initializeProducts,
         }, dispatch),
     };
