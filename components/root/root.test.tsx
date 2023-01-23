@@ -11,10 +11,10 @@ import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 import {Client4} from 'mattermost-redux/client';
 import {GeneralTypes} from 'mattermost-redux/action_types';
 
+import matchMedia from 'tests/helpers/match_media.mock';
 import Root from 'components/root/root';
 import * as GlobalActions from 'actions/global_actions';
 import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
-import matchMedia from 'tests/helpers/match_media.mock';
 
 jest.mock('rudder-sdk-js', () => ({
     identify: jest.fn(),
