@@ -45,22 +45,23 @@ describe('Image Link Preview', () => {
             should('have.attr', 'src', expectedSrc).
             click();
 
-        cy.uiGetFilePreviewModal().within(() => {
-            // * Assert that the image has the correct url
-            cy.findByTestId('imagePreview').should('have.attr', 'src', expectedSrc);
+        // * Verify that the preview modal open up
+        cy.uiGetFilePreviewModal().as('filePreviewModal');
 
-            cy.uiGetContentFilePreviewModal().find('img').should((img) => {
-                // * Verify image is rendered
-                expect(img.height()).to.be.closeTo(25, 2);
-                expect(img.width()).to.be.closeTo(340, 2);
-            });
+        // * Assert that the image has the correct url
+        cy.get('@filePreviewModal').findByTestId('imagePreview').should('have.attr', 'src', expectedSrc);
 
-            // * Verify "Get Public Link" icon does not exist
-            cy.uiGetPublicLink({exist: false});
-
-            // # Close modal
-            cy.uiCloseFilePreviewModal();
+        cy.get('@filePreviewModal').uiGetContentFilePreviewModal().find('img').should((img) => {
+            // * Verify image is rendered
+            expect(img.height()).to.be.closeTo(25, 2);
+            expect(img.width()).to.be.closeTo(340, 2);
         });
+
+        // * Verify "Get Public Link" icon does not exist
+        cy.get('@filePreviewModal').uiGetPublicLink({exist: false});
+
+        // # Close modal
+        cy.uiCloseFilePreviewModal();
 
         // * Verify modal is closed
         cy.uiGetFilePreviewModal({exist: false});
