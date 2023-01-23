@@ -27,7 +27,7 @@ export const selectStaticPage = (itemId: string) => ({
     data: itemId,
 });
 
-export const setLhsSize = (sidebarSize: SidebarSize) => {
+export const setLhsSize = (sidebarSize?: SidebarSize) => {
     let newSidebarSize = sidebarSize;
     if (!sidebarSize) {
         const width = window.innerWidth;

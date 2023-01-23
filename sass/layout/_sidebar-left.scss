@@ -23,49 +23,6 @@ $sidebarOpacityAnimationDuration: 0.15s;
     }
 }
 
-.sidebar--left-dragged {
-    cursor: col-resize;
-    //Note: Resizing is not working if transition is set
-    transition: none !important;
-
-    #resizeLine {
-        &::after {
-            background-color: var(--denim-sidebar-active-border);
-        }
-    }
-}
-
-#resizeLine {
-    position: absolute;
-    z-index: 50;
-    right: -8px;
-    width: 16px;
-    height: 100%;
-    cursor: col-resize;
-
-    &::after {
-        position: absolute;
-        left: 6px;
-        width: 4px;
-        height: 100%;
-        background-color: transparent;
-        content: '';
-    }
-
-    &:hover {
-        &::after {
-            background-color: var(--denim-sidebar-active-border);
-            transition: background-color 400ms step-end;
-        }
-    }
-
-    &.snapped {
-        &::after {
-            animation: emphasis-sidebar-resize-line 800ms;
-        }
-    }
-}
-
 #SidebarContainer {
     position: relative;
     z-index: 16;

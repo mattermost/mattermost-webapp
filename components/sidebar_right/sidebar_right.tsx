@@ -23,8 +23,9 @@ import ChannelMembersRhs from 'components/channel_members_rhs';
 import Search from 'components/search/index';
 import LoadingScreen from 'components/loading_screen';
 
+import ResizableRhs from 'components/resizable_sidebar/resizable_rhs';
+
 import RhsPlugin from 'plugins/rhs_plugin';
-import Resizable from 'components/resizable_sidebar/resizable_rhs';
 
 type Props = {
     isExpanded: boolean;
@@ -262,7 +263,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
                     className={'sidebar--right sidebar--right--width-holder'}
                     ref={this.sidebarRightWidthHolder}
                 />
-                <Resizable
+                <ResizableRhs
                     className={containerClassName}
                     id='sidebar-right'
                     role='complementary'
@@ -288,7 +289,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
                             </Search>
                         )}
                     </div>
-                </Resizable>
+                </ResizableRhs>
             </>
         );
     }

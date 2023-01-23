@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {HTMLAttributes, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
+import React, {HTMLAttributes, useCallback, useMemo} from 'react';
 import {useSelector} from 'react-redux';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
@@ -9,24 +9,20 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {getRhsSize} from 'selectors/rhs';
 import LocalStorageStore from 'stores/local_storage_store';
 import {RHS_MIN_MAX_WIDTH, SidebarSize} from 'utils/constants';
-import {isOverLimit, isResizableSize, requestAnimationFrameForMouseMove, shouldRhsOverlapChannelView, shouldSnapWhenSizeGrown, shouldSnapWhenSizeShrunk} from '../utils';
+import {isResizableSize, preventAnimation, resetStyle, restoreAnimation, setWidth, shouldRhsOverlapChannelView} from '../utils';
+import Resizable from '../Resizable';
 
 interface Props extends HTMLAttributes<'div'> {
     children: React.ReactNode;
 }
 
-function Resizable({
+function ResizableRhs({
     role,
     children,
     id,
     className,
 }: Props, ref: React.Ref<HTMLDivElement>) {
     const forwardRef = ref as React.RefObject<HTMLDivElement>;
-    const rhsRef = useRef<HTMLDivElement>(null);
-    const resizeLineRef = useRef<HTMLDivElement>(null);
-
-    const [isResizeLineSelected, setIsResizeLineSelected] = useState(false);
-    const previousClientX = useRef(0);
 
     const rhsSize = useSelector(getRhsSize);
     const userId = useSelector(getCurrentUserId);
@@ -38,178 +34,115 @@ function Resizable({
     const isRhsResizable = useMemo(() => isResizableSize(rhsSize), [rhsSize]);
     const shouldRhsOverlap = useMemo(() => shouldRhsOverlapChannelView(rhsSize), [rhsSize]);
 
-    const handleDoubleClick = useCallback(() => {
-        if (rhsRef.current) {
-            rhsRef.current.style.width = `${defaultWidth}px`;
-            rhsRef.current.classList.add('sidebar--right-double-clicked');
+    const handleInit = useCallback((width: number) => {
+        const forwardRefElement = forwardRef.current;
 
-            setTimeout(() => {
-                if (rhsRef.current) {
-                    rhsRef.current.classList.remove('sidebar--right-double-clicked');
-                }
-            });
-        }
-
-        if (!shouldRhsOverlap && forwardRef.current) {
-            forwardRef.current.style.width = `${defaultWidth}px`;
-            forwardRef.current.classList.add('sidebar--right-double-clicked');
-
-            setTimeout(() => {
-                if (forwardRef.current) {
-                    forwardRef.current.classList.remove('sidebar--right-double-clicked');
-                }
-            });
-        }
-
-        LocalStorageStore.setRhsWidth(userId, defaultWidth);
-    }, [defaultWidth, forwardRef, shouldRhsOverlap, userId]);
-
-    const handleMouseDown = useCallback((e: React.MouseEvent) => {
-        if (!isRhsResizable) {
+        if (!forwardRefElement) {
             return;
         }
-
-        previousClientX.current = e.clientX;
-        setIsResizeLineSelected(true);
-        document.body.style.cursor = 'col-resize';
-
-        if (rhsRef.current && forwardRef.current) {
-            rhsRef.current.classList.add('sidebar--right-dragged');
-            forwardRef.current.classList.add('sidebar--right-dragged');
-        }
-    }, [forwardRef, isRhsResizable]);
-
-    const handleMouseMove = useCallback(requestAnimationFrameForMouseMove((e: MouseEvent) => {
-        if (!rhsRef.current || !forwardRef.current || !previousClientX.current || !resizeLineRef.current) {
-            return;
+        if (!shouldRhsOverlap) {
+            setWidth(forwardRefElement, width);
+        } else if (shouldRhsOverlap) {
+            setWidth(forwardRefElement, minWidth);
         }
 
-        if (!isResizeLineSelected) {
-            return;
-        }
+        preventAnimation(forwardRefElement);
 
-        e.preventDefault();
-
-        const prevWidth = rhsRef.current?.getBoundingClientRect().width ?? 0;
-        const widthDiff = previousClientX.current - e.clientX;
-        const newWidth = prevWidth + widthDiff;
-
-        previousClientX.current = e.clientX;
-
-        if (resizeLineRef.current.classList.contains('snapped')) {
-            return;
-        }
-
-        if (isOverLimit(newWidth, maxWidth, minWidth)) {
-            return;
-        }
-
-        if (shouldSnapWhenSizeGrown(newWidth, prevWidth, defaultWidth) || shouldSnapWhenSizeShrunk(newWidth, prevWidth, defaultWidth)) {
-            LocalStorageStore.setRhsWidth(userId, defaultWidth);
-            rhsRef.current.style.width = `${defaultWidth}px`;
-            if (!shouldRhsOverlap) {
-                forwardRef.current.style.width = `${defaultWidth}px`;
+        requestAnimationFrame(() => {
+            if (forwardRefElement) {
+                restoreAnimation(forwardRefElement);
             }
+        });
+    }, [forwardRef, minWidth, rhsSize, shouldRhsOverlap]);
 
-            resizeLineRef.current.classList.add('snapped');
-            setTimeout(() => {
-                if (resizeLineRef.current) {
-                    resizeLineRef.current.classList.remove('snapped');
-                }
-            }, 500);
+    const handleLimitChange = useCallback(() => {
+        const forwardRefElement = forwardRef.current;
 
+        if (!forwardRefElement) {
+            return;
+        }
+
+        if (rhsSize === SidebarSize.MEDIUM) {
+            setWidth(forwardRefElement, minWidth);
+            return;
+        }
+
+        if (rhsSize === SidebarSize.SMALL) {
+            resetStyle(forwardRefElement);
+            return;
+        }
+
+        setWidth(forwardRefElement, defaultWidth);
+    }, [defaultWidth, forwardRef, minWidth, rhsSize]);
+
+    const handleResize = useCallback((width: number) => {
+        const forwardRefElement = forwardRef.current;
+
+        LocalStorageStore.setRhsWidth(userId, width);
+
+        if (!forwardRefElement) {
             return;
         }
 
         if (!shouldRhsOverlap) {
-            forwardRef.current.style.width = `${newWidth}px`;
+            setWidth(forwardRefElement, width);
         }
-        LocalStorageStore.setRhsWidth(userId, newWidth);
-        rhsRef.current.style.width = `${newWidth}px`;
-    }), [forwardRef, maxWidth, minWidth, defaultWidth, shouldRhsOverlap, isResizeLineSelected, userId]);
-
-    const handleMouseUp = useCallback(() => {
-        setIsResizeLineSelected(false);
-        document.body.style.cursor = 'auto';
-
-        if (!rhsRef.current || !forwardRef.current) {
-            return;
-        }
-
-        rhsRef.current.classList.remove('sidebar--right-dragged');
-        forwardRef.current.classList.remove('sidebar--right-dragged');
-    }, [forwardRef]);
-
-    useEffect(() => {
-        if (!isResizeLineSelected) {
-            return () => {};
-        }
-
-        window.addEventListener('mousemove', handleMouseMove);
-        window.addEventListener('mouseup', handleMouseUp);
-
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mouseup', handleMouseUp);
-        };
-    }, [handleMouseMove, handleMouseUp, isResizeLineSelected]);
-
-    useEffect(() => {
-        if (!rhsRef.current || !forwardRef.current) {
-            return;
-        }
-
-        const rhsWidth = rhsRef.current.getBoundingClientRect().width;
-
-        if (rhsWidth > maxWidth || rhsWidth < minWidth) {
-            rhsRef.current.style.width = `${defaultWidth}px`;
-            LocalStorageStore.setRhsWidth(userId, defaultWidth);
-
-            if (rhsSize === SidebarSize.MEDIUM) {
-                forwardRef.current.style.width = `${minWidth}px`;
-                return;
-            }
-
-            forwardRef.current.style.width = `${defaultWidth}px`;
-        }
-    }, [forwardRef, rhsSize, userId]);
-
-    useLayoutEffect(() => {
-        if (!rhsRef.current || !forwardRef.current) {
-            return;
-        }
-
-        const savedRhsWidth = LocalStorageStore.getRhsWidth(userId);
-
-        if (!savedRhsWidth) {
-            return;
-        }
-
-        if (!shouldRhsOverlap) {
-            forwardRef.current.style.width = `${savedRhsWidth}px`;
-        }
-        rhsRef.current.style.width = `${savedRhsWidth}px`;
     }, [forwardRef, shouldRhsOverlap, userId]);
 
+    const handleResizeStart = useCallback(() => {
+        const forwardRefElement = forwardRef.current;
+
+        if (forwardRefElement) {
+            preventAnimation(forwardRefElement);
+        }
+    }, [forwardRef]);
+
+    const handleResizeEnd = useCallback(() => {
+        const forwardRefElement = forwardRef.current;
+        if (forwardRefElement) {
+            restoreAnimation(forwardRefElement);
+        }
+    }, [forwardRef]);
+
+    const handleLineDoubleClick = useCallback(() => {
+        const forwardRefElement = forwardRef.current;
+
+        if (!shouldRhsOverlap && forwardRefElement) {
+            setWidth(forwardRefElement, defaultWidth);
+            preventAnimation(forwardRefElement);
+
+            requestAnimationFrame(() => {
+                if (forwardRefElement) {
+                    restoreAnimation(forwardRefElement);
+                }
+            });
+        }
+    }, [defaultWidth, forwardRef, shouldRhsOverlap]);
+
     return (
-        <div
+        <Resizable
             id={id}
             className={className}
             role={role}
-            ref={rhsRef}
+            maxWidth={maxWidth}
+            minWidth={minWidth}
+            defaultWidth={defaultWidth}
+            initialWidth={Number(LocalStorageStore.getRhsWidth(userId))}
+            enabled={{
+                left: false,
+                right: isRhsResizable,
+            }}
+            onInit={handleInit}
+            onLimitChange={handleLimitChange}
+            onResize={handleResize}
+            onResizeStart={handleResizeStart}
+            onResizeEnd={handleResizeEnd}
+            onLineDoubleClick={handleLineDoubleClick}
         >
+
             {children}
-
-            {isRhsResizable &&
-            <div
-
-                id='resizeRHSLine'
-                ref={resizeLineRef}
-                onMouseDown={handleMouseDown}
-                onDoubleClick={handleDoubleClick}
-            />}
-        </div>
+        </Resizable>
     );
 }
 
-export default React.forwardRef(Resizable);
+export default React.forwardRef(ResizableRhs);
