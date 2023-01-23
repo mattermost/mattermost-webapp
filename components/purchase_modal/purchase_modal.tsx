@@ -25,7 +25,6 @@ import {
     ModalIdentifiers,
     RecurringIntervals,
 } from 'utils/constants';
-import {findProductByID} from 'utils/products';
 
 import PaymentDetails from 'components/admin_console/billing/payment_details';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
@@ -99,6 +98,7 @@ type Props = {
     show: boolean;
     isDevMode: boolean;
     products: Record<string, Product> | undefined;
+    yearlyProducts: Record<string, Product>;
     contactSalesLink: string;
     isFreeTrial: boolean;
     productId: string | undefined;
@@ -181,10 +181,10 @@ function findProductInDictionary(products: Record<string, Product> | undefined, 
 
 function getSelectedProduct(
     products: Record<string, Product> | undefined,
-    productId?: string | null,
+    currentProductId?: string | null,
     isDelinquencyModal?: boolean,
     isCloudDelinquencyGreaterThan90Days?: boolean) {
-    const currentProduct = findProductInDictionary(products, productId);
+    const currentProduct = findProductInDictionary(products, currentProductId); // if current product id is for monthly, currentProduct will not be found and nextSku by default is professional annual
     if (isDelinquencyModal && !isCloudDelinquencyGreaterThan90Days) {
         return currentProduct;
     }
@@ -321,14 +321,14 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                 props.productId,
             ),
             selectedProduct: getSelectedProduct(
-                props.products,
+                props.yearlyProducts,
                 props.productId,
                 props.isDelinquencyModal,
                 props.isCloudDelinquencyGreaterThan90Days,
             ),
             isUpgradeFromTrial: props.isFreeTrial,
             buttonClickedInfo: '',
-            selectedProductPrice: getSelectedProduct(props.products, props.productId, false)?.price_per_seat.toString() || null,
+            selectedProductPrice: getSelectedProduct(props.yearlyProducts, props.productId, false)?.price_per_seat.toString() || null,
             usersCount: this.props.usersCount,
             seats: {
                 quantity: this.props.usersCount.toString(),
@@ -392,18 +392,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             buttonClickedInfo: callerInfo,
             processing: true,
         } as unknown as Pick<State, keyof State>;
-
-        if (this.state.selectedProduct?.recurring_interval === RecurringIntervals.MONTH) {
-            const yearlyProduct = findProductByID(this.props.products || {}, this.state.selectedProduct.cross_sells_to);
-            if (yearlyProduct) {
-                update.selectedProduct = yearlyProduct;
-            }
-        } else if ((this.state.selectedProduct?.recurring_interval === RecurringIntervals.YEAR)) {
-            const monthlyProduct = findProductByID(this.props.products || {}, this.state.selectedProduct.cross_sells_to);
-            if (monthlyProduct) {
-                update.selectedProduct = monthlyProduct;
-            }
-        }
         this.setState(update);
     }
 
@@ -628,7 +616,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             return product.recurring_interval === RecurringIntervals.YEAR && product.sku === CloudProducts.PROFESSIONAL;
         };
 
-        const yearlyProductMonthlyPrice = parseInt(this.state.selectedProductPrice || '0', 10) / 12;
+        const yearlyProductMonthlyPrice = parseInt(this.state.selectedProductPrice || '0', 10);
 
         const currentProductMonthly = this.state.currentProduct?.recurring_interval === RecurringIntervals.MONTH;
 

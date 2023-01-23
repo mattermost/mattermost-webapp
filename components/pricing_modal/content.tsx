@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {CloudLinks, CloudProducts, LicenseSkus, ModalIdentifiers, PaidFeatures, TELEMETRY_CATEGORIES, RecurringIntervals} from 'utils/constants';
 import {fallbackStarterLimits, asGBString, hasSomeLimits} from 'utils/limits';
-import {findProductBySkuAndInterval} from 'utils/products';
+import {findOnlyYearlyProducts, findProductBySku} from 'utils/products';
 
 import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
 
@@ -62,22 +62,25 @@ function Content(props: ContentProps) {
     const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.UpgradeEnterprise);
 
     const subscription = useSelector(selectCloudSubscription);
-    const product = useSelector(selectSubscriptionProduct);
+    const currentProduct = useSelector(selectSubscriptionProduct);
     const products = useSelector(selectCloudProducts);
+    const yearlyProducts = findOnlyYearlyProducts(products || {}); // pricing modal should now only show yearly products
 
     const contactSupportLink = useSelector(getCloudContactUsLink)(InquiryType.Technical);
 
-    const currentSubscriptionIsMonthly = product?.recurring_interval === RecurringIntervals.MONTH;
-    const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
+    const currentSubscriptionIsMonthly = currentProduct?.recurring_interval === RecurringIntervals.MONTH;
+    const isEnterprise = currentProduct?.sku === CloudProducts.ENTERPRISE;
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
-    const yearlyProfessionalProduct = findProductBySkuAndInterval(products || {}, CloudProducts.PROFESSIONAL, RecurringIntervals.YEAR);
+    const yearlyProfessionalProduct = findProductBySku(yearlyProducts, CloudProducts.PROFESSIONAL);
+    const professionalPrice = yearlyProfessionalProduct ? yearlyProfessionalProduct.price_per_seat : 0;
 
-    const starterProduct = Object.values(products || {}).find(((product) => {
+    const starterProduct = Object.values(yearlyProducts || {}).find(((product) => {
         return product.sku === CloudProducts.STARTER;
     }));
 
-    const isStarter = product?.sku === CloudProducts.STARTER;
-    const isProfessional = product?.sku === CloudProducts.PROFESSIONAL;
+    const isStarter = currentProduct?.sku === CloudProducts.STARTER;
+    const isProfessional = currentProduct?.sku === CloudProducts.PROFESSIONAL;
+    const isProfessionalAnnual = isProfessional && currentProduct?.recurring_interval === RecurringIntervals.YEAR;
 
     const isPreTrial = subscription?.trial_end_at === 0;
 
@@ -165,9 +168,6 @@ function Content(props: ContentProps) {
         formatMessage({id: 'admin.billing.subscription.planDetails.features.mfa', defaultMessage: 'Multi-Factor Authentication (MFA)'}),
     ];
 
-    // Default professional price
-    const professionalPrice = yearlyProfessionalProduct ? yearlyProfessionalProduct.price_per_seat / 12 : 0;
-
     return (
         <div className='Content'>
             <Modal.Header className='PricingModal__header'>
@@ -249,7 +249,7 @@ function Content(props: ContentProps) {
                             },
                             text: freeTierText,
                             disabled: isStarter || isEnterprise || !isAdmin,
-                            customClass: ButtonCustomiserClasses.secondary,
+                            customClass: (isStarter || isEnterprise || !isAdmin) ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.secondary,
                         }}
                         briefing={{
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
@@ -292,7 +292,7 @@ function Content(props: ContentProps) {
                         buttonDetails={{
                             action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button'),
                             text: professionalTierText,
-                            disabled: !isAdmin || isProfessional || (isEnterprise && !isEnterpriseTrial),
+                            disabled: !isAdmin || isProfessionalAnnual || (isEnterprise && !isEnterpriseTrial),
                             customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
                         }}
                         briefing={{
