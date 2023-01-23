@@ -9,7 +9,7 @@ import {isCustomEmojiEnabled} from 'selectors/emojis';
 import {getCurrentLocale} from 'selectors/i18n';
 import {GlobalState} from 'types/store';
 
-import Wysiwyg from './wysiwyg';
+import {Wysiwyg} from './wysiwyg';
 
 function mapStateToProps(state: GlobalState) {
     return {
