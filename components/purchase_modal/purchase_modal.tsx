@@ -414,6 +414,10 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             dialogProps: {
                 confirmSwitchToYearlyFunc: () => this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > confirm_switch_to_annual_modal > confirm_click'),
                 contactSalesFunc: () => {
+                    trackEvent(
+                        TELEMETRY_CATEGORIES.CLOUD_ADMIN,
+                        'confirm_switch_to_annual_click_contact_sales',
+                    );
                     window.open(this.props.contactSalesLink, '_blank');
                 },
             },
