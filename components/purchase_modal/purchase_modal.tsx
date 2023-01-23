@@ -40,6 +40,7 @@ import PricingModal from 'components/pricing_modal';
 import PlanLabel from 'components/common/plan_label';
 import Consequences from 'components/self_hosted_purchase_modal/consequences';
 import SeatsCalculator, {errorInvalidNumber, Seats} from 'components/self_hosted_purchase_modal/seats_calculator';
+import SwitchToYearlyPlanConfirmModal from 'components/switch_to_yearly_plan_confirm_modal';
 
 import {ModalData} from 'types/actions';
 
@@ -384,8 +385,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         this.setState({cardInputComplete: event.complete});
     }
 
-    handleSubmitClick = async () => {
-        const callerInfo = this.props.callerCTA + '> purchase_modal > upgrade_button_click';
+    handleSubmitClick = async (callerInfo: string) => {
         const update = {
             selectedProduct: this.state.selectedProduct,
             paymentInfoIsValid: false,
@@ -405,6 +405,19 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             }
         }
         this.setState(update);
+    }
+
+    confirmSwitchToAnnual = () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.CONFIRM_SWITCH_TO_YEARLY,
+            dialogType: SwitchToYearlyPlanConfirmModal,
+            dialogProps: {
+                confirmSwitchToYearlyFunc: () => this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > confirm_switch_to_annual_modal > confirm_click'),
+                contactSalesFunc: () => {
+                    window.open(this.props.contactSalesLink, '_blank');
+                },
+            },
+        });
     }
 
     setIsUpgradeFromTrialToFalse = () => {
@@ -587,7 +600,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         topColor='#4A69AC'
                         price={this.getDelinquencyTotalString()}
                         buttonDetails={{
-                            action: this.handleSubmitClick,
+                            action: () => this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > upgrade_button_click'),
                             text: localizeMessage(
                                 'cloud_delinquency.cc_modal.card.reactivate',
                                 'Re-active',
@@ -613,6 +626,10 @@ class PurchaseModal extends React.PureComponent<Props, State> {
 
         const yearlyProductMonthlyPrice = parseInt(this.state.selectedProductPrice || '0', 10) / 12;
 
+        const currentProductMonthly = this.state.currentProduct?.recurring_interval === RecurringIntervals.MONTH;
+
+        const cardBtnText = currentProductMonthly ? formatMessage({id: 'pricing_modal.btn.switch_to_annual', defaultMessage: 'Switch to annual billing'}) : formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
+
         return (
             <>
                 <div
@@ -626,16 +643,24 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         this.state.selectedProduct ? this.state.selectedProduct.name : '',
                     )}
                     price={yearlyProductMonthlyPrice.toString()}
-                    rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month, <b>billed annually</b>'}, {
+                    rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month {br}<b>(billed annually)</b>'}, {
+                        br: <br/>,
                         b: (chunks: React.ReactNode | React.ReactNodeArray) => (
-                            <b>
-                                {chunks}
-                            </b>
-                        )})}
+                            <p style={{fontSize: '14px'}}>
+                                <b>{chunks}</b>
+                            </p>
+                        ),
+                    })}
                     planBriefing={<></>}
                     buttonDetails={{
-                        action: this.handleSubmitClick,
-                        text: 'Upgrade',
+                        action: () => {
+                            if (currentProductMonthly) {
+                                this.confirmSwitchToAnnual();
+                            } else {
+                                this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > upgrade_button_click');
+                            }
+                        },
+                        text: cardBtnText,
                         customClass:
                             !this.state.paymentInfoIsValid ||
                             this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE || this.state.seats.error !== null ||

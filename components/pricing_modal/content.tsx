@@ -87,6 +87,7 @@ function Content(props: ContentProps) {
     }
 
     const freeTierText = !isStarter && !currentSubscriptionIsMonthly ? formatMessage({id: 'pricing_modal.btn.contactSupport', defaultMessage: 'Contact Support'}) : formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'});
+    const professionalTierText = currentSubscriptionIsMonthly ? formatMessage({id: 'pricing_modal.btn.switch_to_yearly', defaultMessage: 'Switch to yearly billing'}) : formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
 
     const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
     const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
@@ -262,12 +263,14 @@ function Content(props: ContentProps) {
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
                         price={`$${professionalPrice}`}
-                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month, <b>billed annually</b>'}, {
+                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month {br}<b>(billed annually)</b>'}, {
+                            br: <br/>,
                             b: (chunks: React.ReactNode | React.ReactNodeArray) => (
-                                <b>
-                                    {chunks}
-                                </b>
-                            )})}
+                                <p style={{fontSize: '14px'}}>
+                                    <b>{chunks}</b>
+                                </p>
+                            ),
+                        })}
                         planLabel={
                             isProfessional ? (
                                 <PlanLabel
@@ -288,7 +291,7 @@ function Content(props: ContentProps) {
                             />) : undefined}
                         buttonDetails={{
                             action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button'),
-                            text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
+                            text: professionalTierText,
                             disabled: !isAdmin || isProfessional || (isEnterprise && !isEnterpriseTrial),
                             customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
                         }}
