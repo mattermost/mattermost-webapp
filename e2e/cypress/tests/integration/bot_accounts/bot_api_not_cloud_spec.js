@@ -28,7 +28,6 @@ describe('Bot accounts ownership and API', () => {
         // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
-                EnableBotAccountCreation: true,
                 DisableBotsWhenOwnerIsDeactivated: true,
             },
         };

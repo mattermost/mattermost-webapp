@@ -5,6 +5,9 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {Client4} from 'mattermost-redux/client';
 import {RelationOneToOne} from '@mattermost/types/utilities';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -16,8 +19,7 @@ import {localizeMessage} from 'utils/utils';
 import ProfilePicture from 'components/profile_picture';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
-import GuestBadge from 'components/widgets/badges/guest_badge';
-import BotBadge from 'components/widgets/badges/bot_badge';
+
 import InvitationModal from 'components/invitation_modal';
 import ToggleModalButton from 'components/toggle_modal_button';
 
@@ -271,21 +273,23 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                     <div className='more-modal__name'>
                         <span>
                             {displayName}
-                            <BotBadge
-                                show={Boolean(option.is_bot)}
-                            />
-                            <GuestBadge show={isGuest(option.roles)}/>
+                            {option.is_bot && <BotTag/>}
+                            {isGuest(option.roles) && <GuestTag className='popoverlist'/>}
                             {displayName === option.username ?
                                 null :
                                 <span
                                     className='ml-2 light'
                                     style={{fontSize: '12px'}}
-                                >{'@'}{option.username}</span>
+                                >
+                                    {'@'}{option.username}
+                                </span>
                             }
                             <span
                                 style={{position: 'absolute', right: 20}}
                                 className='light'
-                            >{userMapping[option.id]}</span>
+                            >
+                                {userMapping[option.id]}
+                            </span>
                         </span>
                     </div>
                 </div>

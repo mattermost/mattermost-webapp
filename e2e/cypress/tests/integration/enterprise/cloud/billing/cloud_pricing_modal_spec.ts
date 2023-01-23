@@ -596,4 +596,42 @@ describe('Pricing modal', () => {
         // * Check that the downgrade modal has appeard.
         cy.get('div.DowngradeTeamRemovalModal__body').should('exist');
     });
+
+    it('Should display a "Contact Support" CTA for downgrading when the current subscription is yearly and not on starter', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_4',
+            is_free_trial: 'false',
+        };
+        simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+
+        // * Click the free action (downgrade).
+        cy.get('#free').should('exist').contains('Contact Support');
+        cy.get('#free_action').should('be.enabled').click();
+    });
+
+    it('Should not display a "Contact Support" CTA for downgrading when the current subscription is monthly and not on starter', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_2',
+            is_free_trial: 'false',
+        };
+        simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+
+        // # The free action button should be disabled and contain the text "Downgrade".
+        cy.get('#free').should('exist').contains('Downgrade');
+        cy.get('#free_action').should('be.disabled');
+    });
 });

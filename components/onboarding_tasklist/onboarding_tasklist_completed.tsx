@@ -12,7 +12,7 @@ import {GlobalState} from '@mattermost/types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 
-import {LicenseSkus} from 'utils/constants';
+import {AboutLinks, LicenseLinks, LicenseSkus} from 'utils/constants';
 
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
@@ -225,11 +225,11 @@ const Completed = (props: Props): JSX.Element => {
                         <span>
                             <FormattedMessage
                                 id='onboardingTask.checklist.disclaimer'
-                                defaultMessage='By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
+                                defaultMessage='By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
                                 values={{
                                     linkEvaluation: (msg: React.ReactNode) => (
                                         <a
-                                            href='https://mattermost.com/software-evaluation-agreement'
+                                            href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -238,7 +238,7 @@ const Completed = (props: Props): JSX.Element => {
                                     ),
                                     linkPrivacy: (msg: React.ReactNode) => (
                                         <a
-                                            href='https://mattermost.com/privacy-policy'
+                                            href={AboutLinks.PRIVACY_POLICY}
                                             target='_blank'
                                             rel='noreferrer'
                                         >
