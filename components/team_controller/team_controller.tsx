@@ -43,6 +43,8 @@ function TeamController(props: Props) {
     const history = useHistory();
     const {team: teamNameParam} = useParams<Props['match']['params']>();
 
+    const [initialChannelsLoaded, setInitialChannelsLoaded] = useState(props.graphQLEnabled);
+
     const [team, setTeam] = useState<Team | null>(getTeamFromTeamList(props.teamsList, teamNameParam));
 
     const blurTime = useRef(Date.now());
@@ -51,11 +53,17 @@ function TeamController(props: Props) {
     useTelemetryIdentitySync();
 
     useEffect(() => {
-        if (props.graphQLEnabled) {
-            props.fetchChannelsAndMembers();
-        } else {
-            props.fetchAllMyTeamsChannelsAndChannelMembersREST();
+        async function fetchInitialChannels() {
+            if (props.graphQLEnabled) {
+                await props.fetchChannelsAndMembers();
+            } else {
+                await props.fetchAllMyTeamsChannelsAndChannelMembersREST();
+            }
+
+            setInitialChannelsLoaded(true);
         }
+
+        fetchInitialChannels();
     }, [props.graphQLEnabled]);
 
     useEffect(() => {
@@ -230,7 +238,7 @@ function TeamController(props: Props) {
                     )}
                 />
             ))}
-            <ChannelController/>
+            <ChannelController shouldRenderCenterChannel={initialChannelsLoaded}/>
         </Switch>
     );
 }
