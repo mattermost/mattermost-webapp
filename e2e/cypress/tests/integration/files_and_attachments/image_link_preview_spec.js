@@ -166,7 +166,7 @@ describe('Image Link Preview', () => {
             {
                 filename: 'image-40x400.jpg',
                 originalSize: {width: 40, height: 400},
-                thumbnailSize: {width: 40, height: 400},
+                thumbnailSize: {width: 35, height: 350},
                 containerSize: {width: 46},
             },
             {
