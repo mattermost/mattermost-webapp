@@ -74,7 +74,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           browser: chrome
-          config: defaultCommandTimeout=60000
+          config: defaultCommandTimeout=60000,video=true,videosFolder=tests/videos
           install: false
           spec: ./tests/integration/performance/*
           start: npm run benchmarks:run-server
@@ -82,11 +82,33 @@ jobs:
           working-directory: e2e/cypress
         env:
           MM_LOGSETTINGS_ENABLECONSOLE: false
+          MM_LOGSETTINGS_FILELEVEL: debug
           MM_SQLSETTINGS_DATASOURCE: postgres://mmuser:mostest@localhost/postgres?sslmode=disable&connect_timeout=10&binary_parameters=yes
           MM_TEAMSETTINGS_ENABLEOPENSERVER: true
-      - name: Upload artifacts
+      - name: Upload Cypress logs
+        if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
-          name: Test logs
+          name: Cypress logs
           path: e2e/cypress/tests/integration/performance/logs/
           retention-days: 3
+      - name: Upload Mattermost logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: Mattermost logs
+          path: e2e/cypress/mattermost/logs/mattermost.log
+          retention-days: 3
+      - name: Upload screenshots
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: Test screenshots
+          path: e2e/cypress/tests/screenshots
+          retention-days: 3
+      - name: Upload videos
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: Test Videos
+          path: e2e/cypress/tests/videos
