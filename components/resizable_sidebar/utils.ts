@@ -43,3 +43,23 @@ export const requestAnimationFrameForMouseMove = (callback: (e: MouseEvent) => v
         });
     };
 };
+
+export const preventAnimation = (elem: HTMLElement) => {
+    elem.classList.add('resizeWrapper', 'prevent-animation');
+};
+
+export const restoreAnimation = (elem: HTMLElement) => {
+    elem.classList.remove('resizeWrapper', 'prevent-animation');
+};
+
+export const setWidth = (elem: HTMLElement, width: number, unit: 'px' | '%' = 'px') => {
+    elem.style.width = `${width}${unit}`;
+};
+
+export const resetStyle = (elem: HTMLElement) => {
+    elem.removeAttribute('style');
+};
+
+export const toggleColResizeCursor = () => {
+    document.body.classList.toggle('resized');
+};
