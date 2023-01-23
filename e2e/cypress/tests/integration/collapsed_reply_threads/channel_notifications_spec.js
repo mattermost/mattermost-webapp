@@ -11,6 +11,7 @@
 // Group: @collapsed_reply_threads
 
 import {spyNotificationAs} from '../../support/notification';
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('CRT Desktop notifications', () => {
     let testTeam;
@@ -71,14 +72,24 @@ describe('CRT Desktop notifications', () => {
         cy.findByText('Desktop Notifications').should('be.visible');
 
         cy.get('.channel-notifications-settings-modal__body').scrollTo('center').get('#desktopNotification-all').should('be.visible').click();
+        cy.get('.channel-notifications-settings-modal__body').get('#desktopNotification-all').should('be.checked');
+
         cy.get('#desktopNotification-mention').should('be.visible').click().then(() => {
+            cy.get('[data-testid="desktopReplyThreads"]').should('be.checked');
             cy.get('[data-testid="desktopReplyThreads"]').should('be.visible').click();
+            cy.get('[data-testid="desktopReplyThreads"]').should('not.be.checked');
         });
+        cy.get('.channel-notifications-settings-modal__body').scrollTo('center').get('#desktopNotification-mention').should('be.checked');
+
         cy.get('.channel-notifications-settings-modal__body').scrollTo('center').get('#desktopNotification-none').should('be.visible').click();
+        cy.get('.channel-notifications-settings-modal__body').get('#desktopNotification-none').should('be.checked');
 
         // # click on Save button
         cy.get('.channel-notifications-settings-modal__save-btn').should('be.visible').click();
 
+        // # Set users notification settings
+        cy.uiOpenChannelMenu('Notification Preferences');
+        cy.get('.channel-notifications-settings-modal__body').scrollTo('center').get('#desktopNotification-none').should('be.checked');
         cy.get('.channel-notifications-settings-modal__body').scrollTo('center').get('#desktopNotification-all').should('be.visible').click();
 
         cy.get('.channel-notifications-settings-modal__save-btn').should('be.visible').click();
