@@ -3,28 +3,26 @@
 
 import React, {RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {components, InputActionMeta, FormatOptionLabelMeta, ValueType, OptionsType} from 'react-select';
+import {components, FormatOptionLabelMeta, InputActionMeta, OptionsType, ValueType} from 'react-select';
 import AsyncCreatable from 'react-select/async-creatable';
 import classNames from 'classnames';
 
-import GuestTag from 'components/widgets/tag/guest_tag';
-
-import BotTag from 'components/widgets/tag/bot_tag';
-
-import {isEmail} from 'mattermost-redux/utils/helpers';
 import {UserProfile} from '@mattermost/types/users';
 
+import {isEmail} from 'mattermost-redux/utils/helpers';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
+
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import CloseCircleSolidIcon from 'components/widgets/icons/close_circle_solid_icon';
 import MailIcon from 'components/widgets/icons/mail_icon';
 import MailPlusIcon from 'components/widgets/icons/mail_plus_icon';
-import CloseCircleSolidIcon from 'components/widgets/icons/close_circle_solid_icon';
-
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import Avatar from 'components/widgets/users/avatar';
-import {imageURLForUser, getDisplayName, getLongDisplayNameParts} from 'utils/utils';
+import BotTag from 'components/widgets/tag/bot_tag';
+import GuestTag from 'components/widgets/tag/guest_tag';
 
 import {t} from 'utils/i18n';
-import {isGuest} from 'mattermost-redux/utils/user_utils';
+import {getDisplayName, getLongDisplayNameParts, imageURLForUser} from 'utils/utils';
 
 import './users_emails_input.scss';
 
@@ -116,7 +114,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
     }
 
     getOptionValue = (user: UserProfile | EmailInvite): string => {
-        if (user.hasOwnProperty('id')) {
+        if (Object.prototype.hasOwnProperty.call(user, 'id')) {
             return (user as UserProfile).id;
         }
         return (user as EmailInvite).value;
@@ -243,8 +241,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
                 if ((v as UserProfile).id) {
                     return v as UserProfile;
                 }
-                const emailInvite: EmailInvite = {label: v, value: v} as EmailInvite;
-                return emailInvite;
+                return {label: v, value: v} as EmailInvite;
             });
 
             for (const option of this.state.options) {
