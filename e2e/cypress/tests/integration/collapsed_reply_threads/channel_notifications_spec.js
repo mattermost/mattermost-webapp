@@ -11,7 +11,6 @@
 // Group: @collapsed_reply_threads
 
 import {spyNotificationAs} from '../../support/notification';
-import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('CRT Desktop notifications', () => {
     let testTeam;
