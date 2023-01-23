@@ -12,8 +12,7 @@ import styled from 'styled-components';
 import type {Editor} from '@tiptap/react';
 
 import {useGetLatest} from 'components/advanced_text_editor/formatting_bar/hooks';
-
-import {Formatters} from '../../';
+import {Formatters} from 'components/wysiwyg/wysiwyg';
 
 import BlockModeControls from './controls/block-controls';
 import HeadingControls from './controls/heading-controls';

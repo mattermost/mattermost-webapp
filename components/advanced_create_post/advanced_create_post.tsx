@@ -6,6 +6,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
+import {Editor as CoreEditor} from '@tiptap/core';
 
 import {AlertCircleOutlineIcon, CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
@@ -57,7 +58,7 @@ import {ModalData} from 'types/actions';
 
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 
-import Wysiwyg, {WysiwygConfig, Editor, MessageData} from 'components/wysiwyg';
+import Wysiwyg, {WysiwygConfig, MessageData} from 'components/wysiwyg/wysiwyg';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {Post, PostMetadata, PostPriorityMetadata} from '@mattermost/types/posts';
@@ -1645,7 +1646,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.handleDraftChange(updatedDraft);
     }
 
-    arrowUpHandling = ({editor}: {editor: Editor}) => {
+    arrowUpHandling = ({editor}: {editor: CoreEditor}) => {
         if (editor.isEmpty) {
             this.editLastPost();
             return false;

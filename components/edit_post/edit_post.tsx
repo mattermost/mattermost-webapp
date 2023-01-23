@@ -26,8 +26,6 @@ import {ModalData} from 'types/actions';
 import {Emoji, SystemEmoji} from '@mattermost/types/emojis';
 import {Post} from '@mattermost/types/posts';
 import {NewPostDraft} from '../../types/store/draft';
-import {PostType} from '../file_upload';
-import Wysiwyg, {MessageData, WysiwygConfig} from '../wysiwyg';
 
 import EditPostFooter from './edit_post_footer';
 
@@ -89,7 +87,7 @@ const {KeyCodes} = Constants;
 const TOP_OFFSET = 0;
 const RIGHT_OFFSET = 10;
 
-const EditPost = ({editingPost, actions, canEditPost, config, channelId, teamId, draft, isWysiwygEnabled, ...rest}: Props): JSX.Element | null => {
+const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, ...rest}: Props): JSX.Element | null => {
     const [editText, setEditText] = useState<string>(
         draft.message || editingPost?.post?.message_source || editingPost?.post?.message || '',
     );
@@ -347,11 +345,10 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, teamId,
         }
     };
 
-    const handleChange = (message: string, data?: MessageData) => {
+    const handleChange = (message: string) => {
         draftRef.current = {
             ...draftRef.current,
             message,
-            content: data?.content,
         };
 
         setEditText(message);
@@ -470,43 +467,6 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, teamId,
                     />
                 </button>
             </>
-        );
-    }
-
-    if (!channelId && isWysiwygEnabled) {
-        const wysiwygConfig: WysiwygConfig = {
-            enterHandling: {
-                ctrlSend: rest.ctrlSend,
-                codeBlockOnCtrlEnter: rest.codeBlockOnCtrlEnter,
-            },
-            suggestions: {
-                mention: {
-                    teamId,
-                    channelId,
-                    useSpecialMentions: rest.useChannelMentions,
-                    useGroupMentions: rest.useLDAPGroupMentions || rest.useCustomGroupMentions,
-                },
-                channel: {teamId},
-                command: {
-                    teamId,
-                    channelId,
-                },
-            },
-            fileUpload: {
-                rootId: '',
-                channelId,
-                postType: PostType.post,
-            },
-        };
-
-        return (
-            <Wysiwyg
-                onSubmit={handleEdit}
-                onChange={handleChange}
-                noMargin={true}
-                draft={draft}
-                config={wysiwygConfig}
-            />
         );
     }
 

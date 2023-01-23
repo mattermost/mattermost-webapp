@@ -2,21 +2,26 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, useEffect, useRef, useState} from 'react';
-import type {Editor, KeyboardShortcutCommand, JSONContent} from '@tiptap/react';
+import {EditorContent, Editor, useEditor} from '@tiptap/react';
+import type {KeyboardShortcutCommand, JSONContent} from '@tiptap/react';
 import isEqual from 'lodash/isEqual';
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
+import {useSelector} from 'react-redux';
 
-import type {NewPostDraft} from 'types/store/draft';
 import FileUpload, {PostType} from 'components/file_upload';
 import type {FileUploadClass} from 'components/file_upload';
 import FilePreview from 'components/file_preview';
 import type {FilePreviewInfo} from 'components/file_preview';
-import {EditorContent, useEditor} from '@tiptap/react';
 
 import Constants from 'utils/constants';
-
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
+
+import {isCustomEmojiEnabled} from 'selectors/emojis';
+import {getCurrentLocale} from 'selectors/i18n';
+
+import type {NewPostDraft} from 'types/store/draft';
 
 import type {FileInfo} from '@mattermost/types/files';
 import type {ServerError} from '@mattermost/types/errors';
@@ -37,8 +42,6 @@ import {Extensions} from './extensions';
 import type {SuggestionConfig} from './extensions';
 
 import {htmlToMarkdown} from './utils/toMarkdown';
-
-import {PropsFromRedux} from './index';
 
 export enum Formatters {
     link,
@@ -68,7 +71,7 @@ export type MessageData = {
     metadata?: NewPostDraft['metadata'];
 } | null
 
-type Props = PropsFromRedux & {
+type Props = {
 
     /**
      * Function to handle submitting the content.
@@ -128,24 +131,25 @@ type Props = PropsFromRedux & {
     footerContent?: React.ReactElement;
 }
 
-const WysiwygRoot = (props: Props) => {
+const Wysiwyg = (props: Props) => {
     const {
         config = {},
         noMargin = false,
-        reduxConfig,
         onSubmit,
         onChange,
         onAttachmentChange,
         placeholder,
         readOnly,
-        useCustomEmojis,
         draft,
-        locale,
         footerContent,
         errorMessage,
     } = props;
 
     const [metadata, setMetadata] = useState<NewPostDraft['metadata']|null>(draft?.metadata);
+
+    const reduxConfig = useSelector(getConfig);
+    const useCustomEmojis = useSelector(isCustomEmojiEnabled);
+    const locale = useSelector(getCurrentLocale);
 
     const handleSubmit = async (editor: Editor, event?: React.FormEvent) => {
         event?.preventDefault();
@@ -412,7 +416,7 @@ const WysiwygRoot = (props: Props) => {
     );
 };
 
-export const Wysiwyg = memo(WysiwygRoot, (prevProps, nextProps) => {
+export default memo(Wysiwyg, (prevProps, nextProps) => {
     return isEqual(prevProps.config, nextProps.config);
 });
 

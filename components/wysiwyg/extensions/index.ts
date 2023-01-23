@@ -31,7 +31,7 @@ import {PluginKey} from 'prosemirror-state';
 // load all highlight.js languages
 import {lowlight} from 'lowlight';
 
-import {Formatters, WysiwygConfig} from '../wysiwyg';
+import {Formatters, WysiwygConfig} from 'components/wysiwyg/wysiwyg';
 
 import {Link} from './link';
 

@@ -4,6 +4,7 @@
 /* eslint-disable max-lines */
 
 import React from 'react';
+import {Editor, JSONContent} from '@tiptap/react';
 
 import {ModalData} from 'types/actions.js';
 
@@ -54,7 +55,6 @@ import AdvancedTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {TextboxClass, TextboxElement} from '../textbox';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
-import {Editor, JSONContent} from '../wysiwyg';
 
 const KeyCodes = Constants.KeyCodes;
 
