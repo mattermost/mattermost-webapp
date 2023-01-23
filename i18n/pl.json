@@ -1280,7 +1280,7 @@
   "admin.license.choose": "Wybierz plik",
   "admin.license.confirm-license-removal.cancel": "Anuluj",
   "admin.license.confirm-license-removal.confirm": "Potwierdź",
-  "admin.license.confirm-license-removal.subtitle": "Usunięcie licencji spowoduje obniżenie rangi serwera z Enterprise do Free. Może to spowodować utratę informacji. ",
+  "admin.license.confirm-license-removal.subtitle": "Usunięcie licencji spowoduje obniżenie rangi Twojego serwera z {currentSKU} do Free. Możesz stracić informacje. ",
   "admin.license.confirm-license-removal.title": "Jesteś pewien?",
   "admin.license.enterprise.license_required_upgrade": "Do odblokowania funkcji korporacyjnych wymagana jest licencja",
   "admin.license.enterprise.restart": "Uruchom ponownie serwer",
