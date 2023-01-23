@@ -5,10 +5,10 @@ import React, {memo, useEffect, useRef, useState} from 'react';
 import {EditorContent, Editor, useEditor} from '@tiptap/react';
 import type {KeyboardShortcutCommand, JSONContent} from '@tiptap/react';
 import isEqual from 'lodash/isEqual';
+import {useSelector} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
-import {useSelector} from 'react-redux';
 
 import FileUpload, {PostType} from 'components/file_upload';
 import type {FileUploadClass} from 'components/file_upload';
