@@ -304,7 +304,9 @@ describe('autocomplete', () => {
             cy.get(`#postMessageText_${postId}`).should('contain', `${sysadmin.username}`);
 
             // * Verify that the group mention does have colored text
-            cy.get(`#postMessageText_${postId}`).find('.mention--highlight button.mention-link').should('exist');
+            cy.get(`#postMessageText_${postId}`).
+                findByText(`@${sysadmin.username}`).should('have.class', 'mention-link').
+                parent().should('have.class', 'mention--highlight');
         });
 
         // # Type input suffixed with '_'
@@ -316,7 +318,9 @@ describe('autocomplete', () => {
             cy.get(`#postMessageText_${postId}`).should('contain', `${sysadmin.username}`);
 
             // * Verify that the @ mention does have colored text
-            cy.get(`#postMessageText_${postId}`).find('.mention--highlight button.mention-link').should('exist');
+            cy.get(`#postMessageText_${postId}`).
+                findByText(`@${sysadmin.username}`).should('have.class', 'mention-link').
+                parent().should('have.class', 'mention--highlight');
         });
     });
 });
