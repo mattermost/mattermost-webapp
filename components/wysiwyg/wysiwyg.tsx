@@ -2,10 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, useEffect, useRef, useState} from 'react';
-import {Editor} from '@tiptap/core';
-import type {KeyboardShortcutCommand} from '@tiptap/core';
-import {EditorContent, useEditor} from '@tiptap/react';
-import type {JSONContent} from '@tiptap/react';
+import type {Editor, KeyboardShortcutCommand, JSONContent} from '@tiptap/react';
 import isEqual from 'lodash/isEqual';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -15,6 +12,7 @@ import FileUpload, {PostType} from 'components/file_upload';
 import type {FileUploadClass} from 'components/file_upload';
 import FilePreview from 'components/file_preview';
 import type {FilePreviewInfo} from 'components/file_preview';
+import {EditorContent, useEditor} from '@tiptap/react';
 
 import Constants from 'utils/constants';
 
@@ -130,7 +128,7 @@ type Props = PropsFromRedux & {
     footerContent?: React.ReactElement;
 }
 
-const Wysiwyg = (props: Props) => {
+const WysiwygRoot = (props: Props) => {
     const {
         config = {},
         noMargin = false,
@@ -414,7 +412,7 @@ const Wysiwyg = (props: Props) => {
     );
 };
 
-export default memo(Wysiwyg, (prevProps, nextProps) => {
+export const Wysiwyg = memo(WysiwygRoot, (prevProps, nextProps) => {
     return isEqual(prevProps.config, nextProps.config);
 });
 
