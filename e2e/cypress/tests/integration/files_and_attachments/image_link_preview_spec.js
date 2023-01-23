@@ -126,15 +126,15 @@ describe('Image Link Preview', () => {
         const baseUrl = Cypress.config('baseUrl');
         const expectedSrc = `${baseUrl}/api/v4/image?url=${markdownImageSrcEncoded}`;
 
-        // * Verify image preview modal is opened
-        cy.uiGetFilePreviewModal().within(() => {
-            // * Verify we have the image inside the modal
-            cy.uiGetContentFilePreviewModal().
-                find('img').
-                should('be.visible').
-                and('have.attr', 'alt', 'preview url image').
-                and('have.attr', 'src', expectedSrc);
-        });
+        // * Verify that the preview modal open up
+        cy.uiGetFilePreviewModal().as('filePreviewModal');
+
+        // * Verify we have the image inside the modal
+        cy.get('@filePreviewModal').uiGetContentFilePreviewModal().
+            find('img').
+            should('be.visible').
+            and('have.attr', 'alt', 'preview url image').
+            and('have.attr', 'src', expectedSrc);
 
         // # Close the image preview modal
         cy.uiCloseFilePreviewModal();
@@ -231,23 +231,23 @@ describe('Image Link Preview', () => {
             });
 
             //* Verify image preview modal is opened
-            cy.uiGetFilePreviewModal().within(() => {
-                // * Verify we have the image inside the modal
-                cy.uiGetContentFilePreviewModal().find('img').should((imagePreview) => {
-                    // * Verify that preview has correct alt text
-                    expect(imagePreview.attr('alt')).equals('preview url image');
+            cy.uiGetFilePreviewModal().as('filePreviewModal');
 
-                    // # If image is bigger than viewport, then its preview will be check for dimensions
-                    if (previewSize) {
-                        // * It should match preview dimension for images bigger than viewport
-                        expect(imagePreview.height()).to.closeTo(previewSize.height, 1);
-                        expect(imagePreview.width()).to.be.closeTo(previewSize.width, 1);
-                    } else {
-                        // * It should match original dimension for images less than viewport size
-                        expect(imagePreview.height()).to.closeTo(originalSize.height, 1);
-                        expect(imagePreview.width()).to.be.closeTo(originalSize.width, 1);
-                    }
-                });
+            // * Verify we have the image inside the modal
+            cy.get('@filePreviewModal').uiGetContentFilePreviewModal().find('img').should((imagePreview) => {
+                // * Verify that preview has correct alt text
+                expect(imagePreview.attr('alt')).equals('preview url image');
+
+                // # If image is bigger than viewport, then its preview will be check for dimensions
+                if (previewSize) {
+                    // * It should match preview dimension for images bigger than viewport
+                    expect(imagePreview.height()).to.closeTo(previewSize.height, 1);
+                    expect(imagePreview.width()).to.be.closeTo(previewSize.width, 1);
+                } else {
+                    // * It should match original dimension for images less than viewport size
+                    expect(imagePreview.height()).to.closeTo(originalSize.height, 1);
+                    expect(imagePreview.width()).to.be.closeTo(originalSize.width, 1);
+                }
             });
 
             // # Close modal
