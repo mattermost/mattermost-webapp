@@ -3,7 +3,7 @@
 
 import React, {RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {components, FormatOptionLabelMeta, InputActionMeta, OptionsType, ValueType} from 'react-select';
+import {components, FormatOptionLabelMeta, InputActionMeta, InputProps, OptionsType, ValueType} from 'react-select';
 import AsyncCreatable from 'react-select/async-creatable';
 import classNames from 'classnames';
 
@@ -233,16 +233,53 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         NoOptionsMessage: this.props.suppressNoOptionsMessage ? () => null : this.NoOptionsMessage,
         MultiValueRemove: this.MultiValueRemove,
         IndicatorsContainer: () => null,
+        Input: (props: InputProps) => {
+            const values = this.formatValuesForCreatable();
+
+            const handlePaste = (e: ClipboardEvent) => {
+                if (!this.props.emailInvitationsEnabled) {
+                    return;
+                }
+
+                const clipboardData = e.clipboardData;
+                const clipboardText = clipboardData?.getData('Text') || '';
+                const items = clipboardText.split(/[\s,;]+/);
+
+                if (items.length === 0) {
+                    return;
+                }
+
+                // Filter out any invalid emails and any emails that are already in the list.
+                const validEmails = [...new Set(items)].filter((item) =>
+                    item !== '' &&
+                    isEmail(item) &&
+                    !values.find((v) => 'value' in v && v.value === item),
+                );
+
+                const newValues = [...values, ...validEmails.map((email) => ({label: email, value: email}))];
+
+                if (newValues.length === values.length) {
+                    return;
+                }
+
+                e.preventDefault();
+
+                this.onChange(newValues);
+                this.props.onInputChange('');
+            };
+
+            return (
+                <components.Input
+                    onPaste={handlePaste}
+                    {...props}
+                />
+            );
+        },
     };
 
     handleInputChange = (inputValue: string, action: InputActionMeta) => {
         if (action.action === 'input-blur' && inputValue !== '') {
-            const values: Array<UserProfile | EmailInvite> = this.props.value.map((v) => {
-                if ((v as UserProfile).id) {
-                    return v as UserProfile;
-                }
-                return {label: v, value: v} as EmailInvite;
-            });
+            const values = this.formatValuesForCreatable();
 
             // Check if the input is an existing user by username or email.
             const option = this.state.options.find((o) =>
@@ -266,6 +303,15 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         if (action.action !== 'input-blur' && action.action !== 'menu-close') {
             this.props.onInputChange(inputValue);
         }
+    }
+
+    private formatValuesForCreatable() {
+        return this.props.value.map((v) => {
+            if ((v as UserProfile).id) {
+                return v as UserProfile;
+            }
+            return {label: v, value: v} as EmailInvite;
+        });
     }
 
     optionsLoader = (_input: string, callback: (options: UserProfile[]) => void) => {
@@ -299,12 +345,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
     }
 
     render() {
-        const values: Array<UserProfile | EmailInvite> = this.props.value.map((v) => {
-            if ((v as UserProfile).id) {
-                return v as UserProfile;
-            }
-            return {label: v as string, value: v as string};
-        });
+        const values = this.formatValuesForCreatable();
 
         const Msg: any = components.NoOptionsMessage;
 
