@@ -37,11 +37,13 @@ const initialState: DeepPartial<GlobalState> = {
             profiles: {
                 adminUserId: TH.getUserMock({
                     id: 'adminUserId',
+                    username: 'UserAdmin',
                     roles: 'admin',
                     email: 'admin@example.com',
                 }),
                 otherUserId: TH.getUserMock({
                     id: 'otherUserId',
+                    username: 'UserOther',
                     roles: '',
                     email: 'other-user@example.com',
                 }),
@@ -56,7 +58,7 @@ describe('PurchaseInProgressModal', () => {
         stateOverride.entities!.users!.currentUserId = 'otherUserId';
         renderWithIntlAndStore(<div id='root-portal'><PurchaseInProgressModal purchaserEmail={'admin@example.com'}/></div>, stateOverride);
 
-        screen.getByText(/Purchase.*attempted by admin@example\.com\. Try again after they.*finish/);
+        screen.getByText('@UserAdmin is currently attempting to purchase a paid license.');
     });
 
     it('when purchaser and user emails are same, allows user to reset purchase flow', () => {
