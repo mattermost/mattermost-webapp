@@ -12,7 +12,7 @@ import {GlobalState} from 'types/store';
 import {isModalOpen} from 'selectors/views/modals';
 
 import GenericModal from 'components/generic_modal';
-import AlertSvg from 'components/common/svg_images_components/upgrade_svg';
+import Svg from 'components/common/svg_images_components/woman_credit_card_and_laptop_svg';
 
 import {ModalIdentifiers} from 'utils/constants';
 
@@ -48,7 +48,7 @@ const SwitchToYearlyPlanConfirmModal: React.FC<Props> = (props: Props): JSX.Elem
             <>
                 <div className='content-body'>
                     <div className='alert-svg'>
-                        <AlertSvg
+                        <Svg
                             width={300}
                             height={300}
                         />
@@ -65,7 +65,7 @@ const SwitchToYearlyPlanConfirmModal: React.FC<Props> = (props: Props): JSX.Elem
                             defaultMessage='Changing to the Yearly plan is irreversible. Are you sure you want to switch from monthly to the yearly plan?'
                         />
                     </div>
-                    <div className='subtitle'>
+                    <div className='sales-info'>
                         <FormattedMessage
                             id='confirm_switch_to_yearly_modal.subtitle2'
                             defaultMessage='For more information, please contact sales.'
