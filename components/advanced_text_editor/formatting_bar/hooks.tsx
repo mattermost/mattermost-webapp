@@ -38,7 +38,7 @@ const useResponsiveFormattingBar = (ref: React.RefObject<HTMLDivElement>): WideM
         if (ref.current.clientWidth < 310) {
             setWideMode('min');
         }
-    }, 10), []);
+    }, 10), [ref.current?.clientWidth]);
 
     useLayoutEffect(() => {
         if (!ref.current) {
