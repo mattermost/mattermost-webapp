@@ -266,18 +266,6 @@ const PostOptions = (props: Props): JSX.Element => {
                 {actionsMenu}
                 {commentIcon}
                 {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
-                {props.isSearchResultsItem &&
-                    <a
-                        href='#'
-                        onClick={props.handleJumpClick}
-                        className='search-item__jump'
-                    >
-                        <FormattedMessage
-                            id='search_item.jump'
-                            defaultMessage='Jump'
-                        />
-                    </a>
-                }
             </div>
         );
     }

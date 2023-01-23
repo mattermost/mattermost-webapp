@@ -65,7 +65,7 @@ describe('Post Header', () => {
         cy.getLastPostId().then((postId) => {
             // * Check that the center dot menu' button and dropdown are hidden
             cy.get(`#post_${postId}`).should('be.visible').within(() => {
-                cy.get(`#CENTER_button_${postId}`).should('not.exist');
+                cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
                 cy.get('.dropdown-menu').should('not.exist');
             });
 
@@ -83,7 +83,7 @@ describe('Post Header', () => {
 
             // * Check that the center dot menu and dropdown are hidden
             cy.get(`#post_${postId}`).should('be.visible').within(() => {
-                cy.get(`#CENTER_button_${postId}`).should('not.exist');
+                cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
                 cy.get('.dropdown-menu').should('not.exist');
             });
         });

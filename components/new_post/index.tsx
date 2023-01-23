@@ -19,13 +19,13 @@ import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/use
 
 import {Emoji} from '@mattermost/types/emojis';
 import {Post} from '@mattermost/types/posts';
-import {closeRightHandSide, selectPost, selectPostCardFromRightHandSideSearch, setRhsExpanded, selectPostFromRightHandSideSearch} from 'actions/views/rhs';
+import {closeRightHandSide, selectPost, setRhsExpanded, selectPostCard} from 'actions/views/rhs';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
 import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from 'selectors/emojis';
 import {getIsPostBeingEdited, getIsPostBeingEditedInRHS, isEmbedVisible} from 'selectors/posts';
-import {getHighlightedPostId, getRhsState} from 'selectors/rhs';
+import {getHighlightedPostId, getRhsState, getSelectedPostCard} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
@@ -127,6 +127,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const isBot = Boolean(user && user.is_bot);
     const highlightedPostId = getHighlightedPostId(state);
     const showActionsMenuPulsatingDot = showActionsDropdownPulsatingDot(state);
+    const selectedCard = getSelectedPostCard(state);
 
     let emojis: Emoji[] = [];
     const oneClickReactionsEnabled = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT) === 'true';
@@ -225,6 +226,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         parentPostUser,
         isPostAcknowledgementsEnabled: isPostAcknowledgementsEnabled(state),
         isPostPriorityEnabled: isPostPriorityEnabled(state),
+        isCardOpen: selectedCard && selectedCard.id === post.id,
     };
 }
 
@@ -235,11 +237,10 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             emitShortcutReactToLastPostFrom,
             setActionsMenuInitialisationState,
             selectPost,
-            selectPostFromRightHandSideSearch,
             setRhsExpanded,
             removePost: removePostAndCloseRHS,
             closeRightHandSide,
-            selectPostCard: selectPostCardFromRightHandSideSearch,
+            selectPostCard,
         }, dispatch),
     };
 }

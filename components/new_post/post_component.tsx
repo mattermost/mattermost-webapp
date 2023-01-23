@@ -91,7 +91,6 @@ export type Props = {
         emitShortcutReactToLastPostFrom: (emittedFrom: 'CENTER' | 'RHS_ROOT' | 'NO_WHERE') => void;
         setActionsMenuInitialisationState: (viewed: Record<string, boolean>) => void;
         selectPost: (post: Post) => void;
-        selectPostFromRightHandSideSearch: (post: Post) => void;
         removePost: (post: Post) => void;
         closeRightHandSide: () => void;
         selectPostCard: (post: Post) => void;
@@ -113,6 +112,7 @@ export type Props = {
     shortcutReactToLastPostEmittedFrom?: string;
     isPostAcknowledgementsEnabled: boolean;
     isPostPriorityEnabled: boolean;
+    isCardOpen?: boolean;
 };
 
 const PostComponent = (props: Props): JSX.Element => {
@@ -332,16 +332,6 @@ const PostComponent = (props: Props): JSX.Element => {
         }
     };
 
-    const handleSearchItemClick = (e: React.MouseEvent) => {
-        e.preventDefault();
-
-        if (!props.post) {
-            return;
-        }
-
-        props.actions.selectPostFromRightHandSideSearch(props.post);
-    };
-
     const handleJumpClick = (e: React.MouseEvent) => {
         e.preventDefault();
         if (props.isMobileView) {
@@ -482,7 +472,7 @@ const PostComponent = (props: Props): JSX.Element => {
                 tabIndex={0}
                 post={post}
                 className={getClassName()}
-                onClick={props.location === Locations.SEARCH ? handleSearchItemClick : handlePostClick}
+                onClick={handlePostClick}
                 onMouseOver={handleMouseOver}
                 onMouseLeave={handleMouseLeave}
             >
@@ -559,7 +549,7 @@ const PostComponent = (props: Props): JSX.Element => {
                                         }
                                     >
                                         <button
-                                            className='card-icon__container icon--show style--none'
+                                            className={'card-icon__container icon--show style--none ' + (props.isCardOpen ? 'active' : '')}
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 handleCardClick(props.post);
