@@ -1280,7 +1280,7 @@
   "admin.license.choose": "Datei auswählen",
   "admin.license.confirm-license-removal.cancel": "Abbrechen",
   "admin.license.confirm-license-removal.confirm": "Bestätigen",
-  "admin.license.confirm-license-removal.subtitle": "Das Entfernen der Lizenz wird den Server von Enterprise auf Free runterstufen. Du kannst Informationen verlieren. ",
+  "admin.license.confirm-license-removal.subtitle": "Das Entfernen der Lizenz wird den Server von {currentSKU} auf Free runterstufen. Du kannst Informationen verlieren. ",
   "admin.license.confirm-license-removal.title": "Bist du sicher?",
   "admin.license.enterprise.license_required_upgrade": "Es wird eine Lizenz benötigt um die Enterprise-Funktionen freizuschalten",
   "admin.license.enterprise.restart": "Server neu starten",
