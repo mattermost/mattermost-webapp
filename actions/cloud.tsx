@@ -81,7 +81,7 @@ export function completeStripeAddPaymentMethod(
     };
 }
 
-export function subscribeCloudSubscription(productId: string, seats = 0, downgradeFeedBack: DowngradeFeedback|undefined = undefined) {
+export function subscribeCloudSubscription(productId: string, seats = 0, downgradeFeedBack?: DowngradeFeedback) {
     return async () => {
         try {
             await Client4.subscribeCloudProduct(productId, seats, downgradeFeedBack);

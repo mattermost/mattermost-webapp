@@ -33,17 +33,17 @@ export default function DowngradeFeedbackModal(props: Props) {
     const [reason, setReason] = useState('');
     const [comments, setComments] = useState('');
     const reasonNotSelected = reason === '';
-    const commentsNotProvided = comments === '';
+    const commentsNotProvided = comments.trim() === '';
     const downgradeDisabled = reasonNotSelected || (reason === optionOther && commentsNotProvided);
 
     const dispatch = useDispatch();
 
     const handleSubmitFeedback = () => {
-        if (reason === optionOther && !comments) {
+        if (downgradeDisabled) {
             return;
         }
 
-        props.onSubmit({reason, comments});
+        props.onSubmit({reason, comments: comments.trim()});
         dispatch(closeModal(ModalIdentifiers.DOWNGRADE_FEEDBACK));
     };
 
@@ -80,9 +80,9 @@ export default function DowngradeFeedbackModal(props: Props) {
                 placeholder='Please tell us why you are downgrading...'
                 rows={3}
                 onChange={(e) => {
-                    setComments(e.target.value.trim());
+                    setComments(e.target.value);
                 }}
-                style={{display: reason === optionOther ? '' : 'none', resize: 'none'}}
+                style={{display: reason === optionOther ? '' : 'none'}}
             />
             <div className='DowngradeFeedback__Submit'>
                 <button
