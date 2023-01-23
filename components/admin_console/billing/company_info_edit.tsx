@@ -18,6 +18,8 @@ import {GlobalState} from 'types/store';
 import {COUNTRIES} from 'utils/countries';
 import * as Utils from 'utils/utils';
 
+import {setNavigationBlocked} from 'actions/admin_actions.jsx';
+
 import './company_info_edit.scss';
 
 type Props = Record<string, never>;
@@ -37,6 +39,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
     const [postalCode, setPostalCode] = useState(companyInfo?.company_address?.postal_code);
     const [country, setCountry] = useState(companyInfo?.company_address?.country || getName('US'));
     const [state, setState] = useState(companyInfo?.company_address?.state);
+    const [contentChanged, setContentChanged] = useState(false);
 
     const [sameAsBillingAddress, setSameAsBillingAddress] = useState(Boolean(!companyInfo?.company_address?.line1 && companyInfo?.billing_address?.line1));
     const [isValid, setIsValid] = useState<boolean | undefined>(undefined);
@@ -54,6 +57,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
         return (event: React.ChangeEvent<HTMLInputElement>) => {
             setStateFunc(event.target.value);
             setValidation();
+            setContentChanged(true);
         };
     };
 
@@ -72,6 +76,12 @@ const CompanyInfoEdit: React.FC<Props> = () => {
     useEffect(() => {
         setValidation();
     }, [setValidation]);
+
+    useEffect(() => {
+        if (contentChanged) {
+            dispatch(setNavigationBlocked(true));
+        }
+    }, [contentChanged])
 
     if (!companyInfo) {
         return null;
@@ -125,7 +135,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
     const companyAddressInput = (
         <>
             <DropdownInput
-                onChange={(option) => setCountry(option.value)}
+                onChange={(option) => {setCountry(option.value); setContentChanged(true);}}
                 value={country ? {value: country, label: country} : undefined}
                 options={COUNTRIES.map((c) => ({value: c.name, label: c.name}))}
                 legend={Utils.localizeMessage('admin.billing.company_info.country', 'Country')}
