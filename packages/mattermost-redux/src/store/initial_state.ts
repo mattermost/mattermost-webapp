@@ -287,10 +287,6 @@ const state: GlobalState = {
                 status: 'not_started',
                 error: null,
             },
-            getChannelsAndChannelMembers: {
-                status: 'not_started',
-                error: null,
-            },
         },
         general: {
             websocket: {
