@@ -46,7 +46,6 @@ export default class SearchableChannelList extends React.PureComponent {
             page: 0,
             nextDisabled: false,
             channelSearchValue: '',
-            activeRowId: null,
         };
 
         this.filter = React.createRef();
@@ -177,10 +176,6 @@ export default class SearchableChannelList extends React.PureComponent {
                 id={`ChannelRow-${channel.name}`}
                 onClick={(e) => this.handleJoin(channel, e)}
                 tabIndex={0}
-                onMouseEnter={() => this.toggleActiveRowId(channel.id)}
-                onMouseLeave={() => this.toggleActiveRowId(null)}
-                onFocus={() => this.toggleActiveRowId(channel.id)}
-                onBlur={() => this.toggleActiveRowId(null)}
             >
                 <div className='more-modal__details'>
                     <div
@@ -192,7 +187,9 @@ export default class SearchableChannelList extends React.PureComponent {
                     </div>
                     {channelPurposeContainer}
                 </div>
-                {this.state.activeRowId === channel.id && <div className='more-modal__actions'>{joinViewChannelButton}</div>}
+                <div className='more-modal__actions'>
+                    {joinViewChannelButton}
+                </div>
             </div>
         );
     }
@@ -244,8 +241,6 @@ export default class SearchableChannelList extends React.PureComponent {
             this.props.hideJoinedChannelsPreference(true);
         }
     }
-
-    toggleActiveRowId = (channelId) => this.setState({activeRowId: channelId});
 
     render() {
         const channels = this.props.channels;
