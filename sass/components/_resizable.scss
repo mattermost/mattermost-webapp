@@ -12,20 +12,19 @@ body {
         transition: none;
     }
 
-     &.dragged {
-         .resizeLine-dragged {
+    &.dragged {
+        .resizeLine-dragged {
             &::after {
                 background-color: var(--sidebar-text-active-border);
             }
-         }
-     }
+        }
+    }
 }
 
 .resizeLine {
     position: absolute;
     z-index: 50;
     top: 0;
-
     width: 16px;
     height: 100%;
     cursor: col-resize;
