@@ -244,18 +244,19 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
                 return {label: v, value: v} as EmailInvite;
             });
 
-            for (const option of this.state.options) {
-                if (this.props.inputValue === option.username || this.props.inputValue === ('@' + option.username)) {
-                    this.onChange([...values, option]);
-                    this.props.onInputChange('');
-                    return;
-                } else if (this.props.inputValue === option.email) {
-                    this.onChange([...values, option]);
-                    this.props.onInputChange('');
-                    return;
-                }
+            // Check if the input is an existing user by username or email.
+            const option = this.state.options.find((o) =>
+                this.props.inputValue === o.username || this.props.inputValue === ('@' + o.username) ||
+                this.props.inputValue === o.email,
+            );
+
+            if (option) {
+                this.onChange([...values, option]);
+                this.props.onInputChange('');
+                return;
             }
 
+            // Check if the input is a valid new email, if the email invitations are enabled.
             if (this.props.emailInvitationsEnabled && isEmail(this.props.inputValue)) {
                 const email = this.props.inputValue;
                 this.onChange([...values, {value: email, label: email}]);
