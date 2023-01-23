@@ -65,6 +65,9 @@ function Content(props: ContentProps) {
     const product = useSelector(selectSubscriptionProduct);
     const products = useSelector(selectCloudProducts);
 
+    const contactSupportLink = useSelector(getCloudContactUsLink)(InquiryType.Technical);
+
+    const currentSubscriptionIsMonthly = product?.recurring_interval === RecurringIntervals.MONTH;
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const yearlyProfessionalProduct = findProductBySkuAndInterval(products || {}, CloudProducts.PROFESSIONAL, RecurringIntervals.YEAR);
@@ -82,6 +85,8 @@ function Content(props: ContentProps) {
     if ((subscription && subscription.trial_end_at > 0) && !isEnterpriseTrial && (isStarter || isEnterprise)) {
         isPostTrial = true;
     }
+
+    const freeTierText = !isStarter && !currentSubscriptionIsMonthly ? formatMessage({id: 'pricing_modal.btn.contactSupport', defaultMessage: 'Contact Support'}) : formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'});
 
     const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
     const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
@@ -218,6 +223,11 @@ function Content(props: ContentProps) {
                         planExtraInformation={<StarterDisclaimerCTA/>}
                         buttonDetails={{
                             action: () => {
+                                if (!isStarter && !currentSubscriptionIsMonthly) {
+                                    window.open(contactSupportLink, '_blank');
+                                    return;
+                                }
+
                                 if (!starterProduct) {
                                     return;
                                 }
@@ -236,7 +246,7 @@ function Content(props: ContentProps) {
                                     downgrade('click_pricing_modal_free_card_downgrade_button');
                                 }
                             },
-                            text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
+                            text: freeTierText,
                             disabled: isStarter || isEnterprise || !isAdmin,
                             customClass: ButtonCustomiserClasses.secondary,
                         }}
