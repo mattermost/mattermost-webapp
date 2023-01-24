@@ -270,8 +270,12 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
 
             return (
                 <components.Input
-                    onPaste={handlePaste}
                     {...props}
+
+                    // The onPaste is not part of the InputProps type definition. It's fixed in v5 of react-select.
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore - The type definition for the Input component is incorrect.
+                    onPaste={handlePaste}
                 />
             );
         },
