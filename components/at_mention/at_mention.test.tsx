@@ -229,7 +229,7 @@ describe('components/AtMention', () => {
         instance.buttonRef = {
             current: {
                 getBoundingClientRect: () => ({
-                    top: 400,
+                    top: 550,
                 }),
             },
         }as RefObject<HTMLAnchorElement>;
@@ -240,8 +240,8 @@ describe('components/AtMention', () => {
         instance.buttonRef = {
             current: {
                 getBoundingClientRect: () => ({
-                    top: 200,
-                    bottom: 400,
+                    top: 500,
+                    bottom: 100,
                 }),
             },
         }as RefObject<HTMLAnchorElement>;

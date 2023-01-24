@@ -744,6 +744,7 @@ export const TELEMETRY_CATEGORIES = {
     SELF_HOSTED_LICENSE_EXPIRED: 'self_hosted_license_expired',
     WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
     REQUEST_BUSINESS_EMAIL: 'request_business_email',
+    TRUE_UP_REVIEW: 'true_up_review',
 };
 
 export const TELEMETRY_LABELS = {
@@ -1078,9 +1079,9 @@ export const DocLinks = {
 
 export const LicenseLinks = {
     CONTACT_SALES: 'https://mattermost.com/contact-sales/',
-    SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/software-evaluation-agreement/',
     TRIAL_INFO_LINK: 'https://mattermost.com/trial',
     EMBARGOED_COUNTRIES: 'https://mattermost.com/pl/limitations-for-embargoed-countries',
+    SOFTWARE_SERVICES_LICENSE_AGREEMENT: 'https://mattermost.com/pl/software-and-services-license-agreement',
 };
 
 export const BillingSchemes = {
