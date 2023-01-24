@@ -1,0 +1,71 @@
+.DeleteWorkspaceModal {
+
+    width: 600px;
+    
+    .modal-body {
+        .GenericModal__body {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            padding: 24px 24px 0px 24px;
+
+            * {
+                margin-bottom: 10px;    
+            }
+        }
+    }
+
+    &__Title {
+        margin: 10px 0;
+        color: var(--sys-denim-center-channel-text);
+        font-family: Metropolis;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 28px;
+    }
+
+    &__Usage {
+        text-align: left;
+
+        &-Highlighted {
+            font-weight: 700;
+            color: black;
+        }
+    }
+
+    &__Warning {
+        text-align: left;
+    }
+
+    &__Buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        button {
+            border-radius: 4px;
+        }
+
+        &-Delete {
+            background: none;
+            border: none;
+            margin: 0;
+            padding: 0;
+            color: var(--dnd-indicator);
+            font-weight: 600;
+        }
+
+        &-Downgrade {
+            margin-left: auto;
+            border-color: var(--denim-button-bg);
+            background: none;
+            color: var(--denim-button-bg);
+            font-weight: 600;
+        }
+
+        &-Cancel {
+            margin-left: 10px;
+            font-weight: 600;
+        }
+    }
+}

@@ -47,6 +47,7 @@ import {
 import LimitReachedBanner from './limit_reached_banner';
 
 import './billing_subscriptions.scss';
+import DeleteWorkspaceCTA from '../delete_workspace/delete_workspace_cta';
 
 const BillingSubscriptions = () => {
     const dispatch = useDispatch<DispatchFunc>();
@@ -164,6 +165,7 @@ const BillingSubscriptions = () => {
                             cancelAccountLink={cancelAccountLink}
                             isFreeTrial={isFreeTrial}
                         />
+                        <DeleteWorkspaceCTA/>
                     </>}
                 </div>
             </div>
