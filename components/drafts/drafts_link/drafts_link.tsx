@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useEffect} from 'react';
+import React, {memo, useCallback, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {NavLink, useRouteMatch} from 'react-router-dom';
 import {useIntl} from 'react-intl';
@@ -10,14 +10,18 @@ import {localDraftsAreEnabled, syncedDraftsAreAllowedAndEnabled} from 'mattermos
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {getDrafts} from 'actions/views/drafts';
+import {closeRightHandSide} from 'actions/views/rhs';
 
 import {makeGetDraftsCount} from 'selectors/drafts';
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
+
+import {RHSStates} from 'utils/constants';
 
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
 
-import DraftsTourTip from './drafts_tour_tip/drafts_tour_tip';
-
 import './drafts_link.scss';
+
+import DraftsTourTip from './drafts_tour_tip/drafts_tour_tip';
 
 const getDraftsCount = makeGetDraftsCount();
 
@@ -30,12 +34,21 @@ function DraftsLink() {
     const match = useRouteMatch('/:team/drafts');
     const count = useSelector(getDraftsCount);
     const teamId = useSelector(getCurrentTeamId);
+    const rhsOpen = useSelector(getIsRhsOpen);
+    const rhsState = useSelector(getRhsState);
 
     useEffect(() => {
         if (syncedDraftsAllowedAndEnabled) {
             dispatch(getDrafts(teamId));
         }
     }, [teamId, dispatch, syncedDraftsAllowedAndEnabled]);
+
+    const openDrafts = useCallback((e) => {
+        e.stopPropagation();
+        if (rhsOpen && rhsState === RHSStates.EDIT_HISTORY) {
+            dispatch(closeRightHandSide());
+        }
+    }, [rhsOpen, rhsState]);
 
     if (!localDraftsEnabled || (!count && !match)) {
         return null;
@@ -49,6 +62,7 @@ function DraftsLink() {
                 id={'sidebar-drafts-button'}
             >
                 <NavLink
+                    onClick={openDrafts}
                     to={`${url}/drafts`}
                     id='sidebarItem_drafts'
                     activeClassName='active'

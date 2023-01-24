@@ -14,14 +14,17 @@ import {getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/enti
 import {getThreadCounts} from 'mattermost-redux/actions/threads';
 import {t} from 'utils/i18n';
 import {trackEvent} from 'actions/telemetry_actions';
+import {closeRightHandSide} from 'actions/views/rhs';
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
 import {GlobalState} from 'types/store';
 import {isAnyModalOpen} from 'selectors/views/modals';
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import Constants, {
     CrtTutorialSteps,
     CrtTutorialTriggerSteps,
     ModalIdentifiers,
     Preferences,
+    RHSStates,
 } from 'utils/constants';
 import CollapsedReplyThreadsModal
     from 'components/tours/crt_tour/collapsed_reply_threads_modal/collapsed_reply_threads_modal';
@@ -34,6 +37,7 @@ import CRTWelcomeTutorialTip
 import {useThreadRouting} from '../hooks';
 
 import ThreadsIcon from './threads_icon';
+
 import './global_threads_link.scss';
 
 const GlobalThreadsLink = () => {
@@ -54,6 +58,8 @@ const GlobalThreadsLink = () => {
     const threads = useSelector(getThreadsInCurrentTeam);
     const showTutorialTip = crtTutorialTrigger === CrtTutorialTriggerSteps.STARTED && tipStep === CrtTutorialSteps.WELCOME_POPOVER && threads.length >= 1;
     const threadsCount = useSelector(getThreadCountsInCurrentTeam);
+    const rhsOpen = useSelector(getIsRhsOpen);
+    const rhsState = useSelector(getRhsState);
     const showTutorialTrigger = isFeatureEnabled && crtTutorialTrigger === Constants.CrtTutorialTriggerSteps.START && !appHaveOpenModal && Boolean(threadsCount) && threadsCount.total >= 1;
     const openThreads = useCallback((e) => {
         e.stopPropagation();
@@ -61,7 +67,10 @@ const GlobalThreadsLink = () => {
         if (showTutorialTrigger) {
             dispatch(openModal({modalId: ModalIdentifiers.COLLAPSED_REPLY_THREADS_MODAL, dialogType: CollapsedReplyThreadsModal, dialogProps: {}}));
         }
-    }, [showTutorialTrigger, threadsCount, threads]);
+        if (rhsOpen && rhsState === RHSStates.EDIT_HISTORY) {
+            dispatch(closeRightHandSide());
+        }
+    }, [showTutorialTrigger, threadsCount, threads, rhsOpen, rhsState]);
 
     useEffect(() => {
         // load counts if necessary
