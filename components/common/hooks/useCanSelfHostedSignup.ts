@@ -21,8 +21,8 @@ export default function useCanSelfHostedSignup(): CanSelfHostedSignup {
                 setScreeningInProgress(false);
                 setCanReachPortal(true);
             }).
-            catch((asdf) => {
-                if (asdf.status_code === 425) {
+            catch((error) => {
+                if (error.status_code === 425) {
                     setScreeningInProgress(true);
                 }
             });

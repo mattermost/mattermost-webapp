@@ -10,7 +10,7 @@ import {useControlScreeningInProgressModal} from 'components/common/hooks/useCon
 
 import './content.scss';
 
-export default function AirGappedSelfHostedPurhcaseModal() {
+export default function ScreeningInProgressModal() {
     const {close} = useControlScreeningInProgressModal();
 
     return (
