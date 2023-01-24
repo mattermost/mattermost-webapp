@@ -31,7 +31,7 @@ import {getIsMobileView} from 'selectors/views/browser';
 import {GlobalState} from 'types/store';
 
 import {isArchivedChannel} from 'utils/channel_utils';
-import {areConsecutivePostsBySameUser, shouldShowActionsMenu} from 'utils/post_utils';
+import {areConsecutivePostsBySameUser, shouldShowActionsMenu, shouldShowDotMenu} from 'utils/post_utils';
 import {Locations, Preferences, RHSStates} from 'utils/constants';
 
 import {ExtendedPost, removePost} from 'mattermost-redux/actions/posts';
@@ -227,6 +227,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isPostAcknowledgementsEnabled: isPostAcknowledgementsEnabled(state),
         isPostPriorityEnabled: isPostPriorityEnabled(state),
         isCardOpen: selectedCard && selectedCard.id === post.id,
+        shouldShowDotMenu: shouldShowDotMenu(state, post, channel),
     };
 }
 
