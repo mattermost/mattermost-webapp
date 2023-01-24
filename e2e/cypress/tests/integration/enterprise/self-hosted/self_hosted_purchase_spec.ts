@@ -419,14 +419,12 @@ describe('Self hosted Purchase', () => {
         cy.apiDeleteLicense();
 
         cy.intercept('GET', '**/api/v4/hosted_customer/signup_available').as('airGappedCheck');
-        cy.intercept('GET', 'https://js.stripe.com/v3').as('stripeCheck');
         cy.intercept('GET', '**/api/v4/cloud/products/selfhosted').as('products');
 
         // # Open pricing modal
         cy.get('#UpgradeButton').should('exist').click();
 
         cy.wait('@airGappedCheck');
-        cy.wait('@stripeCheck');
         cy.wait('@products');
 
         // The waits for these fetches is usually enough. Add a little wait
@@ -461,7 +459,6 @@ describe('Self hosted Purchase', () => {
         // # attempt to re-open purchase flow
         cy.get('#UpgradeButton').should('exist').click();
         cy.wait('@airGappedCheck');
-        // cy.wait('@stripeCheck');
         cy.wait('@products');
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(50);
