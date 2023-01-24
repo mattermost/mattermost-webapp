@@ -110,14 +110,21 @@ const PostOptions = (props: Props): JSX.Element => {
         props.handleDropdownOpened!(open);
     };
 
-    const handleActionsMenuTipOpened = () => setShowActionTip(true);
+    const handleActionsMenuTipOpened = () => {
+        setShowActionTip(true);
+        props.handleDropdownOpened!(true);
+    };
 
     const handleActionsMenuGotItClick = () => {
         props.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
         setShowActionTip(false);
+        props.handleDropdownOpened!(false);
     };
 
-    const handleTipDismissed = () => setShowActionTip(false);
+    const handleTipDismissed = () => {
+        setShowActionTip(false);
+        props.handleDropdownOpened!(false);
+    };
 
     const getDotMenuRef = () => dotMenuRef.current;
 

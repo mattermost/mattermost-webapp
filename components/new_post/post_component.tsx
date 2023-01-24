@@ -91,6 +91,7 @@ export type Props = {
         emitShortcutReactToLastPostFrom: (emittedFrom: 'CENTER' | 'RHS_ROOT' | 'NO_WHERE') => void;
         setActionsMenuInitialisationState: (viewed: Record<string, boolean>) => void;
         selectPost: (post: Post) => void;
+        selectPostFromRightHandSideSearch: (post: Post) => void;
         removePost: (post: Post) => void;
         closeRightHandSide: () => void;
         selectPostCard: (post: Post) => void;
@@ -349,7 +350,7 @@ const PostComponent = (props: Props): JSX.Element => {
         if (!props.post) {
             return;
         }
-        props.actions.selectPost(props.post);
+        props.actions.selectPostFromRightHandSideSearch(props.post);
     }, [props.post.id]);
 
     const post = props.post;
