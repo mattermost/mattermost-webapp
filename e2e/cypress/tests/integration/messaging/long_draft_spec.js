@@ -15,6 +15,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 describe('Messaging', () => {
     let otherChannelName;
     let otherChannelUrl;
+    let initialHeight = 0;
 
     before(() => {
         // # Make sure the viewport is the expected one, so written lines always create new lines
@@ -26,6 +27,16 @@ describe('Messaging', () => {
             otherChannelUrl = out.channelUrl;
             cy.visit(out.offTopicUrl);
             cy.postMessage('hello');
+
+            cy.uiGetPostTextBox().invoke('height').then((height) => {
+                initialHeight = height;
+
+                // # Get the height before starting to write
+                // Setting alias based on reference to element seemed to be problematic with Cypress (regression)
+                // Quick hack to reference based on value
+                cy.wrap(initialHeight).as('initialHeight');
+                cy.wrap(initialHeight).as('previousHeight');
+            });
         });
     });
 
@@ -37,9 +48,6 @@ describe('Messaging', () => {
             'Phasellus libero lorem,',
             'facilisis in purus sed, auctor.',
         ];
-
-        // # Get the height before starting to write
-        cy.uiGetPostTextBox().clear().invoke('height').as('initialHeight').as('previousHeight');
 
         // # Write all lines
         writeLinesToPostTextBox(lines);
@@ -57,7 +65,7 @@ describe('Messaging', () => {
         cy.postMessage('World!');
 
         // # Write all lines again
-        cy.get('@initialHeight').as('previousHeight');
+        cy.wrap(initialHeight).as('previousHeight');
         writeLinesToPostTextBox(lines);
 
         // # Visit a different channel by URL and verify textbox

@@ -74,7 +74,7 @@ describe('Bot accounts', () => {
             cy.wrap($link).find('.Avatar').should('exist').
                 and('have.attr', 'src').
                 then((url) => cy.request({url, encoding: 'binary'})).
-                should(({body}) => {
+                then(({body}) => {
                     // * Verify it matches default bot avatar
                     cy.fixture('bot-default-avatar.png', 'binary').should('deep.equal', body);
                 });

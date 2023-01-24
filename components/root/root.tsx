@@ -277,13 +277,14 @@ export default class Root extends React.PureComponent<Props, State> {
                 anonymousId: '00000000000000000000000000',
             });
 
+            const utmParams = this.captureUTMParams();
             rudderAnalytics.ready(() => {
                 Client4.setTelemetryHandler(new RudderTelemetryHandler());
+                if (utmParams) {
+                    trackEvent('utm_params', 'utm_params', utmParams);
+                }
             });
         }
-
-        // This needs to be called as early as possible to ensure that a redirect won't remove the query string
-        this.trackUTMCampaign();
 
         if (this.props.location.pathname === '/' && this.props.noAccounts) {
             this.props.history.push('/signup_user_complete');
@@ -388,7 +389,7 @@ export default class Root extends React.PureComponent<Props, State> {
         GlobalActions.redirectUserToDefaultTeam();
     }
 
-    trackUTMCampaign() {
+    captureUTMParams() {
         const qs = new URLSearchParams(window.location.search);
 
         // list of key that we want to track
@@ -406,9 +407,10 @@ export default class Root extends React.PureComponent<Props, State> {
         }, {} as Record<string, string>);
 
         if (Object.keys(campaign).length > 0) {
-            trackEvent('utm_params', 'utm_params', campaign);
             this.props.history.replace({search: qs.toString()});
+            return campaign;
         }
+        return null;
     }
 
     initiateMeRequests = async () => {
