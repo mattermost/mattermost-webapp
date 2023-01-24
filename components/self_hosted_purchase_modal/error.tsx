@@ -9,7 +9,7 @@ import {useSelector} from 'react-redux';
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
 import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
-import AccessDeniedSvg from 'components/common/svg_images_components/access_denied_svg';
+import AccessDeniedHappySvg from 'components/common/svg_images_components/access_denied_happy_svg';
 import IconMessage from 'components/purchase_modal/icon_message';
 
 import {CloudLinks} from 'utils/constants';
@@ -80,7 +80,7 @@ export default function ErrorPage(props: Props) {
         );
 
         icon = (
-            <AccessDeniedSvg
+            <AccessDeniedHappySvg
                 width={444}
                 height={313}
             />

@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {GenericModal} from '@mattermost/components';
-import AccessDeniedSvg from 'components/common/svg_images_components/access_denied_svg';
+import AccessDeniedHappySvg from 'components/common/svg_images_components/access_denied_happy_svg';
 import {useControlScreeningInProgressModal} from 'components/common/hooks/useControlModal';
 
 import './content.scss';
@@ -18,12 +18,24 @@ export default function AirGappedSelfHostedPurhcaseModal() {
             onExited={close}
             show={true}
             className='ScreeningInProgressModal'
+            handleCancel={close}
+            cancelButtonClassName='ScreeningInProgressModal__close'
+            cancelButtonText={(
+                <FormattedMessage
+                    id='self_hosted_signup.close'
+                    defaultMessage='Close'
+                />
+            )}
+            autoCloseOnCancelButton={true}
+            compassDesign={true}
         >
             <div className='ScreeningInProgressModal__content'>
-                <AccessDeniedSvg
-                    height={350}
-                    width={350}
-                />
+                <div className='ScreeningInProgressModal__illustration'>
+                    <AccessDeniedHappySvg
+                        height={350}
+                        width={350}
+                    />
+                </div>
                 <div className='ScreeningInProgressModal__title'>
                     <FormattedMessage
                         id={'self_hosted_signup.screening_title'}

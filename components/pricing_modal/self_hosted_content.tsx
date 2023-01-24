@@ -30,6 +30,7 @@ import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSign
 import {
     useControlScreeningInProgressModal,
 } from 'components/common/hooks/useControlModal';
+
 // Revert in MM-49772
 // import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
 
@@ -90,6 +91,7 @@ function SelfHostedContent(props: ContentProps) {
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
 
     const controlScreeningInProgressModal = useControlScreeningInProgressModal();
+
     // Revert in MM-49772
     // const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
 
@@ -243,6 +245,7 @@ function SelfHostedContent(props: ContentProps) {
                                         // should revert this behavior and instead open the airgapped modal
                                         window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
                                     }
+                                    return;
                                 }
 
                                 const professionalProduct = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL);
