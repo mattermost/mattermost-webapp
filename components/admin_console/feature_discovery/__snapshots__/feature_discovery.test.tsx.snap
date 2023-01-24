@@ -47,7 +47,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
       className="trial-legal-terms"
     >
       <MemoizedFormattedMessage
-        defaultMessage="By clicking <highlight>Start trial</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy> and receiving product emails."
+        defaultMessage="By clicking <highlight>Start trial</highlight>, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy> and receiving product emails."
         id="admin.feature_discovery.trial-request.accept-terms"
         values={
           Object {
@@ -112,7 +112,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot whe
       className="trial-legal-terms"
     >
       <MemoizedFormattedMessage
-        defaultMessage="By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails."
+        defaultMessage="By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails."
         id="admin.feature_discovery.trial-request.accept-terms.cloudFree"
         values={
           Object {
