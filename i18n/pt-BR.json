@@ -1066,7 +1066,6 @@
   "admin.license.renewalCard.reviewNumbers": "Revise seus números abaixo para garantir a renovação para o número certo de usuários.",
   "admin.license.renewalCard.usersNumbers": "**Usuários ativos:** {activeUsersNum}",
   "admin.license.title": "Edição e Licença",
-  "admin.license.trial-request.accept-terms": "Ao clicar em <strong>Iniciar avaliação</strong>, concordo com o <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Política de privacidade</linkPrivacy> e recebimento de emails do produto.",
   "admin.license.upgraded-restart": "Você atualizou seu binário para mattermost enterprise, reinicie o servidor para começar a usar o novo binário. Você pode fazer isso aqui:",
   "admin.lockTeammateNameDisplay": "Bloquear exibição do nome do companheiro de equipe para todos os usuários: ",
   "admin.lockTeammateNameDisplayHelpText": "Quando verdadeiro, desativa a capacidade dos usuários de alterar as configurações em Menu principal > Definições de Conta > Exibição > Exibição do Nome do Colega de Equipe.",

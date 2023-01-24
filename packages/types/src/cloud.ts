@@ -19,6 +19,7 @@ export type CloudState = {
         customer?: true;
         invoices?: true;
         limits?: true;
+        trueUpReview?: true;
     };
     selfHostedSignup: {
         progress: ValueOf<typeof SelfHostedSignupProgress>;
@@ -224,4 +225,3 @@ export interface CreateSubscriptionRequest {
     seats: number;
     internal_purchase_order?: string;
 }
-

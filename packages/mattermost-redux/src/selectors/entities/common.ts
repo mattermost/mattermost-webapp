@@ -9,6 +9,19 @@ import {GlobalState} from '@mattermost/types/store';
 import {UserProfile} from '@mattermost/types/users';
 import {RelationOneToOne, IDMappedObjects} from '@mattermost/types/utilities';
 
+const CALLS_PLUGIN = 'plugins-com.mattermost.calls';
+
+type CallsConfig = {
+    ICEServers: string[];
+    ICEServersConfigs: RTCIceServer[];
+    AllowEnableCalls: boolean;
+    DefaultEnabled: boolean;
+    MaxCallParticipants: number;
+    NeedsTURNCredentials: boolean;
+    AllowScreenSharing: boolean;
+    sku_short_name: string;
+}
+
 // Channels
 
 export function getCurrentChannelId(state: GlobalState): string {
@@ -54,4 +67,18 @@ export function getCurrentUserId(state: GlobalState): string {
 
 export function getUsers(state: GlobalState): IDMappedObjects<UserProfile> {
     return state.entities.users.profiles;
+}
+
+// Calls
+
+export function getCalls(state: GlobalState): Record<string, UserProfile[]> {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return state[CALLS_PLUGIN].voiceConnectedProfiles;
+}
+
+export function getCallsConfig(state: GlobalState): CallsConfig {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return state[CALLS_PLUGIN].callsConfig;
 }
