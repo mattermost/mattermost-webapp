@@ -251,7 +251,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     />
                 )}
                 {
-                    this.props.showInviteButton && 
+                    this.props.showInviteButton &&
                     <TeamPermissionGate
                         teamId={this.props.teamId}
                         permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
@@ -272,7 +272,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                         </ToggleModalButton>
                     </TeamPermissionGate>
                 }
-                
+
                 <div
                     id='lhsNavigator'
                     role='application'
