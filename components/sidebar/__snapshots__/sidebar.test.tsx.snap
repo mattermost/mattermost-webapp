@@ -20,6 +20,39 @@ exports[`components/sidebar should match snapshot 1`] = `
     unreadFilterEnabled={false}
     userGroupsEnabled={false}
   />
+  <Connect(TeamPermissionGate)
+    permissions={
+      Array [
+        "add_user_to_team",
+        "invite_guest",
+      ]
+    }
+    teamId="fake_team_id"
+  >
+    <Connect(ToggleModalButton)
+      ariaLabel="Invite Users"
+      className="btn btn-link invite-teammates"
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "type": [Function],
+        }
+      }
+      id="inviteTeammates"
+      modalId="invitation"
+      onClick={[Function]}
+    >
+      <i
+        className="icon-account-plus-outline"
+      />
+      <MemoizedFormattedMessage
+        defaultMessage="Invite teammates"
+        id="sidebar_left.inviteTeammates"
+      />
+    </Connect(ToggleModalButton)>
+  </Connect(TeamPermissionGate)>
   <div
     aria-label="channel navigator region"
     className="a11y__region"
@@ -74,6 +107,39 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
     unreadFilterEnabled={false}
     userGroupsEnabled={false}
   />
+  <Connect(TeamPermissionGate)
+    permissions={
+      Array [
+        "add_user_to_team",
+        "invite_guest",
+      ]
+    }
+    teamId="fake_team_id"
+  >
+    <Connect(ToggleModalButton)
+      ariaLabel="Invite Users"
+      className="btn btn-link invite-teammates"
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "type": [Function],
+        }
+      }
+      id="inviteTeammates"
+      modalId="invitation"
+      onClick={[Function]}
+    >
+      <i
+        className="icon-account-plus-outline"
+      />
+      <MemoizedFormattedMessage
+        defaultMessage="Invite teammates"
+        id="sidebar_left.inviteTeammates"
+      />
+    </Connect(ToggleModalButton)>
+  </Connect(TeamPermissionGate)>
   <div
     aria-label="channel navigator region"
     className="a11y__region"
@@ -115,6 +181,93 @@ exports[`components/sidebar should match snapshot when direct channels modal is 
 `;
 
 exports[`components/sidebar should match snapshot when more channels modal is open 1`] = `
+<div
+  className=""
+  id="SidebarContainer"
+>
+  <SidebarHeader
+    canCreateChannel={true}
+    canCreateCustomGroups={true}
+    canJoinPublicChannel={true}
+    handleOpenDirectMessagesModal={[Function]}
+    invitePeopleModal={[Function]}
+    showCreateCategoryModal={[Function]}
+    showCreateUserGroupModal={[Function]}
+    showMoreChannelsModal={[Function]}
+    showNewChannelModal={[Function]}
+    unreadFilterEnabled={false}
+    userGroupsEnabled={false}
+  />
+  <Connect(TeamPermissionGate)
+    permissions={
+      Array [
+        "add_user_to_team",
+        "invite_guest",
+      ]
+    }
+    teamId="fake_team_id"
+  >
+    <Connect(ToggleModalButton)
+      ariaLabel="Invite Users"
+      className="btn btn-link invite-teammates"
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "type": [Function],
+        }
+      }
+      id="inviteTeammates"
+      modalId="invitation"
+      onClick={[Function]}
+    >
+      <i
+        className="icon-account-plus-outline"
+      />
+      <MemoizedFormattedMessage
+        defaultMessage="Invite teammates"
+        id="sidebar_left.inviteTeammates"
+      />
+    </Connect(ToggleModalButton)>
+  </Connect(TeamPermissionGate)>
+  <div
+    aria-label="channel navigator region"
+    className="a11y__region"
+    data-a11y-sort-order="6"
+    id="lhsNavigator"
+    role="application"
+  >
+    <Connect(ChannelNavigator)
+      canCreateChannel={true}
+      canJoinPublicChannel={true}
+      handleOpenDirectMessagesModal={[Function]}
+      invitePeopleModal={[Function]}
+      showCreateCategoryModal={[Function]}
+      showCreateUserGroupModal={[Function]}
+      showMoreChannelsModal={[Function]}
+      showNewChannelModal={[Function]}
+      unreadFilterEnabled={false}
+      userGroupsEnabled={false}
+    />
+  </div>
+  <div
+    className="sidebar--left__icons"
+  >
+    <Connect(Pluggable)
+      pluggableName="LeftSidebarHeader"
+    />
+  </div>
+  <Connect(SidebarList)
+    handleOpenMoreDirectChannelsModal={[Function]}
+    onDragEnd={[Function]}
+    onDragStart={[Function]}
+  />
+  <Connect(DataPrefetch) />
+</div>
+`;
+
+exports[`components/sidebar should match snapshot when showInviteButton is false 1`] = `
 <div
   className=""
   id="SidebarContainer"

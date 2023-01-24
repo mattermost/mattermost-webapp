@@ -20,7 +20,7 @@ import {GlobalState} from 'types/store';
 import {getIsLhsOpen} from 'selectors/lhs';
 import {getIsMobileView} from 'selectors/views/browser';
 import {isModalOpen} from 'selectors/views/modals';
-import {showSidebarInviteButton} from 'selectors/cloud';
+import {showSidebarInviteButtonForABTest} from 'selectors/cloud';
 import {ModalIdentifiers} from 'utils/constants';
 
 import Sidebar from './sidebar';
@@ -42,7 +42,7 @@ function mapStateToProps(state: GlobalState) {
 
     const canCreateCustomGroups = haveISystemPermission(state, {permission: Permissions.CREATE_CUSTOM_GROUP}) && isCustomGroupsEnabled(state);
 
-    const showInviteButton = showSidebarInviteButton(state);
+    const showInviteButton = showSidebarInviteButtonForABTest(state);
 
     return {
         teamId: currentTeam ? currentTeam.id : '',

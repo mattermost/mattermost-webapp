@@ -3,7 +3,7 @@
 
 import {Invoice, Subscription} from '@mattermost/types/cloud';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {createSelector} from 'reselect';
 
@@ -85,17 +85,17 @@ export const isCloudDelinquencyGreaterThan90Days = createSelector(
     },
 );
 
-export const showSidebarInviteButton = createSelector(
+export const showSidebarInviteButtonForABTest = createSelector(
     'showSidebarInviteButton',
+    (state) => getFeatureFlagValue(state, 'ShowInviteTeamMembersButton'),
     (state: GlobalState) => state.entities.cloud.subscription as Subscription,
-    (subscription: Subscription) => {
-        if (!subscription) {
+    (showInviteTeamMembersButton, subscription: Subscription) => {
+        if (!subscription || showInviteTeamMembersButton === 'false') {
             return false;
         }
         const now = new Date();
         const creationDate = new Date(subscription.create_at);
         const daysSince = Math.floor((now.getTime() - creationDate.getTime()) / (1000 * 60 * 60 * 24));
-        console.log(daysSince);
         return (daysSince <= 28);
     },
 );

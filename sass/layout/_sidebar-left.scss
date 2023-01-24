@@ -258,14 +258,14 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
     button.invite-teammates {
         padding: 8px 12px;
-        margin: 5px 16px 16px;
         border: 1px solid var(--sidebar-text);
+        margin: 5px 16px 16px;
         border-radius: 4px;
         color: var(--sidebar-text);
         font-family: 'Open Sans';
+        font-size: 12px;
         font-style: normal;
         font-weight: 600;
-        font-size: 12px;
         line-height: 16px;
 
         &:hover {

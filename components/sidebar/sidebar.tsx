@@ -220,6 +220,8 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         );
     }
 
+    inviteTeamMembers = () => trackEvent('ui', 'ui_sidebar_invite_people');
+
     render() {
         if (!this.props.teamId) {
             return (<div/>);
@@ -262,7 +264,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                             className={'btn btn-link invite-teammates'}
                             modalId={ModalIdentifiers.INVITATION}
                             dialogType={InvitationModal}
-                            onClick={() => console.log('opening modal')}
+                            onClick={this.inviteTeamMembers}
                         >
                             <i className='icon-account-plus-outline'/>
                             <FormattedMessage
@@ -272,7 +274,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                         </ToggleModalButton>
                     </TeamPermissionGate>
                 }
-
                 <div
                     id='lhsNavigator'
                     role='application'

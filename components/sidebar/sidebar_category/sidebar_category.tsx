@@ -37,6 +37,7 @@ type Props = {
     draggingState: DraggingState;
     currentUserId: string;
     touchedInviteMembersButton: boolean;
+    hideInviteTeamMembersButton: boolean;
     actions: {
         setCategoryCollapsed: (categoryId: string, collapsed: boolean) => void;
         setCategorySorting: (categoryId: string, sorting: CategorySorting) => void;
@@ -243,6 +244,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             categoryIndex,
             channelIds,
             isNewCategory,
+            hideInviteTeamMembersButton,
         } = this.props;
 
         if (!category) {
@@ -344,7 +346,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
             >
                 {(provided, snapshot) => {
                     let inviteMembersButton = null;
-                    if (category.type === 'direct_messages' && !category.collapsed) {
+                    if (category.type === 'direct_messages' && !category.collapsed && !hideInviteTeamMembersButton) {
                         inviteMembersButton = (
                             <InviteMembersButton
                                 className='followingSibling'

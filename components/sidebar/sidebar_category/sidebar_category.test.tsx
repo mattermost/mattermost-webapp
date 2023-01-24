@@ -32,6 +32,7 @@ describe('components/sidebar/sidebar_category', () => {
         limitVisibleDMsGMs: 10000,
         touchedInviteMembersButton: false,
         currentUserId: '',
+        hideInviteTeamMembersButton: false,
         actions: {
             setCategoryCollapsed: jest.fn(),
             setCategorySorting: jest.fn(),
@@ -128,6 +129,37 @@ describe('components/sidebar/sidebar_category', () => {
                 sorting: CategorySorting.Recency,
             },
             channelIds: [],
+        };
+
+        const wrapper = shallow(
+            <SidebarCategory {...props}/>,
+        );
+
+        const draggable = wrapper.dive().find('PrivateDraggable').first();
+        const children: any = draggable.prop('children')!;
+        const inner = shallow(
+            children({}, {}),
+        );
+        expect(inner).toMatchSnapshot();
+
+        const droppable = inner.find('Connect(Droppable)').first();
+        const droppableChildren: any = droppable.prop('children')!;
+        const droppableInner = shallow(
+            droppableChildren({}, {}),
+        );
+        expect(droppableInner).toMatchSnapshot();
+    });
+
+    test('should match snapshot when hiding invite team members button', () => {
+        const props = {
+            ...baseProps,
+            category: {
+                ...baseProps.category,
+                type: CategoryTypes.DIRECT_MESSAGES,
+                sorting: CategorySorting.Recency,
+            },
+            channelIds: [],
+            hideInviteTeamMembersButton: true,
         };
 
         const wrapper = shallow(

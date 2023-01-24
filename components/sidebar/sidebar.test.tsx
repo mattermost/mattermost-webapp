@@ -113,4 +113,16 @@ describe('components/sidebar', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot when showInviteButton is false', () => {
+        const props = {
+            ...baseProps,
+            showInviteButton: false,
+        };
+        const wrapper = shallow(
+            <Sidebar {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });
