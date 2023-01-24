@@ -28,9 +28,10 @@ import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
 
 import {
-    useControlAirGappedSelfHostedPurchaseModal,
     useControlScreeningInProgressModal,
 } from 'components/common/hooks/useControlModal';
+// Revert in MM-49772
+// import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
 
 import ContactSalesCTA from './contact_sales_cta';
 import StartTrialCaution from './start_trial_caution';
@@ -88,8 +89,9 @@ function SelfHostedContent(props: ContentProps) {
     const isEnterprise = license.SkuShortName === LicenseSkus.Enterprise;
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
 
-    const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
     const controlScreeningInProgressModal = useControlScreeningInProgressModal();
+    // Revert in MM-49772
+    // const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
 
     const closePricingModal = () => {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
@@ -232,9 +234,15 @@ function SelfHostedContent(props: ContentProps) {
                                     if (selfHostedSignupAvailable.screeningInProgress) {
                                         controlScreeningInProgressModal.open();
                                     } else {
-                                        controlAirgappedModal.open();
+                                        // closePricingModal();
+                                        // controlAirgappedModal.open();
+                                        // NOTE: This behavior of directly opening the link is to
+                                        // work around in v7.8 (an Extended Support Release),
+                                        // an issue where self-hosted purchase is not actually ready
+                                        // for use. Work in https://mattermost.atlassian.net/browse/MM-49772
+                                        // should revert this behavior and instead open the airgapped modal
+                                        window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
                                     }
-                                    return;
                                 }
 
                                 const professionalProduct = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL);
