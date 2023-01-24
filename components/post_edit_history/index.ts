@@ -4,7 +4,7 @@
 import {connect, ConnectedProps} from 'react-redux';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getChannel, getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {GlobalState} from 'types/store';
 
 import {getSelectedPostId} from 'selectors/rhs';
@@ -15,10 +15,9 @@ import PostEditHistory from './post_edit_history';
 function mapStateToProps(state: GlobalState) {
     const selectedPostId = getSelectedPostId(state) || '';
     const originalPost = getPost(state, selectedPostId);
-    const channelDisplayName = getCurrentChannel(state) ? getCurrentChannel(state).display_name : getChannel(state, originalPost.channel_id).display_name;
 
     return {
-        channelDisplayName,
+        channelDisplayName: getChannel(state, originalPost.channel_id).display_name,
         originalPost,
         postEditHistory: getPostEditHistory(state),
     };
