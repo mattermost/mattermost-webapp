@@ -55,7 +55,7 @@ function StarterDisclaimerCTA() {
                 },
                 description: {
                     id: t('workspace_limits.modals.informational.description.freeLimits'),
-                    defaultMessage: '{planName} is restricted to {messages} message history, {storage} file storage, and {boards} board cards.',
+                    defaultMessage: '{planName} is restricted to {messages} message history and {storage} file storage',
                     values: {
                         planName: starterProductName,
                         messages: intl.formatNumber(fallbackStarterLimits.messages.history),
