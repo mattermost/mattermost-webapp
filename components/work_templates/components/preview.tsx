@@ -85,13 +85,20 @@ const Preview = ({template, className, pluginsEnabled}: PreviewProps) => {
         }
     }, [illustrationDetails.prior.animateIn]);
 
-    const handleIllustrationUpdate = (illustration: string) => setIllustrationDetails({
-        prior: {...illustrationDetails.current},
-        current: {
-            animateIn: false,
-            illustration,
-        },
-    });
+    const handleIllustrationUpdate = (illustration: string) => {
+        // don't refresh if this is the same illustration
+        if (illustrationDetails.current.illustration === illustration) {
+            return;
+        }
+
+        setIllustrationDetails({
+            prior: {...illustrationDetails.current},
+            current: {
+                animateIn: false,
+                illustration,
+            },
+        });
+    };
 
     const [channels, boards, playbooks, availableIntegrations] = useMemo(() => {
         const channels: Channel[] = [];
@@ -237,9 +244,6 @@ const Preview = ({template, className, pluginsEnabled}: PreviewProps) => {
             return;
         }
 
-        if (newCurrent.illustration === newPrior.illustration) {
-            return;
-        }
         setIllustrationDetails({
             prior: newPrior,
             current: newCurrent,
@@ -290,6 +294,7 @@ const StyledPreview = styled(Preview)`
 
     .content-side {
         min-width: 387px;
+        width: 387px;
         height: 416px;
         padding-right: 32px;
     }
@@ -307,6 +312,7 @@ const StyledPreview = styled(Preview)`
     .img-wrapper {
         position: relative;
         width: 100%;
+        margin-top: 32px;
     }
 
     img {

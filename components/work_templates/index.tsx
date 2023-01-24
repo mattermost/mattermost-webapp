@@ -136,7 +136,7 @@ const WorkTemplateModal = () => {
     const handleTemplateSelected = (template: WorkTemplate, quickUse: boolean) => {
         setSelectedTemplate(template);
         if (quickUse) {
-            execute(template, '', Visibility.Public);
+            execute(template, '', template.visibility);
             return;
         }
 
@@ -151,7 +151,7 @@ const WorkTemplateModal = () => {
         setSelectedVisibility(visibility);
     };
 
-    const execute = async (template: WorkTemplate, name = '', visibility = Visibility.Public) => {
+    const execute = async (template: WorkTemplate, name = '', visibility: Visibility) => {
         const pbTemplates = [];
         for (const item of template.content) {
             if (item.playbook) {
