@@ -223,7 +223,6 @@ const TopThreadsTable = (props: Props) => {
                                     <Tag text={thread.channel_display_name}/>
                                 </div>
                                 <div
-                                    aria-readonly='true'
                                     className='preview'
                                 >
                                     {getPreview(thread, isChannelMember)}

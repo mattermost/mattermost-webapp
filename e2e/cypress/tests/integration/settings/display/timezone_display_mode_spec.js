@@ -172,31 +172,30 @@ function setTimezoneDisplayTo(isAutomatic, value) {
     // # Navigate to Timezone Display Settings
     navigateToTimezoneDisplaySettings();
 
-    cy.get('.setting-list-item').within(() => {
-        // # Uncheck the automatic timezone checkbox and verify unchecked
-        cy.get('#automaticTimezoneInput').should('be.visible').uncheck().should('be.not.checked');
+    // # Uncheck the automatic timezone checkbox and verify unchecked
+    cy.get('.setting-list-item').as('settingItems');
+    cy.get('@settingItems').find('#automaticTimezoneInput').should('be.visible').uncheck().should('be.not.checked');
 
-        // * Verify Change timezone is enabled
-        cy.get('#displayTimezone').should('be.visible').find('input').as('changeTimezone').should('be.enabled');
-        if (isAutomatic) {
-            // # Check automatic timezone checkbox and verify checked
-            cy.get('#automaticTimezoneInput').check().should('be.checked');
+    // * Verify Change timezone is enabled
+    cy.get('@settingItems').find('#displayTimezone').should('be.visible').find('input').as('changeTimezone').should('be.enabled');
+    if (isAutomatic) {
+        // # Check automatic timezone checkbox and verify checked
+        cy.get('@settingItems').find('#automaticTimezoneInput').check().should('be.checked');
 
-            // * Verify timezone text is visible
-            cy.get('@changeTimezone').invoke('text').then((timezoneDesc) => {
-                expect(value.replace('_', ' ')).to.contain(timezoneDesc);
-            });
+        // * Verify timezone text is visible
+        cy.get('@changeTimezone').invoke('text').then((timezoneDesc) => {
+            expect(value.replace('_', ' ')).to.contain(timezoneDesc);
+        });
 
-            // * Verify Change timezone is disabled
-            cy.get('@changeTimezone').should('be.disabled');
-        } else {
-            // # Manually type new timezone
-            cy.get('@changeTimezone').typeWithForce(`${value}{enter}`);
-        }
-    });
+        // * Verify Change timezone is disabled
+        cy.get('@changeTimezone').should('be.disabled');
+    } else {
+        // # Manually type new timezone
+        cy.get('@changeTimezone').typeWithForce(`${value}{enter}`);
+    }
 
     // # Click Save button
-    cy.get('#saveSetting').should('be.visible').click({force: true});
+    cy.uiSave();
 
     // * Verify timezone description is correct
     cy.get('#timezoneDesc').should('be.visible').invoke('text').then((timezoneDesc) => {
@@ -237,18 +236,17 @@ function verifyUnchangedTimezoneOnInvalidInput(userId) {
         // # Navigate to Timezone Display Settings
         navigateToTimezoneDisplaySettings();
 
-        cy.get('.setting-list-item').within(() => {
-            // # Uncheck the automatic timezone checkbox and verify unchecked
-            cy.get('#automaticTimezoneInput').should('be.visible').uncheck().should('be.not.checked');
+        // # Uncheck the automatic timezone checkbox and verify unchecked
+        cy.get('.setting-list-item').as('settingItems');
+        cy.get('@settingItems').find('#automaticTimezoneInput').should('be.visible').uncheck().should('be.not.checked');
 
-            // * Enter invalid input as timezone
-            cy.get('#displayTimezone').find('input').
-                should('be.enabled').
-                typeWithForce('invalid');
+        // * Enter invalid input as timezone
+        cy.get('@settingItems').find('#displayTimezone').find('input').
+            should('be.enabled').
+            typeWithForce('invalid');
 
-            // # Click save
-            cy.get('#saveSetting').should('be.visible').click({force: true});
-        });
+        // # Click save
+        cy.uiSave();
 
         // * Verify that the timezone is unchanged
         cy.get('#timezoneDesc').should('be.visible').invoke('text').then((timezoneDesc) => {

@@ -131,25 +131,17 @@ describe('Keyboard Shortcuts', () => {
 
                 // # Navigate to the bottom of the list of channels
                 cy.get('#sidebarItem_' + dmChannels[0].name).scrollIntoView().click();
-                cy.get('.active').within(() => {
-                    cy.get('#sidebarItem_' + dmChannels[0].name).should('exist');
-                });
+                cy.get('.active').find('#sidebarItem_' + dmChannels[0].name).should('exist');
 
                 // # Press alt + shift + up
                 cy.get('body').type('{alt}{shift}', {release: false}).type('{uparrow}').type('{alt}{shift}', {release: true});
-                cy.get('.active').within(() => {
-                    cy.get('#sidebarItem_' + privateChannels[0].name).should('exist');
-                });
+                cy.get('.active').find('#sidebarItem_' + privateChannels[0].name).should('exist');
                 cy.get('body').type('{alt}{shift}', {release: false}).type('{uparrow}').type('{alt}{shift}', {release: true});
-                cy.get('.active').within(() => {
-                    cy.get('#sidebarItem_' + publicChannels[0].name).should('exist');
-                });
+                cy.get('.active').find('#sidebarItem_' + publicChannels[0].name).should('exist');
 
                 // # No navigation - stay in place
                 cy.get('body').type('{alt}{shift}', {release: false}).type('{uparrow}').type('{alt}{shift}', {release: true});
-                cy.get('.active').within(() => {
-                    cy.get('#sidebarItem_' + publicChannels[0].name).should('exist');
-                });
+                cy.get('.active').find('#sidebarItem_' + publicChannels[0].name).should('exist');
             });
 
             // # Handle favorite channels
@@ -205,25 +197,17 @@ describe('Keyboard Shortcuts', () => {
 
                 // # Navigate to the middle of the list of unread favorite channels
                 cy.get('#sidebarItem_' + favPrivateChannels[0].name).scrollIntoView().click();
-                cy.get('.active').within(() => {
-                    cy.get('#sidebarItem_' + favPrivateChannels[0].name).should('exist');
-                });
+                cy.get('.active').find('#sidebarItem_' + favPrivateChannels[0].name).should('exist');
 
                 // # Press alt + shift + up
                 cy.get('body').type('{alt}{shift}', {release: false}).type('{uparrow}').type('{alt}{shift}', {release: true});
-                cy.get('.active').within(() => {
-                    cy.get('#sidebarItem_' + favDMChannels[0].name).should('exist');
-                });
+                cy.get('.active').find('#sidebarItem_' + favDMChannels[0].name).should('exist');
                 cy.get('body').type('{alt}{shift}', {release: false}).type('{uparrow}').type('{alt}{shift}', {release: true});
-                cy.get('.active').within(() => {
-                    cy.get('#sidebarItem_' + favPublicChannels[0].name).should('exist');
-                });
+                cy.get('.active').find('#sidebarItem_' + favPublicChannels[0].name).should('exist');
 
                 // # No navigation - stay in place
                 cy.get('body').type('{alt}{shift}', {release: false}).type('{uparrow}').type('{alt}{shift}', {release: true});
-                cy.get('.active').within(() => {
-                    cy.get('#sidebarItem_' + favPublicChannels[0].name).should('exist');
-                });
+                cy.get('.active').find('#sidebarItem_' + favPublicChannels[0].name).should('exist');
             });
         });
     });
@@ -290,25 +274,17 @@ describe('Keyboard Shortcuts', () => {
 
                 // # Navigate to the top of the list of channels
                 cy.get('#sidebarItem_' + publicChannels[0].name).scrollIntoView().click();
-                cy.get('.active').within(() => {
-                    cy.get('#sidebarItem_' + publicChannels[0].name).should('exist');
-                });
+                cy.get('.active').find('#sidebarItem_' + publicChannels[0].name).should('exist');
 
                 // # Press alt + shift + down
                 cy.get('body').type('{alt}{shift}', {release: false}).type('{downarrow}').type('{alt}{shift}', {release: true});
-                cy.get('.active').within(() => {
-                    cy.get('#sidebarItem_' + privateChannels[0].name).should('exist');
-                });
+                cy.get('.active').find('#sidebarItem_' + privateChannels[0].name).should('exist');
                 cy.get('body').type('{alt}{shift}', {release: false}).type('{downarrow}').type('{alt}{shift}', {release: true});
-                cy.get('.active').within(() => {
-                    cy.get('#sidebarItem_' + dmChannels[0].name).should('exist');
-                });
+                cy.get('.active').find('#sidebarItem_' + dmChannels[0].name).should('exist');
 
                 // # No navigation - stay in place
                 cy.get('body').type('{alt}{shift}', {release: false}).type('{downarrow}').type('{alt}{shift}', {release: true});
-                cy.get('.active').within(() => {
-                    cy.get('#sidebarItem_' + dmChannels[0].name).should('exist');
-                });
+                cy.get('.active').find('#sidebarItem_' + dmChannels[0].name).should('exist');
             });
 
             // # Handle favorite channels
@@ -364,25 +340,17 @@ describe('Keyboard Shortcuts', () => {
 
                 // # Navigate to the middle of the list of unread favorite channels
                 cy.get('#sidebarItem_' + favPrivateChannels[0].name).scrollIntoView().click();
-                cy.get('.active').within(() => {
-                    cy.get('#sidebarItem_' + favPrivateChannels[0].name).should('exist');
-                });
+                cy.get('.active').find('#sidebarItem_' + favPrivateChannels[0].name).should('exist');
 
                 // # Press alt + shift + down
                 cy.get('body').type('{alt}{shift}', {release: false}).type('{downarrow}').type('{alt}{shift}', {release: true});
-                cy.get('.active').within(() => {
-                    cy.get('#sidebarItem_' + favPublicChannels[0].name).should('exist');
-                });
+                cy.get('.active').find('#sidebarItem_' + favPublicChannels[0].name).should('exist');
                 cy.get('body').type('{alt}{shift}', {release: false}).type('{downarrow}').type('{alt}{shift}', {release: true});
-                cy.get('.active').within(() => {
-                    cy.get('#sidebarItem_' + favDMChannels[0].name).should('exist');
-                });
+                cy.get('.active').find('#sidebarItem_' + favDMChannels[0].name).should('exist');
 
                 // # No navigation - stay in place
                 cy.get('body').type('{alt}{shift}', {release: false}).type('{downarrow}').type('{alt}{shift}', {release: true});
-                cy.get('.active').within(() => {
-                    cy.get('#sidebarItem_' + favDMChannels[0].name).should('exist');
-                });
+                cy.get('.active').find('#sidebarItem_' + favDMChannels[0].name).should('exist');
             });
         });
     });
