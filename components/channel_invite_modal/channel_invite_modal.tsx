@@ -436,6 +436,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 onHide={this.onHide}
                 onExited={this.props.onExited}
                 role='dialog'
+                enforceFocus={false}
                 aria-labelledby='channelInviteModalLabel'
             >
                 <Modal.Header

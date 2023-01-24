@@ -43,7 +43,6 @@ export class GenericModal extends React.PureComponent<Props, State> {
         id: 'genericModal',
         autoCloseOnCancelButton: true,
         autoCloseOnConfirmButton: true,
-        enforceFocus: true,
     };
 
     constructor(props: Props) {

@@ -136,7 +136,7 @@ const MenuItemStyled = styled(MuiMenuItem, {
             },
 
             '&.Mui-focusVisible': {
-                boxShadow: !isDestructive ? '0 0 0 2px var(--denim-sidebar-active-border) inset' : '0 0 0 2px rgba(var(--button-color-rgb), 0.16) inset',
+                boxShadow: !isDestructive ? '0 0 0 2px var(--sidebar-text-active-border) inset' : '0 0 0 2px rgba(var(--button-color-rgb), 0.16) inset',
                 backgroundColor: !isDestructive ? 'var(--center-channel-bg)' : 'var(--error-text)',
                 color: isDestructive && 'var(--button-color)',
             },

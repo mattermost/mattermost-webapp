@@ -214,9 +214,7 @@ const SidebarChannelMenu = (props: Props) => {
 
     let addMembersMenuItem: JSX.Element | null = null;
     if ((props.channel.type === Constants.PRIVATE_CHANNEL && props.managePrivateChannelMembers) || (props.channel.type === Constants.OPEN_CHANNEL && props.managePublicChannelMembers)) {
-        function handleAddMembers(event: MouseEvent<HTMLLIElement>) {
-            event.preventDefault();
-
+        function handleAddMembers() {
             props.openModal({
                 modalId: ModalIdentifiers.CHANNEL_INVITE,
                 dialogType: ChannelInviteModal,
@@ -229,6 +227,7 @@ const SidebarChannelMenu = (props: Props) => {
             <Menu.Item
                 id={`addMembers-${props.channel.id}`}
                 onClick={handleAddMembers}
+                aria-haspopup='true'
                 leadingElement={<AccountPlusOutlineIcon size={18}/>}
                 labels={(
                     <FormattedMessage

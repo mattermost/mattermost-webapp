@@ -65,9 +65,7 @@ const ChannelMoveToSubMenu = (props: Props) => {
         }
     }
 
-    function handleMoveToNewCategory(event: MouseEvent<HTMLLIElement>) {
-        event.preventDefault();
-
+    function handleMoveToNewCategory() {
         dispatch(openModal({
             modalId: ModalIdentifiers.EDIT_CATEGORY,
             dialogType: EditCategoryModal,
@@ -126,6 +124,7 @@ const ChannelMoveToSubMenu = (props: Props) => {
             <Menu.Item
                 id={`moveToNewCategory-${props.channel.id}`}
                 key={`moveToNewCategory-${props.channel.id}`}
+                aria-haspopup={true}
                 leadingElement={<FolderMoveOutlineIcon size={18}/>}
                 labels={
                     <FormattedMessage

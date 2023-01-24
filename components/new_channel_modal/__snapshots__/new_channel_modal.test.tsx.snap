@@ -8,7 +8,6 @@ exports[`components/new_channel_modal should match snapshot 1`] = `
   className="new-channel-modal"
   compassDesign={true}
   confirmButtonText="Create channel"
-  enforceFocus={true}
   errorText=""
   handleCancel={[Function]}
   handleConfirm={[Function]}

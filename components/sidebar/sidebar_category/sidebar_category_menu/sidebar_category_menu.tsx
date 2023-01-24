@@ -74,8 +74,7 @@ const SidebarCategoryMenu = (props: Props) => {
     let deleteCategoryMenuItem: JSX.Element | null = null;
     let renameCategoryMenuItem: JSX.Element | null = null;
     if (props.category.type === CategoryTypes.CUSTOM) {
-        function handleDeleteCategory(event: MouseEvent<HTMLLIElement>) {
-            event.preventDefault();
+        function handleDeleteCategory() {
             props.openModal({
                 modalId: ModalIdentifiers.DELETE_CATEGORY,
                 dialogType: DeleteCategoryModal,
@@ -89,6 +88,7 @@ const SidebarCategoryMenu = (props: Props) => {
             <Menu.Item
                 id={`delete-${props.category.id}`}
                 isDestructive={true}
+                aria-haspopup={true}
                 onClick={handleDeleteCategory}
                 leadingElement={<TrashCanOutlineIcon size={18}/>}
                 labels={(
@@ -115,6 +115,7 @@ const SidebarCategoryMenu = (props: Props) => {
             <Menu.Item
                 id={`rename-${props.category.id}`}
                 onClick={handleRenameCategory}
+                aria-haspopup={true}
                 leadingElement={<PencilOutlineIcon size={18}/>}
                 labels={(
                     <FormattedMessage
@@ -210,8 +211,7 @@ const SidebarCategoryMenu = (props: Props) => {
         </Menu.SubMenu>
     );
 
-    function handleCreateCategory(event: MouseEvent<HTMLLIElement>) {
-        event.preventDefault();
+    function handleCreateCategory() {
         props.openModal({
             modalId: ModalIdentifiers.EDIT_CATEGORY,
             dialogType: EditCategoryModal,
@@ -223,6 +223,7 @@ const SidebarCategoryMenu = (props: Props) => {
         <Menu.Item
             id={`create-${props.category.id}`}
             onClick={handleCreateCategory}
+            aria-haspopup={true}
             leadingElement={<FolderPlusOutlineIcon size={18}/>}
             labels={(
                 <FormattedMessage

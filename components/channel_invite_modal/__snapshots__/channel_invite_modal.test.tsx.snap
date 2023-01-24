@@ -9,7 +9,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
   bsClass="modal"
   dialogClassName="a11y__modal channel-invite"
   dialogComponentClass={[Function]}
-  enforceFocus={true}
+  enforceFocus={false}
   id="addUsersToChannelModal"
   keyboard={true}
   manager={
@@ -122,7 +122,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
   bsClass="modal"
   dialogClassName="a11y__modal channel-invite"
   dialogComponentClass={[Function]}
-  enforceFocus={true}
+  enforceFocus={false}
   id="addUsersToChannelModal"
   keyboard={true}
   manager={
@@ -282,7 +282,7 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
   bsClass="modal"
   dialogClassName="a11y__modal channel-invite"
   dialogComponentClass={[Function]}
-  enforceFocus={true}
+  enforceFocus={false}
   id="addUsersToChannelModal"
   keyboard={true}
   manager={

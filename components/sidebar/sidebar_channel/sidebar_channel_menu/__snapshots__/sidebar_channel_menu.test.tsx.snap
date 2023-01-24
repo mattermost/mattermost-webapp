@@ -111,6 +111,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     onClick={[Function]}
   />
   <MenuItem
+    aria-haspopup="true"
     id="addMembers-channel_id"
     labels={
       <Memo(MemoizedFormattedMessage)
@@ -256,6 +257,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     onClick={[Function]}
   />
   <MenuItem
+    aria-haspopup="true"
     id="addMembers-channel_id"
     labels={
       <Memo(MemoizedFormattedMessage)
@@ -401,6 +403,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     onClick={[Function]}
   />
   <MenuItem
+    aria-haspopup="true"
     id="addMembers-channel_id"
     labels={
       <Memo(MemoizedFormattedMessage)
@@ -660,6 +663,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     onClick={[Function]}
   />
   <MenuItem
+    aria-haspopup="true"
     id="addMembers-channel_id"
     labels={
       <Memo(MemoizedFormattedMessage)
@@ -788,6 +792,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     onClick={[Function]}
   />
   <MenuItem
+    aria-haspopup="true"
     id="addMembers-channel_id"
     labels={
       <Memo(MemoizedFormattedMessage)
@@ -933,6 +938,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     onClick={[Function]}
   />
   <MenuItem
+    aria-haspopup="true"
     id="addMembers-channel_id"
     labels={
       <Memo(MemoizedFormattedMessage)
@@ -1078,6 +1084,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     onClick={[Function]}
   />
   <MenuItem
+    aria-haspopup="true"
     id="addMembers-channel_id"
     labels={
       <Memo(MemoizedFormattedMessage)
@@ -1223,6 +1230,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     onClick={[Function]}
   />
   <MenuItem
+    aria-haspopup="true"
     id="addMembers-channel_id"
     labels={
       <Memo(MemoizedFormattedMessage)
@@ -1368,6 +1376,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
     onClick={[Function]}
   />
   <MenuItem
+    aria-haspopup="true"
     id="addMembers-channel_id"
     labels={
       <Memo(MemoizedFormattedMessage)

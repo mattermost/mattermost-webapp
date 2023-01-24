@@ -6,7 +6,6 @@ exports[`components/drafts/draft_actions/delete_draft_modal should have called o
   autoCloseOnConfirmButton={true}
   compassDesign={true}
   confirmButtonText="Yes, delete"
-  enforceFocus={true}
   handleCancel={[Function]}
   handleConfirm={
     [MockFunction] {
@@ -46,7 +45,6 @@ exports[`components/drafts/draft_actions/delete_draft_modal should have called o
   autoCloseOnConfirmButton={true}
   compassDesign={true}
   confirmButtonText="Yes, delete"
-  enforceFocus={true}
   handleCancel={[Function]}
   handleConfirm={[MockFunction]}
   id="genericModal"

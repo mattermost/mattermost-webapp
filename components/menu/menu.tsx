@@ -82,6 +82,11 @@ export function Menu(props: Props) {
         setDisableAutoFocusItem(false);
     }
 
+    function handleMenuModalClose(modalId: MenuProps['id']) {
+        dispatch(closeModal(modalId));
+        setAnchorElement(null);
+    }
+
     function handleMenuClick() {
         setAnchorElement(null);
     }
@@ -104,12 +109,13 @@ export function Menu(props: Props) {
         if (isMobileView) {
             dispatch(
                 openModal<MenuModalProps>({
-                    modalId: `${props.menuButton.id}-${props.menu.id}`,
+                    modalId: props.menu.id,
                     dialogType: MenuModal,
                     dialogProps: {
                         menuButtonId: props.menuButton.id,
                         menuId: props.menu.id,
                         menuAriaLabel: props.menu?.['aria-label'] ?? '',
+                        onModalClose: handleMenuModalClose,
                         children: props.children,
                     },
                 }),
@@ -209,16 +215,15 @@ interface MenuModalProps {
     menuButtonId: MenuButtonProps['id'];
     menuId: MenuProps['id'];
     menuAriaLabel: MenuProps['aria-label'];
+    onModalClose: (modalId: MenuProps['id']) => void;
     children: Props['children'];
 }
 
 function MenuModal(props: MenuModalProps) {
-    const dispatch = useDispatch();
-
     const theme = useSelector(getTheme);
 
     function handleModalExited() {
-        dispatch(closeModal(props.menuId));
+        props.onModalClose(props.menuId);
     }
 
     function handleModalClickCapture(event: MouseEvent<HTMLDivElement>) {
@@ -229,7 +234,7 @@ function MenuModal(props: MenuModalProps) {
                     !currentElement.ariaHasPopup
                 ) {
                     // We check for property ariaHasPopup because we don't want to close the menu
-                    // if the user clicks on a submenu item. And let submenu component handle the click.
+                    // if the user clicks on a submenu item or menu item which open modal. And let submenu component handle the click.
                     handleModalExited();
                     break;
                 }

@@ -11,7 +11,6 @@ exports[`ProductNoticesModal Match snapshot for single notice 1`] = `
       Download
     </span>
   }
-  enforceFocus={true}
   handleConfirm={[Function]}
   handleEnterKeyPress={[Function]}
   id="genericModal"
@@ -61,7 +60,6 @@ exports[`ProductNoticesModal Match snapshot for user notice 1`] = `
       id="generic.done"
     />
   }
-  enforceFocus={true}
   handleCancel={[Function]}
   handleConfirm={[Function]}
   handleEnterKeyPress={[Function]}
@@ -134,7 +132,6 @@ exports[`ProductNoticesModal Should match snapshot for system admin notice 1`] =
       />
     </React.Fragment>
   }
-  enforceFocus={true}
   handleConfirm={[Function]}
   handleEnterKeyPress={[Function]}
   id="genericModal"

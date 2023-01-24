@@ -46,6 +46,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
       onClick={[Function]}
     />
     <MenuItem
+      aria-haspopup={true}
       id="rename-test_category_id"
       labels={
         <Memo(MemoizedFormattedMessage)
@@ -61,6 +62,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
       onClick={[Function]}
     />
     <MenuItem
+      aria-haspopup={true}
       id="delete-test_category_id"
       isDestructive={true}
       labels={
@@ -137,6 +139,7 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
     </SubMenu>
     <MenuItemSeparator />
     <MenuItem
+      aria-haspopup={true}
       id="create-test_category_id"
       labels={
         <Memo(MemoizedFormattedMessage)
