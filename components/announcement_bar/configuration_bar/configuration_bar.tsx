@@ -250,9 +250,9 @@ const ConfigurationAnnouncementBar = (props: Props) => {
 
             let announcementBarType = AnnouncementBarTypes.ANNOUNCEMENT;
 
-            const {w} = getViewportSize();
+            const {w: width} = getViewportSize();
             if (daysUntilLicenseExpires < 1) {
-                const viewportBasedMessage = w < Constants.MOBILE_SCREEN_WIDTH ? formatMessage({
+                const viewportBasedMessage = width < Constants.MOBILE_SCREEN_WIDTH ? formatMessage({
                     id: 'announcement_bar.error.trial_license_expiring_last_day.short',
                     defaultMessage: 'This is the last day of your free trial.'},
                 ) : formatMessage({
