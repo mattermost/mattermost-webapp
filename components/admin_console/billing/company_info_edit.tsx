@@ -82,7 +82,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
         if (contentChanged) {
             dispatch(setNavigationBlocked(true));
         }
-    }, [contentChanged])
+    }, [contentChanged]);
 
     if (!companyInfo) {
         return null;
