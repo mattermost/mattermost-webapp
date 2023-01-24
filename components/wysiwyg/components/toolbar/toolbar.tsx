@@ -9,7 +9,7 @@ import React, {useCallback, useEffect, useLayoutEffect, useRef, useState} from '
 import {useIntl} from 'react-intl';
 import {CSSTransition} from 'react-transition-group';
 import styled from 'styled-components';
-import type {Editor} from '@tiptap/react';
+import {Editor} from '@tiptap/react';
 
 import {useGetLatest} from 'components/advanced_text_editor/formatting_bar/hooks';
 import {Formatters} from 'components/wysiwyg/wysiwyg';

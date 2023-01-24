@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
 import {Editor, Extension} from '@tiptap/react';
 import type {KeyboardShortcutCommand} from '@tiptap/react';
-import type {PluginKey} from 'prosemirror-state';
-import React from 'react';
+import {PluginKey} from 'prosemirror-state';
 
 export type KeyhandlerOptions = {
     submitAction: (editor: Editor, event?: React.FormEvent) => void;

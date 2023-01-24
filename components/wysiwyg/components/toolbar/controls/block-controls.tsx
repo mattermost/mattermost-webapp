@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import type {Editor} from '@tiptap/react';
+import {Editor} from '@tiptap/react';
 import classNames from 'classnames';
 import {
     CodeBlockIcon,

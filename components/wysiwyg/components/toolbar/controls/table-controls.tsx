@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import {CSSTransition} from 'react-transition-group';
 import {times} from 'lodash';
 import {offset, useFloating} from '@floating-ui/react-dom';
-import type {Editor} from '@tiptap/react';
+import {Editor} from '@tiptap/react';
 import {
     TablePlusIcon,
     TableRemoveIcon,

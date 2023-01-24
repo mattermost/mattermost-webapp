@@ -14,7 +14,7 @@ import {
     LinkVariantIcon, MenuVariantIcon,
 } from '@mattermost/compass-icons/components';
 import classNames from 'classnames';
-import type {Editor} from '@tiptap/react';
+import {Editor} from '@tiptap/react';
 import {createPortal} from 'react-dom';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';

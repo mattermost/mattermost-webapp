@@ -18,7 +18,7 @@ import {
     FormatHeader6Icon,
     FormatLetterCaseIcon,
 } from '@mattermost/compass-icons/components';
-import type {Editor} from '@tiptap/react';
+import {Editor} from '@tiptap/react';
 
 import {t} from 'utils/i18n';
 
