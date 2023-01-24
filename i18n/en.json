@@ -256,7 +256,7 @@
   "admin.billing.company_info.numEmployees": "Number of employees (optional)",
   "admin.billing.company_info.title": "Company Information",
   "admin.billing.company_info.zipcode": "Zip/Postal Code",
-  "admin.billing.history.allPaymentsShowHere": "All of your monthly payments will show here",
+  "admin.billing.history.allPaymentsShowHere": "All of your invoices will be shown here",
   "admin.billing.history.date": "Date",
   "admin.billing.history.description": "Description",
   "admin.billing.history.fractionalAndRatedUsers": "{fractionalUsers} metered users, {fullUsers} users at full rate, {partialUsers} users with partial charges",
