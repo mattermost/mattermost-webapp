@@ -143,8 +143,10 @@ body.app__body #root {
 
     @media screen and (max-width: 768px) {
         grid-template:
+            'announcement' min-content
             'header' min-content
             'center'
+            'footer' min-content
             / auto
         ;
         .team-sidebar,
