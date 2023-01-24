@@ -64,6 +64,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
     const updateNumEmployees = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.value) {
             setNumEmployees(parseInt(event.target.value, 10));
+            setContentChanged(true);
         } else {
             setNumEmployees(undefined);
         }
@@ -135,7 +136,10 @@ const CompanyInfoEdit: React.FC<Props> = () => {
     const companyAddressInput = (
         <>
             <DropdownInput
-                onChange={(option) => {setCountry(option.value); setContentChanged(true);}}
+                onChange={(option) => {
+                    setCountry(option.value);
+                    setContentChanged(true);
+                }}
                 value={country ? {value: country, label: country} : undefined}
                 options={COUNTRIES.map((c) => ({value: c.name, label: c.name}))}
                 legend={Utils.localizeMessage('admin.billing.company_info.country', 'Country')}
@@ -176,7 +180,10 @@ const CompanyInfoEdit: React.FC<Props> = () => {
                     <StateSelector
                         country={country!}
                         state={state!}
-                        onChange={(stateValue) => setState(stateValue)}
+                        onChange={(stateValue) => {
+                            setState(stateValue);
+                            setContentChanged(true);
+                        }}
                     />
                 </div>
                 <div className='form-row-third-2'>
@@ -248,7 +255,10 @@ const CompanyInfoEdit: React.FC<Props> = () => {
                                         <input
                                             type='checkbox'
                                             checked={sameAsBillingAddress}
-                                            onChange={(event) => setSameAsBillingAddress(event.target.checked)}
+                                            onChange={(event) => {
+                                                setSameAsBillingAddress(event.target.checked);
+                                                setContentChanged(true);
+                                            }}
                                         />
                                         <FormattedMessage
                                             id='admin.billing.company_info_edit.sameAsBillingAddress'
