@@ -265,7 +265,7 @@ const ConfigurationAnnouncementBar = (props: Props) => {
                             className='advisor-icon'
                             src={warningIcon}
                         />
-                        <strong>{viewportBasedMessage}</strong>
+                        {viewportBasedMessage}
                     </>
                 );
                 announcementBarType = AnnouncementBarTypes.CRITICAL;
