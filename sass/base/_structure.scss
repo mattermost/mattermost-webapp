@@ -142,6 +142,7 @@ body.app__body #root {
     }
 
     @media screen and (max-width: 768px) {
+        overflow-y: visible;
         grid-template:
             'announcement' min-content
             'header' min-content
