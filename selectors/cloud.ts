@@ -84,3 +84,18 @@ export const isCloudDelinquencyGreaterThan90Days = createSelector(
         return (Math.floor((now.getTime() - delinquentDate.getTime()) / (1000 * 60 * 60 * 24)) >= 90);
     },
 );
+
+export const showSidebarInviteButton = createSelector(
+    'showSidebarInviteButton',
+    (state: GlobalState) => state.entities.cloud.subscription as Subscription,
+    (subscription: Subscription) => {
+        if (!subscription) {
+            return false;
+        }
+        const now = new Date();
+        const creationDate = new Date(subscription.create_at);
+        const daysSince = Math.floor((now.getTime() - creationDate.getTime()) / (1000 * 60 * 60 * 24));
+        console.log(daysSince);
+        return (daysSince <= 28);
+    },
+);

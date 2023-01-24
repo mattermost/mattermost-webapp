@@ -3,6 +3,9 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import {FormattedMessage} from 'react-intl';
+
+import {Permissions} from 'mattermost-redux/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import EditCategoryModal from 'components/edit_category_modal';
@@ -12,6 +15,8 @@ import MoreChannels from 'components/more_channels';
 import NewChannelModal from 'components/new_channel_modal/new_channel_modal';
 import InvitationModal from 'components/invitation_modal';
 import UserSettingsModal from 'components/user_settings/modal';
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import ToggleModalButton from 'components/toggle_modal_button';
 
 import Pluggable from 'plugins/pluggable';
 
@@ -48,6 +53,7 @@ type Props = {
     isKeyBoardShortcutModalOpen: boolean;
     userGroupsEnabled: boolean;
     canCreateCustomGroups: boolean;
+    showInviteButton: boolean;
 };
 
 type State = {
@@ -244,6 +250,29 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                         canCreateCustomGroups={this.props.canCreateCustomGroups}
                     />
                 )}
+                {
+                    this.props.showInviteButton && 
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
+                    >
+                        <ToggleModalButton
+                            ariaLabel={Utils.localizeMessage('sidebar_left.inviteUsers', 'Invite Users')}
+                            id='inviteTeammates'
+                            className={'btn btn-link invite-teammates'}
+                            modalId={ModalIdentifiers.INVITATION}
+                            dialogType={InvitationModal}
+                            onClick={() => console.log('opening modal')}
+                        >
+                            <i className='icon-account-plus-outline'/>
+                            <FormattedMessage
+                                id={'sidebar_left.inviteTeammates'}
+                                defaultMessage='Invite teammates'
+                            />
+                        </ToggleModalButton>
+                    </TeamPermissionGate>
+                }
+                
                 <div
                     id='lhsNavigator'
                     role='application'

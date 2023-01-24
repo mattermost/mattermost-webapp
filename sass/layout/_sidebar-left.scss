@@ -256,6 +256,23 @@ $sidebarOpacityAnimationDuration: 0.15s;
         }
     }
 
+    button.invite-teammates {
+        padding: 8px 12px;
+        margin: 5px 16px 16px;
+        border: 1px solid var(--sidebar-text);
+        border-radius: 4px;
+        color: var(--sidebar-text);
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+
+        &:hover {
+            background: var(--sidebar-text-hover-bg);
+        }
+    }
+
     .SidebarFilters {
         align-items: center;
     }
