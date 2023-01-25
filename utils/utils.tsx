@@ -47,7 +47,7 @@ import {addUserToTeam} from 'actions/team_actions';
 import {searchForTerm} from 'actions/post_actions';
 import {getHistory} from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent';
-import {isDesktopApp, isMobileApp} from 'utils/user_agent';
+import {isDesktopApp} from 'utils/user_agent';
 import bing from 'sounds/bing.mp3';
 import crackle from 'sounds/crackle.mp3';
 import down from 'sounds/down.mp3';
@@ -1870,14 +1870,11 @@ export function getRoleFromTrackFlow() {
 const TrackFlowSources: Record<string, string> = {
     wd: 'webapp-desktop',
     wm: 'webapp-mobile',
-    m: 'mobile-app',
     d: 'desktop-app',
 };
 
 function getTrackFlowSource() {
-    if (isMobileApp()) {
-        return TrackFlowSources.m;
-    } else if (isMobile()) {
+    if (isMobile()) {
         return TrackFlowSources.wm;
     } else if (isDesktopApp()) {
         return TrackFlowSources.d;
