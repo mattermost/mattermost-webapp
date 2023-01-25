@@ -7,7 +7,7 @@ import {Team} from '@mattermost/types/teams';
 import {IncomingWebhook} from '@mattermost/types/integrations';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {t} from 'utils/i18n';
 import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook';
 import LoadingScreen from 'components/loading_screen';
@@ -105,7 +105,7 @@ export default class EditIncomingWebhook extends React.PureComponent<Props, Stat
         const result = await this.props.actions.updateIncomingHook(this.newHook);
 
         if ('data' in result) {
-            browserHistory.push(`/${this.props.team.name}/integrations/incoming_webhooks`);
+            getHistory().push(`/${this.props.team.name}/integrations/incoming_webhooks`);
             return;
         }
 

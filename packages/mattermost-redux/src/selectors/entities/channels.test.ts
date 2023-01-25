@@ -2568,7 +2568,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
     const dmChannel = {id: 'dmChannel', name: 'user1__user2', team_id: '', delete_at: 0, type: General.DM_CHANNEL};
     const gmChannel = {id: 'gmChannel', name: 'gmChannel', team_id: 'team1', delete_at: 0, type: General.GM_CHANNEL};
 
-    test('should should unread and mentions correctly for channels across teams', () => {
+    test('should unread and mentions correctly for channels across teams', () => {
         const myMemberA = {mention_count: 2, msg_count: 3, notify_props: {mark_unread: 'all'}};
         const myMemberB = {mention_count: 5, msg_count: 7, notify_props: {mark_unread: 'all'}};
         const dmMember = {mention_count: 2, msg_count: 3, notify_props: {mark_unread: 'all'}};
@@ -2708,7 +2708,6 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                 },
                 general: {
                     config: {
-                        FeatureFlagCollapsedThreads: 'true',
                         CollapsedThreads: 'always_on',
                     },
                 },
@@ -3201,6 +3200,62 @@ describe('Selectors.Channels.getUnreadChannelIds', () => {
         expect(Selectors.getUnreadChannelIds(testState, channel5)).toEqual([
             channel1.id,
             channel3.id,
+        ]);
+    });
+});
+
+describe('Selectors.Channels.getRecentProfilesFromDMs', () => {
+    it('should return profiles from DMs in descending order of last viewed at time', () => {
+        const currentUser = TestHelper.fakeUserWithId();
+        const user1 = TestHelper.fakeUserWithId();
+        const user2 = TestHelper.fakeUserWithId();
+        const user3 = TestHelper.fakeUserWithId();
+        const user4 = TestHelper.fakeUserWithId();
+
+        const profiles = {
+            [currentUser.id]: currentUser,
+            [user1.id]: user1,
+            [user2.id]: user2,
+            [user3.id]: user3,
+            [user4.id]: user4,
+        };
+
+        const channel1 = TestHelper.fakeDmChannel(currentUser.id, user1.id);
+        const channel2 = TestHelper.fakeDmChannel(currentUser.id, user2.id);
+        const channel3 = TestHelper.fakeGmChannel(currentUser.username, user3.username, user4.username);
+        const channels = {
+            [channel1.id]: channel1,
+            [channel2.id]: channel2,
+            [channel3.id]: channel3,
+        };
+        const myMembers = {
+            [channel1.id]: {channel_id: channel1.id, last_viewed_at: 1664984782988},
+            [channel3.id]: {channel_id: channel3.id, last_viewed_at: 1664984782992},
+            [channel2.id]: {channel_id: channel2.id, last_viewed_at: 1664984782998},
+        };
+        const testState = deepFreezeAndThrowOnMutation({
+            entities: {
+                preferences: {
+                    myPreferences: {},
+                },
+                general: {
+                    config: {},
+                },
+                users: {
+                    currentUserId: currentUser.id,
+                    profiles,
+                },
+                teams: {},
+                channels: {
+                    channels,
+                    myMembers,
+                },
+            },
+        });
+        expect(Selectors.getRecentProfilesFromDMs(testState).map((user) => user.username)).toEqual([
+            user2.username,
+            ...[user3.username, user4.username].sort(),
+            user1.username,
         ]);
     });
 });

@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-declare const REMOTE_MODULES: Record<string, string>;
+declare const REMOTE_CONTAINERS: Record<string, string>;
 
-declare module 'focalboard' {
+declare module 'boards' {
     import type {ProductPlugin} from 'plugins/products';
 
     export default class Plugin extends ProductPlugin {
@@ -12,7 +12,7 @@ declare module 'focalboard' {
     }
 }
 
-declare module 'focalboard/manifest' {
+declare module 'boards/manifest' {
     import type {PluginManifest} from '@mattermost/types/plugins';
     const module: PluginManifest;
     export default module;

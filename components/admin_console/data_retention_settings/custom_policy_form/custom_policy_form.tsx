@@ -27,7 +27,7 @@ import TeamList from 'components/admin_console/data_retention_settings/team_list
 import ChannelList from 'components/admin_console/data_retention_settings/channel_list';
 import {keepForeverOption, yearsOption, daysOption, FOREVER, YEARS} from 'components/admin_console/data_retention_settings/dropdown_options/dropdown_options';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {ItemStatus} from 'utils/constants';
 
 import './custom_policy_form.scss';
@@ -300,7 +300,7 @@ export default class CustomPolicyForm extends React.PureComponent<Props, State> 
             this.setState({serverError: true, saving: false});
         } else {
             this.props.actions.setNavigationBlocked(false);
-            browserHistory.push('/admin_console/compliance/data_retention_settings');
+            getHistory().push('/admin_console/compliance/data_retention_settings');
         }
     }
 

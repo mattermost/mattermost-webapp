@@ -22,8 +22,10 @@ import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions';
 import * as RhsActions from 'actions/views/rhs';
 import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
+import {removeDraft} from 'actions/views/drafts';
 import {isEmbedVisible, isInlineImageVisible} from 'selectors/posts';
 import {getSelectedPostId, getSelectedPostCardId, getRhsState} from 'selectors/rhs';
+import {getGlobalItem} from 'selectors/storage';
 import {GlobalState} from 'types/store';
 import {
     ActionTypes,
@@ -74,7 +76,7 @@ export function flagPost(postId: string) {
         const rhsState = getRhsState(state);
 
         if (rhsState === RHSStates.FLAG) {
-            addPostToSearchResults(postId, state, dispatch);
+            dispatch(addPostToSearchResults(postId));
         }
 
         return {data: true};
@@ -153,25 +155,29 @@ export function searchForTerm(term: string) {
     };
 }
 
-function addPostToSearchResults(postId: string, state: GlobalState, dispatch: DispatchFunc) {
-    const results = state.entities.search.results;
-    const index = results.indexOf(postId);
-    if (index === -1) {
-        const newPost = PostSelectors.getPost(state, postId);
-        const posts = getPostsForIds(state, results).reduce((acc, post) => {
-            acc[post.id] = post;
-            return acc;
-        }, {} as Record<string, Post>);
-        posts[newPost.id] = newPost;
+function addPostToSearchResults(postId: string) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const results = state.entities.search.results;
+        const index = results.indexOf(postId);
+        if (index === -1) {
+            const newPost = PostSelectors.getPost(state, postId);
+            const posts = getPostsForIds(state, results).reduce((acc, post) => {
+                acc[post.id] = post;
+                return acc;
+            }, {} as Record<string, Post>);
+            posts[newPost.id] = newPost;
 
-        const newResults = [...results, postId];
-        newResults.sort((a, b) => comparePosts(posts[a], posts[b]));
+            const newResults = [...results, postId];
+            newResults.sort((a, b) => comparePosts(posts[a], posts[b]));
 
-        dispatch({
-            type: SearchTypes.RECEIVED_SEARCH_POSTS,
-            data: {posts, order: newResults},
-        });
-    }
+            dispatch({
+                type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                data: {posts, order: newResults},
+            });
+        }
+        return {data: true};
+    };
 }
 
 function removePostFromSearchResults(postId: string, state: GlobalState, dispatch: DispatchFunc) {
@@ -197,7 +203,7 @@ export function pinPost(postId: string) {
         const rhsState = getRhsState(state);
 
         if (rhsState === RHSStates.PIN) {
-            addPostToSearchResults(postId, state, dispatch);
+            dispatch(addPostToSearchResults(postId));
         }
         return {data: true};
     };
@@ -276,6 +282,23 @@ export function markPostAsUnread(post: Post, location: string) {
     };
 }
 
+export function markMostRecentPostInChannelAsUnread(channelId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let state = getState();
+        let postId = PostSelectors.getMostRecentPostIdInChannel(state, channelId);
+        if (!postId) {
+            await dispatch(PostActions.getPosts(channelId));
+            state = getState();
+            postId = PostSelectors.getMostRecentPostIdInChannel(state, channelId);
+        }
+        if (postId) {
+            const lastPost = PostSelectors.getPost(state, postId);
+            dispatch(markPostAsUnread(lastPost, 'CENTER'));
+        }
+        return {data: true};
+    };
+}
+
 export function deleteAndRemovePost(post: Post) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const {error} = await dispatch(PostActions.deletePost(post));
@@ -298,6 +321,13 @@ export function deleteAndRemovePost(post: Post) {
                 postId: '',
                 channelId: '',
             });
+        }
+
+        if (post.root_id === '') {
+            const key = StoragePrefixes.COMMENT_DRAFT + post.id;
+            if (getGlobalItem(getState() as GlobalState, key, null)) {
+                dispatch(removeDraft(key, post.channel_id, post.id));
+            }
         }
 
         dispatch(PostActions.removePost(post));

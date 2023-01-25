@@ -1,21 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as TeamActions from 'mattermost-redux/actions/teams';
-import {getTeamMember} from 'mattermost-redux/selectors/entities/teams';
+import {RelationOneToOne} from '@mattermost/types/utilities';
+import {UserProfile} from '@mattermost/types/users';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {TeamMemberWithError, TeamInviteWithError} from '@mattermost/types/teams';
 
-import {RelationOneToOne} from '@mattermost/types/utilities';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {UserProfile} from '@mattermost/types/users';
-import {getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
+import * as TeamActions from 'mattermost-redux/actions/teams';
 import {joinChannel} from 'mattermost-redux/actions/channels';
-import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {getTeamMember} from 'mattermost-redux/selectors/entities/teams';
+import {getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {addUsersToTeam} from 'actions/team_actions';
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
-import {isGuest} from 'mattermost-redux/utils/user_utils';
+import {ConsolePages} from 'utils/constants';
 
 export function sendMembersInvites(teamId: string, users: UserProfile[], emails: string[]): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -66,7 +68,16 @@ export function sendMembersInvites(teamId: string, users: UserProfile[], emails:
             } else {
                 for (const email of emails) {
                     const inviteWithError = invitesWithErrors.find((i: TeamInviteWithError) => email.toLowerCase() === i.email && i.error);
-                    if (inviteWithError) {
+                    if (inviteWithError && inviteWithError.error.id === 'api.team.invite_members.unable_to_send_email_with_defaults.app_error' && isCurrentUserSystemAdmin(state)) {
+                        notSent.push({
+                            email,
+                            reason: {
+                                id: t('admin.environment.smtp.smtpFailure'),
+                                message: 'SMTP is not configured in System Console. Can be configured <a>here</a>.',
+                            },
+                            path: ConsolePages.SMTP,
+                        });
+                    } else if (inviteWithError) {
                         notSent.push({email, reason: inviteWithError.error.message});
                     } else {
                         sent.push({email, reason: localizeMessage('invite.members.invite-sent', 'An invitation email has been sent.')});
@@ -168,7 +179,18 @@ export function sendGuestsInvites(
             } else {
                 for (const res of (response.data || [])) {
                     if (res.error) {
-                        notSent.push({email: res.email, reason: res.error.message});
+                        if (res.error.id === 'api.team.invite_members.unable_to_send_email_with_defaults.app_error' && isCurrentUserSystemAdmin(state)) {
+                            notSent.push({
+                                email: res.email,
+                                reason: {
+                                    id: t('admin.environment.smtp.smtpFailure'),
+                                    message: 'SMTP is not configured in System Console. Can be configured <a>here</a>.',
+                                },
+                                path: ConsolePages.SMTP,
+                            });
+                        } else {
+                            notSent.push({email: res.email, reason: res.error.message});
+                        }
                     } else {
                         sent.push({email: res.email, reason: localizeMessage('invite.guests.added-to-channel', 'An invitation email has been sent.')});
                     }
@@ -244,7 +266,18 @@ export function sendMembersInvitesToChannels(
                 for (const email of emails) {
                     const inviteWithError = invitesWithErrors.find((i: TeamInviteWithError) => email.toLowerCase() === i.email && i.error);
                     if (inviteWithError) {
-                        notSent.push({email, reason: inviteWithError.error.message});
+                        if (inviteWithError.error.id === 'api.team.invite_members.unable_to_send_email_with_defaults.app_error' && isCurrentUserSystemAdmin(state)) {
+                            notSent.push({
+                                email,
+                                reason: {
+                                    id: t('admin.environment.smtp.smtpFailure'),
+                                    message: 'SMTP is not configured in System Console. Can be configured <a>here</a>.',
+                                },
+                                path: ConsolePages.SMTP,
+                            });
+                        } else {
+                            notSent.push({email, reason: inviteWithError.error.message});
+                        }
                     } else {
                         sent.push({email, reason: localizeMessage('invite.members.invite-sent', 'An invitation email has been sent.')});
                     }

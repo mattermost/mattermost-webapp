@@ -19,15 +19,6 @@ describe('System console', () => {
     });
 
     it('MM-T898 - Individual plugins can be searched for via the System Console search box', () => {
-        // # Uninstall all plugins
-        const uninstallAllPlugins = () => {
-            cy.apiGetAllPlugins().then(({plugins}) => {
-                const {active, inactive} = plugins;
-                inactive.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
-                active.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
-            });
-        };
-
         cy.visit('/admin_console');
 
         // # Enable Plugin Marketplace and Remote Marketplace
@@ -76,6 +67,6 @@ describe('System console', () => {
             expect(el[0].innerHTML).includes('markjs');
         });
 
-        uninstallAllPlugins();
+        cy.apiUninstallAllPlugins();
     });
 });

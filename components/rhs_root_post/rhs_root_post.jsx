@@ -6,6 +6,8 @@ import React, {createRef} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {Posts, Preferences} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
@@ -25,7 +27,6 @@ import PostTime from 'components/post_view/post_time';
 import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
-import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PriorityLabel from 'components/post_priority/post_priority_label';
 
@@ -34,6 +35,7 @@ import PostPreHeader from 'components/post_view/post_pre_header';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import EditPost from 'components/edit_post';
 import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
+import PostAcknowledgements from 'components/post_view/acknowledgements';
 
 export default class RhsRootPost extends React.PureComponent {
     static propTypes = {
@@ -55,6 +57,7 @@ export default class RhsRootPost extends React.PureComponent {
         channelIsArchived: PropTypes.bool.isRequired,
         isPostPriorityEnabled: PropTypes.bool.isRequired,
         handleCardClick: PropTypes.func.isRequired,
+        isPostAcknowledgementsEnabled: PropTypes.bool,
 
         /**
          * To Check if the current post is last in the list of RHS
@@ -442,7 +445,7 @@ export default class RhsRootPost extends React.PureComponent {
                 );
             }
 
-            botIndicator = <BotBadge/>;
+            botIndicator = <BotTag/>;
         } else {
             userProfile = (
                 <UserProfile
@@ -561,8 +564,8 @@ export default class RhsRootPost extends React.PureComponent {
         }
 
         let priority;
-        if (post.props?.priority && this.props.isPostPriorityEnabled) {
-            priority = <span className='d-flex mr-2 ml-1'><PriorityLabel priority={post.props.priority}/></span>;
+        if (post.metadata?.priority && this.props.isPostPriorityEnabled) {
+            priority = <span className='d-flex mr-2 ml-1'><PriorityLabel priority={post.metadata.priority.priority}/></span>;
         }
 
         const message = (
@@ -637,9 +640,16 @@ export default class RhsRootPost extends React.PureComponent {
                                 />
                             </div>
                             {fileAttachment}
-                            <ReactionList
-                                post={post}
-                            />
+                            <div className='post__body-reactions-acks'>
+                                {this.props.isPostAcknowledgementsEnabled && post.metadata?.priority?.requested_ack && (
+                                    <PostAcknowledgements
+                                        authorId={post.user_id}
+                                        isDeleted={post.state === Posts.POST_DELETED}
+                                        postId={post.id}
+                                    />
+                                )}
+                                <ReactionList post={post}/>
+                            </div>
                         </div>
                     </div>
                 </div>

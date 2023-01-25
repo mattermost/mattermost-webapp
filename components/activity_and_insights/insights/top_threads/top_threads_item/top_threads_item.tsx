@@ -1,9 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {FormattedMessage} from 'react-intl';
+
+import Tag from 'components/widgets/tag/tag';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
@@ -16,7 +19,6 @@ import {selectPostAndParentChannel} from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 
-import Badge from 'components/widgets/badges/badge';
 import Avatar from 'components/widgets/users/avatar';
 import Markdown from 'components/markdown';
 import Attachment from 'components/threading/global_threads/thread_item/attachments';
@@ -106,16 +108,13 @@ const TopThreadsItem = ({thread, complianceExportEnabled}: Props) => {
                     size={'xs'}
                 />
                 <span className='display-name'>{displayUsername(thread.user_information as UserProfile, teammateNameDisplaySetting)}</span>
-                <Badge>
-                    {thread.channel_display_name}
-                </Badge>
+                <Tag text={thread.channel_display_name}/>
                 <div className='reply-count'>
                     <i className='icon icon-reply-outline'/>
                     <span>{thread.post.reply_count}</span>
                 </div>
             </div>
             <div
-                aria-readonly='true'
                 className='preview'
             >
                 {getPreview()}

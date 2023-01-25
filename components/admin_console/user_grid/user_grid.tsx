@@ -4,7 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Badge from 'components/widgets/badges/badge';
+import Tag from 'components/widgets/tag/tag';
+
 import {FilterOptions} from 'components/admin_console/filter/filter';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 
@@ -195,17 +196,17 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                             user={user}
                         />
                     ),
-                    new: (
-                        <Badge
+                    new: includeUsers[user.id] ? (
+                        <Tag
                             className='NewUserBadge'
-                            show={Boolean(includeUsers[user.id])}
-                        >
-                            <FormattedMessage
-                                id='admin.user_grid.new'
-                                defaultMessage='New'
-                            />
-                        </Badge>
-                    ),
+                            text={(
+                                <FormattedMessage
+                                    id='admin.user_grid.new'
+                                    defaultMessage='New'
+                                />
+                            )}
+                        />
+                    ) : null,
                     role: (
                         <UserGridRoleDropdown
                             user={user}

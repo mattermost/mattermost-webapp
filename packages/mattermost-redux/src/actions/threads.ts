@@ -15,7 +15,7 @@ import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {getMissingFilesByPosts} from 'mattermost-redux/actions/files';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getThreadsInChannel, getThread as getThreadSelector} from 'mattermost-redux/selectors/entities/threads';
+import {getThread as getThreadSelector, getThreadItemsInChannel} from 'mattermost-redux/selectors/entities/threads';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
@@ -96,6 +96,7 @@ export function getThreadCounts(userId: string, teamId: string) {
             total: counts.total,
             total_unread_threads: counts.total_unread_threads,
             total_unread_mentions: counts.total_unread_mentions,
+            total_unread_urgent_mentions: counts.total_unread_urgent_mentions,
         };
 
         dispatch({
@@ -145,6 +146,7 @@ export function getCountsAndThreadsSince(userId: string, teamId: string, since?:
             total: userThreadList.total,
             total_unread_threads: userThreadList.total_unread_threads,
             total_unread_mentions: userThreadList.total_unread_mentions,
+            total_unread_urgent_mentions: userThreadList.total_unread_urgent_mentions,
         };
 
         actions.push({
@@ -336,6 +338,7 @@ export function handleReadChanged(
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const channel = getChannel(state, channelId);
+        const thread = getThreadSelector(state, threadId);
 
         return dispatch({
             type: ThreadTypes.READ_CHANGED_THREAD,
@@ -349,6 +352,7 @@ export function handleReadChanged(
                 prevUnreadReplies,
                 newUnreadReplies,
                 channelType: channel?.type,
+                isUrgent: thread?.is_urgent,
             },
         });
     };
@@ -382,7 +386,7 @@ export function setThreadFollow(userId: string, teamId: string, threadId: string
 
 export function handleAllThreadsInChannelMarkedRead(dispatch: DispatchFunc, getState: GetStateFunc, channelId: string, lastViewedAt: number) {
     const state = getState();
-    const threadsInChannel = getThreadsInChannel(state, channelId);
+    const threadsInChannel = getThreadItemsInChannel(state, channelId);
     const channel = getChannel(state, channelId);
     if (channel == null) {
         return;
@@ -390,16 +394,17 @@ export function handleAllThreadsInChannelMarkedRead(dispatch: DispatchFunc, getS
     const teamId = channel.team_id;
     const actions = [];
 
-    for (const id of threadsInChannel) {
+    for (const thread of threadsInChannel) {
         actions.push({
             type: ThreadTypes.READ_CHANGED_THREAD,
             data: {
-                id,
+                id: thread.id,
                 channelId,
                 teamId,
                 lastViewedAt,
                 newUnreadMentions: 0,
                 newUnreadReplies: 0,
+                isUrgent: thread.is_urgent,
             },
         });
     }

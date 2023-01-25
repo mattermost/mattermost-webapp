@@ -11,7 +11,7 @@ import store from 'stores/redux_store.jsx';
 import Constants from 'utils/constants';
 import {getCurrentLocale} from 'selectors/i18n';
 
-import Provider from './provider.jsx';
+import Provider from './provider';
 import SearchChannelSuggestion from './search_channel_suggestion';
 
 import {Channel} from './command_provider/app_command_parser/app_command_parser_dependencies.js';

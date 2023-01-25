@@ -36,9 +36,8 @@ const zeroUsage = {
 
 describe('useGetHighestThresholdCloudLimit', () => {
     const messageHistoryLimit = 10000;
-    const filesLimit = FileSizes.Gigabyte * 10;
+    const filesLimit = FileSizes.Gigabyte;
     const boardsLimit = 5;
-    const integrationsLimit = 5;
     const exceededMessageUsage = Math.ceil((limitThresholds.exceeded / 100) * messageHistoryLimit) + 1;
 
     const tests = [
@@ -75,7 +74,7 @@ describe('useGetHighestThresholdCloudLimit', () => {
                 ...zeroUsage,
                 files: {
                     ...zeroUsage.files,
-                    totalStorage: FileSizes.Gigabyte * 2 * 10,
+                    totalStorage: FileSizes.Gigabyte * 2,
                 },
             },
             expected: [LimitTypes.fileStorage],
@@ -97,22 +96,6 @@ describe('useGetHighestThresholdCloudLimit', () => {
             expected: [LimitTypes.boardsCards],
         },
         {
-            label: 'reports integrations limit surpassed',
-            limits: {
-                integrations: {
-                    enabled: integrationsLimit,
-                },
-            },
-            usage: {
-                ...zeroUsage,
-                integrations: {
-                    ...zeroUsage.integrations,
-                    enabled: integrationsLimit + 1,
-                },
-            },
-            expected: [LimitTypes.enabledIntegrations],
-        },
-        {
             label: 'reports messages and files limit surpasded',
             limits: {
                 messages: {
@@ -130,7 +113,7 @@ describe('useGetHighestThresholdCloudLimit', () => {
                 },
                 files: {
                     ...zeroUsage.files,
-                    totalStorage: FileSizes.Gigabyte * 2 * 10,
+                    totalStorage: FileSizes.Gigabyte * 2,
                 },
             },
             expected: [LimitTypes.messageHistory, LimitTypes.fileStorage],

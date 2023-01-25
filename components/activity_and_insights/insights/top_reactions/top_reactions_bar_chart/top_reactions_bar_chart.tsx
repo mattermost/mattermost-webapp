@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo, useCallback} from 'react';
 
 import {TopReaction} from '@mattermost/types/insights';
 
 import RenderEmoji from 'components/emoji/render_emoji';
+import SimpleTooltip from 'components/widgets/simple_tooltip';
 
 type Props = {
     reactions: TopReaction[];
@@ -34,10 +36,17 @@ const TopReactionsBarChart = (props: Props) => {
                             height: `${barHeight}px`,
                         }}
                     />
-                    <RenderEmoji
-                        emojiName={reaction.emoji_name}
-                        size={20}
-                    />
+                    <SimpleTooltip
+                        content={reaction.emoji_name}
+                        placement='bottom'
+                    >
+                        <span>
+                            <RenderEmoji
+                                emojiName={reaction.emoji_name}
+                                size={20}
+                            />
+                        </span>
+                    </SimpleTooltip>
                 </div>
             );
         });

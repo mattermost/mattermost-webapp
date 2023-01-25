@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {JobTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 import {General} from '../constants';
@@ -11,9 +12,7 @@ import {bindClientFunc} from './helpers';
 export function createJob(job: Job): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.createJob,
-        onRequest: JobTypes.CREATE_JOB_REQUEST,
-        onSuccess: [JobTypes.RECEIVED_JOB, JobTypes.CREATE_JOB_SUCCESS],
-        onFailure: JobTypes.CREATE_JOB_FAILURE,
+        onSuccess: JobTypes.RECEIVED_JOB,
         params: [
             job,
         ],
@@ -23,9 +22,7 @@ export function createJob(job: Job): ActionFunc {
 export function getJob(id: string): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getJob,
-        onRequest: JobTypes.GET_JOB_REQUEST,
-        onSuccess: [JobTypes.RECEIVED_JOB, JobTypes.GET_JOB_SUCCESS],
-        onFailure: JobTypes.GET_JOB_FAILURE,
+        onSuccess: JobTypes.RECEIVED_JOB,
         params: [
             id,
         ],
@@ -35,9 +32,7 @@ export function getJob(id: string): ActionFunc {
 export function getJobs(page = 0, perPage: number = General.JOBS_CHUNK_SIZE): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getJobs,
-        onRequest: JobTypes.GET_JOBS_REQUEST,
-        onSuccess: [JobTypes.RECEIVED_JOBS, JobTypes.GET_JOBS_SUCCESS],
-        onFailure: JobTypes.GET_JOBS_FAILURE,
+        onSuccess: JobTypes.RECEIVED_JOBS,
         params: [
             page,
             perPage,
@@ -48,9 +43,7 @@ export function getJobs(page = 0, perPage: number = General.JOBS_CHUNK_SIZE): Ac
 export function getJobsByType(type: JobType, page = 0, perPage: number = General.JOBS_CHUNK_SIZE): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getJobsByType,
-        onRequest: JobTypes.GET_JOBS_REQUEST,
-        onSuccess: [JobTypes.RECEIVED_JOBS, JobTypes.RECEIVED_JOBS_BY_TYPE, JobTypes.GET_JOBS_SUCCESS],
-        onFailure: JobTypes.GET_JOBS_FAILURE,
+        onSuccess: [JobTypes.RECEIVED_JOBS, JobTypes.RECEIVED_JOBS_BY_TYPE],
         params: [
             type,
             page,
@@ -62,9 +55,6 @@ export function getJobsByType(type: JobType, page = 0, perPage: number = General
 export function cancelJob(job: string): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.cancelJob,
-        onRequest: JobTypes.CANCEL_JOB_REQUEST,
-        onSuccess: JobTypes.CANCEL_JOB_SUCCESS,
-        onFailure: JobTypes.CANCEL_JOB_FAILURE,
         params: [
             job,
         ],

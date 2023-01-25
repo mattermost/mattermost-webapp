@@ -52,6 +52,8 @@ declare namespace Cypress {
         /**
          * Get a button by its text using "cy.findByRole"
          *
+         * @param {String} label - Button text
+         *
          * @example
          *   cy.uiGetButton('Save');
          */

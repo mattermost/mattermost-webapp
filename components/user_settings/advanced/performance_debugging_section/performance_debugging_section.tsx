@@ -1,33 +1,53 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useRef, useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Preferences} from 'mattermost-redux/constants';
 
 import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
+import SettingItemMinComponent from 'components/setting_item_min/setting_item_min';
 
 import {AdvancedSections} from 'utils/constants';
 
 import type {PropsFromRedux} from './index';
 
 type Props = PropsFromRedux & {
-    activeSection?: string;
+    active: boolean;
+    areAllSectionsInactive: boolean;
     onUpdateSection: (section?: string) => void;
 };
 
 export default function PerformanceDebuggingSection(props: Props) {
+    const minRef = useRef<SettingItemMinComponent>(null);
+    const prevActiveRef = useRef(false);
+
+    useEffect(() => {
+        if (prevActiveRef.current && !props.active && props.areAllSectionsInactive) {
+            minRef.current?.focus();
+        }
+    });
+
+    useEffect(() => {
+        prevActiveRef.current = props.active;
+    }, [props.active]);
+
     if (!props.performanceDebuggingEnabled) {
         return null;
     }
 
     let settings;
-    if (props.activeSection === AdvancedSections.PERFORMANCE_DEBUGGING) {
+    if (props.active) {
         settings = <PerformanceDebuggingSectionExpanded {...props}/>;
     } else {
-        settings = <PerformanceDebuggingSectionCollapsed {...props}/>;
+        settings = (
+            <PerformanceDebuggingSectionCollapsed
+                {...props}
+                ref={minRef}
+            />
+        );
     }
 
     return (
@@ -38,7 +58,7 @@ export default function PerformanceDebuggingSection(props: Props) {
     );
 }
 
-function PerformanceDebuggingSectionCollapsed(props: Props) {
+const PerformanceDebuggingSectionCollapsed = React.forwardRef<SettingItemMinComponent, Props>((props, ref) => {
     let settingsEnabled = 0;
 
     if (props.disableClientPlugins) {
@@ -80,9 +100,10 @@ function PerformanceDebuggingSectionCollapsed(props: Props) {
             describe={description}
             section={AdvancedSections.PERFORMANCE_DEBUGGING}
             updateSection={props.onUpdateSection}
+            ref={ref}
         />
     );
-}
+});
 
 function PerformanceDebuggingSectionExpanded(props: Props) {
     const [disableClientPlugins, setDisableClientPlugins] = useState(props.disableClientPlugins);

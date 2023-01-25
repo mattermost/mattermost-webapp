@@ -9,7 +9,7 @@ import {OutgoingWebhook} from '@mattermost/types/integrations';
 import EditOutgoingWebhook
     from 'components/integrations/edit_outgoing_webhook/edit_outgoing_webhook';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {TestHelper} from 'utils/test_helper';
 
 describe('components/integrations/EditOutgoingWebhook', () => {
@@ -124,7 +124,6 @@ describe('components/integrations/EditOutgoingWebhook', () => {
             ...baseProps.actions,
             updateOutgoingHook: jest.fn().mockReturnValue({data: 'data'}),
         };
-        browserHistory.push = jest.fn();
         const props = {...baseProps, hook, actions: newActions};
         const wrapper = shallow<EditOutgoingWebhook>(
             <EditOutgoingWebhook {...props}/>,
@@ -136,7 +135,7 @@ describe('components/integrations/EditOutgoingWebhook', () => {
 
         expect(newActions.updateOutgoingHook).toHaveBeenCalledTimes(1);
         expect(wrapper.state('serverError')).toEqual('');
-        expect(browserHistory.push).toHaveBeenCalledWith(`/${team.name}/integrations/outgoing_webhooks`);
+        expect(getHistory().push).toHaveBeenCalledWith(`/${team.name}/integrations/outgoing_webhooks`);
     });
 
     test('should have match when submitHook is called on error', async () => {

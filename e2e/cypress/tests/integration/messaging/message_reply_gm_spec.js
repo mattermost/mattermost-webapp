@@ -53,6 +53,8 @@ describe('Reply in existing GM', () => {
 
             // # Post message as otherUser1
             cy.postMessageAs({sender: otherUser1, message: rootPostMessage, channelId: gmChannel.id}).then((post) => {
+                cy.uiWaitUntilMessagePostedIncludes(rootPostMessage);
+
                 const rootPostId = post.id;
                 const rootPostMessageId = `#rhsPostMessageText_${rootPostId}`;
 

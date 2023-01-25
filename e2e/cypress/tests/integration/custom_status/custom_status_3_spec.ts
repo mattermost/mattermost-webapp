@@ -10,25 +10,20 @@
 // Stage: @prod
 // Group: @custom_status
 
-import set from 'lodash.set';
-
 describe('Custom Status - Setting Your Own Custom Status', () => {
-    before(() => {
-        cy.apiGetConfig().then(({config}) => {
-            set(config, 'TeamSettings.EnableCustomUserStatuses', true);
-            cy.apiUpdateConfig(config);
-
-            // # Login as test user and visit channel
-            cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-                cy.visit(`/${team.name}/channels/${channel.name}`);
-            });
-        });
-    });
-
     const customStatus = {
         emoji: 'grinning',
         text: 'Busy',
     };
+
+    before(() => {
+        cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
+
+        // # Login as test user and visit channel
+        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+            cy.visit(`/${team.name}/channels/${channel.name}`);
+        });
+    });
 
     it('MM-T3846_1 should change the emoji to speech balloon when typed in the input', () => {
         // # Open the custom status modal

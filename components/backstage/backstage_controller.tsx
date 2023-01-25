@@ -3,6 +3,7 @@
 
 import React, {ComponentType, useRef} from 'react';
 import {match, Route, Switch} from 'react-router-dom';
+import {createGlobalStyle} from 'styled-components';
 
 import {UserProfile} from '@mattermost/types/users.js';
 
@@ -10,8 +11,6 @@ import {Team} from '@mattermost/types/teams.js';
 
 import Bots from 'components/integrations/bots';
 import AddBot from 'components/integrations/bots/add_bot';
-import AnnouncementBar from 'components/announcement_bar';
-import SystemNotice from 'components/system_notice';
 import Integrations from 'components/integrations';
 import Emoji from 'components/emoji';
 import AddEmoji from 'components/emoji/add_emoji';
@@ -98,18 +97,16 @@ const BackstageController = (props: Props) => {
         scrollToTop,
     };
     return (
-        <div className='backstage'>
-            <AnnouncementBar/>
-            <SystemNotice/>
+        <>
             <BackstageNavbar
                 team={props.team}
                 siteName={props.siteName}
             />
-            <Pluggable pluggableName='Root'/>
             <div
                 className='backstage-body'
                 ref={listRef}
             >
+                <Pluggable pluggableName='Root'/>
                 <BackstageSidebar
                     team={props.team}
                     user={props.user}
@@ -214,8 +211,20 @@ const BackstageController = (props: Props) => {
                     />
                 </Switch>
             </div>
-        </div>
+            <BackstageGlobalStyle/>
+        </>
     );
 };
 
 export default BackstageController;
+
+const BackstageGlobalStyle = createGlobalStyle`
+    #root {
+        > #global-header,
+        > .team-sidebar,
+        > .sidebar--right,
+        > .app-bar {
+            display: none;
+        }
+    }
+`;

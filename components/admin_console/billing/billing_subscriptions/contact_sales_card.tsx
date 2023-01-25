@@ -74,13 +74,13 @@ const ContactSalesCard = (props: Props) => {
         case CloudProducts.STARTER:
             title = (
                 <FormattedMessage
-                    id='admin.billing.subscription.privateCloudCard.cloudStarter.title'
+                    id='admin.billing.subscription.privateCloudCard.cloudFree.title'
                     defaultMessage='Upgrade to Cloud Professional'
                 />
             );
             description = (
                 <FormattedMessage
-                    id='admin.billing.subscription.privateCloudCard.cloudStarter.description'
+                    id='admin.billing.subscription.privateCloudCard.cloudFree.description'
                     defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, GitLab SSO and advanced permissions.'
                 />
             );

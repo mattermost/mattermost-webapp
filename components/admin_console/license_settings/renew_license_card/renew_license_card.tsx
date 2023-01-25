@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import moment from 'moment';
@@ -7,7 +8,9 @@ import moment from 'moment';
 import {ClientLicense} from '@mattermost/types/config';
 import {Client4} from 'mattermost-redux/client';
 
+import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import RenewalLink from 'components/announcement_bar/renewal_link/';
+import {getSkuDisplayName} from 'utils/subscription';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -34,9 +37,8 @@ const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers,
     }, []);
 
     let bannerType: 'info' | 'warning' | 'danger' = 'info';
-    const today = moment(Date.now());
-    const endOfLicense = moment(new Date(parseInt(license?.ExpiresAt, 10)));
-    const daysToEndLicense = endOfLicense.diff(today, 'days');
+    const endOfLicense = moment.utc(new Date(parseInt(license?.ExpiresAt, 10)));
+    const daysToEndLicense = getRemainingDaysFromFutureTimestamp(parseInt(license?.ExpiresAt, 10));
     const renewLinkTelemetry = {success: 'renew_license_admin_console_success', error: 'renew_license_admin_console_fail'};
     const contactSalesBtn = (
         <div className='purchase-card'>
@@ -80,7 +82,10 @@ const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers,
             <div className='RenewLicenseCard__text-description bolder'>
                 <FormattedMessage
                     id='admin.license.renewalCard.description'
-                    defaultMessage='Renew your Enterprise license through the Customer Portal to avoid any disruption.'
+                    defaultMessage='Renew your {licenseSku} license through the Customer Portal to avoid any disruption.'
+                    values={{
+                        licenseSku: getSkuDisplayName(license.SkuShortName, license.IsGovSku === 'true'),
+                    }}
                 />
             </div>
             <div className='RenewLicenseCard__text-description'>

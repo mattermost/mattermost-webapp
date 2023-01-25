@@ -11,7 +11,7 @@ import {isIdNotPost, getNewMessageIndex} from 'utils/post_utils';
 import {isKeyPressed, localizeMessage} from 'utils/utils';
 import {isToday} from 'utils/datetime';
 import Constants from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import Toast from 'components/toast/toast';
 import Timestamp, {RelativeRanges} from 'components/timestamp';
@@ -334,7 +334,7 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
 
         // Inorder of mount the channel view we are redirecting to /team url to load the channel again
         // Todo: Can be changed to dispatch if we put focussedPostId in redux state.
-        browserHistory.replace(`/${match.params.team}`);
+        getHistory().replace(`/${match.params.team}`);
     }
 
     scrollToNewMessage = () => {

@@ -81,7 +81,7 @@ declare namespace Cypress {
          *       // do something with team
          *   });
          */
-        apiPatchTeam(teamId: string, patch: Team): Chainable<Team>;
+        apiPatchTeam(teamId: string, patch: Partial<Team>): Chainable<Team>;
 
         /**
          * Get a team based on provided name string.
@@ -111,7 +111,7 @@ declare namespace Cypress {
          *       // do something with teams
          *   });
          */
-        apiGetAllTeams(queryParams: Record<string, any>): Chainable<Team[]>;
+        apiGetAllTeams(queryParams?: Record<string, any>): Chainable<{teams: Team[]}>;
 
         /**
          * Get a list of teams that a user is on.

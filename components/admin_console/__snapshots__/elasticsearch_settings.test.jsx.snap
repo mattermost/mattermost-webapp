@@ -98,6 +98,66 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
         setByEnv={false}
         value="test"
       />
+      <AdminTextSetting
+        disabled={true}
+        helpText={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="(Optional) Custom Certificate Authority certificates for the Elasticsearch server. Leave this empty to use the default CAs from the operating system."
+            id="admin.elasticsearch.caDescription"
+          />
+        }
+        id="ca"
+        label={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="CA path:"
+            id="admin.elasticsearch.caTitle"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"./elasticsearch/ca.pem\\""
+        setByEnv={false}
+        value="test.ca"
+      />
+      <AdminTextSetting
+        disabled={true}
+        helpText={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="(Optional) The client certificate for the connection to the Elasticsearch server in the PEM format."
+            id="admin.elasticsearch.clientCertDescription"
+          />
+        }
+        id="clientCert"
+        label={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Client Certificate path:"
+            id="admin.elasticsearch.clientCertTitle"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"./elasticsearch/client-cert.pem\\""
+        setByEnv={false}
+        value="test.crt"
+      />
+      <AdminTextSetting
+        disabled={true}
+        helpText={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="(Optional) The key for the client certificate in the PEM format."
+            id="admin.elasticsearch.clientKeyDescription"
+          />
+        }
+        id="clientKey"
+        label={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Client Certificate Key path:"
+            id="admin.elasticsearch.clientKeyTitle"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"./elasticsearch/client-key.pem\\""
+        setByEnv={false}
+        value="test.key"
+      />
       <BooleanSetting
         disabled={true}
         falseText={
@@ -510,6 +570,66 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
         placeholder="E.g.: \\"https://elasticsearch.example.org:9200\\""
         setByEnv={false}
         value="test"
+      />
+      <AdminTextSetting
+        disabled={false}
+        helpText={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="(Optional) Custom Certificate Authority certificates for the Elasticsearch server. Leave this empty to use the default CAs from the operating system."
+            id="admin.elasticsearch.caDescription"
+          />
+        }
+        id="ca"
+        label={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="CA path:"
+            id="admin.elasticsearch.caTitle"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"./elasticsearch/ca.pem\\""
+        setByEnv={false}
+        value="test.ca"
+      />
+      <AdminTextSetting
+        disabled={false}
+        helpText={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="(Optional) The client certificate for the connection to the Elasticsearch server in the PEM format."
+            id="admin.elasticsearch.clientCertDescription"
+          />
+        }
+        id="clientCert"
+        label={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Client Certificate path:"
+            id="admin.elasticsearch.clientCertTitle"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"./elasticsearch/client-cert.pem\\""
+        setByEnv={false}
+        value="test.crt"
+      />
+      <AdminTextSetting
+        disabled={false}
+        helpText={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="(Optional) The key for the client certificate in the PEM format."
+            id="admin.elasticsearch.clientKeyDescription"
+          />
+        }
+        id="clientKey"
+        label={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Client Certificate Key path:"
+            id="admin.elasticsearch.clientKeyTitle"
+          />
+        }
+        onChange={[Function]}
+        placeholder="E.g.: \\"./elasticsearch/client-key.pem\\""
+        setByEnv={false}
+        value="test.key"
       />
       <BooleanSetting
         disabled={false}

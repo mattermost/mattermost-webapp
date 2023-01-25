@@ -7,22 +7,23 @@ import {FormattedMessage} from 'react-intl';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {getCloudCustomer} from 'mattermost-redux/actions/cloud';
+import {getCloudErrors} from 'mattermost-redux/selectors/entities/cloud';
 import {GlobalState} from '@mattermost/types/store';
 
 import {pageVisited} from 'actions/telemetry_actions';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import AlertBanner from 'components/alert_banner';
+import CloudFetchError from 'components/cloud_fetch_error';
 
 import PaymentInfoDisplay from './payment_info_display';
 
 import './payment_info.scss';
 
-type Props = {
-
-};
+type Props = Record<string, never>;
 
 const PaymentInfo: React.FC<Props> = () => {
     const dispatch = useDispatch<DispatchFunc>();
+    const {customer: customerError} = useSelector(getCloudErrors);
 
     const isCardAboutToExpire = useSelector((state: GlobalState) => {
         const {customer} = state.entities.cloud;
@@ -79,7 +80,7 @@ const PaymentInfo: React.FC<Props> = () => {
                             onDismiss={() => setShowCreditCardBanner(false)}
                         />
                     )}
-                    <PaymentInfoDisplay/>
+                    {customerError ? <CloudFetchError/> : <PaymentInfoDisplay/>}
                 </div>
             </div>
         </div>

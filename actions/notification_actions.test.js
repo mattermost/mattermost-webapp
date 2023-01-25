@@ -3,7 +3,7 @@
 
 import testConfigureStore from 'tests/test_store';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
 import * as utils from 'utils/notifications';
 import * as baseUtils from 'utils/utils';
@@ -58,7 +58,6 @@ describe('notification_actions', () => {
                 entities: {
                     general: {
                         config: {
-                            FeatureFlagCollapsedThreads: 'true',
                             CollapsedThreads: 'default_off',
                         },
                     },
@@ -159,7 +158,6 @@ describe('notification_actions', () => {
 
         test('should notify user', async () => {
             const store = testConfigureStore(baseState);
-            const pushSpy = jest.spyOn(browserHistory, 'push');
             const focus = window.focus;
             window.focus = jest.fn();
 
@@ -174,7 +172,7 @@ describe('notification_actions', () => {
 
                 spy.mock.calls[0][0].onClick();
 
-                expect(pushSpy).toHaveBeenCalledWith('/team/channels/utopia');
+                expect(getHistory().push).toHaveBeenCalledWith('/team/channels/utopia');
                 expect(window.focus).toHaveBeenCalled();
                 window.focus = focus;
             });
@@ -376,7 +374,6 @@ describe('notification_actions', () => {
             });
 
             test('should redirect to permalink when CRT in on and the post is a thread', () => {
-                const pushSpy = jest.spyOn(browserHistory, 'push');
                 const focus = window.focus;
                 window.focus = jest.fn();
 
@@ -394,7 +391,7 @@ describe('notification_actions', () => {
                     });
                     spy.mock.calls[0][0].onClick();
 
-                    expect(pushSpy).toHaveBeenCalledWith('/team/pl/post_id');
+                    expect(getHistory().push).toHaveBeenCalledWith('/team/pl/post_id');
                     expect(window.focus).toHaveBeenCalled();
                     window.focus = focus;
                 });
