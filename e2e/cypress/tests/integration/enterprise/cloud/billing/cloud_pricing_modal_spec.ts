@@ -221,7 +221,7 @@ describe('Pricing modal', () => {
         cy.get('#UpgradeButton').should('exist');
     });
 
-    it('should show Upgrade button in global header for admin users on montly professional', () => {
+    it('should show Upgrade button in global header for admin users on monthly professional', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_2', // monthly professional
@@ -363,10 +363,7 @@ describe('Pricing modal', () => {
         simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
-        cy.visit(urlL);
-
-        // # Open the pricing modal
-        cy.get('#UpgradeButton').should('exist').click();
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
 
         // * Pricing modal should be open
         cy.get('#pricingModal').should('exist').should('be.visible');
