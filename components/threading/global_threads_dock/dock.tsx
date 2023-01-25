@@ -5,7 +5,7 @@ import React, {useEffect} from 'react';
 
 import {useSelector, useDispatch} from 'react-redux';
 
-import {useGlobalState} from 'stores/hooks';
+import {currentUserAndTeamSuffix, useGlobalState} from 'stores/hooks';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
@@ -15,20 +15,29 @@ import {GlobalState} from 'types/store';
 
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
+import {getGlobalItem} from 'selectors/storage';
+import {setGlobalItem} from 'actions/storage';
+
+import {Post} from '@mattermost/types/posts';
+
+import {getIsMobileView} from 'selectors/views/browser';
+
 import ThreadItem from './thread_item';
 
 const DOCKED_THREADS = 'docked_threads';
 const DOCKED_THREADS_OPEN = 'docked_threads_open';
 
 export const useDockedThreads = (threadId?: string) => {
-    const [threadIds, setThreadIds] = useGlobalState<string[]>([], DOCKED_THREADS);
-    const [openThreadIds, setOpenThreadIdsInner] = useGlobalState<Record<string, number>>({}, DOCKED_THREADS_OPEN);
+    const [threadIds, setThreadIds] = useGlobalState<string[]>([], DOCKED_THREADS, currentUserAndTeamSuffix);
+    const [threadsOpenState, setThreadsOpenStateInner] = useGlobalState<Record<string, number>>({}, DOCKED_THREADS_OPEN, currentUserAndTeamSuffix);
 
     const setIsOpen = (id: string, num?: number) => {
         if (typeof num === 'number') {
-            setOpenThreadIdsInner((state) => ({...state, [id]: num}));
+            setThreadsOpenStateInner((state) => ({...state, [id]: num}));
         } else {
-            setOpenThreadIdsInner((state) => {
+            setThreadsOpenStateInner((state) => {
                 // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-unused-vars
                 const {[id]: _, ...rest} = state;
                 return {...rest};
@@ -41,7 +50,7 @@ export const useDockedThreads = (threadId?: string) => {
         if (threadIds.includes(id)) {
             return;
         }
-        setThreadIds([...threadIds.filter((threadId) => threadId !== id), id]);
+        setThreadIds((state) => [...state.filter((threadId) => threadId !== id), id]);
     };
 
     const minimize = (id: string) => {
@@ -53,12 +62,12 @@ export const useDockedThreads = (threadId?: string) => {
     };
 
     const close = (id: string) => {
-        setThreadIds(threadIds.filter((threadId) => threadId !== id));
+        setThreadIds((state) => state.filter((threadId) => threadId !== id));
         setIsOpen(id, 0);
     };
 
-    const isOpen = threadId && openThreadIds[threadId] >= 1;
-    const isExpanded = threadId && openThreadIds[threadId] === 2;
+    const isOpen = threadId && threadsOpenState[threadId] >= 1;
+    const isExpanded = threadId && threadsOpenState[threadId] === 2;
 
     return {
         threadIds,
@@ -68,6 +77,23 @@ export const useDockedThreads = (threadId?: string) => {
         expand,
         open,
         close,
+    };
+};
+
+export const openDocked = (post: Post) => {
+    const id = post?.root_id || post?.id;
+    return (dispatch: DispatchFunc, getState: () => GlobalState) => {
+        const state = getState();
+        const suffix = currentUserAndTeamSuffix(state);
+        const threadIds = getGlobalItem(state, DOCKED_THREADS + suffix, []);
+        const threadsOpenState = getGlobalItem(state, DOCKED_THREADS_OPEN + suffix, {});
+        console.log('openDocked', id, threadIds, threadsOpenState);
+
+        if (!threadIds.includes(id)) {
+            dispatch(setGlobalItem(DOCKED_THREADS + suffix, [...threadIds, id]));
+        }
+
+        dispatch(setGlobalItem(DOCKED_THREADS_OPEN + suffix, {...threadsOpenState, [id]: 1}));
     };
 };
 
@@ -96,8 +122,9 @@ const useEnsureDeps = (postIds: string[]) => {
 const DockDock = () => {
     const {threadIds} = useDockedThreads();
     useEnsureDeps(threadIds);
+    const isMobileView = useSelector(getIsMobileView);
 
-    if (!threadIds.length) {
+    if (isMobileView || !threadIds.length) {
         return null;
     }
 

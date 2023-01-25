@@ -31,6 +31,11 @@ export type Props = {
     handleCommentClick: EventHandler<MouseEvent>;
 
     /*
+     * Function called when the comment icon is aux clicked
+     */
+    handleCommentAuxClick: EventHandler<MouseEvent>;
+
+    /*
      * Function called when the card icon is clicked
      */
     handleCardClick: (post: Post) => void;
@@ -202,6 +207,7 @@ export default class PostHeader extends React.PureComponent<Props> {
                     <PostInfo
                         post={post}
                         handleCommentClick={this.props.handleCommentClick}
+                        handleCommentAuxClick={this.props.handleCommentAuxClick}
                         handleCardClick={this.props.handleCardClick}
                         handleDropdownOpened={this.props.handleDropdownOpened}
                         compactDisplay={this.props.compactDisplay}

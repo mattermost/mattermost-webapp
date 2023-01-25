@@ -7,7 +7,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
 import {UserActivityPost} from 'mattermost-redux/selectors/entities/posts';
 
-import {makeIsEligibleForClick} from 'utils/utils';
+import {cmdOrCtrlPressed, makeIsEligibleForClick} from 'utils/utils';
 import * as PostUtils from 'utils/post_utils';
 import Constants, {A11yCustomEventTypes, AppEvents} from 'utils/constants';
 
@@ -106,6 +106,7 @@ interface Props {
         selectPost: (post: PostType) => void;
         selectPostCard: (post: PostType) => void;
         markPostAsUnread: (post: PostType, location: string) => void;
+        openDocked: (post: PostType) => void;
     };
 
     /*
@@ -188,8 +189,26 @@ export default class Post extends React.PureComponent<Props, State> {
         if (!post) {
             return;
         }
-        this.props.actions.selectPost(post);
+
+        if (cmdOrCtrlPressed(e)) {
+            this.props.actions.openDocked(this.props.post);
+        } else {
+            this.props.actions.selectPost(post);
+        }
     }
+
+    handleCommentAuxClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+
+        const post = this.props.post;
+        if (!post) {
+            return;
+        }
+
+        if (e.button === 1) {
+            this.props.actions.openDocked(this.props.post);
+        }
+    };
 
     handleCardClick = (post?: PostType) => {
         if (!post) {
@@ -216,7 +235,11 @@ export default class Post extends React.PureComponent<Props, State> {
             !isBeingEdited
         ) {
             trackEvent('crt', 'clicked_to_reply');
-            this.props.actions.selectPost(post);
+            if (cmdOrCtrlPressed(e)) {
+                this.props.actions.openDocked(this.props.post);
+            } else {
+                this.props.actions.selectPost(post);
+            }
         }
 
         if (this.props.channelIsArchived || post.system_post_ids) {
@@ -225,6 +248,28 @@ export default class Post extends React.PureComponent<Props, State> {
 
         if (e.altKey) {
             this.props.actions.markPostAsUnread(post, 'CENTER');
+        }
+    }
+
+    handlePostAuxClick = (e: React.MouseEvent) => {
+        const {post, clickToReply, isBeingEdited} = this.props;
+
+        if (!post) {
+            return;
+        }
+
+        const isSystemMessage = PostUtils.isSystemMessage(post);
+        const fromAutoResponder = PostUtils.fromAutoResponder(post);
+
+        if (
+            e.button === 1 &&
+            clickToReply &&
+            (fromAutoResponder || !isSystemMessage) &&
+            isEligibleForClick(e) &&
+            !isBeingEdited
+        ) {
+            trackEvent('crt', 'clicked_to_reply');
+            this.props.actions.openDocked(post);
         }
     }
 
@@ -437,6 +482,7 @@ export default class Post extends React.PureComponent<Props, State> {
             <PostHeader
                 post={post}
                 handleCommentClick={this.handleCommentClick}
+                handleCommentAuxClick={this.handleCommentAuxClick}
                 handleCardClick={this.handleCardClick}
                 handleDropdownOpened={this.handleDropdownOpened}
                 compactDisplay={this.props.compactDisplay}
@@ -491,6 +537,7 @@ export default class Post extends React.PureComponent<Props, State> {
                     onMouseLeave={this.unsetHover}
                     onTouchStart={this.setHover}
                     onClick={this.handlePostClick}
+                    onAuxClick={this.handlePostAuxClick}
                     aria-atomic={true}
                     post={post}
                 >

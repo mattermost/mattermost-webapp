@@ -104,7 +104,7 @@ export function createSafeId(prop: {props: {defaultMessage: string}} | string): 
     return str.replace(new RegExp(' ', 'g'), '_');
 }
 
-export function cmdOrCtrlPressed(e: React.KeyboardEvent | KeyboardEvent, allowAlt = false) {
+export function cmdOrCtrlPressed(e: React.KeyboardEvent | KeyboardEvent | React.MouseEvent | MouseEvent, allowAlt = false) {
     if (allowAlt) {
         return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey);
     }

@@ -21,6 +21,8 @@ import {selectPost, selectPostCard} from 'actions/views/rhs';
 
 import {GlobalState} from 'types/store';
 
+import {openDocked} from 'components/threading/global_threads_dock/dock';
+
 import {isArchivedChannel} from 'utils/channel_utils';
 import {Preferences} from 'utils/constants';
 import {areConsecutivePostsBySameUser} from 'utils/post_utils';
@@ -97,6 +99,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             selectPost,
             selectPostCard,
             markPostAsUnread,
+            openDocked,
         }, dispatch),
     };
 }

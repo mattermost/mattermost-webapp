@@ -27,15 +27,19 @@ import FollowButton from 'components/threading/common/follow_button';
 import {THREADING_TIME} from 'components/threading/common/options';
 
 import './thread_footer.scss';
+import {openDocked} from 'components/threading/global_threads_dock/dock';
+import {cmdOrCtrlPressed} from 'utils/utils';
 
 type Props = {
     threadId: UserThread['id'];
     replyClick?: React.EventHandler<React.MouseEvent>;
+    replyAuxClick?: React.EventHandler<React.MouseEvent>;
 };
 
 function ThreadFooter({
     threadId,
     replyClick,
+    replyAuxClick,
 }: Props) {
     const dispatch = useDispatch();
     const currentTeamId = useSelector(getCurrentTeamId);
@@ -69,8 +73,28 @@ function ThreadFooter({
 
         trackEvent('crt', 'replied_using_footer');
         e.stopPropagation();
-        dispatch(selectPost({id: threadId, channel_id: channelId} as Post));
+        const postParam = {id: threadId, channel_id: channelId} as Post;
+        if (cmdOrCtrlPressed(e)) {
+            dispatch(openDocked(postParam));
+        } else {
+            dispatch(selectPost(postParam));
+        }
     }, [dispatch, replyClick, threadId, channelId]);
+
+    const handleReplyAux = useCallback((e) => {
+        if (replyAuxClick) {
+            replyAuxClick(e);
+            return;
+        }
+
+        if (e.button !== 1) {
+            return;
+        }
+
+        trackEvent('crt', 'replied_using_footer');
+        e.stopPropagation();
+        dispatch(openDocked({id: threadId, channel_id: channelId} as Post));
+    }, [dispatch, replyAuxClick, threadId, channelId]);
 
     const handleFollowing = useCallback((e) => {
         e.stopPropagation();
@@ -111,6 +135,7 @@ function ThreadFooter({
             {thread.reply_count > 0 && (
                 <Button
                     onClick={handleReply}
+                    onAuxClick={handleReplyAux}
                     className='ReplyButton separated'
                     prepend={
                         <span className='icon'>

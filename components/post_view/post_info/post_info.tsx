@@ -48,6 +48,11 @@ type Props = {
     handleCommentClick: React.EventHandler<React.MouseEvent>;
 
     /**
+     * Function called when the comment icon is aux clicked
+     */
+    handleCommentAuxClick: React.EventHandler<React.MouseEvent>;
+
+    /**
      * Function called when the card icon is clicked
      */
     handleCardClick: (post: Post) => void;
@@ -242,6 +247,11 @@ export default class PostInfo extends React.PureComponent<Props, State> {
         this.props.handleCommentClick(e);
     }
 
+    handleCommentAuxClick = (e: any) => {
+        trackEvent(TELEMETRY_CATEGORIES.POST_INFO, EventTypes.CLICK + '_' + TELEMETRY_LABELS.REPLY);
+        this.props.handleCommentAuxClick(e);
+    }
+
     getDotMenu = (): HTMLDivElement => this.dotMenuRef.current as HTMLDivElement;
 
     buildOptions = (post: Post, isSystemMessage: boolean, fromAutoResponder: boolean): React.ReactNode => {
@@ -266,6 +276,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             commentIcon = (
                 <CommentIcon
                     handleCommentClick={this.handleCommentClick}
+                    handleCommentAuxClick={this.props.handleCommentAuxClick}
                     postId={post.id}
                     extraClass={commentIconExtraClass}
                 />

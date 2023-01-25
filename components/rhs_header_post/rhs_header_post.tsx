@@ -20,6 +20,8 @@ import CRTThreadsPaneTutorialTip
 import {RhsState} from 'types/store/rhs';
 
 import {Channel} from '@mattermost/types/channels';
+import {Post} from '@mattermost/types/posts';
+import {isMac} from 'utils/utils';
 
 interface RhsHeaderPostProps {
     isExpanded: boolean;
@@ -42,9 +44,16 @@ interface RhsHeaderPostProps {
     closeRightHandSide: (e?: React.MouseEvent) => void;
     toggleRhsExpanded: (e: React.MouseEvent) => void;
     setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
+    openDocked: (post: Post) => void;
 }
 
-export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProps> {
+type RHSHeaderPostState = {moveToDockOnClose: boolean};
+export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProps, RHSHeaderPostState> {
+    constructor(props: RhsHeaderPostProps) {
+        super(props);
+        this.state = {moveToDockOnClose: false};
+    }
+
     handleBack = (e: React.MouseEvent) => {
         e.preventDefault();
 
@@ -75,10 +84,51 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
         this.props.setThreadFollow(currentUserId, currentTeamId, rootPostId, !isFollowingThread);
     }
 
+    handleClose = (e: React.MouseEvent) => {
+        if (isMac() ? e.metaKey : e.ctrlKey) {
+            this.props.openDocked({root_id: this.props.rootPostId} as Post);
+        }
+        this.props.closeRightHandSide(e);
+    }
+
+    handleAuxClose = (e: React.MouseEvent) => {
+        this.props.openDocked({root_id: this.props.rootPostId} as Post);
+        this.props.closeRightHandSide(e);
+    }
+
+    handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === (isMac() ? 'Meta' : 'Ctrl')) {
+            this.setState({moveToDockOnClose: true});
+        }
+    }
+
+    handleKeyUp = (e: KeyboardEvent) => {
+        if (e.key === (isMac() ? 'Meta' : 'Ctrl')) {
+            this.setState({moveToDockOnClose: false});
+        }
+    }
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleKeyDown);
+        document.addEventListener('keyup', this.handleKeyUp);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown);
+        document.removeEventListener('keyup', this.handleKeyUp);
+    }
+
     render() {
         let back;
         const {isFollowingThread} = this.props;
-        const closeSidebarTooltip = (
+        const closeSidebarTooltip = this.state.moveToDockOnClose ? (
+            <Tooltip id='closeSidebarTooltip'>
+                <FormattedMessage
+                    id='rhs_header.moveToDockTooltip'
+                    defaultMessage='Move to dock'
+                />
+            </Tooltip>
+        ) : (
             <Tooltip id='closeSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.closeSidebarTooltip'
@@ -231,13 +281,22 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                             id='rhsCloseButton'
                             type='button'
                             className='sidebar--right__close btn-icon'
-                            aria-label='Close'
-                            onClick={this.props.closeRightHandSide}
+                            aria-label={this.state.moveToDockOnClose ? 'Move to dock' : 'Close'}
+                            onClick={this.handleClose}
+                            onAuxClick={this.handleAuxClose}
                         >
-                            <LocalizedIcon
-                                className='icon icon-close'
-                                ariaLabel={{id: t('rhs_header.closeTooltip.icon'), defaultMessage: 'Close Sidebar Icon'}}
-                            />
+                            {this.state.moveToDockOnClose ? (
+                                <LocalizedIcon
+                                    className='icon icon-open-in-new'
+                                    ariaLabel={{id: t('rhs_header.closeTooltip.icon'), defaultMessage: 'Close Sidebar Icon'}}
+                                />
+                            ) : (
+
+                                <LocalizedIcon
+                                    className='icon icon-close'
+                                    ariaLabel={{id: t('rhs_header.closeTooltip.icon'), defaultMessage: 'Close Sidebar Icon'}}
+                                />
+                            )}
                         </button>
                     </OverlayTrigger>
                 </div>

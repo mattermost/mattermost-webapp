@@ -11,7 +11,7 @@ export const BarItem = styled.header`
     height: 28px;
     padding: 4px 8px;
     border-radius: 4px;
-    background: rgba(var(--center-channel-color-rgb), 0.12);
+    background: rgb(var(--global-header-text-rgb), 0.08);
     box-shadow: none;
     color: rgba(var(--global-header-text-rgb), 0.64) !important;
     font-size: 13px;
@@ -19,11 +19,26 @@ export const BarItem = styled.header`
     outline: none;
     white-space: nowrap;
     cursor: pointer;
+    position: relative;
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgb(var(--global-header-bg-rgb));
+        z-index: -1;
+    }
+
 
     &:hover,
     &:focus {
-        background: rgba(var(--sidebar-text-rgb), 0.16);
-        color: rgba(var(--global-header-text-rgb), 0.64);
+        background: rgb(var(--global-header-text-rgb), 0.12);
+        > span {
+            color: rgba(var(--global-header-text-rgb), 1) !important;
+        }
     }
 
     button {

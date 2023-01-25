@@ -96,6 +96,7 @@ type Props = {
     actions: {
         closeRightHandSide: () => void;
         selectPost: (post: Post) => void;
+        selectPostDocked: (post: Post) => void;
         selectPostCard: (post: Post) => void;
         setRhsExpanded: (rhsExpanded: boolean) => void;
     };
@@ -160,6 +161,13 @@ export default class SearchResultsItem extends React.PureComponent<Props, State>
     handleFocusRHSClick = (e: React.MouseEvent) => {
         e.preventDefault();
         this.props.actions.selectPost(this.props.post);
+    };
+
+    handleAuxClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        if (e.button === 1) {
+            this.props.actions.selectPostDocked(this.props.post);
+        }
     };
 
     handleJumpClick = (e: React.MouseEvent) => {
@@ -383,6 +391,7 @@ export default class SearchResultsItem extends React.PureComponent<Props, State>
                         <CommentIcon
                             location={Locations.SEARCH}
                             handleCommentClick={this.handleFocusRHSClick}
+                            handleCommentAuxClick={this.handleAuxClick}
                             commentCount={this.props.replyCount}
                             postId={post.id}
                             searchStyle={'search-item__comment'}
@@ -520,6 +529,7 @@ export default class SearchResultsItem extends React.PureComponent<Props, State>
                                 <ThreadFooter
                                     threadId={post.id}
                                     replyClick={this.handleFocusRHSClick}
+                                    replyAuxClick={this.handleAuxClick}
                                 />
                             ) : null}
                         </div>

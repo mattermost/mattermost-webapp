@@ -1,12 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import React, {memo, useCallback, ReactNode} from 'react';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
 import {Preferences} from 'mattermost-redux/constants';
-import {UserThread} from '@mattermost/types/threads';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {setThreadFollow, updateThreadRead, markLastPostInThreadAsUnread} from 'mattermost-redux/actions/threads';
@@ -26,15 +28,18 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import {GlobalState} from 'types/store';
 
-import {useThreadRouting} from '../../hooks';
-
-import {openDocked, useDockedThreads} from '../../global_threads_dock/dock';
-
-import './thread_menu.scss';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Post} from '@mattermost/types/posts';
 
+import {selectPost} from 'actions/views/rhs';
+
+import {openDocked} from './dock';
+
 type Props = {
-    threadId: UserThread['id'];
+    threadId: string;
+    post: Post | undefined;
     isFollowing?: boolean;
     hasUnreads: boolean;
     children: ReactNode;
@@ -43,6 +48,7 @@ type Props = {
 
 function ThreadMenu({
     threadId,
+    post,
     isFollowing = false,
     unreadTimestamp,
     hasUnreads,
@@ -50,15 +56,11 @@ function ThreadMenu({
 }: Props) {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
-    const {
-        params: {
-            team,
-        },
-        currentTeamId,
-        currentUserId,
-        goToInChannel,
-    } = useThreadRouting();
-
+    const currentUserId = useSelector(getCurrentUserId);
+    const channel = useSelector((state: GlobalState) => post && getChannel(state, post.channel_id));
+    const team = useSelector((state: GlobalState) => (channel && getTeam(state, channel?.team_id)) ?? getCurrentTeam(state));
+    const teamId = team?.id;
+    const teamName = team?.name;
     const isSaved = useSelector((state: GlobalState) => get(state, Preferences.CATEGORY_FLAGGED_POST, threadId, null) != null, shallowEqual);
 
     const handleReadUnread = useCallback(() => {
@@ -66,13 +68,13 @@ function ThreadMenu({
 
         dispatch(manuallyMarkThreadAsUnread(threadId, lastViewedAt));
         if (hasUnreads) {
-            dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, Date.now()));
+            dispatch(updateThreadRead(currentUserId, teamId, threadId, Date.now()));
         } else {
-            dispatch(markLastPostInThreadAsUnread(currentUserId, currentTeamId, threadId));
+            dispatch(markLastPostInThreadAsUnread(currentUserId, teamId, threadId));
         }
     }, [
         currentUserId,
-        currentTeamId,
+        teamId,
         threadId,
         hasUnreads,
         updateThreadRead,
@@ -90,18 +92,24 @@ function ThreadMenu({
             >
                 <Menu.ItemAction
                     {...isFollowing ? {
-                        text: formatMessage({
+                        text: (post?.reply_count ?? 0) >= 1 ? formatMessage({
                             id: t('threading.threadMenu.unfollow'),
                             defaultMessage: 'Unfollow thread',
+                        }) : formatMessage({
+                            id: t('threading.threadMenu.unfollowMessage'),
+                            defaultMessage: 'Unfollow message',
                         }),
                         extraText: formatMessage({
                             id: t('threading.threadMenu.unfollowExtra'),
                             defaultMessage: 'You won’t be notified about replies',
                         }),
                     } : {
-                        text: formatMessage({
+                        text: (post?.reply_count ?? 0) >= 1 ? formatMessage({
                             id: t('threading.threadMenu.follow'),
                             defaultMessage: 'Follow thread',
+                        }) : formatMessage({
+                            id: t('threading.threadMenu.followMessage'),
+                            defaultMessage: 'Follow message',
                         }),
                         extraText: formatMessage({
                             id: t('threading.threadMenu.followExtra'),
@@ -109,28 +117,22 @@ function ThreadMenu({
                         }),
                     }}
                     onClick={useCallback(() => {
-                        dispatch(setThreadFollow(currentUserId, currentTeamId, threadId, !isFollowing));
-                    }, [dispatch, currentUserId, currentTeamId, threadId, isFollowing, setThreadFollow])}
+                        dispatch(setThreadFollow(currentUserId, teamId, threadId, !isFollowing));
+                    }, [currentUserId, teamId, threadId, isFollowing, setThreadFollow])}
                 />
                 <Menu.ItemAction
                     text={formatMessage({
-                        id: t('threading.threadMenu.openInChannel'),
-                        defaultMessage: 'Open in channel',
+                        id: t('threading.threadMenu.openInSidebar'),
+                        defaultMessage: 'Open in sidebar',
                     })}
                     onClick={useCallback(() => {
-                        goToInChannel(threadId);
-                    }, [threadId])}
+                        if (post) {
+                            dispatch(selectPost(post));
+                        }
+                    }, [post])}
                 />
                 <Menu.ItemAction
-                    text={formatMessage({
-                        id: t('threading.threadMenu.openInDock'),
-                        defaultMessage: 'Open in dock',
-                    })}
-                    onClick={useCallback(() => {
-                        dispatch(openDocked({id: threadId} as Post));
-                    }, [dispatch, threadId])}
-                />
-                <Menu.ItemAction
+                    show={isFollowing}
                     text={formatMessage(hasUnreads ? {
                         id: t('threading.threadMenu.markRead'),
                         defaultMessage: 'Mark as read',
@@ -159,8 +161,8 @@ function ThreadMenu({
                         defaultMessage: 'Copy link',
                     })}
                     onClick={useCallback(() => {
-                        copyToClipboard(`${getSiteURL()}/${team}/pl/${threadId}`);
-                    }, [team, threadId])}
+                        copyToClipboard(`${getSiteURL()}/${teamName}/pl/${threadId}`);
+                    }, [teamName, threadId])}
                 />
             </Menu>
         </MenuWrapper>
@@ -169,7 +171,8 @@ function ThreadMenu({
 
 function areEqual(prevProps: Props, nextProps: Props) {
     return (
-        prevProps.threadId === nextProps.threadId &&
+        prevProps.post?.id === nextProps.post?.id &&
+        prevProps.post?.channel_id === nextProps.post?.channel_id &&
         prevProps.isFollowing === nextProps.isFollowing &&
         prevProps.unreadTimestamp === nextProps.unreadTimestamp &&
         prevProps.hasUnreads === nextProps.hasUnreads

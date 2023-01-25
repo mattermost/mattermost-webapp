@@ -49,6 +49,8 @@ import {Post} from '@mattermost/types/posts';
 import {setGlobalItem} from '../../actions/storage';
 import {getGlobalItem} from '../../selectors/storage';
 
+import {openDocked} from '../threading/global_threads_dock/dock';
+
 import DotMenu from './dot_menu';
 
 type Props = {
@@ -144,6 +146,7 @@ type Actions = {
     markPostAsUnread: (post: Post) => void;
     setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
     setGlobalItem: (name: string, value: any) => void;
+    openDocked: (post: Post) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -158,6 +161,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             markPostAsUnread,
             setThreadFollow,
             setGlobalItem,
+            openDocked,
         }, dispatch),
     };
 }

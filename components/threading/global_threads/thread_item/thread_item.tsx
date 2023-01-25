@@ -33,6 +33,7 @@ import {Channel} from '@mattermost/types/channels';
 import {Post, PostPriority} from '@mattermost/types/posts';
 import {UserThread} from '@mattermost/types/threads';
 import {useDockedThreads} from 'components/threading/global_threads_dock/dock';
+import {cmdOrCtrlPressed} from 'utils/utils';
 
 import {THREADING_TIME} from '../../common/options';
 import {useThreadRouting} from '../../hooks';
@@ -124,6 +125,8 @@ function ThreadItem({
             } else {
                 dispatch(markLastPostInThreadAsUnread(currentUserId, currentTeamId, threadId));
             }
+        } else if (cmdOrCtrlPressed(e)) {
+            open(threadId);
         } else {
             select(threadId);
         }
@@ -137,8 +140,9 @@ function ThreadItem({
     ]);
 
     const openHandler = useCallback((e: MouseEvent<HTMLDivElement>) => {
-        console.log(e);
-        open(threadId);
+        if (e.button === 1) {
+            open(threadId);
+        }
     }, [open, threadId]);
 
     const imageProps = useMemo(() => ({

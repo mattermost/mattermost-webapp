@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, useEffect, useMemo, useState, MouseEvent} from 'react';
-import {useIntl} from 'react-intl';
+import React, {memo, useCallback, useEffect, useMemo, MouseEvent} from 'react';
+import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloseIcon, ArrowCollapseIcon, ArrowExpandIcon, MessageTextOutlineIcon, MinusBoxIcon, MinusIcon} from '@mattermost/compass-icons/components';
+import {CloseIcon, ArrowCollapseIcon, ArrowExpandIcon, MessageTextOutlineIcon, OpenInNewIcon, DotsHorizontalIcon, MessageCheckOutlineIcon} from '@mattermost/compass-icons/components';
 
 import styled from 'styled-components';
 
@@ -19,8 +19,6 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {getThread} from 'mattermost-redux/selectors/entities/threads';
 
-import {useThreadRouting} from '../hooks';
-
 import ThreadViewer from '../thread_viewer';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -29,7 +27,19 @@ import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
 import {markLastPostInThreadAsUnread, updateThreadRead} from 'mattermost-redux/actions/threads';
 import {getCurrentTeamId} from '../../../../mattermost-mobile/app/mm-redux/selectors/entities/common';
 
-import {prefetchThread} from 'actions/views/rhs';
+import {prefetchThread, selectPost} from 'actions/views/rhs';
+
+import {Preferences} from 'utils/constants';
+
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+
+import {useGlobalKeyPressed} from 'utils/keyboard';
+
+import SimpleTooltip from '../../widgets/simple_tooltip/simple_tooltip';
+
+import {isMac} from 'utils/utils';
+
+import ThreadItemMenu from './thread_item_menu';
 
 import {BarItem} from './bar_item';
 import {useDockedThreads} from './dock';
@@ -44,15 +54,16 @@ const ThreadItem = ({id}: Props): React.ReactElement | null => {
     const dispatch = useDispatch();
     const currentTeamId = useSelector(getCurrentTeamId);
     const {open, close, isOpen, minimize, isExpanded, expand} = useDockedThreads(id);
-    const {goToInChannel} = useThreadRouting();
     const {formatMessage} = useIntl();
+
+    const isMetaPressed = useGlobalKeyPressed(isMac() ? 'Meta' : 'Ctrl');
+
     dispatch(prefetchThread(id));
 
     const currentUserId = useSelector(getCurrentUserId);
     const post = useSelector((state: GlobalState) => getPost(state, id));
     const thread = useSelector((state: GlobalState) => getThread(state, id));
     const name = useSelector((state: GlobalState) => getDisplayName(state, post?.user_id, true));
-
     const channel = useSelector((state: GlobalState) => getChannel(state, post?.channel_id));
 
     useEffect(() => {
@@ -113,17 +124,20 @@ const ThreadItem = ({id}: Props): React.ReactElement | null => {
     //     Utils.handleFormattedTextClick(e, currentRelativeTeamUrl);
     // }, [currentRelativeTeamUrl]);
 
-    if (!post || !thread) {
+    if (!post || !channel) {
         return null;
     }
+
+    const isFollowing = thread?.is_following ?? post?.is_following;
 
     const {
         unread_replies: newReplies,
         unread_mentions: newMentions,
         last_reply_at: lastReplyAt,
         reply_count: totalReplies,
-        is_following: isFollowing,
-    } = thread;
+    } = thread ?? {};
+
+    const icon = isFollowing ? <MessageCheckOutlineIcon size={16}/> : <MessageTextOutlineIcon size={16}/>;
 
     const itemBar = (
         <ThreadItemBar
@@ -133,13 +147,14 @@ const ThreadItem = ({id}: Props): React.ReactElement | null => {
             <span
                 css={`
                     white-space: nowrap;
+                    position: relative;
+                    display: inline-flex;
                     svg {
                         vertical-align: middle;
                     }
                 `}
             >
-                <MessageTextOutlineIcon size={16}/>
-                {Boolean(newMentions || newReplies) && (
+                {isFollowing && (newMentions || newReplies) ? (
                     <div className='indicator'>
                         {newMentions ? (
                             <div className={classNames('dot-mentions', {over: newMentions > 99})}>
@@ -150,10 +165,22 @@ const ThreadItem = ({id}: Props): React.ReactElement | null => {
                             <div className='dot-unreads'/>
                         )}
                     </div>
-                )}
+                ) : icon}
                 <span
                     css={`
                         margin-left: 6px;
+                        text-overflow: ellipsis;
+                        display: inline-block;
+                        overflow: hidden;
+                        width: 15rem;
+                        line-height: 1;
+                        .isOpen & {
+                            width: 19rem;
+                            transition: width 0.2s ease-in-out;
+                        }
+                        .isExpanded & {
+                            width: 30rem;
+                        }
                     `}
                 >
                     {name}
@@ -162,44 +189,75 @@ const ThreadItem = ({id}: Props): React.ReactElement | null => {
                     {' '}
                 </span>
             </span>
-            <div>
+            <div
+                css={`
+                    .MenuWrapper {
+                        display: inline-block;
+                    }
+                `}
+            >
                 {isOpen && (
                     <>
-                        <button
-                            className='style--none'
-                            onClickCapture={() => minimize(id)}
-                            css={`
-                                && {
-                                    padding: 7px !important;
-                                }
-                            `}
+                        <ThreadItemMenu
+                            threadId={id}
+                            post={post}
+                            isFollowing={isFollowing ?? false}
+                            hasUnreads={Boolean(newReplies)}
+                            unreadTimestamp={unreadTimestamp}
                         >
-                            {<MinusIcon size={18}/>}
-                        </button>
-                        <button
-                            className='style--none'
-                            onClickCapture={() => expand(id)}
-                            css={`
-                                && {
-                                    padding: 7px !important;
-                                }
-                            `}
+                            <SimpleTooltip
+                                id='threadActionMenu'
+                                content={(
+                                    <FormattedMessage
+                                        id='threading.threadItem.menu'
+                                        defaultMessage='Actions'
+                                    />
+                                )}
+                            >
+                                <DockItemButton>
+                                    <DotsHorizontalIcon size={18}/>
+                                </DockItemButton>
+                            </SimpleTooltip>
+                        </ThreadItemMenu>
+                        <SimpleTooltip
+                            id='expand'
+                            content={isExpanded ? formatMessage({id: 'globalDock.dockItem.collapse', defaultMessage: 'Collapse'}) : formatMessage({id: 'globalDock.dockItem.expand', defaultMessage: 'Expand'})}
                         >
-                            {isExpanded ? <ArrowCollapseIcon size={18}/> : <ArrowExpandIcon size={18}/>}
-                        </button>
+                            <DockItemButton
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    expand(id);
+                                }}
+                            >
+                                {isExpanded ? <ArrowCollapseIcon size={18}/> : <ArrowExpandIcon size={18}/>}
+                            </DockItemButton>
+                        </SimpleTooltip>
+
                     </>
                 )}
-                <button
-                    className='style--none'
-                    onClickCapture={() => close(id)}
-                    css={`
-                        && {
-                            padding: 7px !important;
-                        }
-                    `}
+                <SimpleTooltip
+                    id='expand'
+                    content={isMetaPressed ? formatMessage({id: 'globalDock.dockItem.moveToSidebar', defaultMessage: 'Move to sidebar'}) : formatMessage({id: 'globalDock.dockItem.close', defaultMessage: 'Close'})}
                 >
-                    <CloseIcon size={18}/>
-                </button>
+                    <DockItemButton
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            if (isMetaPressed) {
+                                dispatch(selectPost(post));
+                            }
+                            close(id);
+                        }}
+                        onAuxClick={(e) => {
+                            e.stopPropagation();
+                            if (e.button === 1) {
+                                dispatch(selectPost(post));
+                                close(id);
+                            }
+                        }}
+                    >
+                        {isMetaPressed ? <OpenInNewIcon size={18}/> : <CloseIcon size={18}/>}
+                    </DockItemButton>
+                </SimpleTooltip>
             </div>
         </ThreadItemBar>
     );
@@ -226,26 +284,25 @@ const ThreadItem = ({id}: Props): React.ReactElement | null => {
                 position: relative;
                 transition: width 0.2s ease-in-out;
                 &.isOpen {
-                    width: 350px;
+                    width: 382px;
 
                     &.isExpanded {
                         width: 475px;
                     }
                     flex-shrink: 0;
                 }
-
             `}
         >
-
             {isOpen ? (
-                <div
+                <article
                     css={`
+                        border-radius: 4px 4px 0 0;
                         transition: width 0.2s ease-in-out, height 0.2s ease-in-out;
                         position: absolute;
                         bottom: 0;
                         z-index: 8;
                         right: 0;
-                        width: 350px;
+                        width: 382px;
                         height: 500px;
                         .isExpanded & {
                             width: 475px;
@@ -255,7 +312,7 @@ const ThreadItem = ({id}: Props): React.ReactElement | null => {
                         background: var(--center-channel-bg);
                         .ThreadViewer {
                             width: 100%;
-                            height: calc(100% - 28px);
+                            height: calc(100% - 36px);
                             border: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
                             border-width: 0 1px 1px 1px;
                             border-radius: 0 0 4px 4px;
@@ -263,8 +320,11 @@ const ThreadItem = ({id}: Props): React.ReactElement | null => {
                     `}
                 >
                     {itemBar}
-                    <ThreadViewer rootPostId={id}/>
-                </div>
+                    <ThreadViewer
+                        rootPostId={id}
+                        useRelativeTimestamp={true}
+                    />
+                </article>
             ) : itemBar}
         </div>
     );
@@ -275,6 +335,8 @@ const ThreadItemBar = styled(BarItem)`
     width: 100%;
     .isOpen & {
         border-radius: 3px 3px 0 0;
+        height: 36px;
+        padding-left: 12px;
     }
 
 
@@ -306,10 +368,10 @@ const ThreadItemBar = styled(BarItem)`
     }
 
     .indicator {
-        position: absolute;
-        top: 1px;
-        left: 1px;
-        display: grid;
+        //position: absolute;
+        /* top: -4px;
+        left: 6px; */
+        display: inline-grid;
         width: 16px;
         height: 16px;
         place-content: center;
@@ -317,3 +379,11 @@ const ThreadItemBar = styled(BarItem)`
 `;
 
 export default memo(ThreadItem);
+
+const DockItemButton = styled.button.attrs({className: 'style--none'})`
+    && {
+        padding: 0;
+        height: 36px;
+        width: 36px;
+    }
+`;

@@ -40,6 +40,8 @@ import {RHSStates} from 'utils/constants';
 import {Post} from '@mattermost/types/posts';
 import {getIsPostBeingEditedInRHS} from '../../selectors/posts';
 
+import {openDocked} from 'components/threading/global_threads_dock/dock';
+
 import SearchResultsItem from './search_results_item';
 
 export interface OwnProps {
@@ -107,6 +109,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             closeRightHandSide,
             selectPost: selectPostFromRightHandSideSearch,
+            selectPostDocked: openDocked,
             selectPostCard: selectPostCardFromRightHandSideSearch,
             setRhsExpanded,
         }, dispatch),

@@ -43,20 +43,6 @@ const ShortcutKey = ({shortcutKey: shortcut}: ShortcutKeyProps) => (
 
 const MENU_BOTTOM_MARGIN = 80;
 
-const OpenInDock = (props: Props) => {
-    const {open} = useDockedThreads();
-    return (
-        <Menu.ItemAction
-            id={`dock_post_${props.post.id}`}
-            show={!PostUtils.isSystemMessage(props.post) && !props.isReadOnly}
-            text={Utils.localizeMessage('post_info.dock', 'Open in dock')}
-            icon={Utils.getMenuItemIcon('icon-reply-outline')}
-            rightDecorator={<ShortcutKey shortcutKey='P'/>}
-            onClick={() => open(props.post.id)}
-        />
-    );
-};
-
 type Props = {
     intl: IntlShape;
     post: Post;
@@ -130,6 +116,11 @@ type Props = {
          * Function to set a global storage item on the store
          */
         setGlobalItem: (name: string, value: any) => void;
+
+        /**
+         * Open the thread in the global threads dock
+         */
+        openDocked: (post: Post) => void;
 
     }; // TechDebt: Made non-mandatory while converting to typescript
 
@@ -443,6 +434,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             this.handleMarkPostAsUnread(e);
             this.props.handleDropdownOpened(false);
             break;
+
+        // open thread in thread dock
+        case Utils.isKeyPressed(e, Constants.KeyCodes.O):
+            this.props.actions.openDocked(this.props.post);
+            this.props.handleDropdownOpened(false);
+            break;
         }
     }
 
@@ -615,7 +612,14 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         rightDecorator={<ShortcutKey shortcutKey='P'/>}
                         onClick={this.handlePinMenuItemActivated}
                     />
-                    <OpenInDock {...this.props}/>
+                    <Menu.ItemAction
+                        id={`dock_post_${this.props.post.id}`}
+                        show={!PostUtils.isSystemMessage(this.props.post) && !this.props.isReadOnly}
+                        text={Utils.localizeMessage('post_info.dock', 'Open in dock')}
+                        icon={Utils.getMenuItemIcon('icon-reply-outline')}
+                        rightDecorator={<ShortcutKey shortcutKey='O'/>}
+                        onClick={() => this.props.actions.openDocked(this.props.post)}
+                    />
                     {!isSystemMessage && (this.state.canEdit || this.state.canDelete) && this.renderDivider('edit')}
                     <Menu.ItemAction
                         id={`permalink_${this.props.post.id}`}

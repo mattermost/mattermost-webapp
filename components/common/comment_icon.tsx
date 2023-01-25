@@ -13,6 +13,7 @@ import ReplyIcon from 'components/widgets/icons/reply_icon';
 type Props = {
     location: 'CENTER' | 'SEARCH';
     handleCommentClick: React.EventHandler<React.MouseEvent>;
+    handleCommentAuxClick: React.EventHandler<React.MouseEvent>;
     searchStyle: string;
     commentCount: number;
     postId?: string;
@@ -64,6 +65,7 @@ export default class CommentIcon extends React.PureComponent<Props> {
                     aria-label={localizeMessage('post_info.comment_icon.tooltip.reply', 'Reply').toLowerCase()}
                     className={iconStyle + ' ' + this.props.extraClass}
                     onClick={this.props.handleCommentClick}
+                    onAuxClick={this.props.handleCommentAuxClick}
                 >
                     <span className='d-flex align-items-center'>
                         <ReplyIcon className='icon icon--small'/>

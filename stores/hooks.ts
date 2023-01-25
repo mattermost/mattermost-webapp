@@ -11,7 +11,8 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {getGlobalItem, makeGetGlobalItem} from 'selectors/storage';
 import {setGlobalItem} from 'actions/storage';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {GlobalState} from 'types/store';
 
 export const currentUserAndTeamSuffix = createSelector('currentUserAndTeamSuffix', [
     getCurrentUserId,
@@ -40,14 +41,15 @@ export const currentUserSuffix = createSelector('currentUserSuffix', [
 export function useGlobalState<TVal>(
     initialValue: TVal,
     name: string,
+    suffixSelector = currentUserAndTeamSuffix,
 ): [TVal, React.Dispatch<React.SetStateAction<TVal>>] {
     const dispatch = useDispatch();
-    const suffix = useSelector(currentUserAndTeamSuffix);
+    const suffix = useSelector(suffixSelector);
     const storedKey = `${name}${suffix}`;
 
     const value = useSelector(makeGetGlobalItem(storedKey, initialValue), shallowEqual);
     const setValue = useCallback((update) => {
-        return dispatch((dispatch: DispatchFunc, getState: GetStateFunc) => {
+        return dispatch((dispatch: DispatchFunc, getState: () => GlobalState) => {
             const v = getGlobalItem(getState(), storedKey, initialValue);
             dispatch(setGlobalItem(storedKey, resolve(update, v)));
         });
