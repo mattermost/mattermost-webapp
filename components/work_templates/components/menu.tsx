@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
+import {trackEvent} from 'actions/telemetry_actions';
 import {Category, WorkTemplate} from '@mattermost/types/work_templates';
 
 import UseCaseMenuItem from './menu/use_case';
@@ -62,6 +63,10 @@ interface MenuProps {
 
 const Menu = ({className, disableQuickUse, categories, workTemplates, currentCategoryId, changeCategory, onTemplateSelected}: MenuProps) => {
     const {formatMessage} = useIntl();
+
+    useEffect(() => {
+        trackEvent('work_templates', 'pageview_menu');
+    }, []);
 
     const quickUse = (template: WorkTemplate) => {
         onTemplateSelected(template, true);

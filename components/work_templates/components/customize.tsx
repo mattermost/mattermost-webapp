@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import {useIntl} from 'react-intl';
 
 import PublicPrivateSelector from 'components/widgets/public-private-selector/public-private-selector';
+import {trackEvent} from 'actions/telemetry_actions';
 import Constants from 'utils/constants';
 
 import {Visibility} from '@mattermost/types/work_templates';
@@ -28,6 +29,10 @@ const Customize = ({
     ...props
 }: CustomizeProps) => {
     const {formatMessage} = useIntl();
+
+    useEffect(() => {
+        trackEvent('work_templates', 'pageview_customize');
+    }, []);
 
     const privacySelectorValue = (visibility === Visibility.Public ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL) as ChannelType;
     const onPrivacySelectorChanged = (value: ChannelType) => {
