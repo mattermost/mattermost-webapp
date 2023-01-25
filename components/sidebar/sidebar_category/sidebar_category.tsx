@@ -258,7 +258,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 </div>
             );
 
-            categoryMenu = (<SidebarCategoryMenu category={category}/>);
+            categoryMenu = <SidebarCategoryMenu category={category}/>;
         } else if (category.type === CategoryTypes.DIRECT_MESSAGES) {
             const addHelpLabel = localizeMessage('sidebar.createDirectMessage', 'Create new direct message');
 

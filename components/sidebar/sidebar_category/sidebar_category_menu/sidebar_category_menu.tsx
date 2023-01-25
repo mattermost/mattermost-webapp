@@ -243,8 +243,10 @@ const SidebarCategoryMenu = (props: Props) => {
             className={classNames(
                 'SidebarMenu',
                 'MenuWrapper',
-                {menuOpen: isMenuOpen},
-                {'MenuWrapper--open': isMenuOpen},
+                {
+                    'MenuWrapper--open': isMenuOpen,
+                    menuOpen: isMenuOpen,
+                },
             )}
         >
             <Menu.Container

@@ -169,12 +169,12 @@ const SidebarCategorySortingMenu = (props: Props) => {
             id={`openDirectMessage-${props.category.id}`}
             onClick={props.handleOpenDirectMessagesModal}
             leadingElement={<AccountPlusOutlineIcon size={18}/>}
-            labels={
+            labels={(
                 <FormattedMessage
                     id='sidebar.openDirectMessage'
                     defaultMessage='Open a direct message'
                 />
-            }
+            )}
         />
     );
 

@@ -29,8 +29,6 @@ export type Value = {
     value: string;
 };
 
-let rafFocus: number;
-
 export type Props<T extends Value> = {
     ariaLabelRenderer: getOptionValue<T>;
     backButtonClick?: () => void;
@@ -111,7 +109,7 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
             (inputRef as HTMLElement).addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
 
             if (this.props.focusOnLoad) {
-                rafFocus = requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
                     // known from ternary definition of inputRef
                     this.reactSelectRef.current!.focus();
                 });
@@ -126,8 +124,6 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
             (inputRef as HTMLElement).removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
             (inputRef as HTMLElement).removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
         }
-
-        cancelAnimationFrame(rafFocus);
 
         document.removeEventListener('keydown', this.handleEnterPress);
     }

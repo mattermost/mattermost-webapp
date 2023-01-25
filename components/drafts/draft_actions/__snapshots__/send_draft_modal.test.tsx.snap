@@ -6,6 +6,7 @@ exports[`components/drafts/draft_actions/send_draft_modal should have called onC
   autoCloseOnConfirmButton={true}
   compassDesign={true}
   confirmButtonText="Yes, send now"
+  enforceFocus={true}
   handleCancel={[Function]}
   handleConfirm={
     [MockFunction] {
@@ -44,6 +45,7 @@ exports[`components/drafts/draft_actions/send_draft_modal should have called onE
   autoCloseOnConfirmButton={true}
   compassDesign={true}
   confirmButtonText="Yes, send now"
+  enforceFocus={true}
   handleCancel={[Function]}
   handleConfirm={[MockFunction]}
   id="genericModal"

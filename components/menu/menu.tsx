@@ -94,7 +94,7 @@ export function Menu(props: Props) {
     function handleMenuKeyDown(event: KeyboardEvent<HTMLDivElement>) {
         if (event.key === 'Enter') {
             const target = event.target as HTMLElement;
-            const ariaHasPopup = target?.getAttribute('aria-haspopup') === 'true' ?? false;
+            const ariaHasPopup = target?.getAttribute('aria-haspopup') === 'true';
 
             // Avoid closing the sub menu item on enter
             if (!ariaHasPopup) {

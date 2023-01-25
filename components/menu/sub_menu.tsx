@@ -36,7 +36,6 @@ interface Props {
     forceOpenOnLeft?: boolean; // Most of the times this is not needed, since submenu position is calculated and placed
 
     children: ReactNode;
-
 }
 
 export function SubMenu({id, leadingElement, labels, trailingElements, isDestructive, menuId, menuAriaLabel, forceOpenOnLeft, children, ...rest}: Props) {
