@@ -135,7 +135,7 @@ export default function SeatsCalculator(props: Props) {
     };
 
     const maxSeats = calculateMaxUsers(annualPricePerSeat);
-    const total = '$' + intl.formatNumber((parseInt(props.seats.quantity, 10) || 0) * annualPricePerSeat, {maximumFractionDigits: 2});
+    const total = '$' + intl.formatNumber((parseFloat(props.seats.quantity) || 0) * annualPricePerSeat, {maximumFractionDigits: 2});
     const userCountTooltip = (
         <Tooltip
             id='userCount__tooltip'
