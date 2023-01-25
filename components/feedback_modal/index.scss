@@ -41,7 +41,7 @@
         border-radius: 4px;
         color: black;
         font-size: 15px;
-        resize: 'none';
+        resize: none;
     }
 
     &__Submit {
@@ -62,7 +62,6 @@
         }
 
         .btn-primary {
-            width: 90px;
             margin-left: 10px;
             border-radius: 4px;
         }

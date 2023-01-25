@@ -17,17 +17,17 @@ import {ModalIdentifiers} from 'utils/constants';
 import './index.scss';
 
 type Props = {
-    onSubmit: (FeedbackModal: Feedback) => void;
+    onSubmit: (feedback: Feedback) => void;
     title: string;
     submitText: string;
     feedbackOptions: string[];
     freeformTextPlaceholder: string;
 }
 
-export default function FeedbackModalModal(props: Props) {
+export default function FeedbackModal(props: Props) {
     const optionOther = 'Other';
     const FeedbackModalOptions: string[] = [
-        ...props.FeedbackOptions,
+        ...props.feedbackOptions,
         optionOther,
     ];
 
@@ -88,7 +88,7 @@ export default function FeedbackModalModal(props: Props) {
                     onClick={handleCancel}
                 >
                     <FormattedMessage
-                        id={'downgrade_FeedbackModal.cancel'}
+                        id={'feedback.cancel'}
                         defaultMessage={'Cancel'}
                     />
                 </button>
