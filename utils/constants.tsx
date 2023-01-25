@@ -2004,6 +2004,11 @@ export enum SidebarSize {
     XLARGE= 'xLarge',
 }
 
+export enum ResizeDirection {
+    LEFT = 'left',
+    RIGHT = 'right',
+}
+
 export const SIDEBAR_SNAP_SIZE = 16;
 
 export const DEFAULT_LHS_WIDTH = 240;

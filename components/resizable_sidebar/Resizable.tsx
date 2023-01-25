@@ -4,6 +4,8 @@
 import classNames from 'classnames';
 import React, {HTMLAttributes, useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
 
+import {ResizeDirection} from 'utils/constants';
+
 import {requestAnimationFrameForMouseMove, isOverLimit, shouldSnapWhenSizeGrown, shouldSnapWhenSizeShrunk, setWidth, toggleColResizeCursor, resetStyle} from './utils';
 
 interface ResizableProps extends HTMLAttributes<'div'> {
@@ -23,8 +25,6 @@ interface ResizableProps extends HTMLAttributes<'div'> {
     onLimitChange?: (width: number) => void;
     children: React.ReactNode;
 }
-
-export type ResizeDirection = 'left' | 'right'
 
 function Resizable({
     role,
@@ -92,7 +92,7 @@ function Resizable({
 
         e.preventDefault();
 
-        const resizeLine = dir === 'left' ? leftResizeLineRef.current : rightResizeLineRef.current;
+        const resizeLine = dir === ResizeDirection.LEFT ? leftResizeLineRef.current : rightResizeLineRef.current;
 
         if (!resizeLine) {
             return;
@@ -102,10 +102,10 @@ function Resizable({
         let widthDiff = 0;
 
         switch (dir) {
-        case 'left':
+        case ResizeDirection.LEFT:
             widthDiff = e.clientX - previousClientX.current;
             break;
-        case 'right':
+        case ResizeDirection.RIGHT:
             widthDiff = previousClientX.current - e.clientX;
             break;
         }
@@ -235,15 +235,15 @@ function Resizable({
             {enabled.right &&
             <div
                 ref={rightResizeLineRef}
-                className={classNames('resizeLine right', dir === 'right' && 'resizeLine-dragged')}
-                onMouseDown={(e) => handleMouseDown(e, 'right')}
+                className={classNames('resizeLine right', dir === ResizeDirection.RIGHT && 'resizeLine-dragged')}
+                onMouseDown={(e) => handleMouseDown(e, ResizeDirection.RIGHT)}
                 onDoubleClick={handleDoubleClick}
             />}
             {enabled.left &&
             <div
                 ref={leftResizeLineRef}
-                className={classNames('resizeLine left', dir === 'left' && 'resizeLine-dragged')}
-                onMouseDown={(e) => handleMouseDown(e, 'left')}
+                className={classNames('resizeLine left', dir === ResizeDirection.LEFT && 'resizeLine-dragged')}
+                onMouseDown={(e) => handleMouseDown(e, ResizeDirection.LEFT)}
                 onDoubleClick={handleDoubleClick}
             />}
         </div>
