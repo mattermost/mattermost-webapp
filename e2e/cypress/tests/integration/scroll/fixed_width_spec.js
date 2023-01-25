@@ -33,35 +33,60 @@ describe('Scroll', () => {
     it('MM-T2368 Fixed width', () => {
         const link = 'https://www.bbc.com/news/uk-wales-45142614';
         const gifLink = '![gif](http://i.giphy.com/xNrM4cGJ8u3ao.gif)';
+        const firstMessage = 'This is the first post';
+        const lastMessage = 'This is the last post';
 
         // Assigning alias to posted message ids
-        cy.postMessage('This is the first post');
+        cy.postMessage(firstMessage);
         cy.getLastPostId().as('firstPostId');
         cy.postMessage(link);
-        cy.getLastPostId().as('linkPreviewId');
+        cy.getLastPostId().as('linkPreviewPostId');
         cy.postMessage(gifLink);
         cy.getLastPostId().as('gifLinkPostId');
 
-        // Posting different type of images and Videos
-        const commonTypeFiles = ['jpg-image-file.jpg', 'gif-image-file.gif', 'mp3-audio-file.mp3', 'mpeg-video-file.mpg'];
+        // Posting different type of images and videos
+        const commonTypeFiles = [
+            'jpg-image-file.jpg',
+            'gif-image-file.gif',
+            'mp3-audio-file.mp3',
+            'mpeg-video-file.mpg',
+        ];
         commonTypeFiles.forEach((file) => {
-            cy.get('#fileUploadInput').attachFile(file);
+            cy.get('#fileUploadInput').selectFile(`tests/fixtures/${file}`, {force: true}).wait(timeouts.HALF_SEC);
             cy.postMessage(`Attached with ${file}`);
             cy.getLastPostId().as(`${file}PostId`);
         });
-        cy.postMessage('This is the last post');
+        cy.postMessage(lastMessage);
         cy.getLastPostId().as('lastPostId');
 
-        // Getting height of all posts before applying 'Fixed width, centered' option and assigning alias
-        getUserNameTitle().eq(0).invoke('height').as('initialUserNameHeight');
-        getFirstTextPost().invoke('height').as('initialFirstPostHeight');
-        getMp3Post().invoke('height').as('initialMp3Height');
-        getMpgPost().invoke('height').as('initialMpgHeight');
-        getGifPost().invoke('height').as('initialGifHeight');
-        getJpgPost().invoke('height').as('initialJpgHeight');
-        getAttachmentPost().invoke('height').as('initialAttachmentHeight');
-        getInlineImgPost().invoke('height').as('initialInlineImgHeight');
-        getLastTextPost().invoke('height').as('initialLastPostHeight');
+        // Getting height of each post before applying 'Fixed width, centered' option and assigning to alias
+        cy.findAllByLabelText('sysadmin').eq(0).invoke('height').then((height) => {
+            cy.wrap(height).as('initialUserNameHeight');
+        });
+        getComponentByText('@firstPostId', firstMessage).invoke('height').then((height) => {
+            cy.wrap(height).as('initialFirstPostHeight');
+        });
+        getFileThumbnail('mp3-audio-file.mp3').invoke('height').then((height) => {
+            cy.wrap(height).as('initialMp3Height');
+        });
+        getFileThumbnail('mpeg-video-file.mpg').invoke('height').then((height) => {
+            cy.wrap(height).as('initialMpgHeight');
+        });
+        getFileThumbnail('gif-image-file.gif').invoke('height').then((height) => {
+            cy.wrap(height).as('initialGifHeight');
+        });
+        getFileThumbnail('jpg-image-file.jpg').invoke('height').then((height) => {
+            cy.wrap(height).as('initialJpgHeight');
+        });
+        getComponentBySelector('@linkPreviewPostId', '.PostAttachmentOpenGraph__image').invoke('height').then((height) => {
+            cy.wrap(height).as('initialAttachmentHeight');
+        });
+        getComponentBySelector('@gifLinkPostId', 'img[aria-label="file thumbnail"]').invoke('height').then((height) => {
+            cy.wrap(height).as('initialInlineImgHeight');
+        });
+        getComponentByText('@lastPostId', lastMessage).invoke('height').then((height) => {
+            cy.wrap(height).as('initialLastPostHeight');
+        });
 
         // # Switch the settings for the test user to enable Fixed width center
         cy.uiOpenSettingsModal('Display').within(() => {
@@ -80,93 +105,53 @@ describe('Scroll', () => {
         // * Verify there is no scroll pop
         cy.get('#post-list').should('exist').within(() => {
             cy.get('@initialUserNameHeight').then((originalHeight) => {
-                getUserNameTitle().eq(0).should('exist').and('have.css', 'height', originalHeight + 'px');
+                cy.findAllByLabelText('sysadmin').eq(0).invoke('height').should('be.equal', originalHeight);
             });
             cy.get('@initialFirstPostHeight').then((originalHeight) => {
-                getFirstTextPost().should('exist').and('have.css', 'height', originalHeight + 'px');
+                getComponentByText('@firstPostId', firstMessage).invoke('height').should('be.equal', originalHeight);
             });
             cy.get('@initialLastPostHeight').then((originalHeight) => {
-                getLastTextPost().should('exist').and('have.css', 'height', originalHeight + 'px');
+                getComponentByText('@lastPostId', lastMessage).invoke('height').should('be.equal', originalHeight);
             });
             cy.get('@initialMp3Height').then((originalHeight) => {
-                getMp3Post().should('have.css', 'height', originalHeight + 'px');
+                getFileThumbnail('mp3-audio-file.mp3').invoke('height').should('be.equal', originalHeight);
             });
             cy.get('@initialMpgHeight').then((originalHeight) => {
-                getMpgPost().should('have.css', 'height', originalHeight + 'px');
+                getFileThumbnail('mpeg-video-file.mpg').invoke('height').should('be.equal', originalHeight);
             });
             cy.get('@initialGifHeight').then((originalHeight) => {
-                getGifPost().should('have.css', 'height', originalHeight + 'px');
+                getFileThumbnail('gif-image-file.gif').invoke('height').should('be.equal', originalHeight);
             });
             cy.get('@initialJpgHeight').then((originalHeight) => {
-                getJpgPost().should('have.css', 'height', originalHeight + 'px');
+                getFileThumbnail('jpg-image-file.jpg').invoke('height').should('be.equal', originalHeight);
             });
             cy.get('@initialInlineImgHeight').then((originalHeight) => {
-                getInlineImgPost().should('have.css', 'height', (originalHeight + 2) + 'px');
+                getComponentBySelector('@gifLinkPostId', 'img[aria-label="file thumbnail"]').invoke('height').should('be.equal', originalHeight);
             });
             cy.get('@initialAttachmentHeight').then((originalHeight) => {
-                getAttachmentPost().should('have.css', 'height', originalHeight + 'px');
+                getComponentBySelector('@linkPreviewPostId', '.PostAttachmentOpenGraph__image').invoke('height').should('be.equal', originalHeight);
             });
         });
     });
 
-    // Finding elements and assigning to const variable for multiple use
-    const getUserNameTitle = () => {
-        return cy.findAllByLabelText('sysadmin');
-    };
-
-    // Getting element using mp3 Post Id, finding its child mp3 post and assigning to const variable for later use
-    const getMp3Post = () => {
-        return cy.get('@mp3-audio-file.mp3PostId').then((postId) => {
-            cy.get(`#${postId}_message`).findByLabelText('file thumbnail mp3-audio-file.mp3');
+    // Get thumbnail component based on filename
+    const getFileThumbnail = (filename) => {
+        return cy.get(`@${filename}PostId`).then((postId) => {
+            cy.get(`#${postId}_message`).findByLabelText(`file thumbnail ${filename}`);
         });
     };
 
-    // Getting element using mpg Post Id, then finding its child mpg post and assigning to const variable for later use
-    const getMpgPost = () => {
-        return cy.get('@mpeg-video-file.mpgPostId').then((postId) => {
-            cy.get(`#${postId}_message`).findByLabelText('file thumbnail mpeg-video-file.mpg');
+    // Get component by alias and selector
+    const getComponentBySelector = (alias, selector) => {
+        return cy.get(alias).then((postId) => {
+            cy.get(`#${postId}_message`).find(selector);
         });
     };
 
-    // Getting element using gif Post Id, then finding its child mpg post and assigning to const variable for later use
-    const getGifPost = () => {
-        return cy.get('@gif-image-file.gifPostId').then((postId) => {
-            cy.get(`#${postId}_message`).findByLabelText('file thumbnail gif-image-file.gif');
-        });
-    };
-
-    // Getting element using jpg Post Id, then finding its child jpg post and assigning to const variable for later use
-    const getJpgPost = () => {
-        return cy.get('@jpg-image-file.jpgPostId').then((postId) => {
-            cy.get(`#${postId}_message`).findByLabelText('file thumbnail jpg-image-file.jpg');
-        });
-    };
-
-    // Getting element using link preview Post Id, then finding its child file thumbnail post and assigning to const variable for later use
-    const getAttachmentPost = () => {
-        return cy.get('@linkPreviewId').then((postId) => {
-            cy.get(`#${postId}_message`).find('.PostAttachmentOpenGraph__image');
-        });
-    };
-
-    // Getting element using gif Link Post Id, then finding its child file thumbnail post and assigning to const variable for later use
-    const getInlineImgPost = () => {
-        return cy.get('@gifLinkPostId').then((postId) => {
-            cy.get(`#${postId}_message`).find('img[aria-label="file thumbnail"]');
-        });
-    };
-
-    // Getting element using first Post Id, then finding its child text and assigning to const variable for later use
-    const getFirstTextPost = () => {
-        return cy.get('@firstPostId').then((postId) => {
-            cy.get(`#${postId}_message`).findByText('This is the first post');
-        });
-    };
-
-    // Getting element using last Post Id, then finding its child text and assigning to const variable for later use
-    const getLastTextPost = () => {
-        return cy.get('@lastPostId').then((postId) => {
-            cy.get(`#${postId}_message`).findByText('This is the last post');
+    // Get component by alias and text
+    const getComponentByText = (alias, text) => {
+        return cy.get(alias).then((postId) => {
+            cy.get(`#${postId}_message`).findByText(text);
         });
     };
 });

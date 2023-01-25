@@ -3,7 +3,7 @@
 
 import {batchActions} from 'redux-batched-actions';
 
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {syncedDraftsAreAllowedAndEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {Client4} from 'mattermost-redux/client';
@@ -13,6 +13,7 @@ import {getConnectionId} from 'selectors/general';
 import type {GlobalState} from 'types/store';
 import {PostDraft} from 'types/store/draft';
 import {getGlobalItem} from 'selectors/storage';
+import {makeGetDrafts} from 'selectors/drafts';
 
 import {StoragePrefixes} from 'utils/constants';
 
@@ -20,6 +21,9 @@ import type {Draft as ServerDraft} from '@mattermost/types/drafts';
 import type {UserProfile} from '@mattermost/types/users';
 import {PostMetadata, PostPriorityMetadata} from '@mattermost/types/posts';
 import {FileInfo} from '@mattermost/types/files';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
+import Preferences from 'mattermost-redux/constants/preferences';
 
 type Draft = {
     key: keyof GlobalState['storage']['storage'];
@@ -27,16 +31,40 @@ type Draft = {
     timestamp: Date;
 }
 
+/**
+ * Gets drafts stored on the server and reconciles them with any locally stored drafts.
+ * @param teamId Only drafts for the given teamId will be fetched.
+ */
 export function getDrafts(teamId: string) {
-    return async (dispatch: DispatchFunc) => {
-        let drafts: ServerDraft[] = [];
-        drafts = await Client4.getUserDrafts(teamId);
-        const actions = (drafts || []).map((draft) => {
-            const {key, value} = transformServerDraft(draft);
-            return setGlobalItem(key, value);
+    const getLocalDrafts = makeGetDrafts(false);
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
+
+        let serverDrafts: Draft[] = [];
+        try {
+            serverDrafts = (await Client4.getUserDrafts(teamId)).map((draft) => transformServerDraft(draft));
+        } catch (error) {
+            return {data: false, error};
+        }
+
+        const localDrafts = getLocalDrafts(state);
+        const drafts = [...serverDrafts, ...localDrafts];
+
+        // Reconcile drafts and only keep the latest version of a draft.
+        const draftsMap = new Map(drafts.map((draft) => [draft.key, draft]));
+        drafts.forEach((draft) => {
+            const currentDraft = draftsMap.get(draft.key);
+            if (currentDraft && draft.timestamp > currentDraft.timestamp) {
+                draftsMap.set(draft.key, draft);
+            }
+        });
+
+        const actions = Array.from(draftsMap).map(([key, draft]) => {
+            return setGlobalItem(key, draft.value);
         });
 
         dispatch(batchActions(actions));
+        return {data: true};
     };
 }
 
@@ -82,7 +110,11 @@ export function updateDraft(key: string, value: PostDraft|null, rootId = '', sav
         if (syncedDraftsAreAllowedAndEnabled(state) && save && updatedValue) {
             const connectionId = getConnectionId(state);
             const userId = getCurrentUserId(state);
-            await upsertDraft(updatedValue, userId, rootId, connectionId);
+            try {
+                await upsertDraft(updatedValue, userId, rootId, connectionId);
+            } catch (error) {
+                return {data: false, error};
+            }
         }
         return {data: true};
     };
@@ -104,6 +136,21 @@ function upsertDraft(draft: PostDraft, userId: UserProfile['id'], rootId = '', c
     };
 
     return Client4.upsertDraft(newDraft, connectionId);
+}
+
+export function setDraftsTourTipPreference(initializationState: Record<string, boolean>): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const preference: PreferenceType = {
+            user_id: currentUserId,
+            category: Preferences.CATEGORY_DRAFTS,
+            name: Preferences.DRAFTS_TOUR_TIP_SHOWED,
+            value: JSON.stringify(initializationState),
+        };
+        await dispatch(savePreferences(currentUserId, [preference]));
+        return {data: true};
+    };
 }
 
 export function transformServerDraft(draft: ServerDraft): Draft {

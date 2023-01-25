@@ -14,7 +14,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal} from 'actions/views/modals';
 import {validateBusinessEmail} from 'actions/cloud';
 
-import {ItemStatus, TELEMETRY_CATEGORIES, ModalIdentifiers} from 'utils/constants';
+import {ItemStatus, TELEMETRY_CATEGORIES, ModalIdentifiers, LicenseLinks, AboutLinks} from 'utils/constants';
 
 import GenericModal from 'components/generic_modal';
 import {CustomMessageInputType} from 'components/widgets/inputs/input/input';
@@ -129,7 +129,7 @@ const RequestBusinessEmailModal = (
             <div className='start-trial-email-disclaimer'>
                 <FormattedMessage
                     id='request_business_email.start_trial.modal.disclaimer'
-                    defaultMessage='By selecting <highlight>“Start trial”</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
+                    defaultMessage='By selecting <highlight>“Start trial”</highlight>, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
                     values={{
                         highlight: (msg: React.ReactNode) => (
                             <strong>
@@ -138,7 +138,7 @@ const RequestBusinessEmailModal = (
                         ),
                         linkEvaluation: (msg: React.ReactNode) => (
                             <a
-                                href='https://mattermost.com/software-evaluation-agreement'
+                                href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
                                 target='_blank'
                                 rel='noreferrer'
                             >
@@ -147,7 +147,7 @@ const RequestBusinessEmailModal = (
                         ),
                         linkPrivacy: (msg: React.ReactNode) => (
                             <a
-                                href='https://mattermost.com/privacy-policy/'
+                                href={AboutLinks.PRIVACY_POLICY}
                                 target='_blank'
                                 rel='noreferrer'
                             >

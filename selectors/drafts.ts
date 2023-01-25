@@ -4,18 +4,19 @@
 import {createSelector} from 'reselect';
 
 import {getMyActiveChannelIds} from 'mattermost-redux/selectors/entities/channels';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+
+import {Preferences} from 'mattermost-redux/constants';
 
 import {GlobalState} from 'types/store';
-import {PostDraft} from 'types/store/draft';
+import {DraftInfo, PostDraft} from 'types/store/draft';
 
 import {StoragePrefixes} from 'utils/constants';
+import {getDraftInfoFromKey} from 'utils/storage_utils';
 
-type Info = {
-    id: string;
-    type: 'channel' | 'thread';
-}
+import {getIsMobileView} from 'selectors/views/browser';
 
-export type Draft = Info & {
+export type Draft = DraftInfo & {
     key: keyof GlobalState['storage']['storage'];
     value: PostDraft;
     timestamp: Date;
@@ -24,23 +25,15 @@ export type Draft = Info & {
 export type DraftSelector = (state: GlobalState) => Draft[];
 export type DraftCountSelector = (state: GlobalState) => number;
 
-function getInfoFromKey(key: string, prefix: string): Info|null {
-    const keyArr = key.split('_');
-    if (prefix === StoragePrefixes.DRAFT) {
-        return {
-            id: keyArr[1],
-            type: 'channel',
-        };
+export function showDraftsPulsatingDotAndTourTip(state: GlobalState): boolean {
+    if (getIsMobileView(state)) {
+        return false;
     }
 
-    if (prefix === StoragePrefixes.COMMENT_DRAFT) {
-        return {
-            id: keyArr[2],
-            type: 'thread',
-        };
-    }
+    const draftsTourTipShowed = get(state, Preferences.CATEGORY_DRAFTS, Preferences.DRAFTS_TOUR_TIP_SHOWED, '');
+    const draftsAlreadyViewed = draftsTourTipShowed && JSON.parse(draftsTourTipShowed)[Preferences.DRAFTS_TOUR_TIP_SHOWED];
 
-    return null;
+    return !draftsAlreadyViewed;
 }
 
 export function makeGetDraftsByPrefix(prefix: string): DraftSelector {
@@ -61,7 +54,7 @@ export function makeGetDraftsByPrefix(prefix: string): DraftSelector {
                     (item.value.message || item.value.fileInfos?.length > 0) &&
                     item.value.show
                 ) {
-                    const info = getInfoFromKey(key, prefix);
+                    const info = getDraftInfoFromKey(key, prefix);
 
                     if (info === null || !info.id) {
                         return [];
@@ -80,7 +73,11 @@ export function makeGetDraftsByPrefix(prefix: string): DraftSelector {
     );
 }
 
-export function makeGetDrafts(): DraftSelector {
+/**
+ * Gets all local drafts in storage.
+ * @param excludeInactive determines if we filter drafts based on active channels.
+ */
+export function makeGetDrafts(excludeInactive = true): DraftSelector {
     const getChannelDrafts = makeGetDraftsByPrefix(StoragePrefixes.DRAFT);
     const getRHSDrafts = makeGetDraftsByPrefix(StoragePrefixes.COMMENT_DRAFT);
 
@@ -92,7 +89,7 @@ export function makeGetDrafts(): DraftSelector {
         (channelDrafts, rhsDrafts, myChannels) => (
             [...channelDrafts, ...rhsDrafts]
         ).
-            filter((draft) => myChannels.indexOf(draft.value.channelId) !== -1).
+            filter((draft) => (excludeInactive ? myChannels.indexOf(draft.value.channelId) !== -1 : true)).
             sort((a, b) => b.value.updateAt - a.value.updateAt),
     );
 }

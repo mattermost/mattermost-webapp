@@ -17,50 +17,20 @@ describe('Edit bot', () => {
     let testTeam;
 
     before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableBotAccountCreation: true,
-            },
-        });
-        cy.apiInitSetup().then(({team}) => {
+        cy.apiInitSetup().then(({team, townSquareUrl}) => {
             testTeam = team;
+
+            cy.visit(townSquareUrl);
+            cy.postMessage('hello');
         });
     });
-
-    function createBot(userName, displayName) {
-        // # Go to bot integrations page
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.uiOpenProductMenu('Integrations');
-        cy.get('a.integration-option[href$="/bots"]').click();
-        cy.get('#addBotAccount').click();
-
-        // # Fill and submit form
-        cy.get('#username').type(userName);
-        if (displayName) {
-            cy.get('#displayName').type('Test Bot');
-        }
-        cy.get('#saveBot').click();
-
-        // * Verify confirmation page
-        cy.url().
-            should('include', `/${testTeam.name}/integrations/confirm`).
-            should('match', /token=[a-zA-Z0-9]{26}/);
-
-        // * Verify confirmation form/token
-        cy.get('div.backstage-form').
-            should('include.text', 'Setup Successful').
-            should((confirmation) => {
-                expect(confirmation.text()).to.match(/Token: [a-zA-Z0-9]{26}/);
-            });
-        cy.get('#doneButton').click();
-    }
 
     it('MM-T1840 Description allows for special character', () => {
         const userName = `bot-${getRandomId()}`;
         const description = MESSAGES.LARGE.concat('!@#$%&*');
 
         // # Create bot
-        createBot(userName);
+        createBot(userName, testTeam.name);
 
         // * Set alias for bot entry in bot list, this also checks that the bot entry exists
         cy.get('.backstage-list__item').contains('.backstage-list__item', userName).as('botEntry');
@@ -96,4 +66,28 @@ describe('Edit bot', () => {
             cy.wrap(el.find('.bot-details__description')).should('have.text', description);
         });
     });
+
+    function createBot(userName, teamName) {
+        // # Go to bot integrations page
+        cy.uiOpenProductMenu('Integrations');
+        cy.get('a.integration-option[href$="/bots"]').click();
+        cy.get('#addBotAccount').click();
+
+        // # Fill and submit form
+        cy.get('#username').type(userName);
+        cy.get('#saveBot').click();
+
+        // * Verify confirmation page
+        cy.url().
+            should('include', `/${teamName}/integrations/confirm`).
+            should('match', /token=[a-zA-Z0-9]{26}/);
+
+        // * Verify confirmation form/token
+        cy.get('div.backstage-form').
+            should('include.text', 'Setup Successful').
+            should((confirmation) => {
+                expect(confirmation.text()).to.match(/Token: [a-zA-Z0-9]{26}/);
+            });
+        cy.get('#doneButton').click();
+    }
 });

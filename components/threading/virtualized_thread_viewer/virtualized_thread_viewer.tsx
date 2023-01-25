@@ -135,7 +135,12 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        const {highlightedPostId, selectedPostFocusedAt, lastPost, currentUserId} = this.props;
+        const {highlightedPostId, selectedPostFocusedAt, lastPost, currentUserId, directTeammate} = this.props;
+
+        // In case the user is being deactivated, we need to trigger a re-render
+        if (directTeammate?.delete_at !== prevProps.directTeammate?.delete_at) {
+            this.scrollToBottom();
+        }
 
         if ((highlightedPostId && prevProps.highlightedPostId !== highlightedPostId) ||
             prevProps.selectedPostFocusedAt !== selectedPostFocusedAt) {

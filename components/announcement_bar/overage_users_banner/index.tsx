@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -14,7 +14,10 @@ import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {PreferenceType} from '@mattermost/types/preferences';
+import {LicenseExpandReducer} from '@mattermost/types/cloud';
 import {LicenseLinks, StatTypes, Preferences, AnnouncementBarTypes} from 'utils/constants';
+import {getExpandSeatsLink} from 'selectors/cloud';
+import {getLicenseExpandStatus} from 'mattermost-redux/actions/cloud';
 
 import './overage_users_banner.scss';
 
@@ -43,6 +46,12 @@ const OverageUsersBanner = () => {
     const getPreferencesCategory = makeGetCategory();
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     const overagePreferences = useSelector((state: GlobalState) => getPreferencesCategory(state, Preferences.OVERAGE_USERS_BANNER));
+    const {getRequestState, is_expandable: isExpendable}: LicenseExpandReducer = useSelector((state: GlobalState) => state.entities.cloud.subscriptionStats || {is_expandable: false, getRequestState: 'IDLE'});
+    const expandableLink = useSelector(getExpandSeatsLink);
+    const [cta, setCTA] = useState(formatMessage({
+        id: 'licensingPage.overageUsersBanner.cta',
+        defaultMessage: 'Contact Sales',
+    }));
     const activeUsers = ((stats || {})[StatTypes.TOTAL_USERS]) as number || 0;
     const {
         isBetween5PercerntAnd10PercentPurchasedSeats,
@@ -58,10 +67,32 @@ const OverageUsersBanner = () => {
     const overageByUsers = activeUsers - seatsPurchased;
 
     const isOverageState = isBetween5PercerntAnd10PercentPurchasedSeats || isOver10PercerntPurchasedSeats;
+    const hasPermission = isAdmin && isOverageState && !isCloud;
 
-    if (!isAdmin || !isOverageState || isCloud || adminHasDismissed({isWarningBanner: isBetween5PercerntAnd10PercentPurchasedSeats, overagePreferences, preferenceName})) {
-        return null;
-    }
+    useEffect(() => {
+        const shouldRequest = hasPermission && !adminHasDismissed({isWarningBanner: isBetween5PercerntAnd10PercentPurchasedSeats, overagePreferences, preferenceName});
+        if (shouldRequest && license.Id && getRequestState === 'IDLE') {
+            dispatch(getLicenseExpandStatus());
+        }
+    }, [hasPermission, license.Id, dispatch, isBetween5PercerntAnd10PercentPurchasedSeats, overagePreferences, preferenceName, getRequestState]);
+
+    useEffect(() => {
+        if (getRequestState === 'IDLE' || getRequestState === 'LOADING') {
+            return;
+        }
+
+        if (isExpendable) {
+            setCTA(formatMessage({
+                id: 'licensingPage.overageUsersBanner.ctaExpandSeats',
+                defaultMessage: 'Purchase additional seats',
+            }));
+        } else {
+            setCTA(formatMessage({
+                id: 'licensingPage.overageUsersBanner.cta',
+                defaultMessage: 'Contact Sales',
+            }));
+        }
+    }, [isExpendable, getRequestState, setCTA, formatMessage]);
 
     const handleClose = () => {
         dispatch(savePreferences(currentUser.id, [{
@@ -72,10 +103,21 @@ const OverageUsersBanner = () => {
         }]));
     };
 
-    const handleClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const handleUpdateSeatsSelfServeClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        window.open(expandableLink(license.Id), '_blank');
+    };
+
+    const handleContactSalesClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         window.open(LicenseLinks.CONTACT_SALES, '_blank');
     };
+
+    const handleClick = isExpendable ? handleUpdateSeatsSelfServeClick : handleContactSalesClick;
+
+    if (!hasPermission || adminHasDismissed({isWarningBanner: isBetween5PercerntAnd10PercentPurchasedSeats, overagePreferences, preferenceName})) {
+        return null;
+    }
 
     const message = (
         <FormattedMessage
@@ -85,11 +127,6 @@ const OverageUsersBanner = () => {
                 seats: overageByUsers,
             }}
         />);
-
-    const cta = formatMessage({
-        id: 'licensingPage.overageUsersBanner.cta',
-        defaultMessage: 'Contact Sales',
-    });
 
     return (
         <AnnouncementBar
@@ -103,6 +140,7 @@ const OverageUsersBanner = () => {
             isTallBanner={true}
             icon={<i className='icon icon-alert-outline'/>}
             handleClose={handleClose}
+            showCTA={getRequestState !== 'IDLE' && getRequestState !== 'LOADING'}
         />
     );
 };

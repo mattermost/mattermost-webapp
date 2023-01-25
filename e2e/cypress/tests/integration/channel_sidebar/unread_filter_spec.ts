@@ -27,6 +27,15 @@ describe('Channel sidebar unread filter', () => {
     let teamId;
 
     before(() => {
+        // # Setting up for CRT
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                ThreadAutoFollow: true,
+                CollapsedThreads: 'default_off',
+            },
+        });
+
+        // # Setting up user
         cy.apiInitSetup({loginAfter: true}).then(({user, team}) => {
             testUser = user;
             teamId = team.id;
@@ -231,6 +240,66 @@ describe('Channel sidebar unread filter', () => {
 
         // * Verify that the read channel has reappeared
         cy.get(`#sidebarItem_${readChannelName}`).should('be.visible').should(beRead);
+    });
+    it('MM-T5208 continue to show global Threads item when unread filter is enabled', () => {
+        // # Verify there is no Unread category on the sidebar
+        cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('not.exist');
+
+        // * Verify that the unread filter is in all channels state
+        cy.findByRole('application', {name: 'channel sidebar region'}).within(() => {
+            cy.findAllByText('UNREADS').should('not.exist');
+            cy.findAllByRole('button', {name: 'CHANNELS'}).should('be.visible');
+            cy.findAllByRole('button', {name: 'DIRECT MESSAGES'}).should('be.visible');
+        });
+
+        // * Verify Threads global item is present on the sidebar
+        cy.apiSaveCRTPreference(testUser.id, 'on');
+        cy.get('.SidebarGlobalThreads').should('exist');
+
+        // * The unreads tab button does NOT have a blue dot (unread indicator; no unread threads)
+        cy.get('#threads-list-unread-button .dot').should('not.exist');
+
+        // # Create a couple of new channels, one of which is unread and one of which is not
+        const readChannelName = `globalthreadread${randomId}`;
+        const unreadChannelName = `globalthreadunread${randomId}`;
+        createChannel(teamId, readChannelName);
+        createChannel(teamId, unreadChannelName, 'test in unread channel');
+
+        // * Verify that the channels are correctly read and unread
+        cy.get(`#sidebarItem_${readChannelName}`).should(beRead);
+        cy.get(`#sidebarItem_${unreadChannelName}`).should(beUnread);
+
+        // # Enable the unread filter
+        enableUnreadFilter();
+
+        // * Verify that the unread filter is in filter by unread state
+        cy.findByRole('application', {name: 'channel sidebar region'}).within(() => {
+            cy.findAllByText('UNREADS').should('be.visible');
+            cy.findAllByRole('button', {name: 'CHANNELS'}).should('not.exist');
+            cy.findAllByRole('button', {name: 'DIRECT MESSAGES'}).should('not.exist');
+        });
+
+        // * Verify that the read channel has been hidden
+        cy.get(`#sidebarItem_${readChannelName}`).should('not.exist');
+
+        // * Verify that the unread channel is still visible
+        cy.get(`#sidebarItem_${unreadChannelName}`).should('be.visible').should(beUnread);
+
+        // * Verify that Threads item is still visible on the sidebar despite not having any unread threads
+        cy.get('.SidebarGlobalThreads').should('exist');
+
+        // # Disable the unread filter
+        disableUnreadFilter();
+
+        // * Verify that the read channel has reappeared
+        cy.get(`#sidebarItem_${readChannelName}`).should('be.visible').should(beRead);
+
+        // * Verify that the unread filter is back in all channels state
+        cy.findByRole('application', {name: 'channel sidebar region'}).within(() => {
+            cy.findAllByText('UNREADS').should('not.exist');
+            cy.findAllByRole('button', {name: 'CHANNELS'}).should('be.visible');
+            cy.findAllByRole('button', {name: 'DIRECT MESSAGES'}).should('be.visible');
+        });
     });
 });
 

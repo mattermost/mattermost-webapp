@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -16,6 +16,7 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getConfig} from 'mattermost-redux/selectors/entities/admin';
 import {GlobalState} from '@mattermost/types/store';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
+import {Client4} from 'mattermost-redux/client';
 
 import useFetchAdminConfig from 'components/common/hooks/useFetchAdminConfig';
 import useGetSelfHostedProducts from 'components/common/hooks/useGetSelfHostedProducts';
@@ -26,7 +27,8 @@ import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 
 import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
 
-import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
+// Revert in MM-49772
+// import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
 
 import ContactSalesCTA from './contact_sales_cta';
 import StartTrialCaution from './start_trial_caution';
@@ -38,7 +40,10 @@ type ContentProps = {
     onHide: () => void;
 }
 
+const FALL_BACK_PROFESSIONAL_PRICE = '10';
+
 function SelfHostedContent(props: ContentProps) {
+    const [professionalPrice, setProfessionalPrice] = useState(' ');
     useFetchAdminConfig();
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
@@ -54,6 +59,21 @@ function SelfHostedContent(props: ContentProps) {
         dispatch(getPrevTrialLicense());
     }, []);
 
+    useEffect(() => {
+        async function fetchSelfHostedProducts() {
+            try {
+                const products = await Client4.getSelfHostedProducts();
+                const professionalProduct = products.find((prod) => prod.sku === LicenseSkus.Professional);
+                const price = professionalProduct ? professionalProduct.price_per_seat.toString() : FALL_BACK_PROFESSIONAL_PRICE;
+                setProfessionalPrice(`$${price}`);
+            } catch (error) {
+                setProfessionalPrice(`$${FALL_BACK_PROFESSIONAL_PRICE}`);
+            }
+        }
+
+        fetchSelfHostedProducts();
+    }, []);
+
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
 
     const license = useSelector(getLicense);
@@ -66,7 +86,8 @@ function SelfHostedContent(props: ContentProps) {
     const isEnterprise = license.SkuShortName === LicenseSkus.Enterprise;
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
 
-    const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
+    // Revert in MM-49772
+    // const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
 
     const closePricingModal = () => {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
@@ -75,15 +96,14 @@ function SelfHostedContent(props: ContentProps) {
     const starterBriefing = [
         formatMessage({id: 'pricing_modal.briefing.unlimitedWorkspaceTeams', defaultMessage: 'Unlimited workspace teams'}),
         formatMessage({id: 'pricing_modal.briefing.unlimitedPlaybookRuns', defaultMessage: 'Unlimited playbooks and runs'}),
-        formatMessage({id: 'pricing_modal.extra_briefing.free.calls', defaultMessage: '1:1 voice calls and screen share'}),
+        formatMessage({id: 'pricing_modal.extra_briefing.free.calls', defaultMessage: 'Voice calls and screen share'}),
         formatMessage({id: 'pricing_modal.briefing.fullMessageAndHistory', defaultMessage: 'Full message and file history'}),
         formatMessage({id: 'pricing_modal.briefing.ssoWithGitLab', defaultMessage: 'SSO with Gitlab'}),
     ];
 
     const professionalBriefing = [
         formatMessage({id: 'pricing_modal.briefing.customUserGroups', defaultMessage: 'Custom user groups'}),
-        formatMessage({id: 'pricing_modal.briefing.voiceCallsScreenSharingInGroupMessagesAndChannels', defaultMessage: 'Voice calls and screen sharing in group messages and channels'}),
-        formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin and ADFS'}),
+        formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin, and ADFS'}),
         formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoadLdap', defaultMessage: 'SSO support with AD/LDAP, Google, O365, OpenID'}),
         formatMessage({id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement'}),
 
@@ -186,7 +206,7 @@ function SelfHostedContent(props: ContentProps) {
                         topColor='var(--denim-button-bg)'
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
-                        price='$10'
+                        price={professionalPrice}
                         rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month'})}
                         planLabel={
                             isProfessional ? (
@@ -206,14 +226,26 @@ function SelfHostedContent(props: ContentProps) {
                                 }
 
                                 if (!canUseSelfHostedSignup) {
-                                    closePricingModal();
-                                    controlAirgappedModal.open();
+                                    // closePricingModal();
+                                    // controlAirgappedModal.open();
+                                    // NOTE: This behavior of directly opening the link is to
+                                    // work around in v7.8 (an Extended Support Release),
+                                    // an issue where self-hosted purchase is not actually ready
+                                    // for use. Work in https://mattermost.atlassian.net/browse/MM-49772
+                                    // should revert this behavior and instead open the airgapped modal
+                                    window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
                                     return;
                                 }
 
                                 const professionalProduct = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL);
                                 if (productsLoaded && professionalProduct) {
-                                    closePricingModal();
+                                    // let the control modal close this modal
+                                    // we need to wait for its timing,
+                                    // it doesn't return a signal,
+                                    // and we can not do this in a useEffect hook
+                                    // at the top of this file easily because
+                                    // sometimes we want both modals to be open if user is in purchase
+                                    // modal and wants to compare plans
                                     controlSelfHostedPurchaseModal.open();
                                 }
                             },
