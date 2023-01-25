@@ -69,19 +69,31 @@ function validateSeats(seats: string, annualPricePerSeat: number, minSeats: numb
         />
     );
 
-    let errorPrefix = 'Self-serve';
+    let errorPrefix = (
+        <FormattedMessage
+            id='plan.self_serve'
+            defaultMessage='Self-serve'
+        />
+    );
     if (cloud) {
-        errorPrefix = 'Cloud';
+        errorPrefix = (
+            <FormattedMessage
+                id='plan.cloud'
+                defaultMessage='Cloud'
+            />
+        );
     }
     const tooManyUsersErrorMessage = (
-        <FormattedMessage
-            id='self_hosted_signup.error_max_seats'
-            defaultMessage='{prefix} license purchase only supports purchases up to {num} users'
-            values={{
-                prefix: errorPrefix,
-                num: <FormattedNumber value={maxSeats}/>,
-            }}
-        />
+        <>
+            {errorPrefix}
+            <FormattedMessage
+                id='self_hosted_signup.error_max_seats'
+                defaultMessage=' license purchase only supports purchases up to {num} users'
+                values={{
+                    num: <FormattedNumber value={maxSeats}/>,
+                }}
+            />
+        </>
     );
 
     if (seatsNumber < minSeats) {
