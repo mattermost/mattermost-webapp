@@ -39,7 +39,7 @@ type CardProps = {
     plan: string;
     planSummary?: string;
     price?: string;
-    rate?: string | ReactNode;
+    rate?: ReactNode;
     planExtraInformation?: JSX.Element;
     buttonDetails?: ButtonDetails;
     customButtonDetails?: JSX.Element;

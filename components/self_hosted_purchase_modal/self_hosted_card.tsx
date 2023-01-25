@@ -80,12 +80,14 @@ export default function SelfHostedCard(props: Props) {
                 topColor='#4A69AC'
                 plan={props.desiredPlanName}
                 price={`${props.desiredProduct?.price_per_seat?.toString()}`}
-                rate={intl.formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month, <b>billed annually</b>'}, {
+                rate={intl.formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month {br}<b>(billed annually)</b>'}, {
+                    br: <br/>,
                     b: (chunks: React.ReactNode | React.ReactNodeArray) => (
-                        <b>
-                            {chunks}
-                        </b>
-                    )})}
+                        <p style={{fontSize: '14px'}}>
+                            <b>{chunks}</b>
+                        </p>
+                    ),
+                })}
                 planBriefing={<></>}
                 preButtonContent={(
                     <SeatsCalculator

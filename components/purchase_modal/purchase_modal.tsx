@@ -85,7 +85,7 @@ type CardProps = {
     topColor?: string;
     plan: string;
     price?: string;
-    rate?: string | ReactNode;
+    rate?: ReactNode;
     buttonDetails: ButtonDetails;
     planBriefing?: JSX.Element | null; // can be removed once Yearly Subscriptions are available
     planLabel?: JSX.Element;
@@ -607,7 +607,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         }
 
         const showPlanLabel = this.state.selectedProduct?.sku === CloudProducts.PROFESSIONAL;
-        const {formatMessage} = this.props.intl;
+        const {formatMessage, formatNumber} = this.props.intl;
 
         const checkIsYearlyProfessionalProduct = (product: Product | null | undefined) => {
             if (!product) {
@@ -616,7 +616,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             return product.recurring_interval === RecurringIntervals.YEAR && product.sku === CloudProducts.PROFESSIONAL;
         };
 
-        const yearlyProductMonthlyPrice = (parseInt(this.state.selectedProductPrice || '0', 10) / 12).toFixed(0);
+        const yearlyProductMonthlyPrice = formatNumber(parseInt(this.state.selectedProductPrice || '0', 10) / 12, {maximumFractionDigits: 2});
 
         const currentProductMonthly = this.state.currentProduct?.recurring_interval === RecurringIntervals.MONTH;
 
