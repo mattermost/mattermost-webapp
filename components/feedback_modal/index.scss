@@ -1,0 +1,70 @@
+.FeedbackModal {
+    &__Container {
+        padding: 15px;
+
+        .GenericModal__body {
+            padding-top: 10px;
+        }
+
+        .modal-content {
+            border: 1px solid rgb(0 0 0 / 12%);
+        }
+
+        .radio-list {
+            margin-bottom: 25px;
+        }
+
+        .radio-list > .radio {
+            margin-bottom: 20px;
+        }
+
+        .close {
+            margin-top: 12px;
+        }
+    }
+
+    &__Title {
+        margin-top: 10px;
+        margin-bottom: 30px;
+        color: var(--sys-denim-center-channel-text);
+        font-family: 'Metropolis';
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 28px;
+    }
+
+    &__FreeFormText {
+        width: 100%;
+        padding: 10px;
+        border-color: rgba(var(--sys-denim-center-channel-text-rgb), 0.16);
+        margin-bottom: 15px;
+        border-radius: 4px;
+        color: black;
+        font-size: 15px;
+        resize: 'none';
+    }
+
+    &__Submit {
+        display: flex;
+
+        .disabled {
+            background-color: rgba(var(--center-channel-text-rgb), 0.08);
+            color: rgba(var(--center-channel-text-rgb), 0.32);
+            font-weight: 600;
+        }
+
+        .btn-secondary {
+            width: 90px;
+            margin-left: auto;
+            background-color: rgba(var(--denim-button-bg-rgb), 0.08);
+            border-radius: 4px;
+            color: var(--denim-button-bg);
+        }
+
+        .btn-primary {
+            width: 90px;
+            margin-left: 10px;
+            border-radius: 4px;
+        }
+    }
+}

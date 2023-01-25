@@ -3,32 +3,86 @@
 
 import { GenericModal } from '@mattermost/components';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import LaptopAlertSVG from 'components/common/svg_images_components/laptop_alert_svg';
-import {closeModal} from 'actions/views/modals';
+import {closeModal, openModal} from 'actions/views/modals';
 import {getIsStarterLicense} from 'utils/license_utils';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import './delete_workspace_modal.scss'
 import { ModalIdentifiers } from 'utils/constants';
+import FeedbackModal from 'components/feedback_modal';
 
-export default function DeleteWorkspaceModal() {
+type Props = WrappedComponentProps
+
+const DeleteWorkspaceModal = (props: Props) => {
+    const dispatch = useDispatch();
+
     const license = useSelector(getLicense);
     const isStarter = getIsStarterLicense(license);
 
-    const handleDeleteWorkspace = () => {
+    const feedbackModalTitle = props.intl.formatMessage({
+        id:'admin.billing.subscription.deleteWorkspace.feedbackTitle',
+        defaultMessage:'Please share your reason for deleting'
+    });
 
+    const placeHolder = props.intl.formatMessage({
+        id: 'admin.billing.subscription.deleteWorkspace.feedbackPlaceholder',
+        defaultMessage: 'Please tell us why you are deleting'
+    });
+
+    const submitText = props.intl.formatMessage({
+        id: 'admin.billing.subscription.deleteWorkspace.submitText',
+        defaultMessage: 'Delete Workspace'
+    })
+
+    const feedbackOptions = [
+        props.intl.formatMessage({
+            id: 'admin.billing.subscription.deleteWorkspace.feedbackNoValue',
+            defaultMessage: 'No longer found value',
+        }),
+        props.intl.formatMessage({
+            id: 'admin.billing.subscription.deleteWorkspace.feedbackMoving',
+            defaultMessage: 'Moving to a different solution',
+        }),
+        props.intl.formatMessage({
+            id: 'admin.billing.subscription.deleteWorkspace.feedbackMistake',
+            defaultMessage: 'Created a workspace by mistake',
+        }),
+        props.intl.formatMessage({
+            id: 'admin.billing.subscription.deleteWorkspace.feedbackHosting',
+            defaultMessage: 'Moving to hosting my own Mattermost instance (self-hosted)',
+        }),
+    ]
+
+    const handleDeleteWorkspace = () => {
+        dispatch(openModal({
+            modalId: ModalIdentifiers.FEEDBACK,
+            dialogType: FeedbackModal,
+            dialogProps: {
+                onSubmit: deleteWorkspace,
+                title: feedbackModalTitle,
+                submitText: submitText,
+                feedbackOptions: feedbackOptions,
+                freeformTextPlaceholder: placeHolder
+            }
+        }));
     }
 
     const handleDowngradeWorkspace = () => {
 
-    }
+    };
 
     const handleCancel = () => {
-        closeModal(ModalIdentifiers.DELETE_WORKSPACE);
-    }
+        dispatch(closeModal(ModalIdentifiers.DELETE_WORKSPACE));
+        dispatch(closeModal(ModalIdentifiers.FEEDBACK));
+    };
+
+    const deleteWorkspace = () => {
+        console.log("deleted!");
+    };
 
     return (
         <GenericModal
@@ -100,3 +154,5 @@ export default function DeleteWorkspaceModal() {
         </GenericModal>
     )
 }
+
+export default injectIntl(DeleteWorkspaceModal);

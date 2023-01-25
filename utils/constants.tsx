@@ -450,6 +450,7 @@ export const ModalIdentifiers = {
     DOWNGRADE_MODAL: 'downgrade_modal',
     PURCHASE_IN_PROGRESS: 'purchase_in_progress',
     DELETE_WORKSPACE: 'delete_workspace',
+    FEEDBACK: 'feedback',
 };
 
 export const UserStatuses = {
