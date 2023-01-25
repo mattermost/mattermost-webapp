@@ -54,7 +54,6 @@ function DraftsLink() {
                     activeClassName='active'
                     draggable='false'
                     className='SidebarLink sidebar-item'
-                    role='listitem'
                     tabIndex={0}
                 >
                     <i
