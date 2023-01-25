@@ -10,6 +10,16 @@ import {PostType} from '../file_upload';
 
 import Wysiwyg, {WysiwygConfig} from './wysiwyg';
 
+jest.mock('localforage', () => {
+    const actual = jest.requireActual('localforage');
+
+    return {
+        ...actual,
+        ready: jest.fn().mockResolvedValue(true),
+        supports: jest.fn().mockResolvedValue(true),
+    };
+});
+
 const wysiwygConfig: WysiwygConfig = {
     enterHandling: {
         ctrlSend: true,

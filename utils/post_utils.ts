@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {isString} from 'lodash';
 import {IntlShape} from 'react-intl';
 
 import {createSelector} from 'reselect';
@@ -16,14 +17,6 @@ import {get, getTeammateNameDisplaySetting, isCollapsedThreadsEnabled} from 'mat
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetDisplayName, getCurrentUserId, getUser, UserMentionKey, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
-
-import {Channel} from '@mattermost/types/channels';
-import {ClientConfig, ClientLicense} from '@mattermost/types/config';
-import {ServerError} from '@mattermost/types/errors';
-import {Group} from '@mattermost/types/groups';
-import {Post} from '@mattermost/types/posts';
-import {Reaction} from '@mattermost/types/reactions';
-import {UserProfile} from '@mattermost/types/users';
 
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
@@ -41,6 +34,14 @@ import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import {allAtMentions} from 'utils/text_formatting';
 import {isMobile} from 'utils/user_agent';
 import * as Utils from 'utils/utils';
+
+import {UserProfile} from '@mattermost/types/users';
+import {Reaction} from '@mattermost/types/reactions';
+import {Post} from '@mattermost/types/posts';
+import {Group} from '@mattermost/types/groups';
+import {ServerError} from '@mattermost/types/errors';
+import {ClientConfig, ClientLicense} from '@mattermost/types/config';
+import {Channel} from '@mattermost/types/channels';
 
 import * as Emoticons from './emoticons';
 import EmojiMap from './emoji_map';
@@ -158,7 +159,7 @@ export function shouldShowActionsMenu(state: GlobalState, post: Post): boolean {
 
 export function containsAtChannel(text: string, options?: {checkAllMentions: boolean}): boolean {
     // Don't warn for slash commands
-    if (!text || text.startsWith('/')) {
+    if (!isString(text) || !text || text.startsWith('/')) {
         return false;
     }
 
@@ -181,7 +182,7 @@ export function specialMentionsInText(text: string): {[key: string]: boolean} {
     };
 
     // Don't warn for slash commands
-    if (!text || text.startsWith('/')) {
+    if (!isString(text) || !text || text.startsWith('/')) {
         return mentions;
     }
 
@@ -196,7 +197,7 @@ export function specialMentionsInText(text: string): {[key: string]: boolean} {
 
 export const groupsMentionedInText = (text: string, groups: Map<string, Group> | null): Group[] => {
     // Don't warn for slash commands
-    if (!text || text.startsWith('/')) {
+    if (!isString(text) || !text || text.startsWith('/')) {
         return [];
     }
 

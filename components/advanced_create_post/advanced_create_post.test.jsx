@@ -13,7 +13,9 @@ import * as GlobalActions from 'actions/global_actions';
 import EmojiMap from 'utils/emoji_map';
 
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
+
 import * as Utils from 'utils/utils';
+
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
 
 jest.mock('actions/global_actions', () => ({

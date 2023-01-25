@@ -24,17 +24,15 @@ const config = {
         '^@mattermost/(components)$': '<rootDir>/packages/$1/src',
         '^@mattermost/(client)$': '<rootDir>/packages/$1/src',
         '^@mattermost/(types)/(.*)$': '<rootDir>/packages/$1/src/$2',
-        '^mattermost-redux/test/(.*)$':
-            '<rootDir>/packages/mattermost-redux/test/$1',
+        '^mattermost-redux/test/(.*)$': '<rootDir>/packages/mattermost-redux/test/$1',
         '^mattermost-redux/(.*)$': '<rootDir>/packages/mattermost-redux/src/$1',
         '^reselect$': '<rootDir>/packages/reselect/src',
-        '^.+\\.(jpg|jpeg|png|apng|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-            'identity-obj-proxy',
+        '^.+\\.(jpg|jpeg|png|apng|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'identity-obj-proxy',
         '^.+\\.(css|less|scss)$': 'identity-obj-proxy',
         '^.*i18n.*\\.(json)$': '<rootDir>/tests/i18n_mock.json',
         '^bundle-loader\\?lazy\\!(.*)$': '$1',
     },
-    moduleDirectories: ['', 'node_modules'],
+    moduleDirectories: ['node_modules', '<rootDir>'],
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
     reporters: [
         'default',

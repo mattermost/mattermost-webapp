@@ -8,7 +8,7 @@ import '@testing-library/jest-dom';
 
 import './redux-persist_mock';
 import './react-intl_mock';
-import './react-router-dom_mock';
+import './react-router-dom_mock.ts';
 import './react-tippy_mock';
 
 global.performance = {};
