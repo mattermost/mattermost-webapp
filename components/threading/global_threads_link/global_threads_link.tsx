@@ -93,7 +93,6 @@ const GlobalThreadsLink = () => {
                     className={classNames('SidebarLink sidebar-item', {
                         'unread-title': Boolean(someUnreadThreads),
                     })}
-                    role='listitem'
                     tabIndex={0}
                 >
                     <span className='icon'>

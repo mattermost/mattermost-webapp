@@ -191,26 +191,6 @@ export function getFilesUsage(): ActionFunc {
     };
 }
 
-export function getBoardsUsage(): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        try {
-            const result = await Client4.getBoardsUsage();
-            if (result) {
-                dispatch({
-                    type: CloudTypes.RECEIVED_BOARDS_USAGE,
-
-                    // the views and cards properties are the limits, not usage.
-                    // So they are not passed in to the usage.
-                    data: result.used_cards,
-                });
-            }
-        } catch (error) {
-            return error;
-        }
-        return {data: true};
-    };
-}
-
 export function getTeamsUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         try {

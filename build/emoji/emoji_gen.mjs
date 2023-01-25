@@ -386,7 +386,10 @@ const emojiGo = `// Copyright (c) 2015-present Mattermost, Inc. All Rights Reser
 
 package model
 
-var SystemEmojis = map[string]string{${emojiImagesByAlias.join(', ')}}
+var SystemEmojis = map[string]string{
+${emojiImagesByAlias.join(`,
+`)},
+}
 `;
 
 const goPromise = writeFile('emoji_data.go', 'emoji_data.go', emojiGo);

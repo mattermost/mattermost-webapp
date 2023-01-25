@@ -13,14 +13,6 @@
 import {getRandomId} from '../../utils';
 
 describe('Create bot', () => {
-    before(() => {
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableBotAccountCreation: true,
-            },
-        });
-    });
-
     it('MM-T1810 Create a Bot via the UI', () => {
         cy.apiUpdateConfig({
             ServiceSettings: {
@@ -44,8 +36,11 @@ describe('Create bot', () => {
 
 function createBot() {
     cy.apiInitSetup().then(({team}) => {
-        // # go to bot integrations page
+        // # Go to town-square channel
         cy.visit(`/${team.name}/channels/town-square`);
+        cy.postMessage('hello');
+
+        // # Go to bot integrations page
         cy.uiOpenProductMenu('Integrations');
         cy.get('a.integration-option[href$="/bots"]').click();
         cy.get('#addBotAccount').click();

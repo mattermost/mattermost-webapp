@@ -28,14 +28,10 @@ export const fallbackStarterLimits = {
         history: 10000,
     },
     files: {
-        totalStorage: FileSizes.Gigabyte,
+        totalStorage: Number(FileSizes.Gigabyte),
     },
     teams: {
         active: 1,
-    },
-    boards: {
-        cards: 500,
-        views: 5,
     },
 };
 
@@ -68,5 +64,4 @@ export const limitThresholds = Object.freeze({
 export const LimitTypes = {
     messageHistory: 'messageHistory',
     fileStorage: 'fileStorage',
-    boardsCards: 'boardsCards',
 } as const;
