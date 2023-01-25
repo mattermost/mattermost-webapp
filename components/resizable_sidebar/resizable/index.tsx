@@ -6,7 +6,9 @@ import React, {HTMLAttributes, useCallback, useEffect, useLayoutEffect, useRef, 
 
 import {ResizeDirection} from 'utils/constants';
 
-import {requestAnimationFrameForMouseMove, isOverLimit, shouldSnapWhenSizeGrown, shouldSnapWhenSizeShrunk, setWidth, toggleColResizeCursor, resetStyle} from './utils';
+import {requestAnimationFrameForMouseMove, isOverLimit, shouldSnapWhenSizeGrown, shouldSnapWhenSizeShrunk, setWidth, toggleColResizeCursor, resetStyle} from '../utils';
+
+import './index.scss';
 
 interface ResizableProps extends HTMLAttributes<'div'> {
     maxWidth: number;

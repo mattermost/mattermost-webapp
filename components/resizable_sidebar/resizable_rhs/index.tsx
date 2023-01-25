@@ -10,7 +10,7 @@ import {getRhsSize} from 'selectors/rhs';
 import LocalStorageStore from 'stores/local_storage_store';
 import {RHS_MIN_MAX_WIDTH, SidebarSize} from 'utils/constants';
 import {isResizableSize, preventAnimation, resetStyle, restoreAnimation, setWidth, shouldRhsOverlapChannelView} from '../utils';
-import Resizable from '../Resizable';
+import Resizable from '../resizable';
 
 interface Props extends HTMLAttributes<'div'> {
     children: React.ReactNode;
