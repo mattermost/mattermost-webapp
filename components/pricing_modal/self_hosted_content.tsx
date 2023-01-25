@@ -210,9 +210,9 @@ function SelfHostedContent(props: ContentProps) {
                         rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month {br}<b>(billed annually)</b>'}, {
                             br: <br/>,
                             b: (chunks: React.ReactNode | React.ReactNodeArray) => (
-                                <p style={{fontSize: '14px'}}>
+                                <span style={{fontSize: '14px'}}>
                                     <b>{chunks}</b>
-                                </p>
+                                </span>
                             ),
                         })}
                         planLabel={
