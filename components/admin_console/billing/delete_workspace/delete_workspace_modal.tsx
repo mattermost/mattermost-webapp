@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import { GenericModal } from '@mattermost/components';
+import {GenericModal} from '@mattermost/components';
 import React from 'react';
-import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import LaptopAlertSVG from 'components/common/svg_images_components/laptop_alert_svg';
 import {closeModal, openModal} from 'actions/views/modals';
 import {getIsStarterLicense} from 'utils/license_utils';
@@ -12,16 +12,51 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {useDispatch, useSelector} from 'react-redux';
 
 import './delete_workspace_modal.scss'
-import { ModalIdentifiers } from 'utils/constants';
+import {CloudProducts, ModalIdentifiers, StatTypes} from 'utils/constants';
 import DeleteFeedbackModal from 'components/feedback_modal/delete_feedback';
 import DowngradeFeedbackModal from 'components/feedback_modal/downgrade_feedback';
-import { Feedback } from '@mattermost/types/cloud';
+import {Feedback} from '@mattermost/types/cloud';
+import {GlobalState} from 'types/store';
+import useGetUsage from 'components/common/hooks/useGetUsage';
+import {fileSizeToString} from 'utils/utils';
+import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
+import { getCloudProducts } from 'mattermost-redux/selectors/entities/cloud';
+import { subscribeCloudSubscription } from 'actions/cloud';
+import SuccessModal from 'components/cloud_subscribe_result_modal/success';
+import ErrorModal from 'components/cloud_subscribe_result_modal/error';
 
-const DeleteWorkspaceModal = () => {
+type Props = {
+    callerCTA: string;
+}
+
+const DeleteWorkspaceModal = (props: Props) => {
     const dispatch = useDispatch();
-
     const license = useSelector(getLicense);
+    const openDowngradeModal = useOpenDowngradeModal();
+    
     const isStarter = getIsStarterLicense(license);
+    const usage = useGetUsage();
+
+    const starterProduct = useSelector((state: GlobalState) => {
+        return Object.values(state.entities.cloud.products || {}).find((product) => {
+            return product.sku === CloudProducts.STARTER;
+
+        });
+    });
+
+    const totalMessages = useSelector((state: GlobalState) => {
+        if (!state.entities.admin.analytics) {
+            return 0;
+        } 
+        return state.entities.admin.analytics[StatTypes.TOTAL_POSTS];
+    });
+
+    const totalFileSize = fileSizeToString(usage.files.totalStorage)
+
+    const totalBoardsCards = usage.boards.cards
+
+    const totalIntegrations = useSelector((state: GlobalState) => {
+    })
 
     const handleDeleteWorkspace = () => {
         dispatch(closeModal(ModalIdentifiers.DELETE_WORKSPACE));
@@ -54,8 +89,47 @@ const DeleteWorkspaceModal = () => {
         console.log("deleted! Feedback: ", JSON.stringify(feedback));
     };
 
-    const downgradeWorkspace = (feedback: Feedback) => {
+    const downgradeWorkspace = async (feedback: Feedback) => {
+        if (!starterProduct) {
+            return;
+        }
+
         console.log("downgraded! Feedback: ", JSON.stringify(feedback));
+        const telemetryInfo = props.callerCTA + ' > ' + 'delete_workspace_modal';
+        openDowngradeModal({trackingLocation: telemetryInfo});
+
+        const result = await dispatch(subscribeCloudSubscription(starterProduct.id));
+
+        if (typeof result === 'boolean' && result) {
+            dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
+            dispatch(
+                openModal({
+                    modalId: ModalIdentifiers.SUCCESS_MODAL,
+                    dialogType: SuccessModal,
+                }),
+            );
+        } else {
+            dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
+            dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
+            dispatch(
+                openModal({
+                    modalId: ModalIdentifiers.ERROR_MODAL,
+                    dialogType: ErrorModal,
+                    dialogProps: {
+                        backButtonAction: () => {
+                            dispatch(openModal({
+                                modalId: ModalIdentifiers.DELETE_WORKSPACE,
+                                dialogType: DeleteWorkspaceModal,
+                                dialogProps: {
+                                    callerCTA: props.callerCTA,
+                                }
+                            }));
+                        },
+                    },
+                }),
+            );
+            return;
+        }
     }
 
     return (
@@ -82,9 +156,9 @@ const DeleteWorkspaceModal = () => {
                         id='admin.billing.subscription.deleteWorkspaceModal.usageDetails'
                         defaultMessage='{messageCount} messages, {fileSize} of files, {cardCount} cards and {integrationsCount} integrations.'
                         values={{
-                            messageCount: 1000,
-                            fileSize: '24GB',
-                            cardCount: 100,
+                            messageCount: totalMessages,
+                            fileSize: totalFileSize,
+                            cardCount: totalBoardsCards,
                             integrationsCount: 10,
                         }}
                     />
