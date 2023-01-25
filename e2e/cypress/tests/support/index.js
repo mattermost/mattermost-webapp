@@ -153,13 +153,28 @@ before(() => {
 
 function printLicenseStatus() {
     cy.apiGetClientLicense().then(({license}) => {
-        cy.log(`Server License Info >> IsLicensed: ${license.IsLicensed} | IsTrial: ${license.IsTrial} | SkuName: ${license.SkuName} | SkuShortName: ${license.SkuShortName} | Cloud: ${license.Cloud} | Users: ${license.Users}`);
+        cy.log(`Server License:
+  - IsLicensed      = ${license.IsLicensed}
+  - IsTrial         = ${license.IsTrial}
+  - SkuName         = ${license.SkuName}
+  - SkuShortName    = ${license.SkuShortName}
+  - Cloud           = ${license.Cloud}
+  - Users           = ${license.Users}`);
     });
 }
 
 function printServerDetails() {
     cy.apiGetConfig(true).then(({config}) => {
-        cy.log(`Build Info >> BuildNumber: ${config.BuildNumber} | BuildDate: ${config.BuildDate} | Version: ${config.Version} | BuildHash: ${config.BuildHash} | BuildHashEnterprise: ${config.BuildHashEnterprise} | BuildHashBoards: ${config.BuildHashBoards} | BuildEnterpriseReady: ${config.BuildEnterpriseReady} | BuildBoards: ${config.BuildBoards} | TelemetryId: ${config.TelemetryId}`);
+        cy.log(`Build Info:
+  - BuildNumber             = ${config.BuildNumber}
+  - BuildDate               = ${config.BuildDate}
+  - Version                 = ${config.Version}
+  - BuildHash               = ${config.BuildHash}
+  - BuildHashEnterprise     = ${config.BuildHashEnterprise}
+  - BuildHashBoards         = ${config.BuildHashBoards}
+  - BuildEnterpriseReady    = ${config.BuildEnterpriseReady}
+  - BuildBoards             = ${config.BuildBoards}
+  - TelemetryId             = ${config.TelemetryId}`);
     });
 }
 
