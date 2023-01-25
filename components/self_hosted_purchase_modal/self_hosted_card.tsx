@@ -17,7 +17,7 @@ import {
     SelfHostedProducts,
 } from 'utils/constants';
 
-import Consequences, {seeHowBillingWorks} from './consequences';
+import Consequences from './consequences';
 import SeatsCalculator, {Seats} from './seats_calculator';
 
 // Card has a bunch of props needed for monthly/yearly payments that
