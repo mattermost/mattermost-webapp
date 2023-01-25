@@ -94,7 +94,7 @@ const state: GlobalState = {
             accounts: {},
         },
         admin: {
-            logs: [],
+            logs: {},
             audits: {},
             config: {},
             environmentConfig: {},
