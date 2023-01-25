@@ -72,7 +72,7 @@ function Content(props: ContentProps) {
     const isEnterprise = currentProduct?.sku === CloudProducts.ENTERPRISE;
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
     const yearlyProfessionalProduct = findProductBySku(yearlyProducts, CloudProducts.PROFESSIONAL);
-    const professionalPrice = yearlyProfessionalProduct ? yearlyProfessionalProduct.price_per_seat : 0;
+    const professionalPrice = yearlyProfessionalProduct ? (yearlyProfessionalProduct.price_per_seat / 12).toFixed(0) : 0;
 
     const starterProduct = Object.values(products || {}).find(((product) => {
         return product.sku === CloudProducts.STARTER;

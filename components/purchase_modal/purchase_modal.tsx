@@ -616,7 +616,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             return product.recurring_interval === RecurringIntervals.YEAR && product.sku === CloudProducts.PROFESSIONAL;
         };
 
-        const yearlyProductMonthlyPrice = parseInt(this.state.selectedProductPrice || '0', 10);
+        const yearlyProductMonthlyPrice = (parseInt(this.state.selectedProductPrice || '0', 10) / 12).toFixed(0);
 
         const currentProductMonthly = this.state.currentProduct?.recurring_interval === RecurringIntervals.MONTH;
 
@@ -634,7 +634,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     plan={this.getPlanNameFromProductName(
                         this.state.selectedProduct ? this.state.selectedProduct.name : '',
                     )}
-                    price={yearlyProductMonthlyPrice.toString()}
+                    price={yearlyProductMonthlyPrice}
                     rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month {br}<b>(billed annually)</b>'}, {
                         br: <br/>,
                         b: (chunks: React.ReactNode | React.ReactNodeArray) => (
@@ -679,7 +679,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     }
                     preButtonContent={(
                         <SeatsCalculator
-                            price={yearlyProductMonthlyPrice}
+                            price={parseInt(yearlyProductMonthlyPrice, 10)}
                             seats={this.state.seats}
                             existingUsers={this.props.usersCount}
                             isCloud={true}
