@@ -3468,6 +3468,13 @@ export default class Client4 {
         );
     };
 
+    getRemoteMarketplacePlugins = (filter: string) => {
+        return this.doFetch<MarketplacePlugin[]>(
+            `${this.getPluginsMarketplaceRoute()}${buildQueryString({filter: filter || '', remote_only: true})}`,
+            {method: 'get'},
+        );
+    }
+
     getMarketplacePlugins = (filter: string, localOnly = false) => {
         return this.doFetch<MarketplacePlugin[]>(
             `${this.getPluginsMarketplaceRoute()}${buildQueryString({filter: filter || '', local_only: localOnly})}`,
