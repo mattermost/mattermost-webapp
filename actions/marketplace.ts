@@ -26,9 +26,8 @@ export function fetchRemoteListing(): ActionFunc {
         const state = getState() as GlobalState;
         const filter = getFilter(state);
 
-        let plugins: MarketplacePlugin[];
         try {
-            plugins = await Client4.getRemoteMarketplacePlugins(filter);
+            const plugins = await Client4.getRemoteMarketplacePlugins(filter);
             dispatch({
                 type: ActionTypes.RECEIVED_MARKETPLACE_PLUGINS,
                 plugins,
