@@ -188,7 +188,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
                 cy.get('.details-header').should('have.text', 'Details');
                 cy.get('.username-or-icon').should('contain', newUser.username);
                 cy.get('.reason').should('have.text', 'Contact your admin to make this guest a full member.');
-                cy.get('.username-or-icon .Badge').should('be.visible').and('have.text', 'GUEST');
+                cy.get('.username-or-icon .Tag').should('be.visible').and('have.text', 'GUEST');
             });
         });
     });

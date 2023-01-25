@@ -52,6 +52,7 @@ type Props = {
     shortcutReactToLastPostEmittedFrom?: string;
     isPostHeaderVisible?: boolean | null;
     isPostBeingEdited?: boolean;
+    shouldShowDotMenu?: boolean;
     actions: {
         emitShortcutReactToLastPostFrom: (emittedFrom: 'CENTER' | 'RHS_ROOT' | 'NO_WHERE') => void;
     };
@@ -67,9 +68,7 @@ const PostOptions = (props: Props): JSX.Element => {
 
     useEffect(() => {
         if (props.isLastPost &&
-            (props.shortcutReactToLastPostEmittedFrom === Locations.CENTER ||
-                props.shortcutReactToLastPostEmittedFrom === Locations.RHS_ROOT ||
-                props.shortcutReactToLastPostEmittedFrom === Locations.RHS_COMMENT) &&
+            (props.shortcutReactToLastPostEmittedFrom === props.location) &&
                 props.isPostHeaderVisible) {
             toggleEmojiPicker();
             props.actions.emitShortcutReactToLastPostFrom(Locations.NO_WHERE);
@@ -111,14 +110,21 @@ const PostOptions = (props: Props): JSX.Element => {
         props.handleDropdownOpened!(open);
     };
 
-    const handleActionsMenuTipOpened = () => setShowActionTip(true);
+    const handleActionsMenuTipOpened = () => {
+        setShowActionTip(true);
+        props.handleDropdownOpened!(true);
+    };
 
     const handleActionsMenuGotItClick = () => {
         props.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
         setShowActionTip(false);
+        props.handleDropdownOpened!(false);
     };
 
-    const handleTipDismissed = () => setShowActionTip(false);
+    const handleTipDismissed = () => {
+        setShowActionTip(false);
+        props.handleDropdownOpened!(false);
+    };
 
     const getDotMenuRef = () => dotMenuRef.current;
 
@@ -224,7 +230,7 @@ const PostOptions = (props: Props): JSX.Element => {
                 </button>
             </div>
         );
-    } else if (isPostDeleted) {
+    } else if (isPostDeleted || !props.shouldShowDotMenu) {
         options = null;
     } else if (props.location === Locations.SEARCH) {
         const hasCRTFooter = props.collapsedThreadsEnabled && !post.root_id && (post.reply_count > 0 || post.is_following);
@@ -268,18 +274,6 @@ const PostOptions = (props: Props): JSX.Element => {
                 {actionsMenu}
                 {commentIcon}
                 {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
-                {props.isSearchResultsItem &&
-                    <a
-                        href='#'
-                        onClick={props.handleJumpClick}
-                        className='search-item__jump'
-                    >
-                        <FormattedMessage
-                            id='search_item.jump'
-                            defaultMessage='Jump'
-                        />
-                    </a>
-                }
             </div>
         );
     }

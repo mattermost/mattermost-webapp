@@ -91,6 +91,7 @@ export type Props = {
         emitShortcutReactToLastPostFrom: (emittedFrom: 'CENTER' | 'RHS_ROOT' | 'NO_WHERE') => void;
         setActionsMenuInitialisationState: (viewed: Record<string, boolean>) => void;
         selectPost: (post: Post) => void;
+        selectPostFromRightHandSideSearch: (post: Post) => void;
         removePost: (post: Post) => void;
         closeRightHandSide: () => void;
         selectPostCard: (post: Post) => void;
@@ -112,6 +113,8 @@ export type Props = {
     shortcutReactToLastPostEmittedFrom?: string;
     isPostAcknowledgementsEnabled: boolean;
     isPostPriorityEnabled: boolean;
+    isCardOpen?: boolean;
+    shouldShowDotMenu?: boolean;
 };
 
 const PostComponent = (props: Props): JSX.Element => {
@@ -282,6 +285,16 @@ const PostComponent = (props: Props): JSX.Element => {
         setAlt(false);
     };
 
+    const handleCardClick = (post?: Post) => {
+        if (!post) {
+            return;
+        }
+        if (props.handleCardClick) {
+            props.handleCardClick(post);
+        }
+        props.actions.selectPostCard(post);
+    };
+
     const addKeyboardListeners = () => {
         document.addEventListener('keydown', handleAlt);
         document.addEventListener('keyup', handleAlt);
@@ -337,7 +350,7 @@ const PostComponent = (props: Props): JSX.Element => {
         if (!props.post) {
             return;
         }
-        props.actions.selectPost(props.post);
+        props.actions.selectPostFromRightHandSideSearch(props.post);
     }, [props.post.id]);
 
     const post = props.post;
@@ -419,6 +432,7 @@ const PostComponent = (props: Props): JSX.Element => {
     const threadFooter = props.location !== Locations.RHS_ROOT && props.isCollapsedThreadsEnabled && !post.root_id && (props.hasReplies || post.is_following) ? <ThreadFooter threadId={post.id}/> : null;
     const currentPostDay = getDateForUnixTicks(post.create_at);
     const channelDisplayName = getChannelName();
+    const showReactions = props.location !== Locations.SEARCH && !props.isPinnedPosts && !props.isFlaggedPosts;
 
     const getTestId = () => {
         let idPrefix: string;
@@ -537,10 +551,10 @@ const PostComponent = (props: Props): JSX.Element => {
                                         }
                                     >
                                         <button
-                                            className='card-icon__container icon--show style--none'
+                                            className={'card-icon__container icon--show style--none ' + (props.isCardOpen ? 'active' : '')}
                                             onClick={(e) => {
                                                 e.preventDefault();
-                                                props.handleCardClick?.(props.post);
+                                                handleCardClick(props.post);
                                             }}
                                         >
                                             <InfoSmallIcon
@@ -594,7 +608,7 @@ const PostComponent = (props: Props): JSX.Element => {
                                         postId={post.id}
                                     />
                                 )}
-                                <ReactionList post={post}/>
+                                {showReactions && <ReactionList post={post}/>}
                             </div>
                             {threadFooter}
                         </div>

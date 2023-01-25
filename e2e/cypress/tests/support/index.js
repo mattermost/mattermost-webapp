@@ -151,11 +151,6 @@ before(() => {
     });
 });
 
-// Add login cookies to whitelist to preserve it
-beforeEach(() => {
-    Cypress.Cookies.preserveOnce('MMAUTHTOKEN', 'MMUSERID', 'MMCSRF');
-});
-
 function printLicenseStatus() {
     cy.apiGetClientLicense().then(({isLicensed, license}) => {
         if (isLicensed) {
@@ -203,6 +198,9 @@ function sysadminSetup(user) {
 
     // # Disable plugins not included in prepackaged
     cy.apiDisableNonPrepackagedPlugins();
+
+    // # Deactivate test bots if any
+    cy.apiDeactivateTestBots();
 
     // # Check if default team is present; create if not found.
     cy.apiGetTeamsForUser().then(({teams}) => {

@@ -9,7 +9,7 @@
 
 import {measurePerformance} from './utils.js';
 
-describe('Channel switch performance test', () => {
+describe('Team switch performance test', () => {
     let testTeam1;
     let testTeam2;
 
@@ -17,7 +17,6 @@ describe('Channel switch performance test', () => {
         cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             testTeam1 = team;
 
-            // # Login as test user and go to town square
             cy.apiCreateTeam('team-b', 'Team B').then(({team: team2}) => {
                 testTeam2 = team2;
 
