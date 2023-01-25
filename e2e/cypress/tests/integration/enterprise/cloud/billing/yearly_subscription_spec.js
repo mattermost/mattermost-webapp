@@ -107,30 +107,28 @@ describe('System Console - Subscriptions section', () => {
                 const numMonths = 12;
 
                 const checkValues = (currentCount) => {
-                    cy.get('.RHS').get('.monthly_price').contains(currentCount * professionalMonthlySubscription.price_per_seat * numMonths);
-                    cy.get('.RHS').get('.yearly_savings').contains(currentCount * (professionalMonthlySubscription.price_per_seat - (professionalYearlySubscription.price_per_seat / numMonths)) * numMonths);
-                    cy.get('.RHS').get('.total_price').contains(currentCount * professionalYearlySubscription.price_per_seat);
+                    const totalVal = currentCount * professionalYearlySubscription.price_per_seat * numMonths;
+                    cy.get('.RHS').get('.SeatsCalculator__total-value').then((elem) => {
+                        const txt = elem.text();
+                        const totalValText = txt.replace('$', '').replaceAll(',', '');
+                        expect(totalVal.toString()).to.equal(totalValText);
+                    });
                 };
 
                 // # Click on Upgrade Now button
                 cy.contains('span', 'Upgrade Now').parent().click();
 
-                // # Click on Upgrade Now button on plans modal
+                // # Click on Professional action button on pricing modal
                 cy.get('#professional_action').click();
 
                 // * Check for "Provide Your Payment Details" label
                 cy.findByText('Provide your payment details').should('be.visible');
 
-                // # click on the "Yearly" label
-                cy.get('.RHS').get('#text-unselected').click();
-
-                // * check that the "yearly" label is selected and the price matches the yearly product's price
-                cy.get('.RHS').get('#text-unselected').contains('Monthly');
-                cy.get('.RHS').get('#text-selected').contains('Yearly');
-                cy.get('.RHS').get('.plan_price_rate_section').contains(professionalYearlySubscription.price_per_seat / 12);
+                // * check that the price matches the yearly product's price
+                cy.get('.RHS').get('.plan_price_rate_section').contains(professionalYearlySubscription.price_per_seat);
                 cy.get('.RHS').get('#input_UserSeats').should('have.value', count);
 
-                // * check that the yearly, monthly, and saving prices are correct
+                // * check that the prices are correct
                 checkValues(count);
 
                 // # Enter card details and user details
