@@ -82,6 +82,7 @@ export default function AppBar() {
                     padding-top: 16px;
                     border-left: solid 1px rgba(var(--center-channel-color-rgb), 0.12);
                     background-color: rgba(var(--center-channel-color-rgb), 0.04);
+                    overflow-y: scroll;
                 `}
             >
                 {items}
