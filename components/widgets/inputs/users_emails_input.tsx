@@ -61,6 +61,8 @@ type State = {
     options: UserProfile[];
 }
 
+const emailsDelimiter = /[\s,;]+/;
+
 export default class UsersEmailsInput extends React.PureComponent<Props, State> {
     static defaultProps = {
         noMatchMessageId: t('widgets.users_emails_input.no_user_found_matching'),
@@ -234,38 +236,16 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         MultiValueRemove: this.MultiValueRemove,
         IndicatorsContainer: () => null,
         Input: (props: InputProps) => {
-            const values = this.formatValuesForCreatable();
-
             const handlePaste = (e: ClipboardEvent) => {
                 if (!this.props.emailInvitationsEnabled) {
                     return;
                 }
 
-                const clipboardData = e.clipboardData;
-                const clipboardText = clipboardData?.getData('Text') || '';
-                const items = clipboardText.split(/[\s,;]+/);
-
-                if (items.length === 0) {
-                    return;
+                const clipboardText = e.clipboardData?.getData('Text') || '';
+                const hasChanges = this.appendDelimitedEmails(clipboardText);
+                if (hasChanges) {
+                    e.preventDefault();
                 }
-
-                // Filter out any invalid emails and any emails that are already in the list.
-                const validEmails = [...new Set(items)].filter((item) =>
-                    item !== '' &&
-                    isEmail(item) &&
-                    !values.find((v) => 'value' in v && v.value === item),
-                );
-
-                const newValues = [...values, ...validEmails.map((email) => ({label: email, value: email}))];
-
-                if (newValues.length === values.length) {
-                    return;
-                }
-
-                e.preventDefault();
-
-                this.onChange(newValues);
-                this.props.onInputChange('');
             };
 
             return (
@@ -303,13 +283,18 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
                 this.onChange([...values, {value: email, label: email}]);
                 this.props.onInputChange('');
             }
+        } else if (action.action === 'input-change' && inputValue !== '' && inputValue?.[inputValue.length - 1].match(emailsDelimiter)) {
+            const hasChanges = this.appendDelimitedEmails(inputValue);
+            if (hasChanges) {
+                return;
+            }
         }
         if (action.action !== 'input-blur' && action.action !== 'menu-close') {
             this.props.onInputChange(inputValue);
         }
     }
 
-    private formatValuesForCreatable() {
+    formatValuesForCreatable = () => {
         return this.props.value.map((v) => {
             if ((v as UserProfile).id) {
                 return v as UserProfile;
@@ -346,6 +331,33 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         if (this.props.onBlur) {
             this.props.onBlur();
         }
+    }
+
+    appendDelimitedEmails = (val: string): boolean => {
+        const values = this.formatValuesForCreatable();
+        const items = val.split(emailsDelimiter);
+
+        if (items.length === 0) {
+            return false;
+        }
+
+        // Filter out any invalid emails and any emails that are already in the list.
+        const validEmails = [...new Set(items)].filter((item) =>
+            item !== '' &&
+            isEmail(item) &&
+            !values.find((v) => 'value' in v && v.value === item),
+        );
+
+        const newValues = [...values, ...validEmails.map((email) => ({label: email, value: email}))];
+
+        if (newValues.length === values.length) {
+            return false;
+        }
+
+        this.onChange(newValues);
+        this.props.onInputChange('');
+
+        return true;
     }
 
     render() {
