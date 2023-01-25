@@ -256,7 +256,7 @@ describe('SelfHostedPurchaseModal', () => {
         screen.getByText('Provide your payment details');
         screen.getByText('Contact Sales');
         screen.getByText('USD per user/month', {exact: false});
-        screen.getByText('billed annually');
+        screen.getByText('billed annually', {exact: false});
         screen.getByText(productName);
         screen.getByText('You will be billed today. Your license will be applied automatically', {exact: false});
         screen.getByText('See how billing works', {exact: false});
