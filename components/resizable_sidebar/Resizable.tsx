@@ -223,10 +223,17 @@ function Resizable({
         }
     }, []);
 
+    const wrapperClassName = classNames(className, 'resizeWrapper',
+        {
+            'prevent-animation': isResizeLineSelected,
+            dragged: isResizeLineSelected,
+        },
+    );
+
     return (
         <div
             id={id}
-            className={classNames(className, 'resizeWrapper', isResizeLineSelected && 'prevent-animation dragged')}
+            className={wrapperClassName}
             role={role}
             ref={wrapperRef}
         >
@@ -235,14 +242,22 @@ function Resizable({
             {enabled.right &&
             <div
                 ref={rightResizeLineRef}
-                className={classNames('resizeLine right', dir === ResizeDirection.RIGHT && 'resizeLine-dragged')}
+                className={classNames('resizeLine right',
+                    {
+                        'resizeLine-dragged': dir === ResizeDirection.RIGHT,
+                    },
+                )}
                 onMouseDown={(e) => handleMouseDown(e, ResizeDirection.RIGHT)}
                 onDoubleClick={handleDoubleClick}
             />}
             {enabled.left &&
             <div
                 ref={leftResizeLineRef}
-                className={classNames('resizeLine left', dir === ResizeDirection.LEFT && 'resizeLine-dragged')}
+                className={classNames('resizeLine left',
+                    {
+                        'resizeLine-dragged': dir === ResizeDirection.LEFT,
+                    },
+                )}
                 onMouseDown={(e) => handleMouseDown(e, ResizeDirection.LEFT)}
                 onDoubleClick={handleDoubleClick}
             />}
