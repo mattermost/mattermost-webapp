@@ -28,12 +28,12 @@ const TopBoards = (props: WidgetHocProps) => {
     const [topBoards, setTopBoards] = useState([] as TopBoard[]);
 
     const currentTeamId = useSelector(getCurrentTeamId);
-    const boardsHandler = useSelector((state: GlobalState) => state.plugins.insightsHandlers.focalboard);
+    const boardsHandler = useSelector((state: GlobalState) => state.plugins.insightsHandlers.focalboard || state.plugins.insightsHandlers.boards);
 
     const getTopBoards = useCallback(async () => {
         setLoading(true);
         const data: any = await boardsHandler(props.timeFrame, 0, 4, currentTeamId, props.filterType);
-        if (data.items) {
+        if (data && data.items) {
             setTopBoards(data.items);
         }
         setLoading(false);

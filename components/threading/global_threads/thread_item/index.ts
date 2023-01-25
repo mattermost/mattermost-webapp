@@ -25,6 +25,10 @@ function makeMapStateToProps() {
 
         const post = getPost(state, threadId);
 
+        if (!post) {
+            return {};
+        }
+
         return {
             post,
             channel: getChannel(state, {id: post.channel_id}),

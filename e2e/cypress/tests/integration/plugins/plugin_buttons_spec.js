@@ -20,26 +20,13 @@ describe('collapse on 15 plugin buttons', () => {
         cy.shouldNotRunOnCloudEdition();
         cy.shouldHavePluginUploadEnabled();
 
-        // # Set plugin settings
-        const newSettings = {
-            PluginSettings: {
-                Enable: true,
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
-
         // # Login as Admin
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
         });
-        cy.apiAdminLogin();
 
         // # Uninstall all plugins
-        cy.apiGetAllPlugins().then(({plugins}) => {
-            const {active, inactive} = plugins;
-            inactive.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
-            active.forEach((plugin) => cy.apiRemovePluginById(plugin.id));
-        });
+        cy.apiUninstallAllPlugins();
     });
 
     it('MM-T1649 Greater than 15 plugin buttons collapse to one icon in top nav', () => {

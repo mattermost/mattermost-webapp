@@ -36,20 +36,22 @@ export default function SuccessPage(props: Props) {
         />
     );
     return (
-        <IconMessage
-            className={'SelfHostedPurchaseModal__success'}
-            formattedTitle={title}
-            formattedSubtitle={formattedSubtitle}
-            testId='selfHostedPurchaseSuccess'
-            icon={
-                <PaymentSuccessStandardSvg
-                    width={444}
-                    height={313}
-                />
-            }
-            formattedButtonText={formattedBtnText}
-            buttonHandler={props.onClose}
-        />
+        <div className='success'>
+            <IconMessage
+                className={'SelfHostedPurchaseModal__success'}
+                formattedTitle={title}
+                formattedSubtitle={formattedSubtitle}
+                testId='selfHostedPurchaseSuccess'
+                icon={
+                    <PaymentSuccessStandardSvg
+                        width={444}
+                        height={313}
+                    />
+                }
+                formattedButtonText={formattedBtnText}
+                buttonHandler={props.onClose}
+            />
+        </div>
     );
 }
 
