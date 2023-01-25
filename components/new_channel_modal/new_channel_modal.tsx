@@ -99,9 +99,10 @@ const NewChannelModal = () => {
     // create a board along with the channel
     const pluginsComponentsList = useSelector((state: GlobalState) => state.plugins.components);
     const createBoardFromChannelPlugin = pluginsComponentsList?.CreateBoardFromTemplate;
-    const [addBoard, setAddBoard] = useState(false);
     const newChannelWithBoardPulsatingDotState = useSelector((state: GlobalState) => getPreference(state, Preferences.APP_BAR, Preferences.NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED, ''));
-    const [selectedBoardTemplateId, setSelectedBoardTemplateId] = useState<string | null>(null);
+
+    const [canCreateFromPluggable, setCanCreateFromPluggable] = useState(true);
+    const [actionFromPluggable, setActionFromPluggable] = useState<((currentTeamId: string, channelId: string) => Promise<Board>) | undefined>(undefined);
 
     const handleOnModalConfirm = async () => {
         if (!canCreate) {
@@ -136,7 +137,7 @@ const NewChannelModal = () => {
             handleOnModalCancel();
 
             // If template selected, create a new board from this template
-            if (addBoard && selectedBoardTemplateId && createBoardFromChannelPlugin) {
+            if (canCreateFromPluggable && createBoardFromChannelPlugin) {
                 try {
                     addBoardToChannel(newChannel.id);
                 } catch (e: any) {
@@ -153,14 +154,13 @@ const NewChannelModal = () => {
         if (!createBoardFromChannelPlugin) {
             return false;
         }
-        const actionCallback = createBoardFromChannelPlugin[0]?.action;
-        if (!actionCallback || typeof actionCallback !== 'function') {
+        if (!actionFromPluggable) {
             return false;
         }
 
-        const action = actionCallback as (selectedBoardTemplateId: string, currentTeamId: string, channelId: string) => Promise<Board>;
-        if (action && selectedBoardTemplateId !== null) {
-            const board = await action(selectedBoardTemplateId, currentTeamId, channelId);
+        const action = actionFromPluggable as (currentTeamId: string, channelId: string) => Promise<Board>;
+        if (action && canCreateFromPluggable) {
+            const board = await action(channelId, currentTeamId);
 
             if (!board?.id) {
                 return false;
@@ -269,7 +269,7 @@ const NewChannelModal = () => {
         e.stopPropagation();
     };
 
-    const canCreate = displayName && !displayNameError && url && !urlError && type && !purposeError && !serverError && (!addBoard || (addBoard && selectedBoardTemplateId !== null));
+    const canCreate = displayName && !displayNameError && url && !urlError && type && !purposeError && !serverError && canCreateFromPluggable;
 
     const newBoardInfoIcon = (
         <OverlayTrigger
@@ -383,8 +383,8 @@ const NewChannelModal = () => {
                     {createBoardFromChannelPlugin &&
                         <Pluggable
                             pluggableName='CreateBoardFromTemplate'
-                            setSelectedTemplate={setSelectedBoardTemplateId}
-                            toggleAddBoardCheck={setAddBoard}
+                            setCanCreate={setCanCreateFromPluggable}
+                            setAction={setActionFromPluggable}
                             newBoardInfoIcon={newBoardInfoIcon}
                         />
                     }
