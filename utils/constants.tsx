@@ -744,6 +744,7 @@ export const TELEMETRY_CATEGORIES = {
     SELF_HOSTED_LICENSE_EXPIRED: 'self_hosted_license_expired',
     WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
     REQUEST_BUSINESS_EMAIL: 'request_business_email',
+    TRUE_UP_REVIEW: 'true_up_review',
 };
 
 export const TELEMETRY_LABELS = {
