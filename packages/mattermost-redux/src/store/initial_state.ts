@@ -225,6 +225,15 @@ const state: GlobalState = {
                 invoices: {},
                 invoicesLoaded: false,
             },
+            trueUpReviewProfile: {
+                content: '',
+                getRequestState: 'IDLE',
+            },
+            trueUpReviewStatus: {
+                complete: false,
+                due_date: 0,
+                getRequestState: 'IDLE',
+            },
         },
         usage: {
             files: {
