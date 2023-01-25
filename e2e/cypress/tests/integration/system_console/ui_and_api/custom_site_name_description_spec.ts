@@ -11,7 +11,7 @@
 // Group: @customization
 
 describe('Customization', () => {
-    it('MM-Txxx - Should match title and custom description in root html', () => {
+    it('MM-T5379 - Should match title and custom description in root html', () => {
         const defaultTitle = 'Mattermost';
         const defaultDescription = 'Log in';
         const customTitle = 'Custom site name';
