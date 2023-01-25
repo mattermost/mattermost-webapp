@@ -79,14 +79,6 @@ describe('System Console - Subscriptions section', () => {
     });
 
     it('MM-T5128 Updating the Usercount input field updates the prices accordingly in the Purchase modal', () => {
-        const professionalMonthlySubscription = {
-            id: 'prod_K0AxuWCDoDD9Qq',
-            sku: 'cloud-professional',
-            price_per_seat: 10,
-            name: 'Cloud Professional',
-            recurring_interval: 'month',
-            cross_sells_to: 'prod_MYrZ0xObCXOyVr',
-        };
         const professionalYearlySubscription = {
             id: 'prod_MYrZ0xObCXOyVr',
             sku: 'cloud-professional',
