@@ -91,7 +91,7 @@ const LessThanMaxFreeUsers = ({setHeader, pluginButtons}: {setHeader: React.Reac
                         className='intro-links color--link cursor--pointer'
                         modalId={ModalIdentifiers.INVITATION}
                         dialogType={InvitationModal}
-                        onClick={() => trackEvent('ui', 'ui_channel_intro_invite_button_clicked')}
+                        onClick={() => trackEvent('channel_intro_message', 'invite_button_clicked')}
                     >
                         <i
                             className='icon-email-plus-outline'
