@@ -20,10 +20,10 @@ import {GlobalState} from 'types/store';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import {fileSizeToString} from 'utils/utils';
 import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
-import { getCloudProducts } from 'mattermost-redux/selectors/entities/cloud';
-import { subscribeCloudSubscription } from 'actions/cloud';
-import SuccessModal from 'components/cloud_subscribe_result_modal/success';
+import {subscribeCloudSubscription} from 'actions/cloud';
+import DeleteWorkspaceSuccessModal from 'components/admin_console/billing/delete_workspace/success_modal';
 import ErrorModal from 'components/cloud_subscribe_result_modal/error';
+import DeleteWorkspaceProgressModal from 'components/admin_console/billing/delete_workspace/progress_modal';
 
 type Props = {
     callerCTA: string;
@@ -86,6 +86,17 @@ const DeleteWorkspaceModal = (props: Props) => {
     };
 
     const deleteWorkspace = (feedback: Feedback) => {
+        dispatch(openModal({
+            modalId: ModalIdentifiers.DELETE_WORKSPACE_PROGRESS,
+            dialogType: DeleteWorkspaceProgressModal,
+        }));
+
+
+        // dispatch(openModal({
+        //     modalId: ModalIdentifiers.SUCCESS_MODAL,
+        //     dialogType: DeleteWorkspaceSuccessModal,
+        // }));
+
         console.log("deleted! Feedback: ", JSON.stringify(feedback));
     };
 
@@ -105,7 +116,7 @@ const DeleteWorkspaceModal = (props: Props) => {
             dispatch(
                 openModal({
                     modalId: ModalIdentifiers.SUCCESS_MODAL,
-                    dialogType: SuccessModal,
+                    dialogType: DeleteWorkspaceSuccessModal,
                 }),
             );
         } else {

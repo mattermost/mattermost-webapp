@@ -451,6 +451,7 @@ export const ModalIdentifiers = {
     PURCHASE_IN_PROGRESS: 'purchase_in_progress',
     DELETE_WORKSPACE: 'delete_workspace',
     FEEDBACK: 'feedback',
+    DELETE_WORKSPACE_PROGRESS: 'delete_workspace_progress',
 };
 
 export const UserStatuses = {

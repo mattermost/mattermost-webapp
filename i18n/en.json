@@ -256,6 +256,7 @@
   "admin.billing.company_info.numEmployees": "Number of employees (optional)",
   "admin.billing.company_info.title": "Company Information",
   "admin.billing.company_info.zipcode": "Zip/Postal Code",
+  "admin.billing.deleteWorkspace": "Deleting your workspace",
   "admin.billing.history.allPaymentsShowHere": "All of your monthly payments will show here",
   "admin.billing.history.date": "Date",
   "admin.billing.history.description": "Description",
