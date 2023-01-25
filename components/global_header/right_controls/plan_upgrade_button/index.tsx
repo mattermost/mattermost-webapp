@@ -6,7 +6,7 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import Constants, {CloudProducts} from 'utils/constants';
+import Constants, {CloudProducts, RecurringIntervals} from 'utils/constants';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {getCloudSubscription as selectCloudSubscription, getSubscriptionProduct as selectSubscriptionProduct, isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
@@ -58,6 +58,8 @@ const PlanUpgradeButton = (): JSX.Element | null => {
 
     const isCloudFree = product?.sku === CloudProducts.STARTER;
 
+    const currentSubscriptionIsMonthlyProfessional = (product?.recurring_interval === RecurringIntervals.MONTH) && (product?.sku === CloudProducts.PROFESSIONAL);
+
     const isSelfHostedEnterpriseTrial = !isCloud && license.IsTrial === 'true';
     const isSelfHostedStarter = license.IsLicensed === 'false';
     const isEnterpriseReady = config.BuildEnterpriseReady === 'true';
@@ -72,7 +74,7 @@ const PlanUpgradeButton = (): JSX.Element | null => {
     }
 
     // for cloud, only show when subscribed to free or enterprise trial plans
-    if (isCloud && !(isCloudFree || isEnterpriseTrial)) {
+    if (isCloud && !(isCloudFree || isEnterpriseTrial || currentSubscriptionIsMonthlyProfessional)) {
         return null;
     }
 

@@ -74,12 +74,13 @@ function Content(props: ContentProps) {
     const yearlyProfessionalProduct = findProductBySku(yearlyProducts, CloudProducts.PROFESSIONAL);
     const professionalPrice = yearlyProfessionalProduct ? yearlyProfessionalProduct.price_per_seat : 0;
 
-    const starterProduct = Object.values(yearlyProducts || {}).find(((product) => {
+    const starterProduct = Object.values(products || {}).find(((product) => {
         return product.sku === CloudProducts.STARTER;
     }));
 
     const isStarter = currentProduct?.sku === CloudProducts.STARTER;
     const isProfessional = currentProduct?.sku === CloudProducts.PROFESSIONAL;
+    const currentSubscriptionIsMonthlyProfessional = currentSubscriptionIsMonthly && isProfessional;
     const isProfessionalAnnual = isProfessional && currentProduct?.recurring_interval === RecurringIntervals.YEAR;
 
     const isPreTrial = subscription?.trial_end_at === 0;
@@ -89,8 +90,8 @@ function Content(props: ContentProps) {
         isPostTrial = true;
     }
 
-    const freeTierText = !isStarter && !currentSubscriptionIsMonthly ? formatMessage({id: 'pricing_modal.btn.contactSupport', defaultMessage: 'Contact Support'}) : formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'});
-    const professionalTierText = currentSubscriptionIsMonthly ? formatMessage({id: 'pricing_modal.btn.switch_to_yearly', defaultMessage: 'Switch to yearly billing'}) : formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
+    const freeTierText = (!isStarter && !currentSubscriptionIsMonthly) ? formatMessage({id: 'pricing_modal.btn.contactSupport', defaultMessage: 'Contact Support'}) : formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'});
+    const professionalTierText = currentSubscriptionIsMonthlyProfessional ? formatMessage({id: 'pricing_modal.btn.switch_to_yearly', defaultMessage: 'Switch to yearly billing'}) : formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
 
     const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
     const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
@@ -232,6 +233,7 @@ function Content(props: ContentProps) {
                                 if (!starterProduct) {
                                     return;
                                 }
+
                                 if (usage.teams.active > 1) {
                                     dispatch(
                                         openModal({
