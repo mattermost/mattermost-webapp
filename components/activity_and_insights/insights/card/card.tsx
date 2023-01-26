@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {memo} from 'react';
+import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
 import {CardSize, CardSizes} from '@mattermost/types/insights';
@@ -21,6 +22,8 @@ type Props = {
 }
 
 const InsightsCard = (props: Props) => {
+    const {formatMessage} = useIntl();
+
     return (
         <Card
             className={classNames('insights-card expanded', props.class, {
@@ -48,6 +51,16 @@ const InsightsCard = (props: Props) => {
                         e.stopPropagation();
                         props.onClick();
                     }}
+                    aria-label={formatMessage(
+                        {
+                            id: 'insights.card.ariaLabel',
+                            defaultMessage: 'Open modal for {title}',
+                        },
+                        {
+                            title: props.title,
+                        },
+                    )}
+                    aria-haspopup='dialog'
                 >
                     <i className='icon icon-chevron-right'/>
                 </button>
