@@ -41,11 +41,7 @@ const FeatureList = (props: FeatureListProps) => {
         intl.formatMessage(
             {
                 id: 'admin.billing.subscription.planDetails.features.limitedBoardCards',
-                defaultMessage: 'Limited to {limit} board cards per workspace',
-            },
-            {
-
-                limit: intl.formatNumber(limits.boards?.cards ?? fallbackStarterLimits.boards.cards),
+                defaultMessage: 'Unlimited board cards',
             },
         ),
         intl.formatMessage({

@@ -23,12 +23,20 @@ Cypress.Commands.add('uiCreateSidebarCategory', (categoryName = `category-${getR
     return cy.wrap({displayName: categoryName});
 });
 
-Cypress.Commands.add('uiMoveChannelToCategory', (channelName, categoryName = `category-${getRandomId()}`, newCategory = false) => {
-    // Open the channel menu, select Move to, and click either New Category or on the category
-    cy.get(`#sidebarItem_${channelName}`).find('.SidebarMenu_menuButton').click({force: true});
-    cy.get('.SidebarMenu').contains('.SubMenuItem', 'Move to').
-        contains(newCategory ? 'New Category' : categoryName, {matchCase: false}).
-        click({force: true});
+Cypress.Commands.add('uiMoveChannelToCategory', (channelName, categoryName, newCategory = false, isChannelId = false) => {
+    // # Open the channel menu, select Move to
+    cy.uiGetChannelSidebarMenu(channelName, isChannelId).within(() => {
+        cy.findByText('Move to...').should('be.visible').trigger('mouseover');
+    });
+
+    // # Select the move to category
+    cy.findAllByRole('menu', {name: 'Move to submenu'}).should('be.visible').within(() => {
+        if (newCategory) {
+            cy.findByText('New Category').should('be.visible').click({force: true});
+        } else {
+            cy.findByText(categoryName).should('be.visible').click({force: true});
+        }
+    });
 
     if (newCategory) {
         cy.findByRole('dialog', {name: 'Rename Category'}).should('be.visible').within(() => {
@@ -39,9 +47,5 @@ Cypress.Commands.add('uiMoveChannelToCategory', (channelName, categoryName = `ca
         });
     }
 
-    // * Wait for the channel to appear in the category
-    cy.contains('.SidebarChannelGroup', categoryName, {matchCase: false}).
-        find(`#sidebarItem_${channelName}`).should('exist');
-
-    return cy.contains('.SidebarChannelGroup', categoryName, {matchCase: false});
+    return cy.wrap({displayName: categoryName});
 });
