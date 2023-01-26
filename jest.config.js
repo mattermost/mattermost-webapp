@@ -39,7 +39,7 @@ const config = {
         ['jest-junit', {outputDirectory: 'build', outputName: 'test-results.xml'}],
     ],
     transformIgnorePatterns: [
-        'node_modules/(?!react-native|react-router|p-queue|p-timeout|@mattermost/compass-components|@mattermost/compass-icons)',
+        'node_modules/(?!react-native|react-router|p-queue|p-timeout|@mattermost/compass-components|@mattermost/compass-icons|lowlight|fault)',
     ],
     setupFiles: ['jest-canvas-mock'],
     setupFilesAfterEnv: ['<rootDir>/tests/setup.js'],

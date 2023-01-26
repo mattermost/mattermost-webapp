@@ -443,8 +443,11 @@ describe('components/advanced_create_post', () => {
                 },
             },
         });
+
+        const message = '@developers';
+
         wrapper.setState({
-            message: '@developers',
+            message,
         });
 
         const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
@@ -453,7 +456,7 @@ describe('components/advanced_create_post', () => {
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
         expect(wrapper.instance().props.actions.openModal).toHaveBeenCalled();
-        expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers'], 0, 10);
+        expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith([message], 0, 10, message);
     });
 
     it('onSubmit test for several @groups', () => {
@@ -505,8 +508,11 @@ describe('components/advanced_create_post', () => {
                 },
             },
         });
+
+        const message = '@developers @boss @love @you @software-developers';
+
         wrapper.setState({
-            message: '@developers @boss @love @you @software-developers',
+            message,
         });
 
         const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
@@ -515,7 +521,7 @@ describe('components/advanced_create_post', () => {
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
         expect(wrapper.instance().props.actions.openModal).toHaveBeenCalled();
-        expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers', '@boss', '@love', '@you', '@software-developers'], 0, 40);
+        expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(message.split(' '), 0, 40, message);
     });
 
     it('onSubmit test for several @groups with timezone', () => {
@@ -559,8 +565,11 @@ describe('components/advanced_create_post', () => {
                 },
             },
         });
+
+        const message = '@developers @boss @love @you';
+
         wrapper.setState({
-            message: '@developers @boss @love @you',
+            message,
         });
 
         const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
@@ -569,7 +578,7 @@ describe('components/advanced_create_post', () => {
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
         expect(wrapper.instance().props.actions.openModal).toHaveBeenCalled();
-        expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@developers', '@boss', '@love', '@you'], 5, 40);
+        expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(message.split(' '), 5, 40, message);
     });
 
     it('Should set mentionHighlightDisabled prop when useChannelMentions disabled before calling actions.onSubmitPost', async () => {
@@ -644,8 +653,9 @@ describe('components/advanced_create_post', () => {
             }),
         );
 
+        const message = 'test @all';
         wrapper.setState({
-            message: 'test @all',
+            message,
         });
 
         const showNotifyAllModal = wrapper.instance().showNotifyAllModal;
@@ -655,7 +665,7 @@ describe('components/advanced_create_post', () => {
         await form.simulate('Submit', {preventDefault: jest.fn()});
 
         expect(wrapper.instance().props.actions.openModal).toHaveBeenCalledTimes(1);
-        expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@all'], 4, 8);
+        expect(wrapper.instance().showNotifyAllModal).toHaveBeenCalledWith(['@all'], 4, 8, message);
 
         wrapper.setProps({
             currentChannelMembersCount: 2,
@@ -746,7 +756,7 @@ describe('components/advanced_create_post', () => {
             message: '/unknown',
         });
 
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await wrapper.instance().handleSubmit_DEPR({preventDefault: jest.fn()});
         expect(wrapper.state('submitting')).toBe(false);
     });
 
@@ -766,7 +776,7 @@ describe('components/advanced_create_post', () => {
             message: '+:smile:',
         });
 
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await wrapper.instance().handleSubmit_DEPR({preventDefault: jest.fn()});
         expect(addReaction).toHaveBeenCalledWith('a', 'smile');
     });
 
@@ -1208,11 +1218,11 @@ describe('components/advanced_create_post', () => {
             message: '/fakecommand some text',
         });
 
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await wrapper.instance().handleSubmit_DEPR({preventDefault: jest.fn()});
         expect(executeCommand).toHaveBeenCalled();
         expect(onSubmitPost).not.toHaveBeenCalled();
 
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await wrapper.instance().handleSubmit_DEPR({preventDefault: jest.fn()});
 
         expect(onSubmitPost).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -1244,15 +1254,15 @@ describe('components/advanced_create_post', () => {
             message: '/fakecommand some text',
         });
 
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await wrapper.instance().handleSubmit_DEPR({preventDefault: jest.fn()});
         expect(executeCommand).toHaveBeenCalled();
         expect(onSubmitPost).not.toHaveBeenCalled();
 
-        wrapper.instance().handleChange({
+        wrapper.instance().handleChange_DEPR({
             target: {value: 'some valid text'},
         });
 
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+        await wrapper.instance().handleSubmit_DEPR({preventDefault: jest.fn()});
 
         expect(onSubmitPost).toHaveBeenCalledWith(
             expect.objectContaining({

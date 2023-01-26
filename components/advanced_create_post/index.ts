@@ -46,7 +46,7 @@ import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'act
 import {makeGetChannelDraft, getIsRhsExpanded, getIsRhsOpen} from 'selectors/rhs';
 import {showPreviewOnCreatePost} from 'selectors/views/textbox';
 import {getCurrentLocale} from 'selectors/i18n';
-import {getEmojiMap, getShortcutReactToLastPostEmittedFrom} from 'selectors/emojis';
+import {getEmojiMap, getShortcutReactToLastPostEmittedFrom, isCustomEmojiEnabled} from 'selectors/emojis';
 import {actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {removeDraft, updateDraft} from 'actions/views/drafts';
 import {openModal} from 'actions/views/modals';
@@ -124,6 +124,7 @@ function makeMapStateToProps() {
             rhsExpanded: getIsRhsExpanded(state),
             rhsOpen: getIsRhsOpen(state),
             emojiMap: getEmojiMap(state),
+            useCustomEmojis: isCustomEmojiEnabled(state),
             badConnection,
             isTimezoneEnabled,
             shortcutReactToLastPostEmittedFrom,

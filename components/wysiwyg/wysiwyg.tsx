@@ -5,9 +5,7 @@ import React, {memo, useEffect, useRef, useState} from 'react';
 import {EditorContent, Editor, useEditor} from '@tiptap/react';
 import type {KeyboardShortcutCommand, JSONContent} from '@tiptap/react';
 import isEqual from 'lodash/isEqual';
-import {useSelector} from 'react-redux';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import FileUpload, {PostType} from 'components/file_upload';
@@ -17,9 +15,6 @@ import type {FilePreviewInfo} from 'components/file_preview';
 
 import Constants from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
-
-import {isCustomEmojiEnabled} from 'selectors/emojis';
-import {getCurrentLocale} from 'selectors/i18n';
 
 import type {NewPostDraft} from 'types/store/draft';
 
@@ -40,8 +35,6 @@ import Toolbar from './components/toolbar';
 import SendButton from './components/send-button';
 import {Extensions} from './extensions';
 import type {SuggestionConfig} from './extensions';
-
-import {htmlToMarkdown} from './utils/toMarkdown';
 
 export enum Formatters {
     link,
@@ -64,6 +57,9 @@ export type WysiwygConfig = {
         postType: PostType;
     };
     enablePriority?: boolean;
+    enableEmojiPicker?: boolean;
+    useCustomEmojis?: boolean;
+    locale?: string;
 };
 
 export type MessageData = {
@@ -147,9 +143,7 @@ const Wysiwyg = (props: Props) => {
 
     const [metadata, setMetadata] = useState<NewPostDraft['metadata']|null>(draft?.metadata);
 
-    const reduxConfig = useSelector(getConfig);
-    const useCustomEmojis = useSelector(isCustomEmojiEnabled);
-    const locale = useSelector(getCurrentLocale);
+    const {enableEmojiPicker = false, useCustomEmojis = false, locale = 'en'} = config;
 
     const handleSubmit = async (editor: Editor, event?: React.FormEvent) => {
         event?.preventDefault();
@@ -174,7 +168,7 @@ const Wysiwyg = (props: Props) => {
          */
 
         // 1. fire the passed onSubmit function
-        await onSubmit(htmlToMarkdown(editor.getHTML()), {content: editor.getJSON()});
+        await onSubmit(editor.getHTML(), {content: editor.getJSON()});
 
         if (!editor.isEmpty) {
             // 2. clear the editor content
@@ -221,14 +215,14 @@ const Wysiwyg = (props: Props) => {
         autofocus: 'end',
         onUpdate: ({editor}) => {
             // call the onChange function from the parent component (if available)
-            onChange?.(htmlToMarkdown(editor.getHTML()), {content: editor.getJSON()});
+            onChange?.(editor.getHTML(), {content: editor.getJSON()});
         },
         onTransaction({editor, transaction}) {
             // The editor state has changed.
             if (transaction.getMeta('priority') !== undefined) {
                 const updatedMetadata = {...metadata, priority: transaction.getMeta('priority')};
                 setMetadata(updatedMetadata);
-                onChange?.(htmlToMarkdown(editor.getHTML()), {content: editor.getJSON(), metadata: updatedMetadata});
+                onChange?.(editor.getHTML(), {content: editor.getJSON(), metadata: updatedMetadata});
             }
         },
     }, [config]);
@@ -265,7 +259,7 @@ const Wysiwyg = (props: Props) => {
     }, [editor, fileUploadRef]);
 
     if (!editor) {
-        return null;
+        return <div>{'NOTHING TO SEE HERE'}</div>;
     }
 
     const disableSendButton = editor.isEmpty && !attachments.length;
@@ -276,7 +270,8 @@ const Wysiwyg = (props: Props) => {
         />
     );
 
-    const emojiPicker = reduxConfig.EnableEmojiPicker === 'true' ? <EmojiPicker editor={editor}/> : null;
+    // this can potentially be made a property in the config
+    const emojiPicker = enableEmojiPicker ? <EmojiPicker editor={editor}/> : null;
 
     const getFileUploadTarget = () => containerRef.current;
 

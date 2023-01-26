@@ -44,6 +44,9 @@ const wysiwygConfig: WysiwygConfig = {
         postType: PostType.post,
     },
     enablePriority: false,
+    enableEmojiPicker: false,
+    useCustomEmojis: false,
+    locale: 'en',
 };
 
 const props = {

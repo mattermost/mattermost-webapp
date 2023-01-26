@@ -4,7 +4,6 @@
 /* eslint-disable max-lines */
 
 import React from 'react';
-import {Editor, JSONContent} from '@tiptap/react';
 
 import {ModalData} from 'types/actions.js';
 
@@ -13,6 +12,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 import * as GlobalActions from 'actions/global_actions';
 
 import Constants, {AdvancedTextEditor as AdvancedTextEditorConst, Locations, ModalIdentifiers, Preferences} from 'utils/constants';
+
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 import {
@@ -29,7 +29,7 @@ import {getTable, hasHtmlLink, formatMarkdownMessage, isGitHubCodeBlock, formatG
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import PostDeletedModal from 'components/post_deleted_modal';
-import {NewPostDraft} from 'types/store/draft';
+import {PostDraft} from 'types/store/draft';
 
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 
@@ -43,7 +43,6 @@ import {
 } from 'utils/markdown/apply_markdown';
 
 import {Group, GroupSource} from '@mattermost/types/groups';
-
 import {ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {Emoji} from '@mattermost/types/emojis';
 
@@ -80,7 +79,7 @@ type Props = {
     messageInHistory?: string;
 
     // The current draft of the comment
-    draft: NewPostDraft;
+    draft: PostDraft;
 
     // Determines if the submit button should be rendered
     enableAddButton?: boolean;
@@ -110,13 +109,13 @@ type Props = {
     clearCommentDraftUploads: () => void;
 
     // Called when comment draft needs to be updated
-    onUpdateCommentDraft: (draft?: NewPostDraft, save?: boolean) => void;
+    onUpdateCommentDraft: (draft?: PostDraft, save?: boolean) => void;
 
     // Called when comment draft needs to be updated for a specific root ID
-    updateCommentDraftWithRootId: (rootID: string, draft: NewPostDraft, save?: boolean) => void;
+    updateCommentDraftWithRootId: (rootID: string, draft: PostDraft, save?: boolean) => void;
 
     // Called when submitting the comment
-    onSubmit: (draft: NewPostDraft, options: {ignoreSlash: boolean}) => void;
+    onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => void;
 
     // Called when resetting comment message history index
     onResetHistoryIndex: () => void;
@@ -191,8 +190,6 @@ type Props = {
     emojiMap: EmojiMap;
     isFormattingBarHidden: boolean;
     searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
-
-    isWysiwygEnabled: boolean;
 }
 
 type State = {
@@ -200,7 +197,7 @@ type State = {
     uploadsProgressPercent: {[clientID: string]: FilePreviewInfo};
     renderScrollbar: boolean;
     scrollbarWidth: number;
-    draft?: NewPostDraft;
+    draft?: PostDraft;
     rootId?: string;
     messageInHistory?: string;
     createPostErrorId?: string;
@@ -212,13 +209,13 @@ type State = {
     isFormattingBarHidden: boolean;
 };
 
-function isDraftEmpty(draft: NewPostDraft): boolean {
+function isDraftEmpty(draft: PostDraft): boolean {
     return !draft || (!draft.message && draft.fileInfos.length === 0);
 }
 
 class AdvancedCreateComment extends React.PureComponent<Props, State> {
     private lastBlurAt = 0;
-    private draftsForPost: {[postID: string]: NewPostDraft | null} = {};
+    private draftsForPost: {[postID: string]: PostDraft | null} = {};
     private doInitialScrollToBottom = false;
 
     private saveDraftFrame?: number | null;
@@ -354,7 +351,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             ...this.state.draft,
             show: !isDraftEmpty(this.state.draft),
             remote: false,
-        } as NewPostDraft;
+        } as PostDraft;
 
         this.props.onUpdateCommentDraft(updatedDraft, true);
     }
@@ -367,7 +364,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                         ...prev.draft,
                         show: !isDraftEmpty(prev.draft),
                         remote: false,
-                    } as NewPostDraft,
+                    } as PostDraft,
                 };
             }
 
@@ -557,8 +554,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         this.setState({postError});
     }
 
-    handleSubmit = async (e?: React.FormEvent | React.MouseEvent) => {
-        e?.preventDefault();
+    handleSubmit = async (e: React.FormEvent | React.MouseEvent) => {
+        e.preventDefault();
         this.setShowPreview(false);
         this.isDraftSubmitting = true;
 
@@ -771,12 +768,9 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
     }
 
-    handleChange_DEPR = (e: React.ChangeEvent<TextboxElement>) => {
+    handleChange = (e: React.ChangeEvent<TextboxElement>) => {
         const message = e.target.value;
-        this.handleChange(message);
-    }
 
-    handleChange = (message: string, content?: JSONContent) => {
         let serverError = this.state.serverError;
         if (isErrorInvalidSlashCommand(serverError)) {
             serverError = null;
@@ -784,12 +778,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
         const draft = this.state.draft!;
         const show = isDraftEmpty(draft) ? false : draft.show;
-        const updatedDraft = {
-            ...draft,
-            content,
-            message,
-            show,
-        };
+        const updatedDraft = {...draft, message, show};
 
         this.handleDraftChange(updatedDraft);
 
@@ -801,7 +790,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         this.draftsForPost[this.props.rootId] = updatedDraft;
     }
 
-    handleDraftChange = (draft: NewPostDraft, rootId?: string, save = false) => {
+    handleDraftChange = (draft: PostDraft, rootId?: string, save = false) => {
         this.isDraftEdited = true;
 
         if (this.saveDraftFrame) {
@@ -1190,33 +1179,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         this.lastBlurAt = Date.now();
     }
 
-    arrowUpHandling = ({editor}: {editor: Editor}) => {
-        if (editor.isEmpty) {
-            const {data: canEditNow} = this.props.onEditLatestPost();
-            if (!canEditNow) {
-                editor.commands.focus();
-                return false;
-            }
-            return true;
-        }
-        return true;
-    };
-
-    onAttachmentChange = (fileInfos: FileInfo[], uploadsInProgress: string[]) => {
-        const {rootId} = this.props;
-        const updatedDraft = {
-            ...this.props.draft,
-            fileInfos,
-            uploadsInProgress,
-        };
-
-        this.setState({draft: updatedDraft});
-        this.handleDraftChange(updatedDraft, rootId, true);
-    }
-
     render() {
         const draft = this.state.draft!;
-
         return (
             <form onSubmit={this.handleSubmit}>
                 {
@@ -1257,7 +1221,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     handleSelect={this.handleSelect}
                     handleKeyDown={this.handleKeyDown}
                     postMsgKeyPress={this.commentMsgKeyPress}
-                    handleChange={this.handleChange_DEPR}
+                    handleChange={this.handleChange}
                     toggleEmojiPicker={this.toggleEmojiPicker}
                     handleGifClick={this.handleGifClick}
                     handleEmojiClick={this.handleEmojiClick}

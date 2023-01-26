@@ -83,8 +83,8 @@ function isDraftEmpty(draft: NewPostDraft): boolean {
 
 // Temporary fix for IE-11, see MM-13423
 function trimRight(str: string) {
-    if (String.prototype.trimRight as any) {
-        return str.trimRight();
+    if (String.prototype.trimEnd as any) {
+        return str.trimEnd();
     }
 
     return str.replace(/\s*$/, '');
@@ -146,6 +146,7 @@ type Props = {
     //The maximum length of a post
     maxPostSize: number;
     emojiMap: EmojiMap;
+    useCustomEmojis?: boolean;
 
     //If our connection is bad
     badConnection: boolean;
@@ -703,8 +704,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             return;
         }
 
-        const isDirectOrGroup =
-            updateChannel.type === Constants.DM_CHANNEL || updateChannel.type === Constants.GM_CHANNEL;
+        const isDirectOrGroup = updateChannel.type === Constants.DM_CHANNEL || updateChannel.type === Constants.GM_CHANNEL;
         if (!isDirectOrGroup && trimRight(this.state.message) === '/purpose') {
             const editChannelPurposeModalData = {
                 modalId: ModalIdentifiers.EDIT_CHANNEL_PURPOSE,
@@ -971,7 +971,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     handleChange_DEPR = (e: React.ChangeEvent<TextboxElement>) => {
-        const message = e.currentTarget.value;
+        const message = e.target.value;
 
         let serverError = this.state.serverError;
         if (isErrorInvalidSlashCommand(serverError)) {
@@ -1704,6 +1704,9 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     postType: PostType.post,
                 },
                 enablePriority: this.props.isPostPriorityEnabled,
+                enableEmojiPicker: this.props.enableEmojiPicker,
+                useCustomEmojis: this.props.useCustomEmojis,
+                locale: this.props.locale,
             };
 
             return (

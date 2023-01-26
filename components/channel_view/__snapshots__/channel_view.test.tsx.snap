@@ -145,9 +145,7 @@ exports[`components/channel_view Should match snapshot with base props 1`] = `
     className="post-create__container AdvancedTextEditor__ctr"
     id="post-create"
   >
-    <Connect(AdvancedCreatePost)
-      getChannelView={[Function]}
-    />
+    <Connect(AdvancedCreatePost) />
   </div>
 </div>
 `;
