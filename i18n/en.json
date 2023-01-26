@@ -1001,7 +1001,7 @@
   "admin.general.localization.availableLocalesTitle": "Available Languages:",
   "admin.general.localization.clientLocaleDescription": "Default language for newly created users and pages where the user hasn't logged in.",
   "admin.general.localization.clientLocaleTitle": "Default Client Language:",
-  "admin.general.localization.serverLocaleDescription": "Default language for system messages. Changing this will require a server restart before taking effect.",
+  "admin.general.localization.serverLocaleDescription": "Default language for system messages.",
   "admin.general.localization.serverLocaleTitle": "Default Server Language:",
   "admin.general.log": "Logging",
   "admin.gitlab.authTitle": "Auth Endpoint:",
