@@ -7,13 +7,12 @@ import {Modal} from 'react-bootstrap';
 
 import {General} from 'mattermost-redux/constants';
 
+import {Value} from 'components/multiselect/multiselect';
+import ChannelInviteModal from 'components/channel_invite_modal/channel_invite_modal';
+
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
 import {RelationOneToOne} from '@mattermost/types/utilities';
-
-import {Value} from 'components/multiselect/multiselect';
-
-import ChannelInviteModal from 'components/channel_invite_modal/channel_invite_modal';
 
 type UserProfileValue = Value & UserProfile;
 

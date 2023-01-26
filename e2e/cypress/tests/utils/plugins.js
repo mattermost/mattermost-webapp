@@ -68,8 +68,8 @@ export const jiraPlugin = {
 
 export const matterpollPlugin = {
     id: 'com.github.matterpoll.matterpoll',
-    version: '1.4.0',
-    url: 'https://github.com/matterpoll/matterpoll/releases/download/v1.4.0/com.github.matterpoll.matterpoll-1.4.0.tar.gz',
+    version: '1.5.0',
+    url: 'https://github.com/matterpoll/matterpoll/releases/download/v1.5.0/com.github.matterpoll.matterpoll-1.5.0.tar.gz',
 };
 
 export const testPlugin = {

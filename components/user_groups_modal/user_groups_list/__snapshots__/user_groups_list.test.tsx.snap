@@ -4,6 +4,11 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
 <div
   className="user-groups-modal__content user-groups-list"
   onScroll={[MockFunction]}
+  style={
+    Object {
+      "overflow": "overlay",
+    }
+  }
 >
   <div
     className="group-row"
@@ -138,7 +143,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
           ariaLabel="User Actions Menu"
           className="group-actions-menu"
           openLeft={true}
-          openUp={false}
+          openUp={true}
         >
           <MenuGroup>
             <MenuItemAction
@@ -221,7 +226,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
           ariaLabel="User Actions Menu"
           className="group-actions-menu"
           openLeft={true}
-          openUp={false}
+          openUp={true}
         >
           <MenuGroup>
             <MenuItemAction
@@ -254,6 +259,7 @@ exports[`component/user_groups_modal should match snapshot with groups 1`] = `
       </MenuWrapper>
     </div>
   </div>
+  <ADLDAPUpsellBanner />
 </div>
 `;
 
@@ -261,5 +267,12 @@ exports[`component/user_groups_modal should match snapshot without groups 1`] = 
 <div
   className="user-groups-modal__content user-groups-list"
   onScroll={[MockFunction]}
-/>
+  style={
+    Object {
+      "overflow": "overlay",
+    }
+  }
+>
+  <ADLDAPUpsellBanner />
+</div>
 `;
