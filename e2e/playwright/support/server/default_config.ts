@@ -673,7 +673,7 @@ const defaultServerConfig: AdminConfig = {
         GraphQL: false,
         InsightsEnabled: true,
         CommandPalette: false,
-        BoardsProduct: false,
+        BoardsProduct: true,
         SendWelcomePost: true,
         PostPriority: false,
         PeopleProduct: false,
