@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import classnames from 'classnames';
 import styled from 'styled-components';
@@ -146,8 +146,13 @@ const GenericPreview = ({items, onUpdateIllustration}: GenericPreviewSectionProp
         onUpdateIllustration?.(illustration);
     };
 
-    return (<ul>
-        {items.map((c) => (
+    if (!items || items.length === 0) {
+        return null;
+    }
+
+    let list: ReactNode = (<li key={items[0].id}>{items[0].name}</li>);
+    if (items.length > 1) {
+        list = items.map((c) => (
             <li key={c.id}>
                 <a
                     href='#'
@@ -156,8 +161,10 @@ const GenericPreview = ({items, onUpdateIllustration}: GenericPreviewSectionProp
                     {c.name}
                 </a>
             </li>
-        ))}
-    </ul>);
+        ));
+    }
+
+    return (<ul>{list}</ul>);
 };
 
 const StyledPreviewSection = styled(PreviewSection)`

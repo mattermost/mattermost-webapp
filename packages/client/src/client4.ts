@@ -95,7 +95,6 @@ import type {
 } from '@mattermost/types/marketplace';
 import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse, PostAcknowledgement, PostAnalytics} from '@mattermost/types/posts';
 import {Draft} from '@mattermost/types/drafts';
-import {BoardsUsageResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
 import {SamlCertificateStatus, SamlMetadataResponse} from '@mattermost/types/saml';
@@ -134,7 +133,7 @@ import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
 import {LeastActiveChannelsResponse, TopChannelResponse, TopReactionResponse, TopThreadResponse, TopDMsResponse} from '@mattermost/types/insights';
 
-import {Category, WorkTemplate} from '@mattermost/types/work_templates';
+import {Category, ExecuteWorkTemplateRequest, ExecuteWorkTemplateResponse, WorkTemplate} from '@mattermost/types/work_templates';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
@@ -354,6 +353,13 @@ export default class Client4 {
         return this.doFetch<WorkTemplate[]>(
             `${this.getBaseWorkTemplate()}/categories/${categoryId}/templates`,
             {method: 'get'},
+        );
+    }
+
+    executeWorkTemplate = (req: ExecuteWorkTemplateRequest) => {
+        return this.doFetch<ExecuteWorkTemplateResponse>(
+            `${this.getBaseWorkTemplate()}/execute`,
+            {method: 'post', body: JSON.stringify(req)},
         );
     }
 
@@ -3522,15 +3528,7 @@ export default class Client4 {
         );
     };
 
-    getBoardsUsage = () => {
-        return this.doFetch<BoardsUsageResponse>(
-            `${this.getBoardsRoute()}/limits`,
-            {method: 'get'},
-        );
-    }
-
     // Groups
-
     linkGroupSyncable = (groupID: string, syncableID: string, syncableType: string, patch: SyncablePatch) => {
         return this.doFetch<GroupSyncable>(
             `${this.getGroupRoute(groupID)}/${syncableType}s/${syncableID}/link`,

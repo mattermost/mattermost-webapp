@@ -75,10 +75,6 @@ function setupStore(setupOptions: SetupOptions) {
                     history: 0,
                     historyLoaded: true,
                 },
-                boards: {
-                    cards: 0,
-                    cardsLoaded: true,
-                },
                 teams: {
                     active: 0,
                     cloudArchived: 0,
