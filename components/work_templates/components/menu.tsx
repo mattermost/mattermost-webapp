@@ -8,6 +8,7 @@ import styled from 'styled-components';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {Category, WorkTemplate} from '@mattermost/types/work_templates';
+import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import UseCaseMenuItem from './menu/use_case';
 
@@ -65,7 +66,7 @@ const Menu = ({className, disableQuickUse, categories, workTemplates, currentCat
     const {formatMessage} = useIntl();
 
     useEffect(() => {
-        trackEvent('work_templates', 'pageview_menu');
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'pageview_menu');
     }, []);
 
     const quickUse = (template: WorkTemplate) => {

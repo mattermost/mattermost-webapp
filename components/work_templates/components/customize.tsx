@@ -7,7 +7,7 @@ import {useIntl} from 'react-intl';
 
 import PublicPrivateSelector from 'components/widgets/public-private-selector/public-private-selector';
 import {trackEvent} from 'actions/telemetry_actions';
-import Constants from 'utils/constants';
+import Constants, {TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {Visibility} from '@mattermost/types/work_templates';
 import {ChannelType} from '@mattermost/types/channels';
@@ -31,7 +31,7 @@ const Customize = ({
     const {formatMessage} = useIntl();
 
     useEffect(() => {
-        trackEvent('work_templates', 'pageview_customize');
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'pageview_customize');
     }, []);
 
     const privacySelectorValue = (visibility === Visibility.Public ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL) as ChannelType;

@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import LocalizedIcon from 'components/localized_icon';
 import {closeModal as closeModalAction} from 'actions/views/modals';
 import {trackEvent} from 'actions/telemetry_actions';
-import {ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {
     clearCategories,
@@ -90,7 +90,7 @@ const WorkTemplateModal = () => {
     const playbookTemplates = useSelector((state: GlobalState) => state.entities.worktemplates.playbookTemplates);
 
     useEffect(() => {
-        trackEvent('work_templates', 'open_modal');
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'open_modal');
     }, []);
 
     // load the categories if they are not found, or load the work templates for those categories.
@@ -122,7 +122,7 @@ const WorkTemplateModal = () => {
     }, [currentCategoryId, modalState, selectedTemplate, selectedVisibility]);
 
     const changeCategory = (category: Category) => {
-        trackEvent('work_templates', 'change_category', {category: category.id});
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'change_category', {category: category.id});
         setCurrentCategoryId(category.id);
         if (workTemplates[category.id]?.length) {
             return;
@@ -142,25 +142,25 @@ const WorkTemplateModal = () => {
     const handleTemplateSelected = (template: WorkTemplate, quickUse: boolean) => {
         setSelectedTemplate(template);
         if (quickUse) {
-            trackEvent('work_templates', 'quick_use', {category: template.category, template: template.id});
+            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'quick_use', {category: template.category, template: template.id});
             execute(template, '', template.visibility);
             return;
         }
 
-        trackEvent('work_templates', 'select_template', {category: template.category, template: template.id});
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'select_template', {category: template.category, template: template.id});
         setModalState(ModalState.Preview);
     };
 
     const handleOnNameChanged = (name: string) => {
-        trackEvent('work_templates', 'customize_name', {category: selectedTemplate?.category, template: selectedTemplate?.id});
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'customize_name', {category: selectedTemplate?.category, template: selectedTemplate?.id});
         setSelectedName(name);
     };
 
     const handleOnVisibilityChanged = (visibility: Visibility) => {
         if (visibility === Visibility.Public) {
-            trackEvent('work_templates', 'changed_visibility_public', {category: selectedTemplate?.category, template: selectedTemplate?.id});
+            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'changed_visibility_public', {category: selectedTemplate?.category, template: selectedTemplate?.id});
         } else {
-            trackEvent('work_templates', 'customized_visibility_private', {category: selectedTemplate?.category, template: selectedTemplate?.id});
+            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'customized_visibility_private', {category: selectedTemplate?.category, template: selectedTemplate?.id});
         }
 
         setSelectedVisibility(visibility);
@@ -186,17 +186,17 @@ const WorkTemplateModal = () => {
         };
 
         setIsCreating(true);
-        trackEvent('work_templates', 'executing', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility});
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'executing', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility});
         const {data, error} = await dispatch(executeWorkTemplate(req)) as ActionResult<ExecuteWorkTemplateResponse>;
 
         if (error) {
-            trackEvent('work_templates', 'execution_error', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility, error: error.message});
+            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'execution_error', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility, error: error.message});
             setIsCreating(false);
             setErrorText(error.message);
             return;
         }
 
-        trackEvent('work_templates', 'execution_success', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility});
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'execution_success', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility});
         let firstChannelId = '';
         if (data?.channel_with_playbook_ids.length) {
             firstChannelId = data.channel_with_playbook_ids[0];
@@ -215,7 +215,7 @@ const WorkTemplateModal = () => {
             if (selectedTemplate) {
                 props = {category: selectedTemplate?.category, template: selectedTemplate?.id};
             }
-            trackEvent('work_templates', action, props);
+            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, action, props);
 
             actionFn();
         };

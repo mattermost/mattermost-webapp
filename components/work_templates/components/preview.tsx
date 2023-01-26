@@ -10,11 +10,11 @@ import {useSelector} from 'react-redux';
 import {AccordionItemType} from 'components/common/accordion/accordion';
 import {trackEvent} from 'actions/telemetry_actions';
 import {GlobalState} from 'types/store';
-
-import {getTemplateDefaultIllustration} from '../utils';
-
+import {TELEMETRY_CATEGORIES} from 'utils/constants';
 import {Board, Channel, Integration, Playbook, WorkTemplate} from '@mattermost/types/work_templates';
 import {MarketplacePlugin} from '@mattermost/types/marketplace';
+
+import {getTemplateDefaultIllustration} from '../utils';
 
 import Accordion from './preview/accordion';
 import Chip from './preview/chip';
@@ -68,7 +68,7 @@ const Preview = ({template, className, pluginsEnabled}: PreviewProps) => {
     });
 
     useEffect(() => {
-        trackEvent('work_templates', 'pageview_preview');
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'pageview_preview');
     }, []);
 
     useEffect(() => {
@@ -219,7 +219,7 @@ const Preview = ({template, className, pluginsEnabled}: PreviewProps) => {
 
     // When opening an accordion section, change the illustration to whatever has been open
     const handleItemOpened = (index: number) => {
-        trackEvent('work_templates', 'expand_preview_section', {section: accordionItemsData[index].id, category: template.category, template: template.id});
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'expand_preview_section', {section: accordionItemsData[index].id, category: template.category, template: template.id});
         const item = accordionItemsData[index];
         const newPrior = {
             ...illustrationDetails.current,
