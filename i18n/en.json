@@ -2998,7 +2998,8 @@
   "cloud_delinquency.cc_modal.card.reactivate": "Re-activate",
   "cloud_delinquency.cc_modal.card.totalOwed": "Total Owed",
   "cloud_delinquency.cc_modal.card.viewBreakdown": "View Breakdown",
-  "cloud_delinquency.cc_modal.disclaimer": "Upon reactivation you will be charged the total owed.  Your bill is calculated at the end of the billing cycle based on the number of enabled users.",
+  "cloud_delinquency.cc_modal.disclaimer": "Upon reactivation you will be charged the total owed.  Your bill is calculated at the end of the billing cycle based on the number of enabled users. {seeHowBillingWorks}",
+  "cloud_delinquency.cc_modal.disclaimer_with_upgrade_info": "Upon reactivation you will be charged the total owed.  You will be further charged ${cost} immediately for the cost of a 1 year subscription according to your currently active user count of {users} users. {seeHowBillingWorks}",
   "cloud_delinquency.modal.re_activate_plan": "Re-activate {planName}",
   "cloud_delinquency.modal.stay_on_freemium": "Stay on Free",
   "cloud_delinquency.modal.stay_on_freemium_close": "Close",
@@ -5653,6 +5654,6 @@
   "workspace_limits.teams_limit_reached.upgrade_to_unarchive": "Upgrade to Unarchive",
   "workspace_limits.teams_limit_reached.view_upgrade_options": "View upgrade options",
   "workspace_limits.upgrade": "Upgrade to avoid {planName} data limits",
-  "workspace_limits.upgrade_reasons.free": "{planName} is restricted to {messagesLimit} message history, {storageLimit} file storage, {appsLimit} apps, and {boardsCardsLimit} board cards. You can delete items to free up space or upgrade to a paid plan.",
+  "workspace_limits.upgrade_reasons.free": "{planName} is restricted to {messagesLimit} message history, {storageLimit} file storage, and {boardsCardsLimit} board cards. You can delete items to free up space or upgrade to a paid plan.",
   "yourcomputer": "Your computer"
 }
