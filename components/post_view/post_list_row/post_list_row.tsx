@@ -19,7 +19,7 @@ import ChannelIntroMessage from 'components/post_view/channel_intro_message/';
 import {isIdNotPost} from 'utils/post_utils';
 import {PostListRowListIds, Locations} from 'utils/constants';
 import CenterMessageLock from 'components/center_message_lock';
-import PostComponent from 'components/new_post';
+import PostComponent from 'components/post';
 import {UserProfile} from '@mattermost/types/users';
 
 export type PostListRowProps = {
@@ -170,6 +170,7 @@ export default class PostListRow extends React.PureComponent<PostListRowProps> {
         if (PostListUtils.isCombinedUserActivityPost(listId)) {
             return (
                 <CombinedUserActivityPost
+                    location={Locations.CENTER}
                     combinedId={listId}
                     {...postProps}
                 />

@@ -7,10 +7,11 @@ import {makeGenerateCombinedPost} from 'mattermost-redux/utils/post_list';
 
 import {GlobalState} from '@mattermost/types/store';
 
-import Post from 'components/post_view/post';
+import Post from 'components/post';
 
 type Props = {
     combinedId: string;
+    shouldHighlight?: boolean;
 }
 
 function makeMapStateToProps() {
@@ -20,6 +21,7 @@ function makeMapStateToProps() {
         return {
             post: generateCombinedPost(state, ownProps.combinedId),
             postId: ownProps.combinedId,
+            shouldHighlight: ownProps.shouldHighlight,
         };
     };
 }

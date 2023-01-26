@@ -11,7 +11,7 @@ import DateSeparator from 'components/post_view/date_separator';
 import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
 
-import PostComponent from 'components/new_post';
+import PostComponent from 'components/post';
 
 import {Locations} from 'utils/constants';
 
@@ -70,6 +70,7 @@ function ThreadViewerRow({
     case PostListUtils.isCombinedUserActivityPost(listId): {
         return (
             <CombinedUserActivityPost
+                location={Locations.CENTER}
                 combinedId={listId}
                 previousPostId={previousPostId}
                 isLastPost={isLastPost}
