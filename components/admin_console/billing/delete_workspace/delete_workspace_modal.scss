@@ -1,16 +1,15 @@
 .DeleteWorkspaceModal {
-
     width: 600px;
-    
+
     .modal-body {
         .GenericModal__body {
             display: flex;
             flex-direction: column;
+            padding: 24px 24px 0 24px;
             text-align: center;
-            padding: 24px 24px 0px 24px;
 
             * {
-                margin-bottom: 10px;    
+                margin-bottom: 10px;
             }
         }
     }
@@ -28,8 +27,8 @@
         text-align: left;
 
         &-Highlighted {
-            font-weight: 700;
             color: black;
+            font-weight: 700;
         }
     }
 
@@ -47,17 +46,17 @@
         }
 
         &-Delete {
-            background: none;
+            padding: 0;
             border: none;
             margin: 0;
-            padding: 0;
+            background: none;
             color: var(--dnd-indicator);
             font-weight: 600;
         }
 
         &-Downgrade {
-            margin-left: auto;
             border-color: var(--denim-button-bg);
+            margin-left: auto;
             background: none;
             color: var(--denim-button-bg);
             font-weight: 600;
