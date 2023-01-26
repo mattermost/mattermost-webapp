@@ -109,7 +109,10 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
             (inputRef as HTMLElement).addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
 
             if (this.props.focusOnLoad) {
-                this.reactSelectRef.current!.focus(); // known from ternary definition of inputRef
+                requestAnimationFrame(() => {
+                    // known from ternary definition of inputRef
+                    this.reactSelectRef.current!.focus();
+                });
             }
         }
     }

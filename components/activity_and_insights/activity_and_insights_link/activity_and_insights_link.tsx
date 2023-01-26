@@ -48,7 +48,6 @@ const ActivityAndInsightsLink = () => {
                     id='sidebarItem_insights'
                     draggable='false'
                     className={'SidebarLink sidebar-item'}
-                    role='listitem'
                     tabIndex={0}
                 >
                     <span className='icon'>
