@@ -429,7 +429,13 @@ const PostComponent = (props: Props): JSX.Element => {
     );
 
     const showSlot = props.isPostBeingEdited ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
-    const threadFooter = props.location !== Locations.RHS_ROOT && props.isCollapsedThreadsEnabled && !post.root_id && (props.hasReplies || post.is_following) ? <ThreadFooter threadId={post.id}/> : null;
+    const threadFooter = props.location !== Locations.RHS_ROOT && props.isCollapsedThreadsEnabled && !post.root_id && (props.hasReplies || post.is_following) ?
+        (
+            <ThreadFooter
+                threadId={post.id}
+                replyClick={handleCommentClick}
+            />
+        ) : null;
     const currentPostDay = getDateForUnixTicks(post.create_at);
     const channelDisplayName = getChannelName();
     const showReactions = props.location !== Locations.SEARCH && !props.isPinnedPosts && !props.isFlaggedPosts;
