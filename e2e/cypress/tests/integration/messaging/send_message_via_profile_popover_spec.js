@@ -49,19 +49,19 @@ describe('Profile popover', () => {
 
         cy.getLastPostId().then((lastPostId) => {
             // # On default viewport width of 1300
-            // # Click profile icon to open profile popover. Click "Send Message" and verify redirects to DM channel
+            // # Click profile icon to open profile popover. Click "Message" and verify redirects to DM channel
             verifyDMChannelViaSendMessage(lastPostId, testTeam, testChannel, '.status-wrapper', otherUser);
 
-            // # Click username to open profile popover. Click "Send Message" and verify redirects to DM channel
+            // # Click username to open profile popover. Click "Message" and verify redirects to DM channel
             verifyDMChannelViaSendMessage(lastPostId, testTeam, testChannel, '.user-popover', otherUser);
 
             // # On mobile view
             cy.viewport('iphone-6');
 
-            // # Click profile icon to open profile popover. Click "Send Message" and verify redirects to DM channel
+            // # Click profile icon to open profile popover. Click "Message" and verify redirects to DM channel
             verifyDMChannelViaSendMessage(lastPostId, testTeam, testChannel, '.status-wrapper', otherUser);
 
-            // # Click username to open profile popover. Click "Send Message" and verify redirects to DM channel
+            // # Click username to open profile popover. Click "Message" and verify redirects to DM channel
             verifyDMChannelViaSendMessage(lastPostId, testTeam, testChannel, '.user-popover', otherUser);
         });
     });
@@ -84,7 +84,7 @@ function verifyDMChannelViaSendMessage(postId, team, channel, profileSelector, u
     // * Verify that profile popover is opened
     cy.wait(TIMEOUTS.HALF_SEC);
     cy.get('#user-profile-popover').should('be.visible').within(() => {
-        // # Click "Send Message" on profile popover
+        // # Click "Message" on profile popover
         cy.findByText('Message').should('be.visible').click();
     });
 

@@ -43,8 +43,9 @@ interface Props {
 
 // eslint-disable-next-line react/require-optimization
 class TeamButton extends React.PureComponent<Props> {
-    handleSwitch = () => {
+    handleSwitch = (e: React.MouseEvent) => {
         mark('TeamLink#click');
+        e.preventDefault();
         this.props.switchTeam(this.props.url);
 
         setTimeout(() => {
