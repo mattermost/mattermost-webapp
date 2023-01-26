@@ -33,8 +33,13 @@ describe('Incoming webhook', () => {
     });
 
     it('MM-T641 Edit incoming webhook, webhook posts attachment', () => {
+        cy.intercept('GET', '**api/v4/channels/**').as('channels');
+        cy.intercept('GET', '**/api/v4/**').as('networkCalls');
+
         // # Go to test team/channel, open product menu and click "Integrations"
         cy.visit(`${testTeam.name}/channels/town-square`);
+        cy.wait('@channels');
+        cy.wait('@networkCalls');
         cy.uiOpenProductMenu('Integrations');
 
         // * Verify that it redirects to integrations URL. Then, click "Incoming Webhooks"

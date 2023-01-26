@@ -1,11 +1,22 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+const fs = require('fs');
 const path = require('path');
 
 const chalk = require('chalk');
 
 const packageJson = require('../package.json');
+
+function getProductStartCommands() {
+    const commands = [];
+
+    if (fs.existsSync('../focalboard')) {
+        commands.push({command: 'make watch-product', cwd: '../focalboard', name: 'boards', prefixColor: 'red'});
+    }
+
+    return commands;
+}
 
 function getWorkspaces() {
     return packageJson.workspaces;
@@ -39,6 +50,7 @@ function getColorForWorkspace(workspace) {
 }
 
 module.exports = {
+    getProductStartCommands,
     getWorkspaces,
     getWorkspaceCommands,
 };

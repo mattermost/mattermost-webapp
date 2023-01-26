@@ -57,9 +57,10 @@ interface MenuProps {
     changeCategory: (category: Category) => void;
     workTemplates: Record<string, WorkTemplate[]>;
     currentCategoryId: string;
+    disableQuickUse: boolean;
 }
 
-const Menu = ({className, categories, workTemplates, currentCategoryId, changeCategory, onTemplateSelected}: MenuProps) => {
+const Menu = ({className, disableQuickUse, categories, workTemplates, currentCategoryId, changeCategory, onTemplateSelected}: MenuProps) => {
     const {formatMessage} = useIntl();
 
     const quickUse = (template: WorkTemplate) => {
@@ -96,6 +97,7 @@ const Menu = ({className, categories, workTemplates, currentCategoryId, changeCa
             <UseCases>
                 {workTemplates[currentCategoryId]?.map((workTemplate) => (
                     <UseCaseMenuItem
+                        disableQuickUse={disableQuickUse}
                         key={workTemplate.id}
                         name={workTemplate.useCase}
                         illustration={workTemplate.illustration}

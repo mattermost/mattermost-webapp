@@ -12,16 +12,17 @@
         border-radius: 8px;
 
         .ad_ldap_upsell_banner {
-            position: absolute;
+            position: sticky;
             z-index: 4;
             right: 12px;
-            bottom: 12px;
+            bottom: 6px;
             left: 12px;
             display: flex;
             height: 44px;
             align-items: center;
             justify-content: space-between;
             padding: 12px 8px;
+            margin: 0 12px;
             background-color: var(--denim-sidebar-active-border);
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
@@ -58,7 +59,7 @@
         }
 
         .ad_ldap_upsell_confirm {
-            position: absolute;
+            position: sticky;
             z-index: 4;
             top: 0;
             right: 0;
@@ -70,7 +71,11 @@
             border-radius: 0 0 8px 8px;
 
             .upsell-confirm-backdrop {
-                height: calc(100% - 148px);
+                position: fixed;
+                z-index: 5;
+                bottom: 164px;
+                width: 100%;
+                height: calc(100% - 164px);
                 background: rgba(0, 0, 0, 0.16);
             }
 
@@ -157,6 +162,7 @@
     }
 
     .modal-body {
+        overflow: hidden;
         max-height: 100%;
         padding: 0;
 
@@ -260,7 +266,7 @@
                 .group-row {
                     display: flex;
                     align-items: center;
-                    padding: 18px 32px;
+                    padding: 14px 32px;
 
                     &:hover {
                         background: rgba(var(--center-channel-color-rgb), 0.08);

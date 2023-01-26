@@ -38,7 +38,7 @@ describe('Category muting', () => {
         cy.get('#sidebarItem_off-topic').should('not.have.class', 'muted');
 
         // # Mute the category
-        clickCategoryMenuItem('channels', 'Mute Category');
+        clickCategoryMenuItem('CHANNELS', 'Mute Category');
 
         // * Verify that the category has been muted
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('have.class', 'muted');
@@ -46,7 +46,7 @@ describe('Category muting', () => {
         cy.get('#sidebarItem_off-topic').should('have.class', 'muted');
 
         // # Unmute the category
-        clickCategoryMenuItem('channels', 'Unmute Category');
+        clickCategoryMenuItem('CHANNELS', 'Unmute Category');
 
         // * Verify that the category is no longer muted
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('not.have.class', 'muted');
@@ -67,13 +67,13 @@ describe('Category muting', () => {
             cy.get(`.SidebarChannelGroupHeader:contains(${category.displayName})`).should('have.class', 'muted');
 
             // # Move Town Square into the custom category
-            cy.uiMoveChannelToCategory('town-square', category.displayName);
+            cy.uiMoveChannelToCategory('Town Square', category.displayName);
 
             // * Verify that Town Square is now muted
             cy.get('#sidebarItem_town-square').should('have.class', 'muted');
 
             // # Move Town Square back to Channels
-            cy.uiMoveChannelToCategory('town-square', 'CHANNELS');
+            cy.uiMoveChannelToCategory('Town Square', 'Channels');
 
             // * Verify that Town Square is now unmuted
             cy.get('#sidebarItem_town-square').should('not.have.class', 'muted');
@@ -85,7 +85,7 @@ describe('Category muting', () => {
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible').should('not.have.class', 'muted');
 
         // # Mute Channels
-        clickCategoryMenuItem('channels', 'Mute Category');
+        clickCategoryMenuItem('CHANNELS', 'Mute Category');
 
         cy.makeClient({user: getAdminAccount()}).then((client) => {
             // # Have another user create a channel
