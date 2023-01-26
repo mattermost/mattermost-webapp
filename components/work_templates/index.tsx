@@ -21,7 +21,7 @@ import {
 import {Category, ExecuteWorkTemplateRequest, ExecuteWorkTemplateResponse, Visibility, WorkTemplate} from '@mattermost/types/work_templates';
 import {GlobalState} from '@mattermost/types/store';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {fetchListing} from 'actions/marketplace';
+import {fetchRemoteListing} from 'actions/marketplace';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {switchToChannelById} from 'actions/views/channel';
@@ -100,7 +100,7 @@ const WorkTemplateModal = () => {
 
     useEffect(() => {
         if (pluginsEnabled) {
-            dispatch(fetchListing());
+            dispatch(fetchRemoteListing());
         }
     }, [dispatch, pluginsEnabled]);
 
