@@ -22,6 +22,7 @@ import {
     ValidBusinessEmail,
     LicenseExpandStatus,
     CreateSubscriptionRequest,
+    Feedback,
 } from '@mattermost/types/cloud';
 import {
     SelfHostedSignupForm,
@@ -3955,10 +3956,10 @@ export default class Client4 {
         );
     }
 
-    subscribeCloudProduct = (productId: string, seats = 0) => {
+    subscribeCloudProduct = (productId: string, seats = 0, feedback?: Feedback) => {
         return this.doFetch<CloudCustomer>(
             `${this.getCloudRoute()}/subscription`,
-            {method: 'put', body: JSON.stringify({product_id: productId, seats})},
+            {method: 'put', body: JSON.stringify({product_id: productId, seats, feedback})},
         );
     }
 
@@ -4268,10 +4269,10 @@ export default class Client4 {
         );
     }
 
-    deleteWorkspace = () => {
+    deleteWorkspace = (feedback: Feedback) => {
         return this.doFetch<StatusOK>(
-            `${this.getBaseRoute()}/deleteWorkspace`,
-            {method: 'post'},
+            `${this.getBaseRoute()}/delete-workspace`,
+            {method: 'post', body: JSON.stringify(feedback)},
         );
     }
 }

@@ -31,13 +31,13 @@ import {useQuery} from 'utils/http_utils';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
+import DeleteWorkspaceCTA from 'components/admin_console/billing//delete_workspace/delete_workspace_cta';
 
 import PlanDetails from '../plan_details';
 import BillingSummary from '../billing_summary';
 import {GlobalState} from '@mattermost/types/store';
 
 import ContactSalesCard from './contact_sales_card';
-import CancelSubscription from './cancel_subscription';
 import Limits from './limits';
 
 import {
@@ -47,7 +47,6 @@ import {
 import LimitReachedBanner from './limit_reached_banner';
 
 import './billing_subscriptions.scss';
-import DeleteWorkspaceCTA from '../delete_workspace/delete_workspace_cta';
 
 const BillingSubscriptions = () => {
     const dispatch = useDispatch<DispatchFunc>();
@@ -61,7 +60,6 @@ const BillingSubscriptions = () => {
     const isCardExpired = isCustomerCardExpired(useSelector(selectCloudCustomer));
 
     const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
-    const cancelAccountLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.CancelAccount);
     const trialQuestionsLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.TrialQuestions);
     const trialEndDate = subscription?.trial_end_at || 0;
 
@@ -161,10 +159,6 @@ const BillingSubscriptions = () => {
                                 onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                             />
                         )}
-                        <CancelSubscription
-                            cancelAccountLink={cancelAccountLink}
-                            isFreeTrial={isFreeTrial}
-                        />
                         <DeleteWorkspaceCTA/>
                     </>}
                 </div>

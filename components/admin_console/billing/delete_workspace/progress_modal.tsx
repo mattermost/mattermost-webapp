@@ -2,27 +2,26 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect, useRef, useState} from 'react';
+import {injectIntl, WrappedComponentProps} from 'react-intl';
 import {useDispatch} from 'react-redux';
 
 import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import BackgroundSvg from 'components/common/svg_images_components/background_svg';
 
-import 'components/payment_form/payment_form.scss';
-
 import IconMessage from 'components/purchase_modal/icon_message';
-import {t} from 'utils/i18n';
-
-import './progress_modal.scss';
 
 import {closeModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 
+import './progress_modal.scss';
 const MIN_PROCESSING_MILLISECONDS = 5000;
 const MAX_FAKE_PROGRESS = 95;
 
-export default function DeleteWorkspaceProgressModal() {
+type Props = WrappedComponentProps
+
+const DeleteWorkspaceProgressModal = (props: Props) => {
     const modal = React.createRef();
     const mounted = useRef(false);
     const dispatch = useDispatch();
@@ -65,10 +64,14 @@ export default function DeleteWorkspaceProgressModal() {
                 ariaLabelledBy='purchase_modal_title'
                 overrideTargetEvent={false}
             >
-                <div id='DowngradeModal'>
+                <div id='DeleteWorkspaceProgressModal'>
                     <IconMessage
-                        title={t('admin.billing.deleteWorkspace')}
-                        subtitle={''}
+                        title={
+                            props.intl.formatMessage({
+                                id: 'admin.billing.delete_workspace.progress_modal.title',
+                                defaultMessage: 'Deleting Workspace',
+                            })
+                        }
                         icon={
                             <CreditCardSvg
                                 width={444}
@@ -85,4 +88,6 @@ export default function DeleteWorkspaceProgressModal() {
             </FullScreenModal>
         </RootPortal>
     );
-}
+};
+
+export default injectIntl(DeleteWorkspaceProgressModal);

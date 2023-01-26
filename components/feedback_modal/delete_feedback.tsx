@@ -1,30 +1,32 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Feedback} from '@mattermost/types/cloud';
-import FeedbackModal from 'components/feedback_modal';
 import React from 'react';
+
 import {injectIntl, WrappedComponentProps} from 'react-intl';
 
+import {Feedback} from '@mattermost/types/cloud';
+import FeedbackModal from 'components/feedback_modal';
+
 type Props = {
-    onSubmit: (feedback: Feedback) => void
+    onSubmit: (feedback: Feedback) => void;
 } &WrappedComponentProps
 
 const DeleteFeedbackModal = (props: Props) => {
     const deleteFeedbackModalTitle = props.intl.formatMessage({
-        id:'feedback.deleteWorkspace.feedbackTitle',
-        defaultMessage:'Please share your reason for deleting'
+        id: 'feedback.deleteWorkspace.feedbackTitle',
+        defaultMessage: 'Please share your reason for deleting',
     });
 
     const placeHolder = props.intl.formatMessage({
         id: 'feedback.deleteWorkspace.feedbackPlaceholder',
-        defaultMessage: 'Please tell us why you are deleting'
+        defaultMessage: 'Please tell us why you are deleting',
     });
 
     const deleteButtonText = props.intl.formatMessage({
         id: 'feedback.deleteWorkspace.submitText',
-        defaultMessage: 'Delete Workspace'
-    })
+        defaultMessage: 'Delete Workspace',
+    });
 
     const deleteFeedbackOptions = [
         props.intl.formatMessage({
@@ -53,7 +55,7 @@ const DeleteFeedbackModal = (props: Props) => {
             submitText={deleteButtonText}
             onSubmit={props.onSubmit}
         />
-    )
-}
+    );
+};
 
-export default injectIntl(DeleteFeedbackModal)
+export default injectIntl(DeleteFeedbackModal);

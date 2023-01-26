@@ -1,30 +1,32 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Feedback} from '@mattermost/types/cloud';
-import FeedbackModal from 'components/feedback_modal';
 import React from 'react';
+
 import {injectIntl, WrappedComponentProps} from 'react-intl';
 
+import {Feedback} from '@mattermost/types/cloud';
+import FeedbackModal from 'components/feedback_modal';
+
 type Props = {
-    onSubmit: (feedback: Feedback) => void
+    onSubmit: (feedback: Feedback) => void;
 } &WrappedComponentProps
 
 const DowngradeFeedbackModal = (props: Props) => {
     const downgradeFeedbackModalTitle = props.intl.formatMessage({
-        id:'feedback.downgradeWorkspace.feedbackTitle',
-        defaultMessage:'Please share your reason for downgrading'
+        id: 'feedback.downgradeWorkspace.feedbackTitle',
+        defaultMessage: 'Please share your reason for downgrading',
     });
 
     const placeHolder = props.intl.formatMessage({
         id: 'feedback.downgradeWorkspace.tellUsWhy',
-        defaultMessage: 'Please tell us why you are downgrading'
+        defaultMessage: 'Please tell us why you are downgrading',
     });
 
     const downgradeButtonText = props.intl.formatMessage({
         id: 'feedback.downgradeWorkspace.downgrade',
-        defaultMessage: 'Downgrade'
-    })
+        defaultMessage: 'Downgrade',
+    });
 
     const downgradeFeedbackOptions = [
         props.intl.formatMessage({
@@ -53,7 +55,7 @@ const DowngradeFeedbackModal = (props: Props) => {
             submitText={downgradeButtonText}
             onSubmit={props.onSubmit}
         />
-    )
-}
+    );
+};
 
-export default injectIntl(DowngradeFeedbackModal)
+export default injectIntl(DowngradeFeedbackModal);
