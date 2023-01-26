@@ -13,6 +13,8 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getRandomId} from '../../utils';
 
+import {clickSortCategoryMenuItem} from './helpers';
+
 let testTeam;
 let testUser;
 
@@ -38,16 +40,7 @@ describe('Category sorting', () => {
         }
 
         // # Sort alphabetically
-        cy.get(`.SidebarChannelGroupHeader:contains(${categoryName})`).within(() => {
-            // # Open dropdown next to channel name
-            cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
-
-            // # Open sub menu
-            cy.get('#sortChannels').parent('.SubMenuItem').trigger('mouseover');
-
-            // # Click on sort alphabetically
-            cy.get('#sortAlphabetical').parent('.SubMenuItem').click();
-        });
+        clickSortCategoryMenuItem(categoryName, 'Alphabetically');
 
         // * Verify channels are sorted alphabetically
         verifyAlphabeticalSortingOrder(categoryName, channelNames.length);
@@ -60,16 +53,7 @@ describe('Category sorting', () => {
         verifyAlphabeticalSortingOrder(categoryName, channelNames.length);
 
         // # Sort by recency
-        cy.get(`.SidebarChannelGroupHeader:contains(${categoryName})`).within(() => {
-            // # Open dropdown next to channel name
-            cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
-
-            // # Open sub menu
-            cy.get('#sortChannels').parent('.SubMenuItem').trigger('mouseover');
-
-            // # Click on sort by recency
-            cy.get('#sortByMostRecent').parent('.SubMenuItem').click();
-        });
+        clickSortCategoryMenuItem(categoryName, 'Recent activity');
 
         // # Sort channel names in reverse order that they were created (ie. most recent to least)
         let sortedByRecencyChannelNames = channelNames.concat().reverse();
@@ -89,16 +73,20 @@ describe('Category sorting', () => {
             cy.get(`.SidebarChannelGroup:contains(${categoryName}) .NavGroupContent li:nth-child(${i + 1}) a[id^="sidebarItem_${sortedByRecencyChannelNames[i]}"]`).should('be.visible');
         }
 
-        // # Remove the oldest from the category and put it into Favourites
+        // # Click on channel options of the oldest from the category
         cy.get(`.SidebarChannelGroup:contains(${categoryName}) .NavGroupContent a[id^="sidebarItem_${channelNames[0]}"]`).should('be.visible').within(() => {
             // # Open dropdown next to channel name
             cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
+        });
 
-            // # Open sub menu
-            cy.get('li[id^="moveTo-"]').trigger('mouseover');
+        // # Open the channel menu, select Move to
+        cy.findAllByRole('menu', {name: 'Edit channel menu'}).should('be.visible').within(() => {
+            cy.findByText('Move to...').should('be.visible').trigger('mouseover');
+        });
 
-            // # Click on move to new category
-            cy.findByText(/favorites/i).click();
+        // # Click on move to favorites
+        cy.findAllByRole('menu', {name: 'Move to submenu'}).should('be.visible').within(() => {
+            cy.findByText('Favorites').should('be.visible').click({force: true});
         });
 
         // * Verify the channel is now in Favourites
@@ -106,16 +94,7 @@ describe('Category sorting', () => {
         channelNames.shift();
 
         // # Sort manually
-        cy.get(`.SidebarChannelGroupHeader:contains(${categoryName})`).within(() => {
-            // # Open dropdown next to channel name
-            cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
-
-            // # Open sub menu
-            cy.get('#sortChannels').parent('.SubMenuItem').trigger('mouseover');
-
-            // # Click on sort manually
-            cy.get('#sortManual').parent('.SubMenuItem').click();
-        });
+        clickSortCategoryMenuItem(categoryName, 'Manually');
 
         // # Add another channel
         channelNames.push(createChannelAndAddToCategory(categoryName));
@@ -133,24 +112,7 @@ function createChannelAndAddToCategory(categoryName) {
         // # Add the user to the channel
         cy.apiAddUserToChannel(channel.id, userId).then(() => {
             // # Move to a new category
-            cy.get(`#sidebarItem_${channel.name}`).parent().then((element) => {
-                // # Get id of the channel
-                const id = element[0].getAttribute('data-rbd-draggable-id');
-                cy.get(`.SidebarChannelGroup:contains(${categoryName})`).should('be.visible').then((categoryElement) => {
-                    const categoryId = categoryElement[0].getAttribute('data-rbd-draggable-id');
-
-                    cy.get(`#sidebarItem_${channel.name}`).parent('li').within(() => {
-                        // # Open dropdown next to channel name
-                        cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
-
-                        // # Open sub menu
-                        cy.get(`#moveTo-${id}`).parent('.SubMenuItem').trigger('mouseover');
-
-                        // # Click on move to new category
-                        cy.get(`#moveToCategory-${id}-${categoryId}`).parent('.SubMenuItem').click();
-                    });
-                });
-            });
+            cy.uiMoveChannelToCategory(channel.display_name, categoryName);
         });
     });
     return channelName;
