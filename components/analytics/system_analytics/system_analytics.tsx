@@ -12,6 +12,7 @@ import Constants from 'utils/constants';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import {ActivatedUserCard} from 'components/analytics/activated_users_card';
+import TrueUpReview from 'components/analytics/true_up_review';
 
 import {GlobalState} from 'types/store';
 
@@ -475,6 +476,7 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         {banner}
+                        <TrueUpReview/>
                         <div className='grid-statistics'>
                             {systemCards}
                             {dailyActiveUsers}

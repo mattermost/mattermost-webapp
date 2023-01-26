@@ -35,6 +35,7 @@ interface UseCaseProps {
     channelsCount: number;
     boardsCount: number;
     playbooksCount: number;
+    disableQuickUse: boolean;
 
     onQuickUse: () => void;
     onSelectTemplate: () => void;
@@ -87,7 +88,10 @@ const UseCase = (props: UseCaseProps) => {
             onClick={selectTemplate}
         >
             <div className='illustration'>
-                <QuickUse onClick={quickUse}>{formatMessage({id: 'work_templates.menu.quick_use', defaultMessage: 'Quick use'})}</QuickUse>
+                <QuickUse
+                    onClick={quickUse}
+                    disabled={props.disableQuickUse}
+                >{formatMessage({id: 'work_templates.menu.quick_use', defaultMessage: 'Quick use'})}</QuickUse>
                 <img src={props.illustration}/>
             </div>
             <div className='name'>

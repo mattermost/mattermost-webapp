@@ -192,6 +192,7 @@ var config = {
         new CopyWebpackPlugin({
             patterns: [
                 {from: 'images/emoji', to: 'emoji'},
+                {from: 'images/worktemplates', to: 'worktemplates'},
                 {from: 'images/img_trans.gif', to: 'images'},
                 {from: 'images/logo-email.png', to: 'images'},
                 {from: 'images/circles.png', to: 'images'},
