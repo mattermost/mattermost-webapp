@@ -46,7 +46,7 @@ function mapStateToProps(state: GlobalState) {
         isDevMode: isDevModeEnabled(state),
         contactSupportLink: getCloudContactUsLink(state)(InquiryType.Technical),
         invoices: getCloudDelinquentInvoices(state),
-        isCloudDelinquencyGreaterThan90Days: isCloudDelinquencyGreaterThan90Days(state),
+        isCloudDelinquencyGreaterThan90Days: true,
         isFreeTrial: subscription?.is_free_trial === 'true',
         contactSalesLink: getCloudContactUsLink(state)(InquiryType.Sales),
         productId: subscription?.product_id,
