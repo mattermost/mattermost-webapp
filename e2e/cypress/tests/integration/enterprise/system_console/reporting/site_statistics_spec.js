@@ -67,6 +67,14 @@ describe('System Console > Site Statistics', () => {
         // * Check that the header has loaded correctly and contains the expected text.
         cy.get('.admin-console__header span', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', 'System Statistics');
 
+        cy.wait(TIMEOUTS.ONE_SEC).waitUntil(() => cy.get('body').then((el) => {
+            return !el[0].innerText.includes('Loading');
+        }, {
+            timeout: TIMEOUTS.ONE_MIN,
+            interval: TIMEOUTS.FIVE_SEC,
+            errorMsg: 'Timeout error waiting "Loading..." indicator message to disappear',
+        }));
+
         // * Check that the rows for the table were generated.
         cy.get('.admin-console__content .row').should('have.length', 4);
 
@@ -157,7 +165,7 @@ describe('System Console > Site Statistics', () => {
             cy.uiOpenSettingsModal('Display').then(() => {
                 cy.findByText('Language').click();
                 cy.get('#displayLanguage').click();
-                cy.findByText('Français').click();
+                cy.findByText('Français (Beta)').click();
                 cy.uiSave();
             });
 

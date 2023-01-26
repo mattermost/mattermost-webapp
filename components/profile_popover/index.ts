@@ -14,7 +14,10 @@ import {
     getChannelMembersInChannels,
     canManageAnyChannelMembersInCurrentTeam,
     getCurrentChannelId,
+    getChannelByName,
 } from 'mattermost-redux/selectors/entities/channels';
+import {getCallsConfig, getCalls} from 'mattermost-redux/selectors/entities/common';
+import {Action} from 'mattermost-redux/types/actions';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions';
@@ -25,14 +28,15 @@ import {areTimezonesEnabledAndSupported, getCurrentUserTimezone} from 'selectors
 import {getRhsState, getSelectedPost} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
 import {isAnyModalOpen} from 'selectors/views/modals';
-
 import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
-import {Action} from 'mattermost-redux/types/actions';
 
 import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 
 import {ServerError} from '@mattermost/types/errors';
+
+import {suitePluginIds} from 'utils/constants';
+import {getDirectChannelName} from 'utils/utils';
 
 import ProfilePopover from './profile_popover';
 
@@ -44,6 +48,23 @@ type OwnProps = {
 function getDefaultChannelId(state: GlobalState) {
     const selectedPost = getSelectedPost(state);
     return selectedPost.exists ? selectedPost.channel_id : getCurrentChannelId(state);
+}
+
+function checkUserInCall(state: GlobalState, userId: string) {
+    let isUserInCall = false;
+
+    const calls = getCalls(state);
+    Object.keys(calls).forEach((channelId) => {
+        const usersInCall = calls[channelId];
+
+        for (const user of usersInCall) {
+            if (user.id === userId) {
+                isUserInCall = true;
+                break;
+            }
+        }
+    });
+    return isUserInCall;
 }
 
 function makeMapStateToProps() {
@@ -68,9 +89,15 @@ function makeMapStateToProps() {
         const lastActivityTimestamp = getLastActivityForUserId(state, userId);
         const timestampUnits = getLastActiveTimestampUnits(state, userId);
         const enableLastActiveTime = displayLastActiveLabel(state, userId);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const isCallsEnabled = Boolean(state.plugins.plugins[suitePluginIds.calls]) && Boolean(state['plugins-' + suitePluginIds.calls]);
+        const currentUserId = getCurrentUserId(state);
+        const callsConfig = isCallsEnabled ? getCallsConfig(state) : undefined;
+
         return {
             currentTeamId: team.id,
-            currentUserId: getCurrentUserId(state),
+            currentUserId,
             enableTimezone: areTimezonesEnabledAndSupported(state),
             isTeamAdmin,
             isChannelAdmin,
@@ -89,6 +116,12 @@ function makeMapStateToProps() {
             enableLastActiveTime,
             timestampUnits,
             isMobileView: getIsMobileView(state),
+            isCallsEnabled,
+            isUserInCall: isCallsEnabled ? checkUserInCall(state, userId) : undefined,
+            isCurrentUserInCall: isCallsEnabled ? checkUserInCall(state, currentUserId) : undefined,
+            isCallsDefaultEnabledOnAllChannels: callsConfig?.DefaultEnabled,
+            isCallsCanBeDisabledOnSpecificChannels: callsConfig?.AllowEnableCalls,
+            dMChannelId: getChannelByName(state, getDirectChannelName(currentUserId, userId))?.id,
             teammateNameDisplay: getTeammateNameDisplaySetting(state),
             isAnyModalOpen: isAnyModalOpen(state),
         };
