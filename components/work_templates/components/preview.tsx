@@ -7,11 +7,9 @@ import styled from 'styled-components';
 
 import {CSSTransition} from 'react-transition-group';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {AccordionItemType} from 'components/common/accordion/accordion';
-
-import {fetchListing} from 'actions/marketplace';
 
 import {GlobalState} from 'types/store';
 
@@ -28,7 +26,7 @@ import PreviewSection from './preview/section';
 export interface PreviewProps {
     className?: string;
     template: WorkTemplate;
-    categoryId: string;
+    pluginsEnabled: boolean;
 }
 
 interface IllustrationAnimations {
@@ -48,9 +46,8 @@ const ANIMATE_TIMEOUTS = {
     exit: 200,
 };
 
-const Preview = ({template, categoryId, className}: PreviewProps) => {
+const Preview = ({template, className, pluginsEnabled}: PreviewProps) => {
     const {formatMessage} = useIntl();
-    const dispatch = useDispatch();
 
     const nodeRefForPrior = useRef(null);
     const nodeRefForCurrent = useRef(null);
@@ -74,10 +71,6 @@ const Preview = ({template, categoryId, className}: PreviewProps) => {
     });
 
     useEffect(() => {
-        dispatch(fetchListing());
-    }, []);
-
-    useEffect(() => {
         if (illustrationDetails.prior.animateIn) {
             setIllustrationDetails((prevState: IllustrationAnimations) => ({
                 prior: {
@@ -92,13 +85,20 @@ const Preview = ({template, categoryId, className}: PreviewProps) => {
         }
     }, [illustrationDetails.prior.animateIn]);
 
-    const handleIllustrationUpdate = (illustration: string) => setIllustrationDetails({
-        prior: {...illustrationDetails.current},
-        current: {
-            animateIn: false,
-            illustration,
-        },
-    });
+    const handleIllustrationUpdate = (illustration: string) => {
+        // don't refresh if this is the same illustration
+        if (illustrationDetails.current.illustration === illustration) {
+            return;
+        }
+
+        setIllustrationDetails({
+            prior: {...illustrationDetails.current},
+            current: {
+                animateIn: false,
+                illustration,
+            },
+        });
+    };
 
     const [channels, boards, playbooks, availableIntegrations] = useMemo(() => {
         const channels: Channel[] = [];
@@ -123,6 +123,9 @@ const Preview = ({template, categoryId, className}: PreviewProps) => {
     }, [template.content]);
 
     useEffect(() => {
+        if (!pluginsEnabled) {
+            return;
+        }
         const intg =
             availableIntegrations?.
                 flatMap((integration) => {
@@ -145,7 +148,7 @@ const Preview = ({template, categoryId, className}: PreviewProps) => {
         if (intg?.length) {
             setIntegrations(intg);
         }
-    }, [plugins, availableIntegrations]);
+    }, [plugins, availableIntegrations, pluginsEnabled]);
 
     // building accordion items
     const accordionItemsData: AccordionItemType[] = [];
@@ -197,7 +200,7 @@ const Preview = ({template, categoryId, className}: PreviewProps) => {
             )],
         });
     }
-    if (integrations?.length) {
+    if (integrations?.length && pluginsEnabled) {
         accordionItemsData.push({
             id: 'integrations',
             title: 'Integrations',
@@ -208,7 +211,6 @@ const Preview = ({template, categoryId, className}: PreviewProps) => {
                     id={'integrations'}
                     message={template.description.integration.message}
                     items={integrations}
-                    categoryId={categoryId}
                 />
             )],
         });
@@ -242,9 +244,6 @@ const Preview = ({template, categoryId, className}: PreviewProps) => {
             return;
         }
 
-        if (newCurrent.illustration === newPrior.illustration) {
-            return;
-        }
         setIllustrationDetails({
             prior: newPrior,
             current: newCurrent,
@@ -295,6 +294,7 @@ const StyledPreview = styled(Preview)`
 
     .content-side {
         min-width: 387px;
+        width: 387px;
         height: 416px;
         padding-right: 32px;
     }
@@ -312,6 +312,7 @@ const StyledPreview = styled(Preview)`
     .img-wrapper {
         position: relative;
         width: 100%;
+        margin-top: 32px;
     }
 
     img {
