@@ -124,23 +124,23 @@ function testImage(properties) {
     cy.uiGetFileThumbnail(fileName).click();
 
     // * Verify that the preview modal open up
-    cy.uiGetFilePreviewModal().within(() => {
-        cy.uiGetContentFilePreviewModal().find('img').should((img) => {
-            // * Image aspect ratio is maintained
-            expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 0.01);
-        });
+    cy.uiGetFilePreviewModal().as('filePreviewModal');
 
-        // * Download button should exist
-        cy.uiGetDownloadFilePreviewModal().then((downloadLink) => {
-            expect(downloadLink.attr('download')).to.equal(fileName);
-
-            const fileAttachmentURL = downloadLink.attr('href');
-
-            // * Verify that download link has correct name
-            downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, fileName, 'attachment');
-        });
-
-        // # Close modal
-        cy.uiCloseFilePreviewModal();
+    cy.get('@filePreviewModal').uiGetContentFilePreviewModal().find('img').should((img) => {
+        // * Image aspect ratio is maintained
+        expect(img.width() / img.height()).to.be.closeTo(aspectRatio, 0.01);
     });
+
+    // * Download button should exist
+    cy.get('@filePreviewModal').uiGetDownloadFilePreviewModal().then((downloadLink) => {
+        expect(downloadLink.attr('download')).to.equal(fileName);
+
+        const fileAttachmentURL = downloadLink.attr('href');
+
+        // * Verify that download link has correct name
+        downloadAttachmentAndVerifyItsProperties(fileAttachmentURL, fileName, 'attachment');
+    });
+
+    // # Close modal
+    cy.uiCloseFilePreviewModal();
 }

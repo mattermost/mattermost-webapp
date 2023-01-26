@@ -22,7 +22,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
       "update_at": 0,
     }
   }
-  closeHandler={[Function]}
+  channelLeaveHandler={[Function]}
   icon={
     <i
       className="icon icon-globe"
@@ -55,7 +55,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
       "update_at": 0,
     }
   }
-  closeHandler={[Function]}
+  channelLeaveHandler={[Function]}
   icon={
     <i
       className="icon icon-lock-outline"
@@ -89,7 +89,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
       "update_at": 0,
     }
   }
-  closeHandler={[Function]}
+  channelLeaveHandler={[Function]}
   icon={
     <SharedChannelIndicator
       channelType="O"
@@ -125,7 +125,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
       "update_at": 0,
     }
   }
-  closeHandler={[Function]}
+  channelLeaveHandler={[Function]}
   icon={
     <SharedChannelIndicator
       channelType="P"

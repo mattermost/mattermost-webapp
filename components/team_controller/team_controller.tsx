@@ -5,9 +5,6 @@ import React, {lazy, memo, useEffect, useRef, useState} from 'react';
 import {Route, Switch, useHistory, useParams} from 'react-router-dom';
 import iNoBounce from 'inobounce';
 
-import {Team} from '@mattermost/types/teams';
-import {ServerError} from '@mattermost/types/errors';
-
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {reconnect} from 'actions/websocket_actions.jsx';
@@ -21,6 +18,9 @@ import ChannelController from 'components/channel_layout/channel_controller';
 import useTelemetryIdentitySync from 'components/common/hooks/useTelemetryIdentifySync';
 
 import LocalStorageStore from 'stores/local_storage_store';
+
+import {ServerError} from '@mattermost/types/errors';
+import {Team} from '@mattermost/types/teams';
 
 import type {OwnProps, PropsFromRedux} from './index';
 
@@ -163,11 +163,6 @@ function TeamController(props: Props) {
         setTeam(null);
 
         try {
-            // skip reserved team names
-            if (Constants.RESERVED_TEAM_NAMES.includes(teamNameParam)) {
-                throw new Error('Team name is reserved');
-            }
-
             const {data: joinedTeam} = await props.joinTeam(teamNameParam, joinedOnFirstLoad) as ActionResult<Team, ServerError>; // Fix in MM-46907;
             if (joinedTeam) {
                 setTeam(joinedTeam);
@@ -184,6 +179,11 @@ function TeamController(props: Props) {
     // Effect to run when url for team or teamsList changes
     useEffect(() => {
         if (teamNameParam) {
+            // skip reserved team names
+            if (Constants.RESERVED_TEAM_NAMES.includes(teamNameParam)) {
+                return;
+            }
+
             const teamFromTeamNameParam = getTeamFromTeamList(props.teamsList, teamNameParam);
             if (teamFromTeamNameParam) {
                 // If the team is already in the teams list, initialize it when we switch teams
