@@ -95,7 +95,7 @@ import type {
 } from '@mattermost/types/marketplace';
 import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse, PostAcknowledgement, PostAnalytics} from '@mattermost/types/posts';
 import {Draft} from '@mattermost/types/drafts';
-import {BoardPatch, BoardsUsageResponse, BoardTemplate, Board, CreateBoardResponse} from '@mattermost/types/boards';
+import {BoardPatch, BoardTemplate, Board, CreateBoardResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
 import {SamlCertificateStatus, SamlMetadataResponse} from '@mattermost/types/saml';
@@ -134,7 +134,7 @@ import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
 import {LeastActiveChannelsResponse, TopChannelResponse, TopReactionResponse, TopThreadResponse, TopDMsResponse} from '@mattermost/types/insights';
 
-import {Category, WorkTemplate} from '@mattermost/types/work_templates';
+import {Category, ExecuteWorkTemplateRequest, ExecuteWorkTemplateResponse, WorkTemplate} from '@mattermost/types/work_templates';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
@@ -354,6 +354,13 @@ export default class Client4 {
         return this.doFetch<WorkTemplate[]>(
             `${this.getBaseWorkTemplate()}/categories/${categoryId}/templates`,
             {method: 'get'},
+        );
+    }
+
+    executeWorkTemplate = (req: ExecuteWorkTemplateRequest) => {
+        return this.doFetch<ExecuteWorkTemplateResponse>(
+            `${this.getBaseWorkTemplate()}/execute`,
+            {method: 'post', body: JSON.stringify(req)},
         );
     }
 
@@ -3461,6 +3468,13 @@ export default class Client4 {
         );
     };
 
+    getRemoteMarketplacePlugins = (filter: string) => {
+        return this.doFetch<MarketplacePlugin[]>(
+            `${this.getPluginsMarketplaceRoute()}${buildQueryString({filter: filter || '', remote_only: true})}`,
+            {method: 'get'},
+        );
+    }
+
     getMarketplacePlugins = (filter: string, localOnly = false) => {
         return this.doFetch<MarketplacePlugin[]>(
             `${this.getPluginsMarketplaceRoute()}${buildQueryString({filter: filter || '', local_only: localOnly})}`,
@@ -3521,13 +3535,6 @@ export default class Client4 {
             {method: 'post'},
         );
     };
-
-    getBoardsUsage = () => {
-        return this.doFetch<BoardsUsageResponse>(
-            `${this.getBoardsRoute()}/limits`,
-            {method: 'get'},
-        );
-    }
 
     getBoardsTemplates = (teamId = '0') => {
         return this.doFetch<BoardTemplate[]>(
@@ -4246,6 +4253,27 @@ export default class Client4 {
             },
         );
     };
+
+    submitTrueUpReview = () => {
+        return this.doFetch(
+            `${this.getBaseRoute()}/license/review`,
+            {method: 'post'},
+        );
+    }
+
+    getTrueUpReviewStatus = () => {
+        return this.doFetch(
+            `${this.getBaseRoute()}/license/review/status`,
+            {method: 'get'},
+        );
+    }
+
+    cwsAvailabilityCheck = () => {
+        return this.doFetch<StatusOK>(
+            `${this.getCloudRoute()}/check-cws-connection`,
+            {method: 'get'},
+        );
+    }
 }
 
 export function parseAndMergeNestedHeaders(originalHeaders: any) {
