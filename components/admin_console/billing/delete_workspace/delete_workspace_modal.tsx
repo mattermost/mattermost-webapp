@@ -3,7 +3,7 @@
 
 import {GenericModal} from '@mattermost/components';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import LaptopAlertSVG from 'components/common/svg_images_components/laptop_alert_svg';
 import {closeModal, openModal} from 'actions/views/modals';
 import {getIsStarterLicense} from 'utils/license_utils';
@@ -20,14 +20,15 @@ import {GlobalState} from 'types/store';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import {fileSizeToString} from 'utils/utils';
 import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
-import {subscribeCloudSubscription} from 'actions/cloud';
+import {subscribeCloudSubscription, deleteWorkspace as deleteWorkspaceRequest} from 'actions/cloud';
 import DeleteWorkspaceSuccessModal from 'components/admin_console/billing/delete_workspace/success_modal';
 import ErrorModal from 'components/cloud_subscribe_result_modal/error';
 import DeleteWorkspaceProgressModal from 'components/admin_console/billing/delete_workspace/progress_modal';
+import SuccessModal from 'components/cloud_subscribe_result_modal/success';
 
 type Props = {
     callerCTA: string;
-}
+} & WrappedComponentProps
 
 const DeleteWorkspaceModal = (props: Props) => {
     const dispatch = useDispatch();
@@ -44,18 +45,16 @@ const DeleteWorkspaceModal = (props: Props) => {
         });
     });
 
+    const totalFileSize = fileSizeToString(usage.files.totalStorage)
+    const totalBoardsCards = usage.boards.cards
     const totalMessages = useSelector((state: GlobalState) => {
         if (!state.entities.admin.analytics) {
             return 0;
         } 
         return state.entities.admin.analytics[StatTypes.TOTAL_POSTS];
     });
-
-    const totalFileSize = fileSizeToString(usage.files.totalStorage)
-
-    const totalBoardsCards = usage.boards.cards
-
     const totalIntegrations = useSelector((state: GlobalState) => {
+        // TODO: How to get integrations?
     })
 
     const handleDeleteWorkspace = () => {
@@ -85,17 +84,23 @@ const DeleteWorkspaceModal = (props: Props) => {
         dispatch(closeModal(ModalIdentifiers.FEEDBACK));
     };
 
-    const deleteWorkspace = (feedback: Feedback) => {
+    const deleteWorkspace = async (feedback: Feedback) => {
         dispatch(openModal({
             modalId: ModalIdentifiers.DELETE_WORKSPACE_PROGRESS,
             dialogType: DeleteWorkspaceProgressModal,
         }));
 
+        const result = await dispatch(deleteWorkspaceRequest());
 
-        // dispatch(openModal({
-        //     modalId: ModalIdentifiers.SUCCESS_MODAL,
-        //     dialogType: DeleteWorkspaceSuccessModal,
-        // }));
+        if (typeof result === 'boolean' && result) {
+            dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
+            dispatch(openModal({
+                modalId: ModalIdentifiers.SUCCESS_MODAL,
+                dialogType: DeleteWorkspaceSuccessModal,
+            }));
+        } else {
+
+        }
 
         console.log("deleted! Feedback: ", JSON.stringify(feedback));
     };
@@ -116,12 +121,11 @@ const DeleteWorkspaceModal = (props: Props) => {
             dispatch(
                 openModal({
                     modalId: ModalIdentifiers.SUCCESS_MODAL,
-                    dialogType: DeleteWorkspaceSuccessModal,
+                    dialogType: SuccessModal,
                 }),
             );
         } else {
             dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
-            dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
             dispatch(
                 openModal({
                     modalId: ModalIdentifiers.ERROR_MODAL,
@@ -133,13 +137,13 @@ const DeleteWorkspaceModal = (props: Props) => {
                                 dialogType: DeleteWorkspaceModal,
                                 dialogProps: {
                                     callerCTA: props.callerCTA,
+                                    intl: props.intl,
                                 }
                             }));
                         },
                     },
                 }),
             );
-            return;
         }
     }
 

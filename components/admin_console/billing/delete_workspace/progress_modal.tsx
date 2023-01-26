@@ -60,7 +60,7 @@ export default function DeleteWorkspaceProgressModal() {
         <RootPortal>
             <FullScreenModal
                 show={true}
-                onClose={() => dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL))}
+                onClose={() => dispatch(closeModal(ModalIdentifiers.DELETE_WORKSPACE_PROGRESS))}
                 ref={modal}
                 ariaLabelledBy='purchase_modal_title'
                 overrideTargetEvent={false}

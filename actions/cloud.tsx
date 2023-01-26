@@ -228,6 +228,17 @@ export function getTeamsUsage(): ActionFunc {
     };
 }
 
+export function deleteWorkspace() {
+    return async () => {
+        try {
+            await Client4.deleteWorkspace();
+        } catch (error) {
+            return error;
+        }
+        return true;
+    };
+}
+
 export function retryFailedCloudFetches() {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const errors = getCloudErrors(getState());

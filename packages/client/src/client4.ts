@@ -4267,6 +4267,13 @@ export default class Client4 {
             {method: 'get'},
         );
     }
+
+    deleteWorkspace = () => {
+        return this.doFetch<StatusOK>(
+            `${this.getBaseRoute()}/deleteWorkspace`,
+            {method: 'post'},
+        );
+    }
 }
 
 export function parseAndMergeNestedHeaders(originalHeaders: any) {
