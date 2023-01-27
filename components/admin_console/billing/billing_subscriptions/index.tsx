@@ -21,6 +21,8 @@ import {
     getCloudErrors,
 } from 'mattermost-redux/selectors/entities/cloud';
 import {
+    CloudProducts,
+    RecurringIntervals,
     TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
@@ -45,6 +47,7 @@ import {
     paymentFailedBanner,
 } from './billing_subscriptions';
 import LimitReachedBanner from './limit_reached_banner';
+import CancelSubscription from './cancel_subscription';
 
 import './billing_subscriptions.scss';
 
@@ -60,6 +63,7 @@ const BillingSubscriptions = () => {
     const isCardExpired = isCustomerCardExpired(useSelector(selectCloudCustomer));
 
     const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
+    const cancelAccountLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.CancelAccount);
     const trialQuestionsLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.TrialQuestions);
     const trialEndDate = subscription?.trial_end_at || 0;
 
@@ -69,6 +73,7 @@ const BillingSubscriptions = () => {
     const actionQueryParam = query.get('action');
 
     const product = useSelector(getSubscriptionProduct);
+    const isAnnualProfessionalOrEnterprise = (product?.sku === CloudProducts.ENTERPRISE || product?.sku === CloudProducts.PROFESSIONAL) && product?.recurring_interval === RecurringIntervals.YEAR;
 
     const openPricingModal = useOpenPricingModal();
 
@@ -159,7 +164,13 @@ const BillingSubscriptions = () => {
                                 onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                             />
                         )}
-                        <DeleteWorkspaceCTA/>
+                        {isAnnualProfessionalOrEnterprise ?
+                            <CancelSubscription
+                                cancelAccountLink={cancelAccountLink}
+                                isFreeTrial={isFreeTrial}
+                            /> :
+                            <DeleteWorkspaceCTA/>
+                        }
                     </>}
                 </div>
             </div>

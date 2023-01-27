@@ -3,8 +3,6 @@
 
     .modal-body {
         .GenericModal__body {
-            display: flex;
-            flex-direction: column;
             padding: 24px 24px 0 24px;
             text-align: center;
 
@@ -15,7 +13,6 @@
     }
 
     &__Title {
-        margin: 10px 0;
         color: var(--sys-denim-center-channel-text);
         font-family: Metropolis;
         font-size: 22px;
@@ -38,7 +35,6 @@
 
     &__Buttons {
         display: flex;
-        flex-direction: row;
         justify-content: space-between;
 
         button {
@@ -48,7 +44,6 @@
         &-Delete {
             padding: 0;
             border: none;
-            margin: 0;
             background: none;
             color: var(--dnd-indicator);
             font-weight: 600;

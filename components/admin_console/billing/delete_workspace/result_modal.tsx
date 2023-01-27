@@ -33,7 +33,7 @@ export default function ResultModal(props: Props) {
 
     const openContactUs = useOpenSalesLink(undefined, InquiryType.Technical);
 
-    const isSuccessModalOpen = useSelector((state: GlobalState) =>
+    const isResultModalOpen = useSelector((state: GlobalState) =>
         isModalOpen(state, props.identifier),
     );
 
@@ -46,7 +46,7 @@ export default function ResultModal(props: Props) {
 
     return (
         <FullScreenModal
-            show={isSuccessModalOpen}
+            show={isResultModalOpen}
             onClose={onHide}
         >
             <div className='result_modal'>
@@ -61,7 +61,7 @@ export default function ResultModal(props: Props) {
                     formattedTertiaryButonText={
                         props.contactSupportButtonVisible ?
                             <FormattedMessage
-                                id={'admin.billing.subscription.privateCloudCard.contactSupport'}
+                                id={'admin.billing.deleteWorkspace.resultModal.ContactSupport'}
                                 defaultMessage={'Contact Support'}
                             /> :
                             undefined

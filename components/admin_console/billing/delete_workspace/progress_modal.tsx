@@ -68,8 +68,8 @@ const DeleteWorkspaceProgressModal = (props: Props) => {
                     <IconMessage
                         title={
                             props.intl.formatMessage({
-                                id: 'admin.billing.delete_workspace.progress_modal.title',
-                                defaultMessage: 'Deleting Workspace',
+                                id: 'admin.billing.deleteWorkspace.progressModal.title',
+                                defaultMessage: 'Deleting your workspace',
                             })
                         }
                         icon={

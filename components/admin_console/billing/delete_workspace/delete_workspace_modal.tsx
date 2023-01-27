@@ -11,13 +11,11 @@ import {GenericModal} from '@mattermost/components';
 
 import LaptopAlertSVG from 'components/common/svg_images_components/laptop_alert_svg';
 import {closeModal, openModal} from 'actions/views/modals';
-import {getIsStarterLicense} from 'utils/license_utils';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import './delete_workspace_modal.scss';
 import {CloudProducts, ModalIdentifiers, StatTypes} from 'utils/constants';
-import DeleteFeedbackModal from 'components/feedback_modal/delete_feedback';
-import DowngradeFeedbackModal from 'components/feedback_modal/downgrade_feedback';
+import DeleteFeedbackModal from 'components/admin_console/billing/delete_workspace/delete_feedback';
+import DowngradeFeedbackModal from 'components/admin_console/billing/delete_workspace/downgrade_feedback';
 import {Feedback} from '@mattermost/types/cloud';
 import {GlobalState} from 'types/store';
 import useGetUsage from 'components/common/hooks/useGetUsage';
@@ -30,6 +28,9 @@ import SuccessModal from 'components/cloud_subscribe_result_modal/success';
 import ResultModal from 'components/admin_console/billing/delete_workspace/result_modal';
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
 import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
+import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
+import {isCloudLicense} from 'utils/license_utils';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 type Props = {
     callerCTA: string;
@@ -39,9 +40,13 @@ export default function DeleteWorkspaceModal(props: Props) {
     const dispatch = useDispatch();
     const openDowngradeModal = useOpenDowngradeModal();
 
+    // License/product checks.
+    const product = useSelector(getSubscriptionProduct);
+    const isStarter = product?.sku === CloudProducts.STARTER;
     const license = useSelector(getLicense);
-    const isStarter = getIsStarterLicense(license);
+    const isNotCloud = !isCloudLicense(license);
 
+    // Starter product for downgrade purposes.
     const starterProduct = useSelector((state: GlobalState) => {
         return Object.values(state.entities.cloud.products || {}).find((product) => {
             return product.sku === CloudProducts.STARTER;
@@ -68,13 +73,13 @@ export default function DeleteWorkspaceModal(props: Props) {
         const title = (
             <FormattedMessage
                 defaultMessage={'Your workspace has been deleted'}
-                id={'admin.billing.delete_workspace.success_modal.title'}
+                id={'admin.billing.deleteWorkspace.successModal.title'}
             />
         );
 
         const subtitle = (
             <FormattedMessage
-                id={'admin.billing.delete_workspace.success_modal.subtitle'}
+                id={'admin.billing.deleteWorkspace.successModal.subtitle'}
                 defaultMessage={'Your workspace has now been deleted. Thank you for being a customer.'}
             />
         );
@@ -120,20 +125,20 @@ export default function DeleteWorkspaceModal(props: Props) {
         const title = (
             <FormattedMessage
                 defaultMessage={'Workspace deletion failed'}
-                id={'admin.billing.delete_workspace.failure_modal.title'}
+                id={'admin.billing.deleteWorkspace.failureModal.title'}
             />
         );
 
         const subtitle = (
             <FormattedMessage
-                id={'admin.billing.delete_workspace.failure_modal.subtitle'}
-                defaultMessage={'We ran into an issue deleting your workspace. Please try again.'}
+                id={'admin.billing.deleteWorkspace.failureModal.subtitle'}
+                defaultMessage={'We ran into an issue deleting your workspace. Please try again or contact support.'}
             />
         );
 
         const buttonText = (
             <FormattedMessage
-                id='admin.billing.delete_workspace.failure_modal.button_text'
+                id='admin.billing.deleteWorkspace.failureModal.buttonText'
                 defaultMessage={'Try Again'}
             />
         );
@@ -234,6 +239,9 @@ export default function DeleteWorkspaceModal(props: Props) {
                 openModal({
                     modalId: ModalIdentifiers.SUCCESS_MODAL,
                     dialogType: SuccessModal,
+                    dialogProps: {
+                        newProductName: starterProduct.name,
+                    },
                 }),
             );
         } else { // Failure
@@ -258,6 +266,10 @@ export default function DeleteWorkspaceModal(props: Props) {
         }
     };
 
+    if (isNotCloud) {
+        return null;
+    }
+
     return (
         <GenericModal
             className='DeleteWorkspaceModal'
@@ -275,7 +287,10 @@ export default function DeleteWorkspaceModal(props: Props) {
             <div className='DeleteWorkspaceModal__Usage'>
                 <FormattedMessage
                     id='admin.billing.subscription.deleteWorkspaceModal.usage'
-                    defaultMessage='As part of your paid subscription to Mattermost Cloud Professional you have created '
+                    defaultMessage='As part of your paid subscription to Mattermost {product_name} you have created '
+                    values={{
+                        sku: product?.name,
+                    }}
                 />
                 <span className='DeleteWorkspaceModal__Usage-Highlighted'>
                     <FormattedMessage

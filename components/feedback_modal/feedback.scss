@@ -6,14 +6,6 @@
             padding-top: 10px;
         }
 
-        .modal-content {
-            border: 1px solid rgb(0 0 0 / 12%);
-        }
-
-        .radio-list {
-            margin-bottom: 25px;
-        }
-
         .radio-list > .radio {
             margin-bottom: 20px;
         }
@@ -24,8 +16,6 @@
     }
 
     &__Title {
-        margin-top: 10px;
-        margin-bottom: 30px;
         color: var(--sys-denim-center-channel-text);
         font-family: 'Metropolis';
         font-size: 22px;
@@ -47,6 +37,10 @@
     &__Submit {
         display: flex;
 
+        button {
+            border-radius: 4px;
+        }
+
         .disabled {
             background-color: rgba(var(--center-channel-text-rgb), 0.08);
             color: rgba(var(--center-channel-text-rgb), 0.32);
@@ -57,13 +51,11 @@
             width: 90px;
             margin-left: auto;
             background-color: rgba(var(--denim-button-bg-rgb), 0.08);
-            border-radius: 4px;
             color: var(--denim-button-bg);
         }
 
         .btn-primary {
             margin-left: 10px;
-            border-radius: 4px;
         }
     }
 }

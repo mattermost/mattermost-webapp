@@ -4,11 +4,14 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {ModalIdentifiers} from 'utils/constants';
 import {openModal} from 'actions/views/modals';
+
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {isCloudLicense} from 'utils/license_utils';
 
 import DeleteWorkspaceModal from './delete_workspace_modal';
 
@@ -16,6 +19,9 @@ export default function DeleteWorkspaceCTA() {
     const dispatch = useDispatch();
 
     const workspaceUrl = window.location.host;
+
+    const license = useSelector(getLicense);
+    const isNotCloud = !isCloudLicense(license);
 
     const handleOnClickDelete = () => {
         trackEvent('cloud_admin', 'click_delete_workspace');
@@ -30,6 +36,10 @@ export default function DeleteWorkspaceCTA() {
             }),
         );
     };
+
+    if (isNotCloud) {
+        return null;
+    }
 
     return (
         <div className='cancelSubscriptionSection'>

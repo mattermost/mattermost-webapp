@@ -20,6 +20,7 @@ const CancelSubscription = (props: Props) => {
     if (isFreeTrial) {
         return null;
     }
+
     return (
         <div className='cancelSubscriptionSection'>
             <div className='cancelSubscriptionSection__text'>
