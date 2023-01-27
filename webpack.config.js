@@ -155,6 +155,7 @@ var config = {
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
             reselect: 'packages/reselect/src',
+            '@mui/styled-engine': '@mui/styled-engine-sc',
         },
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         fallback: {
