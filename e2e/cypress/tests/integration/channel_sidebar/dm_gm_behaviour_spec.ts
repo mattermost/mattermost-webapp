@@ -29,7 +29,7 @@ describe('DM category', () => {
             cy.uiGetLHSHeader();
 
             // # Click the + button next to the DM category
-            cy.get('.SidebarChannelGroupHeader_addButton').should('be.visible').click();
+            clickOnNewDMButton();
 
             // # Search for the new user's username
             cy.get('#selectItems input').
@@ -111,7 +111,7 @@ describe('DM category', () => {
                 cy.uiGetLHSHeader();
 
                 // # Click the + button next to the DM category
-                cy.get('.SidebarChannelGroupHeader_addButton').should('be.visible').click();
+                clickOnNewDMButton();
 
                 // # Search for the new user's username
                 cy.get('#selectItems input').
@@ -194,14 +194,8 @@ describe('DM category', () => {
                     // * Verify that a GM channel shows up in the sidebar
                     cy.get(`#sidebarItem_${channel.name}`).should('be.visible').click();
 
-                    // # Move the GM to a custom category
-                    cy.get(`#sidebarItem_${channel.name}`).find('.SidebarMenu_menuButton').click({force: true});
-                    cy.get(`#moveTo-${channel.id}_menuitem`).trigger('mouseover');
-                    cy.get(`#moveToNewCategory-${channel.id}_menuitem`).click();
-
-                    // # Enter new category name and Save
-                    cy.get('.GenericModal__body input').should('be.visible').type(`Category ${user.username}`);
-                    cy.get('.GenericModal__button.confirm').should('be.visible').click();
+                    // # Move the GM to a custom category and enter new category name and Save
+                    cy.uiMoveChannelToCategory(channel.name, `Category ${user.username}`, true, true);
 
                     // * Verify that the GM has moved to a new category
                     cy.get(`.SidebarChannelGroup:contains(Category ${user.username})`).find(`#sidebarItem_${channel.name}`).should('be.visible');
@@ -213,7 +207,7 @@ describe('DM category', () => {
                     cy.url().should('include', '/channels/town-square');
 
                     // # Click the + button next to the DM category
-                    cy.get('.SidebarChannelGroupHeader_addButton').should('be.visible').click();
+                    clickOnNewDMButton();
 
                     // # Search for the new user's username
                     cy.get('#selectItems input').
@@ -245,3 +239,11 @@ describe('DM category', () => {
         });
     });
 });
+
+function clickOnNewDMButton() {
+    cy.uiGetLHS().within(() => {
+        cy.findByText('DIRECT MESSAGES').should('be.visible').parents('.SidebarChannelGroupHeader').within(() => {
+            cy.findByLabelText('Write a direct message').should('be.visible').click();
+        });
+    });
+}
