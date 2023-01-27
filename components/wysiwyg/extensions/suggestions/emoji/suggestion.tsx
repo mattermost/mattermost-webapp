@@ -9,9 +9,10 @@ import {autocompleteCustomEmojis} from 'mattermost-redux/actions/emojis';
 import store from 'stores/redux_store.jsx';
 import {getEmojiMap, getRecentEmojisNames} from 'selectors/emojis';
 
-import {WysiwygPluginNames} from 'utils/constants';
 import {compareEmojis, emojiMatchesSkin} from 'utils/emoji_utils';
 import EmojiMap from 'utils/emoji_map';
+
+import {WysiwygPluginNames} from '../../constants';
 
 import {Emoji} from '@mattermost/types/emojis';
 

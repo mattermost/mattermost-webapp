@@ -8,12 +8,13 @@ import {PluginKey} from 'prosemirror-state';
 import {Client4} from 'mattermost-redux/client';
 import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
 
-import {Constants, WysiwygPluginNames} from 'utils/constants';
+import {Constants} from 'utils/constants';
 
 import {Group} from '@mattermost/types/groups';
 
 import {SuggestionItem} from '../suggestion.component';
 import {render} from '../suggestion.renderer';
+import {WysiwygPluginNames} from '../../constants';
 
 import {GroupMentionItem, SpecialMentionItem, UserMentionItem} from './components';
 

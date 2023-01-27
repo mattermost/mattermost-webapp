@@ -6,9 +6,9 @@ import {nodeInputRule, NodeViewProps} from '@tiptap/core';
 import {nodePasteRule, NodeViewWrapper, ReactNodeViewRenderer as renderReactNodeView} from '@tiptap/react';
 import {Mention} from '@tiptap/extension-mention';
 
-import {WysiwygPluginNames} from 'utils/constants';
-
 import RenderEmoji from 'components/emoji/render_emoji';
+
+import {WysiwygPluginNames} from '../../constants';
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {

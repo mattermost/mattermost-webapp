@@ -7,7 +7,7 @@ import {PluginKey} from 'prosemirror-state';
 
 import {Client4} from 'mattermost-redux/client';
 
-import {WysiwygPluginNames} from 'utils/constants';
+import {WysiwygPluginNames} from '../../constants';
 
 import {SuggestionItem} from '../suggestion.component';
 import {render} from '../suggestion.renderer';

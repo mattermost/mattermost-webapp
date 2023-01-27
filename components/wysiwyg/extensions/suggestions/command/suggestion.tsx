@@ -8,8 +8,6 @@ import {PluginKey} from 'prosemirror-state';
 import {Client4} from 'mattermost-redux/client';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
-import {WysiwygPluginNames} from 'utils/constants';
-
 import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser/app_command_parser';
 import {
     AutocompleteSuggestion,
@@ -17,6 +15,8 @@ import {
 } from 'components/suggestion/command_provider/app_command_parser/app_command_parser_dependencies';
 
 import store from 'stores/redux_store.jsx';
+
+import {WysiwygPluginNames} from '../../constants';
 
 import {SuggestionItem} from '../suggestion.component';
 import {render} from '../suggestion.renderer';

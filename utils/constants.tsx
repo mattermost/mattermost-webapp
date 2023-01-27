@@ -2215,13 +2215,6 @@ export const InsightsCardTitles = {
     },
 };
 
-export enum WysiwygPluginNames {
-    AT_MENTION_SUGGESTION = 'at-mention-suggestion',
-    CHANNEL_SUGGESTION = 'channel-suggestion',
-    EMOJI_SUGGESTION = 'emoji-suggestion',
-    SLASH_COMMAND = 'slash-command',
-}
-
 export enum ClaimErrors {
     MFA_VALIDATE_TOKEN_AUTHENTICATE = 'mfa.validate_token.authenticate.app_error',
     ENT_LDAP_LOGIN_USER_NOT_REGISTERED = 'ent.ldap.do_login.user_not_registered.app_error',

@@ -23,7 +23,6 @@
     "baseUrl": ".",
     "useUnknownInCatchVariables": false,
     "paths": {
-        "@tiptap/core": ["node_modules/@tiptap/core/src/index"],
         "@mattermost/client": ["packages/client/src"],
         "@mattermost/components": ["packages/components/src"],
         "@mattermost/types/*": ["packages/types/src/*"],

@@ -18,8 +18,8 @@ import {t} from 'utils/i18n';
 
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import ProfilePicture from 'components/profile_picture';
-import BotBadge from 'components/widgets/badges/bot_badge';
-import GuestBadge from 'components/widgets/badges/guest_badge';
+import BotTag from 'components/widgets/tag/bot_tag';
+import GuestTag from 'components/widgets/tag/guest_tag';
 
 import {Group} from '@mattermost/types/groups';
 
@@ -87,14 +87,8 @@ const UserMentionItem = (user: UserProfile) => {
 
     const tag = (
         <>
-            <BotBadge
-                show={Boolean(teammate?.is_bot)}
-                className='badge-autocomplete'
-            />
-            <GuestBadge
-                show={Boolean(teammate && isGuest(teammate.roles))}
-                className='badge-autocomplete'
-            />
+            {Boolean(teammate?.is_bot) && <BotTag/>}
+            {Boolean(teammate && isGuest(teammate.roles)) && <GuestTag/>}
         </>
     );
 

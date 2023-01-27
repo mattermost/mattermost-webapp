@@ -8,7 +8,7 @@ import {NodeViewProps} from '@tiptap/core/src/types';
 import {Mention} from '@tiptap/extension-mention';
 import {NodeViewWrapper, ReactNodeViewRenderer as renderReactNodeView} from '@tiptap/react';
 
-import {WysiwygPluginNames} from 'utils/constants';
+import {WysiwygPluginNames} from '../../constants';
 
 /**
  * Here it would be possibly to return different components based on the type.
