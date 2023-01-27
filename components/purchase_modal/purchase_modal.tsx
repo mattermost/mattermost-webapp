@@ -343,8 +343,8 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
                 currentProduct: findProductInDictionary(this.props.products, this.props.productId),
-                selectedProduct: getSelectedProduct(this.props.products, this.props.productId, this.props.isDelinquencyModal, this.props.isCloudDelinquencyGreaterThan90Days),
-                selectedProductPrice: getSelectedProduct(this.props.products, this.props.productId, false)?.price_per_seat.toString() ?? null,
+                selectedProduct: getSelectedProduct(this.props.yearlyProducts, this.props.productId, this.props.isDelinquencyModal, this.props.isCloudDelinquencyGreaterThan90Days),
+                selectedProductPrice: getSelectedProduct(this.props.yearlyProducts, this.props.productId, false)?.price_per_seat.toString() ?? null,
             });
         }
 
