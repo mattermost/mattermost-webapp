@@ -85,7 +85,7 @@ export function makeFilterPostsAndAddSeparators() {
                 if (shouldFilterJoinLeavePost(post, showJoinLeave, currentUser.username)) {
                     continue;
                 }
-
+                 
                 // Push on a date header if the last post was on a different day than the current one
                 const postDate = new Date(post.create_at);
                 if (timeZoneEnabled) {
@@ -285,7 +285,6 @@ export function makeGenerateCombinedPost(): (state: GlobalState, combinedId: str
 
             // Assume that the last post is the oldest one
             const createAt = posts[posts.length - 1].create_at;
-
             const messages = posts.map((post) => post.message);
 
             return {
@@ -343,10 +342,6 @@ export const postTypePriority = {
     [Posts.POST_TYPES.EPHEMERAL]: 16,
 };
 
-export function comparePostTypes(a: typeof postTypePriority, b: typeof postTypePriority) {
-    return postTypePriority[a.postType] - postTypePriority[b.postType];
-}
-
 function extractUserActivityData(userActivities: any) {
     const messageData: any[] = [];
     const allUserIds: string[] = [];
@@ -381,8 +376,6 @@ function extractUserActivityData(userActivities: any) {
         }
     });
 
-    messageData.sort(comparePostTypes);
-
     function reduceUsers(acc: string[], curr: string) {
         if (!acc.includes(curr)) {
             acc.push(curr);
@@ -401,8 +394,8 @@ export function combineUserActivitySystemPost(systemPosts: Post[] = []) {
     if (systemPosts.length === 0) {
         return null;
     }
-
-    const userActivities = systemPosts.reduce((acc: any, post: Post) => {
+    // userActivites start from first post with reduceRight. 
+    const userActivities = systemPosts.reduceRight((acc: any, post: Post) => {
         const postType = post.type;
         let userActivityProps = acc;
         const combinedPostType = userActivityProps[postType as string];
@@ -456,9 +449,8 @@ export function combineUserActivitySystemPost(systemPosts: Post[] = []) {
                 userActivityProps = {...userActivityProps, [postType]: [propsUserId]};
             }
         }
-
+    
         return userActivityProps;
     }, {});
-
     return extractUserActivityData(userActivities);
 }

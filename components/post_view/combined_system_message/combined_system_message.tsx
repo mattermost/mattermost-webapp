@@ -329,7 +329,8 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         );
     }
 
-    handleRemoveAndJoin(userIds: string[], postType: string, content: any[], currentUserId: string) {
+    handleRemoveAndAdd(userIds: string[], postType: string, content: any[], currentUserId: string) {
+        // the Users that are being removed / added
         let users: string[] = []
         if (postType === REMOVE_FROM_CHANNEL) {
             users.push(...userIds)
@@ -353,7 +354,6 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         } = this.props;
 
         const content = [];
-        const removedUserIds = [];
         for (const message of messageData) {
             const {
                 postType,
@@ -372,9 +372,9 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
                     continue;
                 }
             }
-
+            // Check if the postType is remove or add to manipulate a group of users.
             if (postType === REMOVE_FROM_CHANNEL || postType === ADD_TO_CHANNEL) {
-                this.handleRemoveAndJoin(userIds, postType, content, currentUserId)
+                this.handleRemoveAndAdd(userIds, postType, content, currentUserId)
                 continue
             }
             content.push(this.renderMessage(postType, userIds, actorId));
