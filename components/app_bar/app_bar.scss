@@ -67,6 +67,8 @@ $app-bar-width: 48px;
             }
 
             img {
+                width: $app-bar-icon-size;
+                height: $app-bar-icon-size;
                 border-radius: 50%;
             }
         }

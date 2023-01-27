@@ -171,7 +171,7 @@ function DowngradeTeamRemovalModal(props: Props) {
                         <div>
                             <FormattedMessage
                                 id='downgrade_plan_modal.subtitle'
-                                defaultMessage='{planName} is restricted to {teams} team, {messages} messages, {storage} file storage, and {boards} board cards. <strong>If you downgrade, some data will be archived</strong>. Archived data can be accessible when you upgrade back'
+                                defaultMessage='{planName} is restricted to {teams} team, {messages} messages and {storage} file storage. <strong>If you downgrade, some data will be archived</strong>. Archived data can be accessible when you upgrade back'
                                 values={{
                                     strong: (msg: React.ReactNode) => (
                                         <strong>{msg}</strong>
@@ -186,8 +186,6 @@ function DowngradeTeamRemovalModal(props: Props) {
                                             totalStorage,
                                         intl.formatNumber,
                                     ),
-                                    boards: fallbackStarterLimits.boards.
-                                        cards,
                                     teams: fallbackStarterLimits.teams.
                                         active,
                                 }}

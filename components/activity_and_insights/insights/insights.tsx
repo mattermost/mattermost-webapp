@@ -9,7 +9,8 @@ import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import LocalStorageStore from 'stores/local_storage_store';
 import {useGlobalState} from 'stores/hooks';
 
-import {InsightsScopes, PreviousViewedTypes} from 'utils/constants';
+import {InsightsScopes, PreviousViewedTypes, suitePluginIds} from 'utils/constants';
+import {useProducts} from 'utils/products';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -41,7 +42,15 @@ type SelectOption = {
 const Insights = () => {
     const dispatch = useDispatch();
 
-    const focalboardEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.focalboard);
+    // check if either of focalboard plugin or boards product is enabled
+    const focalboardPluginEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.focalboard);
+    let focalboardProductEnabled = false;
+    const products = useProducts();
+    if (products) {
+        focalboardProductEnabled = products.some((product) => product.pluginId === suitePluginIds.focalboard || product.pluginId === suitePluginIds.boards);
+    }
+    const focalboardEnabled = focalboardPluginEnabled || focalboardProductEnabled;
+
     const playbooksEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.playbooks);
     const currentUserId = useSelector(getCurrentUserId);
     const currentTeamId = useSelector(getCurrentTeamId);

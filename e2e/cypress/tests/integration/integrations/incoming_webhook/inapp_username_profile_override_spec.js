@@ -140,7 +140,7 @@ function verifyLastPost(owner, username, iconUrl) {
         cy.get('.profile-icon > img').as('profileIconForPopover').should('have.attr', 'src', `${baseUrl}/api/v4/image?url=${encodedIconUrl}`);
 
         // * Verify that the BOT label appears
-        cy.get('.Badge').should('be.visible').and('have.text', 'BOT');
+        cy.get('.Tag').should('be.visible').and('have.text', 'BOT');
 
         // * Verify that there's no status indicator
         cy.get('.status').should('not.exist');
@@ -162,7 +162,7 @@ function verifyProfilePopover(owner, username, iconUrl) {
     // * Verify that the profile popover is shown
     cy.get('#user-profile-popover').should('be.visible').within(() => {
         // * Verify username from payload
-        cy.get('[data-testid="profilePopoverTitle_sysadmin"]').should('be.visible').and('have.text', username);
+        cy.get('.user-profile-popover__heading').should('be.visible').and('have.text', username);
 
         // * Verify icon URL from payload
         cy.get('.Avatar').should('have.attr', 'src', iconUrl);

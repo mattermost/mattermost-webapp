@@ -39,6 +39,12 @@ Object.defineProperty(document, 'execCommand', {
 
 document.documentElement.style.fontSize = '12px';
 
+// https://mui.com/material-ui/guides/styled-engine/
+jest.mock('@mui/styled-engine', () => {
+    const styledEngineSc = require('@mui/styled-engine-sc');
+    return styledEngineSc;
+});
+
 // isDependencyWarning returns true when the given console.warn message is coming from a dependency using deprecated
 // React lifecycle methods.
 function isDependencyWarning(params) {
