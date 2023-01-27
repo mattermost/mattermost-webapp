@@ -14,8 +14,6 @@ import {GfycatAPIItem} from '@mattermost/types/gifs';
 
 import {Emoji} from '@mattermost/types/emojis';
 
-import KaomojiPicker from './components/emoji_picker_kaomoji';
-
 const GifPicker = makeAsyncComponent('GifPicker', React.lazy(() => import('components/gif_picker/gif_picker')));
 
 export interface Props {
@@ -28,8 +26,6 @@ export interface Props {
     onEmojiClick: (emoji: Emoji) => void;
     onGifClick?: (gif: string, item?: GfycatAPIItem) => void;
     enableGifPicker?: boolean;
-    onKaomojiClick?: (kaomoji: string) => void;
-    enableKaomoji?: boolean;
 }
 
 type State = {
@@ -137,23 +133,9 @@ export default class EmojiPickerTabs extends PureComponent<Props, State> {
                             handleEmojiPickerClose={this.handleEmojiPickerClose}
                         />
                     </Tab>
-                    {(this.props.enableKaomoji && typeof this.props.onKaomojiClick != 'undefined') && (
-                        <Tab
-                            eventKey={2}
-                            unmountOnExit={true}
-                            title={(
-                                <div className={'custom-emoji-tab__icon__text'}>
-                                    <div>{'Kaomojis'}</div>
-                                </div>
-                            )}
-                            tabClassName={'custom-emoji-tab'}
-                        >
-                            <KaomojiPicker onEnter={this.props.onKaomojiClick}/>
-                        </Tab>
-                    )}
                     {(this.props.enableGifPicker && typeof this.props.onGifClick != 'undefined') && (
                         <Tab
-                            eventKey={this.props.enableKaomoji ? 3 : 2}
+                            eventKey={2}
                             title={<GfycatIcon/>}
                             unmountOnExit={true}
                             tabClassName={'custom-emoji-tab'}
