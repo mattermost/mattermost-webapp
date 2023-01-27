@@ -1,3 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`WYSIWYG editor matches snapshot 1`] = `""`;
+exports[`WYSIWYG editor matches snapshot 1`] = `
+<div
+  configObservables={[Function]}
+  getItemObservable={[Function]}
+  newObservable={[Function]}
+>
+  NOTHING TO SEE HERE
+</div>
+`;
