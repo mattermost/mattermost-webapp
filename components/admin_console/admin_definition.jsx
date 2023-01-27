@@ -77,6 +77,7 @@ import {
     LDAPFeatureDiscovery,
     SAMLFeatureDiscovery,
     OpenIDFeatureDiscovery,
+    OpenIDCustomFeatureDiscovery,
     AnnouncementBannerFeatureDiscovery,
     ComplianceExportFeatureDiscovery,
     CustomTermsOfServiceFeatureDiscovery,
@@ -205,6 +206,7 @@ export const it = {
     cloudLicensed: (config, state, license) => isCloudLicense(license),
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
     licensedForSku: (skuName) => (config, state, license) => license.IsLicensed && license.SkuShortName === skuName,
+    licensedForCloudStarter: (config, state, license) => isCloudLicense(license) && license.SkuShortName === LicenseSkus.Starter,
     hidePaymentInfo: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
         const productId = cloud?.subscription?.product_id;
         const limits = cloud?.limits;
@@ -5366,6 +5368,13 @@ const AdminDefinition = {
                                 help_text: t('admin.openid.EnableMarkdownDesc'),
                                 help_text_default: 'Follow provider directions for creating an OpenID Application. Most OpenID Connect providers require authorization of all redirect URIs. In the appropriate field, enter your-mattermost-url/signup/openid/complete (example: http://domain.com/signup/openid/complete)',
                                 help_text_markdown: false,
+                                isHidden: it.licensedForCloudStarter,
+                            },
+                            {
+                                value: Constants.OPENID_SERVICE_FEATURE_DISCOVERY,
+                                display_name: t('admin.oauth.openid_feature_discovery'),
+                                display_name_default: 'OpenID Connect (Other)',
+                                isHidden: it.not(it.licensedForCloudStarter),
                             },
                         ],
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
@@ -5571,6 +5580,13 @@ const AdminDefinition = {
                         placeholder: t('admin.openid.clientSecretExample'),
                         placeholder_default: 'E.g.: "H8sz0Az-dDs2p15-7QzD231"',
                         isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        key: 'OpenIDCustomFeatureDiscovery',
+                        component: OpenIDCustomFeatureDiscovery,
+                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE_FEATURE_DISCOVERY)),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                 ],
