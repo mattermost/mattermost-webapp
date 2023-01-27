@@ -44,6 +44,7 @@ import './profile_popover.scss';
 import BotTag from '../widgets/tag/bot_tag';
 import GuestTag from '../widgets/tag/guest_tag';
 import Tag from '../widgets/tag/tag';
+import {Channel} from '@mattermost/types/channels';
 
 interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'> {
 
@@ -179,7 +180,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     isCurrentUserInCall?: boolean;
     isCallsDefaultEnabledOnAllChannels?: boolean;
     isCallsCanBeDisabledOnSpecificChannels?: boolean;
-    dMChannelId?: string;
+    dMChannel?: Channel | null;
     isAnyModalOpen: boolean;
 }
 type ProfilePopoverState = {
@@ -243,8 +244,8 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 channelId,
             );
         }
-        if (this.props.isCallsEnabled && this.props.dMChannelId) {
-            this.getCallsChannelState(this.props.dMChannelId).then((data) => {
+        if (this.props.isCallsEnabled && this.props.dMChannel) {
+            this.getCallsChannelState(this.props.dMChannel.id).then((data) => {
                 this.setState({callsDMChannelState: data});
             });
         }
@@ -707,7 +708,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         );
 
         const renderCallButton = () => {
-            const {isCallsEnabled, isCallsDefaultEnabledOnAllChannels, isCallsCanBeDisabledOnSpecificChannels} = this.props;
+            const {isCallsEnabled, isCallsDefaultEnabledOnAllChannels, isCallsCanBeDisabledOnSpecificChannels, dMChannel} = this.props;
             if (
                 !isCallsEnabled ||
                 this.state.callsDMChannelState?.enabled === false ||
@@ -755,7 +756,12 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             }
 
             return (
-                <CallButton customButton={callButton}/>
+                <CallButton
+                    channelToStartCall={dMChannel}
+                    startCallInDM={true}
+                    userId={this.props.userId}
+                    customButton={callButton}
+                />
             );
         };
 

@@ -66,7 +66,9 @@ describe('components/ProfilePopover', () => {
             general: {
                 config: {},
             },
-            users: {},
+            users: {
+                currentUserId: '',
+            },
             preferences: {
                 myPreferences: {},
             },
