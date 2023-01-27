@@ -47,7 +47,7 @@ export default class PDFPreview extends React.PureComponent {
     componentDidMount() {
         this.getPdfDocument();
         if (this.container.current) {
-            this.parentNode = this.container.current.parentElement.parentElement;
+            this.parentNode = this.container.current.parentElement;
             this.parentNode.addEventListener('scroll', this.handleScroll);
         }
     }
@@ -127,20 +127,19 @@ export default class PDFPreview extends React.PureComponent {
         if (this.pdfPagesRendered[pageIndex]) {
             return;
         }
-        await this.loadPage(this.state.pdf, pageIndex);
 
-        const page = this.state.pdfPages[pageIndex];
+        const page = await this.loadPage(this.state.pdf, pageIndex);
         const context = canvas.getContext('2d');
         const viewport = page.getViewport({scale: this.props.scale});
-        this[`pdfCanvasRef-${pageIndex}`].current.height = viewport.height;
-        this[`pdfCanvasRef-${pageIndex}`].current.width = viewport.width;
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
 
         const renderContext = {
             canvasContext: context,
             viewport,
         };
 
-        page.render(renderContext);
+        await page.render(renderContext).promise;
         this.pdfPagesRendered[pageIndex] = true;
     }
 
@@ -193,7 +192,7 @@ export default class PDFPreview extends React.PureComponent {
                 this.renderPDFPage(i);
             }
         }
-    }, 100)
+    }, 100);
 
     render() {
         if (this.state.loading) {
