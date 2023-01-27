@@ -619,8 +619,10 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         const yearlyProductMonthlyPrice = formatNumber(parseInt(this.state.selectedProductPrice || '0', 10) / 12, {maximumFractionDigits: 2});
 
         const currentProductMonthly = this.state.currentProduct?.recurring_interval === RecurringIntervals.MONTH;
+        const currentProductProfessional = this.state.currentProduct?.sku === CloudProducts.PROFESSIONAL;
+        const currentProductMonthlyProfessional = currentProductMonthly && currentProductProfessional;
 
-        const cardBtnText = currentProductMonthly ? formatMessage({id: 'pricing_modal.btn.switch_to_annual', defaultMessage: 'Switch to annual billing'}) : formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
+        const cardBtnText = currentProductMonthlyProfessional ? formatMessage({id: 'pricing_modal.btn.switch_to_annual', defaultMessage: 'Switch to annual billing'}) : formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
 
         return (
             <>
@@ -646,7 +648,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     planBriefing={<></>}
                     buttonDetails={{
                         action: () => {
-                            if (currentProductMonthly) {
+                            if (currentProductMonthlyProfessional) {
                                 this.confirmSwitchToAnnual();
                             } else {
                                 this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > upgrade_button_click');
