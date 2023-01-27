@@ -52,7 +52,7 @@ const Customize = ({
             onVisibilityChanged(Visibility.Public);
         }
         privateButtonProps = {
-            tooltip: formatMessage({id: 'work_templates.customize.visibility_private_tooltip', defaultMessage: 'Private playbooks requires an Enterprise license.'}),
+            tooltip: formatMessage({id: 'work_templates.customize.private_playbook_license_issue', defaultMessage: 'Private playbooks requires an Enterprise license.'}),
             locked: true,
         };
     }
@@ -97,6 +97,12 @@ const StyledCustomized = styled(Customize)`
     flex-direction: column;
     width: 509px;
     margin: 0 auto;
+
+    .public-private-selector {
+        &-button.locked {
+            opacity: 1;
+        }
+    }
 
     strong {
         font-weight: 600;
