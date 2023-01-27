@@ -184,8 +184,8 @@ jobs:
             if [[ -f server.tar.gz ]]; then
                 echo "Downloaded server bundle for ${CIRCLE_BRANCH} branch from pr-builds.mattermost.com"
             else
-                curl -f -o server.tar.gz https://s3.amazonaws.com/releases.mattermost.com/gitlab/bundle/master/mattermost-enterprise-linux-amd64.tar.gz
-                echo "Downloaded server bundle for master from releases.mattermost.com"
+                curl -f -o server.tar.gz https://s3.amazonaws.com/releases.mattermost.com/gitlab/bundle/release-7.8/mattermost-enterprise-linux-amd64.tar.gz
+                echo "Downloaded server bundle for release-7.8 from releases.mattermost.com"
             fi
 
             tar xf server.tar.gz
