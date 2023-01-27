@@ -329,6 +329,23 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         );
     }
 
+    handleRemoveAndJoin(userIds: string[], postType: string, content: any[], currentUserId: string) {
+        let users: string[] = []
+        if (postType === REMOVE_FROM_CHANNEL) {
+            users.push(...userIds)
+            const ids = users.filter((id, index, arr) =>
+                arr.indexOf(id) === index);
+            if (users.length > 0) {
+                content.push(this.renderMessage(postType, ids, currentUserId));
+            }
+
+        }
+        if (postType === ADD_TO_CHANNEL) {
+            users.filter(id => ![...userIds].includes(id));
+            content.push(this.renderMessage(postType, userIds, currentUserId))
+        }
+    }
+
     render(): JSX.Element {
         const {
             currentUserId,
@@ -356,18 +373,13 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
                 }
             }
 
-            if (postType === REMOVE_FROM_CHANNEL) {
-                removedUserIds.push(...userIds);
-                continue;
+            if (postType === REMOVE_FROM_CHANNEL || postType === ADD_TO_CHANNEL) {
+                this.handleRemoveAndJoin(userIds, postType, content, currentUserId)
+                continue
             }
-
             content.push(this.renderMessage(postType, userIds, actorId));
         }
 
-        if (removedUserIds.length > 0) {
-            const uniqueRemovedUserIds = removedUserIds.filter((id, index, arr) => arr.indexOf(id) === index);
-            content.push(this.renderMessage(REMOVE_FROM_CHANNEL, uniqueRemovedUserIds, currentUserId));
-        }
 
         return (
             <React.Fragment>
