@@ -9,7 +9,8 @@ import styled from 'styled-components';
 
 import LocalizedIcon from 'components/localized_icon';
 import {closeModal as closeModalAction} from 'actions/views/modals';
-import {ModalIdentifiers} from 'utils/constants';
+import {trackEvent} from 'actions/telemetry_actions';
+import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {
     clearCategories,
@@ -45,17 +46,17 @@ const BackIconInHeader = styled(LocalizedIcon)`
 
 interface ModalTitleProps {
     text: string;
-    backButtonAction?: () => void;
+    backArrowAction?: () => void;
 }
 
 const ModalTitle = (props: ModalTitleProps) => {
     return (
         <div className='work-template-modal__title'>
-            {props.backButtonAction &&
+            {props.backArrowAction &&
                 <BackIconInHeader
                     className='icon icon-arrow-left'
                     aria-label={'Back Icon'}
-                    onClick={props.backButtonAction}
+                    onClick={props.backArrowAction}
                 />
             }
             <span style={{marginLeft: 18}}>{props.text}</span>
@@ -88,6 +89,10 @@ const WorkTemplateModal = () => {
     const teamId = useSelector(getCurrentTeamId);
     const playbookTemplates = useSelector((state: GlobalState) => state.entities.worktemplates.playbookTemplates);
 
+    useEffect(() => {
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'open_modal');
+    }, []);
+
     // load the categories if they are not found, or load the work templates for those categories.
     useEffect(() => {
         if (categories?.length) {
@@ -117,6 +122,7 @@ const WorkTemplateModal = () => {
     }, [currentCategoryId, modalState, selectedTemplate, selectedVisibility]);
 
     const changeCategory = (category: Category) => {
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'change_category', {category: category.id});
         setCurrentCategoryId(category.id);
         if (workTemplates[category.id]?.length) {
             return;
@@ -136,18 +142,27 @@ const WorkTemplateModal = () => {
     const handleTemplateSelected = (template: WorkTemplate, quickUse: boolean) => {
         setSelectedTemplate(template);
         if (quickUse) {
+            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'quick_use', {category: template.category, template: template.id});
             execute(template, '', template.visibility);
             return;
         }
 
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'select_template', {category: template.category, template: template.id});
         setModalState(ModalState.Preview);
     };
 
     const handleOnNameChanged = (name: string) => {
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'customize_name', {category: selectedTemplate?.category, template: selectedTemplate?.id});
         setSelectedName(name);
     };
 
     const handleOnVisibilityChanged = (visibility: Visibility) => {
+        if (visibility === Visibility.Public) {
+            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'changed_visibility_public', {category: selectedTemplate?.category, template: selectedTemplate?.id});
+        } else {
+            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'customized_visibility_private', {category: selectedTemplate?.category, template: selectedTemplate?.id});
+        }
+
         setSelectedVisibility(visibility);
     };
 
@@ -171,13 +186,17 @@ const WorkTemplateModal = () => {
         };
 
         setIsCreating(true);
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'executing', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility});
         const {data, error} = await dispatch(executeWorkTemplate(req)) as ActionResult<ExecuteWorkTemplateResponse>;
 
         if (error) {
+            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'execution_error', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility, error: error.message});
             setIsCreating(false);
             setErrorText(error.message);
             return;
         }
+
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'execution_success', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility});
         let firstChannelId = '';
         if (data?.channel_with_playbook_ids.length) {
             firstChannelId = data.channel_with_playbook_ids[0];
@@ -190,9 +209,22 @@ const WorkTemplateModal = () => {
         closeModal();
     };
 
+    const trackAction = (action: string, actionFn: () => void) => {
+        return () => {
+            let props = {};
+            if (selectedTemplate) {
+                props = {category: selectedTemplate?.category, template: selectedTemplate?.id};
+            }
+            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, action, props);
+
+            actionFn();
+        };
+    };
+
     let title;
     let cancelButtonText;
     let cancelButtonAction;
+    let backArrowAction;
     let confirmButtonText;
     let confirmButtonAction;
     switch (modalState) {
@@ -202,16 +234,18 @@ const WorkTemplateModal = () => {
     case ModalState.Preview:
         title = formatMessage({id: 'work_templates.preview.modal_title', defaultMessage: 'Preview - {useCase}'}, {useCase: selectedTemplate?.useCase});
         cancelButtonText = formatMessage({id: 'work_templates.preview.modal_cancel_button', defaultMessage: 'Back'});
-        cancelButtonAction = goToMenu;
+        cancelButtonAction = trackAction('btn_back_to_menu', goToMenu);
+        backArrowAction = trackAction('arrow_back_to_menu', goToMenu);
         confirmButtonText = formatMessage({id: 'work_templates.preview.modal_next_button', defaultMessage: 'Next'});
-        confirmButtonAction = () => setModalState(ModalState.Customize);
+        confirmButtonAction = trackAction('btn_go_to_customize', () => setModalState(ModalState.Customize));
         break;
     case ModalState.Customize:
         title = formatMessage({id: 'work_templates.customize.modal_title', defaultMessage: 'Customize - {useCase}'}, {useCase: selectedTemplate?.useCase});
         cancelButtonText = formatMessage({id: 'work_templates.customize.modal_cancel_button', defaultMessage: 'Back'});
-        cancelButtonAction = () => setModalState(ModalState.Preview);
+        cancelButtonAction = trackAction('btn_back_to_preview', () => setModalState(ModalState.Preview));
+        backArrowAction = trackAction('arrow_back_to_preview', () => setModalState(ModalState.Preview));
         confirmButtonText = formatMessage({id: 'work_templates.customize.modal_create_button', defaultMessage: 'Create'});
-        confirmButtonAction = () => execute(selectedTemplate!, selectedName, selectedVisibility);
+        confirmButtonAction = trackAction('btn_execute', () => execute(selectedTemplate!, selectedName, selectedVisibility));
         break;
     }
 
@@ -222,7 +256,7 @@ const WorkTemplateModal = () => {
             modalHeaderText={
                 <ModalTitle
                     text={title}
-                    backButtonAction={cancelButtonAction}
+                    backArrowAction={backArrowAction}
                 />
             }
             compassDesign={true}
