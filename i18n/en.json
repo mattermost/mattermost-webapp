@@ -418,6 +418,7 @@
   "admin.billing.subscriptions.billing_summary.upgrade_professional.cta": "Upgrade",
   "admin.billing.trueUpReview.button_download": "Download Data",
   "admin.billing.trueUpReview.button_share": "Share to Mattermost",
+  "admin.billing.trueUpReview.docsLinkCTA": "Learn more about true-up here.",
   "admin.billing.trueUpReview.due_date": "Due ",
   "admin.billing.trueUpReview.share_data_for_review": "Share the below workspace data with Mattermost for your quarterly true-up Review.",
   "admin.billing.trueUpReview.submit_error": "There was an issue sending your True Up Review. Please try again.",
