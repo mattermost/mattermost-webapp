@@ -35,6 +35,7 @@ import Toolbar from './components/toolbar';
 import SendButton from './components/send-button';
 import {Extensions} from './extensions';
 import type {SuggestionConfig} from './extensions';
+import {contentToMarkdown} from './utils/contentParser';
 
 export enum Formatters {
     link,
@@ -168,7 +169,7 @@ const Wysiwyg = (props: Props) => {
          */
 
         // 1. fire the passed onSubmit function
-        await onSubmit(editor.getHTML(), {content: editor.getJSON()});
+        await onSubmit(contentToMarkdown(editor.getJSON()), {content: editor.getJSON()});
 
         if (!editor.isEmpty) {
             // 2. clear the editor content
@@ -215,7 +216,7 @@ const Wysiwyg = (props: Props) => {
         autofocus: 'end',
         onUpdate: ({editor}) => {
             // call the onChange function from the parent component (if available)
-            onChange?.(editor.getHTML(), {content: editor.getJSON()});
+            onChange?.(contentToMarkdown(editor.getJSON()), {content: editor.getJSON()});
         },
         onTransaction({editor, transaction}) {
             // The editor state has changed.
