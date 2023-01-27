@@ -6,7 +6,7 @@ import React from 'react';
 import {injectIntl, WrappedComponentProps} from 'react-intl';
 
 import {Feedback} from '@mattermost/types/cloud';
-import FeedbackModal from 'components/feedback_modal';
+import FeedbackModal from 'components/feedback_modal/feedback';
 
 type Props = {
     onSubmit: (feedback: Feedback) => void;

@@ -14,7 +14,7 @@ import RadioButtonGroup from 'components/common/radio_group';
 
 import {ModalIdentifiers} from 'utils/constants';
 
-import './index.scss';
+import './feedback.scss';
 
 type Props = {
     onSubmit: (feedback: Feedback) => void;
