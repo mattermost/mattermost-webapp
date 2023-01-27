@@ -27,6 +27,10 @@ describe('Leave and Archive channel actions display as destructive', () => {
         });
     });
 
+    beforeEach(() => {
+        cy.reload();
+    });
+
     it('MM-T4943_1 Leave and Archive channel actions display as destructive in the channel dropdown menu', () => {
         // # click on channel drop-down menu
         cy.get('#channelHeaderTitle').should('be.visible').click();
@@ -73,33 +77,24 @@ describe('Leave and Archive channel actions display as destructive', () => {
 
     it('MM-T4943_2 Leave channel actions display as destructive in the Edit Channel Menu ', () => {
         // # Open Edit Channel Menu and verify menu optin
-        cy.get('#sidebarItem_off-topic').find('.SidebarMenu_menuButton').click({force: true});
+        cy.uiGetChannelSidebarMenu('Off-Topic').within(() => {
+            // * Favorite menu option should be visible
+            cy.findByText('Favorite').should('be.visible').should('not.have.css', 'color', 'rgb(210, 75, 78)');
 
-        // * Favorite menu option should be visible
-        cy.findByText('Favorite').should('be.visible');
+            // * Mute Channel menu option should be visible
+            cy.findByText('Mute Channel').should('be.visible').should('not.have.css', 'color', 'rgb(210, 75, 78)');
 
-        // * Mute Channel menu option should be visible
-        cy.findByText('Mute Channel').should('be.visible');
+            // * Copy Link menu option should be visible
+            cy.findByText('Copy Link').should('be.visible').should('not.have.css', 'color', 'rgb(210, 75, 78)');
 
-        // * Move to... menu option should be visible
-        cy.findByText('Move to...').should('be.visible').trigger('mouseover');
+            // * Add Members menu option should be visible
+            cy.findByText('Add Members').should('be.visible').should('not.have.css', 'color', 'rgb(210, 75, 78)');
 
-        // * Favorites Sub-menu option should be visible
-        cy.findByText('Favorites').should('be.visible');
+            // * Move to... menu option should be visible and is not destructive
+            cy.findByText('Move to...').should('be.visible').should('not.have.css', 'color', 'rgb(210, 75, 78)');
 
-        // * New Category Sub-menu option should be visible
-        cy.findByText('New Category').should('be.visible');
-
-        // * Copy Link menu option should be visible
-        cy.findByText('Copy Link').should('be.visible');
-
-        // * Add Members menu option should be visible
-        cy.findByText('Add Members').should('be.visible');
-
-        // * Leave Channel menu option should be visible and have a color (destructive)
-        cy.findByText('Leave Channel').should('be.visible').should('have.css', 'color', 'rgb(210, 75, 78)');
-
-        // * Leave Channel menu option should be visible and have a background-color (destructive)
-        cy.findByText('Leave Channel').should('be.visible').parent().focus().should('have.css', 'background-color', 'rgb(210, 75, 78)');
+            // * Leave Channel menu option should be visible and have a color (destructive)
+            cy.findByText('Leave Channel').should('be.visible').should('have.css', 'color', 'rgb(210, 75, 78)');
+        });
     });
 });

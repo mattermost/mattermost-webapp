@@ -249,10 +249,6 @@ const state: GlobalState = {
                 cloudArchived: 0,
                 teamsLoaded: false,
             },
-            boards: {
-                cards: 0,
-                cardsLoaded: false,
-            },
         },
         insights: {
             topReactions: {},
