@@ -47,8 +47,8 @@ const CategoryButton = styled.button`
 
 const UseCases = styled.div`
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
+    justify-content: flex-start;
     width: 692px;
 `;
 
