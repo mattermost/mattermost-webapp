@@ -5577,6 +5577,7 @@
   "work_templates.customize.name_description": "This will help you and others find your project items. You can always edit this later.",
   "work_templates.customize.name_input_placeholder": "e.g. Web app, Growth, etc.",
   "work_templates.customize.name_title": "What project is this for?",
+  "work_templates.customize.private_playbook_license_issue": "Private playbooks requires an Enterprise license.",
   "work_templates.customize.visibility_title": "Who should have access to this?",
   "work_templates.menu.modal_title": "Create a work template",
   "work_templates.menu.quick_use": "Quick use",
