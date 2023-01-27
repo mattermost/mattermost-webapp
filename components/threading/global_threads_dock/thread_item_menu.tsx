@@ -35,8 +35,6 @@ import {Post} from '@mattermost/types/posts';
 
 import {selectPost} from 'actions/views/rhs';
 
-import {openDocked} from './dock';
-
 type Props = {
     threadId: string;
     post: Post | undefined;

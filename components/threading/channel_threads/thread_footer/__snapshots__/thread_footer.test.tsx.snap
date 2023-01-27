@@ -245,7 +245,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                       onMouseOver={[Function]}
                     >
                       <button
-                        className="RoundButton-dvlhqG gHOQXq style--none"
+                        className="RoundButton-jiiGed coeowW style--none"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -465,7 +465,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                       onMouseOver={[Function]}
                     >
                       <button
-                        className="RoundButton-dvlhqG gHOQXq style--none"
+                        className="RoundButton-jiiGed coeowW style--none"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -685,7 +685,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
                       onMouseOver={[Function]}
                     >
                       <button
-                        className="RoundButton-dvlhqG gHOQXq style--none"
+                        className="RoundButton-jiiGed coeowW style--none"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -848,6 +848,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
     </Memo(Avatars)>
     <Memo(Button)
       className="ReplyButton separated"
+      onAuxClick={[Function]}
       onClick={[Function]}
       prepend={
         <span
@@ -861,6 +862,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
     >
       <button
         className="Button Button___transparent ReplyButton separated"
+        onAuxClick={[Function]}
         onClick={[Function]}
       >
         <span
@@ -1373,7 +1375,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                       onMouseOver={[Function]}
                     >
                       <button
-                        className="RoundButton-dvlhqG gHOQXq style--none"
+                        className="RoundButton-jiiGed coeowW style--none"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -1593,7 +1595,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                       onMouseOver={[Function]}
                     >
                       <button
-                        className="RoundButton-dvlhqG gHOQXq style--none"
+                        className="RoundButton-jiiGed coeowW style--none"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -1813,7 +1815,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
                       onMouseOver={[Function]}
                     >
                       <button
-                        className="RoundButton-dvlhqG gHOQXq style--none"
+                        className="RoundButton-jiiGed coeowW style--none"
                         onBlur={[Function]}
                         onClick={[Function]}
                         onFocus={[Function]}
@@ -1976,6 +1978,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
     </Memo(Avatars)>
     <Memo(Button)
       className="ReplyButton separated"
+      onAuxClick={[Function]}
       onClick={[Function]}
       prepend={
         <span
@@ -1989,6 +1992,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
     >
       <button
         className="Button Button___transparent ReplyButton separated"
+        onAuxClick={[Function]}
         onClick={[Function]}
       >
         <span

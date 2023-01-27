@@ -25,7 +25,6 @@ import {UserThread} from '@mattermost/types/threads';
 import {Post} from '@mattermost/types/posts';
 import ForwardPostModal from '../forward_post_modal';
 import Tag from '../widgets/tag/tag';
-import {useDockedThreads} from 'components/threading/global_threads_dock/dock';
 
 import {ChangeEvent, trackDotMenuEvent} from './utils';
 

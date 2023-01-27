@@ -37,12 +37,17 @@ import {getChannel} from 'mattermost-redux/actions/channels';
 import {getThread as fetchThread} from 'mattermost-redux/actions/threads';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getThread} from 'mattermost-redux/selectors/entities/threads';
+import {currentUserAndTeamSuffix} from 'stores/hooks';
+import {getGlobalItem} from 'selectors/storage';
+import {addThreadHistory, THREADS_HISTORY} from 'components/threading/global_threads_dock/dock';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const postRootId = Utils.getRootId(post);
         await dispatch(PostActions.getPostThread(postRootId));
         const state = getState() as GlobalState;
+
+        dispatch(addThreadHistory(post));
 
         dispatch({
             type: ActionTypes.SELECT_POST,
@@ -59,6 +64,8 @@ function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previous
 function selectPostCardFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
+
+        dispatch(addThreadHistory(post));
 
         dispatch({
             type: ActionTypes.SELECT_POST_CARD,
@@ -339,6 +346,48 @@ export function showPinnedPosts(channelId?: string) {
     };
 }
 
+export function showRecentlyViewedPosts() {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const teamId = getCurrentTeamId(state);
+
+        dispatch({
+            type: ActionTypes.UPDATE_RHS_STATE,
+            state: RHSStates.RECENT,
+        });
+
+        const suffix = currentUserAndTeamSuffix(state);
+        const threadsHistory: string[] = getGlobalItem(state, THREADS_HISTORY + suffix, []);
+
+        const data = {
+            order: [...threadsHistory].reverse(),
+            posts: threadsHistory.reduce((result: {[id: string]: any}, id: string) => {
+                const post = getPost(state, id);
+                result[id] = post;
+
+                return result;
+            }, {}),
+        };
+
+        dispatch(batchActions([
+            {
+                type: SearchTypes.RECEIVED_SEARCH_POSTS,
+                data,
+            },
+            {
+                type: SearchTypes.RECEIVED_SEARCH_TERM,
+                data: {
+                    teamId,
+                    terms: null,
+                    isOrSearch: false,
+                },
+            },
+        ]));
+
+        return {data: true};
+    };
+}
+
 export function showChannelFiles(channelId: string) {
     return async (dispatch: (action: Action, getState?: GetStateFunc | null) => Promise<ActionResult|[ActionResult, ActionResult]>, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
@@ -490,11 +539,16 @@ export function selectPostAndParentChannel(post: Post) {
 }
 
 export function selectPost(post: Post) {
-    return {
-        type: ActionTypes.SELECT_POST,
-        postId: post.root_id || post.id,
-        channelId: post.channel_id,
-        timestamp: Date.now(),
+    return (dispatch: DispatchFunc) => {
+        dispatch(addThreadHistory(post));
+
+        dispatch({
+            type: ActionTypes.SELECT_POST,
+            postId: post.root_id || post.id,
+            channelId: post.channel_id,
+            timestamp: Date.now(),
+        });
+        return {data: true};
     };
 }
 

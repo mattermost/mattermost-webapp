@@ -5,6 +5,8 @@ import React, {useEffect} from 'react';
 
 import {useSelector, useDispatch} from 'react-redux';
 
+import {takeRight} from 'lodash';
+
 import {currentUserAndTeamSuffix, useGlobalState} from 'stores/hooks';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
@@ -15,8 +17,6 @@ import {GlobalState} from 'types/store';
 
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
-import {DispatchFunc} from 'mattermost-redux/types/actions';
-
 import {getGlobalItem} from 'selectors/storage';
 import {setGlobalItem} from 'actions/storage';
 
@@ -24,14 +24,18 @@ import {Post} from '@mattermost/types/posts';
 
 import {getIsMobileView} from 'selectors/views/browser';
 
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+
 import ThreadItem from './thread_item';
 
-const DOCKED_THREADS = 'docked_threads';
-const DOCKED_THREADS_OPEN = 'docked_threads_open';
+export const DOCKED_THREADS = 'docked_threads';
+export const DOCKED_THREADS_OPEN = 'docked_threads_open';
+export const THREADS_HISTORY = 'threads_history';
 
 export const useDockedThreads = (threadId?: string) => {
     const [threadIds, setThreadIds] = useGlobalState<string[]>([], DOCKED_THREADS, currentUserAndTeamSuffix);
     const [threadsOpenState, setThreadsOpenStateInner] = useGlobalState<Record<string, number>>({}, DOCKED_THREADS_OPEN, currentUserAndTeamSuffix);
+    const [, setThreadsHistory] = useGlobalState<string[]>([], THREADS_HISTORY, currentUserAndTeamSuffix);
 
     const setIsOpen = (id: string, num?: number) => {
         if (typeof num === 'number') {
@@ -51,6 +55,7 @@ export const useDockedThreads = (threadId?: string) => {
             return;
         }
         setThreadIds((state) => [...state.filter((threadId) => threadId !== id), id]);
+        setThreadsHistory((state) => takeRight([...state.filter((threadId) => threadId !== id), id], 20));
     };
 
     const minimize = (id: string) => {
@@ -80,20 +85,33 @@ export const useDockedThreads = (threadId?: string) => {
     };
 };
 
+export const addThreadHistory = (post: Post) => {
+    const id = post?.root_id || post?.id;
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
+        const suffix = currentUserAndTeamSuffix(state);
+        const threadsHistory: string[] = getGlobalItem(state, THREADS_HISTORY + suffix, []);
+
+        dispatch(setGlobalItem(THREADS_HISTORY + suffix, takeRight([...threadsHistory.filter((threadId) => threadId !== id), id], 20)));
+        return {data: true};
+    };
+};
+
 export const openDocked = (post: Post) => {
     const id = post?.root_id || post?.id;
-    return (dispatch: DispatchFunc, getState: () => GlobalState) => {
-        const state = getState();
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
         const suffix = currentUserAndTeamSuffix(state);
         const threadIds = getGlobalItem(state, DOCKED_THREADS + suffix, []);
         const threadsOpenState = getGlobalItem(state, DOCKED_THREADS_OPEN + suffix, {});
-        console.log('openDocked', id, threadIds, threadsOpenState);
 
         if (!threadIds.includes(id)) {
             dispatch(setGlobalItem(DOCKED_THREADS + suffix, [...threadIds, id]));
+            dispatch(addThreadHistory(post));
         }
 
         dispatch(setGlobalItem(DOCKED_THREADS_OPEN + suffix, {...threadsOpenState, [id]: 1}));
+        return {data: true};
     };
 };
 

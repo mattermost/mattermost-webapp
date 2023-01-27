@@ -17,6 +17,7 @@ export type OwnProps = {
     isMentionSearch: boolean;
     isFlaggedPosts: boolean;
     isPinnedPosts: boolean;
+    isRecentPosts: boolean;
     updateSearchTerms: (terms: string) => void;
     getMorePostsForSearch: () => void;
     getMoreFilesForSearch: () => void;

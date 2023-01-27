@@ -218,6 +218,32 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
         show={true}
         text="Profile"
       />
+      <MenuItemToggleModalRedux
+        ariaLabel="Settings"
+        dialogProps={
+          Object {
+            "isContentProductSettings": true,
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "type": [Function],
+          }
+        }
+        icon={
+          <Icon
+            glyph="cog-outline"
+            size={16}
+          />
+        }
+        id="productSettings"
+        modalId="user_settings"
+        show={true}
+        text="Settings"
+      />
     </MenuGroup>
     <MenuGroup>
       <MenuItemAction
@@ -536,6 +562,32 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
         show={true}
         text="Profile"
       />
+      <MenuItemToggleModalRedux
+        ariaLabel="Settings"
+        dialogProps={
+          Object {
+            "isContentProductSettings": true,
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "type": [Function],
+          }
+        }
+        icon={
+          <Icon
+            glyph="cog-outline"
+            size={16}
+          />
+        }
+        id="productSettings"
+        modalId="user_settings"
+        show={true}
+        text="Settings"
+      />
     </MenuGroup>
     <MenuGroup>
       <MenuItemAction
@@ -806,6 +858,32 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         show={true}
         text="Profile"
       />
+      <MenuItemToggleModalRedux
+        ariaLabel="Settings"
+        dialogProps={
+          Object {
+            "isContentProductSettings": true,
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "type": [Function],
+          }
+        }
+        icon={
+          <Icon
+            glyph="cog-outline"
+            size={16}
+          />
+        }
+        id="productSettings"
+        modalId="user_settings"
+        show={true}
+        text="Settings"
+      />
     </MenuGroup>
     <MenuGroup>
       <MenuItemAction
@@ -1075,6 +1153,32 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
         modalId="user_settings"
         show={true}
         text="Profile"
+      />
+      <MenuItemToggleModalRedux
+        ariaLabel="Settings"
+        dialogProps={
+          Object {
+            "isContentProductSettings": true,
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "type": [Function],
+          }
+        }
+        icon={
+          <Icon
+            glyph="cog-outline"
+            size={16}
+          />
+        }
+        id="productSettings"
+        modalId="user_settings"
+        show={true}
+        text="Settings"
       />
     </MenuGroup>
     <MenuGroup>
@@ -1347,6 +1451,32 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         show={true}
         text="Profile"
       />
+      <MenuItemToggleModalRedux
+        ariaLabel="Settings"
+        dialogProps={
+          Object {
+            "isContentProductSettings": true,
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "type": [Function],
+          }
+        }
+        icon={
+          <Icon
+            glyph="cog-outline"
+            size={16}
+          />
+        }
+        id="productSettings"
+        modalId="user_settings"
+        show={true}
+        text="Settings"
+      />
     </MenuGroup>
     <MenuGroup>
       <MenuItemAction
@@ -1592,6 +1722,32 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
         show={true}
         text="Profile"
       />
+      <MenuItemToggleModalRedux
+        ariaLabel="Settings"
+        dialogProps={
+          Object {
+            "isContentProductSettings": true,
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "type": [Function],
+          }
+        }
+        icon={
+          <Icon
+            glyph="cog-outline"
+            size={16}
+          />
+        }
+        id="productSettings"
+        modalId="user_settings"
+        show={true}
+        text="Settings"
+      />
     </MenuGroup>
     <MenuGroup>
       <MenuItemAction
@@ -1828,6 +1984,32 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
         modalId="user_settings"
         show={true}
         text="Profile"
+      />
+      <MenuItemToggleModalRedux
+        ariaLabel="Settings"
+        dialogProps={
+          Object {
+            "isContentProductSettings": true,
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "type": [Function],
+          }
+        }
+        icon={
+          <Icon
+            glyph="cog-outline"
+            size={16}
+          />
+        }
+        id="productSettings"
+        modalId="user_settings"
+        show={true}
+        text="Settings"
       />
     </MenuGroup>
     <MenuGroup>
@@ -2098,6 +2280,32 @@ exports[`components/StatusDropdown should not show clear status button when cust
         modalId="user_settings"
         show={true}
         text="Profile"
+      />
+      <MenuItemToggleModalRedux
+        ariaLabel="Settings"
+        dialogProps={
+          Object {
+            "isContentProductSettings": true,
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "type": [Function],
+          }
+        }
+        icon={
+          <Icon
+            glyph="cog-outline"
+            size={16}
+          />
+        }
+        id="productSettings"
+        modalId="user_settings"
+        show={true}
+        text="Settings"
       />
     </MenuGroup>
     <MenuGroup>
@@ -2416,6 +2624,32 @@ exports[`components/StatusDropdown should show clear status button when custom s
         modalId="user_settings"
         show={true}
         text="Profile"
+      />
+      <MenuItemToggleModalRedux
+        ariaLabel="Settings"
+        dialogProps={
+          Object {
+            "isContentProductSettings": true,
+          }
+        }
+        dialogType={
+          Object {
+            "$$typeof": Symbol(react.memo),
+            "WrappedComponent": [Function],
+            "compare": null,
+            "type": [Function],
+          }
+        }
+        icon={
+          <Icon
+            glyph="cog-outline"
+            size={16}
+          />
+        }
+        id="productSettings"
+        modalId="user_settings"
+        show={true}
+        text="Settings"
       />
     </MenuGroup>
     <MenuGroup>

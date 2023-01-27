@@ -36,6 +36,7 @@ export type StateProps = {
     isFlaggedPosts: boolean;
     isPinnedPosts: boolean;
     isChannelFiles: boolean;
+    isRecentPosts: boolean;
     currentChannel?: Channel;
     isMobileView: boolean;
 }

@@ -6,28 +6,37 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
+import {useDispatch, useSelector} from 'react-redux';
+
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import UserSettingsModal from 'components/user_settings/modal';
 
-import {ModalData} from 'types/actions';
+import Constants, {RHSStates} from 'utils/constants';
 
-import Constants, {ModalIdentifiers} from 'utils/constants';
+import {closeRightHandSide, showRecentlyViewedPosts} from 'actions/views/rhs';
 
-type Props = {
-    actions: {
-        openModal: <P>(modalData: ModalData<P>) => void;
-    };
-};
+import {getRhsState} from 'selectors/rhs';
+import {GlobalState} from 'types/store';
 
-const SettingsButton = (props: Props): JSX.Element | null => {
+const RecentlyViewedPostsButton = (): JSX.Element | null => {
     const {formatMessage} = useIntl();
+    const dispatch = useDispatch();
+    const rhsState = useSelector((state: GlobalState) => getRhsState(state));
+
+    const savedPostsButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        if (rhsState === RHSStates.RECENT) {
+            dispatch(closeRightHandSide());
+        } else {
+            dispatch(showRecentlyViewedPosts());
+        }
+    };
 
     const tooltip = (
-        <Tooltip id='history'>
+        <Tooltip id='recentMentions'>
             <FormattedMessage
-                id='global_header.history'
-                defaultMessage='History'
+                id='channel_header.history'
+                defaultMessage='Recently viewed posts'
             />
         </Tooltip>
     );
@@ -42,16 +51,14 @@ const SettingsButton = (props: Props): JSX.Element | null => {
             <IconButton
                 size={'sm'}
                 icon={'clock-outline'}
-                onClick={(): void => {
-                    props.actions.openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: true}});
-                }}
+                onClick={savedPostsButtonClick}
                 inverted={true}
                 compact={true}
                 aria-haspopup='dialog'
-                aria-label={formatMessage({id: 'global_header.history', defaultMessage: 'History'})}
+                aria-label={formatMessage({id: 'global_header.history', defaultMessage: 'Recently viewed posts'})}
             />
         </OverlayTrigger>
     );
 };
 
-export default SettingsButton;
+export default RecentlyViewedPostsButton;

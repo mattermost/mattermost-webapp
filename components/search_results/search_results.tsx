@@ -7,6 +7,8 @@ import {useSelector} from 'react-redux';
 import Scrollbars from 'react-custom-scrollbars';
 import classNames from 'classnames';
 
+import {ClockOutlineIcon} from '@mattermost/compass-icons/components';
+
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
@@ -98,7 +100,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     useEffect(() => {
         // reset search type when switching views
         setSearchType(props.searchType);
-    }, [props.isFlaggedPosts, props.isPinnedPosts, props.isMentionSearch]);
+    }, [props.isFlaggedPosts, props.isPinnedPosts, props.isMentionSearch, props.isRecentPosts]);
 
     useEffect(() => {
         // after the first page of search results, there is no way to
@@ -113,7 +115,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     }, [props.searchPage, props.searchTerms, props.isSearchingTerm]);
 
     const handleScroll = (): void => {
-        if (!props.isFlaggedPosts && !props.isPinnedPosts && !props.isSearchingTerm && !props.isSearchGettingMore && !props.isChannelFiles) {
+        if (!props.isFlaggedPosts && !props.isPinnedPosts && !props.isSearchingTerm && !props.isSearchGettingMore && !props.isChannelFiles && !isRecentPosts) {
             const scrollHeight = scrollbars.current?.getScrollHeight() || 0;
             const scrollTop = scrollbars.current?.getScrollTop() || 0;
             const clientHeight = scrollbars.current?.getClientHeight() || 0;
@@ -156,6 +158,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         isFlaggedPosts,
         isSearchingFlaggedPost,
         isPinnedPosts,
+        isRecentPosts,
         isChannelFiles,
         isSearchingPinnedPost,
         isSideBarExpanded,
@@ -171,7 +174,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     const noFileResults = (!fileResults || !Array.isArray(fileResults) || fileResults.length === 0);
     const isLoading = isSearchingTerm || isSearchingFlaggedPost || isSearchingPinnedPost || !isOpened;
     const isAtEnd = (searchType === DataSearchTypes.MESSAGES_SEARCH_TYPE && isSearchAtEnd) || (searchType === DataSearchTypes.FILES_SEARCH_TYPE && isSearchFilesAtEnd);
-    const showLoadMore = !isAtEnd && !isChannelFiles && !isFlaggedPosts && !isPinnedPosts;
+    const showLoadMore = !isAtEnd && !isChannelFiles && !isFlaggedPosts && !isPinnedPosts && !isRecentPosts;
     const isMessagesSearch = (!isFlaggedPosts && !isMentionSearch && !isCard && !isPinnedPosts && !isChannelFiles);
 
     let contentItems;
@@ -195,6 +198,12 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
 
         titleDescriptor.id = t('search_header.title3');
         titleDescriptor.defaultMessage = 'Saved Posts';
+    } else if (isRecentPosts) {
+        noResultsProps.variant = NoResultsVariant.FlaggedPosts;
+        noResultsProps.subtitleValues = {icon: <ClockOutlineIcon/>};
+
+        titleDescriptor.id = t('search_header.recentlyViewed');
+        titleDescriptor.defaultMessage = 'Recently Viewed';
     } else if (isPinnedPosts) {
         noResultsProps.variant = NoResultsVariant.PinnedPosts;
         noResultsProps.subtitleValues = {text: <strong>{'Pin to Channel'}</strong>};

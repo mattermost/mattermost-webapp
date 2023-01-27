@@ -48,7 +48,7 @@ export function useGlobalState<TVal>(
     const storedKey = `${name}${suffix}`;
 
     const value = useSelector(makeGetGlobalItem(storedKey, initialValue), shallowEqual);
-    const setValue = useCallback((update) => {
+    const setValue = useCallback((update: React.SetStateAction<TVal>) => {
         return dispatch((dispatch: DispatchFunc, getState: () => GlobalState) => {
             const v = getGlobalItem(getState(), storedKey, initialValue);
             dispatch(setGlobalItem(storedKey, resolve(update, v)));

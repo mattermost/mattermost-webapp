@@ -13,6 +13,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
     className="a11y__section post post--highlight post--pinned-or-flagged-highlight post--pinned-or-flagged  other--root  "
     data-testid="postView"
     id="post_post1"
+    onAuxClick={[Function]}
     onClick={[Function]}
     onMouseLeave={[Function]}
     onMouseOver={[Function]}
@@ -112,6 +113,7 @@ exports[`Post should handle highlighting properly when jumping to pinned or flag
     className="a11y__section post post--pinned-or-flagged  other--root  "
     data-testid="postView"
     id="post_post1"
+    onAuxClick={[Function]}
     onClick={[Function]}
     onMouseLeave={[Function]}
     onMouseOver={[Function]}
@@ -211,6 +213,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
     className="a11y__section post post--highlight  other--root  "
     data-testid="postView"
     id="post_post1"
+    onAuxClick={[Function]}
     onClick={[Function]}
     onMouseLeave={[Function]}
     onMouseOver={[Function]}
@@ -310,6 +313,7 @@ exports[`Post should not remove post--highlight class after timeout so the class
     className="a11y__section post  other--root  "
     data-testid="postView"
     id="post_post1"
+    onAuxClick={[Function]}
     onClick={[Function]}
     onMouseLeave={[Function]}
     onMouseOver={[Function]}

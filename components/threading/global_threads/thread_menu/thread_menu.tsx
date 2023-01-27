@@ -28,7 +28,7 @@ import {GlobalState} from 'types/store';
 
 import {useThreadRouting} from '../../hooks';
 
-import {openDocked, useDockedThreads} from '../../global_threads_dock/dock';
+import {openDocked} from '../../global_threads_dock/dock';
 
 import './thread_menu.scss';
 import {Post} from '@mattermost/types/posts';

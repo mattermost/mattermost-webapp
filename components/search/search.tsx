@@ -526,6 +526,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 <SearchResults
                     isMentionSearch={props.isMentionSearch}
                     isFlaggedPosts={props.isFlaggedPosts}
+                    isRecentPosts={props.isRecentPosts}
                     isPinnedPosts={props.isPinnedPosts}
                     isChannelFiles={props.isChannelFiles}
                     shrink={handleShrink}

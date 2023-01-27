@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, useEffect, useMemo, MouseEvent} from 'react';
+import React, {memo, useCallback, useEffect, MouseEvent} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch, useSelector} from 'react-redux';
@@ -28,10 +28,6 @@ import {markLastPostInThreadAsUnread, updateThreadRead} from 'mattermost-redux/a
 import {getCurrentTeamId} from '../../../../mattermost-mobile/app/mm-redux/selectors/entities/common';
 
 import {prefetchThread, selectPost} from 'actions/views/rhs';
-
-import {Preferences} from 'utils/constants';
-
-import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {useGlobalKeyPressed} from 'utils/keyboard';
 
@@ -71,16 +67,6 @@ const ThreadItem = ({id}: Props): React.ReactElement | null => {
             dispatch(fetchChannel(post.channel_id));
         }
     }, [channel, post?.channel_id]);
-
-    const participantIds = useMemo(() => {
-        const ids = (thread?.participants || []).flatMap(({id}) => {
-            if (id === post?.user_id) {
-                return [];
-            }
-            return id;
-        }).reverse();
-        return [post?.user_id, ...ids];
-    }, [post, thread?.participants]);
 
     const unreadTimestamp = post?.edit_at || post?.create_at;
 
@@ -133,8 +119,6 @@ const ThreadItem = ({id}: Props): React.ReactElement | null => {
     const {
         unread_replies: newReplies,
         unread_mentions: newMentions,
-        last_reply_at: lastReplyAt,
-        reply_count: totalReplies,
     } = thread ?? {};
 
     const icon = isFollowing ? <MessageCheckOutlineIcon size={16}/> : <MessageTextOutlineIcon size={16}/>;

@@ -482,7 +482,6 @@ export default class Post extends React.PureComponent<Props, State> {
             <PostHeader
                 post={post}
                 handleCommentClick={this.handleCommentClick}
-                handleCommentAuxClick={this.handleCommentAuxClick}
                 handleCardClick={this.handleCardClick}
                 handleDropdownOpened={this.handleDropdownOpened}
                 compactDisplay={this.props.compactDisplay}
