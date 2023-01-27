@@ -74,7 +74,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           browser: chrome
-          config: defaultCommandTimeout=60000,video=true,videosFolder=tests/videos
+          config: video=true,videosFolder=tests/videos
           install: false
           spec: ./tests/integration/performance/*
           start: npm run benchmarks:run-server
