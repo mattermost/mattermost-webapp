@@ -292,6 +292,7 @@ const WorkTemplateModal = () => {
                     visibility={selectedVisibility}
                     onNameChanged={handleOnNameChanged}
                     onVisibilityChanged={handleOnVisibilityChanged}
+                    template={selectedTemplate}
                 />
             )}
         </GenericModal>
