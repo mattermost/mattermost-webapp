@@ -22,6 +22,7 @@
 
         .alert-svg {
             margin-top: -20px;
+            margin-bottom: -47px;
         }
 
         .title {
@@ -54,17 +55,11 @@
         align-items: center;
         justify-content: center;
         margin-top: 20px;
-
-        button {
-            height: 40px;
-            margin-top: 15px !important;
-            margin-left: 10px;
-            border-radius: 4px;
-        }
     }
 
     .modal-footer {
-        border-top: none !important;
-        background: none !important;
+        display: flex;
+        justify-content: center;
+        padding: 32px 32px 48px 32px;
     }
 }

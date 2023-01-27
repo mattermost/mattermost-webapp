@@ -4,7 +4,7 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'types/store';
@@ -28,6 +28,7 @@ type Props = {
 
 const SwitchToYearlyPlanConfirmModal: React.FC<Props> = (props: Props): JSX.Element | null => {
     const dispatch = useDispatch<DispatchFunc>();
+    const {formatMessage} = useIntl();
 
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.CONFIRM_SWITCH_TO_YEARLY));
     if (!show) {
@@ -53,6 +54,11 @@ const SwitchToYearlyPlanConfirmModal: React.FC<Props> = (props: Props): JSX.Elem
             show={show}
             id='SwitchToYearlyPlanConfirmModal'
             onExited={handleClose}
+            compassDesign={true}
+            cancelButtonText={formatMessage({id: 'confirm_switch_to_yearly_modal.contact_sales', defaultMessage: 'Contact Sales'})}
+            confirmButtonText={formatMessage({id: 'confirm_switch_to_yearly_modal.confirm', defaultMessage: 'Confirm'})}
+            handleCancel={props.contactSalesFunc}
+            handleConfirm={handleConfirmSwitch}
         >
             <>
                 <div className='content-body'>
@@ -80,26 +86,6 @@ const SwitchToYearlyPlanConfirmModal: React.FC<Props> = (props: Props): JSX.Elem
                             defaultMessage='For more information, please contact sales.'
                         />
                     </div>
-                </div>
-                <div className='content-footer'>
-                    <button
-                        onClick={props.contactSalesFunc}
-                        className='btn light-blue-btn'
-                    >
-                        <FormattedMessage
-                            id='confirm_switch_to_yearly_modal.contact_sales'
-                            defaultMessage='Contact Sales'
-                        />
-                    </button>
-                    <button
-                        onClick={handleConfirmSwitch}
-                        className='btn btn-primary'
-                    >
-                        <FormattedMessage
-                            id='confirm_switch_to_yearly_modal.confirm'
-                            defaultMessage='Confirm'
-                        />
-                    </button>
                 </div>
             </>
         </GenericModal>
