@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {useDispatch, useSelector} from 'react-redux';
 
-import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
+import {TourTip, useMeasurePunchouts} from '@mattermost/components';
 import {isShowOnboardingCompleteProfileTour} from 'selectors/views/onboarding_tasks';
 import {setShowOnboardingCompleteProfileTour} from '../../actions/views/onboarding_tasks';
 

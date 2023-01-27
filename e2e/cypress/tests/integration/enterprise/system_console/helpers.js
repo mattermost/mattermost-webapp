@@ -38,7 +38,10 @@ export function makeUserASystemRole(testUsers, role) {
 
     // # Go the system console.
     cy.visit('/admin_console/user_management/system_roles');
-    cy.contains('System Roles', {timeout: TIMEOUTS.ONE_MIN}).should('exist').and('be.visible');
+
+    cy.get('.admin-console__header').within(() => {
+        cy.findByText('System Roles', {timeout: TIMEOUTS.ONE_MIN}).should('exist').and('be.visible');
+    });
 
     // # Click on edit for the role
     cy.findByTestId(`${role}_edit`).click();

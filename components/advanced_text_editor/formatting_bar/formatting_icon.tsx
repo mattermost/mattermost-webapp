@@ -30,16 +30,15 @@ import {t} from 'utils/i18n';
 
 export const IconContainer = styled.button`
     display: flex;
-    width: 32px;
+    min-width: 32px;
     height: 32px;
     place-items: center;
     place-content: center;
     border: none;
     background: transparent;
-    padding: 0;
+    padding: 0 7px;
     border-radius: 4px;
     color: rgba(var(--center-channel-color-rgb), 0.56);
-    fill: currentColor;
 
     &:hover {
         background: rgba(var(--center-channel-color-rgb), 0.08);

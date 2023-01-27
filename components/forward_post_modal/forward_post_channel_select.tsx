@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {
     ArchiveOutlineIcon, ChevronDownIcon,
     GlobeIcon,
@@ -7,7 +8,7 @@ import {
     MessageTextOutlineIcon,
 } from '@mattermost/compass-icons/components';
 
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 import {useIntl} from 'react-intl';
 
@@ -15,9 +16,10 @@ import {useSelector} from 'react-redux';
 
 import {components, IndicatorProps, OptionProps, SingleValueProps, ValueType} from 'react-select';
 
-import {Props as AsyncSelectProps} from 'react-select/src/Async';
+import AsyncSelect from 'react-select/async';
 
-import {Channel} from '@mattermost/types/channels';
+import BotTag from 'components/widgets/tag/bot_tag';
+import GuestTag from 'components/widgets/tag/guest_tag';
 
 import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getMyTeams, getTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -31,21 +33,12 @@ import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import ProfilePicture from 'components/profile_picture';
 import SharedChannelIndicator from 'components/shared_channel_indicator';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider';
-import BotBadge from 'components/widgets/badges/bot_badge';
-import GuestBadge from 'components/widgets/badges/guest_badge';
+
+import {ProviderResult} from 'components/suggestion/provider';
+
+import {Channel} from '@mattermost/types/channels';
 
 import {getBaseStyles} from './forward_post_channel_select_styles';
-
-const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<ChannelOption>>; // eslint-disable-line global-require
-
-type ProviderResults = {
-    matchedPretext: string;
-    terms: string[];
-
-    // The providers currently do not provide a clearly defined type and structure
-    items: Array<Record<string, any>>;
-    component?: React.ReactNode;
-}
 
 type ChannelTypeFromProvider = Channel & {
     userId?: string;
@@ -62,13 +55,13 @@ type GroupedOption = {
     options: ChannelOption[];
 }
 
-export const makeSelectedChannelOption = (channel: Channel) => ({
+export const makeSelectedChannelOption = (channel: Channel): ChannelOption => ({
     label: channel.display_name || channel.name,
     value: channel.id,
     details: channel,
 });
 
-const FormattedOption = (props: ChannelOption & {className: string}) => {
+const FormattedOption = (props: ChannelOption & {className: string; isSingleValue?: boolean}) => {
     const {details} = props;
 
     const {formatMessage} = useIntl();
@@ -116,18 +109,11 @@ const FormattedOption = (props: ChannelOption & {className: string}) => {
 
     let tag = null;
     if (details.type === Constants.DM_CHANNEL) {
-        tag = (
-            <>
-                <BotBadge
-                    show={Boolean(teammate?.is_bot)}
-                    className='badge-autocomplete'
-                />
-                <GuestBadge
-                    show={Boolean(teammate && isGuest(teammate.roles))}
-                    className='badge-autocomplete'
-                />
-            </>
-        );
+        if (teammate?.is_bot) {
+            tag = <BotTag/>;
+        } else if (isGuest(teammate?.roles ?? '')) {
+            tag = <GuestTag/>;
+        }
 
         const emojiStyle = {
             marginBottom: 2,
@@ -170,9 +156,13 @@ const FormattedOption = (props: ChannelOption & {className: string}) => {
         <span className='option__team-name'>{team.display_name}</span>
     ) : null;
 
+    const componentType = props.isSingleValue ? 'singleValue' : 'option';
+
+    const componentId = `post-forward_channel-select_${componentType}_${details.id}`;
+
     return (
         <div
-            id={`post-forward_channel-select_${details.name}`}
+            id={componentId}
             className={props.className}
             data-testid={details.name}
             aria-label={name}
@@ -218,6 +208,7 @@ const SingleValue = (props: SingleValueProps<ChannelOption>) => {
         <components.SingleValue {...props}>
             <FormattedOption
                 {...data}
+                isSingleValue={true}
                 className='singleValue'
             />
         </components.SingleValue>
@@ -247,6 +238,10 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
     const {formatMessage} = useIntl();
     const {current: provider} = useRef<SwitchChannelProvider>(new SwitchChannelProvider());
 
+    useEffect(() => {
+        provider.forceDispatch = true;
+    }, [provider]);
+
     const baseStyles = getBaseStyles(currentBodyHeight);
 
     const isValidChannelType = (channel: Channel) => validChannelTypes.includes(channel.type) && !channel.delete_at;
@@ -254,11 +249,11 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
     const getDefaultResults = () => {
         let options: GroupedOption[] = [];
 
-        const handleDefaultResults = (res: ProviderResults) => {
+        const handleDefaultResults = (res: ProviderResult) => {
             options = [
                 {
                     label: formatMessage({id: 'suggestion.mention.recent.channels', defaultMessage: 'Recent'}),
-                    options: res.items.filter((item) => isValidChannelType(item.channel)).map((item) => {
+                    options: res.items.filter((item) => item?.channel && isValidChannelType(item.channel) && !item.deactivated).map((item) => {
                         const {channel} = item;
                         return makeSelectedChannelOption(channel);
                     }),
@@ -274,6 +269,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
 
     const handleInputChange = (inputValue: string) => {
         return new Promise<ChannelOption[]>((resolve) => {
+            let callCount = inputValue ? 0 : 1;
             const options: ChannelOption[] = [];
 
             /** we optimistically assume this callback gets invoked twice when we have a value to be passed into the provider.
@@ -282,21 +278,22 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
              *
              * @see {@link components/suggestion/switch_channel_provider.jsx}
              */
-            let callCount = inputValue ? 1 : 0;
-            const handleResults = (res: ProviderResults) => {
+            const handleResults = async (res: ProviderResult) => {
                 callCount++;
-                res.items.filter((item) => isValidChannelType(item.channel)).forEach((item) => {
+                await res.items.filter((item) => item?.channel && isValidChannelType(item.channel) && !item.deactivated).forEach((item) => {
                     const {channel} = item;
 
-                    options.push(makeSelectedChannelOption(channel));
+                    if (options.findIndex((option) => option.value === channel.id) === -1) {
+                        options.push(makeSelectedChannelOption(channel));
+                    }
                 });
+
+                if (callCount === 2) {
+                    resolve(options);
+                }
             };
 
             provider.handlePretextChanged(inputValue, handleResults);
-            if (callCount === 2) {
-                // only resolvbe when the count reaches 2
-                resolve(options);
-            }
         });
     };
 
@@ -308,9 +305,10 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
             defaultOptions={defaultOptions.current}
             components={{DropdownIndicator, Option, SingleValue}}
             styles={baseStyles}
-            legend='Forrward to'
+            legend='Forward to'
             placeholder='Select channel or people'
             className='forward-post__select'
+            data-testid='forward-post-select'
         />
     );
 }

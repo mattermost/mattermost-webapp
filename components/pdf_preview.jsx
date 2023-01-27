@@ -47,7 +47,7 @@ export default class PDFPreview extends React.PureComponent {
     componentDidMount() {
         this.getPdfDocument();
         if (this.container.current) {
-            this.parentNode = this.container.current.parentElement.parentElement;
+            this.parentNode = this.container.current.parentElement;
             this.parentNode.addEventListener('scroll', this.handleScroll);
         }
     }
@@ -127,29 +127,33 @@ export default class PDFPreview extends React.PureComponent {
         if (this.pdfPagesRendered[pageIndex]) {
             return;
         }
-        await this.loadPage(this.state.pdf, pageIndex);
 
-        const page = this.state.pdfPages[pageIndex];
+        const page = await this.loadPage(this.state.pdf, pageIndex);
         const context = canvas.getContext('2d');
-        const viewport = page.getViewport(this.props.scale);
-
-        this[`pdfCanvasRef-${pageIndex}`].current.height = viewport.height;
-        this[`pdfCanvasRef-${pageIndex}`].current.width = viewport.width;
+        const viewport = page.getViewport({scale: this.props.scale});
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
 
         const renderContext = {
             canvasContext: context,
             viewport,
         };
 
-        page.render(renderContext);
+        await page.render(renderContext).promise;
         this.pdfPagesRendered[pageIndex] = true;
     }
 
-    getPdfDocument = () => {
-        import('pdfjs-dist').then((PDFJS) => {
-            PDFJS.disableWorker = true;
-            PDFJS.getDocument(this.props.fileUrl).then(this.onDocumentLoad).catch(this.onDocumentLoadError);
-        });
+    getPdfDocument = async () => {
+        try {
+            const PDFJS = await import('pdfjs-dist');
+            const worker = await import('pdfjs-dist/build/pdf.worker.entry.js');
+            PDFJS.GlobalWorkerOptions.workerSrc = worker;
+
+            const pdf = await PDFJS.getDocument(this.props.fileUrl).promise;
+            this.onDocumentLoad(pdf);
+        } catch (err) {
+            this.onDocumentLoadError(err);
+        }
     }
 
     onDocumentLoad = (pdf) => {
@@ -173,11 +177,10 @@ export default class PDFPreview extends React.PureComponent {
         const page = await pdf.getPage(pageIndex + 1);
 
         const pdfPages = Object.assign({}, this.state.pdfPages);
-        pdfPages[page.pageIndex] = page;
+        pdfPages[pageIndex] = page;
 
         const pdfPagesLoaded = Object.assign({}, this.state.pdfPagesLoaded);
-        pdfPagesLoaded[page.pageIndex] = true;
-
+        pdfPagesLoaded[pageIndex] = true;
         this.setState({pdfPages, pdfPagesLoaded});
 
         return page;
@@ -189,7 +192,7 @@ export default class PDFPreview extends React.PureComponent {
                 this.renderPDFPage(i);
             }
         }
-    }, 100)
+    }, 100);
 
     render() {
         if (this.state.loading) {

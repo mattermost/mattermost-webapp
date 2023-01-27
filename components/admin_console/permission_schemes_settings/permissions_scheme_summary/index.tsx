@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {RouteComponentProps} from 'react-router';
+import {RouteComponentProps} from 'react-router-dom';
 
 import {deleteScheme} from 'mattermost-redux/actions/schemes';
 

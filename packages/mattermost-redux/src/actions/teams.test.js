@@ -8,12 +8,12 @@ import assert from 'assert';
 import nock from 'nock';
 
 import * as Actions from 'mattermost-redux/actions/teams';
-import {login} from 'mattermost-redux/actions/users';
+import {loadMeREST} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
-import {General, RequestStatus} from '../constants';
-import {GeneralTypes} from 'mattermost-redux/action_types';
+import {GeneralTypes, UserTypes} from 'mattermost-redux/action_types';
 import TestHelper from 'mattermost-redux/test/test_helper';
 import configureStore from 'mattermost-redux/test/test_store';
+import {General, RequestStatus} from 'mattermost-redux/constants';
 
 const OK_RESPONSE = {status: 'OK'};
 
@@ -28,7 +28,6 @@ describe('Actions.Teams', () => {
             entities: {
                 general: {
                     config: {
-                        FeatureFlagCollapsedThreads: 'true',
                         CollapsedThreads: 'always_on',
                     },
                 },
@@ -51,7 +50,10 @@ describe('Actions.Teams', () => {
 
     it('getMyTeams', async () => {
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await loadMeREST()(store.dispatch, store.getState);
 
         nock(Client4.getBaseRoute()).
             get('/users/me/teams').
@@ -730,7 +732,10 @@ describe('Actions.Teams', () => {
 
     it('setTeamIcon', async () => {
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await loadMeREST()(store.dispatch, store.getState);
 
         const team = TestHelper.basicTeam;
         const imageData = fs.createReadStream('packages/mattermost-redux/test/assets/images/test.png');
@@ -745,7 +750,10 @@ describe('Actions.Teams', () => {
 
     it('removeTeamIcon', async () => {
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await loadMeREST()(store.dispatch, store.getState);
 
         const team = TestHelper.basicTeam;
 
@@ -759,7 +767,10 @@ describe('Actions.Teams', () => {
 
     it('updateTeamScheme', async () => {
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await loadMeREST()(store.dispatch, store.getState);
 
         const schemeId = 'xxxxxxxxxxxxxxxxxxxxxxxxxx';
         const {id} = TestHelper.basicTeam;

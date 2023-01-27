@@ -16,7 +16,6 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import NotificationBox from 'components/notification_box';
 
-import {PostPreviewMetadata} from '@mattermost/types/posts';
 import {GlobalState} from 'types/store';
 
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
@@ -26,6 +25,10 @@ import Constants from 'utils/constants';
 
 import PostMessagePreview from 'components/post_view/post_message_preview';
 import GenericModal from 'components/generic_modal';
+
+import {PostPreviewMetadata} from '@mattermost/types/posts';
+import {getSiteURL} from '../../utils/url';
+import * as Utils from '../../utils/utils';
 
 import ForwardPostChannelSelect, {ChannelOption, makeSelectedChannelOption} from './forward_post_channel_select';
 import ForwardPostCommentInput from './forward_post_comment_input';
@@ -46,7 +49,10 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
     const channel = useSelector((state: GlobalState) => getChannel(state, {id: post.channel_id}));
     const currentTeam = useSelector(getCurrentTeam);
 
-    const isPrivateConversation = channel.type !== General.OPEN_CHANNEL;
+    const relativePermaLink = useSelector((state: GlobalState) => Utils.getPermalinkURL(state, currentTeam.id, post.id));
+    const permaLink = `${getSiteURL()}${relativePermaLink}`;
+
+    const isPrivateConversation = channel.type !== Constants.OPEN_CHANNEL;
 
     const [comment, setComment] = useState('');
     const [bodyHeight, setBodyHeight] = useState<number>(0);
@@ -75,15 +81,17 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
     const canPostInSelectedChannel = useSelector(
         (state: GlobalState) => {
             const channelId = isPrivateConversation ? channel.id : selectedChannelId;
+            const isDMChannel = selectedChannel?.details?.type === Constants.DM_CHANNEL;
             const teamId = isPrivateConversation ? currentTeam.id : selectedChannel?.details?.team_id;
 
-            return Boolean(channelId) &&
-            haveIChannelPermission(
+            const hasChannelPermission = haveIChannelPermission(
                 state,
-                teamId || '',
+                teamId || currentTeam.id,
                 channelId,
                 Permissions.CREATE_POST,
             );
+
+            return Boolean(channelId) && (hasChannelPermission || isDMChannel);
         },
     );
 
@@ -158,6 +166,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
             <NotificationBox
                 variant={'info'}
                 text={notificationText}
+                id={'forward_post'}
             />
         );
     }
@@ -168,54 +177,53 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
         setTimeout(() => setHasError(false), Constants.ANIMATION_TIMEOUT);
     };
 
-    const handleSubmit = useCallback(async () => {
+    const handleSubmit = () => {
         if (postError) {
-            return;
+            return Promise.resolve();
         }
 
         const channelToForward = isPrivateConversation ? makeSelectedChannelOption(channel) : selectedChannel;
 
         if (!channelToForward) {
-            return;
+            return Promise.resolve();
         }
 
-        const channelId = channelToForward.details.id;
+        const {type, userId} = channelToForward.details;
 
-        let result = await actions.forwardPost(
-            post,
-            channelToForward.details,
-            comment,
-        );
-
-        if (result.error) {
-            handlePostError(result.error);
-            return;
-        }
-
-        if (
-            channelToForward.details.type === Constants.MENTION_MORE_CHANNELS &&
-            channelToForward.details.type === Constants.OPEN_CHANNEL
-        ) {
-            result = await actions.joinChannelById(channelId);
-
-            if (result.error) {
-                handlePostError(result.error);
-                return;
+        return Promise.resolve().then(() => {
+            if (type === Constants.DM_CHANNEL && userId) {
+                return actions.openDirectChannelToUserId(userId);
             }
-        }
-
-        // only switch channels when we are not in a private conversation
-        if (!isPrivateConversation) {
-            result = await actions.switchToChannel(channelToForward.details);
-
-            if (result.error) {
-                handlePostError(result.error);
-                return;
+            return {data: false};
+        }).then(({data}) => {
+            if (data) {
+                channelToForward.details.id = data.id;
             }
-        }
 
-        onHide();
-    }, [postError, isPrivateConversation, channel, selectedChannel, actions, post, comment, onHide]);
+            return actions.forwardPost(
+                post,
+                channelToForward.details,
+                comment,
+            );
+        }).then(() => {
+            if (type === Constants.MENTION_MORE_CHANNELS && type === Constants.OPEN_CHANNEL) {
+                return actions.joinChannelById(channelToForward.details.id);
+            }
+            return {data: false};
+        }).then(() => {
+            // only switch channels when we are not in a private conversation
+            if (!isPrivateConversation) {
+                return actions.switchToChannel(channelToForward.details);
+            }
+            return {data: false};
+        }).then(() => {
+            onHide();
+        }).catch((result) => {
+            if (result?.error) {
+                handlePostError(result.error);
+            }
+        });
+    };
 
     const postPreviewFooterMessage = formatMessage({
         id: 'forward_post_modal.preview.footer_message',
@@ -228,6 +236,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
     return (
         <GenericModal
             className='a11y__modal forward-post'
+            id='forward-post-modal'
             show={true}
             enforceFocus={false}
             autoCloseOnConfirmButton={false}
@@ -246,7 +255,6 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
             })}
             isConfirmDisabled={!canForwardPost}
             handleConfirm={handleSubmit}
-            handleEnterKeyPress={handleSubmit}
             handleCancel={onHide}
             onExited={onHide}
         >
@@ -271,6 +279,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
                     onError={handlePostError}
                     onSubmit={handleSubmit}
                     onHeightChange={onHeightChange}
+                    permaLinkLength={permaLink.length}
                 />
                 <div className={'forward-post__post-preview'}>
                     <span className={'forward-post__post-preview--title'}>

@@ -7,10 +7,10 @@ import {useDispatch} from 'react-redux';
 
 import {removePost} from 'mattermost-redux/actions/posts';
 
-import {Post} from '@mattermost/types/posts';
-
 import RhsComment from 'components/rhs_comment';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
+
+import {Post} from '@mattermost/types/posts';
 
 type Props = {
     a11yIndex: number;
@@ -18,8 +18,6 @@ type Props = {
     isLastPost: boolean;
     onCardClick: (post: Post) => void;
     post: Post;
-    previewCollapsed: string;
-    previewEnabled: boolean;
     previousPostId: string;
     teamId: string;
     timestampProps?: Partial<TimestampProps>;
@@ -31,8 +29,6 @@ function Reply({
     isLastPost,
     onCardClick,
     post,
-    previewCollapsed,
-    previewEnabled,
     previousPostId,
     teamId,
     timestampProps,
@@ -50,8 +46,6 @@ function Reply({
             handleCardClick={onCardClick}
             isLastPost={isLastPost}
             post={post}
-            previewCollapsed={previewCollapsed}
-            previewEnabled={previewEnabled}
             previousPostId={previousPostId}
             removePost={handleRemovePost}
             teamId={teamId}

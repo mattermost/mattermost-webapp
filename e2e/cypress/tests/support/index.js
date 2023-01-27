@@ -132,15 +132,23 @@ before(() => {
             break;
         }
 
+        if (Cypress.env('serverClusterEnabled')) {
+            cy.log('Checking cluster information...');
+
+            // * Ensure cluster is set up properly when enabled
+            cy.shouldHaveClusterEnabled();
+            cy.apiGetClusterStatus().then(({clusterInfo}) => {
+                const sameCount = clusterInfo?.length === Cypress.env('serverClusterHostCount');
+                expect(sameCount, sameCount ? '' : `Should match number of hosts in a cluster as expected. Got "${clusterInfo?.length}" but expected "${Cypress.env('serverClusterHostCount')}"`).to.equal(true);
+
+                clusterInfo.forEach((info) => cy.log(`hostname: ${info.hostname}, version: ${info.version}, config_hash: ${info.config_hash}`));
+            });
+        }
+
         // Log license status and server details before test
         printLicenseStatus();
         printServerDetails();
     });
-});
-
-// Add login cookies to whitelist to preserve it
-beforeEach(() => {
-    Cypress.Cookies.preserveOnce('MMAUTHTOKEN', 'MMUSERID', 'MMCSRF');
 });
 
 function printLicenseStatus() {
@@ -191,6 +199,9 @@ function sysadminSetup(user) {
     // # Disable plugins not included in prepackaged
     cy.apiDisableNonPrepackagedPlugins();
 
+    // # Deactivate test bots if any
+    cy.apiDeactivateTestBots();
+
     // # Check if default team is present; create if not found.
     cy.apiGetTeamsForUser().then(({teams}) => {
         const defaultTeam = teams && teams.length > 0 && teams.find((team) => team.name === DEFAULT_TEAM.name);
@@ -231,4 +242,5 @@ function resetUserPreference(userId) {
     cy.apiSaveSkipStepsPreference(userId, 'true');
     cy.apiSaveStartTrialModal(userId, 'true');
     cy.apiSaveUnreadScrollPositionPreference(userId, 'start_from_left_off');
+    cy.apiSaveDraftsTourTipPreference(userId, 'true');
 }

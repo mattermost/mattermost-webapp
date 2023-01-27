@@ -64,7 +64,7 @@ describe('admin_console/team_channel_settings/team/TeamProfile__Cloud', () => {
                             history: 10000,
                         },
                         files: {
-                            total_storage: 10 * FileSizes.Gigabyte,
+                            total_storage: FileSizes.Gigabyte,
                         },
                         teams: {
                             active: 1,
@@ -86,7 +86,7 @@ describe('admin_console/team_channel_settings/team/TeamProfile__Cloud', () => {
                     historyLoaded: true,
                 },
                 files: {
-                    totalStorage: 10 * FileSizes.Gigabyte,
+                    totalStorage: FileSizes.Gigabyte,
                     totalStorageLoaded: true,
                 },
                 teams: {
@@ -142,7 +142,7 @@ describe('admin_console/team_channel_settings/team/TeamProfile__Cloud', () => {
                     history: 10000,
                 },
                 files: {
-                    total_storage: 10 * FileSizes.Gigabyte,
+                    total_storage: FileSizes.Gigabyte,
                 },
                 teams: {
                     active: 10,
@@ -163,7 +163,7 @@ describe('admin_console/team_channel_settings/team/TeamProfile__Cloud', () => {
                 historyLoaded: true,
             },
             files: {
-                totalStorage: 10 * FileSizes.Gigabyte,
+                totalStorage: FileSizes.Gigabyte,
                 totalStorageLoaded: true,
             },
             teams: {
@@ -261,7 +261,7 @@ describe('admin_console/team_channel_settings/team/TeamProfile', () => {
                             history: 10000,
                         },
                         files: {
-                            total_storage: 10 * FileSizes.Gigabyte,
+                            total_storage: FileSizes.Gigabyte,
                         },
                         teams: {
                             active: 1,

@@ -8,9 +8,9 @@ import {Preferences} from 'mattermost-redux/constants';
 import {getConfig, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
-import store from 'stores/redux_store.jsx';
+import {isDevModeEnabled} from 'selectors/general';
 
-import {isDevMode} from 'utils/utils';
+import store from 'stores/redux_store.jsx';
 
 const SUPPORTS_CLEAR_MARKS = isSupported([performance.clearMarks]);
 const SUPPORTS_MARK = isSupported([performance.mark]);
@@ -27,7 +27,7 @@ export function isTelemetryEnabled(state) {
 }
 
 export function shouldTrackPerformance(state = store.getState()) {
-    return isDevMode(state) || isTelemetryEnabled(state);
+    return isDevModeEnabled(state) || isTelemetryEnabled(state);
 }
 
 export function trackEvent(category, event, props) {
@@ -40,7 +40,8 @@ export function trackEvent(category, event, props) {
     }
 
     Client4.trackEvent(category, event, props);
-    if (isDevMode() && category === 'performance' && props) {
+
+    if (isDevModeEnabled(state) && category === 'performance' && props) {
         // eslint-disable-next-line no-console
         console.log(event + ' - ' + Object.entries(props).map(([key, value]) => `${key}: ${value}`).join(', '));
     }
@@ -68,6 +69,9 @@ export function mark(name) {
         return;
     }
     performance.mark(name);
+
+    initRequestCountingIfNecessary();
+    updateRequestCountAtMark(name);
 }
 
 /**
@@ -78,30 +82,35 @@ export function mark(name) {
  * @param   {string} name1 the first marker
  * @param   {string} name2 the second marker
  *
- * @returns {[number, string]} Either the measured duration (ms) and the string name
- * of the measure are returned or -1 and and empty string is returned if
- * in dev. mode or one of the marker can't be found.
+ * @returns {{duration: number; requestCount: number; measurementName: string}}
+ * An object containing the measured duration (in ms) between two marks, the
+ * number of API requests made during that period, and the name of the measurement.
+ * Returns a duration and request count of -1 if performance isn't being tracked
+ * or one of the markers can't be found.
  *
  */
 export function measure(name1, name2) {
     if (!shouldTrackPerformance() || !SUPPORTS_MEASURE_METHODS) {
-        return [-1, ''];
+        return {duration: -1, requestCount: -1, measurementName: ''};
     }
 
     // Check for existence of entry name to avoid DOMException
     const performanceEntries = performance.getEntries();
     if (![name1, name2].every((name) => performanceEntries.find((item) => item.name === name))) {
-        return [-1, ''];
+        return {duration: -1, requestCount: -1, measurementName: ''};
     }
 
     const displayPrefix = '🐐 Mattermost: ';
     const measurementName = `${displayPrefix}${name1} - ${name2}`;
     performance.measure(measurementName, name1, name2);
-    const lastDuration = mostRecentDurationByEntryName(measurementName);
+    const duration = mostRecentDurationByEntryName(measurementName);
+
+    const requestCount = getRequestCountAtMark(name2) - getRequestCountAtMark(name1);
 
     // Clean up the measures we created
     performance.clearMeasures(measurementName);
-    return [lastDuration, measurementName];
+
+    return {duration, requestCount, measurementName};
 }
 
 /**
@@ -216,4 +225,42 @@ export function trackSelectorMetrics() {
             third_recomputations: selectors[2]?.recomputations,
         });
     }, 60000);
+}
+
+let requestCount = 0;
+const requestCountAtMark = {};
+let requestObserver;
+
+function initRequestCountingIfNecessary() {
+    if (requestObserver) {
+        return;
+    }
+
+    requestObserver = new PerformanceObserver((entries) => {
+        for (const entry of entries.getEntries()) {
+            const url = entry.name;
+
+            if (!url.includes('/api/v4/') && !url.includes('/api/v5/')) {
+                // Don't count requests made outside of the MM server's API
+                continue;
+            }
+
+            if (entry.initiatorType !== 'fetch' && entry.initiatorType !== 'xmlhttprequest') {
+                // Only look for API requests made by code and ignore things like attachments thumbnails
+                continue;
+            }
+
+            requestCount += 1;
+        }
+    });
+    requestObserver.observe({type: 'resource', buffered: true});
+}
+
+function updateRequestCountAtMark(name) {
+    requestCountAtMark[name] = requestCount;
+    window.requestCountAtMark = requestCountAtMark;
+}
+
+function getRequestCountAtMark(name) {
+    return requestCountAtMark[name] ?? 0;
 }

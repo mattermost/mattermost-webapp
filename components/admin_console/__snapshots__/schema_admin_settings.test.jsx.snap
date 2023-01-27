@@ -309,7 +309,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 4,
-                  "text": "Français",
+                  "text": "Français (Beta)",
                   "value": "fr",
                 },
                 Object {
@@ -334,12 +334,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 9,
-                  "text": "Português (Brasil) (Beta)",
+                  "text": "Português (Brasil) (Alpha)",
                   "value": "pt-BR",
                 },
                 Object {
                   "order": 10,
-                  "text": "Română (Beta)",
+                  "text": "Română (Alpha)",
                   "value": "ro",
                 },
                 Object {
@@ -354,7 +354,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 13,
-                  "text": "Български",
+                  "text": "Български (Alpha)",
                   "value": "bg",
                 },
                 Object {
@@ -369,7 +369,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 16,
-                  "text": "فارسی (Beta)",
+                  "text": "فارسی (Alpha)",
                   "value": "fa",
                 },
                 Object {
@@ -379,7 +379,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 18,
-                  "text": "中文 (简体)",
+                  "text": "中文 (简体) (Alpha)",
                   "value": "zh-CN",
                 },
                 Object {
@@ -440,7 +440,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 4,
-                  "text": "Français",
+                  "text": "Français (Beta)",
                   "value": "fr",
                 },
                 Object {
@@ -465,12 +465,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 9,
-                  "text": "Português (Brasil) (Beta)",
+                  "text": "Português (Brasil) (Alpha)",
                   "value": "pt-BR",
                 },
                 Object {
                   "order": 10,
-                  "text": "Română (Beta)",
+                  "text": "Română (Alpha)",
                   "value": "ro",
                 },
                 Object {
@@ -485,7 +485,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 13,
-                  "text": "Български",
+                  "text": "Български (Alpha)",
                   "value": "bg",
                 },
                 Object {
@@ -500,7 +500,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 16,
-                  "text": "فارسی (Beta)",
+                  "text": "فارسی (Alpha)",
                   "value": "fa",
                 },
                 Object {
@@ -510,7 +510,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 18,
-                  "text": "中文 (简体)",
+                  "text": "中文 (简体) (Alpha)",
                   "value": "zh-CN",
                 },
                 Object {
@@ -645,7 +645,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
               />
             }
             createJobHelpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <FormattedMarkdownMessage
                 defaultMessage="This is some help text for the jobs table field."
                 id="help-text-l"
               />

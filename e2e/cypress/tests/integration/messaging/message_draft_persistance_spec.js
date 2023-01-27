@@ -56,7 +56,7 @@ describe('Message Draft Persistance', () => {
         cy.visit(offTopicUrl);
 
         // # Type some text into the post textbox
-        cy.uiGetPostTextBox().type(testText);
+        cy.uiGetPostTextBox().clear().type(testText);
 
         // # Switch to another channel
         cy.get(`#sidebarItem_${testChannel.name}`).click();

@@ -5,7 +5,6 @@ import {serializeError, ErrorObject} from 'serialize-error';
 
 import {ErrorTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
-import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import {DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 import {LogLevel} from '@mattermost/types/client4';
 import {ServerError} from '@mattermost/types/errors';
@@ -35,19 +34,15 @@ export function getLogErrorAction(error: ErrorObject, displayable = false) {
     };
 }
 
-export function logError(error: ServerError, displayable = false, consoleError = false): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
+export function logError(error: ServerError, displayable = false, consoleError = false): ActionFunc<boolean> {
+    return async (dispatch, getState) => {
         if (error.server_error_id === 'api.context.session_expired.app_error') {
             return {data: true};
         }
 
-        const serializedError = serializeError(error);
-
         let sendToServer = true;
 
-        const err = error as any;
-        const message = err.stack?.stack || err.stack || '';
-
+        const message = error.stack || '';
         if (message.includes('TypeError: Failed to fetch')) {
             sendToServer = false;
         }
@@ -55,13 +50,14 @@ export function logError(error: ServerError, displayable = false, consoleError =
             sendToServer = false;
         }
 
+        const serializedError = serializeError(error);
+
         if (sendToServer) {
             try {
                 const stringifiedSerializedError = JSON.stringify(serializedError).toString();
                 await Client4.logClientError(stringifiedSerializedError, LogLevel.Debug);
             } catch (err) {
-                // avoid crashing the app if an error sending
-                // the error occurs.
+                // avoid crashing the app if an error sending "the error" occurs.
             }
         }
 
@@ -69,8 +65,15 @@ export function logError(error: ServerError, displayable = false, consoleError =
             serializedError.message = 'A JavaScript error has occurred. Please use the JavaScript console to capture and report the error';
         }
 
-        EventEmitter.emit(ErrorTypes.LOG_ERROR, error);
-        dispatch(getLogErrorAction(serializedError, displayable));
+        const isDevMode = getState()?.entities.general?.config?.EnableDeveloper === 'true';
+        let shouldDisplay = displayable;
+
+        // Display announcements bar if error is a developer error and we are in dev mode
+        if (isDevMode && error.type === 'developer') {
+            shouldDisplay = true;
+        }
+
+        dispatch(getLogErrorAction(serializedError, shouldDisplay));
 
         return {data: true};
     };

@@ -88,7 +88,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.CustomDescriptionTextinput').should('have.value', origConfig.TeamSettings.CustomDescriptionText);
 
         // * Verify the site description help text is visible and matches the text
-        cy.findByTestId('TeamSettings.CustomDescriptionTexthelp-text').find('span').should('be.visible').and('have.text', 'Description of service shown in login screens and UI. When not specified, "All team communication in one place, searchable and accessible anywhere" is displayed.');
+        cy.findByTestId('TeamSettings.CustomDescriptionTexthelp-text').find('span').should('be.visible').and('have.text', 'Displays as a title above the login form. When not specified, the phrase "Log in" is displayed.');
 
         // # Generate and enter a random site description
         const siteDescription = 'New site description';

@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @collapsed_reply_threads
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -151,7 +150,7 @@ describe('Collapsed Reply Threads', () => {
                 cy.get('.FollowButton').should('have.text', 'Following');
 
                 // # Click thread footer Following button
-                cy.get('.FollowButton').click();
+                cy.get('.FollowButton').click({force: true});
 
                 // * thread footer button should say 'Follow'
                 cy.get('.FollowButton').should('have.text', 'Follow');
@@ -186,7 +185,7 @@ describe('Collapsed Reply Threads', () => {
                 cy.get('.FollowButton').should('have.text', 'Follow');
 
                 // # Click thread footer 'Follow' button
-                cy.get('.FollowButton').click();
+                cy.get('.FollowButton').click({force: true});
 
                 // * thread footer button should say 'Following'
                 cy.get('.FollowButton').should('have.text', 'Following');

@@ -40,7 +40,7 @@
         overflow: auto;
         width: 100%;
         height: calc(100vh - 72px);
-        padding-top: 48px;
+        padding: 48px 0 72px 0;
         margin: 0 auto;
 
         @media screen and (max-width: 768px) {

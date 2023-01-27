@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {components, ValueType, ActionMeta, InputActionMeta} from 'react-select';
-import {Props as AsyncSelectProps} from 'react-select/async';
+import AsyncSelect, {Async} from 'react-select/async';
 
 import classNames from 'classnames';
 
@@ -21,8 +21,6 @@ import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import {t} from 'utils/i18n';
 
 import './channels_input.scss';
-
-const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<Channel>>; // eslint-disable-line global-require
 
 type Props = {
     placeholder: React.ReactNode;
@@ -49,7 +47,7 @@ export default class ChannelsInput extends React.PureComponent<Props, State> {
         noOptionsMessageId: t('widgets.channels_input.empty'),
         noOptionsMessageDefault: 'No channels found',
     };
-    private selectRef: React.RefObject<{handleInputChange: (newValue: string, actionMeta: InputActionMeta | {action: 'custom'}) => void}>;
+    private selectRef: RefObject<Async<Channel> & {handleInputChange: (newValue: string, actionMeta: InputActionMeta | {action: 'custom'}) => string}>;
 
     constructor(props: Props) {
         super(props);
@@ -107,17 +105,13 @@ export default class ChannelsInput extends React.PureComponent<Props, State> {
         const Msg: any = components.NoOptionsMessage;
         return (
             <div className='channels-input__option channels-input__option--no-matches'>
-                <FormattedMarkdownMessage
-                    id={this.props.noOptionsMessageId}
-                    defaultMessage={this.props.noOptionsMessageDefault}
-                    values={{text: inputValue}}
-                >
-                    {(message: React.ReactNode) => (
-                        <Msg {...props}>
-                            {message}
-                        </Msg>
-                    )}
-                </FormattedMarkdownMessage>
+                <Msg {...props}>
+                    <FormattedMarkdownMessage
+                        id={this.props.noOptionsMessageId}
+                        defaultMessage={this.props.noOptionsMessageDefault}
+                        values={{text: inputValue}}
+                    />
+                </Msg>
             </div>
         );
     };

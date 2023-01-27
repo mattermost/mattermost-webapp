@@ -59,15 +59,13 @@ describe('Collapsed Reply Threads', () => {
         cy.get('.sidebar--right__header').find('#tipButton').should('be.visible');
 
         // * Verify 1st tutorial tip points is present
-        cy.get('[data-testid="current_tutorial_tip"]').should('be.visible').within(() => {
-            cy.findByText('Viewing a thread in the sidebar').should('be.visible');
+        cy.get('[data-testid="current_tutorial_tip"]').findByText('Viewing a thread in the sidebar').should('be.visible');
 
-            // * Verify "Got it" button is present
-            cy.findByText('Got it').should('be.visible');
+        // * Verify "Got it" button is present
+        cy.findByText('Got it').should('be.visible');
 
-            // # Click on "Got it" button
-            cy.findByText('Got it').click();
-        });
+        // # Click on "Got it" button
+        cy.findByText('Got it').click();
 
         // * Verify tutorial tip is dismissed
         cy.get('[data-testid="current_tutorial_tip"]').should('not.exist');
@@ -86,39 +84,32 @@ describe('Collapsed Reply Threads', () => {
         cy.uiGetSidebarItem('threads').click();
 
         // * Verify "A new way to view and follow thread" modal is present
-        cy.get('#collapsed_reply_threads_modal').should('be.visible').within(() => {
-            cy.findByText('A new way to view and follow threads').should('be.visible');
+        cy.get('#collapsed_reply_threads_modal').should('be.visible').as('crtModal');
+        cy.get('@crtModal').findByText('A new way to view and follow threads').should('be.visible');
 
-            // * Verify "Take the Tour" button is present
-            cy.findByText('Take the Tour').should('be.visible');
+        // * Verify "Take the Tour" button is present
+        cy.get('@crtModal').findByText('Take the Tour').should('be.visible');
 
-            // * Verify "Skip Tour" button is present
-            cy.findByText('Skip Tour').should('be.visible');
+        // * Verify "Skip Tour" button is present
+        cy.get('@crtModal').findByText('Skip Tour').should('be.visible');
 
-            // # Click on Take the tour button
-            cy.findByText('Take the Tour').click();
-        });
+        // # Click on Take the tour button
+        cy.get('@crtModal').findByText('Take the Tour').click();
 
-        // * Verify green dot on Threads sidebar item
-        cy.get('#SidebarContainer').find('#tipButton').should('be.visible');
+        // * Verify "Welcome to the Threads view!" tour tip
+        cy.get('[data-testid="current_tutorial_tip"]').findByText('Welcome to the Threads view!').should('be.visible');
 
-        // * Verify "Welcome to the Threads view!" tutorial tip
-        cy.get('[data-testid="current_tutorial_tip"]').should('be.visible').within(() => {
-            cy.findByText('Welcome to the Threads view!').should('be.visible');
+        // * Verify Next button is present
+        cy.findByText('Next').should('be.visible');
 
-            // * Verify Next button is present
-            cy.findByText('Next').should('be.visible');
+        // * Verify 3 radio buttons on the bottom, with the far left button active
+        cy.get('.tour-tip__dot-ctr').should('be.visible').children().as('crtTourTip');
+        cy.get('@crtTourTip').eq(0).find('a').should('have.class', 'tour-tip__dot active');
+        cy.get('@crtTourTip').eq(1).find('a').should('have.class', 'tour-tip__dot');
+        cy.get('@crtTourTip').eq(2).find('a').should('have.class', 'tour-tip__dot');
 
-            // * Verify 3 radio buttons on the bottom, with the far left button active
-            cy.get('.tutorial-tip__circles-ctr').children().within((el) => {
-                cy.wrap(el).eq(0).find('a').should('have.class', 'tutorial-tip__circle active');
-                cy.wrap(el).eq(1).find('a').should('have.class', 'tutorial-tip__circle');
-                cy.wrap(el).eq(2).find('a').should('have.class', 'tutorial-tip__circle');
-            });
-
-            // # Click on the Next button
-            cy.findByText('Next').click();
-        });
+        // # Click on the Next button
+        cy.findByText('Next').click();
 
         // * Verify green dot on first thread
         cy.get('[data-testid="threads_list"]').find('#tipButton').should('be.visible');
@@ -126,47 +117,44 @@ describe('Collapsed Reply Threads', () => {
         // * Verify "Threads List" tutorial tip
         cy.get('[data-testid="current_tutorial_tip"]').should('be.visible').within(() => {
             cy.findByText('Threads List').should('be.visible');
-
-            // * Verify "Previous" button is present
-            cy.findByText('Previous').should('be.visible');
-
-            // * Verify "Next" button is present
-            cy.findByText('Next').should('be.visible');
-
-            // * Verify middle radio button is active
-            cy.get('.tutorial-tip__circles-ctr').children().within((el) => {
-                cy.wrap(el).eq(0).find('a').should('have.class', 'tutorial-tip__circle');
-                cy.wrap(el).eq(1).find('a').should('have.class', 'tutorial-tip__circle active');
-                cy.wrap(el).eq(2).find('a').should('have.class', 'tutorial-tip__circle');
-            });
-
-            // # Click on Next
-            cy.findByText('Next').click();
         });
+
+        // * Verify "Previous" button is present
+        cy.findByText('Previous').should('be.visible');
+
+        // * Verify "Next" button is present
+        cy.findByText('Next').should('be.visible');
+
+        // * Verify middle radio button is active
+        cy.get('.tour-tip__dot-ctr').should('be.visible').children().as('crtTourTip');
+        cy.get('@crtTourTip').eq(0).find('a').should('have.class', 'tour-tip__dot');
+        cy.get('@crtTourTip').eq(1).find('a').should('have.class', 'tour-tip__dot active');
+        cy.get('@crtTourTip').eq(2).find('a').should('have.class', 'tour-tip__dot');
+
+        // # Click on Next
+        cy.findByText('Next').click();
 
         // * Verify green dot on Unreads tab
         cy.get('#threads-list-unread-button').find('#tipButton').should('be.visible');
 
         // * Verify "Unread threads" tutorial tip
-        cy.get('[data-testid="current_tutorial_tip"]').should('be.visible').within(() => {
-            cy.findByText('Unread threads').should('be.visible');
+        cy.get('[data-testid="current_tutorial_tip"]').should('be.visible').findByText('Unread threads').should('be.visible');
 
-            // * Verify "Previous" button is present
-            cy.findByText('Previous').should('be.visible');
+        // * Verify "Previous" button is present
+        cy.findByText('Previous').should('be.visible');
 
-            // * Verify "Finish tour" button is present
-            cy.findByText('Finish tour').should('be.visible');
+        // * Verify "Done" button is present
+        cy.findByText('Done').should('be.visible');
 
-            // * Verify far right radio button is active
-            cy.get('.tutorial-tip__circles-ctr').children().within((el) => {
-                cy.wrap(el).eq(0).find('a').should('have.class', 'tutorial-tip__circle');
-                cy.wrap(el).eq(1).find('a').should('have.class', 'tutorial-tip__circle');
-                cy.wrap(el).eq(2).find('a').should('have.class', 'tutorial-tip__circle active');
-            });
+        // * Verify far right radio button is active
+        // * Verify 3 radio buttons on the bottom, with the far left button active
+        cy.get('.tour-tip__dot-ctr').should('be.visible').children().as('crtTourTip');
+        cy.get('@crtTourTip').eq(0).find('a').should('have.class', 'tour-tip__dot');
+        cy.get('@crtTourTip').eq(1).find('a').should('have.class', 'tour-tip__dot');
+        cy.get('@crtTourTip').eq(2).find('a').should('have.class', 'tour-tip__dot active');
 
-            // # Click on "Finish tour" button
-            cy.findByText('Finish tour').click();
-        });
+        // # Click on "Done" button
+        cy.findByText('Done').click();
 
         // * Verify tour is dismissed
         cy.get('[data-testid="current_tutorial_tip"]').should('not.exist');
@@ -187,15 +175,13 @@ describe('Collapsed Reply Threads', () => {
         cy.get('.sidebar--right__header').find('#tipButton').should('be.visible');
 
         // * Verify 1st tutorial tip points is present
-        cy.get('[data-testid="current_tutorial_tip"]').should('be.visible').within(() => {
-            cy.findByText('Viewing a thread in the sidebar').should('be.visible');
+        cy.get('[data-testid="current_tutorial_tip"]').findByText('Viewing a thread in the sidebar').should('be.visible');
 
-            // * Verify "Got it" button is present
-            cy.findByText('Got it').should('be.visible');
+        // * Verify "Got it" button is present
+        cy.findByText('Got it').should('be.visible');
 
-            // # Click on "x" button to dismiss the tour point
-            cy.get('[data-testid="close_tutorial_tip"]').click();
-        });
+        // # Click on "x" button to dismiss the tour point
+        cy.get('[data-testid="close_tutorial_tip"]').click();
 
         // * Verify tutorial tip is dismissed
         cy.get('[data-testid="current_tutorial_tip"]').should('not.exist');
@@ -277,26 +263,30 @@ describe('Collapsed Reply Threads', () => {
             cy.findByText('Take the Tour').click();
         });
 
-        // * Verify green dot on Threads sidebar item
-        cy.get('#SidebarContainer').find('#tipButton').should('be.visible');
-
         // * Verify "Welcome to the Threads view!" tutorial tip
         cy.get('[data-testid="current_tutorial_tip"]').should('be.visible').within(() => {
             cy.findByText('Welcome to the Threads view!').should('be.visible');
-
-            // * Verify Next button is present
-            cy.findByText('Next').should('be.visible');
-
-            // * Verify 3 radio buttons on the bottom, with the far left button active
-            cy.get('.tutorial-tip__circles-ctr').children().within((el) => {
-                cy.wrap(el).eq(0).find('a').should('have.class', 'tutorial-tip__circle active');
-                cy.wrap(el).eq(1).find('a').should('have.class', 'tutorial-tip__circle');
-                cy.wrap(el).eq(2).find('a').should('have.class', 'tutorial-tip__circle');
-            });
-
-            // # Click on the `x` to dismiss the tip
-            cy.get('[data-testid="close_tutorial_tip"]').click();
         });
+
+        // * Verify Next button is present
+        cy.findByText('Next').should('be.visible');
+
+        // * Verify 3 radio buttons on the bottom, with the far left button active
+        cy.get('.tour-tip__dot-ctr').should('be.visible').children().as('crtTourTip');
+        cy.get('@crtTourTip').eq(0).find('a').should('have.class', 'tour-tip__dot active');
+        cy.get('@crtTourTip').eq(1).find('a').should('have.class', 'tour-tip__dot');
+        cy.get('@crtTourTip').eq(2).find('a').should('have.class', 'tour-tip__dot');
+
+        // # Click on the `x` to dismiss the tip
+        cy.get('[data-testid="close_tutorial_tip"]').click();
+
+        // * Verify green dot on Threads sidebar item
+        cy.get('#SidebarContainer').find('#tipButton').should('be.visible').click();
+
+        cy.findByText('Next').click();
+
+        // # Click on the `x` to dismiss the tip
+        cy.get('[data-testid="close_tutorial_tip"]').click();
 
         // * Verify green pulsing dot on the first, top,  thread
         cy.get('[data-testid="threads_list"]').within(() => {
@@ -312,38 +302,36 @@ describe('Collapsed Reply Threads', () => {
         // * Verify "Threads List" tutorial tip
         cy.get('[data-testid="current_tutorial_tip"]').should('be.visible').within(() => {
             cy.findByText('Threads List').should('be.visible');
-
-            // * Verify "Previous" button is present
-            cy.findByText('Previous').should('be.visible');
-
-            // * Verify "Next" button is present
-            cy.findByText('Next').should('be.visible');
-
-            // * Verify middle radio button is active
-            cy.get('.tutorial-tip__circles-ctr').children().within((el) => {
-                cy.wrap(el).eq(0).find('a').should('have.class', 'tutorial-tip__circle');
-                cy.wrap(el).eq(1).find('a').should('have.class', 'tutorial-tip__circle active');
-                cy.wrap(el).eq(2).find('a').should('have.class', 'tutorial-tip__circle');
-            });
-
-            // # Click on the Previous button
-            cy.findByText('Previous').click();
         });
+
+        // * Verify "Previous" button is present
+        cy.findByText('Previous').should('be.visible');
+
+        // * Verify "Next" button is present
+        cy.findByText('Next').should('be.visible');
+
+        // * Verify middle radio button is active
+        cy.get('.tour-tip__dot-ctr').should('be.visible').children().as('crtTourTip');
+        cy.get('@crtTourTip').eq(0).find('a').should('have.class', 'tour-tip__dot');
+        cy.get('@crtTourTip').eq(1).find('a').should('have.class', 'tour-tip__dot active');
+        cy.get('@crtTourTip').eq(2).find('a').should('have.class', 'tour-tip__dot');
+
+        // # Click on the Previous button
+        cy.findByText('Previous').click();
 
         // * Verify previous tutorial tip opens
         cy.get('[data-testid="current_tutorial_tip"]').should('be.visible').within(() => {
             cy.findByText('Welcome to the Threads view!').should('be.visible');
-
-            // * Verify far left radio button is active
-            cy.get('.tutorial-tip__circles-ctr').children().within((el) => {
-                cy.wrap(el).eq(0).find('a').should('have.class', 'tutorial-tip__circle active');
-                cy.wrap(el).eq(1).find('a').should('have.class', 'tutorial-tip__circle');
-                cy.wrap(el).eq(2).find('a').should('have.class', 'tutorial-tip__circle');
-            });
-
-            // # Click Next and ...
-            cy.findByText('Next').click();
         });
+
+        // * Verify far left radio button is active
+        cy.get('.tour-tip__dot-ctr').should('be.visible').children().as('crtTourTip');
+        cy.get('@crtTourTip').eq(0).find('a').should('have.class', 'tour-tip__dot active');
+        cy.get('@crtTourTip').eq(1).find('a').should('have.class', 'tour-tip__dot');
+        cy.get('@crtTourTip').eq(2).find('a').should('have.class', 'tour-tip__dot');
+
+        // # Click Next and ...
+        cy.findByText('Next').click();
 
         // # ... then x to dismiss the Threads List tip
         cy.get('[data-testid="current_tutorial_tip"]').should('be.visible').within(() => {
@@ -352,41 +340,50 @@ describe('Collapsed Reply Threads', () => {
         });
 
         // * Verify tip is dismissed
-        cy.get('[data-testid="threads_list"]').find('#tipButton').should('not.exist');
+        cy.get('[data-testid="current_tutorial_tip"]').should('not.exist');
+
+        cy.get('[data-testid="threads_list"]').find('#tipButton').should('be.visible').click();
+
+        // # Click Next and ...
+        cy.findByText('Next').click();
+
+        cy.get('[data-testid="close_tutorial_tip"]').click();
 
         // * Verify green dot on Unreads tab
         cy.get('#threads-list-unread-button').within(() => {
             cy.get('#tipButton').should('be.visible');
-
-            // # Click on the green dot on Unreads tab
-            cy.get('#tipButton').click();
         });
+
+        // # Click on the green dot on Unreads tab
+        cy.get('#tipButton').click();
 
         // * Verify "Unread threads" tutorial tip
         cy.get('[data-testid="current_tutorial_tip"]').should('be.visible').within(() => {
             cy.findByText('Unread threads').should('be.visible');
-
-            // * Verify "Previous" button is present
-            cy.findByText('Previous').should('be.visible');
-
-            // * Verify "Finish tour" button is present
-            cy.findByText('Finish tour').should('be.visible');
-
-            // * Verify far right radio button is active
-            cy.get('.tutorial-tip__circles-ctr').children().within((el) => {
-                cy.wrap(el).eq(0).find('a').should('have.class', 'tutorial-tip__circle');
-                cy.wrap(el).eq(1).find('a').should('have.class', 'tutorial-tip__circle');
-                cy.wrap(el).eq(2).find('a').should('have.class', 'tutorial-tip__circle active');
-            });
-
-            // # Click on `x` to dismiss tutorial tip
-            cy.get('[data-testid="close_tutorial_tip"]').click();
         });
 
+        // * Verify "Previous" button is present
+        cy.findByText('Previous').should('be.visible');
+
+        // * Verify "Finish tour" button is present
+        cy.findByText('Done').should('be.visible');
+
+        // * Verify far right radio button is active
+        cy.get('.tour-tip__dot-ctr').should('be.visible').children().as('crtTourTip');
+        cy.get('@crtTourTip').eq(0).find('a').should('have.class', 'tour-tip__dot');
+        cy.get('@crtTourTip').eq(1).find('a').should('have.class', 'tour-tip__dot');
+        cy.get('@crtTourTip').eq(2).find('a').should('have.class', 'tour-tip__dot active');
+
+        // # Click on `x` to dismiss tutorial tip
+        cy.get('[data-testid="close_tutorial_tip"]').click();
+
         // * Verify tour is dismissed
+        cy.get('#threads-list-unread-button').find('#tipButton').should('be.visible').click();
+        cy.findByText('Done').should('be.visible').click();
+        cy.get('#threads-list-unread-button').find('#tipButton').should('not.exist');
+
         cy.get('[data-testid="current_tutorial_tip"]').should('not.exist');
         cy.get('[data-testid="threads_list"]').find('#tipButton').should('not.exist');
-        cy.get('#threads-list-unread-button').find('#tipButton').should('not.exist');
         cy.get('#sidebar-threads-button').find('[data-testid="pulsating_dot"]').should('not.exist');
     });
 });

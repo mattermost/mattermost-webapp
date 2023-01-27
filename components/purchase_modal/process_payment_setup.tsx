@@ -3,14 +3,16 @@
 
 import React from 'react';
 import {Stripe} from '@stripe/stripe-js';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
+
+import ComplianceScreenFailedSvg from 'components/common/svg_images_components/compliance_screen_failed_svg';
 
 import {Address, Product} from '@mattermost/types/cloud';
 
 import {BillingDetails} from 'types/cloud/sku';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
-import {TELEMETRY_CATEGORIES} from 'utils/constants';
+import {RecurringIntervals, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {Team} from '@mattermost/types/teams';
 
 import {t} from 'utils/i18n';
@@ -19,7 +21,6 @@ import {getNextBillingDate} from 'utils/utils';
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
 import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
-import ComplianceScreenFailedSvg from 'components/common/svg_images_components/compliance_screen_failed_svg';
 
 import IconMessage from './icon_message';
 
@@ -39,8 +40,14 @@ type Props = RouteComponentProps & {
     isDevMode: boolean;
     contactSupportLink: string;
     currentTeam: Team;
-    addPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
-    subscribeCloudSubscription: ((productId: string, shippingAddress: Address) => Promise<boolean | null> | ComplianceError) | null;
+    addPaymentMethod: (
+        stripe: Stripe,
+        billingDetails: BillingDetails,
+        isDevMode: boolean
+    ) => Promise<boolean | null>;
+    subscribeCloudSubscription:
+    | ((productId: string, shippingAddress: Address, seats?: number) => Promise<boolean | null>)
+    | null;
     onBack: () => void;
     onClose: () => void;
     selectedProduct?: Product | null | undefined;
@@ -48,8 +55,11 @@ type Props = RouteComponentProps & {
     isProratedPayment?: boolean;
     isUpgradeFromTrial: boolean;
     setIsUpgradeFromTrialToFalse: () => void;
-    telemetryProps?: {callerInfo: string};
-}
+    telemetryProps?: { callerInfo: string };
+    onSuccess?: () => void;
+    intl: IntlShape;
+    usersCount: number;
+};
 
 type State = {
     progress: number;
@@ -126,7 +136,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
         }
 
         if (subscribeCloudSubscription) {
-            const productUpdated = await subscribeCloudSubscription(this.props.selectedProduct?.id as string, this.props.shippingAddress as Address);
+            const productUpdated = await subscribeCloudSubscription(this.props.selectedProduct?.id as string, this.props.shippingAddress as Address, this.props.usersCount);
 
             // the action subscribeCloudSubscription returns a true boolean when successful and an error when it fails
             if (typeof productUpdated !== 'boolean' && productUpdated !== null) {
@@ -188,9 +198,13 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
             <FormattedMessage
                 defaultMessage='Return to {team}'
                 id='admin.billing.subscription.returnToTeam'
-                values={{team: this.props.currentTeam.display_name}}
+                values={{
+                    team: this.props.currentTeam?.display_name || this.props.intl.formatMessage({
+                        id: 'admin.sidebarHeader.systemConsole',
+                        defaultMessage: 'System Console',
+                    }),
+                }}
             />
-
         );
         if (this.props.isProratedPayment) {
             const formattedTitle = (
@@ -240,6 +254,10 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
             this.props.onClose();
         };
 
+        if (typeof this.props.onSuccess === 'function') {
+            this.props.onSuccess();
+        }
+
         // if is the first purchase, show a different success purchasing title
         if (this.props.isUpgradeFromTrial) {
             handleClose = () => {
@@ -249,7 +267,13 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
             };
         }
 
-        const formattedSubtitle = (
+        const formattedSubtitle = this.props.selectedProduct?.recurring_interval === RecurringIntervals.YEAR ? (
+            <FormattedMessage
+                defaultMessage={'{productName} features are now available and ready to use.'}
+                id={'admin.billing.subscription.featuresAvailable'}
+                values={{productName}}
+            />
+        ) : (
             <FormattedMessage
                 id='admin.billing.subscription.nextBillingDate'
                 defaultMessage='Starting from {date}, you will be billed for the {productName} plan. You can change your plan whenever you like and we will pro-rate the charges.'
@@ -361,5 +385,4 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
     }
 }
 
-export default withRouter(ProcessPaymentSetup);
-
+export default injectIntl(withRouter(ProcessPaymentSetup));

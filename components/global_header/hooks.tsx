@@ -3,20 +3,11 @@
 
 import {MutableRefObject, useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux';
-import {useLocation} from 'react-router';
 
 import {getCurrentUser, isFirstAdmin, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {UserProfile} from '@mattermost/types/users';
 import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
-import {ProductComponent} from 'types/store/plugins';
-import {getCurrentProductId} from 'utils/products';
-
-const selectProducts = (state: GlobalState) => state.plugins.components.Product;
-
-export const useProducts = (): ProductComponent[] | undefined => {
-    return useSelector<GlobalState, ProductComponent[]>(selectProducts);
-};
 
 /**
  * Hook that alerts clicks outside of the passed ref.
@@ -38,16 +29,6 @@ export function useClickOutsideRef(ref: MutableRefObject<HTMLElement | null>, ha
         };
     }, [ref, handler]);
 }
-
-export const useCurrentProductId = (products?: ProductComponent[]): string | null => {
-    const location = useLocation();
-
-    if (!products) {
-        return null;
-    }
-
-    return getCurrentProductId(products, location.pathname);
-};
 
 export const useFirstAdminUser = (): boolean => {
     return useSelector(isFirstAdmin);

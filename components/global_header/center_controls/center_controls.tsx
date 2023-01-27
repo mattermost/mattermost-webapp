@@ -4,7 +4,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import {ProductIdentifier} from '@mattermost/types/products';
+
 import Pluggable from 'plugins/pluggable';
+
+import {isChannels} from 'utils/products';
 
 import GlobalSearchNav from './global_search_nav/global_search_nav';
 import UserGuideDropdown from './user_guide_dropdown';
@@ -15,6 +19,7 @@ const CenterControlsContainer = styled.div`
     height: 40px;
     justify-content: center;
     flex-grow: 1;
+    flex-basis: 40%;
 
     > * + * {
         margin-left: 8px;
@@ -22,13 +27,13 @@ const CenterControlsContainer = styled.div`
 `;
 
 export type Props = {
-    productId?: string | null;
+    productId?: ProductIdentifier;
 }
 
 const CenterControls = ({productId = null}: Props): JSX.Element => {
     return (
         <CenterControlsContainer>
-            {productId === null ? (
+            {isChannels(productId) ? (
                 <>
                     <GlobalSearchNav/>
                     <UserGuideDropdown/>

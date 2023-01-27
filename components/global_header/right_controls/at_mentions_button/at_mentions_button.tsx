@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
@@ -15,6 +15,7 @@ import Constants, {RHSStates} from 'utils/constants';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 const AtMentionsButton = (): JSX.Element => {
+    const {formatMessage} = useIntl();
     const dispatch = useDispatch();
     const rhsState = useSelector((state: GlobalState) => getRhsState(state));
 
@@ -55,7 +56,9 @@ const AtMentionsButton = (): JSX.Element => {
                 onClick={mentionButtonClick}
                 inverted={true}
                 compact={true}
-                aria-label='Select to toggle a list of recent mentions.' // proper wording and translation needed
+                aria-expanded={rhsState === RHSStates.MENTION}
+                aria-controls='searchContainer' // Must be changed if the ID of the container changes
+                aria-label={formatMessage({id: 'channel_header.recentMentions', defaultMessage: 'Recent mentions'})}
             />
         </OverlayTrigger>
     );

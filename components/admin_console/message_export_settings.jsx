@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {JobTypes, exportFormats} from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -246,7 +247,6 @@ export default class MessageExportSettings extends AdminSettings {
                                 link: (msg) => (
                                     <a
                                         href='https://docs.mattermost.com/comply/compliance-export.html'
-                                        referrer='noreferrer'
                                         target='_blank'
                                         rel='noreferrer'
                                     >

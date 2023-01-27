@@ -4,17 +4,23 @@
 import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
 
+import Tag from 'components/widgets/tag/tag';
+
 import {UserThread} from '@mattermost/types/threads';
 import {Post} from '@mattermost/types/posts';
 import {Channel} from '@mattermost/types/channels';
 
 import * as Utils from 'utils/utils';
 import ThreadMenu from '../thread_menu';
-import Badge from 'components/widgets/badges/badge';
 
 import {WindowSizes} from 'utils/constants';
 
 import {TestHelper} from 'utils/test_helper';
+import {markLastPostInThreadAsUnread, updateThreadRead} from 'mattermost-redux/actions/threads';
+jest.mock('mattermost-redux/actions/threads');
+
+import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
+jest.mock('actions/views/threads');
 
 import ThreadItem from './thread_item';
 
@@ -113,6 +119,7 @@ describe('components/threading/global_threads/thread_item', () => {
             postsInThread: [],
             thread: mockThread,
             threadId: mockThread.id,
+            isPostPriorityEnabled: false,
         };
     });
 
@@ -149,7 +156,7 @@ describe('components/threading/global_threads/thread_item', () => {
 
     test('should show channel name', () => {
         const wrapper = shallow(<ThreadItem {...props}/>);
-        expect(wrapper.find(Badge).childAt(0).text()).toContain('Team name');
+        expect(wrapper.find(Tag).props().text).toContain('Team name');
     });
 
     test('should pass required props to ThreadMenu', () => {
@@ -172,5 +179,14 @@ describe('components/threading/global_threads/thread_item', () => {
         wrapper.find('.preview').simulate('click', {});
 
         expect(spy).toHaveBeenCalledWith({}, '/tname');
+    });
+
+    test('should allow marking as unread on alt + click', () => {
+        const wrapper = shallow(<ThreadItem {...props}/>);
+        wrapper.simulate('click', {altKey: true});
+        expect(updateThreadRead).not.toHaveBeenCalled();
+        expect(markLastPostInThreadAsUnread).toHaveBeenCalledWith('user_id', 'tid', '1y8hpek81byspd4enyk9mp1ncw');
+        expect(manuallyMarkThreadAsUnread).toHaveBeenCalledWith('1y8hpek81byspd4enyk9mp1ncw', 1611786714912);
+        expect(mockDispatch).toHaveBeenCalledTimes(2);
     });
 });

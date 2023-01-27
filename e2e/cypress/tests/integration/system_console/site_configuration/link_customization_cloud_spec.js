@@ -62,7 +62,7 @@ describe('SupportSettings', () => {
         });
 
         // # Visit signup page
-        cy.findByText('Create an account', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
+        cy.findByText('Don\'t have an account?', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').click();
         cy.url().should('include', '/signup_user_complete');
 
         // * Verify that links are correct at signup page

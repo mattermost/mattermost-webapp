@@ -33,20 +33,12 @@ export default function useGetUsageDeltas(): CloudUsage {
                     history: usage.messages.history - withBackupValue(limits.messages?.history, limitsLoaded),
                     historyLoaded: usage.messages.historyLoaded,
                 },
-                boards: {
-                    cards: usage.boards.cards - withBackupValue(limits.boards?.cards, limitsLoaded),
-                    cardsLoaded: usage.boards.cardsLoaded,
-                },
                 teams: {
                     active: usage.teams.active - withBackupValue(limits.teams?.active, limitsLoaded),
 
                     // cloudArchived doesn't count against usage, but we pass the value along for convenience
                     cloudArchived: usage.teams.cloudArchived,
                     teamsLoaded: usage.teams.teamsLoaded,
-                },
-                integrations: {
-                    enabled: usage.integrations.enabled - withBackupValue(limits.integrations?.enabled, limitsLoaded),
-                    enabledLoaded: usage.integrations.enabledLoaded,
                 },
             }
         );

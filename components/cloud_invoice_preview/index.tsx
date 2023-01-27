@@ -43,6 +43,7 @@ function CloudInvoicePreview(props: Props) {
             onHide={onHide}
             id='cloud-invoice-preview'
             className='CloudInvoicePreview'
+            dialogClassName='a11y__modal'
         >
             <Modal.Header closeButton={true}>
                 <Modal.Title>{'Invoice'}</Modal.Title>
@@ -68,7 +69,7 @@ function CloudInvoicePreview(props: Props) {
                         fileInfo={{
                             extension: 'pdf',
                             size: 0,
-                            name: 'some-name.pdf',
+                            name: '',
                         }}
                         fileUrl={props.url}
                         scale={1.4}

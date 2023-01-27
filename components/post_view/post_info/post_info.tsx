@@ -9,7 +9,6 @@ import ActionsMenu from 'components/actions_menu';
 import {Posts, Preferences} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
-import {Post} from '@mattermost/types/posts';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 
 import type {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
@@ -26,7 +25,10 @@ import PostReaction from 'components/post_view/post_reaction';
 import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
+import PriorityLabel from 'components/post_priority/post_priority_label';
+
 import {Emoji} from '@mattermost/types/emojis';
+import {Post} from '@mattermost/types/posts';
 
 type Props = {
 
@@ -120,6 +122,8 @@ type Props = {
      */
     showActionsMenuPulsatingDot: boolean;
 
+    isPostPriorityEnabled: boolean;
+
     actions: {
 
         /**
@@ -178,9 +182,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     }
 
     toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        if (e) {
-            e.stopPropagation();
-        }
+        e?.stopPropagation();
         const showEmojiPicker = !this.state.showEmojiPicker;
 
         this.setState({
@@ -401,7 +403,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     }
 
     render(): React.ReactNode {
-        const {post} = this.props;
+        const {post, isPostPriorityEnabled} = this.props;
 
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
@@ -476,13 +478,19 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
+        let priority;
+        if (post && post.state !== Posts.POST_DELETED && isPostPriorityEnabled && post.metadata?.priority?.priority) {
+            priority = <span className='d-flex mr-2 ml-1'><PriorityLabel priority={post.metadata.priority.priority}/></span>;
+        }
+
         return (
             <div
                 className='post__header--info'
                 ref={this.postHeaderRef}
             >
-                <div className='col'>
+                <div className='col d-flex align-items-center'>
                     {postTime}
+                    {priority}
                     {postInfoIcon}
                     {visibleMessage}
                 </div>

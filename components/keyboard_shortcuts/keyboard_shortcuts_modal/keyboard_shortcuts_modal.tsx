@@ -4,12 +4,18 @@
 import React, {useCallback, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {defineMessages, useIntl} from 'react-intl';
+import {useSelector} from 'react-redux';
+
+import {GlobalState} from 'types/store';
+
+import {suitePluginIds} from 'utils/constants';
 
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
 
 import KeyboardShortcutSequence, {
     KEYBOARD_SHORTCUTS,
+    KeyboardShortcutDescriptor,
 } from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 import './keyboard_shortcuts_modal.scss';
@@ -46,7 +52,7 @@ const modalMessages = defineMessages({
     info: {
         id: t('shortcuts.info'),
         defaultMessage:
-            'Begin a message with / for a list of all the commands at your disposal.',
+            'Begin a message with / for a list of all the available slash commands.',
     },
     navHeader: {
         id: t('shortcuts.nav.header'),
@@ -55,6 +61,22 @@ const modalMessages = defineMessages({
     msgSearchHeader: {
         id: t('shortcuts.msgs.search.header'),
         defaultMessage: 'Searching',
+    },
+    callsHeader: {
+        id: t('shortcuts.calls.header'),
+        defaultMessage: 'Calls',
+    },
+    callsGlobalHeader: {
+        id: t('shortcuts.calls.global.header'),
+        defaultMessage: 'Global',
+    },
+    callsWidgetHeader: {
+        id: t('shortcuts.calls.widget.header'),
+        defaultMessage: 'Call widget',
+    },
+    callsExpandedHeader: {
+        id: t('shortcuts.calls.expanded.header'),
+        defaultMessage: 'Expanded view (pop-out window)',
     },
 });
 
@@ -70,6 +92,21 @@ const KeyboardShortcutsModal = ({onExited}: Props): JSX.Element => {
     const handleHide = useCallback(() => setShow(false), []);
 
     const isLinux = Utils.isLinux();
+
+    const isCallsEnabled = useSelector((state: GlobalState) => {
+        return Boolean(state.plugins.plugins[suitePluginIds.calls]);
+    });
+
+    const renderShortcutSequences = (shortcuts: {[key: string]: KeyboardShortcutDescriptor}) => {
+        return Object.entries(shortcuts).map(([key, shortcut]) => {
+            return (
+                <KeyboardShortcutSequence
+                    key={key}
+                    shortcut={shortcut}
+                />
+            );
+        });
+    };
 
     return (
         <Modal
@@ -110,6 +147,7 @@ const KeyboardShortcutsModal = ({onExited}: Props): JSX.Element => {
                                     <KeyboardShortcutSequence shortcut={KEYBOARD_SHORTCUTS.navOpenCloseSidebar}/>
                                     <KeyboardShortcutSequence shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}/>
                                     <KeyboardShortcutSequence shortcut={KEYBOARD_SHORTCUTS.navOpenChannelInfo}/>
+                                    <KeyboardShortcutSequence shortcut={KEYBOARD_SHORTCUTS.navToggleUnreads}/>
                                 </div>
                             </div>
                         </div>
@@ -165,7 +203,34 @@ const KeyboardShortcutsModal = ({onExited}: Props): JSX.Element => {
                                 </div>
                             </div>
                         </div>
+
                     </div>
+                    { isCallsEnabled &&
+                    <div className='row'>
+                        <div className='col-sm-4'>
+                            <div className='section'>
+                                <div>
+                                    <h3 className='section-title'><strong>{formatMessage(modalMessages.callsHeader)}</strong></h3>
+
+                                    <span><strong>{formatMessage(modalMessages.callsGlobalHeader)}</strong></span>
+                                    <div className='subsection'>
+                                        {renderShortcutSequences(KEYBOARD_SHORTCUTS.calls.global)}
+                                    </div>
+
+                                    <span><strong>{formatMessage(modalMessages.callsWidgetHeader)}</strong></span>
+                                    <div className='subsection'>
+                                        {renderShortcutSequences(KEYBOARD_SHORTCUTS.calls.widget)}
+                                    </div>
+
+                                    <span><strong>{formatMessage(modalMessages.callsExpandedHeader)}</strong></span>
+                                    <div className='subsection'>
+                                        {renderShortcutSequences(KEYBOARD_SHORTCUTS.calls.popout)}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
                     <div className='info__label'>{formatMessage(modalMessages.info)}</div>
                 </Modal.Body>
             </div>

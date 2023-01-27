@@ -40,6 +40,9 @@ export default defineConfig({
         runLDAPSync: true,
         secondServerURL: 'http://localhost/s/p',
         serverEdition: 'Team',
+        serverClusterEnabled: false,
+        serverClusterName: 'mm_dev_cluster',
+        serverClusterHostCount: 3,
         smtpUrl: 'http://localhost:9001',
         webhookBaseUrl: 'http://localhost:3000',
     },
@@ -47,9 +50,10 @@ export default defineConfig({
         setupNodeEvents(on, config) {
             return require('./tests/plugins/index.js')(on, config); // eslint-disable-line global-require
         },
-        baseUrl: 'http://localhost:8065',
+        baseUrl: process.env.MM_SERVICESETTINGS_SITEURL || 'http://localhost:8065',
         excludeSpecPattern: '**/node_modules/**/*',
         specPattern: 'tests/integration/**/*_spec.{js,ts}',
         supportFile: 'tests/support/index.js',
+        testIsolation: false,
     },
 });

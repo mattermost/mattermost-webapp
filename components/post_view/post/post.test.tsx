@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {UserActivityPost} from 'mattermost-redux/types/posts';
+import {UserActivityPost} from 'mattermost-redux/selectors/entities/posts';
 
 import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import PostPreHeader from 'components/post_view/post_pre_header';

@@ -28,6 +28,7 @@ exports[`components/channel_members_dropdown should match snapshot for channel_m
   >
     <MenuItemAction
       data-testid="removeFromChannel"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Remove from Channel"
@@ -70,6 +71,7 @@ exports[`components/channel_members_dropdown should match snapshot for dropdown 
     />
     <MenuItemAction
       data-testid="removeFromChannel"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Remove from Channel"
@@ -153,6 +155,7 @@ exports[`components/channel_members_dropdown should match snapshot for not dropd
   >
     <MenuItemAction
       data-testid="removeFromChannel"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Remove from Channel"
@@ -189,12 +192,22 @@ exports[`components/channel_members_dropdown should match snapshot opening dropd
   >
     <MenuItemAction
       data-testid="removeFromChannel"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Remove from Channel"
     />
   </Menu>
 </MenuWrapper>
+`;
+
+exports[`components/channel_members_dropdown should match snapshot when user is current user 1`] = `
+<div>
+  <MemoizedFormattedMessage
+    defaultMessage="Channel Admin"
+    id="channel_members_dropdown.channel_admin"
+  />
+</div>
 `;
 
 exports[`components/channel_members_dropdown should match snapshot with role change possible 1`] = `

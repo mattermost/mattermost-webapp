@@ -218,6 +218,9 @@ const values = {
     SYSCONSOLE_READ_EXPERIMENTAL_BLEVE: 'sysconsole_read_experimental_bleve',
     SYSCONSOLE_WRITE_EXPERIMENTAL_BLEVE: 'sysconsole_write_experimental_bleve',
 
+    SYSCONSOLE_READ_PRODUCTS_BOARDS: 'sysconsole_read_products_boards',
+    SYSCONSOLE_WRITE_PRODUCTS_BOARDS: 'sysconsole_write_products_boards',
+
     PLAYBOOK_PUBLIC_CREATE: 'playbook_public_create',
     PLAYBOOK_PUBLIC_MANAGE_PROPERTIES: 'playbook_public_manage_properties',
     PLAYBOOK_PUBLIC_MANAGE_MEMBERS: 'playbook_public_manage_members',
@@ -252,6 +255,7 @@ const values = {
     MANAGE_CUSTOM_GROUP_MEMBERS: 'manage_custom_group_members',
     EDIT_CUSTOM_GROUP: 'edit_custom_group',
     DELETE_CUSTOM_GROUP: 'delete_custom_group',
+    RESTORE_CUSTOM_GROUP: 'restore_custom_group',
 };
 
 values.SYSCONSOLE_READ_PERMISSIONS = [
@@ -308,6 +312,7 @@ values.SYSCONSOLE_READ_PERMISSIONS = [
     values.SYSCONSOLE_READ_EXPERIMENTAL_FEATURES,
     values.SYSCONSOLE_READ_EXPERIMENTAL_FEATURE_FLAGS,
     values.SYSCONSOLE_READ_EXPERIMENTAL_BLEVE,
+    values.SYSCONSOLE_READ_PRODUCTS_BOARDS,
 ];
 
 values.SYSCONSOLE_WRITE_PERMISSIONS = [
@@ -364,6 +369,7 @@ values.SYSCONSOLE_WRITE_PERMISSIONS = [
     values.SYSCONSOLE_WRITE_EXPERIMENTAL_FEATURES,
     values.SYSCONSOLE_WRITE_EXPERIMENTAL_FEATURE_FLAGS,
     values.SYSCONSOLE_WRITE_EXPERIMENTAL_BLEVE,
+    values.SYSCONSOLE_WRITE_PRODUCTS_BOARDS,
 ];
 
 export default values;

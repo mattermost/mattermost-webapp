@@ -40,6 +40,9 @@ test: #todo check on how to create junit.xml, there currently is none
   script:
     - npm ci --cache .npm --prefer-offline
 
+    # For Playwright type check
+    - (cd e2e/playwright && npm ci --cache .npm --prefer-offline)
+
     # i18n
     - cp i18n/en.json /tmp/en.json
     - mkdir -p /tmp/fake-mobile-dir/assets/base/i18n/

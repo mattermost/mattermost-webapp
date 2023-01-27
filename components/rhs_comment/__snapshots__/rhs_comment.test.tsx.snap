@@ -162,8 +162,6 @@ exports[`components/RhsComment should match snapshot 1`] = `
                   "user_id": "user_id",
                 }
               }
-              previewCollapsed=""
-              previewEnabled={false}
             />
           }
           slot2={<Memo(Connect(EditPost)) />}
@@ -420,8 +418,6 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
                   "user_id": "user_id",
                 }
               }
-              previewCollapsed=""
-              previewEnabled={false}
             />
           }
           slot2={<Memo(Connect(EditPost)) />}
@@ -637,8 +633,6 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
                   "user_id": "user_id",
                 }
               }
-              previewCollapsed=""
-              previewEnabled={false}
             />
           }
           slot2={<Memo(Connect(EditPost)) />}
@@ -891,8 +885,6 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
                   "user_id": "user_id",
                 }
               }
-              previewCollapsed=""
-              previewEnabled={false}
             />
           }
           slot2={<Memo(Connect(EditPost)) />}
@@ -1094,8 +1086,6 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
                   "user_id": "user_id",
                 }
               }
-              previewCollapsed=""
-              previewEnabled={false}
             />
           }
           slot2={<Memo(Connect(EditPost)) />}
@@ -1297,8 +1287,6 @@ exports[`components/RhsComment should match snapshot when being edited 1`] = `
                   "user_id": "user_id",
                 }
               }
-              previewCollapsed=""
-              previewEnabled={false}
             />
           }
           slot2={<Memo(Connect(EditPost)) />}
@@ -1500,8 +1488,6 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
                   "user_id": "user_id",
                 }
               }
-              previewCollapsed=""
-              previewEnabled={false}
             />
           }
           slot2={<Memo(Connect(EditPost)) />}

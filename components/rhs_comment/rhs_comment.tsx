@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {MouseEvent, ReactNode, RefObject} from 'react';
+import React, {ReactNode, RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
@@ -16,8 +16,6 @@ import Constants, {A11yCustomEventTypes, AppEvents, Locations} from 'utils/const
 import * as PostUtils from 'utils/post_utils';
 import {isMobile} from 'utils/utils';
 
-import {Post} from '@mattermost/types/posts';
-import {Emoji} from '@mattermost/types/emojis';
 import {PostPluginComponent} from 'types/store/plugins';
 
 import ActionsMenu from 'components/actions_menu';
@@ -34,8 +32,10 @@ import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostReaction from 'components/post_view/post_reaction';
 import ReactionList from 'components/post_view/reaction_list';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
-import BotBadge from 'components/widgets/badges/bot_badge';
-import Badge from 'components/widgets/badges/badge';
+
+import Tag from 'components/widgets/tag/tag';
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import UserProfile from 'components/user_profile';
@@ -43,6 +43,9 @@ import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import EditPost from 'components/edit_post';
 import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
+
+import {Emoji} from '@mattermost/types/emojis';
+import {Post} from '@mattermost/types/posts';
 
 type Props = {
     post: Post;
@@ -53,8 +56,6 @@ type Props = {
     isFlagged: boolean;
     isBusy?: boolean;
     removePost: (post: Post) => void;
-    previewCollapsed: string;
-    previewEnabled: boolean;
     isEmbedVisible?: boolean;
     enableEmojiPicker: boolean;
     enablePostUsernameOverride: boolean;
@@ -261,9 +262,9 @@ export default class RhsComment extends React.PureComponent<Props, State> {
         );
     };
 
-    toggleEmojiPicker = () => {
+    toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        e?.stopPropagation();
         const showEmojiPicker = !this.state.showEmojiPicker;
-
         this.setState({
             showEmojiPicker,
         });
@@ -317,7 +318,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
 
     getDotMenuRef = () => this.dotMenuRef.current;
 
-    setHover = (e: MouseEvent<HTMLDivElement>) => {
+    setHover = (e: React.MouseEvent<HTMLDivElement>) => {
         this.setState({
             hover: true,
             alt: e.altKey,
@@ -349,7 +350,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
 
     handleA11yDeactivateEvent = () => this.setState({a11yActive: false});
 
-    handlePostClick = (e: MouseEvent<HTMLDivElement>) => {
+    handlePostClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (this.props.channelIsArchived) {
             return;
         }
@@ -417,7 +418,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
                 />
             );
 
-            if (post.props && post.props.from_webhook) {
+            if (PostUtils.isFromWebhook(post)) {
                 const overwriteName = post.props.override_username && this.props.enablePostUsernameOverride ? post.props.override_username : undefined;
                 userProfile = (
                     <UserProfile
@@ -430,7 +431,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
                     />
                 );
 
-                botIndicator = (<BotBadge className='col col__name'/>);
+                botIndicator = <BotTag className='col col__name'/>;
             } else if (fromAutoResponder) {
                 userProfile = (
                     <span className='auto-responder'>
@@ -446,12 +447,15 @@ export default class RhsComment extends React.PureComponent<Props, State> {
                     </span>
                 );
                 botIndicator = (
-                    <Badge className='col col__name'>
-                        <FormattedMessage
-                            id='post_info.auto_responder'
-                            defaultMessage='AUTOMATIC REPLY'
-                        />
-                    </Badge>
+                    <Tag
+                        className='col col__name'
+                        text={(
+                            <FormattedMessage
+                                id='post_info.auto_responder'
+                                defaultMessage='AUTOMATIC REPLY'
+                            />
+                        )}
+                    />
                 );
             } else if (isSystemMessage && this.props.isBot) {
                 userProfile = (
@@ -662,8 +666,6 @@ export default class RhsComment extends React.PureComponent<Props, State> {
         const message = (
             <MessageWithAdditionalContent
                 post={post}
-                previewCollapsed={this.props.previewCollapsed}
-                previewEnabled={this.props.previewEnabled}
                 isEmbedVisible={this.props.isEmbedVisible}
                 pluginPostTypes={this.props.pluginPostTypes}
             />

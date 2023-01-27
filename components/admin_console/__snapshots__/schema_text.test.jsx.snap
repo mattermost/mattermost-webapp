@@ -17,7 +17,7 @@ exports[`SchemaText should render plain text correctly 1`] = `
 `;
 
 exports[`SchemaText should render translated markdown text correctly 1`] = `
-<injectIntl(FormattedMarkdownMessage)
+<FormattedMarkdownMessage
   defaultMessage="This is [{object}](https://example.com)"
   id="help.text.markdown"
   values={

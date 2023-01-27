@@ -1,17 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
-import {browserHistory} from 'utils/browser_history';
+import SettingItemMinComponent from 'components/setting_item_min/setting_item_min';
+
+import {getHistory} from 'utils/browser_history';
 
 const SECTION_MFA = 'mfa';
 
 type Props = {
     active: boolean;
+    areAllSectionsInactive: boolean;
 
     // Whether or not the current user has MFA enabled
     mfaActive: boolean;
@@ -31,17 +34,31 @@ type State = {
 }
 
 export default class MfaSection extends React.PureComponent<Props, State> {
+    minRef: RefObject<SettingItemMinComponent>;
+
     public constructor(props: Props) {
         super(props);
         this.state = {
             serverError: null,
         };
+
+        this.minRef = React.createRef();
+    }
+
+    focusEditButton(): void {
+        this.minRef.current?.focus();
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.active && !this.props.active && this.props.areAllSectionsInactive) {
+            this.focusEditButton();
+        }
     }
 
     public setupMfa = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
 
-        browserHistory.push('/mfa/setup');
+        getHistory().push('/mfa/setup');
     };
 
     public removeMfa = async (e: React.MouseEvent<HTMLElement>) => {
@@ -57,7 +74,7 @@ export default class MfaSection extends React.PureComponent<Props, State> {
         }
 
         if (this.props.mfaEnforced) {
-            browserHistory.push('/mfa/setup');
+            getHistory().push('/mfa/setup');
             return;
         }
 
@@ -189,6 +206,7 @@ export default class MfaSection extends React.PureComponent<Props, State> {
                     describe={this.renderDescription()}
                     section={SECTION_MFA}
                     updateSection={this.props.updateSection}
+                    ref={this.minRef}
                 />
             );
         }

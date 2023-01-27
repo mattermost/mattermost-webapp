@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Router} from 'react-router-dom';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {TestHelper} from 'utils/test_helper';
 import {renderWithIntl} from 'tests/react_testing_utils';
 
@@ -63,7 +63,7 @@ describe('components/integrations/ConfirmIntegration', () => {
     test('should match callback URLs of OAuth Apps', () => {
         props.location.search = getSearchString('oauth2-apps');
         const {container} = renderWithIntl(
-            <Router history={browserHistory}>
+            <Router history={getHistory()}>
                 <ConfirmIntegration {...props}/>
             </Router>,
         );

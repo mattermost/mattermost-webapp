@@ -970,13 +970,6 @@
     }
 
     .post {
-        &:not(.post--compact) {
-            .Badge {
-                top: 31px;
-                left: 6px;
-            }
-        }
-
         &.post--system {
             .post__header {
                 .post-menu {
@@ -1587,6 +1580,7 @@
             width: 100%;
         }
 
+        .SidebarDrafts,
         .SidebarGlobalThreads {
             &,
             .SidebarLink {
@@ -1994,7 +1988,6 @@
                 }
 
                 .filtered-user-list {
-                    height: auto;
                     flex: 1 1 auto;
                 }
             }

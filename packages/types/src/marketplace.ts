@@ -11,7 +11,6 @@ export type MarketplaceLabel = {
     name: string;
     description?: string;
     url?: string;
-    color?: string;
 }
 
 export enum HostingType {

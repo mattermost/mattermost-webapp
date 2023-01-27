@@ -65,7 +65,7 @@ describe('Verify Accessibility Support in Popovers', () => {
                     cy.get($el).should('have.class', 'a11y--active a11y--focused').should('have.attr', 'aria-label', categories[index].ariaLabel);
 
                     // * Verify if corresponding section is displayed when emoji category has focus and clicked
-                    cy.get($el).trigger('click');
+                    cy.get($el).trigger('click').tab();
 
                     // * Verify if corresponding section is displayed
                     cy.findByText(categories[index].header).should('be.visible');

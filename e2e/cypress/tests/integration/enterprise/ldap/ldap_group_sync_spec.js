@@ -433,7 +433,7 @@ context('ldap', () => {
                 cy.wait(TIMEOUTS.HALF_SEC);
 
                 // * Should open up suggestion list for channels
-                // * Should should no results after looking for channel
+                // * should no results after looking for channel
                 cy.get('.no-results__title').should('be.visible').and('contain.text', 'No results for');
             });
         });

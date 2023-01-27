@@ -19,6 +19,7 @@ import {
     PreferenceTypes,
     AppsTypes,
     CloudTypes,
+    HostedCustomerTypes,
 } from 'mattermost-redux/action_types';
 import {General, Permissions} from 'mattermost-redux/constants';
 import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
@@ -66,6 +67,9 @@ import {
     getUser as loadUser,
 } from 'mattermost-redux/actions/users';
 import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
+import {setGlobalItem} from 'actions/storage';
+import {transformServerDraft} from 'actions/views/drafts';
+
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -85,6 +89,7 @@ import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
 import {fetchAppBindings, fetchRHSAppsBindings} from 'mattermost-redux/actions/apps';
 
+import {getConnectionId} from 'selectors/general';
 import {getSelectedChannelId, getSelectedPost} from 'selectors/rhs';
 import {isThreadOpen, isThreadManuallyUnread} from 'selectors/views/threads';
 
@@ -94,8 +99,8 @@ import {closeRightHandSide} from 'actions/views/rhs';
 import {syncPostsInChannel} from 'actions/views/channel';
 import {updateThreadLastOpened} from 'actions/views/threads';
 
-import {browserHistory} from 'utils/browser_history';
-import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
+import {getHistory} from 'utils/browser_history';
+import {loadChannelsForCurrentUser} from 'actions/channel_actions';
 import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {handleNewPost} from 'actions/post_actions';
@@ -475,10 +480,6 @@ export function handleEvent(msg) {
         handlePluginStatusesChangedEvent(msg);
         break;
 
-    case SocketEvents.INTEGRATIONS_USAGE_CHANGED:
-        handleIntegrationsUsageChangedEvent(msg);
-        break;
-
     case SocketEvents.OPEN_DIALOG:
         handleOpenDialogEvent(msg);
         break;
@@ -563,6 +564,22 @@ export function handleEvent(msg) {
     case SocketEvents.APPS_FRAMEWORK_PLUGIN_DISABLED:
         dispatch(handleAppsPluginDisabled());
         break;
+    case SocketEvents.POST_ACKNOWLEDGEMENT_ADDED:
+        dispatch(handlePostAcknowledgementAdded(msg));
+        break;
+    case SocketEvents.POST_ACKNOWLEDGEMENT_REMOVED:
+        dispatch(handlePostAcknowledgementRemoved(msg));
+        break;
+    case SocketEvents.DRAFT_CREATED:
+    case SocketEvents.DRAFT_UPDATED:
+        dispatch(handleUpsertDraftEvent(msg));
+        break;
+    case SocketEvents.DRAFT_DELETED:
+        dispatch(handleDeleteDraftEvent(msg));
+        break;
+    case SocketEvents.HOSTED_CUSTOMER_SIGNUP_PROGRESS_UPDATED:
+        dispatch(handleHostedCustomerSignupProgressUpdated(msg));
+        break;
     default:
     }
 
@@ -599,7 +616,7 @@ export function handleChannelUpdatedEvent(msg) {
 
         const state = doGetState();
         if (channel.id === getCurrentChannelId(state)) {
-            browserHistory.replace(`${getCurrentRelativeTeamUrl(state)}/channels/${channel.name}`);
+            getHistory().replace(`${getCurrentRelativeTeamUrl(state)}/channels/${channel.name}`);
         }
     };
 }
@@ -776,6 +793,7 @@ export function handlePostUnreadEvent(msg) {
                 msgCountRoot: msg.data.msg_count_root,
                 mentionCount: msg.data.mention_count,
                 mentionCountRoot: msg.data.mention_count_root,
+                urgentMentionCount: msg.data.urgent_mention_count,
             },
         },
     );
@@ -917,9 +935,9 @@ function handleDeleteTeamEvent(msg) {
                 dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
                 const globalState = getState();
                 const redirectChannel = getRedirectChannelNameForTeam(globalState, newTeamId);
-                browserHistory.push(`${getCurrentTeamUrl(globalState)}/channels/${redirectChannel}`);
+                getHistory().push(`${getCurrentTeamUrl(globalState)}/channels/${redirectChannel}`);
             } else {
-                browserHistory.push('/');
+                getHistory().push('/');
             }
         }
     }
@@ -958,7 +976,7 @@ function handleUserAddedEvent(msg) {
                 type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
                 data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
             });
-            if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
+            if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true' && config.EnableConfirmNotificationsToChannel === 'true') {
                 doDispatch(getChannelMemberCountsByGroup(currentChannelId, isTimezoneEnabled));
             }
         }
@@ -1045,7 +1063,7 @@ export function handleUserRemovedEvent(msg) {
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
         });
-        if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
+        if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true' && config.EnableConfirmNotificationsToChannel === 'true') {
             dispatch(getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled));
         }
     }
@@ -1175,7 +1193,7 @@ function handleChannelDeletedEvent(msg) {
         const teamUrl = getCurrentRelativeTeamUrl(state);
         const currentTeamId = getCurrentTeamId(state);
         const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
-        browserHistory.push(teamUrl + '/channels/' + redirectChannel);
+        getHistory().push(teamUrl + '/channels/' + redirectChannel);
     }
 
     dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, deleteAt: msg.data.delete_at, viewArchivedChannels}});
@@ -1225,6 +1243,7 @@ function handleStatusChangedEvent(msg) {
 
 function handleHelloEvent(msg) {
     setServerVersion(msg.data.server_version)(dispatch, getState);
+    dispatch(setConnectionId(msg.data.connection_id));
 }
 
 function handleReactionAddedEvent(msg) {
@@ -1236,6 +1255,13 @@ function handleReactionAddedEvent(msg) {
         type: PostTypes.RECEIVED_REACTION,
         data: reaction,
     });
+}
+
+function setConnectionId(connectionId) {
+    return {
+        type: GeneralTypes.SET_CONNECTION_ID,
+        payload: {connectionId},
+    };
 }
 
 function handleAddEmoji(msg) {
@@ -1266,6 +1292,7 @@ function handleChannelViewedEvent(msg) {
 
 export function handlePluginEnabled(msg) {
     const manifest = msg.data.manifest;
+    dispatch({type: ActionTypes.RECEIVED_WEBAPP_PLUGIN, data: manifest});
 
     loadPlugin(manifest).catch((error) => {
         console.error(error.message); //eslint-disable-line no-console
@@ -1304,18 +1331,6 @@ function handleLicenseChanged(msg) {
 
 function handlePluginStatusesChangedEvent(msg) {
     store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
-}
-
-function handleIntegrationsUsageChangedEvent(msg) {
-    const state = store.getState();
-    const license = getLicense(state);
-
-    if (license.Cloud === 'true') {
-        store.dispatch({
-            type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE,
-            data: msg.data.usage.enabled,
-        });
-    }
 }
 
 function handleOpenDialogEvent(msg) {
@@ -1552,6 +1567,8 @@ function handleRefreshAppsBindings() {
 }
 
 export function handleAppsPluginEnabled() {
+    dispatch(handleRefreshAppsBindings());
+
     return {
         type: AppsTypes.APPS_PLUGIN_ENABLED,
     };
@@ -1579,18 +1596,19 @@ function handleThreadReadChanged(msg) {
                 doDispatch(updateThreadLastOpened(thread.id, msg.data.timestamp));
             }
 
-            handleReadChanged(
-                doDispatch,
-                msg.data.thread_id,
-                msg.broadcast.team_id,
-                msg.data.channel_id,
-                {
-                    lastViewedAt: msg.data.timestamp,
-                    prevUnreadMentions: thread?.unread_mentions ?? msg.data.previous_unread_mentions,
-                    newUnreadMentions: msg.data.unread_mentions,
-                    prevUnreadReplies: thread?.unread_replies ?? msg.data.previous_unread_replies,
-                    newUnreadReplies: msg.data.unread_replies,
-                },
+            doDispatch(
+                handleReadChanged(
+                    msg.data.thread_id,
+                    msg.broadcast.team_id,
+                    msg.data.channel_id,
+                    {
+                        lastViewedAt: msg.data.timestamp,
+                        prevUnreadMentions: thread?.unread_mentions ?? msg.data.previous_unread_mentions,
+                        newUnreadMentions: msg.data.unread_mentions,
+                        prevUnreadReplies: thread?.unread_replies ?? msg.data.previous_unread_replies,
+                        newUnreadReplies: msg.data.unread_replies,
+                    },
+                ),
             );
         } else if (msg.broadcast.channel_id) {
             handleAllThreadsInChannelMarkedRead(doDispatch, doGetState, msg.broadcast.channel_id, msg.data.timestamp);
@@ -1658,3 +1676,56 @@ function handleThreadFollowChanged(msg) {
         handleFollowChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, msg.data.state);
     };
 }
+
+function handlePostAcknowledgementAdded(msg) {
+    const data = JSON.parse(msg.data.acknowledgement);
+
+    return {
+        type: PostTypes.CREATE_ACK_POST_SUCCESS,
+        data,
+    };
+}
+
+function handlePostAcknowledgementRemoved(msg) {
+    const data = JSON.parse(msg.data.acknowledgement);
+
+    return {
+        type: PostTypes.DELETE_ACK_POST_SUCCESS,
+        data,
+    };
+}
+
+function handleUpsertDraftEvent(msg) {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const connectionId = getConnectionId(state);
+
+        const draft = JSON.parse(msg.data.draft);
+        const {key, value} = transformServerDraft(draft);
+        value.show = true;
+        value.remote = false;
+
+        if (msg.broadcast.omit_connection_id !== connectionId) {
+            value.remote = true;
+        }
+
+        doDispatch(setGlobalItem(key, value));
+    };
+}
+
+function handleDeleteDraftEvent(msg) {
+    return async (doDispatch) => {
+        const draft = JSON.parse(msg.data.draft);
+        const {key} = transformServerDraft(draft);
+
+        doDispatch(setGlobalItem(key, {message: '', fileInfos: [], uploadsInProgress: [], remote: true}));
+    };
+}
+
+function handleHostedCustomerSignupProgressUpdated(msg) {
+    return {
+        type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
+        data: msg.data.progress,
+    };
+}
+

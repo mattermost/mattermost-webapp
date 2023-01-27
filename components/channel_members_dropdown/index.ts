@@ -11,6 +11,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {canManageMembers} from 'utils/channel_utils';
 import {GlobalState} from 'types/store';
 import {Channel} from '@mattermost/types/channels';
+import {openModal} from 'actions/views/modals';
 
 import {Action} from 'mattermost-redux/types/actions';
 
@@ -44,6 +45,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             getChannelStats,
             updateChannelMemberSchemeRoles,
             removeChannelMember,
+            openModal,
         }, dispatch),
     };
 }

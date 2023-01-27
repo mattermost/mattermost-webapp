@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useRef, useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled, {css} from 'styled-components';
@@ -38,7 +39,7 @@ const TaskItems = styled.div`
     border-radius: 4px;
     border: solid 1px rgba(var(--center-channel-color-rgb), 0.16);
     background-color: var(--center-channel-bg);
-    max-width: 352px;
+    width: 352px;
     padding: 24px 0;
     transform: scale(0);
     opacity: 0;
@@ -93,15 +94,15 @@ const Button = styled.button<{open: boolean}>(({open}) => {
         background: var(--center-channel-bg);
         border: solid 1px rgba(var(--center-channel-color-rgb), 0.16);
         box-shadow: var(--elevation-3);
-        
+
         i {
             color: rgba(var(--center-channel-color-rgb), 0.56);
         }
-        
+
         &:hover {
             border-color: rgba(var(--center-channel-color-rgb), 0.24);
             box-shadow: var(--elevation-4);
-            
+
             i {
                 color: rgba(var(--center-channel-color-rgb), 0.72)
             }
@@ -139,7 +140,7 @@ const PlayButton = styled.button`
     left: 0;
     right: 0;
     top: 48px;
-  
+
     &:hover {
         border-color: rgba(var(--center-channel-color-rgb), 0.24);
         box-shadow: var(--elevation-4);
@@ -152,9 +153,9 @@ const PlayButton = styled.button`
 `;
 
 const Skeleton = styled.div`
-    width: 304px;
-    height: 137px;
-    margin: 8px auto;
+    height: auto;
+    margin: 0 auto;
+    padding: 0 20px;
     position: relative;
 `;
 
@@ -217,7 +218,13 @@ const OnBoardingTaskList = (): JSX.Element | null => {
         if (firstTimeOnboarding) {
             initOnboardingPrefs();
         }
-    }, [firstTimeOnboarding]);
+    }, []);
+
+    useEffect(() => {
+        if (firstTimeOnboarding && showTaskList && isEnableOnboardingFlow) {
+            trackEvent(OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);
+        }
+    }, [firstTimeOnboarding, showTaskList, isEnableOnboardingFlow]);
 
     // Done to show task done animation in closed state as well
     useEffect(() => {
@@ -252,7 +259,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
             value: 'false',
         }];
         dispatch(savePreferences(currentUserId, preferences));
-        trackEvent(OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);
+        trackEvent(OnboardingTaskCategory, OnboardingTaskList.DECLINED_ONBOARDING_TASK_LIST);
     }, [currentUserId]);
 
     const toggleTaskList = useCallback(() => {
@@ -263,6 +270,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
             value: String(!open),
         }];
         dispatch(savePreferences(currentUserId, preferences));
+        trackEvent(OnboardingTaskCategory, open ? OnboardingTaskList.ONBOARDING_TASK_LIST_CLOSE : OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN);
     }, [open, currentUserId]);
 
     const openVideoModal = useCallback(() => {
@@ -337,7 +345,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
                                 {tasksList.map((task) => (
                                     <Task
                                         key={OnboardingTaskCategory + task.name}
-                                        label={task.label}
+                                        label={task.label()}
                                         onClick={() => {
                                             startTask(task.name);
                                         }}

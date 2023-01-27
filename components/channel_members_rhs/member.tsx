@@ -2,15 +2,15 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from '@mattermost/types/users';
+import GuestTag from 'components/widgets/tag/guest_tag';
+
 import ProfilePicture from 'components/profile_picture';
 import {Client4} from 'mattermost-redux/client';
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
-import {Channel} from '@mattermost/types/channels';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -18,7 +18,9 @@ import Tooltip from 'components/tooltip';
 import Constants from 'utils/constants';
 
 import {isGuest} from 'mattermost-redux/utils/user_utils';
-import GuestBadge from 'components/widgets/badges/guest_badge';
+
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
 
 import {ChannelMember} from './channel_members_rhs';
 
@@ -35,6 +37,8 @@ const UserInfo = styled.div`
 `;
 
 const DisplayName = styled.span`
+    display: inline-flex;
+    gap: 8px;
     margin-left: 8px;
     font-size: 14px;
     line-height: 20px;
@@ -81,7 +85,7 @@ const RoleChooser = styled.div`
             background: rgba(var(--button-bg-rgb), 0.16);
         }
         &:not(.MenuWrapper--open):hover {
-            background: rgba(var(--center-channel-text-rgb), 0.08);
+            background: rgba(var(--center-channel-color-rgb), 0.08);
         }
     }
 `;
@@ -119,9 +123,10 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
             <UserInfo>
                 <DisplayName>
                     {member.displayName}
-                    <GuestBadge show={isGuest(member.user.roles)}/>
+                    {isGuest(member.user.roles) && <GuestTag/>}
                 </DisplayName>
-                <Username>{'@'}{member.user.username}</Username>
+                {member.displayName === member.user.username ? null : <Username>{'@'}{member.user.username}</Username>
+                }
             </UserInfo>
             <RoleChooser
                 className={classNames({editing}, 'member-role-chooser')}
@@ -185,15 +190,12 @@ export default styled(Member)`
     border-radius: 4px;
 
     &:hover {
-        background: rgba(var(--center-channel-text-rgb), 0.08);
-        color: rgba(var(--center-channel-text-rgb), 0.56);
-        ${() => {
-        return css`
-            ${SendMessage} {
-                display: block;
-            }
-            `;
-    }}
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+
+        ${SendMessage} {
+            display: block;
+        }
     }
 
     .MenuWrapper {

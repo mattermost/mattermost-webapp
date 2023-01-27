@@ -52,7 +52,7 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
     bsClass="modal-body"
     componentClass="div"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="**You will be removed from {num_of_private_channels} private {num_of_private_channels,one {channel} other {channels}} on this team.** If the team is private you won't be able to rejoin it without an invitation from another team member. Are you sure?"
       id="leave_team_modal_private.desc"
       values={

@@ -1,12 +1,12 @@
 @charset 'UTF-8';
 
 ::-webkit-scrollbar {
-    width: 8px;  // for vertical scrollbars
-    height: 8px; // for horizontal scrollbars
+    width: 6px;  // for vertical scrollbars
+    height: 6px; // for horizontal scrollbars
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -46,6 +46,18 @@ body {
 .scrollbar--vertical {
     background-color: rgba(var(--sidebar-text-rgb), 0.32);
     border-radius: 2px;
+}
+
+.scrollbar--vertical--RHS {
+    top: 2px;
+    right: 2px;
+    bottom: 2px;
+    margin-right: 3px;
+    border-radius: 3px;
+}
+
+.scrollbar--thumb--RHS {
+    background-color: rgba(var(--center-channel-color-rgb), 0.32);
 }
 
 .scrollbar--view {
