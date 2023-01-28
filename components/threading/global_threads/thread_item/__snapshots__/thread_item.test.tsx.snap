@@ -4,6 +4,7 @@ exports[`components/threading/global_threads/thread_item should report total num
 <article
   className="ThreadItem"
   id=""
+  onAuxClick={[Function]}
   onClick={[Function]}
   tabIndex={0}
 >
@@ -119,6 +120,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
 <article
   className="ThreadItem has-unreads"
   id=""
+  onAuxClick={[Function]}
   onClick={[Function]}
   tabIndex={0}
 >
@@ -243,6 +245,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
 <article
   className="ThreadItem has-unreads"
   id=""
+  onAuxClick={[Function]}
   onClick={[Function]}
   tabIndex={0}
 >

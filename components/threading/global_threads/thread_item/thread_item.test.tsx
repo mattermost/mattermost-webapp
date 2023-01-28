@@ -24,23 +24,13 @@ jest.mock('actions/views/threads');
 
 import ThreadItem from './thread_item';
 
-const mockRouting = {
-    currentUserId: '7n4ach3i53bbmj84dfmu5b7c1c',
-    currentTeamId: 'tid',
-    goToInChannel: jest.fn(),
-    select: jest.fn(),
-};
-jest.mock('../../hooks', () => {
-    return {
-        useThreadRouting: () => mockRouting,
-    };
-});
-
 const mockDispatch = jest.fn();
+let user: any;
 let mockThread: UserThread;
 let mockPost: Post;
 let mockChannel: Channel;
 let mockState: any;
+let mockRouting: any;
 
 jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux') as typeof import('react-redux'),
@@ -48,8 +38,15 @@ jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch,
 }));
 
+jest.mock('../../hooks', () => {
+    return {
+        useThreadRouting: () => mockRouting,
+    };
+});
+
 describe('components/threading/global_threads/thread_item', () => {
     let props: ComponentProps<typeof ThreadItem>;
+    user = TestHelper.getUserMock();
 
     beforeEach(() => {
         mockThread = {
@@ -86,7 +83,6 @@ describe('components/threading/global_threads/thread_item', () => {
             create_at: 1610486901110,
             edit_at: 1611786714912,
         } as Post;
-        const user = TestHelper.getUserMock();
 
         mockChannel = {
             id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
@@ -98,6 +94,9 @@ describe('components/threading/global_threads/thread_item', () => {
                 users: {
                     currentUserId: user.id,
                 },
+                teams: {
+                    currentTeamId: 'tid',
+                },
                 preferences: {
                     myPreferences: {},
                 },
@@ -107,6 +106,12 @@ describe('components/threading/global_threads/thread_item', () => {
                     windowSize: WindowSizes.DESKTOP_VIEW,
                 },
             },
+        };
+        mockRouting = {
+            currentUserId: user.id,
+            currentTeamId: 'tid',
+            goToInChannel: jest.fn(),
+            select: jest.fn(),
         };
 
         props = {
@@ -185,7 +190,7 @@ describe('components/threading/global_threads/thread_item', () => {
         const wrapper = shallow(<ThreadItem {...props}/>);
         wrapper.simulate('click', {altKey: true});
         expect(updateThreadRead).not.toHaveBeenCalled();
-        expect(markLastPostInThreadAsUnread).toHaveBeenCalledWith('user_id', 'tid', '1y8hpek81byspd4enyk9mp1ncw');
+        expect(markLastPostInThreadAsUnread).toHaveBeenCalledWith(user.id, 'tid', '1y8hpek81byspd4enyk9mp1ncw');
         expect(manuallyMarkThreadAsUnread).toHaveBeenCalledWith('1y8hpek81byspd4enyk9mp1ncw', 1611786714912);
         expect(mockDispatch).toHaveBeenCalledTimes(2);
     });

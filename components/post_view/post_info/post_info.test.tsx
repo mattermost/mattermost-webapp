@@ -28,6 +28,7 @@ describe('components/post_view/PostInfo', () => {
     const requiredProps = {
         post,
         handleCommentClick: jest.fn(),
+        handleCommentAuxClick: jest.fn(),
         handleCardClick: jest.fn(),
         handleDropdownOpened: jest.fn(),
         compactDisplay: false,

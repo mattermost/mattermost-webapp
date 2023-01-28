@@ -348,7 +348,7 @@ export function showPinnedPosts(channelId?: string) {
 
 export function showRecentlyViewedPosts() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
+        const state = getState() as GlobalState;
         const teamId = getCurrentTeamId(state);
 
         dispatch({
@@ -540,14 +540,13 @@ export function selectPostAndParentChannel(post: Post) {
 
 export function selectPost(post: Post) {
     return (dispatch: DispatchFunc) => {
-        dispatch(addThreadHistory(post));
-
         dispatch({
             type: ActionTypes.SELECT_POST,
             postId: post.root_id || post.id,
             channelId: post.channel_id,
             timestamp: Date.now(),
         });
+        dispatch(addThreadHistory(post));
         return {data: true};
     };
 }

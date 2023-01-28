@@ -242,6 +242,7 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
     />
     <Connect(CommentIcon)
       extraClass="pull-right"
+      handleCommentAuxClick={[MockFunction]}
       handleCommentClick={[Function]}
       postId="e584uzbwwpny9kengqayx5ayzw"
     />
@@ -396,6 +397,7 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
     />
     <Connect(CommentIcon)
       extraClass="pull-right"
+      handleCommentAuxClick={[MockFunction]}
       handleCommentClick={[Function]}
       postId="e584uzbwwpny9kengqayx5ayzw"
     />

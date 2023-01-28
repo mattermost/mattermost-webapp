@@ -217,6 +217,14 @@ describe('components/threading/channel_threads/thread_footer', () => {
                 postId: 'postthreadid',
                 timestamp: 1588512000000,
             },
+            {
+                type: 'SET_GLOBAL_ITEM',
+                data: {
+                    name: 'threads_history:uid:tid',
+                    timestamp: new Date(1588512000000),
+                    value: ['postthreadid'],
+                },
+            },
         ]);
     });
 
