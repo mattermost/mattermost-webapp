@@ -85,8 +85,8 @@ export function makeFilterPostsAndAddSeparators() {
                 if (shouldFilterJoinLeavePost(post, showJoinLeave, currentUser.username)) {
                     continue;
                 }
-                 
-                // Push on a date header if the last post was on a different day than the current one
+
+                //Push on a date header if the last post was on a different day than the current one
                 const postDate = new Date(post.create_at);
                 if (timeZoneEnabled) {
                     const currentOffset = postDate.getTimezoneOffset() * 60 * 1000;
@@ -394,7 +394,8 @@ export function combineUserActivitySystemPost(systemPosts: Post[] = []) {
     if (systemPosts.length === 0) {
         return null;
     }
-    // userActivites start from first post with reduceRight. 
+
+    // userActivites start from first post with reduceRight.
     const userActivities = systemPosts.reduceRight((acc: any, post: Post) => {
         const postType = post.type;
         let userActivityProps = acc;
@@ -449,7 +450,7 @@ export function combineUserActivitySystemPost(systemPosts: Post[] = []) {
                 userActivityProps = {...userActivityProps, [postType]: [propsUserId]};
             }
         }
-    
+
         return userActivityProps;
     }, {});
     return extractUserActivityData(userActivities);
