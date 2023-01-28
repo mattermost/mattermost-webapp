@@ -652,7 +652,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     async componentDidMount() {
         if (isEmpty(this.state.currentProduct || this.state.selectedProduct)) {
             await this.props.actions.getCloudProducts();
-            // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
                 currentProduct: findProductInDictionary(this.props.products, this.props.productId),
                 selectedProduct: getSelectedProduct(this.props.products, this.props.productId, this.props.isInitialPlanMonthly, this.props.isDelinquencyModal, this.props.isCloudDelinquencyGreaterThan90Days),
