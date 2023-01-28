@@ -1037,7 +1037,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             onCardInputChange={this.handleCardInputChange}
                             initialBillingDetails={initialBillingDetails}
                             theme={this.props.theme}
-                            // eslint-disable-next-line react/jsx-closing-bracket-location
                         />
                     ) : (
                         <div className='PaymentDetails'>
