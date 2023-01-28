@@ -114,7 +114,7 @@ export type Props = {
     isPostAcknowledgementsEnabled: boolean;
     isPostPriorityEnabled: boolean;
     isCardOpen?: boolean;
-    shouldShowDotMenu?: boolean;
+    shouldShowDotMenu: boolean;
 };
 
 const PostComponent = (props: Props): JSX.Element => {

@@ -12,11 +12,12 @@ import {Post} from '@mattermost/types/posts';
 import Tag from 'components/widgets/tag/tag';
 import BotTag from 'components/widgets/tag/bot_tag';
 import UserProfile from 'components/user_profile';
-import PostHeaderCustomStatus from 'components/post_view/post_header/post_header_custom_status';
+import PostHeaderCustomStatus from 'components/post_view/post_header_custom_status/post_header_custom_status';
 
 type Props = {
     post: Post;
     compactDisplay?: boolean;
+    currentUserId: string;
     colorizeUsernames?: boolean;
     enablePostUsernameOverride?: boolean;
     isConsecutivePost?: boolean;
@@ -143,7 +144,7 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
     return (<div className='col col__name'>
         {userProfile}
         {botIndicator}
-        {props.location === Locations.CENTER && customStatus}
+        {props.location === Locations.CENTER && (props.currentUserId === post.user_id) && customStatus}
     </div>);
 };
 
