@@ -92,5 +92,5 @@ describe('Bot tags', () => {
 });
 
 function rhsPostHasBotBadge(postId) {
-    cy.get(`.post#searchResult_${postId} .Badge`).should('be.visible').and('have.text', 'BOT');
+    cy.get(`.post#searchResult_${postId} .Tag`).should('be.visible').and('have.text', 'BOT');
 }

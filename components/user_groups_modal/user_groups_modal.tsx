@@ -225,69 +225,69 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                 aria-labelledby='userGroupsModalLabel'
                 id='userGroupsModal'
             >
-                <ADLDAPUpsellBanner/>
                 <UserGroupsModalHeader
                     onExited={this.props.onExited}
                     backButtonAction={this.props.backButtonAction}
                 />
                 <Modal.Body>
-                    {(groups.length === 0 && !this.props.searchTerm) ?
+                    {(groups.length === 0 && !this.props.searchTerm) ? <>
                         <NoResultsIndicator
                             variant={NoResultsVariant.UserGroups}
-                        /> :
-                        <>
-                            <div className='user-groups-search'>
-                                <Input
-                                    type='text'
-                                    placeholder={Utils.localizeMessage('user_groups_modal.searchGroups', 'Search Groups')}
-                                    onChange={this.handleSearch}
-                                    value={this.props.searchTerm}
-                                    data-testid='searchInput'
-                                    className={'user-group-search-input'}
-                                    inputPrefix={<i className={'icon icon-magnify'}/>}
-                                />
-                            </div>
-                            <div className='more-modal__dropdown'>
-                                <MenuWrapper id='groupsFilterDropdown'>
-                                    <a>
-                                        <span>{this.state.selectedFilter === 'all' ? Utils.localizeMessage('user_groups_modal.showAllGroups', 'Show: All Groups') : Utils.localizeMessage('user_groups_modal.showMyGroups', 'Show: My Groups')}</span>
-                                        <span className='icon icon-chevron-down'/>
-                                    </a>
-                                    <Menu
-                                        openLeft={false}
-                                        ariaLabel={Utils.localizeMessage('user_groups_modal.filterAriaLabel', 'Groups Filter Menu')}
-                                    >
-                                        <Menu.ItemAction
-                                            id='groupsDropdownAll'
-                                            buttonClass='groups-filter-btn'
-                                            onClick={() => {
-                                                this.getGroups(0);
-                                            }}
-                                            text={Utils.localizeMessage('user_groups_modal.allGroups', 'All Groups')}
-                                            rightDecorator={this.state.selectedFilter === 'all' && <i className='icon icon-check'/>}
-                                        />
-                                        <Menu.ItemAction
-                                            id='groupsDropdownMy'
-                                            buttonClass='groups-filter-btn'
-                                            onClick={() => {
-                                                this.getMyGroups(0);
-                                            }}
-                                            text={Utils.localizeMessage('user_groups_modal.myGroups', 'My Groups')}
-                                            rightDecorator={this.state.selectedFilter !== 'all' && <i className='icon icon-check'/>}
-                                        />
-                                    </Menu>
-                                </MenuWrapper>
-                            </div>
-                            <UserGroupsList
-                                groups={groups}
-                                searchTerm={this.props.searchTerm}
-                                loading={this.state.loading}
-                                onScroll={this.onScroll}
-                                ref={this.divScrollRef}
-                                onExited={this.props.onExited}
-                                backButtonAction={this.props.backButtonAction}
+                        />
+                        <ADLDAPUpsellBanner/>
+                    </> : <>
+                        <div className='user-groups-search'>
+                            <Input
+                                type='text'
+                                placeholder={Utils.localizeMessage('user_groups_modal.searchGroups', 'Search Groups')}
+                                onChange={this.handleSearch}
+                                value={this.props.searchTerm}
+                                data-testid='searchInput'
+                                className={'user-group-search-input'}
+                                inputPrefix={<i className={'icon icon-magnify'}/>}
                             />
-                        </>
+                        </div>
+                        <div className='more-modal__dropdown'>
+                            <MenuWrapper id='groupsFilterDropdown'>
+                                <a>
+                                    <span>{this.state.selectedFilter === 'all' ? Utils.localizeMessage('user_groups_modal.showAllGroups', 'Show: All Groups') : Utils.localizeMessage('user_groups_modal.showMyGroups', 'Show: My Groups')}</span>
+                                    <span className='icon icon-chevron-down'/>
+                                </a>
+                                <Menu
+                                    openLeft={false}
+                                    ariaLabel={Utils.localizeMessage('user_groups_modal.filterAriaLabel', 'Groups Filter Menu')}
+                                >
+                                    <Menu.ItemAction
+                                        id='groupsDropdownAll'
+                                        buttonClass='groups-filter-btn'
+                                        onClick={() => {
+                                            this.getGroups(0);
+                                        }}
+                                        text={Utils.localizeMessage('user_groups_modal.allGroups', 'All Groups')}
+                                        rightDecorator={this.state.selectedFilter === 'all' && <i className='icon icon-check'/>}
+                                    />
+                                    <Menu.ItemAction
+                                        id='groupsDropdownMy'
+                                        buttonClass='groups-filter-btn'
+                                        onClick={() => {
+                                            this.getMyGroups(0);
+                                        }}
+                                        text={Utils.localizeMessage('user_groups_modal.myGroups', 'My Groups')}
+                                        rightDecorator={this.state.selectedFilter !== 'all' && <i className='icon icon-check'/>}
+                                    />
+                                </Menu>
+                            </MenuWrapper>
+                        </div>
+                        <UserGroupsList
+                            groups={groups}
+                            searchTerm={this.props.searchTerm}
+                            loading={this.state.loading}
+                            onScroll={this.onScroll}
+                            ref={this.divScrollRef}
+                            onExited={this.props.onExited}
+                            backButtonAction={this.props.backButtonAction}
+                        />
+                    </>
                     }
                 </Modal.Body>
             </Modal>

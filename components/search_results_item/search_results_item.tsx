@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
@@ -23,7 +25,6 @@ import PostFlagIcon from 'components/post_view/post_flag_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import PostTime from 'components/post_view/post_time';
 import {getHistory} from 'utils/browser_history';
-import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
@@ -490,7 +491,7 @@ export default class SearchResultsItem extends React.PureComponent<Props, State>
                                         disablePopover={disableProfilePopover}
                                         isRHS={true}
                                     />
-                                    <BotBadge show={Boolean(post.props && post.props.from_webhook && !this.props.isBot)}/>
+                                    {post.props && post.props.from_webhook && !this.props.isBot && <BotTag/>}
                                 </div>
                                 <div className='col d-flex align-items-center'>
                                     {this.renderPostTime()}
