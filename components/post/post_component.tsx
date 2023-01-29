@@ -369,7 +369,7 @@ const PostComponent = (props: Props): JSX.Element => {
     }
 
     let visibleMessage = null;
-    if (isSystemMessage) {
+    if (post.type === Constants.PostTypes.EPHEMERAL && !props.compactDisplay && post.state !== Posts.POST_DELETED) {
         visibleMessage = (
             <span className='post__visibility'>
                 <FormattedMessage
