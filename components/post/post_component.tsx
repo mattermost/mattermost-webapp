@@ -70,6 +70,7 @@ export type Props = {
     isConsecutivePost?: boolean;
     isLastPost?: boolean;
     recentEmojis: Emoji[];
+    center: boolean;
     handleCardClick?: (post: Post) => void;
     togglePostMenu?: (opened: boolean) => void;
     channelName?: string;
@@ -517,7 +518,7 @@ const PostComponent = (props: Props): JSX.Element => {
                 />
                 <div
                     role='application'
-                    className='post__content'
+                    className={`post__content ${props.center ? 'center' : ''}`}
                     data-testid='postContent'
                 >
                     <div className='post__img'>
