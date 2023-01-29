@@ -369,12 +369,9 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.saveDraftWithShow();
     }
 
-    getSelectionText = () => {
-        if (this.state.showQuoteButton) {
-            this.setState({showQuoteButton: false});
-        }
+    getSelectionText = (e: MouseEvent) => {
         const selectionData = Utils.getSelectionData();
-        if (!selectionData) {
+        if (!selectionData || !e.target) {
             return;
         }
         const {startingSelectedElement, endingSelectedElement, selection, rects, spaceForMultilineSelection} = selectionData;
@@ -383,9 +380,12 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             !startingSelectedElement ||
             !endingSelectedElement ||
             startingSelectedElement.id !== endingSelectedElement.id ||
-            startingSelectedElement.firstElementChild?.id.includes('rhsPostMessageText') ||
-            endingSelectedElement.firstElementChild?.id.includes('rhsPostMessageText')
+            !startingSelectedElement.firstElementChild?.id.includes('postMessageText') ||
+            !endingSelectedElement.firstElementChild?.id.includes('postMessageText')
         ) {
+            if ((e.target as HTMLElement).parentElement?.id === 'quoteButton' && this.state.showQuoteButton) {
+                this.setState({showQuoteButton: false});
+            }
             return;
         }
 

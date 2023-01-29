@@ -331,10 +331,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
     }
 
-    getSelectionText = () => {
-        if (this.state.showQuoteButton) {
-            this.setState({showQuoteButton: false});
-        }
+    getSelectionText = (e: MouseEvent) => {
         const selectionData = Utils.getSelectionData();
         if (!selectionData) {
             return;
@@ -348,6 +345,9 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             !startingSelectedElement.firstElementChild?.id.includes('rhsPostMessageText') ||
             !endingSelectedElement.firstElementChild?.id.includes('rhsPostMessageText')
         ) {
+            if ((e.target as HTMLElement).parentElement?.id === 'quoteButton' && this.state.showQuoteButton) {
+                this.setState({showQuoteButton: false});
+            }
             return;
         }
 
