@@ -161,14 +161,28 @@ const ContactSalesCard = (props: Props) => {
                     <button
                         type='button'
                         onClick={() => {
-                            onUpgradeMattermostCloud({trackingLocation: 'admin_console_subscription_card_upgrade_now_button'});
+                            if (subscriptionPlan === CloudProducts.STARTER) {
+                                onUpgradeMattermostCloud({trackingLocation: 'admin_console_subscription_card_upgrade_now_button'});
+                            } else {
+                                window.open(contactSalesLink, '_blank');
+                            }
                         }}
                         className='PrivateCloudCard__actionButton'
                     >
-                        <FormattedMessage
-                            id='admin.billing.subscription.privateCloudCard.upgradeNow'
-                            defaultMessage='Upgrade Now'
-                        />
+                        {subscriptionPlan === CloudProducts.STARTER ? (
+                            <FormattedMessage
+                                id='admin.billing.subscription.privateCloudCard.upgradeNow'
+                                defaultMessage='Upgrade Now'
+                            />
+                        ) : (
+                            <FormattedMessage
+                                id='admin.billing.subscription.privateCloudCard.contactSales'
+                                defaultMessage='Contact Sales'
+                            />
+                        )
+
+                        }
+
                     </button>
                 }
             </div>
