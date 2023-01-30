@@ -31,6 +31,7 @@ import PaymentFailedSvg from 'components/common/svg_images_components/payment_fa
 import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 import {isCloudLicense} from 'utils/license_utils';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import { trackEvent } from 'actions/telemetry_actions';
 
 type Props = {
     callerCTA: string;
@@ -212,6 +213,7 @@ export default function DeleteWorkspaceModal(props: Props) {
                 modalId: ModalIdentifiers.DELETE_WORKSPACE_SUCCESS,
                 dialogType: deleteSuccessModal,
             }));
+            trackEvent('cloud_admin', 'workspace_deleted');
         } else { // Failure
             dispatch(closeModal(ModalIdentifiers.DELETE_WORKSPACE_PROGRESS));
             dispatch(openModal({
