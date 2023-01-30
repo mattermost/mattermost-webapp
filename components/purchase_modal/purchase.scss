@@ -2,31 +2,31 @@
     overflow: hidden;
     height: 100%;
 
-
-
     .shipping-address-section {
-        padding: 0px 107px;
-        font-weight: normal;
+        padding: 0 107px;
         padding-bottom: 28px;
+        font-weight: normal;
+
         button.no-style {
-            outline: unset;
             background: transparent;
+            outline: unset;
 
             &:focus {
                 outline: unset;
             }
         }
+
         .Form-checkbox-label {
-            font-family: 'Open Sans', sans-serif;
-            cursor: default;
             padding-left: 12px;
+            cursor: default;
+            font-family: 'Open Sans', sans-serif;
             vertical-align: middle;
         }
 
         .billing_address_btn_text {
+            color: var(--center-channel-color);
             font-family: 'Open Sans', sans-serif;
             font-weight: normal;
-            color: var(--center-channel-color);
         }
     }
 

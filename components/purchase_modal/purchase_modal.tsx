@@ -63,7 +63,6 @@ import ProcessPaymentSetup from './process_payment_setup';
 import 'components/payment_form/payment_form.scss';
 
 import './purchase.scss';
-import {urlToHttpOptions} from 'url';
 
 let stripePromise: Promise<Stripe | null>;
 

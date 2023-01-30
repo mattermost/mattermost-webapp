@@ -16,7 +16,6 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
 import {CloudTypes} from 'mattermost-redux/action_types';
 import {Address} from '@mattermost/types/cloud';
-import {ClientError} from '@mattermost/client';
 
 // Returns true for success, and false for any error
 export function completeStripeAddPaymentMethod(
@@ -25,58 +24,58 @@ export function completeStripeAddPaymentMethod(
     isDevMode: boolean,
 ) {
     return async () => {
-        // let paymentSetupIntent: StripeSetupIntent;
-        // try {
-        //     paymentSetupIntent = await Client4.createPaymentMethod() as StripeSetupIntent;
-        // } catch (error) {
-        //     return error;
-        // }
-        // const cardSetupFunction = getConfirmCardSetup(isDevMode);
-        // const confirmCardSetup = cardSetupFunction(stripe.confirmCardSetup);
+        let paymentSetupIntent: StripeSetupIntent;
+        try {
+            paymentSetupIntent = await Client4.createPaymentMethod() as StripeSetupIntent;
+        } catch (error) {
+            return error;
+        }
+        const cardSetupFunction = getConfirmCardSetup(isDevMode);
+        const confirmCardSetup = cardSetupFunction(stripe.confirmCardSetup);
 
-        // const result = await confirmCardSetup(
-        //     paymentSetupIntent.client_secret,
-        //     {
-        //         payment_method: {
-        //             card: billingDetails.card,
-        //             billing_details: {
-        //                 name: billingDetails.name,
-        //                 address: {
-        //                     line1: billingDetails.address,
-        //                     line2: billingDetails.address2,
-        //                     city: billingDetails.city,
-        //                     state: billingDetails.state,
-        //                     country: getCode(billingDetails.country),
-        //                     postal_code: billingDetails.postalCode,
-        //                 },
-        //             },
-        //         },
-        //     },
-        // );
+        const result = await confirmCardSetup(
+            paymentSetupIntent.client_secret,
+            {
+                payment_method: {
+                    card: billingDetails.card,
+                    billing_details: {
+                        name: billingDetails.name,
+                        address: {
+                            line1: billingDetails.address,
+                            line2: billingDetails.address2,
+                            city: billingDetails.city,
+                            state: billingDetails.state,
+                            country: getCode(billingDetails.country),
+                            postal_code: billingDetails.postalCode,
+                        },
+                    },
+                },
+            },
+        );
 
-        // if (!result) {
-        //     return false;
-        // }
+        if (!result) {
+            return false;
+        }
 
-        // const {setupIntent, error: stripeError} = result;
+        const {setupIntent, error: stripeError} = result;
 
-        // if (stripeError) {
-        //     return false;
-        // }
+        if (stripeError) {
+            return false;
+        }
 
-        // if (setupIntent == null) {
-        //     return false;
-        // }
+        if (setupIntent == null) {
+            return false;
+        }
 
-        // if (setupIntent.status !== 'succeeded') {
-        //     return false;
-        // }
+        if (setupIntent.status !== 'succeeded') {
+            return false;
+        }
 
-        // try {
-        //     await Client4.confirmPaymentMethod(setupIntent.id);
-        // } catch (error) {
-        //     return false;
-        // }
+        try {
+            await Client4.confirmPaymentMethod(setupIntent.id);
+        } catch (error) {
+            return false;
+        }
 
         return true;
     };

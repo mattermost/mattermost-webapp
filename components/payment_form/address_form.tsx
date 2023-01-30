@@ -31,7 +31,6 @@ const AddressForm = (props: AddressFormProps) => {
     };
 
     const handleStateChange = (option: any) => {
-        console.log(option);
         setAddress({...address, state: option});
         props.onAddressChange({...address, state: option});
     };
