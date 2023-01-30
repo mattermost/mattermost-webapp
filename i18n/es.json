@@ -4524,7 +4524,7 @@
   "status_dropdown.set_dnd": "No Molestar",
   "status_dropdown.set_dnd.extra": "Desactiva las Notificaciones de Escritorio y Móviles",
   "status_dropdown.set_offline": "Desconectado",
-  "status_dropdown.set_online": "En línea",
+  "status_dropdown.set_online": "Conectado",
   "status_dropdown.set_ooo": "Fuera de Oficina",
   "status_dropdown.set_ooo.extra": "Respuesta automáticas habilitadas",
   "string.id": "mensaje predeterminado",
