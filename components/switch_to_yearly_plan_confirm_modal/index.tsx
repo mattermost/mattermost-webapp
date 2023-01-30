@@ -77,7 +77,7 @@ const SwitchToYearlyPlanConfirmModal: React.FC<Props> = (props: Props): JSX.Elem
                     <div className='subtitle'>
                         <FormattedMessage
                             id='confirm_switch_to_yearly_modal.subtitle'
-                            defaultMessage='Changing to the Yearly plan is irreversible. Are you sure you want to switch from monthly to the yearly plan?'
+                            defaultMessage='Changing to the annual plan is irreversible. Are you sure you want to switch from monthly to the annual plan?'
                         />
                     </div>
                     <div className='sales-info'>
