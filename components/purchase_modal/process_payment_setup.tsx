@@ -46,7 +46,7 @@ type Props = RouteComponentProps & {
         isDevMode: boolean
     ) => Promise<boolean | null>;
     subscribeCloudSubscription:
-    | ((productId: string, shippingAddress: Address, seats?: number) => Promise<boolean | null>)
+    | ((productId: string, shippingAddress: Address, seats?: number) => Promise<boolean | null> | ComplianceError)
     | null;
     onBack: () => void;
     onClose: () => void;

@@ -218,3 +218,10 @@ export interface CreateSubscriptionRequest {
     seats: number;
     internal_purchase_order?: string;
 }
+
+export const areShippingDetailsValid = (address: Address | null | undefined): boolean => {
+    if (!address) {
+        return false;
+    }
+    return Boolean(address.city && address.country && address.line1 && address.postal_code && address.state);
+};

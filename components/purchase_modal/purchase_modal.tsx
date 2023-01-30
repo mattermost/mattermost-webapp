@@ -11,12 +11,14 @@ import {Elements} from '@stripe/react-stripe-js';
 import {isEmpty} from 'lodash';
 import {getName} from 'country-list';
 
-import AddressForm from 'components/payment_form/address_form';
-import ComplianceScreenFailedSvg from 'components/common/svg_images_components/compliance_screen_failed_svg';
 import classNames from 'classnames';
 
+import ComplianceScreenFailedSvg from 'components/common/svg_images_components/compliance_screen_failed_svg';
+
+import AddressForm from 'components/payment_form/address_form';
+
 import {t} from 'utils/i18n';
-import {Address, CloudCustomer, Product, Invoice} from '@mattermost/types/cloud';
+import {Address, CloudCustomer, Product, Invoice, areShippingDetailsValid} from '@mattermost/types/cloud';
 
 import {localizeMessage, getNextBillingDate} from 'utils/utils';
 
@@ -61,6 +63,7 @@ import ProcessPaymentSetup from './process_payment_setup';
 import 'components/payment_form/payment_form.scss';
 
 import './purchase.scss';
+import {urlToHttpOptions} from 'url';
 
 let stripePromise: Promise<Stripe | null>;
 
@@ -695,15 +698,23 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     onPaymentInput = (billing: BillingDetails) => {
-        this.setState({
-            paymentInfoIsValid:
-                areBillingDetailsValid(billing) && this.state.cardInputComplete,
-        });
-        this.setState({billingDetails: billing});
+        this.setState({billingDetails: billing}, this.isFormComplete);
+    }
+
+    isFormComplete = () => {
+        let paymentInfoIsValid = areBillingDetailsValid(this.state.billingDetails) && this.state.cardInputComplete;
+        if (!this.state.billingSameAsShipping) {
+            paymentInfoIsValid = paymentInfoIsValid && areShippingDetailsValid(this.state.shippingAddress);
+        }
+        this.setState({paymentInfoIsValid});
+    }
+
+    handleShippingSameAsBillingChange(value: boolean) {
+        this.setState({billingSameAsShipping: value}, this.isFormComplete);
     }
 
     onShippingInput = (address: Address) => {
-        this.setState({shippingAddress: {...this.state.shippingAddress, ...address}});
+        this.setState({shippingAddress: {...this.state.shippingAddress, ...address}}, this.isFormComplete);
     }
 
     handleCardInputChange = (event: StripeCardElementChangeEvent) => {
@@ -1098,50 +1109,56 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             name='terms'
                             type='checkbox'
                             checked={this.state.billingSameAsShipping}
-                            onChange={() => this.setState({billingSameAsShipping: !this.state.billingSameAsShipping})}
+                            onChange={() =>
+                                this.handleShippingSameAsBillingChange(
+                                    !this.state.billingSameAsShipping,
+                                )
+                            }
                         />
                         <span className='Form-checkbox-label'>
                             <button
-                                onClick={() => this.setState({billingSameAsShipping: !this.state.billingSameAsShipping})}
+                                onClick={() =>
+                                    this.handleShippingSameAsBillingChange(
+                                        !this.state.billingSameAsShipping,
+                                    )
+                                }
                                 type='button'
                                 className='no-style'
                             >
                                 <span className='billing_address_btn_text'>
                                     {
-                                        'My address is the same as my billing address'
+                                        'My shipping address is the same as my billing address'
                                     }
                                 </span>
                             </button>
                         </span>
                     </div>
-                    {
-                        !this.state.billingSameAsShipping &&
-                            <AddressForm
-                                onAddressChange={this.onShippingInput}
-                                onBlur={() => { }}
-                                title={'Address'}
-                                changePaymentMethod={this.state.editPaymentInfo}
-                                show={true}
-                                formId={'shippingAddress'}
+                    {!this.state.billingSameAsShipping && (
+                        <AddressForm
+                            onAddressChange={this.onShippingInput}
+                            onBlur={() => {}}
+                            title={{
+                                id: 'payment_form.shipping_address',
+                                defaultMessage: 'Shipping Address',
+                            }}
+                            formId={'shippingAddress'}
 
-                                // Setup the initial country based on their billing country, or USA.
-                                initialAddress={
-                                    {
-                                        country:
-                                            getName(
-                                                this.state.billingDetails?.
-                                                    country || '',
-                                            ) ||
-                                            getName('US') ||
-                                            '',
-                                    } as Address
-                                }
-                            />
-                    }
+                            // Setup the initial country based on their billing country, or USA.
+                            initialAddress={
+                                {
+                                    country:
+                                        getName(
+                                            this.state.billingDetails?.
+                                                country || '',
+                                        ) ||
+                                        getName('US') ||
+                                        '',
+                                } as Address
+                            }
+                        />
+                    )}
                 </div>
-                <div className='RHS'>
-                    {this.purchaseScreenCard()}
-                </div>
+                <div className='RHS'>{this.purchaseScreenCard()}</div>
             </div>
         );
     }

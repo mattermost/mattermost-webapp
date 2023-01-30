@@ -4301,6 +4301,7 @@
   "payment_form.address": "Address",
   "payment_form.address_2": "Address 2",
   "payment_form.billing_address": "Billing address",
+  "payment_form.shipping_address": "Shipping address",
   "payment_form.change_payment_method": "Change Payment Method",
   "payment_form.city": "City",
   "payment_form.country": "Country",
