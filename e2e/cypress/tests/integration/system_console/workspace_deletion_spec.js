@@ -10,16 +10,14 @@
 // Stage: @prod
 // Group: @system_console
 
-
 describe('Workspace deletion', () => {
-
-    const host = cy.location('host');
+    const host = window.host;
 
     beforeAll(() => {
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit('/admin_console/billing/subscription');
-    })
+    });
 
     it('Workspace deletion cta is not visible for cloud professional with a yearly plan', () => {
         // Professional Yearly.
@@ -210,12 +208,12 @@ describe('Workspace deletion', () => {
         cy.find('.FeedbackModal__Container').should('exist');
         cy.find('.radio').first().click();
         cy.find('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled').click();
-        cy.find('.DeleteWorkspaceProgressModal').should('be.visible')
+        cy.find('.DeleteWorkspaceProgressModal').should('be.visible');
     });
-    
+
     it('Workspace deletion modal > delete workspace > after survey, a success modal is displayed when the deletion succeeds', () => {
         cy.intercept('POST', '/api/v4/cloud/delete-workspace', {statusCode: 200}).as('deleteWorkspace');
-        
+
         // Professional Monthly.
         const subscription = {
             id: 'sub_test1',
@@ -231,17 +229,17 @@ describe('Workspace deletion', () => {
         cy.find('.FeedbackModal__Container').should('exist');
         cy.find('.radio').first().click();
         cy.find('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled').click();
-        cy.find('.DeleteWorkspaceProgressModal').should('be.visible')
+        cy.find('.DeleteWorkspaceProgressModal').should('be.visible');
 
         cy.wait('@deleteWorkspace');
 
         cy.find('.result_modal').should('exist');
         cy.find('Your workspace has been deleted').should('exist');
     });
-        
+
     it('Workspace deletion modal > delete workspace > after survey, a failure modal is displayed when the deletion fails', () => {
         cy.intercept('POST', '/api/v4/cloud/delete-workspace', {statusCode: 500}).as('deleteWorkspace');
-        
+
         // Professional Monthly.
         const subscription = {
             id: 'sub_test1',
@@ -257,7 +255,7 @@ describe('Workspace deletion', () => {
         cy.find('.FeedbackModal__Container').should('exist');
         cy.find('.radio').first().click();
         cy.find('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled').click();
-        cy.find('.DeleteWorkspaceProgressModal').should('be.visible')
+        cy.find('.DeleteWorkspaceProgressModal').should('be.visible');
 
         cy.wait('@deleteWorkspace');
 
@@ -309,7 +307,7 @@ describe('Workspace deletion', () => {
         cy.find('.cloud_subscribe_result_modal').should('exist');
         cy.find('You are now subscribed to').should('exist');
     });
-        
+
     it('Workspace deletion modal > downgrade workspace > after survey, a failure modal is displayed when the downgrade fails', () => {
         cy.intercept('PUT', '/api/v4/cloud/subscription', {statusCode: 500}).as('downgradeWorkspace');
 
