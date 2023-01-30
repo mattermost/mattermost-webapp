@@ -1075,6 +1075,7 @@ export const DocLinks = {
     UPGRADE_SERVER: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
     ONBOARD_LDAP: 'https://docs.mattermost.com/onboard/ad-ldap.html',
     ONBOARD_SSO: 'https://docs.mattermost.com/onboard/sso-saml.html',
+    TRUE_UP_REVIEW: 'https://mattermost.com/pl/true-up-documentation',
 };
 
 export const LicenseLinks = {

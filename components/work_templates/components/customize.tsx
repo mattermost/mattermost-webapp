@@ -4,18 +4,21 @@
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import {useIntl} from 'react-intl';
+import {useSelector} from 'react-redux';
 
 import PublicPrivateSelector from 'components/widgets/public-private-selector/public-private-selector';
 import {trackEvent} from 'actions/telemetry_actions';
 import Constants, {TELEMETRY_CATEGORIES} from 'utils/constants';
+import {isEnterpriseOrE20License} from 'utils/license_utils';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {Visibility} from '@mattermost/types/work_templates';
+import {Visibility, WorkTemplate} from '@mattermost/types/work_templates';
 import {ChannelType} from '@mattermost/types/channels';
-
 export interface CustomizeProps {
     className?: string;
     name: string;
     visibility: Visibility;
+    template: WorkTemplate;
 
     onNameChanged: (name: string) => void;
     onVisibilityChanged: (visibility: Visibility) => void;
@@ -24,11 +27,15 @@ export interface CustomizeProps {
 const Customize = ({
     name,
     visibility,
+    template,
     onNameChanged,
     onVisibilityChanged,
     ...props
 }: CustomizeProps) => {
     const {formatMessage} = useIntl();
+    const license = useSelector(getLicense);
+    const licenseIsEnterprise = isEnterpriseOrE20License(license);
+    const templateHasPlaybooks = template.content.findIndex((item) => item.playbook) !== -1;
 
     useEffect(() => {
         trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'pageview_customize');
@@ -38,6 +45,17 @@ const Customize = ({
     const onPrivacySelectorChanged = (value: ChannelType) => {
         onVisibilityChanged(value === Constants.PRIVATE_CHANNEL ? Visibility.Private : Visibility.Public);
     };
+
+    let privateButtonProps = {};
+    if (templateHasPlaybooks && !licenseIsEnterprise) {
+        if (visibility === Visibility.Private) {
+            onVisibilityChanged(Visibility.Public);
+        }
+        privateButtonProps = {
+            tooltip: formatMessage({id: 'work_templates.customize.private_playbook_license_issue', defaultMessage: 'Private playbooks requires an Enterprise license.'}),
+            locked: true,
+        };
+    }
 
     return (
         <div className={props.className}>
@@ -67,6 +85,7 @@ const Customize = ({
                 <PublicPrivateSelector
                     selected={privacySelectorValue}
                     onChange={onPrivacySelectorChanged}
+                    privateButtonProps={privateButtonProps}
                 />
             </div>
         </div>
@@ -80,12 +99,8 @@ const StyledCustomized = styled(Customize)`
     margin: 0 auto;
 
     .public-private-selector {
-        flex-direction: column;
-        &-button {
-            margin-bottom: 8px;
-            &:not(:first-child) {
-                margin-left: 0px;
-            }
+        &-button.locked {
+            opacity: 1;
         }
     }
 

@@ -166,7 +166,7 @@ function getLastPostId(): ChainableT<string> {
     waitUntilPermanentPost();
 
     return cy.findAllByTestId('postView').last().should('have.attr', 'id').and('not.include', ':').
-        invoke('replace', 'post_', '');
+        invoke('replace', /^[^_]*_/, '');
 }
 Cypress.Commands.add('getLastPostId', getLastPostId);
 
@@ -189,19 +189,11 @@ function uiWaitUntilMessagePostedIncludes(message: string): ChainableT<any> {
 }
 Cypress.Commands.add('uiWaitUntilMessagePostedIncludes', uiWaitUntilMessagePostedIncludes);
 
-function getLastPostIdRHS(): ChainableT<string> {
-    waitUntilPermanentPost();
-
-    return cy.get('#rhsContainer .post-right-comments-container > div').last().should('have.attr', 'id').and('not.include', ':').
-        invoke('replace', 'rhsPost_', '');
-}
-Cypress.Commands.add('getLastPostIdRHS', getLastPostIdRHS);
-
 function getNthPostId(index = 0): ChainableT<string> {
     waitUntilPermanentPost();
 
     return cy.findAllByTestId('postView').eq(index).should('have.attr', 'id').and('not.include', ':').
-        invoke('replace', 'post_', '');
+        invoke('replace', /^[^_]*_/, '');
 }
 Cypress.Commands.add('getNthPostId', getNthPostId);
 
@@ -636,8 +628,6 @@ declare global {
              *   cy.getLastPostId().then((postId) => {
              */
             getLastPostId: typeof getLastPostId;
-
-            getLastPostIdRHS: typeof getLastPostIdRHS;
 
             /**
             * Get post ID based on index of post list
