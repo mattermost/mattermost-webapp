@@ -61,7 +61,6 @@ const Limits = (): JSX.Element | null => {
                 planName: subscriptionProduct.name,
                 messagesLimit: intl.formatNumber(cloudLimits?.messages?.history || fallbackStarterLimits.messages.history),
                 storageLimit: asGBString(cloudLimits?.files?.total_storage || fallbackStarterLimits.files.totalStorage, intl.formatNumber),
-                boardsCardsLimit: cloudLimits?.boards?.cards || fallbackStarterLimits.boards.cards,
             },
         );
         currentUsage = (

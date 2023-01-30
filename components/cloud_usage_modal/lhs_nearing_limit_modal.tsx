@@ -63,7 +63,6 @@ export default function LHSNearingLimitsModal() {
             planName: product?.name,
             messages: intl.formatNumber(limits?.messages?.history ?? fallbackStarterLimits.messages.history),
             storage: asGBString(limits?.files?.total_storage ?? fallbackStarterLimits.files.totalStorage, intl.formatNumber),
-            boards: limits?.boards?.cards ?? fallbackStarterLimits.boards.cards,
         },
     };
 

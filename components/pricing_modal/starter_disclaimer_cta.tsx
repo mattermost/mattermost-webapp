@@ -60,7 +60,6 @@ function StarterDisclaimerCTA() {
                         planName: starterProductName,
                         messages: intl.formatNumber(fallbackStarterLimits.messages.history),
                         storage: asGBString(fallbackStarterLimits.files.totalStorage, intl.formatNumber),
-                        boards: fallbackStarterLimits.boards.cards,
                     },
                 },
                 secondaryAction: {
@@ -81,10 +80,6 @@ function StarterDisclaimerCTA() {
                     },
                     files: {
                         total_storage: fallbackStarterLimits.files.totalStorage,
-                    },
-                    boards: {
-                        cards: fallbackStarterLimits.boards.cards,
-                        views: fallbackStarterLimits.boards.views,
                     },
                 },
                 needsTheme: true,

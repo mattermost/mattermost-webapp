@@ -54,14 +54,6 @@ const DescriptionMessages: Record<DescriptionStatusKey, JSX.Element> = {
             {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>
     ),
-    [LimitTypes.boardsCards]: (
-        <FormattedMessage
-            id='cloud_delinquency.modal.workspace_downgraded_boards_surpassed'
-            defaultMessage={'Some of your workspace\'s board cards are no longer accessible. Upgrade to a paid plan and get unlimited access to your board cards.'}
-        >
-            {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
-        </FormattedMessage>
-    ),
     multipleLimits: (
         <FormattedMessage
             id='cloud_delinquency.modal.workspace_downgraded_multiples_limits_surpassed'

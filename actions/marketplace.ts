@@ -21,6 +21,24 @@ import {isError} from 'types/actions';
 
 import {executeCommand} from './command';
 
+export function fetchRemoteListing(): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
+        const filter = getFilter(state);
+
+        try {
+            const plugins = await Client4.getRemoteMarketplacePlugins(filter);
+            dispatch({
+                type: ActionTypes.RECEIVED_MARKETPLACE_PLUGINS,
+                plugins,
+            });
+            return {data: plugins};
+        } catch (error: any) {
+            return {error};
+        }
+    };
+}
+
 // fetchPlugins fetches the latest marketplace plugins and apps, subject to any existing search filter.
 export function fetchListing(localOnly = false): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
