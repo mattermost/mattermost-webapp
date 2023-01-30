@@ -118,6 +118,8 @@ import {
     getTeamsUsage,
 } from 'actions/cloud';
 
+import {wrapEventWithJitter} from 'utils/websocketJitter';
+
 const dispatch = store.dispatch;
 const getState = store.getState;
 
@@ -325,11 +327,11 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.POST_EDITED:
-        handlePostEditEvent(msg);
+        wrapEventWithJitter(handlePostEditEvent, msg);
         break;
 
     case SocketEvents.POST_DELETED:
-        handlePostDeleteEvent(msg);
+        wrapEventWithJitter(handlePostDeleteEvent, msg);
         break;
 
     case SocketEvents.POST_UNREAD:
@@ -337,35 +339,35 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.LEAVE_TEAM:
-        handleLeaveTeamEvent(msg);
+        wrapEventWithJitter(handleLeaveTeamEvent, msg);
         break;
 
     case SocketEvents.UPDATE_TEAM:
-        handleUpdateTeamEvent(msg);
+        wrapEventWithJitter(handleUpdateTeamEvent, msg);
         break;
 
     case SocketEvents.UPDATE_TEAM_SCHEME:
-        handleUpdateTeamSchemeEvent(msg);
+        wrapEventWithJitter(handleUpdateTeamSchemeEvent, msg);
         break;
 
     case SocketEvents.DELETE_TEAM:
-        handleDeleteTeamEvent(msg);
+        wrapEventWithJitter(handleDeleteTeamEvent, msg);
         break;
 
     case SocketEvents.ADDED_TO_TEAM:
-        handleTeamAddedEvent(msg);
+        wrapEventWithJitter(handleTeamAddedEvent, msg);
         break;
 
     case SocketEvents.USER_ADDED:
-        dispatch(handleUserAddedEvent(msg));
+        wrapEventWithJitter(handleUserAddedEvent, msg, dispatch);
         break;
 
     case SocketEvents.USER_REMOVED:
-        handleUserRemovedEvent(msg);
+        wrapEventWithJitter(handleUserRemovedEvent, msg);
         break;
 
     case SocketEvents.USER_UPDATED:
-        handleUserUpdatedEvent(msg);
+        wrapEventWithJitter(handleUserUpdatedEvent, msg);
         break;
 
     case SocketEvents.ROLE_ADDED:
@@ -377,11 +379,11 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.CHANNEL_SCHEME_UPDATED:
-        handleChannelSchemeUpdatedEvent(msg);
+        wrapEventWithJitter(handleChannelSchemeUpdatedEvent, msg);
         break;
 
     case SocketEvents.MEMBERROLE_UPDATED:
-        handleUpdateMemberRoleEvent(msg);
+        wrapEventWithJitter(handleUpdateMemberRoleEvent, msg);
         break;
 
     case SocketEvents.ROLE_UPDATED:
@@ -389,11 +391,11 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.CHANNEL_CREATED:
-        dispatch(handleChannelCreatedEvent(msg));
+        wrapEventWithJitter(handleChannelCreatedEvent, msg, dispatch);
         break;
 
     case SocketEvents.CHANNEL_DELETED:
-        handleChannelDeletedEvent(msg);
+        wrapEventWithJitter(handleChannelDeletedEvent, msg);
         break;
 
     case SocketEvents.CHANNEL_UNARCHIVED:
@@ -413,19 +415,19 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.DIRECT_ADDED:
-        dispatch(handleDirectAddedEvent(msg));
+        wrapEventWithJitter(handleDirectAddedEvent, msg, dispatch);
         break;
 
     case SocketEvents.GROUP_ADDED:
-        dispatch(handleGroupAddedEvent(msg));
+        wrapEventWithJitter(handleGroupAddedEvent, msg, dispatch);
         break;
 
     case SocketEvents.PREFERENCE_CHANGED:
-        handlePreferenceChangedEvent(msg);
+        wrapEventWithJitter(handlePreferenceChangedEvent, msg);
         break;
 
     case SocketEvents.PREFERENCES_CHANGED:
-        handlePreferencesChangedEvent(msg);
+        wrapEventWithJitter(handlePreferencesChangedEvent, msg);
         break;
 
     case SocketEvents.PREFERENCES_DELETED:
@@ -437,11 +439,11 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.HELLO:
-        handleHelloEvent(msg);
+        wrapEventWithJitter(handleHelloEvent, msg);
         break;
 
     case SocketEvents.REACTION_ADDED:
-        handleReactionAddedEvent(msg);
+        wrapEventWithJitter(handleReactionAddedEvent, msg);
         break;
 
     case SocketEvents.REACTION_REMOVED:
@@ -457,7 +459,7 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.PLUGIN_ENABLED:
-        handlePluginEnabled(msg);
+        wrapEventWithJitter(handlePluginEnabled, msg);
         break;
 
     case SocketEvents.PLUGIN_DISABLED:
@@ -465,7 +467,7 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.USER_ROLE_UPDATED:
-        handleUserRoleUpdated(msg);
+        wrapEventWithJitter(handleUserRoleUpdated, msg);
         break;
 
     case SocketEvents.CONFIG_CHANGED:
@@ -521,24 +523,24 @@ export function handleEvent(msg) {
         break;
 
     case SocketEvents.SIDEBAR_CATEGORY_CREATED:
-        dispatch(handleSidebarCategoryCreated(msg));
+        wrapEventWithJitter(handleSidebarCategoryCreated, msg, dispatch);
         break;
 
     case SocketEvents.SIDEBAR_CATEGORY_UPDATED:
-        dispatch(handleSidebarCategoryUpdated(msg));
+        wrapEventWithJitter(handleSidebarCategoryUpdated, msg, dispatch);
         break;
 
     case SocketEvents.SIDEBAR_CATEGORY_DELETED:
-        dispatch(handleSidebarCategoryDeleted(msg));
+        wrapEventWithJitter(handleSidebarCategoryDeleted, msg, dispatch);
         break;
     case SocketEvents.SIDEBAR_CATEGORY_ORDER_UPDATED:
         dispatch(handleSidebarCategoryOrderUpdated(msg));
         break;
     case SocketEvents.USER_ACTIVATION_STATUS_CHANGED:
-        dispatch(handleUserActivationStatusChange());
+        wrapEventWithJitter(handleUserActivationStatusChange, {}, dispatch);
         break;
     case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
-        dispatch(handleCloudPaymentStatusUpdated(msg));
+        wrapEventWithJitter(handleCloudPaymentStatusUpdated, msg, dispatch);
         break;
     case SocketEvents.CLOUD_SUBSCRIPTION_CHANGED:
         dispatch(handleCloudSubscriptionChanged(msg));
@@ -547,19 +549,19 @@ export function handleEvent(msg) {
         handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg);
         break;
     case SocketEvents.THREAD_FOLLOW_CHANGED:
-        dispatch(handleThreadFollowChanged(msg));
+        wrapEventWithJitter(handleThreadFollowChanged, msg, dispatch);
         break;
     case SocketEvents.THREAD_READ_CHANGED:
         dispatch(handleThreadReadChanged(msg));
         break;
     case SocketEvents.THREAD_UPDATED:
-        dispatch(handleThreadUpdated(msg));
+        wrapEventWithJitter(handleThreadUpdated, msg, dispatch);
         break;
     case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDINGS:
-        dispatch(handleRefreshAppsBindings());
+        wrapEventWithJitter(handleRefreshAppsBindings, {}, dispatch);
         break;
     case SocketEvents.APPS_FRAMEWORK_PLUGIN_ENABLED:
-        dispatch(handleAppsPluginEnabled());
+        wrapEventWithJitter(handleAppsPluginEnabled, {}, dispatch);
         break;
     case SocketEvents.APPS_FRAMEWORK_PLUGIN_DISABLED:
         dispatch(handleAppsPluginDisabled());
