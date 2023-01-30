@@ -267,7 +267,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
                     className={containerClassName}
                     id='sidebar-right'
                     role='complementary'
-                    ref={this.sidebarRightWidthHolder}
+                    rightWidthHolderRef={this.sidebarRightWidthHolder}
                 >
                     <div
                         className='sidebar-right-container'

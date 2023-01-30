@@ -14,6 +14,7 @@ import Resizable from '../resizable';
 
 interface Props extends HTMLAttributes<'div'> {
     children: React.ReactNode;
+    rightWidthHolderRef: React.RefObject<HTMLDivElement>;
 }
 
 function ResizableRhs({
@@ -21,9 +22,8 @@ function ResizableRhs({
     children,
     id,
     className,
-}: Props, ref: React.Ref<HTMLDivElement>) {
-    const forwardRef = ref as React.RefObject<HTMLDivElement>;
-
+    rightWidthHolderRef,
+}: Props) {
     const rhsSize = useSelector(getRhsSize);
     const userId = useSelector(getCurrentUserId);
 
@@ -35,89 +35,89 @@ function ResizableRhs({
     const shouldRhsOverlap = useMemo(() => shouldRhsOverlapChannelView(rhsSize), [rhsSize]);
 
     const handleInit = useCallback((width: number) => {
-        const forwardRefElement = forwardRef.current;
+        const rightWidthHolderRefElement = rightWidthHolderRef.current;
 
-        if (!forwardRefElement) {
+        if (!rightWidthHolderRefElement) {
             return;
         }
         if (!shouldRhsOverlap) {
-            setWidth(forwardRefElement, width);
+            setWidth(rightWidthHolderRefElement, width);
         } else if (shouldRhsOverlap) {
-            setWidth(forwardRefElement, minWidth);
+            setWidth(rightWidthHolderRefElement, minWidth);
         }
 
-        preventAnimation(forwardRefElement);
+        preventAnimation(rightWidthHolderRefElement);
 
         requestAnimationFrame(() => {
-            if (forwardRefElement) {
-                restoreAnimation(forwardRefElement);
+            if (rightWidthHolderRefElement) {
+                restoreAnimation(rightWidthHolderRefElement);
             }
         });
-    }, [forwardRef, minWidth, rhsSize, shouldRhsOverlap]);
+    }, [rightWidthHolderRef, minWidth, rhsSize, shouldRhsOverlap]);
 
     const handleLimitChange = useCallback(() => {
-        const forwardRefElement = forwardRef.current;
+        const rightWidthHolderRefElement = rightWidthHolderRef.current;
 
-        if (!forwardRefElement) {
+        if (!rightWidthHolderRefElement) {
             return;
         }
 
         if (rhsSize === SidebarSize.MEDIUM) {
-            setWidth(forwardRefElement, minWidth);
+            setWidth(rightWidthHolderRefElement, minWidth);
             return;
         }
 
         if (rhsSize === SidebarSize.SMALL) {
-            resetStyle(forwardRefElement);
+            resetStyle(rightWidthHolderRefElement);
             return;
         }
 
-        setWidth(forwardRefElement, defaultWidth);
-    }, [defaultWidth, forwardRef, minWidth, rhsSize]);
+        setWidth(rightWidthHolderRefElement, defaultWidth);
+    }, [defaultWidth, rightWidthHolderRef, minWidth, rhsSize]);
 
     const handleResize = useCallback((width: number) => {
-        const forwardRefElement = forwardRef.current;
+        const rightWidthHolderRefElement = rightWidthHolderRef.current;
 
         LocalStorageStore.setRhsWidth(userId, width);
 
-        if (!forwardRefElement) {
+        if (!rightWidthHolderRefElement) {
             return;
         }
 
         if (!shouldRhsOverlap) {
-            setWidth(forwardRefElement, width);
+            setWidth(rightWidthHolderRefElement, width);
         }
-    }, [forwardRef, shouldRhsOverlap, userId]);
+    }, [rightWidthHolderRef, shouldRhsOverlap, userId]);
 
     const handleResizeStart = useCallback(() => {
-        const forwardRefElement = forwardRef.current;
+        const rightWidthHolderRefElement = rightWidthHolderRef.current;
 
-        if (forwardRefElement) {
-            preventAnimation(forwardRefElement);
+        if (rightWidthHolderRefElement) {
+            preventAnimation(rightWidthHolderRefElement);
         }
-    }, [forwardRef]);
+    }, [rightWidthHolderRef]);
 
     const handleResizeEnd = useCallback(() => {
-        const forwardRefElement = forwardRef.current;
-        if (forwardRefElement) {
-            restoreAnimation(forwardRefElement);
+        const rightWidthHolderRefElement = rightWidthHolderRef.current;
+        if (rightWidthHolderRefElement) {
+            restoreAnimation(rightWidthHolderRefElement);
         }
-    }, [forwardRef]);
+    }, [rightWidthHolderRef]);
 
     const handleLineDoubleClick = useCallback(() => {
-        const forwardRefElement = forwardRef.current;
+        const rightWidthHolderRefElement = rightWidthHolderRef.current;
 
-        if (!shouldRhsOverlap && forwardRefElement) {
-            setWidth(forwardRefElement, defaultWidth);
-            preventAnimation(forwardRefElement);
+        if (!shouldRhsOverlap && rightWidthHolderRefElement) {
+            setWidth(rightWidthHolderRefElement, defaultWidth);
+            preventAnimation(rightWidthHolderRefElement);
 
             requestAnimationFrame(() => {
-                if (forwardRefElement) {
-                    restoreAnimation(forwardRefElement);
+                if (rightWidthHolderRefElement) {
+                    restoreAnimation(rightWidthHolderRefElement);
                 }
             });
         }
-    }, [defaultWidth, forwardRef, shouldRhsOverlap]);
+    }, [defaultWidth, rightWidthHolderRef, shouldRhsOverlap]);
 
     return (
         <Resizable
@@ -145,4 +145,4 @@ function ResizableRhs({
     );
 }
 
-export default React.forwardRef(ResizableRhs);
+export default ResizableRhs;
