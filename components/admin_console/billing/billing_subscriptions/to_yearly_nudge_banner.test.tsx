@@ -35,6 +35,9 @@ const initialState = {
                 current_user_id: {roles: 'system_user'},
             },
         },
+        preferences: {
+            myPreferences: {},
+        },
         cloud: {},
     },
 };
@@ -115,6 +118,45 @@ describe('components/admin_console/billing/ToYearlyNudgeBannerDismissable', () =
                 prod_starter: {
                     id: 'prod_starter',
                     sku: CloudProducts.STARTER,
+                    recurring_interval: RecurringIntervals.MONTH,
+                },
+            },
+        };
+
+        const store = mockStore(state);
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <ToYearlyNudgeBannerDismissable/>
+            </Provider>,
+        );
+
+        expect(wrapper.find('AnnouncementBar').exists()).toBe(false);
+    });
+
+    test('should NOT show for admins when banner was dismissed in preferences', () => {
+        const state = JSON.parse(JSON.stringify(initialState));
+        state.entities.users.profiles = {
+            current_user_id: {roles: 'system_admin'},
+        };
+        state.entities.preferences = {
+            myPreferences: {
+                'cloud_yearly_nudge_banner--nudge_to_yearly_banner_dismissed': {
+                    category: 'cloud_yearly_nudge_banner',
+                    name: 'nudge_to_yearly_banner_dismissed',
+                    value: 'true',
+                },
+            },
+        };
+        state.entities.cloud = {
+            subscription: {
+                product_id: 'prod_professional',
+                is_free_trial: 'false',
+                trial_end_at: 1,
+            },
+            products: {
+                prod_professional: {
+                    id: 'prod_professional',
+                    sku: CloudProducts.PROFESSIONAL,
                     recurring_interval: RecurringIntervals.MONTH,
                 },
             },

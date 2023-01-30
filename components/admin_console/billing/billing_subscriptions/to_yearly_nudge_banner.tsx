@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
+import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {t} from 'utils/i18n';
 
 import {useIntl, FormattedMessage} from 'react-intl';
@@ -14,24 +14,39 @@ import AnnouncementBar from 'components/announcement_bar/default_announcement_ba
 
 import {SalesInquiryIssue} from 'selectors/cloud';
 import {getSubscriptionProduct as selectSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
-import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
 
-import {AnnouncementBarTypes, CloudProducts, RecurringIntervals} from 'utils/constants';
+import {AnnouncementBarTypes, CloudBanners, CloudProducts, Preferences, RecurringIntervals} from 'utils/constants';
+
+import {GlobalState} from '@mattermost/types/store';
 
 import './to_yearly_nudge_banner.scss';
 
 const ToYearlyNudgeBannerDismissable = () => {
-    const [show, setShow] = useState(true);
+    const dispatch = useDispatch();
 
     const openPricingModal = useOpenPricingModal();
 
+    const nudgeDismissed = useSelector((state: GlobalState) => getPreference(state, Preferences.CLOUD_YEARLY_NUDGE_BANNER, CloudBanners.NUDGE_TO_YEARLY_BANNER_DISMISSED)) === 'true';
+    const currentUser = useSelector(getCurrentUser);
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const product = useSelector(selectSubscriptionProduct);
     const currentProductProfessional = product?.sku === CloudProducts.PROFESSIONAL;
     const currentProductIsMonthly = product?.recurring_interval === RecurringIntervals.MONTH;
     const currentProductProMonthly = currentProductProfessional && currentProductIsMonthly;
 
-    if (!show) {
+    const savedDismissedPref = () => {
+        dispatch(savePreferences(currentUser.id, [{
+            category: Preferences.CLOUD_YEARLY_NUDGE_BANNER,
+            name: CloudBanners.NUDGE_TO_YEARLY_BANNER_DISMISSED,
+            user_id: currentUser.id,
+            value: 'true',
+        }]));
+    };
+
+    if (nudgeDismissed) {
         return null;
     }
 
@@ -57,7 +72,7 @@ const ToYearlyNudgeBannerDismissable = () => {
             modalButtonDefaultText='Learn more'
             message={<FormattedMessage {...message}/>}
             showLinkAsButton={true}
-            handleClose={() => setShow(false)}
+            handleClose={savedDismissedPref}
         />
     );
 };
