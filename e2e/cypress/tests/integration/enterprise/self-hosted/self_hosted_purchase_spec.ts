@@ -65,8 +65,8 @@ const defaultSuccessForm: PurchaseForm = {
 
 const prefilledProvinceCountryRegions = {
     'United States of America': true,
-    'Canada': true,
-}
+    Canada: true,
+};
 
 function changeByPlaceholder(placeholder: string, value: string) {
     cy.findByPlaceholderText(placeholder).type(value);
@@ -140,8 +140,8 @@ describe('Self hosted Purchase', () => {
 
     beforeEach(() => {
         // prevent failed tests from bleeding over
-        window.localStorage.removeItem('PURCHASE_IN_PROGRESS')
-    })
+        window.localStorage.removeItem('PURCHASE_IN_PROGRESS');
+    });
 
     before(() => {
         cy.apiInitSetup().then(() => {
@@ -160,7 +160,7 @@ describe('Self hosted Purchase', () => {
                     qs: {
                         reset: true,
                     },
-                })
+                });
             });
         });
     });
@@ -462,6 +462,7 @@ describe('Self hosted Purchase', () => {
         cy.wait('@products');
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(50);
+
         // # Click the upgrade button to open the modal
         cy.get('#professional_action').should('exist').click();
 
