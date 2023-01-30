@@ -61,10 +61,10 @@ const DeleteWorkspaceProgressModal = (props: Props) => {
                 show={true}
                 onClose={() => dispatch(closeModal(ModalIdentifiers.DELETE_WORKSPACE_PROGRESS))}
                 ref={modal}
-                ariaLabelledBy='purchase_modal_title'
+                ariaLabelledBy='delete_workspace_modal_title'
                 overrideTargetEvent={false}
             >
-                <div id='DeleteWorkspaceProgressModal'>
+                <div className='DeleteWorkspaceProgressModal'>
                     <IconMessage
                         title={
                             props.intl.formatMessage({

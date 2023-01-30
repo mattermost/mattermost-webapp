@@ -31,7 +31,7 @@ import PaymentFailedSvg from 'components/common/svg_images_components/payment_fa
 import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 import {isCloudLicense} from 'utils/license_utils';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import { trackEvent } from 'actions/telemetry_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 
 type Props = {
     callerCTA: string;
@@ -44,6 +44,7 @@ export default function DeleteWorkspaceModal(props: Props) {
     // License/product checks.
     const product = useSelector(getSubscriptionProduct);
     const isStarter = product?.sku === CloudProducts.STARTER;
+    const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
     const license = useSelector(getLicense);
     const isNotCloud = !isCloudLicense(license);
 
@@ -213,7 +214,7 @@ export default function DeleteWorkspaceModal(props: Props) {
                 modalId: ModalIdentifiers.DELETE_WORKSPACE_SUCCESS,
                 dialogType: deleteSuccessModal,
             }));
-            trackEvent('cloud_admin', 'workspace_deleted');
+            trackEvent('cloud_admin', 'self_serve_workspace_deletion_completed');
         } else { // Failure
             dispatch(closeModal(ModalIdentifiers.DELETE_WORKSPACE_PROGRESS));
             dispatch(openModal({
@@ -322,7 +323,7 @@ export default function DeleteWorkspaceModal(props: Props) {
                         defaultMessage='Delete Workspace'
                     />
                 </button>
-                {isStarter ?
+                {isStarter || isEnterprise ?
                     <></> :
                     <button
                         className='btn DeleteWorkspaceModal__Buttons-Downgrade'
