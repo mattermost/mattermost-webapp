@@ -38,7 +38,6 @@ const UpgradeLink = (props: UpgradeLinkProps) => {
                 dialogType: PurchaseModal,
                 dialogProps: {
                     callerCTA: props.telemetryInfo,
-                    isInitialPlanMonthly: true,
                 },
             }));
         } catch (error) {

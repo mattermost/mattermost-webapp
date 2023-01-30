@@ -177,8 +177,9 @@ describe('Channel sidebar unread filter', () => {
         [mentionedChannelName, unreadChannelName].forEach((channelName, index) => {
             createChannel(teamId, channelName).then(({channel}) => {
                 // # Open and mute a channel
-                cy.get(`#sidebarItem_${channelName} .SidebarMenu_menuButton`).click({force: true});
-                cy.get('.SidebarMenu').contains('.MenuItem', 'Mute Channel').click();
+                cy.uiGetChannelSidebarMenu(channel.display_name).within(() => {
+                    cy.findByText('Mute Channel').should('be.visible').click();
+                });
 
                 // # Go to other channel
                 cy.get('#sidebarItem_town-square').click({force: true});
