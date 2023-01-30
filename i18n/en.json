@@ -1418,7 +1418,6 @@
   "admin.oauth.off": "Do not allow sign-in via an OAuth 2.0 provider",
   "admin.oauth.office365": "Office 365",
   "admin.oauth.openid": "OpenID Connect (Other)",
-  "admin.oauth.openid_feature_discovery": "OpenID Connect (Other)",
   "admin.oauth.providerDescription": "When true, Mattermost can act as an OAuth 2.0 service provider allowing Mattermost to authorize API requests from external applications. See <link>documentation</link> to learn more.",
   "admin.oauth.providerTitle": "Enable OAuth 2.0 Service Provider: ",
   "admin.office365.authTitle": "Auth Endpoint:",
