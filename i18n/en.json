@@ -420,7 +420,7 @@
   "admin.billing.trueUpReview.button_share": "Share to Mattermost",
   "admin.billing.trueUpReview.docsLinkCTA": "Learn more about true-up here.",
   "admin.billing.trueUpReview.due_date": "Due ",
-  "admin.billing.trueUpReview.share_data_for_review": "Share your system statistic with Mattermost for your quarterly true-up Review. {link}",
+  "admin.billing.trueUpReview.share_data_for_review": "Share your system statistics with Mattermost for your quarterly true-up Review. {link}",
   "admin.billing.trueUpReview.submit_error": "There was an issue sending your True Up Review. Please try again.",
   "admin.billing.trueUpReview.submit_success": "Success!",
   "admin.billing.trueUpReview.submit.thanks_for_sharing": "Thanks for sharing data needed for your true-up review.",
