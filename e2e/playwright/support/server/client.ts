@@ -29,12 +29,6 @@ export default class Client extends Client4 {
             body: formData,
         };
 
-        if (formData.getBoundary) {
-            request.headers = {
-                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-            };
-        }
-
         return this.doFetch<StatusOK>(`${this.getUserRoute(userId)}/image`, request);
     };
 
@@ -49,12 +43,6 @@ export default class Client extends Client4 {
             method: 'post',
             body: formData,
         };
-
-        if (formData.getBoundary) {
-            request.headers = {
-                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-            };
-        }
 
         return this.doFetch<StatusOK>(`${this.getTeamRoute(teamId)}/image`, request);
     };
@@ -72,12 +60,6 @@ export default class Client extends Client4 {
             body: formData,
         };
 
-        if (formData.getBoundary) {
-            request.headers = {
-                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-            };
-        }
-
         return this.doFetch<CustomEmoji>(`${this.getEmojisRoute()}`, request);
     };
 
@@ -89,12 +71,6 @@ export default class Client extends Client4 {
             method: 'post',
             body: formData,
         };
-
-        if (formData.getBoundary) {
-            request.headers = {
-                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-            };
-        }
 
         return this.doFetch<StatusOK>(`${this.getBrandRoute()}/image`, request);
     };
@@ -166,12 +142,6 @@ export default class Client extends Client4 {
             body: formData,
         };
 
-        if (formData.getBoundary) {
-            request.headers = {
-                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-            };
-        }
-
         return this.doFetch<License>(`${this.getBaseRoute()}/license`, request);
     };
 
@@ -189,12 +159,6 @@ export default class Client extends Client4 {
             method: 'post',
             body: formData,
         };
-
-        if (formData.getBoundary) {
-            request.headers = {
-                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-            };
-        }
 
         return this.doFetch<PluginManifest>(this.getPluginsRoute(), request);
     };
