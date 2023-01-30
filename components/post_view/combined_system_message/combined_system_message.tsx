@@ -329,19 +329,19 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         );
     }
 
-    handleRemoveAndAdd(userIds: string[], postType: string, content: any[], currentUserId: string) {
+    handleRemoveAndAdd(userIds: string[], postType: string, content: any[],actorId?:string) {
         // the Users that are being removed / added
         const users: string[] = [];
         if (postType === REMOVE_FROM_CHANNEL) {
             users.push(...userIds);
             const ids = users.filter((id, index, arr) => arr.indexOf(id) === index);
             if (users.length > 0) {
-                content.push(this.renderMessage(postType, ids, currentUserId));
+                content.push(this.renderMessage(postType, ids, actorId));
             }
         }
         if (postType === ADD_TO_CHANNEL) {
             users.filter((id) => ![...userIds].includes(id));
-            content.push(this.renderMessage(postType, userIds, currentUserId));
+            content.push(this.renderMessage(postType, userIds, actorId));
         }
     }
 
@@ -373,7 +373,7 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
 
             //Check if the postType is remove or add to manipulate a group of users.
             if (postType === REMOVE_FROM_CHANNEL || postType === ADD_TO_CHANNEL) {
-                this.handleRemoveAndAdd(userIds, postType, content, currentUserId);
+                this.handleRemoveAndAdd(userIds, postType, content, actorId);
                 continue;
             }
             content.push(this.renderMessage(postType, userIds, actorId));
