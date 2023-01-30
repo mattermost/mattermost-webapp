@@ -3,6 +3,7 @@
 
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
+import {t} from 'utils/i18n';
 
 import {useIntl, FormattedMessage} from 'react-intl';
 
@@ -13,32 +14,48 @@ import AnnouncementBar from 'components/announcement_bar/default_announcement_ba
 
 import {SalesInquiryIssue} from 'selectors/cloud';
 import {getSubscriptionProduct as selectSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
-import {AnnouncementBarTypes, RecurringIntervals} from 'utils/constants';
+import {AnnouncementBarTypes, CloudProducts, RecurringIntervals} from 'utils/constants';
 
 import './to_yearly_nudge_banner.scss';
 
 const ToYearlyNudgeBannerDismissable = () => {
     const [show, setShow] = useState(true);
 
-    const {formatMessage} = useIntl();
-
     const openPricingModal = useOpenPricingModal();
 
+    const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const product = useSelector(selectSubscriptionProduct);
+    const currentProductProfessional = product?.sku === CloudProducts.PROFESSIONAL;
     const currentProductIsMonthly = product?.recurring_interval === RecurringIntervals.MONTH;
+    const currentProductProMonthly = currentProductProfessional && currentProductIsMonthly;
 
-    if (!show && !currentProductIsMonthly) {
+    if (!show) {
         return null;
     }
+
+    if (!isAdmin) {
+        return null;
+    }
+
+    if (!currentProductProMonthly) {
+        return null;
+    }
+
+    const message = {
+        id: 'cloud_billing.nudge_to_yearly.announcement_bar',
+        defaultMessage: 'Simplify your billing and switch to an annual plan today',
+    };
 
     return (
         <AnnouncementBar
             type={AnnouncementBarTypes.ANNOUNCEMENT}
             showCloseButton={true}
             onButtonClick={() => openPricingModal({trackingLocation: 'to_yearly_nudge_annoucement_bar'})}
-            modalButtonText={formatMessage({id: 'cloud_billing.nudge_to_yearly.learn_more', defaultMessage: 'Learn more'})}
-            message={formatMessage({id: 'cloud_billing.nudge_to_yearly.announcement_bar', defaultMessage: 'Simplify your billing and switch to an annual plan today'})}
+            modalButtonText={t('cloud_billing.nudge_to_yearly.learn_more')}
+            modalButtonDefaultText='Learn more'
+            message={<FormattedMessage {...message}/>}
             showLinkAsButton={true}
             handleClose={() => setShow(false)}
         />
@@ -52,9 +69,11 @@ const ToYearlyNudgeBanner = () => {
     const openPricingModal = useOpenPricingModal();
 
     const product = useSelector(selectSubscriptionProduct);
+    const currentProductProfessional = product?.sku === CloudProducts.PROFESSIONAL;
     const currentProductIsMonthly = product?.recurring_interval === RecurringIntervals.MONTH;
+    const currentProductProMonthly = currentProductProfessional && currentProductIsMonthly;
 
-    if (!currentProductIsMonthly) {
+    if (!currentProductProMonthly) {
         return null;
     }
 
