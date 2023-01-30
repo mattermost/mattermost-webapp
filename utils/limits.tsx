@@ -33,10 +33,6 @@ export const fallbackStarterLimits = {
     teams: {
         active: 1,
     },
-    boards: {
-        cards: 500,
-        views: 5,
-    },
 };
 
 // A positive usage value means they are over the limit. This function simply tells you whether ANY LIMIT has been reached/surpassed.
@@ -68,5 +64,4 @@ export const limitThresholds = Object.freeze({
 export const LimitTypes = {
     messageHistory: 'messageHistory',
     fileStorage: 'fileStorage',
-    boardsCards: 'boardsCards',
 } as const;

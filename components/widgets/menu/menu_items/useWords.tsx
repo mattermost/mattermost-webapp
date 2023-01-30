@@ -59,9 +59,6 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
     case LimitTypes.fileStorage:
         featureToNotifyOn = PaidFeatures.UNLIMITED_FILE_STORAGE;
         break;
-    case LimitTypes.boardsCards:
-        featureToNotifyOn = PaidFeatures.UNLIMITED_BOARD_CARDS;
-        break;
     default:
         break;
     }
@@ -161,38 +158,6 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
                 values,
             ),
             status: asGBString(highestLimit.usage, intl.formatNumber),
-        };
-    }
-    case LimitTypes.boardsCards: {
-        let id = t('workspace_limits.menu_limit.warn.boards_cards');
-        let defaultMessage = 'You’re getting closer to the {limit} board card limit. <a>{callToAction}</a>';
-        values.limit = highestLimit.limit;
-        if (usageRatio >= limitThresholds.danger) {
-            id = t('workspace_limits.menu_limit.critical.boards_cards');
-            defaultMessage = 'You’re getting closer to the {limit} board card limit. <a>{callToAction}</a>';
-        }
-        if (usageRatio >= limitThresholds.reached) {
-            id = t('workspace_limits.menu_limit.reached.boards_cards');
-            defaultMessage = 'You’ve reached the {limit} board card limit. You can only access the most recent {limit} board cards. <a>{callToAction}</a>';
-        }
-        if (usageRatio >= limitThresholds.exceeded) {
-            id = t('workspace_limits.menu_limit.over.boards_cards');
-            defaultMessage = 'You’re over the {limit} board card limit. You can only access the most recent {limit} board cards. <a>{callToAction}</a>';
-        }
-
-        return {
-            title: intl.formatMessage({
-                id: 'workspace_limits.menu_limit.board_card',
-                defaultMessage: 'Board card limit',
-            }),
-            description: intl.formatMessage(
-                {
-                    id,
-                    defaultMessage,
-                },
-                values,
-            ),
-            status: highestLimit.usage,
         };
     }
     default:
