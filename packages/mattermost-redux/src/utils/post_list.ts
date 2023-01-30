@@ -86,7 +86,7 @@ export function makeFilterPostsAndAddSeparators() {
                     continue;
                 }
 
-                //Push on a date header if the last post was on a different day than the current one
+                // Push on a date header if the last post was on a different day than the current one
                 const postDate = new Date(post.create_at);
                 if (timeZoneEnabled) {
                     const currentOffset = postDate.getTimezoneOffset() * 60 * 1000;
