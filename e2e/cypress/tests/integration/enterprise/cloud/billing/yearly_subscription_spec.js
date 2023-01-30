@@ -78,77 +78,7 @@ describe('System Console - Subscriptions section', () => {
         cy.visit('/admin_console/billing/subscription');
     });
 
-    it('MM-T5127 User can switch between Yearly and Monthly Subscription in Purchase modal', () => {
-        const professionalMonthlySubscription = {
-            id: 'prod_K0AxuWCDoDD9Qq',
-            sku: 'cloud-professional',
-            price_per_seat: 10,
-            name: 'Cloud Professional',
-            recurring_interval: 'month',
-            cross_sells_to: 'prod_MYrZ0xObCXOyVr',
-        };
-        const professionalYearlySubscription = {
-            id: 'prod_MYrZ0xObCXOyVr',
-            sku: 'cloud-professional',
-            price_per_seat: 96,
-            recurring_interval: 'year',
-            name: 'Cloud Professional Yearly',
-            cross_sells_to: 'prod_K0AxuWCDoDD9Qq',
-        };
-
-        // * Check for User count
-        cy.request('/api/v4/analytics/old?name=standard&team_id=').then((response) => {
-            cy.get('.PlanDetails__userCount > span').invoke('text').then((text) => {
-                const userCount = response.body.find((obj) => obj.name === 'unique_user_count');
-                expect(text).to.contain(userCount.value);
-                const count = userCount.value;
-
-                // # Click on Upgrade Now button
-                cy.contains('span', 'Upgrade Now').parent().click();
-
-                // # Click on Upgrade Now button on plans modal
-                cy.get('#professional_action').click();
-
-                // * Check for "Provide Your Payment Details" label
-                cy.findByText('Provide your payment details').should('be.visible');
-
-                // * check that the toggle exists and that its initial state is monthly
-                cy.get('.RHS').get('#text-selected').contains('Monthly');
-                cy.get('.RHS').get('#text-unselected').contains('Yearly');
-                cy.get('.RHS').get('.plan_price_rate_section').contains(professionalMonthlySubscription.price_per_seat);
-
-                // # click on the "Yearly" label
-                cy.get('.RHS').get('#text-unselected').click();
-
-                // * check that the "yearly" label is selected and the price matches the yearly product's price
-                cy.get('.RHS').get('#text-unselected').contains('Monthly');
-                cy.get('.RHS').get('#text-selected').contains('Yearly');
-                cy.get('.RHS').get('.plan_price_rate_section').contains(professionalYearlySubscription.price_per_seat / 12);
-                cy.get('.RHS').get('#input_UserSeats').should('have.value', count);
-
-                // * check that the "save with yearly" text exists
-                cy.get('.RHS').get('.save_text').contains('Save 20% with Yearly!');
-
-                // # click on the "Monthly" label
-                cy.get('.RHS').get('#text-unselected').click();
-
-                // * check that the "monthly" label is selected and the price matches the monthly product's price
-                cy.get('.RHS').get('#text-selected').contains('Monthly');
-                cy.get('.RHS').get('#text-unselected').contains('Yearly');
-                cy.get('.RHS').get('.plan_price_rate_section').contains(professionalMonthlySubscription.price_per_seat);
-            });
-        });
-    });
-
     it('MM-T5128 Updating the Usercount input field updates the prices accordingly in the Purchase modal', () => {
-        const professionalMonthlySubscription = {
-            id: 'prod_K0AxuWCDoDD9Qq',
-            sku: 'cloud-professional',
-            price_per_seat: 10,
-            name: 'Cloud Professional',
-            recurring_interval: 'month',
-            cross_sells_to: 'prod_MYrZ0xObCXOyVr',
-        };
         const professionalYearlySubscription = {
             id: 'prod_MYrZ0xObCXOyVr',
             sku: 'cloud-professional',
@@ -169,30 +99,28 @@ describe('System Console - Subscriptions section', () => {
                 const numMonths = 12;
 
                 const checkValues = (currentCount) => {
-                    cy.get('.RHS').get('.monthly_price').contains(currentCount * professionalMonthlySubscription.price_per_seat * numMonths);
-                    cy.get('.RHS').get('.yearly_savings').contains(currentCount * (professionalMonthlySubscription.price_per_seat - (professionalYearlySubscription.price_per_seat / numMonths)) * numMonths);
-                    cy.get('.RHS').get('.total_price').contains(currentCount * professionalYearlySubscription.price_per_seat);
+                    const totalVal = currentCount * professionalYearlySubscription.price_per_seat * numMonths;
+                    cy.get('.RHS').get('.SeatsCalculator__total-value').then((elem) => {
+                        const txt = elem.text();
+                        const totalValText = txt.replace('$', '').replaceAll(',', '');
+                        expect(totalVal.toString()).to.equal(totalValText);
+                    });
                 };
 
                 // # Click on Upgrade Now button
                 cy.contains('span', 'Upgrade Now').parent().click();
 
-                // # Click on Upgrade Now button on plans modal
+                // # Click on Professional action button on pricing modal
                 cy.get('#professional_action').click();
 
                 // * Check for "Provide Your Payment Details" label
                 cy.findByText('Provide your payment details').should('be.visible');
 
-                // # click on the "Yearly" label
-                cy.get('.RHS').get('#text-unselected').click();
-
-                // * check that the "yearly" label is selected and the price matches the yearly product's price
-                cy.get('.RHS').get('#text-unselected').contains('Monthly');
-                cy.get('.RHS').get('#text-selected').contains('Yearly');
-                cy.get('.RHS').get('.plan_price_rate_section').contains(professionalYearlySubscription.price_per_seat / 12);
+                // * check that the price matches the yearly product's price
+                cy.get('.RHS').get('.plan_price_rate_section').contains(professionalYearlySubscription.price_per_seat);
                 cy.get('.RHS').get('#input_UserSeats').should('have.value', count);
 
-                // * check that the yearly, monthly, and saving prices are correct
+                // * check that the prices are correct
                 checkValues(count);
 
                 // # Enter card details and user details

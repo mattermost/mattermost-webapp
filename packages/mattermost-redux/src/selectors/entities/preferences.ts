@@ -260,10 +260,6 @@ export function isGraphQLEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'GraphQL') === 'true';
 }
 
-export function isAnnualSubscriptionEnabled(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'AnnualSubscription') === 'true';
-}
-
 export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): boolean {
     return getBool(state, Preferences.CATEGORY_UPGRADE_CLOUD, Preferences.SYSTEM_CONSOLE_LIMIT_REACHED, false);
 }

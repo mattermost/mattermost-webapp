@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloudLinks, LicenseLinks, ModalIdentifiers, SelfHostedProducts, LicenseSkus, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, LicenseLinks, ModalIdentifiers, SelfHostedProducts, LicenseSkus, TELEMETRY_CATEGORIES, RecurringIntervals} from 'utils/constants';
 import {findSelfHostedProductBySku} from 'utils/hosted_customer';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -63,7 +63,7 @@ function SelfHostedContent(props: ContentProps) {
         async function fetchSelfHostedProducts() {
             try {
                 const products = await Client4.getSelfHostedProducts();
-                const professionalProduct = products.find((prod) => prod.sku === LicenseSkus.Professional);
+                const professionalProduct = products.find((prod) => prod.sku === LicenseSkus.Professional && prod.recurring_interval === RecurringIntervals.YEAR);
                 const price = professionalProduct ? professionalProduct.price_per_seat.toString() : FALL_BACK_PROFESSIONAL_PRICE;
                 setProfessionalPrice(`$${price}`);
             } catch (error) {
@@ -207,7 +207,14 @@ function SelfHostedContent(props: ContentProps) {
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
                         price={professionalPrice}
-                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month'})}
+                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month {br}<b>(billed annually)</b>'}, {
+                            br: <br/>,
+                            b: (chunks: React.ReactNode | React.ReactNodeArray) => (
+                                <span style={{fontSize: '14px'}}>
+                                    <b>{chunks}</b>
+                                </span>
+                            ),
+                        })}
                         planLabel={
                             isProfessional ? (
                                 <PlanLabel
