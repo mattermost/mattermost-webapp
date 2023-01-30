@@ -334,8 +334,7 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         const users: string[] = [];
         if (postType === REMOVE_FROM_CHANNEL) {
             users.push(...userIds);
-            const ids = users.filter((id, index, arr) =>
-                arr.indexOf(id) === index);
+            const ids = users.filter((id, index, arr) => arr.indexOf(id) === index);
             if (users.length > 0) {
                 content.push(this.renderMessage(postType, ids, currentUserId));
             }
