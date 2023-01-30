@@ -546,13 +546,16 @@ export default class SchemaAdminSettings extends React.PureComponent {
             }
         }
 
+        // used to hide help in case of cloud-starter and open-id selection to show upgrade notice.
+        const hideHelp = setting.isHelpHidden || setting.isHelpHidden(this.props.config, this.state, this.props.license, enterpriseReady);
+
         return (
             <DropdownSetting
                 key={this.props.schema.id + '_dropdown_' + setting.key}
                 id={setting.key}
                 values={values}
                 label={this.renderLabel(setting)}
-                helpText={this.renderHelpText(selectedOptionForHelpText || setting)}
+                helpText={hideHelp ? '' : this.renderHelpText(selectedOptionForHelpText || setting)}
                 value={selectedValue}
                 disabled={this.isDisabled(setting)}
                 setByEnv={this.isSetByEnv(setting.key)}

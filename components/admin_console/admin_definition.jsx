@@ -5271,6 +5271,7 @@ const AdminDefinition = {
                         key: 'openidType',
                         label: t('admin.openid.select'),
                         label_default: 'Select service provider:',
+                        isHelpHidden: it.all(it.stateEquals('openidType', Constants.OPENID_SERVICE), it.licensedForCloudStarter),
                         options: [
                             {
                                 value: 'off',
@@ -5368,13 +5369,6 @@ const AdminDefinition = {
                                 help_text: t('admin.openid.EnableMarkdownDesc'),
                                 help_text_default: 'Follow provider directions for creating an OpenID Application. Most OpenID Connect providers require authorization of all redirect URIs. In the appropriate field, enter your-mattermost-url/signup/openid/complete (example: http://domain.com/signup/openid/complete)',
                                 help_text_markdown: false,
-                                isHidden: it.licensedForCloudStarter,
-                            },
-                            {
-                                value: Constants.OPENID_SERVICE_FEATURE_DISCOVERY,
-                                display_name: t('admin.oauth.openid_feature_discovery'),
-                                display_name_default: 'OpenID Connect (Other)',
-                                isHidden: it.not(it.licensedForCloudStarter),
                             },
                         ],
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
@@ -5531,7 +5525,7 @@ const AdminDefinition = {
                         placeholder_default: 'Custom Button Name',
                         help_text: t('admin.openid.buttonTextDesc'),
                         help_text_default: 'The text that will show on the login button.',
-                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isHidden: it.any(it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)), it.licensedForCloudStarter),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
@@ -5542,7 +5536,7 @@ const AdminDefinition = {
                         help_text: t('admin.openid.buttonColorDesc'),
                         help_text_default: 'Specify the color of the OpenID login button for white labeling purposes. Use a hex code with a #-sign before the code.',
                         help_text_markdown: false,
-                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isHidden: it.any(it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)), it.licensedForCloudStarter),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
@@ -5555,7 +5549,7 @@ const AdminDefinition = {
                         help_text: t('admin.openid.discoveryEndpointDesc'),
                         help_text_default: 'Enter the URL of the discovery document of the OpenID Connect provider you want to connect with.',
                         help_text_markdown: false,
-                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isHidden: it.any(it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)), it.licensedForCloudStarter),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
@@ -5567,7 +5561,7 @@ const AdminDefinition = {
                         help_text_default: 'Obtaining the Client ID differs across providers. Please check you provider\'s documentation',
                         placeholder: t('admin.openid.clientIdExample'),
                         placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
-                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isHidden: it.any(it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)), it.licensedForCloudStarter),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
@@ -5579,14 +5573,14 @@ const AdminDefinition = {
                         help_text_default: 'Obtaining the Client Secret differs across providers. Please check you provider\'s documentation',
                         placeholder: t('admin.openid.clientSecretExample'),
                         placeholder_default: 'E.g.: "H8sz0Az-dDs2p15-7QzD231"',
-                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isHidden: it.any(it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)), it.licensedForCloudStarter),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         key: 'OpenIDCustomFeatureDiscovery',
                         component: OpenIDCustomFeatureDiscovery,
-                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE_FEATURE_DISCOVERY)),
+                        isHidden: it.not(it.all(it.stateEquals('openidType', Constants.OPENID_SERVICE), it.licensedForCloudStarter)),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                 ],
