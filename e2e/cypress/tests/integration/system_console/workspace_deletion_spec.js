@@ -11,7 +11,7 @@
 // Group: @system_console
 
 describe('Workspace deletion', () => {
-    const host = window.host;
+    const host = window.location.host;
 
     beforeAll(() => {
         cy.apiLogout();
