@@ -53,6 +53,8 @@ function WindowSizeObserver() {
     }, [updateSidebarSize]);
 
     useEffect(() => {
+        updateSidebarSize();
+
         if (smallSidebarMediaQuery.addEventListener) {
             xLargeSidebarMediaQuery.addEventListener('change', handleSidebarMediaQueryChangeEvent);
             largeSidebarMediaQuery.addEventListener('change', handleSidebarMediaQueryChangeEvent);
@@ -82,7 +84,7 @@ function WindowSizeObserver() {
                 window.removeEventListener('resize', setSidebarSizeWhenWindowResized);
             }
         };
-    }, [handleSidebarMediaQueryChangeEvent, setSidebarSizeWhenWindowResized]);
+    }, [handleSidebarMediaQueryChangeEvent, setSidebarSizeWhenWindowResized, updateSidebarSize]);
 
     return <></>;
 }
