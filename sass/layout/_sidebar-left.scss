@@ -508,6 +508,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
         .scrollbar--view {
             z-index: unset !important;
+            margin-top: 8px;
         }
 
         .scrollbar--view ~ div {
