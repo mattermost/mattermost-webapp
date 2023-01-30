@@ -14,11 +14,9 @@ import ProfilePopover from 'components/profile_popover';
 import {popOverOverlayPosition} from 'utils/position_utils';
 import {getUserOrGroupFromMentionName} from 'utils/post_utils';
 import Constants from 'utils/constants';
-import {isKeyPressed} from 'utils/utils';
+import {getViewportSize, isKeyPressed} from 'utils/utils';
 
 import AtMentionGroup from 'components/at_mention/at_mention_group';
-
-const spaceRequiredForPopOver = 300;
 
 type Props = {
     currentUserId: string;
@@ -64,7 +62,7 @@ export default class AtMention extends React.PureComponent<Props, State> {
         const targetBounds = this.buttonRef.current?.getBoundingClientRect();
 
         if (targetBounds) {
-            const placement = popOverOverlayPosition(targetBounds, window.innerHeight, spaceRequiredForPopOver);
+            const placement = popOverOverlayPosition(targetBounds, getViewportSize().h, getViewportSize().h - 240);
             this.setState({target, show: !this.state.show, placement});
         }
     }

@@ -3,23 +3,32 @@
 
 import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import classNames from 'classnames';
 
-import EventEmitter from 'mattermost-redux/utils/event_emitter';
-import StatusIcon from 'components/status_icon';
-import Timestamp from 'components/timestamp';
-import OverlayTrigger from 'components/overlay_trigger';
-import Tooltip from 'components/tooltip';
-import UserSettingsModal from 'components/user_settings/modal';
-import {getHistory} from 'utils/browser_history';
+import {AccountOutlineIcon, AccountPlusOutlineIcon, CloseIcon, EmoticonHappyOutlineIcon, PhoneInTalkIcon, SendIcon} from '@mattermost/compass-icons/components';
+
+import Pluggable from 'plugins/pluggable';
+import CallButton from 'plugins/call_button';
+
+import {displayUsername, isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
+import {Client4} from 'mattermost-redux/client';
+
 import * as GlobalActions from 'actions/global_actions';
+
+import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from '@mattermost/types/users';
+import {ServerError} from '@mattermost/types/errors';
+import {ModalData} from 'types/actions';
+
+import {getHistory} from 'utils/browser_history';
 import Constants, {A11yClassNames, A11yCustomEventTypes, A11yFocusEventDetail, ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
 import {shouldFocusMainTextbox} from 'utils/post_utils';
-import {displayUsername, isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
-import Pluggable from 'plugins/pluggable';
+
+import StatusIcon from 'components/status_icon';
+import Timestamp from 'components/timestamp';
+import UserSettingsModal from 'components/user_settings/modal';
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
-import LocalizedIcon from 'components/localized_icon';
 import ToggleModalButton from 'components/toggle_modal_button';
 import Avatar from 'components/widgets/users/avatar';
 import Popover from 'components/widgets/popover';
@@ -28,18 +37,15 @@ import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 import ExpiryTime from 'components/custom_status/expiry_time';
-
-import {ModalData} from 'types/actions';
-
-import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from '@mattermost/types/users';
-import {ServerError} from '@mattermost/types/errors';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import './profile_popover.scss';
 import BotTag from '../widgets/tag/bot_tag';
 import GuestTag from '../widgets/tag/guest_tag';
 import Tag from '../widgets/tag/tag';
 
-interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'>{
+interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'> {
 
     /**
      * Source URL from the image to display in the popover
@@ -165,28 +171,35 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
         getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
     };
     intl: IntlShape;
-
     lastActivityTimestamp: number;
-
     enableLastActiveTime: boolean;
-
     timestampUnits: string[];
-
+    isCallsEnabled: boolean;
+    isUserInCall?: boolean;
+    isCurrentUserInCall?: boolean;
+    isCallsDefaultEnabledOnAllChannels?: boolean;
+    isCallsCanBeDisabledOnSpecificChannels?: boolean;
+    dMChannelId?: string;
     isAnyModalOpen: boolean;
 }
 type ProfilePopoverState = {
     loadingDMChannel?: string;
+    callsChannelState?: ChannelCallsState;
+    callsDMChannelState?: ChannelCallsState;
+};
+
+type ChannelCallsState = {
+    enabled: boolean;
+    id: string;
 };
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
  * on the username or profile picture of a user.
  */
-class ProfilePopover extends React.PureComponent<
-ProfilePopoverProps,
-ProfilePopoverState
-> {
-    titleRef: React.RefObject<HTMLDivElement>;
+
+class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePopoverState> {
+    closeButtonRef: React.RefObject<HTMLButtonElement>;
     returnFocus: () => void;
 
     static getComponentName() {
@@ -203,7 +216,7 @@ ProfilePopoverState
         this.state = {
             loadingDMChannel: undefined,
         };
-        this.titleRef = React.createRef();
+        this.closeButtonRef = React.createRef();
 
         if (this.props.returnFocus) {
             this.returnFocus = this.props.returnFocus;
@@ -230,12 +243,23 @@ ProfilePopoverState
                 channelId,
             );
         }
+        if (this.props.isCallsEnabled && this.props.dMChannelId) {
+            this.getCallsChannelState(this.props.dMChannelId).then((data) => {
+                this.setState({callsDMChannelState: data});
+            });
+        }
 
-        // Focus the title when the popover first opens, to bring the focus into the popover.
+        if (this.props.isCallsEnabled && this.props.channelId) {
+            this.getCallsChannelState(this.props.channelId).then((data) => {
+                this.setState({callsChannelState: data});
+            });
+        }
+
+        // Focus the close button when the popover first opens, to bring the focus into the popover.
         document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
             A11yCustomEventTypes.FOCUS, {
                 detail: {
-                    target: this.titleRef.current,
+                    target: this.closeButtonRef.current,
                     keyboardOnly: true,
                 },
             },
@@ -248,7 +272,7 @@ ProfilePopoverState
         }
     }
 
-    handleShowDirectChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    handleShowDirectChannel = (e: React.MouseEvent<HTMLButtonElement>) => {
         const {actions} = this.props;
         e.preventDefault();
         if (!this.props.user) {
@@ -265,35 +289,17 @@ ProfilePopoverState
                     GlobalActions.emitCloseRightHandSide();
                 }
                 this.setState({loadingDMChannel: undefined});
-                if (this.props.hide) {
-                    this.props.hide();
-                }
+                this.props.hide?.();
                 getHistory().push(`${this.props.teamUrl}/messages/@${user.username}`);
             }
         });
-        this.handleCloseModals();
-    };
-    handleMentionKeyClick = () => {
-        if (!this.props.user) {
-            return;
-        }
-        if (this.props.hide) {
-            this.props.hide();
-        }
-        EventEmitter.emit(
-            'mention_key_click',
-            this.props.user.username,
-            this.props.isRHS,
-        );
         this.handleCloseModals();
     };
     handleEditAccountSettings = () => {
         if (!this.props.user) {
             return;
         }
-        if (this.props.hide) {
-            this.props.hide();
-        }
+        this.props.hide?.();
         this.props.actions.openModal({
             modalId: ModalIdentifiers.USER_SETTINGS,
             dialogType: UserSettingsModal,
@@ -302,9 +308,7 @@ ProfilePopoverState
         this.handleCloseModals();
     };
     showCustomStatusModal = () => {
-        if (this.props.hide) {
-            this.props.hide();
-        }
+        this.props.hide?.();
         const customStatusInputModalData = {
             modalId: ModalIdentifiers.CUSTOM_STATUS,
             dialogType: CustomStatusModal,
@@ -346,9 +350,9 @@ ProfilePopoverState
         const customStatusSet = (customStatus?.text || customStatus?.emoji) && !isCustomStatusExpired;
         const canSetCustomStatus = user?.id === currentUserId;
         const shouldShowCustomStatus =
-      isCustomStatusEnabled &&
-      !hideStatus &&
-      (customStatusSet || canSetCustomStatus);
+            isCustomStatusEnabled &&
+            !hideStatus &&
+            (customStatusSet || canSetCustomStatus);
         if (!shouldShowCustomStatus) {
             return null;
         }
@@ -356,24 +360,22 @@ ProfilePopoverState
         let expiryContent;
         if (customStatusSet) {
             const customStatusEmoji = (
-                <span className='d-flex'>
-                    <CustomStatusEmoji
-                        userID={this.props.user?.id}
-                        showTooltip={false}
-                        emojiStyle={{
-                            marginRight: 4,
-                            marginTop: 1,
-                        }}
-                    />
-                </span>
+                <CustomStatusEmoji
+                    userID={this.props.user?.id}
+                    showTooltip={false}
+                    emojiStyle={{
+                        marginRight: 4,
+                        marginTop: 1,
+                    }}
+                />
             );
             customStatusContent = (
-                <div className='d-flex'>
+                <div className='d-flex align-items-center'>
                     {customStatusEmoji}
                     <CustomStatusText
                         tooltipDirection='top'
                         text={customStatus?.text || ''}
-                        className='user-popover__email pb-1'
+                        className='user-popover__email'
                     />
                 </div>
             );
@@ -388,21 +390,34 @@ ProfilePopoverState
             );
         } else if (canSetCustomStatus) {
             customStatusContent = (
-                <div>
-                    <button
-                        className='user-popover__set-custom-status-btn'
-                        onClick={this.showCustomStatusModal}
-                    >
-                        <FormattedMessage
-                            id='user_profile.custom_status.set_status'
-                            defaultMessage='Set a status'
-                        />
-                    </button>
-                </div>
+                <button
+                    className='user-popover__set-custom-status-btn'
+                    onClick={this.showCustomStatusModal}
+                >
+                    <EmoticonHappyOutlineIcon size={14}/>
+                    <FormattedMessage
+                        id='user_profile.custom_status.set_status'
+                        defaultMessage='Set a status'
+                    />
+                </button>
             );
         }
 
         return {customStatusContent, expiryContent};
+    }
+    handleClose = () => {
+        this.props.hide?.();
+        this.returnFocus();
+    };
+    getCallsChannelState(channelId: string): Promise<ChannelCallsState> {
+        let data: Promise<ChannelCallsState>;
+        try {
+            data = Client4.getCallsChannelState(channelId);
+        } catch (error) {
+            return error;
+        }
+
+        return data;
     }
     render() {
         if (!this.props.user) {
@@ -423,6 +438,7 @@ ProfilePopoverState
                 key='user-popover-image'
             >
                 <Avatar
+                    id='userAvatar'
                     size='xxl'
                     username={this.props.user?.username || ''}
                     url={urlSrc}
@@ -443,7 +459,7 @@ ProfilePopoverState
                 >
                     <FormattedMessage
                         id='channel_header.lastActive'
-                        defaultMessage='Active {timestamp}'
+                        defaultMessage='Last online {timestamp}'
                         values={{
                             timestamp: (
                                 <Timestamp
@@ -459,18 +475,9 @@ ProfilePopoverState
             );
         }
 
-        const fullname = Utils.getFullName(this.props.user);
-        const haveOverrideProp =
-      this.props.overwriteIcon || this.props.overwriteName;
-        if ((fullname || this.props.user.position) && !haveOverrideProp) {
-            dataContent.push(
-                <hr
-                    key='user-popover-hr'
-                    className='divider divider--expanded'
-                />,
-            );
-        }
-        if (fullname && !haveOverrideProp) {
+        const fullname = this.props.overwriteName ? this.props.overwriteName : Utils.getFullName(this.props.user);
+        const haveOverrideProp = this.props.overwriteIcon || this.props.overwriteName;
+        if (fullname) {
             let sharedIcon;
             if (this.props.user.remote_id) {
                 sharedIcon = (
@@ -482,17 +489,11 @@ ProfilePopoverState
             }
             dataContent.push(
                 <div
-                    data-testId={`popover-fullname-${this.props.user.username}`}
-                    className='overflow--ellipsis text-nowrap'
+                    data-testid={`popover-fullname-${this.props.user.username}`}
+                    className='overflow--ellipsis pb-1'
                     key='user-popover-fullname'
                 >
-                    <OverlayTrigger
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='top'
-                        overlay={<Tooltip id='fullNameTooltip'>{fullname}</Tooltip>}
-                    >
-                        <span className='user-profile-popover__heading'>{fullname}</span>
-                    </OverlayTrigger>
+                    <span className='user-profile-popover__heading'>{fullname}</span>
                     {sharedIcon}
                 </div>,
             );
@@ -501,53 +502,43 @@ ProfilePopoverState
             dataContent.push(
                 <div
                     key='bot-description'
-                    className='overflow--ellipsis text-nowrap'
+                    className='overflow--ellipsis text-nowrap pb-1'
                 >
                     {this.props.user.bot_description}
                 </div>,
             );
         }
+        const userNameClass = classNames('overflow--ellipsis pb-1', {'user-profile-popover__heading': fullname === ''});
+        const userName: React.ReactNode = `@${this.props.user.username}`;
+        dataContent.push(
+            <div
+                id='userPopoverUsername'
+                className={userNameClass}
+                key='user-popover-username'
+            >
+                {userName}
+            </div>,
+        );
         if (this.props.user.position && !haveOverrideProp) {
             const position = (this.props.user?.position || '').substring(
                 0,
                 Constants.MAX_POSITION_LENGTH,
             );
             dataContent.push(
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='top'
-                    overlay={<Tooltip id='positionTooltip'>{position}</Tooltip>}
+                <div
+                    className='overflow--ellipsis text-nowrap'
                     key='user-popover-position'
                 >
-                    <div className='overflow--ellipsis text-nowrap pt-1 pb-1'>
-                        {position}
-                    </div>
-                </OverlayTrigger>,
-            );
-        }
-        const email = this.props.user.email || '';
-        if (email && !this.props.user.is_bot && !haveOverrideProp) {
-            dataContent.push(
-                <hr
-                    key='user-popover-hr2'
-                    className='divider divider--expanded'
-                />,
-            );
-            dataContent.push(
-                <div
-                    data-toggle='tooltip'
-                    title={email}
-                    key='user-popover-email'
-                >
-                    <a
-                        href={'mailto:' + email}
-                        className='text-nowrap text-lowercase user-popover__email pb-1'
-                    >
-                        {email}
-                    </a>
+                    {position}
                 </div>,
             );
         }
+        dataContent.push(
+            <hr
+                key='user-popover-hr'
+                className='divider divider--expanded'
+            />,
+        );
         dataContent.push(
             <Pluggable
                 key='profilePopoverPluggable2'
@@ -566,26 +557,24 @@ ProfilePopoverState
             dataContent.push(
                 <div
                     key='user-popover-local-time'
-                    className='pb-1'
+                    className='user-popover__time-status-container'
                 >
-                    <span className='user-profile-popover__heading'>
+                    <span className='user-popover__subtitle' >
                         <FormattedMessage
                             id='user_profile.account.localTime'
                             defaultMessage='Local Time'
                         />
                     </span>
-                    <div>
-                        <Timestamp
-                            useRelative={false}
-                            useDate={false}
-                            userTimezone={this.props.user?.timezone as UserTimezone | undefined}
-                            useTime={{
-                                hour: 'numeric',
-                                minute: 'numeric',
-                                timeZoneName: 'short',
-                            }}
-                        />
-                    </div>
+                    <Timestamp
+                        useRelative={false}
+                        useDate={false}
+                        userTimezone={this.props.user?.timezone as UserTimezone | undefined}
+                        useTime={{
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            timeZoneName: 'short',
+                        }}
+                    />
                 </div>,
             );
         }
@@ -597,9 +586,9 @@ ProfilePopoverState
                 <div
                     key='user-popover-status'
                     id='user-popover-status'
-                    className='pb-1'
+                    className='user-popover__time-status-container'
                 >
-                    <span className='user-profile-popover__heading'>
+                    <span className='user-popover__subtitle'>
                         <FormattedMessage
                             id='user_profile.custom_status'
                             defaultMessage='Status'
@@ -610,6 +599,14 @@ ProfilePopoverState
                 </div>,
             );
         }
+        const sendMessageTooltip = (
+            <Tooltip id='sendMessageTooltip'>
+                <FormattedMessage
+                    id='user_profile.send.dm.yourself'
+                    defaultMessage='Send yourself a message'
+                />
+            </Tooltip>
+        );
         if (this.props.user.id === this.props.currentUserId && !haveOverrideProp) {
             dataContent.push(
                 <div
@@ -618,21 +615,42 @@ ProfilePopoverState
                     className='popover__row first'
                 >
                     <button
-                        className='style--link'
+                        id='editProfileButton'
+                        type='button'
+                        className='btn'
                         onClick={this.handleEditAccountSettings}
                     >
-                        <LocalizedIcon
-                            className='fa fa-pencil-square-o'
-                            title={{
+                        <AccountOutlineIcon
+                            size={16}
+                            aria-label={formatMessage({
                                 id: t('generic_icons.edit'),
                                 defaultMessage: 'Edit Icon',
-                            }}
+                            })}
                         />
                         <FormattedMessage
                             id='user_profile.account.editProfile'
                             defaultMessage='Edit Profile'
                         />
                     </button>
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={sendMessageTooltip}
+                    >
+                        <button
+                            type='button'
+                            className='btn icon-btn'
+                            onClick={this.handleShowDirectChannel}
+                        >
+                            <SendIcon
+                                size={18}
+                                aria-label={formatMessage({
+                                    id: t('user_profile.send.dm.icon'),
+                                    defaultMessage: 'Send Message Icon',
+                                })}
+                            />
+                        </button>
+                    </OverlayTrigger>
                 </div>,
             );
         }
@@ -647,14 +665,100 @@ ProfilePopoverState
                         id='user_profile.account.post_was_created'
                         defaultMessage='This post was created by an integration from'
                     />
-                    {' '}
-                    <button
-                        className='style--link'
-                        onClick={this.handleMentionKeyClick}
-                    >{`@${this.props.user.username}`}</button>
+                    {` @${this.props.user.username}`}
                 </div>,
             );
         }
+        const addToChannelMessage = formatMessage({
+            id: 'user_profile.add_user_to_channel',
+            defaultMessage: 'Add to a Channel',
+        });
+
+        const addToChannelButton = (
+            <OverlayTrigger
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='top'
+                overlay={
+                    <Tooltip id='addToChannelTooltip'>
+                        {addToChannelMessage}
+                    </Tooltip>
+                }
+            >
+                <div>
+                    <ToggleModalButton
+                        id='addToChannelButton'
+                        className='btn icon-btn'
+                        ariaLabel={addToChannelMessage}
+                        modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
+                        dialogType={AddUserToChannelModal}
+                        dialogProps={{user: this.props.user, onExited: this.returnFocus}}
+                        onClick={this.handleAddToChannel}
+                    >
+                        <AccountPlusOutlineIcon
+                            size={18}
+                            aria-label={formatMessage({
+                                id: t('user_profile.add_user_to_channel.icon'),
+                                defaultMessage: 'Add User to Channel Icon',
+                            })}
+                        />
+                    </ToggleModalButton>
+                </div>
+            </OverlayTrigger>
+        );
+
+        const renderCallButton = () => {
+            const {isCallsEnabled, isCallsDefaultEnabledOnAllChannels, isCallsCanBeDisabledOnSpecificChannels} = this.props;
+            if (
+                !isCallsEnabled ||
+                this.state.callsDMChannelState?.enabled === false ||
+                (!isCallsDefaultEnabledOnAllChannels && !isCallsCanBeDisabledOnSpecificChannels && this.state.callsChannelState?.enabled === false)
+            ) {
+                return null;
+            }
+
+            const disabled = this.props.isUserInCall || this.props.isCurrentUserInCall;
+            const startCallMessage = this.props.isUserInCall ? formatMessage({
+                id: t('user_profile.call.userBusy'),
+                defaultMessage: '{user} is in another call',
+            }, {user: fullname === '' ? this.props.user?.username : fullname},
+            ) : formatMessage({
+                id: t('webapp.mattermost.feature.start_call'),
+                defaultMessage: 'Start Call',
+            });
+            const iconButtonClassname = classNames('btn icon-btn', {'icon-btn-disabled': disabled});
+            const callButton = (
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={
+                        <Tooltip id='startCallTooltip'>
+                            {startCallMessage}
+                        </Tooltip>
+                    }
+                >
+                    <button
+                        id='startCallButton'
+                        type='button'
+                        aria-disabled={disabled}
+                        className={iconButtonClassname}
+                    >
+                        <PhoneInTalkIcon
+                            size={18}
+                            aria-label={startCallMessage}
+                        />
+                    </button>
+                </OverlayTrigger>
+            );
+
+            if (disabled) {
+                return callButton;
+            }
+
+            return (
+                <CallButton customButton={callButton}/>
+            );
+        };
+
         if (this.props.user.id !== this.props.currentUserId && !haveOverrideProp) {
             dataContent.push(
                 <div
@@ -662,60 +766,30 @@ ProfilePopoverState
                     key='user-popover-dm'
                     className='popover__row first'
                 >
-                    <a
-                        href='#'
-                        className='text-nowrap user-popover__email'
+                    <button
+                        id='messageButton'
+                        type='button'
+                        className='btn'
                         onClick={this.handleShowDirectChannel}
                     >
-                        <LocalizedIcon
-                            className='fa fa-paper-plane'
-                            title={{
+                        <SendIcon
+                            size={16}
+                            aria-label={formatMessage({
                                 id: t('user_profile.send.dm.icon'),
                                 defaultMessage: 'Send Message Icon',
-                            }}
+                            })}
                         />
                         <FormattedMessage
                             id='user_profile.send.dm'
-                            defaultMessage='Send Message'
+                            defaultMessage='Message'
                         />
-                    </a>
+                    </button>
+                    <div className='popover_row-controlContainer'>
+                        {(this.props.canManageAnyChannelMembersInCurrentTeam && this.props.isInCurrentTeam) ? addToChannelButton : null}
+                        {renderCallButton()}
+                    </div>
                 </div>,
             );
-            if (
-                this.props.canManageAnyChannelMembersInCurrentTeam &&
-                this.props.isInCurrentTeam
-            ) {
-                const addToChannelMessage = formatMessage({
-                    id: 'user_profile.add_user_to_channel',
-                    defaultMessage: 'Add to a Channel',
-                });
-                dataContent.push(
-                    <div
-                        data-toggle='tooltip'
-                        className='popover__row first'
-                        key='user-popover-add-to-channel'
-                    >
-                        <ToggleModalButton
-                            ariaLabel={addToChannelMessage}
-                            modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
-                            role='menuitem'
-                            dialogType={AddUserToChannelModal}
-                            dialogProps={{user: this.props.user, onExited: this.returnFocus}}
-                            onClick={this.handleAddToChannel}
-                            className='style--link'
-                        >
-                            <LocalizedIcon
-                                className='fa fa-user-plus'
-                                title={{
-                                    id: t('user_profile.add_user_to_channel.icon'),
-                                    defaultMessage: 'Add User to Channel Icon',
-                                }}
-                            />
-                            {addToChannelMessage}
-                        </ToggleModalButton>
-                    </div>,
-                );
-            }
         }
         dataContent.push(
             <Pluggable
@@ -728,12 +802,23 @@ ProfilePopoverState
         );
         let roleTitle;
         if (this.props.user.is_bot) {
-            roleTitle = <BotTag size={'sm'}/>;
+            roleTitle = (
+                <BotTag
+                    className='user-popover__role'
+                    size={'sm'}
+                />
+            );
         } else if (isGuest(this.props.user.roles)) {
-            roleTitle = <GuestTag size={'sm'}/>;
+            roleTitle = (
+                <GuestTag
+                    className='user-popover__role'
+                    size={'sm'}
+                />
+            );
         } else if (isSystemAdmin(this.props.user.roles)) {
             roleTitle = (
                 <Tag
+                    className='user-popover__role'
                     size={'sm'}
                     text={Utils.localizeMessage(
                         'admin.permissions.roles.system_admin.name',
@@ -744,6 +829,7 @@ ProfilePopoverState
         } else if (this.props.isTeamAdmin) {
             roleTitle = (
                 <Tag
+                    className='user-popover__role'
                     size={'sm'}
                     text={Utils.localizeMessage(
                         'admin.permissions.roles.team_admin.name',
@@ -754,6 +840,7 @@ ProfilePopoverState
         } else if (this.props.isChannelAdmin) {
             roleTitle = (
                 <Tag
+                    className='user-popover__role'
                     size={'sm'}
                     text={Utils.localizeMessage(
                         'admin.permissions.roles.channel_admin.name',
@@ -762,28 +849,23 @@ ProfilePopoverState
                 />
             );
         }
-        let title: React.ReactNode = <span className='user-popover__username'>{`@${this.props.user.username}`}</span>;
-        if (this.props.overwriteName) {
-            title = <span className='user-popover__username'>{this.props.overwriteName}</span>;
-            roleTitle = null;
-        } else if (this.props.hasMention) {
-            title = (
-                <button
-                    className='style--link user-popover__username'
-                    onClick={this.handleMentionKeyClick}
-                >
-                    {title}
-                </button>
-            );
-        }
-        title = (
+        const title = (
             <span data-testid={`profilePopoverTitle_${this.props.user.username}`}>
-                {title}
                 {roleTitle}
+                <button
+                    ref={this.closeButtonRef}
+                    className='user-popover__close'
+                    onClick={this.handleClose}
+                >
+                    <CloseIcon
+                        size={18}
+                    />
+                </button>
             </span>
         );
 
         const displayName = displayUsername(this.props.user, this.props.teammateNameDisplay);
+        const titleClassName = classNames('popover-title', {'popover-title_height': !roleTitle});
 
         const tabCatcher = (
             <span
@@ -803,12 +885,9 @@ ProfilePopoverState
                     aria-label={Utils.localizeAndFormatMessage('profile_popover.profileLabel', 'Profile for {name}', {name: displayName})}
                     onKeyDown={this.handleKeyDown}
                     className={A11yClassNames.POPUP}
+                    aria-modal={true}
                 >
-                    <div
-                        tabIndex={-1}
-                        className='popover-title'
-                        ref={this.titleRef}
-                    >
+                    <div className={titleClassName}>
                         {title}
                     </div>
                     <div className='user-profile-popover__content'>
