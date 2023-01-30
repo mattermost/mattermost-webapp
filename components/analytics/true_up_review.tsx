@@ -31,7 +31,7 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import store from 'stores/redux_store.jsx';
 import {pageVisited} from 'actions/telemetry_actions';
-import {TELEMETRY_CATEGORIES} from 'utils/constants';
+import {DocLinks, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {getIsStarterLicense} from 'utils/license_utils';
 
 const TrueUpReview: React.FC = () => {
@@ -157,12 +157,28 @@ const TrueUpReview: React.FC = () => {
         </>
     );
 
+    const trueUpDocsLink = (
+        <a
+            href={DocLinks.TRUE_UP_REVIEW}
+            target='_blank'
+            rel='noreferrer'
+        >
+            <FormattedMessage
+                id='admin.billing.trueUpReview.docsLinkCTA'
+                defaultMessage='Learn more about true-up here.'
+            />
+        </a>
+    );
+
     const reviewDetails = (
         <>
             {dueDate}
             <FormattedMessage
                 id='admin.billing.trueUpReview.share_data_for_review'
-                defaultMessage='Share the below workspace data with Mattermost for your quarterly true-up Review.'
+                defaultMessage='Share your system statistics with Mattermost for your quarterly true-up Review. {link}'
+                values={{
+                    link: trueUpDocsLink,
+                }}
             />
             {submitButton}
         </>
