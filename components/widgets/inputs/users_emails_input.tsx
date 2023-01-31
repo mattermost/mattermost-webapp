@@ -115,11 +115,15 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         return (<LoadingSpinner text={text}/>) as unknown as string;
     }
 
-    getOptionValue = (user: UserProfile | EmailInvite): string => {
-        if (Object.prototype.hasOwnProperty.call(user, 'id')) {
-            return (user as UserProfile).id;
+    isUserProfile(obj: UserProfile | EmailInvite): obj is UserProfile {
+        return (obj as UserProfile).id !== undefined;
+    }
+
+    getOptionValue = (obj: UserProfile | EmailInvite): string => {
+        if (this.isUserProfile(obj)) {
+            return obj.id;
         }
-        return (user as EmailInvite).value;
+        return obj.value;
     }
 
     formatOptionLabel = (user: UserProfile | EmailInvite, options: FormatOptionLabelMeta<UserProfile | EmailInvite>) => {
@@ -180,10 +184,10 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         if (this.props.onChange) {
             if (value) {
                 this.props.onChange((value as Array<UserProfile | EmailInvite>).map((v) => {
-                    if ((v as UserProfile).id) {
-                        return v as UserProfile;
+                    if (this.isUserProfile(v)) {
+                        return v;
                     }
-                    return (v as EmailInvite).value;
+                    return v.value;
                 }));
             } else {
                 this.props.onChange([]);
