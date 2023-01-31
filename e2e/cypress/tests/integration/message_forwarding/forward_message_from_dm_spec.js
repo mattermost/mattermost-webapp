@@ -82,7 +82,7 @@ describe('Forward Message', () => {
 
     it('MM-T4936_1 Forward root post from DM', () => {
         // # Check if ... button is visible in last post right side
-        cy.get(`#CENTER_button_${testPost.id}`).should('not.exist');
+        cy.get(`#CENTER_button_${testPost.id}`).should('not.be.visible');
 
         // # Click on ... button of last post
         cy.clickPostDotMenu(testPost.id);
@@ -125,7 +125,7 @@ describe('Forward Message', () => {
 
     it('MM-T4936_3 Forward post from DM - Cancel using escape key', () => {
         // # Check if ... button is visible in last post right side
-        cy.get(`#CENTER_button_${testPost.id}`).should('not.exist');
+        cy.get(`#CENTER_button_${testPost.id}`).should('not.be.visible');
 
         // # Click on ... button of last post
         cy.clickPostDotMenu(testPost.id);

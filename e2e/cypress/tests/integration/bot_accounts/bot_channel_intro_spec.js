@@ -45,7 +45,7 @@ describe('Bot channel intro and avatar', () => {
                     should('be.visible').
                     and('have.attr', 'src').
                     then((url) => cy.request({url, encoding: 'binary'})).
-                    should(({body}) => {
+                    then(({body}) => {
                         // * Verify matches expected default bot avatar
                         cy.fixture('bot-default-avatar.png', 'binary').should('deep.equal', body);
                     });

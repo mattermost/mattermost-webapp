@@ -31,10 +31,6 @@ const freeLimits = {
         active: 1,
         teamsLimits: true,
     },
-    boards: {
-        cards: 500,
-        views: 5,
-    },
 };
 
 function setupStore(hasLimits: boolean) {
@@ -55,10 +51,6 @@ function setupStore(hasLimits: boolean) {
                 messages: {
                     history: 0,
                     historyLoaded: true,
-                },
-                boards: {
-                    cards: 0,
-                    cardsLoaded: true,
                 },
                 teams: {
                     active: 0,
