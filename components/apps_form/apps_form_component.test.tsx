@@ -195,8 +195,12 @@ describe('AppsFormComponent', () => {
                 entities: {
                     general: {
                         config: {},
+                        license: {},
                     },
-                    channels: {},
+                    channels: {
+                        channels: {},
+                        roles: {},
+                    },
                     teams: {
                         teams: {},
                     },
