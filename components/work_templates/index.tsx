@@ -147,6 +147,10 @@ const WorkTemplateModal = () => {
             return;
         }
 
+        // clear the name and set default visibility
+        setSelectedName('');
+        setSelectedVisibility(template.visibility);
+
         trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'select_template', {category: template.category, template: template.id});
         setModalState(ModalState.Preview);
     };
