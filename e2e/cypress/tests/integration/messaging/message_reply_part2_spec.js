@@ -103,7 +103,7 @@ describe('Message Reply', () => {
 
     it('MM-T2135 - Can open reply thread from reply count arrow and reply', () => {
         // # Click reply icon
-        cy.get(`#CENTER_commentIcon_${rootId}`).click().wait(TIMEOUTS.HALF_SEC);
+        cy.clickPostCommentIcon(rootId);
 
         const msg = 'reply2';
 
