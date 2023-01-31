@@ -58,7 +58,6 @@ export default function DeleteWorkspaceModal(props: Props) {
     // Get usage information in an attempt to defer customer from deleting.
     const usage = useGetUsage();
     const totalFileSize = fileSizeToString(usage.files.totalStorage);
-    const totalBoardsCards = usage.boards.cards;
     const totalMessages = useSelector((state: GlobalState) => {
         if (!state.entities.admin.analytics) {
             return 0;
@@ -298,11 +297,10 @@ export default function DeleteWorkspaceModal(props: Props) {
                 <span className='DeleteWorkspaceModal__Usage-Highlighted'>
                     <FormattedMessage
                         id='admin.billing.subscription.deleteWorkspaceModal.usageDetails'
-                        defaultMessage='{messageCount} messages, {fileSize} of files and {cardCount} cards.'
+                        defaultMessage='{messageCount} messages and {fileSize} of files'
                         values={{
                             messageCount: totalMessages,
                             fileSize: totalFileSize,
-                            cardCount: totalBoardsCards,
                         }}
                     />
                 </span>
