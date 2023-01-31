@@ -12,6 +12,8 @@ import {ActionTypes, Constants, ModalIdentifiers} from 'utils/constants';
 
 import {getTeamRedirectChannelIfIsAccesible} from 'actions/global_actions';
 
+import WorkTemplateModal from 'components/work_templates';
+
 import {openModal} from './modals';
 
 export function switchToChannels() {
@@ -41,6 +43,21 @@ export function openInvitationsModal(timeout = 1) {
                 },
             }));
         }, timeout);
+        return {data: true};
+    };
+}
+
+export function openWorkTemplatesModal() {
+    return (dispatch: DispatchFunc) => {
+        dispatch(switchToChannels());
+        setTimeout(() => {
+            dispatch(openModal({
+                modalId: ModalIdentifiers.WORK_TEMPLATES,
+                dialogType: WorkTemplateModal,
+                dialogProps: {
+                },
+            }));
+        }, 1);
         return {data: true};
     };
 }

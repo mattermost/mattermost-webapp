@@ -32,6 +32,7 @@ import {isCurrentUserGuestUser, isCurrentUserSystemAdmin, isFirstAdmin} from 'ma
 import {GlobalState} from 'types/store';
 import {
     openInvitationsModal,
+    openWorkTemplatesModal as openWorkTemplateModal,
     setShowOnboardingCompleteProfileTour,
     setShowOnboardingVisitConsoleTour,
     switchToChannels,
@@ -42,6 +43,7 @@ import {ModalIdentifiers, TELEMETRY_CATEGORIES, ExploreOtherToolsTourSteps} from
 import BullsEye from 'components/common/svg_images_components/bulls_eye_svg';
 import Channels from 'components/common/svg_images_components/channels_svg';
 import Clipboard from 'components/common/svg_images_components/clipboard_svg';
+import File from 'components/common/svg_images_components/file_svg';
 import Gears from 'components/common/svg_images_components/gears_svg';
 import Handshake from 'components/common/svg_images_components/handshake_svg';
 import Phone from 'components/common/svg_images_components/phone_svg';
@@ -57,6 +59,14 @@ const getCategory = makeGetCategory();
 const useGetTaskDetails = () => {
     const {formatMessage} = useIntl();
     return {
+        [OnboardingTasksName.CREATE_FROM_WORK_TEMPLATE]: {
+            id: 'task_create_from_work_template',
+            svg: File,
+            message: formatMessage({
+                id: 'onboardingTask.checklist.task_create_from_work_template',
+                defaultMessage: 'Create from a template.',
+            }),
+        },
         [OnboardingTasksName.CHANNELS_TOUR]: {
             id: 'task_learn_more_about_messaging',
             svg: Channels,
@@ -269,6 +279,12 @@ export const useHandleOnBoardingTaskTrigger = () => {
 
     return (taskName: string) => {
         switch (taskName) {
+        case OnboardingTasksName.CREATE_FROM_WORK_TEMPLATE: {
+            localStorage.setItem(OnboardingTaskCategory, 'true');
+            dispatch(openWorkTemplateModal());
+            handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
+            break;
+        }
         case OnboardingTasksName.CHANNELS_TOUR: {
             handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
             const tourCategory = TutorialTourName.ONBOARDING_TUTORIAL_STEP;
