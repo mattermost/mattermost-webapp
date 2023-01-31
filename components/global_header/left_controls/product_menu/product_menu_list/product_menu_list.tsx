@@ -47,7 +47,6 @@ export type Props = {
     onClick?: React.MouseEventHandler<HTMLElement>;
     handleVisitConsoleClick: React.MouseEventHandler<HTMLElement>;
     enableCustomUserGroups?: boolean;
-    showWorkTemplateButton?: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         getPrevTrialLicense: () => void;
@@ -138,19 +137,6 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                         }
                     />
                 </SystemPermissionGate>
-                <Menu.ItemToggleModalRedux
-                    id='work-template'
-                    modalId={ModalIdentifiers.WORK_TEMPLATES}
-                    show={props.showWorkTemplateButton}
-                    dialogType={WorkTemplateModal}
-                    text={formatMessage({id: 'navbar_dropdown.workTemplate', defaultMessage: 'Work Templates'})}
-                    icon={
-                        <Icon
-                            size={16}
-                            glyph={'application-cog'} //TODO: change icon
-                        />
-                    }
-                />
                 <Menu.ItemLink
                     id='integrations'
                     show={isMessaging && showIntegrations}
