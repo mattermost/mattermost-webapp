@@ -449,6 +449,7 @@ export const ModalIdentifiers = {
     WORK_TEMPLATES: 'work_template',
     DOWNGRADE_MODAL: 'downgrade_modal',
     PURCHASE_IN_PROGRESS: 'purchase_in_progress',
+    CONFIRM_SWITCH_TO_YEARLY: 'confirm_switch_to_yearly',
 };
 
 export const UserStatuses = {
@@ -1075,6 +1076,7 @@ export const DocLinks = {
     UPGRADE_SERVER: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
     ONBOARD_LDAP: 'https://docs.mattermost.com/onboard/ad-ldap.html',
     ONBOARD_SSO: 'https://docs.mattermost.com/onboard/sso-saml.html',
+    TRUE_UP_REVIEW: 'https://mattermost.com/pl/true-up-documentation',
 };
 
 export const LicenseLinks = {
