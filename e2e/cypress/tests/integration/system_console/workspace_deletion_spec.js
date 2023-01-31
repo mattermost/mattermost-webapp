@@ -11,7 +11,6 @@
 // Group: @system_console
 
 describe('Workspace deletion', () => {
-
     const host = window.location.host;
 
     beforeEach(() => {
