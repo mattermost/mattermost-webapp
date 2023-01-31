@@ -1869,7 +1869,7 @@ export function getRoleFromTrackFlow() {
 }
 
 export function getDatePickerLocalesForDateFns(locale: string, loadedLocales: Record<string, Locale>) {
-    if (locale && locale !== 'en-US' && !loadedLocales[locale]) {
+    if (locale && locale !== 'en' && !loadedLocales[locale]) {
         try {
             /* eslint-disable global-require */
             loadedLocales[locale] = require(`date-fns/locale/${locale}/index.js`);
