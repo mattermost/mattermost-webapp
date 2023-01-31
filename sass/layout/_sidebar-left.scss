@@ -291,6 +291,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
             span {
                 color: rgba(var(--center-channel-color-rgb), 0.9);
+
                 &:not(.MenuItem__help-text) {
                     white-space: nowrap;
                 }
