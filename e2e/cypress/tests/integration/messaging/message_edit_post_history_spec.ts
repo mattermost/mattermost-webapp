@@ -29,19 +29,21 @@ describe('Post Edit History', () => {
 
         // # Post a message
         cy.postMessage('This is a sample message');
+
+        cy.getLastPostId().then((postId) => {
+            editMessage(postId);
+        });
     });
 
     it('MM-TXXX_1 Show and restore older versions of a message', () => {
         // # Get the last post id
         cy.getLastPostId().then((postId) => {
-            editMessage(postId);
-
             openEditHistory(postId);
 
-            // # Check if the current version of the message is visible
+            // * Check if the current version of the message is visible
             cy.get(`#rhsPostMessageText_${postId}`).should('have.text', 'This is the final version of the sample message');
 
-            // # Check if the previous versions of the message are visible and correct in the history
+            // * Check if the previous versions of the message are visible and correct in the history
             cy.get('#rhsContainer').find('.edit-post-history__container').should('have.length', 3);
             cy.get('#rhsContainer').find('.edit-post-history__container').eq(1).click();
             cy.get('#rhsContainer').find('.post-message__text').eq(1).should('have.text', 'This is an edited sample message');
@@ -57,7 +59,7 @@ describe('Post Edit History', () => {
             // # Wait for the message to be updated
             cy.wait(TIMEOUTS.HALF_SEC);
 
-            // # Check if the message has been updated to the first version
+            // * Check if the message has been updated to the first version
             cy.get(`#postMessageText_${postId}`).should('have.text', 'This is an edited sample message Edited');
         });
     });
@@ -65,8 +67,6 @@ describe('Post Edit History', () => {
     it('MM-TXXX_2 Show, restore older versions of a message and click undo in toast', () => {
         // # Get the last post id
         cy.getLastPostId().then((postId) => {
-            editMessage(postId);
-
             openEditHistory(postId);
 
             // # Click the restore button on the first version of the message
@@ -84,8 +84,27 @@ describe('Post Edit History', () => {
             // # Wait for the message to be updated
             cy.wait(TIMEOUTS.HALF_SEC);
 
-            // # Check if the message has been updated to the first version
+            // * Check if the message has been updated to the first version
             cy.get(`#postMessageText_${postId}`).should('have.text', 'This is the final version of the sample message Edited');
+        });
+    });
+
+    it('MM-TXXX_3 Edit history should not be available when user lacks edit own posts permissions', () => {
+        // # Login as sysadmin and update edit own posts permissions
+        cy.apiAdminLogin();
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                PostEditTimeLimit: -1,
+            },
+        });
+        cy.reload();
+
+        cy.getLastPostId().then((postId) => {
+            // # Click the edited indicator on the post
+            cy.get(`#postEdited_${postId}`).click();
+
+            // * Confirm edit history is not visible
+            cy.get('#rhsContainer').find('.sidebar--right__title').should('not.contain.text', 'Edit History');
         });
     });
 });
