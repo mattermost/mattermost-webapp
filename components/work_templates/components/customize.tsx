@@ -68,7 +68,6 @@ const Customize = ({
         nameFieldLabel = formatMessage({id: 'work_templates.customize.name_label_channels_playbooks', defaultMessage: 'Name your channel and playbook'});
     }
 
-
     return (
         <div className={props.className}>
             <div className='name-section-container'>
@@ -110,10 +109,8 @@ const StyledCustomized = styled(Customize)`
     width: 509px;
     margin: 0 auto;
 
-    .public-private-selector {
-        &-button.locked {
-            opacity: 1;
-        }
+    .public-private-selector .public-private-selector-button.locked {
+        opacity: 1;
     }
 
     strong {
