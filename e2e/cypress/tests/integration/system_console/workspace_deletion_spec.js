@@ -18,6 +18,20 @@ describe('Workspace deletion', () => {
         cy.apiAdminLogin();
     });
 
+    it('Workspace deletion cta is visible for free trials', () => {
+        // Professional Yearly.
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_3',
+            is_free_trial: 'true',
+        };
+        cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
+
+        cy.get('.cancelSubscriptionSection__contactUs').should('exist');
+        cy.findByText(`${host}`).should('exist');
+    });
+
     it('Workspace deletion cta is not visible for cloud professional with a yearly plan', () => {
         // Professional Yearly.
         const subscription = {
@@ -30,6 +44,7 @@ describe('Workspace deletion', () => {
 
         // Text is separated by an html <a> tag, just get the last half.
         cy.findByText('is final and cannot be reversed.').should('not.exist');
+        cy.findByText(`${host}`).should('not.exist');
     });
 
     it('Workspace deletion cta is not visible for cloud enterprise with a yearly plan', () => {
@@ -44,6 +59,7 @@ describe('Workspace deletion', () => {
 
         // Text is separated by an html <a> tag, just get the last half.
         cy.findByText('is final and cannot be reversed.').should('not.exist');
+        cy.findByText(`${host}`).should('not.exist');
     });
 
     it('Workspace deletion cta is visible for cloud free', () => {
@@ -57,6 +73,7 @@ describe('Workspace deletion', () => {
         cy.visit('/admin_console/billing/subscription');
 
         cy.get('.cancelSubscriptionSection__contactUs').should('exist');
+        cy.findByText(`${host}`).should('exist');
     });
 
     it('Workspace deletion cta is visible for cloud professional with a monthly plan', () => {
@@ -73,7 +90,7 @@ describe('Workspace deletion', () => {
         cy.findByText(`${host}`).should('exist');
     });
 
-    it('Workspace deletion cta is visible for cloud enterprise with a monthly plan', () => {
+    it('Workspace deletion cta is not visible for cloud enterprise with a monthly plan', () => {
         // Professional Yearly.
         const subscription = {
             id: 'sub_test1',
@@ -84,8 +101,8 @@ describe('Workspace deletion', () => {
         cy.visit('/admin_console/billing/subscription');
 
         // Text is separated by an html <a> tag, just get the last half.
-        cy.get('.cancelSubscriptionSection__contactUs').should('exist');
-        cy.findByText(`${host}`).should('exist');
+        cy.get('.cancelSubscriptionSection__contactUs').should('not.exist');
+        cy.findByText(`${host}`).should('not.exist');
     });
 
     it('Workspace deletion modal > downgrade button is not visible for cloud free', () => {
