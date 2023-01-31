@@ -15,7 +15,7 @@ import {GlobalState} from 'types/store';
 import {getFilter, getPlugin} from 'selectors/views/marketplace';
 import {ActionTypes} from 'utils/constants';
 
-import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+import {AppBindingLocations, AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {AppCall, AppExpand, AppFormValues} from '@mattermost/types/apps';
 import {createCallContext, createCallRequest} from 'utils/apps';
 import {DoAppCallResult, intlShim} from 'components/suggestion/command_provider/app_command_parser/app_command_parser_dependencies';
@@ -120,7 +120,7 @@ export function installPlugin(id: string) {
     };
 }
 
-// installApp installed an App using a given URL a call to the `/install-listed` endpoint.
+// installApp installed an App using a given URL a call to the `/install-listed` call path.
 //
 // On success, it also requests the current state of the apps to reflect the newly installed app.
 export function installApp(id: string) {
@@ -150,7 +150,8 @@ export function installApp(id: string) {
         const state = getState();
         const channelID = getCurrentChannelId(state);
         const teamID = getCurrentTeamId(state);
-        const context = createCallContext('apps', '/marketplace', channelID, teamID);
+        const location = AppBindingLocations.MARKETPLACE;
+        const context = createCallContext('apps', location, channelID, teamID);
 
         const creq = createCallRequest(call, context, expand, values);
 

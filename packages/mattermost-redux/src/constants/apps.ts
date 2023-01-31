@@ -13,6 +13,7 @@ export const AppBindingLocations = {
     APP_BAR: '/app_bar',
     COMMAND: '/command',
     IN_POST: '/in_post',
+    MARKETPLACE: '/marketplace',
 };
 
 export const AppBindingPresentations = {
