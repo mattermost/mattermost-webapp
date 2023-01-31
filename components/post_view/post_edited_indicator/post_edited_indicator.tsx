@@ -13,7 +13,7 @@ import Tooltip from '../../tooltip';
 
 import {Props} from './index';
 
-const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, postOwner, post, actions}: Props): JSX.Element | null => {
+const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, postOwner, post, canEdit, actions}: Props): JSX.Element | null => {
     const {formatMessage, formatDate, formatTime} = useIntl();
 
     if (!postId || editedAt === 0) {
@@ -58,7 +58,7 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, po
         defaultMessage: 'Click to view history',
     });
 
-    const postOwnerTooltipInfo = postOwner ? (
+    const postOwnerTooltipInfo = (postOwner && canEdit) ? (
         <span className='view-history__text'>{viewHistoryText}</span>
     ) : null;
 
@@ -95,7 +95,7 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, po
         </span>
     );
 
-    const editedIndicator = postOwner ? (
+    const editedIndicator = (postOwner && canEdit) ? (
         <button
             className={'style--none'}
             tabIndex={-1}

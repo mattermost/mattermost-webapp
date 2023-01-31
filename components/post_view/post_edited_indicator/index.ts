@@ -11,9 +11,11 @@ import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getPostEditHistory} from 'mattermost-redux/actions/posts';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {Preferences} from 'utils/constants';
-import {isPostOwner} from 'utils/post_utils';
+import {isPostOwner, canEditPost} from 'utils/post_utils';
 
 import {areTimezonesEnabledAndSupported} from '../../../selectors/general';
 import {GlobalState} from '../../../types/store';
@@ -35,6 +37,7 @@ type StateProps = {
     isMilitaryTime: boolean;
     timeZone?: string;
     post?: Post;
+    canEdit: boolean;
 }
 
 type DispatchProps = {
@@ -52,6 +55,9 @@ function makeMapStateToProps() {
     return (state: GlobalState, ownProps: OwnProps): StateProps => {
         const currentUserId = getCurrentUserId(state);
         const post = ownProps.postId ? getPost(state, ownProps.postId) : undefined;
+        const license = getLicense(state);
+        const config = getConfig(state);
+        const channel = getChannel(state, post?.channel_id || '');
 
         let timeZone: TimestampProps['timeZone'];
 
@@ -61,7 +67,8 @@ function makeMapStateToProps() {
         const postOwner = post ? isPostOwner(state, post) : undefined;
 
         const isMilitaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false);
-        return {isMilitaryTime, timeZone, postOwner, post};
+        const canEdit = post ? canEditPost(state, post, license, config, channel, currentUserId) : false;
+        return {isMilitaryTime, timeZone, postOwner, post, canEdit};
     };
 }
 
