@@ -46,7 +46,7 @@ export default function Consequences(props: Props) {
             }}
         />);
 
-    let licenseAgreement = (
+    const licenseAgreement = (
         <FormattedMessage
             defaultMessage={
                 'By clicking {buttonContent}, you agree to the <linkAgreement>{legalText}</linkAgreement>'
@@ -66,7 +66,7 @@ export default function Consequences(props: Props) {
                 ),
             }}
         />
-    )
+    );
 
     if (props.isCloud) {
         text = (
