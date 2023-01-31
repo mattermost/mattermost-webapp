@@ -16,7 +16,6 @@ import Menu from 'components/widgets/menu/menu';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 import {VisitSystemConsoleTour} from 'components/onboarding_tasks';
 import UserGroupsModal from 'components/user_groups_modal';
-import WorkTemplateModal from 'components/work_templates';
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import {LicenseSkus, ModalIdentifiers, PaidFeatures} from 'utils/constants';
 import {makeUrlSafe} from 'utils/url';
