@@ -235,8 +235,8 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             content = <RhsCard previousRhsState={previousRhsState}/>;
         } else if (isPluginView) {
             content = <RhsPlugin/>;
-        } else if(isAppBindingView) {
-                content = <RhsAppBinding/>;
+        } else if (isAppBindingView) {
+            content = <RhsAppBinding/>;
         } else if (isChannelInfo) {
             currentChannelNeeded = true;
             content = <ChannelInfoRhs/>;

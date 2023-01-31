@@ -11,13 +11,15 @@ import SearchResultsHeader from 'components/search_results_header';
 import {AppsView} from 'components/apps_view/apps_view';
 
 import {AppBinding} from '@mattermost/types/apps';
+import {handleBindingClick} from 'actions/apps';
+import {HandleBindingClick} from 'types/apps';
 
 export default function RhsAppBinding() {
     const binding = useSelector(getRhsAppBinding);
     const dispatch = useDispatch();
 
     const setRhsBinding = useCallback((binding: AppBinding) => {
-        dispatch(showRHSAppBinding(binding));
+        dispatch(showRHSAppBinding(binding, binding.app_id!));
     }, [dispatch]);
 
     let view = <h3>{'Loading'}</h3>;
@@ -27,6 +29,7 @@ export default function RhsAppBinding() {
                 location='rhs'
                 tree={binding}
                 setTree={setRhsBinding}
+                handleBindingClick={handleBindingClick as HandleBindingClick}
             />
         );
     }

@@ -11,6 +11,7 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import mockStore from 'tests/test_store';
 
 import {AppsView, AppsViewProps} from '../apps_view';
+
 import {testGoogleDriveView} from './testdata';
 
 const initialState = {

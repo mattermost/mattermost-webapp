@@ -42,8 +42,8 @@ const AppBarBinding = (props: BindingComponentProps) => {
     const rhsBinding = useSelector(getRhsAppBinding);
 
     const handleRhsBinding = (callResponse: AppCallResponse) => {
-        const binding = callResponse.data as AppBinding;
-        dispatch(showRHSAppBinding(binding));
+        const rhsBinding = callResponse.data as AppBinding;
+        dispatch(showRHSAppBinding(rhsBinding, binding.app_id));
     };
 
     const submitAppCall = async () => {
