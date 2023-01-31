@@ -12,6 +12,7 @@ const Accordion = styled(LibAccordion)`
         .accordion-card {
             margin-bottom: 8px;
             border-radius: 4px;
+            color: var(--center-channel-color);
 
             .accordion-card-header {
                 padding: 14.5px 0px 14.5px 16px;
