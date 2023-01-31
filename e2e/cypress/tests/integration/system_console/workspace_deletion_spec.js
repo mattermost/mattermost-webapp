@@ -130,8 +130,6 @@ describe('Workspace deletion', () => {
         cy.simulateSubscription(subscription);
         cy.visit('/admin_console/billing/subscription');
 
-        cy.wait(100);
-
         cy.get('.cancelSubscriptionSection__contactUs').click();
         cy.get('.DeleteWorkspaceModal').should('exist');
         cy.get('.DeleteWorkspaceModal__Buttons-Downgrade').should('exist');
