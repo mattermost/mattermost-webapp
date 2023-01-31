@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 import {cloneDeep} from 'lodash';
 
@@ -145,7 +144,7 @@ export default class SuggestionList extends React.PureComponent {
             const contentTopPadding = this.getComputedCssProperty(content, 'paddingTop');
             const contentBottomPadding = this.getComputedCssProperty(content, 'paddingTop');
 
-            const item = ReactDOM.findDOMNode(this.itemRefs.get(term));
+            const item = this.itemRefs.get(term);
             if (!item) {
                 return;
             }
@@ -261,16 +260,19 @@ export default class SuggestionList extends React.PureComponent {
             }
 
             items.push(
-                <Component
+                <div
                     key={term}
                     ref={(ref) => this.itemRefs.set(term, ref)}
-                    item={this.props.items[i]}
-                    term={term}
-                    matchedPretext={this.props.matchedPretext[i]}
-                    isSelection={isSelection}
-                    onClick={this.props.onCompleteWord}
-                    onMouseMove={this.props.onItemHover}
-                />,
+                >
+                    <Component
+                        item={this.props.items[i]}
+                        term={term}
+                        matchedPretext={this.props.matchedPretext[i]}
+                        isSelection={isSelection}
+                        onClick={this.props.onCompleteWord}
+                        onMouseMove={this.props.onItemHover}
+                    />
+                </div>,
             );
         }
         const mainClass = 'suggestion-list suggestion-list--' + this.props.position;

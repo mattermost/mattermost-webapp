@@ -4,7 +4,6 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {Provider} from 'react-redux';
-import ReactDOM from 'react-dom';
 import {
     defineMessages,
     injectIntl,
@@ -92,7 +91,7 @@ type State = {
 class UserSettingsModal extends React.PureComponent<Props, State> {
     private requireConfirm: boolean;
     private customConfirmAction: ((handleConfirm: () => void) => void) | null;
-    private modalBodyRef: React.RefObject<Modal>;
+    private modalBodyRef: React.RefObject<HTMLDivElement>;
     private afterConfirm: (() => void) | null;
 
     constructor(props: Props) {
@@ -140,7 +139,11 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
 
     componentDidUpdate(prevProps: Props, prevState: State) {
         if (this.state.active_tab !== prevState.active_tab) {
-            const el = ReactDOM.findDOMNode(this.modalBodyRef.current) as any;
+            const el = this.modalBodyRef.current;
+            if (!el) {
+                return;
+            }
+
             el.scrollTop = 0;
         }
     }
@@ -175,7 +178,11 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
 
     // Called to hide the settings pane when on mobile
     handleCollapse = () => {
-        const el = ReactDOM.findDOMNode(this.modalBodyRef.current) as HTMLDivElement;
+        const el = this.modalBodyRef.current;
+        if (!el) {
+            return;
+        }
+
         el.closest('.modal-dialog')!.classList.remove('display--content');
 
         this.setState({
@@ -309,8 +316,11 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                         {title}
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body ref={this.modalBodyRef}>
-                    <div className='settings-table'>
+                <Modal.Body>
+                    <div
+                        className='settings-table'
+                        ref={this.modalBodyRef}
+                    >
                         <div className='settings-links'>
                             <React.Suspense fallback={null}>
                                 <Provider store={store}>

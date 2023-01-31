@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
@@ -23,7 +22,7 @@ export type State = {
 }
 
 export default class TeamSettingsModal extends React.PureComponent<Props, State> {
-    modalBodyRef: React.RefObject<Modal>;
+    modalBodyRef: React.RefObject<HTMLDivElement>;
 
     constructor(props: Props) {
         super(props);
@@ -49,7 +48,11 @@ export default class TeamSettingsModal extends React.PureComponent<Props, State>
     }
 
     collapseModal = () => {
-        const el = ReactDOM.findDOMNode(this.modalBodyRef.current) as HTMLDivElement;
+        const el = this.modalBodyRef.current;
+        if (!el) {
+            return;
+        }
+
         const modalDialog = el.closest('.modal-dialog');
         modalDialog?.classList.remove('display--content');
 
@@ -97,8 +100,11 @@ export default class TeamSettingsModal extends React.PureComponent<Props, State>
                         />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body ref={this.modalBodyRef}>
-                    <div className='settings-table'>
+                <Modal.Body>
+                    <div
+                        className='settings-table'
+                        ref={this.modalBodyRef}
+                    >
                         <div className='settings-links'>
                             <React.Suspense fallback={null}>
                                 <SettingsSidebar

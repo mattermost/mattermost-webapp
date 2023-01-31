@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, {useEffect, useRef} from 'react';
 import {Switch, Route} from 'react-router-dom';
 
 import Messaging from './components/messaging';
@@ -18,47 +17,46 @@ type Props = {
     };
 }
 
-export default class HelpController extends React.PureComponent<Props> {
-    public componentDidUpdate(): void {
-        const helpControllerNode = ReactDOM.findDOMNode(this);
+export default function HelpController(props: Props) {
+    const containerRef = useRef<HTMLDivElement>(null);
 
-        if (helpControllerNode && helpControllerNode instanceof HTMLDivElement) {
-            helpControllerNode.scrollIntoView();
-        }
-    }
+    useEffect(() => {
+        containerRef.current?.scrollIntoView();
+    }, []);
 
-    public render(): JSX.Element {
-        return (
-            <div className='help-page'>
-                <div className='container col-sm-10 col-sm-offset-1'>
-                    <Switch>
-                        <Route
-                            path={`${this.props.match.url}/messaging`}
-                            component={Messaging}
-                        />
-                        <Route
-                            path={`${this.props.match.url}/composing`}
-                            component={Composing}
-                        />
-                        <Route
-                            path={`${this.props.match.url}/mentioning`}
-                            component={Mentioning}
-                        />
-                        <Route
-                            path={`${this.props.match.url}/formatting`}
-                            component={Formatting}
-                        />
-                        <Route
-                            path={`${this.props.match.url}/attaching`}
-                            component={Attaching}
-                        />
-                        <Route
-                            path={`${this.props.match.url}/commands`}
-                            component={Commands}
-                        />
-                    </Switch>
-                </div>
+    return (
+        <div
+            ref={containerRef}
+            className='help-page'
+        >
+            <div className='container col-sm-10 col-sm-offset-1'>
+                <Switch>
+                    <Route
+                        path={`${props.match.url}/messaging`}
+                        component={Messaging}
+                    />
+                    <Route
+                        path={`${props.match.url}/composing`}
+                        component={Composing}
+                    />
+                    <Route
+                        path={`${props.match.url}/mentioning`}
+                        component={Mentioning}
+                    />
+                    <Route
+                        path={`${props.match.url}/formatting`}
+                        component={Formatting}
+                    />
+                    <Route
+                        path={`${props.match.url}/attaching`}
+                        component={Attaching}
+                    />
+                    <Route
+                        path={`${props.match.url}/commands`}
+                        component={Commands}
+                    />
+                </Switch>
             </div>
-        );
-    }
+        </div>
+    );
 }
