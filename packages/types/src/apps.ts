@@ -140,7 +140,12 @@ export type AppContextProps = {
     [name: string]: string;
 };
 
-export type AppExpandLevel = 'all' | 'summary' | '+all' | '+summary';
+export type AppExpandLevel = ''
+| 'none'
+| 'summary'
+| '+summary'
+| 'all'
+| '+all';
 
 export type AppExpand = {
     app?: AppExpandLevel;
