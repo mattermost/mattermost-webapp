@@ -1,51 +1,78 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot and contain correct buttons 1`] = `
-<Connect(SidebarMenu)
-  ariaLabel="Channel Menu"
-  buttonAriaLabel="Channel Menu"
-  id="SidebarChannelMenu-channel_id"
-  isMenuOpen={true}
-  onOpenDirectionChange={[Function]}
-  onToggleMenu={[Function]}
-  tabIndex={0}
-  tooltipText="Channel options"
+<Menu
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
+  }
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <MarkAsUnreadIcon
-          size={16}
-        />
-      }
-      id="markAsUnread-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mark as Unread"
-    />
-    <MenuItemAction
-      icon={
-        <StarOutlineIcon
-          size={16}
-        />
-      }
-      id="favorite-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Favorite"
-    />
-    <MenuItemAction
-      icon={
-        <BellOutlineIcon
-          size={16}
-        />
-      }
-      id="mute-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mute Channel"
-    />
-  </MenuGroup>
+  <MenuItem
+    id="markAsUnread-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mark as Unread"
+        id="sidebar_left.sidebar_channel_menu.markAsUnread"
+      />
+    }
+    leadingElement={
+      <MarkAsUnreadIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="favorite-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Favorite"
+        id="sidebar_left.sidebar_channel_menu.favoriteChannel"
+      />
+    }
+    leadingElement={
+      <StarOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="mute-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mute Channel"
+        id="sidebar_left.sidebar_channel_menu.muteChannel"
+      />
+    }
+    leadingElement={
+      <BellOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -66,95 +93,132 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         "update_at": 0,
       }
     }
-    openUp={false}
   />
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <LinkVariantIcon
-          size={16}
-        />
-      }
-      id="copyLink-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Copy Link"
-    />
-    <MenuItemAction
-      icon={
-        <AccountOutlineIcon
-          size={16}
-        />
-      }
-      id="addMembers-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Add Members"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <CloseIcon
-          size={16}
-        />
-      }
-      id="leave-channel_id"
-      isDangerous={true}
-      onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
-  </MenuGroup>
-</Connect(SidebarMenu)>
+  <MenuItemSeparator />
+  <MenuItem
+    id="copyLink-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Copy Link"
+        id="sidebar_left.sidebar_channel_menu.copyLink"
+      />
+    }
+    leadingElement={
+      <LinkVariantIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    aria-haspopup="true"
+    id="addMembers-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Add Members"
+        id="sidebar_left.sidebar_channel_menu.addMembers"
+      />
+    }
+    leadingElement={
+      <AccountPlusOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
+  <MenuItem
+    id="leave-channel_id"
+    isDestructive={true}
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Leave Channel"
+        id="sidebar_left.sidebar_channel_menu.leaveChannel"
+      />
+    }
+    leadingElement={
+      <ExitToAppIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+</Menu>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot of rendered items when multiselecting channels - DM channels and public channels category 1`] = `
-<Connect(SidebarMenu)
-  ariaLabel="Channel Menu"
-  buttonAriaLabel="Channel Menu"
-  id="SidebarChannelMenu-channel_id"
-  isMenuOpen={true}
-  onOpenDirectionChange={[Function]}
-  onToggleMenu={[Function]}
-  tabIndex={0}
-  tooltipText="Channel options"
+<Menu
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
+  }
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <MarkAsUnreadIcon
-          size={16}
-        />
-      }
-      id="markAsUnread-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mark as Unread"
-    />
-    <MenuItemAction
-      icon={
-        <StarOutlineIcon
-          size={16}
-        />
-      }
-      id="favorite-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Favorite"
-    />
-    <MenuItemAction
-      icon={
-        <BellOutlineIcon
-          size={16}
-        />
-      }
-      id="mute-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mute Channel"
-    />
-  </MenuGroup>
+  <MenuItem
+    id="markAsUnread-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mark as Unread"
+        id="sidebar_left.sidebar_channel_menu.markAsUnread"
+      />
+    }
+    leadingElement={
+      <MarkAsUnreadIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="favorite-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Favorite"
+        id="sidebar_left.sidebar_channel_menu.favoriteChannel"
+      />
+    }
+    leadingElement={
+      <StarOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="mute-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mute Channel"
+        id="sidebar_left.sidebar_channel_menu.muteChannel"
+      />
+    }
+    leadingElement={
+      <BellOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -175,95 +239,132 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         "update_at": 0,
       }
     }
-    openUp={false}
   />
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <LinkVariantIcon
-          size={16}
-        />
-      }
-      id="copyLink-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Copy Link"
-    />
-    <MenuItemAction
-      icon={
-        <AccountOutlineIcon
-          size={16}
-        />
-      }
-      id="addMembers-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Add Members"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <CloseIcon
-          size={16}
-        />
-      }
-      id="leave-channel_id"
-      isDangerous={true}
-      onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
-  </MenuGroup>
-</Connect(SidebarMenu)>
+  <MenuItemSeparator />
+  <MenuItem
+    id="copyLink-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Copy Link"
+        id="sidebar_left.sidebar_channel_menu.copyLink"
+      />
+    }
+    leadingElement={
+      <LinkVariantIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    aria-haspopup="true"
+    id="addMembers-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Add Members"
+        id="sidebar_left.sidebar_channel_menu.addMembers"
+      />
+    }
+    leadingElement={
+      <AccountPlusOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
+  <MenuItem
+    id="leave-channel_id"
+    isDestructive={true}
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Leave Channel"
+        id="sidebar_left.sidebar_channel_menu.leaveChannel"
+      />
+    }
+    leadingElement={
+      <ExitToAppIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+</Menu>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot of rendered items when multiselecting channels - public channels and DM category 1`] = `
-<Connect(SidebarMenu)
-  ariaLabel="Channel Menu"
-  buttonAriaLabel="Channel Menu"
-  id="SidebarChannelMenu-channel_id"
-  isMenuOpen={true}
-  onOpenDirectionChange={[Function]}
-  onToggleMenu={[Function]}
-  tabIndex={0}
-  tooltipText="Channel options"
+<Menu
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
+  }
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <MarkAsUnreadIcon
-          size={16}
-        />
-      }
-      id="markAsUnread-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mark as Unread"
-    />
-    <MenuItemAction
-      icon={
-        <StarOutlineIcon
-          size={16}
-        />
-      }
-      id="favorite-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Favorite"
-    />
-    <MenuItemAction
-      icon={
-        <BellOutlineIcon
-          size={16}
-        />
-      }
-      id="mute-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mute Channel"
-    />
-  </MenuGroup>
+  <MenuItem
+    id="markAsUnread-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mark as Unread"
+        id="sidebar_left.sidebar_channel_menu.markAsUnread"
+      />
+    }
+    leadingElement={
+      <MarkAsUnreadIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="favorite-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Favorite"
+        id="sidebar_left.sidebar_channel_menu.favoriteChannel"
+      />
+    }
+    leadingElement={
+      <StarOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="mute-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mute Channel"
+        id="sidebar_left.sidebar_channel_menu.muteChannel"
+      />
+    }
+    leadingElement={
+      <BellOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -284,95 +385,132 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         "update_at": 0,
       }
     }
-    openUp={false}
   />
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <LinkVariantIcon
-          size={16}
-        />
-      }
-      id="copyLink-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Copy Link"
-    />
-    <MenuItemAction
-      icon={
-        <AccountOutlineIcon
-          size={16}
-        />
-      }
-      id="addMembers-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Add Members"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <CloseIcon
-          size={16}
-        />
-      }
-      id="leave-channel_id"
-      isDangerous={true}
-      onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
-  </MenuGroup>
-</Connect(SidebarMenu)>
+  <MenuItemSeparator />
+  <MenuItem
+    id="copyLink-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Copy Link"
+        id="sidebar_left.sidebar_channel_menu.copyLink"
+      />
+    }
+    leadingElement={
+      <LinkVariantIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    aria-haspopup="true"
+    id="addMembers-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Add Members"
+        id="sidebar_left.sidebar_channel_menu.addMembers"
+      />
+    }
+    leadingElement={
+      <AccountPlusOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
+  <MenuItem
+    id="leave-channel_id"
+    isDestructive={true}
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Leave Channel"
+        id="sidebar_left.sidebar_channel_menu.leaveChannel"
+      />
+    }
+    leadingElement={
+      <ExitToAppIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+</Menu>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is DM 1`] = `
-<Connect(SidebarMenu)
-  ariaLabel="Channel Menu"
-  buttonAriaLabel="Channel Menu"
-  id="SidebarChannelMenu-channel_id"
-  isMenuOpen={true}
-  onOpenDirectionChange={[Function]}
-  onToggleMenu={[Function]}
-  tabIndex={0}
-  tooltipText="Channel options"
+<Menu
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
+  }
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <MarkAsUnreadIcon
-          size={16}
-        />
-      }
-      id="markAsUnread-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mark as Unread"
-    />
-    <MenuItemAction
-      icon={
-        <StarOutlineIcon
-          size={16}
-        />
-      }
-      id="favorite-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Favorite"
-    />
-    <MenuItemAction
-      icon={
-        <BellOutlineIcon
-          size={16}
-        />
-      }
-      id="mute-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mute Conversation"
-    />
-  </MenuGroup>
+  <MenuItem
+    id="markAsUnread-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mark as Unread"
+        id="sidebar_left.sidebar_channel_menu.markAsUnread"
+      />
+    }
+    leadingElement={
+      <MarkAsUnreadIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="favorite-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Favorite"
+        id="sidebar_left.sidebar_channel_menu.favoriteChannel"
+      />
+    }
+    leadingElement={
+      <StarOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="mute-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mute Conversation"
+        id="sidebar_left.sidebar_channel_menu.muteConversation"
+      />
+    }
+    leadingElement={
+      <BellOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -393,72 +531,100 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         "update_at": 0,
       }
     }
-    openUp={false}
   />
-  <MenuGroup />
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <CloseIcon
-          size={16}
-        />
-      }
-      id="leave-channel_id"
-      isDangerous={false}
-      onClick={[Function]}
-      show={true}
-      text="Close Conversation"
-    />
-  </MenuGroup>
-</Connect(SidebarMenu)>
+  <MenuItemSeparator />
+  <MenuItem
+    id="leave-channel_id"
+    isDestructive={true}
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Close Conversation"
+        id="sidebar_left.sidebar_channel_menu.leaveConversation"
+      />
+    }
+    leadingElement={
+      <ExitToAppIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+</Menu>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is Town Square 1`] = `
-<Connect(SidebarMenu)
-  ariaLabel="Channel Menu"
-  buttonAriaLabel="Channel Menu"
-  id="SidebarChannelMenu-channel_id"
-  isMenuOpen={true}
-  onOpenDirectionChange={[Function]}
-  onToggleMenu={[Function]}
-  tabIndex={0}
-  tooltipText="Channel options"
+<Menu
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
+  }
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <MarkAsUnreadIcon
-          size={16}
-        />
-      }
-      id="markAsUnread-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mark as Unread"
-    />
-    <MenuItemAction
-      icon={
-        <StarOutlineIcon
-          size={16}
-        />
-      }
-      id="favorite-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Favorite"
-    />
-    <MenuItemAction
-      icon={
-        <BellOutlineIcon
-          size={16}
-        />
-      }
-      id="mute-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mute Channel"
-    />
-  </MenuGroup>
+  <MenuItem
+    id="markAsUnread-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mark as Unread"
+        id="sidebar_left.sidebar_channel_menu.markAsUnread"
+      />
+    }
+    leadingElement={
+      <MarkAsUnreadIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="favorite-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Favorite"
+        id="sidebar_left.sidebar_channel_menu.favoriteChannel"
+      />
+    }
+    leadingElement={
+      <StarOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="mute-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mute Channel"
+        id="sidebar_left.sidebar_channel_menu.muteChannel"
+      />
+    }
+    leadingElement={
+      <BellOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -479,81 +645,115 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         "update_at": 0,
       }
     }
-    openUp={false}
   />
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <LinkVariantIcon
-          size={16}
-        />
-      }
-      id="copyLink-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Copy Link"
-    />
-    <MenuItemAction
-      icon={
-        <AccountOutlineIcon
-          size={16}
-        />
-      }
-      id="addMembers-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Add Members"
-    />
-  </MenuGroup>
-</Connect(SidebarMenu)>
+  <MenuItemSeparator />
+  <MenuItem
+    id="copyLink-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Copy Link"
+        id="sidebar_left.sidebar_channel_menu.copyLink"
+      />
+    }
+    leadingElement={
+      <LinkVariantIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    aria-haspopup="true"
+    id="addMembers-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Add Members"
+        id="sidebar_left.sidebar_channel_menu.addMembers"
+      />
+    }
+    leadingElement={
+      <AccountPlusOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+</Menu>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is favorite 1`] = `
-<Connect(SidebarMenu)
-  ariaLabel="Channel Menu"
-  buttonAriaLabel="Channel Menu"
-  id="SidebarChannelMenu-channel_id"
-  isMenuOpen={true}
-  onOpenDirectionChange={[Function]}
-  onToggleMenu={[Function]}
-  tabIndex={0}
-  tooltipText="Channel options"
+<Menu
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
+  }
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <MarkAsUnreadIcon
-          size={16}
-        />
-      }
-      id="markAsUnread-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mark as Unread"
-    />
-    <MenuItemAction
-      icon={
-        <StarIcon
-          size={16}
-        />
-      }
-      id="unfavorite-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Unfavorite"
-    />
-    <MenuItemAction
-      icon={
-        <BellOutlineIcon
-          size={16}
-        />
-      }
-      id="mute-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mute Channel"
-    />
-  </MenuGroup>
+  <MenuItem
+    id="markAsUnread-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mark as Unread"
+        id="sidebar_left.sidebar_channel_menu.markAsUnread"
+      />
+    }
+    leadingElement={
+      <MarkAsUnreadIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="unfavorite-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Unfavorite"
+        id="sidebar_left.sidebar_channel_menu.unfavoriteChannel"
+      />
+    }
+    leadingElement={
+      <StarIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="mute-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mute Channel"
+        id="sidebar_left.sidebar_channel_menu.muteChannel"
+      />
+    }
+    leadingElement={
+      <BellOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -574,95 +774,132 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         "update_at": 0,
       }
     }
-    openUp={false}
   />
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <LinkVariantIcon
-          size={16}
-        />
-      }
-      id="copyLink-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Copy Link"
-    />
-    <MenuItemAction
-      icon={
-        <AccountOutlineIcon
-          size={16}
-        />
-      }
-      id="addMembers-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Add Members"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <CloseIcon
-          size={16}
-        />
-      }
-      id="leave-channel_id"
-      isDangerous={true}
-      onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
-  </MenuGroup>
-</Connect(SidebarMenu)>
+  <MenuItemSeparator />
+  <MenuItem
+    id="copyLink-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Copy Link"
+        id="sidebar_left.sidebar_channel_menu.copyLink"
+      />
+    }
+    leadingElement={
+      <LinkVariantIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    aria-haspopup="true"
+    id="addMembers-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Add Members"
+        id="sidebar_left.sidebar_channel_menu.addMembers"
+      />
+    }
+    leadingElement={
+      <AccountPlusOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
+  <MenuItem
+    id="leave-channel_id"
+    isDestructive={true}
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Leave Channel"
+        id="sidebar_left.sidebar_channel_menu.leaveChannel"
+      />
+    }
+    leadingElement={
+      <ExitToAppIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+</Menu>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is muted 1`] = `
-<Connect(SidebarMenu)
-  ariaLabel="Channel Menu"
-  buttonAriaLabel="Channel Menu"
-  id="SidebarChannelMenu-channel_id"
-  isMenuOpen={true}
-  onOpenDirectionChange={[Function]}
-  onToggleMenu={[Function]}
-  tabIndex={0}
-  tooltipText="Channel options"
+<Menu
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
+  }
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <MarkAsUnreadIcon
-          size={16}
-        />
-      }
-      id="markAsUnread-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mark as Unread"
-    />
-    <MenuItemAction
-      icon={
-        <StarOutlineIcon
-          size={16}
-        />
-      }
-      id="favorite-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Favorite"
-    />
-    <MenuItemAction
-      icon={
-        <BellOffOutlineIcon
-          size={16}
-        />
-      }
-      id="unmute-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Unmute Channel"
-    />
-  </MenuGroup>
+  <MenuItem
+    id="markAsUnread-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mark as Unread"
+        id="sidebar_left.sidebar_channel_menu.markAsUnread"
+      />
+    }
+    leadingElement={
+      <MarkAsUnreadIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="favorite-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Favorite"
+        id="sidebar_left.sidebar_channel_menu.favoriteChannel"
+      />
+    }
+    leadingElement={
+      <StarOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="unmute-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Unmute Channel"
+        id="sidebar_left.sidebar_channel_menu.unmuteChannel"
+      />
+    }
+    leadingElement={
+      <BellOffOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -683,95 +920,132 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         "update_at": 0,
       }
     }
-    openUp={false}
   />
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <LinkVariantIcon
-          size={16}
-        />
-      }
-      id="copyLink-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Copy Link"
-    />
-    <MenuItemAction
-      icon={
-        <AccountOutlineIcon
-          size={16}
-        />
-      }
-      id="addMembers-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Add Members"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <CloseIcon
-          size={16}
-        />
-      }
-      id="leave-channel_id"
-      isDangerous={true}
-      onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
-  </MenuGroup>
-</Connect(SidebarMenu)>
+  <MenuItemSeparator />
+  <MenuItem
+    id="copyLink-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Copy Link"
+        id="sidebar_left.sidebar_channel_menu.copyLink"
+      />
+    }
+    leadingElement={
+      <LinkVariantIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    aria-haspopup="true"
+    id="addMembers-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Add Members"
+        id="sidebar_left.sidebar_channel_menu.addMembers"
+      />
+    }
+    leadingElement={
+      <AccountPlusOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
+  <MenuItem
+    id="leave-channel_id"
+    isDestructive={true}
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Leave Channel"
+        id="sidebar_left.sidebar_channel_menu.leaveChannel"
+      />
+    }
+    leadingElement={
+      <ExitToAppIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+</Menu>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is private 1`] = `
-<Connect(SidebarMenu)
-  ariaLabel="Channel Menu"
-  buttonAriaLabel="Channel Menu"
-  id="SidebarChannelMenu-channel_id"
-  isMenuOpen={true}
-  onOpenDirectionChange={[Function]}
-  onToggleMenu={[Function]}
-  tabIndex={0}
-  tooltipText="Channel options"
+<Menu
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
+  }
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <MarkAsUnreadIcon
-          size={16}
-        />
-      }
-      id="markAsUnread-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mark as Unread"
-    />
-    <MenuItemAction
-      icon={
-        <StarOutlineIcon
-          size={16}
-        />
-      }
-      id="favorite-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Favorite"
-    />
-    <MenuItemAction
-      icon={
-        <BellOutlineIcon
-          size={16}
-        />
-      }
-      id="mute-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mute Channel"
-    />
-  </MenuGroup>
+  <MenuItem
+    id="markAsUnread-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mark as Unread"
+        id="sidebar_left.sidebar_channel_menu.markAsUnread"
+      />
+    }
+    leadingElement={
+      <MarkAsUnreadIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="favorite-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Favorite"
+        id="sidebar_left.sidebar_channel_menu.favoriteChannel"
+      />
+    }
+    leadingElement={
+      <StarOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="mute-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mute Channel"
+        id="sidebar_left.sidebar_channel_menu.muteChannel"
+      />
+    }
+    leadingElement={
+      <BellOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -792,95 +1066,132 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         "update_at": 0,
       }
     }
-    openUp={false}
   />
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <LinkVariantIcon
-          size={16}
-        />
-      }
-      id="copyLink-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Copy Link"
-    />
-    <MenuItemAction
-      icon={
-        <AccountOutlineIcon
-          size={16}
-        />
-      }
-      id="addMembers-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Add Members"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <CloseIcon
-          size={16}
-        />
-      }
-      id="leave-channel_id"
-      isDangerous={true}
-      onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
-  </MenuGroup>
-</Connect(SidebarMenu)>
+  <MenuItemSeparator />
+  <MenuItem
+    id="copyLink-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Copy Link"
+        id="sidebar_left.sidebar_channel_menu.copyLink"
+      />
+    }
+    leadingElement={
+      <LinkVariantIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    aria-haspopup="true"
+    id="addMembers-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Add Members"
+        id="sidebar_left.sidebar_channel_menu.addMembers"
+      />
+    }
+    leadingElement={
+      <AccountPlusOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
+  <MenuItem
+    id="leave-channel_id"
+    isDestructive={true}
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Leave Channel"
+        id="sidebar_left.sidebar_channel_menu.leaveChannel"
+      />
+    }
+    leadingElement={
+      <ExitToAppIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+</Menu>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is read 1`] = `
-<Connect(SidebarMenu)
-  ariaLabel="Channel Menu"
-  buttonAriaLabel="Channel Menu"
-  id="SidebarChannelMenu-channel_id"
-  isMenuOpen={true}
-  onOpenDirectionChange={[Function]}
-  onToggleMenu={[Function]}
-  tabIndex={0}
-  tooltipText="Channel options"
+<Menu
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
+  }
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <MarkAsUnreadIcon
-          size={16}
-        />
-      }
-      id="markAsUnread-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mark as Unread"
-    />
-    <MenuItemAction
-      icon={
-        <StarOutlineIcon
-          size={16}
-        />
-      }
-      id="favorite-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Favorite"
-    />
-    <MenuItemAction
-      icon={
-        <BellOutlineIcon
-          size={16}
-        />
-      }
-      id="mute-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mute Channel"
-    />
-  </MenuGroup>
+  <MenuItem
+    id="markAsUnread-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mark as Unread"
+        id="sidebar_left.sidebar_channel_menu.markAsUnread"
+      />
+    }
+    leadingElement={
+      <MarkAsUnreadIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="favorite-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Favorite"
+        id="sidebar_left.sidebar_channel_menu.favoriteChannel"
+      />
+    }
+    leadingElement={
+      <StarOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="mute-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mute Channel"
+        id="sidebar_left.sidebar_channel_menu.muteChannel"
+      />
+    }
+    leadingElement={
+      <BellOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -901,95 +1212,132 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         "update_at": 0,
       }
     }
-    openUp={false}
   />
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <LinkVariantIcon
-          size={16}
-        />
-      }
-      id="copyLink-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Copy Link"
-    />
-    <MenuItemAction
-      icon={
-        <AccountOutlineIcon
-          size={16}
-        />
-      }
-      id="addMembers-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Add Members"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <CloseIcon
-          size={16}
-        />
-      }
-      id="leave-channel_id"
-      isDangerous={true}
-      onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
-  </MenuGroup>
-</Connect(SidebarMenu)>
+  <MenuItemSeparator />
+  <MenuItem
+    id="copyLink-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Copy Link"
+        id="sidebar_left.sidebar_channel_menu.copyLink"
+      />
+    }
+    leadingElement={
+      <LinkVariantIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    aria-haspopup="true"
+    id="addMembers-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Add Members"
+        id="sidebar_left.sidebar_channel_menu.addMembers"
+      />
+    }
+    leadingElement={
+      <AccountPlusOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
+  <MenuItem
+    id="leave-channel_id"
+    isDestructive={true}
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Leave Channel"
+        id="sidebar_left.sidebar_channel_menu.leaveChannel"
+      />
+    }
+    leadingElement={
+      <ExitToAppIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+</Menu>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is unread 1`] = `
-<Connect(SidebarMenu)
-  ariaLabel="Channel Menu"
-  buttonAriaLabel="Channel Menu"
-  id="SidebarChannelMenu-channel_id"
-  isMenuOpen={true}
-  onOpenDirectionChange={[Function]}
-  onToggleMenu={[Function]}
-  tabIndex={0}
-  tooltipText="Channel options"
+<Menu
+  menu={
+    Object {
+      "aria-label": "Edit channel menu",
+      "id": "SidebarChannelMenu-MenuList-channel_id",
+      "onToggle": [MockFunction],
+    }
+  }
+  menuButton={
+    Object {
+      "aria-label": "Channel options",
+      "children": <DotsVerticalIcon
+        size={16}
+      />,
+      "class": "SidebarMenu_menuButton",
+      "id": "SidebarChannelMenu-Button-channel_id",
+    }
+  }
+  menuButtonTooltip={
+    Object {
+      "class": "hidden-xs",
+      "id": "SidebarChannelMenu-ButtonTooltip-channel_id",
+      "text": "Channel options",
+    }
+  }
 >
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <MarkAsUnreadIcon
-          size={16}
-        />
-      }
-      id="markAsRead-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mark as Read"
-    />
-    <MenuItemAction
-      icon={
-        <StarOutlineIcon
-          size={16}
-        />
-      }
-      id="favorite-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Favorite"
-    />
-    <MenuItemAction
-      icon={
-        <BellOutlineIcon
-          size={16}
-        />
-      }
-      id="mute-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mute Channel"
-    />
-  </MenuGroup>
+  <MenuItem
+    id="markAsRead-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mark as Read"
+        id="sidebar_left.sidebar_channel_menu.markAsRead"
+      />
+    }
+    leadingElement={
+      <MarkAsUnreadIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="favorite-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Favorite"
+        id="sidebar_left.sidebar_channel_menu.favoriteChannel"
+      />
+    }
+    leadingElement={
+      <StarOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    id="mute-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Mute Channel"
+        id="sidebar_left.sidebar_channel_menu.muteChannel"
+      />
+    }
+    leadingElement={
+      <BellOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
   <Memo(ChannelMoveToSubMenu)
     channel={
       Object {
@@ -1010,45 +1358,55 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show cor
         "update_at": 0,
       }
     }
-    openUp={false}
   />
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <LinkVariantIcon
-          size={16}
-        />
-      }
-      id="copyLink-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Copy Link"
-    />
-    <MenuItemAction
-      icon={
-        <AccountOutlineIcon
-          size={16}
-        />
-      }
-      id="addMembers-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Add Members"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <CloseIcon
-          size={16}
-        />
-      }
-      id="leave-channel_id"
-      isDangerous={true}
-      onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
-  </MenuGroup>
-</Connect(SidebarMenu)>
+  <MenuItemSeparator />
+  <MenuItem
+    id="copyLink-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Copy Link"
+        id="sidebar_left.sidebar_channel_menu.copyLink"
+      />
+    }
+    leadingElement={
+      <LinkVariantIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItem
+    aria-haspopup="true"
+    id="addMembers-channel_id"
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Add Members"
+        id="sidebar_left.sidebar_channel_menu.addMembers"
+      />
+    }
+    leadingElement={
+      <AccountPlusOutlineIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+  <MenuItemSeparator />
+  <MenuItem
+    id="leave-channel_id"
+    isDestructive={true}
+    labels={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Leave Channel"
+        id="sidebar_left.sidebar_channel_menu.leaveChannel"
+      />
+    }
+    leadingElement={
+      <ExitToAppIcon
+        size={18}
+      />
+    }
+    onClick={[Function]}
+  />
+</Menu>
 `;
