@@ -1752,6 +1752,10 @@
         .sidebar-right__body {
             height: calc(100% - 56px);
         }
+
+        .sidebar-right-container {
+            margin-top: 50px;
+        }
     }
 
     .search-items-container {
@@ -1798,7 +1802,6 @@
 
         &.move--left {
             margin: 0;
-            transform: translate3d(-100%, 0, 0);
         }
     }
 
