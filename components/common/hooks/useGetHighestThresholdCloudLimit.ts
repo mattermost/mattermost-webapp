@@ -37,9 +37,6 @@ export default function useGetHighestThresholdCloudLimit(usage: CloudUsage, limi
         const maybeMessageHistoryLimit = limits.messages?.history;
         const messageHistoryUsage = usage.messages.history;
 
-        const maybeBoardsCardsLimit = limits.boards?.cards;
-        const boardsCardsUsage = usage.boards.cards;
-
         const maybeFileStorageLimit = limits.files?.total_storage;
         const fileStorageUsage = usage.files.totalStorage;
 
@@ -59,11 +56,6 @@ export default function useGetHighestThresholdCloudLimit(usage: CloudUsage, limi
                 id: LimitTypes.fileStorage,
                 limit: maybeFileStorageLimit,
                 usage: fileStorageUsage,
-            },
-            {
-                id: LimitTypes.boardsCards,
-                limit: maybeBoardsCardsLimit,
-                usage: boardsCardsUsage,
             },
         ).
             reduce((acc: LimitSummary | false, curr: LimitSummary) => {
