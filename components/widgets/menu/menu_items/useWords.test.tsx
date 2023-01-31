@@ -138,53 +138,24 @@ describe('useWords', () => {
             },
         },
         {
-            label: 'shows boards warn',
-            props: asAdmin(mkLimit(LimitTypes.boardsCards, 300, 500)),
-            expects: {
-                title: 'Board card limit',
-                description: /closer.*500.*board card limit/,
-                status: '300',
-            },
-        },
-        {
-            label: 'shows boards critical',
-            props: asAdmin(mkLimit(LimitTypes.boardsCards, 400, 500)),
-            expects: {
-                title: 'Board card limit',
-                description: /closer.*500.*board card limit/,
-                status: '400',
-            },
-        },
-        {
-            label: 'shows boards exceeded',
-            props: asAdmin(mkLimit(LimitTypes.boardsCards, 500, 500)),
-            expects: {
-                title: 'Board card limit',
-                description: /reached the.*500.*board card limit/,
-                status: '500',
-            },
-        },
-        {
-            label: 'shows boards exceeded',
-            props: asAdmin(mkLimit(LimitTypes.boardsCards, 501, 500)),
-            expects: {
-                title: 'Board card limit',
-                description: /over the.*500.*board card limit/,
-                status: '501',
-            },
-        },
-        {
             label: 'admin prompted to upgrade',
-            props: asAdmin(mkLimit(LimitTypes.boardsCards, 301, 500)),
+            props: asAdmin(mkLimit(LimitTypes.messageHistory, 6000, 10000)),
             expects: {
                 description: 'View upgrade options.',
             },
         },
         {
             label: 'end user prompted to view plans',
-            props: asUser(mkLimit(LimitTypes.boardsCards, 301, 500)),
+            props: asUser(mkLimit(LimitTypes.messageHistory, 6000, 10000)),
             expects: {
                 description: 'View plans',
+            },
+        },
+        {
+            label: 'end user prompted to notify admin when over limit',
+            props: asUser(mkLimit(LimitTypes.messageHistory, 11000, 10000)),
+            expects: {
+                description: 'Notify admin',
             },
         },
     ];
