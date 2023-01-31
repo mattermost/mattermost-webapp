@@ -4271,7 +4271,7 @@ export default class Client4 {
 
     deleteWorkspace = (feedback: Feedback) => {
         return this.doFetch<StatusOK>(
-            `${this.getBaseRoute()}/delete-workspace`,
+            `${this.getCloudRoute()}/delete-workspace`,
             {method: 'post', body: JSON.stringify(feedback)},
         );
     }

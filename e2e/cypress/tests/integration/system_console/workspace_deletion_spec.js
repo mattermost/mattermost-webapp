@@ -11,12 +11,12 @@
 // Group: @system_console
 
 describe('Workspace deletion', () => {
+
     const host = window.location.host;
 
-    beforeAll(() => {
+    beforeEach(() => {
         cy.apiLogout();
         cy.apiAdminLogin();
-        cy.visit('/admin_console/billing/subscription');
     });
 
     it('Workspace deletion cta is not visible for cloud professional with a yearly plan', () => {
@@ -27,8 +27,10 @@ describe('Workspace deletion', () => {
             is_free_trial: 'false',
         };
         cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
 
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('not.exist');
+        // Text is separated by an html <a> tag, just get the last half.
+        cy.findByText('is final and cannot be reversed.').should('not.exist');
     });
 
     it('Workspace deletion cta is not visible for cloud enterprise with a yearly plan', () => {
@@ -39,8 +41,10 @@ describe('Workspace deletion', () => {
             is_free_trial: 'false',
         };
         cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
 
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('not.exist');
+        // Text is separated by an html <a> tag, just get the last half.
+        cy.findByText('is final and cannot be reversed.').should('not.exist');
     });
 
     it('Workspace deletion cta is visible for cloud free', () => {
@@ -51,8 +55,9 @@ describe('Workspace deletion', () => {
             is_free_trial: 'false',
         };
         cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
 
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('exist');
+        cy.get('.cancelSubscriptionSection__contactUs').should('exist');
     });
 
     it('Workspace deletion cta is visible for cloud professional with a monthly plan', () => {
@@ -63,8 +68,10 @@ describe('Workspace deletion', () => {
             is_free_trial: 'false',
         };
         cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
 
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('exist');
+        cy.get('.cancelSubscriptionSection__contactUs').should('exist');
+        cy.findByText(`${host}`).should('exist');
     });
 
     it('Workspace deletion cta is visible for cloud enterprise with a monthly plan', () => {
@@ -75,8 +82,11 @@ describe('Workspace deletion', () => {
             is_free_trial: 'false',
         };
         cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
 
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('exist');
+        // Text is separated by an html <a> tag, just get the last half.
+        cy.get('.cancelSubscriptionSection__contactUs').should('exist');
+        cy.findByText(`${host}`).should('exist');
     });
 
     it('Workspace deletion modal > downgrade button is not visible for cloud free', () => {
@@ -87,11 +97,11 @@ describe('Workspace deletion', () => {
             is_free_trial: 'false',
         };
         cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
 
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('exist');
-        cy.find('.cancelSubscriptionSection__contactUs').click();
-        cy.find('.DeleteWorkspaceModal').should('exit');
-        cy.find('.DeleteWorkspaceModal__Buttons-Downgrade').should('not.exist');
+        cy.get('.cancelSubscriptionSection__contactUs').click();
+        cy.get('.DeleteWorkspaceModal').should('exist');
+        cy.get('.DeleteWorkspaceModal__Buttons-Downgrade').should('not.exist');
     });
 
     it('Workspace deletion modal > downgrade button is visible for cloud professional', () => {
@@ -102,26 +112,28 @@ describe('Workspace deletion', () => {
             is_free_trial: 'false',
         };
         cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
 
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('exist');
-        cy.find('.cancelSubscriptionSection__contactUs').click();
-        cy.find('.DeleteWorkspaceModal').should('exit');
-        cy.find('.DeleteWorkspaceModal__Buttons-Downgrade').should('exist');
+        cy.wait(100);
+
+        cy.get('.cancelSubscriptionSection__contactUs').click();
+        cy.get('.DeleteWorkspaceModal').should('exist');
+        cy.get('.DeleteWorkspaceModal__Buttons-Downgrade').should('exist');
     });
 
     it('Workspace deletion modal > downgrade button is not visible for cloud enterprise', () => {
         // Free.
         const subscription = {
             id: 'sub_test1',
-            product_id: 'prod_4',
+            product_id: 'prod_3',
             is_free_trial: 'false',
         };
         cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
 
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('exist');
-        cy.find('.cancelSubscriptionSection__contactUs').click();
-        cy.find('.DeleteWorkspaceModal').should('exit');
-        cy.find('.DeleteWorkspaceModal__Buttons-Downgrade').should('not.exist');
+        cy.get('.cancelSubscriptionSection__contactUs').click();
+        cy.get('.DeleteWorkspaceModal').should('exist');
+        cy.get('.DeleteWorkspaceModal__Buttons-Downgrade').should('not.exist');
     });
 
     it('Workspace deletion modal > delete workspace button click > feedback modal shown before submitting deletion request', () => {
@@ -132,12 +144,12 @@ describe('Workspace deletion', () => {
             is_free_trial: 'false',
         };
         cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
 
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('exist');
-        cy.find('.cancelSubscriptionSection__contactUs').click();
-        cy.find('.DeleteWorkspaceModal').should('exit');
-        cy.find('.DeleteWorkspaceModal__Buttons-Delete').should('exist').click();
-        cy.find('.FeedbackModal__Container').should('exist');
+        cy.get('.cancelSubscriptionSection__contactUs').click();
+        cy.get('.DeleteWorkspaceModal').should('exist');
+        cy.get('.DeleteWorkspaceModal__Buttons-Delete').should('exist').click();
+        cy.get('.FeedbackModal__Container').should('exist');
     });
 
     it('Workspace deletion modal > delete workspace button click > feedback modal requires option selected to enable submit', () => {
@@ -148,14 +160,14 @@ describe('Workspace deletion', () => {
             is_free_trial: 'false',
         };
         cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
 
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('exist');
-        cy.find('.cancelSubscriptionSection__contactUs').click();
-        cy.find('.DeleteWorkspaceModal').should('exit');
-        cy.find('.DeleteWorkspaceModal__Buttons-Delete').should('exist').click();
-        cy.find('.FeedbackModal__Container').should('exist');
-        cy.find('.radio').first().click();
-        cy.find('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled');
+        cy.get('.cancelSubscriptionSection__contactUs').click();
+        cy.get('.DeleteWorkspaceModal').should('exist');
+        cy.get('.DeleteWorkspaceModal__Buttons-Delete').should('exist').click();
+        cy.get('.FeedbackModal__Container').should('exist');
+        cy.get('.radio > label > input').first().click();
+        cy.get('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled');
     });
 
     it('Workspace deletion modal > downgrade workspace button click > feedback modal shown before submitting downgrade request', () => {
@@ -166,12 +178,12 @@ describe('Workspace deletion', () => {
             is_free_trial: 'false',
         };
         cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
 
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('exist');
-        cy.find('.cancelSubscriptionSection__contactUs').click();
-        cy.find('.DeleteWorkspaceModal').should('exit');
-        cy.find('.DeleteWorkspaceModal__Buttons-Downgrade').should('exist').click();
-        cy.find('.FeedbackModal__Container').should('exist');
+        cy.get('.cancelSubscriptionSection__contactUs').click();
+        cy.get('.DeleteWorkspaceModal').should('exist');
+        cy.get('.DeleteWorkspaceModal__Buttons-Downgrade').should('exist').click();
+        cy.get('.FeedbackModal__Container').should('exist');
     });
 
     it('Workspace deletion modal > downgrade workspace button click > feedback modal requires option selected to enable submit', () => {
@@ -182,37 +194,18 @@ describe('Workspace deletion', () => {
             is_free_trial: 'false',
         };
         cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
 
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('exist');
-        cy.find('.cancelSubscriptionSection__contactUs').click();
-        cy.find('.DeleteWorkspaceModal').should('exit');
-        cy.find('.DeleteWorkspaceModal__Buttons-Downgrade').should('exist').click();
-        cy.find('.FeedbackModal__Container').should('exist');
-        cy.find('.radio').first().click();
-        cy.find('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled');
-    });
-
-    it('Workspace deletion modal > delete workspace > after survey, a progress modal is displayed', () => {
-        // Professional Monthly.
-        const subscription = {
-            id: 'sub_test1',
-            product_id: 'prod_2',
-            is_free_trial: 'false',
-        };
-        cy.simulateSubscription(subscription);
-
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('exist');
-        cy.find('.cancelSubscriptionSection__contactUs').click();
-        cy.find('.DeleteWorkspaceModal').should('exit');
-        cy.find('.DeleteWorkspaceModal__Buttons-Delete').should('exist').click();
-        cy.find('.FeedbackModal__Container').should('exist');
-        cy.find('.radio').first().click();
-        cy.find('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled').click();
-        cy.find('.DeleteWorkspaceProgressModal').should('be.visible');
+        cy.get('.cancelSubscriptionSection__contactUs').click();
+        cy.get('.DeleteWorkspaceModal').should('exist');
+        cy.get('.DeleteWorkspaceModal__Buttons-Downgrade').should('exist').click();
+        cy.get('.FeedbackModal__Container').should('exist');
+        cy.get('.radio > label > input').first().click();
+        cy.get('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled');
     });
 
     it('Workspace deletion modal > delete workspace > after survey, a success modal is displayed when the deletion succeeds', () => {
-        cy.intercept('POST', '/api/v4/cloud/delete-workspace', {statusCode: 200}).as('deleteWorkspace');
+        cy.intercept('POST', '/api/v4/cloud/delete-workspace', {statusCode: 200, body: {reason: 'other', comments: 'test'}}).as('deleteWorkspace');
 
         // Professional Monthly.
         const subscription = {
@@ -221,24 +214,23 @@ describe('Workspace deletion', () => {
             is_free_trial: 'false',
         };
         cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
 
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('exist');
-        cy.find('.cancelSubscriptionSection__contactUs').click();
-        cy.find('.DeleteWorkspaceModal').should('exit');
-        cy.find('.DeleteWorkspaceModal__Buttons-Downgrade').should('exist').click();
-        cy.find('.FeedbackModal__Container').should('exist');
-        cy.find('.radio').first().click();
-        cy.find('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled').click();
-        cy.find('.DeleteWorkspaceProgressModal').should('be.visible');
+        cy.get('.cancelSubscriptionSection__contactUs').click();
+        cy.get('.DeleteWorkspaceModal').should('exist');
+        cy.get('.DeleteWorkspaceModal__Buttons-Delete').should('exist').click();
+        cy.get('.FeedbackModal__Container').should('exist');
+        cy.get('.radio > label > input').first().click();
+        cy.get('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled').click();
 
         cy.wait('@deleteWorkspace');
 
-        cy.find('.result_modal').should('exist');
-        cy.find('Your workspace has been deleted').should('exist');
+        cy.get('.result_modal').should('exist');
+        cy.findByText('Your workspace has been deleted').should('exist');
     });
 
     it('Workspace deletion modal > delete workspace > after survey, a failure modal is displayed when the deletion fails', () => {
-        cy.intercept('POST', '/api/v4/cloud/delete-workspace', {statusCode: 500}).as('deleteWorkspace');
+        cy.intercept('POST', '/api/v4/cloud/delete-workspace', {statusCode: 500, body: {reason: 'other', comments: 'test'}}).as('deleteWorkspace');
 
         // Professional Monthly.
         const subscription = {
@@ -247,43 +239,23 @@ describe('Workspace deletion', () => {
             is_free_trial: 'false',
         };
         cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
 
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('exist');
-        cy.find('.cancelSubscriptionSection__contactUs').click();
-        cy.find('.DeleteWorkspaceModal').should('exit');
-        cy.find('.DeleteWorkspaceModal__Buttons-Downgrade').should('exist').click();
-        cy.find('.FeedbackModal__Container').should('exist');
-        cy.find('.radio').first().click();
-        cy.find('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled').click();
-        cy.find('.DeleteWorkspaceProgressModal').should('be.visible');
+        cy.get('.cancelSubscriptionSection__contactUs').click();
+        cy.get('.DeleteWorkspaceModal').should('exist');
+        cy.get('.DeleteWorkspaceModal__Buttons-Delete').should('exist').click();
+        cy.get('.FeedbackModal__Container').should('exist');
+        cy.get('.radio > label > input').first().click();
+        cy.get('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled').click();
 
         cy.wait('@deleteWorkspace');
 
-        cy.find('.result_modal').should('exist');
-        cy.find('Workspace deletion failed').should('exist');
-    });
-
-    it('Workspace deletion modal > downgrade workspace > after survey, a progress modal is displayed', () => {
-        // Professional Monthly.
-        const subscription = {
-            id: 'sub_test1',
-            product_id: 'prod_2',
-            is_free_trial: 'false',
-        };
-        cy.simulateSubscription(subscription);
-
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('exist');
-        cy.find('.cancelSubscriptionSection__contactUs').click();
-        cy.find('.DeleteWorkspaceModal').should('exit');
-        cy.find('.DeleteWorkspaceModal__Buttons-Downgrade').should('exist').click();
-        cy.find('.FeedbackModal__Container').should('exist');
-        cy.find('.radio').first().click();
-        cy.find('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled').click();
-        cy.find('#DowngradeModal').should('be.visible');
+        cy.get('.result_modal').should('exist');
+        cy.findByText('Workspace deletion failed').should('exist');
     });
 
     it('Workspace deletion modal > downgrade workspace > after survey, a success modal is displayed when the downgrade succeeds', () => {
-        cy.intercept('PUT', '/api/v4/cloud/subscription', {statusCode: 200}).as('downgradeWorkspace');
+        cy.intercept('PUT', '/api/v4/cloud/subscription', {statusCode: 200, body: {product_id: 'cloud-starter', seats: 0, feedback: {reason: 'other', comments: 'test'}}}).as('downgradeWorkspace');
 
         // Professional Monthly.
         const subscription = {
@@ -292,24 +264,23 @@ describe('Workspace deletion', () => {
             is_free_trial: 'false',
         };
         cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
 
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('exist');
-        cy.find('.cancelSubscriptionSection__contactUs').click();
-        cy.find('.DeleteWorkspaceModal').should('exit');
-        cy.find('.DeleteWorkspaceModal__Buttons-Downgrade').should('exist').click();
-        cy.find('.FeedbackModal__Container').should('exist');
-        cy.find('.radio').first().click();
-        cy.find('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled').click();
-        cy.find('#DowngradeModal').should('be.visible');
+        cy.get('.cancelSubscriptionSection__contactUs').click();
+        cy.get('.DeleteWorkspaceModal').should('exist');
+        cy.get('.DeleteWorkspaceModal__Buttons-Downgrade').should('exist').click();
+        cy.get('.FeedbackModal__Container').should('exist');
+        cy.get('.radio > label > input').first().click();
+        cy.get('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled').click();
 
         cy.wait('@downgradeWorkspace');
 
-        cy.find('.cloud_subscribe_result_modal').should('exist');
-        cy.find('You are now subscribed to').should('exist');
+        cy.get('.cloud_subscribe_result_modal').should('exist');
+        cy.findByText('You are now subscribed to Cloud Free').should('exist');
     });
 
     it('Workspace deletion modal > downgrade workspace > after survey, a failure modal is displayed when the downgrade fails', () => {
-        cy.intercept('PUT', '/api/v4/cloud/subscription', {statusCode: 500}).as('downgradeWorkspace');
+        cy.intercept('PUT', '/api/v4/cloud/subscription', {statusCode: 500, body: {product_id: 'cloud-starter', seats: 0, feedback: {reason: 'other', comments: 'test'}}}).as('downgradeWorkspace');
 
         // Professional Monthly.
         const subscription = {
@@ -318,19 +289,18 @@ describe('Workspace deletion', () => {
             is_free_trial: 'false',
         };
         cy.simulateSubscription(subscription);
+        cy.visit('/admin_console/billing/subscription');
 
-        cy.findByText(`Deleting ${host} is final and cannot be reversed.`).should('exist');
-        cy.find('.cancelSubscriptionSection__contactUs').click();
-        cy.find('.DeleteWorkspaceModal').should('exit');
-        cy.find('.DeleteWorkspaceModal__Buttons-Downgrade').should('exist').click();
-        cy.find('.FeedbackModal__Container').should('exist');
-        cy.find('.radio').first().click();
-        cy.find('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled').click();
-        cy.find('#DowngradeModal').should('be.visible');
+        cy.get('.cancelSubscriptionSection__contactUs').click();
+        cy.get('.DeleteWorkspaceModal').should('exist');
+        cy.get('.DeleteWorkspaceModal__Buttons-Downgrade').should('exist').click();
+        cy.get('.FeedbackModal__Container').should('exist');
+        cy.get('.radio > label > input').first().click();
+        cy.get('.FeedbackModal__Submit > button.btn.btn-primary').should('be.enabled').click();
 
         cy.wait('@downgradeWorkspace');
 
-        cy.find('.cloud_subscribe_result_modal').should('exist');
-        cy.find('We were unable to change your plan').should('exist');
+        cy.get('.cloud_subscribe_result_modal').should('exist');
+        cy.findByText('We were unable to change your plan').should('exist');
     });
 });
