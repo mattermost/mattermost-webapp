@@ -1113,6 +1113,10 @@
 
     .post__header--info {
         padding: 0;
+
+        .col {
+            gap: 4px;
+        }
     }
 
     &.post--root {
@@ -1327,6 +1331,7 @@
             flex: 0 auto;
             margin-right: 8px;
             font-weight: 600;
+            gap: 8px;
             text-overflow: ellipsis;
 
             &.permalink--username {
@@ -1345,7 +1350,7 @@
 
             .colon {
                 display: none;
-                margin-left: 2px;
+                margin-left: -6px;
                 font-weight: 900;
             }
         }
@@ -2006,25 +2011,6 @@
     }
 }
 
-.Badge {
-    .badge-autocomplete {
-        display: inline;
-        padding: 0 5px;
-        margin: 0 4px;
-    }
-
-    .badge-popoverlist {
-        display: inline;
-        margin: 0 4px;
-    }
-
-    .badge-admin {
-        display: inline;
-        margin: 0 4px;
-        background: rgba(61, 60, 64, 0.15);
-    }
-}
-
 .permalink-text {
     overflow: hidden;
 }
@@ -2202,12 +2188,8 @@
 }
 
 .post-row__padding {
-    &.bottom > div:not(.post) {
-        padding-bottom: 1em;
-    }
-
     &.top > div:not(.post) {
-        padding-top: 1em;
+        padding-top: 0;
     }
 
     &.top .post {
@@ -2227,7 +2209,6 @@
 }
 
 .post-list__dynamic {
-    overflow-x: hidden;
     scrollbar-color: var(--center-channel-color-32) #fff0;
     scrollbar-width: thin;
 

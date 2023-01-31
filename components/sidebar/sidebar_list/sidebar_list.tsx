@@ -21,7 +21,7 @@ import * as Utils from 'utils/utils';
 import {StaticPage} from 'types/store/lhs';
 
 import GlobalThreadsLink from 'components/threading/global_threads_link';
-import DraftsLink from 'components/drafts/drafts_link';
+import DraftsLink from 'components/drafts/drafts_link/drafts_link';
 import ActivityAndInsightsLink
     from 'components/activity_and_insights/activity_and_insights_link/activity_and_insights_link';
 

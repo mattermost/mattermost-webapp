@@ -449,6 +449,7 @@ export const ModalIdentifiers = {
     WORK_TEMPLATES: 'work_template',
     DOWNGRADE_MODAL: 'downgrade_modal',
     PURCHASE_IN_PROGRESS: 'purchase_in_progress',
+    CONFIRM_SWITCH_TO_YEARLY: 'confirm_switch_to_yearly',
 };
 
 export const UserStatuses = {
@@ -501,7 +502,6 @@ export const PaidFeatures = {
     PLAYBOOKS_RETRO: 'mattermost.feature.playbooks_retro',
     UNLIMITED_MESSAGES: 'mattermost.feature.unlimited_messages',
     UNLIMITED_FILE_STORAGE: 'mattermost.feature.unlimited_file_storage',
-    UNLIMITED_BOARD_CARDS: 'mattermost.feature.unlimited_board_cards',
     TEAM_INSIGHTS: 'mattermost.feature.team_insights',
     ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
     ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
@@ -744,6 +744,8 @@ export const TELEMETRY_CATEGORIES = {
     SELF_HOSTED_LICENSE_EXPIRED: 'self_hosted_license_expired',
     WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
     REQUEST_BUSINESS_EMAIL: 'request_business_email',
+    TRUE_UP_REVIEW: 'true_up_review',
+    WORK_TEMPLATES: 'work_templates',
 };
 
 export const TELEMETRY_LABELS = {
@@ -1075,13 +1077,14 @@ export const DocLinks = {
     UPGRADE_SERVER: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
     ONBOARD_LDAP: 'https://docs.mattermost.com/onboard/ad-ldap.html',
     ONBOARD_SSO: 'https://docs.mattermost.com/onboard/sso-saml.html',
+    TRUE_UP_REVIEW: 'https://mattermost.com/pl/true-up-documentation',
 };
 
 export const LicenseLinks = {
     CONTACT_SALES: 'https://mattermost.com/contact-sales/',
-    SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/software-evaluation-agreement/',
     TRIAL_INFO_LINK: 'https://mattermost.com/trial',
     EMBARGOED_COUNTRIES: 'https://mattermost.com/pl/limitations-for-embargoed-countries',
+    SOFTWARE_SERVICES_LICENSE_AGREEMENT: 'https://mattermost.com/pl/software-and-services-license-agreement',
 };
 
 export const BillingSchemes = {
@@ -1501,6 +1504,7 @@ export const Constants = {
     MIN_USERS_IN_GM: 3,
     MAX_CHANNEL_POPOVER_COUNT: 100,
     DM_AND_GM_SHOW_COUNTS: [10, 15, 20, 40],
+    HIGHEST_DM_SHOW_COUNT: 10000,
     DM_CHANNEL: 'D',
     GM_CHANNEL: 'G',
     OPEN_CHANNEL: 'O',

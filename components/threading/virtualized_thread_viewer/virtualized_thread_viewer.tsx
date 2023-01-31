@@ -32,7 +32,6 @@ type Props = {
     selectedPostFocusedAt?: number;
     lastPost: Post;
     onCardClick: (post: Post) => void;
-    onCardClickPost: (post: Post) => void;
     replyListIds: string[];
     selected: Post | FakePost;
     teamId: string;
@@ -135,7 +134,12 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        const {highlightedPostId, selectedPostFocusedAt, lastPost, currentUserId} = this.props;
+        const {highlightedPostId, selectedPostFocusedAt, lastPost, currentUserId, directTeammate} = this.props;
+
+        // In case the user is being deactivated, we need to trigger a re-render
+        if (directTeammate?.delete_at !== prevProps.directTeammate?.delete_at) {
+            this.scrollToBottom();
+        }
 
         if ((highlightedPostId && prevProps.highlightedPostId !== highlightedPostId) ||
             prevProps.selectedPostFocusedAt !== selectedPostFocusedAt) {
@@ -396,10 +400,10 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
                     isLastPost={isLastPost}
                     listId={itemId}
                     onCardClick={this.props.onCardClick}
-                    onCardClickPost={this.props.onCardClickPost}
                     previousPostId={getPreviousPostId(data, index)}
                     teamId={this.props.teamId}
                     timestampProps={this.props.useRelativeTimestamp ? THREADING_TIME : undefined}
+                    lastPost={this.props.lastPost}
                 />
             </div>
         );
