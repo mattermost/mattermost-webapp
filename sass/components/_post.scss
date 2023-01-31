@@ -2196,12 +2196,8 @@
 }
 
 .post-row__padding {
-    &.bottom > div:not(.post) {
-        padding-bottom: 1em;
-    }
-
     &.top > div:not(.post) {
-        padding-top: 1em;
+        padding-top: 0;
     }
 
     &.top .post {
@@ -2381,7 +2377,6 @@
 }
 
 .post-list__dynamic {
-    overflow-x: hidden;
     scrollbar-color: var(--center-channel-color-32) #fff0;
     scrollbar-width: thin;
 

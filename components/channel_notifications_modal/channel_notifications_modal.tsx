@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable react/no-string-refs */
-
 import deepEqual from 'fast-deep-equal';
 import React from 'react';
 import {Modal} from 'react-bootstrap';

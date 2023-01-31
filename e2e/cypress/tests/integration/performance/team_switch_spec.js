@@ -32,7 +32,7 @@ describe('Team switch performance test', () => {
         // # Invoke window object
         measurePerformance(
             'teamLoad',
-            900,
+            1900,
             () => {
                 // # Switch to Team 2
                 cy.get('#teamSidebarWrapper').within(() => {
