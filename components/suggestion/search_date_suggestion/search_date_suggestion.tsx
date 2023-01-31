@@ -42,6 +42,18 @@ export default class SearchDateSuggestion extends Suggestion {
         document.removeEventListener('keydown', this.handleKeyDown);
     }
 
+    iconLeft = () => {
+        return (
+            <i className='icon icon-chevron-left'/>
+        );
+    }
+
+    iconRight = () => {
+        return (
+            <i className='icon icon-chevron-right'/>
+        );
+    }
+
     render() {
         const locale: string = this.props.locale;
 
@@ -56,6 +68,10 @@ export default class SearchDateSuggestion extends Suggestion {
                 initialFocus={this.state.datePickerFocused}
                 onMonthChange={this.props.preventClose}
                 id='searchDatePicker'
+                components={{
+                    IconRight: this.iconRight,
+                    IconLeft: this.iconLeft,
+                }}
             />
         );
     }

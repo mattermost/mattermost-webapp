@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
 import {DayPicker, DayPickerProps} from 'react-day-picker';
 import {
@@ -54,6 +54,18 @@ const DatePicker = ({children, datePickerProps, isPopperOpen, handlePopperOpenSt
         setLoadedLocales(getDatePickerLocalesForDateFns(locale, loadedLocales));
     }, [loadedLocales, locale]);
 
+    const iconLeft = useCallback(() => {
+        return (
+            <i className='icon icon-chevron-left'/>
+        );
+    }, []);
+
+    const iconRight = useCallback(() => {
+        return (
+            <i className='icon icon-chevron-right'/>
+        );
+    }, []);
+
     return (
         <div>
             <div
@@ -82,6 +94,10 @@ const DatePicker = ({children, datePickerProps, isPopperOpen, handlePopperOpenSt
                             }}
                             className='date-picker__popper'
                             locale={loadedLocales[locale]}
+                            components={{
+                                IconRight: iconRight,
+                                IconLeft: iconLeft,
+                            }}
                             {...getFloatingProps}
                         />
                     </div>

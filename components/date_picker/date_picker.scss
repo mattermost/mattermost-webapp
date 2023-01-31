@@ -1,5 +1,5 @@
 .date-picker__popper {
-    padding: 10px;
+    padding: 12px;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     margin: 0;
     background: var(--center-channel-bg);
@@ -10,4 +10,86 @@
 .rdp {
     --rdp-accent-color: var(--button-bg);
     --rdp-background-color: rgba(var(--center-channel-color-rgb), 0.08);
+    --rdp-cell-size: 36px;
+
+    .rdp-caption {
+        padding: 4px;
+
+        .rdp-caption_label {
+            font-family: 'Metropolis';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+            color: var(--center-channel-color);
+        }
+    }
+
+    .rdp-head_cell {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: rgba(var(--center-channel-color-rgb), 0.64);
+    }
+
+    .rdp-cell {
+        padding: 4px;
+    }
+
+    .rdp-button{
+        &:hover {
+            color: var(--center-channel-color);
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
+        }
+        
+        &:active {
+            background-color: rgba(var(--button-bg-rgb), 0.12);
+            color: var(--button-bg);
+        }
+
+        &[disabled] {
+            color: rgba(var(--center-channel-color-rgb), 0.32);
+            opacity: unset;
+
+            &:hover {
+                background-color: transparent;
+            }
+        }
+
+        &.rdp-nav_button {
+            border-radius: 4px;
+            color: rgba(var(--center-channel-color-rgb), 0.56);
+    
+            .icon {
+                font-weight: 400;
+                font-size: 24px;
+                line-height: 24px;
+            }
+    
+            &:hover {
+                color: rgba(var(--center-channel-color-rgb), 0.72);
+                background-color: rgba(var(--center-channel-color-rgb), 0.08);
+            }
+    
+            &:active {
+                color: var(--button-bg);
+                background-color: rgba(var(--button-bg-rgb), 0.08);
+            }
+
+            &[disabled] {
+                color: rgba(var(--center-channel-color-rgb), 0.32);
+
+                &:hover {
+                    background-color: transparent;
+                }
+            }
+        }
+
+        
+    }
+    
 }

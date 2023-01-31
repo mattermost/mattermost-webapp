@@ -145,6 +145,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
         disabled: [{
             before: currentTime,
         }],
+        showOutsideDays: true,
     };
 
     return (
