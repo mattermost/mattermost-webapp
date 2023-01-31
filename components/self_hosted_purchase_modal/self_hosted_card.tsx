@@ -17,13 +17,13 @@ import {
     SelfHostedProducts,
 } from 'utils/constants';
 
-import Consequences, {seeHowBillingWorks} from './consequences';
+import Consequences from './consequences';
 import SeatsCalculator, {Seats} from './seats_calculator';
 
 // Card has a bunch of props needed for monthly/yearly payments that
 // do not apply to self-hosted.
 const dummyCardProps = {
-    annualSubscription: false,
+    isCloud: false,
     usersCount: 0,
     yearlyPrice: 0,
     monthlyPrice: 0,
@@ -77,22 +77,28 @@ export default function SelfHostedCard(props: Props) {
             {comparePlanWrapper}
             <Card
                 {...dummyCardProps}
-                intl={intl}
                 topColor='#4A69AC'
                 plan={props.desiredPlanName}
                 price={`${props.desiredProduct?.price_per_seat?.toString()}`}
-                seeHowBillingWorks={seeHowBillingWorks}
-                rate='/user/month'
+                rate={intl.formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month {br}<b>(billed annually)</b>'}, {
+                    br: <br/>,
+                    b: (chunks: React.ReactNode | React.ReactNodeArray) => (
+                        <span style={{fontSize: '14px'}}>
+                            <b>{chunks}</b>
+                        </span>
+                    ),
+                })}
                 planBriefing={<></>}
                 preButtonContent={(
                     <SeatsCalculator
                         price={props.desiredProduct?.price_per_seat}
                         seats={props.seats}
                         existingUsers={props.currentUsers}
+                        isCloud={false}
                         onChange={props.updateSeats}
                     />
                 )}
-                afterButtonContent={<Consequences/>}
+                afterButtonContent={<Consequences isCloud={false}/>}
                 buttonDetails={{
                     action: props.submit,
                     disabled: !props.canSubmit,
@@ -113,7 +119,6 @@ export default function SelfHostedCard(props: Props) {
                         />
                     ) : undefined
                 }
-                hideBillingCycle={true}
             />
         </>
     );
