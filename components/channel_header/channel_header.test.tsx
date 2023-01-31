@@ -3,11 +3,12 @@
 
 import React, {ComponentProps} from 'react';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import ChannelHeader from 'components/channel_header/channel_header';
 import ChannelInfoButton from 'components/channel_header/channel_info_button';
 import Markdown from 'components/markdown';
-import GuestBadge from 'components/widgets/badges/guest_badge';
 import Constants, {RHSStates} from 'utils/constants';
 import {TestHelper} from '../../utils/test_helper';
 import {ChannelType} from '@mattermost/types/channels';
@@ -263,7 +264,7 @@ describe('components/ChannelHeader', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should render the guest badges on gms', () => {
+    test('should render the guest tags on gms', () => {
         const props = {
             ...populatedProps,
             channel: TestHelper.getChannelMock({
@@ -289,7 +290,7 @@ describe('components/ChannelHeader', () => {
             <ChannelHeader {...props}/>,
         );
         expect(wrapper.containsMatchingElement(
-            <GuestBadge show={true}/>,
+            <GuestTag/>,
         )).toEqual(true);
     });
 

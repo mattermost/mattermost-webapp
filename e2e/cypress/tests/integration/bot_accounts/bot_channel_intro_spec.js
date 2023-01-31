@@ -17,14 +17,6 @@ describe('Bot channel intro and avatar', () => {
     let bot;
 
     before(() => {
-        // # Set ServiceSettings to expected values
-        const newSettings = {
-            ServiceSettings: {
-                EnableBotAccountCreation: true,
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
-
         cy.apiInitSetup().then((out) => {
             team = out.team;
         });
@@ -53,7 +45,7 @@ describe('Bot channel intro and avatar', () => {
                     should('be.visible').
                     and('have.attr', 'src').
                     then((url) => cy.request({url, encoding: 'binary'})).
-                    should(({body}) => {
+                    then(({body}) => {
                         // * Verify matches expected default bot avatar
                         cy.fixture('bot-default-avatar.png', 'binary').should('deep.equal', body);
                     });

@@ -13,7 +13,6 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getFilesDropdownPluginMenuItems} from 'selectors/plugins';
 
 import SearchResultsHeader from 'components/search_results_header';
-import SearchResultsItem from 'components/search_results_item';
 import SearchHint from 'components/search_hint/search_hint';
 import LoadingSpinner from 'components/widgets/loading/loading_wrapper';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
@@ -22,12 +21,14 @@ import FileSearchResultItem from 'components/file_search_results';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 import * as Utils from 'utils/utils';
-import {searchHintOptions, DataSearchTypes} from 'utils/constants';
+import {searchHintOptions, DataSearchTypes, Locations} from 'utils/constants';
 import {isFileAttachmentsEnabled} from 'utils/file_utils';
 import {t} from 'utils/i18n';
 
 import {Post} from '@mattermost/types/posts';
 import {FileSearchResultItem as FileSearchResultItemType} from '@mattermost/types/files';
+
+import PostComponent from 'components/post';
 
 import MessageOrFileSelector from './messages_or_files_selector';
 import FilesFilterMenu from './files_filter_menu';
@@ -285,16 +286,14 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         contentItems = sortedResults.map((item: Post|FileSearchResultItemType, index: number) => {
             if (searchType === DataSearchTypes.MESSAGES_SEARCH_TYPE && !props.isChannelFiles) {
                 return (
-                    <SearchResultsItem
+                    <PostComponent
                         key={item.id}
-                        compactDisplay={props.compactDisplay}
                         post={item as Post}
                         matches={props.matches[item.id]}
                         term={(!props.isFlaggedPosts && !props.isPinnedPosts && !props.isMentionSearch) ? searchTerms : ''}
                         isMentionSearch={props.isMentionSearch}
                         a11yIndex={index}
-                        isFlaggedPosts={props.isFlaggedPosts}
-                        isPinnedPosts={props.isPinnedPosts}
+                        location={Locations.SEARCH}
                     />
                 );
             }

@@ -4,12 +4,17 @@
 import {createSelector} from 'reselect';
 
 import {getMyActiveChannelIds} from 'mattermost-redux/selectors/entities/channels';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+
+import {Preferences} from 'mattermost-redux/constants';
 
 import {GlobalState} from 'types/store';
 import {DraftInfo, PostDraft} from 'types/store/draft';
 
 import {StoragePrefixes} from 'utils/constants';
 import {getDraftInfoFromKey} from 'utils/storage_utils';
+
+import {getIsMobileView} from 'selectors/views/browser';
 
 export type Draft = DraftInfo & {
     key: keyof GlobalState['storage']['storage'];
@@ -19,6 +24,17 @@ export type Draft = DraftInfo & {
 
 export type DraftSelector = (state: GlobalState) => Draft[];
 export type DraftCountSelector = (state: GlobalState) => number;
+
+export function showDraftsPulsatingDotAndTourTip(state: GlobalState): boolean {
+    if (getIsMobileView(state)) {
+        return false;
+    }
+
+    const draftsTourTipShowed = get(state, Preferences.CATEGORY_DRAFTS, Preferences.DRAFTS_TOUR_TIP_SHOWED, '');
+    const draftsAlreadyViewed = draftsTourTipShowed && JSON.parse(draftsTourTipShowed)[Preferences.DRAFTS_TOUR_TIP_SHOWED];
+
+    return !draftsAlreadyViewed;
+}
 
 export function makeGetDraftsByPrefix(prefix: string): DraftSelector {
     return createSelector(
