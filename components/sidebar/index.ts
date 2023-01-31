@@ -7,7 +7,7 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {fetchMyCategories} from 'mattermost-redux/actions/channel_categories';
 import {Preferences} from 'mattermost-redux/constants';
 import Permissions from 'mattermost-redux/constants/permissions';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getBool, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {haveICurrentChannelPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -20,7 +20,6 @@ import {GlobalState} from 'types/store';
 import {getIsLhsOpen} from 'selectors/lhs';
 import {getIsMobileView} from 'selectors/views/browser';
 import {isModalOpen} from 'selectors/views/modals';
-import {showSidebarInviteButtonForABTest} from 'selectors/cloud';
 import {ModalIdentifiers} from 'utils/constants';
 
 import Sidebar from './sidebar';
@@ -42,7 +41,7 @@ function mapStateToProps(state: GlobalState) {
 
     const canCreateCustomGroups = haveISystemPermission(state, {permission: Permissions.CREATE_CUSTOM_GROUP}) && isCustomGroupsEnabled(state);
 
-    const showInviteButton = showSidebarInviteButtonForABTest(state);
+    const showInviteButton = getFeatureFlagValue(state, 'ShowInviteTeamMembersButton');
 
     return {
         teamId: currentTeam ? currentTeam.id : '',
@@ -62,7 +61,7 @@ function mapStateToProps(state: GlobalState) {
         isKeyBoardShortcutModalOpen: isModalOpen(state, ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL),
         userGroupsEnabled,
         canCreateCustomGroups,
-        showInviteButton,
+        showInviteButton: showInviteButton === 'true',
     };
 }
 

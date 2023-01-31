@@ -10,10 +10,10 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {ChannelCategory} from '@mattermost/types/channel_categories';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 import {Preferences, Touched} from 'utils/constants';
 
 import {getDraggingState, makeGetFilteredChannelIdsForCategory} from 'selectors/views/channel_sidebar';
-import {showSidebarInviteButtonForABTest} from 'selectors/cloud';
 import {GlobalState} from 'types/store';
 
 import SidebarCategory from './sidebar_category';
@@ -26,14 +26,14 @@ function makeMapStateToProps() {
     const getChannelIdsForCategory = makeGetFilteredChannelIdsForCategory();
 
     return (state: GlobalState, ownProps: OwnProps) => {
-        const hideInviteTeamMembersButton = showSidebarInviteButtonForABTest(state);
+        const hideInviteTeamMembersButton = getFeatureFlagValue(state, 'ShowInviteTeamMembersButton');
 
         return {
             channelIds: getChannelIdsForCategory(state, ownProps.category),
             draggingState: getDraggingState(state),
             touchedInviteMembersButton: getBool(state, Preferences.TOUCHED, Touched.INVITE_MEMBERS),
             currentUserId: getCurrentUserId(state),
-            hideInviteTeamMembersButton,
+            hideInviteTeamMembersButton: hideInviteTeamMembersButton === 'true',
         };
     };
 }
