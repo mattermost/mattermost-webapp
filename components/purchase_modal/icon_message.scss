@@ -36,10 +36,11 @@
         }
 
         .IconMessage-sub {
+            align-self: center;
+            max-width: 560px;
             &.error {
                 color: #db3214;
             }
-
             margin-top: 16px;
             color: var(--center-channel-color);
             font-size: 14px;

@@ -16,6 +16,7 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
 import {CloudTypes} from 'mattermost-redux/action_types';
 import {Address} from '@mattermost/types/cloud';
+import {getBlankAddressWithCountry} from 'utils/utils';
 
 // Returns true for success, and false for any error
 export function completeStripeAddPaymentMethod(
@@ -83,7 +84,7 @@ export function completeStripeAddPaymentMethod(
 
 export function subscribeCloudSubscription(
     productId: string,
-    shippingAddress: Address,
+    shippingAddress: Address = getBlankAddressWithCountry(),
     seats = 0,
 ) {
     return async () => {

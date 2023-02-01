@@ -863,7 +863,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     render() {
-        if (this.props.isComplianceBlocked) {
+        if (true) {
             return (
                 <RootPortal>
                     <FullScreenModal

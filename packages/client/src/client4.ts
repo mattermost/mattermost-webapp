@@ -3963,10 +3963,17 @@ export default class Client4 {
         );
     }
 
-    subscribeCloudProduct = (productId: string, shippingAddress: Address, seats = 0) => {
+    subscribeCloudProduct = (productId: string, shippingAddress?: Address, seats = 0) => {
+        const body = {
+            product_id: productId,
+            seats,
+        } as any;
+        if (shippingAddress) {
+            body.shipping_address = shippingAddress;
+        }
         return this.doFetch<CloudCustomer>(
             `${this.getCloudRoute()}/subscription`,
-            {method: 'put', body: JSON.stringify({product_id: productId, seats})},
+            {method: 'put', body: JSON.stringify(body)},
         );
     }
 
