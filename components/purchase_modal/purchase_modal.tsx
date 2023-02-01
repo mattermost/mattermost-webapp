@@ -829,7 +829,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             >
                                 <span className='billing_address_btn_text'>
                                     {this.props.intl.formatMessage({
-                                        id: 'admin.billing.subscription.commplianceScreenShippingSameAsBilling',
+                                        id: 'admin.billing.subscription.complianceScreenShippingSameAsBilling',
                                         defaultMessage:
                                             'My shipping address is the same as my billing address',
                                     })}
