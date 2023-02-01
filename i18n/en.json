@@ -2996,7 +2996,7 @@
   "cloud_delinquency.banner.end_user_notify_admin_button": "Notify admin",
   "cloud_delinquency.banner.end_user_notify_admin_title": "Your workspace has been downgraded. Notify your admin to fix billing issues",
   "cloud_delinquency.banner.title": "Update your billing information now to keep paid features.",
-  "cloud_delinquency.cc_modal.card.reactivate": "Re-activate",
+  "cloud_delinquency.cc_modal.card.reactivate": "Reactivate",
   "cloud_delinquency.cc_modal.card.totalOwed": "Total owed",
   "cloud_delinquency.cc_modal.card.viewBreakdown": "View breakdown",
   "cloud_delinquency.cc_modal.disclaimer": "Upon reactivation you will be charged the total owed.  Your bill is calculated at the end of the billing cycle based on the number of enabled users. {seeHowBillingWorks}",
