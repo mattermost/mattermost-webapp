@@ -9,6 +9,7 @@ import classNames from 'classnames';
 
 import {UserProfile} from '@mattermost/types/users';
 
+import {Client4} from 'mattermost-redux/client';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
@@ -61,7 +62,7 @@ type State = {
     options: UserProfile[];
 }
 
-const emailsDelimiter = /[\s,;]+/;
+const multipleValuesDelimiter = /[\s,;]+/;
 
 export default class UsersEmailsInput extends React.PureComponent<Props, State> {
     static defaultProps = {
@@ -73,7 +74,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         loadingMessageDefault: 'Loading',
         showError: false,
     };
-    private selectRef: RefObject<AsyncCreatable<UserProfile | EmailInvite> & {handleInputChange: (newValue: string, actionMeta: InputActionMeta | {action: 'custom'}) => string}>;
+    private selectRef: RefObject<AsyncCreatable<UserProfile | EmailInvite> & { handleInputChange: (newValue: string, actionMeta: InputActionMeta | { action: 'custom' }) => string }>;
 
     constructor(props: Props) {
         super(props);
@@ -113,10 +114,6 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
 
         // faking types to satisfy the interface for the version of react-select we are on.
         return (<LoadingSpinner text={text}/>) as unknown as string;
-    }
-
-    isUserProfile(obj: UserProfile | EmailInvite): obj is UserProfile {
-        return (obj as UserProfile).id !== undefined;
     }
 
     getOptionValue = (obj: UserProfile | EmailInvite): string => {
@@ -241,15 +238,12 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         IndicatorsContainer: () => null,
         Input: (props: InputProps) => {
             const handlePaste = (e: ClipboardEvent) => {
-                if (!this.props.emailInvitationsEnabled) {
-                    return;
-                }
-
                 const clipboardText = e.clipboardData?.getData('Text') || '';
-                const hasChanges = this.appendDelimitedEmails(clipboardText);
-                if (hasChanges) {
-                    e.preventDefault();
-                }
+                this.appendDelimitedValues(clipboardText).then((hasChanges) => {
+                    if (hasChanges) {
+                        e.preventDefault();
+                    }
+                });
             };
 
             return (
@@ -265,7 +259,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         },
     };
 
-    handleInputChange = (inputValue: string, action: InputActionMeta) => {
+    handleInputChange = async (inputValue: string, action: InputActionMeta) => {
         if (action.action === 'input-blur' && inputValue !== '') {
             const values = this.formatValuesForCreatable();
 
@@ -287,8 +281,8 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
                 this.onChange([...values, {value: email, label: email}]);
                 this.props.onInputChange('');
             }
-        } else if (action.action === 'input-change' && inputValue !== '' && inputValue?.[inputValue.length - 1].match(emailsDelimiter)) {
-            const hasChanges = this.appendDelimitedEmails(inputValue);
+        } else if (action.action === 'input-change' && inputValue !== '' && inputValue?.[inputValue.length - 1].match(multipleValuesDelimiter)) {
+            const hasChanges = await this.appendDelimitedValues(inputValue);
             if (hasChanges) {
                 return;
             }
@@ -337,31 +331,115 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         }
     }
 
-    appendDelimitedEmails = (val: string): boolean => {
-        const values = this.formatValuesForCreatable();
-        const items = val.split(emailsDelimiter);
+    appendDelimitedValues = async (values: string): Promise<boolean> => {
+        const existingValues = this.formatValuesForCreatable();
+        const entries = [...new Set(values.split(multipleValuesDelimiter))];
 
-        if (items.length === 0) {
+        if (entries.length === 0) {
             return false;
         }
 
-        // Filter out any invalid emails and any emails that are already in the list.
-        const validEmails = [...new Set(items)].filter((item) =>
-            item !== '' &&
-            isEmail(item) &&
-            !values.find((v) => 'value' in v && v.value === item),
-        );
+        const isUniqueEmail = (values: Array<UserProfile | EmailInvite>, email: string): boolean => {
+            return values.findIndex((v) => (
+                this.isEmailInvite(v) && v.value === email) || (this.isUserProfile(v) && v.email === email),
+            ) === -1;
+        };
 
-        const newValues = [...values, ...validEmails.map((email) => ({label: email, value: email}))];
+        const handleEmail = async (email: string): Promise<UserProfile | string | null> => {
+            if (!isUniqueEmail(existingValues, email)) {
+                return null;
+            }
+            const resp = await this.searchByEmail(email);
+            return resp || email;
+        };
 
-        if (newValues.length === values.length) {
-            return false;
-        }
+        const isUniqueUsername = (values: Array<UserProfile | EmailInvite>, username: string): boolean => {
+            return values.findIndex((v) => this.isUserProfile(v) && v.username === username) === -1;
+        };
 
-        this.onChange(newValues);
+        const handleUsername = async (username: string): Promise<UserProfile | null> => {
+            if (!isUniqueUsername(existingValues, username)) {
+                return null;
+            }
+            return this.searchByUsername(username);
+        };
+
+        const promises = entries.map(async (entry) => {
+            if (entry === '') {
+                return Promise.resolve(null);
+            }
+
+            let res;
+            if (this.props.emailInvitationsEnabled && isEmail(entry)) {
+                res = await handleEmail(entry);
+            } else {
+                res = await handleUsername(entry);
+            }
+
+            if (typeof res === 'string') {
+                return Promise.resolve({value: res, label: res});
+            } else if (this.isUserProfile(res as UserProfile)) {
+                return Promise.resolve(res);
+            }
+            return Promise.resolve(null);
+        });
+
+        const newValues: Array<UserProfile | EmailInvite> = [];
+
+        (await Promise.allSettled(promises)).reduce((acc, v) => {
+            if (v.status === 'fulfilled') {
+                acc.push(v.value);
+            }
+            return acc;
+        }, [] as Array<UserProfile | EmailInvite | null>).forEach((v) => {
+            if (!v) {
+                return;
+            }
+
+            if (this.isEmailInvite(v) && (!isUniqueEmail(existingValues, v.value) || !isUniqueEmail(newValues, v.value))) {
+                return;
+            }
+
+            if (this.isUserProfile(v) && (
+                !isUniqueUsername(existingValues, v.username) || !isUniqueEmail(existingValues, v.email) ||
+                !isUniqueUsername(newValues, v.username) || !isUniqueEmail(newValues, v.email)
+            )) {
+                return;
+            }
+
+            newValues.push(v);
+        });
+
+        this.onChange([...existingValues, ...newValues]);
         this.props.onInputChange('');
 
         return true;
+    }
+
+    isUserProfile = (obj: UserProfile | EmailInvite): obj is UserProfile => {
+        return (obj as UserProfile).id !== undefined;
+    }
+
+    isEmailInvite = (obj: UserProfile | EmailInvite): obj is EmailInvite => {
+        return (obj as EmailInvite).value !== undefined;
+    }
+
+    searchByEmail = async (value: string): Promise<UserProfile | null> => {
+        try {
+            return await Client4.getUserByEmail(value);
+        } catch (error) {
+            return null;
+        }
+    }
+
+    searchByUsername = async (value: string): Promise<UserProfile | null> => {
+        let data;
+        try {
+            data = await Client4.autocompleteUsers(value, '', '', {limit: 1});
+        } catch (error) {
+            return null;
+        }
+        return data.users?.[0] || null;
     }
 
     render() {
