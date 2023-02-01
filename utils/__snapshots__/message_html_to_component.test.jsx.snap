@@ -125,7 +125,6 @@ exports[`messageHtmlToComponent Inline markdown image where image is link 1`] = 
 exports[`messageHtmlToComponent html 1`] = `
 <CodeBlock
   code="<div>This is a html div</div>"
-  id="randompostid"
   language="html"
   searchedContent=""
 />
@@ -203,7 +202,6 @@ exports[`messageHtmlToComponent typescript 1`] = `
   code="const myFunction = () => {
     console.log('This is a meaningful function');
 };"
-  id="randompostid"
   language="typescript"
   searchedContent=""
 />
