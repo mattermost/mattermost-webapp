@@ -11,7 +11,6 @@ import * as Actions from 'actions/views/channel';
 import {closeRightHandSide} from 'actions/views/rhs';
 import mockStore from 'tests/test_store';
 import {ActionTypes, PostRequestTypes} from 'utils/constants';
-import {ChannelTypes} from 'mattermost-redux/action_types';
 
 jest.mock('utils/channel_utils.tsx', () => {
     const original = jest.requireActual('utils/channel_utils.tsx');
