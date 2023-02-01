@@ -128,4 +128,3 @@ export default class FileUploadSetting extends Setting {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

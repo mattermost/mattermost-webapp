@@ -2195,7 +2195,7 @@ const AdminDefinition = {
                         label: t('admin.general.localization.serverLocaleTitle'),
                         label_default: 'Default Server Language:',
                         help_text: t('admin.general.localization.serverLocaleDescription'),
-                        help_text_default: 'Default language for system messages. Changing this will require a server restart before taking effect.',
+                        help_text_default: 'Default language for system messages.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.LOCALIZATION)),
                     },
                     {

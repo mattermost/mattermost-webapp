@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
@@ -39,7 +39,7 @@ type CardProps = {
     plan: string;
     planSummary?: string;
     price?: string;
-    rate?: string;
+    rate?: ReactNode;
     planExtraInformation?: JSX.Element;
     buttonDetails?: ButtonDetails;
     customButtonDetails?: JSX.Element;
