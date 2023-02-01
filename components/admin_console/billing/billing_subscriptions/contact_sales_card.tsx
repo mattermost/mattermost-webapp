@@ -187,13 +187,17 @@ const ContactSalesCard = (props: Props) => {
                 }
             </div>
             <div className='PrivateCloudCard__image'>
-                {isFreeTrial ? <CloudTrialSvg
-                    width={170}
-                    height={123}
-                /> : <PrivateCloudSvg
-                                   width={170}
-                                   height={123}
-                                    />
+                {isFreeTrial ? (
+                    <CloudTrialSvg
+                        width={170}
+                        height={123}
+                    />
+                ) : (
+                    <PrivateCloudSvg
+                        width={170}
+                        height={123}
+                    />
+                )
                 }
             </div>
         </div>
