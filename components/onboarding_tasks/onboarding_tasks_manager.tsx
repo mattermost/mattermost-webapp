@@ -43,7 +43,7 @@ import {ModalIdentifiers, TELEMETRY_CATEGORIES, ExploreOtherToolsTourSteps} from
 import BullsEye from 'components/common/svg_images_components/bulls_eye_svg';
 import Channels from 'components/common/svg_images_components/channels_svg';
 import Clipboard from 'components/common/svg_images_components/clipboard_svg';
-import File from 'components/common/svg_images_components/file_svg';
+import Newspaper from 'components/common/svg_images_components/newspaper_svg';
 import Gears from 'components/common/svg_images_components/gears_svg';
 import Handshake from 'components/common/svg_images_components/handshake_svg';
 import Phone from 'components/common/svg_images_components/phone_svg';
@@ -61,10 +61,10 @@ const useGetTaskDetails = () => {
     return {
         [OnboardingTasksName.CREATE_FROM_WORK_TEMPLATE]: {
             id: 'task_create_from_work_template',
-            svg: File,
+            svg: Newspaper,
             message: formatMessage({
                 id: 'onboardingTask.checklist.task_create_from_work_template',
-                defaultMessage: 'Create from a template.',
+                defaultMessage: 'Create from a template - set up a channel with linked boards and playbooks.',
             }),
         },
         [OnboardingTasksName.CHANNELS_TOUR]: {
