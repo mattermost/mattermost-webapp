@@ -1,15 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
-/* eslint-disable header/header */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from 'react';
 
 import {ClientLicense} from '@mattermost/types/config';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {StatusOK} from '@mattermost/types/client4';
 
-import {isLicenseExpired, isLicenseExpiring, isTrialLicense, isEnterpriseOrE20License} from 'utils/license_utils';
+import {isLicenseExpired, isLicenseExpiring, isTrialLicense, isEnterpriseOrE20License, licenseSKUWithFirstLetterCapitalized} from 'utils/license_utils';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -167,7 +167,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         this.props.actions.openModal({
             modalId: ModalIdentifiers.CONFIRM_LICENSE_REMOVAL,
             dialogType: ConfirmLicenseRemovalModal,
-            dialogProps: {handleRemove: this.handleRemove},
+            dialogProps: {handleRemove: this.handleRemove, currentLicenseSKU: licenseSKUWithFirstLetterCapitalized(this.props.license)},
         });
     };
 
@@ -423,4 +423,3 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         return null;
     }
 }
-/* eslint-enable react/no-string-refs */

@@ -1,7 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode, useState} from 'react';
+/* eslint-disable max-lines */
+
+import React, {ReactNode} from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
@@ -9,9 +11,6 @@ import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/
 import {Elements} from '@stripe/react-stripe-js';
 
 import {isEmpty} from 'lodash';
-import classNames from 'classnames';
-
-import {CloudCustomer, Product, Invoice} from '@mattermost/types/cloud';
 
 import {localizeMessage, getNextBillingDate} from 'utils/utils';
 
@@ -24,13 +23,9 @@ import {
     CloudProducts,
     BillingSchemes,
     ModalIdentifiers,
-    ItemStatus,
     RecurringIntervals,
 } from 'utils/constants';
-import {findProductByID} from 'utils/products';
-import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
-import Input from 'components/widgets/inputs/input/input';
 import PaymentDetails from 'components/admin_console/billing/payment_details';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
 import RootPortal from 'components/root_portal';
@@ -42,10 +37,19 @@ import BackgroundSvg from 'components/common/svg_images_components/background_sv
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import PricingModal from 'components/pricing_modal';
 import PlanLabel from 'components/common/plan_label';
-import YearlyMonthlyToggle from 'components/yearly_monthly_toggle';
+import Consequences from 'components/self_hosted_purchase_modal/consequences';
+import SeatsCalculator, {errorInvalidNumber, Seats} from 'components/self_hosted_purchase_modal/seats_calculator';
+import SwitchToYearlyPlanConfirmModal from 'components/switch_to_yearly_plan_confirm_modal';
+
 import {ModalData} from 'types/actions';
-import {Team} from '@mattermost/types/teams';
+
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
+
+import {CloudCustomer, Product, Invoice} from '@mattermost/types/cloud';
+
+import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
+
+import {Team} from '@mattermost/types/teams';
 
 import PaymentForm from '../payment_form/payment_form';
 
@@ -78,27 +82,15 @@ type DelinquencyCardProps = {
 };
 
 type CardProps = {
-    topColor: string;
+    topColor?: string;
     plan: string;
-    price: string;
-    rate?: string;
+    price?: string;
+    rate?: ReactNode;
     buttonDetails: ButtonDetails;
-    planBriefing: JSX.Element | null; // can be removed once Yearly Subscriptions are available
+    planBriefing?: JSX.Element | null; // can be removed once Yearly Subscriptions are available
     planLabel?: JSX.Element;
-    seeHowBillingWorks?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-    hideBillingCycle?: boolean;
     preButtonContent?: React.ReactNode;
     afterButtonContent?: React.ReactNode;
-    annualSubscription: boolean;
-    usersCount: number;
-    monthlyPrice: number;
-    yearlyPrice: number;
-    intl: IntlShape;
-    isInitialPlanMonthly: boolean;
-    updateIsMonthly: (isMonthly: boolean) => void;
-    updateInputUserCount: (userCount: number) => void;
-    setUserCountError: (hasError: boolean) => void;
-    isCurrentPlanMonthlyProfessional: boolean;
 }
 
 type Props = {
@@ -106,7 +98,7 @@ type Props = {
     show: boolean;
     isDevMode: boolean;
     products: Record<string, Product> | undefined;
-    contactSupportLink: string;
+    yearlyProducts: Record<string, Product>;
     contactSalesLink: string;
     isFreeTrial: boolean;
     productId: string | undefined;
@@ -116,9 +108,7 @@ type Props = {
     isDelinquencyModal?: boolean;
     invoices?: Invoice[];
     isCloudDelinquencyGreaterThan90Days: boolean;
-    annualSubscription: boolean;
     usersCount: number;
-    isInitialPlanMonthly: boolean;
 
     // callerCTA is information about the cta that opened this modal. This helps us provide a telemetry path
     // showing information about how the modal was opened all the way to more CTAs within the modal itself
@@ -153,10 +143,8 @@ type State = {
     isUpgradeFromTrial: boolean;
     buttonClickedInfo: string;
     selectedProductPrice: string | null;
-    userCountError: boolean;
-    isMonthly: boolean;
     usersCount: number;
-    inputUserCount: number;
+    seats: Seats;
 }
 
 /**
@@ -193,265 +181,24 @@ function findProductInDictionary(products: Record<string, Product> | undefined, 
 
 function getSelectedProduct(
     products: Record<string, Product> | undefined,
-    productId?: string | null,
-    isMonthly?: boolean | null,
+    currentProductId?: string | null,
     isDelinquencyModal?: boolean,
     isCloudDelinquencyGreaterThan90Days?: boolean) {
-    const currentProduct = findProductInDictionary(products, productId);
+    const currentProduct = findProductInDictionary(products, currentProductId); // if current product id is for monthly, currentProduct will not be found and nextSku by default is professional annual
     if (isDelinquencyModal && !isCloudDelinquencyGreaterThan90Days) {
         return currentProduct;
     }
     let nextSku = CloudProducts.PROFESSIONAL;
 
     // Don't switch the product to enterprise if the recurring interval of the selected product is yearly. This means that it can only be the yearly professional product.
-    if (currentProduct?.sku === CloudProducts.PROFESSIONAL && isMonthly) {
+    if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
         nextSku = CloudProducts.ENTERPRISE;
     }
-    return findProductInDictionary(products, null, nextSku, RecurringIntervals.MONTH);
+    return findProductInDictionary(products, null, nextSku, RecurringIntervals.YEAR);
 }
 
 export function Card(props: CardProps) {
-    const seeHowBillingWorks = props.seeHowBillingWorks || function seeHowBillingWorks(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-        e.preventDefault();
-        trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_see_how_billing_works');
-        window.open(CloudLinks.BILLING_DOCS, '_blank');
-    };
-
-    const [usersCount, setUsersCount] = useState(props.usersCount.toString());
-    const [monthlyPrice, setMonthlyPrice] = useState(props.monthlyPrice * props.usersCount);
-    const [yearlyPrice, setYearlyPrice] = useState(props.yearlyPrice * props.usersCount);
-    const [priceDifference, setPriceDifference] = useState((props.monthlyPrice - props.yearlyPrice) * props.usersCount);
-    const [isMonthly, setIsMonthly] = useState(props.isInitialPlanMonthly);
-    const [displayPrice, setDisplayPrice] = useState(props.isInitialPlanMonthly ? props.monthlyPrice : props.yearlyPrice);
-    const [errorMessage, setErrorMessage] = useState('');
-
-    const {formatMessage} = props.intl;
-
-    const checkValidNumber = (value: number) => {
-        return value >= 0 && value % 1 === 0;
-    };
-
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value;
-        const numValue = Number(value);
-
-        if (value === '' || (numValue !== null && checkValidNumber(numValue))) {
-            if (value === '' || numValue === 0) {
-                setUsersCount('');
-            } else {
-                setUsersCount(numValue.toString());
-            }
-            setMonthlyPrice(numValue * props.monthlyPrice);
-            setYearlyPrice(numValue * props.yearlyPrice);
-            setPriceDifference((props.monthlyPrice - props.yearlyPrice) * numValue);
-            props.updateInputUserCount(numValue);
-        }
-    };
-
-    const updateDisplayPage = (isMonthly: boolean) => {
-        setIsMonthly(isMonthly);
-        props.updateIsMonthly(isMonthly);
-
-        if (isMonthly) {
-            // Reset userCount to the number of users in the workspace
-            setUsersCount(props.usersCount.toString());
-            props.updateInputUserCount(props.usersCount);
-
-            // Update display prices
-            setDisplayPrice(props.monthlyPrice);
-            setMonthlyPrice(props.usersCount * props.monthlyPrice);
-            setYearlyPrice(props.usersCount * props.yearlyPrice);
-            setPriceDifference((props.monthlyPrice - props.yearlyPrice) * props.usersCount);
-        } else {
-            setDisplayPrice(props.yearlyPrice);
-        }
-    };
-
-    const userCountTooltip = (
-        <Tooltip
-            id='userCount__tooltip'
-            className='userCountTooltip'
-        >
-            <div className='tooltipTitle'>
-                <FormattedMessage
-                    defaultMessage={'Current User Count'}
-                    id={'admin.billing.subscription.userCount.tooltipTitle'}
-                />
-            </div>
-            <div className='tooltipText'>
-                <FormattedMessage
-                    defaultMessage={'You must purchase at least the current number of active users.'}
-                    id={'admin.billing.subscription.userCount.tooltipText'}
-                />
-            </div>
-        </Tooltip>
-    );
-
-    const monthlyPlan = (
-        <>
-            <div className='enable_annual_sub'>
-                <button
-                    className={'plan_action_btn ' + props.buttonDetails.customClass}
-                    disabled={props.buttonDetails.disabled}
-                    onClick={props.buttonDetails.action}
-                >{props.buttonDetails.text}</button>
-            </div>
-            <div className='plan_billing_cycle'>
-                <FormattedMessage
-                    defaultMessage={'Payment begins: {beginDate}. '}
-                    id={'admin.billing.subscription.paymentBegins'}
-                    values={{
-                        beginDate: getNextBillingDate(),
-                    }}
-                />
-                <FormattedMessage
-                    defaultMessage={
-                        'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
-                    }
-                    id={'admin.billing.subscription.freeTrialDisclaimer'}
-                />
-                <a
-                    onClick={seeHowBillingWorks}
-                >
-                    <FormattedMessage
-                        defaultMessage={'See how billing works.'}
-                        id={'admin.billing.subscription.howItWorks'}
-                    />
-                </a>
-            </div>
-        </>
-    );
-
-    const tooFewUsersErrorMessage = formatMessage({
-        id: 'admin.billing.subscription.userCount.minError',
-        defaultMessage: 'Your workspace currently has {num} users',
-    }, {num: props.usersCount});
-
-    const tooManyUsersErrorMessage = formatMessage({
-        id: 'admin.billing.subscription.userCount.maxError',
-        defaultMessage: 'Your workspace only supports up to {num} users',
-    }, {num: Constants.MAX_PURCHASE_SEATS});
-
-    const isValid = () => {
-        const numUsersCount = Number(usersCount) ?? 0;
-        let isValidInput = true;
-
-        if (numUsersCount < props.usersCount) {
-            if (errorMessage !== tooFewUsersErrorMessage) {
-                setErrorMessage(tooFewUsersErrorMessage);
-            }
-            isValidInput = false;
-        }
-
-        if (numUsersCount > Constants.MAX_PURCHASE_SEATS) {
-            if (errorMessage !== tooManyUsersErrorMessage) {
-                setErrorMessage(tooManyUsersErrorMessage);
-            }
-            isValidInput = false;
-        }
-
-        props.setUserCountError(!isValidInput);
-        return isValidInput;
-    };
-
-    const yearlyPlan = (
-        <>
-            <div className='flex-grid'>
-                <div
-                    className={
-                        classNames({
-                            user_seats_container: true,
-                            error: !isValid(),
-                        })
-                    }
-                >
-                    <Input
-                        name='UserSeats'
-                        type='text'
-                        value={usersCount}
-                        onChange={onChange}
-                        placeholder={'Seats'}
-                        wrapperClassName='user_seats'
-                        inputClassName='user_seats'
-                        maxLength={String(Constants.MAX_PURCHASE_SEATS).length + 1}
-                        customMessage={isValid() ? null : {
-                            type: ItemStatus.ERROR,
-                            value: errorMessage,
-                        }}
-                        autoComplete='off'
-                        required={true}
-                    />
-                </div>
-                <div className='icon'>
-                    <OverlayTrigger
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='right'
-                        overlay={userCountTooltip}
-                    >
-                        <i className='icon-information-outline'/>
-                    </OverlayTrigger>
-                </div>
-            </div>
-            <table>
-                <tbody>
-                    <tr>
-                        <td className='monthly_price'>
-                            <FormattedMessage
-                                defaultMessage={`${usersCount} seats x 12 months`}
-                                id={'admin.billing.subscription.yearlyPlanEquation'}
-                                values={{
-                                    numSeats: usersCount,
-                                }}
-                            />
-                        </td>
-                        <td className='monthly_price'>{`$${monthlyPrice * 12}`}</td>
-                    </tr>
-
-                    <tr>
-                        <td className='yearly_savings'>
-                            <FormattedMessage
-                                defaultMessage={'Yearly Savings'}
-                                id={'admin.billing.subscription.yearlySavings'}
-                            />
-                        </td>
-                        <td className='yearly_savings'>{`-$${priceDifference * 12}`}</td>
-                    </tr>
-                    <tr>
-                        <td className='total_price'>
-                            <FormattedMessage
-                                defaultMessage={'Total'}
-                                id={'admin.billing.subscription.total'}
-                            />
-                        </td>
-                        <td className='total_price'>{`$${yearlyPrice * 12}`}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div className='enable_annual_sub'>
-                <button
-                    className={'plan_action_btn ' + props.buttonDetails.customClass}
-                    disabled={props.buttonDetails.disabled}
-                    onClick={props.buttonDetails.action}
-                >{props.buttonDetails.text}</button>
-            </div>
-            <div className='plan_billing_cycle'>
-                <FormattedMessage
-                    defaultMessage={'Your credit card will be charged today.'}
-                    id={'admin.billing.subscription.creditCardCharge'}
-                />
-                <a
-                    onClick={seeHowBillingWorks}
-                >
-                    <FormattedMessage
-                        defaultMessage={'See how billing works.'}
-                        id={'admin.billing.subscription.howItWorks'}
-                    />
-                </a>
-            </div>
-        </>
-    );
-
-    const originalPlan = (
+    const cardContent = (
         <div className='PlanCard'>
             {props.planLabel && props.planLabel}
             <div
@@ -473,72 +220,13 @@ export function Card(props: CardProps) {
                         onClick={props.buttonDetails.action}
                     >{props.buttonDetails.text}</button>
                 </div>
-                {!props.hideBillingCycle && <div className='plan_billing_cycle'>
-                    <FormattedMessage
-                        defaultMessage={
-                            'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
-                        }
-                        id={'admin.billing.subscription.freeTrialDisclaimer'}
-                    />
-                    <a
-                        onClick={seeHowBillingWorks}
-                    >
-                        <FormattedMessage
-                            defaultMessage={'See how billing works.'}
-                            id={'admin.billing.subscription.howItWorks'}
-                        />
-                    </a>
-                </div>}
                 {props.afterButtonContent}
             </div>
         </div>
     );
 
-    const getPlanCardMessage = () => {
-        if (props.isCurrentPlanMonthlyProfessional && isMonthly) {
-            return (
-                <FormattedMessage
-                    id='admin.billing.subscription.planDetails.currentPlan'
-                    defaultMessage='Current Plan'
-                />
-            );
-        }
-
-        return (
-            <FormattedMessage
-                defaultMessage={'Save 20% with Yearly.'}
-                id={'pricing_modal.saveWithYearly'}
-            />
-        );
-    };
-
-    const monthlyYearlyPlan = (
-        <div className='PlanCard'>
-            <div className='bottom bottom-monthly-yearly'>
-                <div className='save_text'>
-                    {getPlanCardMessage()}
-                </div>
-                <YearlyMonthlyToggle
-                    updatePrice={updateDisplayPage}
-                    isPurchases={true}
-                    isInitialPlanMonthly={props.isInitialPlanMonthly}
-                />
-                {/* the style below will eventually be added to the plan_price_rate_section once the annualSubscription feature flag is removed*/}
-                <div
-                    className='plan_price_rate_section'
-                    style={{height: '125px'}}
-                >
-                    <h4 className='plan_name'>{props.plan}</h4>
-                    <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{`$${displayPrice}`}</h1>
-                    <p className='plan_text'>{isMonthly ? '/user' : '/user/month'}</p>
-                </div>
-                {isMonthly ? monthlyPlan : yearlyPlan}
-            </div>
-        </div>
-    );
-
     return (
-        props.annualSubscription ? monthlyYearlyPlan : originalPlan
+        cardContent
     );
 }
 
@@ -633,19 +321,19 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                 props.productId,
             ),
             selectedProduct: getSelectedProduct(
-                props.products,
+                props.yearlyProducts,
                 props.productId,
-                props.isInitialPlanMonthly,
                 props.isDelinquencyModal,
                 props.isCloudDelinquencyGreaterThan90Days,
             ),
             isUpgradeFromTrial: props.isFreeTrial,
             buttonClickedInfo: '',
-            selectedProductPrice: getSelectedProduct(props.products, props.productId, props.isInitialPlanMonthly)?.price_per_seat.toString() || null,
-            userCountError: false,
-            isMonthly: this.props.isInitialPlanMonthly,
+            selectedProductPrice: getSelectedProduct(props.yearlyProducts, props.productId, false)?.price_per_seat.toString() || null,
             usersCount: this.props.usersCount,
-            inputUserCount: this.props.usersCount,
+            seats: {
+                quantity: this.props.usersCount.toString(),
+                error: this.props.usersCount.toString() === '0' ? errorInvalidNumber : null,
+            },
         };
     }
 
@@ -655,8 +343,8 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
                 currentProduct: findProductInDictionary(this.props.products, this.props.productId),
-                selectedProduct: getSelectedProduct(this.props.products, this.props.productId, this.props.isInitialPlanMonthly, this.props.isDelinquencyModal, this.props.isCloudDelinquencyGreaterThan90Days),
-                selectedProductPrice: getSelectedProduct(this.props.products, this.props.productId, this.props.isInitialPlanMonthly)?.price_per_seat.toString() ?? null,
+                selectedProduct: getSelectedProduct(this.props.yearlyProducts, this.props.productId, this.props.isDelinquencyModal, this.props.isCloudDelinquencyGreaterThan90Days),
+                selectedProductPrice: getSelectedProduct(this.props.yearlyProducts, this.props.productId, false)?.price_per_seat.toString() ?? null,
             });
         }
 
@@ -697,27 +385,31 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         this.setState({cardInputComplete: event.complete});
     }
 
-    handleSubmitClick = async () => {
-        const callerInfo = this.props.callerCTA + '> purchase_modal > upgrade_button_click';
+    handleSubmitClick = async (callerInfo: string) => {
         const update = {
             selectedProduct: this.state.selectedProduct,
             paymentInfoIsValid: false,
             buttonClickedInfo: callerInfo,
             processing: true,
         } as unknown as Pick<State, keyof State>;
-
-        if (!this.state.isMonthly && this.state.selectedProduct?.recurring_interval === RecurringIntervals.MONTH) {
-            const yearlyProduct = findProductByID(this.props.products || {}, this.state.selectedProduct.cross_sells_to);
-            if (yearlyProduct) {
-                update.selectedProduct = yearlyProduct;
-            }
-        } else if ((this.state.isMonthly && this.state.selectedProduct?.recurring_interval === RecurringIntervals.YEAR)) {
-            const monthlyProduct = findProductByID(this.props.products || {}, this.state.selectedProduct.cross_sells_to);
-            if (monthlyProduct) {
-                update.selectedProduct = monthlyProduct;
-            }
-        }
         this.setState(update);
+    }
+
+    confirmSwitchToAnnual = () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.CONFIRM_SWITCH_TO_YEARLY,
+            dialogType: SwitchToYearlyPlanConfirmModal,
+            dialogProps: {
+                confirmSwitchToYearlyFunc: () => this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > confirm_switch_to_annual_modal > confirm_click'),
+                contactSalesFunc: () => {
+                    trackEvent(
+                        TELEMETRY_CATEGORIES.CLOUD_ADMIN,
+                        'confirm_switch_to_annual_click_contact_sales',
+                    );
+                    window.open(this.props.contactSalesLink, '_blank');
+                },
+            },
+        });
     }
 
     setIsUpgradeFromTrialToFalse = () => {
@@ -900,7 +592,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         topColor='#4A69AC'
                         price={this.getDelinquencyTotalString()}
                         buttonDetails={{
-                            action: this.handleSubmitClick,
+                            action: () => this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > upgrade_button_click'),
                             text: localizeMessage(
                                 'cloud_delinquency.cc_modal.card.reactivate',
                                 'Re-active',
@@ -914,26 +606,23 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             );
         }
 
-        const showPlanLabel =
-                    this.state.selectedProduct?.sku ===
-                    CloudProducts.PROFESSIONAL && !this.props.annualSubscription;
-        const {formatMessage} = this.props.intl;
+        const showPlanLabel = this.state.selectedProduct?.sku === CloudProducts.PROFESSIONAL;
+        const {formatMessage, formatNumber} = this.props.intl;
 
-        const getYearlyPrice = () => {
-            if (!this.state.selectedProduct) {
-                return 0;
-            }
-
-            const crossSellsToProduct = findProductByID(this.props.products || {}, this.state.selectedProduct.cross_sells_to);
-            return crossSellsToProduct ? crossSellsToProduct.price_per_seat / 12 : this.state.selectedProduct.price_per_seat;
-        };
-
-        const checkIsMonthlyProfessionalProduct = (product: Product | null | undefined) => {
+        const checkIsYearlyProfessionalProduct = (product: Product | null | undefined) => {
             if (!product) {
                 return false;
             }
-            return product.recurring_interval === RecurringIntervals.MONTH && product.sku === CloudProducts.PROFESSIONAL;
+            return product.recurring_interval === RecurringIntervals.YEAR && product.sku === CloudProducts.PROFESSIONAL;
         };
+
+        const yearlyProductMonthlyPrice = formatNumber(parseInt(this.state.selectedProductPrice || '0', 10) / 12, {maximumFractionDigits: 2});
+
+        const currentProductMonthly = this.state.currentProduct?.recurring_interval === RecurringIntervals.MONTH;
+        const currentProductProfessional = this.state.currentProduct?.sku === CloudProducts.PROFESSIONAL;
+        const currentProductMonthlyProfessional = currentProductMonthly && currentProductProfessional;
+
+        const cardBtnText = currentProductMonthlyProfessional ? formatMessage({id: 'pricing_modal.btn.switch_to_annual', defaultMessage: 'Switch to annual billing'}) : formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
 
         return (
             <>
@@ -947,22 +636,34 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     plan={this.getPlanNameFromProductName(
                         this.state.selectedProduct ? this.state.selectedProduct.name : '',
                     )}
-                    price={this.state.selectedProductPrice ?? ''}
-                    rate='/user/month'
-                    planBriefing={this.props.annualSubscription ? null : this.paymentFooterText()}
+                    price={yearlyProductMonthlyPrice}
+                    rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month {br}<b>(billed annually)</b>'}, {
+                        br: <br/>,
+                        b: (chunks: React.ReactNode | React.ReactNodeArray) => (
+                            <span style={{fontSize: '14px'}}>
+                                <b>{chunks}</b>
+                            </span>
+                        ),
+                    })}
+                    planBriefing={<></>}
                     buttonDetails={{
-                        action: this.handleSubmitClick,
-                        text: 'Upgrade',
+                        action: () => {
+                            if (currentProductMonthlyProfessional) {
+                                this.confirmSwitchToAnnual();
+                            } else {
+                                this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > upgrade_button_click');
+                            }
+                        },
+                        text: cardBtnText,
                         customClass:
                             !this.state.paymentInfoIsValid ||
-                            this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE || this.state.userCountError ||
-                            (checkIsMonthlyProfessionalProduct(this.state.currentProduct) && this.state.isMonthly) ?
-                                ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
+                            this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE || this.state.seats.error !== null ||
+                            (checkIsYearlyProfessionalProduct(this.state.currentProduct)) ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
                         disabled:
                             !this.state.paymentInfoIsValid ||
                             this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE ||
-                            this.state.userCountError ||
-                            (checkIsMonthlyProfessionalProduct(this.state.currentProduct) && this.state.isMonthly),
+                            this.state.seats.error !== null ||
+                            (checkIsYearlyProfessionalProduct(this.state.currentProduct)),
                     }}
                     planLabel={
                         showPlanLabel ? (
@@ -978,16 +679,18 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             />
                         ) : undefined
                     }
-                    annualSubscription={this.props.annualSubscription}
-                    usersCount={this.state.usersCount}
-                    monthlyPrice={this.state.selectedProduct?.price_per_seat ?? 0}
-                    yearlyPrice={getYearlyPrice()}
-                    intl={this.props.intl}
-                    isInitialPlanMonthly={this.props.isInitialPlanMonthly}
-                    setUserCountError={(hasError: boolean) => this.setState({userCountError: hasError})}
-                    updateIsMonthly={(newIsMonthly: boolean) => this.setState({isMonthly: newIsMonthly})}
-                    updateInputUserCount={(newUsersCount: number) => this.setState({inputUserCount: newUsersCount})}
-                    isCurrentPlanMonthlyProfessional={checkIsMonthlyProfessionalProduct(this.state.currentProduct)}
+                    preButtonContent={(
+                        <SeatsCalculator
+                            price={parseInt(yearlyProductMonthlyPrice, 10)}
+                            seats={this.state.seats}
+                            existingUsers={this.props.usersCount}
+                            isCloud={true}
+                            onChange={(seats: Seats) => {
+                                this.setState({seats});
+                            }}
+                        />
+                    )}
+                    afterButtonContent={<Consequences isCloud={true}/>}
                 />
             </>
         );
@@ -1129,7 +832,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                         telemetryProps={{
                                             callerInfo: this.state.buttonClickedInfo,
                                         }}
-                                        usersCount={this.state.inputUserCount}
+                                        usersCount={parseInt(this.state.seats.quantity, 10)}
                                     />
                                 </div>
                             ) : null}

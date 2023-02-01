@@ -1214,4 +1214,3 @@ export default class SchemaAdminSettings extends React.PureComponent {
         );
     }
 }
-/* eslint-disable react/no-string-refs */

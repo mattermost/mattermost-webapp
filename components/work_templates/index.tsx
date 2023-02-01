@@ -9,18 +9,23 @@ import styled from 'styled-components';
 
 import LocalizedIcon from 'components/localized_icon';
 import {closeModal as closeModalAction} from 'actions/views/modals';
-import {ModalIdentifiers} from 'utils/constants';
+import {trackEvent} from 'actions/telemetry_actions';
+import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {
     clearCategories,
     clearWorkTemplates,
+    executeWorkTemplate,
     getWorkTemplateCategories,
     getWorkTemplates,
 } from 'mattermost-redux/actions/work_templates';
-
-import {Category, Visibility, WorkTemplate} from '@mattermost/types/work_templates';
-
+import {Category, ExecuteWorkTemplateRequest, ExecuteWorkTemplateResponse, Visibility, WorkTemplate} from '@mattermost/types/work_templates';
 import {GlobalState} from '@mattermost/types/store';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {fetchRemoteListing} from 'actions/marketplace';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {switchToChannelById} from 'actions/views/channel';
 
 import Customize from './components/customize';
 import Menu from './components/menu';
@@ -41,17 +46,17 @@ const BackIconInHeader = styled(LocalizedIcon)`
 
 interface ModalTitleProps {
     text: string;
-    backButtonAction?: () => void;
+    backArrowAction?: () => void;
 }
 
 const ModalTitle = (props: ModalTitleProps) => {
     return (
         <div className='work-template-modal__title'>
-            {props.backButtonAction &&
+            {props.backArrowAction &&
                 <BackIconInHeader
                     className='icon icon-arrow-left'
                     aria-label={'Back Icon'}
-                    onClick={props.backButtonAction}
+                    onClick={props.backArrowAction}
                 />
             }
             <span style={{marginLeft: 18}}>{props.text}</span>
@@ -69,37 +74,55 @@ const WorkTemplateModal = () => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
 
-    const [state, setState] = useState(ModalState.Menu);
+    const [modalState, setModalState] = useState(ModalState.Menu);
     const [selectedTemplate, setSelectedTemplate] = useState<WorkTemplate | null>(null);
     const [selectedName, setSelectedName] = useState<string>('');
     const [selectedVisibility, setSelectedVisibility] = useState(Visibility.Public);
     const [currentCategoryId, setCurrentCategoryId] = useState('');
+    const [isCreating, setIsCreating] = useState(false);
+    const [errorText, setErrorText] = useState('');
+
     const categories = useSelector((state: GlobalState) => state.entities.worktemplates.categories);
     const workTemplates = useSelector((state: GlobalState) => state.entities.worktemplates.templatesInCategory);
+    const config = useSelector(getConfig);
+    const pluginsEnabled = config.PluginsEnabled === 'true' && config.EnableMarketplace === 'true' && config.IsDefaultMarketplace === 'true';
+    const teamId = useSelector(getCurrentTeamId);
+    const playbookTemplates = useSelector((state: GlobalState) => state.entities.worktemplates.playbookTemplates);
 
     useEffect(() => {
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'open_modal');
+    }, []);
+
+    // load the categories if they are not found, or load the work templates for those categories.
+    useEffect(() => {
         if (categories?.length) {
+            setCurrentCategoryId(categories[0].id);
+            dispatch(getWorkTemplates(categories[0].id));
             return;
         }
         dispatch(getWorkTemplateCategories());
-    }, []);
+    }, [dispatch, categories]);
 
     useEffect(() => {
-        if (!categories?.length) {
-            return;
+        if (pluginsEnabled) {
+            dispatch(fetchRemoteListing());
         }
-        setCurrentCategoryId(categories[0].id);
-        dispatch(getWorkTemplates(categories[0].id));
-    }, [categories.length]);
+    }, [dispatch, pluginsEnabled]);
 
     useEffect(() => {
         return () => {
             dispatch(clearCategories());
             dispatch(clearWorkTemplates());
         };
-    }, []);
+    }, [dispatch]);
+
+    // error resetter
+    useEffect(() => {
+        setErrorText('');
+    }, [currentCategoryId, modalState, selectedTemplate, selectedVisibility]);
 
     const changeCategory = (category: Category) => {
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'change_category', {category: category.id});
         setCurrentCategoryId(category.id);
         if (workTemplates[category.id]?.length) {
             return;
@@ -112,71 +135,128 @@ const WorkTemplateModal = () => {
     };
 
     const goToMenu = () => {
-        setState(ModalState.Menu);
+        setModalState(ModalState.Menu);
         setSelectedTemplate(null);
     };
 
     const handleTemplateSelected = (template: WorkTemplate, quickUse: boolean) => {
         setSelectedTemplate(template);
         if (quickUse) {
-            create(template, '');
+            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'quick_use', {category: template.category, template: template.id});
+            execute(template, '', template.visibility);
             return;
         }
 
-        setState(ModalState.Preview);
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'select_template', {category: template.category, template: template.id});
+        setModalState(ModalState.Preview);
     };
 
     const handleOnNameChanged = (name: string) => {
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'customize_name', {category: selectedTemplate?.category, template: selectedTemplate?.id});
         setSelectedName(name);
     };
 
     const handleOnVisibilityChanged = (visibility: Visibility) => {
+        if (visibility === Visibility.Public) {
+            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'changed_visibility_public', {category: selectedTemplate?.category, template: selectedTemplate?.id});
+        } else {
+            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'customized_visibility_private', {category: selectedTemplate?.category, template: selectedTemplate?.id});
+        }
+
         setSelectedVisibility(visibility);
     };
 
-    const create = (template: WorkTemplate, name = '') => {
-        const str = `TODO: creating elements from template ${template!.id} with name ${name || '<empty>'}`;
+    const execute = async (template: WorkTemplate, name = '', visibility: Visibility) => {
+        const pbTemplates = [];
+        for (const item of template.content) {
+            if (item.playbook) {
+                const pbTemplate = playbookTemplates.find((pb) => pb.title === item.playbook.template);
+                if (pbTemplate) {
+                    pbTemplates.push(pbTemplate);
+                }
+            }
+        }
 
-        // @TODO REMOVE THIS FOR PROD
-        // eslint-disable-next-line no-alert
-        alert(str);
+        const req: ExecuteWorkTemplateRequest = {
+            team_id: teamId,
+            name,
+            visibility,
+            work_template: template,
+            playbook_templates: pbTemplates,
+        };
 
+        setIsCreating(true);
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'executing', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility});
+        const {data, error} = await dispatch(executeWorkTemplate(req)) as ActionResult<ExecuteWorkTemplateResponse>;
+
+        if (error) {
+            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'execution_error', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility, error: error.message});
+            setIsCreating(false);
+            setErrorText(error.message);
+            return;
+        }
+
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'execution_success', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility});
+        let firstChannelId = '';
+        if (data?.channel_with_playbook_ids.length) {
+            firstChannelId = data.channel_with_playbook_ids[0];
+        } else if (data?.channel_ids.length) {
+            firstChannelId = data.channel_ids[0];
+        }
+        if (firstChannelId) {
+            dispatch(switchToChannelById(firstChannelId));
+        }
         closeModal();
+    };
+
+    const trackAction = (action: string, actionFn: () => void) => {
+        return () => {
+            let props = {};
+            if (selectedTemplate) {
+                props = {category: selectedTemplate?.category, template: selectedTemplate?.id};
+            }
+            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, action, props);
+
+            actionFn();
+        };
     };
 
     let title;
     let cancelButtonText;
     let cancelButtonAction;
+    let backArrowAction;
     let confirmButtonText;
     let confirmButtonAction;
-    switch (state) {
+    switch (modalState) {
     case ModalState.Menu:
         title = formatMessage({id: 'work_templates.menu.modal_title', defaultMessage: 'Create a work template'});
         break;
     case ModalState.Preview:
         title = formatMessage({id: 'work_templates.preview.modal_title', defaultMessage: 'Preview - {useCase}'}, {useCase: selectedTemplate?.useCase});
         cancelButtonText = formatMessage({id: 'work_templates.preview.modal_cancel_button', defaultMessage: 'Back'});
-        cancelButtonAction = goToMenu;
+        cancelButtonAction = trackAction('btn_back_to_menu', goToMenu);
+        backArrowAction = trackAction('arrow_back_to_menu', goToMenu);
         confirmButtonText = formatMessage({id: 'work_templates.preview.modal_next_button', defaultMessage: 'Next'});
-        confirmButtonAction = () => setState(ModalState.Customize);
+        confirmButtonAction = trackAction('btn_go_to_customize', () => setModalState(ModalState.Customize));
         break;
     case ModalState.Customize:
         title = formatMessage({id: 'work_templates.customize.modal_title', defaultMessage: 'Customize - {useCase}'}, {useCase: selectedTemplate?.useCase});
         cancelButtonText = formatMessage({id: 'work_templates.customize.modal_cancel_button', defaultMessage: 'Back'});
-        cancelButtonAction = () => setState(ModalState.Preview);
+        cancelButtonAction = trackAction('btn_back_to_preview', () => setModalState(ModalState.Preview));
+        backArrowAction = trackAction('arrow_back_to_preview', () => setModalState(ModalState.Preview));
         confirmButtonText = formatMessage({id: 'work_templates.customize.modal_create_button', defaultMessage: 'Create'});
-        confirmButtonAction = () => create(selectedTemplate!, selectedName);
+        confirmButtonAction = trackAction('btn_execute', () => execute(selectedTemplate!, selectedName, selectedVisibility));
         break;
     }
 
     return (
         <GenericModal
             id='work-template-modal'
-            className={classnames('work-template-modal', `work-template-modal--${state}`)}
+            className={classnames('work-template-modal', `work-template-modal--${modalState}`)}
             modalHeaderText={
                 <ModalTitle
                     text={title}
-                    backButtonAction={cancelButtonAction}
+                    backArrowAction={backArrowAction}
                 />
             }
             compassDesign={true}
@@ -185,29 +265,34 @@ const WorkTemplateModal = () => {
             handleCancel={cancelButtonAction}
             confirmButtonText={confirmButtonText}
             handleConfirm={confirmButtonAction}
+            isConfirmDisabled={isCreating || (modalState === ModalState.Customize && errorText !== '')}
             autoCloseOnCancelButton={false}
             autoCloseOnConfirmButton={false}
+            errorText={errorText}
         >
-            {state === ModalState.Menu && (
+            {modalState === ModalState.Menu && (
                 <Menu
                     categories={categories}
                     onTemplateSelected={handleTemplateSelected}
                     changeCategory={changeCategory}
                     workTemplates={workTemplates}
                     currentCategoryId={currentCategoryId}
+                    disableQuickUse={isCreating}
                 />
             )}
-            {(state === ModalState.Preview && selectedTemplate) && (
+            {(modalState === ModalState.Preview && selectedTemplate) && (
                 <Preview
                     template={selectedTemplate}
+                    pluginsEnabled={pluginsEnabled}
                 />
             )}
-            {(state === ModalState.Customize && selectedTemplate) && (
+            {(modalState === ModalState.Customize && selectedTemplate) && (
                 <Customize
                     name={selectedName}
                     visibility={selectedVisibility}
                     onNameChanged={handleOnNameChanged}
                     onVisibilityChanged={handleOnVisibilityChanged}
+                    template={selectedTemplate}
                 />
             )}
         </GenericModal>

@@ -2,6 +2,8 @@
 @import 'utils/mixins';
 
 .PreparingWorkspace {
+    width: 100vw;
+
     &__logo {
         position: fixed;
         z-index: 1;

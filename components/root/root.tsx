@@ -117,7 +117,7 @@ const OnBoardingTaskList = makeAsyncComponent('OnboardingTaskList', LazyOnBoardi
 type LoggedInRouteProps<T> = {
     component: React.ComponentType<T>;
     path: string;
-    theme: Theme;
+    theme?: Theme; // the routes that send the theme are the ones that will actually need to show the onboarding tasklist
 };
 function LoggedInRoute<T>(props: LoggedInRouteProps<T>) {
     const {component: Component, theme, ...rest} = props;
@@ -126,9 +126,9 @@ function LoggedInRoute<T>(props: LoggedInRouteProps<T>) {
             {...rest}
             render={(routeProps: RouteComponentProps) => (
                 <LoggedIn {...routeProps}>
-                    <CompassThemeProvider theme={theme}>
+                    {theme && <CompassThemeProvider theme={theme}>
                         <OnBoardingTaskList/>
-                    </CompassThemeProvider>
+                    </CompassThemeProvider>}
                     <Component {...(routeProps as unknown as T)}/>
                 </LoggedIn>
             )}
@@ -277,13 +277,14 @@ export default class Root extends React.PureComponent<Props, State> {
                 anonymousId: '00000000000000000000000000',
             });
 
+            const utmParams = this.captureUTMParams();
             rudderAnalytics.ready(() => {
                 Client4.setTelemetryHandler(new RudderTelemetryHandler());
+                if (utmParams) {
+                    trackEvent('utm_params', 'utm_params', utmParams);
+                }
             });
         }
-
-        // This needs to be called as early as possible to ensure that a redirect won't remove the query string
-        this.trackUTMCampaign();
 
         if (this.props.location.pathname === '/' && this.props.noAccounts) {
             this.props.history.push('/signup_user_complete');
@@ -388,7 +389,7 @@ export default class Root extends React.PureComponent<Props, State> {
         GlobalActions.redirectUserToDefaultTeam();
     }
 
-    trackUTMCampaign() {
+    captureUTMParams() {
         const qs = new URLSearchParams(window.location.search);
 
         // list of key that we want to track
@@ -406,9 +407,10 @@ export default class Root extends React.PureComponent<Props, State> {
         }, {} as Record<string, string>);
 
         if (Object.keys(campaign).length > 0) {
-            trackEvent('utm_params', 'utm_params', campaign);
             this.props.history.replace({search: qs.toString()});
+            return campaign;
         }
+        return null;
     }
 
     initiateMeRequests = async () => {
@@ -580,7 +582,6 @@ export default class Root extends React.PureComponent<Props, State> {
                         component={HelpController}
                     />
                     <LoggedInRoute
-                        theme={this.props.theme}
                         path={'/terms_of_service'}
                         component={TermsOfService}
                     />
@@ -613,12 +614,10 @@ export default class Root extends React.PureComponent<Props, State> {
                         component={CreateTeam}
                     />
                     <LoggedInRoute
-                        theme={this.props.theme}
                         path={'/mfa'}
                         component={Mfa}
                     />
                     <LoggedInRoute
-                        theme={this.props.theme}
                         path={'/preparing-workspace'}
                         component={PreparingWorkspace}
                     />

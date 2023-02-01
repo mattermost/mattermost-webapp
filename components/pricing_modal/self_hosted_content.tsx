@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloudLinks, LicenseLinks, ModalIdentifiers, SelfHostedProducts, LicenseSkus, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, LicenseLinks, ModalIdentifiers, SelfHostedProducts, LicenseSkus, TELEMETRY_CATEGORIES, RecurringIntervals} from 'utils/constants';
 import {findSelfHostedProductBySku} from 'utils/hosted_customer';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -27,7 +27,8 @@ import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 
 import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
 
-import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
+// Revert in MM-49772
+// import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
 
 import ContactSalesCTA from './contact_sales_cta';
 import StartTrialCaution from './start_trial_caution';
@@ -62,7 +63,7 @@ function SelfHostedContent(props: ContentProps) {
         async function fetchSelfHostedProducts() {
             try {
                 const products = await Client4.getSelfHostedProducts();
-                const professionalProduct = products.find((prod) => prod.sku === LicenseSkus.Professional);
+                const professionalProduct = products.find((prod) => prod.sku === LicenseSkus.Professional && prod.recurring_interval === RecurringIntervals.YEAR);
                 const price = professionalProduct ? professionalProduct.price_per_seat.toString() : FALL_BACK_PROFESSIONAL_PRICE;
                 setProfessionalPrice(`$${price}`);
             } catch (error) {
@@ -85,7 +86,8 @@ function SelfHostedContent(props: ContentProps) {
     const isEnterprise = license.SkuShortName === LicenseSkus.Enterprise;
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
 
-    const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
+    // Revert in MM-49772
+    // const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
 
     const closePricingModal = () => {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
@@ -101,7 +103,7 @@ function SelfHostedContent(props: ContentProps) {
 
     const professionalBriefing = [
         formatMessage({id: 'pricing_modal.briefing.customUserGroups', defaultMessage: 'Custom user groups'}),
-        formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin and ADFS'}),
+        formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin, and ADFS'}),
         formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoadLdap', defaultMessage: 'SSO support with AD/LDAP, Google, O365, OpenID'}),
         formatMessage({id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement'}),
 
@@ -205,7 +207,14 @@ function SelfHostedContent(props: ContentProps) {
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
                         price={professionalPrice}
-                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month'})}
+                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month {br}<b>(billed annually)</b>'}, {
+                            br: <br/>,
+                            b: (chunks: React.ReactNode | React.ReactNodeArray) => (
+                                <span style={{fontSize: '14px'}}>
+                                    <b>{chunks}</b>
+                                </span>
+                            ),
+                        })}
                         planLabel={
                             isProfessional ? (
                                 <PlanLabel
@@ -224,8 +233,14 @@ function SelfHostedContent(props: ContentProps) {
                                 }
 
                                 if (!canUseSelfHostedSignup) {
-                                    closePricingModal();
-                                    controlAirgappedModal.open();
+                                    // closePricingModal();
+                                    // controlAirgappedModal.open();
+                                    // NOTE: This behavior of directly opening the link is to
+                                    // work around in v7.8 (an Extended Support Release),
+                                    // an issue where self-hosted purchase is not actually ready
+                                    // for use. Work in https://mattermost.atlassian.net/browse/MM-49772
+                                    // should revert this behavior and instead open the airgapped modal
+                                    window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
                                     return;
                                 }
 

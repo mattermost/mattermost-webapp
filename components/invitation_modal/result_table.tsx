@@ -11,8 +11,10 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import EmailIcon from 'components/widgets/icons/mail_icon';
 import AlertIcon from 'components/widgets/icons/alert_icon';
-import GuestBadge from 'components/widgets/badges/guest_badge';
-import BotBadge from 'components/widgets/badges/bot_badge';
+
+import GuestTag from 'components/widgets/tag/guest_tag';
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import Avatar from 'components/widgets/users/avatar';
 
 import './result_table.scss';
@@ -130,10 +132,10 @@ export default function ResultTable(props: Props) {
                             );
                             username = getLongDisplayName(user);
                             if (user.is_bot) {
-                                botBadge = <BotBadge/>;
+                                botBadge = <BotTag/>;
                             }
                             if (isGuest(user.roles)) {
-                                guestBadge = <GuestBadge/>;
+                                guestBadge = <GuestTag/>;
                             }
                         } else if (invitation.hasOwnProperty('email')) {
                             const email = (invitation as InviteEmail).email;

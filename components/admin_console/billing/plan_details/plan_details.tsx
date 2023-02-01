@@ -6,7 +6,7 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import {CloudProducts} from 'utils/constants';
 
-import Badge from 'components/widgets/badges/badge';
+import Tag from 'components/widgets/tag/tag';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import './plan_details.scss';
@@ -28,7 +28,7 @@ export const PlanDetailsTopElements = ({
 }: Props) => {
     let productName;
     const openPricingModal = useOpenPricingModal();
-    const intl = useIntl();
+    const {formatMessage} = useIntl();
 
     const userCountDisplay = (
         <div className='PlanDetails__userCount'>
@@ -74,38 +74,36 @@ export const PlanDetailsTopElements = ({
         break;
     }
 
-    const trialBadge = (
-        <Badge
+    const trialBadge = isFreeTrial ? (
+        <Tag
             className='TrialBadge'
-        >
-            <FormattedMessage
-                id='admin.billing.subscription.cloudTrialBadge.daysLeftOnTrial'
-                defaultMessage='{daysLeftOnTrial} trial days left'
-                values={{daysLeftOnTrial}}
-            />
-        </Badge>
-    );
+            text={formatMessage({
+                id: 'admin.billing.subscription.cloudTrialBadge.daysLeftOnTrial',
+                defaultMessage: '{daysLeftOnTrial} trial days left',
+            },
+            {daysLeftOnTrial},
+            )}
+        />
+    ) : null;
 
     const monthlyBadge = (
-        <Badge
+        <Tag
             className='RecurringIntervalBadge'
-        >
-            <FormattedMessage
-                id='admin.billing.subscription.cloudMonthlyBadge'
-                defaultMessage='Monthly'
-            />
-        </Badge>
+            text={formatMessage({
+                id: 'admin.billing.subscription.cloudMonthlyBadge',
+                defaultMessage: 'Monthly',
+            })}
+        />
     );
 
     const yearlyBadge = (
-        <Badge
+        <Tag
             className='RecurringIntervalBadge'
-        >
-            <FormattedMessage
-                id='admin.billing.subscription.cloudYearlyBadge'
-                defaultMessage='Yearly'
-            />
-        </Badge>
+            text={formatMessage({
+                id: 'admin.billing.subscription.cloudYearlyBadge',
+                defaultMessage: 'Yearly',
+            })}
+        />
     );
 
     const getBadge = () => {
@@ -130,7 +128,7 @@ export const PlanDetailsTopElements = ({
             onClick={() => openPricingModal({trackingLocation: 'billing_plan_details_view_plans'})}
             className='btn btn-secondary PlanDetails__viewPlansButton'
         >
-            {intl.formatMessage({
+            {formatMessage({
                 id: 'workspace_limits.menu_limit.view_plans',
                 defaultMessage: 'View plans',
             })}
@@ -143,7 +141,6 @@ export const PlanDetailsTopElements = ({
                 <div className='PlanDetails__productName'>
                     {productName}{getBadge()}
                 </div>
-
                 {viewPlansButton}
             </div>
             {userCountDisplay}

@@ -6,8 +6,6 @@ import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
-import {Post} from '@mattermost/types/posts';
-import {UserThread} from '@mattermost/types/threads';
 
 import {Locations, ModalIdentifiers, Constants, TELEMETRY_LABELS, Preferences} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
@@ -22,8 +20,11 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
+
+import {UserThread} from '@mattermost/types/threads';
+import {Post} from '@mattermost/types/posts';
 import ForwardPostModal from '../forward_post_modal';
-import Badge from '../widgets/badges/badge';
+import Tag from '../widgets/tag/tag';
 
 import {ChangeEvent, trackDotMenuEvent} from './utils';
 import './dot_menu.scss';
@@ -455,6 +456,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     render(): JSX.Element {
+        const {formatMessage} = this.props.intl;
         const isFollowingThread = this.props.isFollowingThread ?? this.props.isMentionedInRootPost;
         const isMobile = this.props.isMobileView;
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
@@ -473,12 +475,13 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     defaultMessage='Forward'
                 />
                 {this.props.showForwardPostNewLabel && (
-                    <Badge variant='success'>
-                        <FormattedMessage
-                            id='badge.label.new'
-                            defaultMessage='NEW'
-                        />
-                    </Badge>
+                    <Tag
+                        variant='success'
+                        text={formatMessage({
+                            id: 'tag.default.new',
+                            defaultMessage: 'NEW',
+                        })}
+                    />
                 )}
             </span>
         );
