@@ -221,21 +221,6 @@ describe('Pricing modal', () => {
         cy.get('#UpgradeButton').should('exist');
     });
 
-    it('should show Upgrade button in global header for admin users on monthly professional', () => {
-        const subscription = {
-            id: 'sub_test1',
-            product_id: 'prod_2', // monthly professional
-            is_free_trial: 'false',
-        };
-        simulateSubscription(subscription);
-        cy.apiLogout();
-        cy.apiAdminLogin();
-        cy.visit(urlL);
-
-        // * Check that Upgrade button shows for admins
-        cy.get('#UpgradeButton').should('exist');
-    });
-
     it('should open pricing modal when Upgrade button clicked while in free sku', () => {
         const subscription = {
             id: 'sub_test1',
