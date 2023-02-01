@@ -2998,7 +2998,7 @@
   "cloud_delinquency.banner.title": "Update your billing information now to keep paid features.",
   "cloud_delinquency.cc_modal.card.reactivate": "Re-activate",
   "cloud_delinquency.cc_modal.card.totalOwed": "Total Owed",
-  "cloud_delinquency.cc_modal.card.viewBreakdown": "View Breakdown",
+  "cloud_delinquency.cc_modal.card.viewBreakdown": "View breakdown",
   "cloud_delinquency.cc_modal.disclaimer": "Upon reactivation you will be charged the total owed.  Your bill is calculated at the end of the billing cycle based on the number of enabled users. {seeHowBillingWorks}",
   "cloud_delinquency.cc_modal.disclaimer_with_upgrade_info": "Upon reactivation you will be charged the total owed.  You will be further charged {cost} immediately for the cost of a 1 year subscription according to your currently active user count of {users} users. {seeHowBillingWorks}",
   "cloud_delinquency.modal.re_activate_plan": "Reactivate {planName}",
