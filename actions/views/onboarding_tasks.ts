@@ -47,12 +47,12 @@ export function openInvitationsModal(timeout = 1) {
     };
 }
 
-export function openWorkTemplatesModal() {
+export function openWorkTemplateModal() {
     return (dispatch: DispatchFunc) => {
         dispatch(switchToChannels());
         setTimeout(() => {
             dispatch(openModal({
-                modalId: ModalIdentifiers.WORK_TEMPLATES,
+                modalId: ModalIdentifiers.WORK_TEMPLATE,
                 dialogType: WorkTemplateModal,
                 dialogProps: {
                 },

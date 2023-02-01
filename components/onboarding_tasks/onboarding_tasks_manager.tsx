@@ -32,7 +32,7 @@ import {isCurrentUserGuestUser, isCurrentUserSystemAdmin, isFirstAdmin} from 'ma
 import {GlobalState} from 'types/store';
 import {
     openInvitationsModal,
-    openWorkTemplatesModal as openWorkTemplateModal,
+    openWorkTemplateModal,
     setShowOnboardingCompleteProfileTour,
     setShowOnboardingVisitConsoleTour,
     switchToChannels,
