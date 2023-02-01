@@ -909,8 +909,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                     </button>
                     <h4
                         className='modal-title'
-                        // eslint-disable-next-line react/no-string-refs
-                        ref='title'
                     >
                         <div className='modal-back'>
                             <span onClick={this.props.collapseModal}>
@@ -961,4 +959,3 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
         );
     }
 }
-/* eslint-enable react/no-string-refs */
