@@ -84,8 +84,12 @@
 }
 
 @media screen and (max-width: 768px) {
-    #root,
-    body.app__body #root{
+    #root {
         overflow-y: visible;
+    }
+
+    .PreparingWorkspacePageContainer .Plugins-body {
+        overflow-y: visible;
+        padding-top: 200px;
     }
 }
