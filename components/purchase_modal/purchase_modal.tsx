@@ -829,7 +829,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             >
                                 <span className='billing_address_btn_text'>
                                     {this.props.intl.formatMessage({
-                                        id: 'admin.billing.subscription.complianceScreenShippingSameAsBilling',
+                                        id: 'admin.billing.subscription.commplianceScreenShippingSameAsBilling',
                                         defaultMessage:
                                             'My shipping address is the same as my billing address',
                                     })}
@@ -863,7 +863,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     render() {
-        if (true) {
+        if (this.props.isComplianceBlocked) {
             return (
                 <RootPortal>
                     <FullScreenModal
