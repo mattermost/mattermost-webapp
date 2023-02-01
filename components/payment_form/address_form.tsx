@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React from 'react';
 
 import {FormattedMessage, MessageDescriptor, useIntl} from 'react-intl';
 
@@ -19,44 +19,36 @@ type AddressFormProps = {
     onBlur: () => void;
     title: MessageDescriptor;
     formId: string;
-    initialAddress: Address;
+    address: Address;
 }
 
 const AddressForm = (props: AddressFormProps) => {
     const {formatMessage} = useIntl();
-    const [address, setAddress] = useState<Address>(props.initialAddress);
     const handleCountryChange = (option: any) => {
-        setAddress({...address, country: option.value});
-        props.onAddressChange({...address, country: option.value});
+        props.onAddressChange({...props.address, country: option.value});
     };
 
     const handleStateChange = (option: any) => {
-        setAddress({...address, state: option});
-        props.onAddressChange({...address, state: option});
+        props.onAddressChange({...props.address, state: option});
     };
 
-    const handleInputChange = (
+    const handleInputChange = (key: keyof Address) => (
         event:
         | React.ChangeEvent<HTMLInputElement>
         | React.ChangeEvent<HTMLSelectElement>,
     ) => {
         const target = event.target;
-        const name = target.name;
         const value = target.value;
 
         const newStateValue = {
-            [name]: value,
+            [key]: value,
         } as unknown as Pick<Address, keyof Address>;
 
-        setAddress({...address, ...newStateValue});
-
         const {onAddressChange} = props;
-        if (onAddressChange) {
-            onAddressChange({
-                ...address,
-                ...newStateValue,
-            });
-        }
+        onAddressChange({
+            ...props.address,
+            ...newStateValue,
+        });
     };
 
     return (
@@ -72,7 +64,7 @@ const AddressForm = (props: AddressFormProps) => {
             <DropdownInput
                 onChange={handleCountryChange}
                 value={
-                    address.country ? {value: address.country, label: address.country} : undefined
+                    props.address.country ? {value: props.address.country, label: props.address.country} : undefined
                 }
                 options={COUNTRIES.map((country) => ({
                     value: country.name,
@@ -92,8 +84,8 @@ const AddressForm = (props: AddressFormProps) => {
                 <Input
                     name='address'
                     type='text'
-                    value={address.line1}
-                    onChange={handleInputChange}
+                    value={props.address.line1}
+                    onChange={handleInputChange('line1')}
                     onBlur={props.onBlur}
                     placeholder={formatMessage({
                         id: 'payment_form.address',
@@ -106,8 +98,8 @@ const AddressForm = (props: AddressFormProps) => {
                 <Input
                     name='address2'
                     type='text'
-                    value={address.line2}
-                    onChange={handleInputChange}
+                    value={props.address.line2}
+                    onChange={handleInputChange('line2')}
                     onBlur={props.onBlur}
                     placeholder={formatMessage({
                         id: 'payment_form.address_2',
@@ -119,8 +111,8 @@ const AddressForm = (props: AddressFormProps) => {
                 <Input
                     name='city'
                     type='text'
-                    value={address.city}
-                    onChange={handleInputChange}
+                    value={props.address.city}
+                    onChange={handleInputChange('city')}
                     onBlur={props.onBlur}
                     placeholder={formatMessage({
                         id: 'payment_form.city',
@@ -132,8 +124,8 @@ const AddressForm = (props: AddressFormProps) => {
             <div className='form-row'>
                 <div className='form-row-third-1 selector'>
                     <StateSelector
-                        country={address.country}
-                        state={address.state}
+                        country={props.address.country}
+                        state={props.address.state}
                         onChange={handleStateChange}
                         onBlur={props.onBlur}
                     />
@@ -142,8 +134,8 @@ const AddressForm = (props: AddressFormProps) => {
                     <Input
                         name='postalCode'
                         type='text'
-                        value={address.postal_code}
-                        onChange={handleInputChange}
+                        value={props.address.postal_code}
+                        onChange={handleInputChange('postal_code')}
                         onBlur={props.onBlur}
                         placeholder={formatMessage({
                             id: 'payment_form.zipcode',

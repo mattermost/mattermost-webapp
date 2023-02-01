@@ -18,6 +18,7 @@ interface Props {
     price: number;
     seats: Seats;
     existingUsers: number;
+    isCloud: boolean;
     onChange: (seats: Seats) => void;
 }
 
@@ -41,7 +42,7 @@ export const errorInvalidNumber = (
     />
 );
 
-function validateSeats(seats: string, annualPricePerSeat: number, minSeats: number): Seats {
+function validateSeats(seats: string, annualPricePerSeat: number, minSeats: number, cloud: boolean): Seats {
     if (seats === '') {
         return {
             quantity: '',
@@ -67,14 +68,32 @@ function validateSeats(seats: string, annualPricePerSeat: number, minSeats: numb
             }}
         />
     );
-    const tooManyUsersErrorMessage = (
+
+    let errorPrefix = (
         <FormattedMessage
-            id='self_hosted_signup.error_max_seats'
-            defaultMessage='Self-serve license purchase only supports purchases up to {num} users'
-            values={{
-                num: <FormattedNumber value={maxSeats}/>,
-            }}
+            id='plan.self_serve'
+            defaultMessage='Self-serve'
         />
+    );
+    if (cloud) {
+        errorPrefix = (
+            <FormattedMessage
+                id='plan.cloud'
+                defaultMessage='Cloud'
+            />
+        );
+    }
+    const tooManyUsersErrorMessage = (
+        <>
+            {errorPrefix}
+            <FormattedMessage
+                id='self_hosted_signup.error_max_seats'
+                defaultMessage=' license purchase only supports purchases up to {num} users'
+                values={{
+                    num: <FormattedNumber value={maxSeats}/>,
+                }}
+            />
+        </>
     );
 
     if (seatsNumber < minSeats) {
@@ -109,14 +128,14 @@ export default function SeatsCalculator(props: Props) {
             // nulls out the customMessage. By forcefully creating a new react element error,
             // it will trigger the error still existing, and the error will keep being shown
             // in the input component
-            props.onChange(validateSeats(props.seats.quantity, annualPricePerSeat, props.existingUsers));
+            props.onChange(validateSeats(props.seats.quantity, annualPricePerSeat, props.existingUsers, props.isCloud));
             return;
         }
-        props.onChange(validateSeats(value, annualPricePerSeat, props.existingUsers));
+        props.onChange(validateSeats(value, annualPricePerSeat, props.existingUsers, props.isCloud));
     };
 
     const maxSeats = calculateMaxUsers(annualPricePerSeat);
-    const total = '$' + intl.formatNumber((parseInt(props.seats.quantity, 10) || 0) * annualPricePerSeat, {maximumFractionDigits: 2});
+    const total = '$' + intl.formatNumber((parseFloat(props.seats.quantity) || 0) * annualPricePerSeat, {maximumFractionDigits: 2});
     const userCountTooltip = (
         <Tooltip
             id='userCount__tooltip'

@@ -81,11 +81,13 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
         this.props.actions.selectLhsItem(LhsItemType.None);
         this.props.actions.selectTeam('');
         document.body.classList.add('console__body');
+        document.getElementById('root')?.classList.add('console__root');
         resetTheme();
     }
 
     public componentWillUnmount(): void {
         document.body.classList.remove('console__body');
+        document.getElementById('root')?.classList.remove('console__root');
         applyTheme(this.props.currentTheme);
     }
 
