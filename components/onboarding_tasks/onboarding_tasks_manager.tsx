@@ -53,6 +53,7 @@ import Wrench from 'components/common/svg_images_components/wrench_svg';
 
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
 import {generateTelemetryTag} from './utils';
+import { areWorkTemplatesEnabled } from 'selectors/work_template';
 
 const getCategory = makeGetCategory();
 
@@ -157,6 +158,7 @@ export const useTasksList = () => {
     const isThinOnBoardingTaskList = useSelector((state: GlobalState) => {
         return isReduceOnBoardingTaskList(state);
     });
+    const workTemplateEnabled = useSelector(areWorkTemplatesEnabled);
 
     // Cloud conditions
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
@@ -202,6 +204,11 @@ export const useTasksList = () => {
         delete list.COMPLETE_YOUR_PROFILE;
         delete list.VISIT_SYSTEM_CONSOLE;
     }
+
+    if (!workTemplateEnabled) {
+        delete list.CREATE_FROM_WORK_TEMPLATE;
+    }
+
     return Object.values(list);
 };
 
