@@ -29,11 +29,26 @@ type Props = {
 }
 
 export default function Consequences(props: Props) {
-    return (
-        <div className='signup-consequences'>
+    let text = (
+        <FormattedMessage
+            defaultMessage={'You will be billed today. Your license will be applied automatically. <a>See how billing works.</a>'}
+            id={'self_hosted_signup.signup_consequences'}
+            values={{
+                a: (chunks: React.ReactNode) => (
+                    <a
+                        onClick={(e) => seeHowBillingWorks(e, props.isCloud)}
+                    >
+                        {chunks}
+                    </a>
+                ),
+            }}
+        />);
+
+    if (props.isCloud) {
+        text = (
             <FormattedMessage
-                defaultMessage={'You will be billed today. Your license will be applied automatically. <a>See how billing works.</a>'}
-                id={'self_hosted_signup.signup_consequences'}
+                defaultMessage={'Your credit card will be charged today. <a>See how billing works.</a>'}
+                id={'cloud_signup.signup_consequences'}
                 values={{
                     a: (chunks: React.ReactNode) => (
                         <a
@@ -43,7 +58,11 @@ export default function Consequences(props: Props) {
                         </a>
                     ),
                 }}
-            />
+            />);
+    }
+    return (
+        <div className='signup-consequences'>
+            {text}
         </div>
     );
 }

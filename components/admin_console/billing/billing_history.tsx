@@ -84,7 +84,7 @@ const BillingHistory = () => {
                                 <div className='BillingHistory__cardHeaderText-bottom'>
                                     <FormattedMessage
                                         id='admin.billing.history.allPaymentsShowHere'
-                                        defaultMessage='All of your monthly payments will show here'
+                                        defaultMessage='All of your invoices will be shown here'
                                     />
                                 </div>
                             </div>

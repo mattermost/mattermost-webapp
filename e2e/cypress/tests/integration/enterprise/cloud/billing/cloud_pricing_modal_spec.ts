@@ -370,7 +370,7 @@ describe('Pricing modal', () => {
 
         // * Check that professsional card Switch to Yearly button opens purchase modal
         cy.get('#pricingModal').should('be.visible');
-        cy.get('#professional > .bottom > .bottom_container').find('#professional_action').should('be.enabled').should('have.text', 'Switch to yearly billing').click();
+        cy.get('#professional > .bottom > .bottom_container').find('#professional_action').should('be.enabled').should('have.text', 'Switch to annual billing').click();
         cy.get('.PurchaseModal').should('exist');
     });
 

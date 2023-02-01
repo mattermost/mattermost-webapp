@@ -155,6 +155,7 @@ var config = {
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
             reselect: 'packages/reselect/src',
+            '@mui/styled-engine': '@mui/styled-engine-sc',
         },
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         fallback: {
@@ -192,6 +193,7 @@ var config = {
         new CopyWebpackPlugin({
             patterns: [
                 {from: 'images/emoji', to: 'emoji'},
+                {from: 'images/worktemplates', to: 'worktemplates'},
                 {from: 'images/img_trans.gif', to: 'images'},
                 {from: 'images/logo-email.png', to: 'images'},
                 {from: 'images/circles.png', to: 'images'},
