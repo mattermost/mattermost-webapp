@@ -51,6 +51,7 @@ type Props = {
     extraErrorText?: React.ReactNode;
     autoFocus?: boolean;
     suppressNoOptionsMessage?: boolean;
+    onPaste?: (e: ClipboardEvent) => void;
 }
 
 export type EmailInvite = {
@@ -238,12 +239,13 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         IndicatorsContainer: () => null,
         Input: (props: InputProps) => {
             const handlePaste = (e: ClipboardEvent) => {
+                e.preventDefault();
                 const clipboardText = e.clipboardData?.getData('Text') || '';
-                this.appendDelimitedValues(clipboardText).then((hasChanges) => {
-                    if (hasChanges) {
-                        e.preventDefault();
-                    }
-                });
+                this.appendDelimitedValues(clipboardText);
+
+                if (this.props.onPaste) {
+                    this.props.onPaste(e);
+                }
             };
 
             return (
@@ -282,8 +284,8 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
                 this.props.onInputChange('');
             }
         } else if (action.action === 'input-change' && inputValue !== '' && inputValue?.[inputValue.length - 1].match(multipleValuesDelimiter)) {
-            const hasChanges = await this.appendDelimitedValues(inputValue);
-            if (hasChanges) {
+            const newValuesCount = await this.appendDelimitedValues(inputValue);
+            if (newValuesCount === 0) {
                 return;
             }
         }
@@ -331,12 +333,12 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         }
     }
 
-    appendDelimitedValues = async (values: string): Promise<boolean> => {
+    appendDelimitedValues = async (values: string): Promise<number> => {
         const existingValues = this.formatValuesForCreatable();
         const entries = [...new Set(values.split(multipleValuesDelimiter))];
 
         if (entries.length === 0) {
-            return false;
+            return 0;
         }
 
         const isUniqueEmail = (values: Array<UserProfile | EmailInvite>, email: string): boolean => {
@@ -413,7 +415,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         this.onChange([...existingValues, ...newValues]);
         this.props.onInputChange('');
 
-        return true;
+        return newValues.length;
     }
 
     isUserProfile = (obj: UserProfile | EmailInvite): obj is UserProfile => {
