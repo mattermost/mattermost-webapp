@@ -103,7 +103,7 @@ describe('components/admin_console/billing/ToYearlyNudgeBannerDismissable', () =
         expect(wrapper.find('AnnouncementBar').exists()).toBe(false);
     });
 
-    test('should NOT show for admins on NON cloud pro monthly', () => {
+    test('should NOT show for admins on cloud free', () => {
         const state = JSON.parse(JSON.stringify(initialState));
         state.entities.users.profiles = {
             current_user_id: {roles: 'system_admin'},
@@ -119,6 +119,66 @@ describe('components/admin_console/billing/ToYearlyNudgeBannerDismissable', () =
                     id: 'prod_starter',
                     sku: CloudProducts.STARTER,
                     recurring_interval: RecurringIntervals.MONTH,
+                },
+            },
+        };
+
+        const store = mockStore(state);
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <ToYearlyNudgeBannerDismissable/>
+            </Provider>,
+        );
+
+        expect(wrapper.find('AnnouncementBar').exists()).toBe(false);
+    });
+
+    test('should NOT show for admins on cloud enterprise', () => {
+        const state = JSON.parse(JSON.stringify(initialState));
+        state.entities.users.profiles = {
+            current_user_id: {roles: 'system_admin'},
+        };
+        state.entities.cloud = {
+            subscription: {
+                product_id: 'prod_enterprise',
+                is_free_trial: 'false',
+                trial_end_at: 1,
+            },
+            products: {
+                prod_enterprise: {
+                    id: 'prod_enterprise',
+                    sku: CloudProducts.ENTERPRISE,
+                    recurring_interval: RecurringIntervals.MONTH,
+                },
+            },
+        };
+
+        const store = mockStore(state);
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <ToYearlyNudgeBannerDismissable/>
+            </Provider>,
+        );
+
+        expect(wrapper.find('AnnouncementBar').exists()).toBe(false);
+    });
+
+    test('should NOT show for admins on cloud pro annual', () => {
+        const state = JSON.parse(JSON.stringify(initialState));
+        state.entities.users.profiles = {
+            current_user_id: {roles: 'system_admin'},
+        };
+        state.entities.cloud = {
+            subscription: {
+                product_id: 'prod_pro',
+                is_free_trial: 'false',
+                trial_end_at: 1,
+            },
+            products: {
+                prod_pro: {
+                    id: 'prod_pro',
+                    sku: CloudProducts.PROFESSIONAL,
+                    recurring_interval: RecurringIntervals.YEAR,
                 },
             },
         };
