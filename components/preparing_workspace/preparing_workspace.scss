@@ -82,3 +82,10 @@
     // centering
     margin: 0 auto;
 }
+
+@media screen and (max-width: 768px) {
+    #root,
+    body.app__body #root{
+        overflow-y: visible;
+    }
+}
