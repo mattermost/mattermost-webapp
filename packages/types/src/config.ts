@@ -194,7 +194,7 @@ export type ClientConfig = {
     PostAcknowledgements: string;
     AllowPersistentNotifications: string;
     PersistentNotificationMaxRecipients: string;
-    PersistentNotificationInterval: string;
+    PersistentNotificationIntervalMinutes: string;
     AllowPersistentNotificationsForGuests: string;
 };
 
@@ -364,7 +364,7 @@ export type ServiceSettings = {
     SelfHostedPurchase: boolean;
     AllowSyncedDrafts: boolean;
     AllowPersistentNotifications: boolean;
-    PersistentNotificationInterval: number;
+    PersistentNotificationIntervalMinutes: number;
     PersistentNotificationMaxCount: number;
     PersistentNotificationMaxRecipients: number;
 };

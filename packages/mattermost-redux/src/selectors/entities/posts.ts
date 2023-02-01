@@ -787,8 +787,8 @@ export function getPersistentNotificationMaxRecipients(state: GlobalState) {
     return getConfig(state).PersistentNotificationMaxRecipients;
 }
 
-export function getPersistentNotificationInterval(state: GlobalState) {
-    return getConfig(state).PersistentNotificationInterval;
+export function getPersistentNotificationIntervalMinutes(state: GlobalState) {
+    return getConfig(state).PersistentNotificationIntervalMinutes;
 }
 
 export function getAllowPersistentNotificationsForGuests(state: GlobalState) {

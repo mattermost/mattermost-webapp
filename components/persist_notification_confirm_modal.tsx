@@ -5,7 +5,7 @@ import React, {memo, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 
-import {getPersistentNotificationInterval, getPersistentNotificationMaxRecipients} from 'mattermost-redux/selectors/entities/posts';
+import {getPersistentNotificationIntervalMinutes, getPersistentNotificationMaxRecipients} from 'mattermost-redux/selectors/entities/posts';
 
 import {GlobalState} from 'types/store';
 import {makeGetUserOrGroupMentionCountFromMessage} from 'utils/post_utils';
@@ -41,7 +41,7 @@ function PersistNotificationConfirmModal({
 
     const getMentionCount = useMemo(makeGetUserOrGroupMentionCountFromMessage, []);
     const maxRecipients = useSelector(getPersistentNotificationMaxRecipients);
-    const interval = useSelector(getPersistentNotificationInterval);
+    const interval = useSelector(getPersistentNotificationIntervalMinutes);
     const count = useSelector((state: GlobalState) => getMentionCount(state, message));
 
     if (channelType === Constants.DM_CHANNEL) {

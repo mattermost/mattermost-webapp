@@ -2880,7 +2880,7 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
-                        key: 'ServiceSettings.PersistentNotificationInterval',
+                        key: 'ServiceSettings.PersistentNotificationIntervalMinutes',
                         label: t('admin.posts.persistentNotificationsInterval.title'),
                         label_default: 'Frequency of persistent notifications',
                         help_text: t('admin.posts.persistentNotificationsInterval.desc'),

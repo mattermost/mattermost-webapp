@@ -173,7 +173,7 @@ const defaultServerConfig: AdminConfig = {
         AllowPersistentNotifications: true,
         PersistentNotificationMaxCount: 6,
         PersistentNotificationMaxRecipients: 5,
-        PersistentNotificationInterval: 5,
+        PersistentNotificationIntervalMinutes: 5,
     },
     TeamSettings: {
         SiteName: 'Mattermost',

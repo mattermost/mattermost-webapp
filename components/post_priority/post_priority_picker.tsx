@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckCircleOutlineIcon, BellRingOutlineIcon} from '@mattermost/compass-icons/components';
 
-import {getPersistentNotificationInterval, isPersistentNotificationsEnabled, isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities/posts';
+import {getPersistentNotificationIntervalMinutes, isPersistentNotificationsEnabled, isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities/posts';
 
 import BetaTag from '../widgets/tag/beta_tag';
 
@@ -99,7 +99,7 @@ function PostPriorityPicker({
 
     const postAcknowledgementsEnabled = useSelector(isPostAcknowledgementsEnabled);
     const persistentNotificationsEnabled = useSelector(isPersistentNotificationsEnabled) && postAcknowledgementsEnabled;
-    const interval = useSelector(getPersistentNotificationInterval);
+    const interval = useSelector(getPersistentNotificationIntervalMinutes);
 
     const makeOnSelectPriority = useCallback((type?: PostPriority) => (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
