@@ -47,9 +47,11 @@ export function openInvitationsModal(timeout = 1) {
     };
 }
 
-export function openWorkTemplateModal() {
+export function openWorkTemplateModal(redirectToChannels = true) {
     return (dispatch: DispatchFunc) => {
-        dispatch(switchToChannels());
+        if (redirectToChannels) {
+            dispatch(switchToChannels());
+        }
         setTimeout(() => {
             dispatch(openModal({
                 modalId: ModalIdentifiers.WORK_TEMPLATE,
@@ -57,7 +59,7 @@ export function openWorkTemplateModal() {
                 dialogProps: {
                 },
             }));
-        }, 1);
+        }, redirectToChannels ? 1000 : 1);
         return {data: true};
     };
 }

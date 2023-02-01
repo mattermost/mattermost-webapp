@@ -281,7 +281,7 @@ export const useHandleOnBoardingTaskTrigger = () => {
         switch (taskName) {
         case OnboardingTasksName.CREATE_FROM_WORK_TEMPLATE: {
             localStorage.setItem(OnboardingTaskCategory, 'true');
-            dispatch(openWorkTemplateModal());
+            dispatch(openWorkTemplateModal(inAdminConsole));
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             break;
         }
