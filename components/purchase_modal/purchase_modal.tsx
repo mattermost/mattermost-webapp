@@ -322,7 +322,7 @@ function DelinquencyCard(props: DelinquencyCardProps) {
                                     <a onClick={seeHowBillingWorks}>
                                         <FormattedMessage
                                             defaultMessage={
-                                                'See how billing works.'
+                                                defaultMessage={'See how billing works.'}
                                             }
                                             id={
                                                 'admin.billing.subscription.howItWorks'
