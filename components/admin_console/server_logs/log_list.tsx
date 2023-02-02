@@ -25,7 +25,10 @@ type Props = {
 type State = {
     modalLog: null | LogObject;
     modalOpen: boolean;
+    page: number;
 }
+
+const PAGE_SIZE = 50;
 
 export default class LogList extends React.PureComponent<Props, State> {
     constructor(props: Props) {
@@ -34,6 +37,7 @@ export default class LogList extends React.PureComponent<Props, State> {
         this.state = {
             modalLog: null,
             modalOpen: false,
+            page: 0,
         };
     }
     isSearching = (term: string, filters: ChannelSearchOpts) => {
@@ -42,6 +46,29 @@ export default class LogList extends React.PureComponent<Props, State> {
 
     onSearch = (term: string) => {
         this.props.onSearchChange(term);
+    }
+
+    nextPage = () => {
+        const page = this.state.page + 1;
+        this.setState({page});
+    }
+
+    previousPage = () => {
+        const page = this.state.page - 1;
+        this.setState({page});
+    }
+
+    getPaginationProps = (): {startCount: number; endCount: number; total: number} => {
+        const {page} = this.state;
+        const startCount = (page * PAGE_SIZE) + 1;
+        const total = this.props.logs?.length ?? 0;
+
+        let endCount = 0;
+
+        endCount = (page + 1) * PAGE_SIZE;
+        endCount = endCount > total ? total : endCount;
+
+        return {startCount, endCount, total};
     }
 
     getColumns = (): Column[] => {
@@ -61,12 +88,6 @@ export default class LogList extends React.PureComponent<Props, State> {
             <FormattedMessage
                 id='user.settings.notifications.autoResponderPlaceholder'
                 defaultMessage='Message'
-            />
-        );
-        const worker: JSX.Element = (
-            <FormattedMessage
-                id='admin.logs.worker'
-                defaultMessage='Worker'
             />
         );
         const caller: JSX.Element = (
@@ -105,12 +126,6 @@ export default class LogList extends React.PureComponent<Props, State> {
                 width: 2,
             },
             {
-                field: 'worker',
-                fixed: true,
-                name: worker,
-                textAlign: 'left',
-            },
-            {
                 field: 'caller',
                 fixed: true,
                 name: caller,
@@ -128,7 +143,10 @@ export default class LogList extends React.PureComponent<Props, State> {
     }
 
     getRows = (): Row[] => {
-        return this.props.logs.map((log: LogObject) => {
+        const {startCount, endCount} = this.getPaginationProps();
+        const logsToDisplay = this.props.logs.slice(startCount - 1, endCount);
+
+        return logsToDisplay.map((log: LogObject) => {
             return {
                 cells: {
                     timestamp: (
@@ -159,13 +177,6 @@ export default class LogList extends React.PureComponent<Props, State> {
                             className='group-description row-content'
                         >
                             {log.caller}
-                        </span>
-                    ),
-                    worker: (
-                        <span
-                            className='group-description row-content'
-                        >
-                            {log.worker}
                         </span>
                     ),
                     options: (
@@ -219,7 +230,7 @@ export default class LogList extends React.PureComponent<Props, State> {
         const {search} = this.props;
         const rows: Row[] = this.getRows();
         const columns: Column[] = this.getColumns();
-        const logsCount = this.props.logs?.length ?? 0;
+        const {startCount, endCount, total} = this.getPaginationProps();
 
         const placeholderEmpty: JSX.Element = (
             <FormattedMessage
@@ -326,16 +337,16 @@ export default class LogList extends React.PureComponent<Props, State> {
                     columns={columns}
                     rows={rows}
                     loading={this.props.loading}
-                    startCount={1}
-                    endCount={logsCount}
-                    total={logsCount}
+                    startCount={startCount}
+                    endCount={endCount}
+                    total={total}
                     onSearch={this.onSearch}
                     term={search}
                     placeholderEmpty={placeholderEmpty}
                     rowsContainerStyles={rowsContainerStyles}
-                    page={1}
-                    nextPage={() => {}}
-                    previousPage={() => {}}
+                    page={this.state.page}
+                    nextPage={this.nextPage}
+                    previousPage={this.previousPage}
                     filterProps={filterProps}
                     extraComponent={errorsButton}
                 />

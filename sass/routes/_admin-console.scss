@@ -29,7 +29,6 @@
 
     .admin-console__wrapper {
         position: relative;
-        overflow: hidden;
         height: 100%;
         min-height: 100%;
         max-height: 100%;
@@ -44,6 +43,7 @@
             display: flex;
             height: 100%;
             flex-direction: column;
+            overflow: auto;
         }
     }
 
