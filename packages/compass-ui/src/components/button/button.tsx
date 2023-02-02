@@ -19,6 +19,7 @@ type Props = Pick<MuiButtonProps, IncludedMuiProps> & {
     disabled?: boolean;
     inverted?: boolean;
     variant?: ButtonVariant;
+    children: React.ReactNode | React.ReactNode[];
 }
 
 export const Button = ({variant = 'primary', destructive, ...rest}: Props) => (

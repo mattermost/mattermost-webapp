@@ -23,7 +23,7 @@ const ThemeBlock = styled('div')(
         height: 100vh;
         bottom: 0;
         overflow: auto;
-        padding: 1rem;
+        padding: 0;
         background: ${theme.palette.background.default};
     `
 )

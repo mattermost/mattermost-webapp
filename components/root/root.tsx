@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {alpha} from '@mui/material';
+import createPalette from '@mui/material/styles/createPalette';
 import deepEqual from 'fast-deep-equal';
 import React from 'react';
 import {Route, Switch, Redirect, RouteComponentProps} from 'react-router-dom';
@@ -79,11 +81,13 @@ import {getSiteURL} from 'utils/url';
 import A11yController from 'utils/a11y_controller';
 import TeamSidebar from 'components/team_sidebar';
 
-import {UserProfile} from '@mattermost/types/users';
-
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import WelcomePostRenderer from 'components/welcome_post_renderer';
+
+import {Themeprovider} from '@mattermost/compass-ui';
+
+import {UserProfile} from '@mattermost/types/users';
 
 import {applyLuxonDefaults} from './effects';
 
@@ -528,103 +532,127 @@ export default class Root extends React.PureComponent<Props, State> {
             return <div/>;
         }
 
+        const theme = {
+            palette: createPalette({
+                primary: {main: this.props.theme.buttonBg},
+                secondary: {main: this.props.theme.linkColor},
+                error: {main: this.props.theme.dndIndicator},
+                warning: {main: this.props.theme.awayIndicator},
+                info: {main: this.props.theme.mentionHighlightBg},
+                success: {main: this.props.theme.onlineIndicator},
+                mention: {main: this.props.theme.mentionColor},
+                text: {
+                    primary: this.props.theme.centerChannelColor,
+                },
+                background: {
+                    default: this.props.theme.centerChannelBg,
+                },
+                action: {
+                    disabled: alpha('#3d3c40', 0.32),
+                    disabledBackground: alpha('#3d3c40', 0.08),
+                },
+                tonalOffset: 0.05,
+            }),
+        };
+
         return (
-            <RootProvider>
-                <Switch>
-                    <Route
-                        path={'/error'}
-                        component={ErrorPage}
-                    />
-                    <HFRoute
-                        path={'/login'}
-                        component={Login}
-                    />
-                    <HFRoute
-                        path={'/access_problem'}
-                        component={AccessProblem}
-                    />
-                    <HFTRoute
-                        path={'/reset_password'}
-                        component={PasswordResetSendLink}
-                    />
-                    <HFTRoute
-                        path={'/reset_password_complete'}
-                        component={PasswordResetForm}
-                    />
-                    <HFRoute
-                        path={'/signup_user_complete'}
-                        component={Signup}
-                    />
-                    <HFRoute
-                        path={'/should_verify_email'}
-                        component={ShouldVerifyEmail}
-                    />
-                    <HFRoute
-                        path={'/do_verify_email'}
-                        component={DoVerifyEmail}
-                    />
-                    <HFTRoute
-                        path={'/claim'}
-                        component={ClaimController}
-                    />
-                    <HFTRoute
-                        path={'/help'}
-                        component={HelpController}
-                    />
-                    <LoggedInRoute
-                        path={'/terms_of_service'}
-                        component={TermsOfService}
-                    />
-                    <Route
-                        path={'/landing'}
-                        component={LinkingLandingPage}
-                    />
-                    <Route
-                        path={'/admin_console'}
-                    >
+            <Themeprovider theme={theme}>
+                <RootProvider>
+                    <Switch>
+                        <Route
+                            path={'/error'}
+                            component={ErrorPage}
+                        />
+                        <HFRoute
+                            path={'/login'}
+                            component={Login}
+                        />
+                        <HFRoute
+                            path={'/access_problem'}
+                            component={AccessProblem}
+                        />
+                        <HFTRoute
+                            path={'/reset_password'}
+                            component={PasswordResetSendLink}
+                        />
+                        <HFTRoute
+                            path={'/reset_password_complete'}
+                            component={PasswordResetForm}
+                        />
+                        <HFRoute
+                            path={'/signup_user_complete'}
+                            component={Signup}
+                        />
+                        <HFRoute
+                            path={'/should_verify_email'}
+                            component={ShouldVerifyEmail}
+                        />
+                        <HFRoute
+                            path={'/do_verify_email'}
+                            component={DoVerifyEmail}
+                        />
+                        <HFTRoute
+                            path={'/claim'}
+                            component={ClaimController}
+                        />
+                        <HFTRoute
+                            path={'/help'}
+                            component={HelpController}
+                        />
+                        <LoggedInRoute
+                            path={'/terms_of_service'}
+                            component={TermsOfService}
+                        />
+                        <Route
+                            path={'/landing'}
+                            component={LinkingLandingPage}
+                        />
+                        <Route
+                            path={'/admin_console'}
+                        >
+                            <>
+                                <Switch>
+                                    <LoggedInRoute
+                                        path={'/admin_console'}
+                                        component={AdminConsole}
+                                    />
+                                    <RootRedirect/>
+                                </Switch>
+                                <CompassThemeProvider theme={this.props.theme}>
+                                    <OnBoardingTaskList/>
+                                </CompassThemeProvider>
+                            </>
+                        </Route>
+                        <LoggedInHFTRoute
+                            path={'/select_team'}
+                            component={SelectTeam}
+                        />
+                        <LoggedInHFTRoute
+                            path={'/oauth/authorize'}
+                            component={Authorize}
+                        />
+                        <LoggedInHFTRoute
+                            path={'/create_team'}
+                            component={CreateTeam}
+                        />
+                        <LoggedInRoute
+                            path={'/mfa'}
+                            component={Mfa}
+                        />
+                        <LoggedInRoute
+                            path={'/preparing-workspace'}
+                            component={PreparingWorkspace}
+                        />
+                        <Redirect
+                            from={'/_redirect/integrations/:subpath*'}
+                            to={`/${this.props.permalinkRedirectTeamName}/integrations/:subpath*`}
+                        />
+                        <Redirect
+                            from={'/_redirect/pl/:postid'}
+                            to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
+                        />
                         <>
-                            <Switch>
-                                <LoggedInRoute
-                                    path={'/admin_console'}
-                                    component={AdminConsole}
-                                />
-                                <RootRedirect/>
-                            </Switch>
-                            <CompassThemeProvider theme={this.props.theme}>
-                                <OnBoardingTaskList/>
-                            </CompassThemeProvider>
-                        </>
-                    </Route>
-                    <LoggedInHFTRoute
-                        path={'/select_team'}
-                        component={SelectTeam}
-                    />
-                    <LoggedInHFTRoute
-                        path={'/oauth/authorize'}
-                        component={Authorize}
-                    />
-                    <LoggedInHFTRoute
-                        path={'/create_team'}
-                        component={CreateTeam}
-                    />
-                    <LoggedInRoute
-                        path={'/mfa'}
-                        component={Mfa}
-                    />
-                    <LoggedInRoute
-                        path={'/preparing-workspace'}
-                        component={PreparingWorkspace}
-                    />
-                    <Redirect
-                        from={'/_redirect/integrations/:subpath*'}
-                        to={`/${this.props.permalinkRedirectTeamName}/integrations/:subpath*`}
-                    />
-                    <Redirect
-                        from={'/_redirect/pl/:postid'}
-                        to={`/${this.props.permalinkRedirectTeamName}/pl/:postid`}
-                    />
-                    <CompassThemeProvider theme={this.props.theme}>
-                        {(this.props.showLaunchingWorkspace && !this.props.location.pathname.includes('/preparing-workspace') &&
+                            {(this.props.showLaunchingWorkspace && !this.props.location.pathname.includes('/preparing-workspace') &&
                             <LaunchingWorkspace
                                 fullscreen={true}
                                 zIndex={LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX}
@@ -632,71 +660,72 @@ export default class Root extends React.PureComponent<Props, State> {
                                 onPageView={noop}
                                 transitionDirection={Animations.Reasons.EnterFromBefore}
                             />
-                        )}
-                        <ModalController/>
-                        <AnnouncementBarController/>
-                        <SystemNotice/>
-                        <GlobalHeader/>
-                        <CloudEffects/>
-                        <OnBoardingTaskList/>
-                        <TeamSidebar/>
-                        <DelinquencyModalController/>
-                        <Switch>
-                            {this.props.products?.map((product) => (
-                                <Route
-                                    key={product.id}
-                                    path={product.baseURL}
-                                    render={(props) => {
-                                        let pluggable = (
-                                            <Pluggable
-                                                pluggableName={'Product'}
-                                                subComponentName={'mainComponent'}
-                                                pluggableId={product.id}
-                                                webSocketClient={webSocketClient}
-                                                css={product.wrapped ? undefined : {gridArea: 'center'}}
-                                            />
-                                        );
-                                        if (product.wrapped) {
-                                            pluggable = (
-                                                <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
-                                                    {pluggable}
-                                                </div>
+                            )}
+                            <ModalController/>
+                            <AnnouncementBarController/>
+                            <SystemNotice/>
+                            <GlobalHeader/>
+                            <CloudEffects/>
+                            <OnBoardingTaskList/>
+                            <TeamSidebar/>
+                            <DelinquencyModalController/>
+                            <Switch>
+                                {this.props.products?.map((product) => (
+                                    <Route
+                                        key={product.id}
+                                        path={product.baseURL}
+                                        render={(props) => {
+                                            let pluggable = (
+                                                <Pluggable
+                                                    pluggableName={'Product'}
+                                                    subComponentName={'mainComponent'}
+                                                    pluggableId={product.id}
+                                                    webSocketClient={webSocketClient}
+                                                    css={product.wrapped ? undefined : {gridArea: 'center'}}
+                                                />
                                             );
-                                        }
-                                        return (
-                                            <LoggedIn {...props}>
-                                                {pluggable}
-                                            </LoggedIn>
-                                        );
-                                    }}
+                                            if (product.wrapped) {
+                                                pluggable = (
+                                                    <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
+                                                        {pluggable}
+                                                    </div>
+                                                );
+                                            }
+                                            return (
+                                                <LoggedIn {...props}>
+                                                    {pluggable}
+                                                </LoggedIn>
+                                            );
+                                        }}
+                                    />
+                                ))}
+                                {this.props.plugins?.map((plugin) => (
+                                    <Route
+                                        key={plugin.id}
+                                        path={'/plug/' + (plugin as any).route}
+                                        render={() => (
+                                            <Pluggable
+                                                pluggableName={'CustomRouteComponent'}
+                                                pluggableId={plugin.id}
+                                                css={{gridArea: 'center'}}
+                                            />
+                                        )}
+                                    />
+                                ))}
+                                <LoggedInRoute
+                                    path={'/:team'}
+                                    component={NeedsTeam}
                                 />
-                            ))}
-                            {this.props.plugins?.map((plugin) => (
-                                <Route
-                                    key={plugin.id}
-                                    path={'/plug/' + (plugin as any).route}
-                                    render={() => (
-                                        <Pluggable
-                                            pluggableName={'CustomRouteComponent'}
-                                            pluggableId={plugin.id}
-                                            css={{gridArea: 'center'}}
-                                        />
-                                    )}
-                                />
-                            ))}
-                            <LoggedInRoute
-                                path={'/:team'}
-                                component={NeedsTeam}
-                            />
-                            <RootRedirect/>
-                        </Switch>
-                        <Pluggable pluggableName='Global'/>
-                        <SidebarRight/>
-                        <AppBar/>
-                        <SidebarRightMenu/>
-                    </CompassThemeProvider>
-                </Switch>
-            </RootProvider>
+                                <RootRedirect/>
+                            </Switch>
+                            <Pluggable pluggableName='Global'/>
+                            <SidebarRight/>
+                            <AppBar/>
+                            <SidebarRightMenu/>
+                        </>
+                    </Switch>
+                </RootProvider>
+            </Themeprovider>
         );
     }
 }

@@ -3,10 +3,11 @@
 
 import React from 'react';
 import {useIntl} from 'react-intl';
-import Icon from '@mattermost/compass-components/foundations/icon';
+import {PencilOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {getDateForTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {isSameDay, isWithinLastWeek, isYesterday} from 'utils/datetime';
+
 import OverlayTrigger from '../../overlay_trigger';
 import Tooltip from '../../tooltip';
 
@@ -74,10 +75,7 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0}: P
                 data-post-id={postId}
                 data-edited-at={editedAt}
             >
-                <Icon
-                    glyph={'pencil-outline'}
-                    size={10}
-                />
+                <PencilOutlineIcon size={10}/>
                 {editedText}
             </span>
         </OverlayTrigger>

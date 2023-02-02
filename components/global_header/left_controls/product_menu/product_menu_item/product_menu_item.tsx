@@ -2,16 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
 import {Link} from 'react-router-dom';
-
 import styled from 'styled-components';
-
-import Icon, {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
+import {IconGlyphTypes} from '@mattermost/compass-icons/IconGlyphs';
+import glyphMap, {CheckIcon} from '@mattermost/compass-icons/components';
 
 export interface ProductMenuItemProps {
     destination: string;
-    icon: TIconGlyph;
+    icon: IconGlyphTypes;
     text: React.ReactNode;
     active: boolean;
     onClick: () => void;
@@ -46,10 +44,6 @@ const MenuItem = styled(Link)`
     }
 `;
 
-const StyledIcon = styled(Icon)`
-    color: var(--button-bg);
-`;
-
 const MenuItemTextContainer = styled.div`
     margin-left: 8px;
     flex-grow: 1;
@@ -58,27 +52,30 @@ const MenuItemTextContainer = styled.div`
     line-height: 20px;
 `;
 
-const ProductMenuItem = ({icon, destination, text, active, onClick, tourTip, id}: ProductMenuItemProps): JSX.Element => (
-    <MenuItem
-        to={destination}
-        onClick={onClick}
-        id={id}
-    >
-        <StyledIcon
-            size={20}
-            glyph={icon || 'none'}
-        />
-        <MenuItemTextContainer>
-            {text}
-        </MenuItemTextContainer>
-        {active && (
-            <StyledIcon
-                size={16}
-                glyph='check'
+const ProductMenuItem = ({icon, destination, text, active, onClick, tourTip, id}: ProductMenuItemProps): JSX.Element => {
+    const Icon = glyphMap[icon];
+    return (
+        <MenuItem
+            to={destination}
+            onClick={onClick}
+            id={id}
+        >
+            <Icon
+                size={20}
+                color={'var(--button-bg)'}
             />
-        )}
-        {tourTip || null}
-    </MenuItem>
-);
+            <MenuItemTextContainer>
+                {text}
+            </MenuItemTextContainer>
+            {active && (
+                <CheckIcon
+                    size={16}
+                    color={'var(--button-bg)'}
+                />
+            )}
+            {tourTip || null}
+        </MenuItem>
+    );
+};
 
 export default ProductMenuItem;

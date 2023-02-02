@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {alpha, Theme} from '@mui/material';
+import {alpha, ComponentsProps, emphasize, Theme} from '@mui/material';
 import type {ComponentsVariants} from '@mui/material';
 import type {ComponentsOverrides} from '@mui/material/styles/overrides';
 
@@ -11,23 +11,22 @@ declare module '@mui/material/IconButton' {
     interface IconButtonPropsSizeOverrides {
         'x-small': true;
     }
+    interface IconButtonPropsOverrides {
+        destructive: boolean;
+        compact: boolean;
+    }
 }
 
-const styleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
-    root: ({theme}) => ({
-        borderRadius: 4,
+const defaultProps: ComponentsProps[typeof componentName] = {
+    disableRipple: true,
+    disableTouchRipple: true,
+    disableFocusRipple: true,
+};
 
-        '&:hover': {
-            backgroundColor: alpha(theme.palette.text.primary, 0.08),
-        },
-
-        '&:active': {
-            color: theme.palette.primary.main,
-            backgroundColor: alpha(theme.palette.primary.main, 0.08),
-        },
-
+export const getFocusStyles = (color: string) => ({
+    '&:not(.Mui-disabled)': {
         '&:focus': {
-            boxShadow: `inset 0 0 0 2px ${theme.palette.secondary.main}`,
+            boxShadow: `inset 0 0 0 2px ${emphasize(color, 0.05)}`,
         },
 
         '&:focus:not(:focus-visible)': {
@@ -35,65 +34,142 @@ const styleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
         },
 
         '&:focus:focus-visible': {
-            boxShadow: `inset 0 0 0 2px ${theme.palette.secondary.main}`,
+            boxShadow: `inset 0 0 0 2px ${emphasize(color, 0.05)}`,
+        },
+    },
+});
+
+const styleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
+    root: ({theme, ownerState}) => ({
+        backgroundColor: 'transparent',
+        color: ownerState.color === 'error' ? theme.palette.error.main : alpha(theme.palette.text.primary, 0.56),
+        borderRadius: 4,
+        margin: 0,
+
+        '&:hover': {
+            color: ownerState.color === 'error' ? theme.palette.error.main : alpha(theme.palette.text.primary, 0.72),
+            backgroundColor: alpha(ownerState.color === 'error' ? theme.palette.error.main : theme.palette.text.primary, 0.08),
+        },
+
+        '&:active': {
+            color: ownerState.color === 'error' ? theme.palette.error.main : theme.palette.primary.main,
+            backgroundColor: alpha(ownerState.color === 'error' ? theme.palette.error.main : theme.palette.primary.main, 0.16),
         },
 
         svg: {
-            margin: 2,
+            margin: 0,
             fill: 'currentColor',
         },
+
+        ...getFocusStyles(ownerState.color === 'error' ? theme.palette.error.main : theme.palette.primary.main),
+
+        ...(ownerState.color !== 'error' && {
+            '&.toggled': {
+                backgroundColor: theme.palette.primary.main,
+                color: theme.palette.primary.contrastText,
+
+                '&:hover': {
+                    color: theme.palette.primary.contrastText,
+                    backgroundColor: alpha(theme.palette.primary.main, 0.92),
+                },
+
+                '&:active': {
+                    color: theme.palette.primary.main,
+                    backgroundColor: alpha(theme.palette.primary.main, 0.16),
+                },
+            },
+        }),
+
+        transition: theme.transitions.create(['background-color', 'color'], {duration: theme.transitions.duration.shorter}),
     }),
 };
 
 const variants: ComponentsVariants[typeof componentName] = [
     {
         props: {size: 'x-small'},
-        style: {
-            padding: 4,
+        style: ({theme}) => ({
+            padding: theme.spacing(0.5),
 
             svg: {
-                width: 14,
-                height: 14,
+                width: '12px',
+                height: '12px',
             },
-        },
+
+            ...theme.typography.b75,
+            lineHeight: 0,
+            fontWeight: 600,
+
+            '.MuiGrid-container': {
+                gap: theme.spacing(0.25),
+                maxHeight: theme.spacing(1.5),
+            },
+        }),
     },
     {
         props: {size: 'small'},
-        style: {
-            padding: 6,
+        style: ({theme}) => ({
+            padding: theme.spacing(0.75),
 
             svg: {
-                width: 18,
-                height: 18,
+                width: '16px',
+                height: '16px',
             },
-        },
+
+            ...theme.typography.b100,
+            lineHeight: 0,
+            fontWeight: 600,
+
+            '.MuiGrid-container': {
+                gap: theme.spacing(0.5),
+                maxHeight: theme.spacing(2),
+            },
+        }),
     },
     {
         props: {size: 'medium'},
-        style: {
-            padding: 8,
+        style: ({theme}) => ({
+            padding: theme.spacing(1),
 
             svg: {
-                width: 24,
-                height: 24,
+                width: '20px',
+                height: '20px',
             },
-        },
+
+            ...theme.typography.b200,
+            lineHeight: 0,
+            fontWeight: 600,
+
+            '.MuiGrid-container': {
+                gap: theme.spacing(0.75),
+                maxHeight: theme.spacing(2.5),
+            },
+        }),
     },
     {
         props: {size: 'large'},
-        style: {
-            padding: 8,
+        style: ({theme}) => ({
+            padding: theme.spacing(1),
 
             svg: {
-                width: 32,
-                height: 32,
+                width: '28px',
+                height: '28px',
             },
-        },
+
+            ...theme.typography.b300,
+            lineHeight: 0,
+            fontWeight: 600,
+
+            '.MuiGrid-container': {
+                gap: theme.spacing(0.75),
+                maxHeight: theme.spacing(3.5),
+            },
+        }),
     },
 ];
 
 const overrides = {
     variants,
+    defaultProps,
     styleOverrides,
 };
 

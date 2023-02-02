@@ -2,15 +2,15 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback} from 'react';
+import {useSelector} from 'react-redux';
 import {Link, useRouteMatch, useLocation, matchPath} from 'react-router-dom';
 import {useIntl} from 'react-intl';
-import {useSelector} from 'react-redux';
 import classNames from 'classnames';
-import Icon from '@mattermost/compass-components/foundations/icon';
+import {ChartLineIcon} from '@mattermost/compass-icons/components';
 
 import {insightsAreEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {t} from 'utils/i18n';
 import {trackEvent} from 'actions/telemetry_actions';
+import {t} from 'utils/i18n';
 
 import InsightsTourTip from './insights_tour_tip/insights_tour_tip';
 
@@ -52,10 +52,7 @@ const ActivityAndInsightsLink = () => {
                     tabIndex={0}
                 >
                     <span className='icon'>
-                        <Icon
-                            size={12}
-                            glyph={'chart-line'}
-                        />
+                        <ChartLineIcon size={12}/>
                     </span>
                     <div className='SidebarChannelLinkLabel_wrapper'>
                         <span className='SidebarChannelLinkLabel sidebar-item__name'>

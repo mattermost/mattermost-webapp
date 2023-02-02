@@ -6,6 +6,8 @@ import {useIntl} from 'react-intl';
 
 import {ModalData} from 'types/actions';
 
+import {Button} from '@mattermost/compass-ui';
+
 type Props = {
     ariaLabel?: string;
     children: ReactNode;
@@ -56,8 +58,8 @@ const ToggleModalButton = ({ariaLabel, children, modalId, dialogType, dialogProp
     };
 
     return (
-        <button
-            className={'style--none ' + className}
+        <Button
+            className={className}
             aria-label={ariaLabelElement}
             onClick={clickHandler}
             id={id}
@@ -66,7 +68,7 @@ const ToggleModalButton = ({ariaLabel, children, modalId, dialogType, dialogProp
         >
             {children}
             {badge}
-        </button>
+        </Button>
     );
 };
 
