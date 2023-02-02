@@ -40,6 +40,12 @@
         white-space: nowrap;
     }
 
+    &__tags {
+        display: flex;
+        max-width: 100%;
+        align-items: center;
+    }
+
     &.is-selected {
         background: rgba(var(--button-bg-rgb), 0.04);
 
@@ -108,7 +114,7 @@
         font-size: 14px;
         font-weight: 600;
         gap: 10px;
-        grid-template-columns: minmax(0, min-content) 1fr min-content;
+        grid-template-columns: minmax(0, min-content) minmax(0, 1fr) min-content;
         justify-items: start;
         line-height: 20px;
         white-space: nowrap;
