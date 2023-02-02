@@ -3000,7 +3000,7 @@
   "cloud_delinquency.cc_modal.card.totalOwed": "Total owed",
   "cloud_delinquency.cc_modal.card.viewBreakdown": "View breakdown",
   "cloud_delinquency.cc_modal.disclaimer": "Upon reactivation you will be charged the total owed.  Your bill is calculated at the end of the billing cycle based on the number of enabled users. {seeHowBillingWorks}",
-  "cloud_delinquency.cc_modal.disclaimer_with_upgrade_info": "Upon reactivation you will be charged the total owed.  You will be further charged {cost} immediately for the cost of a 1 year subscription according to your currently active user count of {users} users. {seeHowBillingWorks}",
+  "cloud_delinquency.cc_modal.disclaimer_with_upgrade_info": "When you reactivate your subscription, you\'ll be billed the total outstanding amount immediately. You\'ll also be billed {cost} immediately for a 1 year subscription based on your current active user count of {users} users. {seeHowBillingWorks}",
   "cloud_delinquency.modal.re_activate_plan": "Reactivate {planName}",
   "cloud_delinquency.modal.stay_on_freemium": "Stay on Mattermost Free",
   "cloud_delinquency.modal.stay_on_freemium_close": "Close",
