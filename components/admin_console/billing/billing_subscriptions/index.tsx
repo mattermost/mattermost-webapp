@@ -20,9 +20,7 @@ import {
     getCloudCustomer as selectCloudCustomer,
     getCloudErrors,
 } from 'mattermost-redux/selectors/entities/cloud';
-import {
-    TrialPeriodDays,
-} from 'utils/constants';
+import {TrialPeriodDays} from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
 import {hasSomeLimits} from 'utils/limits';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
@@ -45,6 +43,7 @@ import {
     paymentFailedBanner,
 } from './billing_subscriptions';
 import LimitReachedBanner from './limit_reached_banner';
+import {ToYearlyNudgeBanner} from './to_yearly_nudge_banner';
 
 import './billing_subscriptions.scss';
 
@@ -134,6 +133,7 @@ const BillingSubscriptions = () => {
                             product={product}
                         />
                         {shouldShowPaymentFailedBanner() && paymentFailedBanner()}
+                        {<ToYearlyNudgeBanner/>}
                         {showCreditCardBanner &&
                             isCardExpired &&
                             creditCardExpiredBanner(setShowCreditCardBanner)}
