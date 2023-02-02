@@ -152,7 +152,8 @@ const NewChannelModal = () => {
                 try {
                     addBoardToChannel(newChannel.id);
                 } catch (e: any) {
-                    console.log(e.message); // eslint-disable-line
+                    // eslint-disable-next-line no-console
+                    console.log(e.message);
                 }
             }
             dispatch(switchToChannel(newChannel));

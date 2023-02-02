@@ -48,6 +48,7 @@ import {
 } from './billing_subscriptions';
 import LimitReachedBanner from './limit_reached_banner';
 import CancelSubscription from './cancel_subscription';
+import {ToYearlyNudgeBanner} from './to_yearly_nudge_banner';
 
 import './billing_subscriptions.scss';
 
@@ -138,6 +139,7 @@ const BillingSubscriptions = () => {
                             product={product}
                         />
                         {shouldShowPaymentFailedBanner() && paymentFailedBanner()}
+                        {<ToYearlyNudgeBanner/>}
                         {showCreditCardBanner &&
                             isCardExpired &&
                             creditCardExpiredBanner(setShowCreditCardBanner)}
@@ -161,7 +163,7 @@ const BillingSubscriptions = () => {
                                 isFreeTrial={isFreeTrial}
                                 trialQuestionsLink={trialQuestionsLink}
                                 subscriptionPlan={product?.sku}
-                                onUpgradeMattermostCloud={onUpgradeMattermostCloud}
+                                onUpgradeMattermostCloud={openPricingModal}
                             />
                         )}
                         {isAnnualProfessionalOrEnterprise ?
