@@ -35,7 +35,7 @@ export type Props = {
 
     /**
      * This is temporary fix until we update underlying package of generic modal.
-     * To be used when opening modals with new menus.
+     * @caution Use this with enforceFocus={false}
      */
     shouldFocusTrapHandleFocus?: boolean;
     children: React.ReactNode;
