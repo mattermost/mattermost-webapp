@@ -50,10 +50,10 @@ import Phone from 'components/common/svg_images_components/phone_svg';
 import Security from 'components/common/svg_images_components/security_svg';
 import Sunglasses from 'components/common/svg_images_components/sunglasses_svg';
 import Wrench from 'components/common/svg_images_components/wrench_svg';
+import {areWorkTemplatesEnabled} from 'selectors/work_template';
 
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
 import {generateTelemetryTag} from './utils';
-import { areWorkTemplatesEnabled } from 'selectors/work_template';
 
 const getCategory = makeGetCategory();
 
