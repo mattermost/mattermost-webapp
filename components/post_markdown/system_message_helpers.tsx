@@ -15,6 +15,7 @@ import PostAddChannelMember from 'components/post_view/post_add_channel_member';
 
 import {Channel} from '@mattermost/types/channels';
 import {Post} from '@mattermost/types/posts';
+import {Team} from '@mattermost/types/teams';
 
 function renderUsername(value: string): ReactNode {
     const username = (value[0] === '@') ? value : `@${value}`;
@@ -380,10 +381,10 @@ const systemMessageRenderers = {
     [Posts.POST_TYPES.ME]: renderMeMessage,
 };
 
-export function renderSystemMessage(post: Post, channel: Channel, isUserCanManageMembers?: boolean, isMilitaryTime?: boolean): ReactNode {
+export function renderSystemMessage(post: Post, currentTeam: Team, channel: Channel, isUserCanManageMembers?: boolean, isMilitaryTime?: boolean): ReactNode {
     const isEphemeral = Utils.isPostEphemeral(post);
     if (isEphemeral && post.props?.type === Posts.POST_TYPES.REMINDER_ACK) {
-        return renderReminderACKMessage(post, Boolean(isMilitaryTime));
+        return renderReminderACKMessage(post, currentTeam, Boolean(isMilitaryTime));
     }
     if (post.props && post.props.add_channel_member) {
         if (channel && (channel.type === General.PRIVATE_CHANNEL || channel.type === General.OPEN_CHANNEL) &&
@@ -421,9 +422,10 @@ export function renderSystemMessage(post: Post, channel: Channel, isUserCanManag
     return null;
 }
 
-function renderReminderACKMessage(post: Post, isMilitaryTime: boolean): ReactNode {
+function renderReminderACKMessage(post: Post, currentTeam: Team, isMilitaryTime: boolean): ReactNode {
     const username = renderUsername(post.props.username);
-    const link = `${getSiteURL()}/${post.props.team_name}/pl/${post.props.post_id}`;
+    const teamUrl = `${getSiteURL()}/${post.props.team_name || currentTeam.name}`;
+    const link = `${teamUrl}/pl/${post.props.post_id}`;
     const permaLink = renderFormattedText(`[${link}](${link})`);
     const localTime = new Date(post.props.target_time * 1000);
 

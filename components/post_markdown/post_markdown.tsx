@@ -11,6 +11,8 @@ import {MentionKey, TextFormattingOptions} from 'utils/text_formatting';
 import {Post} from '@mattermost/types/posts';
 import {Channel} from '@mattermost/types/channels';
 
+import {Team} from '@mattermost/types/teams';
+
 import {renderSystemMessage} from './system_message_helpers';
 
 type Props = {
@@ -40,6 +42,7 @@ type Props = {
      */
     channelId?: string;
     channel: Channel;
+    currentTeam: Team;
     options?: TextFormattingOptions;
     pluginHooks?: Array<Record<string, any>>;
 
@@ -85,7 +88,7 @@ export default class PostMarkdown extends React.PureComponent<Props> {
         const {post, mentionKeys} = this.props;
 
         if (post) {
-            const renderedSystemMessage = renderSystemMessage(post, this.props.channel, this.props.isUserCanManageMembers, this.props.isMilitaryTime);
+            const renderedSystemMessage = renderSystemMessage(post, this.props.currentTeam, this.props.channel, this.props.isUserCanManageMembers, this.props.isMilitaryTime);
             if (renderedSystemMessage) {
                 return <div>{renderedSystemMessage}</div>;
             }

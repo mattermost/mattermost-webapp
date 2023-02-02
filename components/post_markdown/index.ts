@@ -18,6 +18,8 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Preferences} from 'utils/constants';
 
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+
 import {Channel} from '@mattermost/types/channels';
 import {Post} from '@mattermost/types/posts';
 
@@ -62,9 +64,10 @@ function makeMapStateToProps() {
 
     return (state: GlobalState, ownProps: OwnProps) => {
         const channel = getChannel(state, ownProps.channelId);
-
+        const currentTeam = getCurrentTeam(state) || {};
         return {
             channel,
+            currentTeam,
             pluginHooks: state.plugins.components.MessageWillFormat,
             hasPluginTooltips: Boolean(state.plugins.components.LinkTooltip),
             isUserCanManageMembers: channel && canManageMembers(state, channel),
