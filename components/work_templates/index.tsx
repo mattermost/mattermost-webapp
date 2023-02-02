@@ -131,7 +131,7 @@ const WorkTemplateModal = () => {
     };
 
     const closeModal = () => {
-        dispatch(closeModalAction(ModalIdentifiers.WORK_TEMPLATES));
+        dispatch(closeModalAction(ModalIdentifiers.WORK_TEMPLATE));
     };
 
     const goToMenu = () => {
