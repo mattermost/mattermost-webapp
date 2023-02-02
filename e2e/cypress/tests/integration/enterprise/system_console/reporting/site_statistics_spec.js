@@ -81,6 +81,7 @@ describe('System Console > Site Statistics', () => {
 
         // * Check that the title content for the stats is as expected.
         cy.findByTestId('totalActiveUsersTitle').should('contain', 'Total Active Users');
+
         // cy.findByTestId('seatPurchasedTitle').should('contain', 'Total paid users');
         cy.findByTestId('totalTeamsTitle').should('contain', 'Total Teams');
         cy.findByTestId('totalChannelsTitle').should('contain', 'Total Channels');
