@@ -55,12 +55,11 @@ function StarterDisclaimerCTA() {
                 },
                 description: {
                     id: t('workspace_limits.modals.informational.description.freeLimits'),
-                    defaultMessage: '{planName} is restricted to {messages} message history, {storage} file storage, and {boards} board cards.',
+                    defaultMessage: '{planName} is restricted to {messages} message history and {storage} file storage.',
                     values: {
                         planName: starterProductName,
                         messages: intl.formatNumber(fallbackStarterLimits.messages.history),
                         storage: asGBString(fallbackStarterLimits.files.totalStorage, intl.formatNumber),
-                        boards: fallbackStarterLimits.boards.cards,
                     },
                 },
                 secondaryAction: {
@@ -81,10 +80,6 @@ function StarterDisclaimerCTA() {
                     },
                     files: {
                         total_storage: fallbackStarterLimits.files.totalStorage,
-                    },
-                    boards: {
-                        cards: fallbackStarterLimits.boards.cards,
-                        views: fallbackStarterLimits.boards.views,
                     },
                 },
                 needsTheme: true,

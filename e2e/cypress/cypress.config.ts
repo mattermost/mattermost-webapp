@@ -54,5 +54,6 @@ export default defineConfig({
         excludeSpecPattern: '**/node_modules/**/*',
         specPattern: 'tests/integration/**/*_spec.{js,ts}',
         supportFile: 'tests/support/index.js',
+        testIsolation: false,
     },
 });

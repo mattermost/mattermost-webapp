@@ -12,7 +12,7 @@ import mockStore from 'tests/test_store';
 
 import BillingHistory from './billing_history';
 
-const NO_INVOICES_LEGEND = 'All of your monthly payments will show here';
+const NO_INVOICES_LEGEND = 'All of your invoices will be shown here';
 
 const invoiceA = {
     id: 'in_1KNb3DI67GP2qpb4ueaJYBt8',

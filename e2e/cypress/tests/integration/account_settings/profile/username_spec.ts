@@ -206,7 +206,7 @@ describe('Settings > Sidebar > General > Edit', () => {
 
             // * Verify username in profile popover
             cy.get('#user-profile-popover').within(() => {
-                cy.get('.user-popover__username').should('be.visible').and('contain', `${testUser.username}`);
+                cy.get('#userPopoverUsername').should('be.visible').and('contain', `${testUser.username}`);
             });
         });
 
@@ -239,7 +239,7 @@ describe('Settings > Sidebar > General > Edit', () => {
 
             // * Verify that new username is in profile popover
             cy.get('#user-profile-popover').within(() => {
-                cy.get('.user-popover__username').should('be.visible').and('contain', `${otherUser.username}-${randomId}`);
+                cy.get('#userPopoverUsername').should('be.visible').and('contain', `${otherUser.username}-${randomId}`);
             });
         });
     });

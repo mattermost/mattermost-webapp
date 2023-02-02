@@ -107,10 +107,10 @@ export default class SecurityTab extends React.PureComponent<Props, State> {
         const res = await this.props.actions.getAuthorizedOAuthApps();
         if ('data' in res) {
             const {data} = res;
-            this.setState({authorizedApps: data, serverError: null}); //eslint-disable-line react/no-did-mount-set-state
+            this.setState({authorizedApps: data, serverError: null});
         } else if ('error' in res) {
             const {error} = res;
-            this.setState({serverError: error.message}); //eslint-disable-line react/no-did-mount-set-state
+            this.setState({serverError: error.message});
         }
     };
 
