@@ -175,7 +175,7 @@ export class MainMenu extends React.PureComponent<Props> {
                         defaultMessage: 'Add people to the team',
                     })}
                     icon={this.props.mobile && <i className='fa fa-user-plus'/>}
-                    onClick={() => trackEvent('ui', 'ui_sidebar_team_dropdown_invite_people_clicked')}
+                    onClick={() => trackEvent('ui', 'click_sidebar_team_dropdown_invite_people')}
                 />
             );
         }

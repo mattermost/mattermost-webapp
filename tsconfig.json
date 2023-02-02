@@ -39,6 +39,7 @@
   "exclude": [
     "dist",
     "e2e/cypress",
+    "e2e/playwright",
     "!node_modules/@types",
     "coverage"
   ],
