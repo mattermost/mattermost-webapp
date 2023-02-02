@@ -166,10 +166,9 @@ const BillingSubscriptions = () => {
                                 onUpgradeMattermostCloud={openPricingModal}
                             />
                         )}
-                        {isAnnualProfessionalOrEnterprise ?
+                        {isAnnualProfessionalOrEnterprise && !isFreeTrial ?
                             <CancelSubscription
                                 cancelAccountLink={cancelAccountLink}
-                                isFreeTrial={isFreeTrial}
                             /> :
                             <DeleteWorkspaceCTA/>
                         }
