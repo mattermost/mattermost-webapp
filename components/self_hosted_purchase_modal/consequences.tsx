@@ -87,8 +87,6 @@ export default function Consequences(props: Props) {
     return (
         <div className='signup-consequences'>
             {text}
-            <br/>
-            <br/>
             {licenseAgreement}
         </div>
     );

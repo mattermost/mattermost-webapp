@@ -464,6 +464,12 @@
         font-style: normal;
         font-weight: 400;
         line-height: 16px;
+        display: flex;
+        flex-direction: column;
+
+        span:first-of-type {
+            margin-bottom: 10px;
+        }
     }
 
     .submitting,
