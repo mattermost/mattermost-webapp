@@ -331,7 +331,6 @@ const AdminDefinition = {
                 'admin.billing.subscription.title',
                 'admin.billing.subscription.deleteWorkspaceSection.title',
                 'admin.billing.subscription.deleteWorkspaceModal.deleteButton',
-                'admin.billing.subscription.deleteWorkspaceSection.description',
             ],
             schema: {
                 id: 'BillingSubscriptions',
