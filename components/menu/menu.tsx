@@ -94,10 +94,12 @@ export function Menu(props: Props) {
     function handleMenuKeyDown(event: KeyboardEvent<HTMLDivElement>) {
         if (event.key === 'Enter') {
             const target = event.target as HTMLElement;
-            const ariaHasPopup = target?.getAttribute('aria-haspopup') === 'true';
+            const ariaHasPopupAttribute = target?.getAttribute('aria-haspopup') !== null ?? false;
+            const ariaHasExpandedAttribute = target?.getAttribute('aria-expanded') !== null ?? false;
 
-            // Avoid closing the sub menu item on enter
-            if (!ariaHasPopup) {
+            if (ariaHasPopupAttribute && ariaHasExpandedAttribute) {
+                // Avoid closing the sub menu item on enter
+            } else {
                 setAnchorElement(null);
             }
         }
