@@ -202,20 +202,16 @@ export default abstract class AdminSettings <Props extends BaseProps, State exte
     private getConfigValue(config: AdminConfig | EnvironmentConfig, path: string) {
         const pathParts = path.split('.');
 
-        // eslint-disable-next-line @typescript-eslint/ban-types
         return pathParts.reduce((obj: object | null, pathPart) => {
             if (!obj) {
                 return null;
             }
-            // eslint-disable-next-line @typescript-eslint/ban-types
             return obj[(pathPart as keyof object)];
         }, config);
     }
 
     private setConfigValue(config: AdminConfig, path: string, value: any) {
-        // eslint-disable-next-line @typescript-eslint/ban-types
         function setValue(obj: object, pathParts: string[]) {
-            // eslint-disable-next-line @typescript-eslint/ban-types
             const part = pathParts[0] as keyof object;
 
             if (pathParts.length === 1) {

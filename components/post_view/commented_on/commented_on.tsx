@@ -15,7 +15,6 @@ import CommentedOnFilesMessage from 'components/post_view/commented_on_files_mes
 import UserProfile from '../../user_profile/user_profile';
 
 type Props = {
-    displayName?: string;
     enablePostUsernameOverride?: boolean;
     parentPostUser?: UserProfileType;
     onCommentClick?: React.EventHandler<React.MouseEvent>;
@@ -23,15 +22,6 @@ type Props = {
 }
 
 export default class CommentedOn extends PureComponent<Props> {
-    makeUsername = () => {
-        const postProps = this.props.post.props;
-        let username = this.props.displayName;
-        if (this.props.enablePostUsernameOverride && postProps && postProps.from_webhook === 'true' && postProps.override_username) {
-            username = postProps.override_username;
-        }
-        return username;
-    }
-
     makeCommentedOnMessage = () => {
         const {post} = this.props;
         let message: React.ReactNode = '';
@@ -51,7 +41,6 @@ export default class CommentedOn extends PureComponent<Props> {
     }
 
     render() {
-        const username = this.makeUsername();
         const message = this.makeCommentedOnMessage();
         const parentPostUser = this.props.parentPostUser;
         const parentPostUserId = (parentPostUser && parentPostUser.id) || '';
@@ -60,7 +49,7 @@ export default class CommentedOn extends PureComponent<Props> {
             <UserProfile
                 user={parentPostUser}
                 userId={parentPostUserId}
-                displayName={username}
+                displayName={parentPostUser?.username}
                 hasMention={true}
                 disablePopover={false}
             />

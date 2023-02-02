@@ -79,7 +79,6 @@
     "react-redux": "7.2.4",
     "react-router-dom": "5.3.4",
     "react-select": "3.0.3",
-    "react-switch-selector": "1.2.1",
     "react-transition-group": "4.4.5",
     "react-virtualized-auto-sizer": "1.0.7",
     "react-window": "1.8.8",
