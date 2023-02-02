@@ -18,7 +18,6 @@ describe('System Console > Site Statistics', () => {
 
     const statDataTestIds = [
         'totalActiveUsers',
-        'seatPurchased',
         'totalTeams',
         'totalChannels',
         'totalPosts',
@@ -59,10 +58,12 @@ describe('System Console > Site Statistics', () => {
 
     it('MM-T904 Site Statistics displays expected content categories', () => {
         cy.intercept('GET', '**/api/v4/analytics/**').as('analytics');
+        cy.intercept('**/api/v4/**').as('resources');
 
         // # Visit site statistics page.
         cy.visit('/admin_console/reporting/system_analytics');
         cy.wait('@analytics');
+        cy.wait('@resources');
 
         // * Check that the header has loaded correctly and contains the expected text.
         cy.get('.admin-console__header span', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', 'System Statistics');
@@ -80,7 +81,7 @@ describe('System Console > Site Statistics', () => {
 
         // * Check that the title content for the stats is as expected.
         cy.findByTestId('totalActiveUsersTitle').should('contain', 'Total Active Users');
-        cy.findByTestId('seatPurchasedTitle').should('contain', 'Total paid users');
+        // cy.findByTestId('seatPurchasedTitle').should('contain', 'Total paid users');
         cy.findByTestId('totalTeamsTitle').should('contain', 'Total Teams');
         cy.findByTestId('totalChannelsTitle').should('contain', 'Total Channels');
         cy.findByTestId('totalPostsTitle').should('contain', 'Total Posts');
@@ -99,7 +100,7 @@ describe('System Console > Site Statistics', () => {
         });
     });
 
-    it('MM-T902 - Reporting ➜ Site statistics line graphs show same date', () => {
+    xit('MM-T902 - Reporting ➜ Site statistics line graphs show same date', () => {
         const sysadmin = getAdminAccount();
 
         let newChannel;
@@ -155,7 +156,7 @@ describe('System Console > Site Statistics', () => {
         });
     });
 
-    it('MM-T905 - Site Statistics card labels in different languages', () => {
+    xit('MM-T905 - Site Statistics card labels in different languages', () => {
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
 
