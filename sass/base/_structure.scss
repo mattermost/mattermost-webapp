@@ -141,29 +141,27 @@ body.app__body #root {
         grid-area: app-sidebar;
     }
 
-    @media screen and (max-width: 768px) {
-        grid-template:
-            'announcement' min-content
-            'header' min-content
-            'center'
-            'footer' min-content
-            / auto
-        ;
-        .team-sidebar,
-        #SidebarContainer,
-        #channel_view,
-        .product-wrapper,
-        #sidebar-right,
-        .app-bar {
-            grid-area: center;
-        }
-        #SidebarContainer.move--right {
-            position: relative;
-            left: 65px;
-        }
-
-        .announcement-bar {
-            grid-area: header;
+    &:not(.console__root) {
+        @media screen and (max-width: 768px) {
+            grid-template:
+                'announcement' min-content
+                'header' min-content
+                'center'
+                'footer' min-content
+                / auto
+            ;
+            .team-sidebar,
+            #SidebarContainer,
+            #channel_view,
+            .product-wrapper,
+            #sidebar-right,
+            .app-bar {
+                grid-area: center;
+            }
+            #SidebarContainer.move--right {
+                position: relative;
+                left: 65px;
+            }
         }
     }
 

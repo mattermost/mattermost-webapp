@@ -207,8 +207,8 @@ function reducer(state: State, action: Action): State {
     case 'succeeded':
         return {...state, submitting: false, succeeded: true};
     default:
-        // eslint-disable-next-line
-        console.error(`Exhaustiveness failure for self hosted purchase modal. action: ${JSON.stringify(action)}`)
+        // eslint-disable-next-line no-console
+        console.error(`Exhaustiveness failure for self hosted purchase modal. action: ${JSON.stringify(action)}`);
         return state;
     }
 }
@@ -457,7 +457,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
             }
             dispatch({type: 'set_submitting', data: false});
         } catch (e) {
-            // eslint-disable-next-line
+            // eslint-disable-next-line no-console
             console.error('could not complete setup', e);
             dispatch({type: 'set_error', data: 'unable to complete signup'});
         }

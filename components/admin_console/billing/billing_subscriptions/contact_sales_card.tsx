@@ -9,13 +9,14 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {CloudLinks, CloudProducts} from 'utils/constants';
 import PrivateCloudSvg from 'components/common/svg_images_components/private_cloud_svg';
 import CloudTrialSvg from 'components/common/svg_images_components/cloud_trial_svg';
+import {TelemetryProps} from 'components/common/hooks/useOpenPricingModal';
 
 type Props = {
     contactSalesLink: any;
     isFreeTrial: boolean;
     trialQuestionsLink: any;
     subscriptionPlan: string | undefined;
-    onUpgradeMattermostCloud: (callerInfo: string) => void;
+    onUpgradeMattermostCloud: (telemetryProps?: TelemetryProps | undefined) => void;
 }
 
 const ContactSalesCard = (props: Props) => {
@@ -159,26 +160,44 @@ const ContactSalesCard = (props: Props) => {
                 {(!isFreeTrial && subscriptionPlan !== CloudProducts.ENTERPRISE && subscriptionPlan !== CloudProducts.LEGACY) &&
                     <button
                         type='button'
-                        onClick={() => onUpgradeMattermostCloud('admin_console_subscription_card_upgrade_now_button')}
+                        onClick={() => {
+                            if (subscriptionPlan === CloudProducts.STARTER) {
+                                onUpgradeMattermostCloud({trackingLocation: 'admin_console_subscription_card_upgrade_now_button'});
+                            } else {
+                                window.open(contactSalesLink, '_blank');
+                            }
+                        }}
                         className='PrivateCloudCard__actionButton'
                     >
-                        <FormattedMessage
-                            id='admin.billing.subscription.privateCloudCard.upgradeNow'
-                            defaultMessage='Upgrade Now'
-                        />
+                        {subscriptionPlan === CloudProducts.STARTER ? (
+                            <FormattedMessage
+                                id='admin.billing.subscription.privateCloudCard.upgradeNow'
+                                defaultMessage='Upgrade Now'
+                            />
+                        ) : (
+                            <FormattedMessage
+                                id='admin.billing.subscription.privateCloudCard.contactSales'
+                                defaultMessage='Contact Sales'
+                            />
+                        )
+
+                        }
+
                     </button>
                 }
             </div>
             <div className='PrivateCloudCard__image'>
-                {isFreeTrial ?
+                {isFreeTrial ? (
                     <CloudTrialSvg
                         width={170}
                         height={123}
-                    /> :
+                    />
+                ) : (
                     <PrivateCloudSvg
                         width={170}
                         height={123}
                     />
+                )
                 }
             </div>
         </div>
