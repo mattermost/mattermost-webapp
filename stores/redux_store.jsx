@@ -6,11 +6,12 @@
 
 import configureStore from 'store';
 
-const store = configureStore();
+const {store, sagaMiddleware} = configureStore();
 
 // eslint-disable-next-line no-process-env
 if (process.env.NODE_ENV !== 'production' || window.location.origin === 'https://community.mattermost.com') {
     window.store = store;
 }
 
+export {sagaMiddleware};
 export default store;
