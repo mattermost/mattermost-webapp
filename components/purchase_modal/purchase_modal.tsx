@@ -340,7 +340,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     async componentDidMount() {
         if (isEmpty(this.state.currentProduct || this.state.selectedProduct)) {
             await this.props.actions.getCloudProducts();
-            // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
                 currentProduct: findProductInDictionary(this.props.products, this.props.productId),
                 selectedProduct: getSelectedProduct(this.props.yearlyProducts, this.props.productId, this.props.isDelinquencyModal, this.props.isCloudDelinquencyGreaterThan90Days),
@@ -740,7 +739,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             onCardInputChange={this.handleCardInputChange}
                             initialBillingDetails={initialBillingDetails}
                             theme={this.props.theme}
-                            // eslint-disable-next-line react/jsx-closing-bracket-location
                         />
                     ) : (
                         <div className='PaymentDetails'>

@@ -35,6 +35,8 @@ const Customize = ({
     const {formatMessage} = useIntl();
     const license = useSelector(getLicense);
     const licenseIsEnterprise = isEnterpriseOrE20License(license);
+    const templateHasChannels = template.content.findIndex((item) => item.channel) !== -1;
+    const templateHasBoards = template.content.findIndex((item) => item.board) !== -1;
     const templateHasPlaybooks = template.content.findIndex((item) => item.playbook) !== -1;
 
     useEffect(() => {
@@ -57,12 +59,21 @@ const Customize = ({
         };
     }
 
+    let nameFieldLabel;
+    if (templateHasChannels && templateHasBoards && templateHasPlaybooks) {
+        nameFieldLabel = formatMessage({id: 'work_templates.customize.name_label_all', defaultMessage: 'Name your channel, board, and playbook'});
+    } else if (templateHasChannels && templateHasBoards) {
+        nameFieldLabel = formatMessage({id: 'work_templates.customize.name_label_channels_boards', defaultMessage: 'Name your channel and board'});
+    } else if (templateHasChannels && templateHasPlaybooks) {
+        nameFieldLabel = formatMessage({id: 'work_templates.customize.name_label_channels_playbooks', defaultMessage: 'Name your channel and playbook'});
+    }
+
     return (
         <div className={props.className}>
             <div className='name-section-container'>
                 <p>
                     <strong>
-                        {formatMessage({id: 'work_templates.customize.name_title', defaultMessage: 'What project is this for?'})}
+                        {nameFieldLabel}
                     </strong>
                 </p>
                 <p className='customize-name-text'>
@@ -71,7 +82,7 @@ const Customize = ({
                 <input
                     type='text'
                     autoFocus={true}
-                    placeholder={formatMessage({id: 'work_templates.customize.name_input_placeholder', defaultMessage: 'e.g. Web app, Growth, etc.'})}
+                    placeholder={formatMessage({id: 'work_templates.customize.name_input_placeholder', defaultMessage: 'e.g. Web app, Growth, Customer Journey etc.'})}
                     value={name}
                     onChange={(e) => onNameChanged(e.target.value)}
                 />
@@ -98,10 +109,8 @@ const StyledCustomized = styled(Customize)`
     width: 509px;
     margin: 0 auto;
 
-    .public-private-selector {
-        &-button.locked {
-            opacity: 1;
-        }
+    .public-private-selector .public-private-selector-button.locked {
+        opacity: 1;
     }
 
     strong {

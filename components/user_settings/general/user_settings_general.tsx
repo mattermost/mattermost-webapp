@@ -158,7 +158,6 @@ type State = {
     emailError?: string;
 }
 
-// eslint-disable-next-line react/require-optimization
 export class UserSettingsGeneralTab extends React.Component<Props, State> {
     public submitActive = false;
 

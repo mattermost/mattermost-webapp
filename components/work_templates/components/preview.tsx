@@ -156,6 +156,7 @@ const Preview = ({template, className, pluginsEnabled}: PreviewProps) => {
     if (channels.length > 0) {
         accordionItemsData.push({
             id: 'channels',
+            icon: <i className='icon-product-channels'/>,
             title: formatMessage({id: 'work_templates.preview.accordion_title_channels', defaultMessage: 'Channels'}),
             extraContent: <Chip>{channels.length}</Chip>,
             items: [(
@@ -172,6 +173,7 @@ const Preview = ({template, className, pluginsEnabled}: PreviewProps) => {
     if (boards.length > 0) {
         accordionItemsData.push({
             id: 'boards',
+            icon: <i className='icon-product-boards'/>,
             title: formatMessage({id: 'work_templates.preview.accordion_title_boards', defaultMessage: 'Boards'}),
             extraContent: <Chip>{boards.length}</Chip>,
             items: [(
@@ -188,6 +190,7 @@ const Preview = ({template, className, pluginsEnabled}: PreviewProps) => {
     if (playbooks.length > 0) {
         accordionItemsData.push({
             id: 'playbooks',
+            icon: <i className='icon-product-playbooks'/>,
             title: formatMessage({id: 'work_templates.preview.accordion_title_playbooks', defaultMessage: 'Playbooks'}),
             extraContent: <Chip>{playbooks.length}</Chip>,
             items: [(
@@ -204,6 +207,7 @@ const Preview = ({template, className, pluginsEnabled}: PreviewProps) => {
     if (integrations?.length && pluginsEnabled) {
         accordionItemsData.push({
             id: 'integrations',
+            icon: <i className='icon-power-plug-outline'/>,
             title: 'Integrations',
             extraContent: <Chip>{integrations.length}</Chip>,
             items: [(
@@ -255,8 +259,7 @@ const Preview = ({template, className, pluginsEnabled}: PreviewProps) => {
     return (
         <div className={className}>
             <div className='content-side'>
-                <strong>{formatMessage({id: 'work_templates.preview.included_in_template_title', defaultMessage: 'Included in template'})}</strong>
-
+                <strong>{formatMessage({id: 'work_templates.preview.what_you_get', defaultMessage: 'Here\'s what you\'ll get:'})}</strong>
                 <Accordion
                     accordionItemsData={accordionItemsData}
                     openFirstElement={true}
@@ -264,6 +267,7 @@ const Preview = ({template, className, pluginsEnabled}: PreviewProps) => {
                 />
             </div>
             <div className='img-wrapper'>
+                <strong>{formatMessage({id: 'work_templates.preview.what_you_see', defaultMessage: 'Here\'s what you\'ll see:'})}</strong>
                 <CSSTransition
                     nodeRef={nodeRefForPrior}
                     in={illustrationDetails.prior.animateIn}
@@ -314,7 +318,6 @@ const StyledPreview = styled(Preview)`
     .img-wrapper {
         position: relative;
         width: 100%;
-        margin-top: 32px;
     }
 
     img {

@@ -191,7 +191,8 @@ export function createPost(post: Post, files: any[] = []) {
 
         // We are retrying a pending post that had files
         if (newPost.file_ids && !files.length) {
-            files = newPost.file_ids.map((id) => state.entities.files.files[id]); // eslint-disable-line
+            // eslint-disable-next-line no-param-reassign
+            files = newPost.file_ids.map((id) => state.entities.files.files[id]);
         }
 
         if (files.length) {
