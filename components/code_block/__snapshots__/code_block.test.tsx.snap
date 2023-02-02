@@ -17,7 +17,6 @@ exports[`codeBlock should render html code block with proper indentation after s
 </div>
 \`\`\`
 "
-    id="randompostid"
     language="html"
   >
     <div
@@ -142,214 +141,32 @@ exports[`codeBlock should render html code block with proper indentation after s
           HTML, XML
         </span>
       </div>
-      <RootPortal>
-        <Portal
-          containerInfo={
-            <div>
-              <nav
-                class="react-contextmenu post-code__context-menu"
-                role="menu"
-                style="position: fixed; opacity: 0; pointer-events: none;"
-                tabindex="-1"
-              >
-                <div
-                  aria-disabled="false"
-                  class="react-contextmenu-item"
-                  role="menuitem"
-                  tabindex="-1"
-                >
-                  Copy
-                </div>
-                <div
-                  aria-disabled="false"
-                  aria-orientation="horizontal"
-                  class="react-contextmenu-item react-contextmenu-item--divider"
-                  role="menuitem"
-                  tabindex="-1"
-                />
-                <div
-                  aria-disabled="false"
-                  class="react-contextmenu-item"
-                  role="menuitem"
-                  tabindex="-1"
-                >
-                  Copy code block
-                </div>
-              </nav>
-            </div>
-          }
-        >
-          <ContextMenu
-            className="post-code__context-menu"
-            data={Object {}}
-            hideOnLeave={false}
-            id="copy-code-block-context-menu-randompostid"
-            onHide={[Function]}
-            onMouseLeave={[Function]}
-            onShow={[Function]}
-            preventHideOnContextMenu={false}
-            preventHideOnResize={false}
-            preventHideOnScroll={false}
-            rtl={false}
-            style={Object {}}
-          >
-            <nav
-              className="react-contextmenu post-code__context-menu"
-              onContextMenu={[Function]}
-              onMouseLeave={[Function]}
-              role="menu"
-              style={
-                Object {
-                  "opacity": 0,
-                  "pointerEvents": "none",
-                  "position": "fixed",
-                }
-              }
-              tabIndex="-1"
-            >
-              <MenuItem
-                attributes={Object {}}
-                className=""
-                data={Object {}}
-                disabled={false}
-                divider={false}
-                key=".0"
-                onClick={[Function]}
-                onMouseLeave={[Function]}
-                onMouseMove={[Function]}
-                preventClose={false}
-                selected={false}
-              >
-                <div
-                  aria-disabled="false"
-                  aria-orientation={null}
-                  className="react-contextmenu-item"
-                  onClick={[Function]}
-                  onMouseLeave={[Function]}
-                  onMouseMove={[Function]}
-                  onTouchEnd={[Function]}
-                  role="menuitem"
-                  tabIndex="-1"
-                >
-                  <FormattedMessage
-                    defaultMessage="Copy"
-                    id="copy.message"
-                  >
-                    Copy
-                  </FormattedMessage>
-                </div>
-              </MenuItem>
-              <MenuItem
-                attributes={Object {}}
-                className=""
-                data={Object {}}
-                disabled={false}
-                divider={true}
-                key=".1"
-                onClick={[Function]}
-                onMouseLeave={[Function]}
-                onMouseMove={[Function]}
-                preventClose={false}
-                selected={false}
-              >
-                <div
-                  aria-disabled="false"
-                  aria-orientation="horizontal"
-                  className="react-contextmenu-item react-contextmenu-item--divider"
-                  onClick={[Function]}
-                  onMouseLeave={[Function]}
-                  onMouseMove={[Function]}
-                  onTouchEnd={[Function]}
-                  role="menuitem"
-                  tabIndex="-1"
-                />
-              </MenuItem>
-              <MenuItem
-                attributes={Object {}}
-                className=""
-                data={Object {}}
-                disabled={false}
-                divider={false}
-                key=".2"
-                onClick={[Function]}
-                onMouseLeave={[Function]}
-                onMouseMove={[Function]}
-                preventClose={false}
-                selected={false}
-              >
-                <div
-                  aria-disabled="false"
-                  aria-orientation={null}
-                  className="react-contextmenu-item"
-                  onClick={[Function]}
-                  onMouseLeave={[Function]}
-                  onMouseMove={[Function]}
-                  onTouchEnd={[Function]}
-                  role="menuitem"
-                  tabIndex="-1"
-                >
-                  <FormattedMessage
-                    defaultMessage="Copy code block"
-                    id="copy.block.message"
-                  >
-                    Copy code block
-                  </FormattedMessage>
-                </div>
-              </MenuItem>
-            </nav>
-          </ContextMenu>
-        </Portal>
-      </RootPortal>
-      <ContextMenuTrigger
-        attributes={Object {}}
-        collect={[Function]}
-        disable={false}
-        disableIfShiftIsPressed={false}
-        holdToDisplay={-1}
-        id="copy-code-block-context-menu-randompostid"
-        mouseButton={2}
-        posX={0}
-        posY={0}
-        renderTag="div"
+      <div
+        className="hljs"
       >
         <div
-          className="react-contextmenu-wrapper"
-          onClick={[Function]}
-          onContextMenu={[Function]}
-          onMouseDown={[Function]}
-          onMouseOut={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchStart={[Function]}
+          className="post-code__line-numbers"
         >
-          <div
-            className="hljs"
-          >
-            <div
-              className="post-code__line-numbers"
-            >
-              1
+          1
 2
 3
 4
 5
 6
-            </div>
-            <code
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "\`\`\`html
+        </div>
+        <code
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "\`\`\`html
 <span class=\\"hljs-tag\\">&lt;<span class=\\"hljs-name\\">div</span> <span class=\\"hljs-attr\\">className</span>=<span class=\\"hljs-string\\">&#x27;myClass&#x27;</span>&gt;</span>
   <span class=\\"hljs-tag\\">&lt;<span class=\\"hljs-name\\">a</span> <span class=\\"hljs-attr\\">href</span>=<span class=\\"hljs-string\\">&#x27;https://randomgibberishurl.com&#x27;</span>&gt;</span>ClickMe<span class=\\"hljs-tag\\">&lt;/<span class=\\"hljs-name\\">a</span>&gt;</span>
 <span class=\\"hljs-tag\\">&lt;/<span class=\\"hljs-name\\">div</span>&gt;</span>
 \`\`\`
 ",
-                }
-              }
-            />
-          </div>
-        </div>
-      </ContextMenuTrigger>
+            }
+          }
+        />
+      </div>
     </div>
   </CodeBlock>
 </IntlProvider>
@@ -378,108 +195,32 @@ exports[`codeBlock should render html code block with proper indentation before 
       HTML, XML
     </span>
   </div>
-  <RootPortal>
-    <ContextMenu
-      className="post-code__context-menu"
-      data={Object {}}
-      hideOnLeave={false}
-      id="copy-code-block-context-menu-randompostid"
-      onHide={[Function]}
-      onMouseLeave={[Function]}
-      onShow={[Function]}
-      preventHideOnContextMenu={false}
-      preventHideOnResize={false}
-      preventHideOnScroll={false}
-      rtl={false}
-      style={Object {}}
-    >
-      <MenuItem
-        attributes={Object {}}
-        className=""
-        data={Object {}}
-        disabled={false}
-        divider={false}
-        onClick={[Function]}
-        onMouseLeave={[Function]}
-        onMouseMove={[Function]}
-        preventClose={false}
-        selected={false}
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Copy"
-          id="copy.message"
-        />
-      </MenuItem>
-      <MenuItem
-        attributes={Object {}}
-        className=""
-        data={Object {}}
-        disabled={false}
-        divider={true}
-        onClick={[Function]}
-        onMouseLeave={[Function]}
-        onMouseMove={[Function]}
-        preventClose={false}
-        selected={false}
-      />
-      <MenuItem
-        attributes={Object {}}
-        className=""
-        data={Object {}}
-        disabled={false}
-        divider={false}
-        onClick={[Function]}
-        onMouseLeave={[Function]}
-        onMouseMove={[Function]}
-        preventClose={false}
-        selected={false}
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Copy code block"
-          id="copy.block.message"
-        />
-      </MenuItem>
-    </ContextMenu>
-  </RootPortal>
-  <ContextMenuTrigger
-    attributes={Object {}}
-    collect={[Function]}
-    disable={false}
-    disableIfShiftIsPressed={false}
-    holdToDisplay={-1}
-    id="copy-code-block-context-menu-randompostid"
-    mouseButton={2}
-    posX={0}
-    posY={0}
-    renderTag="div"
+  <div
+    className="hljs"
   >
     <div
-      className="hljs"
+      className="post-code__line-numbers"
     >
-      <div
-        className="post-code__line-numbers"
-      >
-        1
+      1
 2
 3
 4
 5
 6
-      </div>
-      <code
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "\`\`\`html
+    </div>
+    <code
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "\`\`\`html
 &lt;div className=&apos;myClass&apos;&gt;
   &lt;a href=&apos;https://randomgibberishurl.com&apos;&gt;ClickMe&lt;/a&gt;
 &lt;/div&gt;
 \`\`\`
 ",
-          }
         }
-      />
-    </div>
-  </ContextMenuTrigger>
+      }
+    />
+  </div>
 </div>
 `;
 
@@ -500,7 +241,6 @@ const myFunction = () => {
 };
 \`\`\`
 "
-    id="randompostid"
     language="typescript"
   >
     <div
@@ -625,214 +365,32 @@ const myFunction = () => {
           TypeScript
         </span>
       </div>
-      <RootPortal>
-        <Portal
-          containerInfo={
-            <div>
-              <nav
-                class="react-contextmenu post-code__context-menu"
-                role="menu"
-                style="position: fixed; opacity: 0; pointer-events: none;"
-                tabindex="-1"
-              >
-                <div
-                  aria-disabled="false"
-                  class="react-contextmenu-item"
-                  role="menuitem"
-                  tabindex="-1"
-                >
-                  Copy
-                </div>
-                <div
-                  aria-disabled="false"
-                  aria-orientation="horizontal"
-                  class="react-contextmenu-item react-contextmenu-item--divider"
-                  role="menuitem"
-                  tabindex="-1"
-                />
-                <div
-                  aria-disabled="false"
-                  class="react-contextmenu-item"
-                  role="menuitem"
-                  tabindex="-1"
-                >
-                  Copy code block
-                </div>
-              </nav>
-            </div>
-          }
-        >
-          <ContextMenu
-            className="post-code__context-menu"
-            data={Object {}}
-            hideOnLeave={false}
-            id="copy-code-block-context-menu-randompostid"
-            onHide={[Function]}
-            onMouseLeave={[Function]}
-            onShow={[Function]}
-            preventHideOnContextMenu={false}
-            preventHideOnResize={false}
-            preventHideOnScroll={false}
-            rtl={false}
-            style={Object {}}
-          >
-            <nav
-              className="react-contextmenu post-code__context-menu"
-              onContextMenu={[Function]}
-              onMouseLeave={[Function]}
-              role="menu"
-              style={
-                Object {
-                  "opacity": 0,
-                  "pointerEvents": "none",
-                  "position": "fixed",
-                }
-              }
-              tabIndex="-1"
-            >
-              <MenuItem
-                attributes={Object {}}
-                className=""
-                data={Object {}}
-                disabled={false}
-                divider={false}
-                key=".0"
-                onClick={[Function]}
-                onMouseLeave={[Function]}
-                onMouseMove={[Function]}
-                preventClose={false}
-                selected={false}
-              >
-                <div
-                  aria-disabled="false"
-                  aria-orientation={null}
-                  className="react-contextmenu-item"
-                  onClick={[Function]}
-                  onMouseLeave={[Function]}
-                  onMouseMove={[Function]}
-                  onTouchEnd={[Function]}
-                  role="menuitem"
-                  tabIndex="-1"
-                >
-                  <FormattedMessage
-                    defaultMessage="Copy"
-                    id="copy.message"
-                  >
-                    Copy
-                  </FormattedMessage>
-                </div>
-              </MenuItem>
-              <MenuItem
-                attributes={Object {}}
-                className=""
-                data={Object {}}
-                disabled={false}
-                divider={true}
-                key=".1"
-                onClick={[Function]}
-                onMouseLeave={[Function]}
-                onMouseMove={[Function]}
-                preventClose={false}
-                selected={false}
-              >
-                <div
-                  aria-disabled="false"
-                  aria-orientation="horizontal"
-                  className="react-contextmenu-item react-contextmenu-item--divider"
-                  onClick={[Function]}
-                  onMouseLeave={[Function]}
-                  onMouseMove={[Function]}
-                  onTouchEnd={[Function]}
-                  role="menuitem"
-                  tabIndex="-1"
-                />
-              </MenuItem>
-              <MenuItem
-                attributes={Object {}}
-                className=""
-                data={Object {}}
-                disabled={false}
-                divider={false}
-                key=".2"
-                onClick={[Function]}
-                onMouseLeave={[Function]}
-                onMouseMove={[Function]}
-                preventClose={false}
-                selected={false}
-              >
-                <div
-                  aria-disabled="false"
-                  aria-orientation={null}
-                  className="react-contextmenu-item"
-                  onClick={[Function]}
-                  onMouseLeave={[Function]}
-                  onMouseMove={[Function]}
-                  onTouchEnd={[Function]}
-                  role="menuitem"
-                  tabIndex="-1"
-                >
-                  <FormattedMessage
-                    defaultMessage="Copy code block"
-                    id="copy.block.message"
-                  >
-                    Copy code block
-                  </FormattedMessage>
-                </div>
-              </MenuItem>
-            </nav>
-          </ContextMenu>
-        </Portal>
-      </RootPortal>
-      <ContextMenuTrigger
-        attributes={Object {}}
-        collect={[Function]}
-        disable={false}
-        disableIfShiftIsPressed={false}
-        holdToDisplay={-1}
-        id="copy-code-block-context-menu-randompostid"
-        mouseButton={2}
-        posX={0}
-        posY={0}
-        renderTag="div"
+      <div
+        className="hljs"
       >
         <div
-          className="react-contextmenu-wrapper"
-          onClick={[Function]}
-          onContextMenu={[Function]}
-          onMouseDown={[Function]}
-          onMouseOut={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchStart={[Function]}
+          className="post-code__line-numbers"
         >
-          <div
-            className="hljs"
-          >
-            <div
-              className="post-code__line-numbers"
-            >
-              1
+          1
 2
 3
 4
 5
 6
-            </div>
-            <code
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "<span class=\\"hljs-string\\">\`\`</span><span class=\\"hljs-string\\">\`typescript
+        </div>
+        <code
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<span class=\\"hljs-string\\">\`\`</span><span class=\\"hljs-string\\">\`typescript
 const myFunction = () =&gt; {
     console.log(&#x27;This is a meaningful function&#x27;);
 };
 \`</span><span class=\\"hljs-string\\">\`\`</span>
 ",
-                }
-              }
-            />
-          </div>
-        </div>
-      </ContextMenuTrigger>
+            }
+          }
+        />
+      </div>
     </div>
   </CodeBlock>
 </IntlProvider>
@@ -861,108 +419,32 @@ const myFunction = () => {
       TypeScript
     </span>
   </div>
-  <RootPortal>
-    <ContextMenu
-      className="post-code__context-menu"
-      data={Object {}}
-      hideOnLeave={false}
-      id="copy-code-block-context-menu-randompostid"
-      onHide={[Function]}
-      onMouseLeave={[Function]}
-      onShow={[Function]}
-      preventHideOnContextMenu={false}
-      preventHideOnResize={false}
-      preventHideOnScroll={false}
-      rtl={false}
-      style={Object {}}
-    >
-      <MenuItem
-        attributes={Object {}}
-        className=""
-        data={Object {}}
-        disabled={false}
-        divider={false}
-        onClick={[Function]}
-        onMouseLeave={[Function]}
-        onMouseMove={[Function]}
-        preventClose={false}
-        selected={false}
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Copy"
-          id="copy.message"
-        />
-      </MenuItem>
-      <MenuItem
-        attributes={Object {}}
-        className=""
-        data={Object {}}
-        disabled={false}
-        divider={true}
-        onClick={[Function]}
-        onMouseLeave={[Function]}
-        onMouseMove={[Function]}
-        preventClose={false}
-        selected={false}
-      />
-      <MenuItem
-        attributes={Object {}}
-        className=""
-        data={Object {}}
-        disabled={false}
-        divider={false}
-        onClick={[Function]}
-        onMouseLeave={[Function]}
-        onMouseMove={[Function]}
-        preventClose={false}
-        selected={false}
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Copy code block"
-          id="copy.block.message"
-        />
-      </MenuItem>
-    </ContextMenu>
-  </RootPortal>
-  <ContextMenuTrigger
-    attributes={Object {}}
-    collect={[Function]}
-    disable={false}
-    disableIfShiftIsPressed={false}
-    holdToDisplay={-1}
-    id="copy-code-block-context-menu-randompostid"
-    mouseButton={2}
-    posX={0}
-    posY={0}
-    renderTag="div"
+  <div
+    className="hljs"
   >
     <div
-      className="hljs"
+      className="post-code__line-numbers"
     >
-      <div
-        className="post-code__line-numbers"
-      >
-        1
+      1
 2
 3
 4
 5
 6
-      </div>
-      <code
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "\`\`\`typescript
+    </div>
+    <code
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "\`\`\`typescript
 const myFunction = () =&gt; {
     console.log(&apos;This is a meaningful function&apos;);
 };
 \`\`\`
 ",
-          }
         }
-      />
-    </div>
-  </ContextMenuTrigger>
+      }
+    />
+  </div>
 </div>
 `;
 
@@ -982,7 +464,6 @@ this is my unknown language
 it shouldn't highlight, it's just garbage
 \`\`\`
 "
-    id="randompostid"
     language="unknownLanguage"
   >
     <div
@@ -1101,203 +582,21 @@ it shouldn't highlight, it's just garbage
           </OverlayTrigger>
         </CopyButton>
       </div>
-      <RootPortal>
-        <Portal
-          containerInfo={
-            <div>
-              <nav
-                class="react-contextmenu post-code__context-menu"
-                role="menu"
-                style="position: fixed; opacity: 0; pointer-events: none;"
-                tabindex="-1"
-              >
-                <div
-                  aria-disabled="false"
-                  class="react-contextmenu-item"
-                  role="menuitem"
-                  tabindex="-1"
-                >
-                  Copy
-                </div>
-                <div
-                  aria-disabled="false"
-                  aria-orientation="horizontal"
-                  class="react-contextmenu-item react-contextmenu-item--divider"
-                  role="menuitem"
-                  tabindex="-1"
-                />
-                <div
-                  aria-disabled="false"
-                  class="react-contextmenu-item"
-                  role="menuitem"
-                  tabindex="-1"
-                >
-                  Copy code block
-                </div>
-              </nav>
-            </div>
-          }
-        >
-          <ContextMenu
-            className="post-code__context-menu"
-            data={Object {}}
-            hideOnLeave={false}
-            id="copy-code-block-context-menu-randompostid"
-            onHide={[Function]}
-            onMouseLeave={[Function]}
-            onShow={[Function]}
-            preventHideOnContextMenu={false}
-            preventHideOnResize={false}
-            preventHideOnScroll={false}
-            rtl={false}
-            style={Object {}}
-          >
-            <nav
-              className="react-contextmenu post-code__context-menu"
-              onContextMenu={[Function]}
-              onMouseLeave={[Function]}
-              role="menu"
-              style={
-                Object {
-                  "opacity": 0,
-                  "pointerEvents": "none",
-                  "position": "fixed",
-                }
-              }
-              tabIndex="-1"
-            >
-              <MenuItem
-                attributes={Object {}}
-                className=""
-                data={Object {}}
-                disabled={false}
-                divider={false}
-                key=".0"
-                onClick={[Function]}
-                onMouseLeave={[Function]}
-                onMouseMove={[Function]}
-                preventClose={false}
-                selected={false}
-              >
-                <div
-                  aria-disabled="false"
-                  aria-orientation={null}
-                  className="react-contextmenu-item"
-                  onClick={[Function]}
-                  onMouseLeave={[Function]}
-                  onMouseMove={[Function]}
-                  onTouchEnd={[Function]}
-                  role="menuitem"
-                  tabIndex="-1"
-                >
-                  <FormattedMessage
-                    defaultMessage="Copy"
-                    id="copy.message"
-                  >
-                    Copy
-                  </FormattedMessage>
-                </div>
-              </MenuItem>
-              <MenuItem
-                attributes={Object {}}
-                className=""
-                data={Object {}}
-                disabled={false}
-                divider={true}
-                key=".1"
-                onClick={[Function]}
-                onMouseLeave={[Function]}
-                onMouseMove={[Function]}
-                preventClose={false}
-                selected={false}
-              >
-                <div
-                  aria-disabled="false"
-                  aria-orientation="horizontal"
-                  className="react-contextmenu-item react-contextmenu-item--divider"
-                  onClick={[Function]}
-                  onMouseLeave={[Function]}
-                  onMouseMove={[Function]}
-                  onTouchEnd={[Function]}
-                  role="menuitem"
-                  tabIndex="-1"
-                />
-              </MenuItem>
-              <MenuItem
-                attributes={Object {}}
-                className=""
-                data={Object {}}
-                disabled={false}
-                divider={false}
-                key=".2"
-                onClick={[Function]}
-                onMouseLeave={[Function]}
-                onMouseMove={[Function]}
-                preventClose={false}
-                selected={false}
-              >
-                <div
-                  aria-disabled="false"
-                  aria-orientation={null}
-                  className="react-contextmenu-item"
-                  onClick={[Function]}
-                  onMouseLeave={[Function]}
-                  onMouseMove={[Function]}
-                  onTouchEnd={[Function]}
-                  role="menuitem"
-                  tabIndex="-1"
-                >
-                  <FormattedMessage
-                    defaultMessage="Copy code block"
-                    id="copy.block.message"
-                  >
-                    Copy code block
-                  </FormattedMessage>
-                </div>
-              </MenuItem>
-            </nav>
-          </ContextMenu>
-        </Portal>
-      </RootPortal>
-      <ContextMenuTrigger
-        attributes={Object {}}
-        collect={[Function]}
-        disable={false}
-        disableIfShiftIsPressed={false}
-        holdToDisplay={-1}
-        id="copy-code-block-context-menu-randompostid"
-        mouseButton={2}
-        posX={0}
-        posY={0}
-        renderTag="div"
+      <div
+        className="hljs"
       >
-        <div
-          className="react-contextmenu-wrapper"
-          onClick={[Function]}
-          onContextMenu={[Function]}
-          onMouseDown={[Function]}
-          onMouseOut={[Function]}
-          onMouseUp={[Function]}
-          onTouchEnd={[Function]}
-          onTouchStart={[Function]}
-        >
-          <div
-            className="hljs"
-          >
-            <code
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "\`\`\`unknownLanguage
+        <code
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "\`\`\`unknownLanguage
 this is my unknown language
 it shouldn&apos;t highlight, it&apos;s just garbage
 \`\`\`
 ",
-                }
-              }
-            />
-          </div>
-        </div>
-      </ContextMenuTrigger>
+            }
+          }
+        />
+      </div>
     </div>
   </CodeBlock>
 </IntlProvider>
@@ -1320,96 +619,20 @@ it shouldn't highlight, it's just garbage
       placement="top"
     />
   </div>
-  <RootPortal>
-    <ContextMenu
-      className="post-code__context-menu"
-      data={Object {}}
-      hideOnLeave={false}
-      id="copy-code-block-context-menu-randompostid"
-      onHide={[Function]}
-      onMouseLeave={[Function]}
-      onShow={[Function]}
-      preventHideOnContextMenu={false}
-      preventHideOnResize={false}
-      preventHideOnScroll={false}
-      rtl={false}
-      style={Object {}}
-    >
-      <MenuItem
-        attributes={Object {}}
-        className=""
-        data={Object {}}
-        disabled={false}
-        divider={false}
-        onClick={[Function]}
-        onMouseLeave={[Function]}
-        onMouseMove={[Function]}
-        preventClose={false}
-        selected={false}
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Copy"
-          id="copy.message"
-        />
-      </MenuItem>
-      <MenuItem
-        attributes={Object {}}
-        className=""
-        data={Object {}}
-        disabled={false}
-        divider={true}
-        onClick={[Function]}
-        onMouseLeave={[Function]}
-        onMouseMove={[Function]}
-        preventClose={false}
-        selected={false}
-      />
-      <MenuItem
-        attributes={Object {}}
-        className=""
-        data={Object {}}
-        disabled={false}
-        divider={false}
-        onClick={[Function]}
-        onMouseLeave={[Function]}
-        onMouseMove={[Function]}
-        preventClose={false}
-        selected={false}
-      >
-        <MemoizedFormattedMessage
-          defaultMessage="Copy code block"
-          id="copy.block.message"
-        />
-      </MenuItem>
-    </ContextMenu>
-  </RootPortal>
-  <ContextMenuTrigger
-    attributes={Object {}}
-    collect={[Function]}
-    disable={false}
-    disableIfShiftIsPressed={false}
-    holdToDisplay={-1}
-    id="copy-code-block-context-menu-randompostid"
-    mouseButton={2}
-    posX={0}
-    posY={0}
-    renderTag="div"
+  <div
+    className="hljs"
   >
-    <div
-      className="hljs"
-    >
-      <code
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "\`\`\`unknownLanguage
+    <code
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "\`\`\`unknownLanguage
 this is my unknown language
 it shouldn&apos;t highlight, it&apos;s just garbage
 \`\`\`
 ",
-          }
         }
-      />
-    </div>
-  </ContextMenuTrigger>
+      }
+    />
+  </div>
 </div>
 `;

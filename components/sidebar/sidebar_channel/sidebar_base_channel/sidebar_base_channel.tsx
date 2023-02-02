@@ -33,7 +33,7 @@ export default class SidebarBaseChannel extends React.PureComponent<Props> {
         callback();
     }
 
-    getCloseHandler = () => {
+    getChannelLeaveHandler = () => {
         const {channel} = this.props;
 
         if (channel.type === Constants.OPEN_CHANNEL && channel.name !== Constants.DEFAULT_CHANNEL) {
@@ -85,7 +85,7 @@ export default class SidebarBaseChannel extends React.PureComponent<Props> {
                 link={`/${currentTeamName}/channels/${channel.name}`}
                 label={channel.display_name}
                 ariaLabelPrefix={ariaLabelPrefix}
-                closeHandler={this.getCloseHandler()!}
+                channelLeaveHandler={this.getChannelLeaveHandler()!}
                 icon={this.getIcon()!}
             />
         );

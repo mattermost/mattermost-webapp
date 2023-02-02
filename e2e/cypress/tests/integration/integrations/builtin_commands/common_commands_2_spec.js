@@ -101,9 +101,9 @@ describe('Integrations', () => {
 
         cy.getLastPostId().then((postId) => {
             // * Verify the message reply, both in RHS and center, is from current user and formatted with lower opacity
-            [`#rhsPost_${postId}`, `#post_${postId}`].forEach((selector, index) => {
+            [`#rhsPost_${postId}`, `#post_${postId}`].forEach((selector) => {
                 cy.get(selector).should('have.class', 'current--user').within(() => {
-                    cy.get('.profile-icon').should(index === 0 ? 'not.exist' : 'not.be.visible');
+                    cy.get('.profile-icon').should('not.be.visible');
                     cy.get('.post-message__text').findByText(message).should('have.css', 'color', 'rgba(63, 67, 80, 0.6)');
                 });
             });
