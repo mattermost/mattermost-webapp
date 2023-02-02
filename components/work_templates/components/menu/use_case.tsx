@@ -108,7 +108,7 @@ const StyledUseCaseMenuItem = styled(UseCase)`
     display: flex;
     flex-direction: column;
     width: 220px;
-    border: 1px solid rgba(var(--center-channel-text-rgb), 0.26);
+    border: 1px solid rgba(var(--center-channel-text-rgb), 0.16);
     border-radius: 8px;
     cursor: pointer;
     margin-bottom: 16px;
