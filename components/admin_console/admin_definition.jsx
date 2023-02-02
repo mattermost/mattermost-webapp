@@ -329,6 +329,8 @@ const AdminDefinition = {
             title_default: 'Subscription',
             searchableStrings: [
                 'admin.billing.subscription.title',
+                'admin.billing.subscription.deleteWorkspaceSection.title',
+                'admin.billing.subscription.deleteWorkspaceModal.deleteButton',
             ],
             schema: {
                 id: 'BillingSubscriptions',
