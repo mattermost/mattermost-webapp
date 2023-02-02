@@ -20,6 +20,7 @@ import {GlobalState} from 'types/store';
 import {getIsLhsOpen} from 'selectors/lhs';
 import {getIsMobileView} from 'selectors/views/browser';
 import {isModalOpen} from 'selectors/views/modals';
+import {areWorkTemplatesEnabled} from 'selectors/work_template';
 import {ModalIdentifiers} from 'utils/constants';
 
 import Sidebar from './sidebar';
@@ -41,6 +42,8 @@ function mapStateToProps(state: GlobalState) {
 
     const canCreateCustomGroups = haveISystemPermission(state, {permission: Permissions.CREATE_CUSTOM_GROUP}) && isCustomGroupsEnabled(state);
 
+    const showWorkTemplateButton = areWorkTemplatesEnabled(state);
+
     return {
         teamId: currentTeam ? currentTeam.id : '',
         canCreatePrivateChannel,
@@ -59,6 +62,7 @@ function mapStateToProps(state: GlobalState) {
         isKeyBoardShortcutModalOpen: isModalOpen(state, ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL),
         userGroupsEnabled,
         canCreateCustomGroups,
+        showWorkTemplateButton,
     };
 }
 

@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloudLinks, LicenseLinks, ModalIdentifiers, SelfHostedProducts, LicenseSkus, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, LicenseLinks, ModalIdentifiers, SelfHostedProducts, LicenseSkus, TELEMETRY_CATEGORIES, RecurringIntervals} from 'utils/constants';
 import {findSelfHostedProductBySku} from 'utils/hosted_customer';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -28,11 +28,9 @@ import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
 
 import {
+    useControlAirGappedSelfHostedPurchaseModal,
     useControlScreeningInProgressModal,
 } from 'components/common/hooks/useControlModal';
-
-// Revert in MM-49772
-// import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
 
 import ContactSalesCTA from './contact_sales_cta';
 import StartTrialCaution from './start_trial_caution';
@@ -51,7 +49,7 @@ function SelfHostedContent(props: ContentProps) {
     useFetchAdminConfig();
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
-    const selfHostedSignupAvailable = useCanSelfHostedSignup();
+    const signupAvailable = useCanSelfHostedSignup();
 
     const [products, productsLoaded] = useGetSelfHostedProducts();
     const professionalProductId = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL)?.id || '';
@@ -67,7 +65,7 @@ function SelfHostedContent(props: ContentProps) {
         async function fetchSelfHostedProducts() {
             try {
                 const products = await Client4.getSelfHostedProducts();
-                const professionalProduct = products.find((prod) => prod.sku === LicenseSkus.Professional);
+                const professionalProduct = products.find((prod) => prod.sku === LicenseSkus.Professional && prod.recurring_interval === RecurringIntervals.YEAR);
                 const price = professionalProduct ? professionalProduct.price_per_seat.toString() : FALL_BACK_PROFESSIONAL_PRICE;
                 setProfessionalPrice(`$${price}`);
             } catch (error) {
@@ -91,9 +89,7 @@ function SelfHostedContent(props: ContentProps) {
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
 
     const controlScreeningInProgressModal = useControlScreeningInProgressModal();
-
-    // Revert in MM-49772
-    // const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
+    const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
 
     const closePricingModal = () => {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
@@ -213,7 +209,14 @@ function SelfHostedContent(props: ContentProps) {
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
                         price={professionalPrice}
-                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month'})}
+                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month {br}<b>(billed annually)</b>'}, {
+                            br: <br/>,
+                            b: (chunks: React.ReactNode | React.ReactNodeArray) => (
+                                <span style={{fontSize: '14px'}}>
+                                    <b>{chunks}</b>
+                                </span>
+                            ),
+                        })}
                         planLabel={
                             isProfessional ? (
                                 <PlanLabel
@@ -231,20 +234,16 @@ function SelfHostedContent(props: ContentProps) {
                                     return;
                                 }
 
-                                if (!selfHostedSignupAvailable.ok) {
-                                    closePricingModal();
-                                    if (selfHostedSignupAvailable.screeningInProgress) {
+                                if (!signupAvailable.ok) {
+                                    if (signupAvailable.screeningInProgress) {
                                         controlScreeningInProgressModal.open();
-                                    } else {
-                                        // closePricingModal();
-                                        // controlAirgappedModal.open();
-                                        // NOTE: This behavior of directly opening the link is to
-                                        // work around in v7.8 (an Extended Support Release),
-                                        // an issue where self-hosted purchase is not actually ready
-                                        // for use. Work in https://mattermost.atlassian.net/browse/MM-49772
-                                        // should revert this behavior and instead open the airgapped modal
+                                        return;
+                                    } else if (signupAvailable.cwsContacted && !signupAvailable.cwsServiceOn) {
                                         window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
+                                        return;
                                     }
+                                    closePricingModal();
+                                    controlAirgappedModal.open();
                                     return;
                                 }
 

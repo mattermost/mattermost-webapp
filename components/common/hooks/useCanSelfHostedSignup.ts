@@ -1,35 +1,82 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {useState, useEffect, useMemo} from 'react';
+import {useEffect, useMemo, useState} from 'react';
+import {useSelector} from 'react-redux';
 
 import {Client4} from 'mattermost-redux/client';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import useLoadStripe from './useLoadStripe';
 
-interface CanSelfHostedSignup {
-    ok: boolean;
+interface CWSSignupAvailability {
+    cwsContacted: boolean;
+    cwsServiceOn: boolean;
     screeningInProgress: boolean;
 }
-export default function useCanSelfHostedSignup(): CanSelfHostedSignup {
-    const [canReachPortal, setCanReachPortal] = useState(false);
-    const [screeningInProgress, setScreeningInProgress] = useState(false);
-    const canReachStripe = (useLoadStripe().current);
+
+const cwsAvailable: CWSSignupAvailability = {
+    cwsContacted: true,
+    cwsServiceOn: true,
+    screeningInProgress: false,
+};
+const cwsAvailableEmptyState: CWSSignupAvailability = {
+    cwsContacted: false,
+    cwsServiceOn: false,
+    screeningInProgress: false,
+};
+
+type SignupAvailability = CWSSignupAvailability & {
+    stripeAvailable: boolean;
+    ok: boolean;
+}
+
+export default function useCanSelfHostedSignup(): SignupAvailability {
+    const [cwsAvailability, setCwsAvailability] = useState(cwsAvailableEmptyState);
+    const config = useSelector(getConfig);
+    const isEnterpriseReady = config.BuildEnterpriseReady === 'true';
+    const stripeAvailable = Boolean(useLoadStripe().current);
     useEffect(() => {
+        if (!isEnterpriseReady) {
+            return;
+        }
         Client4.getAvailabilitySelfHostedSignup().
             then(() => {
-                setScreeningInProgress(false);
-                setCanReachPortal(true);
+                setCwsAvailability(cwsAvailable);
             }).
-            catch((error) => {
-                if (error.status_code === 425) {
-                    setScreeningInProgress(true);
+            catch((err) => {
+                let errorValue = {...cwsAvailableEmptyState};
+                switch (err.status_code) {
+                case 503: {
+                    errorValue = {
+                        cwsServiceOn: false,
+                        cwsContacted: true,
+                        screeningInProgress: false,
+                    };
+                    break;
                 }
+                case 425: {
+                    errorValue = {
+                        cwsServiceOn: true,
+                        cwsContacted: true,
+                        screeningInProgress: true,
+                    };
+                    break;
+                }
+                default: {
+                    errorValue = {...cwsAvailableEmptyState};
+                    break;
+                }
+                }
+                setCwsAvailability(errorValue);
             });
     }, []);
 
-    return useMemo(() => ({
-        ok: canReachPortal && Boolean(canReachStripe) && !screeningInProgress,
-        screeningInProgress,
-    }), [canReachPortal, canReachStripe, screeningInProgress]);
+    return useMemo(() => {
+        return {
+            ...cwsAvailability,
+            stripeAvailable,
+            ok: stripeAvailable && cwsAvailability.cwsContacted && cwsAvailability.cwsServiceOn && !cwsAvailability.screeningInProgress,
+        };
+    }, [stripeAvailable, cwsAvailability]);
 }
