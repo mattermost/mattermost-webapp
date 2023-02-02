@@ -233,10 +233,10 @@ const WorkTemplateModal = () => {
     let confirmButtonAction;
     switch (modalState) {
     case ModalState.Menu:
-        title = formatMessage({id: 'work_templates.menu.modal_title', defaultMessage: 'Create a work template'});
+        title = formatMessage({id: 'work_templates.menu.modal_title', defaultMessage: 'Start from a template'});
         break;
     case ModalState.Preview:
-        title = formatMessage({id: 'work_templates.preview.modal_title', defaultMessage: 'Preview - {useCase}'}, {useCase: selectedTemplate?.useCase});
+        title = formatMessage({id: 'work_templates.preview.modal_title', defaultMessage: 'Preview {useCase}'}, {useCase: selectedTemplate?.useCase});
         cancelButtonText = formatMessage({id: 'work_templates.preview.modal_cancel_button', defaultMessage: 'Back'});
         cancelButtonAction = trackAction('btn_back_to_menu', goToMenu);
         backArrowAction = trackAction('arrow_back_to_menu', goToMenu);
@@ -244,7 +244,7 @@ const WorkTemplateModal = () => {
         confirmButtonAction = trackAction('btn_go_to_customize', () => setModalState(ModalState.Customize));
         break;
     case ModalState.Customize:
-        title = formatMessage({id: 'work_templates.customize.modal_title', defaultMessage: 'Customize - {useCase}'}, {useCase: selectedTemplate?.useCase});
+        title = formatMessage({id: 'work_templates.customize.modal_title', defaultMessage: 'Name your {useCase}'}, {useCase: selectedTemplate?.useCase});
         cancelButtonText = formatMessage({id: 'work_templates.customize.modal_cancel_button', defaultMessage: 'Back'});
         cancelButtonAction = trackAction('btn_back_to_preview', () => setModalState(ModalState.Preview));
         backArrowAction = trackAction('arrow_back_to_preview', () => setModalState(ModalState.Preview));
