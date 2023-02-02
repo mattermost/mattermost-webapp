@@ -27,7 +27,7 @@ export function seeHowBillingWorks(e: React.MouseEvent<HTMLAnchorElement, MouseE
 
 type Props = {
     isCloud: boolean;
-    buttonText: string;
+    licenseAgreementBtnText: string;
 }
 
 export default function Consequences(props: Props) {
