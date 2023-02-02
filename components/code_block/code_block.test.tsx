@@ -20,8 +20,6 @@ const actImmediate = (wrapper: ReactWrapper) =>
     );
 
 describe('codeBlock', () => {
-    const postId = 'randompostid';
-
     test('should render typescript code block before syntax highlighting', async () => {
         const language = 'typescript';
         const input = `\`\`\`${language}
@@ -33,7 +31,6 @@ const myFunction = () => {
 
         const wrapper = shallow(
             <CodeBlock
-                id={postId}
                 code={input}
                 language={language}
             />,
@@ -60,7 +57,6 @@ const myFunction = () => {
         const wrapper = mount(
             <IntlProvider locale='en'>
                 <CodeBlock
-                    id={postId}
                     code={input}
                     language={language}
                 />
@@ -88,7 +84,6 @@ const myFunction = () => {
 
         const wrapper = shallow(
             <CodeBlock
-                id={postId}
                 code={input}
                 language={language}
             />,
@@ -114,7 +109,6 @@ const myFunction = () => {
         const wrapper = mount(
             <IntlProvider locale='en'>
                 <CodeBlock
-                    id={postId}
                     code={input}
                     language={language}
                 />
@@ -140,7 +134,6 @@ it shouldn't highlight, it's just garbage
 
         const wrapper = shallow(
             <CodeBlock
-                id={postId}
                 code={input}
                 language={language}
             />,
@@ -165,7 +158,6 @@ it shouldn't highlight, it's just garbage
         const wrapper = mount(
             <IntlProvider locale='en'>
                 <CodeBlock
-                    id={postId}
                     code={input}
                     language={language}
                 />
