@@ -6,7 +6,7 @@ import {Stripe} from '@stripe/stripe-js';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 
-import ComplianceScreenFailedSvg from 'components/common/svg_images_components/compliance_screen_failed_svg';
+import ComplianceScreenFailedSvg from 'components/common/svg_images_components/access_denied_happy_svg';
 
 import {Address, Product} from '@mattermost/types/cloud';
 

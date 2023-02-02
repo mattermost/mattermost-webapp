@@ -12,7 +12,7 @@ import {Elements} from '@stripe/react-stripe-js';
 
 import {isEmpty} from 'lodash';
 
-import ComplianceScreenFailedSvg from 'components/common/svg_images_components/compliance_screen_failed_svg';
+import ComplianceScreenFailedSvg from 'components/common/svg_images_components/access_denied_happy_svg';
 
 import AddressForm from 'components/payment_form/address_form';
 
@@ -829,7 +829,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             >
                                 <span className='billing_address_btn_text'>
                                     {this.props.intl.formatMessage({
-                                        id: 'admin.billing.subscription.commplianceScreenShippingSameAsBilling',
+                                        id: 'admin.billing.subscription.complianceScreenShippingSameAsBilling',
                                         defaultMessage:
                                             'My shipping address is the same as my billing address',
                                     })}
@@ -889,14 +889,16 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                 )}
                                 icon={
                                     <ComplianceScreenFailedSvg
-                                        width={444}
-                                        height={313}
+                                        width={321}
+                                        height={246}
                                     />
                                 }
                                 buttonText={t(
                                     'admin.billing.subscription.complianceScreenFailed.button',
                                 )}
-                                buttonHandler={() => this.props.actions.closeModal()}
+                                buttonHandler={() =>
+                                    this.props.actions.closeModal()
+                                }
                                 linkText={t(
                                     'admin.billing.subscription.privateCloudCard.contactSupport',
                                 )}
