@@ -13,7 +13,7 @@ import LaptopAlertSVG from 'components/common/svg_images_components/laptop_alert
 import {closeModal, openModal} from 'actions/views/modals';
 
 import './delete_workspace_modal.scss';
-import {CloudProducts, ModalIdentifiers, StatTypes} from 'utils/constants';
+import {CloudProducts, ModalIdentifiers, StatTypes, MattermostLink} from 'utils/constants';
 import DeleteFeedbackModal from 'components/admin_console/billing/delete_workspace/delete_feedback';
 import DowngradeFeedbackModal from 'components/admin_console/billing/delete_workspace/downgrade_feedback';
 import {Feedback} from '@mattermost/types/cloud';
@@ -32,6 +32,7 @@ import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud'
 import {isCloudLicense} from 'utils/license_utils';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {trackEvent} from 'actions/telemetry_actions';
+import useGetSubscription from 'components/common/hooks/useGetSubscription';
 
 type Props = {
     callerCTA: string;
@@ -42,6 +43,7 @@ export default function DeleteWorkspaceModal(props: Props) {
     const openDowngradeModal = useOpenDowngradeModal();
 
     // License/product checks.
+    const subscription = useGetSubscription();
     const product = useSelector(getSubscriptionProduct);
     const isStarter = product?.sku === CloudProducts.STARTER;
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
@@ -68,7 +70,7 @@ export default function DeleteWorkspaceModal(props: Props) {
     // Creates a success modal for deletions, with button to redirect to mattermost.com.
     const deleteSuccessModal = () => {
         const handleButtonClick = () => {
-            window.open('https://mattermost.com/', '_blank');
+            window.open(MattermostLink, '_blank');
         };
 
         const title = (
@@ -204,7 +206,11 @@ export default function DeleteWorkspaceModal(props: Props) {
         }));
         dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
 
-        const result = await dispatch(deleteWorkspaceRequest(feedback));
+        if (subscription === undefined) {
+            return;
+        }
+
+        const result = await dispatch(deleteWorkspaceRequest({subscription_id: subscription?.id, feedback}));
 
         // Success
         if (typeof result === 'boolean' && result) {

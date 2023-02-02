@@ -23,6 +23,7 @@ import {
     LicenseExpandStatus,
     CreateSubscriptionRequest,
     Feedback,
+    WorkspaceDeletionRequest,
 } from '@mattermost/types/cloud';
 import {
     SelfHostedSignupForm,
@@ -4264,10 +4265,10 @@ export default class Client4 {
         );
     }
 
-    deleteWorkspace = (feedback: Feedback) => {
+    deleteWorkspace = (deletionRequest: WorkspaceDeletionRequest) => {
         return this.doFetch<StatusOK>(
             `${this.getCloudRoute()}/delete-workspace`,
-            {method: 'post', body: JSON.stringify(feedback)},
+            {method: 'post', body: JSON.stringify(deletionRequest)},
         );
     }
 }

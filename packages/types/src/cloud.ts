@@ -222,3 +222,8 @@ export type Feedback = {
     reason: string;
     comments?: string;
 }
+
+export type WorkspaceDeletionRequest = {
+    subscription_id: string;
+    feedback: Feedback;
+}
