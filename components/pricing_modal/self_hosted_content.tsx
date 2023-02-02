@@ -235,15 +235,16 @@ function SelfHostedContent(props: ContentProps) {
                                 }
 
                                 if (!signupAvailable.ok) {
-                                    if (signupAvailable.screeningInProgress) {
-                                        controlScreeningInProgressModal.open();
-                                        return;
-                                    } else if (signupAvailable.cwsContacted && !signupAvailable.cwsServiceOn) {
+                                    if (signupAvailable.cwsContacted && !signupAvailable.cwsServiceOn) {
                                         window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
                                         return;
                                     }
+                                    if (signupAvailable.screeningInProgress) {
+                                        controlScreeningInProgressModal.open();
+                                    } else {
+                                        controlAirgappedModal.open();
+                                    }
                                     closePricingModal();
-                                    controlAirgappedModal.open();
                                     return;
                                 }
 
