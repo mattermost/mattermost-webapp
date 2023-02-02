@@ -7,6 +7,7 @@ import {
     Reducer,
     Store,
 } from 'redux';
+import createSagaMiddleware, {SagaMiddleware} from 'redux-saga';
 import thunk from 'redux-thunk';
 import {composeWithDevToolsDevelopmentOnly} from '@redux-devtools/extension';
 
@@ -33,7 +34,7 @@ export default function configureStore<S extends GlobalState>({
     appReducers: Record<string, Reducer>;
     getAppReducers: () => Record<string, Reducer>;
     preloadedState: Partial<S>;
-}): Store {
+}): {store: Store; sagaMiddleware: SagaMiddleware} {
     const baseState = {
         ...initialState,
         ...preloadedState,
@@ -46,7 +47,9 @@ export default function configureStore<S extends GlobalState>({
         autoPause: true,
     });
 
-    const middleware = applyMiddleware(thunk);
+    const sagaMiddleware = createSagaMiddleware();
+
+    const middleware = applyMiddleware(thunk, sagaMiddleware);
 
     const enhancers = composeEnhancers(middleware);
 
@@ -74,5 +77,8 @@ export default function configureStore<S extends GlobalState>({
         });
     }
 
-    return store;
+    return {
+        store,
+        sagaMiddleware,
+    };
 }

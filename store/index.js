@@ -24,7 +24,7 @@ window.Observable = Observable;
 const localForage = extendPrototype(baseLocalForage);
 
 export default function configureStore(preloadedState) {
-    const store = configureServiceStore({
+    const {store, sagaMiddleware} = configureServiceStore({
         appReducers,
         getAppReducers,
         preloadedState,
@@ -115,7 +115,10 @@ export default function configureStore(preloadedState) {
         console.error('Failed to initialize localForage', e);
     });
 
-    return store;
+    return {
+        store,
+        sagaMiddleware,
+    };
 }
 
 /**
