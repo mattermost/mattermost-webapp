@@ -25,7 +25,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {fetchRemoteListing} from 'actions/marketplace';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {switchToChannelById} from 'actions/views/channel';
+import {loadIfNecessaryAndSwitchToChannelById} from 'actions/views/channel';
 
 import Customize from './components/customize';
 import Menu from './components/menu';
@@ -208,7 +208,7 @@ const WorkTemplateModal = () => {
             firstChannelId = data.channel_ids[0];
         }
         if (firstChannelId) {
-            dispatch(switchToChannelById(firstChannelId));
+            dispatch(loadIfNecessaryAndSwitchToChannelById(firstChannelId));
         }
         closeModal();
     };
