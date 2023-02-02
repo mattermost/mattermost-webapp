@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import ReactDOM from 'react-dom';
 import {Switch, Route} from 'react-router-dom';
 
 import Messaging from './components/messaging';
@@ -20,7 +20,7 @@ type Props = {
 
 export default class HelpController extends React.PureComponent<Props> {
     public componentDidUpdate(): void {
-        const helpControllerNode = findDOMNode(this);
+        const helpControllerNode = ReactDOM.findDOMNode(this);
 
         if (helpControllerNode && helpControllerNode instanceof HTMLDivElement) {
             helpControllerNode.scrollIntoView();
