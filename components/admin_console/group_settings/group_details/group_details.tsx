@@ -146,8 +146,6 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
-        /* eslint-disable react/no-did-update-set-state */
-
         // groupchannels
         if (
             prevState.saveNeeded !== this.state.saveNeeded &&

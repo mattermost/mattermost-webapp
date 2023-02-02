@@ -2,8 +2,10 @@
 // See LICENSE.txt for license information.
 
 import {useMemo, useState, useEffect} from 'react';
+import {useSelector} from 'react-redux';
 
 import {Client4} from 'mattermost-redux/client';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import useLoadStripe from './useLoadStripe';
 
@@ -28,8 +30,13 @@ type SignupAvailability = CWSSignupAvailability & {
 
 export default function useCanSelfHostedSignup(): SignupAvailability {
     const [cwsAvailability, setCwsAvailability] = useState(cwsAvailableEmptyState);
+    const config = useSelector(getConfig);
+    const isEnterpriseReady = config.BuildEnterpriseReady === 'true';
     const stripeAvailable = Boolean(useLoadStripe().current);
     useEffect(() => {
+        if (!isEnterpriseReady) {
+            return;
+        }
         Client4.getAvailabilitySelfHostedSignup().
             then(() => {
                 setCwsAvailability(cwsAvailable);
@@ -54,8 +61,6 @@ export default function useCanSelfHostedSignup(): SignupAvailability {
                 setCwsAvailability(errorValue);
             });
     }, []);
-
-    // not implemented
 
     return useMemo(() => {
         return {
