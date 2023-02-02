@@ -27,8 +27,7 @@ import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 
 import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
 
-// Revert in MM-49772
-// import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
+import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
 
 import ContactSalesCTA from './contact_sales_cta';
 import StartTrialCaution from './start_trial_caution';
@@ -47,7 +46,7 @@ function SelfHostedContent(props: ContentProps) {
     useFetchAdminConfig();
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
-    const canUseSelfHostedSignup = useCanSelfHostedSignup();
+    const signupAvailable = useCanSelfHostedSignup();
 
     const [products, productsLoaded] = useGetSelfHostedProducts();
     const professionalProductId = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL)?.id || '';
@@ -86,8 +85,7 @@ function SelfHostedContent(props: ContentProps) {
     const isEnterprise = license.SkuShortName === LicenseSkus.Enterprise;
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
 
-    // Revert in MM-49772
-    // const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
+    const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
 
     const closePricingModal = () => {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
@@ -232,15 +230,13 @@ function SelfHostedContent(props: ContentProps) {
                                     return;
                                 }
 
-                                if (!canUseSelfHostedSignup) {
-                                    // closePricingModal();
-                                    // controlAirgappedModal.open();
-                                    // NOTE: This behavior of directly opening the link is to
-                                    // work around in v7.8 (an Extended Support Release),
-                                    // an issue where self-hosted purchase is not actually ready
-                                    // for use. Work in https://mattermost.atlassian.net/browse/MM-49772
-                                    // should revert this behavior and instead open the airgapped modal
-                                    window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
+                                if (!signupAvailable.ok) {
+                                    if (signupAvailable.cwsContacted && !signupAvailable.cwsServiceOn) {
+                                        window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
+                                        return;
+                                    }
+                                    closePricingModal();
+                                    controlAirgappedModal.open();
                                     return;
                                 }
 
