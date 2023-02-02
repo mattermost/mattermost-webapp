@@ -311,7 +311,7 @@ export default class WebSocketClient {
         this.connectFailCount = 0;
         this.responseSequence = 1;
         if (this.conn && this.conn.readyState === WebSocket.OPEN) {
-            this.conn.onclose = () => {}; //eslint-disable-line no-empty-function
+            this.conn.onclose = () => {};
             this.conn.close();
             this.conn = null;
             console.log('websocket closed'); //eslint-disable-line no-console

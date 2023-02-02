@@ -120,7 +120,6 @@ export default class Reaction extends React.PureComponent<Props, State> {
             const reactedClass = currentUserReacted ? 'Reaction--reacted' : 'Reaction--unreacted';
 
             this.animating = false;
-            /* eslint-disable-next-line react/no-did-update-set-state */
             this.setState({
                 displayNumber: this.props.reactionCount,
                 reactedClass,
