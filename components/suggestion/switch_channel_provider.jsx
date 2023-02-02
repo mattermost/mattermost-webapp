@@ -7,7 +7,6 @@ import {connect} from 'react-redux';
 import classNames from 'classnames';
 
 import GuestTag from 'components/widgets/tag/guest_tag';
-
 import BotTag from 'components/widgets/tag/bot_tag';
 
 import {UserTypes} from 'mattermost-redux/action_types';
@@ -23,7 +22,7 @@ import {
     getSortedAllTeamsUnreadChannels,
     getAllTeamsUnreadChannelIds,
 } from 'mattermost-redux/selectors/entities/channels';
-import ProfilePicture from '../profile_picture';
+
 import {getMyPreferences, isGroupChannelManuallyVisible, isCollapsedThreadsEnabled, insightsAreEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {
@@ -44,8 +43,8 @@ import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/
 import {logError} from 'mattermost-redux/actions/errors';
 import {sortChannelsByTypeAndDisplayName, isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import SharedChannelIndicator from 'components/shared_channel_indicator';
-
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import ProfilePicture from 'components/profile_picture';
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
 import {Constants, StoragePrefixes} from 'utils/constants';
@@ -103,7 +102,7 @@ class SwitchChannelSuggestion extends Suggestion {
             } else {
                 unreadMentions = collapsedThreads ? member.mention_count_root : member.mention_count;
             }
-            if (unreadMentions > 0) {
+            if (unreadMentions > 0 && !channelIsArchived) {
                 badge = (
                     <div className={classNames('suggestion-list_unread-mentions', (isPartOfOnlyOneTeam ? 'position-end' : ''))}>
                         <span className='badge'>
@@ -248,7 +247,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 {icon}
                 <div className='suggestion-list__ellipsis suggestion-list__flex'>
                     <span className='suggestion-list__main'>
-                        <span className={item.unread ? 'suggestion-list__unread' : ''}>{name}</span>
+                        <span className={classNames({'suggestion-list__unread': item.unread && !channelIsArchived})}>{name}</span>
                         {showSlug && <span className='suggestion-list__desc'>{description}</span>}
                     </span>
                     {customStatus}
@@ -421,8 +420,8 @@ export default class SwitchChannelProvider extends Provider {
                 return false;
             }
 
-            // Dispatch suggestions for local data
-            const channels = getChannelsInAllTeams(getState()).concat(getDirectAndGroupChannels(getState()));
+            // Dispatch suggestions for local data (filter out deleted and archived channels from local store data)
+            const channels = getChannelsInAllTeams(getState()).concat(getDirectAndGroupChannels(getState())).filter((c) => c.delete_at === 0);
             const users = Object.assign([], searchProfilesMatchingWithTerm(getState(), channelPrefix, false));
             const formattedData = this.formatList(channelPrefix, [ThreadsChannel, InsightsChannel, ...channels], users, true, true);
             if (formattedData) {
@@ -472,7 +471,9 @@ export default class SwitchChannelProvider extends Provider {
         }
 
         const currentUserId = getCurrentUserId(state);
-        const localChannelData = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state)) || [];
+
+        // filter out deleted and archived channels from local store data
+        const localChannelData = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state)).filter((c) => c.delete_at === 0) || [];
         const localUserData = Object.assign([], searchProfilesMatchingWithTerm(state, channelPrefix, false)) || [];
         const localFormattedData = this.formatList(channelPrefix, [ThreadsChannel, InsightsChannel, ...localChannelData], localUserData);
         const remoteChannelData = channelsFromServer.concat(getGroupChannels(state)) || [];
