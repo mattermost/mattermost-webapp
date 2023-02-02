@@ -157,7 +157,7 @@ const BillingSubscriptions = () => {
                                 isFreeTrial={isFreeTrial}
                                 trialQuestionsLink={trialQuestionsLink}
                                 subscriptionPlan={product?.sku}
-                                onUpgradeMattermostCloud={onUpgradeMattermostCloud}
+                                onUpgradeMattermostCloud={openPricingModal}
                             />
                         )}
                         <CancelSubscription

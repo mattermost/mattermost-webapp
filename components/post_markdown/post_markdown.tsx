@@ -96,7 +96,7 @@ export default class PostMarkdown extends React.PureComponent<Props> {
 
         const options = this.getOptions(
             this.props.options,
-            post?.props?.disable_group_highlight === true, // eslint-disable-line camelcase
+            post?.props?.disable_group_highlight === true,
             mentionHighlight,
             post?.edit_at,
         );

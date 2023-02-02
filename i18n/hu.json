@@ -2972,8 +2972,6 @@
   "convert_channel.question3": "Biztosan átalakítja a **{display_name}** csatornát privát csatornává?",
   "convert_channel.title": "Átalakítja a {display_name} csatornát privát csatornává?",
   "copied.message": "Másolt",
-  "copy.block.message": "Kód blokk másolása",
-  "copy.message": "Másolás",
   "copy_url_context_menu.getChannelLink": "Link másolása",
   "create_category_modal.create": "Létrehozás",
   "create_category_modal.createCategory": "Új kategória létrehozása",
