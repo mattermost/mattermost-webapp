@@ -261,6 +261,13 @@ export default class InstalledOAuthApp extends React.PureComponent<InstalledOAut
                         />
                     </Link>
                     {' - '}
+                    <Link to={`/${this.props.team.name}/integrations/oauth2-apps/disable?id=${oauthApp.id}`}>
+                        <FormattedMessage
+                            id='installed_integrations.disable'
+                            defaultMessage='Disable'
+                        />
+                    </Link>
+                    {' - '}
                     <DeleteIntegrationLink
                         modalMessage={
                             <FormattedMessage
