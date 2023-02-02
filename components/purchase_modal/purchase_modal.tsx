@@ -310,7 +310,7 @@ function DelinquencyCard(props: DelinquencyCardProps) {
                     {Boolean(props.isCloudDelinquencyGreaterThan90Days) && (
                         <FormattedMessage
                             defaultMessage={
-                                'When you reactivate your subscription, you\'ll be billed the total outstanding amount. You\'ll also be billed {cost} immediately for a 1 year subscription based on your current active user count of {users} users. {seeHowBillingWorks}'
+                                'When you reactivate your subscription, you\'ll be billed the total outstanding amount immediately. You\'ll also be billed {cost} immediately for a 1 year subscription based on your current active user count of {users} users. {seeHowBillingWorks}'
                             }
                             id={
                                 'cloud_delinquency.cc_modal.disclaimer_with_upgrade_info'
