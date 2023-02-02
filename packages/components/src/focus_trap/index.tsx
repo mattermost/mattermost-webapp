@@ -4,17 +4,15 @@
 import React from 'react';
 import MuiFocusTrap, {FocusTrapProps as MuiFocusTrapProps} from '@mui/base/FocusTrap';
 
-interface Props {
+export interface Props {
     active: MuiFocusTrapProps['open'];
     children: MuiFocusTrapProps['children'];
 }
 
-const FocusTrap = ({active, children}: Props) => {
+export const FocusTrap = ({active, children}: Props) => {
     return (
         <MuiFocusTrap open={active}>
             {children}
         </MuiFocusTrap>
     );
 };
-
-export default FocusTrap;
