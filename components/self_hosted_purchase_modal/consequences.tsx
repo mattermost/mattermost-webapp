@@ -53,7 +53,7 @@ export default function Consequences(props: Props) {
             }
             id={'admin.billing.subscription.byClickingYouAgree'}
             values={{
-                buttonContent: props.buttonText.toLowerCase(),
+                buttonContent: props.licenseAgreementBtnText.toLowerCase(),
                 legalText: LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT_TEXT,
                 linkAgreement: (legalText: React.ReactNode) => (
                     <a

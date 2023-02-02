@@ -693,7 +693,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     afterButtonContent={
                         <Consequences
                             isCloud={true}
-                            buttonText={cardBtnText}
+                            licenseAgreementBtnText={cardBtnText}
                         />
                     }
                 />

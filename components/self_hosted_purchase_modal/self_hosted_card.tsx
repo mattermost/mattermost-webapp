@@ -101,7 +101,7 @@ export default function SelfHostedCard(props: Props) {
                 afterButtonContent={
                     <Consequences
                         isCloud={false}
-                        buttonText={intl.formatMessage({id: 'self_hosted_signup.cta', defaultMessage: 'Upgrade'})}
+                        licenseAgreementBtnText={intl.formatMessage({id: 'self_hosted_signup.cta', defaultMessage: 'Upgrade'})}
                     />
                 }
                 buttonDetails={{
