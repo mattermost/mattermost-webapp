@@ -53,6 +53,9 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
                 this.fetchNoticesData();
             }
         }
+        if (!prevProps.currentTeamId) {
+            this.fetchNoticesData();
+        }
     }
 
     public componentWillUnmount() {
@@ -61,6 +64,9 @@ export default class ProductNoticesModal extends React.PureComponent<Props, Stat
 
     private async fetchNoticesData() {
         const {version, currentTeamId} = this.props;
+        if (!currentTeamId) {
+            return;
+        }
         let client = 'web';
         let clientVersion = version;
         if (isDesktopApp()) {
