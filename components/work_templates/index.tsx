@@ -131,7 +131,7 @@ const WorkTemplateModal = () => {
     };
 
     const closeModal = () => {
-        dispatch(closeModalAction(ModalIdentifiers.WORK_TEMPLATES));
+        dispatch(closeModalAction(ModalIdentifiers.WORK_TEMPLATE));
     };
 
     const goToMenu = () => {
@@ -146,6 +146,10 @@ const WorkTemplateModal = () => {
             execute(template, '', template.visibility);
             return;
         }
+
+        // clear the name and set default visibility
+        setSelectedName('');
+        setSelectedVisibility(template.visibility);
 
         trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'select_template', {category: template.category, template: template.id});
         setModalState(ModalState.Preview);
