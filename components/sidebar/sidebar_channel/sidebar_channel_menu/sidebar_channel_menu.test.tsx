@@ -38,7 +38,6 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         managePublicChannelMembers: true,
         managePrivateChannelMembers: true,
         closeHandler: jest.fn(),
-        isCollapsed: false,
         isMenuOpen: true,
         onToggleMenu: jest.fn(),
         multiSelectedChannelIds: [],
@@ -52,6 +51,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         openModal: jest.fn(),
         createCategory: jest.fn(),
         addChannelsInSidebar: jest.fn(),
+        onMenuToggle: jest.fn(),
     };
 
     test('should match snapshot and contain correct buttons', () => {

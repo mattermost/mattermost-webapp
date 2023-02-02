@@ -63,7 +63,7 @@ describe('Incoming webhook', () => {
             cy.get('.profile-icon > img').should('have.attr', 'src', `${baseUrl}/api/v4/image?url=${encodedIconUrl}`);
 
             // * Verify that the BOT label appears
-            cy.get('.Badge').should('be.visible').and('have.text', 'BOT');
+            cy.get('.Tag').should('be.visible').and('have.text', 'BOT');
 
             // * Verify that there's no status indicator
             cy.get('.status').should('not.exist');

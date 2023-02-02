@@ -8,6 +8,7 @@ export type CloudState = {
     products?: Record<string, Product>;
     customer?: CloudCustomer;
     invoices?: Record<string, Invoice>;
+    subscriptionStats?: LicenseExpandReducer;
     limits: {
         limitsLoaded: boolean;
         limits: Limits;
@@ -18,6 +19,7 @@ export type CloudState = {
         customer?: true;
         invoices?: true;
         limits?: true;
+        trueUpReview?: true;
     };
     selfHostedSignup: {
         progress: ValueOf<typeof SelfHostedSignupProgress>;
@@ -34,6 +36,7 @@ export type Subscription = {
     create_at: number;
     seats: number;
     last_invoice?: Invoice;
+    upcoming_invoice?: Invoice;
     trial_end_at: number;
     is_free_trial: string;
     delinquent_since?: number;
@@ -94,6 +97,15 @@ export type CloudCustomer = {
     company_address: Address;
     payment_method: PaymentMethod;
 } & CustomerMetadataGatherWireTransfer
+
+export type LicenseExpandStatus = {
+    is_expandable: boolean;
+}
+
+type RequestState = 'IDLE' | 'LOADING' | 'ERROR' | 'OK'
+export interface LicenseExpandReducer extends LicenseExpandStatus {
+    getRequestState: RequestState;
+}
 
 // CustomerPatch model represents a customer patch on the system.
 export type CloudCustomerPatch = {
@@ -175,10 +187,6 @@ export type Limits = {
     teams?: {
         active?: number;
     };
-    boards?: {
-        cards?: number;
-        views?: number;
-    };
 }
 
 export interface CloudUsage {
@@ -189,10 +197,6 @@ export interface CloudUsage {
     messages: {
         history: number;
         historyLoaded: boolean;
-    };
-    boards: {
-        cards: number;
-        cardsLoaded: boolean;
     };
     teams: TeamsUsage;
 }
@@ -205,4 +209,11 @@ export type TeamsUsage = {
 
 export type ValidBusinessEmail = {
     is_valid: boolean;
+}
+
+export interface CreateSubscriptionRequest {
+    product_id: string;
+    add_ons: string[];
+    seats: number;
+    internal_purchase_order?: string;
 }

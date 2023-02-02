@@ -15,18 +15,8 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 describe('Managing bot accounts', () => {
     let botName;
 
-    beforeEach(() => {
+    before(() => {
         cy.apiRequireLicenseForFeature('LDAP');
-
-        cy.apiAdminLogin();
-
-        // # Set ServiceSettings to expected values
-        const newSettings = {
-            ServiceSettings: {
-                EnableBotAccountCreation: true,
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
 
         // # Create a test bot
         cy.apiCreateBot().then(({bot}) => {

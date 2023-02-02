@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @messaging
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Thread Scrolling Inside RHS ', () => {
     beforeEach(function() {
         cy.
@@ -72,7 +74,7 @@ describe('Thread Scrolling Inside RHS ', () => {
                     // checking messages one by one
                     // and scrolling up on every step to load more previous messages
                     this.replies.reduceRight(
-                        (chain, reply) => chain.then(() => cy.findByText(reply).scrollIntoView()),
+                        (chain, reply) => chain.then(() => cy.findByText(reply).scrollIntoView().wait(TIMEOUTS.ONE_HUNDRED_MILLIS)),
                         cy,
                     );
 

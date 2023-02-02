@@ -89,13 +89,14 @@ const PlanUpgradeButton = (): JSX.Element | null => {
 
     return (
         <OverlayTrigger
-            trigger={['hover', 'focus']}
+            trigger={['hover']}
             delayShow={Constants.OVERLAY_TIME_DELAY}
             placement='bottom'
             overlay={tooltip}
         >
             <UpgradeButton
                 id='UpgradeButton'
+                aria-haspopup='dialog'
                 onClick={() => openPricingModal({trackingLocation: 'global_header_plan_upgrade_button'})}
             >
                 {formatMessage({id: 'pricing_modal.btn.viewPlans', defaultMessage: 'View plans'})}

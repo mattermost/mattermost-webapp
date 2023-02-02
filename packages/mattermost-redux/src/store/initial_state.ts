@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {SelfHostedSignupProgress} from '@mattermost/types/hosted_customer';
 import {GlobalState} from '@mattermost/types/store';
-import {SelfHostedSignupProgress} from '@mattermost/types/cloud';
 
 import {zeroStateLimitedViews} from '../reducers/entities/posts';
 
@@ -214,6 +214,27 @@ const state: GlobalState = {
                 progress: SelfHostedSignupProgress.START,
             },
         },
+        hostedCustomer: {
+            signupProgress: SelfHostedSignupProgress.START,
+            products: {
+                products: {},
+                productsLoaded: false,
+            },
+            errors: {},
+            invoices: {
+                invoices: {},
+                invoicesLoaded: false,
+            },
+            trueUpReviewProfile: {
+                content: '',
+                getRequestState: 'IDLE',
+            },
+            trueUpReviewStatus: {
+                complete: false,
+                due_date: 0,
+                getRequestState: 'IDLE',
+            },
+        },
         usage: {
             files: {
                 totalStorage: 0,
@@ -228,14 +249,15 @@ const state: GlobalState = {
                 cloudArchived: 0,
                 teamsLoaded: false,
             },
-            boards: {
-                cards: 0,
-                cardsLoaded: false,
-            },
         },
         insights: {
             topReactions: {},
             myTopReactions: {},
+        },
+        worktemplates: {
+            categories: [],
+            templatesInCategory: {},
+            playbookTemplates: [],
         },
     },
     errors: [],
@@ -258,10 +280,6 @@ const state: GlobalState = {
                 error: null,
             },
             updateChannel: {
-                status: 'not_started',
-                error: null,
-            },
-            getChannelsAndChannelMembers: {
                 status: 'not_started',
                 error: null,
             },
