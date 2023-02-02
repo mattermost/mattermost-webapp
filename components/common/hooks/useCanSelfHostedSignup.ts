@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {useMemo, useState, useEffect} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {useSelector} from 'react-redux';
 
 import {Client4} from 'mattermost-redux/client';
@@ -12,15 +12,18 @@ import useLoadStripe from './useLoadStripe';
 interface CWSSignupAvailability {
     cwsContacted: boolean;
     cwsServiceOn: boolean;
+    screeningInProgress: boolean;
 }
 
 const cwsAvailable: CWSSignupAvailability = {
     cwsContacted: true,
     cwsServiceOn: true,
+    screeningInProgress: false,
 };
 const cwsAvailableEmptyState: CWSSignupAvailability = {
     cwsContacted: false,
     cwsServiceOn: false,
+    screeningInProgress: false,
 };
 
 type SignupAvailability = CWSSignupAvailability & {
@@ -48,14 +51,21 @@ export default function useCanSelfHostedSignup(): SignupAvailability {
                     errorValue = {
                         cwsServiceOn: false,
                         cwsContacted: true,
+                        screeningInProgress: false,
                     };
                     break;
                 }
-
-                // defined as switch because in the future we will add a separate
-                // screening pending reason
+                case 425: {
+                    errorValue = {
+                        cwsServiceOn: true,
+                        cwsContacted: true,
+                        screeningInProgress: true,
+                    };
+                    break;
+                }
                 default: {
                     errorValue = {...cwsAvailableEmptyState};
+                    break;
                 }
                 }
                 setCwsAvailability(errorValue);
@@ -66,7 +76,7 @@ export default function useCanSelfHostedSignup(): SignupAvailability {
         return {
             ...cwsAvailability,
             stripeAvailable,
-            ok: stripeAvailable && cwsAvailability.cwsContacted && cwsAvailability.cwsServiceOn,
+            ok: stripeAvailable && cwsAvailability.cwsContacted && cwsAvailability.cwsServiceOn && !cwsAvailability.screeningInProgress,
         };
     }, [stripeAvailable, cwsAvailability]);
 }

@@ -27,7 +27,10 @@ import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 
 import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
 
-import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
+import {
+    useControlAirGappedSelfHostedPurchaseModal,
+    useControlScreeningInProgressModal,
+} from 'components/common/hooks/useControlModal';
 
 import ContactSalesCTA from './contact_sales_cta';
 import StartTrialCaution from './start_trial_caution';
@@ -85,6 +88,7 @@ function SelfHostedContent(props: ContentProps) {
     const isEnterprise = license.SkuShortName === LicenseSkus.Enterprise;
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
 
+    const controlScreeningInProgressModal = useControlScreeningInProgressModal();
     const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
 
     const closePricingModal = () => {
@@ -235,8 +239,12 @@ function SelfHostedContent(props: ContentProps) {
                                         window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
                                         return;
                                     }
+                                    if (signupAvailable.screeningInProgress) {
+                                        controlScreeningInProgressModal.open();
+                                    } else {
+                                        controlAirgappedModal.open();
+                                    }
                                     closePricingModal();
-                                    controlAirgappedModal.open();
                                     return;
                                 }
 
