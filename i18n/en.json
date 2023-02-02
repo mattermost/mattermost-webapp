@@ -2999,7 +2999,7 @@
   "cloud_delinquency.cc_modal.card.reactivate": "Reactivate",
   "cloud_delinquency.cc_modal.card.totalOwed": "Total owed",
   "cloud_delinquency.cc_modal.card.viewBreakdown": "View breakdown",
-  "cloud_delinquency.cc_modal.disclaimer": "Upon reactivation you will be charged the total owed.  Your bill is calculated at the end of the billing cycle based on the number of enabled users. {seeHowBillingWorks}",
+  "cloud_delinquency.cc_modal.disclaimer": "When you reactivate your subscription, you\'ll be billed the total outstanding amount immediately. Your bill is calculated at the end of the billing cycle based on the number of enabled users. {seeHowBillingWorks}",
   "cloud_delinquency.cc_modal.disclaimer_with_upgrade_info": "When you reactivate your subscription, you\'ll be billed the total outstanding amount immediately. You\'ll also be billed {cost} immediately for a 1 year subscription based on your current active user count of {users} users. {seeHowBillingWorks}",
   "cloud_delinquency.modal.re_activate_plan": "Reactivate {planName}",
   "cloud_delinquency.modal.stay_on_freemium": "Stay on Mattermost Free",
