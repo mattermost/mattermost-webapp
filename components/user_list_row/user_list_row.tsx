@@ -24,6 +24,9 @@ import {createSafeId, displayFullAndNicknameForUser} from 'utils/utils';
 const CustomStatus = styled.span`
     margin: auto 0;
     padding-left: 8px;
+    span {
+        display: flex;
+    }
 `;
 
 type Props = {
@@ -131,12 +134,19 @@ const UserListRow = ({user, status, extraInfo = [], actions = [], actionProps, a
                             hasMention={true}
                             displayUsername={true}
                         />
-                        <Nbsp/>
                         {
-                            user.first_name || user.last_name || user.nickname ? '-' : null
+                            (user.first_name || user.last_name || user.nickname) && (
+                                <>
+                                    <Nbsp/>
+                                    {'-'}
+                                    <Nbsp/>
+                                    {
+                                        displayFullAndNicknameForUser(user)
+                                    }
+                                </>
+                            )
                         }
-                        <Nbsp/>
-                        {displayFullAndNicknameForUser(user)}
+
                     </div>
                     <CustomStatus>
                         <CustomStatusEmoji
