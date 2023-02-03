@@ -5657,5 +5657,6 @@
   "workspace_limits.teams_limit_reached.view_upgrade_options": "View upgrade options",
   "workspace_limits.upgrade": "Upgrade to avoid {planName} data limits",
   "workspace_limits.upgrade_reasons.free": "{planName} is restricted to {messagesLimit} message history and {storageLimit} file storage. You can delete items to free up space or upgrade to a paid plan.",
+  "worktemplate_command.disabled": "Work templates are disabled. Please contact your System Administrator for details.",
   "yourcomputer": "Your computer"
 }
