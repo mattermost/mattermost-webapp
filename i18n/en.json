@@ -1384,7 +1384,6 @@
   "admin.logs.showErrors": "Show last {n} errors",
   "admin.logs.title": "Server Logs",
   "admin.logs.Warn": "Warn",
-  "admin.logs.worker": "Worker",
   "admin.manage_roles.additionalRoles": "Select additional permissions for the account. <link>Read more about roles and permissions</link>.",
   "admin.manage_roles.allowUserAccessTokens": "Allow this account to generate <link>personal access tokens</link>.",
   "admin.manage_roles.allowUserAccessTokensDesc": "Removing this permission doesn't delete existing tokens. To delete them, go to the user's Manage Tokens menu.",

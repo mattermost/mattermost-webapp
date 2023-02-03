@@ -41,9 +41,9 @@
 
         > .wrapper--admin {
             display: flex;
+            overflow: auto;
             height: 100%;
             flex-direction: column;
-            overflow: auto;
         }
     }
 
