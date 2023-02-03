@@ -4984,6 +4984,7 @@
   "team.button.tooltip": "Ctrl|Alt|{order}",
   "team.button.tooltip.mac": "⌘|⌥|{order}",
   "team.button.unread.ariaLabel": "{teamName} team unread",
+  "templates_command.disabled": "Templates are disabled. Please contact your System Administrator for details.",
   "terms_of_service.agreeButton": "I Agree",
   "terms_of_service.api_error": "Unable to complete the request. If this issue persists, contact your System Administrator.",
   "terms_of_service.disagreeButton": "I Disagree",
