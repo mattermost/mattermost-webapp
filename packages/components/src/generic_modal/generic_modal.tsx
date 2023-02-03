@@ -32,13 +32,13 @@ export type Props = {
     compassDesign?: boolean;
     backdrop?: boolean;
     backdropClassName?: string;
+    children: React.ReactNode;
 
     /**
      * This is temporary fix until we update underlying package of generic modal.
      * @caution Use this with enforceFocus={false}
      */
     shouldFocusTrapHandleFocus?: boolean;
-    children: React.ReactNode;
 };
 
 type State = {
