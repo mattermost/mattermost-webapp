@@ -141,10 +141,10 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
 
             dispatch(openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal}));
             return {data: true};
-        case '/worktemplate': {
+        case '/templates': {
             const workTemplateEnabled = areWorkTemplatesEnabled(state);
             if (!workTemplateEnabled) {
-                return {error: {message: localizeMessage('worktemplate_command.disabled', 'Work templates are disabled. Please contact your System Administrator for details.')}};
+                return {error: {message: localizeMessage('templates_command.disabled', 'Templates are disabled. Please contact your System Administrator for details.')}};
             }
 
             dispatch(openModal({modalId: ModalIdentifiers.WORK_TEMPLATE, dialogType: WorkTemplateModal}));

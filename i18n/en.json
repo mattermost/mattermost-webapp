@@ -4984,6 +4984,7 @@
   "team.button.tooltip": "Ctrl|Alt|{order}",
   "team.button.tooltip.mac": "⌘|⌥|{order}",
   "team.button.unread.ariaLabel": "{teamName} team unread",
+  "templates_command.disabled": "Templates are disabled. Please contact your System Administrator for details.",
   "terms_of_service.agreeButton": "I Agree",
   "terms_of_service.api_error": "Unable to complete the request. If this issue persists, contact your System Administrator.",
   "terms_of_service.disagreeButton": "I Disagree",
@@ -5657,6 +5658,5 @@
   "workspace_limits.teams_limit_reached.view_upgrade_options": "View upgrade options",
   "workspace_limits.upgrade": "Upgrade to avoid {planName} data limits",
   "workspace_limits.upgrade_reasons.free": "{planName} is restricted to {messagesLimit} message history and {storageLimit} file storage. You can delete items to free up space or upgrade to a paid plan.",
-  "worktemplate_command.disabled": "Work templates are disabled. Please contact your System Administrator for details.",
   "yourcomputer": "Your computer"
 }
