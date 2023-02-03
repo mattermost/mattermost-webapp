@@ -17,12 +17,11 @@ interface ComponentProps {
     userId: string;
     isSystemMessage: boolean;
     isBot: boolean;
-    isRHS?: boolean;
 }
 
 const PostHeaderCustomStatus = (props: ComponentProps) => {
     const getCustomStatus = useMemo(makeGetCustomStatus, []);
-    const {userId, isSystemMessage, isBot, isRHS} = props;
+    const {userId, isSystemMessage, isBot} = props;
     const dispatch = useDispatch();
     const userCustomStatus = useSelector((state: GlobalState) => getCustomStatus(state, userId));
     const showUpdateStatusButton = useSelector(showPostHeaderUpdateStatusButton);
@@ -39,8 +38,8 @@ const PostHeaderCustomStatus = (props: ComponentProps) => {
                 userID={userId}
                 showTooltip={true}
                 emojiStyle={{
-                    marginLeft: isRHS ? 0 : 4,
-                    marginTop: isRHS ? 0 : 2,
+                    marginLeft: 4,
+                    marginTop: 2,
                 }}
             />
         );
