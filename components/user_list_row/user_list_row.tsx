@@ -5,6 +5,8 @@ import React, {ReactNode} from 'react';
 
 import {ConnectedComponent} from 'react-redux';
 
+import styled from 'styled-components';
+
 import {Client4} from 'mattermost-redux/client';
 
 import ProfilePicture from 'components/profile_picture';
@@ -18,6 +20,11 @@ import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {TeamMembership} from '@mattermost/types/teams';
 
 import {createSafeId, displayFullAndNicknameForUser} from 'utils/utils';
+
+const CustomStatus = styled.span`
+    margin: auto 0;
+    padding-left: 8px;
+`;
 
 type Props = {
     user: UserProfileType;
@@ -131,15 +138,14 @@ const UserListRow = ({user, status, extraInfo = [], actions = [], actionProps, a
                         <Nbsp/>
                         {displayFullAndNicknameForUser(user)}
                     </div>
-                    <CustomStatusEmoji
-                        userID={user.id}
-                        emojiSize={15}
-                        showTooltip={true}
-                        emojiStyle={{
-                            marginLeft: 0,
-                            marginBottom: -3,
-                        }}
-                    />
+                    <CustomStatus>
+                        <CustomStatusEmoji
+                            userID={user.id}
+                            emojiSize={16}
+                            showTooltip={true}
+                        />
+                    </CustomStatus>
+
                 </div>
                 <div
                     id={userCountEmail}
