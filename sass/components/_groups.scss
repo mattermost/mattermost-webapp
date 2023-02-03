@@ -746,7 +746,7 @@ $archived-color: #166de0;
 $unarchived-color: #f74343;
 
 .ArchiveButton___archived {
-    border-color: rgba($archived-color, 1);
+    // border-color: rgba($archived-color, 1);
     color: rgba($archived-color, 1);
 
     svg {
@@ -755,7 +755,7 @@ $unarchived-color: #f74343;
 }
 
 .ArchiveButton___unarchived {
-    border-color: rgba($unarchived-color, 1);
+    // border-color: rgba($unarchived-color, 1);
     color: rgba($unarchived-color, 1);
 
     svg {
@@ -764,6 +764,7 @@ $unarchived-color: #f74343;
 }
 
 .ArchiveButton {
+    @include button-medium;
     border-width: 1px;
     border-style: solid;
     background-color: transparent;

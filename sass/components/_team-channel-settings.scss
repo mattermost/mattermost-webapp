@@ -97,11 +97,11 @@ span.greyed-out {
 }
 
 .team-channel-action-button {
-    @include secondary-button;
+    @include tertiary-button;
     @include button-medium;
 
     display: flex;
-    width: 215px;
+    width: max-content;
     align-items: center;
     margin-right: 15px;
     background-color: transparent;
