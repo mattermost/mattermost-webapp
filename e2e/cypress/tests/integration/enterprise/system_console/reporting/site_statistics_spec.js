@@ -57,12 +57,10 @@ describe('System Console > Site Statistics', () => {
     });
 
     it('MM-T904 Site Statistics displays expected content categories', () => {
-        cy.intercept('GET', '**/api/v4/analytics/**').as('analytics');
         cy.intercept('**/api/v4/**').as('resources');
 
         // # Visit site statistics page.
         cy.visit('/admin_console/reporting/system_analytics');
-        cy.wait('@analytics');
         cy.wait('@resources');
 
         // * Check that the header has loaded correctly and contains the expected text.
@@ -101,7 +99,9 @@ describe('System Console > Site Statistics', () => {
         });
     });
 
-    xit('MM-T902 - Reporting ➜ Site statistics line graphs show same date', () => {
+    it('MM-T902 - Reporting ➜ Site statistics line graphs show same date', () => {
+        cy.intercept('**/api/v4/**').as('resources');
+
         const sysadmin = getAdminAccount();
 
         let newChannel;
@@ -129,6 +129,7 @@ describe('System Console > Site Statistics', () => {
                 // # Post message as bot to the new channel
                 cy.postBotMessage({token, channelId: newChannel.id, message: 'this is bot message', createAt: yesterday.getTime()}).then(() => {
                     cy.visit('/admin_console');
+                    cy.wait('@resources');
 
                     // * Find site statistics and click it
                     cy.findByTestId('reporting.system_analytics', {timeout: TIMEOUTS.ONE_MIN}).click();
@@ -157,7 +158,7 @@ describe('System Console > Site Statistics', () => {
         });
     });
 
-    xit('MM-T905 - Site Statistics card labels in different languages', () => {
+    it('MM-T905 - Site Statistics card labels in different languages', () => {
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
 
