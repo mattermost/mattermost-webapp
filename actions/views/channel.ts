@@ -12,6 +12,7 @@ import {
     markChannelAsRead,
     unfavoriteChannel,
     deleteChannel as deleteChannelRedux,
+    getChannel as loadChannel,
 } from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {TeamTypes} from 'mattermost-redux/action_types';
@@ -93,6 +94,18 @@ export function switchToChannelById(channelId: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const channel = getChannel(state, channelId);
+        return dispatch(switchToChannel(channel));
+    };
+}
+
+export function loadIfNecessaryAndSwitchToChannelById(channelId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        let channel = getChannel(state, channelId);
+        if (!channel) {
+            const res = await dispatch(loadChannel(channelId));
+            channel = res.data;
+        }
         return dispatch(switchToChannel(channel));
     };
 }

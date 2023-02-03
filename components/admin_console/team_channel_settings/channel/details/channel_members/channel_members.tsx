@@ -262,7 +262,7 @@ export default class ChannelMembers extends React.PureComponent<Props, State> {
                         dialogProps={{
                             channel,
                             channelId,
-                            teamId: channel?.team_id, // eslint-disable-line camelcase
+                            teamId: channel?.team_id,
                             onAddCallback: this.onAddCallback,
                             skipCommit: true,
                             excludeUsers: usersToAdd,
