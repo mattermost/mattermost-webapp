@@ -2384,6 +2384,7 @@
   "admin.team_settings.team_detail.archive_confirm.message": "Saving will archive the team and make its contents inaccessible for all users. Are you sure you wish to save and archive this team?",
   "admin.team_settings.team_detail.archive_confirm.title": "Save and Archive Team",
   "admin.team_settings.team_detail.copyInviteLink": "Copy team invite link",
+  "admin.team_settings.team_detail.teamSettings": "Edit team settings",
   "admin.team_settings.team_detail.group_configuration": "Team Configuration",
   "admin.team_settings.team_detail.groupsDescription": "Group members will be added to the team.",
   "admin.team_settings.team_detail.groupsTitle": "Groups",

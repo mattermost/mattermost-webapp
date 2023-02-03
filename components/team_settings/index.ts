@@ -7,12 +7,25 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {GlobalState} from '@mattermost/types/store';
 
+import {createSelector} from 'reselect';
+
+import {Team} from '@mattermost/types/teams';
+
 import TeamSettings from './team_settings';
 
-function mapStateToProps(state: GlobalState) {
-    return {
-        team: getCurrentTeam(state),
-    };
-}
+const mapStateToPropsTeamSettings = createSelector(
+    'mapStateToPropsTeamSettings',
+    (
+        state: GlobalState,
+        props: {
+            team?: Team;
+        },
+    ) => {
+        return {
+            team: props.team || getCurrentTeam(state),
+        };
+    },
+    (teamInfo) => ({...teamInfo}),
+);
 
-export default connect(mapStateToProps)(TeamSettings);
+export default connect(mapStateToPropsTeamSettings)(TeamSettings);

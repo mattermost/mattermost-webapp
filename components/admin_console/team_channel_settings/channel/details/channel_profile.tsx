@@ -48,6 +48,10 @@ const RenameChannelButton = ({
                 data-testid='renameChannel'
                 onClick={() => setShow(true)}
             >
+                <i
+                    data-testid='draftIcon'
+                    className='icon icon-pencil-outline channel-pencil-icon'
+                />
                 <FormattedMessage
                     id='admin.channel_settings.channel_detail.renameChannel'
                     defaultMessage='Rename Channel'

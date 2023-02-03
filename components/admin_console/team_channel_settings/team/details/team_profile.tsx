@@ -31,6 +31,7 @@ import {getSiteURL} from 'utils/url';
 import useCopyText from 'components/common/hooks/useCopyText';
 import {trackEvent} from 'actions/telemetry_actions';
 import {getAnalyticsCategory} from 'components/onboarding_tasks';
+import TeamSettingsModal from 'components/team_settings_modal/team_settings_modal';
 
 type CopyLinkButtonProps = {
     team: Team;
@@ -73,6 +74,42 @@ const CopyLinkButton = ({
                 </>
             )}
         </button>
+    );
+};
+
+type TeamSettingsButtonProps = {
+    team: Team;
+}
+
+const TeamSettingsButton = ({
+    team,
+}: TeamSettingsButtonProps) => {
+    const [showTeamSettingsModal, setShowTeamSettingsModal] = useState(false);
+    return (
+        <>
+            {
+                showTeamSettingsModal && (
+                    <TeamSettingsModal
+                        onExited={() => setShowTeamSettingsModal(false)}
+                        team={team}
+                    />
+                )
+            }
+            <button
+                onClick={() => setShowTeamSettingsModal(true)}
+                aria-label='edit team settings'
+                className='team-channel-action-button'
+            >
+                <i
+                    data-testid='draftIcon'
+                    className='icon icon-pencil-outline channel-pencil-icon'
+                />
+                <FormattedMessage
+                    id='admin.team_settings.team_detail.teamSettings'
+                    defaultMessage='Edit team settings'
+                />
+            </button>
+        </>
     );
 };
 
@@ -267,6 +304,7 @@ export function TeamProfile({team, isArchived, onToggleArchive, isDisabled, save
                                 gap: '1rem',
                             }}
                         >
+                            <TeamSettingsButton team={team}/>
                             {team && team.invite_id && <CopyLinkButton team={team}/> }
                             {restoreDisabled &&
                                 <button

@@ -10,10 +10,12 @@ import * as Utils from 'utils/utils';
 const SettingsSidebar = React.lazy(() => import('components/settings_sidebar'));
 
 import TeamSettings from 'components/team_settings';
+import {Team} from '@mattermost/types/teams';
 
 type Props = {
     onExited: () => void;
     isCloud?: boolean;
+    team?: Team;
 }
 
 export type State = {
@@ -110,6 +112,7 @@ export default class TeamSettingsModal extends React.PureComponent<Props, State>
                         </div>
                         <div className='settings-content minimize-settings'>
                             <TeamSettings
+                                team={this.props.team}
                                 activeTab={this.state.activeTab}
                                 activeSection={this.state.activeSection}
                                 updateSection={this.updateSection}
