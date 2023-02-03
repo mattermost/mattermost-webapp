@@ -46,6 +46,7 @@ const CopyLinkButton = ({
     const copyText = useCopyText({
         trackCallback: () => trackEvent(getAnalyticsCategory(true), 'click_copy_invite_link', getRoleForTrackFlow()),
         text: inviteURL,
+        successCopyTimeout: 2000,
     });
 
     return (
@@ -54,25 +55,30 @@ const CopyLinkButton = ({
             data-testid='InviteView__copyInviteLink'
             aria-label='team invite link'
             className='team-channel-action-button'
+            style={{
+                color: copyText.copiedRecently ? 'var(--online-indicator)' : '',
+            }}
         >
-            {!copyText.copiedRecently && (
-                <>
-                    <i className='icon icon-link-variant'/>
-                    <FormattedMessage
-                        id='admin.team_settings.team_detail.copyInviteLink'
-                        defaultMessage='Copy team invite link'
-                    />
-                </>
-            )}
-            {copyText.copiedRecently && (
-                <>
-                    <i className='icon icon-check'/>
-                    <FormattedMessage
-                        id='invite_modal.copied'
-                        defaultMessage='Copied'
-                    />
-                </>
-            )}
+            {
+                (copyText.copiedRecently) ? (
+                    <>
+                        <i className='icon icon-check'/>
+                        <FormattedMessage
+                            id='invite_modal.copied'
+                            defaultMessage='Copied'
+                        />
+                    </>
+                ) : (
+                    <>
+                        <i className='icon icon-link-variant'/>
+                        <FormattedMessage
+                            id='admin.team_settings.team_detail.copyInviteLink'
+                            defaultMessage='Copy team invite link'
+                        />
+                    </>
+                )
+            }
+
         </button>
     );
 };
