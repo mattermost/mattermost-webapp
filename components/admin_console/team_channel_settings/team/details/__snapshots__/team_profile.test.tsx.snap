@@ -345,6 +345,46 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud restore sho
                   }
                 }
               >
+                <TeamSettingsButton
+                  team={
+                    Object {
+                      "allow_open_invite": false,
+                      "allowed_domains": "",
+                      "company_name": "",
+                      "create_at": 0,
+                      "delete_at": 0,
+                      "description": "",
+                      "display_name": "name",
+                      "email": "",
+                      "group_constrained": false,
+                      "id": "team_id",
+                      "invite_id": "",
+                      "name": "DN",
+                      "scheme_id": "id",
+                      "type": "O",
+                      "update_at": 0,
+                    }
+                  }
+                >
+                  <button
+                    aria-label="edit team settings"
+                    className="team-channel-action-button"
+                    onClick={[Function]}
+                  >
+                    <i
+                      className="icon icon-pencil-outline channel-pencil-icon"
+                      data-testid="draftIcon"
+                    />
+                    <FormattedMessage
+                      defaultMessage="Edit team settings"
+                      id="admin.team_settings.team_detail.teamSettings"
+                    >
+                      <span>
+                        Edit team settings
+                      </span>
+                    </FormattedMessage>
+                  </button>
+                </TeamSettingsButton>
                 <button
                   className="btn btn-secondary ArchiveButton ArchiveButton___archived cloud-limits-disabled"
                   disabled={false}
@@ -618,6 +658,46 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                   }
                 }
               >
+                <TeamSettingsButton
+                  team={
+                    Object {
+                      "allow_open_invite": false,
+                      "allowed_domains": "",
+                      "company_name": "",
+                      "create_at": 0,
+                      "delete_at": 0,
+                      "description": "",
+                      "display_name": "name",
+                      "email": "",
+                      "group_constrained": false,
+                      "id": "team_id",
+                      "invite_id": "",
+                      "name": "DN",
+                      "scheme_id": "id",
+                      "type": "O",
+                      "update_at": 0,
+                    }
+                  }
+                >
+                  <button
+                    aria-label="edit team settings"
+                    className="team-channel-action-button"
+                    onClick={[Function]}
+                  >
+                    <i
+                      className="icon icon-pencil-outline channel-pencil-icon"
+                      data-testid="draftIcon"
+                    />
+                    <FormattedMessage
+                      defaultMessage="Edit team settings"
+                      id="admin.team_settings.team_detail.teamSettings"
+                    >
+                      <span>
+                        Edit team settings
+                      </span>
+                    </FormattedMessage>
+                  </button>
+                </TeamSettingsButton>
                 <button
                   className="btn btn-secondary upgrade-options-button"
                   onClick={[Function]}
@@ -1024,6 +1104,46 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                   }
                 }
               >
+                <TeamSettingsButton
+                  team={
+                    Object {
+                      "allow_open_invite": false,
+                      "allowed_domains": "",
+                      "company_name": "",
+                      "create_at": 0,
+                      "delete_at": 0,
+                      "description": "",
+                      "display_name": "name",
+                      "email": "",
+                      "group_constrained": false,
+                      "id": "team_id",
+                      "invite_id": "",
+                      "name": "DN",
+                      "scheme_id": "id",
+                      "type": "O",
+                      "update_at": 0,
+                    }
+                  }
+                >
+                  <button
+                    aria-label="edit team settings"
+                    className="team-channel-action-button"
+                    onClick={[Function]}
+                  >
+                    <i
+                      className="icon icon-pencil-outline channel-pencil-icon"
+                      data-testid="draftIcon"
+                    />
+                    <FormattedMessage
+                      defaultMessage="Edit team settings"
+                      id="admin.team_settings.team_detail.teamSettings"
+                    >
+                      <span>
+                        Edit team settings
+                      </span>
+                    </FormattedMessage>
+                  </button>
+                </TeamSettingsButton>
                 <button
                   className="btn btn-secondary ArchiveButton ArchiveButton___unarchived cloud-limits-disabled"
                   disabled={false}
