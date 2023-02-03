@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
-import DropdownInput from 'components/dropdown_input';
 import {FilterOptions} from 'components/admin_console/filter/filter';
 
 import {LogFilter, LogLevelEnum, LogObject} from '@mattermost/types/admin';
@@ -109,21 +108,21 @@ export default class LogList extends React.PureComponent<Props, State> {
                 fixed: true,
                 name: timestamp,
                 textAlign: 'left',
-                width: 2,
+                width: 1.5,
             },
             {
                 field: 'level',
                 fixed: true,
                 name: level,
                 textAlign: 'left',
-                width: 1,
+                width: 0.5,
             },
             {
                 field: 'msg',
                 fixed: true,
                 name: msg,
                 textAlign: 'left',
-                width: 2,
+                width: 2.5,
             },
             {
                 field: 'caller',
@@ -226,6 +225,10 @@ export default class LogList extends React.PureComponent<Props, State> {
         this.props.onFiltersChange(filters);
     }
 
+    showErrors = () => {
+        this.props.onFiltersChange({logLevels: ['error']});
+    }
+
     render = (): JSX.Element => {
         const {search} = this.props;
         const rows: Row[] = this.getRows();
@@ -245,8 +248,8 @@ export default class LogList extends React.PureComponent<Props, State> {
 
         const errorsButton: JSX.Element = (
             <button
-                type='submit'
                 className='btn btn-dangerous'
+                onClick={this.showErrors}
             >
                 <FormattedMessage
                     id='admin.logs.showErrors'
@@ -256,22 +259,6 @@ export default class LogList extends React.PureComponent<Props, State> {
         );
 
         const filterOptions: FilterOptions = {
-            nodes: {
-                name: 'Node',
-                values: {
-                    node1: {
-                        name: (
-                            <FormattedMessage
-                                id='admin.logs.node1'
-                                defaultMessage='Node 1'
-                            />
-                        ),
-                        value: 'node_1',
-                    },
-                },
-                keys: ['node1'],
-                type: DropdownInput,
-            },
             levels: {
                 name: 'Levels',
                 values: {
@@ -327,7 +314,7 @@ export default class LogList extends React.PureComponent<Props, State> {
 
         const filterProps = {
             options: filterOptions,
-            keys: ['nodes', 'levels'],
+            keys: ['levels'],
             onFilter: this.onFilter,
         };
 
