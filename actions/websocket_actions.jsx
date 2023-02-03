@@ -19,6 +19,7 @@ import {
     PreferenceTypes,
     AppsTypes,
     CloudTypes,
+    HostedCustomerTypes,
 } from 'mattermost-redux/action_types';
 import {General, Permissions} from 'mattermost-redux/constants';
 import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
@@ -66,8 +67,8 @@ import {
     getUser as loadUser,
 } from 'mattermost-redux/actions/users';
 import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
-import {transformServerDraft} from 'mattermost-redux/actions/drafts';
 import {setGlobalItem} from 'actions/storage';
+import {transformServerDraft} from 'actions/views/drafts';
 
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
@@ -576,6 +577,9 @@ export function handleEvent(msg) {
     case SocketEvents.DRAFT_DELETED:
         dispatch(handleDeleteDraftEvent(msg));
         break;
+    case SocketEvents.HOSTED_CUSTOMER_SIGNUP_PROGRESS_UPDATED:
+        dispatch(handleHostedCustomerSignupProgressUpdated(msg));
+        break;
     default:
     }
 
@@ -789,6 +793,7 @@ export function handlePostUnreadEvent(msg) {
                 msgCountRoot: msg.data.msg_count_root,
                 mentionCount: msg.data.mention_count,
                 mentionCountRoot: msg.data.mention_count_root,
+                urgentMentionCount: msg.data.urgent_mention_count,
             },
         },
     );
@@ -1562,6 +1567,8 @@ function handleRefreshAppsBindings() {
 }
 
 export function handleAppsPluginEnabled() {
+    dispatch(handleRefreshAppsBindings());
+
     return {
         type: AppsTypes.APPS_PLUGIN_ENABLED,
     };
@@ -1702,7 +1709,6 @@ function handleUpsertDraftEvent(msg) {
             value.remote = true;
         }
 
-        localStorage.setItem(key, JSON.stringify(value));
         doDispatch(setGlobalItem(key, value));
     };
 }
@@ -1712,7 +1718,14 @@ function handleDeleteDraftEvent(msg) {
         const draft = JSON.parse(msg.data.draft);
         const {key} = transformServerDraft(draft);
 
-        localStorage.removeItem(key);
         doDispatch(setGlobalItem(key, {message: '', fileInfos: [], uploadsInProgress: [], remote: true}));
     };
 }
+
+function handleHostedCustomerSignupProgressUpdated(msg) {
+    return {
+        type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
+        data: msg.data.progress,
+    };
+}
+

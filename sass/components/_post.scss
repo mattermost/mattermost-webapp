@@ -172,6 +172,7 @@
         position: absolute;
         bottom: 30px;
         left: 50%;
+        width: 100px;
         margin-left: -50px;
         opacity: 0.3;
     }
@@ -191,26 +192,6 @@
 
     .inactive {
         display: none;
-    }
-
-    .post-list__loading {
-        padding: 1em 0;
-        font-size: 0.9em;
-        font-style: italic;
-        opacity: 0.5;
-        text-align: center;
-
-        i {
-            margin-right: 2px;
-        }
-
-        &.post-list__loading-search {
-            cursor: pointer;
-
-            &:hover {
-                text-decoration: underline;
-            }
-        }
     }
 
     .post-list-holder-by-time {
@@ -401,6 +382,7 @@
         resize: none;
         scrollbar-color: var(--center-channel-color-32) #fff0;
         scrollbar-width: thin;
+        transition: height 150ms ease-in-out;
 
         &:not(.custom-textarea--emoji-picker) {
             padding-right: 40px;
@@ -496,8 +478,9 @@
         display: block;
         overflow: hidden;
         height: 20px;
-        margin-bottom: 5px;
-        font-size: 0.95em;
+        margin: 2px 0;
+        font-size: 10px;
+        line-height: 16px;
         opacity: 0.7;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -1130,6 +1113,10 @@
 
     .post__header--info {
         padding: 0;
+
+        .col {
+            gap: 4px;
+        }
     }
 
     &.post--root {
@@ -1344,6 +1331,7 @@
             flex: 0 auto;
             margin-right: 8px;
             font-weight: 600;
+            gap: 8px;
             text-overflow: ellipsis;
 
             &.permalink--username {
@@ -1362,7 +1350,7 @@
 
             .colon {
                 display: none;
-                margin-left: 2px;
+                margin-left: -6px;
                 font-weight: 900;
             }
         }
@@ -2023,25 +2011,6 @@
     }
 }
 
-.Badge {
-    .badge-autocomplete {
-        display: inline;
-        padding: 0 5px;
-        margin: 0 4px;
-    }
-
-    .badge-popoverlist {
-        display: inline;
-        margin: 0 4px;
-    }
-
-    .badge-admin {
-        display: inline;
-        margin: 0 4px;
-        background: rgba(61, 60, 64, 0.15);
-    }
-}
-
 .permalink-text {
     overflow: hidden;
 }
@@ -2219,12 +2188,8 @@
 }
 
 .post-row__padding {
-    &.bottom > div:not(.post) {
-        padding-bottom: 1em;
-    }
-
     &.top > div:not(.post) {
-        padding-top: 1em;
+        padding-top: 0;
     }
 
     &.top .post {
@@ -2244,7 +2209,6 @@
 }
 
 .post-list__dynamic {
-    overflow-x: hidden;
     scrollbar-color: var(--center-channel-color-32) #fff0;
     scrollbar-width: thin;
 

@@ -50,6 +50,11 @@ if (DEV) {
     }
 }
 
+// Track the build time so that we can bust any caches that may have incorrectly cached remote_entry.js from before we
+// started setting Cache-Control: no-cache for that file on the server. This can be removed in 2024 after those cached
+// entries are guaranteed to have expired.
+const buildTimestamp = Date.now();
+
 var config = {
     entry: ['./root.tsx', 'root.html'],
     output: {
@@ -61,7 +66,7 @@ var config = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx|ts|tsx)?$/,
+                test: /\.(js|jsx|ts|tsx)$/,
                 exclude: STANDARD_EXCLUDE,
                 use: {
                     loader: 'babel-loader',
@@ -86,7 +91,7 @@ var config = {
                 ],
             },
             {
-                test: /\.scss$/,
+                test: /\.(css|scss)$/,
                 use: [
                     DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
                     {
@@ -99,15 +104,6 @@ var config = {
                                 includePaths: ['sass'],
                             },
                         },
-                    },
-                ],
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
-                    {
-                        loader: 'css-loader',
                     },
                 ],
             },
@@ -159,6 +155,7 @@ var config = {
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
             reselect: 'packages/reselect/src',
+            '@mui/styled-engine': '@mui/styled-engine-sc',
         },
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         fallback: {
@@ -196,6 +193,7 @@ var config = {
         new CopyWebpackPlugin({
             patterns: [
                 {from: 'images/emoji', to: 'emoji'},
+                {from: 'images/worktemplates', to: 'worktemplates'},
                 {from: 'images/img_trans.gif', to: 'images'},
                 {from: 'images/logo-email.png', to: 'images'},
                 {from: 'images/circles.png', to: 'images'},
@@ -363,43 +361,46 @@ async function initializeModuleFederation() {
             {name: 'boards', baseUrl: boardsDevServerUrl},
         ];
 
-        if (!DEV) {
-            // For production, hardcode the URLs of product containers to be based on the web app URL
-            const remotes = {};
-            for (const product of products) {
-                remotes[product.name] = `${product.name}@[window.basename]/static/products/${product.name}/remote_entry.js`;
-            }
+        const remotes = {};
 
-            return {
-                remotes,
-                aliases: {},
-            };
+        if (process.env.MM_DONT_INCLUDE_PRODUCTS) {
+            console.warn('Skipping initialization of products');
+        } else if (DEV) {
+            // For development, identify which product dev servers are available
+
+            // Wait for 5 seconds for product dev servers to start up if they were started at the same time as this one
+            await new Promise((resolve) => setTimeout(resolve, 5000));
+
+            const productsFound = await Promise.all(products.map((product) => isWebpackDevServerAvailable(product.baseUrl)));
+            for (let i = 0; i < products.length; i++) {
+                const product = products[i];
+                const found = productsFound[i];
+
+                if (found) {
+                    console.log(`Product ${product.name} found, adding as remote module`);
+
+                    remotes[product.name] = `${product.name}@${product.baseUrl}/remote_entry.js`;
+                } else {
+                    console.log(`Product ${product.name} not found`);
+                }
+            }
+        } else {
+            // For production, hardcode the URLs of product containers to be based on the web app URL
+            for (const product of products) {
+                remotes[product.name] = `${product.name}@[window.basename]/static/products/${product.name}/remote_entry.js?bt=${buildTimestamp}`;
+            }
         }
 
-        // Wait a second for product dev servers to start up if they were started at the same time as this one
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        // For development, identify which product dev servers are available
-        const productsFound = await Promise.all(products.map((product) => isWebpackDevServerAvailable(product.baseUrl)));
-
-        const remotes = {};
         const aliases = {};
 
-        for (let i = 0; i < products.length; i++) {
-            const product = products[i];
-            const found = productsFound[i];
-
-            if (found) {
-                console.log(`Product ${product.name} found, adding as remote module`);
-
-                remotes[product.name] = `${product.name}@${product.baseUrl}/remote_entry.js`;
-            } else {
-                console.log(`Product ${product.name} not found`);
-
-                // Add false aliases to prevent Webpack from trying to resolve the missing modules
-                aliases[product.name] = false;
-                aliases[`${product.name}/manifest`] = false;
+        for (const product of products) {
+            if (remotes[product.name]) {
+                continue;
             }
+
+            // Add false aliases to prevent Webpack from trying to resolve the missing modules
+            aliases[product.name] = false;
+            aliases[`${product.name}/manifest`] = false;
         }
 
         return {remotes, aliases};
@@ -418,7 +419,6 @@ async function initializeModuleFederation() {
             // Other containers will use these shared modules if their required versions match. If they don't match, the
             // version packaged with the container will be used.
             '@mattermost/client',
-            '@mattermost/components',
             '@mattermost/types',
             'prop-types',
 
@@ -447,7 +447,7 @@ async function initializeModuleFederation() {
         './styles': './sass/styles.scss',
         './registry': 'module_registry',
     };
-    moduleFederationPluginOptions.filename = 'remote_entry.js';
+    moduleFederationPluginOptions.filename = `remote_entry.js?bt=${buildTimestamp}`;
 
     config.plugins.push(new ModuleFederationPlugin(moduleFederationPluginOptions));
 

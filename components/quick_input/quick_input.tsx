@@ -96,6 +96,14 @@ export class QuickInput extends React.PureComponent<Props> {
         tooltipPosition: 'bottom',
     };
 
+    componentDidMount() {
+        if (this.props.autoFocus) {
+            requestAnimationFrame(() => {
+                this.input?.focus();
+            });
+        }
+    }
+
     componentDidUpdate(prevProps: Props) {
         if (prevProps.value !== this.props.value) {
             if (this.props.delayInputUpdate) {
@@ -174,6 +182,7 @@ export class QuickInput extends React.PureComponent<Props> {
 
         if (inputComponent !== AutosizeTextarea) {
             Reflect.deleteProperty(props, 'onHeightChange');
+            Reflect.deleteProperty(props, 'onWidthChange');
         }
 
         const inputElement = React.createElement(

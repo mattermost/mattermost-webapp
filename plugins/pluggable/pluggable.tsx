@@ -46,7 +46,6 @@ type Props = {
     /*
      * Accept any other prop to pass onto the plugin component
      */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [name: string]: any;
 }
 

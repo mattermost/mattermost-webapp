@@ -33,6 +33,7 @@ exports[`components/admin_console/license_settings/modals/confirm_license_remova
   }
 >
   <ConfirmLicenseRemovalModal
+    currentLicenseSKU="Professional"
     handleRemove={[MockFunction]}
     onExited={[MockFunction]}
   />

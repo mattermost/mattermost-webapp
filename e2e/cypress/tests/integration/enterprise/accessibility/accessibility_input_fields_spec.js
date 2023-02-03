@@ -39,8 +39,10 @@ describe('Verify Accessibility Support in different input fields', () => {
         // # Click invite members if needed
         cy.get('.InviteAs').findByTestId('inviteMembersLink').click();
 
-        // * Verify Accessibility support in Share this link input field
-        cy.findByTestId('InviteView__copyInviteLink').should('have.attr', 'aria-label', 'team invite link');
+        cy.findByTestId('InviteView__copyInviteLink').then((el) => {
+            const copyInviteLinkAriaLabel = el.attr('aria-label');
+            expect(copyInviteLinkAriaLabel).to.match(/^team invite link/i);
+        });
 
         // * Verify Accessibility Support in Add or Invite People input field
         cy.get('.users-emails-input__control').should('be.visible').within(() => {
@@ -161,13 +163,13 @@ describe('Verify Accessibility Support in different input fields', () => {
     it('MM-T1458 Verify Accessibility Support in Main Post Input', () => {
         cy.get('#advancedTextEditorCell').within(() => {
             // * Verify Accessibility Support in Main Post input
-            cy.uiGetPostTextBox().should('have.attr', 'aria-label', `write to ${testChannel.display_name}`).and('have.attr', 'role', 'textbox').clear().focus().type('test').tab({shift: true}).tab().tab();
+            cy.uiGetPostTextBox().should('have.attr', 'aria-label', `write to ${testChannel.display_name}`).and('have.attr', 'role', 'textbox').clear().focus().type('test');
+
+            // # Set a11y focus on the textbox
+            cy.get('#FormattingControl_bold').focus().tab({shift: true});
 
             // * Verify if the focus is on the preview button
             cy.get('#PreviewInputTextButton').should('be.focused').and('have.attr', 'aria-label', 'preview').tab();
-
-            // * Verify if the focus is on the formatting options button
-            cy.get('#toggleFormattingBarButton').should('be.focused').and('have.attr', 'aria-label', 'formatting').tab();
 
             // * Verify if the focus is on the bold button
             cy.get('#FormattingControl_bold').should('be.focused').and('have.attr', 'aria-label', 'bold').tab();
@@ -195,6 +197,9 @@ describe('Verify Accessibility Support in different input fields', () => {
 
             // * Verify if the focus is on the numbered list button
             cy.get('#FormattingControl_ol').should('be.focused').and('have.attr', 'aria-label', 'numbered list').tab();
+
+            // * Verify if the focus is on the formatting options button
+            cy.get('#toggleFormattingBarButton').should('be.focused').and('have.attr', 'aria-label', 'formatting').tab();
 
             // * Verify if the focus is on the attachment icon
             cy.get('#fileUploadButton').should('be.focused').and('have.attr', 'aria-label', 'attachment').tab();
@@ -226,9 +231,6 @@ describe('Verify Accessibility Support in different input fields', () => {
             // * Verify if the focus is on the preview button
             cy.get('#PreviewInputTextButton').should('be.focused').and('have.attr', 'aria-label', 'preview').tab();
 
-            // * Verify if the focus is on the formatting options button
-            cy.get('#toggleFormattingBarButton').should('be.focused').and('have.attr', 'aria-label', 'formatting').tab();
-
             // * Verify if the focus is on the bold button
             cy.get('#FormattingControl_bold').should('be.focused').and('have.attr', 'aria-label', 'bold').tab();
 
@@ -258,6 +260,9 @@ describe('Verify Accessibility Support in different input fields', () => {
 
             // * Verify if the focus is on the hidden numbered list button
             cy.get('#FormattingControl_ol').should('be.focused').and('have.attr', 'aria-label', 'numbered list').tab();
+
+            // * Verify if the focus is on the formatting options button
+            cy.get('#toggleFormattingBarButton').should('be.focused').and('have.attr', 'aria-label', 'formatting').tab();
 
             // * Verify if the focus is on the attachment icon
             cy.get('#fileUploadButton').should('be.focused').and('have.attr', 'aria-label', 'attachment').tab();
@@ -289,7 +294,7 @@ function verifySearchAutocomplete(index, type = 'user') {
                 cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', userAriaLabel);
             });
         } else if (type === 'channel') {
-            cy.get('.ml-2').invoke('text').then((text) => {
+            cy.get('.suggestion-list__ellipsis').invoke('text').then((text) => {
                 const channel = text.split('~')[1].toLowerCase().trim();
                 cy.wrap(el).parents('#searchFormContainer').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', channel);
             });
@@ -300,9 +305,9 @@ function verifySearchAutocomplete(index, type = 'user') {
 function verifyMessageAutocomplete(index, type = 'user') {
     cy.get('#suggestionList').find('.suggestion-list__item').eq(index).should('be.visible').and('have.class', 'suggestion--selected').within((el) => {
         if (type === 'user') {
-            cy.get('.suggestion-list__main').invoke('text').then((username) => {
-                cy.get('.ml-2').invoke('text').then((fullName) => {
-                    const usernameFullNameNickName = getUserMentionAriaLabel(username + ' ' + fullName);
+            cy.get('.suggestion-list__ellipsis').invoke('text').then((fullText) => {
+                cy.get('.suggestion-list__main').invoke('text').then((username) => {
+                    const usernameFullNameNickName = getUserMentionAriaLabel(`${username} ${fullText.split(username)[1]}`);
                     cy.wrap(el).parents('.textarea-wrapper').find('.sr-only').should('have.attr', 'aria-live', 'polite').and('have.text', usernameFullNameNickName);
                 });
             });

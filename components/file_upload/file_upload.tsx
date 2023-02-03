@@ -425,7 +425,8 @@ export class FileUpload extends PureComponent<Props, State> {
             }
         };
 
-        const noop = () => {}; // eslint-disable-line no-empty-function
+        const noop = () => {};
+
         let dragsterActions = {};
         if (this.props.canUploadFiles) {
             dragsterActions = {

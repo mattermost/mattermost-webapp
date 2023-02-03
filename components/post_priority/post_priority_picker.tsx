@@ -4,14 +4,13 @@
 import React, {useCallback, useEffect, useRef, useState, memo} from 'react';
 import {useSelector} from 'react-redux';
 import {FormattedMessage, useIntl} from 'react-intl';
-import classNames from 'classnames';
 import styled from 'styled-components';
 
 import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities/posts';
 
-import Badge from 'components/widgets/badges/badge';
+import BetaTag from '../widgets/tag/beta_tag';
 
 import {PostPriority, PostPriorityMetadata} from '@mattermost/types/posts';
 
@@ -27,13 +26,7 @@ type Props = {
     topOffset?: number;
     leftOffset?: number;
     style?: React.CSSProperties;
-    requestedAck?: boolean;
-    persistentNotifications?: boolean;
 }
-
-const Beta = styled(Badge)`
-    margin-left: 8px;
-`;
 
 const UrgentIcon = styled(AlertOutlineIcon)`
     fill: rgb(var(--semantic-color-danger));
@@ -54,14 +47,19 @@ const AcknowledgementIcon = styled(CheckCircleOutlineIcon)`
 const Header = styled.h4`
     align-items: center;
     display: flex;
-    font-family: Open Sans;
+    gap: 8px;
+    font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 20px;
-    margin-right: 4px;
-    padding: 14px 20px 6px;
+    padding: 14px 16px 6px;
     text-align: left;
+`;
+
+const Feedback = styled.a`
+    margin-left: auto;
+    font-size: 11px;
 `;
 
 const Footer = styled.div`
@@ -78,7 +76,6 @@ const Picker = styled.div`
     position: absolute;
     z-index: 1100;
     display: flex;
-    width: 220px;
     flex-direction: column;
     border: solid 1px rgba(var(--center-channel-color-rgb), 0.16);
     margin-right: 3px;
@@ -108,7 +105,7 @@ function PostPriorityPicker({
 
     useEffect(() => {
         ref.current?.focus();
-    }, [ref.current]);
+    }, []);
 
     const postAcknowledgementsEnabled = useSelector(isPostAcknowledgementsEnabled);
 
@@ -156,31 +153,33 @@ function PostPriorityPicker({
         if (pickerStyle.right) {
             pickerStyle.right = Number(pickerStyle.right) + rightOffset;
         }
-
-        if (postAcknowledgementsEnabled) {
-            pickerStyle.width = 324;
-        }
     }
+
+    const feedbackLink = postAcknowledgementsEnabled ? 'https://forms.gle/noA8Azg7RdaBZtMB6' : 'https://forms.gle/XRb63s3KZqpLNyqr9';
 
     return (
         <Picker
             ref={ref}
             tabIndex={-1}
             style={pickerStyle}
-            className={classNames({PostPriorityPicker: true, bottom: placement === 'bottom'})}
+            className='PostPriorityPicker'
         >
-            <Header className='modal-title mr-2'>
+            <Header className='modal-title'>
                 {formatMessage({
                     id: 'post_priority.picker.header',
                     defaultMessage: 'Message priority',
                 })}
-                <Beta
-                    uppercase={true}
-                    variant='info'
-                    size='xs'
+                <BetaTag/>
+                <Feedback
+                    href={feedbackLink}
+                    target='_blank'
+                    rel='noopener noreferrer'
                 >
-                    {'BETA'}
-                </Beta>
+                    <FormattedMessage
+                        id={'post_priority.picker.feedback'}
+                        defaultMessage={'Give feedback'}
+                    />
+                </Feedback>
             </Header>
             <div role='application'>
                 <Menu className='Menu'>
@@ -220,7 +219,7 @@ function PostPriorityPicker({
                         <MenuGroup>
                             <ToggleItem
                                 disabled={false}
-                                onToggle={handleAck}
+                                onClick={handleAck}
                                 toggled={requestedAck}
                                 icon={<AcknowledgementIcon size={18}/>}
                                 text={formatMessage({

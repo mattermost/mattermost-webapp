@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import classNames from 'classnames';
 
 type Props = {
     onToggle: () => void;
@@ -12,6 +13,7 @@ type Props = {
     id?: string;
     overrideTestId?: boolean;
     size?: 'btn-lg' | 'btn-sm';
+    toggleClassName?: string;
 }
 
 const Toggle: React.FC<Props> = (props: Props) => {
@@ -24,18 +26,30 @@ const Toggle: React.FC<Props> = (props: Props) => {
         id,
         overrideTestId,
         size = 'btn-lg',
+        toggleClassName = 'btn-toggle',
     } = props;
     let dataTestId = `${id}-button`;
     if (overrideTestId) {
         dataTestId = id || '';
     }
+
+    const className = classNames(
+        'btn',
+        size,
+        toggleClassName,
+        {
+            active: toggled,
+            disabled,
+        },
+    );
+
     return (
         <button
             data-testid={dataTestId}
             id={id}
             type='button'
             onClick={onToggle}
-            className={`btn ${size} btn-toggle ${toggled ? 'active' : ''} ${disabled ? 'disabled' : ''}`}
+            className={className}
             aria-pressed={toggled ? 'true' : 'false'}
             disabled={disabled}
         >

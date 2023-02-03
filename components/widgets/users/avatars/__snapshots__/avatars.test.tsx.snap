@@ -219,6 +219,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
                       <img
                         alt="user profile image"
                         className="Avatar Avatar-xl"
+                        loading="lazy"
                         onError={[Function]}
                         src="/api/v4/users/1/image?_=1620680333191"
                         style={
@@ -438,6 +439,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
                       <img
                         alt="user profile image"
                         className="Avatar Avatar-xl"
+                        loading="lazy"
                         onError={[Function]}
                         src="/api/v4/users/6/image?_=0"
                         style={
@@ -657,6 +659,7 @@ exports[`components/widgets/users/Avatars should fetch missing users 1`] = `
                       <img
                         alt="user profile image"
                         className="Avatar Avatar-xl"
+                        loading="lazy"
                         onError={[Function]}
                         src="/api/v4/users/7/image?_=0"
                         style={
@@ -1017,6 +1020,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                       <img
                         alt="user profile image"
                         className="Avatar Avatar-xl"
+                        loading="lazy"
                         onError={[Function]}
                         src="/api/v4/users/1/image?_=1620680333191"
                         style={
@@ -1236,6 +1240,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                       <img
                         alt="user profile image"
                         className="Avatar Avatar-xl"
+                        loading="lazy"
                         onError={[Function]}
                         src="/api/v4/users/2/image?_=1620680333191"
                         style={
@@ -1455,6 +1460,7 @@ exports[`components/widgets/users/Avatars should properly count overflow 1`] = `
                       <img
                         alt="user profile image"
                         className="Avatar Avatar-xl"
+                        loading="lazy"
                         onError={[Function]}
                         src="/api/v4/users/3/image?_=1620680333191"
                         style={
@@ -1813,6 +1819,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                       <img
                         alt="user profile image"
                         className="Avatar Avatar-xl"
+                        loading="lazy"
                         onError={[Function]}
                         src="/api/v4/users/1/image?_=1620680333191"
                         style={
@@ -2032,6 +2039,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                       <img
                         alt="user profile image"
                         className="Avatar Avatar-xl"
+                        loading="lazy"
                         onError={[Function]}
                         src="/api/v4/users/2/image?_=1620680333191"
                         style={
@@ -2251,6 +2259,7 @@ exports[`components/widgets/users/Avatars should support userIds 1`] = `
                       <img
                         alt="user profile image"
                         className="Avatar Avatar-xl"
+                        loading="lazy"
                         onError={[Function]}
                         src="/api/v4/users/3/image?_=1620680333191"
                         style={

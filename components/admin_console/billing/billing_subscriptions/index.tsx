@@ -4,9 +4,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {GlobalState} from '@mattermost/types/store';
-
-import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {getCloudSubscription, getCloudProducts, getCloudCustomer} from 'mattermost-redux/actions/cloud';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
@@ -17,27 +14,25 @@ import CloudTrialBanner from 'components/admin_console/billing/billing_subscript
 import CloudFetchError from 'components/cloud_fetch_error';
 
 import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
-import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {
     getSubscriptionProduct,
     getCloudSubscription as selectCloudSubscription,
     getCloudCustomer as selectCloudCustomer,
     getCloudErrors,
 } from 'mattermost-redux/selectors/entities/cloud';
-import {
-    TrialPeriodDays,
-} from 'utils/constants';
+import {TrialPeriodDays} from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
 import {hasSomeLimits} from 'utils/limits';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {useQuery} from 'utils/http_utils';
 
-import BillingSummary from '../billing_summary';
-import PlanDetails from '../plan_details';
-
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
+
+import PlanDetails from '../plan_details';
+import BillingSummary from '../billing_summary';
+import {GlobalState} from '@mattermost/types/store';
 
 import ContactSalesCard from './contact_sales_card';
 import CancelSubscription from './cancel_subscription';
@@ -48,12 +43,12 @@ import {
     paymentFailedBanner,
 } from './billing_subscriptions';
 import LimitReachedBanner from './limit_reached_banner';
+import {ToYearlyNudgeBanner} from './to_yearly_nudge_banner';
 
 import './billing_subscriptions.scss';
 
 const BillingSubscriptions = () => {
     const dispatch = useDispatch<DispatchFunc>();
-    const analytics = useSelector(getAdminAnalytics);
     const subscription = useSelector(selectCloudSubscription);
     const [cloudLimits] = useGetLimits();
     const errorLoadingData = useSelector((state: GlobalState) => {
@@ -100,12 +95,6 @@ const BillingSubscriptions = () => {
         dispatch(getCloudProducts(includeLegacyProducts));
         dispatch(getCloudCustomer());
 
-        if (!analytics) {
-            (async function getAllAnalytics() {
-                await dispatch(getStandardAnalytics());
-            }());
-        }
-
         pageVisited('cloud_admin', 'pageview_billing_subscription');
 
         if (actionQueryParam === 'show_purchase_modal') {
@@ -144,9 +133,10 @@ const BillingSubscriptions = () => {
                             product={product}
                         />
                         {shouldShowPaymentFailedBanner() && paymentFailedBanner()}
+                        {<ToYearlyNudgeBanner/>}
                         {showCreditCardBanner &&
-                        isCardExpired &&
-                        creditCardExpiredBanner(setShowCreditCardBanner)}
+                            isCardExpired &&
+                            creditCardExpiredBanner(setShowCreditCardBanner)}
                         {isFreeTrial && <CloudTrialBanner trialEndDate={trialEndDate}/>}
                         <div className='BillingSubscriptions__topWrapper'>
                             <PlanDetails
@@ -167,7 +157,7 @@ const BillingSubscriptions = () => {
                                 isFreeTrial={isFreeTrial}
                                 trialQuestionsLink={trialQuestionsLink}
                                 subscriptionPlan={product?.sku}
-                                onUpgradeMattermostCloud={onUpgradeMattermostCloud}
+                                onUpgradeMattermostCloud={openPricingModal}
                             />
                         )}
                         <CancelSubscription

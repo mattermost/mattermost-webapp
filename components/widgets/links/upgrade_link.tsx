@@ -36,7 +36,9 @@ const UpgradeLink = (props: UpgradeLinkProps) => {
             dispatch(openModal({
                 modalId: ModalIdentifiers.CLOUD_PURCHASE,
                 dialogType: PurchaseModal,
-                dialogProps: {callerCTA: props.telemetryInfo},
+                dialogProps: {
+                    callerCTA: props.telemetryInfo,
+                },
             }));
         } catch (error) {
             // do nothing

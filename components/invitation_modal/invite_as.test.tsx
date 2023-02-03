@@ -131,7 +131,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
         const guestRadioButton = wrapper.find('input[value="GUEST"]');
         expect(guestRadioButton.props().disabled).toBe(true);
 
-        const badgeText = wrapper.find('.Badge span.badge-text').text();
+        const badgeText = wrapper.find('.Tag span.tag-text').text();
         expect(badgeText).toBe('Professional feature- try it out free');
     });
 
@@ -184,7 +184,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
         const guestRadioButton = wrapper.find('input[value="GUEST"]');
         expect(guestRadioButton.props().disabled).toBe(true);
 
-        const badgeText = wrapper.find('.Badge span.badge-text').text();
+        const badgeText = wrapper.find('.Tag span.tag-text').text();
         expect(badgeText).toBe('Upgrade');
     });
 
@@ -223,7 +223,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
         const guestRadioButton = wrapper.find('input[value="GUEST"]');
         expect(guestRadioButton.props().disabled).toBe(true);
 
-        const badgeText = wrapper.find('.Badge span.badge-text').text();
+        const badgeText = wrapper.find('.Tag span.tag-text').text();
         expect(badgeText).toBe('Professional feature- try it out free');
     });
 
@@ -262,7 +262,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
         const guestRadioButton = wrapper.find('input[value="GUEST"]');
         expect(guestRadioButton.props().disabled).toBe(true);
 
-        const badgeText = wrapper.find('.Badge span.badge-text').text();
+        const badgeText = wrapper.find('.Tag span.tag-text').text();
         expect(badgeText).toBe('Upgrade');
     });
 
@@ -308,7 +308,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
         const guestRadioButton = wrapper.find('input[value="GUEST"]');
         expect(guestRadioButton.props().disabled).toBe(false);
 
-        const badgeText = wrapper.find('.Badge span.badge-text').text();
+        const badgeText = wrapper.find('.Tag span.tag-text').text();
         expect(badgeText).toBe('Professional feature');
     });
 
@@ -348,7 +348,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
         const guestRadioButton = wrapper.find('input[value="GUEST"]');
         expect(guestRadioButton.props().disabled).toBe(false);
 
-        const badgeText = wrapper.find('.Badge span.badge-text').text();
+        const badgeText = wrapper.find('.Tag span.tag-text').text();
         expect(badgeText).toBe('Professional feature');
     });
 });

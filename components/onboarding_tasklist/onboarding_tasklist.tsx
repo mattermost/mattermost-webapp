@@ -217,7 +217,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
         if (firstTimeOnboarding) {
             initOnboardingPrefs();
         }
-    }, [firstTimeOnboarding]);
+    }, []);
 
     useEffect(() => {
         if (firstTimeOnboarding && showTaskList && isEnableOnboardingFlow) {
@@ -342,7 +342,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
                             {tasksList.map((task) => (
                                 <Task
                                     key={OnboardingTaskCategory + task.name}
-                                    label={task.label}
+                                    label={task.label()}
                                     onClick={() => {
                                         startTask(task.name);
                                     }}

@@ -6,17 +6,17 @@ import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch} from 'react-redux';
 import {
-    useFloating,
-    autoUpdate,
-    offset,
-    flip,
-    shift,
-    useHover,
-    useRole,
-    useInteractions,
-    safePolygon,
     FloatingFocusManager,
+    autoUpdate,
+    flip,
+    offset,
+    safePolygon,
+    shift,
+    useFloating,
+    useHover,
     useId,
+    useInteractions,
+    useRole,
 } from '@floating-ui/react-dom-interactions';
 
 import {CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
@@ -31,10 +31,13 @@ import PostAcknowledgementsUserPopover from './post_acknowledgements_users_popov
 import './post_acknowledgements.scss';
 
 type Props = {
+    authorId: UserProfile['id'];
     currentUserId: UserProfile['id'];
     hasReactions: boolean;
+    isDeleted: boolean;
     list?: Array<{user: UserProfile; acknowledgedAt: PostAcknowledgement['acknowledged_at']}>;
     postId: Post['id'];
+    showDivider?: boolean;
 }
 
 function moreThan5minAgo(time: number) {
@@ -43,12 +46,17 @@ function moreThan5minAgo(time: number) {
 }
 
 function PostAcknowledgements({
+    authorId,
     currentUserId,
     hasReactions,
+    isDeleted,
     list,
     postId,
+    showDivider = true,
 }: Props) {
     let acknowledgedAt = 0;
+    const headingId = useId();
+    const isCurrentAuthor = authorId === currentUserId;
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
 
@@ -58,6 +66,7 @@ function PostAcknowledgements({
             acknowledgedAt = ack.acknowledgedAt;
         }
     }
+    const buttonDisabled = (Boolean(acknowledgedAt) && moreThan5minAgo(acknowledgedAt)) || isCurrentAuthor;
 
     const {x, y, reference, floating, strategy, context} = useFloating({
         open,
@@ -66,12 +75,15 @@ function PostAcknowledgements({
         whileElementsMounted: autoUpdate,
         middleware: [
             offset(5),
-            flip({fallbackPlacements: ['bottom', 'right'], padding: 5}),
-            shift(),
+            flip({
+                fallbackPlacements: ['bottom-start', 'right'],
+                padding: 12,
+            }),
+            shift({
+                padding: 12,
+            }),
         ],
     });
-
-    const headingId = useId();
 
     const {getReferenceProps, getFloatingProps} = useInteractions([
         useHover(context, {
@@ -81,18 +93,41 @@ function PostAcknowledgements({
                 open: 300,
                 close: 0,
             },
-            handleClose: safePolygon(),
+            handleClose: safePolygon({
+                blockPointerEvents: false,
+                restMs: 100,
+            }),
         }),
         useRole(context),
     ]);
 
-    const handleClick = () => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (buttonDisabled) {
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+        }
         if (acknowledgedAt) {
             dispatch(unacknowledgePost(postId));
         } else {
             dispatch(acknowledgePost(postId));
         }
     };
+
+    if (isDeleted) {
+        return null;
+    }
+
+    let buttonText: React.ReactNode = (
+        <FormattedMessage
+            id={'post_priority.button.acknowledge'}
+            defaultMessage={'Acknowledge'}
+        />
+    );
+
+    if ((list && list.length) || isCurrentAuthor) {
+        buttonText = list?.length || 0;
+    }
 
     const button = (
         <>
@@ -102,20 +137,15 @@ function PostAcknowledgements({
                 className={classNames({
                     AcknowledgementButton: true,
                     'AcknowledgementButton--acked': Boolean(acknowledgedAt),
-                    'AcknowledgementButton--disabled': Boolean(acknowledgedAt) && moreThan5minAgo(acknowledgedAt),
+                    'AcknowledgementButton--disabled': buttonDisabled,
                     'AcknowledgementButton--default': !list || list.length === 0,
                 })}
                 {...getReferenceProps()}
             >
                 <CheckCircleOutlineIcon size={16}/>
-                {(list && list.length > 0) ? list!.length : (
-                    <FormattedMessage
-                        id={'post_priority.button.acknowledge'}
-                        defaultMessage={'Acknowledge'}
-                    />
-                )}
+                {buttonText}
             </button>
-            {hasReactions && <div className='AcknowledgementButton__divider'/>}
+            {showDivider && hasReactions && <div className='AcknowledgementButton__divider'/>}
         </>
     );
 

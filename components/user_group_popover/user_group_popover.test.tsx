@@ -91,6 +91,9 @@ describe('component/user_group_popover', () => {
             },
         },
         views: {
+            modals: {
+                modalState: {},
+            },
             search: {
                 popoverSearch: '',
             },
@@ -103,6 +106,7 @@ describe('component/user_group_popover', () => {
         canManageGroup: true,
         showUserOverlay: jest.fn(),
         hide: jest.fn(),
+        returnFocus: jest.fn(),
         actions: {
             setPopoverSearchTerm: jest.fn(),
             openModal: jest.fn(),

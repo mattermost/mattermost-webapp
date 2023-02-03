@@ -2,7 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import classNames from 'classnames';
+
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
+import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 
 import ResetStatusModal from 'components/reset_status_modal';
 import Sidebar from 'components/sidebar';
@@ -13,15 +18,18 @@ import ProductNoticesModal from 'components/product_notices_modal';
 
 import Pluggable from 'plugins/pluggable';
 
+import {Constants} from 'utils/constants';
 import {isInternetExplorer, isEdge} from 'utils/user_agent';
-
-interface Props {
-    fetchingChannels: boolean;
-}
 
 const BODY_CLASS_FOR_CHANNEL = ['app__body', 'channel-view'];
 
-export default function ChannelController({fetchingChannels}: Props) {
+type Props = {
+    shouldRenderCenterChannel: boolean;
+}
+
+export default function ChannelController(props: Props) {
+    const dispatch = useDispatch<DispatchFunc>();
+
     useEffect(() => {
         const isMsBrowser = isInternetExplorer() || isEdge();
         const platform = window.navigator.platform;
@@ -29,6 +37,16 @@ export default function ChannelController({fetchingChannels}: Props) {
 
         return () => {
             document.body.classList.remove(...BODY_CLASS_FOR_CHANNEL);
+        };
+    }, []);
+
+    useEffect(() => {
+        const loadStatusesIntervalId = setInterval(() => {
+            dispatch(loadStatusesForChannelAndSidebar());
+        }, Constants.STATUS_INTERVAL);
+
+        return () => {
+            clearInterval(loadStatusesIntervalId);
         };
     }, []);
 
@@ -42,13 +60,12 @@ export default function ChannelController({fetchingChannels}: Props) {
                 <FaviconTitleHandler/>
                 <ProductNoticesModal/>
                 <div className={classNames('container-fluid channel-view-inner')}>
-                    {fetchingChannels ? <LoadingScreen/> : <CenterChannel/>}
+                    {props.shouldRenderCenterChannel ? <CenterChannel/> : <LoadingScreen centered={true}/>}
                     <Pluggable pluggableName='Root'/>
                     <ResetStatusModal/>
                 </div>
             </div>
         </>
-
     );
 }
 

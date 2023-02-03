@@ -38,13 +38,15 @@ import {sendGenericPostMessage} from 'actions/global_actions';
 
 import {GlobalState} from 'types/store';
 
-import Constants, {ItemStatus, ModalIdentifiers, suitePluginIds} from 'utils/constants';
+import Constants, {ItemStatus, ModalIdentifiers} from 'utils/constants';
 import {cleanUpUrlable, validateChannelUrl, getSiteURL} from 'utils/url';
 import {localizeMessage} from 'utils/utils';
 
 import {Board, BoardPatch, BoardTemplate} from '@mattermost/types/boards';
 import {ChannelType, Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
+
+import {canCreateBoards} from './selectors';
 
 import './new_channel_modal.scss';
 
@@ -104,16 +106,14 @@ const NewChannelModal = () => {
     const [urlError, setURLError] = useState('');
     const [purposeError, setPurposeError] = useState('');
     const [serverError, setServerError] = useState('');
-    const [selectedBoardTemplate, setSelectedBoardTemplate] = useState<BoardTemplate | null>(null);
 
     // create a board along with the channel
-    const BOARDS_API_ENABLED_VERSION = '7.2.1'; // 7.2.1 is the minimum required; it exposes the boards templates api
     const [addBoard, setAddBoard] = useState(false);
+    const [selectedBoardTemplate, setSelectedBoardTemplate] = useState<BoardTemplate | null>(null);
     const [boardTemplates, setBoardTemplates] = useState<BoardTemplate[]>([]);
     const newChannelWithBoardPulsatingDotState = useSelector((state: GlobalState) => getPreference(state, Preferences.APP_BAR, Preferences.NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED, ''));
     const EMPTY_BOARD = 'empty-board';
-    const focalboardPlugin = useSelector((state: GlobalState) => state.plugins.plugins?.focalboard);
-    const focalboardEnabled = focalboardPlugin?.id === suitePluginIds.focalboard && focalboardPlugin.version >= BOARDS_API_ENABLED_VERSION;
+    const focalboardEnabled = useSelector(canCreateBoards);
 
     const handleOnModalConfirm = async () => {
         if (!canCreate) {
@@ -152,7 +152,8 @@ const NewChannelModal = () => {
                 try {
                     addBoardToChannel(newChannel.id);
                 } catch (e: any) {
-                    console.log(e.message); // eslint-disable-line
+                    // eslint-disable-next-line no-console
+                    console.log(e.message);
                 }
             }
             dispatch(switchToChannel(newChannel));
@@ -318,7 +319,7 @@ const NewChannelModal = () => {
         e.stopPropagation();
     };
 
-    const canCreate = displayName && !displayNameError && url && !urlError && type && !purposeError && !serverError;
+    const canCreate = displayName && !displayNameError && url && !urlError && type && !purposeError && !serverError && (!addBoard || (addBoard && selectedBoardTemplate !== null));
 
     const showNewBoardTemplateSelector = async () => {
         setAddBoard((prev) => !prev);

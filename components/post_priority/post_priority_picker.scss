@@ -3,6 +3,8 @@
 @import 'utils/mixins';
 
 .PostPriorityPicker {
+    width: 324px;
+
     &__apply {
         @include button-small;
         @include primary-button;

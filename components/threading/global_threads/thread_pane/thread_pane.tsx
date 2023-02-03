@@ -5,6 +5,8 @@ import React, {memo, useCallback, ReactNode} from 'react';
 import {useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 
+import {DotsVerticalIcon} from '@mattermost/compass-icons/components';
+
 import {UserThread} from '@mattermost/types/threads';
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 
@@ -124,7 +126,7 @@ const ThreadPane = ({
                                 })}
                             >
                                 <Button className='Button___icon Button___large'>
-                                    <i className='Icon icon-dots-vertical'/>
+                                    <DotsVerticalIcon size={18}/>
                                 </Button>
                             </SimpleTooltip>
                         </ThreadMenu>
