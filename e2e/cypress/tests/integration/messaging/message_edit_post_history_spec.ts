@@ -35,7 +35,7 @@ describe('Post Edit History', () => {
         });
     });
 
-    it('MM-TXXX_1 Show and restore older versions of a message', () => {
+    it('MM-T5381_1 Show and restore older versions of a message', () => {
         // # Get the last post id
         cy.getLastPostId().then((postId) => {
             openEditHistory(postId);
@@ -64,7 +64,7 @@ describe('Post Edit History', () => {
         });
     });
 
-    it('MM-TXXX_2 Show, restore older versions of a message and click undo in toast', () => {
+    it('MM-T5381_2 Show, restore older versions of a message and click undo in toast', () => {
         // # Get the last post id
         cy.getLastPostId().then((postId) => {
             openEditHistory(postId);
@@ -89,7 +89,7 @@ describe('Post Edit History', () => {
         });
     });
 
-    it('MM-TXXX_3 Edit history should not be available when user lacks edit own posts permissions', () => {
+    it('MM-T5381_3 Edit history should not be available when user lacks edit own posts permissions', () => {
         // # Login as sysadmin and update edit own posts permissions
         cy.apiAdminLogin();
         cy.apiUpdateConfig({
