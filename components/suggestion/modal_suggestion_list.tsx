@@ -1,22 +1,61 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import {getClosestParent} from 'utils/utils';
 
-export default class ModalSuggestionList extends React.PureComponent {
-    static propTypes = {
-        position: PropTypes.string.isRequired,
-        open: PropTypes.bool.isRequired,
-        cleared: PropTypes.bool.isRequired,
-        inputRef: PropTypes.object.isRequired,
-        onLoseVisibility: PropTypes.func.isRequired,
-    }
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface SuggestionItem {}
 
-    constructor(props) {
+type SuggestionListProps = {
+    ariaLiveRef?: React.Ref<HTMLDivElement>;
+    renderDividers?: string[];
+    renderNoResults?: boolean;
+    preventClose?: () => void;
+    onItemHover: (term: string) => void;
+    onCompleteWord: (term: string, matchedPretext: string, e?: React.KeyboardEventHandler<HTMLDivElement>) => boolean;
+    pretext: string;
+    matchedPretext: string[];
+    items: SuggestionItem[];
+    terms: string[];
+    selection: string;
+    components: Array<React.FunctionComponent<any>>;
+    wrapperHeight?: number;
+
+    // suggestionBoxAlgn is an optional object that can be passed to align the SuggestionList with the keyboard caret
+    // as the user is typing.
+    suggestionBoxAlgn?: {
+        lineHeight: number;
+        pixelsToMoveX: number;
+        pixelsToMoveY: number;
+    };
+}
+
+type Props = SuggestionListProps & {
+    open: boolean;
+    cleared: boolean;
+    inputRef: React.RefObject<HTMLInputElement>;
+    onLoseVisibility: () => void;
+    position?: 'top' | 'bottom';
+};
+
+type State = {
+    scroll: number;
+    modalBounds: {top: number; bottom: number};
+    inputBounds: {top: number; bottom: number; width: number};
+    position: 'top' | 'bottom' | undefined;
+    open?: boolean;
+    cleared?: boolean;
+}
+
+export default class ModalSuggestionList extends React.PureComponent<Props, State> {
+    container: React.RefObject<HTMLDivElement>;
+    latestHeight: number;
+    suggestionList: React.RefObject<any>;
+
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -39,17 +78,18 @@ export default class ModalSuggestionList extends React.PureComponent {
         return {top: 0, bottom: 0, width: 0};
     }
 
-    onModalScroll = (e) => {
-        if (this.state.scroll !== e.target.scrollTop &&
+    onModalScroll = (e: Event) => {
+        const eventTarget = e.target as HTMLElement;
+        if (this.state.scroll !== eventTarget.scrollTop &&
             this.latestHeight !== 0) {
-            this.setState({scroll: e.target.scrollTop});
+            this.setState({scroll: eventTarget.scrollTop});
         }
     }
 
     componentDidMount() {
         if (this.container.current) {
             const modalBodyContainer = getClosestParent(this.container.current, '.modal-body');
-            modalBodyContainer.addEventListener('scroll', this.onModalScroll);
+            modalBodyContainer?.addEventListener('scroll', this.onModalScroll);
         }
         window.addEventListener('resize', this.updateModalBounds);
     }
@@ -57,12 +97,12 @@ export default class ModalSuggestionList extends React.PureComponent {
     componentWillUnmount() {
         if (this.container.current) {
             const modalBodyContainer = getClosestParent(this.container.current, '.modal-body');
-            modalBodyContainer.removeEventListener('scroll', this.onModalScroll);
+            modalBodyContainer?.removeEventListener('scroll', this.onModalScroll);
         }
         window.removeEventListener('resize', this.updateModalBounds);
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: Props, prevState: State) {
         if (!this.props.open || this.props.cleared) {
             return;
         }
@@ -76,8 +116,8 @@ export default class ModalSuggestionList extends React.PureComponent {
             this.updatePosition(newInputBounds);
 
             if (this.container.current) {
-                const modalBodyRect = getClosestParent(this.container.current, '.modal-body').getBoundingClientRect();
-                if ((newInputBounds.bottom < modalBodyRect.top) || (newInputBounds.top > modalBodyRect.bottom)) {
+                const modalBodyRect = getClosestParent(this.container.current, '.modal-body')?.getBoundingClientRect();
+                if (modalBodyRect && ((newInputBounds.bottom < modalBodyRect.top) || (newInputBounds.top > modalBodyRect.bottom))) {
                     this.props.onLoseVisibility();
                     return;
                 }
@@ -92,7 +132,7 @@ export default class ModalSuggestionList extends React.PureComponent {
             return 0;
         }
 
-        const listElement = this.suggestionList.current?.getContent()?.[0];
+        const listElement = this.suggestionList?.current?.getContent()?.[0];
         if (!listElement) {
             return 0;
         }
@@ -110,7 +150,7 @@ export default class ModalSuggestionList extends React.PureComponent {
         return inputBounds;
     }
 
-    updatePosition = (newInputBounds) => {
+    updatePosition = (newInputBounds: { top: number; bottom: number; width: number}) => {
         let inputBounds = newInputBounds;
         if (!newInputBounds) {
             inputBounds = this.state.inputBounds;
@@ -141,10 +181,12 @@ export default class ModalSuggestionList extends React.PureComponent {
         }
 
         const modalContainer = getClosestParent(this.container.current, '.modal-content');
-        const modalBounds = modalContainer.getBoundingClientRect();
+        const modalBounds = modalContainer?.getBoundingClientRect();
 
-        if (this.state.modalBounds.top !== modalBounds.top || this.state.modalBounds.bottom !== modalBounds.bottom) {
-            this.setState({modalBounds: {top: modalBounds.top, bottom: modalBounds.bottom}});
+        if (modalBounds) {
+            if (this.state.modalBounds.top !== modalBounds.top || this.state.modalBounds.bottom !== modalBounds.bottom) {
+                this.setState({modalBounds: {top: modalBounds.top, bottom: modalBounds.bottom}});
+            }
         }
     }
 

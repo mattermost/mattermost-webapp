@@ -37,6 +37,7 @@ type Props = {
     draggingState: DraggingState;
     currentUserId: string;
     touchedInviteMembersButton: boolean;
+    isAdmin: boolean;
     actions: {
         setCategoryCollapsed: (categoryId: string, collapsed: boolean) => void;
         setCategorySorting: (categoryId: string, sorting: CategorySorting) => void;
@@ -323,6 +324,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                             <InviteMembersButton
                                 className='followingSibling'
                                 touchedInviteMembersButton={this.props.touchedInviteMembersButton}
+                                isAdmin={this.props.isAdmin}
                                 onClick={() => {
                                     if (!this.props.touchedInviteMembersButton) {
                                         this.props.actions.savePreferences(
