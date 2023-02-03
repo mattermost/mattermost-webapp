@@ -3,12 +3,13 @@
 
 import {
     applyMiddleware,
+    AnyAction,
     legacy_createStore,
     Reducer,
     Store,
 } from 'redux';
 import createSagaMiddleware, {SagaMiddleware} from 'redux-saga';
-import thunk from 'redux-thunk';
+import thunk, {ThunkDispatch} from 'redux-thunk';
 import {composeWithDevToolsDevelopmentOnly} from '@redux-devtools/extension';
 
 import {GlobalState} from '@mattermost/types/store';
@@ -19,6 +20,7 @@ import reducerRegistry from './reducer_registry';
 
 import {createReducer} from './helpers';
 import initialState from './initial_state';
+import { DispatchFunc } from 'mattermost-redux/types/actions';
 
 /**
  * Configures and constructs the redux store. Accepts the following parameters:
@@ -49,7 +51,7 @@ export default function configureStore<S extends GlobalState>({
 
     const sagaMiddleware = createSagaMiddleware();
 
-    const middleware = applyMiddleware(thunk, sagaMiddleware);
+    const middleware = applyMiddleware<DispatchFunc, GlobalState>(thunk, sagaMiddleware);
 
     const enhancers = composeEnhancers(middleware);
 
