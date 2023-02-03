@@ -333,6 +333,10 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+
+    .Tag {
+        flex-shrink: 0;
+    }
 }
 
 .suggestion-list__group-count {
