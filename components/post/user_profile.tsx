@@ -132,6 +132,7 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
                             defaultMessage='System'
                         />
                     }
+                    userId={post.user_id}
                     overwriteImage={Constants.SYSTEM_MESSAGE_PROFILE_IMAGE}
                     disablePopover={true}
                     channelId={post.channel_id}
