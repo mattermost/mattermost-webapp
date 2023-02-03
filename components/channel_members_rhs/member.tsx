@@ -22,6 +22,8 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
 
+import PostHeaderCustomStatus from 'components/post_view/post_header/post_header_custom_status';
+
 import {ChannelMember} from './channel_members_rhs';
 
 const Avatar = styled.div`
@@ -34,6 +36,10 @@ const UserInfo = styled.div`
     overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    .CustomStatus {
+        margin-left: 8px;
+    }
 `;
 
 const DisplayName = styled.span`
@@ -125,9 +131,19 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
                     {member.displayName}
                     {isGuest(member.user.roles) && <GuestTag/>}
                 </DisplayName>
+                <span className='CustomStatus'>
+                    <PostHeaderCustomStatus
+                        userId={member.user.id}
+                        isBot={member.user.is_bot}
+                        isSystemMessage={false}
+                        isRHS={true}
+                    />
+                </span>
+
                 {member.displayName === member.user.username ? null : <Username>{'@'}{member.user.username}</Username>
                 }
             </UserInfo>
+
             <RoleChooser
                 className={classNames({editing}, 'member-role-chooser')}
                 data-testid='rolechooser'
