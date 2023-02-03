@@ -46,7 +46,6 @@ const EnterpriseEditionLeftPanel = ({
 }: EnterpriseEditionProps) => {
     const {formatMessage} = useIntl();
     const [unsanitizedLicense, setUnsanitizedLicense] = useState(license);
-    const openPricingModal = useOpenPricingModal();
 
     useEffect(() => {
         async function fetchUnSanitizedLicense() {
@@ -67,7 +66,7 @@ const EnterpriseEditionLeftPanel = ({
     const viewPlansButton = (
         <button
             id='enterprise_edition_view_plans'
-            onClick={() => openPricingModal({trackingLocation: 'license_settings_view_plans'})}
+            onClick={() => useOpenPricingModal()({trackingLocation: 'license_settings_view_plans'})}
             className='btn btn-secondary PlanDetails__viewPlansButton'
         >
             {formatMessage({
