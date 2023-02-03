@@ -17,6 +17,7 @@ exports[`components/new_channel_modal should match snapshot 1`] = `
   isConfirmDisabled={true}
   modalHeaderText="Create a new channel"
   onExited={[Function]}
+  shouldFocusTrapHandleFocus={false}
   show={true}
 >
   <div
