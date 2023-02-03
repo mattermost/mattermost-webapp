@@ -35,6 +35,11 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
 
     let userProfile: ReactNode = null;
     let botIndicator = null;
+    let colon = null;
+
+    if (props.compactDisplay) {
+        colon = <strong className='colon'>{':'}</strong>;
+    }
 
     const customStatus = (
         <PostHeaderCustomStatus
@@ -144,6 +149,7 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
 
     return (<div className='col col__name'>
         {userProfile}
+        {colon}
         {botIndicator}
         {props.location === Locations.CENTER && (props.currentUserId === post.user_id) && customStatus}
     </div>);
