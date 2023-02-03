@@ -5,12 +5,14 @@ import {useLocation, matchPath} from 'react-router-dom';
 
 import {useSelector} from 'react-redux';
 
-import {ProductIdentifier, ProductScope} from '@mattermost/types/products';
-import {Product} from '@mattermost/types/cloud';
-
 import {ProductComponent} from 'types/store/plugins';
 import {selectProducts, selectCurrentProductId, selectCurrentProduct} from 'selectors/products';
 import {GlobalState} from 'types/store';
+
+import {Product} from '@mattermost/types/cloud';
+import {ProductIdentifier, ProductScope} from '@mattermost/types/products';
+
+import {RecurringIntervals} from './constants';
 
 export const getCurrentProductId = (
     products: ProductComponent[],
@@ -59,8 +61,27 @@ export const findProductBySkuAndInterval = (products: Record<string, Product>, s
     }));
 };
 
+export const findProductBySku = (products: Record<string, Product>, sku: string) => {
+    return Object.values(products).find(((product) => {
+        return product.sku === sku;
+    }));
+};
+
 export const findProductByID = (products: Record<string, Product>, id: string) => {
     return Object.values(products).find(((product) => {
         return product.id === id;
     }));
+};
+
+const filterProductsRecord = (data: Record<string, Product>, predicate: (product: Product) => boolean): Record<string, Product> => {
+    return Object.keys(data).reduce((acc: Record<string, Product>, current: string) => {
+        if (predicate(data[current])) {
+            acc[current] = data[current];
+        }
+        return acc;
+    }, {});
+};
+
+export const findOnlyYearlyProducts = (products: Record<string, Product>) => {
+    return filterProductsRecord(products, (product: Product) => product.recurring_interval === RecurringIntervals.YEAR);
 };

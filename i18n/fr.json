@@ -2938,8 +2938,6 @@
   "convert_channel.question3": "Voulez-vous vraiment convertir **{display_name}** en canal privé ?",
   "convert_channel.title": "Convertir {display_name} en un canal privé ?",
   "copied.message": "Copié",
-  "copy.block.message": "Copier le bloc de code",
-  "copy.message": "Copie",
   "copy_url_context_menu.getChannelLink": "Copier le lien",
   "create_category_modal.create": "Créer",
   "create_category_modal.createCategory": "Créer une nouvelle catégorie",

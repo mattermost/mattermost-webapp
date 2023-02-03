@@ -112,6 +112,7 @@ const StyledUseCaseMenuItem = styled(UseCase)`
     border-radius: 8px;
     cursor: pointer;
     margin-bottom: 16px;
+    margin-right: 10px;
 
     .illustration {
         height: 130px;
