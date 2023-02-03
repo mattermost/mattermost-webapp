@@ -58,6 +58,11 @@ type Props = {
         * The function to call when Delete link is clicked
         */
         deleteOAuthApp: (appId: string) => Promise<void>;
+
+        /**
+        * The function to call when disable link is clicked
+        */
+        disableOAuthApp: (appId: string) => Promise<void>;
     });
 };
 
@@ -87,6 +92,12 @@ export default class InstalledOAuthApps extends React.PureComponent<Props, State
         }
     }
 
+    disableOAuthApp = (app: OAuthApp): void => {
+        if (app && app.id) {
+            this.props.actions.disableOAuthApp(app.id);
+        }
+    }
+
     oauthAppCompare(a: OAuthApp, b: OAuthApp): number {
         let nameA = a.name.toString();
         if (!nameA) {
@@ -111,6 +122,7 @@ export default class InstalledOAuthApps extends React.PureComponent<Props, State
                     oauthApp={app}
                     onRegenerateSecret={this.props.actions.regenOAuthAppSecret}
                     onDelete={this.deleteOAuthApp}
+                    onDisable={this.disableOAuthApp}
                     team={this.props.team}
                     creatorName=''
                     fromApp={this.props.appsOAuthAppIDs.includes(app.id)}

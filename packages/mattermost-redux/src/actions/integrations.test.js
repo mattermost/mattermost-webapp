@@ -737,6 +737,24 @@ describe('Actions.Integrations', () => {
         assert.ok(!oauthApps[created.id]);
     });
 
+    it('disableOAuthApp', async () => {
+        nock(Client4.getBaseRoute()).
+            post('/oauth/apps').
+            reply(201, TestHelper.fakeOAuthAppWithId());
+
+        const {data: created} = await Actions.addOAuthApp(TestHelper.fakeOAuthApp())(store.dispatch, store.getState);
+
+        nock(Client4.getBaseRoute()).
+            delete(`/oauth/apps/${created.id}`).
+            reply(200, OK_RESPONSE);
+
+        await Actions.disableOAuthApp(created.id)(store.dispatch, store.getState);
+
+        // TODO Pass the value true/false
+        const {oauthApps} = store.getState().entities.integrations;
+        assert.ok(!oauthApps[created.id]);
+    });
+
     it('regenOAuthAppSecret', async () => {
         nock(Client4.getBaseRoute()).
             post('/oauth/apps').

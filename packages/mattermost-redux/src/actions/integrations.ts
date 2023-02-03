@@ -369,6 +369,30 @@ export function deleteOAuthApp(id: string): ActionFunc {
     };
 }
 
+export function disableOAuthApp(id: string, value: boolean): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        try {
+            await Client4.disableOAuthApp(id, value);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+
+            dispatch(logError(error));
+            return {error};
+        }
+
+        dispatch(batchActions([
+            {
+                type: IntegrationTypes.DISABLED_OAUTH_APP,
+                data: {id},
+
+                // TODO Value of disabled true/false
+            },
+        ]));
+
+        return {data: true};
+    };
+}
+
 export function regenOAuthAppSecret(appId: string): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.regenOAuthAppSecret,

@@ -14,6 +14,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import CopyText from 'components/copy_text';
 
 import DeleteIntegrationLink from '../delete_integration_link';
+import DisableIntegrationLink from '../disable_integration_link';
 
 const FAKE_SECRET = '***************';
 
@@ -53,6 +54,11 @@ export type InstalledOAuthAppProps = {
      * The function to call when Delete link is clicked
      */
     onDelete: (oauthApp: OAuthApp) => void;
+
+    /**
+     * The function to call when Disable link is clicked
+     */
+    onDisable: (oauthApp: OAuthApp) => void;
 
     /**
      * Set to filter OAuthApp
@@ -102,6 +108,10 @@ export default class InstalledOAuthApp extends React.PureComponent<InstalledOAut
 
     handleDelete = (): void => {
         this.props.onDelete(this.props.oauthApp);
+    }
+
+    handleDisable = (): void => {
+        this.props.onDisable(this.props.oauthApp);
     }
 
     render(): React.ReactNode {
@@ -261,12 +271,15 @@ export default class InstalledOAuthApp extends React.PureComponent<InstalledOAut
                         />
                     </Link>
                     {' - '}
-                    <Link to={`/${this.props.team.name}/integrations/oauth2-apps/disable?id=${oauthApp.id}`}>
-                        <FormattedMessage
-                            id='installed_integrations.disable'
-                            defaultMessage='Disable'
-                        />
-                    </Link>
+                    <DisableIntegrationLink
+                        modalMessage={
+                            <FormattedMessage
+                                id='installed_oauth_apps.edit.confirm'
+                                defaultMessage='This action disables your current app, are you sure you want to proceed?'
+                            />
+                        }
+                        onConfirm={this.handleDisable}
+                    />
                     {' - '}
                     <DeleteIntegrationLink
                         modalMessage={

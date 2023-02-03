@@ -2772,6 +2772,13 @@ export default class Client4 {
         );
     };
 
+    disableOAuthApp = (appId: string, value: boolean) => {
+        return this.doFetch<StatusOK>(
+            `${this.getOAuthAppRoute(appId)}`,
+            {method: 'disable', body: JSON.stringify({value})},
+        );
+    };
+
     regenOAuthAppSecret = (appId: string) => {
         return this.doFetch<OAuthApp>(
             `${this.getOAuthAppRoute(appId)}/regen_secret`,
