@@ -16,6 +16,7 @@ describe('Bot display name', () => {
 
     before(() => {
         cy.intercept('**/api/v4/**').as('resources');
+
         // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
