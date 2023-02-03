@@ -140,14 +140,7 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
                     />
                 }
             >
-                <span
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        marginRight: 'auto',
-                    }}
-                >
+                <span className='ProfileSpan'>
                     <Avatar>
                         <ProfilePicture
                             isRHS={true}
@@ -239,6 +232,13 @@ export default styled(Member)`
         ${SendMessage} {
             display: block;
         }
+    }
+
+    .ProfileSpan {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-right: auto;
     }
 
     .MenuWrapper {
