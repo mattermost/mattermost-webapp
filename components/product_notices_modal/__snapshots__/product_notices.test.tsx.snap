@@ -21,7 +21,6 @@ exports[`ProductNoticesModal Match snapshot for single notice 1`] = `
     </span>
   }
   onExited={[Function]}
-  shouldFocusTrapHandleFocus={false}
   show={true}
 >
   <span
@@ -73,7 +72,6 @@ exports[`ProductNoticesModal Match snapshot for user notice 1`] = `
     </span>
   }
   onExited={[Function]}
-  shouldFocusTrapHandleFocus={false}
   show={true}
 >
   <span
@@ -146,7 +144,6 @@ exports[`ProductNoticesModal Should match snapshot for system admin notice 1`] =
     </span>
   }
   onExited={[Function]}
-  shouldFocusTrapHandleFocus={false}
   show={true}
 >
   <span

@@ -24,7 +24,6 @@ exports[`components/drafts/draft_actions/send_draft_modal should have called onC
   id="genericModal"
   modalHeaderText="Send message now"
   onExited={[MockFunction]}
-  shouldFocusTrapHandleFocus={false}
   show={true}
 >
   <MemoizedFormattedMessage
@@ -64,7 +63,6 @@ exports[`components/drafts/draft_actions/send_draft_modal should have called onE
       ],
     }
   }
-  shouldFocusTrapHandleFocus={false}
   show={true}
 >
   <MemoizedFormattedMessage
