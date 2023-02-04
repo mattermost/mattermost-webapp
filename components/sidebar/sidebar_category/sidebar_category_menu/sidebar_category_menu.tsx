@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, MouseEvent, useState} from 'react';
+import React, {memo, useState, MouseEvent, KeyboardEvent} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 
@@ -44,15 +44,15 @@ const SidebarCategoryMenu = (props: Props) => {
 
     let muteUnmuteCategoryMenuItem: JSX.Element | null = null;
     if (props.category.type !== CategoryTypes.DIRECT_MESSAGES) {
-        function toggleCategoryMute(event: MouseEvent<HTMLLIElement>) {
-            event.preventDefault();
-            props.setCategoryMuted(props.category.id, !props.category.muted);
+        function toggleCategoryMute(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) {
+            if (Menu.isPressed(event)) {
+                props.setCategoryMuted(props.category.id, !props.category.muted);
+            }
         }
 
         muteUnmuteCategoryMenuItem = (
             <Menu.Item
                 id={`mute-${props.category.id}`}
-                onClick={toggleCategoryMute}
                 leadingElement={<BellOutlineIcon size={18}/>}
                 labels={
                     props.category.muted ? (
@@ -67,6 +67,8 @@ const SidebarCategoryMenu = (props: Props) => {
                         />
                     )
                 }
+                onMouseDown={toggleCategoryMute}
+                onKeyDown={toggleCategoryMute}
             />
         );
     }
@@ -74,14 +76,16 @@ const SidebarCategoryMenu = (props: Props) => {
     let deleteCategoryMenuItem: JSX.Element | null = null;
     let renameCategoryMenuItem: JSX.Element | null = null;
     if (props.category.type === CategoryTypes.CUSTOM) {
-        function handleDeleteCategory() {
-            props.openModal({
-                modalId: ModalIdentifiers.DELETE_CATEGORY,
-                dialogType: DeleteCategoryModal,
-                dialogProps: {
-                    category: props.category,
-                },
-            });
+        function handleDeleteCategory(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) {
+            if (Menu.isPressed(event)) {
+                props.openModal({
+                    modalId: ModalIdentifiers.DELETE_CATEGORY,
+                    dialogType: DeleteCategoryModal,
+                    dialogProps: {
+                        category: props.category,
+                    },
+                });
+            }
         }
 
         deleteCategoryMenuItem = (
@@ -89,7 +93,6 @@ const SidebarCategoryMenu = (props: Props) => {
                 id={`delete-${props.category.id}`}
                 isDestructive={true}
                 aria-haspopup={true}
-                onClick={handleDeleteCategory}
                 leadingElement={<TrashCanOutlineIcon size={18}/>}
                 labels={(
                     <FormattedMessage
@@ -97,24 +100,27 @@ const SidebarCategoryMenu = (props: Props) => {
                         defaultMessage='Delete Category'
                     />
                 )}
+                onKeyDown={handleDeleteCategory}
+                onMouseDown={handleDeleteCategory}
             />
         );
 
-        function handleRenameCategory() {
-            props.openModal({
-                modalId: ModalIdentifiers.EDIT_CATEGORY,
-                dialogType: EditCategoryModal,
-                dialogProps: {
-                    categoryId: props.category.id,
-                    initialCategoryName: props.category.display_name,
-                },
-            });
+        function handleRenameCategory(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) {
+            if (Menu.isPressed(event)) {
+                props.openModal({
+                    modalId: ModalIdentifiers.EDIT_CATEGORY,
+                    dialogType: EditCategoryModal,
+                    dialogProps: {
+                        categoryId: props.category.id,
+                        initialCategoryName: props.category.display_name,
+                    },
+                });
+            }
         }
 
         renameCategoryMenuItem = (
             <Menu.Item
                 id={`rename-${props.category.id}`}
-                onClick={handleRenameCategory}
                 aria-haspopup={true}
                 leadingElement={<PencilOutlineIcon size={18}/>}
                 labels={(
@@ -123,15 +129,17 @@ const SidebarCategoryMenu = (props: Props) => {
                         defaultMessage='Rename Category'
                     />
                 )}
+                onKeyDown={handleRenameCategory}
+                onMouseDown={handleRenameCategory}
             />
         );
     }
 
-    function handleSortChannels(event: MouseEvent<HTMLLIElement>, sorting: CategorySorting) {
-        event.preventDefault();
-
-        props.setCategorySorting(props.category.id, sorting);
-        trackEvent('ui', `ui_sidebar_sort_dm_${sorting}`);
+    function handleSortChannels(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>, sorting: CategorySorting) {
+        if (Menu.isPressed(event)) {
+            props.setCategorySorting(props.category.id, sorting);
+            trackEvent('ui', `ui_sidebar_sort_dm_${sorting}`);
+        }
     }
 
     let sortChannelsSelectedValue = (
@@ -186,7 +194,8 @@ const SidebarCategoryMenu = (props: Props) => {
                         defaultMessage='Alphabetically'
                     />
                 )}
-                onClick={(event) => handleSortChannels(event, CategorySorting.Alphabetical)}
+                onKeyDown={(event) => handleSortChannels(event, CategorySorting.Alphabetical)}
+                onMouseDown={(event) => handleSortChannels(event, CategorySorting.Alphabetical)}
             />
             <Menu.Item
                 id={`sortByMostRecent-${props.category.id}`}
@@ -196,7 +205,8 @@ const SidebarCategoryMenu = (props: Props) => {
                         defaultMessage='Recent Activity'
                     />
                 )}
-                onClick={(event) => handleSortChannels(event, CategorySorting.Recency)}
+                onKeyDown={(event) => handleSortChannels(event, CategorySorting.Recency)}
+                onMouseDown={(event) => handleSortChannels(event, CategorySorting.Recency)}
             />
             <Menu.Item
                 id={`sortManual-${props.category.id}`}
@@ -206,23 +216,27 @@ const SidebarCategoryMenu = (props: Props) => {
                         defaultMessage='Manually'
                     />
                 )}
-                onClick={(event) => handleSortChannels(event, CategorySorting.Manual)}
+                onKeyDown={(event) => handleSortChannels(event, CategorySorting.Manual)}
+                onMouseDown={(event) => handleSortChannels(event, CategorySorting.Manual)}
             />
         </Menu.SubMenu>
     );
 
-    function handleCreateCategory() {
-        props.openModal({
-            modalId: ModalIdentifiers.EDIT_CATEGORY,
-            dialogType: EditCategoryModal,
-        });
-        trackEvent('ui', 'ui_sidebar_category_menu_createCategory');
+    function handleCreateCategory(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) {
+        if (Menu.isPressed(event)) {
+            props.openModal({
+                modalId: ModalIdentifiers.EDIT_CATEGORY,
+                dialogType: EditCategoryModal,
+            });
+            trackEvent('ui', 'ui_sidebar_category_menu_createCategory');
+        }
     }
 
     const createNewCategoryMenuItem = (
         <Menu.Item
             id={`create-${props.category.id}`}
-            onClick={handleCreateCategory}
+            onKeyDown={handleCreateCategory}
+            onMouseDown={handleCreateCategory}
             aria-haspopup={true}
             leadingElement={<FolderPlusOutlineIcon size={18}/>}
             labels={(

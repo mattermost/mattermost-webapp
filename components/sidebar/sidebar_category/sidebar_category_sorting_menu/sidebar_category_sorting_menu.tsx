@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {MouseEvent, memo, useState} from 'react';
+import React, {memo, useState, MouseEvent, KeyboardEvent} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 
@@ -28,7 +28,7 @@ import type {PropsFromRedux} from './index';
 
 type OwnProps = {
     category: ChannelCategory;
-    handleOpenDirectMessagesModal: (e: MouseEvent<HTMLLIElement>) => void;
+    handleOpenDirectMessagesModal: (e: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) => void;
 };
 
 type Props = OwnProps & PropsFromRedux;
@@ -37,11 +37,11 @@ const SidebarCategorySortingMenu = (props: Props) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const {formatMessage} = useIntl();
 
-    function handleSortDirectMessages(event: MouseEvent<HTMLLIElement>, sorting: CategorySorting) {
-        event.preventDefault();
-
-        props.setCategorySorting(props.category.id, sorting);
-        trackEvent('ui', `ui_sidebar_sort_dm_${sorting}`);
+    function handleSortDirectMessages(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>, sorting: CategorySorting) {
+        if (Menu.isPressed(event)) {
+            props.setCategorySorting(props.category.id, sorting);
+            trackEvent('ui', `ui_sidebar_sort_dm_${sorting}`);
+        }
     }
 
     let sortDirectMessagesIcon = <ClockOutlineIcon size={18}/>;
@@ -87,7 +87,8 @@ const SidebarCategorySortingMenu = (props: Props) => {
                         defaultMessage='Alphabetically'
                     />
                 )}
-                onClick={(event) => handleSortDirectMessages(event, CategorySorting.Alphabetical)}
+                onKeyDown={(event) => handleSortDirectMessages(event, CategorySorting.Alphabetical)}
+                onMouseDown={(event) => handleSortDirectMessages(event, CategorySorting.Alphabetical)}
             />
             <Menu.Item
                 id={`sortByMostRecent-${props.category.id}`}
@@ -97,20 +98,22 @@ const SidebarCategorySortingMenu = (props: Props) => {
                         defaultMessage='Recent Activity'
                     />
                 )}
-                onClick={(event) => handleSortDirectMessages(event, CategorySorting.Recency)}
+                onKeyDown={(event) => handleSortDirectMessages(event, CategorySorting.Recency)}
+                onMouseDown={(event) => handleSortDirectMessages(event, CategorySorting.Recency)}
             />
         </Menu.SubMenu>
 
     );
 
-    function handlelimitVisibleDMsGMs(event: MouseEvent<HTMLLIElement>, number: number) {
-        event.preventDefault();
-        props.savePreferences(props.currentUserId, [{
-            user_id: props.currentUserId,
-            category: Constants.Preferences.CATEGORY_SIDEBAR_SETTINGS,
-            name: Preferences.LIMIT_VISIBLE_DMS_GMS,
-            value: number.toString(),
-        }]);
+    function handlelimitVisibleDMsGMs(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>, number: number) {
+        if (Menu.isPressed(event)) {
+            props.savePreferences(props.currentUserId, [{
+                user_id: props.currentUserId,
+                category: Constants.Preferences.CATEGORY_SIDEBAR_SETTINGS,
+                name: Preferences.LIMIT_VISIBLE_DMS_GMS,
+                value: number.toString(),
+            }]);
+        }
     }
 
     let showMessagesCountSelectedValue = <span>{props.selectedDmNumber}</span>;
@@ -149,7 +152,8 @@ const SidebarCategorySortingMenu = (props: Props) => {
                         defaultMessage='All direct messages'
                     />
                 )}
-                onClick={(event) => handlelimitVisibleDMsGMs(event, Constants.HIGHEST_DM_SHOW_COUNT)}
+                onKeyDown={(event) => handlelimitVisibleDMsGMs(event, Constants.HIGHEST_DM_SHOW_COUNT)}
+                onMouseDown={(event) => handlelimitVisibleDMsGMs(event, Constants.HIGHEST_DM_SHOW_COUNT)}
             />
             <Menu.Separator/>
             {Constants.DM_AND_GM_SHOW_COUNTS.map((dmGmShowCount) => (
@@ -157,17 +161,23 @@ const SidebarCategorySortingMenu = (props: Props) => {
                     id={`showDmCount-${props.category.id}-${dmGmShowCount}`}
                     key={`showDmCount-${props.category.id}-${dmGmShowCount}`}
                     labels={<span>{dmGmShowCount}</span>}
-                    onClick={(event) => handlelimitVisibleDMsGMs(event, dmGmShowCount)}
+                    onKeyDown={(event) => handlelimitVisibleDMsGMs(event, dmGmShowCount)}
+                    onMouseDown={(event) => handlelimitVisibleDMsGMs(event, dmGmShowCount)}
                 />
             ))}
         </Menu.SubMenu>
 
     );
 
+    function handleOpenDirectMessages(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) {
+        if (Menu.isPressed(event)) {
+            props.handleOpenDirectMessagesModal(event);
+        }
+    }
+
     const openDirectMessageMenuItem = (
         <Menu.Item
             id={`openDirectMessage-${props.category.id}`}
-            onClick={props.handleOpenDirectMessagesModal}
             leadingElement={<AccountPlusOutlineIcon size={18}/>}
             labels={(
                 <FormattedMessage
@@ -175,6 +185,8 @@ const SidebarCategorySortingMenu = (props: Props) => {
                     defaultMessage='Open a direct message'
                 />
             )}
+            onKeyDown={handleOpenDirectMessages}
+            onMouseDown={handleOpenDirectMessages}
         />
     );
 

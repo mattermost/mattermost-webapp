@@ -1,10 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactElement, ReactNode, Children} from 'react';
+import React, {ReactElement, ReactNode, Children, KeyboardEvent, MouseEvent} from 'react';
 import {styled} from '@mui/material/styles';
 import MuiMenuItem from '@mui/material/MenuItem';
 import type {MenuItemProps as MuiMenuItemProps} from '@mui/material/MenuItem';
+
+import Constants from 'utils/constants';
+import {isKeyPressed} from 'utils/utils';
 
 export interface Props extends MuiMenuItemProps {
 
@@ -209,3 +212,28 @@ const MenuItemStyled = styled(MuiMenuItem, {
         });
     },
 );
+
+/**
+ * Use this function to check if the menu item was pressed as per WAI-ARIA guidelines.
+ * @param event - The event to check if the menu item was pressed by mouse or keyboard. Either a mouse event or a keyboard event.
+ * @returns true if the menu item was pressed by mouse's "Primary" key or keyboard's "Space" or "Enter" key
+ **/
+export function checkMenuItemPressed(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) {
+    if (event.type === 'keydown') {
+        const keyboardEvent = event as KeyboardEvent<HTMLLIElement>;
+        if (isKeyPressed(keyboardEvent, Constants.KeyCodes.ENTER) || isKeyPressed(keyboardEvent, Constants.KeyCodes.SPACE)) {
+            return true;
+        }
+
+        return false;
+    } else if (event.type === 'mousedown') {
+        const mouseEvent = event as MouseEvent<HTMLLIElement>;
+        if (mouseEvent.button === 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    return false;
+}
