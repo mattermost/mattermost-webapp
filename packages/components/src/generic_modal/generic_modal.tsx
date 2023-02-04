@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import FocusTrap from '../focus_trap';
+import {FocusTrap} from '../focus_trap';
 
 export type Props = {
     className?: string;
