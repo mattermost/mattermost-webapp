@@ -95,7 +95,7 @@ export function Menu(props: Props) {
     function handleMenuKeyDown(event: KeyboardEvent<HTMLDivElement>) {
         if (isKeyPressed(event, Constants.KeyCodes.ENTER) || isKeyPressed(event, Constants.KeyCodes.SPACE)) {
             const target = event.target as HTMLElement;
-            const ariaHasPopupAttribute = target?.getAttribute('aria-haspopup') !== null ?? false;
+            const ariaHasPopupAttribute = target?.getAttribute('aria-haspopup') === 'true';
             const ariaHasExpandedAttribute = target?.getAttribute('aria-expanded') !== null ?? false;
 
             if (ariaHasPopupAttribute && ariaHasExpandedAttribute) {

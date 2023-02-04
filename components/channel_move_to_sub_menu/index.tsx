@@ -57,25 +57,23 @@ const ChannelMoveToSubMenu = (props: Props) => {
     });
 
     function handleMoveToCategory(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>, categoryId: string) {
-        if (Menu.isPressed(event)) {
-            if (currentCategory?.id !== categoryId) {
-                dispatch(addChannelsInSidebar(categoryId, props.channel.id));
-                trackEvent('ui', 'ui_sidebar_channel_menu_moveToExistingCategory');
-            }
+        event.preventDefault();
+
+        if (currentCategory?.id !== categoryId) {
+            dispatch(addChannelsInSidebar(categoryId, props.channel.id));
+            trackEvent('ui', 'ui_sidebar_channel_menu_moveToExistingCategory');
         }
     }
 
-    function handleMoveToNewCategory(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) {
-        if (Menu.isPressed(event)) {
-            dispatch(openModal({
-                modalId: ModalIdentifiers.EDIT_CATEGORY,
-                dialogType: EditCategoryModal,
-                dialogProps: {
-                    channelIdsToAdd: multiSelectedChannelIds.indexOf(props.channel.id) === -1 ? [props.channel.id] : multiSelectedChannelIds,
-                },
-            }));
-            trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
-        }
+    function handleMoveToNewCategory() {
+        dispatch(openModal({
+            modalId: ModalIdentifiers.EDIT_CATEGORY,
+            dialogType: EditCategoryModal,
+            dialogProps: {
+                channelIdsToAdd: multiSelectedChannelIds.indexOf(props.channel.id) === -1 ? [props.channel.id] : multiSelectedChannelIds,
+            },
+        }));
+        trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
     }
 
     function createSubmenuItemsForCategoryArray(categories: ChannelCategory[], currentCategory?: ChannelCategory) {
@@ -116,8 +114,7 @@ const ChannelMoveToSubMenu = (props: Props) => {
                     leadingElement={category.type === CategoryTypes.FAVORITES ? (<StarOutlineIcon size={18}/>) : (<FolderOutlineIcon size={18}/>)}
                     labels={text}
                     trailingElements={selectedCategory}
-                    onKeyDown={(event) => handleMoveToCategory(event, category.id)}
-                    onMouseDown={(event) => handleMoveToCategory(event, category.id)}
+                    onClick={(event) => handleMoveToCategory(event, category.id)}
                 />
             );
         });
@@ -135,8 +132,7 @@ const ChannelMoveToSubMenu = (props: Props) => {
                         defaultMessage='New Category'
                     />
                 }
-                onKeyDown={handleMoveToNewCategory}
-                onMouseDown={handleMoveToNewCategory}
+                onClick={handleMoveToNewCategory}
             />,
         ];
 

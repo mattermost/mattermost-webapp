@@ -58,6 +58,8 @@ export interface Props extends MuiMenuItemProps {
      */
     isDestructive?: boolean;
 
+    onClick: (event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) => void;
+
     /**
      * ONLY to support submenus. Avoid passing children to this component. Support for children is only added to support submenus.
      */
@@ -80,11 +82,18 @@ export function MenuItem(props: Props) {
         trailingElements,
         isDestructive,
         children,
+        onClick,
         ...restProps
     } = props;
 
     // When both primary and secondary labels are passed, we need to apply minor changes to the styling. Check below in styled component for more details.
     const hasSecondaryLabel = labels && labels.props && labels.props.children && Children.count(labels.props.children) === 2;
+
+    function handleClick(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) {
+        if (isCorrectKeyPressedOnMenuItem(event)) {
+            onClick(event);
+        }
+    }
 
     return (
         <MenuItemStyled
@@ -92,6 +101,8 @@ export function MenuItem(props: Props) {
             disableTouchRipple={true}
             isDestructive={isDestructive}
             hasSecondaryLabel={hasSecondaryLabel}
+            onKeyDown={handleClick}
+            onMouseDown={handleClick}
             {...restProps}
         >
             {leadingElement && <div className='leading-element'>{leadingElement}</div>}
@@ -218,7 +229,7 @@ const MenuItemStyled = styled(MuiMenuItem, {
  * @param event - The event to check if the menu item was pressed by mouse or keyboard. Either a mouse event or a keyboard event.
  * @returns true if the menu item was pressed by mouse's "Primary" key or keyboard's "Space" or "Enter" key
  **/
-export function checkMenuItemPressed(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) {
+function isCorrectKeyPressedOnMenuItem(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) {
     if (event.type === 'keydown') {
         const keyboardEvent = event as KeyboardEvent<HTMLLIElement>;
         if (isKeyPressed(keyboardEvent, Constants.KeyCodes.ENTER) || isKeyPressed(keyboardEvent, Constants.KeyCodes.SPACE)) {
