@@ -133,7 +133,6 @@ export default class EditCategoryModal extends React.PureComponent<Props, State>
                 handleCancel={this.handleCancel}
                 isConfirmDisabled={this.isConfirmDisabled()}
                 enforceFocus={false}
-                shouldFocusTrapHandleFocus={true}
             >
                 <QuickInput
                     inputComponent={MaxLengthInput}

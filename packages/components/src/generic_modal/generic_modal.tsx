@@ -25,6 +25,11 @@ export type Props = {
     id: string;
     autoCloseOnCancelButton?: boolean;
     autoCloseOnConfirmButton?: boolean;
+
+    /**
+     * If false, bootrap's Modal will not enforce focus on the modal and will
+     * transfer the mechanism to the FocusTrap component instead.
+     */
     enforceFocus?: boolean;
     container?: React.ReactNode | React.ReactNodeArray;
     ariaLabel?: string;
@@ -33,12 +38,6 @@ export type Props = {
     backdrop?: boolean;
     backdropClassName?: string;
     children: React.ReactNode;
-
-    /**
-     * This is temporary fix until we update underlying package of generic modal.
-     * @caution Use this with enforceFocus={false}
-     */
-    shouldFocusTrapHandleFocus?: boolean;
 };
 
 type State = {
@@ -53,7 +52,6 @@ export class GenericModal extends React.PureComponent<Props, State> {
         autoCloseOnCancelButton: true,
         autoCloseOnConfirmButton: true,
         enforceFocus: true,
-        shouldFocusTrapHandleFocus: false,
     };
 
     constructor(props: Props) {
@@ -101,7 +99,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
     }
 
     private handleShow = () => {
-        if (this.props.shouldFocusTrapHandleFocus) {
+        if (this.props.enforceFocus === false) {
             this.setState({isFocalTrapActive: true});
         }
     }
@@ -165,7 +163,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
             </div>
         );
 
-        const isFocusTrapActive = this.props.shouldFocusTrapHandleFocus ? this.state.isFocalTrapActive : false;
+        const isFocusTrapActive = this.props.enforceFocus === false ? this.state.isFocalTrapActive : false;
 
         return (
             <Modal
