@@ -127,6 +127,9 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
                     {member.displayName}
                     {isGuest(member.user.roles) && <GuestTag/>}
                 </DisplayName>
+                {
+                    member.displayName === member.user.username ? null : <Username>{'@'}{member.user.username}</Username>
+                }
                 <CustomStatusEmoji
                     userID={member.user.id}
                     showTooltip={true}
@@ -135,9 +138,6 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
                         marginLeft: '8px',
                     }}
                 />
-
-                {member.displayName === member.user.username ? null : <Username>{'@'}{member.user.username}</Username>
-                }
             </UserInfo>
 
             <RoleChooser
