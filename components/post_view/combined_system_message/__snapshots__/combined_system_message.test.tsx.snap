@@ -163,7 +163,7 @@ exports[`components/post_view/CombinedSystemMessage should match snapshot, combi
             "key": "@removed_username_2",
           },
           Object {
-            "key": "you",
+            "key": "Someone",
           },
         ],
         "singleline": true,
@@ -199,7 +199,7 @@ exports[`components/post_view/CombinedSystemMessage should match snapshot, when 
   />
   <br />
   <injectIntl(LastUsers)
-    actor="you"
+    actor="Someone"
     expandedLocale={
       Object {
         "defaultMessage": "{users} and {lastUser} were **removed from the channel**.",
@@ -218,7 +218,7 @@ exports[`components/post_view/CombinedSystemMessage should match snapshot, when 
             "key": "@removed_username_1",
           },
           Object {
-            "key": "you",
+            "key": "Someone",
           },
         ],
         "singleline": true,
