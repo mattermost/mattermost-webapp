@@ -62,15 +62,11 @@ describe('components/post_view/CombinedSystemMessage', () => {
     });
 
     test('should match snapshot, combining users removed from channel by all actors', () => {
-        const allUserIds = ['current_user_id', 'other_user_id_1', 'removed_user_id_1', 'removed_user_id_2'];
+        const allUserIds = ['current_user_id', 'other_user_id_1', 'removed_user_id_1', 'emoved_user_id_22'];
         const messageData = [{
-            actorId: 'current_user_id',
+            actorId: ' ',
             postType: Posts.POST_TYPES.REMOVE_FROM_CHANNEL,
-            userIds: ['removed_user_id_1'],
-        }, {
-            actorId: 'other_user_id_1',
-            postType: Posts.POST_TYPES.REMOVE_FROM_CHANNEL,
-            userIds: ['removed_user_id_2'],
+            userIds: ['removed_user_id_1', 'removed_user_id_2'],
         }];
         const props = {...baseProps, messageData, allUserIds};
         const wrapper = shallowWithIntl(
@@ -117,13 +113,9 @@ describe('components/post_view/CombinedSystemMessage', () => {
             postType: Posts.POST_TYPES.JOIN_CHANNEL,
             userIds: ['current_user_id'],
         }, {
-            actorId: 'current_user_id',
+            actorId: ' ',
             postType: Posts.POST_TYPES.REMOVE_FROM_CHANNEL,
-            userIds: ['removed_user_id_1', 'removed_user_id_2'],
-        }, {
-            actorId: 'other_user_id_1',
-            postType: Posts.POST_TYPES.REMOVE_FROM_CHANNEL,
-            userIds: ['removed_user_id_2', 'current_user_id'],
+            userIds: ['removed_user_id_1', 'removed_user_id_2', 'current_user_id'],
         }];
         const props = {...baseProps, messageData, allUserIds};
         const wrapper = shallowWithIntl(
