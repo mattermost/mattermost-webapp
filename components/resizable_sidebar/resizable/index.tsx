@@ -113,13 +113,13 @@ function Resizable({
         }
 
         const newWidth = prevWidth + widthDiff;
+
+        if (isOverLimit(newWidth, maxWidth, minWidth)) {
+            return;
+        }
         previousClientX.current = e.clientX;
 
         if (resizeLine.classList.contains('snapped')) {
-            return;
-        }
-
-        if (isOverLimit(newWidth, maxWidth, minWidth)) {
             return;
         }
 
