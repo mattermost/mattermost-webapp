@@ -322,26 +322,6 @@ export function makeGenerateCombinedPost(): (state: GlobalState, combinedId: str
     );
 }
 
-export const postTypePriority = {
-    [Posts.POST_TYPES.JOIN_TEAM]: 0,
-    [Posts.POST_TYPES.ADD_TO_TEAM]: 1,
-    [Posts.POST_TYPES.LEAVE_TEAM]: 2,
-    [Posts.POST_TYPES.REMOVE_FROM_TEAM]: 3,
-    [Posts.POST_TYPES.JOIN_CHANNEL]: 4,
-    [Posts.POST_TYPES.ADD_TO_CHANNEL]: 5,
-    [Posts.POST_TYPES.LEAVE_CHANNEL]: 6,
-    [Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: 7,
-    [Posts.POST_TYPES.PURPOSE_CHANGE]: 8,
-    [Posts.POST_TYPES.HEADER_CHANGE]: 9,
-    [Posts.POST_TYPES.JOIN_LEAVE]: 10,
-    [Posts.POST_TYPES.DISPLAYNAME_CHANGE]: 11,
-    [Posts.POST_TYPES.CONVERT_CHANNEL]: 12,
-    [Posts.POST_TYPES.CHANNEL_DELETED]: 13,
-    [Posts.POST_TYPES.CHANNEL_UNARCHIVED]: 14,
-    [Posts.POST_TYPES.ADD_REMOVE]: 15,
-    [Posts.POST_TYPES.EPHEMERAL]: 16,
-};
-
 function extractUserActivityData(userActivities: any) {
     const messageData: any[] = [];
     const allUserIds: string[] = [];
@@ -399,8 +379,13 @@ export function combineUserActivitySystemPost(systemPosts: Post[] = []) {
     const userActivities = systemPosts.reduceRight((acc: any, post: Post) => {
         const postType = post.type;
         let userActivityProps = acc;
-        const combinedPostType = userActivityProps[postType as string];
+        let propsUserId = post.user_id;
 
+        // sets the propsUserId to an empty string. This allows the function to combine different "remove" messages with different actors.
+        if (postType === Posts.POST_TYPES.REMOVE_FROM_CHANNEL) {
+            propsUserId = '';
+        }
+        const combinedPostType = userActivityProps[postType as string];
         if (
             postType === Posts.POST_TYPES.ADD_TO_TEAM ||
             postType === Posts.POST_TYPES.ADD_TO_CHANNEL ||
@@ -409,10 +394,10 @@ export function combineUserActivitySystemPost(systemPosts: Post[] = []) {
             const userId = post.props.addedUserId || post.props.removedUserId;
             const username = post.props.addedUsername || post.props.removedUsername;
             if (combinedPostType) {
-                if (Array.isArray(combinedPostType[post.user_id])) {
+                if (Array.isArray(combinedPostType[propsUserId])) {
                     throw new Error('Invalid Post activity data');
                 }
-                const users = combinedPostType[post.user_id] || {ids: [], usernames: []};
+                const users = combinedPostType[propsUserId] || {ids: [], usernames: []};
                 if (userId) {
                     if (!users.ids.includes(userId)) {
                         users.ids.push(userId);
@@ -420,7 +405,7 @@ export function combineUserActivitySystemPost(systemPosts: Post[] = []) {
                 } else if (username && !users.usernames.includes(username)) {
                     users.usernames.push(username);
                 }
-                combinedPostType[post.user_id] = users;
+                combinedPostType[propsUserId] = users;
             } else {
                 const users = {
                     ids: [] as string[],
@@ -433,7 +418,7 @@ export function combineUserActivitySystemPost(systemPosts: Post[] = []) {
                     users.usernames.push(username);
                 }
                 userActivityProps[postType] = {
-                    [post.user_id]: users,
+                    [propsUserId]: users,
                 };
             }
         } else {
@@ -450,7 +435,6 @@ export function combineUserActivitySystemPost(systemPosts: Post[] = []) {
                 userActivityProps = {...userActivityProps, [postType]: [propsUserId]};
             }
         }
-
         return userActivityProps;
     }, {});
     return extractUserActivityData(userActivities);
