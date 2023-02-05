@@ -286,13 +286,16 @@ $sidebarOpacityAnimationDuration: 0.15s;
         height: 30px;
 
         .dropdown-menu {
-            min-width: 0;
+            min-width: 250px;
             margin-top: 0;
             line-height: 19px;
 
             span {
                 color: rgba(var(--center-channel-color-rgb), 0.9);
-                white-space: nowrap;
+
+                &:not(.MenuItem__help-text) {
+                    white-space: nowrap;
+                }
             }
 
             button {
@@ -480,7 +483,9 @@ $sidebarOpacityAnimationDuration: 0.15s;
     }
 
     .SidebarMenu_menuButton {
-        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         padding: 0;
         border: none;
         background: transparent;
@@ -668,7 +673,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
                 background-color: rgba(255, 255, 255, 0.08);
             }
 
-            &.additionalClass {
+            &.sortingMenu {
                 margin: 0;
             }
         }
