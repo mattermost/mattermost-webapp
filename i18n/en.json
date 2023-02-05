@@ -946,6 +946,8 @@
   "admin.experimental.userStatusAwayTimeout.desc": "This setting defines the number of seconds after which the user’s status indicator changes to \"Away\", when they are away from Mattermost.",
   "admin.experimental.userStatusAwayTimeout.example": "E.g.: \"300\"",
   "admin.experimental.userStatusAwayTimeout.title": "User Status Away Timeout:",
+  "admin.experimental.WebsocketJitterRange.desc": "This setting defines the maximum range of jitter to add to the websocket incoming connections. This is used to prevent thundering heard problem on the server. The value is in milliseconds. Setting it to \"0\" means no jitter is added.",
+  "admin.experimental.WebsocketJitterRange.title": "Maximum websocket jitter range:",
   "admin.false": "false",
   "admin.feature_discovery.trial-request.accept-terms": "By clicking <highlight>Start trial</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy> and receiving product emails.",
   "admin.feature_discovery.trial-request.accept-terms.cloudFree": "By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.",

@@ -531,6 +531,7 @@ const defaultServerConfig: AdminConfig = {
         EnableRemoteClusterService: false,
         EnableAppBar: false,
         PatchPluginsReactDOM: false,
+        WebsocketJitterRange: 0,
     },
     AnalyticsSettings: {
         MaxUsersForStatistics: 2500,

@@ -114,6 +114,7 @@ export type ClientConfig = {
     ExperimentalPrimaryTeam: string;
     ExperimentalTimezone: string;
     ExperimentalViewArchivedChannels: string;
+    WebsocketJitterRange: number;
     FileLevel: string;
     FeatureFlagBoardsProduct: string;
     FeatureFlagGraphQL: string;
@@ -718,6 +719,7 @@ export type ExperimentalSettings = {
     EnableRemoteClusterService: boolean;
     EnableAppBar: boolean;
     PatchPluginsReactDOM: boolean;
+    WebsocketJitterRange: number;
 };
 
 export type AnalyticsSettings = {
