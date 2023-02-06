@@ -85,8 +85,8 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
                     channelId={post.channel_id}
                     hideStatus={true}
                     overwriteName={overwriteName}
-                    disablePopover={true}
                     colorize={colorize}
+                    overwriteIcon={post.props.override_icon_url || undefined}
                 />
             );
 

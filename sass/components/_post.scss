@@ -2035,22 +2035,14 @@
     width: 100%;
     pointer-events: none;
 
-    .post-collapse__gradient,
-    .post-attachment-collapse__gradient {
-        position: relative;
-        background: linear-gradient(rgba(var(--center-channel-bg-rgb), 0), var(--center-channel-bg));
-    }
-
     .post-collapse__show-more,
     .post-attachment-collapse__show-more {
-        background: var(--center-channel-bg);
         pointer-events: auto;
     }
 }
 
 .post-collapse__show-more {
     padding-bottom: 10px;
-    background: v(center-channel-bg);
 }
 
 .post-collapse__show-more,
@@ -2112,8 +2104,8 @@
 .post-message--collapsed {
     .post-message__text-container {
         // If this max-height is changed, the MAX_POST_HEIGHT constant in
-        // components/post/post_message_view/post_message_view.jsx must
-        // be changed to match it
+        // components/post_view/show_more/show_more.tsx must by changed
+        // to match it
         max-height: 600px;
 
         .all-emoji {
@@ -2136,9 +2128,10 @@
         }
     }
 
-    .post-collapse__gradient,
-    .post-attachment-collapse__gradient {
-        height: 90px;
+    &.post-message--overflow {
+        .post-message__text-container {
+            mask-image: linear-gradient(black calc(100% - 126px), transparent calc(100% - 36px));
+        }
     }
 
     .post-collapse__show-more {
@@ -2155,11 +2148,6 @@
     .post-attachment-collapse__show-more {
         position: relative;
         padding-top: 10px;
-    }
-
-    .post-collapse__gradient,
-    .post-attachment-collapse__gradient {
-        height: 0;
     }
 }
 
@@ -2230,38 +2218,12 @@
     animation-name: postHighlight;
 }
 
-// Handle fade out effect for permalink highlightning
-.app__body .post-list__table .post:not(.current--user).post--highlight .post-collapse__gradient,
-.app__body .post-list__table .post.post--compact.post--highlight .post-collapse__gradient {
-    background: linear-gradient(rgba(var(--mention-highlight-bg-mixed-rgb), 0.5), rgba(var(--mention-highlight-bg-mixed-rgb), 0.5));
-}
-
-.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__gradient {
-    background: linear-gradient(rgba(var(--center-channel-bg-rgb), 0), rgba(var(--mention-highlight-bg-mixed-rgb), 1));
-}
-
-.app__body .post-list__table .post.current--user.post--highlight:not(.post--compact) .post-collapse__show-more {
-    background: rgba(var(--mention-highlight-bg-mixed-rgb), 1);
-}
-
-.app__body .post-list__table .post.current--user.post--highlight:hover .post-collapse__gradient,
-.app__body .post-list__table .post.current--user.post--highlight.post--hovered .post-collapse__gradient {
-    background: linear-gradient(rgba(var(--mention-highlight-bg-mixed-rgb), 0.5), rgba(var(--mention-highlight-bg-mixed-rgb), 1));
-}
-
 .post--pinned-or-flagged {
     background-color: rgb(var(--pinned-highlight-bg-mixed-rgb));
 
     .post-collapse {
-        .post-collapse__gradient,
-        .post-attachment-collapse__gradient {
-            position: relative;
-            background: linear-gradient(transparent, rgb(var(--pinned-highlight-bg-mixed-rgb)));
-        }
-
         .post-collapse__show-more,
         .post-attachment-collapse__show-more {
-            background: rgb(var(--pinned-highlight-bg-mixed-rgb));
             pointer-events: auto;
         }
     }
