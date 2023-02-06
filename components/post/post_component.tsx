@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {MouseEvent, useCallback, useEffect, useRef, useState} from 'react';
+import React, {MouseEvent, useCallback, useEffect, useRef, useState, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
@@ -14,8 +14,6 @@ import Constants, {A11yCustomEventTypes, AppEvents, Locations} from 'utils/const
 
 import * as PostUtils from 'utils/post_utils';
 
-import {Post} from '@mattermost/types/posts';
-import {Emoji} from '@mattermost/types/emojis';
 import {PostPluginComponent} from 'types/store/plugins';
 
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -44,10 +42,11 @@ import {getHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import CommentedOn from 'components/post_view/commented_on/commented_on';
+import PriorityLabel from 'components/post_priority/post_priority_label';
 
 import {UserProfile} from '@mattermost/types/users';
-
-import PriorityLabel from 'components/post_priority/post_priority_label';
+import {Post} from '@mattermost/types/posts';
+import {Emoji} from '@mattermost/types/emojis';
 
 import PostUserProfile from './user_profile';
 import PostOptions from './post_options';
@@ -119,6 +118,8 @@ export type Props = {
 };
 
 const PostComponent = (props: Props): JSX.Element => {
+    const {post} = props;
+
     const isSearchResultItem = (props.matches && props.matches.length > 0) || props.isMentionSearch || (props.term && props.term.length > 0);
     const isRHS = props.location === Locations.RHS_ROOT || props.location === Locations.RHS_COMMENT || props.location === Locations.SEARCH;
     const postRef = useRef<HTMLDivElement>(null);
@@ -131,8 +132,8 @@ const PostComponent = (props: Props): JSX.Element => {
     const [fadeOutHighlight, setFadeOutHighlight] = useState(false);
     const [alt, setAlt] = useState(false);
 
-    const isSystemMessage = PostUtils.isSystemMessage(props.post);
-    const fromAutoResponder = PostUtils.fromAutoResponder(props.post);
+    const isSystemMessage = PostUtils.isSystemMessage(post);
+    const fromAutoResponder = PostUtils.fromAutoResponder(post);
 
     useEffect(() => {
         if (props.shouldHighlight) {
@@ -169,8 +170,6 @@ const PostComponent = (props: Props): JSX.Element => {
     }, []);
 
     const hasSameRoot = (props: Props) => {
-        const post = props.post;
-
         if (props.isFirstReply) {
             return false;
         } else if (!post.root_id && !props.previousPostIsComment && props.isConsecutivePost) {
@@ -186,7 +185,7 @@ const PostComponent = (props: Props): JSX.Element => {
         let name: React.ReactNode = props.channelName;
 
         const isDirectMessage = props.channelType === Constants.DM_CHANNEL;
-        const isPartOfThread = props.isCollapsedThreadsEnabled && (props.post.reply_count > 0 || props.post.is_following);
+        const isPartOfThread = props.isCollapsedThreadsEnabled && (post.reply_count > 0 || post.is_following);
 
         if (isDirectMessage && isPartOfThread) {
             name = (
@@ -236,7 +235,6 @@ const PostComponent = (props: Props): JSX.Element => {
     };
 
     const getClassName = () => {
-        const post = props.post;
         const isMeMessage = checkIsMeMessage(post);
         const hovered =
             hover || fileDropdownOpened || dropdownOpened || a11yActive || props.isPostBeingEdited;
@@ -312,10 +310,10 @@ const PostComponent = (props: Props): JSX.Element => {
 
     // When adding clickable targets within a root post to exclude from post's on click to open thread,
     // please add to/maintain the selector below
-    const isEligibleForClick = makeIsEligibleForClick('.post-image__column, .embed-responsive-item, .attachment, .hljs, code');
+    const isEligibleForClick = useMemo(() => makeIsEligibleForClick('.post-image__column, .embed-responsive-item, .attachment, .hljs, code'), []);
 
-    const handlePostClick = (e: MouseEvent<HTMLDivElement>) => {
-        if (!props.post || props.channelIsArchived) {
+    const handlePostClick = useCallback((e: MouseEvent<HTMLDivElement>) => {
+        if (!post || props.channelIsArchived) {
             return;
         }
 
@@ -324,6 +322,7 @@ const PostComponent = (props: Props): JSX.Element => {
             props.clickToReply &&
             (fromAutoResponder || !isSystemMessage) &&
             isEligibleForClick(e) &&
+            props.location === Locations.CENTER &&
             !props.isPostBeingEdited
         ) {
             trackEvent('crt', 'clicked_to_reply');
@@ -331,9 +330,19 @@ const PostComponent = (props: Props): JSX.Element => {
         }
 
         if (e.altKey) {
-            props.actions.markPostAsUnread(props.post, props.location);
+            props.actions.markPostAsUnread(post, props.location);
         }
-    };
+    }, [
+        post,
+        fromAutoResponder,
+        isEligibleForClick,
+        isSystemMessage,
+        props.channelIsArchived,
+        props.clickToReply,
+        props.actions,
+        props.location,
+        props.isPostBeingEdited,
+    ]);
 
     const handleJumpClick = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -342,21 +351,19 @@ const PostComponent = (props: Props): JSX.Element => {
         }
 
         props.actions.setRhsExpanded(false);
-        getHistory().push(`/${props.teamName}/pl/${props.post.id}`);
+        getHistory().push(`/${props.teamName}/pl/${post.id}`);
     };
 
     const handleCommentClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
 
-        if (!props.post) {
+        if (!post) {
             return;
         }
-        props.actions.selectPostFromRightHandSideSearch(props.post);
-    }, [props.post.id]);
+        props.actions.selectPostFromRightHandSideSearch(post);
+    }, [post.id]);
 
-    const post = props.post;
-
-    const postClass = classNames('post__body', {'post--edited': PostUtils.isEdited(props.post), 'search-item-snippet': isSearchResultItem});
+    const postClass = classNames('post__body', {'post--edited': PostUtils.isEdited(post), 'search-item-snippet': isSearchResultItem});
 
     let comment;
     if (props.isFirstReply && props.parentPost && props.parentPostUser && post.type !== Constants.PostTypes.EPHEMERAL) {
@@ -459,7 +466,7 @@ const PostComponent = (props: Props): JSX.Element => {
             idPrefix = 'post';
         }
 
-        return idPrefix + `_${props.post.id}`;
+        return idPrefix + `_${post.id}`;
     };
 
     let priority;
@@ -561,7 +568,7 @@ const PostComponent = (props: Props): JSX.Element => {
                                             className={'card-icon__container icon--show style--none ' + (props.isCardOpen ? 'active' : '')}
                                             onClick={(e) => {
                                                 e.preventDefault();
-                                                handleCardClick(props.post);
+                                                handleCardClick(post);
                                             }}
                                         >
                                             <InfoSmallIcon
@@ -592,7 +599,7 @@ const PostComponent = (props: Props): JSX.Element => {
                             className={postClass}
                             id={isRHS ? undefined : `${post.id}_message`}
                         >
-                            {post.failed && <FailedPostOptions post={props.post}/>}
+                            {post.failed && <FailedPostOptions post={post}/>}
                             <AutoHeightSwitcher
                                 showSlot={showSlot}
                                 shouldScrollIntoView={props.isPostBeingEdited}
