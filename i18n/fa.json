@@ -267,7 +267,6 @@
   "admin.billing.subscription.freeTrial.lastDay.title": "آزمایشی رایگان شما امروز به پایان می رسد",
   "admin.billing.subscription.freeTrial.lessThan3Days.description": "دوره آزمایشی رایگان شما در {daysLeftOnTrial, number} {daysLeftOnTrial, plural, یک {day} دیگر {days}} پایان خواهد یافت. برای ادامه بهره مندی از مزایای Cloud Professional، اطلاعات پرداخت را اضافه کنید.",
   "admin.billing.subscription.freeTrial.title": "شما در حال حاضر در یک دوره آزمایشی رایگان هستید",
-  "admin.billing.subscription.freeTrialDisclaimer": "صورت حساب شما در پایان چرخه صورتحساب بر اساس تعداد کاربران فعال محاسبه می شود. ",
   "admin.billing.subscription.goBackTryAgain": "برگردید و دوباره امتحان کنید",
   "admin.billing.subscription.howItWorks": "ببینید صورتحساب چگونه کار می کند",
   "admin.billing.subscription.nextBillingDate": "در عرض چند دقیقه فضای کاری خود را بررسی کنید تا به تمام ویژگی های طرح دسترسی داشته باشید. از تاریخ {date} بر اساس تعداد کاربران فعال از شما هزینه دریافت می شود.",
