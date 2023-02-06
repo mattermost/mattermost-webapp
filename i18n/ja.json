@@ -333,7 +333,6 @@
   "admin.billing.subscription.planDetails.features.incidentCollaboration": "インシデントコラボレーション",
   "admin.billing.subscription.planDetails.features.ldapSync": "チームとチャンネルをAD/LDAPグループと同期",
   "admin.billing.subscription.planDetails.features.ldapUserSync": "AD/LDAPユーザー同期",
-  "admin.billing.subscription.planDetails.features.limitedBoardCards": "無制限のBoardカード",
   "admin.billing.subscription.planDetails.features.limitedFileStorage": "ファイルストレージが {limit} に制限されます",
   "admin.billing.subscription.planDetails.features.limitedMessageHistory": "メッセージ履歴が{limit} メッセージに制限されます",
   "admin.billing.subscription.planDetails.features.mfa": "多要素認証 (MFA)",

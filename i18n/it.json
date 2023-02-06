@@ -320,7 +320,6 @@
   "admin.billing.subscription.planDetails.features.incidentCollaboration": "Collaborazione su incidenti tecnici",
   "admin.billing.subscription.planDetails.features.ldapSync": "Sincronizzazione dei gruppi AD/LDAP per squadre & canali",
   "admin.billing.subscription.planDetails.features.ldapUserSync": "Sincronizzazione utenti AD/LDAP",
-  "admin.billing.subscription.planDetails.features.limitedBoardCards": "Limitato a {limit} carte da lavagna per spazio di lavoro",
   "admin.billing.subscription.planDetails.features.limitedFileStorage": "Limitato a {limit} spazio file",
   "admin.bleve.bulkIndexingTitle": "Indicizzazione massiva:",
   "admin.bleve.createJob.help": "Tutti gli utenti, i canali e le pubblicazioni nel database saranno indicizzati dal più vecchio al più recente. Bleeve sarà disponibile durante l'indicizzazione ma i risultati delle ricerche potrebbero essere incompleti fino al termine del lavoro di indicizzazione.",
