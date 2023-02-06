@@ -2772,10 +2772,10 @@ export default class Client4 {
         );
     };
 
-    disableOAuthApp = (appId: string, value: boolean) => {
+    disableOAuthApp = (appId: string, isDisabled: boolean) => {
         return this.doFetch<StatusOK>(
             `${this.getOAuthAppRoute(appId)}`,
-            {method: 'disable', body: JSON.stringify({value})},
+            {method: 'put', body: JSON.stringify({IsDisabled: isDisabled})},
         );
     };
 

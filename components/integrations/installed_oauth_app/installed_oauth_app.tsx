@@ -58,7 +58,7 @@ export type InstalledOAuthAppProps = {
     /**
      * The function to call when Disable link is clicked
      */
-    onDisable: (oauthApp: OAuthApp) => void;
+    onDisable: (oauthApp: OAuthApp, isDisabled: boolean) => void;
 
     /**
      * Set to filter OAuthApp
@@ -111,7 +111,8 @@ export default class InstalledOAuthApp extends React.PureComponent<InstalledOAut
     }
 
     handleDisable = (): void => {
-        this.props.onDisable(this.props.oauthApp);
+        // We toggle the disabled property
+        this.props.onDisable(this.props.oauthApp, !this.props.oauthApp.is_disabled);
     }
 
     render(): React.ReactNode {

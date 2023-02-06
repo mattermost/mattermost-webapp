@@ -737,7 +737,7 @@ describe('Actions.Integrations', () => {
         assert.ok(!oauthApps[created.id]);
     });
 
-    it('disableOAuthApp', async () => {
+    it('disableOAuthApp is true', async () => {
         nock(Client4.getBaseRoute()).
             post('/oauth/apps').
             reply(201, TestHelper.fakeOAuthAppWithId());
@@ -748,9 +748,8 @@ describe('Actions.Integrations', () => {
             delete(`/oauth/apps/${created.id}`).
             reply(200, OK_RESPONSE);
 
-        await Actions.disableOAuthApp(created.id)(store.dispatch, store.getState);
+        await Actions.disableOAuthApp(created.id, true)(store.dispatch, store.getState);
 
-        // TODO Pass the value true/false
         const {oauthApps} = store.getState().entities.integrations;
         assert.ok(!oauthApps[created.id]);
     });

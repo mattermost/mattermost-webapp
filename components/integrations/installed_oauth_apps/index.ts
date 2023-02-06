@@ -37,7 +37,7 @@ type Actions = {
     loadOAuthAppsAndProfiles: (page?: number, perPage?: number) => Promise<void>;
     regenOAuthAppSecret: (appId: string) => Promise<{ error?: Error }>;
     deleteOAuthApp: (appId: string) => Promise<void>;
-    disableOAuthApp: (appId: string, value: boolean) => Promise<void>;
+    disableOAuthApp: (appId: string, isDisabled: boolean) => Promise<void>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

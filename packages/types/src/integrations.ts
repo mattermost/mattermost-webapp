@@ -102,6 +102,7 @@ export type OAuthApp = {
     'callback_urls': string[];
     'homepage': string;
     'is_trusted': boolean;
+    'is_disabled': boolean;
 };
 
 export type IntegrationsState = {

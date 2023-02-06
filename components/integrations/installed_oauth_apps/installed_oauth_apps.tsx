@@ -62,7 +62,7 @@ type Props = {
         /**
         * The function to call when disable link is clicked
         */
-        disableOAuthApp: (appId: string) => Promise<void>;
+        disableOAuthApp: (appId: string, isDisabled: boolean) => Promise<void>;
     });
 };
 
@@ -92,9 +92,9 @@ export default class InstalledOAuthApps extends React.PureComponent<Props, State
         }
     }
 
-    disableOAuthApp = (app: OAuthApp): void => {
+    disableOAuthApp = (app: OAuthApp, isDisabled: boolean): void => {
         if (app && app.id) {
-            this.props.actions.disableOAuthApp(app.id);
+            this.props.actions.disableOAuthApp(app.id, isDisabled);
         }
     }
 

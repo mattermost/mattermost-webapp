@@ -47,6 +47,7 @@ describe('components/integrations/InstalledOAuthApps', () => {
             loadOAuthAppsAndProfiles: jest.fn(),
             regenOAuthAppSecret: jest.fn(),
             deleteOAuthApp: jest.fn(),
+            disableOAuthApp: jest.fn(),
         },
         enableOAuthServiceProvider: true,
         appsOAuthAppIDs: [],

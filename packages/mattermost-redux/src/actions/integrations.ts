@@ -369,10 +369,10 @@ export function deleteOAuthApp(id: string): ActionFunc {
     };
 }
 
-export function disableOAuthApp(id: string, value: boolean): ActionFunc {
+export function disableOAuthApp(id: string, isDisabled: boolean): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         try {
-            await Client4.disableOAuthApp(id, value);
+            await Client4.disableOAuthApp(id, isDisabled);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
 
@@ -383,9 +383,7 @@ export function disableOAuthApp(id: string, value: boolean): ActionFunc {
         dispatch(batchActions([
             {
                 type: IntegrationTypes.DISABLED_OAUTH_APP,
-                data: {id},
-
-                // TODO Value of disabled true/false
+                data: {id, isDisabled},
             },
         ]));
 
