@@ -333,7 +333,6 @@
   "admin.billing.subscription.planDetails.features.incidentCollaboration": "Olay işbirliği",
   "admin.billing.subscription.planDetails.features.ldapSync": "Takım ve kanalları AD/LDAP grupları ile eşitleme",
   "admin.billing.subscription.planDetails.features.ldapUserSync": "AD/LDAP kullanıcılarını eşitleme",
-  "admin.billing.subscription.planDetails.features.limitedBoardCards": "Sınırsız pano kartı",
   "admin.billing.subscription.planDetails.features.limitedFileStorage": "{limit} dosya depolama alanı ile sınırlı",
   "admin.billing.subscription.planDetails.features.limitedMessageHistory": "{limit} ileti geçmişi ile sınırlı",
   "admin.billing.subscription.planDetails.features.mfa": "Çok aşamalı kimlik doğrulama (MFA)",

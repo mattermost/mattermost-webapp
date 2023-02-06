@@ -332,7 +332,6 @@
   "admin.billing.subscription.planDetails.features.incidentCollaboration": "事件协作",
   "admin.billing.subscription.planDetails.features.ldapSync": "将 AD/LDAP 组信息同步到团队或者频道",
   "admin.billing.subscription.planDetails.features.ldapUserSync": "AD/LDAP 用户同步",
-  "admin.billing.subscription.planDetails.features.limitedBoardCards": "无限制的 Board 卡片",
   "admin.billing.subscription.planDetails.features.limitedFileStorage": "仅限 {limit} 文件存储",
   "admin.billing.subscription.planDetails.features.limitedMessageHistory": "仅限于 {limit} 条消息的消息历史记录",
   "admin.billing.subscription.planDetails.features.mfa": "多重验证（MFA）",

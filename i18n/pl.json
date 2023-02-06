@@ -333,7 +333,6 @@
   "admin.billing.subscription.planDetails.features.incidentCollaboration": "Współpraca przy incydentach",
   "admin.billing.subscription.planDetails.features.ldapSync": "Synchronizacja grup AD/LDAP z zespołami & kanałami",
   "admin.billing.subscription.planDetails.features.ldapUserSync": "Synchronizacja użytkowników AD/LDAP",
-  "admin.billing.subscription.planDetails.features.limitedBoardCards": "Nieograniczone karty Tablic",
   "admin.billing.subscription.planDetails.features.limitedFileStorage": "Ograniczenie do {limit} przechowywania plików",
   "admin.billing.subscription.planDetails.features.limitedMessageHistory": "Ograniczenie do historii komunikatów {limit}",
   "admin.billing.subscription.planDetails.features.mfa": "Uwierzytelnianie wieloskładnikowe (MFA)",

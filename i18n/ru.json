@@ -333,7 +333,6 @@
   "admin.billing.subscription.planDetails.features.incidentCollaboration": "Совместная работа с происшествиями",
   "admin.billing.subscription.planDetails.features.ldapSync": "AD/LDAP синхронизация групп с командами и каналами",
   "admin.billing.subscription.planDetails.features.ldapUserSync": "Синхронизация пользователей AD/LDAP",
-  "admin.billing.subscription.planDetails.features.limitedBoardCards": "Неограниченное количество карточек на досках",
   "admin.billing.subscription.planDetails.features.limitedFileStorage": "Ограничение на хранение файлов до {limit}",
   "admin.billing.subscription.planDetails.features.limitedMessageHistory": "Ограничение истории сообщений - {limit} сообщений",
   "admin.billing.subscription.planDetails.features.mfa": "Многофакторная аутентификация (МФА)",
