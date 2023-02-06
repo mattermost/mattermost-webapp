@@ -424,7 +424,7 @@ describe('Profile popover', () => {
         verifyAddToChannel(testUser);
     });
 
-    it('MM-TX Call User - Call should start in DM channel', () => {
+    it('MM-T5382 Call User - Call should start in DM channel', () => {
         // # Login as test user and go to off-topic
         cy.apiLogin(testUser);
         cy.visit(offTopicUrl);
