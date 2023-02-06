@@ -138,8 +138,7 @@ describe('Collapsed Reply Threads', () => {
         cy.uiGetPostThreadFooter(postForAvatar.id).find('.Avatars').find('button').first().click();
 
         // * Profile popover should be visible and close on ESC
-        cy.get('div.user-profile-popover').first().should('be.visible');
-        cy.get('div.user-profile-popover').first().type('{esc}');
+        cy.get('div.user-profile-popover').first().should('be.visible').find('#messageButton').type('{esc}');
 
         // # Visit global threads
         cy.uiClickSidebarItem('threads');
@@ -148,8 +147,7 @@ describe('Collapsed Reply Threads', () => {
         cy.get('article.ThreadItem').find('.activity').find('.Avatars').find('button').first().click();
 
         // * Profile popover should be visible and close on ESC
-        cy.get('div.user-profile-popover').first().should('be.visible');
-        cy.get('div.user-profile-popover').first().type('{esc}');
+        cy.get('div.user-profile-popover').first().should('be.visible').find('#messageButton').type('{esc}');
     });
 
     it('MM-T4143 Emoji reaction - type +:+1:', () => {

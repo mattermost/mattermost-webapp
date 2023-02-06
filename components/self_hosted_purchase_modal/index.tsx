@@ -514,9 +514,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                             TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING,
                             'click_close_purchasing_screen',
                         );
-                        if (!canRetry) {
-                            resetToken();
-                        }
+                        resetToken();
                         controlModal.close();
                     }}
                 >

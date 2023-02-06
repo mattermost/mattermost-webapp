@@ -15,11 +15,14 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {createCategory, clearChannelSelection} from 'actions/views/channel_sidebar';
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
 import {closeModal, openModal} from 'actions/views/modals';
+import {closeRightHandSide} from 'actions/views/rhs';
 import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 import {getIsLhsOpen} from 'selectors/lhs';
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
 import {isModalOpen} from 'selectors/views/modals';
+import {areWorkTemplatesEnabled} from 'selectors/work_template';
 import {ModalIdentifiers} from 'utils/constants';
 
 import Sidebar from './sidebar';
@@ -41,6 +44,8 @@ function mapStateToProps(state: GlobalState) {
 
     const canCreateCustomGroups = haveISystemPermission(state, {permission: Permissions.CREATE_CUSTOM_GROUP}) && isCustomGroupsEnabled(state);
 
+    const showWorkTemplateButton = areWorkTemplatesEnabled(state);
+
     return {
         teamId: currentTeam ? currentTeam.id : '',
         canCreatePrivateChannel,
@@ -59,6 +64,9 @@ function mapStateToProps(state: GlobalState) {
         isKeyBoardShortcutModalOpen: isModalOpen(state, ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL),
         userGroupsEnabled,
         canCreateCustomGroups,
+        rhsState: getRhsState(state),
+        rhsOpen: getIsRhsOpen(state),
+        showWorkTemplateButton,
     };
 }
 
@@ -68,6 +76,7 @@ type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
     clearChannelSelection: () => void;
     closeModal: (modalId: string) => void;
+    closeRightHandSide: () => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -78,6 +87,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             fetchMyCategories,
             openModal,
             closeModal,
+            closeRightHandSide,
         }, dispatch),
     };
 }
