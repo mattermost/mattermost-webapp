@@ -1105,20 +1105,6 @@
         }
     }
 
-    .modal-header {
-        background: $black;
-        color: $white;
-
-        .close {
-            color: $white;
-            opacity: 1;
-
-            &:hover {
-                opacity: 1;
-            }
-        }
-    }
-
     .modal-body {
         padding: 15px 0;
 
