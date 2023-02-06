@@ -20,6 +20,9 @@ import {Constants, StoragePrefixes} from 'utils/constants';
 import {searchMoreChannels} from 'actions/channel_actions';
 import {openModal, closeModal} from 'actions/views/modals';
 import {setGlobalItem} from 'actions/storage';
+import {closeRightHandSide} from 'actions/views/rhs';
+
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 
 import {GlobalState} from 'types/store';
 
@@ -54,7 +57,19 @@ function mapStateToProps(state: GlobalState) {
         myChannelMemberships: getMyChannelMemberships(state) || {},
         allChannelStats: getAllChannelStats(state) || {},
         shouldHideJoinedChannels: getGlobalItem(state) === 'true',
+        rhsState: getRhsState(state),
+        rhsOpen: getIsRhsOpen(state),
     };
+}
+
+type Actions = {
+    getChannels: (teamId: string, page: number, perPage: number) => void;
+    getArchivedChannels: (teamId: string, page: number, channelsPerPage: number) => void;
+    joinChannel: (currentUserId: string, teamId: string, channelId: string) => Promise<ActionResult>;
+    searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => Promise<ActionResult>;
+    openModal: <P>(modalData: ModalData<P>) => void;
+    closeModal: (modalId: string) => void;
+    closeRightHandSide: () => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -68,6 +83,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             closeModal,
             getChannelStats,
             setGlobalItem,
+            closeRightHandSide,
         }, dispatch),
     };
 }

@@ -79,6 +79,9 @@ type DelinquencyCardProps = {
     price: string;
     buttonDetails: ButtonDetails;
     onViewBreakdownClick: () => void;
+    isCloudDelinquencyGreaterThan90Days: boolean;
+    users: number;
+    cost: number;
 };
 
 type CardProps = {
@@ -181,20 +184,19 @@ function findProductInDictionary(products: Record<string, Product> | undefined, 
 
 function getSelectedProduct(
     products: Record<string, Product> | undefined,
+    yearlyProducts: Record<string, Product>,
     currentProductId?: string | null,
     isDelinquencyModal?: boolean,
     isCloudDelinquencyGreaterThan90Days?: boolean) {
-    const currentProduct = findProductInDictionary(products, currentProductId); // if current product id is for monthly, currentProduct will not be found and nextSku by default is professional annual
     if (isDelinquencyModal && !isCloudDelinquencyGreaterThan90Days) {
+        const currentProduct = findProductInDictionary(products, currentProductId, undefined, RecurringIntervals.MONTH);
+
+        // if the account hasn't been delinquent for more than 90 days, then we will allow them to settle up and stay on their current product
         return currentProduct;
     }
-    let nextSku = CloudProducts.PROFESSIONAL;
 
-    // Don't switch the product to enterprise if the recurring interval of the selected product is yearly. This means that it can only be the yearly professional product.
-    if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
-        nextSku = CloudProducts.ENTERPRISE;
-    }
-    return findProductInDictionary(products, null, nextSku, RecurringIntervals.YEAR);
+    // Otherwise, we will default to upgrading them to the yearly professional plan
+    return findProductInDictionary(yearlyProducts, null, CloudProducts.PROFESSIONAL, RecurringIntervals.YEAR);
 }
 
 export function Card(props: CardProps) {
@@ -271,7 +273,6 @@ function DelinquencyCard(props: DelinquencyCardProps) {
                         </div>
                     </div>
                 </div>
-
                 <div>
                     <button
                         className={
@@ -284,18 +285,52 @@ function DelinquencyCard(props: DelinquencyCardProps) {
                     </button>
                 </div>
                 <div className='plan_billing_cycle delinquency'>
-                    <FormattedMessage
-                        defaultMessage={
-                            'Upon reactivation you will be charged the total owed.  Your bill is calculated at the end of the billing cycle based on the number of enabled users.'
-                        }
-                        id={'cloud_delinquency.cc_modal.disclaimer'}
-                    />
-                    <a onClick={seeHowBillingWorks}>
+                    {Boolean(!props.isCloudDelinquencyGreaterThan90Days) && (
                         <FormattedMessage
-                            defaultMessage={'See how billing works.'}
-                            id={'admin.billing.subscription.howItWorks'}
+                            defaultMessage={
+                                'When you reactivate your subscription, you\'ll be billed the total outstanding amount immediately. Your bill is calculated at the end of the billing cycle based on the number of active users. {seeHowBillingWorks}'
+                            }
+                            id={'cloud_delinquency.cc_modal.disclaimer'}
+                            values={{
+                                seeHowBillingWorks: (
+                                    <a onClick={seeHowBillingWorks}>
+                                        <FormattedMessage
+                                            defaultMessage={
+                                                'See how billing works.'
+                                            }
+                                            id={
+                                                'admin.billing.subscription.howItWorks'
+                                            }
+                                        />
+                                    </a>
+                                ),
+                            }}
                         />
-                    </a>
+                    )}
+                    {Boolean(props.isCloudDelinquencyGreaterThan90Days) && (
+                        <FormattedMessage
+                            defaultMessage={
+                                'When you reactivate your subscription, you\'ll be billed the total outstanding amount immediately. You\'ll also be billed {cost} immediately for a 1 year subscription based on your current active user count of {users} users. {seeHowBillingWorks}'
+                            }
+                            id={
+                                'cloud_delinquency.cc_modal.disclaimer_with_upgrade_info'
+                            }
+                            values={{
+                                cost: `$${props.cost}`,
+                                users: props.users,
+                                seeHowBillingWorks: (
+                                    <a onClick={seeHowBillingWorks}>
+                                        <FormattedMessage
+                                            defaultMessage={'See how billing works.'}
+                                            id={
+                                                'admin.billing.subscription.howItWorks'
+                                            }
+                                        />
+                                    </a>
+                                ),
+                            }}
+                        />
+                    )}
                 </div>
             </div>
         </div>
@@ -321,6 +356,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                 props.productId,
             ),
             selectedProduct: getSelectedProduct(
+                props.products,
                 props.yearlyProducts,
                 props.productId,
                 props.isDelinquencyModal,
@@ -328,7 +364,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             ),
             isUpgradeFromTrial: props.isFreeTrial,
             buttonClickedInfo: '',
-            selectedProductPrice: getSelectedProduct(props.yearlyProducts, props.productId, false)?.price_per_seat.toString() || null,
+            selectedProductPrice: getSelectedProduct(props.products, props.yearlyProducts, props.productId, props.isDelinquencyModal, props.isCloudDelinquencyGreaterThan90Days)?.price_per_seat.toString() || null,
             usersCount: this.props.usersCount,
             seats: {
                 quantity: this.props.usersCount.toString(),
@@ -342,8 +378,8 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             await this.props.actions.getCloudProducts();
             this.setState({
                 currentProduct: findProductInDictionary(this.props.products, this.props.productId),
-                selectedProduct: getSelectedProduct(this.props.yearlyProducts, this.props.productId, this.props.isDelinquencyModal, this.props.isCloudDelinquencyGreaterThan90Days),
-                selectedProductPrice: getSelectedProduct(this.props.yearlyProducts, this.props.productId, false)?.price_per_seat.toString() ?? null,
+                selectedProduct: getSelectedProduct(this.props.products, this.props.yearlyProducts, this.props.productId, this.props.isDelinquencyModal, this.props.isCloudDelinquencyGreaterThan90Days),
+                selectedProductPrice: getSelectedProduct(this.props.products, this.props.yearlyProducts, this.props.productId, false)?.price_per_seat.toString() ?? null,
             });
         }
 
@@ -600,6 +636,9 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             disabled: !this.state.paymentInfoIsValid,
                         }}
                         onViewBreakdownClick={this.handleViewBreakdownClick}
+                        isCloudDelinquencyGreaterThan90Days={this.props.isCloudDelinquencyGreaterThan90Days}
+                        cost={parseInt(this.state.selectedProductPrice || '', 10) * this.props.usersCount}
+                        users={this.props.usersCount}
                     />
                 </>
             );
@@ -773,6 +812,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         if (!stripePromise) {
             stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
         }
+
         return (
             <Elements
                 options={{fonts: [{cssSrc: STRIPE_CSS_SRC}]}}

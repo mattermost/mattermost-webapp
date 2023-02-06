@@ -44,22 +44,6 @@ export declare type Board = {
     deleteAt: number;
 }
 
-export declare type BoardTemplate = Board;
-
-export declare type BoardPatch = {
-    channelId?: string;
-    type?: BoardTypes;
-    minimumRole?: string;
-    title?: string;
-    description?: string;
-    icon?: string;
-    showDescription?: boolean;
-    updatedProperties?: Record<string, any>;
-    deletedProperties?: string[];
-    updatedCardProperties?: IPropertyTemplate[];
-    deletedCardProperties?: string[];
-}
-
 export declare type CreateBoardResponse = {
     boards: Board[];
 }
