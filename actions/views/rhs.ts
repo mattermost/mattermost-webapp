@@ -235,6 +235,7 @@ export function showChannelMembers(channelId: string, inEditingMode = false) {
 export function hideRHSPlugin(pluggableId: string) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
+
         if (getPluggableId(state) === pluggableId) {
             dispatch(closeRightHandSide());
         }

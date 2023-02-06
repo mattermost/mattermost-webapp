@@ -204,11 +204,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
         const rhsPlugins = pluginsComponentsList.RightHandSidebarComponent;
 
         if (rhsPlugins.length) {
-            for (const plugin of rhsPlugins) {
-                if (plugin.pluginId === pluginId) {
-                    return plugin.id;
-                }
-            }
+            return rhsPlugins.find((plugin) => plugin.pluginId === pluginId)?.id;
         }
         return null;
     };
@@ -300,7 +296,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
         // check if the AB test FF is set and also check that the linkedBoard has only been shown once, then open the RHS
         if (autoShowLinkedBoard && open) {
             const boardsId = findRhsPluginId(suitePluginIds.boards);
-            if (boardsId === null) {
+            if (!boardsId) {
                 return;
             }
 
