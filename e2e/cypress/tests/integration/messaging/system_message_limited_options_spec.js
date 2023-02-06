@@ -60,7 +60,7 @@ describe('Messaging', () => {
 
             // # Mouse over the post to show the options
             cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
-            cy.wait(TIMEOUTS.HALF_SEC);
+            cy.wait(TIMEOUTS.THREE_SEC);
 
             // * No option should appear
             cy.get(`#CENTER_commentIcon_${lastPostId}`).should('not.exist');
