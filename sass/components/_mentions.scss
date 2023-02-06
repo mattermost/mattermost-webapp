@@ -42,7 +42,9 @@ del .group-mention-link:focus {
     border-radius: 4px;
     color: var(--mention-highlight-link);
 
-    .mention-link {
+    .mention-link,
+    .mention-link:hover,
+    .mention-link:focus {
         color: var(--mention-highlight-link);
     }
 

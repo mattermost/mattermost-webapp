@@ -22,13 +22,12 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
       "update_at": 0,
     }
   }
-  closeHandler={[Function]}
+  channelLeaveHandler={[Function]}
   icon={
     <i
       className="icon icon-globe"
     />
   }
-  isCollapsed={false}
   label="channel_display_name"
   link="/team_name/channels/"
 />
@@ -56,13 +55,12 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
       "update_at": 0,
     }
   }
-  closeHandler={[Function]}
+  channelLeaveHandler={[Function]}
   icon={
     <i
       className="icon icon-lock-outline"
     />
   }
-  isCollapsed={false}
   label="channel_display_name"
   link="/team_name/channels/"
 />
@@ -91,7 +89,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
       "update_at": 0,
     }
   }
-  closeHandler={[Function]}
+  channelLeaveHandler={[Function]}
   icon={
     <SharedChannelIndicator
       channelType="O"
@@ -99,7 +97,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
       withTooltip={true}
     />
   }
-  isCollapsed={false}
   label="channel_display_name"
   link="/team_name/channels/"
 />
@@ -128,7 +125,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
       "update_at": 0,
     }
   }
-  closeHandler={[Function]}
+  channelLeaveHandler={[Function]}
   icon={
     <SharedChannelIndicator
       channelType="P"
@@ -136,7 +133,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_base_channel should match sn
       withTooltip={true}
     />
   }
-  isCollapsed={false}
   label="channel_display_name"
   link="/team_name/channels/"
 />

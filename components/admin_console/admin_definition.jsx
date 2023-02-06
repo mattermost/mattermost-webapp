@@ -2195,7 +2195,7 @@ const AdminDefinition = {
                         label: t('admin.general.localization.serverLocaleTitle'),
                         label_default: 'Default Server Language:',
                         help_text: t('admin.general.localization.serverLocaleDescription'),
-                        help_text_default: 'Default language for system messages. Changing this will require a server restart before taking effect.',
+                        help_text_default: 'Default language for system messages.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.LOCALIZATION)),
                     },
                     {
@@ -2803,7 +2803,6 @@ const AdminDefinition = {
                             },
                         ],
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                        isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -6886,7 +6885,11 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableSharedChannels.desc'),
                         help_text_default: 'Toggles Shared Channels',
                         help_text_markdown: false,
-                        isHidden: it.not(it.licensedForFeature('SharedChannels')),
+                        isHidden: it.not(it.any(
+                            it.licensedForFeature('SharedChannels'),
+                            it.licensedForSku(LicenseSkus.Enterprise),
+                            it.licensedForSku(LicenseSkus.Professional),
+                        )),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {

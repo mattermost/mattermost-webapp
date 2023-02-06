@@ -25,6 +25,8 @@ import {closeModal} from 'actions/views/modals';
 
 import {GlobalState} from 'types/store';
 
+import {getRecentProfilesFromDMs} from 'mattermost-redux/selectors/entities/channels';
+
 import ChannelInviteModal from './channel_invite_modal';
 
 type UserProfileValue = Value & UserProfile;
@@ -59,7 +61,7 @@ function makeMapStateToProps(initialState: GlobalState, initialProps: OwnProps) 
             profilesInCurrentChannel = getProfilesInCurrentChannel(state) as UserProfileValue[];
             profilesNotInCurrentTeam = getProfilesNotInCurrentTeam(state) as UserProfileValue[];
         }
-
+        const profilesFromRecentDMs = getRecentProfilesFromDMs(state);
         const config = getConfig(state);
         const license = getLicense(state);
 
@@ -80,6 +82,7 @@ function makeMapStateToProps(initialState: GlobalState, initialProps: OwnProps) 
             profilesInCurrentChannel,
             profilesNotInCurrentTeam,
             teammateNameDisplaySetting,
+            profilesFromRecentDMs,
             userStatuses,
             canInviteGuests,
             emailInvitationsEnabled,

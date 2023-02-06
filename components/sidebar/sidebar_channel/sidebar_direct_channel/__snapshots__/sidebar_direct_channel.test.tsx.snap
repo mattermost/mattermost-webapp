@@ -21,7 +21,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       "update_at": 0,
     }
   }
-  closeHandler={[Function]}
+  channelLeaveHandler={[Function]}
   icon={
     <ProfilePicture
       hasMention={false}
@@ -35,7 +35,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       wrapperClass="DirectChannel__profile-picture"
     />
   }
-  isCollapsed={false}
   label="channel_display_name"
   link="/team_name/messages/@some-user"
   teammateId="user_id"
@@ -63,7 +62,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       "update_at": 0,
     }
   }
-  closeHandler={[Function]}
+  channelLeaveHandler={[Function]}
   icon={
     <ProfilePicture
       hasMention={false}
@@ -78,7 +77,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       wrapperClass="DirectChannel__profile-picture"
     />
   }
-  isCollapsed={false}
   label="channel_display_name"
   link="/team_name/messages/@some-user"
   teammateId="user_id"
@@ -106,7 +104,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       "update_at": 0,
     }
   }
-  closeHandler={[Function]}
+  channelLeaveHandler={[Function]}
   icon={
     <ProfilePicture
       hasMention={false}
@@ -120,7 +118,6 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       wrapperClass="DirectChannel__profile-picture"
     />
   }
-  isCollapsed={false}
   label="channel_display_name (you)"
   link="/team_name/messages/@some-user"
   teammateId="user_id"
@@ -148,13 +145,12 @@ exports[`components/sidebar/sidebar_channel/sidebar_direct_channel should match 
       "update_at": 0,
     }
   }
-  closeHandler={[Function]}
+  channelLeaveHandler={[Function]}
   icon={
     <i
       className="icon icon-archive-outline"
     />
   }
-  isCollapsed={false}
   label="channel_display_name"
   link="/team_name/messages/@some-user"
   teammateId="user_id"

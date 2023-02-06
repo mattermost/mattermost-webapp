@@ -127,7 +127,7 @@ export function loadMe(): ActionFunc {
             teams = transformToRecievedTeamsListReducerPayload(data.teamMembers);
             teamMemberships = transformToRecievedMyTeamMembersReducerPayload(data.teamMembers, data.user.id);
         } catch (error) {
-            dispatch(logError(error as ServerError, true, true));
+            dispatch(logError(error as ServerError));
             return {error: error as ServerError};
         }
 
@@ -191,7 +191,7 @@ export function getTotalUsersStats(): ActionFunc {
     });
 }
 
-export function getFilteredUsersStats(options: GetFilteredUsersStatsOpts = {}): ActionFunc {
+export function getFilteredUsersStats(options: GetFilteredUsersStatsOpts = {}, updateGlobalState = true): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let stats: UsersStats;
         try {
@@ -202,10 +202,12 @@ export function getFilteredUsersStats(options: GetFilteredUsersStatsOpts = {}): 
             return {error};
         }
 
-        dispatch({
-            type: UserTypes.RECEIVED_FILTERED_USER_STATS,
-            data: stats,
-        });
+        if (updateGlobalState) {
+            dispatch({
+                type: UserTypes.RECEIVED_FILTERED_USER_STATS,
+                data: stats,
+            });
+        }
 
         return {data: stats};
     };
@@ -560,13 +562,13 @@ export function updateMyTermsOfServiceStatus(termsOfServiceId: string, accepted:
     };
 }
 
-export function getProfilesInGroup(groupId: string, page = 0, perPage: number = General.PROFILE_CHUNK_SIZE): ActionFunc {
+export function getProfilesInGroup(groupId: string, page = 0, perPage: number = General.PROFILE_CHUNK_SIZE, sort = ''): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const {currentUserId} = getState().entities.users;
         let profiles;
 
         try {
-            profiles = await Client4.getProfilesInGroup(groupId, page, perPage);
+            profiles = await Client4.getProfilesInGroup(groupId, page, perPage, sort);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));

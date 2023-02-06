@@ -118,7 +118,7 @@ exports[`components/post_view/AddMembersButton should match snapshot, more than 
 </Provider>
 `;
 
-exports[`components/post_view/AddMembersButton should match snapshot, setHeader and createBoard 1`] = `
+exports[`components/post_view/AddMembersButton should match snapshot, setHeader and pluginButtons 1`] = `
 <Provider
   store={
     Object {
@@ -148,7 +148,7 @@ exports[`components/post_view/AddMembersButton should match snapshot, setHeader 
         "update_at": 1508265709607,
       }
     }
-    createBoard={
+    pluginButtons={
       <button>
         Create a board
       </button>

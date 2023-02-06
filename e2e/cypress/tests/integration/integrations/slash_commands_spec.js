@@ -260,7 +260,7 @@ describe('Integrations', () => {
         cy.uiPostMessageQuickly(`/${commandTrigger} `);
         cy.getLastPost().within(() => {
             // * Should come from the webhook bot
-            cy.get('.BotBadge').should('exist');
+            cy.get('.BotTag').should('exist');
 
             // * Should contain the "Hello World" text
             cy.findByText('Hello World').should('exist');

@@ -25,7 +25,6 @@ type Props = {
     currentUserId: string;
     redirectChannel: string;
     active: boolean;
-    isCollapsed: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean}>;
         leaveDirectChannel: (channelId: string) => Promise<{data: boolean}>;
@@ -105,9 +104,8 @@ class SidebarDirectChannel extends React.PureComponent<Props> {
                 channel={channel}
                 link={`/${currentTeamName}/messages/@${teammate.username}`}
                 label={displayName}
-                closeHandler={this.handleLeaveChannel}
+                channelLeaveHandler={this.handleLeaveChannel}
                 icon={this.getIcon()}
-                isCollapsed={this.props.isCollapsed}
             />
         );
     }

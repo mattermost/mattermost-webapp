@@ -8,9 +8,6 @@ import {AppField} from '@mattermost/types/apps';
 
 import TextSetting from 'components/widgets/settings/text_setting';
 
-import AutocompleteSelector from 'components/autocomplete_selector';
-import GenericUserProvider from 'components/suggestion/generic_user_provider';
-import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 import Markdown from 'components/markdown';
 
 import AppsFormField, {Props} from './apps_form_field';
@@ -213,7 +210,7 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             expect(wrapper.find(AppsFormSelectField).exists()).toBe(true);
         });
 
-        test('GenericUserProvider is used when field type is user', () => {
+        test('AppsFormSelectField is used when field type is user', () => {
             const wrapper = shallow(
                 <AppsFormField
                     {...baseDialogSelectProps}
@@ -225,11 +222,10 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
                 />,
             );
 
-            expect(wrapper.find(AutocompleteSelector).exists()).toBe(true);
-            expect(wrapper.find(AutocompleteSelector).prop('providers')[0]).toBeInstanceOf(GenericUserProvider);
+            expect(wrapper.find(AppsFormSelectField).exists()).toBe(true);
         });
 
-        test('GenericChannelProvider is used when field type is channel', () => {
+        test('AppsFormSelectField is used when field type is channel', () => {
             const wrapper = shallow(
                 <AppsFormField
                     {...baseDialogSelectProps}
@@ -241,8 +237,7 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
                 />,
             );
 
-            expect(wrapper.find(AutocompleteSelector).exists()).toBe(true);
-            expect(wrapper.find(AutocompleteSelector).prop('providers')[0]).toBeInstanceOf(GenericChannelProvider);
+            expect(wrapper.find(AppsFormSelectField).exists()).toBe(true);
         });
 
         test('AppSelectForm is rendered when options are undefined', () => {

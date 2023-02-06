@@ -144,6 +144,7 @@ export type PostsState = {
     openGraph: RelationOneToOne<Post, Record<string, OpenGraphMetadata>>;
     pendingPostIds: string[];
     selectedPostId: string;
+    postEditHistory: Post[];
     currentFocusedPostId: string;
     messagesHistory: MessageHistory;
     expandedURLs: Record<string, string>;
@@ -192,3 +193,13 @@ export declare type TeamsUsageResponse = {
     active: number;
     cloud_archived: number;
 };
+
+export type PostAnalytics = {
+    channel_id: string;
+    post_id: string;
+    user_actual_id: string;
+    root_id: string;
+    priority?: PostPriority|'';
+    requested_ack?: boolean;
+    persistent_notifications?: boolean;
+}

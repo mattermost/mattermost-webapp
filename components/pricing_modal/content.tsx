@@ -1,16 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {CloudLinks, CloudProducts, LicenseSkus, ModalIdentifiers, PaidFeatures, TELEMETRY_CATEGORIES, RecurringIntervals} from 'utils/constants';
-import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString, hasSomeLimits} from 'utils/limits';
-import {findProductBySkuAndInterval} from 'utils/products';
+import {fallbackStarterLimits, asGBString, hasSomeLimits} from 'utils/limits';
+import {findOnlyYearlyProducts, findProductBySku} from 'utils/products';
 
-import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
+import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal, openModal} from 'actions/views/modals';
@@ -31,9 +31,6 @@ import PlanLabel from 'components/common/plan_label';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
-import YearlyMonthlyToggle from 'components/yearly_monthly_toggle';
-
-import {isAnnualSubscriptionEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
@@ -62,26 +59,29 @@ function Content(props: ContentProps) {
     const openPricingModalBackAction = useOpenPricingModal();
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
-    const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
+    const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.UpgradeEnterprise);
 
     const subscription = useSelector(selectCloudSubscription);
-    const product = useSelector(selectSubscriptionProduct);
+    const currentProduct = useSelector(selectSubscriptionProduct);
     const products = useSelector(selectCloudProducts);
+    const yearlyProducts = findOnlyYearlyProducts(products || {}); // pricing modal should now only show yearly products
 
-    const annualSubscriptionEnabled = useSelector(isAnnualSubscriptionEnabled);
+    const contactSupportLink = useSelector(getCloudContactUsLink)(InquiryType.Technical);
 
-    const currentSubscriptionIsMonthly = product?.recurring_interval === RecurringIntervals.MONTH;
-    const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
+    const currentSubscriptionIsMonthly = currentProduct?.recurring_interval === RecurringIntervals.MONTH;
+    const isEnterprise = currentProduct?.sku === CloudProducts.ENTERPRISE;
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
-    const monthlyProfessionalProduct = findProductBySkuAndInterval(products || {}, CloudProducts.PROFESSIONAL, RecurringIntervals.MONTH);
-    const yearlyProfessionalProduct = findProductBySkuAndInterval(products || {}, CloudProducts.PROFESSIONAL, RecurringIntervals.YEAR);
+    const yearlyProfessionalProduct = findProductBySku(yearlyProducts, CloudProducts.PROFESSIONAL);
+    const professionalPrice = formatNumber((yearlyProfessionalProduct?.price_per_seat || 0) / 12, {maximumFractionDigits: 2});
 
     const starterProduct = Object.values(products || {}).find(((product) => {
         return product.sku === CloudProducts.STARTER;
     }));
 
-    const isStarter = product?.sku === CloudProducts.STARTER;
-    const isProfessional = product?.sku === CloudProducts.PROFESSIONAL;
+    const isStarter = currentProduct?.sku === CloudProducts.STARTER;
+    const isProfessional = currentProduct?.sku === CloudProducts.PROFESSIONAL;
+    const currentSubscriptionIsMonthlyProfessional = currentSubscriptionIsMonthly && isProfessional;
+    const isProfessionalAnnual = isProfessional && currentProduct?.recurring_interval === RecurringIntervals.YEAR;
 
     const isPreTrial = subscription?.trial_end_at === 0;
 
@@ -90,18 +90,21 @@ function Content(props: ContentProps) {
         isPostTrial = true;
     }
 
+    const freeTierText = (!isStarter && !currentSubscriptionIsMonthly) ? formatMessage({id: 'pricing_modal.btn.contactSupport', defaultMessage: 'Contact Support'}) : formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'});
+    const professionalTierText = currentSubscriptionIsMonthlyProfessional ? formatMessage({id: 'pricing_modal.btn.switch_to_annual', defaultMessage: 'Switch to annual billing'}) : formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
+
     const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
     const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
         isDelinquencyModal: true,
     });
     const openDowngradeModal = useOpenDowngradeModal();
-    const openPurchaseModal = (callerInfo: string, isMonthlyPlan: boolean) => {
+    const openPurchaseModal = (callerInfo: string) => {
         props.onHide();
         const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
         if (subscription?.delinquent_since) {
             openCloudDelinquencyModal({trackingLocation: telemetryInfo});
         }
-        openCloudPurchaseModal({trackingLocation: telemetryInfo}, isMonthlyPlan);
+        openCloudPurchaseModal({trackingLocation: telemetryInfo});
     };
 
     const closePricingModal = () => {
@@ -151,10 +154,12 @@ function Content(props: ContentProps) {
     const hasLimits = hasSomeLimits(limits);
 
     const starterBriefing = [
-        formatMessage({id: 'pricing_modal.briefing.free.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board cards'}, {messages: formatNumber(fallbackStarterLimits.messages.history), boards: fallbackStarterLimits.boards.cards}),
-        formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackStarterLimits.files.totalStorage, formatNumber)}),
+        formatMessage({id: 'pricing_modal.briefing.free.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages'}, {messages: formatNumber(fallbackStarterLimits.messages.history)}),
+        formatMessage({id: 'pricing_modal.briefing.storageStarter', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackStarterLimits.files.totalStorage, formatNumber)}),
+        formatMessage({id: 'pricing_modal.briefing.free.noLimitBoards', defaultMessage: 'Unlimited board cards'}),
         formatMessage({id: 'pricing_modal.briefing.free.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
-        formatMessage({id: 'pricing_modal.extra_briefing.free.calls', defaultMessage: '1:1 voice calls and screen share'}),
+        formatMessage({id: 'pricing_modal.briefing.free.gitLabGitHubGSuite', defaultMessage: 'GitLab, GitHub, and GSuite SSO'}),
+        formatMessage({id: 'pricing_modal.extra_briefing.cloud.free.calls', defaultMessage: 'Group calls of up to 8 people, 1:1 calls, and screen share'}),
     ];
 
     const legacyStarterBriefing = [
@@ -163,24 +168,6 @@ function Content(props: ContentProps) {
         formatMessage({id: 'admin.billing.subscription.planDetails.features.unlimittedUsersAndMessagingHistory', defaultMessage: 'Unlimited users & message history'}),
         formatMessage({id: 'admin.billing.subscription.planDetails.features.mfa', defaultMessage: 'Multi-Factor Authentication (MFA)'}),
     ];
-
-    // Default professional price
-    const monthlyProfessionalPrice = monthlyProfessionalProduct ? monthlyProfessionalProduct.price_per_seat : 0;
-    const yearlyProfessionalPrice = yearlyProfessionalProduct ? yearlyProfessionalProduct.price_per_seat / 12 : 0;
-    const defaultProfessionalPrice = currentSubscriptionIsMonthly ? monthlyProfessionalPrice : yearlyProfessionalPrice;
-    const [professionalPrice, setProfessionalPrice] = useState(defaultProfessionalPrice);
-    const [isMonthlyPlan, setIsMonthlyPlan] = useState(true);
-
-    // Set professional price
-    const updateProfessionalPrice = (newIsMonthly: boolean) => {
-        if (newIsMonthly) {
-            setProfessionalPrice(monthlyProfessionalPrice);
-            setIsMonthlyPlan(true);
-        } else if (!newIsMonthly && yearlyProfessionalProduct) {
-            setProfessionalPrice(yearlyProfessionalPrice);
-            setIsMonthlyPlan(false);
-        }
-    };
 
     return (
         <div className='Content'>
@@ -201,18 +188,6 @@ function Content(props: ContentProps) {
             </Modal.Header>
             <Modal.Body>
                 <div className='pricing-options-container'>
-                    {(annualSubscriptionEnabled && currentSubscriptionIsMonthly) &&
-                        <>
-                            <div className='save-text'>
-                                {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
-                            </div>
-                            <YearlyMonthlyToggle
-                                updatePrice={updateProfessionalPrice}
-                                isPurchases={false}
-                                isInitialPlanMonthly={true}
-                            />
-                        </>
-                    }
                     <div className='alert-option-container'>
                         <div className='alert-option'>
                             <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
@@ -250,9 +225,15 @@ function Content(props: ContentProps) {
                         planExtraInformation={<StarterDisclaimerCTA/>}
                         buttonDetails={{
                             action: () => {
+                                if (!isStarter && !currentSubscriptionIsMonthly) {
+                                    window.open(contactSupportLink, '_blank');
+                                    return;
+                                }
+
                                 if (!starterProduct) {
                                     return;
                                 }
+
                                 if (usage.teams.active > 1) {
                                     dispatch(
                                         openModal({
@@ -268,9 +249,9 @@ function Content(props: ContentProps) {
                                     downgrade('click_pricing_modal_free_card_downgrade_button');
                                 }
                             },
-                            text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
-                            disabled: isStarter || isEnterprise || !isAdmin || !currentSubscriptionIsMonthly,
-                            customClass: ButtonCustomiserClasses.secondary,
+                            text: freeTierText,
+                            disabled: isStarter || isEnterprise || !isAdmin,
+                            customClass: (isStarter || isEnterprise || !isAdmin) ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.secondary,
                         }}
                         briefing={{
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
@@ -284,7 +265,14 @@ function Content(props: ContentProps) {
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
                         price={`$${professionalPrice}`}
-                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month'})}
+                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month {br}<b>(billed annually)</b>'}, {
+                            br: <br/>,
+                            b: (chunks: React.ReactNode | React.ReactNodeArray) => (
+                                <span style={{fontSize: '14px'}}>
+                                    <b>{chunks}</b>
+                                </span>
+                            ),
+                        })}
                         planLabel={
                             isProfessional ? (
                                 <PlanLabel
@@ -304,18 +292,18 @@ function Content(props: ContentProps) {
                                 callerInfo='professional_plan_pricing_modal_card'
                             />) : undefined}
                         buttonDetails={{
-                            action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button', isMonthlyPlan),
-                            text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
-                            disabled: !isAdmin || (isProfessional && !currentSubscriptionIsMonthly) || (isProfessional && currentSubscriptionIsMonthly === isMonthlyPlan) || (isEnterprise && !isEnterpriseTrial),
+                            action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button'),
+                            text: professionalTierText,
+                            disabled: !isAdmin || isProfessionalAnnual || (isEnterprise && !isEnterpriseTrial),
                             customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
                         }}
                         briefing={{
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: [
-                                formatMessage({id: 'pricing_modal.briefing.professional.messageBoardsIntegrationsCalls', defaultMessage: 'Unlimited access to messages and boards history, teams, and calls'}),
-                                formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackProfessionalLimits.files.totalStorage, formatNumber)}),
+                                formatMessage({id: 'pricing_modal.briefing.professional.messageBoardsIntegrationsCalls', defaultMessage: 'Unlimited access to messages and files'}),
+                                formatMessage({id: 'pricing_modal.briefing.professional.unLimitedTeams', defaultMessage: 'Unlimited teams'}),
                                 formatMessage({id: 'pricing_modal.briefing.professional.advancedPlaybook', defaultMessage: 'Advanced Playbook workflows with retrospectives'}),
-                                formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin and ADFS'}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin, and ADFS'}),
                                 formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoadLdap', defaultMessage: 'SSO support with AD/LDAP, Google, O365, OpenID'}),
                                 formatMessage({id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement'}),
                             ],
@@ -380,11 +368,10 @@ function Content(props: ContentProps) {
                         briefing={{
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: [
-                                formatMessage({id: 'pricing_modal.briefing.enterprise.unlimitedFileStorage', defaultMessage: 'Unlimited file storage'}),
                                 formatMessage({id: 'pricing_modal.briefing.enterprise.groupSync', defaultMessage: 'AD/LDAP group sync'}),
-                                formatMessage({id: 'pricing_modal.briefing.enterprise.mobileSecurity', defaultMessage: 'Advanced mobile security via ID-only push notifications'}),
                                 formatMessage({id: 'pricing_modal.briefing.enterprise.rolesAndPermissions', defaultMessage: 'Advanced roles and permissions'}),
                                 formatMessage({id: 'pricing_modal.briefing.enterprise.advancedComplianceManagement', defaultMessage: 'Advanced compliance management'}),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.mobileSecurity', defaultMessage: 'Advanced mobile security via ID-only push notifications'}),
                                 formatMessage({id: 'pricing_modal.extra_briefing.enterprise.playBookAnalytics', defaultMessage: 'Playbook analytics dashboard'}),
                             ],
                         }}
