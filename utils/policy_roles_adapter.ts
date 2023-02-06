@@ -128,7 +128,7 @@ function roleNamesInMapping() {
 
     Object.values(MAPPING).forEach((v1) => {
         Object.values(v1).forEach((v2) => {
-            const names = v2.map((item) => item.roleName); // eslint-disable-line max-nested-callbacks
+            const names = v2.map((item) => item.roleName);
             roleNames = roleNames.concat(names);
         });
     });
