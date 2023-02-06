@@ -84,15 +84,8 @@
         .more-modal__row {
             align-items: normal;
 
-            .tag {
-                padding: 3px 5px;
-                margin-left: 10px;
-                background-color: $gray;
-                border-radius: 4px;
-                color: $white;
-                cursor: help;
-                font-size: 0.8em;
-                font-weight: bold;
+            .marketplace__tag {
+                margin-left: 6px;
             }
 
             .update {

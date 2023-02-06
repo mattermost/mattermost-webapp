@@ -5,13 +5,14 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 
+import {General} from 'mattermost-redux/constants';
+
+import {Value} from 'components/multiselect/multiselect';
+import ChannelInviteModal from 'components/channel_invite_modal/channel_invite_modal';
+
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
 import {RelationOneToOne} from '@mattermost/types/utilities';
-
-import {Value} from 'components/multiselect/multiselect';
-
-import ChannelInviteModal from 'components/channel_invite_modal/channel_invite_modal';
 
 type UserProfileValue = Value & UserProfile;
 
@@ -53,7 +54,9 @@ describe('components/channel_invite_modal', () => {
         profilesNotInCurrentChannel: [],
         profilesInCurrentChannel: [],
         profilesNotInCurrentTeam: [],
+        profilesFromRecentDMs: [],
         userStatuses: {},
+        teammateNameDisplaySetting: General.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
         actions: {
             addUsersToChannel: jest.fn().mockImplementation(() => {
                 const error = {
@@ -80,6 +83,20 @@ describe('components/channel_invite_modal', () => {
                 profilesNotInCurrentChannel={users}
                 profilesInCurrentChannel={[]}
                 profilesNotInCurrentTeam={[]}
+                profilesFromRecentDMs={[]}
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot for channel_invite_modal with profiles from DMs', () => {
+        const wrapper = shallow(
+            <ChannelInviteModal
+                {...baseProps}
+                profilesNotInCurrentChannel={[]}
+                profilesInCurrentChannel={[]}
+                profilesNotInCurrentTeam={[]}
+                profilesFromRecentDMs={users}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -92,6 +109,7 @@ describe('components/channel_invite_modal', () => {
                 profilesNotInCurrentChannel={users}
                 profilesInCurrentChannel={[]}
                 profilesNotInCurrentTeam={[]}
+                profilesFromRecentDMs={[]}
                 includeUsers={
                     {
                         'user-3': {
@@ -124,6 +142,7 @@ describe('components/channel_invite_modal', () => {
                 profilesNotInCurrentChannel={users}
                 profilesInCurrentChannel={[]}
                 userStatuses={userStatuses}
+                profilesFromRecentDMs={[]}
             />,
         );
         const instance = wrapper.instance() as ChannelInviteModal;

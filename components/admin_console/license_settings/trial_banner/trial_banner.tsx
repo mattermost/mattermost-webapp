@@ -16,7 +16,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {format} from 'utils/markdown';
 
-import {LicenseLinks, Preferences, Unique} from 'utils/constants';
+import {AboutLinks, LicenseLinks, Preferences, Unique} from 'utils/constants';
 
 import {GlobalState} from 'types/store';
 import store from 'stores/redux_store.jsx';
@@ -224,12 +224,12 @@ const TrialBanner = ({
                 />
                 <FormattedMessage
                     id='admin.license.trial-request.accept-terms'
-                    defaultMessage='By clicking <strong>Start trial</strong>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
+                    defaultMessage='By clicking <strong>Start trial</strong>, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
                     values={{
                         strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
                         linkEvaluation: (msg: React.ReactNode) => (
                             <a
-                                href='https://mattermost.com/software-evaluation-agreement'
+                                href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
                                 target='_blank'
                                 rel='noreferrer'
                             >
@@ -238,7 +238,7 @@ const TrialBanner = ({
                         ),
                         linkPrivacy: (msg: React.ReactNode) => (
                             <a
-                                href='https://mattermost.com/privacy-policy/'
+                                href={AboutLinks.PRIVACY_POLICY}
                                 target='_blank'
                                 rel='noreferrer'
                             >
@@ -294,12 +294,12 @@ const TrialBanner = ({
                 <p className='upgrade-legal-terms'>
                     <FormattedMessage
                         id='admin.license.upgrade-and-trial-request.accept-terms-initial-part'
-                        defaultMessage='By selecting <strong>Upgrade Server And Start trial</strong>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails. '
+                        defaultMessage='By selecting <strong>Upgrade Server And Start trial</strong>, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails. '
                         values={{
                             strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
                             linkEvaluation: (msg: React.ReactNode) => (
                                 <a
-                                    href='https://mattermost.com/software-evaluation-agreement/'
+                                    href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -308,7 +308,7 @@ const TrialBanner = ({
                             ),
                             linkPrivacy: (msg: React.ReactNode) => (
                                 <a
-                                    href='https://mattermost.com/privacy-policy/'
+                                    href={AboutLinks.PRIVACY_POLICY}
                                     target='_blank'
                                     rel='noreferrer'
                                 >

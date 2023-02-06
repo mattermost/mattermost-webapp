@@ -28,12 +28,18 @@ describe('Actions.Users', () => {
             entities: {
                 general: {
                     config: {
-                        FeatureFlagCollapsedThreads: 'true',
                         CollapsedThreads: 'always_on',
                     },
                 },
             },
         });
+
+        Client4.setUserId('');
+        Client4.setUserRoles('');
+    });
+
+    afterEach(() => {
+        nock.cleanAll();
     });
 
     afterAll(() => {

@@ -105,12 +105,12 @@ declare namespace Cypress {
         /**
          * Open user menu
          *
-         * @param {string} item - menu item ex. Profile, Logout, etc.
+         * @param {string} [item] - menu item ex. Profile, Logout, etc.
          *
          * @example
          *   cy.uiOpenUserMenu();
          */
-        uiOpenUserMenu(option: Record<string, boolean>): Chainable;
+        uiOpenUserMenu(item?: string): Chainable;
 
         /**
          * Get search form container
@@ -159,6 +159,14 @@ declare namespace Cypress {
          *   cy.uiGetSettingsModal();
          */
         uiGetSettingsModal(): Chainable;
+
+        /**
+         * Get channel info button
+         *
+         * @example
+         *  cy.uiGetChannelInfoButton();
+         */
+        uiGetChannelInfoButton(): Chainable;
 
         /**
          * Open settings modal

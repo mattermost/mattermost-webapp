@@ -15,7 +15,7 @@ export enum SIZE {
     LARGE = 'large',
 }
 
-export type CustomMessageInputType = {type: 'info' | 'error' | 'warning' | 'success'; value: string} | null;
+export type CustomMessageInputType = {type: 'info' | 'error' | 'warning' | 'success'; value: React.ReactNode} | null;
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     required?: boolean;
@@ -30,7 +30,6 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     inputClassName?: string;
     limit?: number;
     useLegend?: boolean;
-
     customMessage?: CustomMessageInputType;
     inputSize?: SIZE;
 }
@@ -70,7 +69,17 @@ const Input = React.forwardRef((
     const [customInputLabel, setCustomInputLabel] = useState<CustomMessageInputType>(null);
 
     useEffect(() => {
-        if (customMessage !== undefined && customMessage !== null && customMessage.value !== '') {
+        if (customMessage === undefined || customMessage === null) {
+            if (customInputLabel !== null) {
+                // edge-use case: a consumer of this component may have its input updated
+                // from more than one place, such as by a network fetching data after load
+                // in that case, we need to remove the error according to the response
+                setCustomInputLabel(customMessage || null);
+            }
+            return;
+        }
+
+        if (customMessage !== undefined && customMessage !== null && Boolean(customMessage.value)) {
             setCustomInputLabel(customMessage);
         }
     }, [customMessage]);

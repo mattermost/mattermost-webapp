@@ -2,21 +2,15 @@
 // See LICENSE.txt for license information.
 
 import {General, Posts, RequestStatus} from 'mattermost-redux/constants';
-import {leaveChannel, markChannelAsRead} from 'mattermost-redux/actions/channels';
+import {leaveChannel, markChannelAsRead, getChannel} from 'mattermost-redux/actions/channels';
 import * as UserActions from 'mattermost-redux/actions/users';
 import * as PostActions from 'mattermost-redux/actions/posts';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import * as Actions from 'actions/views/channel';
 import {closeRightHandSide} from 'actions/views/rhs';
 import mockStore from 'tests/test_store';
 import {ActionTypes, PostRequestTypes} from 'utils/constants';
-
-jest.mock('utils/browser_history', () => ({
-    browserHistory: {
-        push: jest.fn(),
-    },
-}));
 
 jest.mock('utils/channel_utils.tsx', () => {
     const original = jest.requireActual('utils/channel_utils.tsx');
@@ -33,6 +27,10 @@ jest.mock('mattermost-redux/actions/channels', () => ({
     ...jest.requireActual('mattermost-redux/actions/channels'),
     markChannelAsRead: jest.fn(() => ({type: ''})),
     leaveChannel: jest.fn(() => ({type: ''})),
+    getChannel: jest.fn(() => ({
+        type: 'RECEIVED_CHANNEL',
+        data: {team_id: 'teamid1', id: 'non-existing-channelid', name: 'non-existing-channel', display_name: 'Channel 1', type: 'O'},
+    })),
 }));
 
 jest.mock('actions/views/rhs', () => ({
@@ -121,19 +119,32 @@ describe('channel view actions', () => {
     describe('switchToChannel', () => {
         test('switch to public channel', () => {
             store.dispatch(Actions.switchToChannel(channel1));
-            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/${channel1.name}`);
+            expect(getHistory().push).toHaveBeenCalledWith(`/${team1.name}/channels/${channel1.name}`);
         });
 
         test('switch to gm channel', async () => {
             await store.dispatch(Actions.switchToChannel(gmChannel));
-            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/${gmChannel.name}`);
+            expect(getHistory().push).toHaveBeenCalledWith(`/${team1.name}/channels/${gmChannel.name}`);
+        });
+    });
+
+    describe('loadIfNecessaryAndSwitchToChannelById', () => {
+        test('existing channel', () => {
+            store.dispatch(Actions.loadIfNecessaryAndSwitchToChannelById(channel1.id));
+            expect(getHistory().push).toHaveBeenCalledWith(`/${team1.name}/channels/${channel1.name}`);
+        });
+
+        test('non-existing channel', async () => {
+            await store.dispatch(Actions.loadIfNecessaryAndSwitchToChannelById('non-existing-channelid'));
+            expect(getChannel).toHaveBeenCalledWith('non-existing-channelid');
+            expect(getHistory().push).toHaveBeenCalledWith(`/${team1.name}/channels/non-existing-channel`);
         });
     });
 
     describe('leaveChannel', () => {
         test('leave a channel successfully', async () => {
             await store.dispatch(Actions.leaveChannel('channelid1'));
-            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}`);
+            expect(getHistory().push).toHaveBeenCalledWith(`/${team1.name}`);
             expect(leaveChannel).toHaveBeenCalledWith('channelid1');
             expect(closeRightHandSide).not.toHaveBeenCalled();
         });
@@ -148,7 +159,7 @@ describe('channel view actions', () => {
                 },
             });
             await store.dispatch(Actions.leaveChannel('channelid1'));
-            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}`);
+            expect(getHistory().push).toHaveBeenCalledWith(`/${team1.name}`);
             expect(leaveChannel).toHaveBeenCalledWith('channelid1');
             expect(closeRightHandSide).toHaveBeenCalled();
         });
@@ -167,7 +178,7 @@ describe('channel view actions', () => {
             });
 
             await store.dispatch(Actions.leaveChannel('channelid1'));
-            expect(browserHistory.push).toHaveBeenCalledWith('/');
+            expect(getHistory().push).toHaveBeenCalledWith('/');
             expect(leaveChannel).toHaveBeenCalledWith('channelid1');
         });
     });
@@ -175,7 +186,7 @@ describe('channel view actions', () => {
     describe('goToLastViewedChannel', () => {
         test('should switch to town square if last viewed channel is current channel', async () => {
             await store.dispatch(Actions.goToLastViewedChannel());
-            expect(browserHistory.push).toHaveBeenCalledWith(`/${team1.name}/channels/${General.DEFAULT_CHANNEL}`);
+            expect(getHistory().push).toHaveBeenCalledWith(`/${team1.name}/channels/${General.DEFAULT_CHANNEL}`);
         });
     });
 

@@ -2,6 +2,41 @@
 
 exports[`at mention suggestion Should display nick name of non signed in user 1`] = `
 <AtMentionSuggestion
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "defaultRichTextElements": undefined,
+      "formatDate": [Function],
+      "formatDateTimeRange": [Function],
+      "formatDateToParts": [Function],
+      "formatDisplayName": [Function],
+      "formatList": [Function],
+      "formatListToParts": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatNumberToParts": [Function],
+      "formatPlural": [Function],
+      "formatRelativeTime": [Function],
+      "formatTime": [Function],
+      "formatTimeToParts": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getDisplayNames": [Function],
+        "getListFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
+  }
   item={
     Object {
       "first_name": "a",
@@ -36,6 +71,7 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
           <img
             alt="user2 profile image"
             className="Avatar Avatar-sm"
+            loading="lazy"
             onError={[Function]}
             src="/api/v4/users/userid2/image?_=0"
             tabIndex={0}
@@ -55,20 +91,6 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
       >
         @user2
       </span>
-      <BotBadge
-        className="badge-autocomplete"
-        show={false}
-      >
-        <Memo(Badge)
-          className="BotBadge badge-autocomplete"
-          show={false}
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="BOT"
-            id="post_info.bot"
-          />
-        </Memo(Badge)>
-      </BotBadge>
       <Component
         emojiSize={15}
         emojiStyle={
@@ -81,25 +103,7 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
       >
         <div />
       </Component>
-      <span
-        className="ml-2"
-      >
-        a b (c)
-      </span>
-      <GuestBadge
-        className="badge-autocomplete"
-        show={false}
-      >
-        <Memo(Badge)
-          className="GuestBadge badge-autocomplete"
-          show={false}
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="GUEST"
-            id="post_info.guest"
-          />
-        </Memo(Badge)>
-      </GuestBadge>
+      a b (c)
     </span>
   </div>
 </AtMentionSuggestion>
@@ -107,6 +111,41 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
 
 exports[`at mention suggestion Should not display nick name of the signed in user 1`] = `
 <AtMentionSuggestion
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "defaultRichTextElements": undefined,
+      "formatDate": [Function],
+      "formatDateTimeRange": [Function],
+      "formatDateToParts": [Function],
+      "formatDisplayName": [Function],
+      "formatList": [Function],
+      "formatListToParts": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatNumberToParts": [Function],
+      "formatPlural": [Function],
+      "formatRelativeTime": [Function],
+      "formatTime": [Function],
+      "formatTimeToParts": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getDisplayNames": [Function],
+        "getListFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
+  }
   item={
     Object {
       "first_name": "a",
@@ -142,6 +181,7 @@ exports[`at mention suggestion Should not display nick name of the signed in use
           <img
             alt="user profile image"
             className="Avatar Avatar-sm"
+            loading="lazy"
             onError={[Function]}
             src="/api/v4/users/userid1/image?_=0"
             tabIndex={0}
@@ -161,20 +201,6 @@ exports[`at mention suggestion Should not display nick name of the signed in use
       >
         @user
       </span>
-      <BotBadge
-        className="badge-autocomplete"
-        show={false}
-      >
-        <Memo(Badge)
-          className="BotBadge badge-autocomplete"
-          show={false}
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="BOT"
-            id="post_info.bot"
-          />
-        </Memo(Badge)>
-      </BotBadge>
       <Component
         emojiSize={15}
         emojiStyle={
@@ -187,37 +213,15 @@ exports[`at mention suggestion Should not display nick name of the signed in use
       >
         <div />
       </Component>
-      <span
-        className="ml-2"
+      a b
+      <FormattedMessage
+        defaultMessage="(you)"
+        id="suggestion.user.isCurrent"
       >
-        a b
-      </span>
-      <span
-        className="ml-1"
-      >
-        <FormattedMessage
-          defaultMessage="(you)"
-          id="suggestion.user.isCurrent"
-        >
-          <span>
-            (you)
-          </span>
-        </FormattedMessage>
-      </span>
-      <GuestBadge
-        className="badge-autocomplete"
-        show={false}
-      >
-        <Memo(Badge)
-          className="GuestBadge badge-autocomplete"
-          show={false}
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="GUEST"
-            id="post_info.guest"
-          />
-        </Memo(Badge)>
-      </GuestBadge>
+        <span>
+          (you)
+        </span>
+      </FormattedMessage>
     </span>
   </div>
 </AtMentionSuggestion>

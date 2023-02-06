@@ -18,7 +18,7 @@ import TitleAndButtonCardHeader from 'components/card/title_and_button_card_head
 import JobsTable from 'components/admin_console/jobs';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {JobTypeBase, JobType} from '@mattermost/types/jobs';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -226,7 +226,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                             <Menu.ItemAction
                                 show={true}
                                 onClick={() => {
-                                    browserHistory.push('/admin_console/compliance/data_retention_settings/global_policy');
+                                    getHistory().push('/admin_console/compliance/data_retention_settings/global_policy');
                                 }}
                                 text={Utils.localizeMessage('admin.data_retention.globalPoliciesTable.edit', 'Edit')}
                                 disabled={false}
@@ -237,7 +237,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                 ),
             },
             onClick: () => {
-                browserHistory.push('/admin_console/compliance/data_retention_settings/global_policy');
+                getHistory().push('/admin_console/compliance/data_retention_settings/global_policy');
             },
         }];
     }
@@ -306,7 +306,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                 <Menu.ItemAction
                                     show={true}
                                     onClick={() => {
-                                        browserHistory.push(`/admin_console/compliance/data_retention_settings/custom_policy/${policy.id}`);
+                                        getHistory().push(`/admin_console/compliance/data_retention_settings/custom_policy/${policy.id}`);
                                     }}
                                     text={Utils.localizeMessage('admin.data_retention.globalPoliciesTable.edit', 'Edit')}
                                     disabled={false}
@@ -324,7 +324,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                     ),
                 },
                 onClick: () => {
-                    browserHistory.push(`/admin_console/compliance/data_retention_settings/custom_policy/${policy.id}`);
+                    getHistory().push(`/admin_console/compliance/data_retention_settings/custom_policy/${policy.id}`);
                 },
             };
         });
@@ -526,7 +526,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                         />
                                     }
                                     onClick={() => {
-                                        browserHistory.push('/admin_console/compliance/data_retention_settings/custom_policy');
+                                        getHistory().push('/admin_console/compliance/data_retention_settings/custom_policy');
                                     }}
                                 />
                             </Card.Header>
@@ -573,6 +573,7 @@ export default class DataRetentionSettings extends React.PureComponent<Props, St
                                             defaultMessage='Run Deletion Job Now'
                                         />
                                     }
+                                    isDisabled={String(DataRetentionSettings?.EnableMessageDeletion) !== 'true' && String(DataRetentionSettings?.EnableFileDeletion) !== 'true' && (this.props.customPoliciesCount === 0)}
                                     onClick={this.handleCreateJob}
                                 />
                             </Card.Header>

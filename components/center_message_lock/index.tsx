@@ -7,8 +7,6 @@ import {useSelector} from 'react-redux';
 
 import {EyeOffOutlineIcon} from '@mattermost/compass-icons/components';
 
-import {GlobalState} from '@mattermost/types/store';
-
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -17,9 +15,12 @@ import {getOldestPostTimeInChannel} from 'mattermost-redux/selectors/entities/po
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
+import {NotifyStatus} from 'components/common/hooks/useGetNotifyAdmin';
 import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
 
 import {LicenseSkus, PaidFeatures} from 'utils/constants';
+
+import {GlobalState} from '@mattermost/types/store';
 
 import './index.scss';
 
@@ -53,7 +54,7 @@ export default function CenterMessageLock(props: Props) {
     // The message then shows that the user can retrieve messages prior to the day
     // **after** the most recent day with inaccessible posts.
     const oldestPostTime = useSelector((state: GlobalState) => getOldestPostTimeInChannel(state, props.channelId || '')) || getNextDay(props.firstInaccessiblePostTime);
-    const [notifyAdminStatus, notifyAdmin] = useNotifyAdmin({
+    const [notifyAdminBtnText, notifyAdmin, notifyRequestStatus] = useNotifyAdmin({
         ctaText: intl.formatMessage({
             id: 'workspace_limits.message_history.locked.cta.end_user',
             defaultMessage: 'Notify Admin',
@@ -100,8 +101,9 @@ export default function CenterMessageLock(props: Props) {
         <button
             className='btn btn-primary'
             onClick={(e) => notifyAdmin(e, 'center_channel_posts_over_limit_banner')}
+            disabled={notifyRequestStatus === NotifyStatus.AlreadyComplete}
         >
-            {notifyAdminStatus}
+            {notifyAdminBtnText}
         </button>);
 
     if (isAdminUser) {
@@ -148,7 +150,7 @@ export default function CenterMessageLock(props: Props) {
 
     return (<div className='CenterMessageLock'>
         <div className='CenterMessageLock__left'>
-            <EyeOffOutlineIcon color={'rgba(var(--center-channel-text-rgb), 0.72)'}/>
+            <EyeOffOutlineIcon color={'rgba(var(--center-channel-color-rgb), 0.72)'}/>
         </div>
         <div className='CenterMessageLock__right'>
             <div className='CenterMessageLock__title'>

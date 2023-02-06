@@ -8,9 +8,10 @@ import {Provider} from 'react-redux';
 import {renderWithIntl} from 'tests/react_testing_utils';
 import mockStore from 'tests/test_store';
 
-import {LimitTypes, LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
+import {LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 
 import {FileSizes} from 'utils/file_utils';
+import {LimitTypes} from 'utils/limits';
 
 import useWords from './useWords';
 
@@ -50,7 +51,7 @@ const asAdmin = (highestLimit: LimitSummary | false): Props => ({isAdminUser: tr
 const asUser = (highestLimit: LimitSummary | false): Props => ({isAdminUser: false, highestLimit});
 const mkLimit = (id: LimitSummary['id'], usage: LimitSummary['usage'], limit: LimitSummary['limit']): LimitSummary => ({id, usage, limit});
 
-const tenGb = 10 * FileSizes.Gigabyte;
+const oneGb = FileSizes.Gigabyte;
 
 describe('useWords', () => {
     const tests: Test[] = [
@@ -102,124 +103,59 @@ describe('useWords', () => {
         },
         {
             label: 'shows file storage warn',
-            props: asAdmin(mkLimit(LimitTypes.fileStorage, 5 * FileSizes.Gigabyte, tenGb)),
+            props: asAdmin(mkLimit(LimitTypes.fileStorage, 0.5 * FileSizes.Gigabyte, oneGb)),
             expects: {
                 title: 'File storage limit',
-                description: /closer.*10GB.*limit/,
-                status: '5GB',
+                description: /closer.*1GB.*limit/,
+                status: '0.5GB',
             },
         },
         {
             label: 'shows file storage critical',
-            props: asAdmin(mkLimit(LimitTypes.fileStorage, 8 * FileSizes.Gigabyte, tenGb)),
+            props: asAdmin(mkLimit(LimitTypes.fileStorage, 0.8 * FileSizes.Gigabyte, oneGb)),
             expects: {
                 title: 'File storage limit',
-                description: /closer.*10GB.*limit/,
-                status: '8GB',
+                description: /closer.*1GB.*limit/,
+                status: '0.8GB',
             },
         },
         {
             label: 'shows file storage reached',
-            props: asAdmin(mkLimit(LimitTypes.fileStorage, 10 * FileSizes.Gigabyte, tenGb)),
+            props: asAdmin(mkLimit(LimitTypes.fileStorage, FileSizes.Gigabyte, oneGb)),
             expects: {
                 title: 'File storage limit',
-                description: /reached.*10GB.*limit/,
-                status: '10GB',
+                description: /reached.*1GB.*limit/,
+                status: '1GB',
             },
         },
         {
             label: 'shows file storage exceeded',
-            props: asAdmin(mkLimit(LimitTypes.fileStorage, 11 * FileSizes.Gigabyte, tenGb)),
+            props: asAdmin(mkLimit(LimitTypes.fileStorage, 1.1 * FileSizes.Gigabyte, oneGb)),
             expects: {
                 title: 'File storage limit',
-                description: /over.*10GB.*limit/,
-                status: '11GB',
-            },
-        },
-        {
-            label: 'shows integrations warn',
-            props: asAdmin(mkLimit(LimitTypes.enabledIntegrations, 3, 5)),
-            expects: {
-                title: 'Integrations limit',
-                description: /closer.*5.*enabled/,
-                status: '3',
-            },
-        },
-        {
-            label: 'shows integrations critical',
-            props: asAdmin(mkLimit(LimitTypes.enabledIntegrations, 4, 5)),
-            expects: {
-                title: 'Integrations limit',
-                description: /closer.*5.*enabled/,
-                status: '4',
-            },
-        },
-        {
-            label: 'shows integrations reached',
-            props: asAdmin(mkLimit(LimitTypes.enabledIntegrations, 5, 5)),
-            expects: {
-                title: 'Integrations limit',
-                description: /reached.*5.*enabled.*can’t enable additional/,
-                status: '5',
-            },
-        },
-        {
-            label: 'shows integrations exceeded',
-            props: asAdmin(mkLimit(LimitTypes.enabledIntegrations, 6, 5)),
-            expects: {
-                title: 'Integrations limit',
-                description: /reached.*5.*enabled.*can’t enable additional/,
-                status: '6',
-            },
-        },
-        {
-            label: 'shows boards warn',
-            props: asAdmin(mkLimit(LimitTypes.boardsCards, 300, 500)),
-            expects: {
-                title: 'Board card limit',
-                description: /closer.*500.*board card limit/,
-                status: '300',
-            },
-        },
-        {
-            label: 'shows boards critical',
-            props: asAdmin(mkLimit(LimitTypes.boardsCards, 400, 500)),
-            expects: {
-                title: 'Board card limit',
-                description: /closer.*500.*board card limit/,
-                status: '400',
-            },
-        },
-        {
-            label: 'shows boards exceeded',
-            props: asAdmin(mkLimit(LimitTypes.boardsCards, 500, 500)),
-            expects: {
-                title: 'Board card limit',
-                description: /reached the.*500.*board card limit/,
-                status: '500',
-            },
-        },
-        {
-            label: 'shows boards exceeded',
-            props: asAdmin(mkLimit(LimitTypes.boardsCards, 501, 500)),
-            expects: {
-                title: 'Board card limit',
-                description: /over the.*500.*board card limit/,
-                status: '501',
+                description: /over.*1GB.*limit/,
+                status: '1.1GB',
             },
         },
         {
             label: 'admin prompted to upgrade',
-            props: asAdmin(mkLimit(LimitTypes.boardsCards, 301, 500)),
+            props: asAdmin(mkLimit(LimitTypes.messageHistory, 6000, 10000)),
             expects: {
                 description: 'View upgrade options.',
             },
         },
         {
             label: 'end user prompted to view plans',
-            props: asUser(mkLimit(LimitTypes.boardsCards, 301, 500)),
+            props: asUser(mkLimit(LimitTypes.messageHistory, 6000, 10000)),
             expects: {
                 description: 'View plans',
+            },
+        },
+        {
+            label: 'end user prompted to notify admin when over limit',
+            props: asUser(mkLimit(LimitTypes.messageHistory, 11000, 10000)),
+            expects: {
+                description: 'Notify admin',
             },
         },
     ];

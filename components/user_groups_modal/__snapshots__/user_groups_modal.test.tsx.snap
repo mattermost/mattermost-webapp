@@ -330,6 +330,7 @@ exports[`component/user_groups_modal should match snapshot without groups 1`] = 
     <NoResultsIndicator
       variant="UserGroups"
     />
+    <ADLDAPUpsellBanner />
   </ModalBody>
 </Modal>
 `;

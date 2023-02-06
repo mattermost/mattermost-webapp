@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {AxiosResponse} from 'axios';
 
 import {ChainableT} from '../types';
@@ -85,7 +86,11 @@ Cypress.Commands.add('reactToMessageAs', ({sender, postId, reaction}) => {
 * @param {Object} data - payload on incoming webhook
 */
 
-function postIncomingWebhook({url, data, waitFor}): ChainableT {
+function postIncomingWebhook({url, data, waitFor}: {
+    url: string;
+    data: Record<string, any>;
+    waitFor?: string;
+}): ChainableT {
     cy.task('postIncomingWebhook', {url, data}).its('status').should('be.equal', 200);
 
     if (!waitFor) {
@@ -111,8 +116,7 @@ function postIncomingWebhook({url, data, waitFor}): ChainableT {
 Cypress.Commands.add('postIncomingWebhook', postIncomingWebhook);
 
 interface ExternalRequestArg<T> {
-    user: {
-    };
+    user: Record<string, unknown>;
     method: string;
     path: string;
     data?: T;

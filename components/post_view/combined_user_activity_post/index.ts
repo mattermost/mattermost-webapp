@@ -5,21 +5,29 @@ import {connect} from 'react-redux';
 
 import {makeGenerateCombinedPost} from 'mattermost-redux/utils/post_list';
 
-import {GlobalState} from '@mattermost/types/store';
+import {GlobalState} from 'types/store';
 
-import Post from 'components/post_view/post';
+import Post from 'components/post';
+import {shouldShowDotMenu} from 'utils/post_utils';
 
 type Props = {
     combinedId: string;
+    shouldHighlight?: boolean;
+    shouldShowDotMenu?: boolean;
 }
 
 function makeMapStateToProps() {
     const generateCombinedPost = makeGenerateCombinedPost();
 
     return (state: GlobalState, ownProps: Props) => {
+        const post = generateCombinedPost(state, ownProps.combinedId);
+        const channel = state.entities.channels.channels[post.channel_id];
+
         return {
-            post: generateCombinedPost(state, ownProps.combinedId),
+            post,
             postId: ownProps.combinedId,
+            shouldHighlight: ownProps.shouldHighlight,
+            shouldShowDotMenu: shouldShowDotMenu(state, post, channel),
         };
     };
 }

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {Client4} from 'mattermost-redux/client';
 import {RoleTypes} from 'mattermost-redux/action_types';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
@@ -72,7 +73,8 @@ export function loadRolesIfNeeded(roles: Iterable<string>): ActionFunc {
 
         try {
             pendingRoles = new Set<string>(state.entities.roles.pending);
-        } catch (e) {// eslint-disable-line
+        } catch (e) {
+            // do nothing
         }
 
         for (const role of roles) {
@@ -101,4 +103,8 @@ export function loadRolesIfNeeded(roles: Iterable<string>): ActionFunc {
         }
         return {data: state.entities.roles.roles};
     };
+}
+
+export function convertRolesNamesArrayToString(roles: Role[]): string {
+    return roles.map((role) => role.name!).join(' ') ?? '';
 }

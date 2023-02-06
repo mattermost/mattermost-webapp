@@ -303,7 +303,7 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                 if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
                     content = (
                         <ImagePreview
-                            fileInfo={fileInfo}
+                            fileInfo={fileInfo as FileInfo}
                             canDownloadFiles={this.props.canDownloadFiles}
                         />
                     );
@@ -344,7 +344,7 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                     canCopyContent = true;
                     content = (
                         <CodePreview
-                            fileInfo={fileInfo}
+                            fileInfo={fileInfo as FileInfo}
                             fileUrl={fileUrl}
                             getContent={this.getContent}
                             className='file-preview-modal__code-preview'

@@ -3,8 +3,8 @@
 
 import {PlaywrightTestConfig, devices} from '@playwright/test';
 
-import {duration} from '@support/utils';
-import testConfig from '@test.config';
+import {duration} from '@e2e-support/utils';
+import testConfig from '@e2e-test.config';
 
 const config: PlaywrightTestConfig = {
     globalSetup: require.resolve('./global_setup'),

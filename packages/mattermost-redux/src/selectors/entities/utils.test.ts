@@ -4,17 +4,17 @@
 import TestHelper from '../../../test/test_helper';
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 
-import {UserStatuses} from 'utils/constants';
+import {General} from 'mattermost-redux/constants';
 
 import {makeAddLastViewAtToProfiles} from './utils';
 
 describe('utils.makeAddLastViewAtToProfiles', () => {
     it('Should return profiles with last_viewed_at from membership if channel and membership exists', () => {
-        const currentUser = TestHelper.fakeUserWithStatus(UserStatuses.ONLINE);
-        const user1 = TestHelper.fakeUserWithStatus(UserStatuses.OUT_OF_OFFICE);
-        const user2 = TestHelper.fakeUserWithStatus(UserStatuses.OFFLINE);
-        const user3 = TestHelper.fakeUserWithStatus(UserStatuses.DND);
-        const user4 = TestHelper.fakeUserWithStatus(UserStatuses.AWAY);
+        const currentUser = TestHelper.fakeUserWithStatus(General.ONLINE);
+        const user1 = TestHelper.fakeUserWithStatus(General.OUT_OF_OFFICE);
+        const user2 = TestHelper.fakeUserWithStatus(General.OFFLINE);
+        const user3 = TestHelper.fakeUserWithStatus(General.DND);
+        const user4 = TestHelper.fakeUserWithStatus(General.AWAY);
 
         const profiles = {
             [user1.id]: user1,

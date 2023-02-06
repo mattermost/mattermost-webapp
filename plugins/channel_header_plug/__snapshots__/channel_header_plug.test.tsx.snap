@@ -229,6 +229,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
     }
     key="channelHeaderButtonsomeid"
     onClick={[Function]}
+    pluginId="pluginid"
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >
@@ -547,6 +548,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     }
     key="channelHeaderButtonsomeid"
     onClick={[Function]}
+    pluginId="pluginid"
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >
@@ -656,6 +658,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     }
     key="channelHeaderButtonsomeid2"
     onClick={[Function]}
+    pluginId="pluginid"
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >
@@ -765,6 +768,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     }
     key="channelHeaderButtonsomeid3"
     onClick={[Function]}
+    pluginId="pluginid"
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >
@@ -874,6 +878,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     }
     key="channelHeaderButtonsomeid4"
     onClick={[Function]}
+    pluginId="pluginid"
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >
@@ -983,6 +988,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     }
     key="channelHeaderButtonsomeid5"
     onClick={[Function]}
+    pluginId="pluginid"
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >
@@ -1092,6 +1098,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     }
     key="channelHeaderButtonsomeid6"
     onClick={[Function]}
+    pluginId="pluginid"
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >
@@ -1201,6 +1208,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     }
     key="channelHeaderButtonsomeid7"
     onClick={[Function]}
+    pluginId="pluginid"
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >
@@ -1310,6 +1318,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     }
     key="channelHeaderButtonsomeid8"
     onClick={[Function]}
+    pluginId="pluginid"
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >
@@ -1419,6 +1428,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     }
     key="channelHeaderButtonsomeid9"
     onClick={[Function]}
+    pluginId="pluginid"
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >
@@ -1528,6 +1538,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     }
     key="channelHeaderButtonsomeid10"
     onClick={[Function]}
+    pluginId="pluginid"
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >
@@ -1637,6 +1648,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     }
     key="channelHeaderButtonsomeid11"
     onClick={[Function]}
+    pluginId="pluginid"
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >
@@ -1746,6 +1758,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     }
     key="channelHeaderButtonsomeid12"
     onClick={[Function]}
+    pluginId="pluginid"
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >
@@ -1855,6 +1868,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     }
     key="channelHeaderButtonsomeid13"
     onClick={[Function]}
+    pluginId="pluginid"
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >
@@ -1964,6 +1978,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     }
     key="channelHeaderButtonsomeid14"
     onClick={[Function]}
+    pluginId="pluginid"
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >
@@ -2073,6 +2088,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     }
     key="channelHeaderButtonsomeid15"
     onClick={[Function]}
+    pluginId="pluginid"
     tooltipKey="plugin"
     tooltipText="some tooltip text"
   >

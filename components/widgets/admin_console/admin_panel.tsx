@@ -6,8 +6,6 @@ import {FormattedMessage} from 'react-intl';
 
 import './admin_panel.scss';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
 type Props = {
     id?: string;
     className?: string;
@@ -38,7 +36,7 @@ const AdminPanel: React.FC<Props> = (props: Props) => (
                     />
                 </h3>
                 <div className='mt-2'>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id={props.subtitleId}
                         defaultMessage={props.subtitleDefault}
                         values={props.subtitleValues}

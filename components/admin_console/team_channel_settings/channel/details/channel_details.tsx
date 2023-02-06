@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {cloneDeep} from 'lodash';
 
-import {Groups, Permissions} from 'mattermost-redux/constants';
+import {Permissions} from 'mattermost-redux/constants';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from '@mattermost/types/users';
 import {Scheme} from '@mattermost/types/schemes';
@@ -19,7 +19,7 @@ import ConfirmModal from 'components/confirm_modal';
 import BlockableLink from 'components/admin_console/blockable_link';
 import FormError from 'components/form_error';
 import Constants from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {NeedGroupsError, UsersWillBeRemovedError} from '../../errors';
@@ -133,7 +133,6 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
     componentDidUpdate(prevProps: ChannelDetailsProps) {
         const {channel, totalGroups, actions} = this.props;
         if (channel.id !== prevProps.channel.id || totalGroups !== prevProps.totalGroups) {
-            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
                 totalGroups,
                 isSynced: Boolean(channel.group_constrained),
@@ -396,7 +395,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: false, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
                 actions.setNavigationBlocked(saveNeeded);
                 if (!saveNeeded) {
-                    browserHistory.push('/admin_console/user_management/channels');
+                    getHistory().push('/admin_console/user_management/channels');
                 }
             });
             return;
@@ -445,19 +444,19 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             filter((g) => {
                 return origGroups.some((group) => group.id === g.id && group.scheme_admin !== g.scheme_admin);
             }).
-            map((g) => actions.patchGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: g.scheme_admin}));
+            map((g) => actions.patchGroupSyncable(g.id, channelID, SyncableType.Channel, {scheme_admin: g.scheme_admin}));
 
         const unlink = origGroups.
             filter((g) => {
                 return !groups.some((group) => group.id === g.id);
             }).
-            map((g) => actions.unlinkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
+            map((g) => actions.unlinkGroupSyncable(g.id, channelID, SyncableType.Channel));
 
         const link = groups.
             filter((g) => {
                 return !origGroups.some((group) => group.id === g.id);
             }).
-            map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true, scheme_admin: g.scheme_admin}));
+            map((g) => actions.linkGroupSyncable(g.id, channelID, SyncableType.Channel, {auto_add: true, scheme_admin: g.scheme_admin}));
 
         const groupActions = [...promises, ...patchChannelSyncable, ...unlink, ...link];
         if (groupActions.length > 0) {
@@ -599,7 +598,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
         this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: privacyChanging, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
             actions.setNavigationBlocked(saveNeeded);
             if (!saveNeeded && !serverError) {
-                browserHistory.push('/admin_console/user_management/channels');
+                getHistory().push('/admin_console/user_management/channels');
             }
         });
     };

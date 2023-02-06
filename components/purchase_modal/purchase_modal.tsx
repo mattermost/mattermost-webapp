@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable max-lines */
+
 import React, {ReactNode} from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
@@ -9,8 +11,6 @@ import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/
 import {Elements} from '@stripe/react-stripe-js';
 
 import {isEmpty} from 'lodash';
-
-import {CloudCustomer, Product, Invoice} from '@mattermost/types/cloud';
 
 import {localizeMessage, getNextBillingDate} from 'utils/utils';
 
@@ -23,8 +23,8 @@ import {
     CloudProducts,
     BillingSchemes,
     ModalIdentifiers,
+    RecurringIntervals,
 } from 'utils/constants';
-import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
 import PaymentDetails from 'components/admin_console/billing/payment_details';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
@@ -37,9 +37,19 @@ import BackgroundSvg from 'components/common/svg_images_components/background_sv
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import PricingModal from 'components/pricing_modal';
 import PlanLabel from 'components/common/plan_label';
+import Consequences from 'components/self_hosted_purchase_modal/consequences';
+import SeatsCalculator, {errorInvalidNumber, Seats} from 'components/self_hosted_purchase_modal/seats_calculator';
+import SwitchToYearlyPlanConfirmModal from 'components/switch_to_yearly_plan_confirm_modal';
+
 import {ModalData} from 'types/actions';
-import {Team} from '@mattermost/types/teams';
+
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
+
+import {CloudCustomer, Product, Invoice} from '@mattermost/types/cloud';
+
+import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
+
+import {Team} from '@mattermost/types/teams';
 
 import PaymentForm from '../payment_form/payment_form';
 
@@ -51,7 +61,7 @@ import './purchase.scss';
 
 let stripePromise: Promise<Stripe | null>;
 
-enum ButtonCustomiserClasses {
+export enum ButtonCustomiserClasses {
     grayed = 'grayed',
     active = 'active',
     special = 'special',
@@ -69,16 +79,21 @@ type DelinquencyCardProps = {
     price: string;
     buttonDetails: ButtonDetails;
     onViewBreakdownClick: () => void;
+    isCloudDelinquencyGreaterThan90Days: boolean;
+    users: number;
+    cost: number;
 };
 
 type CardProps = {
-    topColor: string;
+    topColor?: string;
     plan: string;
-    price: string;
-    rate?: string;
+    price?: string;
+    rate?: ReactNode;
     buttonDetails: ButtonDetails;
-    planBriefing: JSX.Element;
+    planBriefing?: JSX.Element | null; // can be removed once Yearly Subscriptions are available
     planLabel?: JSX.Element;
+    preButtonContent?: React.ReactNode;
+    afterButtonContent?: React.ReactNode;
 }
 
 type Props = {
@@ -86,7 +101,7 @@ type Props = {
     show: boolean;
     isDevMode: boolean;
     products: Record<string, Product> | undefined;
-    contactSupportLink: string;
+    yearlyProducts: Record<string, Product>;
     contactSalesLink: string;
     isFreeTrial: boolean;
     productId: string | undefined;
@@ -96,6 +111,7 @@ type Props = {
     isDelinquencyModal?: boolean;
     invoices?: Invoice[];
     isCloudDelinquencyGreaterThan90Days: boolean;
+    usersCount: number;
 
     // callerCTA is information about the cta that opened this modal. This helps us provide a telemetry path
     // showing information about how the modal was opened all the way to more CTAs within the modal itself
@@ -110,7 +126,8 @@ type Props = {
             isDevMode: boolean
         ) => Promise<boolean | null>;
         subscribeCloudSubscription: (
-            productId: string
+            productId: string,
+            seats?: number,
         ) => Promise<boolean | null>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
@@ -128,6 +145,9 @@ type State = {
     selectedProduct: Product | null | undefined;
     isUpgradeFromTrial: boolean;
     buttonClickedInfo: string;
+    selectedProductPrice: string | null;
+    usersCount: number;
+    seats: Seats;
 }
 
 /**
@@ -137,7 +157,7 @@ type State = {
  * @param productSku String - the sku value of the product of type either cloud-starter | cloud-professional | cloud-enterprise
  * @returns Product
  */
-function findProductInDictionary(products: Record<string, Product> | undefined, productId?: string | null, productSku?: string): Product | null {
+function findProductInDictionary(products: Record<string, Product> | undefined, productId?: string | null, productSku?: string, productRecurringInterval?: string): Product | null {
     if (!products) {
         return null;
     }
@@ -154,32 +174,33 @@ function findProductInDictionary(products: Record<string, Product> | undefined, 
         keys.forEach((key) => {
             if (productId && products[key].id === productId) {
                 currentProduct = products[key];
-            } else if (productSku && products[key].sku === productSku) {
+            } else if (productSku && products[key].sku === productSku && products[key].recurring_interval === productRecurringInterval) {
                 currentProduct = products[key];
             }
         });
     }
-
     return currentProduct;
 }
 
-function getSelectedProduct(products: Record<string, Product> | undefined, productId?: string | null) {
-    const currentProduct = findProductInDictionary(products, productId);
+function getSelectedProduct(
+    products: Record<string, Product> | undefined,
+    yearlyProducts: Record<string, Product>,
+    currentProductId?: string | null,
+    isDelinquencyModal?: boolean,
+    isCloudDelinquencyGreaterThan90Days?: boolean) {
+    if (isDelinquencyModal && !isCloudDelinquencyGreaterThan90Days) {
+        const currentProduct = findProductInDictionary(products, currentProductId, undefined, RecurringIntervals.MONTH);
 
-    let nextSku = CloudProducts.PROFESSIONAL;
-    if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
-        nextSku = CloudProducts.ENTERPRISE;
+        // if the account hasn't been delinquent for more than 90 days, then we will allow them to settle up and stay on their current product
+        return currentProduct;
     }
-    return findProductInDictionary(products, null, nextSku);
+
+    // Otherwise, we will default to upgrading them to the yearly professional plan
+    return findProductInDictionary(yearlyProducts, null, CloudProducts.PROFESSIONAL, RecurringIntervals.YEAR);
 }
 
-function Card(props: CardProps) {
-    const seeHowBillingWorks = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-        e.preventDefault();
-        trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_see_how_billing_works');
-        window.open(CloudLinks.BILLING_DOCS, '_blank');
-    };
-    return (
+export function Card(props: CardProps) {
+    const cardContent = (
         <div className='PlanCard'>
             {props.planLabel && props.planLabel}
             <div
@@ -189,10 +210,11 @@ function Card(props: CardProps) {
             <div className='bottom'>
                 <div className='plan_price_rate_section'>
                     <h4>{props.plan}</h4>
-                    <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{props.price}</h1>
+                    <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{`$${props.price}`}</h1>
                     <p>{props.rate}</p>
                 </div>
                 {props.planBriefing}
+                {props.preButtonContent}
                 <div>
                     <button
                         className={'plan_action_btn ' + props.buttonDetails.customClass}
@@ -200,24 +222,13 @@ function Card(props: CardProps) {
                         onClick={props.buttonDetails.action}
                     >{props.buttonDetails.text}</button>
                 </div>
-                <div className='plan_billing_cycle'>
-                    <FormattedMessage
-                        defaultMessage={
-                            'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
-                        }
-                        id={'admin.billing.subscription.freeTrialDisclaimer'}
-                    />
-                    <a
-                        onClick={seeHowBillingWorks}
-                    >
-                        <FormattedMessage
-                            defaultMessage={'See how billing works.'}
-                            id={'admin.billing.subscription.howItWorks'}
-                        />
-                    </a>
-                </div>
+                {props.afterButtonContent}
             </div>
         </div>
+    );
+
+    return (
+        cardContent
     );
 }
 
@@ -262,7 +273,6 @@ function DelinquencyCard(props: DelinquencyCardProps) {
                         </div>
                     </div>
                 </div>
-
                 <div>
                     <button
                         className={
@@ -275,18 +285,52 @@ function DelinquencyCard(props: DelinquencyCardProps) {
                     </button>
                 </div>
                 <div className='plan_billing_cycle delinquency'>
-                    <FormattedMessage
-                        defaultMessage={
-                            'Upon reactivation you will be charged the total owed.  Your bill is calculated at the end of the billing cycle based on the number of enabled users.'
-                        }
-                        id={'cloud_delinquency.cc_modal.disclaimer'}
-                    />
-                    <a onClick={seeHowBillingWorks}>
+                    {Boolean(!props.isCloudDelinquencyGreaterThan90Days) && (
                         <FormattedMessage
-                            defaultMessage={'See how billing works.'}
-                            id={'admin.billing.subscription.howItWorks'}
+                            defaultMessage={
+                                'When you reactivate your subscription, you\'ll be billed the total outstanding amount immediately. Your bill is calculated at the end of the billing cycle based on the number of active users. {seeHowBillingWorks}'
+                            }
+                            id={'cloud_delinquency.cc_modal.disclaimer'}
+                            values={{
+                                seeHowBillingWorks: (
+                                    <a onClick={seeHowBillingWorks}>
+                                        <FormattedMessage
+                                            defaultMessage={
+                                                'See how billing works.'
+                                            }
+                                            id={
+                                                'admin.billing.subscription.howItWorks'
+                                            }
+                                        />
+                                    </a>
+                                ),
+                            }}
                         />
-                    </a>
+                    )}
+                    {Boolean(props.isCloudDelinquencyGreaterThan90Days) && (
+                        <FormattedMessage
+                            defaultMessage={
+                                'When you reactivate your subscription, you\'ll be billed the total outstanding amount immediately. You\'ll also be billed {cost} immediately for a 1 year subscription based on your current active user count of {users} users. {seeHowBillingWorks}'
+                            }
+                            id={
+                                'cloud_delinquency.cc_modal.disclaimer_with_upgrade_info'
+                            }
+                            values={{
+                                cost: `$${props.cost}`,
+                                users: props.users,
+                                seeHowBillingWorks: (
+                                    <a onClick={seeHowBillingWorks}>
+                                        <FormattedMessage
+                                            defaultMessage={'See how billing works.'}
+                                            id={
+                                                'admin.billing.subscription.howItWorks'
+                                            }
+                                        />
+                                    </a>
+                                ),
+                            }}
+                        />
+                    )}
                 </div>
             </div>
         </div>
@@ -303,22 +347,39 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             billingDetails: null,
             cardInputComplete: false,
             processing: false,
-            editPaymentInfo: isEmpty(props.customer?.payment_method && props.customer?.billing_address),
-            currentProduct: findProductInDictionary(props.products, props.productId),
-            selectedProduct: getSelectedProduct(props.products, props.productId),
+            editPaymentInfo: isEmpty(
+                props.customer?.payment_method &&
+                    props.customer?.billing_address,
+            ),
+            currentProduct: findProductInDictionary(
+                props.products,
+                props.productId,
+            ),
+            selectedProduct: getSelectedProduct(
+                props.products,
+                props.yearlyProducts,
+                props.productId,
+                props.isDelinquencyModal,
+                props.isCloudDelinquencyGreaterThan90Days,
+            ),
             isUpgradeFromTrial: props.isFreeTrial,
             buttonClickedInfo: '',
-
+            selectedProductPrice: getSelectedProduct(props.products, props.yearlyProducts, props.productId, props.isDelinquencyModal, props.isCloudDelinquencyGreaterThan90Days)?.price_per_seat.toString() || null,
+            usersCount: this.props.usersCount,
+            seats: {
+                quantity: this.props.usersCount.toString(),
+                error: this.props.usersCount.toString() === '0' ? errorInvalidNumber : null,
+            },
         };
     }
 
     async componentDidMount() {
         if (isEmpty(this.state.currentProduct || this.state.selectedProduct)) {
             await this.props.actions.getCloudProducts();
-            // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
                 currentProduct: findProductInDictionary(this.props.products, this.props.productId),
-                selectedProduct: getSelectedProduct(this.props.products, this.props.productId),
+                selectedProduct: getSelectedProduct(this.props.products, this.props.yearlyProducts, this.props.productId, this.props.isDelinquencyModal, this.props.isCloudDelinquencyGreaterThan90Days),
+                selectedProductPrice: getSelectedProduct(this.props.products, this.props.yearlyProducts, this.props.productId, false)?.price_per_seat.toString() ?? null,
             });
         }
 
@@ -359,9 +420,31 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         this.setState({cardInputComplete: event.complete});
     }
 
-    handleSubmitClick = async () => {
-        const callerInfo = this.props.callerCTA + '> purchase_modal > upgrade_button_click';
-        this.setState({processing: true, paymentInfoIsValid: false, buttonClickedInfo: callerInfo});
+    handleSubmitClick = async (callerInfo: string) => {
+        const update = {
+            selectedProduct: this.state.selectedProduct,
+            paymentInfoIsValid: false,
+            buttonClickedInfo: callerInfo,
+            processing: true,
+        } as unknown as Pick<State, keyof State>;
+        this.setState(update);
+    }
+
+    confirmSwitchToAnnual = () => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.CONFIRM_SWITCH_TO_YEARLY,
+            dialogType: SwitchToYearlyPlanConfirmModal,
+            dialogProps: {
+                confirmSwitchToYearlyFunc: () => this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > confirm_switch_to_annual_modal > confirm_click'),
+                contactSalesFunc: () => {
+                    trackEvent(
+                        TELEMETRY_CATEGORIES.CLOUD_ADMIN,
+                        'confirm_switch_to_annual_click_contact_sales',
+                    );
+                    window.open(this.props.contactSalesLink, '_blank');
+                },
+            },
+        });
     }
 
     setIsUpgradeFromTrialToFalse = () => {
@@ -382,7 +465,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         <button
             className='ml-1'
             onClick={() => {
-                trackEvent('cloud_pricing', 'click_compare_plans');
+                trackEvent(TELEMETRY_CATEGORIES.CLOUD_PRICING, 'click_compare_plans');
                 this.openPricingModal('purchase_modal_compare_plans_click');
             }}
         >
@@ -544,7 +627,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         topColor='#4A69AC'
                         price={this.getDelinquencyTotalString()}
                         buttonDetails={{
-                            action: this.handleSubmitClick,
+                            action: () => this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > upgrade_button_click'),
                             text: localizeMessage(
                                 'cloud_delinquency.cc_modal.card.reactivate',
                                 'Re-active',
@@ -553,15 +636,31 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             disabled: !this.state.paymentInfoIsValid,
                         }}
                         onViewBreakdownClick={this.handleViewBreakdownClick}
+                        isCloudDelinquencyGreaterThan90Days={this.props.isCloudDelinquencyGreaterThan90Days}
+                        cost={parseInt(this.state.selectedProductPrice || '', 10) * this.props.usersCount}
+                        users={this.props.usersCount}
                     />
                 </>
             );
         }
 
-        const showPlanLabel =
-                    this.state.selectedProduct?.sku ===
-                    CloudProducts.PROFESSIONAL;
-        const {formatMessage} = this.props.intl;
+        const showPlanLabel = this.state.selectedProduct?.sku === CloudProducts.PROFESSIONAL;
+        const {formatMessage, formatNumber} = this.props.intl;
+
+        const checkIsYearlyProfessionalProduct = (product: Product | null | undefined) => {
+            if (!product) {
+                return false;
+            }
+            return product.recurring_interval === RecurringIntervals.YEAR && product.sku === CloudProducts.PROFESSIONAL;
+        };
+
+        const yearlyProductMonthlyPrice = formatNumber(parseInt(this.state.selectedProductPrice || '0', 10) / 12, {maximumFractionDigits: 2});
+
+        const currentProductMonthly = this.state.currentProduct?.recurring_interval === RecurringIntervals.MONTH;
+        const currentProductProfessional = this.state.currentProduct?.sku === CloudProducts.PROFESSIONAL;
+        const currentProductMonthlyProfessional = currentProductMonthly && currentProductProfessional;
+
+        const cardBtnText = currentProductMonthlyProfessional ? formatMessage({id: 'pricing_modal.btn.switch_to_annual', defaultMessage: 'Switch to annual billing'}) : formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
 
         return (
             <>
@@ -575,20 +674,34 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     plan={this.getPlanNameFromProductName(
                         this.state.selectedProduct ? this.state.selectedProduct.name : '',
                     )}
-                    price={`$${this.state.selectedProduct?.price_per_seat?.toString()}`}
-                    rate='/user/month'
-                    planBriefing={this.paymentFooterText()}
+                    price={yearlyProductMonthlyPrice}
+                    rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month {br}<b>(billed annually)</b>'}, {
+                        br: <br/>,
+                        b: (chunks: React.ReactNode | React.ReactNodeArray) => (
+                            <span style={{fontSize: '14px'}}>
+                                <b>{chunks}</b>
+                            </span>
+                        ),
+                    })}
+                    planBriefing={<></>}
                     buttonDetails={{
-                        action: this.handleSubmitClick,
-                        text: 'Upgrade',
+                        action: () => {
+                            if (currentProductMonthlyProfessional) {
+                                this.confirmSwitchToAnnual();
+                            } else {
+                                this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > upgrade_button_click');
+                            }
+                        },
+                        text: cardBtnText,
                         customClass:
                             !this.state.paymentInfoIsValid ||
-                            this.state.selectedProduct?.billing_scheme ===
-                                BillingSchemes.SALES_SERVE ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
+                            this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE || this.state.seats.error !== null ||
+                            (checkIsYearlyProfessionalProduct(this.state.currentProduct)) ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
                         disabled:
                             !this.state.paymentInfoIsValid ||
-                            this.state.selectedProduct?.billing_scheme ===
-                                BillingSchemes.SALES_SERVE,
+                            this.state.selectedProduct?.billing_scheme === BillingSchemes.SALES_SERVE ||
+                            this.state.seats.error !== null ||
+                            (checkIsYearlyProfessionalProduct(this.state.currentProduct)),
                     }}
                     planLabel={
                         showPlanLabel ? (
@@ -604,6 +717,18 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             />
                         ) : undefined
                     }
+                    preButtonContent={(
+                        <SeatsCalculator
+                            price={parseInt(yearlyProductMonthlyPrice, 10)}
+                            seats={this.state.seats}
+                            existingUsers={this.props.usersCount}
+                            isCloud={true}
+                            onChange={(seats: Seats) => {
+                                this.setState({seats});
+                            }}
+                        />
+                    )}
+                    afterButtonContent={<Consequences isCloud={true}/>}
                 />
             </>
         );
@@ -653,7 +778,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             onCardInputChange={this.handleCardInputChange}
                             initialBillingDetails={initialBillingDetails}
                             theme={this.props.theme}
-                            // eslint-disable-next-line react/jsx-closing-bracket-location
                         />
                     ) : (
                         <div className='PaymentDetails'>
@@ -688,6 +812,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         if (!stripePromise) {
             stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
         }
+
         return (
             <Elements
                 options={{fonts: [{cssSrc: STRIPE_CSS_SRC}]}}
@@ -706,6 +831,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         }}
                         ref={this.modal}
                         ariaLabelledBy='purchase_modal_title'
+                        overrideTargetEvent={false}
                     >
                         <div className='PurchaseModal'>
                             {this.state.processing ? (
@@ -744,6 +870,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                         telemetryProps={{
                                             callerInfo: this.state.buttonClickedInfo,
                                         }}
+                                        usersCount={parseInt(this.state.seats.quantity, 10)}
                                     />
                                 </div>
                             ) : null}

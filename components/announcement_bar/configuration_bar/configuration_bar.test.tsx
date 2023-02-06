@@ -16,16 +16,20 @@ describe('components/ConfigurationBar', () => {
             Id: '1234',
             IsLicensed: 'true',
             ExpiresAt: Date.now() + millisPerDay,
+            ShortSkuName: 'skuShortName',
         },
         config: {
             sendEmailNotifications: false,
         },
         dismissedExpiringLicense: false,
+        dismissedExpiredLicense: false,
         siteURL: '',
         totalUsers: 100,
         actions: {
             dismissNotice: jest.fn(),
+            savePreferences: jest.fn(),
         },
+        currentUserId: 'user-id',
     };
 
     test('should match snapshot, expired, in grace period', () => {
@@ -75,6 +79,38 @@ describe('components/ConfigurationBar', () => {
 
     test('should match snapshot, show nothing', () => {
         const props = {...baseProps, license: {Id: '1234', IsLicensed: 'true', ExpiresAt: Date.now() + (61 * millisPerDay)}};
+        const wrapper = shallowWithIntl(
+            <ConfigurationBar {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, expiring, trial license, mobile viewport', () => {
+        Object.defineProperty(window, 'innerWidth', {
+            writable: true,
+            configurable: true,
+            value: 150,
+        });
+
+        window.dispatchEvent(new Event('500'));
+        const props = {...baseProps, canViewSystemErrors: true, license: {Id: '1234', IsLicensed: 'true', IsTrial: 'true', ExpiresAt: Date.now() + 1}};
+        const wrapper = shallowWithIntl(
+            <ConfigurationBar {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, expiring, trial license', () => {
+        Object.defineProperty(window, 'innerWidth', {
+            writable: true,
+            configurable: true,
+            value: 1000,
+        });
+
+        window.dispatchEvent(new Event('500'));
+        const props = {...baseProps, canViewSystemErrors: true, license: {Id: '1234', IsLicensed: 'true', IsTrial: 'true', ExpiresAt: Date.now() + 1}};
         const wrapper = shallowWithIntl(
             <ConfigurationBar {...props}/>,
         );

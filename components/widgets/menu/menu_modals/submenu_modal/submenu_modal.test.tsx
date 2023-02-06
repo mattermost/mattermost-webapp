@@ -5,8 +5,6 @@ import React from 'react';
 import {shallow, mount} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 
-import {browserHistory} from 'utils/browser_history';
-
 import SubMenuModal from 'components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
 
 (global as any).MutationObserver = class {
@@ -62,7 +60,6 @@ describe('components/submenu_modal', () => {
     });
 
     test('should have called click function when button is clicked', async () => {
-        browserHistory.push = jest.fn();
         const props = {
             ...baseProps,
         };

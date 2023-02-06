@@ -72,6 +72,22 @@
     }
 }
 
+#new-channel-with-board-tooltip {
+    span {
+        display: block;
+        width: 100%;
+        text-align: left !important;
+    }
+
+    .title {
+        font-weight: 800;
+    }
+
+    .description {
+        font-weight: 500;
+    }
+}
+
 .new-channel-modal__url {
     margin-top: 4px;
 }

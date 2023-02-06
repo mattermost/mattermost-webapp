@@ -66,7 +66,7 @@ const UpdateUserGroupModal = (props: Props) => {
         const value = e.target.value;
         let newMention = mention;
         if (!mentionUpdatedManually) {
-            newMention = value.replace(/[^A-Za-z0-9@]/g, '').toLowerCase();
+            newMention = value.replace(/[^A-Za-z0-9.\-_@]/g, '').toLowerCase();
             if (newMention.substring(0, 1) !== '@') {
                 newMention = `@${newMention}`;
             }
@@ -115,8 +115,8 @@ const UpdateUserGroupModal = (props: Props) => {
             return;
         }
 
-        const mentionRegEx = new RegExp(/[^A-Za-z0-9]/g);
-        if (mentionRegEx.test(newMention)) {
+        const mentionRegEx = new RegExp(/^[a-z0-9.\-_]+$/);
+        if (!mentionRegEx.test(newMention)) {
             setMentionInputErrorText(Utils.localizeMessage('user_groups_modal.mentionInvalidError', 'Invalid character in mention.'));
             setSaving(false);
             return;

@@ -185,6 +185,8 @@ const initialComponents: PluginsState['components'] = {
     RightHandSidebarComponent: [],
     UserGuideDropdownItem: [],
     FilesWillUploadHook: [],
+    NeedsTeamComponent: [],
+    CreateBoardFromTemplate: [],
 };
 
 function components(state: PluginsState['components'] = initialComponents, action: GenericAction) {

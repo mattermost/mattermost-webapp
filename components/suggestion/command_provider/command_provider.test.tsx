@@ -47,6 +47,7 @@ describe('CommandProvider', () => {
                 Hint: 'hint',
                 IconData: 'icon_data',
                 Description: 'description',
+                type: 'commands',
             }]);
             Client4.getCommandAutocompleteSuggestionsList = mockFunc;
 
@@ -69,6 +70,7 @@ describe('CommandProvider', () => {
                     Hint: 'hint',
                     IconData: 'icon_data',
                     Description: 'description',
+                    type: 'commands',
                 }],
                 component: CommandSuggestion,
             };
@@ -86,6 +88,7 @@ describe('CommandProvider', () => {
                 Hint: 'hint',
                 IconData: 'icon_data',
                 Description: 'description',
+                type: 'commands',
             }]);
             Client4.getCommandAutocompleteSuggestionsList = mockFunc;
 
@@ -108,6 +111,7 @@ describe('CommandProvider', () => {
                     Hint: 'hint',
                     IconData: 'icon_data',
                     Description: 'description',
+                    type: 'commands',
                 }],
                 component: CommandSuggestion,
             };

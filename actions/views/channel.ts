@@ -12,6 +12,7 @@ import {
     markChannelAsRead,
     unfavoriteChannel,
     deleteChannel as deleteChannelRedux,
+    getChannel as loadChannel,
 } from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {TeamTypes} from 'mattermost-redux/action_types';
@@ -54,7 +55,7 @@ import {getLastPostsApiTimeForChannel} from 'selectors/views/channel';
 import {getSocketStatus} from 'selectors/views/websocket';
 import {getSelectedPost, getSelectedPostId} from 'selectors/rhs';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {Constants, ActionTypes, EventTypes, PostRequestTypes} from 'utils/constants';
 import {isMobile} from 'utils/utils';
 import LocalStorageStore from 'stores/local_storage_store.jsx';
@@ -97,6 +98,18 @@ export function switchToChannelById(channelId: string) {
     };
 }
 
+export function loadIfNecessaryAndSwitchToChannelById(channelId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        let channel = getChannel(state, channelId);
+        if (!channel) {
+            const res = await dispatch(loadChannel(channelId));
+            channel = res.data;
+        }
+        return dispatch(switchToChannel(channel));
+    };
+}
+
 export function switchToChannel(channel: Channel & {userId?: string}) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
@@ -114,16 +127,16 @@ export function switchToChannel(channel: Channel & {userId?: string}) {
             if (direct.error) {
                 return {error: true};
             }
-            browserHistory.push(`${teamUrl}/messages/@${channel.name}`);
+            getHistory().push(`${teamUrl}/messages/@${channel.name}`);
         } else if (channel.type === Constants.GM_CHANNEL) {
             const gmChannel = getChannel(state, channel.id);
-            browserHistory.push(`${teamUrl}/channels/${gmChannel.name}`);
+            getHistory().push(`${teamUrl}/channels/${gmChannel.name}`);
         } else if (channel.type === Constants.THREADS) {
-            browserHistory.push(`${teamUrl}/${channel.name}`);
+            getHistory().push(`${teamUrl}/${channel.name}`);
         } else if (channel.type === Constants.INSIGHTS) {
-            browserHistory.push(`${teamUrl}/${channel.name}`);
+            getHistory().push(`${teamUrl}/${channel.name}`);
         } else {
-            browserHistory.push(`${teamUrl}/channels/${channel.name}`);
+            getHistory().push(`${teamUrl}/channels/${channel.name}`);
         }
 
         return {data: true};
@@ -179,10 +192,10 @@ export function leaveChannel(channelId: string) {
             LocalStorageStore.removePreviousChannel(currentUserId, currentTeam.id, state);
             dispatch(selectTeam(''));
             dispatch({type: TeamTypes.LEAVE_TEAM, data: currentTeam});
-            browserHistory.push('/');
+            getHistory().push('/');
         } else if (channelId === currentChannelId) {
             // We only need to leave the channel if we are in the channel
-            browserHistory.push(teamUrl);
+            getHistory().push(teamUrl);
         }
 
         return {
