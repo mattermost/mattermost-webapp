@@ -1134,6 +1134,14 @@ export function getPostsByIds(ids: string[]) {
     };
 }
 
+export function getPostEditHistory(postId: string) {
+    return bindClientFunc({
+        clientFunc: Client4.getPostEditHistory,
+        onSuccess: PostTypes.RECEIVED_POST_HISTORY,
+        params: [postId],
+    });
+}
+
 export function getNeededAtMentionedUsernames(state: GlobalState, posts: Post[]): Set<string> {
     let usersByUsername: Record<string, UserProfile>; // Populate this lazily since it's relatively expensive
 

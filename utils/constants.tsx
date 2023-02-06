@@ -443,6 +443,8 @@ export const ModalIdentifiers = {
     CLOUD_INVOICE_PREVIEW: 'cloud_invoice_preview',
     BILLING_HISTORY: 'billing_history',
     SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
+    RESTORE_POST_MODAL: 'restore_post',
+    INFO_TOAST: 'info_toast',
     MARK_ALL_THREADS_AS_READ: 'mark_all_threads_as_read_modal',
     DELINQUENCY_MODAL_DOWNGRADE: 'delinquency_modal_downgrade',
     CLOUD_LIMITS_DOWNGRADE: 'cloud_limits_downgrade',
@@ -1014,6 +1016,7 @@ export const RHSStates = {
     CHANNEL_FILES: 'channel-files',
     CHANNEL_INFO: 'channel-info',
     CHANNEL_MEMBERS: 'channel-members',
+    EDIT_HISTORY: 'edit-history',
 };
 
 export const UploadStatuses = {
