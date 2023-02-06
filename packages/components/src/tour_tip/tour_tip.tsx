@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import Tippy from '@tippyjs/react';
 import {Placement} from 'tippy.js';
 import classNames from 'classnames';
+import {noop} from 'lodash';
 
 import {PunchOutCoordsHeightAndWidth} from '../common/hooks/useMeasurePunchouts';
 import {useClickOutsideRef} from '../common/hooks/useClickOutsideRef';
@@ -56,6 +57,7 @@ type Props = {
     handleSkip?: (e: React.MouseEvent) => void;
     handleDismiss?: (e: React.MouseEvent) => void;
     handlePunchOut?: (e: React.MouseEvent) => void;
+    handleInteractivePunchOut?: () => void;
 }
 
 export const TourTip = ({
@@ -75,6 +77,7 @@ export const TourTip = ({
     handleSkip,
     handleJump,
     handlePunchOut,
+    handleInteractivePunchOut = noop,
     pulsatingDotTranslate,
     pulsatingDotPlacement,
     nextBtn,
@@ -100,6 +103,7 @@ export const TourTip = ({
         if (!showBackdrop && handleDismiss) {
             handleDismiss(e);
         }
+        handleInteractivePunchOut();
     });
 
     // This needs to be changed if root-portal node isn't available to maybe body

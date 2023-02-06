@@ -9,7 +9,7 @@ import {Constants, Preferences} from 'utils/constants';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 
-import {TourTip} from '@mattermost/components';
+import {TourTip, useMeasurePunchouts} from '@mattermost/components';
 
 const translate = {x: 2, y: 25};
 
@@ -17,6 +17,7 @@ const CRTThreadsPaneTutorialTip = () => {
     const dispatch = useDispatch();
     const {formatMessage} = useIntl();
     const currentUserId = useSelector(getCurrentUserId);
+    const [backdropOpened, setBackdropOpened] = React.useState(true);
     const title = (
         <FormattedMessage
             id='tutorial_threads.threads_pane.title'
@@ -60,15 +61,18 @@ const CRTThreadsPaneTutorialTip = () => {
         dispatch(savePreferences(currentUserId, preferences));
     };
 
-    // TODO: Update overlay behavior to handle expand/contract & handle unnecessary resizing MM-48647 & MM-48412
-    // const overlayPunchOut = useMeasurePunchouts(['sidebar-right'], []);
+    const handleInteractivePunchOut = () => {
+        setBackdropOpened(false);
+    };
+
+    const overlayPunchOut = useMeasurePunchouts(['rhsContainer'], []);
 
     return (
         <TourTip
             show={true}
             screen={screen}
             title={title}
-            overlayPunchOut={null}
+            overlayPunchOut={overlayPunchOut}
             placement='left'
             pulsatingDotPlacement='top-start'
             pulsatingDotTranslate={translate}
@@ -79,6 +83,8 @@ const CRTThreadsPaneTutorialTip = () => {
             handleNext={onDismiss}
             interactivePunchOut={true}
             nextBtn={nextBtn()}
+            showBackdrop={backdropOpened}
+            handleInteractivePunchOut={handleInteractivePunchOut}
         />
     );
 };
