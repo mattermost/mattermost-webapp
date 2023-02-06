@@ -44,6 +44,7 @@
         display: flex;
         max-width: 100%;
         align-items: center;
+        gap: 4px;
     }
 
     &.is-selected {
@@ -114,7 +115,7 @@
         font-size: 14px;
         font-weight: 600;
         gap: 10px;
-        grid-template-columns: minmax(0, min-content) minmax(0, 1fr) min-content;
+        grid-template-columns: fit-content(40%) minmax(0, auto) min-content;
         justify-items: start;
         line-height: 20px;
         white-space: nowrap;
