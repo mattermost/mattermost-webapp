@@ -162,13 +162,11 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         const roleForTrackFlow = getRoleForTrackFlow();
         const inviteAs = this.state.invite.inviteType;
         const eventProps = {
-            num_invitations: this.state.invite.usersEmails.length, 
-            ...roleForTrackFlow
+            num_invitations: this.state.invite.usersEmails.length,
+            ...roleForTrackFlow,
+            invite_type: inviteAs,
         };
-        if (inviteAs === InviteType.MEMBER && this.props.isCloud) {
-            trackEvent('cloud_invite_users', 'click_send_invitations', eventProps);
-        }
-        trackEvent('invite_users', 'click_invite', {...eventProps, invite_type: inviteAs});
+        trackEvent('invite_users', 'click_invite', eventProps);
 
         const users: UserProfile[] = [];
         const emails: string[] = [];
