@@ -3,8 +3,9 @@
 
 import React from 'react';
 
-import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
+
+import {ThemeProvider, createPaletteFromLegacyTheme} from '@mattermost/compass-ui';
 
 import {mountWithIntl} from './intl-test-helper';
 
@@ -39,11 +40,10 @@ const DEFAULT_THEME: Theme = {
 };
 
 export const mountWithThemedIntl = (children: React.ReactNode | React.ReactNodeArray, theme?: Theme) => {
+    const newTheme = createPaletteFromLegacyTheme(theme || DEFAULT_THEME);
     return mountWithIntl(
-        <CompassThemeProvider
-            theme={theme || DEFAULT_THEME}
-        >
+        <ThemeProvider theme={newTheme}>
             {children}
-        </CompassThemeProvider>,
+        </ThemeProvider>,
     );
 };

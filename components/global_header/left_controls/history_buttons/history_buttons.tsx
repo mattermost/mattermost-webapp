@@ -4,8 +4,7 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import {useHistory} from 'react-router-dom';
 import styled from 'styled-components';
-
-import IconButton from '@mattermost/compass-components/components/icon-button';
+import {ArrowLeftIcon, ArrowRightIcon} from '@mattermost/compass-icons/components';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import * as Utils from 'utils/utils';
@@ -16,6 +15,8 @@ import KeyboardShortcutSequence, {
 } from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
+
+import {IconButton} from '@mattermost/compass-ui';
 
 const HistoryButtonsContainer = styled.nav`
     display: flex;
@@ -95,9 +96,9 @@ const HistoryButtons = (): JSX.Element => {
                 overlay={getTooltip(KEYBOARD_SHORTCUTS.browserChannelPrev)}
             >
                 <IconButton
-                    icon={'arrow-left'}
+                    IconComponent={ArrowLeftIcon}
                     onClick={goBack}
-                    size={'sm'}
+                    size={'small'}
                     compact={true}
                     inverted={true}
                     disabled={!canGoBack}
@@ -111,9 +112,9 @@ const HistoryButtons = (): JSX.Element => {
                 overlay={getTooltip(KEYBOARD_SHORTCUTS.browserChannelNext)}
             >
                 <IconButton
-                    icon={'arrow-right'}
+                    IconComponent={ArrowRightIcon}
                     onClick={goForward}
-                    size={'sm'}
+                    size={'small'}
                     compact={true}
                     inverted={true}
                     disabled={!canGoForward}

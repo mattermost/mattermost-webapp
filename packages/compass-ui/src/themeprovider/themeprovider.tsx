@@ -8,7 +8,7 @@ import MUIThemeProvider, {ThemeProviderProps} from '@mui/material/styles/ThemePr
 import {lightTheme} from './themes';
 import overrides from './overrides';
 
-const Themeprovider = ({theme = lightTheme, ...rest}: ThemeProviderProps) => {
+const ThemeProvider = ({theme = lightTheme, ...rest}: ThemeProviderProps) => {
     const combinedTheme = createTheme({
         ...theme,
         ...overrides,
@@ -22,4 +22,4 @@ const Themeprovider = ({theme = lightTheme, ...rest}: ThemeProviderProps) => {
     );
 };
 
-export default Themeprovider;
+export default ThemeProvider;

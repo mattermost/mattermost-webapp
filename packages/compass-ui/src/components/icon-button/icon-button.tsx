@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import React from 'react';
 import MuiIconButton, {IconButtonProps as MuiIconButtonProps} from '@mui/material/IconButton';
 
-type IncludedMuiProps = 'size' | 'disabled' | 'onClick';
+type ExcludedMuiProps = 'sx' | 'disableFocusRipple' | 'disableRipple' | 'color' | 'classes';
 
 type CustomProps = {
     IconComponent: React.FC;
@@ -17,7 +17,7 @@ type CustomProps = {
     label?: string;
 }
 
-type IconButtonProps = Pick<MuiIconButtonProps, IncludedMuiProps> & CustomProps;
+type IconButtonProps = Omit<MuiIconButtonProps, ExcludedMuiProps> & CustomProps;
 
 const IconButton = ({IconComponent, label, destructive = false, compact = false, toggled = false, inverted = false, ...props}: IconButtonProps) => {
     return (

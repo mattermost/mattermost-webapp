@@ -31,7 +31,6 @@ import AnnouncementBarController from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
 
 import {makeAsyncComponent} from 'components/async_load';
-import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
 import GlobalHeader from 'components/global_header/global_header';
 import CloudEffects from 'components/cloud_effects';
 import ModalController from 'components/modal_controller';
@@ -87,7 +86,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import WelcomePostRenderer from 'components/welcome_post_renderer';
 
-import {Themeprovider} from '@mattermost/compass-ui';
+import {createPaletteFromLegacyTheme, ThemeProvider} from '@mattermost/compass-ui';
 
 import {UserProfile} from '@mattermost/types/users';
 
@@ -124,15 +123,16 @@ type LoggedInRouteProps<T> = {
     theme?: Theme; // the routes that send the theme are the ones that will actually need to show the onboarding tasklist
 };
 function LoggedInRoute<T>(props: LoggedInRouteProps<T>) {
-    const {component: Component, theme, ...rest} = props;
+    const {component: Component, theme: legacyTheme, ...rest} = props;
+    const theme = createPaletteFromLegacyTheme(legacyTheme);
     return (
         <Route
             {...rest}
             render={(routeProps: RouteComponentProps) => (
                 <LoggedIn {...routeProps}>
-                    {theme && <CompassThemeProvider theme={theme}>
+                    {theme && <ThemeProvider theme={theme}>
                         <OnBoardingTaskList/>
-                    </CompassThemeProvider>}
+                    </ThemeProvider>}
                     <Component {...(routeProps as unknown as T)}/>
                 </LoggedIn>
             )}
@@ -550,7 +550,6 @@ export default class Root extends React.PureComponent<Props, State> {
                 warning: {main: this.props.theme.awayIndicator},
                 info: {main: this.props.theme.mentionHighlightBg},
                 success: {main: this.props.theme.onlineIndicator},
-                mention: {main: this.props.theme.mentionColor},
                 text: {
                     primary: this.props.theme.centerChannelColor,
                 },
@@ -566,7 +565,7 @@ export default class Root extends React.PureComponent<Props, State> {
         };
 
         return (
-            <Themeprovider theme={theme}>
+            <ThemeProvider theme={theme}>
                 <RootProvider>
                     <Switch>
                         <Route
@@ -732,7 +731,7 @@ export default class Root extends React.PureComponent<Props, State> {
                         </>
                     </Switch>
                 </RootProvider>
-            </Themeprovider>
+            </ThemeProvider>
         );
     }
 }

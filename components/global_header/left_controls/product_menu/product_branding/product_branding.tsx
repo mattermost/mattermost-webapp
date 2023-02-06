@@ -4,9 +4,10 @@
 import glyphMap, {ProductChannelsIcon} from '@mattermost/compass-icons/components';
 import React from 'react';
 import styled from 'styled-components';
-import Heading from '@mattermost/compass-components/components/heading';
 
 import {useCurrentProduct} from 'utils/products';
+
+import {Typography} from '@mattermost/compass-ui';
 
 const ProductBrandingContainer = styled.div`
     display: flex;
@@ -25,13 +26,12 @@ const ProductBranding = (): JSX.Element => {
     return (
         <ProductBrandingContainer tabIndex={0}>
             <Icon size={20}/>
-            <Heading
-                element='h1'
-                size={200}
-                margin='none'
+            <Typography
+                variant={'h200'}
+                margin={0}
             >
                 {currentProduct ? currentProduct.switcherText : 'Channels'}
-            </Heading>
+            </Typography>
         </ProductBrandingContainer>
     );
 };

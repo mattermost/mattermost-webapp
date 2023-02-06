@@ -4,6 +4,8 @@
 import {alpha} from '@mui/material';
 import createPalette from '@mui/material/styles/createPalette';
 
+import {Theme as LegacyTheme} from '../../../mattermost-redux/src/selectors/entities/preferences';
+
 declare module '@mui/material/styles' {
     interface Palette {
         mention?: Palette['primary'];
@@ -65,3 +67,25 @@ export const darkTheme = {
         tonalOffset: 0.05,
     }),
 };
+
+export const createPaletteFromLegacyTheme = (theme: LegacyTheme) => ({
+    palette: createPalette({
+        primary: {main: theme.buttonBg},
+        secondary: {main: theme.linkColor},
+        error: {main: theme.dndIndicator},
+        warning: {main: theme.awayIndicator},
+        info: {main: theme.mentionHighlightBg},
+        success: {main: theme.onlineIndicator},
+        text: {
+            primary: theme.centerChannelColor,
+        },
+        background: {
+            default: theme.centerChannelBg,
+        },
+        action: {
+            disabled: alpha(theme.centerChannelColor, 0.32),
+            disabledBackground: alpha(theme.centerChannelColor, 0.08),
+        },
+        tonalOffset: 0.05,
+    }),
+});

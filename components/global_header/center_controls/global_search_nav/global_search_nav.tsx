@@ -4,8 +4,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import Flex from '@mattermost/compass-components/utilities/layout/Flex';
-
 import {closeRightHandSide, showMentions} from 'actions/views/rhs';
 import Search from 'components/search';
 
@@ -18,6 +16,8 @@ import {
     RHSStates,
 } from 'utils/constants';
 import * as Utils from 'utils/utils';
+
+import {Grid} from '@mattermost/compass-ui';
 
 const GlobalSearchNav = (): JSX.Element => {
     const dispatch = useDispatch();
@@ -44,16 +44,13 @@ const GlobalSearchNav = (): JSX.Element => {
     }, [rhsState, dispatch]);
 
     return (
-        <Flex
-            row={true}
+        <Grid
             width={432}
-            flex={1}
-            alignment='center'
+            alignItems={'center'}
+            flexDirection={'row'}
         >
-            <Search
-                enableFindShortcut={true}
-            />
-        </Flex>
+            <Search enableFindShortcut={true}/>
+        </Grid>
     );
 };
 

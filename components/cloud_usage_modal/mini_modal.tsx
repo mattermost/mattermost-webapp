@@ -5,12 +5,13 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {Limits, CloudUsage} from '@mattermost/types/cloud';
 
 import {Message} from 'utils/i18n';
 
-import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
 import GenericModal from 'components/generic_modal';
+
+import {Limits, CloudUsage} from '@mattermost/types/cloud';
+import {ThemeProvider, createPaletteFromLegacyTheme} from '@mattermost/compass-ui';
 
 import WorkspaceLimitsPanel, {messageToElement} from './workspace_limits_panel';
 
@@ -26,7 +27,8 @@ interface Props {
 }
 
 export default function MiniModal(props: Props) {
-    const theme = useSelector(getTheme);
+    const legacyTheme = useSelector(getTheme);
+    const theme = createPaletteFromLegacyTheme(legacyTheme);
 
     const modal = (
         <GenericModal
@@ -48,8 +50,8 @@ export default function MiniModal(props: Props) {
     }
 
     return (
-        <CompassThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
             {modal}
-        </CompassThemeProvider>
+        </ThemeProvider>
     );
 }

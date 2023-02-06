@@ -5,8 +5,7 @@ import React, {useRef} from 'react';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
-
-import IconButton from '@mattermost/compass-components/components/icon-button';
+import {ProductsIcon} from '@mattermost/compass-icons/components';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -31,6 +30,8 @@ import {ExploreOtherToolsTourSteps, suitePluginIds} from 'utils/constants';
 import {useCurrentProductId, useProducts, isChannels} from 'utils/products';
 import {GlobalState} from 'types/store';
 
+import {IconButton} from '@mattermost/compass-ui';
+
 import {useClickOutsideRef} from '../../hooks';
 
 import ProductBranding from './product_branding';
@@ -44,24 +45,6 @@ export const ProductMenuContainer = styled.nav`
 
     > * + * {
         margin-left: 12px;
-    }
-`;
-
-export const ProductMenuButton = styled(IconButton).attrs(() => ({
-    id: 'product_switch_menu',
-    icon: 'products',
-    size: 'sm',
-
-    // we currently need this, since not passing a onClick handler is disabling the IconButton
-    // this is a known issue and is being tracked by UI platform team
-    // TODO@UI: remove the onClick, when it is not a mandatory prop anymore
-    onClick: () => {},
-    inverted: true,
-    compact: true,
-}))`
-    > i::before {
-        font-size: 20px;
-        letter-spacing: 20px;
     }
 `;
 
@@ -138,8 +121,13 @@ const ProductMenu = (): JSX.Element => {
                 open={switcherOpen}
             >
                 <ProductMenuContainer onClick={handleClick}>
-                    <ProductMenuButton
-                        active={switcherOpen}
+                    <IconButton
+                        id={'product_switch_menu'}
+                        IconComponent={ProductsIcon}
+                        size={'small'}
+                        inverted={true}
+                        compact={true}
+                        toggled={switcherOpen}
                         aria-expanded={switcherOpen}
                         aria-label={formatMessage({id: 'global_header.productSwitchMenu', defaultMessage: 'Product switch menu'})}
                         aria-controls='product-switcher-menu'

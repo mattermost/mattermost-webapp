@@ -17,7 +17,7 @@ import {localizeMessage} from 'utils/utils';
 
 import {Post} from '@mattermost/types/posts';
 
-import {Typography, Themeprovider} from '@mattermost/compass-ui';
+import {Typography} from '@mattermost/compass-ui';
 
 import './index.scss';
 
@@ -92,28 +92,26 @@ export default function WelcomePostRenderer(props: {post: Post}) {
     );
 
     return (
-        <Themeprovider theme={{}}>
-            <div className='WelcomePostRenderer'>
-                <PostMarkdown
-                    message={message}
-                    isRHS={false}
-                    post={props.post}
-                    channelId={props.post.channel_id}
-                    mentionKeys={[]}
-                />
-                {testMessage}
-                {actions.length > 0 && (
-                    <div className='WelcomePostRenderer__ActionsContainer'>
-                        {actions.map((action, idx) => (
-                            <div
-                                key={'action-' + idx}
-                            >
-                                {action}
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
-        </Themeprovider>
+        <div className='WelcomePostRenderer'>
+            <PostMarkdown
+                message={message}
+                isRHS={false}
+                post={props.post}
+                channelId={props.post.channel_id}
+                mentionKeys={[]}
+            />
+            {testMessage}
+            {actions.length > 0 && (
+                <div className='WelcomePostRenderer__ActionsContainer'>
+                    {actions.map((action, idx) => (
+                        <div
+                            key={'action-' + idx}
+                        >
+                            {action}
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
     );
 }
