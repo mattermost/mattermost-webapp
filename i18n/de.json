@@ -5599,7 +5599,6 @@
   "work_templates.preview.modal_title": "Vorschau {useCase}",
   "work_templates.preview.section.included": "Eingeschlossen",
   "work_templates.preview.what_you_get": "Das bekommst du:",
-  "work_templates.preview.what_you_see": "Das wirst du sehen:",
   "workspace_limits.archived_file.archived": "DIese Datei ist archiviert",
   "workspace_limits.archived_file.archived_compact": "(archiviert)",
   "workspace_limits.archived_file.tooltip_description": "Dein Arbeitsbereich hat das Dateispeicherlimit von {storageLimit} überschritten. Um dies nochmal anzuzeigen, aktualisiere auf einen kostenpflichtigen Plan",

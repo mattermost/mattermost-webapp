@@ -5597,7 +5597,6 @@
   "work_templates.preview.modal_title": "Preview {useCase}",
   "work_templates.preview.section.included": "Inbegrepen",
   "work_templates.preview.what_you_get": "Dit is wat je krijgt:",
-  "work_templates.preview.what_you_see": "Dit is wat je te zien krijgt:",
   "workspace_limits.archived_file.archived": "Dit bestand is gearchiveerd",
   "workspace_limits.archived_file.archived_compact": "(gearchiveerd)",
   "workspace_limits.archived_file.tooltip_description": "Jouw werkruimte heeft de bestandsopslaglimiet van {storageLimit} bereikt. Om dit opnieuw te bekijken, upgrade naar een betaald plan",
