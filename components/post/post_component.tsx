@@ -485,7 +485,7 @@ const PostComponent = (props: Props): JSX.Element => {
                 onMouseOver={handleMouseOver}
                 onMouseLeave={handleMouseLeave}
             >
-                {isSearchResultItem &&
+                {Boolean(isSearchResultItem) &&
                     <div
                         className='search-channel__name__container'
                         aria-hidden='true'
@@ -512,8 +512,8 @@ const PostComponent = (props: Props): JSX.Element => {
                 <PostPreHeader
                     isFlagged={props.isFlagged}
                     isPinned={post.is_pinned}
-                    skipPinned={props.location === 'SEARCH' && props.isPinnedPosts}
-                    skipFlagged={props.location === 'SEARCH' && props.isFlaggedPosts}
+                    skipPinned={props.location === Locations.SEARCH && props.isPinnedPosts}
+                    skipFlagged={props.location === Locations.SEARCH && props.isFlaggedPosts}
                     channelId={post.channel_id}
                 />
                 <div
