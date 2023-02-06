@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {ArrowDownIcon, ArrowUpIcon} from '@mattermost/compass-icons/components';
+
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import {FilterOptions} from 'components/admin_console/filter/filter';
 
@@ -11,7 +13,6 @@ import {LogFilter, LogLevelEnum, LogObject} from '@mattermost/types/admin';
 import {ChannelSearchOpts} from '@mattermost/types/channels';
 import './log_list.scss';
 import FullLogEventModal from '../full_log_event_modal';
-import { ArrowDownIcon, ArrowUpIcon } from '@mattermost/compass-icons/components';
 
 type Props = {
     loading: boolean;
@@ -76,16 +77,20 @@ export default class LogList extends React.PureComponent<Props, State> {
 
     handleDateSort = () => {
         this.setState({dateAsc: !this.state.dateAsc});
+        this.getColumns(this.state.dateAsc);
     }
 
-    getColumns = (): Column[] => {
+    getColumns = (dateAsc: boolean): Column[] => {
         const timestamp: JSX.Element = (
-            <div onClick={this.handleDateSort}>
+            <div
+                className='timestamp'
+                onClick={this.handleDateSort}
+            >
                 <FormattedMessage
                     id='admin.compliance_table.timestamp'
                     defaultMessage='Timestamp'
                 />
-                {this.state.dateAsc ? (<ArrowUpIcon size={18}/>) : (<ArrowDownIcon size={18}/>)}
+                {dateAsc ? (<ArrowUpIcon size={18}/>) : (<ArrowDownIcon size={18}/>)}
             </div>
         );
         const level: JSX.Element = (
@@ -155,11 +160,11 @@ export default class LogList extends React.PureComponent<Props, State> {
     getRows = (): Row[] => {
         const {startCount, endCount} = this.getPaginationProps();
         const sortedLogs = this.props.logs.sort((a, b) => {
-            const timeA = new Date(a.timestamp);
-            const timeB = new Date(b.timestamp);
+            const timeA = new Date(a.timestamp).valueOf();
+            const timeB = new Date(b.timestamp).valueOf();
 
             if (this.state.dateAsc) {
-                return (timeA - timeB);
+                return timeA - timeB;
             }
             return timeB - timeA;
         });
@@ -247,13 +252,13 @@ export default class LogList extends React.PureComponent<Props, State> {
     }
 
     showErrors = () => {
-        this.props.onFiltersChange({logLevels: ['error']});
+        this.props.onFiltersChange({logLevels: ['error']} as unknown as LogFilter);
     }
 
     render = (): JSX.Element => {
         const {search} = this.props;
         const rows: Row[] = this.getRows();
-        const columns: Column[] = this.getColumns();
+        const columns: Column[] = this.getColumns(this.state.dateAsc);
         const {startCount, endCount, total} = this.getPaginationProps();
 
         const placeholderEmpty: JSX.Element = (

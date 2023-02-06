@@ -5,10 +5,12 @@
             padding-left: 16px;
             cursor: pointer;
         }
-        
-        .DataGrid_cell {
+
+        .DataGrid_cell > .timestamp {
             display: flex;
-            align-items: middle;
+            width: 100%;
+            align-items: center;
+            cursor: pointer;
         }
     }
 
