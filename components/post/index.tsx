@@ -7,7 +7,7 @@ import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 import {showActionsDropdownPulsatingDot} from 'selectors/actions_menu';
 import {setActionsMenuInitialisationState} from 'mattermost-redux/actions/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getPost, makeGetCommentCountForPost, makeIsPostCommentMention, isPostAcknowledgementsEnabled, isPostPriorityEnabled} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, makeGetCommentCountForPost, makeIsPostCommentMention, isPostAcknowledgementsEnabled, isPostPriorityEnabled, UserActivityPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {
     get,
@@ -46,7 +46,7 @@ import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import PostComponent from './post_component';
 
 interface OwnProps {
-    post?: Post;
+    post?: Post | UserActivityPost;
     previousPostId?: string;
     postId?: string;
     teamId?: string;
@@ -98,10 +98,10 @@ function removePostAndCloseRHS(post: ExtendedPost) {
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let post;
-    if (ownProps.postId) {
-        post = getPost(state, ownProps.postId);
-    } else {
+    if (ownProps.post) {
         post = ownProps.post;
+    } else if (ownProps.postId) {
+        post = getPost(state, ownProps.postId);
     }
     if (!post) {
         return null;

@@ -25,7 +25,7 @@ const QuickUse = styled.button`
     opacity: 0;
     z-index: 2;
 
-    transition: visibility 0.4s ease-in-out, opacity 0.4s ease-in-out;
+    transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out;
 `;
 
 interface UseCaseProps {
@@ -125,13 +125,13 @@ const StyledUseCaseMenuItem = styled(UseCase)`
         flex-grow: 1;
         overflow-x: hidden;
         overflow-y: hidden;
-        transition: height 0.4s ease-in-out;
+        transition: height 0.2s ease-in-out;
 
         img {
             width: 204px;
             height: 123px;
             z-index: 1;
-            transition: margin 0.4s ease-in-out;
+            transition: margin 0.2s ease-in-out;
         }
     }
 
@@ -145,7 +145,7 @@ const StyledUseCaseMenuItem = styled(UseCase)`
         font-size: 12px;
         line-height: 16px;
         color: var(--center-channel-color);
-        transition: height 0.4s ease-in-out;
+        transition: height 0.2s ease-in-out;
         flex-grow: 2;
 
         .details {
@@ -157,7 +157,7 @@ const StyledUseCaseMenuItem = styled(UseCase)`
             line-height: 16px;
             letter-spacing: 0.02em;
             color: rgba(var(--center-channel-text-rgb), 0.72);
-            transition: visibility 0.4s ease-in-out, opacity 0.4s ease-in-out;
+            transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out;
         }
     }
 

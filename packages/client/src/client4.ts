@@ -95,7 +95,6 @@ import type {
 } from '@mattermost/types/marketplace';
 import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse, PostAcknowledgement, PostAnalytics} from '@mattermost/types/posts';
 import {Draft} from '@mattermost/types/drafts';
-import {BoardPatch, BoardTemplate, Board, CreateBoardResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
 import {SamlCertificateStatus, SamlMetadataResponse} from '@mattermost/types/saml';
@@ -3530,36 +3529,7 @@ export default class Client4 {
         );
     };
 
-    getBoardsTemplates = (teamId = '0') => {
-        return this.doFetch<BoardTemplate[]>(
-            `${this.getBoardsRoute()}/teams/${teamId}/templates`,
-            {method: 'get'},
-        );
-    }
-
-    createBoard = (board: Board) => {
-        return this.doFetch<CreateBoardResponse>(
-            `${this.getBoardsRoute()}/boards`,
-            {method: 'POST', body: JSON.stringify({...board})},
-        );
-    }
-
-    createBoardFromTemplate = (boardTemplateId: string, teamId: string) => {
-        return this.doFetch<CreateBoardResponse>(
-            `${this.getBoardsRoute()}/boards/${boardTemplateId}/duplicate?asTemplate=false&toTeam=${teamId}`,
-            {method: 'POST'},
-        );
-    }
-
-    patchBoard = (newBoardId: string, boardPatch: BoardPatch) => {
-        return this.doFetch<Board>(
-            `${this.getBoardsRoute()}/boards/${newBoardId}`,
-            {method: 'PATCH', body: JSON.stringify({...boardPatch})},
-        );
-    }
-
     // Groups
-
     linkGroupSyncable = (groupID: string, syncableID: string, syncableType: string, patch: SyncablePatch) => {
         return this.doFetch<GroupSyncable>(
             `${this.getGroupRoute(groupID)}/${syncableType}s/${syncableID}/link`,

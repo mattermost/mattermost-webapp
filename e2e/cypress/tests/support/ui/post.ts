@@ -113,7 +113,7 @@ export function verifySavedPost(postId, message) {
         // * Check that the post pre-header is not shown for the saved message in RHS
         cy.get('#search-items-container').within(() => {
             cy.get(`#rhsPostMessageText_${postId}`).contains(message);
-            cy.get('div.post-pre-header').should('not.be.visible');
+            cy.get('div.post-pre-header').should('not.exist');
         });
     });
 
