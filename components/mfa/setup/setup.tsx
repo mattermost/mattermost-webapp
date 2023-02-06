@@ -80,15 +80,16 @@ export default class Setup extends React.PureComponent<Props, State> {
             this.props.history.push('/');
             return;
         }
-        trackEvent('mfa_setup', 'mfa_setup_page_loaded', {isMobile: isMobile()});
 
         this.props.actions.generateMfaSecret().then(({data, error}) => {
             if (error) {
                 this.setState({
                     serverError: error.message,
                 });
+                trackEvent('mfa_setup', 'mfa_setup_page_error_on_load', {isMobile: isMobile()});
                 return;
             }
+            trackEvent('mfa_setup', 'mfa_setup_page_loaded', {isMobile: isMobile()});
 
             this.setState({
                 secret: data.secret,
@@ -109,6 +110,7 @@ export default class Setup extends React.PureComponent<Props, State> {
 
         this.props.actions.activateMfa(code).then(({error}) => {
             if (error) {
+                trackEvent('mfa_setup', 'mfa_setup_error_on_save', {isMobile: isMobile(), errorId: error.server_error_id});
                 if (error.server_error_id === 'ent.mfa.activate.authenticate.app_error') {
                     this.setState({
                         error: Utils.localizeMessage('mfa.setup.badCode', 'Invalid code. If this issue persists, contact your System Administrator.'),

@@ -43,7 +43,7 @@ export default class Confirm extends React.PureComponent<Props> {
 
     submit = (e: KeyboardEvent | React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        trackEvent('mfa_setup', 'mfa_confirmed', {isMobile: isMobile()});
+        trackEvent('mfa_setup', 'submit_mfa_confirm', {isMobile: isMobile()});
         redirectUserToDefaultTeam();
     }
 

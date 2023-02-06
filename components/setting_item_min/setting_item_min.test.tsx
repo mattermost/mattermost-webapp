@@ -43,7 +43,7 @@ describe('components/SettingItemMin', () => {
             <SettingItemMin {...props}/>,
         );
 
-        wrapper.instance().handleUpdateSection({preventDefault: jest.fn()} as any);
+        wrapper.instance().handleUpdateSection({preventDefault: jest.fn(), stopPropagation: jest.fn()} as any);
         expect(updateSection).toHaveBeenCalled();
         expect(updateSection).toHaveBeenCalledWith('section');
     });
@@ -55,7 +55,7 @@ describe('components/SettingItemMin', () => {
             <SettingItemMin {...props}/>,
         );
 
-        wrapper.instance().handleUpdateSection({preventDefault: jest.fn()} as any);
+        wrapper.instance().handleUpdateSection({preventDefault: jest.fn(), stopPropagation: jest.fn()} as any);
         expect(updateSection).toHaveBeenCalled();
         expect(updateSection).toHaveBeenCalledWith('');
     });
