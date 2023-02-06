@@ -64,10 +64,10 @@ const CompanyInfoEdit: React.FC<Props> = () => {
     const updateNumEmployees = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.value) {
             setNumEmployees(parseInt(event.target.value, 10));
-            setContentChanged(true);
         } else {
             setNumEmployees(undefined);
         }
+        setContentChanged(true);
     };
 
     useEffect(() => {
