@@ -277,7 +277,6 @@
   "admin.billing.subscription.freeTrial.lastDay.title": "Безплатната пробна версия изтича днес",
   "admin.billing.subscription.freeTrial.lessThan3Days.description": "Безплатният ви пробен период ще приключи след {daysLeftOnTrial, number} {daysLeftOnTrial, plural, one {ден} other {дни}}. Добавете информация за плащане, за да продължите да се наслаждавате на предимствата на Cloud Professional.",
   "admin.billing.subscription.freeTrial.title": "В момента сте в безплатна пробна версия",
-  "admin.billing.subscription.freeTrialDisclaimer": "Вашата сметка се изчислява в края на цикъла за фактуриране въз основа на броя на активираните потребители. ",
   "admin.billing.subscription.goBackTryAgain": "Върнете се и опитайте отново",
   "admin.billing.subscription.howItWorks": "Вижте как работи таксуването",
   "admin.billing.subscription.mostRecentPaymentFailed": "Последното Ви плащане е неуспешно",

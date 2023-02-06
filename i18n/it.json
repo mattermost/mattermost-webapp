@@ -303,7 +303,6 @@
   "admin.billing.subscription.freeTrial.lastDay.title": "Il periodo di prova gratuito termina oggi",
   "admin.billing.subscription.freeTrial.lessThan3Days.description": "Il vostro periodo di prova gratuito finisce in {daysLeftOnTrial, number} {daysLeftOnTrial, plural, one {giorno} other {giorni}}. Aggiungi le informazioni di pagamento per continuare a godere dei benefici di Cloud Professionale.",
   "admin.billing.subscription.freeTrial.title": "Siete attualmente in un periodo di prova gratuito",
-  "admin.billing.subscription.freeTrialDisclaimer": "La vostra fattura è calcolata alla fine del ciclo di fatturazione basandosi sul numero degli utenti abilitati. ",
   "admin.billing.subscription.goBackTryAgain": "Torna indietro e riprova",
   "admin.billing.subscription.howItWorks": "Vedi come funziona la fatturazione",
   "admin.billing.subscription.mostRecentPaymentFailed": "Il vostro più recente pagamento è fallito",
