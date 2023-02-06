@@ -52,6 +52,7 @@
 
     &__pulsating-dot-ctr {
         position: absolute;
+        z-index: 3;
         width: 14px;
         height: 14px;
         cursor: pointer;
@@ -421,5 +422,27 @@
 
     .icon-close {
         color: var(--sidebar-text) !important;
+    }
+
+    .tour-tip__btn {
+        background: var(--button-color);
+        color: var(--button-bg);
+
+        &:hover {
+            background: var(--button-color);
+            color: var(--button-bg);
+        }
+    }
+
+    .tour-tip__dot-ring {
+        .tour-tip__dot {
+            background: var(--offline-indicator);
+        }
+    }
+
+    .tour-tip__dot-ring-active {
+        .active {
+            background: var(--button-color);
+        }
     }
 }

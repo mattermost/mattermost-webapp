@@ -6,9 +6,10 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentChannelId, getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
 import {savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
 import {
     generateTelemetryTag,
@@ -20,6 +21,7 @@ import {
     getLastStep,
     isKeyPressed,
     KeyCodes,
+    TutorialTourName,
     useGetTourSteps,
     useHandleNavigationAndExtraActions,
 } from 'components/tours';
@@ -41,7 +43,8 @@ export const useTourTipManager = (tourCategory: string): ChannelsTourTipManager 
     // Function to save the tutorial step in redux store start here which needs to be modified
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
-    const currentStep = useSelector((state: GlobalState) => getInt(state, tourCategory, currentUserId, 0));
+    const currentChannelId = useSelector(getCurrentChannelId);
+    const currentStep = useSelector((state: GlobalState) => getInt(state, tourCategory, tourCategory === TutorialTourName.WORK_TEMPLATE_TUTORIAL ? currentChannelId : currentUserId, 0));
     const autoTourStatus = useSelector((state: GlobalState) => getInt(state, tourCategory, TTNameMapToATStatusKey[tourCategory], 0));
     const isAutoTourEnabled = autoTourStatus === AutoTourStatus.ENABLED;
     const handleActions = useHandleNavigationAndExtraActions(tourCategory);
@@ -52,7 +55,7 @@ export const useTourTipManager = (tourCategory: string): ChannelsTourTipManager 
                 {
                     user_id: currentUserId,
                     category: tourCategory,
-                    name: currentUserId,
+                    name: tourCategory === TutorialTourName.WORK_TEMPLATE_TUTORIAL ? currentChannelId : currentUserId,
                     value: stepValue.toString(),
                 },
                 {
@@ -69,7 +72,7 @@ export const useTourTipManager = (tourCategory: string): ChannelsTourTipManager 
                 trackEventAction(tourCategory, telemetryTag);
             }
         },
-        [currentUserId],
+        [currentUserId, currentChannelId],
     );
 
     // Function to save the tutorial step in redux store end here

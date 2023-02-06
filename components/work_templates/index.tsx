@@ -9,8 +9,15 @@ import styled from 'styled-components';
 
 import LocalizedIcon from 'components/localized_icon';
 import {closeModal as closeModalAction} from 'actions/views/modals';
-import {trackEvent} from 'actions/telemetry_actions';
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {ActionResult} from 'mattermost-redux/types/actions';
+
+import {fetchRemoteListing} from 'actions/marketplace';
+import {switchToChannelById} from 'actions/views/channel';
+import {trackEvent} from 'actions/telemetry_actions';
 
 import {
     clearCategories,
@@ -18,14 +25,19 @@ import {
     executeWorkTemplate,
     getWorkTemplateCategories,
     getWorkTemplates,
+    onExecuteSuccess,
 } from 'mattermost-redux/actions/work_templates';
-import {Category, ExecuteWorkTemplateRequest, ExecuteWorkTemplateResponse, Visibility, WorkTemplate} from '@mattermost/types/work_templates';
+
+import {
+    Category,
+    ExecuteWorkTemplateRequest,
+    ExecuteWorkTemplateResponse,
+    LinkedProducts,
+    Visibility,
+    WorkTemplate,
+} from '@mattermost/types/work_templates';
+
 import {GlobalState} from '@mattermost/types/store';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {fetchRemoteListing} from 'actions/marketplace';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {ActionResult} from 'mattermost-redux/types/actions';
-import {switchToChannelById} from 'actions/views/channel';
 
 import Customize from './components/customize';
 import Menu from './components/menu';
@@ -166,7 +178,23 @@ const WorkTemplateModal = () => {
         setSelectedVisibility(visibility);
     };
 
+    const getContentCount = (template: WorkTemplate) => {
+        let linkedPlaybooksCount = 0;
+        let linkedBoardsCount = 0;
+        for (const item of template.content) {
+            if (item.playbook) {
+                const pbTemplate = playbookTemplates.find((pb) => pb.title === item.playbook.template);
+                if (pbTemplate) {
+                    linkedPlaybooksCount++;
+                }
+            } else if (item.board) {
+                linkedBoardsCount++;
+            }
+        }
+        return {linkedBoardsCount: String(linkedBoardsCount), linkedPlaybooksCount: String(linkedPlaybooksCount)};
+    };
     const execute = async (template: WorkTemplate, name = '', visibility: Visibility) => {
+        const {linkedBoardsCount, linkedPlaybooksCount} = getContentCount(template);
         const pbTemplates = [];
         for (const item of template.content) {
             if (item.playbook) {
@@ -203,6 +231,13 @@ const WorkTemplateModal = () => {
         } else if (data?.channel_ids.length) {
             firstChannelId = data.channel_ids[0];
         }
+
+        const linkedProductsCount: LinkedProducts = {
+            linkedBoardsCount,
+            linkedPlaybooksCount,
+            channelId: firstChannelId,
+        };
+        await dispatch(onExecuteSuccess(linkedProductsCount));
         if (firstChannelId) {
             dispatch(switchToChannelById(firstChannelId));
         }

@@ -24,6 +24,7 @@ export const TutorialTourName = {
     CRT_THREAD_PANE_STEP: 'crt_thread_pane_step',
     AUTO_TOUR_STATUS: 'auto_tour_status',
     EXPLORE_OTHER_TOOLS: 'explore_tools',
+    WORK_TEMPLATE_TUTORIAL: 'work_template',
 };
 
 export const OnboardingTourSteps = {
@@ -54,6 +55,12 @@ export const CrtTutorialSteps = {
     FINISHED,
 };
 
+export const WorkTemplateTourStep = {
+    PLAYBOOKS_TOUR: 0,
+    BOARDS_TOUR: 1,
+    FINISHED,
+};
+
 export const CrtTutorialTriggerSteps = {
     START: 0,
     STARTED: 1,
@@ -65,6 +72,8 @@ export const TTNameMapToATStatusKey = {
     [TutorialTourName.CRT_TUTORIAL_STEP]: 'crt_tutorial_auto_tour_status',
     [TutorialTourName.CRT_THREAD_PANE_STEP]: TutorialTourName.CRT_THREAD_PANE_STEP + AutoStatusSuffix,
     [TutorialTourName.EXPLORE_OTHER_TOOLS]: TutorialTourName.EXPLORE_OTHER_TOOLS + AutoStatusSuffix,
+    [TutorialTourName.WORK_TEMPLATE_TUTORIAL]: TutorialTourName.WORK_TEMPLATE_TUTORIAL + AutoStatusSuffix,
+
 };
 
 export const TTNameMapToTourSteps = {
@@ -72,4 +81,5 @@ export const TTNameMapToTourSteps = {
     [TutorialTourName.ONBOARDING_TUTORIAL_STEP_FOR_GUESTS]: OnboardingTourStepsForGuestUsers,
     [TutorialTourName.CRT_TUTORIAL_STEP]: CrtTutorialSteps,
     [TutorialTourName.EXPLORE_OTHER_TOOLS]: ExploreOtherToolsTourSteps,
+    [TutorialTourName.WORK_TEMPLATE_TUTORIAL]: WorkTemplateTourStep,
 };

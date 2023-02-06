@@ -80,10 +80,16 @@ const ProductMenu = (): JSX.Element => {
     const exploreToolsTourTriggered = triggerStep === GenericTaskSteps.STARTED;
 
     const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
-    const boards = pluginsList.focalboard;
     const playbooks = pluginsList.playbooks;
 
-    const showBoardsTour = enableTutorial && tutorialStep === ExploreOtherToolsTourSteps.BOARDS_TOUR && exploreToolsTourTriggered && boards;
+    const focalboardPluginEnabled = pluginsList.focalboard;
+    let focalboardProductEnabled = false;
+    if (products) {
+        focalboardProductEnabled = products.some((product) => product.pluginId === suitePluginIds.focalboard || product.pluginId === suitePluginIds.boards);
+    }
+    const focalboardEnabled = focalboardPluginEnabled || focalboardProductEnabled;
+
+    const showBoardsTour = enableTutorial && tutorialStep === ExploreOtherToolsTourSteps.BOARDS_TOUR && exploreToolsTourTriggered && focalboardEnabled;
     const showPlaybooksTour = enableTutorial && tutorialStep === ExploreOtherToolsTourSteps.PLAYBOOKS_TOUR && exploreToolsTourTriggered && playbooks;
 
     const handleClick = () => dispatch(setProductMenuSwitcherOpen(!switcherOpen));
@@ -115,7 +121,7 @@ const ProductMenu = (): JSX.Element => {
 
         // playbooks
         if (product.pluginId === suitePluginIds.playbooks && showPlaybooksTour) {
-            tourTip = (<PlaybooksTourTip singleTip={!boards}/>);
+            tourTip = (<PlaybooksTourTip singleTip={!focalboardEnabled}/>);
         }
 
         return (

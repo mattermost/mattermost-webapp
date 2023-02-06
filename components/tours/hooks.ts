@@ -5,6 +5,8 @@ import {useCallback} from 'react';
 
 import {useDispatch, useSelector} from 'react-redux';
 
+import {without} from 'lodash';
+
 import {getCurrentUserId, isCurrentUserGuestUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
@@ -12,12 +14,15 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {close as closeLhs, open as openLhs} from 'actions/views/lhs';
 import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
 import {switchToChannels} from 'actions/views/onboarding_tasks';
+import {showRHSPlugin} from 'actions/views/rhs';
+import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
+
+import {selectProducts} from 'selectors/products';
+
 import {getHistory} from 'utils/browser_history';
 import {GlobalState} from 'types/store';
 
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName} from '../onboarding_tasks';
-
-import {setProductMenuSwitcherOpen} from '../../actions/views/product_menu';
 
 import {
     CrtTutorialSteps,
@@ -26,12 +31,13 @@ import {
     OnboardingTourSteps,
     TTNameMapToTourSteps,
     TutorialTourName,
+    WorkTemplateTourStep,
 } from './constant';
 
 export const useGetTourSteps = (tourCategory: string) => {
     const isGuestUser = useSelector((state: GlobalState) => isCurrentUserGuestUser(state));
     const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
-
+    const pluginProducts = useSelector(selectProducts);
     let tourSteps: Record<string, number> = TTNameMapToTourSteps[tourCategory];
 
     if (tourCategory === TutorialTourName.EXPLORE_OTHER_TOOLS) {
@@ -46,6 +52,19 @@ export const useGetTourSteps = (tourCategory: string) => {
             delete steps.BOARDS_TOUR;
         }
         tourSteps = steps;
+    } else if (tourCategory === TutorialTourName.WORK_TEMPLATE_TUTORIAL) {
+        const pluginIds = pluginProducts.map((pluginProduct) => {
+            return pluginProduct.pluginId;
+        });
+        const steps: Record<string, number> = tourSteps as typeof WorkTemplateTourStep;
+        if (!pluginIds.includes('playbooks')) {
+            delete steps.PLAYBOOKS_TOUR;
+        }
+
+        if (!pluginIds.includes('boards')) {
+            delete steps.BOARDS_TOUR;
+        }
+        tourSteps = steps;
     } else if (tourCategory === TutorialTourName.ONBOARDING_TUTORIAL_STEP && isGuestUser) {
         // restrict the 'learn more about messaging' tour when user is guest (townSquare, channel creation and user invite are restricted to guests)
         tourSteps = TTNameMapToTourSteps[TutorialTourName.ONBOARDING_TUTORIAL_STEP_FOR_GUESTS];
@@ -56,6 +75,8 @@ export const useHandleNavigationAndExtraActions = (tourCategory: string) => {
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
     const teamUrl = useSelector((state: GlobalState) => getCurrentRelativeTeamUrl(state));
+    const pluggableIds = useSelector((state: GlobalState) => state.plugins.components.RightHandSidebarComponent).map((plugin) => (plugin.id));
+    const pluggableId = useSelector((state: GlobalState) => state.views.rhs.pluggableId);
 
     const nextStepActions = useCallback((step: number) => {
         if (tourCategory === TutorialTourName.ONBOARDING_TUTORIAL_STEP) {
@@ -138,6 +159,11 @@ export const useHandleNavigationAndExtraActions = (tourCategory: string) => {
                 break;
             }
             default:
+            }
+        } else if (tourCategory === TutorialTourName.WORK_TEMPLATE_TUTORIAL) {
+            const navigationPluggableId = without(pluggableIds, pluggableId)[0];
+            if (step === WorkTemplateTourStep.BOARDS_TOUR || step === WorkTemplateTourStep.PLAYBOOKS_TOUR) {
+                dispatch(showRHSPlugin(navigationPluggableId));
             }
         }
     }, [currentUserId, teamUrl, tourCategory]);
