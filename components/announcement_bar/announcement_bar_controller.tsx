@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {ToYearlyNudgeBannerDismissable} from 'components/admin_console/billing/billing_subscriptions/to_yearly_nudge_banner';
+
 import {ClientLicense, ClientConfig, WarnMetricStatus} from '@mattermost/types/config';
 import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
 
@@ -69,6 +71,7 @@ class AnnouncementBarController extends React.PureComponent<Props> {
         let cloudTrialEndAnnouncementBar = null;
         let cloudDelinquencyAnnouncementBar = null;
         let notifyAdminDowngradeDelinquencyBar = null;
+        let toYearlyNudgeBannerDismissable = null;
         if (this.props.license?.Cloud === 'true') {
             paymentAnnouncementBar = (
                 <PaymentAnnouncementBar/>
@@ -85,6 +88,7 @@ class AnnouncementBarController extends React.PureComponent<Props> {
             notifyAdminDowngradeDelinquencyBar = (
                 <NotifyAdminDowngradeDelinquencyBar/>
             );
+            toYearlyNudgeBannerDismissable = (<ToYearlyNudgeBannerDismissable/>);
         }
 
         let autoStartTrialModal = null;
@@ -103,6 +107,7 @@ class AnnouncementBarController extends React.PureComponent<Props> {
                 {cloudTrialEndAnnouncementBar}
                 {cloudDelinquencyAnnouncementBar}
                 {notifyAdminDowngradeDelinquencyBar}
+                {toYearlyNudgeBannerDismissable}
                 {this.props.license?.Cloud !== 'true' && <OverageUsersBanner/>}
                 {autoStartTrialModal}
                 <ShowThreeDaysLeftTrialModal/>

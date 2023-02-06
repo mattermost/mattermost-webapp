@@ -24,7 +24,7 @@ type OwnProps = {
     className?: string;
 
     // Stripe doesn't give type exports
-    [propName: string]: any; //eslint-disable-line @typescript-eslint/no-explicit-any
+    [propName: string]: any;
 }
 
 type Props = {

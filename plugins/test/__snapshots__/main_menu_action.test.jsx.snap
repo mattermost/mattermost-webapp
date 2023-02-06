@@ -168,6 +168,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
           }
           id="invitePeople"
           modalId="invitation"
+          onClick={[Function]}
           show={true}
           text="Invite People"
         />
@@ -485,6 +486,7 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
           icon={false}
           id="invitePeople"
           modalId="invitation"
+          onClick={[Function]}
           show={true}
           text="Invite People"
         />

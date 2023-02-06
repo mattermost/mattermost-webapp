@@ -6,6 +6,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {GlobalState} from 'types/store';
 
@@ -19,6 +20,7 @@ function mapStateToProps(state: GlobalState) {
         teamName: team.name,
         teamDisplayName: team.display_name,
         siteName: state.entities.general.config.SiteName,
+        currentTheme: getTheme(state),
     };
 }
 
