@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import Permissions from 'mattermost-redux/constants/permissions';
+import type {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 import * as Utils from 'utils/utils';
 import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permission_gate';
@@ -18,6 +19,7 @@ type Props = {
     teamDisplayName?: string;
     siteName?: string;
     scrollToTop(): void;
+    currentTheme: Theme;
     actions: {
         loadRolesIfNeeded(roles: Iterable<string>): void;
     };
@@ -33,6 +35,11 @@ export default class EmojiPage extends React.PureComponent<Props> {
     componentDidMount() {
         this.updateTitle();
         this.props.actions.loadRolesIfNeeded(['system_admin', 'team_admin', 'system_user', 'team_user']);
+        Utils.resetTheme();
+    }
+
+    componentWillUnmount() {
+        Utils.applyTheme(this.props.currentTheme);
     }
 
     updateTitle = () => {
