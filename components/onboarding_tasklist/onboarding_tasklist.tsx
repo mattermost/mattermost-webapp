@@ -301,9 +301,6 @@ const OnBoardingTaskList = (): JSX.Element | null => {
             }
 
             dispatch(showRHSPlugin(boardsId));
-
-            // track the auto shown linked board event
-            trackEvent('temp', OnboardingTaskList.ONBOARDING_LINKED_BOARD_AUTO_SHOWN);
         }
     }, [open, currentUserId]);
 
