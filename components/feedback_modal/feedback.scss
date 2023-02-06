@@ -1,26 +1,8 @@
 .FeedbackModal {
     &__Container {
-        padding: 15px;
-
-        .GenericModal__body {
-            padding-top: 10px;
-        }
-
         .radio-list > .radio {
             margin-bottom: 20px;
         }
-
-        .close {
-            margin-top: 12px;
-        }
-    }
-
-    &__Title {
-        color: var(--sys-denim-center-channel-text);
-        font-family: 'Metropolis';
-        font-size: 22px;
-        font-weight: 600;
-        line-height: 28px;
     }
 
     &__FreeFormText {
@@ -32,30 +14,5 @@
         color: black;
         font-size: 15px;
         resize: none;
-    }
-
-    &__Submit {
-        display: flex;
-
-        button {
-            border-radius: 4px;
-        }
-
-        .disabled {
-            background-color: rgba(var(--center-channel-text-rgb), 0.08);
-            color: rgba(var(--center-channel-text-rgb), 0.32);
-            font-weight: 600;
-        }
-
-        .btn-secondary {
-            width: 90px;
-            margin-left: auto;
-            background-color: rgba(var(--denim-button-bg-rgb), 0.08);
-            color: var(--denim-button-bg);
-        }
-
-        .btn-primary {
-            margin-left: 10px;
-        }
     }
 }

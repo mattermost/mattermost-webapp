@@ -4268,7 +4268,7 @@ export default class Client4 {
     deleteWorkspace = (deletionRequest: WorkspaceDeletionRequest) => {
         return this.doFetch<StatusOK>(
             `${this.getCloudRoute()}/delete-workspace`,
-            {method: 'post', body: JSON.stringify(deletionRequest)},
+            {method: 'delete', body: JSON.stringify(deletionRequest)},
         );
     }
 }

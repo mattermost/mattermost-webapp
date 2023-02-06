@@ -220,7 +220,7 @@ export interface CreateSubscriptionRequest {
 
 export type Feedback = {
     reason: string;
-    comments?: string;
+    comments: string;
 }
 
 export type WorkspaceDeletionRequest = {

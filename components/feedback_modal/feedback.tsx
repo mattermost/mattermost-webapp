@@ -3,9 +3,8 @@
 
 import React, {useState} from 'react';
 
-import {FormattedMessage} from 'react-intl';
+import {injectIntl, WrappedComponentProps} from 'react-intl';
 import {useDispatch} from 'react-redux';
-import classNames from 'classnames';
 
 import {GenericModal} from '@mattermost/components';
 import {Feedback} from '@mattermost/types/cloud';
@@ -22,11 +21,11 @@ type Props = {
     submitText: string;
     feedbackOptions: string[];
     freeformTextPlaceholder: string;
-}
+} & WrappedComponentProps
 
-export default function FeedbackModal(props: Props) {
-    const optionOther = 'Other';
-    const FeedbackModalOptions: string[] = [
+function FeedbackModal(props: Props) {
+    const optionOther =  props.intl.formatMessage({id:'feedback.other', defaultMessage: 'Other'});
+    const feedbackModalOptions: string[] = [
         ...props.feedbackOptions,
         optionOther,
     ];
@@ -34,6 +33,7 @@ export default function FeedbackModal(props: Props) {
     const [reason, setReason] = useState('');
     const [comments, setComments] = useState('');
     const reasonNotSelected = reason === '';
+    const reasonOther = reason === optionOther;
     const commentsNotProvided = comments.trim() === '';
     const submitDisabled = reasonNotSelected || (reason === optionOther && commentsNotProvided);
 
@@ -44,7 +44,7 @@ export default function FeedbackModal(props: Props) {
             return;
         }
 
-        props.onSubmit({reason, comments: comments.trim()});
+        props.onSubmit({reason, comments: reasonOther ? comments.trim() : ''});
         dispatch(closeModal(ModalIdentifiers.FEEDBACK));
     };
 
@@ -54,16 +54,20 @@ export default function FeedbackModal(props: Props) {
 
     return (
         <GenericModal
+            compassDesign={true}
             onExited={handleCancel}
             className='FeedbackModal__Container'
+            isConfirmDisabled={submitDisabled}
+            handleCancel={handleCancel}
+            handleConfirm={handleSubmitFeedbackModal}
+            confirmButtonText={props.submitText}
+            cancelButtonText={props.intl.formatMessage({id: 'feedback.cancelButton.text', defaultMessage: 'Cancel'})}
+            modalHeaderText={props.title}
         >
-            <span className='FeedbackModal__Title'>
-                {props.title}
-            </span>
             <RadioButtonGroup
                 id='FeedbackModalRadioGroup'
                 testId='FeedbackModalRadioGroup'
-                values={FeedbackModalOptions.map((option) => {
+                values={feedbackModalOptions.map((option) => {
                     return {
                         value: option,
                         key: option,
@@ -73,33 +77,18 @@ export default function FeedbackModal(props: Props) {
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
             />
-            <textarea
-                className='FeedbackModal__FreeFormText'
-                placeholder={props.freeformTextPlaceholder}
-                rows={3}
-                onChange={(e) => {
-                    setComments(e.target.value);
-                }}
-                style={{display: reason === optionOther ? '' : 'none'}}
-            />
-            <div className='FeedbackModal__Submit'>
-                <button
-                    className='btn btn-secondary'
-                    onClick={handleCancel}
-                >
-                    <FormattedMessage
-                        id={'feedback.cancel'}
-                        defaultMessage={'Cancel'}
-                    />
-                </button>
-                <button
-                    disabled={submitDisabled}
-                    className={classNames('btn btn-primary', {disabled: submitDisabled})}
-                    onClick={handleSubmitFeedbackModal}
-                >
-                    {props.submitText}
-                </button>
-            </div>
+            {reason === optionOther &&
+                <textarea
+                    className='FeedbackModal__FreeFormText'
+                    placeholder={props.freeformTextPlaceholder}
+                    rows={3}
+                    onChange={(e) => {
+                        setComments(e.target.value);
+                    }}
+                />
+            }
         </GenericModal>
     );
 }
+
+export default injectIntl(FeedbackModal);
