@@ -304,7 +304,6 @@
   "admin.billing.subscription.freeTrial.lastDay.title": "Ingyenes próbaverziója ma lejár",
   "admin.billing.subscription.freeTrial.lessThan3Days.description": "Ingyenes próbaverziója {daysLeftOnTrial, number} nap múlva véget ér. Adjon hozzá fizetési információkat, hogy továbbra is élvezhesse a Cloud Professional előnyeit.",
   "admin.billing.subscription.freeTrial.title": "Jelenleg ingyenes próbaidőszakot használ",
-  "admin.billing.subscription.freeTrialDisclaimer": "A számla kiállítása a számlázási ciklus végén történik az engedélyezett felhasználók száma alapján. ",
   "admin.billing.subscription.goBackTryAgain": "Visszalépés, és próbáld újra",
   "admin.billing.subscription.howItWorks": "Nézze meg, hogyan működik a számlázás",
   "admin.billing.subscription.mostRecentPaymentFailed": "Legutóbbi fizetése sikertelen",
