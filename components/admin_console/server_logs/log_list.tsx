@@ -11,6 +11,7 @@ import {LogFilter, LogLevelEnum, LogObject} from '@mattermost/types/admin';
 import {ChannelSearchOpts} from '@mattermost/types/channels';
 import './log_list.scss';
 import FullLogEventModal from '../full_log_event_modal';
+import { ArrowDownIcon, ArrowUpIcon } from '@mattermost/compass-icons/components';
 
 type Props = {
     loading: boolean;
@@ -25,6 +26,7 @@ type State = {
     modalLog: null | LogObject;
     modalOpen: boolean;
     page: number;
+    dateAsc: boolean;
 }
 
 const PAGE_SIZE = 50;
@@ -37,8 +39,10 @@ export default class LogList extends React.PureComponent<Props, State> {
             modalLog: null,
             modalOpen: false,
             page: 0,
+            dateAsc: true,
         };
     }
+
     isSearching = (term: string, filters: ChannelSearchOpts) => {
         return term.length > 0 || Object.keys(filters).length > 0;
     }
@@ -70,12 +74,19 @@ export default class LogList extends React.PureComponent<Props, State> {
         return {startCount, endCount, total};
     }
 
+    handleDateSort = () => {
+        this.setState({dateAsc: !this.state.dateAsc});
+    }
+
     getColumns = (): Column[] => {
         const timestamp: JSX.Element = (
-            <FormattedMessage
-                id='admin.compliance_table.timestamp'
-                defaultMessage='Timestamp'
-            />
+            <div onClick={this.handleDateSort}>
+                <FormattedMessage
+                    id='admin.compliance_table.timestamp'
+                    defaultMessage='Timestamp'
+                />
+                {this.state.dateAsc ? (<ArrowUpIcon size={18}/>) : (<ArrowDownIcon size={18}/>)}
+            </div>
         );
         const level: JSX.Element = (
             <FormattedMessage
@@ -143,7 +154,17 @@ export default class LogList extends React.PureComponent<Props, State> {
 
     getRows = (): Row[] => {
         const {startCount, endCount} = this.getPaginationProps();
-        const logsToDisplay = this.props.logs.slice(startCount - 1, endCount);
+        const sortedLogs = this.props.logs.sort((a, b) => {
+            const timeA = new Date(a.timestamp);
+            const timeB = new Date(b.timestamp);
+
+            if (this.state.dateAsc) {
+                return (timeA - timeB);
+            }
+            return timeB - timeA;
+        });
+
+        const logsToDisplay = sortedLogs.slice(startCount - 1, endCount);
 
         return logsToDisplay.map((log: LogObject) => {
             return {

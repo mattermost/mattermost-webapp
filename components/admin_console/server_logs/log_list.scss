@@ -5,6 +5,11 @@
             padding-left: 16px;
             cursor: pointer;
         }
+        
+        .DataGrid_cell {
+            display: flex;
+            align-items: middle;
+        }
     }
 
     .btn-inverted {
