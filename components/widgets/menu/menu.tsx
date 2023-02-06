@@ -61,30 +61,25 @@ export default class Menu extends React.PureComponent<Props> {
         const children = Object.values(this.node.current.children).slice(0, this.node.current.children.length) as HTMLElement[];
 
         // Hiding dividers at beginning and duplicated ones
-        let prevWasDivider = false;
-        let isAtBeginning = true;
-        for (const child of children) {
-            if (child.classList.contains('menu-divider') || child.classList.contains('mobile-menu-divider')) {
-                child.style.display = 'block';
-                if (isAtBeginning || prevWasDivider) {
-                    child.style.display = 'none';
-                }
-                prevWasDivider = true;
-            } else {
-                isAtBeginning = false;
-                prevWasDivider = false;
-            }
-        }
-        children.reverse();
-
-        // Hiding trailing dividers
+        let firstDividerInGroup = null;
+        let hasOnlyDividers = true;
         for (const child of children) {
             if (child.classList.contains('menu-divider') || child.classList.contains('mobile-menu-divider')) {
                 child.style.display = 'none';
+
+                if (!hasOnlyDividers && !firstDividerInGroup) {
+                    firstDividerInGroup = child;
+                }
             } else {
-                break;
+                hasOnlyDividers = false;
+
+                if (firstDividerInGroup) {
+                    firstDividerInGroup.style.display = 'block';
+                    firstDividerInGroup = null;
+                }
             }
         }
+
         this.observer.observe(this.node.current, {attributes: true, childList: true, subtree: true});
     }
 
