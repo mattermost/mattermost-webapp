@@ -118,7 +118,7 @@ export type Props = {
 };
 
 const PostComponent = (props: Props): JSX.Element => {
-    const {post} = props;
+    const {post, togglePostMenu} = props;
 
     const isSearchResultItem = (props.matches && props.matches.length > 0) || props.isMentionSearch || (props.term && props.term.length > 0);
     const isRHS = props.location === Locations.RHS_ROOT || props.location === Locations.RHS_COMMENT || props.location === Locations.SEARCH;
@@ -145,29 +145,41 @@ const PostComponent = (props: Props): JSX.Element => {
         return undefined;
     }, [props.shouldHighlight]);
 
+    const handleA11yActivateEvent = () => setA11y(true);
+    const handleA11yDeactivateEvent = () => setA11y(false);
+
     useEffect(() => {
-        if (postRef.current) {
-            postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, handleA11yActivateEvent);
-            postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, handleA11yDeactivateEvent);
-            addKeyboardListeners();
-        }
         if (a11yActive) {
             postRef.current?.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
         }
-    }, []);
+    }, [a11yActive]);
 
     useEffect(() => {
-        return () => {
-            if (hover) {
-                removeKeyboardListeners();
-            }
-
-            if (postRef.current) {
-                postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, handleA11yActivateEvent);
-                postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, handleA11yDeactivateEvent);
+        const handleAlt = (e: KeyboardEvent) => {
+            if (alt !== e.altKey) {
+                setAlt(e.altKey);
             }
         };
-    }, []);
+
+        let removeEventListener: (type: string, listener: EventListener) => void;
+        if (postRef.current) {
+            document.addEventListener('keydown', handleAlt);
+            document.addEventListener('keyup', handleAlt);
+
+            postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, handleA11yActivateEvent);
+            postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, handleA11yDeactivateEvent);
+            removeEventListener = postRef.current.removeEventListener;
+        }
+
+        return () => {
+            document.removeEventListener('keydown', handleAlt);
+            document.removeEventListener('keyup', handleAlt);
+            if (removeEventListener) {
+                removeEventListener(A11yCustomEventTypes.ACTIVATE, handleA11yActivateEvent);
+                removeEventListener(A11yCustomEventTypes.DEACTIVATE, handleA11yDeactivateEvent);
+            }
+        };
+    }, [alt]);
 
     const hasSameRoot = (props: Props) => {
         if (props.isFirstReply) {
@@ -259,30 +271,24 @@ const PostComponent = (props: Props): JSX.Element => {
         });
     };
 
-    const handleAlt = (e: KeyboardEvent) => {
-        if (alt !== e.altKey) {
-            setAlt(e.altKey);
-        }
-    };
-
     const handleFileDropdownOpened = useCallback((open: boolean) => setFileDropdownOpened(open), []);
 
     const handleDropdownOpened = useCallback((opened: boolean) => {
-        if (props.togglePostMenu) {
-            props.togglePostMenu(opened);
+        if (togglePostMenu) {
+            togglePostMenu(opened);
         }
         setDropdownOpened(opened);
-    }, []);
+    }, [togglePostMenu]);
 
-    const handleMouseOver = (e: MouseEvent<HTMLDivElement>) => {
+    const handleMouseOver = useCallback((e: MouseEvent<HTMLDivElement>) => {
         setHover(true);
         setAlt(e.altKey);
-    };
+    }, []);
 
-    const handleMouseLeave = () => {
+    const handleMouseLeave = useCallback(() => {
         setHover(false);
         setAlt(false);
-    };
+    }, []);
 
     const handleCardClick = (post?: Post) => {
         if (!post) {
@@ -293,20 +299,6 @@ const PostComponent = (props: Props): JSX.Element => {
         }
         props.actions.selectPostCard(post);
     };
-
-    const addKeyboardListeners = () => {
-        document.addEventListener('keydown', handleAlt);
-        document.addEventListener('keyup', handleAlt);
-    };
-
-    const removeKeyboardListeners = () => {
-        document.removeEventListener('keydown', handleAlt);
-        document.removeEventListener('keyup', handleAlt);
-    };
-
-    const handleA11yActivateEvent = () => setA11y(true);
-
-    const handleA11yDeactivateEvent = () => setA11y(false);
 
     // When adding clickable targets within a root post to exclude from post's on click to open thread,
     // please add to/maintain the selector below
@@ -344,7 +336,7 @@ const PostComponent = (props: Props): JSX.Element => {
         props.isPostBeingEdited,
     ]);
 
-    const handleJumpClick = (e: React.MouseEvent) => {
+    const handleJumpClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
         if (props.isMobileView) {
             props.actions.closeRightHandSide();
@@ -352,7 +344,7 @@ const PostComponent = (props: Props): JSX.Element => {
 
         props.actions.setRhsExpanded(false);
         getHistory().push(`/${props.teamName}/pl/${post.id}`);
-    };
+    }, [props.isMobileView, props.actions, props.teamName, post?.id]);
 
     const handleCommentClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
@@ -361,7 +353,7 @@ const PostComponent = (props: Props): JSX.Element => {
             return;
         }
         props.actions.selectPostFromRightHandSideSearch(post);
-    }, [post.id]);
+    }, [post, props.actions]);
 
     const postClass = classNames('post__body', {'post--edited': PostUtils.isEdited(post), 'search-item-snippet': isSearchResultItem});
 
@@ -437,13 +429,12 @@ const PostComponent = (props: Props): JSX.Element => {
     );
 
     const showSlot = props.isPostBeingEdited ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
-    const threadFooter = props.location !== Locations.RHS_ROOT && props.isCollapsedThreadsEnabled && !post.root_id && (props.hasReplies || post.is_following) ?
-        (
-            <ThreadFooter
-                threadId={post.id}
-                replyClick={handleCommentClick}
-            />
-        ) : null;
+    const threadFooter = props.location !== Locations.RHS_ROOT && props.isCollapsedThreadsEnabled && !post.root_id && (props.hasReplies || post.is_following) ? (
+        <ThreadFooter
+            threadId={post.id}
+            replyClick={handleCommentClick}
+        />
+    ) : null;
     const currentPostDay = getDateForUnixTicks(post.create_at);
     const channelDisplayName = getChannelName();
     const showReactions = props.location !== Locations.SEARCH && !props.isPinnedPosts && !props.isFlaggedPosts;
