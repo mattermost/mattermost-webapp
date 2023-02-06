@@ -63,6 +63,11 @@ const defaultSuccessForm: PurchaseForm = {
     agree: true,
 };
 
+const prefilledProvinceCountryRegions = {
+    'United States of America': true,
+    Canada: true,
+};
+
 function changeByPlaceholder(placeholder: string, value: string) {
     cy.findByPlaceholderText(placeholder).type(value);
 }
@@ -84,7 +89,11 @@ function fillForm(form: PurchaseForm, currentUsers: Cypress.Chainable<number>) {
     selectDropdownValue('Country', form.country);
     changeByPlaceholder('Address', form.address);
     changeByPlaceholder('City', form.city);
-    selectDropdownValue('State/Province', form.state);
+    if (prefilledProvinceCountryRegions[form.country]) {
+        selectDropdownValue('State/Province', form.state);
+    } else {
+        changeByPlaceholder('State/Province', form.state);
+    }
     changeByPlaceholder('Zip/Postal Code', form.zip);
 
     if (form.agree) {
@@ -129,6 +138,11 @@ function getCurrentUsers(): Cypress.Chainable<number> {
 describe('Self hosted Purchase', () => {
     let adminUser: Cypress.UserProfile | undefined;
 
+    beforeEach(() => {
+        // prevent failed tests from bleeding over
+        window.localStorage.removeItem('PURCHASE_IN_PROGRESS');
+    });
+
     before(() => {
         cy.apiInitSetup().then(() => {
             cy.apiAdminLogin().then((result) => {
@@ -136,6 +150,17 @@ describe('Self hosted Purchase', () => {
                 adminUser = (result as unknown as {user: Cypress.UserProfile}).user;
                 cy.apiDeleteLicense();
                 cy.visit('/');
+
+                // in case there is lingering state from a prior local run or some other
+                // failed test, we clear it out
+                cy.request({
+                    headers: {'X-Requested-With': 'XMLHttpRequest'},
+                    url: '/api/v4/hosted_customer/bootstrap',
+                    method: 'POST',
+                    qs: {
+                        reset: true,
+                    },
+                });
             });
         });
     });
@@ -324,6 +349,9 @@ describe('Self hosted Purchase', () => {
 
         // * Verify form can be submitted
         cy.contains('Upgrade').should('be.enabled');
+
+        // # Close purchase flow, as otherwise you will get a purchase in progress error
+        cy.get('#closeIcon').click();
     });
 
     it('failed payment in stripe means no license is received', () => {
@@ -378,5 +406,68 @@ describe('Self hosted Purchase', () => {
         // * Verify no license was applied
         cy.contains('Upgrade to the Professional Plan');
         cy.contains('Purchase');
+    });
+
+    it('customer in region banned from purchase is not able to purchase and is told their transaction is under review.', () => {
+        // this test must run last within this suite because it sets a value in the DB that prevents further purchase for 3 days.
+        // For now, we do not have a programmatic way to reset this.
+        // So if you are running locally you need to log into the DB and run
+        // DELETE FROM systems where name = 'HostedPurchaseNeedsScreening';
+
+        cy.apiAdminLogin();
+        cy.visit('/');
+        cy.apiDeleteLicense();
+
+        cy.intercept('GET', '**/api/v4/hosted_customer/signup_available').as('airGappedCheck');
+        cy.intercept('GET', '**/api/v4/cloud/products/selfhosted').as('products');
+
+        // # Open pricing modal
+        cy.get('#UpgradeButton').should('exist').click();
+
+        cy.wait('@airGappedCheck');
+        cy.wait('@products');
+
+        // The waits for these fetches is usually enough. Add a little wait
+        // for all the selectors to be updated and rerenders to happen
+        // so that we do not accidentally hit the air-gapped modal
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(50);
+
+        // # Click the upgrade button to open the modal
+        cy.get('#professional_action').should('exist').click();
+
+        // * Verify basic purchase elements are available
+        verifyPurchaseModal();
+
+        // # Fill form with a known screened region
+        fillForm({...defaultSuccessForm, country: 'Iran, Islamic Republic of'}, getCurrentUsers());
+
+        // # Wait explicitly for parts of the purchase because they can take long.
+        cy.intercept('POST', '**/api/v4/hosted_customer/customer').as('createCustomer');
+
+        cy.contains('Upgrade').should('be.enabled').click();
+
+        cy.wait('@createCustomer');
+
+        // * Verify screening in progress UI presented
+        cy.contains('Your transaction is being reviewed');
+        cy.contains('We will check things on our side and get back to you');
+
+        // # Close purchase flow
+        cy.get('#closeIcon').click();
+
+        // # attempt to re-open purchase flow
+        cy.get('#UpgradeButton').should('exist').click();
+        cy.wait('@airGappedCheck');
+        cy.wait('@products');
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(50);
+
+        // # Click the upgrade button to open the modal
+        cy.get('#professional_action').should('exist').click();
+
+        // * Verify screening in progress UI presented
+        cy.contains('Your transaction is being reviewed');
+        cy.contains('We will check things on our side and get back to you');
     });
 });

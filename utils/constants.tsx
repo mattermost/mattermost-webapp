@@ -157,6 +157,7 @@ export const Preferences = {
     CONFIGURATION_BANNERS: 'configuration_banners',
     NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE: 'admin_revoke_downgraded_instance',
     OVERAGE_USERS_BANNER: 'overage_users_banner',
+    CLOUD_YEARLY_NUDGE_BANNER: 'cloud_yearly_nudge_banner',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -442,13 +443,17 @@ export const ModalIdentifiers = {
     CLOUD_INVOICE_PREVIEW: 'cloud_invoice_preview',
     BILLING_HISTORY: 'billing_history',
     SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
+    RESTORE_POST_MODAL: 'restore_post',
+    INFO_TOAST: 'info_toast',
     MARK_ALL_THREADS_AS_READ: 'mark_all_threads_as_read_modal',
     DELINQUENCY_MODAL_DOWNGRADE: 'delinquency_modal_downgrade',
     CLOUD_LIMITS_DOWNGRADE: 'cloud_limits_downgrade',
     AIR_GAPPED_SELF_HOSTED_PURCHASE: 'air_gapped_self_hosted_purchase',
-    WORK_TEMPLATES: 'work_template',
+    WORK_TEMPLATE: 'work_template',
     DOWNGRADE_MODAL: 'downgrade_modal',
     PURCHASE_IN_PROGRESS: 'purchase_in_progress',
+    SCREENING_IN_PROGRESS: 'screening_in_progress',
+    CONFIRM_SWITCH_TO_YEARLY: 'confirm_switch_to_yearly',
 };
 
 export const UserStatuses = {
@@ -714,6 +719,7 @@ export const CloudBanners = {
     TRIAL: 'trial',
     UPGRADE_FROM_TRIAL: 'upgrade_from_trial',
     THREE_DAYS_LEFT_TRIAL_MODAL_DISMISSED: 'dismiss_3_days_left_trial_modal',
+    NUDGE_TO_YEARLY_BANNER_DISMISSED: 'nudge_to_yearly_banner_dismissed',
 };
 
 export const ConfigurationBanners = {
@@ -1010,6 +1016,7 @@ export const RHSStates = {
     CHANNEL_FILES: 'channel-files',
     CHANNEL_INFO: 'channel-info',
     CHANNEL_MEMBERS: 'channel-members',
+    EDIT_HISTORY: 'edit-history',
 };
 
 export const UploadStatuses = {
@@ -1075,6 +1082,7 @@ export const DocLinks = {
     UPGRADE_SERVER: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
     ONBOARD_LDAP: 'https://docs.mattermost.com/onboard/ad-ldap.html',
     ONBOARD_SSO: 'https://docs.mattermost.com/onboard/sso-saml.html',
+    TRUE_UP_REVIEW: 'https://mattermost.com/pl/true-up-documentation',
 };
 
 export const LicenseLinks = {

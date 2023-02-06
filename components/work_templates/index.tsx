@@ -11,12 +11,6 @@ import LocalizedIcon from 'components/localized_icon';
 import {closeModal as closeModalAction} from 'actions/views/modals';
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {ActionResult} from 'mattermost-redux/types/actions';
-
-import {fetchRemoteListing} from 'actions/marketplace';
-import {switchToChannelById} from 'actions/views/channel';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import {
@@ -27,6 +21,12 @@ import {
     getWorkTemplates,
     onExecuteSuccess,
 } from 'mattermost-redux/actions/work_templates';
+
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {fetchRemoteListing} from 'actions/marketplace';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {loadIfNecessaryAndSwitchToChannelById} from 'actions/views/channel';
 
 import {
     Category,
@@ -143,7 +143,7 @@ const WorkTemplateModal = () => {
     };
 
     const closeModal = () => {
-        dispatch(closeModalAction(ModalIdentifiers.WORK_TEMPLATES));
+        dispatch(closeModalAction(ModalIdentifiers.WORK_TEMPLATE));
     };
 
     const goToMenu = () => {
@@ -158,6 +158,10 @@ const WorkTemplateModal = () => {
             execute(template, '', template.visibility);
             return;
         }
+
+        // clear the name and set default visibility
+        setSelectedName('');
+        setSelectedVisibility(template.visibility);
 
         trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'select_template', {category: template.category, template: template.id});
         setModalState(ModalState.Preview);
@@ -239,7 +243,7 @@ const WorkTemplateModal = () => {
         };
         await dispatch(onExecuteSuccess(linkedProductsCount));
         if (firstChannelId) {
-            dispatch(switchToChannelById(firstChannelId));
+            dispatch(loadIfNecessaryAndSwitchToChannelById(firstChannelId));
         }
         closeModal();
     };
@@ -264,10 +268,10 @@ const WorkTemplateModal = () => {
     let confirmButtonAction;
     switch (modalState) {
     case ModalState.Menu:
-        title = formatMessage({id: 'work_templates.menu.modal_title', defaultMessage: 'Create a work template'});
+        title = formatMessage({id: 'work_templates.menu.modal_title', defaultMessage: 'Start from a template'});
         break;
     case ModalState.Preview:
-        title = formatMessage({id: 'work_templates.preview.modal_title', defaultMessage: 'Preview - {useCase}'}, {useCase: selectedTemplate?.useCase});
+        title = formatMessage({id: 'work_templates.preview.modal_title', defaultMessage: 'Preview {useCase}'}, {useCase: selectedTemplate?.useCase});
         cancelButtonText = formatMessage({id: 'work_templates.preview.modal_cancel_button', defaultMessage: 'Back'});
         cancelButtonAction = trackAction('btn_back_to_menu', goToMenu);
         backArrowAction = trackAction('arrow_back_to_menu', goToMenu);
@@ -275,7 +279,7 @@ const WorkTemplateModal = () => {
         confirmButtonAction = trackAction('btn_go_to_customize', () => setModalState(ModalState.Customize));
         break;
     case ModalState.Customize:
-        title = formatMessage({id: 'work_templates.customize.modal_title', defaultMessage: 'Customize - {useCase}'}, {useCase: selectedTemplate?.useCase});
+        title = formatMessage({id: 'work_templates.customize.modal_title', defaultMessage: 'Name your {useCase}'}, {useCase: selectedTemplate?.useCase});
         cancelButtonText = formatMessage({id: 'work_templates.customize.modal_cancel_button', defaultMessage: 'Back'});
         cancelButtonAction = trackAction('btn_back_to_preview', () => setModalState(ModalState.Preview));
         backArrowAction = trackAction('arrow_back_to_preview', () => setModalState(ModalState.Preview));

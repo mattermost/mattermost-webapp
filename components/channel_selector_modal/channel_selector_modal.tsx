@@ -62,7 +62,7 @@ export default class ChannelSelectorModal extends React.PureComponent<Props, Sta
         });
     }
 
-    componentDidUpdate(prevProps: Props) { // eslint-disable-line camelcase
+    componentDidUpdate(prevProps: Props) {
         if (prevProps.searchTerm !== this.props.searchTerm) {
             clearTimeout(this.searchTimeoutId);
 

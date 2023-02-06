@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable react/no-string-refs */
-
 import React, {ChangeEvent, FormEvent} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -285,7 +283,6 @@ export default class AddUserToChannelModal extends React.PureComponent<Props, St
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.onExited}
-                ref='modal'
                 enforceFocus={true}
                 role='dialog'
                 aria-labelledby='addChannelModalLabel'
@@ -349,4 +346,3 @@ export default class AddUserToChannelModal extends React.PureComponent<Props, St
         );
     }
 }
-/* eslint-enable react/no-string-refs */

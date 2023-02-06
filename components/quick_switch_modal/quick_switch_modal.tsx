@@ -7,11 +7,12 @@ import {FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
+import {RhsState} from 'types/store/rhs';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 import {getHistory} from 'utils/browser_history';
-import Constants from 'utils/constants';
+import Constants, {RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -38,10 +39,13 @@ export type Props = {
     onExited: () => void;
 
     isMobileView: boolean;
+    rhsState?: RhsState;
+    rhsOpen?: boolean;
 
     actions: {
         joinChannelById: (channelId: string) => Promise<ActionResult>;
         switchToChannel: (channel: Channel) => Promise<ActionResult>;
+        closeRightHandSide: () => void;
     };
 }
 
@@ -116,6 +120,10 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
     public handleSubmit = async (selected?: any): Promise<void> => {
         if (!selected) {
             return;
+        }
+
+        if (this.props.rhsOpen && this.props.rhsState === RHSStates.EDIT_HISTORY) {
+            this.props.actions.closeRightHandSide();
         }
 
         if (this.state.mode === CHANNEL_MODE) {

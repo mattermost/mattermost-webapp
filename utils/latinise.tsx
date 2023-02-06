@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable @typescript-eslint/naming-convention */
 const latinMap: { [key: string]: string } = {
     Á: 'A', // LATIN CAPITAL LETTER A WITH ACUTE
     Ă: 'A', // LATIN CAPITAL LETTER A WITH BREVE
