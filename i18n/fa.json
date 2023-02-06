@@ -2737,7 +2737,6 @@
   "convert_channel.question3": "آیا مطمئنید که می خواهید **{display_name}** را به یک کانال خصوصی تبدیل کنید؟",
   "convert_channel.title": "{display_name} به یک کانال خصوصی تبدیل شود؟",
   "copied.message": "رونوشت شد",
-  "copy.message": "رونوشت",
   "copy_url_context_menu.getChannelLink": "لینک را کپی کنید",
   "create_category_modal.create": "ایجاد کردن",
   "create_category_modal.createCategory": "ایجاد رده جدید",

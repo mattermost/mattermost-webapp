@@ -328,7 +328,6 @@
   "admin.billing.subscription.planDetails.features.incidentCollaboration": "Colaboración de incidentes",
   "admin.billing.subscription.planDetails.features.ldapSync": "Sincronización del grupo AD/LDAP con los equipos & canales",
   "admin.billing.subscription.planDetails.features.ldapUserSync": "Sincronización de usuarios AD/LDAP",
-  "admin.billing.subscription.planDetails.features.limitedBoardCards": "Limitado a {limit} tarjetas de tablero por espacio de trabajo",
   "admin.billing.subscription.planDetails.features.limitedFileStorage": "Limitado a {limit} de almacenamiento de archivos",
   "admin.billing.subscription.planDetails.features.limitedMessageHistory": "Limitado a historial de mensajes de {limit} mensajes",
   "admin.billing.subscription.planDetails.features.mfa": "Autenticación de Múltiples Factores (MFA)",

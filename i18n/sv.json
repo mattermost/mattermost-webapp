@@ -333,7 +333,6 @@
   "admin.billing.subscription.planDetails.features.incidentCollaboration": "Incidentsammarbete",
   "admin.billing.subscription.planDetails.features.ldapSync": "AD/LDAP gruppsynkronisering till teams & kanaler",
   "admin.billing.subscription.planDetails.features.ldapUserSync": "AD/LDAP användarsynkronisering",
-  "admin.billing.subscription.planDetails.features.limitedBoardCards": "Obegränsat antal kort",
   "admin.billing.subscription.planDetails.features.limitedFileStorage": "Begränsat till {limit} fillagring",
   "admin.billing.subscription.planDetails.features.limitedMessageHistory": "Begränsat till {limit} meddelanden i historik",
   "admin.billing.subscription.planDetails.features.mfa": "Flerfaktorsautentisering (MFA)",
