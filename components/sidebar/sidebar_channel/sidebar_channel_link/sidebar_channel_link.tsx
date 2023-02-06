@@ -32,7 +32,7 @@ type Props = {
     link: string;
     label: string;
     ariaLabelPrefix?: string;
-    closeHandler?: (callback: () => void) => void;
+    channelLeaveHandler?: (callback: () => void) => void;
     icon: JSX.Element | null;
 
     /**
@@ -133,9 +133,11 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
 
     handleChannelClick = (event: React.MouseEvent<HTMLAnchorElement>): void => {
         mark('SidebarChannelLink#click');
-        trackEvent('ui', 'ui_channel_selected_v2');
-
         this.handleSelectChannel(event);
+
+        setTimeout(() => {
+            trackEvent('ui', 'ui_channel_selected_v2');
+        }, 0);
     }
 
     handleSelectChannel = (event: React.MouseEvent<HTMLAnchorElement>): void => {
@@ -157,7 +159,9 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         }
     }
 
-    handleMenuToggle = (isMenuOpen: boolean): void => this.setState({isMenuOpen});
+    handleMenuToggle = (isMenuOpen: boolean) => {
+        this.setState({isMenuOpen});
+    }
 
     render(): JSX.Element {
         const {
@@ -248,14 +252,22 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                     unreadMentions={unreadMentions}
                     hasUrgent={hasUrgent}
                 />
-                <SidebarChannelMenu
-                    channel={channel}
-                    channelLink={link}
-                    isMenuOpen={this.state.isMenuOpen}
-                    isUnread={isUnread}
-                    closeHandler={this.props.closeHandler}
-                    onToggleMenu={this.handleMenuToggle}
-                />
+                <div
+                    className={classNames(
+                        'SidebarMenu',
+                        'MenuWrapper',
+                        {menuOpen: this.state.isMenuOpen},
+                        {'MenuWrapper--open': this.state.isMenuOpen},
+                    )}
+                >
+                    <SidebarChannelMenu
+                        channel={channel}
+                        channelLink={link}
+                        isUnread={isUnread}
+                        channelLeaveHandler={this.props.channelLeaveHandler}
+                        onMenuToggle={this.handleMenuToggle}
+                    />
+                </div>
             </>
         );
 

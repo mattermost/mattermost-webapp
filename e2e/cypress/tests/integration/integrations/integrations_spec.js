@@ -25,7 +25,6 @@ describe('Integrations page', () => {
                 EnableIncomingWebhooks: true,
                 EnableOutgoingWebhooks: true,
                 EnableCommands: true,
-                EnableBotAccountCreation: true,
             },
         };
         cy.apiUpdateConfig(newSettings);

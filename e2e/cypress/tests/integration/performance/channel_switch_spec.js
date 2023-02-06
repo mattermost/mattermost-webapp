@@ -13,35 +13,36 @@
 import {measurePerformance} from './utils.js';
 
 describe('Channel switch performance test', () => {
-    let testUser;
     let teamName;
 
-    beforeEach(() => {
-        cy.apiInitSetup().then(({team, user}) => {
-            testUser = user;
+    before(() => {
+        cy.apiInitSetup({loginAfter: true}).then(({team}) => {
             teamName = team;
 
-            // # Login as test user and go to town square
-            cy.apiLogin(testUser);
+            // # Go to town square
             cy.visit(`/${team.name}/channels/town-square`);
+            cy.get('#sidebarItem_off-topic').should('be.visible');
         });
     });
 
     it('measures switching between two channels from LHS', () => {
-        // # Invoke window object
-        measurePerformance('channelLoad', 800, () => {
-            // # Switch channel to Off-topic
+        measurePerformance(
+            'channelLoad',
+            800,
+            () => {
+                // # Switch channel to Off-topic
 
-            cy.get('#sidebarItem_off-topic').click({force: true});
+                cy.get('#sidebarItem_off-topic').click({force: true});
 
-            // * Expect that the user is now in Off-Topic
-            return expectActiveChannelToBe('Off-Topic', '/off-topic');
-        },
+                // * Expect that the user is now in Off-Topic
+                return expectActiveChannelToBe('Off-Topic', '/off-topic');
+            },
 
-        // # Reset test run so we can start on the initially specified channel
-        () => {
-            cy.visit(`/${teamName.name}/channels/town-square`);
-        },
+            // # Reset test run so we can start on the initially specified channel
+            () => {
+                cy.visit(`/${teamName.name}/channels/town-square`);
+                cy.get('#sidebarItem_off-topic').should('be.visible');
+            },
         );
     });
 });

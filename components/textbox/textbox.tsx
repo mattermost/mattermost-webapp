@@ -287,6 +287,7 @@ export default class Textbox extends React.PureComponent<Props> {
                         message={this.props.value}
                         mentionKeys={[]}
                         channelId={this.props.channelId}
+                        imageProps={{hideUtilities: true}}
                     />
                 </div>
             );
