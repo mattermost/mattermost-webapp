@@ -255,6 +255,12 @@ export default class LogList extends React.PureComponent<Props, State> {
         this.props.onFiltersChange({logLevels: ['error']} as unknown as LogFilter);
     }
 
+    getErrorCount = (): number => {
+        let n = 0;
+        this.props.logs.map((log) => log.level === 'error' && ++n);
+        return n;
+    }
+
     render = (): JSX.Element => {
         const {search} = this.props;
         const rows: Row[] = this.getRows();
@@ -280,6 +286,7 @@ export default class LogList extends React.PureComponent<Props, State> {
                 <FormattedMessage
                     id='admin.logs.showErrors'
                     defaultMessage='Show last {n} errors'
+                    values={{n: this.getErrorCount()}}
                 />
             </button>
         );

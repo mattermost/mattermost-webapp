@@ -1378,7 +1378,6 @@
   "admin.logs.Error": "Error",
   "admin.logs.fullEvent": "Full log event",
   "admin.logs.Info": "Info",
-  "admin.logs.node1": "Node 1",
   "admin.logs.options": "Options",
   "admin.logs.ReloadLogs": "Reload Logs",
   "admin.logs.showErrors": "Show last {n} errors",
