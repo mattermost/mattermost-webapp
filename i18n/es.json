@@ -2862,7 +2862,6 @@
   "channel_modal.alreadyExist": "Ya existe un canal con esa URL",
   "channel_modal.cancel": "Cancelar",
   "channel_modal.createNew": "Crear canal",
-  "channel_modal.create_board.title": "Crear un tablero para este canal",
   "channel_modal.error.generic": "Algo salió mal. Por favor intenta de nuevo.",
   "channel_modal.handleTooShort": "La URL de canal debe tener 1 o más caracteres alfanuméricos en minúsculas",
   "channel_modal.modalTitle": "Crear un nuevo canal",
