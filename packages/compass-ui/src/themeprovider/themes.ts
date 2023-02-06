@@ -22,7 +22,7 @@ declare module '@mui/material/styles' {
 
 export const lightTheme = {
     palette: createPalette({
-        primary: {main: '#0a2264'},
+        primary: {main: '#e59538'},
         secondary: {main: '#0043ad'},
         error: {main: '#d24b4e'},
         warning: {main: '#cc8f00'},

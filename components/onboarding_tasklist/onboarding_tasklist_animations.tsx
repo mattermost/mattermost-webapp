@@ -3,7 +3,8 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import StatusIcon from '@mattermost/compass-components/components/status-icon';
+
+import {StatusIcon} from '@mattermost/compass-ui';
 
 const Animation = styled.div`
     position: absolute;
@@ -63,34 +64,34 @@ const Animation = styled.div`
         }
     }
     @keyframes moveUp {
-        0% { 
+        0% {
             top: 0;
         }
-        100% { 
+        100% {
             top: -50px;
         }
     }
 
     @keyframes opacity {
-        0% { 
+        0% {
             opacity:0;
         }
-        50% { 
+        50% {
             opacity: 1;
         }
-        100% { 
+        100% {
             opacity: 0;
         }
     }
 
     @keyframes scale {
-        0% { 
+        0% {
             transform: scale(0);
         }
-        50% { 
+        50% {
             transform: scale(2);
         }
-        100% { 
+        100% {
             transform: scale(4);
         }
     }

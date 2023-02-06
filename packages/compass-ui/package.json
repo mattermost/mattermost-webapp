@@ -22,7 +22,7 @@
     "@babel/core": "7.20.2",
     "@mui/system": "5.11.7",
     "@mui/material": "5.11.7",
-    "@mui/styled-engine": "5.11.0",
+    "@mui/styled-engine-sc": "5.11.0",
     "@rollup/plugin-commonjs": "18.1.0",
     "@rollup/plugin-node-resolve": "15.0.1",
     "@rollup/plugin-typescript": "10.0.1",

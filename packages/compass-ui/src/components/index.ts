@@ -3,8 +3,18 @@
 
 import Typography from './typography/typography';
 import Button from './button/button';
+import IconButton from './icon-button/icon-button';
+import Grid from './grid/grid';
+import StatusIcon, {UserStatus} from './status-icon/status-icon';
 
 export {
+    IconButton,
     Button,
     Typography,
+    StatusIcon,
+    Grid,
+};
+
+export type {
+    UserStatus,
 };

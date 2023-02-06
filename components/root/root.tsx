@@ -3,7 +3,6 @@
 
 import {alpha} from '@mui/material';
 import createPalette from '@mui/material/styles/createPalette';
-import deepEqual from 'fast-deep-equal';
 import React from 'react';
 import deepEqual from 'fast-deep-equal';
 import {Route, Switch, Redirect, RouteComponentProps} from 'react-router-dom';
@@ -622,12 +621,13 @@ export default class Root extends React.PureComponent<Props, State> {
                             path={'/admin_console'}
                         >
                             <Switch>
-                                    <LoggedInRoute
-                                    theme={this.props.theme}    path={'/admin_console'}
-                                        component={AdminConsole}
-                                    />
-                                    <RootRedirect/>
-                                </Switch>
+                                <LoggedInRoute
+                                    theme={this.props.theme}
+                                    path={'/admin_console'}
+                                    component={AdminConsole}
+                                />
+                                <RootRedirect/>
+                            </Switch>
 
                         </Route>
                         <LoggedInHFTRoute
@@ -718,7 +718,8 @@ export default class Root extends React.PureComponent<Props, State> {
                                         )}
                                     />
                                 ))}
-                                <LoggedInRoutetheme={this.props.theme}
+                                <LoggedInRoute
+                                    theme={this.props.theme}
                                     path={'/:team'}
                                     component={TeamController}
                                 />

@@ -22,6 +22,7 @@ NormalIconButton.args = {
     disabled: false,
     toggled: false,
     compact: false,
+    inverted: false,
     label: '',
 };
 NormalIconButton.argTypes = {
@@ -44,6 +45,9 @@ NormalIconButton.argTypes = {
         control: 'boolean',
     },
     compact: {
+        control: 'boolean',
+    },
+    inverted: {
         control: 'boolean',
     },
     label: {

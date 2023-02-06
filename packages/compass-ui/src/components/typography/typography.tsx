@@ -8,7 +8,7 @@ type Props = Omit<MuiTypographyProps, 'variantMapping' | 'paragraph'> & {
     gutterTop?: boolean;
 }
 
-const Typography = (props: Props) => {
+const Typography = ({variant = 'b100', ...props}: Props) => {
     const variantMap = {
         b25: 'p',
         b50: 'p',
@@ -35,6 +35,7 @@ const Typography = (props: Props) => {
     return (
         <MuiTypography
             {...props}
+            variant={variant}
             variantMapping={variantMap}
         />
     );

@@ -47,13 +47,13 @@ const styleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
         margin: 0,
 
         '&:hover': {
-            color: ownerState.color === 'error' ? theme.palette.error.main : alpha(theme.palette.text.primary, 0.72),
             backgroundColor: alpha(ownerState.color === 'error' ? theme.palette.error.main : theme.palette.text.primary, 0.08),
+            color: ownerState.color === 'error' ? theme.palette.error.main : alpha(theme.palette.text.primary, 0.72),
         },
 
         '&:active': {
-            color: ownerState.color === 'error' ? theme.palette.error.main : theme.palette.primary.main,
             backgroundColor: alpha(ownerState.color === 'error' ? theme.palette.error.main : theme.palette.primary.main, 0.16),
+            color: ownerState.color === 'error' ? theme.palette.error.main : theme.palette.primary.main,
         },
 
         svg: {
@@ -64,18 +64,48 @@ const styleOverrides: ComponentsOverrides<Theme>[typeof componentName] = {
         ...getFocusStyles(ownerState.color === 'error' ? theme.palette.error.main : theme.palette.primary.main),
 
         ...(ownerState.color !== 'error' && {
-            '&.toggled': {
+            '&.toggled:not(.inverted):not(.Mui-disabled)': {
                 backgroundColor: theme.palette.primary.main,
                 color: theme.palette.primary.contrastText,
 
                 '&:hover': {
-                    color: theme.palette.primary.contrastText,
                     backgroundColor: alpha(theme.palette.primary.main, 0.92),
+                    color: theme.palette.primary.contrastText,
                 },
 
                 '&:active': {
-                    color: theme.palette.primary.main,
                     backgroundColor: alpha(theme.palette.primary.main, 0.16),
+                    color: theme.palette.primary.main,
+                },
+            },
+
+            '&.inverted:not(.Mui-disabled)': {
+                backgroundColor: 'transparent',
+                color: alpha(theme.palette.text.primary, 0.56),
+
+                '&:hover': {
+                    backgroundColor: alpha(theme.palette.text.primary, 0.08),
+                    color: theme.palette.text.primary,
+                },
+
+                '&:active': {
+                    backgroundColor: alpha(theme.palette.text.primary, 0.16),
+                    color: theme.palette.text.primary,
+                },
+
+                '&.toggled': {
+                    backgroundColor: theme.palette.text.primary,
+                    color: alpha(theme.palette.background.default, 0.56),
+
+                    '&:hover': {
+                        backgroundColor: alpha(theme.palette.text.primary, 0.92),
+                        color: alpha(theme.palette.background.default, 0.56),
+                    },
+
+                    '&:active': {
+                        backgroundColor: alpha(theme.palette.text.primary, 0.16),
+                        color: theme.palette.text.primary,
+                    },
                 },
             },
         }),

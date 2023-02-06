@@ -6,23 +6,24 @@ import classNames from 'classnames';
 import React from 'react';
 import MuiIconButton, {IconButtonProps as MuiIconButtonProps} from '@mui/material/IconButton';
 
-type IncludedMuiProps = 'size' | 'disabled';
+type IncludedMuiProps = 'size' | 'disabled' | 'onClick';
 
 type CustomProps = {
     IconComponent: React.FC;
     compact?: boolean;
     toggled?: boolean;
+    inverted?: boolean;
     destructive?: boolean;
     label?: string;
 }
 
 type IconButtonProps = Pick<MuiIconButtonProps, IncludedMuiProps> & CustomProps;
 
-const IconButton = ({IconComponent, label, destructive = false, compact = false, toggled = false, ...props}: IconButtonProps) => {
+const IconButton = ({IconComponent, label, destructive = false, compact = false, toggled = false, inverted = false, ...props}: IconButtonProps) => {
     return (
         <MuiIconButton
             {...props}
-            className={classNames({compact, toggled})}
+            className={classNames({compact, toggled, inverted})}
             color={destructive ? 'error' : 'primary'}
         >
             <Grid
