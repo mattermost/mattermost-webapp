@@ -157,6 +157,7 @@ const WorkTemplateModal = () => {
 
     const handleOnNameChanged = (name: string) => {
         trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'customize_name', {category: selectedTemplate?.category, template: selectedTemplate?.id});
+        setErrorText('');
         setSelectedName(name);
     };
 
