@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, WrappedComponentProps} from 'react-intl';
 
 import desktopImg from 'images/deep-linking/deeplinking-desktop-img.png';
 import mobileImg from 'images/deep-linking/deeplinking-mobile-img.png';
@@ -24,7 +24,7 @@ type Props = {
     siteName?: string;
     brandImageUrl?: string;
     enableCustomBrand: boolean;
-}
+} & WrappedComponentProps
 
 type State = {
     rememberChecked: boolean;
@@ -355,6 +355,8 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             );
         }
 
+        const {formatMessage} = this.props.intl;
+
         return (
             <div className='get-app__dialog-body'>
                 {this.renderDialogHeader()}
@@ -388,10 +390,12 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                     >
                         {this.renderCheckboxIcon()}
                     </button>
-                    <FormattedMessage
-                        id='get_app.rememberMyPreference'
-                        defaultMessage='Remember my preference'
-                    />
+                    <span
+                        onClick={this.handleChecked}
+                        className={'get-app__checkbox--label'}
+                    >
+                        {formatMessage({id: 'get_app.rememberMyPreference', defaultMessage: 'Remember my preference'})}
+                    </span>
                 </div>
                 {this.renderDownloadLinkSection()}
             </div>

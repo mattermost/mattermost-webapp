@@ -192,6 +192,10 @@
             fill: #145dbf;
         }
     }
+
+    &--label {
+        cursor: pointer;
+    }
 }
 
 .get-app__download-link {
