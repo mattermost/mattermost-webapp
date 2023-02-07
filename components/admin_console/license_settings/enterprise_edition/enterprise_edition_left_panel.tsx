@@ -51,8 +51,9 @@ const EnterpriseEditionLeftPanel = ({
             try {
                 const unsanitizedL = await Client4.getClientLicenseOld();
                 setUnsanitizedLicense(unsanitizedL);
-            // eslint-disable-next-line no-empty
-            } catch {}
+            } catch {
+                // do nothing
+            }
         }
         fetchUnSanitizedLicense();
     }, [license]);

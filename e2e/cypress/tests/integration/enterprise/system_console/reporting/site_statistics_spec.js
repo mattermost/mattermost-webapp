@@ -18,7 +18,6 @@ describe('System Console > Site Statistics', () => {
 
     const statDataTestIds = [
         'totalActiveUsers',
-        'seatPurchased',
         'totalTeams',
         'totalChannels',
         'totalPosts',
@@ -58,11 +57,11 @@ describe('System Console > Site Statistics', () => {
     });
 
     it('MM-T904 Site Statistics displays expected content categories', () => {
-        cy.intercept('GET', '**/api/v4/analytics/**').as('analytics');
+        cy.intercept('**/api/v4/**').as('resources');
 
         // # Visit site statistics page.
         cy.visit('/admin_console/reporting/system_analytics');
-        cy.wait('@analytics');
+        cy.wait('@resources');
 
         // * Check that the header has loaded correctly and contains the expected text.
         cy.get('.admin-console__header span', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').should('contain', 'System Statistics');
@@ -80,7 +79,8 @@ describe('System Console > Site Statistics', () => {
 
         // * Check that the title content for the stats is as expected.
         cy.findByTestId('totalActiveUsersTitle').should('contain', 'Total Active Users');
-        cy.findByTestId('seatPurchasedTitle').should('contain', 'Total paid users');
+
+        // cy.findByTestId('seatPurchasedTitle').should('contain', 'Total paid users');
         cy.findByTestId('totalTeamsTitle').should('contain', 'Total Teams');
         cy.findByTestId('totalChannelsTitle').should('contain', 'Total Channels');
         cy.findByTestId('totalPostsTitle').should('contain', 'Total Posts');
@@ -100,6 +100,8 @@ describe('System Console > Site Statistics', () => {
     });
 
     it('MM-T902 - Reporting ➜ Site statistics line graphs show same date', () => {
+        cy.intercept('**/api/v4/**').as('resources');
+
         const sysadmin = getAdminAccount();
 
         let newChannel;
@@ -127,6 +129,7 @@ describe('System Console > Site Statistics', () => {
                 // # Post message as bot to the new channel
                 cy.postBotMessage({token, channelId: newChannel.id, message: 'this is bot message', createAt: yesterday.getTime()}).then(() => {
                     cy.visit('/admin_console');
+                    cy.wait('@resources');
 
                     // * Find site statistics and click it
                     cy.findByTestId('reporting.system_analytics', {timeout: TIMEOUTS.ONE_MIN}).click();

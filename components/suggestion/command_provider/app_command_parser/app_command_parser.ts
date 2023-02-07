@@ -330,7 +330,6 @@ export class ParsedCommand {
                 default: {
                     // Positional parameter.
                     this.position++;
-                    // eslint-disable-next-line no-loop-func
                     let field = fields.find((f: AppField) => f.position === this.position);
                     if (!field) {
                         field = fields.find((f) => f.position === -1 && f.type === AppFieldTypes.TEXT);

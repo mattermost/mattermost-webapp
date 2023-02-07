@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable react/no-string-refs */
 /* eslint-disable max-lines */
 
 import React from 'react';
@@ -159,7 +158,6 @@ type State = {
     emailError?: string;
 }
 
-// eslint-disable-next-line react/require-optimization
 export class UserSettingsGeneralTab extends React.Component<Props, State> {
     public submitActive = false;
 
