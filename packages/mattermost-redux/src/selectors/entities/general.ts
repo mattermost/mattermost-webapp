@@ -17,7 +17,7 @@ export function getConfig(state: GlobalState): Partial<ClientConfig> {
 /**
  * Safely get value of a specific or known FeatureFlag
  */
-export function getFeatureFlagValue(state: GlobalState, key: keyof FeatureFlags): string | undefined {
+export function getFeatureFlagValue(state: GlobalState, key: keyof FeatureFlags): string | number | undefined {
     return getConfig(state)?.[`FeatureFlag${key}` as keyof Partial<ClientConfig>];
 }
 
