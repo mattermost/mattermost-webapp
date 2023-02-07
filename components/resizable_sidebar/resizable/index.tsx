@@ -6,7 +6,7 @@ import React, {HTMLAttributes, useCallback, useEffect, useLayoutEffect, useRef, 
 
 import {ResizeDirection} from 'utils/constants';
 
-import {requestAnimationFrameForMouseMove, isOverLimit, shouldSnapWhenSizeGrown, shouldSnapWhenSizeShrunk, setWidth, toggleColResizeCursor, resetStyle, isSizeLessThanSnapSize} from '../utils';
+import {requestAnimationFrameForMouseMove, isOverLimit, shouldSnapWhenSizeGrown, shouldSnapWhenSizeShrunk, setWidth, toggleColResizeCursor, resetStyle, isSizeLessThanSnapSize, isSnapableSpeed} from '../utils';
 
 import './index.scss';
 
@@ -139,7 +139,9 @@ function Resizable({
 
         previousClientX.current = e.clientX;
 
-        if (shouldSnapWhenSizeGrown(newWidth, prevWidth, defaultWidth) || shouldSnapWhenSizeShrunk(newWidth, prevWidth, defaultWidth)) {
+        const shouldSnap = shouldSnapWhenSizeGrown(newWidth, prevWidth, defaultWidth) || shouldSnapWhenSizeShrunk(newWidth, prevWidth, defaultWidth);
+
+        if (isSnapableSpeed(widthDiff) && shouldSnap) {
             if (onResize) {
                 onResize(defaultWidth);
             }

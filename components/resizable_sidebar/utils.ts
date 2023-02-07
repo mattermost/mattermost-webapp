@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {SidebarSize, SIDEBAR_SNAP_SIZE} from 'utils/constants';
+import {SidebarSize, SIDEBAR_SNAP_SIZE, SIDEBAR_SNAP_SPEED_LIMIT} from 'utils/constants';
 
 export const isResizableSize = (size: SidebarSize) => size !== SidebarSize.SMALL;
 
@@ -11,6 +11,10 @@ export const isOverLimit = (newWidth: number, maxWidth: number, minWidth: number
 
 export const isSizeLessThanSnapSize = (size: number) => {
     return Math.abs(size) <= SIDEBAR_SNAP_SIZE;
+};
+
+export const isSnapableSpeed = (speed: number) => {
+    return Math.abs(speed) <= SIDEBAR_SNAP_SPEED_LIMIT;
 };
 
 export const shouldSnapWhenSizeGrown = (newWidth: number, prevWidth: number, defaultWidth: number) => {

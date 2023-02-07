@@ -2017,6 +2017,7 @@ export enum ResizeDirection {
 }
 
 export const SIDEBAR_SNAP_SIZE = 16;
+export const SIDEBAR_SNAP_SPEED_LIMIT = 5;
 
 export const DEFAULT_LHS_WIDTH = 240;
 
