@@ -36,13 +36,13 @@ describe('Status dropdown menu', () => {
 
     it('MM-T2927_1 Should show all available statuses with their icons', () => {
         // # Open user menu
-        cy.uiOpenUserMenu().within(() => {
-            // * Verify all available statuses are shown with icon and text
-            statusTestCases.forEach((tc) => {
-                cy.findByText(tc.text).
-                    parent().
-                    find('i').should('have.class', tc.className);
-            });
+        cy.uiOpenUserMenu().as('userMenu');
+
+        // * Verify all available statuses are shown with icon and text
+        statusTestCases.forEach((tc) => {
+            cy.get('@userMenu').findByText(tc.text).
+                parent().
+                find('i').should('have.class', tc.className);
         });
     });
 
@@ -64,10 +64,10 @@ describe('Status dropdown menu', () => {
 
     it('MM-T2927_4 "Set a Custom Header Status" is clickable', () => {
         // # Open user menu
-        cy.uiOpenUserMenu().within(() => {
-            // * Verify "Set a Custom Status" header is clickable
-            cy.findByText('Set a Custom Status').should('have.css', 'cursor', 'pointer');
-        });
+        cy.uiOpenUserMenu().as('userMenu');
+
+        // * Verify "Set a Custom Status" header is clickable
+        cy.get('@userMenu').findByText('Set a Custom Status').should('have.css', 'cursor', 'pointer');
     });
 
     it('MM-T2927_5 When custom status is disabled, status menu is displayed when status icon is clicked', () => {
@@ -93,10 +93,10 @@ describe('Status dropdown menu', () => {
 
     it('MM-T4914 Profile menu header is clickable, opens Profile settings', () => {
         // # Open user menu
-        cy.uiOpenUserMenu().within(() => {
-            // * Verify menu header is clickable
-            cy.get('.MenuHeader').should('have.css', 'cursor', 'pointer').click();
-        });
+        cy.uiOpenUserMenu().as('userMenu');
+
+        // * Verify menu header is clickable
+        cy.get('@userMenu').get('.MenuHeader').should('have.css', 'cursor', 'pointer').click();
 
         // * Verify click on header opens Profile settings modal
         cy.findByRole('dialog', {name: 'Profile'}).should('be.visible');

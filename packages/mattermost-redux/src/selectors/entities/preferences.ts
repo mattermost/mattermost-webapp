@@ -260,10 +260,6 @@ export function isGraphQLEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'GraphQL') === 'true';
 }
 
-export function isAnnualSubscriptionEnabled(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'AnnualSubscription') === 'true';
-}
-
 export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): boolean {
     return getBool(state, Preferences.CATEGORY_UPGRADE_CLOUD, Preferences.SYSTEM_CONSOLE_LIMIT_REACHED, false);
 }
@@ -294,4 +290,8 @@ export function isReduceOnBoardingTaskList(state: GlobalState): boolean {
 export function getVisibleDmGmLimit(state: GlobalState) {
     const defaultLimit = 40;
     return getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, defaultLimit);
+}
+
+export function onboardingTourTipsEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'OnboardingTourTips') === 'true';
 }

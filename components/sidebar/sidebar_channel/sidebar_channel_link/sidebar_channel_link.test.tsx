@@ -44,6 +44,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
             clearChannelSelection: jest.fn(),
             openLhs: jest.fn(),
             unsetEditingPost: jest.fn(),
+            closeRightHandSide: jest.fn(),
         },
     };
 

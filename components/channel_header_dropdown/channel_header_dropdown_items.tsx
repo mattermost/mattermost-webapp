@@ -11,7 +11,7 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 
-import ChannelMoveToSubMenu from 'components/channel_move_to_sub_menu';
+import ChannelMoveToSubMenuOld from 'components/channel_move_to_sub_menu_old';
 import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
@@ -108,7 +108,8 @@ export default class ChannelHeaderDropdown extends React.PureComponent<Props> {
                     show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
                     channel={channel}
                 />
-                <ChannelMoveToSubMenu
+                {/* Remove when this components is migrated to new menus */}
+                <ChannelMoveToSubMenuOld
                     channel={channel}
                     openUp={false}
                     inHeaderDropdown={true}
@@ -270,6 +271,12 @@ export default class ChannelHeaderDropdown extends React.PureComponent<Props> {
                             text={localizeMessage('channel_header.convert', 'Convert to Private Channel')}
                         />
                     </ChannelPermissionGate>
+                    <MenuItemLeaveChannel
+                        id='channelLeaveChannel'
+                        channel={channel}
+                        isDefault={isDefault}
+                        isGuestUser={isGuest(user.roles)}
+                    />
                     <ChannelPermissionGate
                         channelId={channel.id}
                         teamId={channel.team_id}
@@ -293,12 +300,6 @@ export default class ChannelHeaderDropdown extends React.PureComponent<Props> {
                             channel={channel}
                             isDropdown={true}
                         />}
-                    <MenuItemLeaveChannel
-                        id='channelLeaveChannel'
-                        channel={channel}
-                        isDefault={isDefault}
-                        isGuestUser={isGuest(user.roles)}
-                    />
                     <MenuItemCloseMessage
                         id='channelCloseMessage'
                         channel={channel}

@@ -127,20 +127,6 @@ describe('components/delinquency_modal/freemium_modal', () => {
         expect(screen.getByText('Some of your workspace\'s message history are no longer accessible. Upgrade to a paid plan and get unlimited access to your message history.')).toBeInTheDocument();
     });
 
-    it('should display boards text when only boards limit is surpassed', () => {
-        const planName = 'Testing';
-
-        (useGetMultiplesExceededCloudLimit as jest.Mock).mockReturnValue([LimitTypes.boardsCards]);
-        renderComponent({
-            props: {
-                planName,
-            },
-        });
-
-        expect(screen.queryByText(`Re-activate ${planName}`)).toBeInTheDocument();
-        expect(screen.getByText('Some of your workspace\'s board cards are no longer accessible. Upgrade to a paid plan and get unlimited access to your board cards.')).toBeInTheDocument();
-    });
-
     it('should display storage text when only storage is surpassed', () => {
         const planName = 'Testing';
 
@@ -158,7 +144,7 @@ describe('components/delinquency_modal/freemium_modal', () => {
     it('should display update to paid plan text when only multiples limits is surpassed', () => {
         const planName = 'Testing';
 
-        (useGetMultiplesExceededCloudLimit as jest.Mock).mockReturnValue([LimitTypes.messageHistory, LimitTypes.boardsCards]);
+        (useGetMultiplesExceededCloudLimit as jest.Mock).mockReturnValue([LimitTypes.messageHistory, LimitTypes.fileStorage]);
         renderComponent({
             props: {
                 planName,
