@@ -11,7 +11,7 @@ import SelfHostedPurchaseModal from 'components/self_hosted_purchase_modal';
 import {STORAGE_KEY_PURCHASE_IN_PROGRESS} from 'components/self_hosted_purchase_modal/constants';
 import PurchaseInProgressModal from 'components/purchase_in_progress_modal';
 import {Client4} from 'mattermost-redux/client';
-import {getCurrentUserEmail} from 'mattermost-redux/selectors/entities/common';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {HostedCustomerTypes} from 'mattermost-redux/action_types';
 
 import {useControlModal, ControlModal} from './useControlModal';
@@ -24,7 +24,7 @@ interface HookOptions{
 
 export default function useControlSelfHostedPurchaseModal(options: HookOptions): ControlModal {
     const dispatch = useDispatch();
-    const userEmail = useSelector(getCurrentUserEmail);
+    const currentUser = useSelector(getCurrentUser);
     const purchaseInProgress = localStorage.getItem(STORAGE_KEY_PURCHASE_IN_PROGRESS) === 'true';
     const controlModal = useControlModal({
         modalId: ModalIdentifiers.SELF_HOSTED_PURCHASE,
@@ -47,7 +47,7 @@ export default function useControlSelfHostedPurchaseModal(options: HookOptions):
                         modalId: ModalIdentifiers.PURCHASE_IN_PROGRESS,
                         dialogType: PurchaseInProgressModal,
                         dialogProps: {
-                            purchaserEmail: userEmail,
+                            purchaserEmail: currentUser.email,
                         },
                     }));
                     return;
@@ -62,7 +62,7 @@ export default function useControlSelfHostedPurchaseModal(options: HookOptions):
                 try {
                     const result = await Client4.bootstrapSelfHostedSignup();
 
-                    if (result.email !== userEmail) {
+                    if (result.email !== currentUser.email) {
                         // JWT already exists and was created by another admin,
                         // meaning another admin is already trying to purchase.
                         // Notify user of this and do not allow them to try to purchase concurrently.

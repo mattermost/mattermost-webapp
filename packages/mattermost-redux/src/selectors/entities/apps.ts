@@ -10,10 +10,6 @@ import {ClientConfig} from '@mattermost/types/config';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
-// This file's contents belong to the Apps Framework feature.
-// Apps Framework feature is experimental, and the contents of this file are
-// susceptible to breaking changes without pushing the major version of this package.
-
 export const appsPluginIsEnabled = (state: GlobalState) => state.entities.apps.pluginEnabled;
 
 export const appsFeatureFlagEnabled = createSelector(

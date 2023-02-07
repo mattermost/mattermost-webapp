@@ -23,11 +23,7 @@ exports[`components/suggestion/search_channel_suggestion should match snapshot 1
     >
       name
     </span>
-    <span
-      className="ml-2"
-    >
-      ~DN
-    </span>
+    ~DN
   </div>
 </div>
 `;
@@ -52,14 +48,7 @@ exports[`components/suggestion/search_channel_suggestion should match snapshot, 
     >
       @name
     </span>
-    <span
-      className="ml-2"
-    />
   </div>
-  <BotBadge
-    className="badge-popoverlist"
-    show={false}
-  />
 </div>
 `;
 
@@ -88,9 +77,6 @@ exports[`components/suggestion/search_channel_suggestion should match snapshot, 
     >
       @name
     </span>
-    <span
-      className="ml-2"
-    />
   </div>
 </div>
 `;
@@ -118,11 +104,7 @@ exports[`components/suggestion/search_channel_suggestion should match snapshot, 
     >
       name
     </span>
-    <span
-      className="ml-2"
-    >
-      ~DN
-    </span>
+    ~DN
   </div>
 </div>
 `;
@@ -150,11 +132,7 @@ exports[`components/suggestion/search_channel_suggestion should match snapshot, 
     >
       name
     </span>
-    <span
-      className="ml-2"
-    >
-      ~DN
-    </span>
+    ~DN
   </div>
 </div>
 `;
@@ -182,11 +160,7 @@ exports[`components/suggestion/search_channel_suggestion should match snapshot, 
     >
       name
     </span>
-    <span
-      className="ml-2"
-    >
-      ~DN
-    </span>
+    ~DN
   </div>
 </div>
 `;
@@ -214,11 +188,7 @@ exports[`components/suggestion/search_channel_suggestion should match snapshot, 
     >
       name
     </span>
-    <span
-      className="ml-2"
-    >
-      ~DN
-    </span>
+    ~DN
   </div>
 </div>
 `;

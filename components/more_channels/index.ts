@@ -17,6 +17,9 @@ import {getOtherChannels, getChannelsInCurrentTeam} from 'mattermost-redux/selec
 
 import {searchMoreChannels} from 'actions/channel_actions';
 import {openModal, closeModal} from 'actions/views/modals';
+import {closeRightHandSide} from 'actions/views/rhs';
+
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 
 import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
@@ -46,6 +49,8 @@ function mapStateToProps(state: GlobalState) {
         teamName: team.name,
         channelsRequestStarted: state.requests.channels.getChannels.status === RequestStatus.STARTED,
         canShowArchivedChannels: (getConfig(state).ExperimentalViewArchivedChannels === 'true'),
+        rhsState: getRhsState(state),
+        rhsOpen: getIsRhsOpen(state),
     };
 }
 
@@ -56,6 +61,7 @@ type Actions = {
     searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => Promise<ActionResult>;
     openModal: <P>(modalData: ModalData<P>) => void;
     closeModal: (modalId: string) => void;
+    closeRightHandSide: () => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -67,6 +73,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             searchMoreChannels,
             openModal,
             closeModal,
+            closeRightHandSide,
         }, dispatch),
     };
 }

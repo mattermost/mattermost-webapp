@@ -7,7 +7,11 @@ import {getCloudSubscription, getSubscriptionProduct} from 'mattermost-redux/sel
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {isCloudLicense} from 'utils/license_utils';
-import {CloudProducts} from 'utils/constants';
+import {CloudProducts, InsightsScopes} from 'utils/constants';
+
+import {setGlobalItem} from 'actions/storage';
+
+import {useGlobalState} from 'stores/hooks';
 
 /**
  * Returns some checks for free trial users or starter licenses
@@ -34,4 +38,21 @@ export function useLicenseChecks(): {isStarterFree: boolean; isFreeTrial: boolea
         isFreeTrial,
         isEnterpriseReady,
     };
+}
+
+export function useGetFilterType(): [string, (value: string) => ReturnType<typeof setGlobalItem>] {
+    const {isStarterFree, isEnterpriseReady} = useLicenseChecks();
+    const [filterType, setFilterType] = useGlobalState(InsightsScopes.TEAM, 'insightsScope');
+
+    let returnedFilterType = filterType;
+
+    // Force MY Insights for free trial users
+    if (isStarterFree || !isEnterpriseReady) {
+        returnedFilterType = InsightsScopes.MY;
+    }
+
+    return [
+        returnedFilterType,
+        setFilterType,
+    ];
 }

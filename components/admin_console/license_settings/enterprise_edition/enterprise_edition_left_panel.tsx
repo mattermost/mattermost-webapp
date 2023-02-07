@@ -3,7 +3,9 @@
 
 import React, {RefObject, useEffect, useState} from 'react';
 import classNames from 'classnames';
-import {FormattedDate, FormattedMessage, FormattedNumber, FormattedTime} from 'react-intl';
+import {FormattedDate, FormattedMessage, FormattedNumber, FormattedTime, useIntl} from 'react-intl';
+
+import Tag from 'components/widgets/tag/tag';
 
 import {ClientLicense} from '@mattermost/types/config';
 
@@ -13,8 +15,6 @@ import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
 import {FileTypes} from 'utils/constants';
 import {getSkuDisplayName} from 'utils/subscription';
 import {calculateOverageUserActivated} from 'utils/overage_team';
-
-import Badge from 'components/widgets/badges/badge';
 
 import './enterprise_edition.scss';
 
@@ -43,6 +43,7 @@ const EnterpriseEditionLeftPanel = ({
     handleChange,
     statsActiveUsers,
 }: EnterpriseEditionProps) => {
+    const {formatMessage} = useIntl();
     const [unsanitizedLicense, setUnsanitizedLicense] = useState(license);
     useEffect(() => {
         async function fetchUnSanitizedLicense() {
@@ -50,8 +51,9 @@ const EnterpriseEditionLeftPanel = ({
             try {
                 const unsanitizedL = await Client4.getClientLicenseOld();
                 setUnsanitizedLicense(unsanitizedL);
-            // eslint-disable-next-line no-empty
-            } catch {}
+            } catch {
+                // do nothing
+            }
         }
         fetchUnSanitizedLicense();
     }, [license]);
@@ -59,7 +61,10 @@ const EnterpriseEditionLeftPanel = ({
     const skuName = getSkuDisplayName(unsanitizedLicense.SkuShortName, unsanitizedLicense.IsGovSku === 'true');
     const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(unsanitizedLicense.ExpiresAt, 10));
     return (
-        <div className='EnterpriseEditionLeftPanel'>
+        <div
+            className='EnterpriseEditionLeftPanel'
+            data-testid='EnterpriseEditionLeftPanel'
+        >
             <div className='pre-title'>
                 <FormattedMessage
                     id='admin.license.enterpriseEdition'
@@ -67,7 +72,18 @@ const EnterpriseEditionLeftPanel = ({
                 />
             </div>
             <div className='title'>
-                {`Mattermost ${skuName}`}{freeTrialBadge(isTrialLicense)}
+                {`Mattermost ${skuName}`}
+                {isTrialLicense && (
+                    <Tag
+                        text={formatMessage({
+                            id: 'admin.license.Trial',
+                            defaultMessage: 'Trial',
+                        })}
+                        variant={'success'}
+                        uppercase={true}
+                        size={'sm'}
+                    />
+                )}
             </div>
             <div className='subtitle'>
                 <FormattedMessage
@@ -277,21 +293,6 @@ const renderRemoveButton = (
                 </button>
             </div>
         </>
-    );
-};
-
-const freeTrialBadge = (isTrialLicense: boolean) => {
-    if (!isTrialLicense) {
-        return null;
-    }
-
-    return (
-        <Badge className='free-trial-license'>
-            <FormattedMessage
-                id='admin.license.Trial'
-                defaultMessage='Trial'
-            />
-        </Badge>
     );
 };
 

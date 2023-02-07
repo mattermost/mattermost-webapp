@@ -38,14 +38,8 @@ class ChannelSuggestion extends Suggestion {
                     <span className='suggestion-list__main'>
                         {channelName}
                     </span>
-                    <span className='ml-2'>
-                        {' '}
-                        {description}
-                    </span>
-                    <span className='ml-2'>
-                        {' '}
-                        {purpose}
-                    </span>
+                    {description}
+                    {purpose}
                 </div>
             </div>
         );
