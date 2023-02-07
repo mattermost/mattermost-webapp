@@ -231,7 +231,7 @@
     "dev-server": "node scripts/dev-server",
     "dev-server:webapp": "webpack serve --mode development",
     "test": "cross-env TZ=Etc/UTC jest --maxWorkers=50%",
-    "test-ci": "cross-env NODE_OPTIONS=--max_old_space_size=500 TZ=Etc/UTC jest --ci --maxWorkers=8",
+    "test-ci": "cross-env NODE_OPTIONS=--max_old_space_size=500 TZ=Etc/UTC jest --ci --maxWorkers=2",
     "stats": "cross-env NODE_ENV=production webpack --profile --json > webpack_stats.json",
     "updatesnapshot": "cross-env TZ=Etc/UTC jest --updateSnapshot",
     "test:debug": "cross-env TZ=Etc/UTC jest --forceExit --detectOpenHandles",
