@@ -136,7 +136,7 @@ function LoggedInRoute<T>(props: LoggedInRouteProps<T>) {
     );
 }
 
-const noop = () => {}; // eslint-disable-line no-empty-function
+const noop = () => {};
 
 export type Actions = {
     emitBrowserWindowResized: (size?: string) => void;
@@ -178,7 +178,7 @@ export default class Root extends React.PureComponent<Props, State> {
 
     // The constructor adds a bunch of event listeners,
     // so we do need this.
-    private a11yController: A11yController; // eslint-disable-line no-unused-vars
+    private a11yController: A11yController;
 
     constructor(props: Props) {
         super(props);

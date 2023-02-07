@@ -49,6 +49,12 @@ type Props = {
     hasPluginTooltips?: boolean;
     isUserCanManageMembers?: boolean;
     mentionKeys: MentionKey[];
+
+    /**
+     * Whether or not to render the post edited indicator
+     * @default true
+     */
+    showPostEditedIndicator?: boolean;
 }
 
 export default class PostMarkdown extends React.PureComponent<Props> {
@@ -56,6 +62,7 @@ export default class PostMarkdown extends React.PureComponent<Props> {
         isRHS: false,
         pluginHooks: [],
         options: {},
+        showPostEditedIndicator: true,
     };
 
     getOptions = memoize(
@@ -96,7 +103,7 @@ export default class PostMarkdown extends React.PureComponent<Props> {
 
         const options = this.getOptions(
             this.props.options,
-            post?.props?.disable_group_highlight === true, // eslint-disable-line camelcase
+            post?.props?.disable_group_highlight === true,
             mentionHighlight,
             post?.edit_at,
         );
@@ -113,7 +120,7 @@ export default class PostMarkdown extends React.PureComponent<Props> {
                 hasPluginTooltips={this.props.hasPluginTooltips}
                 imagesMetadata={this.props.post?.metadata?.images}
                 postId={this.props.post?.id}
-                editedAt={this.props.post?.edit_at}
+                editedAt={this.props.showPostEditedIndicator ? this.props.post?.edit_at : undefined}
             />
         );
     }
