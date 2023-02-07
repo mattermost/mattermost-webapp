@@ -42,7 +42,7 @@ export type LogFilter = {
 }
 
 export type AdminState = {
-    logs: Record<string, LogObject[]>;
+    logs: LogObject[];
     audits: Record<string, Audit>;
     config: Partial<AdminConfig>;
     environmentConfig: Partial<EnvironmentConfig>;
