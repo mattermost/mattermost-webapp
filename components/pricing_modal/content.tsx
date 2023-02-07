@@ -22,6 +22,7 @@ import {
 } from 'mattermost-redux/selectors/entities/cloud';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
+import {Feedback} from '@mattermost/types/cloud';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import SuccessModal from 'components/cloud_subscribe_result_modal/success';
@@ -30,6 +31,7 @@ import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
+import DowngradeFeedbackModal from 'components/feedback_modal/downgrade_feedback';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
@@ -42,8 +44,6 @@ import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
 
 import './content.scss';
-import {Feedback} from '@mattermost/types/cloud';
-import DowngradeFeedbackModal from 'components/feedback_modal/downgrade_feedback';
 
 type ContentProps = {
     onHide: () => void;

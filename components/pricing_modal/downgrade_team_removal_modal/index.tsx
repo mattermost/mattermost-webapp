@@ -96,7 +96,7 @@ function DowngradeTeamRemovalModal(props: Props) {
                 downgradeFeedback,
             },
         }));
-    }
+    };
 
     const getSelectedTeam = () => {
         let teamIdToKeep = '';
