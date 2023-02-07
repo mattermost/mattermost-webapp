@@ -38,6 +38,8 @@ import {Board} from '@mattermost/types/boards';
 import {ChannelType, Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
 
+import {lib as CryptoJS} from 'crypto-js';
+
 import './new_channel_modal.scss';
 
 export function getChannelTypeFromPermissions(canCreatePublicChannel: boolean, canCreatePrivateChannel: boolean) {
@@ -111,7 +113,7 @@ const NewChannelModal = () => {
 
         const channel: Channel = {
             team_id: currentTeamId,
-            name: url,
+            name: url || CryptoJS.WordArray.random(16).toString(),
             display_name: displayName,
             purpose,
             header: '',
@@ -270,7 +272,7 @@ const NewChannelModal = () => {
         e.stopPropagation();
     };
 
-    const canCreate = displayName && !displayNameError && url && !urlError && type && !purposeError && !serverError && canCreateFromPluggable;
+    const canCreate = displayName && !displayNameError && !urlError && type && !purposeError && !serverError && canCreateFromPluggable;
 
     const newBoardInfoIcon = (
         <OverlayTrigger
