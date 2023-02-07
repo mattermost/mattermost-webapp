@@ -14,9 +14,10 @@ import SearchableChannelList from 'components/searchable_channel_list.jsx';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
 import {ModalData} from 'types/actions';
+import {RhsState} from 'types/store/rhs';
 
 import {getHistory} from 'utils/browser_history';
-import {ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers, RHSStates} from 'utils/constants';
 import {getRelativeChannelURL} from 'utils/url';
 
 const CHANNELS_CHUNK_SIZE = 50;
@@ -30,6 +31,7 @@ type Actions = {
     searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => Promise<ActionResult>;
     openModal: <P>(modalData: ModalData<P>) => void;
     closeModal: (modalId: string) => void;
+    closeRightHandSide: () => void;
 }
 
 export type Props = {
@@ -41,6 +43,8 @@ export type Props = {
     channelsRequestStarted?: boolean;
     canShowArchivedChannels?: boolean;
     morePublicChannelsModalType?: string;
+    rhsState?: RhsState;
+    rhsOpen?: boolean;
     actions: Actions;
 }
 
@@ -86,6 +90,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
 
     handleNewChannel = () => {
         this.handleExit();
+        this.closeEditRHS();
         this.props.actions.openModal({
             modalId: ModalIdentifiers.NEW_CHANNEL_MODAL,
             dialogType: NewChannelModal,
@@ -95,6 +100,12 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
     handleExit = () => {
         this.props.actions.closeModal(ModalIdentifiers.MORE_CHANNELS);
     }
+
+    closeEditRHS = () => {
+        if (this.props.rhsOpen && this.props.rhsState === RHSStates.EDIT_HISTORY) {
+            this.props.actions.closeRightHandSide();
+        }
+    };
 
     onChange = (force: boolean) => {
         if (this.state.search && !force) {
@@ -119,6 +130,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             this.setState({serverError: result.error.message});
         } else {
             getHistory().push(getRelativeChannelURL(teamName, channel.name));
+            this.closeEditRHS();
             this.handleHide();
         }
 

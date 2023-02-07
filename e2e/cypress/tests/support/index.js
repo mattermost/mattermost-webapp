@@ -152,18 +152,29 @@ before(() => {
 });
 
 function printLicenseStatus() {
-    cy.apiGetClientLicense().then(({isLicensed, license}) => {
-        if (isLicensed) {
-            cy.log(`Server has license: ${license.SkuName}`);
-        } else {
-            cy.log('Server is without license.');
-        }
+    cy.apiGetClientLicense().then(({license}) => {
+        cy.log(`Server License:
+  - IsLicensed      = ${license.IsLicensed}
+  - IsTrial         = ${license.IsTrial}
+  - SkuName         = ${license.SkuName}
+  - SkuShortName    = ${license.SkuShortName}
+  - Cloud           = ${license.Cloud}
+  - Users           = ${license.Users}`);
     });
 }
 
 function printServerDetails() {
     cy.apiGetConfig(true).then(({config}) => {
-        cy.log(`Build Number: ${config.BuildNumber} | Version: ${config.Version} | Hash: ${config.BuildHash}`);
+        cy.log(`Build Info:
+  - BuildNumber             = ${config.BuildNumber}
+  - BuildDate               = ${config.BuildDate}
+  - Version                 = ${config.Version}
+  - BuildHash               = ${config.BuildHash}
+  - BuildHashEnterprise     = ${config.BuildHashEnterprise}
+  - BuildHashBoards         = ${config.BuildHashBoards}
+  - BuildEnterpriseReady    = ${config.BuildEnterpriseReady}
+  - BuildBoards             = ${config.BuildBoards}
+  - TelemetryId             = ${config.TelemetryId}`);
     });
 }
 

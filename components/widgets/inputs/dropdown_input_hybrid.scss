@@ -36,12 +36,21 @@
     }
 
     .Input_fieldset {
+        position: relative;
         display: flex;
         padding: 0;
     }
 
     .Input_legend {
+        position: absolute;
+        z-index: 1;
+        top: -8px;
+        width: auto;
+        padding: 0 5px;
+        border-bottom: none;
+        margin-bottom: 0;
         margin-left: 8px;
+        font-size: 10px;
     }
 
     .DropDown__menu {
