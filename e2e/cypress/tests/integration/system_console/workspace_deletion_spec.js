@@ -232,7 +232,7 @@ describe('Workspace deletion', () => {
     });
 
     it('Workspace deletion modal > delete workspace > after survey, a success modal is displayed when the deletion succeeds', () => {
-        cy.intercept('DELETE', '/api/v4/cloud/delete-workspace', {statusCode: 200, body: {message: "Status OK"}}).as('deleteWorkspace');
+        cy.intercept('DELETE', '/api/v4/cloud/delete-workspace', {statusCode: 200, body: {message: 'Status OK'}}).as('deleteWorkspace');
 
         // Professional Monthly.
         const subscription = {
@@ -281,7 +281,7 @@ describe('Workspace deletion', () => {
     });
 
     it('Workspace deletion modal > downgrade workspace > after survey, a success modal is displayed when the downgrade succeeds', () => {
-        cy.intercept('PUT', '/api/v4/cloud/subscription', {statusCode: 200, body: {message: "Status OK"}}).as('downgradeWorkspace');
+        cy.intercept('PUT', '/api/v4/cloud/subscription', {statusCode: 200, body: {message: 'Status OK'}}).as('downgradeWorkspace');
 
         // Professional Monthly.
         const subscription = {

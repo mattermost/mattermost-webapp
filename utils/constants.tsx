@@ -455,8 +455,7 @@ export const ModalIdentifiers = {
     DELETE_WORKSPACE: 'delete_workspace',
     FEEDBACK: 'feedback',
     DELETE_WORKSPACE_PROGRESS: 'delete_workspace_progress',
-    DELETE_WORKSPACE_SUCCESS: 'delete_workspace_success',
-    DELETE_WORKSPACE_FAILURE: 'delete_workspace_failure',
+    DELETE_WORKSPACE_RESULT: 'delete_workspace_result',
     SCREENING_IN_PROGRESS: 'screening_in_progress',
     CONFIRM_SWITCH_TO_YEARLY: 'confirm_switch_to_yearly',
 };

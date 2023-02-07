@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useReducer} from 'react';
+import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
@@ -30,72 +30,9 @@ import {isCloudLicense} from 'utils/license_utils';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {trackEvent} from 'actions/telemetry_actions';
 import useGetSubscription from 'components/common/hooks/useGetSubscription';
+
 import DeleteWorkspaceSuccessModal from './success_modal';
 import DeleteWorkspaceFailureModal from './failure_modal';
-import RootPortal from 'components/root_portal';
-
-export interface State {
-    submitting: boolean;
-    succeeded: boolean;
-    error: boolean;
-}
-
-interface SetSucceeded {
-    type: 'set_succeeded';
-}
-
-interface SetSubmitting {
-    type: 'set_submitting';
-}
-
-interface SetError {
-    type: 'set_error';
-}
-
-interface ResetState {
-    type: 'reset_state';
-}
-
-type Action = SetSucceeded | SetSubmitting | SetError | ResetState
-
-function reducer(state: State, action: Action): State {
-    switch (action.type) {
-    case 'set_submitting': {
-        return {
-            submitting: true,
-            error: false,
-            succeeded: false,
-        }
-    }
-    case 'set_error': {
-        return {
-            submitting: false,
-            error: true,
-            succeeded: false,
-        };
-    }
-    case 'set_succeeded':
-        return {
-            submitting: false,
-            succeeded: true,
-            error: false,
-        };
-    case 'reset_state':
-        return {
-            submitting: false,
-            succeeded: false,
-            error: false,
-        };
-    default:
-        return state;
-    }
-}
-
-const initialState = {
-    submitting: false,
-    succeeded: false,
-    error: false,
-};
 
 type Props = {
     callerCTA: string;
@@ -104,7 +41,6 @@ type Props = {
 export default function DeleteWorkspaceModal(props: Props) {
     const dispatch = useDispatch();
     const openDowngradeModal = useOpenDowngradeModal();
-    const [state, internalDispatch] = useReducer(reducer, initialState);
 
     // License/product checks.
     const subscription = useGetSubscription();
@@ -177,16 +113,20 @@ export default function DeleteWorkspaceModal(props: Props) {
             return;
         }
 
-        internalDispatch({type: 'set_submitting'});
-
         const result = await dispatch(deleteWorkspaceRequest({subscription_id: subscription?.id, feedback}));
 
         if (typeof result === 'boolean' && result) {
-            internalDispatch({type: 'set_succeeded'});
             dispatch(closeModal(ModalIdentifiers.DELETE_WORKSPACE_PROGRESS));
+            dispatch(openModal({
+                modalId: ModalIdentifiers.DELETE_WORKSPACE_RESULT,
+                dialogType: DeleteWorkspaceSuccessModal,
+            }));
             trackEvent('cloud_admin', 'self_serve_workspace_deletion_completed');
         } else { // Failure
-            internalDispatch({type: 'set_error'});
+            dispatch(openModal({
+                modalId: ModalIdentifiers.DELETE_WORKSPACE_RESULT,
+                dialogType: DeleteWorkspaceFailureModal,
+            }));
             dispatch(closeModal(ModalIdentifiers.DELETE_WORKSPACE_PROGRESS));
         }
     };
@@ -200,44 +140,39 @@ export default function DeleteWorkspaceModal(props: Props) {
         const telemetryInfo = props.callerCTA + ' > delete_workspace_modal';
         openDowngradeModal({trackingLocation: telemetryInfo});
 
-        internalDispatch({type: 'set_submitting'});
-
         const result = await dispatch(subscribeCloudSubscription(starterProduct.id, 0, feedback));
 
-        if (state.submitting) {
-
-            // Success
-            if (typeof result === 'boolean' && result) {
-                dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
-                dispatch(
-                    openModal({
-                        modalId: ModalIdentifiers.SUCCESS_MODAL,
-                        dialogType: SuccessModal,
-                        dialogProps: {
-                            newProductName: starterProduct.name,
+        // Success
+        if (typeof result === 'boolean' && result) {
+            dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
+            dispatch(
+                openModal({
+                    modalId: ModalIdentifiers.SUCCESS_MODAL,
+                    dialogType: SuccessModal,
+                    dialogProps: {
+                        newProductName: starterProduct.name,
+                    },
+                }),
+            );
+        } else { // Failure
+            dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
+            dispatch(
+                openModal({
+                    modalId: ModalIdentifiers.ERROR_MODAL,
+                    dialogType: ErrorModal,
+                    dialogProps: {
+                        backButtonAction: () => {
+                            dispatch(openModal({
+                                modalId: ModalIdentifiers.DELETE_WORKSPACE,
+                                dialogType: DeleteWorkspaceModal,
+                                dialogProps: {
+                                    callerCTA: props.callerCTA,
+                                },
+                            }));
                         },
-                    }),
-                );
-            } else { // Failure
-                dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
-                dispatch(
-                    openModal({
-                        modalId: ModalIdentifiers.ERROR_MODAL,
-                        dialogType: ErrorModal,
-                        dialogProps: {
-                            backButtonAction: () => {
-                                dispatch(openModal({
-                                    modalId: ModalIdentifiers.DELETE_WORKSPACE,
-                                    dialogType: DeleteWorkspaceModal,
-                                    dialogProps: {
-                                        callerCTA: props.callerCTA,
-                                    },
-                                }));
-                            },
-                        },
-                    }),
-                );
-            }
+                    },
+                }),
+            );
         }
     };
 
@@ -246,86 +181,75 @@ export default function DeleteWorkspaceModal(props: Props) {
     }
 
     return (
-        <RootPortal>
-            <GenericModal
-                className='DeleteWorkspaceModal'
-                onExited={handleClickCancel}
-            >
-                <div>
-                    <LaptopAlertSVG/>
-                </div>
-                <div className='DeleteWorkspaceModal__Title'>
+        <GenericModal
+            className='DeleteWorkspaceModal'
+            onExited={handleClickCancel}
+        >
+            <div>
+                <LaptopAlertSVG/>
+            </div>
+            <div className='DeleteWorkspaceModal__Title'>
+                <FormattedMessage
+                    id='admin.billing.subscription.deleteWorkspaceModal.title'
+                    defaultMessage='Are you sure you want to delete?'
+                />
+            </div>
+            <div className='DeleteWorkspaceModal__Usage'>
+                <FormattedMessage
+                    id='admin.billing.subscription.deleteWorkspaceModal.usage'
+                    defaultMessage='As part of your paid subscription to Mattermost {product_name} you have created '
+                    values={{
+                        sku: product?.name,
+                    }}
+                />
+                <span className='DeleteWorkspaceModal__Usage-Highlighted'>
                     <FormattedMessage
-                        id='admin.billing.subscription.deleteWorkspaceModal.title'
-                        defaultMessage='Are you sure you want to delete?'
-                    />
-                </div>
-                <div className='DeleteWorkspaceModal__Usage'>
-                    <FormattedMessage
-                        id='admin.billing.subscription.deleteWorkspaceModal.usage'
-                        defaultMessage='As part of your paid subscription to Mattermost {product_name} you have created '
+                        id='admin.billing.subscription.deleteWorkspaceModal.usageDetails'
+                        defaultMessage='{messageCount} messages and {fileSize} of files'
                         values={{
-                            sku: product?.name,
+                            messageCount: totalMessages,
+                            fileSize: totalFileSize,
                         }}
                     />
-                    <span className='DeleteWorkspaceModal__Usage-Highlighted'>
-                        <FormattedMessage
-                            id='admin.billing.subscription.deleteWorkspaceModal.usageDetails'
-                            defaultMessage='{messageCount} messages and {fileSize} of files'
-                            values={{
-                                messageCount: totalMessages,
-                                fileSize: totalFileSize,
-                            }}
-                        />
-                    </span>
-                </div>
-                <div className='DeleteWorkspaceModal__Warning'>
+                </span>
+            </div>
+            <div className='DeleteWorkspaceModal__Warning'>
+                <FormattedMessage
+                    id='admin.billing.subscription.deleteWorkspaceModal.warning'
+                    defaultMessage="Deleting your workspace is final. Upon deleting, you'll lose all of the above with no ability to recover. If you downgrade to Free, you will not lose this information."
+                />
+            </div>
+            <div className='DeleteWorkspaceModal__Buttons'>
+                <button
+                    className='btn DeleteWorkspaceModal__Buttons-Delete'
+                    onClick={handleClickDeleteWorkspace}
+                >
                     <FormattedMessage
-                        id='admin.billing.subscription.deleteWorkspaceModal.warning'
-                        defaultMessage="Deleting your workspace is final. Upon deleting, you'll lose all of the above with no ability to recover. If you downgrade to Free, you will not lose this information."
+                        id='admin.billing.subscription.deleteWorkspaceModal.deleteButton'
+                        defaultMessage='Delete Workspace'
                     />
-                </div>
-                <div className='DeleteWorkspaceModal__Buttons'>
+                </button>
+                {!isStarter && !isEnterprise &&
                     <button
-                        className='btn DeleteWorkspaceModal__Buttons-Delete'
-                        onClick={handleClickDeleteWorkspace}
+                        className='btn DeleteWorkspaceModal__Buttons-Downgrade'
+                        onClick={handleClickDowngradeWorkspace}
                     >
                         <FormattedMessage
-                            id='admin.billing.subscription.deleteWorkspaceModal.deleteButton'
-                            defaultMessage='Delete Workspace'
+                            id='admin.billing.subscription.deleteWorkspaceModal.downgradeButton'
+                            defaultMessage='Downgrade To Free'
                         />
                     </button>
-                    {!isStarter && !isEnterprise &&
-                        <button
-                            className='btn DeleteWorkspaceModal__Buttons-Downgrade'
-                            onClick={handleClickDowngradeWorkspace}
-                        >
-                            <FormattedMessage
-                                id='admin.billing.subscription.deleteWorkspaceModal.downgradeButton'
-                                defaultMessage='Downgrade To Free'
-                            />
-                        </button>
-                    }
-                    <button
-                        className='btn btn-primary DeleteWorkspaceModal__Buttons-Cancel'
-                        onClick={handleClickCancel}
-                    >
-                        <FormattedMessage
-                            id='admin.billing.subscription.deleteWorkspaceModal.cancelButton'
-                            defaultMessage='Keep Subscription'
-                        />
-                    </button>
-                </div>
-            </GenericModal>
-            {state.submitting && !state.error && !state.succeeded && (
-                <DeleteWorkspaceProgressModal/>
-            )}
-            {!state.submitting && !state.error && state.succeeded && (
-                <DeleteWorkspaceSuccessModal/>
-            )}
-            {!state.submitting && !state.succeeded && state.error && (
-                <DeleteWorkspaceFailureModal/>
-            )}
-        </RootPortal>
+                }
+                <button
+                    className='btn btn-primary DeleteWorkspaceModal__Buttons-Cancel'
+                    onClick={handleClickCancel}
+                >
+                    <FormattedMessage
+                        id='admin.billing.subscription.deleteWorkspaceModal.cancelButton'
+                        defaultMessage='Keep Subscription'
+                    />
+                </button>
+            </div>
+        </GenericModal>
     );
 }

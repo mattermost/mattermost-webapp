@@ -24,7 +24,7 @@ type Props = {
 } & WrappedComponentProps
 
 function FeedbackModal(props: Props) {
-    const optionOther =  props.intl.formatMessage({id:'feedback.other', defaultMessage: 'Other'});
+    const optionOther = props.intl.formatMessage({id: 'feedback.other', defaultMessage: 'Other'});
     const feedbackModalOptions: string[] = [
         ...props.feedbackOptions,
         optionOther,
