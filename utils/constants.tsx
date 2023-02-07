@@ -1453,6 +1453,7 @@ export const Constants = {
     OFFICE365_SERVICE: 'office365',
     OAUTH_SERVICES: ['gitlab', 'google', 'office365', 'openid'],
     OPENID_SERVICE: 'openid',
+    OPENID_SERVICE_FEATURE_DISCOVERY: 'openid_feature_discovery',
     OPENID_SCOPES: 'profile openid email',
     EMAIL_SERVICE: 'email',
     LDAP_SERVICE: 'ldap',
