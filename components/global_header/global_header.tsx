@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import createPalette from '@mui/material/styles/createPalette';
+import {getContrastRatio} from '@mui/system';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import React from 'react';
 import {useSelector} from 'react-redux';
@@ -50,14 +51,15 @@ const GlobalHeader = (): JSX.Element | null => {
     }
 
     const {palette} = createPaletteFromLegacyTheme(legacyTheme);
+    const isDarkTheme = getContrastRatio('#fff', legacyTheme.sidebarHeaderBg) > 7;
 
     const theme = {
         palette: {
             ...palette,
-            ...createPalette({
+            ...(isDarkTheme && createPalette({
                 primary: {main: '#fff'},
                 text: {primary: '#fff'},
-            }),
+            })),
         },
     };
 
