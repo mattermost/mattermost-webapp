@@ -14,6 +14,7 @@ import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {PreferenceType} from '@mattermost/types/preferences';
+import {useExpandOverageUsersCheck} from 'components/common/hooks/useExpandOverageUsersCheck';
 import {LicenseLinks, StatTypes, Preferences} from 'utils/constants';
 
 import './overage_users_banner_notice.scss';
@@ -50,10 +51,22 @@ const OverageUsersBannerNotice = () => {
     const preferenceName = `${prefixPreferences}_overage_seats_${prefixLicenseId}`;
 
     const overageByUsers = activeUsers - seatsPurchased;
-
     const isOverageState = isBetween5PercerntAnd10PercentPurchasedSeats || isOver10PercerntPurchasedSeats;
+    const hasPermission = isAdmin && isOverageState && !isCloud;
+    const {
+        cta,
+        expandableLink,
+        trackEventFn,
+        getRequestState,
+        isExpendable,
+    } = useExpandOverageUsersCheck({
+        shouldRequest: hasPermission && !adminHasDismissed({overagePreferences, preferenceName}),
+        licenseId: license.Id,
+        isWarningState: isBetween5PercerntAnd10PercentPurchasedSeats,
+        banner: 'invite modal',
+    });
 
-    if (!isAdmin || !isOverageState || isCloud || adminHasDismissed({overagePreferences, preferenceName})) {
+    if (!hasPermission || adminHasDismissed({overagePreferences, preferenceName})) {
         return null;
     }
 
@@ -85,15 +98,24 @@ const OverageUsersBannerNotice = () => {
                     id='licensingPage.overageUsersBanner.noticeDescription'
                     defaultMessage='Notify your Customer Success Manager on your next true-up check. <a>Contact Sales</a>'
                     values={{
-                        a: (chunks: React.ReactNode) => {
+                        a: () => {
+                            if (getRequestState === 'IDLE' || getRequestState === 'LOADING') {
+                                return null;
+                            }
+
+                            const handleClick = () => {
+                                trackEventFn(isExpendable ? 'Self Serve' : 'Contact Sales');
+                            };
+
                             return (
                                 <a
                                     className='overage_users_banner__button'
-                                    href={LicenseLinks.CONTACT_SALES}
+                                    href={isExpendable ? expandableLink(license.Id) : LicenseLinks.CONTACT_SALES}
                                     target='_blank'
                                     rel='noreferrer'
+                                    onClick={handleClick}
                                 >
-                                    {chunks}
+                                    {cta}
                                 </a>
                             );
                         },
