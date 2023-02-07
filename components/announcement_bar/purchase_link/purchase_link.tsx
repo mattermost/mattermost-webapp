@@ -14,7 +14,10 @@ import {findSelfHostedProductBySku} from 'utils/hosted_customer';
 import useControlSelfHostedPurchaseModal from 'components/common/hooks/useControlSelfHostedPurchaseModal';
 import useGetSelfHostedProducts from 'components/common/hooks/useGetSelfHostedProducts';
 import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
-import {useControlAirGappedSelfHostedPurchaseModal} from 'components/common/hooks/useControlModal';
+import {
+    useControlAirGappedSelfHostedPurchaseModal,
+    useControlScreeningInProgressModal,
+} from 'components/common/hooks/useControlModal';
 
 import './purchase_link.scss';
 
@@ -25,7 +28,8 @@ export interface Props {
 
 const PurchaseLink: React.FC<Props> = (props: Props) => {
     const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
-    const canUseSelfHostedSignup = useCanSelfHostedSignup();
+    const controlScreeningInProgressModal = useControlScreeningInProgressModal();
+    const selfHostedSignupAvailable = useCanSelfHostedSignup();
     const [products, productsLoaded] = useGetSelfHostedProducts();
     const professionalProductId = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL)?.id || '';
     const controlSelfHostedPurchaseModal = useControlSelfHostedPurchaseModal({productId: professionalProductId});
@@ -40,8 +44,12 @@ const PurchaseLink: React.FC<Props> = (props: Props) => {
             return;
         }
 
-        if (!canUseSelfHostedSignup) {
-            controlAirgappedModal.open();
+        if (!selfHostedSignupAvailable.ok) {
+            if (selfHostedSignupAvailable.screeningInProgress) {
+                controlScreeningInProgressModal.open();
+            } else {
+                controlAirgappedModal.open();
+            }
             return;
         }
 

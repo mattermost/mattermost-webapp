@@ -116,6 +116,7 @@ export type Props = {
     isPostPriorityEnabled: boolean;
     isCardOpen?: boolean;
     shouldShowDotMenu: boolean;
+    tourTipsEnabled: boolean;
 };
 
 const PostComponent = (props: Props): JSX.Element => {
@@ -430,13 +431,12 @@ const PostComponent = (props: Props): JSX.Element => {
     );
 
     const showSlot = props.isPostBeingEdited ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
-    const threadFooter = props.location !== Locations.RHS_ROOT && props.isCollapsedThreadsEnabled && !post.root_id && (props.hasReplies || post.is_following) ?
-        (
-            <ThreadFooter
-                threadId={post.id}
-                replyClick={handleCommentClick}
-            />
-        ) : null;
+    const threadFooter = props.location !== Locations.RHS_ROOT && props.isCollapsedThreadsEnabled && !post.root_id && (props.hasReplies || post.is_following) ? (
+        <ThreadFooter
+            threadId={post.id}
+            replyClick={handleCommentClick}
+        />
+    ) : null;
     const currentPostDay = getDateForUnixTicks(post.create_at);
     const channelDisplayName = getChannelName();
     const showReactions = props.location !== Locations.SEARCH && !props.isPinnedPosts && !props.isFlaggedPosts;
@@ -485,7 +485,7 @@ const PostComponent = (props: Props): JSX.Element => {
                 onMouseOver={handleMouseOver}
                 onMouseLeave={handleMouseLeave}
             >
-                {isSearchResultItem &&
+                {Boolean(isSearchResultItem) &&
                     <div
                         className='search-channel__name__container'
                         aria-hidden='true'
@@ -512,8 +512,8 @@ const PostComponent = (props: Props): JSX.Element => {
                 <PostPreHeader
                     isFlagged={props.isFlagged}
                     isPinned={post.is_pinned}
-                    skipPinned={props.location === 'SEARCH' && props.isPinnedPosts}
-                    skipFlagged={props.location === 'SEARCH' && props.isFlaggedPosts}
+                    skipPinned={props.location === Locations.SEARCH && props.isPinnedPosts}
+                    skipFlagged={props.location === Locations.SEARCH && props.isFlaggedPosts}
                     channelId={post.channel_id}
                 />
                 <div
