@@ -123,7 +123,7 @@ const variants: ComponentsVariants[typeof componentName] = [
     {
         props: {size: 'x-small'},
         style: ({theme}) => ({
-            padding: '0.5rem 1rem 0.3rem',
+            padding: '0.4rem 1rem',
             ...theme.typography.b50,
             margin: 0,
             textTransform: 'none',
@@ -132,7 +132,7 @@ const variants: ComponentsVariants[typeof componentName] = [
     {
         props: {size: 'small'},
         style: ({theme}) => ({
-            padding: '1rem 1.6rem 0.6rem',
+            padding: '0.8rem 1.6rem',
             ...theme.typography.b75,
             margin: 0,
             textTransform: 'none',
@@ -141,7 +141,7 @@ const variants: ComponentsVariants[typeof componentName] = [
     {
         props: {size: 'medium'},
         style: ({theme}) => ({
-            padding: '1.2rem 2rem 0.8rem',
+            padding: '1rem 2rem',
             ...theme.typography.b100,
             margin: 0,
             textTransform: 'none',
@@ -150,7 +150,7 @@ const variants: ComponentsVariants[typeof componentName] = [
     {
         props: {size: 'large'},
         style: ({theme}) => ({
-            padding: '1.4rem 2.4rem 1rem',
+            padding: '1.2rem 2.4rem',
             ...theme.typography.b200,
             margin: 0,
             textTransform: 'none',

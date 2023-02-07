@@ -12,9 +12,15 @@ const variantMap: Record<ButtonVariant, Exclude<MuiButtonProps['variant'], undef
     tertiary: 'text',
 };
 
-type IncludedMuiProps = 'size' | 'disabled';
+type ExcludedMuiProps =
+    | 'sx'
+    | 'classes'
+    | 'variant'
+    | 'disableElevation'
+    | 'disableRipple'
+    | 'disableFocusRipple';
 
-type Props = Pick<MuiButtonProps, IncludedMuiProps> & {
+export type ButtonProps = Omit<MuiButtonProps, ExcludedMuiProps> & {
     destructive?: boolean;
     disabled?: boolean;
     inverted?: boolean;
@@ -22,7 +28,7 @@ type Props = Pick<MuiButtonProps, IncludedMuiProps> & {
     children: React.ReactNode | React.ReactNode[];
 }
 
-export const Button = ({variant = 'primary', destructive, ...rest}: Props) => (
+export const Button = ({variant = 'primary', destructive, ...rest}: ButtonProps) => (
     <MuiButton
         {...rest}
         color={destructive ? 'error' : 'primary'}

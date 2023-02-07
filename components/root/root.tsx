@@ -124,7 +124,7 @@ type LoggedInRouteProps<T> = {
 };
 function LoggedInRoute<T>(props: LoggedInRouteProps<T>) {
     const {component: Component, theme: legacyTheme, ...rest} = props;
-    const theme = createPaletteFromLegacyTheme(legacyTheme);
+    const theme = legacyTheme ? createPaletteFromLegacyTheme(legacyTheme) : null;
     return (
         <Route
             {...rest}

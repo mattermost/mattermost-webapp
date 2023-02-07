@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import Typography from './typography/typography';
-import Button from './button/button';
+import Button, {ButtonProps} from './button/button';
 import IconButton from './icon-button/icon-button';
 import Grid from './grid/grid';
 import StatusIcon, {UserStatus} from './status-icon/status-icon';
@@ -17,4 +17,5 @@ export {
 
 export type {
     UserStatus,
+    ButtonProps,
 };

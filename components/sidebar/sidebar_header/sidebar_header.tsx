@@ -34,6 +34,7 @@ const SidebarHeaderContainer = styled(Grid).attrs(() => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    container: true,
 }))<SidebarHeaderContainerProps>`
     height: 52px;
     padding: 0 16px;
@@ -58,6 +59,7 @@ const TITLE_WIDTH = (HEADING_WIDTH - CHEVRON_WIDTH - ADD_CHANNEL_DROPDOWN_WIDTH)
 
 const SidebarHeading = styled(Typography).attrs(() => ({
     variant: 'h200',
+    margin: 0,
 }))<SidebarHeaderProps>`
     color: var(--sidebar-header-text-color);
     cursor: pointer;

@@ -1,6 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {PlusBoxIcon} from '@mattermost/compass-icons/components';
+
+import classNames from 'classnames';
 import React, {useEffect} from 'react';
 
 import {useIntl, FormattedMessage} from 'react-intl';
@@ -22,6 +25,8 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
+import {Grid} from '@mattermost/compass-ui';
+
 type Props = {
     touchedInviteMembersButton: boolean;
     className?: string;
@@ -39,13 +44,7 @@ const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null 
         if (!totalUserCount) {
             dispatch(getTotalUsersStats());
         }
-    }, []);
-
-    let buttonClass = 'SidebarChannelNavigator_inviteMembersLhsButton';
-
-    if (!props.touchedInviteMembersButton && Number(totalUserCount) <= Constants.USER_LIMIT) {
-        buttonClass += ' SidebarChannelNavigator_inviteMembersLhsButton--untouched';
-    }
+    }, [dispatch, totalUserCount]);
 
     if (!currentTeamId || !totalUserCount) {
         return null;
@@ -56,25 +55,27 @@ const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null 
             teamId={currentTeamId}
             permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
         >
-            <ToggleModalButton
-                ariaLabel={intl.formatMessage({id: 'sidebar_left.inviteUsers', defaultMessage: 'Invite Users'})}
-                id='introTextInvite'
-                className={`intro-links color--link cursor--pointer${props.className ? ` ${props.className}` : ''}`}
-                modalId={ModalIdentifiers.INVITATION}
-                dialogType={InvitationModal}
-                onClick={props.onClick}
-            >
-                <li
-                    className={buttonClass}
-                    aria-label={intl.formatMessage({id: 'sidebar_left.sidebar_channel_navigator.inviteUsers', defaultMessage: 'Invite Members'})}
+            <Grid mx={2}>
+                <ToggleModalButton
+                    ariaLabel={intl.formatMessage({id: 'sidebar_left.inviteUsers', defaultMessage: 'Invite Users'})}
+                    id='introTextInvite'
+                    className={classNames(
+                        'intro-links',
+                        'cursor--pointer',
+                        props.className,
+                        {'SidebarChannelNavigator_inviteMembersLhsButton--untouched': !props.touchedInviteMembersButton && Number(totalUserCount) <= Constants.USER_LIMIT},
+                    )}
+                    modalId={ModalIdentifiers.INVITATION}
+                    dialogType={InvitationModal}
+                    onClick={props.onClick}
+                    startIcon={<PlusBoxIcon/>}
                 >
-                    <i className='icon-plus-box'/>
                     <FormattedMessage
                         id={'sidebar_left.inviteMembers'}
                         defaultMessage='Invite Members'
                     />
-                </li>
-            </ToggleModalButton>
+                </ToggleModalButton>
+            </Grid>
         </TeamPermissionGate>
     );
 };

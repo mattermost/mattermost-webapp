@@ -142,7 +142,8 @@ const DelinquencyModal = (props: DelinquencyModalProps) => {
                     />
                 </button>
             </Modal.Footer>
-        </Modal>);
+        </Modal>
+    );
 
     if (!isAdminConsole) {
         return ModalJSX;
