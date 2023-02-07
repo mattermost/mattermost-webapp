@@ -33,7 +33,7 @@ const CHANNELS_CHUNK_SIZE = 50;
 const CHANNELS_PER_PAGE = 50;
 const SEARCH_TIMEOUT_MILLISECONDS = 100;
 
-export type Actions = {
+type Actions = {
     getChannels: (teamId: string, page: number, perPage: number) => void;
     getArchivedChannels: (teamId: string, page: number, channelsPerPage: number) => void;
     joinChannel: (currentUserId: string, teamId: string, channelId: string) => Promise<ActionResult>;
@@ -186,7 +186,6 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         } else {
             getHistory().push(getRelativeChannelURL(teamName, channel.name));
             this.closeEditRHS();
-            this.handleHide();
         }
 
         if (done) {
