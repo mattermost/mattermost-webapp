@@ -53,6 +53,7 @@ const GlobalHeader = (): JSX.Element | null => {
     const {palette} = createPaletteFromLegacyTheme(legacyTheme);
     const isDarkTheme = getContrastRatio('#fff', legacyTheme.sidebarHeaderBg) > 7;
 
+    // very rudimentary check to determine the color for the buttons ... could be moved to the theme-creation helper
     const theme = {
         palette: {
             ...palette,
