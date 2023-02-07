@@ -275,11 +275,12 @@ export default class InstalledOAuthApp extends React.PureComponent<InstalledOAut
                     <DisableIntegrationLink
                         modalMessage={
                             <FormattedMessage
-                                id='installed_oauth_apps.edit.confirm'
-                                defaultMessage='This action disables your current app, are you sure you want to proceed?'
+                                id='installed_oauth_apps.disable.confirm'
+                                defaultMessage='This action disables/enables your current app, are you sure you want to proceed?'
                             />
                         }
                         onConfirm={this.handleDisable}
+                        isDisabled={oauthApp.is_disabled}
                     />
                     {' - '}
                     <DeleteIntegrationLink

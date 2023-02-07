@@ -2775,7 +2775,7 @@ export default class Client4 {
     disableOAuthApp = (appId: string, isDisabled: boolean) => {
         return this.doFetch<StatusOK>(
             `${this.getOAuthAppRoute(appId)}`,
-            {method: 'put', body: JSON.stringify({IsDisabled: isDisabled})},
+            {method: 'post', body: JSON.stringify({IsDisabled: isDisabled})},
         );
     };
 

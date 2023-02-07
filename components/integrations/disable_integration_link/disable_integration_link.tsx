@@ -18,26 +18,42 @@ type Props = {
     modalTitle?: React.ReactNode;
     onConfirm: () => void;
     openModal: typeof openModalAction;
+    isDisabled: boolean;
 };
 
 export default function DisableIntegrationLink(props: Props) {
     const {
-        confirmButtonText = (
+        confirmButtonText = props.isDisabled ? (
+            <FormattedMessage
+                id='integrations.enable.confirm.button'
+                defaultMessage='Enable'
+            />
+        ) : (
             <FormattedMessage
                 id='integrations.disable.confirm.button'
                 defaultMessage='Disable'
             />
         ),
-        linkText = (
+        linkText = props.isDisabled ? (
+            <FormattedMessage
+                id='installed_integrations.enable'
+                defaultMessage='Enable'
+            />
+        ) : (
             <FormattedMessage
                 id='installed_integrations.disable'
                 defaultMessage='Disable'
             />
         ),
         modalMessage,
-        modalTitle = (
+        modalTitle = props.isDisabled ? (
             <FormattedMessage
-                id='integrations.Disable.confirm.title'
+                id='integrations.enable.confirm.title'
+                defaultMessage='Enable Integration'
+            />
+        ) : (
+            <FormattedMessage
+                id='integrations.disable.confirm.title'
                 defaultMessage='Disable Integration'
             />
         ),
