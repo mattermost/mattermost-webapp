@@ -54,6 +54,8 @@ export default function DeleteWorkspaceFailureModal() {
             identifier={ModalIdentifiers.DELETE_WORKSPACE_RESULT}
             subtitle={subtitle}
             title={title}
+            ignoreExit={false}
+            resultType='failure'
             icon={
                 <PaymentFailedSvg
                     width={444}

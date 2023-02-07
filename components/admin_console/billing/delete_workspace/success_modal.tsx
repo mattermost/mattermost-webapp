@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
@@ -9,6 +9,7 @@ import PaymentSuccessStandardSvg from 'components/common/svg_images_components/p
 import {MattermostLink, ModalIdentifiers} from 'utils/constants';
 
 import ResultModal from './result_modal';
+import './success_modal.scss';
 
 export default function DeleteWorkspaceSuccessModal() {
     const handleButtonClick = () => {
@@ -43,6 +44,8 @@ export default function DeleteWorkspaceSuccessModal() {
             identifier={ModalIdentifiers.DELETE_WORKSPACE_RESULT}
             subtitle={subtitle}
             title={title}
+            ignoreExit={true}
+            resultType='success'
             icon={
                 <PaymentSuccessStandardSvg
                     width={444}

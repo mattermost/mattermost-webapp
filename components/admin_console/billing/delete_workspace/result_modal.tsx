@@ -26,6 +26,8 @@ type Props = {
     primaryButtonHandler: () => void;
     identifier: string;
     contactSupportButtonVisible?: boolean;
+    resultType: string;
+    ignoreExit: boolean;
 };
 
 export default function ResultModal(props: Props) {
@@ -44,12 +46,15 @@ export default function ResultModal(props: Props) {
         }
     };
 
+    const modalType = `delete-workspace-result_modal__${props.resultType}`;
+
     return (
         <FullScreenModal
             show={isResultModalOpen}
             onClose={onHide}
+            ignoreExit={props.ignoreExit}
         >
-            <div className='result_modal'>
+            <div className={modalType}>
                 <IconMessage
                     formattedTitle={props.title}
                     formattedSubtitle={props.subtitle}
