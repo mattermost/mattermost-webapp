@@ -885,9 +885,9 @@ describe('PostUtils.createAriaLabelForPost', () => {
             is_pinned: true,
         });
         const author = 'test_author';
-        const reactions: Record<string, Reaction> = {
-            reaction1: {emoji_name: 'reaction 1'} as Reaction,
-            reaction2: {emoji_name: 'reaction 2'} as Reaction,
+        const reactions = {
+            reaction1: TestHelper.getReactionMock({emoji_name: 'reaction 1'}),
+            reaction2: TestHelper.getReactionMock({emoji_name: 'reaction 2'}),
         };
         const isFlagged = true;
 
