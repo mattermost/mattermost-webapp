@@ -84,16 +84,12 @@ export default class SizeAwareImage extends React.PureComponent {
          * Prevents display of utility buttons when image in a location that makes them inappropriate
          */
         hideUtilities: PropTypes.bool,
-
-        /*
-         * Boolean value that specifies image with small width and large height
-         */
-        hasDisproportionateHeight: PropTypes.bool,
     }
 
     constructor(props) {
         super(props);
         const {dimensions} = props;
+
         this.state = {
             loaded: false,
             isSmallImage: this.dimensionsAvailable(dimensions) ? this.isSmallImage(
@@ -118,7 +114,7 @@ export default class SizeAwareImage extends React.PureComponent {
     }
 
     isSmallImage = (width, height) => {
-        return (width < MIN_IMAGE_SIZE || height < MIN_IMAGE_SIZE) && !this.props.hasDisproportionateHeight;
+        return width < MIN_IMAGE_SIZE || height < MIN_IMAGE_SIZE;
     }
 
     handleLoad = (event) => {

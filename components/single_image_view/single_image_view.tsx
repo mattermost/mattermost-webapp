@@ -240,7 +240,6 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
                                     handleSmallImageContainer={true}
                                     enablePublicLink={this.props.enablePublicLink}
                                     getFilePublicLink={this.getFilePublicLink}
-                                    hasDisproportionateHeight={hasDisproportionateHeight}
                                 />
                             </div>
                         </div>
