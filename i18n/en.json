@@ -4420,6 +4420,7 @@
   "postypes.custom_open_plugin_install_post_rendered.plugin_instructions": "<pluginApp></pluginApp> or visit the <marketplaceLink>Marketplace</marketplaceLink> to view all plugins.",
   "postypes.custom_open_plugin_install_post_rendered.plugin_request": "requested installing the {pluginRequests} app.",
   "postypes.custom_open_plugin_install_post_rendered.plugins_instructions": "Install the apps or visit the <marketplaceLink>Marketplace</marketplaceLink> to view all plugins.",
+  "postypes.custom_open_plugin_install_post_rendered.plugins_installed": "{pluginName} is now installed.",
   "postypes.custom_open_pricing_modal_post_renderer.and": "and",
   "postypes.custom_open_pricing_modal_post_renderer.availableOn": " - available on the {feature}",
   "postypes.custom_open_pricing_modal_post_renderer.downgradeNotfication": "{userRequests} requested to revert the workspace to a paid plan",

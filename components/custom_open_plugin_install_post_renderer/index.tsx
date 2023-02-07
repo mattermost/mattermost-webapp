@@ -65,19 +65,30 @@ const InstallLink = (props: {pluginId: string; pluginName: string}) => {
 };
 
 const ConfigureLink = (props: {pluginId: string; pluginName: string}) => {
+
     return (
-        <Link
-            to={'/admin_console/plugins/plugin_' + props.pluginId}
-            style={{color: 'var(--denim-button-bg)', fontWeight: '600'}}
-        >
+        <>
             <FormattedMessage
-                id='marketplace_modal.list.configure.plugin'
-                defaultMessage={`Configure ${props.pluginName}`}
+                id='postypes.custom_open_plugin_install_post_rendered.plugins_installed'
+                defaultMessage={`${props.pluginName} is now installed.`}
                 values={{
-                    plugin: props.pluginName,
+                    pluginName: props.pluginName,
                 }}
             />
-        </Link>
+            {' '}
+            <Link
+                to={'/admin_console/plugins/plugin_' + props.pluginId}
+                style={{color: 'var(--denim-button-bg)', fontWeight: '600'}}
+            >
+                <FormattedMessage
+                    id='marketplace_modal.list.configure.plugin'
+                    defaultMessage={`Configure ${props.pluginName}`}
+                    values={{
+                        plugin: props.pluginName,
+                    }}
+                />
+            </Link>
+        </>
     );
 };
 
