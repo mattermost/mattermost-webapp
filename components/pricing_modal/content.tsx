@@ -42,6 +42,8 @@ import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
 
 import './content.scss';
+import {Feedback} from '@mattermost/types/cloud';
+import DowngradeFeedbackModal from 'components/feedback_modal/downgrade_feedback';
 
 type ContentProps = {
     onHide: () => void;
@@ -111,7 +113,11 @@ function Content(props: ContentProps) {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
     };
 
-    const downgrade = async (callerInfo: string) => {
+    const handleClickDowngrade = (downgradeFeedback?: Feedback) => {
+        downgrade('click_pricing_modal_free_card_downgrade_button', downgradeFeedback);
+    };
+
+    const downgrade = async (callerInfo: string, downgradeFeedback?: Feedback) => {
         if (!starterProduct) {
             return;
         }
@@ -120,7 +126,7 @@ function Content(props: ContentProps) {
         openDowngradeModal({trackingLocation: telemetryInfo});
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
 
-        const result = await dispatch(subscribeCloudSubscription(starterProduct.id));
+        const result = await dispatch(subscribeCloudSubscription(starterProduct.id, 0, downgradeFeedback));
 
         if (typeof result === 'boolean' && result) {
             dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
@@ -246,7 +252,15 @@ function Content(props: ContentProps) {
                                         }),
                                     );
                                 } else {
-                                    downgrade('click_pricing_modal_free_card_downgrade_button');
+                                    dispatch(
+                                        openModal({
+                                            modalId: ModalIdentifiers.FEEDBACK,
+                                            dialogType: DowngradeFeedbackModal,
+                                            dialogProps: {
+                                                onSubmit: handleClickDowngrade,
+                                            },
+                                        }),
+                                    );
                                 }
                             },
                             text: freeTierText,

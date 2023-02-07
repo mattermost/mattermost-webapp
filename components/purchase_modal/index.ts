@@ -29,6 +29,7 @@ import {completeStripeAddPaymentMethod, subscribeCloudSubscription} from 'action
 import {ModalData} from 'types/actions';
 import withGetCloudSubscription from 'components/common/hocs/cloud/with_get_cloud_subscription';
 import {findOnlyYearlyProducts} from 'utils/products';
+import {Feedback} from '@mattermost/types/cloud';
 
 const PurchaseModal = makeAsyncComponent('PurchaseModal', React.lazy(() => import('./purchase_modal')));
 
@@ -62,7 +63,7 @@ type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
     getCloudProducts: () => void;
     completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
-    subscribeCloudSubscription: (productId: string, seats?: number) => Promise<boolean | null>;
+    subscribeCloudSubscription: (productId: string, seats?: number, downgradeFeedback?: Feedback) => Promise<boolean | null>;
     getClientConfig: () => void;
     getCloudSubscription: () => void;
     getInvoices: () => void;
