@@ -8,6 +8,8 @@ import {Tooltip} from 'react-bootstrap';
 
 import classNames from 'classnames';
 
+import {lib as CryptoJS} from 'crypto-js';
+
 import OverlayTrigger from 'components/overlay_trigger';
 import GenericModal from 'components/generic_modal';
 import Input from 'components/widgets/inputs/input/input';
@@ -37,8 +39,6 @@ import {localizeMessage} from 'utils/utils';
 import {Board} from '@mattermost/types/boards';
 import {ChannelType, Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
-
-import {lib as CryptoJS} from 'crypto-js';
 
 import './new_channel_modal.scss';
 
