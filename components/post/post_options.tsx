@@ -37,6 +37,7 @@ type Props = {
     collapsedThreadsEnabled?: boolean;
     shouldShowActionsMenu?: boolean;
     showActionsMenuPulsatingDot?: boolean;
+    tourTipsEnabled: boolean;
     oneClickReactionsEnabled?: boolean;
     recentEmojis: Emoji[];
     isExpanded?: boolean;
@@ -82,6 +83,7 @@ const PostOptions = (props: Props): JSX.Element => {
         post,
         oneClickReactionsEnabled,
         showActionsMenuPulsatingDot,
+        tourTipsEnabled,
         isMobileView,
     } = props;
 
@@ -102,7 +104,7 @@ const PostOptions = (props: Props): JSX.Element => {
     };
 
     const handleActionsMenuOpened = (open: boolean) => {
-        if (showActionsMenuPulsatingDot) {
+        if (tourTipsEnabled && showActionsMenuPulsatingDot) {
             setShowActionTip(true);
             return;
         }
@@ -196,8 +198,8 @@ const PostOptions = (props: Props): JSX.Element => {
             location={props.location}
             handleDropdownOpened={handleActionsMenuOpened}
             isMenuOpen={showActionsMenu}
-            showPulsatingDot={showActionsMenuPulsatingDot}
-            showTutorialTip={showActionTip}
+            showPulsatingDot={tourTipsEnabled && showActionsMenuPulsatingDot}
+            showTutorialTip={tourTipsEnabled && showActionTip}
             handleOpenTip={handleActionsMenuTipOpened}
             handleNextTip={handleActionsMenuGotItClick}
             handleDismissTip={handleTipDismissed}
