@@ -56,7 +56,6 @@ const AtMentionsButton = (): JSX.Element => {
                 IconComponent={AtIcon}
                 toggled={rhsState === RHSStates.MENTION}
                 onClick={mentionButtonClick}
-                inverted={true}
                 compact={true}
                 aria-expanded={rhsState === RHSStates.MENTION}
                 aria-controls='searchContainer' // Must be changed if the ID of the container changes

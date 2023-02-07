@@ -1,11 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import createPalette from '@mui/material/styles/createPalette';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import React from 'react';
+import {useSelector} from 'react-redux';
 
 import styled from 'styled-components';
 
 import {useCurrentProductId} from 'utils/products';
+
+import {createPaletteFromLegacyTheme, ThemeProvider} from '@mattermost/compass-ui';
 
 import CenterControls from './center_controls/center_controls';
 import LeftControls from './left_controls/left_controls';
@@ -38,17 +43,32 @@ const GlobalHeaderContainer = styled.header`
 const GlobalHeader = (): JSX.Element | null => {
     const isLoggedIn = useIsLoggedIn();
     const currentProductID = useCurrentProductId();
+    const legacyTheme = useSelector(getTheme);
 
     if (!isLoggedIn) {
         return null;
     }
 
+    const {palette} = createPaletteFromLegacyTheme(legacyTheme);
+
+    const theme = {
+        palette: {
+            ...palette,
+            ...createPalette({
+                primary: {main: '#fff'},
+                text: {primary: '#fff'},
+            }),
+        },
+    };
+
     return (
-        <GlobalHeaderContainer id='global-header'>
-            <LeftControls/>
-            <CenterControls productId={currentProductID}/>
-            <RightControls productId={currentProductID}/>
-        </GlobalHeaderContainer>
+        <ThemeProvider theme={theme}>
+            <GlobalHeaderContainer id='global-header'>
+                <LeftControls/>
+                <CenterControls productId={currentProductID}/>
+                <RightControls productId={currentProductID}/>
+            </GlobalHeaderContainer>
+        </ThemeProvider>
     );
 };
 

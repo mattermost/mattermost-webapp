@@ -46,7 +46,6 @@ const SettingsButton = (props: Props): JSX.Element | null => {
                 onClick={(): void => {
                     props.actions.openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: true}});
                 }}
-                inverted={true}
                 compact={true}
                 aria-haspopup='dialog'
                 aria-label={formatMessage({id: 'global_header.productSettings', defaultMessage: 'Settings'})}

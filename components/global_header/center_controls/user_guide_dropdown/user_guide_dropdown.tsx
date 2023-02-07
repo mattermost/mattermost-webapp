@@ -135,7 +135,6 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                         size={'small'}
                         IconComponent={HelpCircleOutlineIcon}
                         toggled={this.state.buttonActive}
-                        inverted={true}
                         compact={true}
                         aria-controls='AddChannelDropdown'
                         aria-expanded={this.state.buttonActive}

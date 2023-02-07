@@ -50,7 +50,6 @@ const SavedPostsButton = (): JSX.Element | null => {
                 IconComponent={BookmarkOutlineIcon}
                 toggled={rhsState === RHSStates.FLAG}
                 onClick={savedPostsButtonClick}
-                inverted={true}
                 compact={true}
                 aria-expanded={rhsState === RHSStates.FLAG}
                 aria-controls='searchContainer' // Must be changed if the ID of the container changes

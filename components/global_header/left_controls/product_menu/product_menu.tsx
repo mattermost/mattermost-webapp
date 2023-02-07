@@ -125,7 +125,6 @@ const ProductMenu = (): JSX.Element => {
                         id={'product_switch_menu'}
                         IconComponent={ProductsIcon}
                         size={'small'}
-                        inverted={true}
                         compact={true}
                         toggled={switcherOpen}
                         aria-expanded={switcherOpen}
