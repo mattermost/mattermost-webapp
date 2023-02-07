@@ -9,6 +9,10 @@ export const isOverLimit = (newWidth: number, maxWidth: number, minWidth: number
     return newWidth > maxWidth || newWidth < minWidth;
 };
 
+export const isSizeLessThanSnapSize = (size: number) => {
+    return Math.abs(size) <= SIDEBAR_SNAP_SIZE;
+};
+
 export const shouldSnapWhenSizeGrown = (newWidth: number, prevWidth: number, defaultWidth: number) => {
     const diff = defaultWidth - newWidth;
     const isGrowing = newWidth > prevWidth;

@@ -6,7 +6,7 @@ import React, {HTMLAttributes, useCallback, useEffect, useLayoutEffect, useRef, 
 
 import {ResizeDirection} from 'utils/constants';
 
-import {requestAnimationFrameForMouseMove, isOverLimit, shouldSnapWhenSizeGrown, shouldSnapWhenSizeShrunk, setWidth, toggleColResizeCursor, resetStyle} from '../utils';
+import {requestAnimationFrameForMouseMove, isOverLimit, shouldSnapWhenSizeGrown, shouldSnapWhenSizeShrunk, setWidth, toggleColResizeCursor, resetStyle, isSizeLessThanSnapSize} from '../utils';
 
 import './index.scss';
 
@@ -117,25 +117,45 @@ function Resizable({
         if (isOverLimit(newWidth, maxWidth, minWidth)) {
             return;
         }
-        previousClientX.current = e.clientX;
 
         if (resizeLine.classList.contains('snapped')) {
+            const diff = newWidth - defaultWidth;
+
+            if (isSizeLessThanSnapSize(diff)) {
+                return;
+            }
+
+            if (onResize) {
+                onResize(newWidth);
+            }
+
+            setWidth(wrapperElem, newWidth);
+
+            resizeLine.classList.remove('snapped');
+            previousClientX.current = e.clientX;
+
             return;
         }
+
+        previousClientX.current = e.clientX;
 
         if (shouldSnapWhenSizeGrown(newWidth, prevWidth, defaultWidth) || shouldSnapWhenSizeShrunk(newWidth, prevWidth, defaultWidth)) {
             if (onResize) {
                 onResize(defaultWidth);
             }
 
+            switch (dir) {
+            case ResizeDirection.LEFT:
+                previousClientX.current += defaultWidth - newWidth;
+                break;
+            case ResizeDirection.RIGHT:
+                previousClientX.current += newWidth - defaultWidth;
+                break;
+            }
+
             setWidth(wrapperElem, defaultWidth);
 
             resizeLine.classList.add('snapped');
-            setTimeout(() => {
-                if (resizeLine) {
-                    resizeLine.classList.remove('snapped');
-                }
-            }, 500);
             return;
         }
 
