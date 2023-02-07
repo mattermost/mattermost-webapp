@@ -7,12 +7,13 @@ import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
 import GuestTag from 'components/widgets/tag/guest_tag';
+import ProfilePopover from 'components/profile_popover';
 
 import ProfilePicture from 'components/profile_picture';
 import {Client4} from 'mattermost-redux/client';
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
 
-import OverlayTrigger from 'components/overlay_trigger';
+import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
 import Constants from 'utils/constants';
@@ -34,6 +35,7 @@ const UserInfo = styled.div`
     overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    cursor: pointer;
 `;
 
 const DisplayName = styled.span`
@@ -102,32 +104,66 @@ interface Props {
     };
 }
 
+interface MMOverlayTrigger extends BaseOverlayTrigger {
+    hide: () => void;
+}
+
 const Member = ({className, channel, member, index, totalUsers, editing, actions}: Props) => {
+    const overlay = React.createRef<MMOverlayTrigger>();
+    const profileSrc = Client4.getProfilePictureUrl(member.user.id, member.user.last_picture_update);
+
+    const hideProfilePopover = () => {
+        if (overlay.current) {
+            overlay.current.hide();
+        }
+    };
+
     return (
         <div
             className={className}
             data-testid={`memberline-${member.user.id}`}
         >
-            <Avatar>
-                <ProfilePicture
-                    isRHS={true}
-                    popoverPlacement='left'
-                    size='sm'
-                    status={member.status}
-                    isBot={member.user.is_bot}
-                    userId={member.user.id}
-                    username={member.displayName}
-                    src={Client4.getProfilePictureUrl(member.user.id, member.user.last_picture_update)}
-                />
-            </Avatar>
-            <UserInfo>
-                <DisplayName>
-                    {member.displayName}
-                    {isGuest(member.user.roles) && <GuestTag/>}
-                </DisplayName>
-                {member.displayName === member.user.username ? null : <Username>{'@'}{member.user.username}</Username>
+
+            <OverlayTrigger
+                ref={overlay}
+                trigger={['click']}
+                placement={'left'}
+                rootClose={true}
+                overlay={
+                    <ProfilePopover
+                        className='user-profile-popover'
+                        userId={member.user.id}
+                        src={profileSrc}
+                        hide={hideProfilePopover}
+                        isRHS={true}
+                        hideStatus={member.user.is_bot}
+                    />
                 }
-            </UserInfo>
+            >
+                <span className='ProfileSpan'>
+                    <Avatar>
+                        <ProfilePicture
+                            isRHS={true}
+                            popoverPlacement='left'
+                            size='sm'
+                            status={member.status}
+                            isBot={member.user.is_bot}
+                            userId={member.user.id}
+                            username={member.displayName}
+                            src={profileSrc}
+                        />
+                    </Avatar>
+                    <UserInfo>
+                        <DisplayName>
+                            {member.displayName}
+                            {isGuest(member.user.roles) && <GuestTag/>}
+                        </DisplayName>
+                        {member.displayName === member.user.username ? null : <Username>{'@'}{member.user.username}</Username>
+                        }
+                    </UserInfo>
+                </span>
+            </OverlayTrigger>
+
             <RoleChooser
                 className={classNames({editing}, 'member-role-chooser')}
                 data-testid='rolechooser'
@@ -196,6 +232,13 @@ export default styled(Member)`
         ${SendMessage} {
             display: block;
         }
+    }
+
+    .ProfileSpan {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-right: auto;
     }
 
     .MenuWrapper {

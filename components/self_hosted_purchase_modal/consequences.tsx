@@ -9,6 +9,7 @@ import {
     TELEMETRY_CATEGORIES,
     HostedCustomerLinks,
     CloudLinks,
+    LicenseLinks,
 } from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -26,6 +27,7 @@ export function seeHowBillingWorks(e: React.MouseEvent<HTMLAnchorElement, MouseE
 
 type Props = {
     isCloud: boolean;
+    licenseAgreementBtnText: string;
 }
 
 export default function Consequences(props: Props) {
@@ -43,6 +45,28 @@ export default function Consequences(props: Props) {
                 ),
             }}
         />);
+
+    const licenseAgreement = (
+        <FormattedMessage
+            defaultMessage={
+                'By clicking {buttonContent}, you agree to the <linkAgreement>{legalText}</linkAgreement>'
+            }
+            id={'admin.billing.subscription.byClickingYouAgree'}
+            values={{
+                buttonContent: props.licenseAgreementBtnText.toLowerCase(),
+                legalText: LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT_TEXT,
+                linkAgreement: (legalText: React.ReactNode) => (
+                    <a
+                        href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
+                        target='_blank'
+                        rel='noreferrer'
+                    >
+                        {legalText}
+                    </a>
+                ),
+            }}
+        />
+    );
 
     if (props.isCloud) {
         text = (
@@ -63,6 +87,7 @@ export default function Consequences(props: Props) {
     return (
         <div className='signup-consequences'>
             {text}
+            {licenseAgreement}
         </div>
     );
 }

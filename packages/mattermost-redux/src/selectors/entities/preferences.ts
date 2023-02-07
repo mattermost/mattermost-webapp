@@ -295,3 +295,7 @@ export function getVisibleDmGmLimit(state: GlobalState) {
 export function autoShowLinkedBoardFFEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'OnboardingAutoShowLinkedBoard') === 'true';
 }
+
+export function onboardingTourTipsEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'OnboardingTourTips') === 'true';
+}
