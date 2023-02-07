@@ -119,7 +119,7 @@ const WorkTemplateModal = () => {
     // error resetter
     useEffect(() => {
         setErrorText('');
-    }, [currentCategoryId, modalState, selectedTemplate, selectedVisibility]);
+    }, [currentCategoryId, modalState, selectedTemplate, selectedVisibility, selectedName]);
 
     const changeCategory = (category: Category) => {
         trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'change_category', {category: category.id});
@@ -157,7 +157,6 @@ const WorkTemplateModal = () => {
 
     const handleOnNameChanged = (name: string) => {
         trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'customize_name', {category: selectedTemplate?.category, template: selectedTemplate?.id});
-        setErrorText('');
         setSelectedName(name);
     };
 
