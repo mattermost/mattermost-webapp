@@ -102,7 +102,7 @@ describe('Feedback modal', () => {
 
         cy.findByText('Downgrade').should('exist').should('be.disabled').click();
 
-        cy.findByTestId('FeedbackModal__TextInput').type('Do not need it anymore.')
+        cy.findByTestId('FeedbackModal__TextInput').type('Do not need it anymore.');
 
         // * The submit button should be enabled.
         cy.findByText('Downgrade').should('exist').should('be.enabled').click();
