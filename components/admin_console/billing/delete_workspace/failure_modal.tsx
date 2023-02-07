@@ -16,7 +16,7 @@ export default function DeleteWorkspaceFailureModal() {
     const dispatch = useDispatch();
 
     const handleButtonClick = () => {
-        dispatch(closeModal(ModalIdentifiers.DELETE_WORKSPACE_PROGRESS));
+        dispatch(closeModal(ModalIdentifiers.DELETE_WORKSPACE_RESULT));
         dispatch(openModal({
             modalId: ModalIdentifiers.DELETE_WORKSPACE,
             dialogType: DeleteWorkspaceModal,
