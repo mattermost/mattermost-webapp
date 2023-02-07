@@ -885,7 +885,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
             is_pinned: true,
         });
         const author = 'test_author';
-        const reactions = {
+        const reactions: Record<string, Reaction> = {
             reaction1: {emoji_name: 'reaction 1'} as Reaction,
             reaction2: {emoji_name: 'reaction 2'} as Reaction,
         };
