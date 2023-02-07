@@ -9,7 +9,7 @@ import {createSelector} from 'reselect';
 import {RequestStatus} from 'mattermost-redux/constants';
 import {Channel} from '@mattermost/types/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {Action} from 'mattermost-redux/types/actions';
+import {Action, ActionResult} from 'mattermost-redux/types/actions';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannels, getArchivedChannels, joinChannel, getChannelStats} from 'mattermost-redux/actions/channels';
@@ -25,10 +25,11 @@ import {closeRightHandSide} from 'actions/views/rhs';
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 
 import {GlobalState} from 'types/store';
+import {ModalData} from 'types/actions';
 
 import {makeGetGlobalItem} from 'selectors/storage';
 
-import MoreChannels, {Actions} from './more_channels';
+import MoreChannels from './more_channels';
 
 const getChannelsWithoutArchived = createSelector(
     'getChannelsWithoutArchived',
@@ -69,6 +70,8 @@ type Actions = {
     searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => Promise<ActionResult>;
     openModal: <P>(modalData: ModalData<P>) => void;
     closeModal: (modalId: string) => void;
+    getChannelStats: (channelId: string) => void;
+    setGlobalItem: (name: string, value: string) => void;
     closeRightHandSide: () => void;
 }
 
