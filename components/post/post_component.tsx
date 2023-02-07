@@ -156,30 +156,27 @@ const PostComponent = (props: Props): JSX.Element => {
 
     useEffect(() => {
         const handleAlt = (e: KeyboardEvent) => {
-            if (alt !== e.altKey) {
-                setAlt(e.altKey);
-            }
+            setAlt(e.altKey);
         };
-
         let removeEventListener: (type: string, listener: EventListener) => void;
-        if (postRef.current) {
-            document.addEventListener('keydown', handleAlt);
-            document.addEventListener('keyup', handleAlt);
 
+        document.body.addEventListener('keydown', handleAlt);
+        document.body.addEventListener('keyup', handleAlt);
+        if (postRef.current) {
             postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, handleA11yActivateEvent);
             postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, handleA11yDeactivateEvent);
             removeEventListener = postRef.current.removeEventListener;
         }
 
         return () => {
-            document.removeEventListener('keydown', handleAlt);
-            document.removeEventListener('keyup', handleAlt);
+            document.body.removeEventListener('keydown', handleAlt);
+            document.body.removeEventListener('keyup', handleAlt);
             if (removeEventListener) {
                 removeEventListener(A11yCustomEventTypes.ACTIVATE, handleA11yActivateEvent);
                 removeEventListener(A11yCustomEventTypes.DEACTIVATE, handleA11yDeactivateEvent);
             }
         };
-    }, [alt]);
+    }, []);
 
     const hasSameRoot = (props: Props) => {
         if (props.isFirstReply) {
@@ -189,7 +186,6 @@ const PostComponent = (props: Props): JSX.Element => {
         } else if (post.root_id) {
             return true;
         }
-
         return false;
     };
 
