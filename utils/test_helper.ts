@@ -504,7 +504,6 @@ export class TestHelper {
             emoji_name: '',
             create_at: 0,
             ...override,
-        }
-        
+        };
     }
 }

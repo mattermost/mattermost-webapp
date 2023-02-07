@@ -3,8 +3,6 @@
 
 import {createIntl} from 'react-intl';
 
-import {Reaction} from '@mattermost/types/reactions';
-
 import {Preferences} from 'mattermost-redux/constants';
 
 import * as PostUtils from 'utils/post_utils';
