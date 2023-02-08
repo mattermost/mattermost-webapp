@@ -498,7 +498,7 @@ export const SelfHostedProducts = {
     ENTERPRISE: 'enterprise',
 };
 
-export const PaidFeatures = {
+export const MattermostFeatures = {
     GUEST_ACCOUNTS: 'mattermost.feature.guest_accounts',
     CUSTOM_USER_GROUPS: 'mattermost.feature.custom_user_groups',
     CREATE_MULTIPLE_TEAMS: 'mattermost.feature.create_multiple_teams',
@@ -510,6 +510,7 @@ export const PaidFeatures = {
     ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
     ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
     UPGRADE_DOWNGRADED_WORKSPACE: 'mattermost.feature.upgrade_downgraded_workspace',
+    PLUGIN_FEATURE: 'mattermost.feature.plugin',
 };
 
 export enum LicenseSkus {
