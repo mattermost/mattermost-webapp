@@ -15,7 +15,8 @@ import {makeGetCommentCountForPost, isPostPriorityEnabled} from 'mattermost-redu
 
 import {
     get,
-    isCollapsedThreadsEnabled, onboardingTourTipsEnabled,
+    isCollapsedThreadsEnabled,
+    onboardingTourTipsEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
