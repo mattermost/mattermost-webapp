@@ -1829,6 +1829,13 @@ export function getRoleFromTrackFlow() {
     return {started_by_role: startedByRole};
 }
 
+export function getMediumFromTrackFlow() {
+    const params = new URLSearchParams(window.location.search);
+    const source = params.get('md') ?? '';
+
+    return {source};
+}
+
 export function a11yFocus(element: HTMLElement | null | undefined, keyboardOnly = true) {
     document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
         A11yCustomEventTypes.FOCUS, {

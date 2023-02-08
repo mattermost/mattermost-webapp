@@ -1090,6 +1090,7 @@ export const LicenseLinks = {
     TRIAL_INFO_LINK: 'https://mattermost.com/trial',
     EMBARGOED_COUNTRIES: 'https://mattermost.com/pl/limitations-for-embargoed-countries',
     SOFTWARE_SERVICES_LICENSE_AGREEMENT: 'https://mattermost.com/pl/software-and-services-license-agreement',
+    SOFTWARE_SERVICES_LICENSE_AGREEMENT_TEXT: 'Software Services and License Agreement',
 };
 
 export const BillingSchemes = {
@@ -1452,6 +1453,7 @@ export const Constants = {
     OFFICE365_SERVICE: 'office365',
     OAUTH_SERVICES: ['gitlab', 'google', 'office365', 'openid'],
     OPENID_SERVICE: 'openid',
+    OPENID_SERVICE_FEATURE_DISCOVERY: 'openid_feature_discovery',
     OPENID_SCOPES: 'profile openid email',
     EMAIL_SERVICE: 'email',
     LDAP_SERVICE: 'ldap',
