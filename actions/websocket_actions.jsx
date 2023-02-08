@@ -1471,7 +1471,8 @@ function handleSidebarCategoryUpdated(msg) {
         }
 
         // Fetch all categories in case any other categories had channels moved out of them.
-        doDispatch(fetchMyCategories(msg.broadcast.team_id));
+        // true indicates it is called from WebSocket
+        doDispatch(fetchMyCategories(msg.broadcast.team_id, true));
     };
 }
 

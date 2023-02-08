@@ -137,10 +137,9 @@ function updateCategory(category: ChannelCategory) {
     };
 }
 
-export function fetchMyCategories(teamId: string) {
+export function fetchMyCategories(teamId: string, isWebSocket: boolean) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const currentUserId = getCurrentUserId(getState());
-
         let data: OrderedChannelCategories;
         try {
             data = await Client4.getChannelCategories(currentUserId, teamId);
@@ -154,6 +153,7 @@ export function fetchMyCategories(teamId: string) {
             {
                 type: ChannelCategoryTypes.RECEIVED_CATEGORIES,
                 data: data.categories,
+                isWebSocket,
             },
             {
                 type: ChannelCategoryTypes.RECEIVED_CATEGORY_ORDER,

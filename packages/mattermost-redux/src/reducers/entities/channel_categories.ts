@@ -16,20 +16,19 @@ export function byId(state: IDMappedObjects<ChannelCategory> = {}, action: Gener
     switch (action.type) {
     case ChannelCategoryTypes.RECEIVED_CATEGORIES: {
         const categories: ChannelCategory[] = action.data;
-
         return categories.reduce((nextState, category) => {
             return {
                 ...nextState,
                 [category.id]: {
                     ...nextState[category.id],
                     ...category,
+                    collapsed: action.isWebSocket ? state[category.id].collapsed : category.collapsed,
                 },
             };
         }, state);
     }
     case ChannelCategoryTypes.RECEIVED_CATEGORY: {
         const category: ChannelCategory = action.data;
-
         return {
             ...state,
             [category.id]: {
