@@ -427,21 +427,23 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
     }
 
     searchByEmail = async (value: string): Promise<UserProfile | null> => {
+        let data;
         try {
-            return await Client4.getUserByEmail(value);
+            data = await Client4.getUserByEmail(value);
         } catch (error) {
             return null;
         }
+        return data?.delete_at === 0 ? data : null;
     }
 
     searchByUsername = async (value: string): Promise<UserProfile | null> => {
         let data;
         try {
-            data = await Client4.autocompleteUsers(value, '', '', {limit: 1});
+            data = await Client4.getUserByUsername(value);
         } catch (error) {
             return null;
         }
-        return data.users?.[0] || null;
+        return data?.delete_at === 0 ? data : null;
     }
 
     render() {
