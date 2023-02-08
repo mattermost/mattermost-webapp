@@ -8,18 +8,16 @@ import {showActionsDropdownPulsatingDot} from 'selectors/actions_menu';
 import {setActionsMenuInitialisationState} from 'mattermost-redux/actions/preferences';
 
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {Emoji} from '@mattermost/types/emojis';
+
 import {removePost, ExtendedPost} from 'mattermost-redux/actions/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetCommentCountForPost, isPostPriorityEnabled} from 'mattermost-redux/selectors/entities/posts';
 
 import {
     get,
-    isCollapsedThreadsEnabled,
+    isCollapsedThreadsEnabled, onboardingTourTipsEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-
-import {Post} from '@mattermost/types/posts';
 
 import {GlobalState} from 'types/store';
 
@@ -30,6 +28,9 @@ import {shouldShowDotMenu, shouldShowActionsMenu} from 'utils/post_utils';
 import {getSelectedPostCard} from 'selectors/rhs';
 import {isThreadOpen} from 'selectors/views/threads';
 import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from 'selectors/emojis';
+
+import {Post} from '@mattermost/types/posts';
+import {Emoji} from '@mattermost/types/emojis';
 import {getIsPostBeingEdited} from '../../../selectors/posts';
 
 import PostInfo from './post_info';
@@ -60,6 +61,7 @@ function makeMapStateToProps() {
         const teamId = getCurrentTeamId(state);
         const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
         const showActionsMenuPulsatingDot = showActionsDropdownPulsatingDot(state);
+        const tourTipsEnabled = onboardingTourTipsEnabled(state);
 
         let emojis: Emoji[] = [];
         const oneClickReactionsEnabled = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT) === 'true';
@@ -72,7 +74,7 @@ function makeMapStateToProps() {
             isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
             isMobile: state.views.channel.mobileView,
             isCardOpen: selectedCard && selectedCard.id === ownProps.post.id,
-
+            tourTipsEnabled,
             isPostBeingEdited: getIsPostBeingEdited(state, ownProps.post.id),
             enableEmojiPicker,
             isReadOnly: channelIsArchived,

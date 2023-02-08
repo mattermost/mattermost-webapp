@@ -151,6 +151,9 @@ type Props = {
     collapsedThreadsEnabled: boolean;
 
     oneClickReactionsEnabled: boolean;
+
+    tourTipsEnabled: boolean;
+
     recentEmojis: Emoji[];
 };
 
@@ -212,7 +215,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     };
 
     handleActionsMenuOpened = (open: boolean) => {
-        if (this.props.showActionsMenuPulsatingDot) {
+        if (this.props.tourTipsEnabled && this.props.showActionsMenuPulsatingDot) {
             return;
         }
         this.props.handleDropdownOpened(open);
@@ -324,8 +327,8 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                 post={post}
                 handleDropdownOpened={this.handleActionsMenuOpened}
                 isMenuOpen={this.state.showActionsMenu}
-                showPulsatingDot={this.props.showActionsMenuPulsatingDot}
-                showTutorialTip={this.state.showActionTip}
+                showPulsatingDot={this.props.tourTipsEnabled && this.props.showActionsMenuPulsatingDot}
+                showTutorialTip={this.props.tourTipsEnabled && this.state.showActionTip}
                 handleOpenTip={this.handleActionsMenuTipOpened}
                 handleNextTip={this.handleActionsMenuGotItClick}
                 handleDismissTip={this.handleTipDismissed}
