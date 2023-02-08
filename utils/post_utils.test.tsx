@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import {createIntl} from 'react-intl';
 
 import {Preferences} from 'mattermost-redux/constants';
@@ -12,7 +10,8 @@ import {PostListRowListIds, Constants} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
 import EmojiMap from 'utils/emoji_map';
 
-const enMessages = require('../i18n/en');
+import enMessages from '../i18n/en.json';
+import {GlobalState} from 'types/store';
 
 describe('PostUtils.containsAtChannel', () => {
     test('should return correct @all (same for @channel)', () => {
@@ -211,7 +210,7 @@ describe('PostUtils.containsAtChannel', () => {
         ]) {
             const containsAtChannel = PostUtils.containsAtChannel(data.text, data.options);
 
-            assert.equal(containsAtChannel, data.result, data.text);
+            expect(containsAtChannel).toEqual(data.result);
         }
     });
 });
@@ -401,7 +400,7 @@ describe('PostUtils.specialMentionsInText', () => {
             },
         ]) {
             const mentions = PostUtils.specialMentionsInText(data.text);
-            assert.deepEqual(mentions, data.result, data.text);
+            expect(mentions).toEqual(data.result);
         }
     });
 });
@@ -473,8 +472,8 @@ describe('PostUtils.shouldFocusMainTextbox', () => {
                 expected: false,
             },
         ]) {
-            const shouldFocus = PostUtils.shouldFocusMainTextbox(data.event, data.activeElement);
-            assert.equal(shouldFocus, data.expected);
+            const shouldFocus = PostUtils.shouldFocusMainTextbox(data.event as unknown as KeyboardEvent, data.activeElement as unknown as Element);
+            expect(shouldFocus).toEqual(data.expected);
         }
     });
 });
@@ -502,7 +501,7 @@ describe('PostUtils.postMessageOnKeyPress', () => {
     for (const testCase of emptyCases) {
         it(testCase.name, () => {
             const output = PostUtils.postMessageOnKeyPress(
-                testCase.input.event,
+                testCase.input.event as any,
                 testCase.input.message,
                 testCase.input.sendMessageOnCtrlEnter,
                 testCase.input.sendCodeBlockOnCtrlEnter,
@@ -533,7 +532,7 @@ describe('PostUtils.postMessageOnKeyPress', () => {
     for (const testCase of noOverrideCases) {
         it(testCase.name, () => {
             const output = PostUtils.postMessageOnKeyPress(
-                testCase.input.event,
+                testCase.input.event as any,
                 testCase.input.message,
                 testCase.input.sendMessageOnCtrlEnter,
                 testCase.input.sendCodeBlockOnCtrlEnter,
@@ -616,7 +615,7 @@ describe('PostUtils.postMessageOnKeyPress', () => {
     for (const testCase of sendMessageOnCtrlEnterCases) {
         it(testCase.name, () => {
             const output = PostUtils.postMessageOnKeyPress(
-                testCase.input.event,
+                testCase.input.event as any,
                 testCase.input.message,
                 testCase.input.sendMessageOnCtrlEnter,
                 testCase.input.sendCodeBlockOnCtrlEnter,
@@ -719,7 +718,7 @@ describe('PostUtils.postMessageOnKeyPress', () => {
     for (const testCase of sendCodeBlockOnCtrlEnterCases) {
         it(testCase.name, () => {
             const output = PostUtils.postMessageOnKeyPress(
-                testCase.input.event,
+                testCase.input.event as any,
                 testCase.input.message,
                 testCase.input.sendMessageOnCtrlEnter,
                 testCase.input.sendCodeBlockOnCtrlEnter,
@@ -766,7 +765,7 @@ describe('PostUtils.postMessageOnKeyPress', () => {
     for (const testCase of channelThresholdCases) {
         it(testCase.name, () => {
             const output = PostUtils.postMessageOnKeyPress(
-                testCase.input.event,
+                testCase.input.event as any,
                 testCase.input.message,
                 testCase.input.sendMessageOnCtrlEnter,
                 testCase.input.sendCodeBlockOnCtrlEnter,
@@ -783,97 +782,96 @@ describe('PostUtils.postMessageOnKeyPress', () => {
 describe('PostUtils.getOldestPostId', () => {
     test('Should not return LOAD_OLDER_MESSAGES_TRIGGER', () => {
         const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER]);
-        assert.equal(postId, 'postId2');
+        expect(postId).toEqual('postId2');
     });
 
     test('Should not return OLDER_MESSAGES_LOADER', () => {
         const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.OLDER_MESSAGES_LOADER]);
-        assert.equal(postId, 'postId2');
+        expect(postId).toEqual('postId2');
     });
 
     test('Should not return CHANNEL_INTRO_MESSAGE', () => {
         const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.CHANNEL_INTRO_MESSAGE]);
-        assert.equal(postId, 'postId2');
+        expect(postId).toEqual('postId2');
     });
 
     test('Should not return dateline', () => {
         const postId = PostUtils.getOldestPostId(['postId1', 'postId2', 'date-1558290600000']);
-        assert.equal(postId, 'postId2');
+        expect(postId).toEqual('postId2');
     });
 
     test('Should not return START_OF_NEW_MESSAGES', () => {
         const postId = PostUtils.getOldestPostId(['postId1', 'postId2', PostListRowListIds.START_OF_NEW_MESSAGES]);
-        assert.equal(postId, 'postId2');
+        expect(postId).toEqual('postId2');
     });
 });
 
 describe('PostUtils.getPreviousPostId', () => {
     test('Should skip dateline', () => {
         const postId = PostUtils.getPreviousPostId(['postId1', 'postId2', 'date-1558290600000', 'postId3'], 1);
-        assert.equal(postId, 'postId3');
+        expect(postId).toEqual('postId3');
     });
 
     test('Should skip START_OF_NEW_MESSAGES', () => {
         const postId = PostUtils.getPreviousPostId(['postId1', 'postId2', PostListRowListIds.START_OF_NEW_MESSAGES, 'postId3'], 1);
-        assert.equal(postId, 'postId3');
+        expect(postId).toEqual('postId3');
     });
 
     test('Should return first postId from combined system messages', () => {
         const postId = PostUtils.getPreviousPostId(['postId1', 'postId2', 'user-activity-post1_post2_post3', 'postId3'], 1);
-        assert.equal(postId, 'post1');
+        expect(postId).toEqual('post1');
     });
 });
 
 describe('PostUtils.getLatestPostId', () => {
     test('Should not return LOAD_OLDER_MESSAGES_TRIGGER', () => {
         const postId = PostUtils.getLatestPostId([PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER, 'postId1', 'postId2']);
-        assert.equal(postId, 'postId1');
+        expect(postId).toEqual('postId1');
     });
 
     test('Should not return OLDER_MESSAGES_LOADER', () => {
         const postId = PostUtils.getLatestPostId([PostListRowListIds.OLDER_MESSAGES_LOADER, 'postId1', 'postId2']);
-        assert.equal(postId, 'postId1');
+        expect(postId).toEqual('postId1');
     });
 
     test('Should not return CHANNEL_INTRO_MESSAGE', () => {
         const postId = PostUtils.getLatestPostId([PostListRowListIds.CHANNEL_INTRO_MESSAGE, 'postId1', 'postId2']);
-        assert.equal(postId, 'postId1');
+        expect(postId).toEqual('postId1');
     });
 
     test('Should not return dateline', () => {
         const postId = PostUtils.getLatestPostId(['date-1558290600000', 'postId1', 'postId2']);
-        assert.equal(postId, 'postId1');
+        expect(postId).toEqual('postId1');
     });
 
     test('Should not return START_OF_NEW_MESSAGES', () => {
         const postId = PostUtils.getLatestPostId([PostListRowListIds.START_OF_NEW_MESSAGES, 'postId1', 'postId2']);
-        assert.equal(postId, 'postId1');
+        expect(postId).toEqual('postId1');
     });
 
     test('Should return first postId from combined system messages', () => {
         const postId = PostUtils.getLatestPostId(['user-activity-post1_post2_post3', 'postId1', 'postId2']);
-        assert.equal(postId, 'post1');
+        expect(postId).toEqual('post1');
     });
 });
 
 describe('PostUtils.createAriaLabelForPost', () => {
     const emojiMap = new EmojiMap(new Map());
     const users = {
-        'benjamin.cooke': {
+        'benjamin.cooke': TestHelper.getUserMock({
             username: 'benjamin.cooke',
             nickname: 'sysadmin',
             first_name: 'Benjamin',
             last_name: 'Cooke',
-        },
+        }),
     };
     const teammateNameDisplaySetting = 'username';
 
     test('Should show username, timestamp, message, attachments, reactions, flagged and pinned', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
-        const testPost = {
+        const testPost = TestHelper.getPostMock({
             message: 'test_message',
-            root_id: null,
             create_at: (new Date().getTime() / 1000) || 0,
             props: {
                 attachments: [
@@ -883,11 +881,11 @@ describe('PostUtils.createAriaLabelForPost', () => {
             },
             file_ids: ['test_file_id_1'],
             is_pinned: true,
-        };
+        });
         const author = 'test_author';
         const reactions = {
-            reaction1: {emoji_name: 'reaction 1'},
-            reaction2: {emoji_name: 'reaction 2'},
+            reaction1: TestHelper.getReactionMock({emoji_name: 'reaction 1'}),
+            reaction2: TestHelper.getReactionMock({emoji_name: 'reaction 2'}),
         };
         const isFlagged = true;
 
@@ -902,11 +900,11 @@ describe('PostUtils.createAriaLabelForPost', () => {
     test('Should show that message is a reply', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
-        const testPost = {
+        const testPost = TestHelper.getPostMock({
             message: 'test_message',
             root_id: 'test_id',
             create_at: (new Date().getTime() / 1000) || 0,
-        };
+        });
         const author = 'test_author';
         const reactions = {};
         const isFlagged = true;
@@ -918,10 +916,10 @@ describe('PostUtils.createAriaLabelForPost', () => {
     test('Should translate emoji into {emoji-name} emoji', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
-        const testPost = {
+        const testPost = TestHelper.getPostMock({
             message: 'emoji_test :smile: :+1: :non-potable_water: :space emoji: :not_an_emoji:',
             create_at: (new Date().getTime() / 1000) || 0,
-        };
+        });
         const author = 'test_author';
         const reactions = {};
         const isFlagged = true;
@@ -937,11 +935,11 @@ describe('PostUtils.createAriaLabelForPost', () => {
     test('Generating aria label should not break if message is undefined', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
-        const testPost = {
-            id: 32,
+        const testPost = TestHelper.getPostMock({
+            id: '32',
             message: undefined,
             create_at: (new Date().getTime() / 1000) || 0,
-        };
+        });
         const author = 'test_author';
         const reactions = {};
         const isFlagged = true;
@@ -952,11 +950,11 @@ describe('PostUtils.createAriaLabelForPost', () => {
     test('Should not mention reactions if passed an empty object', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
-        const testPost = {
+        const testPost = TestHelper.getPostMock({
             message: 'test_message',
             root_id: 'test_id',
             create_at: (new Date().getTime() / 1000) || 0,
-        };
+        });
         const author = 'test_author';
         const reactions = {};
         const isFlagged = true;
@@ -968,11 +966,11 @@ describe('PostUtils.createAriaLabelForPost', () => {
     test('Should show the username as mention name in the message', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
-        const testPost = {
+        const testPost = TestHelper.getPostMock({
             message: 'test_message @benjamin.cooke',
             root_id: 'test_id',
             create_at: (new Date().getTime() / 1000) || 0,
-        };
+        });
         const author = 'test_author';
         const reactions = {};
         const isFlagged = true;
@@ -984,11 +982,11 @@ describe('PostUtils.createAriaLabelForPost', () => {
     test('Should show the nickname as mention name in the message', () => {
         const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
-        const testPost = {
+        const testPost = TestHelper.getPostMock({
             message: 'test_message @benjamin.cooke',
             root_id: 'test_id',
             create_at: (new Date().getTime() / 1000) || 0,
-        };
+        });
         const author = 'test_author';
         const reactions = {};
         const isFlagged = true;
@@ -1006,13 +1004,13 @@ describe('PostUtils.splitMessageBasedOnCaretPosition', () => {
     const message = 'Test Message';
     it('should return an object with two strings when given context and message', () => {
         const stringPieces = PostUtils.splitMessageBasedOnCaretPosition(state.caretPosition, message);
-        assert.equal('Te', stringPieces.firstPiece);
-        assert.equal('st Message', stringPieces.lastPiece);
+        expect('Te').toEqual(stringPieces.firstPiece);
+        expect('st Message').toEqual(stringPieces.lastPiece);
     });
 });
 
 describe('PostUtils.splitMessageBasedOnTextSelection', () => {
-    const cases = [
+    const cases: Array<[number, number, string, {firstPiece: string; lastPiece: string}]> = [
         [0, 0, 'Test Replace Message', {firstPiece: '', lastPiece: 'Test Replace Message'}],
         [20, 20, 'Test Replace Message', {firstPiece: 'Test Replace Message', lastPiece: ''}],
         [0, 20, 'Test Replace Message', {firstPiece: '', lastPiece: ''}],
@@ -1030,8 +1028,8 @@ describe('PostUtils.getPostURL', () => {
     const currentTeam = TestHelper.getTeamMock({id: 'current_team_id', name: 'current_team_name'});
     const team = TestHelper.getTeamMock({id: 'team_id_1', name: 'team_1'});
 
-    const dmChannel = TestHelper.getChannelMock({id: 'dm_channel_id', name: 'current_user_id__user_id_1', type: Constants.DM_CHANNEL, team_id: ''});
-    const gmChannel = TestHelper.getChannelMock({id: 'gm_channel_id', name: 'gm_channel_name', type: Constants.GM_CHANNEL, team_id: ''});
+    const dmChannel = TestHelper.getChannelMock({id: 'dm_channel_id', name: 'current_user_id__user_id_1', type: Constants.DM_CHANNEL as 'D', team_id: ''});
+    const gmChannel = TestHelper.getChannelMock({id: 'gm_channel_id', name: 'gm_channel_name', type: Constants.GM_CHANNEL as 'G', team_id: ''});
     const channel = TestHelper.getChannelMock({id: 'channel_id', name: 'channel_name', team_id: team.id});
 
     const dmPost = TestHelper.getPostMock({id: 'dm_post_id', channel_id: dmChannel.id});
@@ -1041,7 +1039,7 @@ describe('PostUtils.getPostURL', () => {
     const gmReply = TestHelper.getPostMock({id: 'gm_reply_id', root_id: 'root_post_id_1', channel_id: gmChannel.id});
     const reply = TestHelper.getPostMock({id: 'reply_id', root_id: 'root_post_id_1', channel_id: channel.id});
 
-    const getState = (collapsedThreads) => ({
+    const getState = (collapsedThreads: boolean) => ({
         entities: {
             general: {
                 config: {
@@ -1092,7 +1090,7 @@ describe('PostUtils.getPostURL', () => {
                 reply_id: reply,
             },
         },
-    });
+    } as unknown as GlobalState);
 
     test.each([
         ['/current_team_name/messages/@jessicahyde/dm_post_id', dmPost, true],

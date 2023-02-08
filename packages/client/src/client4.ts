@@ -2166,6 +2166,13 @@ export default class Client4 {
         );
     };
 
+    getPostEditHistory = (postId: string) => {
+        return this.doFetch<Post[]>(
+            `${this.getPostRoute(postId)}/edit_history`,
+            {method: 'get'},
+        );
+    }
+
     addReaction = (userId: string, postId: string, emojiName: string) => {
         this.trackEvent('api', 'api_reactions_save', {post_id: postId});
 
