@@ -43,9 +43,9 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.2.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          check-name: untagged-build
+          check-name: upload-s3
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
+          wait-interval: 60
           verbose: true
 
       - name: Download the thing
