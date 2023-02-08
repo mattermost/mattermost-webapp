@@ -166,7 +166,7 @@ jobs:
         if: always()
         with:
           junit_files: "build/**/*.xml"
-          comment_mode: failures
+          comment_mode: always
           compare_to_earlier_commit: false
   build:
     runs-on: ubuntu-22.04
