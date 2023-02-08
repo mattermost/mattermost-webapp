@@ -65,7 +65,6 @@ const InstallLink = (props: {pluginId: string; pluginName: string}) => {
 };
 
 const ConfigureLink = (props: {pluginId: string; pluginName: string}) => {
-
     return (
         <>
             <FormattedMessage
