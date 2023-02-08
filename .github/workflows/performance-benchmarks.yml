@@ -1,12 +1,6 @@
 name: Performance Benchmarks
 on:
-  push:
-    branches:
-      - master
-      - release-**
-  pull_request:
-    branches:
-      - master
+  workflow_call:
 
 jobs:
   cypress-run:
@@ -38,14 +32,6 @@ jobs:
         with:
           runTests: false
           working-directory: e2e/cypress
-
-      - name: Wait for PR branch to be built
-        uses: lewagon/wait-on-check-action@v1.2.0
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
-          verbose: true
 
       - name: Download the thing
         working-directory: e2e/cypress
