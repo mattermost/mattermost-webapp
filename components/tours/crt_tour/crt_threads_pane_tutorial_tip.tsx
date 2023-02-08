@@ -17,7 +17,6 @@ const CRTThreadsPaneTutorialTip = () => {
     const dispatch = useDispatch();
     const {formatMessage} = useIntl();
     const currentUserId = useSelector(getCurrentUserId);
-    const [backdropOpened, setBackdropOpened] = React.useState(true);
     const title = (
         <FormattedMessage
             id='tutorial_threads.threads_pane.title'
@@ -61,10 +60,6 @@ const CRTThreadsPaneTutorialTip = () => {
         dispatch(savePreferences(currentUserId, preferences));
     };
 
-    const handleInteractivePunchOut = () => {
-        setBackdropOpened(false);
-    };
-
     const overlayPunchOut = useMeasurePunchouts(['rhsContainer'], []);
 
     return (
@@ -83,8 +78,6 @@ const CRTThreadsPaneTutorialTip = () => {
             handleNext={onDismiss}
             interactivePunchOut={true}
             nextBtn={nextBtn()}
-            showBackdrop={backdropOpened}
-            handleInteractivePunchOut={handleInteractivePunchOut}
         />
     );
 };

@@ -1,12 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import Tippy from '@tippyjs/react';
 import {Placement} from 'tippy.js';
 import classNames from 'classnames';
-import {noop} from 'lodash';
 
 import {PunchOutCoordsHeightAndWidth} from '../common/hooks/useMeasurePunchouts';
 import {useClickOutsideRef} from '../common/hooks/useClickOutsideRef';
@@ -57,7 +56,6 @@ type Props = {
     handleSkip?: (e: React.MouseEvent) => void;
     handleDismiss?: (e: React.MouseEvent) => void;
     handlePunchOut?: (e: React.MouseEvent) => void;
-    handleInteractivePunchOut?: () => void;
 }
 
 export const TourTip = ({
@@ -77,7 +75,6 @@ export const TourTip = ({
     handleSkip,
     handleJump,
     handlePunchOut,
-    handleInteractivePunchOut = noop,
     pulsatingDotTranslate,
     pulsatingDotPlacement,
     nextBtn,
@@ -93,17 +90,14 @@ export const TourTip = ({
 }: Props) => {
     const FIRST_STEP_INDEX = 0;
     const triggerRef = useRef(null);
+    const [useBackdrop, setUseBackdrop] = useState(showBackdrop);
     const onJump = (event: React.MouseEvent, jumpToStep: number) => {
-        if (handleJump) {
-            handleJump(event, jumpToStep);
-        }
+        handleJump?.(event, jumpToStep);
     };
 
     useClickOutsideRef(triggerRef, (e: any) => {
-        if (!showBackdrop && handleDismiss) {
-            handleDismiss(e);
-        }
-        handleInteractivePunchOut();
+        handleDismiss?.(e);
+        setUseBackdrop(false);
     });
 
     // This needs to be changed if root-portal node isn't available to maybe body
@@ -221,7 +215,7 @@ export const TourTip = ({
             >
                 <PulsatingDot/>
             </div>
-            {showBackdrop &&
+            {useBackdrop &&
                 <TourTipBackdrop
                     show={show}
                     onDismiss={handleDismiss}
