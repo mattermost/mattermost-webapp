@@ -43,7 +43,6 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.2.0
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          check-name: prepare-docker-build
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 10
           verbose: true
