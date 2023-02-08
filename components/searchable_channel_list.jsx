@@ -120,9 +120,8 @@ export default class SearchableChannelList extends React.PureComponent {
 
     nextPage = () => {
         if (!this.props.loading) {
-            const page = this.state.page + 1;
-            this.props.nextPage(page + 1);
-            this.setState({page});
+            this.props.nextPage(this.state.page + 1);
+            this.setState({page: this.state.page + 1});
         }
     }
 
@@ -145,8 +144,8 @@ export default class SearchableChannelList extends React.PureComponent {
         }
         const pageStart = this.state.page * this.props.channelsPerPage;
         const pageEnd = pageStart + this.props.channelsPerPage;
-        const channelsToDisplay = this.props.channels.slice(pageStart, pageEnd);
-        return channelsToDisplay.length >= this.props.channelsPerPage;
+        const channelsToDisplay = this.props.channels.slice(0, pageEnd);
+        return channelsToDisplay.length < this.props.channels.length;
     }
 
     render() {
