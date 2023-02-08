@@ -728,7 +728,12 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             }}
                         />
                     )}
-                    afterButtonContent={<Consequences isCloud={true}/>}
+                    afterButtonContent={
+                        <Consequences
+                            isCloud={true}
+                            licenseAgreementBtnText={cardBtnText}
+                        />
+                    }
                 />
             </>
         );

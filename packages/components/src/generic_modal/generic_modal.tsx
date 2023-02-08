@@ -6,6 +6,8 @@ import classNames from 'classnames';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {FocusTrap} from '../focus_trap';
+
 export type Props = {
     className?: string;
     onExited: () => void;
@@ -23,6 +25,11 @@ export type Props = {
     id: string;
     autoCloseOnCancelButton?: boolean;
     autoCloseOnConfirmButton?: boolean;
+
+    /**
+     * If false, bootrap's Modal will not enforce focus on the modal and will
+     * transfer the mechanism to the FocusTrap component instead.
+     */
     enforceFocus?: boolean;
     container?: React.ReactNode | React.ReactNodeArray;
     ariaLabel?: string;
@@ -37,6 +44,7 @@ export type Props = {
 
 type State = {
     show: boolean;
+    isFocalTrapActive: boolean;
 }
 
 export class GenericModal extends React.PureComponent<Props, State> {
@@ -54,6 +62,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
 
         this.state = {
             show: props.show!,
+            isFocalTrapActive: false,
         };
     }
     modalRef = React.createRef<HTMLDivElement>();
@@ -94,6 +103,11 @@ export class GenericModal extends React.PureComponent<Props, State> {
     }
 
     public modalQuerySelectorAll = (selectors: string): NodeListOf<Element> | undefined => this.modalRef?.current?.querySelectorAll(selectors);
+    private handleShow = () => {
+        if (this.props.enforceFocus === false) {
+            this.setState({isFocalTrapActive: true});
+        }
+    }
 
     render() {
         let confirmButton;
@@ -155,22 +169,26 @@ export class GenericModal extends React.PureComponent<Props, State> {
             </div>
         );
 
+        const isFocusTrapActive = this.props.enforceFocus === false ? this.state.isFocalTrapActive : false;
+
         return (
             <Modal
-                dialogClassName={classNames('a11y__modal GenericModal', {GenericModal__compassDesign: this.props.compassDesign}, this.props.className)}
-                show={this.state.show}
-                onHide={this.onHide}
-                onExited={this.props.onExited}
-                enforceFocus={this.props.enforceFocus}
-                restoreFocus={true}
+                id={this.props.id}
                 role='dialog'
                 aria-label={this.props.ariaLabel}
                 aria-labelledby={this.props.ariaLabel ? undefined : 'genericModalLabel'}
-                id={this.props.id}
-                container={this.props.container}
+                dialogClassName={classNames('a11y__modal GenericModal', {GenericModal__compassDesign: this.props.compassDesign}, this.props.className)}
+                show={this.state.show}
+                onShow={this.handleShow}
+                restoreFocus={true}
+                enforceFocus={this.props.enforceFocus}
+                onHide={this.onHide}
+                onExited={this.props.onExited}
                 backdrop={this.props.backdrop}
                 backdropClassName={this.props.backdropClassName}
+                container={this.props.container}
             >
+             <FocusTrap active={isFocusTrapActive}>
                 <div
                     onKeyDown={this.onEnterKeyDown}
                     tabIndex={this.props.tabIndex}
@@ -200,6 +218,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
                         {confirmButton}
                     </Modal.Footer>}
                 </div>
+               </FocusTrap>
             </Modal>
         );
     }

@@ -13,6 +13,7 @@ import {
     get,
     getBool,
     isCollapsedThreadsEnabled,
+    onboardingTourTipsEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam, getCurrentTeamId, getTeam, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
@@ -127,6 +128,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const isBot = Boolean(user && user.is_bot);
     const highlightedPostId = getHighlightedPostId(state);
     const showActionsMenuPulsatingDot = showActionsDropdownPulsatingDot(state);
+    const tourTipsEnabled = onboardingTourTipsEnabled(state);
     const selectedCard = getSelectedPostCard(state);
 
     let emojis: Emoji[] = [];
@@ -200,6 +202,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         colorizeUsernames: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLORIZE_USERNAMES, Preferences.COLORIZE_USERNAMES_DEFAULT) === 'true',
         shouldShowActionsMenu: shouldShowActionsMenu(state, post),
         showActionsMenuPulsatingDot,
+        tourTipsEnabled,
         shortcutReactToLastPostEmittedFrom,
         isBot,
         collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
