@@ -163,6 +163,7 @@ type Props = {
     rhsIsExpanded: boolean;
     rhsIsOpen: boolean;
     shouldShowAppBar: boolean;
+    currentLocale: string;
 } & RouteComponentProps
 
 interface State {
@@ -345,6 +346,9 @@ export default class Root extends React.PureComponent<Props, State> {
             this.props.rhsIsExpanded !== prevProps.rhsIsExpanded
         ) {
             this.setRootMeta();
+        }
+        if (prevProps.currentLocale !== this.props.currentLocale) {
+            document.documentElement.lang = this.props.currentLocale;
         }
     }
 

@@ -14,6 +14,7 @@ import {getFirstAdminSetupComplete} from 'mattermost-redux/actions/general';
 import {getProfiles} from 'mattermost-redux/actions/users';
 
 import {getShowLaunchingWorkspace} from 'selectors/onboarding';
+import {getCurrentLocale} from 'selectors/i18n';
 import {
     getIsRhsExpanded,
     getIsRhsOpen,
@@ -57,6 +58,7 @@ function mapStateToProps(state: GlobalState) {
         rhsState: getRhsState(state),
         shouldShowAppBar: shouldShowAppBar(state),
         isCloud: isCurrentLicenseCloud(state),
+        currentLocale: getCurrentLocale(state),
     };
 }
 
