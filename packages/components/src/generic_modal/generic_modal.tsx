@@ -39,7 +39,6 @@ export type Props = {
     backdropClassName?: string;
     headerButton?: React.ReactNode;
     children: React.ReactNode;
-    tabIndex: number;
 };
 
 type State = {
@@ -54,7 +53,6 @@ export class GenericModal extends React.PureComponent<Props, State> {
         autoCloseOnCancelButton: true,
         autoCloseOnConfirmButton: true,
         enforceFocus: true,
-        tabIndex: 0,
     };
 
     constructor(props: Props) {
@@ -65,7 +63,6 @@ export class GenericModal extends React.PureComponent<Props, State> {
             isFocalTrapActive: false,
         };
     }
-    modalRef = React.createRef<HTMLDivElement>();
 
     onHide = () => {
         this.setState({show: false});
@@ -102,7 +99,6 @@ export class GenericModal extends React.PureComponent<Props, State> {
         }
     }
 
-    public modalQuerySelectorAll = (selectors: string): NodeListOf<Element> | undefined => this.modalRef?.current?.querySelectorAll(selectors);
     private handleShow = () => {
         if (this.props.enforceFocus === false) {
             this.setState({isFocalTrapActive: true});
@@ -188,37 +184,36 @@ export class GenericModal extends React.PureComponent<Props, State> {
                 backdropClassName={this.props.backdropClassName}
                 container={this.props.container}
             >
-             <FocusTrap active={isFocusTrapActive}>
-                <div
-                    onKeyDown={this.onEnterKeyDown}
-                    tabIndex={this.props.tabIndex}
-                    className='GenericModal__wrapper-enter-key-press-catcher'
-                    ref={this.modalRef}
-                >
-                    <Modal.Header closeButton={true}>
-                        {this.props.compassDesign && headerText}
-                    </Modal.Header>
-                    <Modal.Body>
-                        {this.props.compassDesign ? (
-                            this.props.errorText && (
-                                <div className='genericModalError'>
-                                    <i className='icon icon-alert-outline'/>
-                                    <span>{this.props.errorText}</span>
-                                </div>
-                            )
-                        ) : (
-                            headerText
-                        )}
-                        <div className='GenericModal__body'>
-                            {this.props.children}
-                        </div>
-                    </Modal.Body>
-                    {(cancelButton || confirmButton) && <Modal.Footer>
-                        {cancelButton}
-                        {confirmButton}
-                    </Modal.Footer>}
-                </div>
-               </FocusTrap>
+                <FocusTrap active={isFocusTrapActive}>
+                    <div
+                        onKeyDown={this.onEnterKeyDown}
+                        tabIndex={0}
+                        className='GenericModal__wrapper-enter-key-press-catcher'
+                    >
+                        <Modal.Header closeButton={true}>
+                            {this.props.compassDesign && headerText}
+                        </Modal.Header>
+                        <Modal.Body>
+                            {this.props.compassDesign ? (
+                                this.props.errorText && (
+                                    <div className='genericModalError'>
+                                        <i className='icon icon-alert-outline'/>
+                                        <span>{this.props.errorText}</span>
+                                    </div>
+                                )
+                            ) : (
+                                headerText
+                            )}
+                            <div className='GenericModal__body'>
+                                {this.props.children}
+                            </div>
+                        </Modal.Body>
+                        {(cancelButton || confirmButton) && <Modal.Footer>
+                            {cancelButton}
+                            {confirmButton}
+                        </Modal.Footer>}
+                    </div>
+                </FocusTrap>
             </Modal>
         );
     }
