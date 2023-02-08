@@ -289,7 +289,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - name: ci/artifact-upload
       run: |
-        aws s3 cp mattermost-enterprise-linux-amd64.tar.gz s3://${{secrets.AWS_S3_BUCKET_PRS}}/$REPO_NAME/commit/${{ github.sha }}/ --cache-control no-cache
+        aws s3 cp mattermost-enterprise-linux-amd64.tar.gz s3://${{secrets.AWS_S3_BUCKET_PRS}}/$REPO_NAME/commit/${{ github.event.pull_request.head.sha || github.sha }}/ --cache-control no-cache
   build-docker:
     runs-on: ubuntu-22.04
     needs: prepare-docker-build
@@ -314,5 +314,5 @@ jobs:
         wget https://raw.githubusercontent.com/mattermost/mattermost-server/master/build/Dockerfile
         wget https://raw.githubusercontent.com/mattermost/mattermost-server/master/build/entrypoint.sh
         chmod +x entrypoint.sh
-        export MM_PACKAGE=https://pr-builds.mattermost.com/$REPO_NAME/commit/${{ github.sha }}/mattermost-enterprise-linux-amd64.tar.gz
+        export MM_PACKAGE=https://pr-builds.mattermost.com/$REPO_NAME/commit/${{ github.event.pull_request.head.sha || github.sha }}/mattermost-enterprise-linux-amd64.tar.gz
         docker buildx build --push --build-arg MM_PACKAGE=$MM_PACKAGE -t mattermost/mm-ee-test:${TAG} .
