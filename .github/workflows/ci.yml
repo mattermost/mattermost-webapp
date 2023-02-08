@@ -13,6 +13,7 @@ jobs:
     steps:
       - name: ci/checkout-repo
         uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+        # Setup node, and cache dependencies
       - name: ci/setup-node
         uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         continue-on-error: true
@@ -22,7 +23,21 @@ jobs:
           cache: npm
           cache-dependency-path: |
             package-lock.json
-            tests-e2e/package-lock.json
+            e2e/cypress/package-lock.json
+            e2e/playwright/package-lock.json
+      - name: ci/get-node-modules
+        run: |
+          make node_modules
+          make e2e/playwright/node_modules
+        # Cache node modules
+      - uses: actions/cache@2b8105bdae4b746666ee225970c4a281bbd9d51f # v3.2.4
+        id: npm-cache
+        with:
+          path: |
+            '**/node_modules'
+            'e2e/playwright/node_modules'
+            'e2e/cypress/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('e2e/cypress/package-lock.json') }}-${{ hashFiles('e2e/playwright/package-lock.json') }}
   check-lint:
     runs-on: ubuntu-22.04
     needs: setup
@@ -35,7 +50,16 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: npm
+      - uses: actions/cache@2b8105bdae4b746666ee225970c4a281bbd9d51f # v3.2.4
+        id: npm-cache
+        with:
+          path: |
+            '**/node_modules'
+            'e2e/playwright/node_modules'
+            'e2e/cypress/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('e2e/cypress/package-lock.json') }}-${{ hashFiles('e2e/playwright/package-lock.json') }}
       - name: ci/get-node-modules
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: |
           make node_modules
           make e2e/playwright/node_modules
@@ -54,7 +78,16 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: npm
+      - uses: actions/cache@2b8105bdae4b746666ee225970c4a281bbd9d51f # v3.2.4
+        id: npm-cache
+        with:
+          path: |
+            '**/node_modules'
+            'e2e/playwright/node_modules'
+            'e2e/cypress/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('e2e/cypress/package-lock.json') }}-${{ hashFiles('e2e/playwright/package-lock.json') }}
       - name: ci/get-node-modules
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: |
           make node_modules
           make e2e/playwright/node_modules
@@ -81,7 +114,16 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: npm
+      - uses: actions/cache@2b8105bdae4b746666ee225970c4a281bbd9d51f # v3.2.4
+        id: npm-cache
+        with:
+          path: |
+            '**/node_modules'
+            'e2e/playwright/node_modules'
+            'e2e/cypress/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('e2e/cypress/package-lock.json') }}-${{ hashFiles('e2e/playwright/package-lock.json') }}
       - name: ci/get-node-modules
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: |
           make node_modules
           make e2e/playwright/node_modules
@@ -103,7 +145,16 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: npm
+      - uses: actions/cache@2b8105bdae4b746666ee225970c4a281bbd9d51f # v3.2.4
+        id: npm-cache
+        with:
+          path: |
+            '**/node_modules'
+            'e2e/playwright/node_modules'
+            'e2e/cypress/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('e2e/cypress/package-lock.json') }}-${{ hashFiles('e2e/playwright/package-lock.json') }}
       - name: ci/get-node-modules
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: |
           make node_modules
           make e2e/playwright/node_modules
@@ -129,7 +180,16 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: npm
+      - uses: actions/cache@2b8105bdae4b746666ee225970c4a281bbd9d51f # v3.2.4
+        id: npm-cache
+        with:
+          path: |
+            '**/node_modules'
+            'e2e/playwright/node_modules'
+            'e2e/cypress/node_modules'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('e2e/cypress/package-lock.json') }}-${{ hashFiles('e2e/playwright/package-lock.json') }}
       - name: ci/get-node-modules
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: |
           make node_modules
           make e2e/playwright/node_modules
