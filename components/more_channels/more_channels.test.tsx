@@ -99,7 +99,7 @@ describe('components/MoreChannels', () => {
 
         // on componentDidMount
         expect(wrapper.instance().props.actions.getChannels).toHaveBeenCalledTimes(1);
-        expect(wrapper.instance().props.actions.getChannels).toHaveBeenCalledWith(wrapper.instance().props.teamId, 0, 100);
+        expect(wrapper.instance().props.actions.getChannels).toHaveBeenCalledWith(wrapper.instance().props.teamId, 0, 60);
     });
 
     test('should match state on handleHide', () => {
