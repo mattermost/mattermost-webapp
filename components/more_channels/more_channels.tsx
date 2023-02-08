@@ -79,7 +79,6 @@ type State = {
 export default class MoreChannels extends React.PureComponent<Props, State> {
     public searchTimeoutId: number;
     activeChannels: Channel[] = [];
-    modalRef = React.createRef<GenericModal>();
 
     constructor(props: Props) {
         super(props);

@@ -7,7 +7,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
   autoCloseOnCancelButton={true}
   autoCloseOnConfirmButton={false}
   compassDesign={true}
-  enforceFocus={true}
+  enforceFocus={false}
   headerButton={
     <Memo(Connect(TeamPermissionGate))
       permissions={
@@ -39,7 +39,6 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
   }
   onExited={[Function]}
   show={true}
-  tabIndex={-1}
 >
   <LoadingScreen />
 </GenericModal>
