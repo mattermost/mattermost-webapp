@@ -69,7 +69,6 @@ function CollapsedReplyThreadsModal(props: Props) {
         <GenericModal
             className='CollapsedReplyThreadsModal productNotices'
             id={ModalIdentifiers.COLLAPSED_REPLY_THREADS_MODAL}
-            enforceFocus={false}
             onExited={props.onExited}
             handleConfirm={onNext}
             autoCloseOnConfirmButton={true}
