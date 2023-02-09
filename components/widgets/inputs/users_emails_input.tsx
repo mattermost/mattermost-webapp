@@ -206,6 +206,29 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         </React.Fragment>
     );
 
+    Input = (props: InputProps) => {
+        const handlePaste = (e: ClipboardEvent) => {
+            e.preventDefault();
+            const clipboardText = e.clipboardData?.getData('Text') || '';
+            this.appendDelimitedValues(clipboardText);
+
+            if (this.props.onPaste) {
+                this.props.onPaste(e);
+            }
+        };
+
+        return (
+            <components.Input
+                {...props}
+
+                // The onPaste is not part of the InputProps type definition. It's fixed in v5 of react-select.
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore - The type definition for the Input component is incorrect.
+                onPaste={handlePaste}
+            />
+        );
+    };
+
     NoOptionsMessage = (props: Record<string, any>) => {
         const inputValue = props.selectProps.inputValue;
         if (!inputValue) {
@@ -237,28 +260,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         NoOptionsMessage: this.props.suppressNoOptionsMessage ? () => null : this.NoOptionsMessage,
         MultiValueRemove: this.MultiValueRemove,
         IndicatorsContainer: () => null,
-        Input: (props: InputProps) => {
-            const handlePaste = (e: ClipboardEvent) => {
-                e.preventDefault();
-                const clipboardText = e.clipboardData?.getData('Text') || '';
-                this.appendDelimitedValues(clipboardText);
-
-                if (this.props.onPaste) {
-                    this.props.onPaste(e);
-                }
-            };
-
-            return (
-                <components.Input
-                    {...props}
-
-                    // The onPaste is not part of the InputProps type definition. It's fixed in v5 of react-select.
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore - The type definition for the Input component is incorrect.
-                    onPaste={handlePaste}
-                />
-            );
-        },
+        Input: this.Input,
     };
 
     handleInputChange = async (inputValue: string, action: InputActionMeta) => {
