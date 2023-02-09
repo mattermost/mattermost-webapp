@@ -1,10 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {batchActions} from 'redux-batched-actions';
-
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {ChannelTypes} from 'mattermost-redux/action_types';
 import {getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
 import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
 import {fetchMyChannelsAndMembersREST} from 'mattermost-redux/actions/channels';
@@ -13,7 +10,6 @@ import {logError} from 'mattermost-redux/actions/errors';
 import {isCustomGroupsEnabled, isGraphQLEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {isSuccess} from 'types/actions';
 
@@ -28,22 +24,11 @@ import {ServerError} from '@mattermost/types/errors';
 
 export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
     return async (dispatch, getState) => {
-        dispatch(batchActions([
-            selectTeam(team.id),
-            {
-                type: ChannelTypes.GET_CHANNELS_AND_CHANNEL_MEMBERS_REQUEST,
-                data: null,
-            },
-        ]));
+        dispatch(selectTeam(team.id));
 
         const state = getState();
         const currentUser = getCurrentUser(state);
         LocalStorageStore.setPreviousTeamId(currentUser.id, team.id);
-
-        if (isGuest(currentUser.roles)) {
-            // Will be fixed in MM-48260
-            dispatch({type: ChannelTypes.GET_CHANNELS_AND_CHANNEL_MEMBERS_FAILURE, error: null});
-        }
 
         const graphQLEnabled = isGraphQLEnabled(state);
         try {
@@ -52,10 +37,7 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
             } else {
                 await dispatch(fetchMyChannelsAndMembersREST(team.id));
             }
-
-            await dispatch({type: ChannelTypes.GET_CHANNELS_AND_CHANNEL_MEMBERS_SUCCESS, data: null});
         } catch (error) {
-            dispatch({type: ChannelTypes.GET_CHANNELS_AND_CHANNEL_MEMBERS_FAILURE, error});
             forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             dispatch(logError(error as ServerError));
             return {error: error as ServerError};

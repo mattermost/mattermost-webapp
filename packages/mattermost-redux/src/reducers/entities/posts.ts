@@ -1132,6 +1132,17 @@ function selectedPostId(state = '', action: GenericAction) {
     }
 }
 
+export function postEditHistory(state: Post[] = [], action: GenericAction) {
+    switch (action.type) {
+    case PostTypes.RECEIVED_POST_HISTORY:
+        return action.data;
+    case UserTypes.LOGOUT_SUCCESS:
+        return [];
+    default:
+        return state;
+    }
+}
+
 function currentFocusedPostId(state = '', action: GenericAction) {
     switch (action.type) {
     case PostTypes.RECEIVED_FOCUSED_POST:
@@ -1589,6 +1600,9 @@ export default function reducer(state: Partial<PostsState> = {}, action: Generic
         // The current selected post
         selectedPostId: selectedPostId(state.selectedPostId, action),
 
+        // The post history of selected post
+        postEditHistory: postEditHistory(state.postEditHistory, action),
+
         // The current selected focused post (permalink view)
         currentFocusedPostId: currentFocusedPostId(state.currentFocusedPostId, action),
 
@@ -1615,6 +1629,7 @@ export default function reducer(state: Partial<PostsState> = {}, action: Generic
         state.postsInThread === nextState.postsInThread &&
         state.pendingPostIds === nextState.pendingPostIds &&
         state.selectedPostId === nextState.selectedPostId &&
+        state.postEditHistory === nextState.postEditHistory &&
         state.currentFocusedPostId === nextState.currentFocusedPostId &&
         state.reactions === nextState.reactions &&
         state.acknowledgements === nextState.acknowledgements &&

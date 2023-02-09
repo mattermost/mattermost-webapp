@@ -77,27 +77,6 @@ export default function WorkspaceLimitsPanel(props: Props) {
                     />
                 )}
             />
-            <LimitLine
-                icon='icon-product-boards'
-                showIcons={props.showIcons}
-                percent={props.usage.boards.cards / (props.limits?.boards?.cards || Number.MAX_VALUE)}
-                limitName={(
-                    <FormattedMessage
-                        id='workspace_limits.boards_cards.short'
-                        defaultMessage='Board Cards'
-                    />
-                )}
-                limitStatus={(
-                    <FormattedMessage
-                        id='workspace_limits.boards_cards.usage.short'
-                        defaultMessage='{actual} / {limit} Cards'
-                        values={{
-                            actual: props.usage.boards.cards,
-                            limit: props.limits?.boards?.cards || 0,
-                        }}
-                    />
-                )}
-            />
         </div>
     );
 }

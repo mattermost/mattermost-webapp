@@ -8,7 +8,7 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import {t} from 'utils/i18n';
 import {
-    AnnouncementBarTypes, CloudProducts, CloudProductToSku, PaidFeatures, Preferences, TELEMETRY_CATEGORIES,
+    AnnouncementBarTypes, CloudProducts, CloudProductToSku, MattermostFeatures, Preferences, TELEMETRY_CATEGORIES,
 } from 'utils/constants';
 
 import {GlobalState} from 'types/store';
@@ -75,7 +75,7 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
     }
 
     const notifyAdminRequestData = {
-        required_feature: PaidFeatures.UPGRADE_DOWNGRADED_WORKSPACE,
+        required_feature: MattermostFeatures.UPGRADE_DOWNGRADED_WORKSPACE,
         required_plan: CloudProductToSku[product?.sku] || CloudProductToSku[CloudProducts.PROFESSIONAL],
         trial_notification: false,
     };

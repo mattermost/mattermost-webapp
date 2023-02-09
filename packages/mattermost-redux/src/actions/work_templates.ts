@@ -5,6 +5,7 @@ import {WorkTemplatesType} from 'mattermost-redux/action_types';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 import {Client4} from 'mattermost-redux/client';
+import {ExecuteWorkTemplateRequest} from '@mattermost/types/work_templates';
 
 export function getWorkTemplateCategories(): ActionFunc {
     return bindClientFunc({
@@ -20,6 +21,13 @@ export function getWorkTemplates(categoryId: string): ActionFunc {
         onRequest: WorkTemplatesType.WORK_TEMPLATES_REQUEST,
         onSuccess: [WorkTemplatesType.RECEIVED_WORK_TEMPLATES],
         params: [categoryId],
+    });
+}
+
+export function executeWorkTemplate(req: ExecuteWorkTemplateRequest): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.executeWorkTemplate,
+        params: [req],
     });
 }
 

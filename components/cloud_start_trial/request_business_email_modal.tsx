@@ -64,7 +64,6 @@ const RequestBusinessEmailModal = (
         validateEmail(email);
     }, []);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const validateEmail = useCallback(debounce(async (email: string) => {
         // no value set, no validation and clean the custom input label
         if (!email) {

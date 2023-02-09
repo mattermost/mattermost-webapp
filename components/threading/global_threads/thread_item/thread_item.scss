@@ -33,11 +33,18 @@
         @include clearfix;
 
         overflow: hidden;
-        min-width: 0;
+        max-width: 100%;
         text-align: left;
         text-overflow: ellipsis;
         -moz-user-select: all; /* Firefox all */
         white-space: nowrap;
+    }
+
+    &__tags {
+        display: flex;
+        max-width: 100%;
+        align-items: center;
+        gap: 4px;
     }
 
     &.is-selected {
@@ -108,7 +115,7 @@
         font-size: 14px;
         font-weight: 600;
         gap: 10px;
-        grid-template-columns: minmax(0, min-content) 1fr min-content;
+        grid-template-columns: minmax(0, min-content) minmax(0, auto) min-content;
         justify-items: start;
         line-height: 20px;
         white-space: nowrap;
