@@ -5,12 +5,17 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {RouteComponentProps} from 'react-router-dom';
 
+import {Tabs, Tab, SelectCallback} from 'react-bootstrap';
+
 import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
 import FileUploadOverlay from 'components/file_upload_overlay';
 import PostView from 'components/post_view';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import AdvancedCreatePost from 'components/advanced_create_post';
+
+import {localizeMessage} from 'utils/utils';
+import ChannelIntegrationsTab from 'components/channel_integrations_tab/channel_integrations_tab';
 
 import type {PropsFromRedux} from './index';
 
@@ -21,8 +26,16 @@ export type Props = PropsFromRedux & RouteComponentProps<{
 type State = {
     channelId: string;
     url: string;
+    tabKey: string;
     focusedPostId?: string;
     deferredPostView: any;
+};
+
+const MainTabs = {
+    CHANNELS_TAB: 'Channels',
+    PLAYBOOKS_TAB: 'Playbooks',
+    BOARDS_TAB: 'Boards',
+    INTEGRATIONS_TAB: 'Integrations',
 };
 
 export default class ChannelView extends React.PureComponent<Props, State> {
@@ -69,6 +82,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
         this.state = {
             url: props.match.url,
+            tabKey: MainTabs.CHANNELS_TAB,
             channelId: props.channelId,
             focusedPostId: props.match.params.postid,
             deferredPostView: ChannelView.createDeferredPostView(),
@@ -91,6 +105,10 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                 this.props.goToLastViewedChannel();
             }
         }
+    }
+
+    changeTab: SelectCallback = (tabKey: any): void => {
+        this.setState({tabKey});
     }
 
     render() {
@@ -169,11 +187,46 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                 <ChannelHeader
                     {...this.props}
                 />
-                <DeferredPostView
-                    channelId={this.props.channelId}
-                    focusedPostId={this.state.focusedPostId}
-                />
-                {createPost}
+                <div className='main-tabs'>
+                    <Tabs
+                        id='channelsTab'
+                        className='tabs'
+                        defaultActiveKey={MainTabs.CHANNELS_TAB}
+                        activeKey={this.state.tabKey}
+                        onSelect={this.changeTab}
+                        unmountOnExit={true}
+                    >
+                        <Tab
+                            eventKey={MainTabs.CHANNELS_TAB}
+                            title={localizeMessage('channel_view.tabs.channels_tab', 'Channels')}
+                        >
+                            <DeferredPostView
+                                channelId={this.props.channelId}
+                                focusedPostId={this.state.focusedPostId}
+                            />
+                            {createPost}
+                        </Tab>
+                        <Tab
+                            eventKey={MainTabs.PLAYBOOKS_TAB}
+                            title={localizeMessage('channel_view.tabs.playbooks_tab', 'Playbooks')}
+                        >
+                            {'Placeholder for Playbooks Tab'}
+                        </Tab>
+                        <Tab
+                            eventKey={MainTabs.BOARDS_TAB}
+                            title={localizeMessage('channel_view.tabs.boards_tab', 'Boards')}
+                        >
+                            {'Placeholder for Boards Tab'}
+                        </Tab>
+                        <Tab
+                            eventKey={MainTabs.INTEGRATIONS_TAB}
+                            title={localizeMessage('channel_view.tabs.integrations_tab', 'Integrations')}
+                        >
+                            <ChannelIntegrationsTab {...this.props}/>
+                        </Tab>
+
+                    </Tabs>
+                </div>
             </div>
         );
     }

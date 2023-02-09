@@ -186,7 +186,7 @@
 
 #post-list {
     position: relative;
-    height: 100%;
+    height: calc(100vh - 300px);
     flex: 1 1 auto;
     overflow-y: hidden;
 

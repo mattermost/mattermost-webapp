@@ -1142,4 +1142,24 @@ export default class PluginRegistry {
             },
         });
     });
+
+    // Register a component to render a custom body for integration tab cards with a specific type.
+    // Custom post types must be prefixed with 'custom_'.
+    // Accepts a string type and a component.
+    // Returns a unique identifier.
+    registerIntegrationsTabStatsComponent = reArg(['type', 'component'], ({type, component}) => {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_INTEGRATION_TAB_STATS_COMPONENT,
+            data: {
+                id,
+                pluginId: this.id,
+                type,
+                component,
+            },
+        });
+
+        return id;
+    });
 }

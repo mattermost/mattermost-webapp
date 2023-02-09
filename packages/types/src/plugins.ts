@@ -135,3 +135,10 @@ export type MarketplacePlugin = { // TODO remove this in favour of the definitio
     manifest: PluginManifest;
     installed_version?: string;
 }
+
+export type PluginChannelIntegrationStatsRow = {
+    id: string;
+    name: React.ReactNode;
+    icon: string;
+    value: number;
+};

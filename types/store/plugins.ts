@@ -7,7 +7,7 @@ import {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
 
 import {ProductScope} from '@mattermost/types/products';
 
-import {ClientPluginManifest} from '@mattermost/types/plugins';
+import {ClientPluginManifest, PluginChannelIntegrationStatsRow} from '@mattermost/types/plugins';
 import {PluginAnalyticsRow} from '@mattermost/types/admin';
 import {FileInfo} from '@mattermost/types/files';
 import {Post, PostEmbed} from '@mattermost/types/posts';
@@ -19,6 +19,8 @@ import {WebSocketClient} from '@mattermost/client';
 import {GlobalState} from 'types/store';
 
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
+
+export type PluginChannelIntegrationStatsHandler = () => Promise<Record<string, PluginChannelIntegrationStatsRow>>;
 
 export type PluginsState = {
     plugins: IDMappedObjects<ClientPluginManifest>;
@@ -60,6 +62,9 @@ export type PluginsState = {
     };
     insightsHandlers: {
         [pluginId: string]: (timeRange: string, page: number, perPage: number, teamId: string, insightType: string) => Promise<TopBoardResponse>;
+    };
+    channelIntegrationStatsHandlers: {
+        [pluginId: string]: PluginChannelIntegrationStatsHandler;
     };
 };
 
