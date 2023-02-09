@@ -205,7 +205,7 @@ jobs:
     # Run this Job, on every branch except "master","cloud-*","release-*" branches
     if: |
       ${{ !(github.ref_name == 'master' ||
-           startsWith(github.ref_name,'cloud-') ||
+           github.ref_name == 'cloud' ||
            startsWith(github.ref_name,'release-'))
       }}
     env:
