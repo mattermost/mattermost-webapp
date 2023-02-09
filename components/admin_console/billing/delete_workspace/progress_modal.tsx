@@ -2,27 +2,26 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect, useRef, useState} from 'react';
+import {injectIntl, WrappedComponentProps} from 'react-intl';
 import {useDispatch} from 'react-redux';
 
 import RootPortal from 'components/root_portal';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import BackgroundSvg from 'components/common/svg_images_components/background_svg';
 
-import 'components/payment_form/payment_form.scss';
-
-import IconMessage from '../purchase_modal/icon_message';
-import {t} from 'utils/i18n';
-
-import './index.scss';
+import IconMessage from 'components/purchase_modal/icon_message';
 
 import {closeModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 
+import './progress_modal.scss';
 const MIN_PROCESSING_MILLISECONDS = 5000;
 const MAX_FAKE_PROGRESS = 95;
 
-export default function DowngradeModal() {
+type Props = WrappedComponentProps
+
+const DeleteWorkspaceProgressModal = (props: Props) => {
     const modal = React.createRef();
     const mounted = useRef(false);
     const dispatch = useDispatch();
@@ -60,15 +59,19 @@ export default function DowngradeModal() {
         <RootPortal>
             <FullScreenModal
                 show={true}
-                onClose={() => dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL))}
+                onClose={() => dispatch(closeModal(ModalIdentifiers.DELETE_WORKSPACE_PROGRESS))}
                 ref={modal}
-                ariaLabelledBy='purchase_modal_title'
+                ariaLabelledBy='delete_workspace_modal_title'
                 overrideTargetEvent={false}
             >
-                <div id='DowngradeModal'>
+                <div className='DeleteWorkspaceProgressModal'>
                     <IconMessage
-                        title={t('admin.billing.subscription.downgrading')}
-                        subtitle={''}
+                        title={
+                            props.intl.formatMessage({
+                                id: 'admin.billing.deleteWorkspace.progressModal.title',
+                                defaultMessage: 'Deleting your workspace',
+                            })
+                        }
                         icon={
                             <CreditCardSvg
                                 width={444}
@@ -85,4 +88,6 @@ export default function DowngradeModal() {
             </FullScreenModal>
         </RootPortal>
     );
-}
+};
+
+export default injectIntl(DeleteWorkspaceProgressModal);
