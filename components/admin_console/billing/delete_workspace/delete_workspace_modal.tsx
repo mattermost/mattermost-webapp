@@ -16,7 +16,6 @@ import './delete_workspace_modal.scss';
 import {CloudProducts, ModalIdentifiers, StatTypes} from 'utils/constants';
 import DeleteFeedbackModal from 'components/admin_console/billing/delete_workspace/delete_feedback';
 import DowngradeFeedbackModal from 'components/feedback_modal/downgrade_feedback';
-import DowngradeFeedbackModal from 'components/admin_console/billing/delete_workspace/downgrade_feedback';
 import {Feedback} from '@mattermost/types/cloud';
 import {GlobalState} from 'types/store';
 import useGetUsage from 'components/common/hooks/useGetUsage';
