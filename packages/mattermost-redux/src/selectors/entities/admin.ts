@@ -17,7 +17,7 @@ export const getAllLogs = createSelector(
     getLogs,
     (logs) => {
         return Object.values(logs).reduce<LogObject[]>((acc, log) => {
-            acc.push(log);
+            acc.push(...log);
             return acc;
         }, []);
     },

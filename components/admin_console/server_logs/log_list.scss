@@ -1,4 +1,6 @@
 .LogTable {
+    overflow: auto;
+
     .DataGrid {
         .DataGrid_row {
             min-height: 40px;
