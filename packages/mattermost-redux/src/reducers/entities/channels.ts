@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {combineReducers} from 'redux';
-import shallowEquals from 'shallow-equals';
 import {isEqual} from 'lodash';
 
 import {AdminTypes, ChannelTypes, UserTypes, SchemeTypes, GroupTypes, PostTypes} from 'mattermost-redux/action_types';
@@ -898,7 +897,7 @@ function roles(state: RelationOneToOne<Channel, Set<string>> = {}, action: Gener
         const newRoles = splitRoles(channelMember.roles);
 
         // If roles didn't change no need to update state
-        if (shallowEquals(oldRoles, newRoles)) {
+        if (isEqual(oldRoles, newRoles)) {
             return state;
         }
 
@@ -923,7 +922,7 @@ function roles(state: RelationOneToOne<Channel, Set<string>> = {}, action: Gener
             const newRoles = splitRoles(cm.roles);
 
             // If roles didn't change no need to update state
-            if (!shallowEquals(oldRoles, newRoles)) {
+            if (!isEqual(oldRoles, newRoles)) {
                 nextState[cm.channel_id] = splitRoles(cm.roles);
                 stateChanged = true;
             }

@@ -970,13 +970,6 @@
     }
 
     .post {
-        &:not(.post--compact) {
-            .Badge {
-                top: 31px;
-                left: 6px;
-            }
-        }
-
         &.post--system {
             .post__header {
                 .post-menu {

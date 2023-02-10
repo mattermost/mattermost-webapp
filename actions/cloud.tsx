@@ -15,6 +15,7 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
 import {CloudTypes} from 'mattermost-redux/action_types';
+import {Feedback, WorkspaceDeletionRequest} from '@mattermost/types/cloud';
 
 // Returns true for success, and false for any error
 export function completeStripeAddPaymentMethod(
@@ -80,10 +81,10 @@ export function completeStripeAddPaymentMethod(
     };
 }
 
-export function subscribeCloudSubscription(productId: string, seats = 0) {
+export function subscribeCloudSubscription(productId: string, seats = 0, feedback?: Feedback) {
     return async () => {
         try {
-            await Client4.subscribeCloudProduct(productId, seats);
+            await Client4.subscribeCloudProduct(productId, seats, feedback);
         } catch (error) {
             return error;
         }
@@ -191,26 +192,6 @@ export function getFilesUsage(): ActionFunc {
     };
 }
 
-export function getBoardsUsage(): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        try {
-            const result = await Client4.getBoardsUsage();
-            if (result) {
-                dispatch({
-                    type: CloudTypes.RECEIVED_BOARDS_USAGE,
-
-                    // the views and cards properties are the limits, not usage.
-                    // So they are not passed in to the usage.
-                    data: result.used_cards,
-                });
-            }
-        } catch (error) {
-            return error;
-        }
-        return {data: true};
-    };
-}
-
 export function getTeamsUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         try {
@@ -225,6 +206,17 @@ export function getTeamsUsage(): ActionFunc {
             return error;
         }
         return {data: false};
+    };
+}
+
+export function deleteWorkspace(deletionRequest: WorkspaceDeletionRequest) {
+    return async () => {
+        try {
+            await Client4.deleteWorkspace(deletionRequest);
+        } catch (error) {
+            return error;
+        }
+        return true;
     };
 }
 

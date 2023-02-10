@@ -55,6 +55,7 @@ describe('components/sidebar/invite_members_button', () => {
     const props = {
         onClick: jest.fn(),
         touchedInviteMembersButton: false,
+        isAdmin: false,
     };
 
     const store = mockStore(state);

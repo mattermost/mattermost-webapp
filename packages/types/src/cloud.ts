@@ -19,6 +19,7 @@ export type CloudState = {
         customer?: true;
         invoices?: true;
         limits?: true;
+        trueUpReview?: true;
     };
     selfHostedSignup: {
         progress: ValueOf<typeof SelfHostedSignupProgress>;
@@ -186,10 +187,6 @@ export type Limits = {
     teams?: {
         active?: number;
     };
-    boards?: {
-        cards?: number;
-        views?: number;
-    };
 }
 
 export interface CloudUsage {
@@ -200,10 +197,6 @@ export interface CloudUsage {
     messages: {
         history: number;
         historyLoaded: boolean;
-    };
-    boards: {
-        cards: number;
-        cardsLoaded: boolean;
     };
     teams: TeamsUsage;
 }
@@ -225,3 +218,12 @@ export interface CreateSubscriptionRequest {
     internal_purchase_order?: string;
 }
 
+export type Feedback = {
+    reason: string;
+    comments: string;
+}
+
+export type WorkspaceDeletionRequest = {
+    subscription_id: string;
+    feedback: Feedback;
+}

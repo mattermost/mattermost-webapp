@@ -38,6 +38,8 @@ import {HFRoute} from 'components/header_footer_route/header_footer_route';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
 import OpenPricingModalPost from 'components/custom_open_pricing_modal_post_renderer';
+import OpenPluginInstallPost from 'components/custom_open_plugin_install_post_renderer';
+
 import AccessProblem from 'components/access_problem';
 
 import {initializePlugins} from 'plugins';
@@ -117,7 +119,7 @@ const OnBoardingTaskList = makeAsyncComponent('OnboardingTaskList', LazyOnBoardi
 type LoggedInRouteProps<T> = {
     component: React.ComponentType<T>;
     path: string;
-    theme: Theme;
+    theme?: Theme; // the routes that send the theme are the ones that will actually need to show the onboarding tasklist
 };
 function LoggedInRoute<T>(props: LoggedInRouteProps<T>) {
     const {component: Component, theme, ...rest} = props;
@@ -126,9 +128,9 @@ function LoggedInRoute<T>(props: LoggedInRouteProps<T>) {
             {...rest}
             render={(routeProps: RouteComponentProps) => (
                 <LoggedIn {...routeProps}>
-                    <CompassThemeProvider theme={theme}>
+                    {theme && <CompassThemeProvider theme={theme}>
                         <OnBoardingTaskList/>
-                    </CompassThemeProvider>
+                    </CompassThemeProvider>}
                     <Component {...(routeProps as unknown as T)}/>
                 </LoggedIn>
             )}
@@ -136,7 +138,7 @@ function LoggedInRoute<T>(props: LoggedInRouteProps<T>) {
     );
 }
 
-const noop = () => {}; // eslint-disable-line no-empty-function
+const noop = () => {};
 
 export type Actions = {
     emitBrowserWindowResized: (size?: string) => void;
@@ -178,7 +180,7 @@ export default class Root extends React.PureComponent<Props, State> {
 
     // The constructor adds a bunch of event listeners,
     // so we do need this.
-    private a11yController: A11yController; // eslint-disable-line no-unused-vars
+    private a11yController: A11yController;
 
     constructor(props: Props) {
         super(props);
@@ -277,13 +279,14 @@ export default class Root extends React.PureComponent<Props, State> {
                 anonymousId: '00000000000000000000000000',
             });
 
+            const utmParams = this.captureUTMParams();
             rudderAnalytics.ready(() => {
                 Client4.setTelemetryHandler(new RudderTelemetryHandler());
+                if (utmParams) {
+                    trackEvent('utm_params', 'utm_params', utmParams);
+                }
             });
         }
-
-        // This needs to be called as early as possible to ensure that a redirect won't remove the query string
-        this.trackUTMCampaign();
 
         if (this.props.location.pathname === '/' && this.props.noAccounts) {
             this.props.history.push('/signup_user_complete');
@@ -388,7 +391,7 @@ export default class Root extends React.PureComponent<Props, State> {
         GlobalActions.redirectUserToDefaultTeam();
     }
 
-    trackUTMCampaign() {
+    captureUTMParams() {
         const qs = new URLSearchParams(window.location.search);
 
         // list of key that we want to track
@@ -406,9 +409,10 @@ export default class Root extends React.PureComponent<Props, State> {
         }, {} as Record<string, string>);
 
         if (Object.keys(campaign).length > 0) {
-            trackEvent('utm_params', 'utm_params', campaign);
             this.props.history.replace({search: qs.toString()});
+            return campaign;
         }
+        return null;
     }
 
     initiateMeRequests = async () => {
@@ -428,6 +432,7 @@ export default class Root extends React.PureComponent<Props, State> {
 
         // See figma design on issue https://mattermost.atlassian.net/browse/MM-43649
         this.props.actions.registerCustomPostRenderer('custom_up_notification', OpenPricingModalPost, 'upgrade_post_message_renderer');
+        this.props.actions.registerCustomPostRenderer('custom_pl_notification', OpenPluginInstallPost, 'plugin_install_post_message_renderer');
         this.props.actions.registerCustomPostRenderer('system_welcome_post', WelcomePostRenderer, 'welcome_post_renderer');
 
         if (this.desktopMediaQuery.addEventListener) {
@@ -580,7 +585,6 @@ export default class Root extends React.PureComponent<Props, State> {
                         component={HelpController}
                     />
                     <LoggedInRoute
-                        theme={this.props.theme}
                         path={'/terms_of_service'}
                         component={TermsOfService}
                     />
@@ -613,12 +617,10 @@ export default class Root extends React.PureComponent<Props, State> {
                         component={CreateTeam}
                     />
                     <LoggedInRoute
-                        theme={this.props.theme}
                         path={'/mfa'}
                         component={Mfa}
                     />
                     <LoggedInRoute
-                        theme={this.props.theme}
                         path={'/preparing-workspace'}
                         component={PreparingWorkspace}
                     />

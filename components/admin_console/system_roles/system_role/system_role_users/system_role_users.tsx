@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import Tag from 'components/widgets/tag/tag';
+
 import {Role} from '@mattermost/types/roles';
 import {ServerError} from '@mattermost/types/errors';
 import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from '@mattermost/types/users';
@@ -12,7 +14,6 @@ import Constants, {ModalIdentifiers} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
-import Badge from 'components/widgets/badges/badge';
 import ToggleModalButton from 'components/toggle_modal_button';
 import DataGrid from 'components/admin_console/data_grid/data_grid';
 import UserGridName from 'components/admin_console/user_grid/user_grid_name';
@@ -174,22 +175,19 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
             return {
                 cells: {
                     id: user.id,
-                    name: (
-                        <UserGridName
-                            user={user}
+                    name: <UserGridName user={user}/>,
+                    new: usersToAdd[user.id] ? (
+                        <Tag
+                            variant={'info'}
+                            uppercase={true}
+                            text={(
+                                <FormattedMessage
+                                    id='admin.user_grid.new'
+                                    defaultMessage='New'
+                                />
+                            )}
                         />
-                    ),
-                    new: (
-                        <Badge
-                            className='NewUserBadge'
-                            show={Boolean(usersToAdd[user.id])}
-                        >
-                            <FormattedMessage
-                                id='admin.user_grid.new'
-                                defaultMessage='New'
-                            />
-                        </Badge>
-                    ),
+                    ) : null,
                     remove: (
                         <UserGridRemove
                             user={user}

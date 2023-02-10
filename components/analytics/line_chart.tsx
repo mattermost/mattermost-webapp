@@ -159,4 +159,3 @@ export default class LineChart extends React.PureComponent<Props> {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

@@ -22,6 +22,8 @@ import {
     ValidBusinessEmail,
     LicenseExpandStatus,
     CreateSubscriptionRequest,
+    Feedback,
+    WorkspaceDeletionRequest,
 } from '@mattermost/types/cloud';
 import {
     SelfHostedSignupForm,
@@ -95,7 +97,6 @@ import type {
 } from '@mattermost/types/marketplace';
 import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse, PostAcknowledgement, PostAnalytics} from '@mattermost/types/posts';
 import {Draft} from '@mattermost/types/drafts';
-import {BoardPatch, BoardsUsageResponse, BoardTemplate, Board, CreateBoardResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
 import {SamlCertificateStatus, SamlMetadataResponse} from '@mattermost/types/saml';
@@ -134,7 +135,7 @@ import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
 import {LeastActiveChannelsResponse, TopChannelResponse, TopReactionResponse, TopThreadResponse, TopDMsResponse} from '@mattermost/types/insights';
 
-import {Category, WorkTemplate} from '@mattermost/types/work_templates';
+import {Category, ExecuteWorkTemplateRequest, ExecuteWorkTemplateResponse, WorkTemplate} from '@mattermost/types/work_templates';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
@@ -260,9 +261,6 @@ export default class Client4 {
         return `${this.url}${this.urlVersion}`;
     }
 
-    // This function belongs to the Apps Framework feature.
-    // Apps Framework feature is experimental, and this function is susceptible
-    // to breaking changes without pushing the major version of this package.
     getAppsProxyRoute() {
         return `${this.url}/plugins/com.mattermost.apps`;
     }
@@ -354,6 +352,13 @@ export default class Client4 {
         return this.doFetch<WorkTemplate[]>(
             `${this.getBaseWorkTemplate()}/categories/${categoryId}/templates`,
             {method: 'get'},
+        );
+    }
+
+    executeWorkTemplate = (req: ExecuteWorkTemplateRequest) => {
+        return this.doFetch<ExecuteWorkTemplateResponse>(
+            `${this.getBaseWorkTemplate()}/execute`,
+            {method: 'post', body: JSON.stringify(req)},
         );
     }
 
@@ -2163,6 +2168,13 @@ export default class Client4 {
         );
     };
 
+    getPostEditHistory = (postId: string) => {
+        return this.doFetch<Post[]>(
+            `${this.getPostRoute(postId)}/edit_history`,
+            {method: 'get'},
+        );
+    }
+
     addReaction = (userId: string, postId: string, emojiName: string) => {
         this.trackEvent('api', 'api_reactions_save', {post_id: postId});
 
@@ -3421,7 +3433,7 @@ export default class Client4 {
         );
     };
 
-    // Plugin Routes - EXPERIMENTAL - SUBJECT TO CHANGE
+    // Plugin Routes
 
     uploadPlugin = async (fileData: File, force = false) => {
         this.trackEvent('api', 'api_plugin_upload');
@@ -3461,6 +3473,13 @@ export default class Client4 {
         );
     };
 
+    getRemoteMarketplacePlugins = (filter: string) => {
+        return this.doFetch<MarketplacePlugin[]>(
+            `${this.getPluginsMarketplaceRoute()}${buildQueryString({filter: filter || '', remote_only: true})}`,
+            {method: 'get'},
+        );
+    }
+
     getMarketplacePlugins = (filter: string, localOnly = false) => {
         return this.doFetch<MarketplacePlugin[]>(
             `${this.getPluginsMarketplaceRoute()}${buildQueryString({filter: filter || '', local_only: localOnly})}`,
@@ -3477,9 +3496,6 @@ export default class Client4 {
         );
     }
 
-    // This function belongs to the Apps Framework feature.
-    // Apps Framework feature is experimental, and this function is susceptible
-    // to breaking changes without pushing the major version of this package.
     getMarketplaceApps = (filter: string) => {
         return this.doFetch<MarketplaceApp[]>(
             `${this.getAppsProxyRoute()}/api/v1/marketplace${buildQueryString({filter: filter || ''})}`,
@@ -3522,43 +3538,7 @@ export default class Client4 {
         );
     };
 
-    getBoardsUsage = () => {
-        return this.doFetch<BoardsUsageResponse>(
-            `${this.getBoardsRoute()}/limits`,
-            {method: 'get'},
-        );
-    }
-
-    getBoardsTemplates = (teamId = '0') => {
-        return this.doFetch<BoardTemplate[]>(
-            `${this.getBoardsRoute()}/teams/${teamId}/templates`,
-            {method: 'get'},
-        );
-    }
-
-    createBoard = (board: Board) => {
-        return this.doFetch<CreateBoardResponse>(
-            `${this.getBoardsRoute()}/boards`,
-            {method: 'POST', body: JSON.stringify({...board})},
-        );
-    }
-
-    createBoardFromTemplate = (boardTemplateId: string, teamId: string) => {
-        return this.doFetch<CreateBoardResponse>(
-            `${this.getBoardsRoute()}/boards/${boardTemplateId}/duplicate?asTemplate=false&toTeam=${teamId}`,
-            {method: 'POST'},
-        );
-    }
-
-    patchBoard = (newBoardId: string, boardPatch: BoardPatch) => {
-        return this.doFetch<Board>(
-            `${this.getBoardsRoute()}/boards/${newBoardId}`,
-            {method: 'PATCH', body: JSON.stringify({...boardPatch})},
-        );
-    }
-
     // Groups
-
     linkGroupSyncable = (groupID: string, syncableID: string, syncableType: string, patch: SyncablePatch) => {
         return this.doFetch<GroupSyncable>(
             `${this.getGroupRoute(groupID)}/${syncableType}s/${syncableID}/link`,
@@ -3671,9 +3651,6 @@ export default class Client4 {
         );
     }
 
-    // This function belongs to the Apps Framework feature.
-    // Apps Framework feature is experimental, and this function is susceptible
-    // to breaking changes without pushing the major version of this package.
     executeAppCall = async (call: AppCallRequest, trackAsSubmit: boolean) => {
         const callCopy: AppCallRequest = {
             ...call,
@@ -3689,9 +3666,6 @@ export default class Client4 {
         );
     }
 
-    // This function belongs to the Apps Framework feature.
-    // Apps Framework feature is experimental, and this function is susceptible
-    // to breaking changes without pushing the major version of this package.
     getAppsBindings = async (userID: string, channelID: string, teamID: string) => {
         const params = {
             user_id: userID,
@@ -3955,10 +3929,10 @@ export default class Client4 {
         );
     }
 
-    subscribeCloudProduct = (productId: string, seats = 0) => {
+    subscribeCloudProduct = (productId: string, seats = 0, feedback?: Feedback) => {
         return this.doFetch<CloudCustomer>(
             `${this.getCloudRoute()}/subscription`,
-            {method: 'put', body: JSON.stringify({product_id: productId, seats})},
+            {method: 'put', body: JSON.stringify({product_id: productId, seats, feedback})},
         );
     }
 
@@ -4131,6 +4105,13 @@ export default class Client4 {
         return this.doFetch<DataResponse>(this.getGraphQLUrl(), {method: 'post', body: query});
     }
 
+    getCallsChannelState = (channelId: string) => {
+        return this.doFetch<{enabled: boolean; id: string}>(
+            `${this.url}/plugins/${'com.mattermost.calls'}/${channelId}`,
+            {method: 'get'},
+        );
+    }
+
     // Client Helpers
 
     protected doFetch = async <ClientDataResponse>(url: string, options: Options): Promise<ClientDataResponse> => {
@@ -4239,6 +4220,34 @@ export default class Client4 {
             },
         );
     };
+
+    submitTrueUpReview = () => {
+        return this.doFetch(
+            `${this.getBaseRoute()}/license/review`,
+            {method: 'post'},
+        );
+    }
+
+    getTrueUpReviewStatus = () => {
+        return this.doFetch(
+            `${this.getBaseRoute()}/license/review/status`,
+            {method: 'get'},
+        );
+    }
+
+    cwsAvailabilityCheck = () => {
+        return this.doFetch<StatusOK>(
+            `${this.getCloudRoute()}/check-cws-connection`,
+            {method: 'get'},
+        );
+    }
+
+    deleteWorkspace = (deletionRequest: WorkspaceDeletionRequest) => {
+        return this.doFetch<StatusOK>(
+            `${this.getCloudRoute()}/delete-workspace`,
+            {method: 'delete', body: JSON.stringify(deletionRequest)},
+        );
+    }
 }
 
 export function parseAndMergeNestedHeaders(originalHeaders: any) {
