@@ -115,6 +115,7 @@ export type Props = {
     isPostPriorityEnabled: boolean;
     isCardOpen?: boolean;
     shouldShowDotMenu: boolean;
+    tourTipsEnabled: boolean;
 };
 
 const PostComponent = (props: Props): JSX.Element => {

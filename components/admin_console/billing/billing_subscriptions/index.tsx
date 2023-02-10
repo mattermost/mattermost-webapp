@@ -20,7 +20,11 @@ import {
     getCloudCustomer as selectCloudCustomer,
     getCloudErrors,
 } from 'mattermost-redux/selectors/entities/cloud';
-import {TrialPeriodDays} from 'utils/constants';
+import {
+    CloudProducts,
+    RecurringIntervals,
+    TrialPeriodDays,
+} from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
 import {hasSomeLimits} from 'utils/limits';
 import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
@@ -29,13 +33,13 @@ import {useQuery} from 'utils/http_utils';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
+import DeleteWorkspaceCTA from 'components/admin_console/billing//delete_workspace/delete_workspace_cta';
 
 import PlanDetails from '../plan_details';
 import BillingSummary from '../billing_summary';
 import {GlobalState} from '@mattermost/types/store';
 
 import ContactSalesCard from './contact_sales_card';
-import CancelSubscription from './cancel_subscription';
 import Limits from './limits';
 
 import {
@@ -43,6 +47,7 @@ import {
     paymentFailedBanner,
 } from './billing_subscriptions';
 import LimitReachedBanner from './limit_reached_banner';
+import CancelSubscription from './cancel_subscription';
 import {ToYearlyNudgeBanner} from './to_yearly_nudge_banner';
 
 import './billing_subscriptions.scss';
@@ -69,6 +74,7 @@ const BillingSubscriptions = () => {
     const actionQueryParam = query.get('action');
 
     const product = useSelector(getSubscriptionProduct);
+    const isAnnualProfessionalOrEnterprise = (product?.sku === CloudProducts.ENTERPRISE || product?.sku === CloudProducts.PROFESSIONAL) && product?.recurring_interval === RecurringIntervals.YEAR;
 
     const openPricingModal = useOpenPricingModal();
 
@@ -160,10 +166,12 @@ const BillingSubscriptions = () => {
                                 onUpgradeMattermostCloud={openPricingModal}
                             />
                         )}
-                        <CancelSubscription
-                            cancelAccountLink={cancelAccountLink}
-                            isFreeTrial={isFreeTrial}
-                        />
+                        {isAnnualProfessionalOrEnterprise && !isFreeTrial ?
+                            <CancelSubscription
+                                cancelAccountLink={cancelAccountLink}
+                            /> :
+                            <DeleteWorkspaceCTA/>
+                        }
                     </>}
                 </div>
             </div>
