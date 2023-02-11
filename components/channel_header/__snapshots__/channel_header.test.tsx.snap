@@ -4825,6 +4825,11 @@ exports[`components/ChannelHeader should render the new pinned posts badge 1`] =
             className="header-popover-text-measurer"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -4868,6 +4873,11 @@ exports[`components/ChannelHeader should render the new pinned posts badge 1`] =
                   onClick={[Function]}
                 >
                   <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
                     message="header"
                     options={
                       Object {
@@ -4882,6 +4892,11 @@ exports[`components/ChannelHeader should render the new pinned posts badge 1`] =
               </Popover>
             </Overlay>
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -4935,6 +4950,7 @@ exports[`components/ChannelHeader should render the new pinned posts badge 1`] =
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
