@@ -38,6 +38,7 @@ export type PluginsState = {
         UserGuideDropdownItem: PluginComponent[];
         FilesWillUploadHook: PluginComponent[];
         NeedsTeamComponent: NeedsTeamComponent[];
+        CreateBoardFromTemplate: PluginComponent[];
     };
 
     postTypes: {

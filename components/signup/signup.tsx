@@ -50,7 +50,7 @@ import PasswordInput from 'components/widgets/inputs/password_input/password_inp
 import SaveButton from 'components/save_button';
 
 import {Constants, ItemStatus, ValidationErrors} from 'utils/constants';
-import {isValidUsername, isValidPassword, getPasswordConfig, getRoleFromTrackFlow} from 'utils/utils';
+import {isValidUsername, isValidPassword, getPasswordConfig, getRoleFromTrackFlow, getMediumFromTrackFlow} from 'utils/utils';
 
 import './signup.scss';
 
@@ -281,7 +281,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
 
     useEffect(() => {
         dispatch(removeGlobalItem('team'));
-        trackEvent('signup', 'signup_user_01_welcome', getRoleFromTrackFlow());
+        trackEvent('signup', 'signup_user_01_welcome', {...getRoleFromTrackFlow(), ...getMediumFromTrackFlow()});
 
         onWindowResize();
 

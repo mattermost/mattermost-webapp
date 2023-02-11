@@ -82,7 +82,7 @@ describe('System Console - Subscriptions section', () => {
         const professionalYearlySubscription = {
             id: 'prod_MYrZ0xObCXOyVr',
             sku: 'cloud-professional',
-            price_per_seat: 96,
+            price_per_seat: 8,
             recurring_interval: 'year',
             name: 'Cloud Professional Yearly',
             cross_sells_to: 'prod_K0AxuWCDoDD9Qq',

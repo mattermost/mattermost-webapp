@@ -188,7 +188,6 @@ class SwitchChannelSuggestion extends Suggestion {
                     userID={userItem.id}
                     emojiStyle={{
                         marginBottom: 2,
-                        marginLeft: 8,
                     }}
                 />
             );
@@ -248,7 +247,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 <div className='suggestion-list__ellipsis suggestion-list__flex'>
                     <span className='suggestion-list__main'>
                         <span className={classNames({'suggestion-list__unread': item.unread && !channelIsArchived})}>{name}</span>
-                        {showSlug && <span className='suggestion-list__desc'>{description}</span>}
+                        {showSlug && description && <span className='ml-2 suggestion-list__desc'>{description}</span>}
                     </span>
                     {customStatus}
                     {sharedIcon}
