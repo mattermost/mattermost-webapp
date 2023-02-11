@@ -64,7 +64,7 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
 };
 
 // Should be based only from the generated default config from mattermost-server via "make config-reset"
-// Based on v7.8 server
+// Based on v7.9 server
 const defaultServerConfig: AdminConfig = {
     ServiceSettings: {
         SiteURL: '',
@@ -87,7 +87,7 @@ const defaultServerConfig: AdminConfig = {
         IdleTimeout: 60,
         MaximumLoginAttempts: 10,
         GoroutineHealthThreshold: -1,
-        EnableOAuthServiceProvider: false,
+        EnableOAuthServiceProvider: true,
         EnableIncomingWebhooks: true,
         EnableOutgoingWebhooks: true,
         EnableCommands: true,
@@ -683,8 +683,10 @@ const defaultServerConfig: AdminConfig = {
         PeopleProduct: false,
         AnnualSubscription: false,
         ReduceOnBoardingTaskList: false,
+        OnboardingAutoShowLinkedBoard: true,
         ThreadsEverywhere: false,
         GlobalDrafts: true,
+        OnboardingTourTips: true,
     },
     ImportSettings: {
         Directory: './import',

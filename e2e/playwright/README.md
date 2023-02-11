@@ -49,6 +49,9 @@ npm run test -- login --project=chrome
 
 # Or run all tests
 npm run test
+
+# Update snapshots
+npm run test -- login --update-snapshots
 ```
 
 ## Page/Component Object Model

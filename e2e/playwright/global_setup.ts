@@ -107,16 +107,19 @@ async function printClientInfo(client: Client) {
     const config = await client.getClientConfigOld();
     // eslint-disable-next-line no-console
     console.log(`Build Info:
-  - BuildNumber             = ${config.BuildNumber}
-  - BuildDate               = ${config.BuildDate}
-  - Version                 = ${config.Version}
-  - BuildHash               = ${config.BuildHash}
-  - BuildHashEnterprise     = ${config.BuildHashEnterprise}
-  - BuildEnterpriseReady    = ${config.BuildEnterpriseReady}
-  - BuildHashBoards         = ${config.BuildHashBoards}
-  - BuildBoards             = ${config.BuildBoards}
-  - BuildHashPlaybooks      = ${config.BuildHashPlaybooks}
-  - TelemetryId             = ${config.TelemetryId}`);
+  - BuildNumber                 = ${config.BuildNumber}
+  - BuildDate                   = ${config.BuildDate}
+  - Version                     = ${config.Version}
+  - BuildHash                   = ${config.BuildHash}
+  - BuildHashEnterprise         = ${config.BuildHashEnterprise}
+  - BuildEnterpriseReady        = ${config.BuildEnterpriseReady}
+  - BuildHashBoards             = ${config.BuildHashBoards}
+  - BuildBoards                 = ${config.BuildBoards}
+  - BuildHashPlaybooks          = ${config.BuildHashPlaybooks}
+  - FeatureFlagAppsEnabled      = ${config.FeatureFlagAppsEnabled}
+  - FeatureFlagBoardsProduct    = ${config.FeatureFlagBoardsProduct}
+  - FeatureFlagCallsEnabled     = ${config.FeatureFlagCallsEnabled}
+  - TelemetryId                 = ${config.TelemetryId}`);
 }
 
 async function ensurePluginsLoaded(client: Client) {
