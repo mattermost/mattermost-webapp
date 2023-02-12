@@ -66,6 +66,12 @@ function Resizable({
         if (onLineDoubleClick) {
             onLineDoubleClick();
         }
+
+        setIsResizeLineSelected(true);
+
+        requestAnimationFrame(() => {
+            setIsResizeLineSelected(false);
+        });
     }, [defaultWidth, onLineDoubleClick]);
 
     const handleMouseDown = useCallback((e: React.MouseEvent, dir: ResizeDirection) => {
