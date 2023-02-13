@@ -17,7 +17,7 @@ export const getAllLogs = createSelector(
     getLogs,
     (logs) => {
         return Object.values(logs).reduce<LogObject[]>((acc, log) => {
-            // @ts-expect-error
+            // @ts-expect-error: object that is returned from the server contains an array of logs but ts gets confused that its one log object
             acc.push(...log);
             return acc;
         }, []);
