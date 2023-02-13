@@ -171,7 +171,7 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
                         <div className='form-group'>
                             <div className='col-sm-10'>
                                 <div
-                                    className={`${groupClass} ${this.state.isEmailError ? 'has-error' : ''}`}
+                                    className={`${groupClass}${this.state.isEmailError ? ' has-error' : ''}`}
                                     data-testid='resetEmailForm'
                                 >
                                     <span
@@ -195,7 +195,7 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
 
                                 {this.props.user?.id === this.props.currentUserId && (
                                     <div
-                                        className={`${groupClass} ${this.state.isCurrentPasswordError ? 'has-error' : ''}`}
+                                        className={`${groupClass}${this.state.isCurrentPasswordError ? ' has-error' : ''}`}
                                         data-testid='resetEmailForm'
                                     >
                                         <span

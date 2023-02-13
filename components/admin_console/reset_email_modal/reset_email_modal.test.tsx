@@ -56,8 +56,7 @@ describe('components/admin_console/reset_email_modal/reset_email_modal.tsx', () 
     });
 
     test('should not update email since the email is empty', () => {
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        const patchUser = jest.fn<ActionResult, Array<{}>>(() => ({data: ''}));
+        const patchUser = jest.fn(() => ({data: ''}));
         const props = {...baseProps, actions: {patchUser}};
         const wrapper = mountWithIntl(<ResetEmailModal {...props}/>);
 
@@ -73,8 +72,7 @@ describe('components/admin_console/reset_email_modal/reset_email_modal.tsx', () 
     });
 
     test('should not update email since the email is invalid', () => {
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        const patchUser = jest.fn<ActionResult, Array<{}>>(() => ({data: ''}));
+        const patchUser = jest.fn(() => ({data: ''}));
         const email = 'arvinnow';
         const props = {...baseProps, actions: {patchUser}};
         const wrapper = mountWithIntl(<ResetEmailModal {...props}/>);
@@ -91,8 +89,7 @@ describe('components/admin_console/reset_email_modal/reset_email_modal.tsx', () 
     });
 
     test('should update email since the email is valid', () => {
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        const patchUser = jest.fn<ActionResult, Array<{}>>(() => ({data: ''}));
+        const patchUser = jest.fn(() => ({data: ''}));
         const email = 'arvin.darmawan@gmail.com';
         const props = {...baseProps, actions: {patchUser}};
         const wrapper = mountWithIntl(<ResetEmailModal {...props}/>);
