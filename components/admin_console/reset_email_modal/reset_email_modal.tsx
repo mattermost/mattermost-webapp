@@ -12,6 +12,8 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 
 type State = {
     error: JSX.Element|string|null;
+    isEmailError: boolean;
+    isCurrentPasswordError: boolean;
 }
 
 type Props = {
@@ -37,10 +39,58 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
 
         this.state = {
             error: null,
+            isEmailError: false,
+            isCurrentPasswordError: false,
         };
 
         this.emailRef = React.createRef();
         this.currentPasswordRef = React.createRef();
+    }
+
+    public componentDidUpdate(prevProps: Props): void {
+        if (!prevProps.show && this.props.show) {
+            this.resetState();
+        }
+    }
+
+    private resetState = (): void => {
+        this.setState({
+            error: null,
+            isEmailError: false,
+            isCurrentPasswordError: false,
+        });
+    }
+
+    private isEmailValid = (): boolean => {
+        if (!this.emailRef.current || !this.emailRef.current.value || !isEmail(this.emailRef.current.value)) {
+            const errMsg = (
+                <FormattedMessage
+                    id='user.settings.general.validEmail'
+                    defaultMessage='Please enter a valid email address.'
+                />
+            );
+            this.setState({error: errMsg, isEmailError: true});
+            return false;
+        }
+
+        this.setState({error: null, isEmailError: false});
+        return true;
+    }
+
+    private isCurrentPasswordValid = (): boolean => {
+        if (!this.currentPasswordRef.current || !this.currentPasswordRef.current.value) {
+            const errMsg = (
+                <FormattedMessage
+                    id='admin.reset_email.missing_current_password'
+                    defaultMessage='Please enter your current password.'
+                />
+            );
+
+            this.setState({error: errMsg, isCurrentPasswordError: true});
+            return false;
+        }
+        this.setState({error: null, isCurrentPasswordError: false});
+        return true;
     }
 
     private doSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -49,31 +99,20 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
             return;
         }
 
-        let email = '';
-        if (this.emailRef.current) {
-            email = this.emailRef.current.value;
-
-            // Function isEmail already handles empty / null value
-            if (!isEmail(email)) {
-                const errMsg = (
-                    <FormattedMessage
-                        id='user.settings.general.validEmail'
-                        defaultMessage='Please enter a valid email address.'
-                    />
-                );
-                this.setState({error: errMsg});
-                return;
-            }
-            email = email.trim().toLowerCase();
+        if (!this.isEmailValid()) {
+            return;
         }
 
         const user = {
             ...this.props.user,
-            email,
+            email: (this.emailRef.current as HTMLInputElement).value.trim().toLowerCase(),
         };
 
         if (this.props.user?.id === this.props.currentUserId) {
-            user.password = this.currentPasswordRef.current?.value || '';
+            if (!this.isCurrentPasswordValid()) {
+                return;
+            }
+            user.password = (this.currentPasswordRef.current as HTMLInputElement).value;
         }
 
         const result = await this.props.actions.patchUser(user);
@@ -81,6 +120,7 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
             this.setState({error: result.error.message});
             return;
         }
+
         this.props.onModalSubmit(this.props.user);
     }
 
@@ -97,13 +137,7 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
             return <div/>;
         }
 
-        let urlClass = 'input-group input-group--limit mb-5';
-        let hasError = false;
-
-        if (this.state.error) {
-            urlClass += ' has-error';
-            hasError = true;
-        }
+        const groupClass = 'input-group input-group--limit mb-5';
 
         const title = (
             <FormattedMessage
@@ -137,7 +171,7 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
                         <div className='form-group'>
                             <div className='col-sm-10'>
                                 <div
-                                    className={urlClass}
+                                    className={`${groupClass} ${this.state.isEmailError ? 'has-error' : ''}`}
                                     data-testid='resetEmailForm'
                                 >
                                     <span
@@ -161,7 +195,7 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
 
                                 {this.props.user?.id === this.props.currentUserId && (
                                     <div
-                                        className={urlClass}
+                                        className={`${groupClass} ${this.state.isCurrentPasswordError ? 'has-error' : ''}`}
                                         data-testid='resetEmailForm'
                                     >
                                         <span
@@ -182,7 +216,7 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
                                     </div>
                                 )}
 
-                                {hasError && (
+                                {this.state.error && (
                                     <div className='has-error'>
                                         <p className='input__help error'>
                                             {this.state.error}
