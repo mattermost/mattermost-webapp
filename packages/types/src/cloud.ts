@@ -217,3 +217,13 @@ export interface CreateSubscriptionRequest {
     seats: number;
     internal_purchase_order?: string;
 }
+
+export type Feedback = {
+    reason: string;
+    comments: string;
+}
+
+export type WorkspaceDeletionRequest = {
+    subscription_id: string;
+    feedback: Feedback;
+}

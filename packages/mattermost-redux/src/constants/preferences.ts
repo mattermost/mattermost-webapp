@@ -76,6 +76,9 @@ const Preferences = {
 
     NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED: 'channel_with_board_tip_showed',
 
+    AUTO_LINKED_BOARD: 'auto_linked_board',
+    CATEGORY_ONBOARDING: 'category_onboarding',
+
     CATEGORY_DRAFTS: 'drafts',
     DRAFTS_TOUR_TIP_SHOWED: 'drafts_tour_tip_showed',
 
