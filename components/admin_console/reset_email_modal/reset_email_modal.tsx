@@ -117,7 +117,11 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
 
         const result = await this.props.actions.patchUser(user);
         if ('error' in result) {
-            this.setState({error: result.error.message});
+            this.setState({
+                error: result.error.message,
+                isEmailError: result.error.server_error_id === 'app.user.save.email_exists.app_error',
+                isCurrentPasswordError: result.error.server_error_id === 'api.user.check_user_password.invalid.app_error',
+            });
             return;
         }
 
