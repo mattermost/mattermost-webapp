@@ -17,6 +17,7 @@ export const getAllLogs = createSelector(
     getLogs,
     (logs) => {
         return Object.values(logs).reduce<LogObject[]>((acc, log) => {
+            // @ts-expect-error
             acc.push(...log);
             return acc;
         }, []);
