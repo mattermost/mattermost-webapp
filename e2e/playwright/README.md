@@ -23,7 +23,7 @@ npm run test -- login --project=chrome
 npm run test
 ```
 
-#### 3. Inspect test results at `/test-results` folder when something failed unexpectedly.
+#### 3. Inspect test results at `/test_results` folder when something failed unexpectedly.
 
 ## Updating screenshots is strictly via Playwright's docker container for consistency
 

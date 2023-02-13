@@ -6,14 +6,16 @@ import {PlaywrightTestConfig, devices} from '@playwright/test';
 import {duration} from '@e2e-support/utils';
 import testConfig from '@e2e-test.config';
 
+const reporterOutputFolder = 'playwright_report';
+
 const config: PlaywrightTestConfig = {
     globalSetup: require.resolve('./global_setup'),
-    forbidOnly: !!process.env.CI,
-    outputDir: './test-results',
+    forbidOnly: testConfig.isCI,
+    outputDir: './test_results',
     retries: 1,
     testDir: 'tests',
     timeout: duration.one_min,
-    workers: process.env.CI && process.env.PW_WORKERS ? parseInt(process.env.PW_WORKERS, 10) : 1,
+    workers: testConfig.workers,
     expect: {
         toMatchSnapshot: {
             threshold: 0.4,
@@ -22,7 +24,7 @@ const config: PlaywrightTestConfig = {
     },
     use: {
         baseURL: testConfig.baseURL,
-        headless: true,
+        headless: testConfig.headless,
         locale: 'en-US',
         screenshot: 'only-on-failure',
         timezoneId: 'America/Los_Angeles',
@@ -72,9 +74,9 @@ const config: PlaywrightTestConfig = {
         },
     ],
     reporter: [
-        ['html', {open: 'never'}],
-        ['json', {outputFile: 'playwright-report/results.json'}],
-        ['junit', {outputFile: 'playwright-report/results.xml'}],
+        ['html', {open: 'never', outputFolder: reporterOutputFolder}],
+        ['json', {outputFile: `${reporterOutputFolder}/results.json`}],
+        ['junit', {outputFile: `${reporterOutputFolder}/results.xml`}],
         ['list'],
     ],
 };
