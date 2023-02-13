@@ -40,7 +40,29 @@
         padding: 4px;
     }
 
-    .rdp-button{
+    .rdp-button {
+        font-weight: 600;
+
+        &.rdp-day {
+            color: var(--center-channel-color);
+
+            &_selected {
+                color: var(--button-color);
+
+                &:focus-visible {
+                    &:not([disabled]) {
+                        background-color: var(--rdp-accent-color);
+                    }
+                }
+
+                &:hover {
+                    color: var(--button-color);
+                    background-color: var(--rdp-accent-color);
+                }
+            }
+        }
+        
+
         &:hover {
             color: var(--center-channel-color);
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -63,6 +85,10 @@
         &.rdp-nav_button {
             border-radius: 4px;
             color: rgba(var(--center-channel-color-rgb), 0.56);
+
+            &_previous {
+                margin-right: 8px;
+            }
     
             .icon {
                 font-weight: 400;
@@ -88,8 +114,5 @@
                 }
             }
         }
-
-        
     }
-    
 }

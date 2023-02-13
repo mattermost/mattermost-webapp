@@ -68,6 +68,7 @@ export default class SearchDateSuggestion extends Suggestion {
                 initialFocus={this.state.datePickerFocused}
                 onMonthChange={this.props.preventClose}
                 id='searchDatePicker'
+                selected={this.props.currentDate}
                 components={{
                     IconRight: this.iconRight,
                     IconLeft: this.iconLeft,
