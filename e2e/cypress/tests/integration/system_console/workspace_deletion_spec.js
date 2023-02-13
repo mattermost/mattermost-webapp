@@ -9,7 +9,7 @@
 
 // Group: @system_console
 
-xdescribe('Workspace deletion', () => {
+describe('Workspace deletion', () => {
     const host = window.location.host;
 
     beforeEach(() => {
