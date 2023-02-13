@@ -7,12 +7,13 @@ import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 import {showActionsDropdownPulsatingDot} from 'selectors/actions_menu';
 import {setActionsMenuInitialisationState} from 'mattermost-redux/actions/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getPost, makeGetCommentCountForPost, makeIsPostCommentMention, isPostAcknowledgementsEnabled, isPostPriorityEnabled} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, makeGetCommentCountForPost, makeIsPostCommentMention, isPostAcknowledgementsEnabled, isPostPriorityEnabled, UserActivityPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {
     get,
     getBool,
     isCollapsedThreadsEnabled,
+    onboardingTourTipsEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam, getCurrentTeamId, getTeam, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
@@ -46,7 +47,7 @@ import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import PostComponent from './post_component';
 
 interface OwnProps {
-    post?: Post;
+    post?: Post | UserActivityPost;
     previousPostId?: string;
     postId?: string;
     teamId?: string;
@@ -98,10 +99,10 @@ function removePostAndCloseRHS(post: ExtendedPost) {
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let post;
-    if (ownProps.postId) {
-        post = getPost(state, ownProps.postId);
-    } else {
+    if (ownProps.post) {
         post = ownProps.post;
+    } else if (ownProps.postId) {
+        post = getPost(state, ownProps.postId);
     }
     if (!post) {
         return null;
@@ -127,6 +128,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const isBot = Boolean(user && user.is_bot);
     const highlightedPostId = getHighlightedPostId(state);
     const showActionsMenuPulsatingDot = showActionsDropdownPulsatingDot(state);
+    const tourTipsEnabled = onboardingTourTipsEnabled(state);
     const selectedCard = getSelectedPostCard(state);
 
     let emojis: Emoji[] = [];
@@ -200,6 +202,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         colorizeUsernames: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLORIZE_USERNAMES, Preferences.COLORIZE_USERNAMES_DEFAULT) === 'true',
         shouldShowActionsMenu: shouldShowActionsMenu(state, post),
         showActionsMenuPulsatingDot,
+        tourTipsEnabled,
         shortcutReactToLastPostEmittedFrom,
         isBot,
         collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),

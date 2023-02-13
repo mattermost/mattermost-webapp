@@ -250,6 +250,7 @@ function MenuModal(props: MenuModalProps) {
                 backdrop={true}
                 ariaLabel={props.menuAriaLabel}
                 onExited={handleModalExited}
+                enforceFocus={false}
             >
                 <MuiMenuList // serves as backdrop for modals
                     component='div'
