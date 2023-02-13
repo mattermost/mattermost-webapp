@@ -16,6 +16,7 @@ type State = {
 
 type Props = {
     user?: UserProfile;
+    currentUserId: string;
     show: boolean;
     onModalSubmit: (user?: UserProfile) => void;
     onModalDismissed: () => void;
@@ -26,6 +27,7 @@ type Props = {
 
 export default class ResetEmailModal extends React.PureComponent<Props, State> {
     private emailRef: React.RefObject<HTMLInputElement>;
+    private currentPasswordRef: React.RefObject<HTMLInputElement>;
     public static defaultProps: Partial<Props> = {
         show: false,
     };
@@ -38,6 +40,7 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
         };
 
         this.emailRef = React.createRef();
+        this.currentPasswordRef = React.createRef();
     }
 
     private doSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -50,7 +53,7 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
         if (this.emailRef.current) {
             email = this.emailRef.current.value;
 
-            // function isEmail aready handle empty / null value
+            // Function isEmail already handles empty / null value
             if (!isEmail(email)) {
                 const errMsg = (
                     <FormattedMessage
@@ -68,6 +71,10 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
             ...this.props.user,
             email,
         };
+
+        if (this.props.user?.id === this.props.currentUserId) {
+            user.password = this.currentPasswordRef.current?.value || '';
+        }
 
         const result = await this.props.actions.patchUser(user);
         if ('error' in result) {
@@ -90,12 +97,12 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
             return <div/>;
         }
 
-        let urlClass = 'input-group input-group--limit';
-        let errorMsg = null;
+        let urlClass = 'input-group input-group--limit mb-5';
+        let hasError = false;
 
         if (this.state.error) {
             urlClass += ' has-error';
-            errorMsg = <div className='has-error'><p className='input__help error'>{this.state.error}</p></div>;
+            hasError = true;
         }
 
         const title = (
@@ -151,7 +158,37 @@ export default class ResetEmailModal extends React.PureComponent<Props, State> {
                                         autoFocus={true}
                                     />
                                 </div>
-                                {errorMsg}
+
+                                {this.props.user?.id === this.props.currentUserId && (
+                                    <div
+                                        className={urlClass}
+                                        data-testid='resetEmailForm'
+                                    >
+                                        <span
+                                            data-toggle='tooltip'
+                                            title='Current Password'
+                                            className='input-group-addon email__group-addon'
+                                        >
+                                            <FormattedMessage
+                                                id='admin.reset_email.currentPassword'
+                                                defaultMessage='Current Password'
+                                            />
+                                        </span>
+                                        <input
+                                            type='password'
+                                            ref={this.currentPasswordRef}
+                                            className='form-control'
+                                        />
+                                    </div>
+                                )}
+
+                                {hasError && (
+                                    <div className='has-error'>
+                                        <p className='input__help error'>
+                                            {this.state.error}
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </Modal.Body>
