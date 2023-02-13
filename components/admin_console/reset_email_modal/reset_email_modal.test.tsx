@@ -24,13 +24,23 @@ describe('components/admin_console/reset_email_modal/reset_email_modal.tsx', () 
         // eslint-disable-next-line @typescript-eslint/ban-types
         actions: {patchUser: jest.fn<ActionResult, Array<{}>>(() => ({data: ''}))},
         user,
-        currentUserId: user.id,
+        currentUserId: 'random_user_id',
         show: true,
         onModalSubmit: emptyFunction,
         onModalDismissed: emptyFunction,
     };
 
-    test('should match snapshot', () => {
+    test('should match snapshot when the same user', () => {
+        const wrapper = shallow(
+            <ResetEmailModal
+                {...baseProps}
+                currentUserId={user.id}
+            />,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when not the same user', () => {
         const wrapper = shallow(
             <ResetEmailModal {...baseProps}/>,
         );
