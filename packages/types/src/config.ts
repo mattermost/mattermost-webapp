@@ -191,6 +191,7 @@ export type ClientConfig = {
     PostPriority: string;
     ReduceOnBoardingTaskList: string;
     PostAcknowledgements: string;
+    EnableChannelAutocomplete: string;
 };
 
 export type License = {
@@ -639,6 +640,10 @@ export type LocalizationSettings = {
     AvailableLocales: string;
 };
 
+export type ChannelSettings = {
+    EnableChannelAutocomplete: boolean;
+}
+
 export type SamlSettings = {
     Enable: boolean;
     EnableSyncWithLdap: boolean;
@@ -890,6 +895,7 @@ export type AdminConfig = {
     FeatureFlags: FeatureFlags;
     ImportSettings: ImportSettings;
     ExportSettings: ExportSettings;
+    ChannelSettings: ChannelSettings;
 };
 
 export type ReplicaLagSetting = {
