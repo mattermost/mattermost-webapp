@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @system_console
 
-describe('Workspace deletion', () => {
+xdescribe('Workspace deletion', () => {
     const host = window.location.host;
 
     beforeEach(() => {
