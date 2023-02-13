@@ -10,9 +10,9 @@
         font-weight: normal;
 
         button.no-style {
+            padding-left: 0;
             background: transparent;
             outline: unset;
-            padding-left: 0;
 
             &:focus {
                 outline: unset;
@@ -20,8 +20,8 @@
         }
 
         #address-same-than-billing-address {
-            height:20px;
             width: 20px;
+            height: 20px;
             margin-top: auto;
             margin-bottom: auto;
         }
