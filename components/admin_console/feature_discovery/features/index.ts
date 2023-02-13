@@ -4,6 +4,7 @@
 import LDAPFeatureDiscovery from './ldap';
 import SAMLFeatureDiscovery from './saml';
 import OpenIDFeatureDiscovery from './openid';
+import OpenIDCustomFeatureDiscovery from './openid_custom';
 import AnnouncementBannerFeatureDiscovery from './announcement_banner';
 import ComplianceExportFeatureDiscovery from './compliance_export';
 import CustomTermsOfServiceFeatureDiscovery from './custom_terms_of_service';
@@ -16,6 +17,7 @@ export {
     LDAPFeatureDiscovery,
     SAMLFeatureDiscovery,
     OpenIDFeatureDiscovery,
+    OpenIDCustomFeatureDiscovery,
     AnnouncementBannerFeatureDiscovery,
     ComplianceExportFeatureDiscovery,
     CustomTermsOfServiceFeatureDiscovery,

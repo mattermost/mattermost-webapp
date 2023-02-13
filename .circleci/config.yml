@@ -270,7 +270,7 @@ workflows:
               ignore:
                 - master
                 - /^release-.*/
-                - /^cloud-.*/
+                - cloud
       - build-docker:
           context: matterbuild-docker
           requires:
@@ -280,7 +280,7 @@ workflows:
               ignore:
                 - master
                 - /^release-.*/
-                - /^cloud-.*/
+                - cloud
       - test:
           requires:
             - type-check

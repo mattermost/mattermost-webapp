@@ -15,6 +15,7 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
 import {CloudTypes} from 'mattermost-redux/action_types';
+import {Feedback, WorkspaceDeletionRequest} from '@mattermost/types/cloud';
 
 // Returns true for success, and false for any error
 export function completeStripeAddPaymentMethod(
@@ -80,10 +81,10 @@ export function completeStripeAddPaymentMethod(
     };
 }
 
-export function subscribeCloudSubscription(productId: string, seats = 0) {
+export function subscribeCloudSubscription(productId: string, seats = 0, feedback?: Feedback) {
     return async () => {
         try {
-            await Client4.subscribeCloudProduct(productId, seats);
+            await Client4.subscribeCloudProduct(productId, seats, feedback);
         } catch (error) {
             return error;
         }
@@ -205,6 +206,17 @@ export function getTeamsUsage(): ActionFunc {
             return error;
         }
         return {data: false};
+    };
+}
+
+export function deleteWorkspace(deletionRequest: WorkspaceDeletionRequest) {
+    return async () => {
+        try {
+            await Client4.deleteWorkspace(deletionRequest);
+        } catch (error) {
+            return error;
+        }
+        return true;
     };
 }
 
