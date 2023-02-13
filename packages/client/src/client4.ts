@@ -11,9 +11,9 @@ import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
 import {
+    Address,
     Product,
     CloudCustomer,
-    Address,
     CloudCustomerPatch,
     Invoice,
     Limits,
@@ -32,6 +32,7 @@ import {
     SelfHostedSignupBootstrapResponse,
 } from '@mattermost/types/hosted_customer';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
+
 import {
     Channel,
     ChannelMemberCountsByGroup,
@@ -3929,10 +3930,18 @@ export default class Client4 {
         );
     }
 
-    subscribeCloudProduct = (productId: string, seats = 0, feedback?: Feedback) => {
+    subscribeCloudProduct = (productId: string, shippingAddress?: Address, seats = 0, feedback?: Feedback) => {
+        const body = {
+            product_id: productId,
+            seats,
+            feedback,
+        } as any;
+        if (shippingAddress) {
+            body.shipping_address = shippingAddress;
+        }
         return this.doFetch<CloudCustomer>(
             `${this.getCloudRoute()}/subscription`,
-            {method: 'put', body: JSON.stringify({product_id: productId, seats, feedback})},
+            {method: 'put', body: JSON.stringify(body)},
         );
     }
 
