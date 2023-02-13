@@ -24,6 +24,7 @@ describe('components/admin_console/reset_email_modal/reset_email_modal.tsx', () 
         // eslint-disable-next-line @typescript-eslint/ban-types
         actions: {patchUser: jest.fn<ActionResult, Array<{}>>(() => ({data: ''}))},
         user,
+        currentUserId: user.id,
         show: true,
         onModalSubmit: emptyFunction,
         onModalDismissed: emptyFunction,

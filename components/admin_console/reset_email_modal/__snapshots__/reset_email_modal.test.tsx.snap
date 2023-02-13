@@ -61,7 +61,7 @@ exports[`components/admin_console/reset_email_modal/reset_email_modal.tsx should
           className="col-sm-10"
         >
           <div
-            className="input-group input-group--limit"
+            className="input-group input-group--limit mb-5"
             data-testid="resetEmailForm"
           >
             <span
@@ -79,6 +79,25 @@ exports[`components/admin_console/reset_email_modal/reset_email_modal.tsx should
               className="form-control"
               maxLength={128}
               type="email"
+            />
+          </div>
+          <div
+            className="input-group input-group--limit mb-5"
+            data-testid="resetEmailForm"
+          >
+            <span
+              className="input-group-addon email__group-addon"
+              data-toggle="tooltip"
+              title="Current Password"
+            >
+              <MemoizedFormattedMessage
+                defaultMessage="Current Password"
+                id="admin.reset_email.currentPassword"
+              />
+            </span>
+            <input
+              className="form-control"
+              type="password"
             />
           </div>
         </div>
