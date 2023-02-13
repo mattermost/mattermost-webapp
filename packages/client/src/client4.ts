@@ -22,6 +22,8 @@ import {
     ValidBusinessEmail,
     LicenseExpandStatus,
     CreateSubscriptionRequest,
+    Feedback,
+    WorkspaceDeletionRequest,
 } from '@mattermost/types/cloud';
 import {
     SelfHostedSignupForm,
@@ -96,7 +98,6 @@ import type {
 } from '@mattermost/types/marketplace';
 import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse, PostAcknowledgement, PostAnalytics} from '@mattermost/types/posts';
 import {Draft} from '@mattermost/types/drafts';
-import {BoardPatch, BoardTemplate, Board, CreateBoardResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
 import {SamlCertificateStatus, SamlMetadataResponse} from '@mattermost/types/saml';
@@ -261,9 +262,6 @@ export default class Client4 {
         return `${this.url}${this.urlVersion}`;
     }
 
-    // This function belongs to the Apps Framework feature.
-    // Apps Framework feature is experimental, and this function is susceptible
-    // to breaking changes without pushing the major version of this package.
     getAppsProxyRoute() {
         return `${this.url}/plugins/com.mattermost.apps`;
     }
@@ -2171,6 +2169,13 @@ export default class Client4 {
         );
     };
 
+    getPostEditHistory = (postId: string) => {
+        return this.doFetch<Post[]>(
+            `${this.getPostRoute(postId)}/edit_history`,
+            {method: 'get'},
+        );
+    }
+
     addReaction = (userId: string, postId: string, emojiName: string) => {
         this.trackEvent('api', 'api_reactions_save', {post_id: postId});
 
@@ -3429,7 +3434,7 @@ export default class Client4 {
         );
     };
 
-    // Plugin Routes - EXPERIMENTAL - SUBJECT TO CHANGE
+    // Plugin Routes
 
     uploadPlugin = async (fileData: File, force = false) => {
         this.trackEvent('api', 'api_plugin_upload');
@@ -3492,9 +3497,6 @@ export default class Client4 {
         );
     }
 
-    // This function belongs to the Apps Framework feature.
-    // Apps Framework feature is experimental, and this function is susceptible
-    // to breaking changes without pushing the major version of this package.
     getMarketplaceApps = (filter: string) => {
         return this.doFetch<MarketplaceApp[]>(
             `${this.getAppsProxyRoute()}/api/v1/marketplace${buildQueryString({filter: filter || ''})}`,
@@ -3537,36 +3539,7 @@ export default class Client4 {
         );
     };
 
-    getBoardsTemplates = (teamId = '0') => {
-        return this.doFetch<BoardTemplate[]>(
-            `${this.getBoardsRoute()}/teams/${teamId}/templates`,
-            {method: 'get'},
-        );
-    }
-
-    createBoard = (board: Board) => {
-        return this.doFetch<CreateBoardResponse>(
-            `${this.getBoardsRoute()}/boards`,
-            {method: 'POST', body: JSON.stringify({...board})},
-        );
-    }
-
-    createBoardFromTemplate = (boardTemplateId: string, teamId: string) => {
-        return this.doFetch<CreateBoardResponse>(
-            `${this.getBoardsRoute()}/boards/${boardTemplateId}/duplicate?asTemplate=false&toTeam=${teamId}`,
-            {method: 'POST'},
-        );
-    }
-
-    patchBoard = (newBoardId: string, boardPatch: BoardPatch) => {
-        return this.doFetch<Board>(
-            `${this.getBoardsRoute()}/boards/${newBoardId}`,
-            {method: 'PATCH', body: JSON.stringify({...boardPatch})},
-        );
-    }
-
     // Groups
-
     linkGroupSyncable = (groupID: string, syncableID: string, syncableType: string, patch: SyncablePatch) => {
         return this.doFetch<GroupSyncable>(
             `${this.getGroupRoute(groupID)}/${syncableType}s/${syncableID}/link`,
@@ -3679,9 +3652,6 @@ export default class Client4 {
         );
     }
 
-    // This function belongs to the Apps Framework feature.
-    // Apps Framework feature is experimental, and this function is susceptible
-    // to breaking changes without pushing the major version of this package.
     executeAppCall = async (call: AppCallRequest, trackAsSubmit: boolean) => {
         const callCopy: AppCallRequest = {
             ...call,
@@ -3697,9 +3667,6 @@ export default class Client4 {
         );
     }
 
-    // This function belongs to the Apps Framework feature.
-    // Apps Framework feature is experimental, and this function is susceptible
-    // to breaking changes without pushing the major version of this package.
     getAppsBindings = async (userID: string, channelID: string, teamID: string) => {
         const params = {
             user_id: userID,
@@ -3963,10 +3930,11 @@ export default class Client4 {
         );
     }
 
-    subscribeCloudProduct = (productId: string, shippingAddress?: Address, seats = 0) => {
+    subscribeCloudProduct = (productId: string, shippingAddress?: Address, seats = 0, feedback?: Feedback) => {
         const body = {
             product_id: productId,
             seats,
+            feedback,
         } as any;
         if (shippingAddress) {
             body.shipping_address = shippingAddress;
@@ -4280,6 +4248,13 @@ export default class Client4 {
         return this.doFetch<StatusOK>(
             `${this.getCloudRoute()}/check-cws-connection`,
             {method: 'get'},
+        );
+    }
+
+    deleteWorkspace = (deletionRequest: WorkspaceDeletionRequest) => {
+        return this.doFetch<StatusOK>(
+            `${this.getCloudRoute()}/delete-workspace`,
+            {method: 'delete', body: JSON.stringify(deletionRequest)},
         );
     }
 }

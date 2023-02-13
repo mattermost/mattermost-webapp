@@ -36,7 +36,6 @@ export function makeGetMentionKeysForPost(): (
         (mentionKeysWithoutGroups, post, groupMentionKeys) => {
             let mentionKeys = mentionKeysWithoutGroups;
             if (!post?.props?.disable_group_highlight) {
-                // eslint-disable-line camelcase
                 mentionKeys = mentionKeys.concat(groupMentionKeys);
             }
 

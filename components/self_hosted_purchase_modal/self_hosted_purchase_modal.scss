@@ -458,12 +458,18 @@
     }
 
     .signup-consequences {
+        display: flex;
+        flex-direction: column;
         margin-top: 24px;
         color: rgba(var(--center-channel-color-rgb), 0.72);
         font-size: 12px;
         font-style: normal;
         font-weight: 400;
         line-height: 16px;
+
+        span:first-of-type {
+            margin-bottom: 10px;
+        }
     }
 
     .submitting,

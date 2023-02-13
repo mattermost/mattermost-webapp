@@ -225,3 +225,12 @@ export const areShippingDetailsValid = (address: Address | null | undefined): bo
     }
     return Boolean(address.city && address.country && address.line1 && address.postal_code && address.state);
 };
+export type Feedback = {
+    reason: string;
+    comments: string;
+}
+
+export type WorkspaceDeletionRequest = {
+    subscription_id: string;
+    feedback: Feedback;
+}

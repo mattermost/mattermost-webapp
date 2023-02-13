@@ -8,10 +8,6 @@ import {AppBinding, AppCommandFormMap, AppsState} from '@mattermost/types/apps';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {validateBindings} from 'mattermost-redux/utils/apps';
 
-// This file's contents belong to the Apps Framework feature.
-// Apps Framework feature is experimental, and the contents of this file are
-// susceptible to breaking changes without pushing the major version of this package.
-
 export function mainBindings(state: AppBinding[] = [], action: GenericAction): AppBinding[] {
     switch (action.type) {
     case AppsTypes.FAILED_TO_FETCH_APP_BINDINGS: {
