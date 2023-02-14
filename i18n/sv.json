@@ -1380,7 +1380,6 @@
   "admin.log.locationTitle": "Filkatalogen för loggar:",
   "admin.log.logLevel": "Lognivå",
   "admin.logs.bannerDesc": "För att hitta användare utifrån UserID eller TokenID, gå till Användarhantering > Användare och ange ID i sökfiltret.",
-  "admin.logs.prev": "Föregående",
   "admin.logs.title": "Serverloggar",
   "admin.manage_roles.additionalRoles": "Välj ytterligare behörigheter för kontot. <link>Läs mer om roller och behörigheter</link>.",
   "admin.manage_roles.allowUserAccessTokens": "Tillåt detta konto att skapa <link>personligt accesstoken</link>.",
