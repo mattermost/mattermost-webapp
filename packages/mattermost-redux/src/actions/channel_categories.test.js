@@ -295,7 +295,6 @@ describe('fetchMyCategories', () => {
         const currentUserId = TestHelper.generateId();
         const teamId = TestHelper.generateId();
 
-
         const categories = [
             {
                 id: 'category1',
@@ -331,17 +330,17 @@ describe('fetchMyCategories', () => {
     test('should update collapse state if it s from websocket', async () => {
         const currentUserId = TestHelper.generateId();
         const teamId = TestHelper.generateId();
-        const isWebSocket=false;
+        const isWebSocket = false;
 
         const categories = [
             {
                 id: 'category1',
-                collapsed:false,
+                collapsed: false,
                 team_id: teamId,
             },
             {
                 id: 'category2',
-                collapsed:true,
+                collapsed: true,
                 team_id: teamId,
             },
         ];
@@ -353,39 +352,37 @@ describe('fetchMyCategories', () => {
                 },
                 channelCategories: {
                     byId: {
-                        category1: {id: 'category1', team_id: teamId,collapsed: true },
-                        category2: {id: 'category2', team_id: teamId,collapsed: false },
+                        category1: {id: 'category1', team_id: teamId, collapsed: true},
+                        category2: {id: 'category2', team_id: teamId, collapsed: false},
 
                     },
                 },
             }});
 
-
         nock(Client4.getBaseRoute()).
-        get(`/users/${currentUserId}/teams/${teamId}/channels/categories`).
-        reply(200, {categories, order: categories.map((category) => category.id)});
+            get(`/users/${currentUserId}/teams/${teamId}/channels/categories`).
+            reply(200, {categories, order: categories.map((category) => category.id)});
 
-        await store.dispatch(Actions.fetchMyCategories(teamId,isWebSocket));
+        await store.dispatch(Actions.fetchMyCategories(teamId, isWebSocket));
         const categoriesById = getAllCategoriesByIds(store.getState());
 
         expect(categoriesById.category1.collapsed).toEqual(false);
         expect(categoriesById.category2.collapsed).toEqual(true);
-
     });
     test('should not update collapse state if it s from websocket', async () => {
         const currentUserId = TestHelper.generateId();
         const teamId = TestHelper.generateId();
-        const isWebSocket=true;
+        const isWebSocket = true;
 
         const categories = [
             {
                 id: 'category1',
-                collapsed:false,
+                collapsed: false,
                 team_id: teamId,
             },
             {
                 id: 'category2',
-                collapsed:true,
+                collapsed: true,
                 team_id: teamId,
             },
         ];
@@ -397,27 +394,23 @@ describe('fetchMyCategories', () => {
                 },
                 channelCategories: {
                     byId: {
-                        category1: {id: 'category1', team_id: teamId,collapsed: true },
-                        category2: {id: 'category2', team_id: teamId,collapsed: false },
+                        category1: {id: 'category1', team_id: teamId, collapsed: true},
+                        category2: {id: 'category2', team_id: teamId, collapsed: false},
 
                     },
-            },
-        }});
-
-
+                },
+            }});
         nock(Client4.getBaseRoute()).
-        get(`/users/${currentUserId}/teams/${teamId}/channels/categories`).
-        reply(200, {categories, order: categories.map((category) => category.id)});
+            get(`/users/${currentUserId}/teams/${teamId}/channels/categories`).
+            reply(200, {categories, order: categories.map((category) => category.id)});
 
-        await store.dispatch(Actions.fetchMyCategories(teamId,isWebSocket));
+        await store.dispatch(Actions.fetchMyCategories(teamId, isWebSocket));
         const categoriesById = getAllCategoriesByIds(store.getState());
 
         expect(categoriesById.category1.collapsed).toEqual(true);
         expect(categoriesById.category2.collapsed).toEqual(false);
-
     });
 });
-
 
 describe('addChannelToInitialCategory', () => {
     test('should add new DM channel to Direct Messages categories on all teams', () => {
