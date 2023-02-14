@@ -216,16 +216,19 @@ export default function ChannelNotificationsModal(props: Props) {
 
     async function handleSave() {
         const userSettings: Partial<SettingsType> = {...settings};
-        if (props.collapsedReplyThreads) {
+        if (!props.collapsedReplyThreads) {
             delete userSettings.push_threads;
             delete userSettings.desktop_threads;
             delete userSettings.channel_auto_follow_threads;
         }
-        const {error} = await props.actions.updateChannelNotifyProps(props.currentUser.id, props.channel.id, userSettings);
-        handleHide();
-        if (error) {
-            setServerError(error.message);
-        }
+        await props.actions.updateChannelNotifyProps(props.currentUser.id, props.channel.id, userSettings).then((value) => {
+            const {error} = value;
+            if (error) {
+                setServerError(error.message);
+            } else {
+                handleHide();
+            }
+        });
     }
 
     const resetToDefaultBtn = useCallback((settingName: string) => {
@@ -333,9 +336,9 @@ export default function ChannelNotificationsModal(props: Props) {
             </main>
             <footer className='channel-notifications-settings-modal__footer'>
                 {serverError &&
-                    <div>
+                    <span className='channel-notifications-settings-modal__server-error'>
                         {serverError}
-                    </div>
+                    </span>
                 }
                 <button
                     onClick={handleHide}

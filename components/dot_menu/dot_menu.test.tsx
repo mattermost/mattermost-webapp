@@ -3,12 +3,12 @@
 
 import React from 'react';
 
-import {PostType} from '@mattermost/types/posts';
-
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {Locations} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
+
+import {PostType} from '@mattermost/types/posts';
 
 import * as dotUtils from './utils';
 jest.mock('./utils');
