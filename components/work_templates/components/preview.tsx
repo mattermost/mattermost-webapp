@@ -216,6 +216,7 @@ const Preview = ({template, className, pluginsEnabled}: PreviewProps) => {
                     id={'integrations'}
                     message={template.description.integration.message}
                     items={integrations}
+                    categoryId={template.category}
                 />
             )],
         });

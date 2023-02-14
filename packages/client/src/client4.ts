@@ -11,9 +11,9 @@ import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
 import {
+    Address,
     Product,
     CloudCustomer,
-    Address,
     CloudCustomerPatch,
     Invoice,
     Limits,
@@ -22,6 +22,8 @@ import {
     ValidBusinessEmail,
     LicenseExpandStatus,
     CreateSubscriptionRequest,
+    Feedback,
+    WorkspaceDeletionRequest,
 } from '@mattermost/types/cloud';
 import {
     SelfHostedSignupForm,
@@ -30,6 +32,7 @@ import {
     SelfHostedSignupBootstrapResponse,
 } from '@mattermost/types/hosted_customer';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
+
 import {
     Channel,
     ChannelMemberCountsByGroup,
@@ -3927,10 +3930,18 @@ export default class Client4 {
         );
     }
 
-    subscribeCloudProduct = (productId: string, seats = 0) => {
+    subscribeCloudProduct = (productId: string, shippingAddress?: Address, seats = 0, feedback?: Feedback) => {
+        const body = {
+            product_id: productId,
+            seats,
+            feedback,
+        } as any;
+        if (shippingAddress) {
+            body.shipping_address = shippingAddress;
+        }
         return this.doFetch<CloudCustomer>(
             `${this.getCloudRoute()}/subscription`,
-            {method: 'put', body: JSON.stringify({product_id: productId, seats})},
+            {method: 'put', body: JSON.stringify(body)},
         );
     }
 
@@ -4237,6 +4248,13 @@ export default class Client4 {
         return this.doFetch<StatusOK>(
             `${this.getCloudRoute()}/check-cws-connection`,
             {method: 'get'},
+        );
+    }
+
+    deleteWorkspace = (deletionRequest: WorkspaceDeletionRequest) => {
+        return this.doFetch<StatusOK>(
+            `${this.getCloudRoute()}/delete-workspace`,
+            {method: 'delete', body: JSON.stringify(deletionRequest)},
         );
     }
 }
