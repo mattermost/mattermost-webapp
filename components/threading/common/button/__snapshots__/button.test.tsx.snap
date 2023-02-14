@@ -2,7 +2,7 @@
 
 exports[`components/threading/common/button should support appended content 1`] = `
 <button
-  className="mm-button mm-button__transparent"
+  className="ThreadingButton ThreadingButton__transparent"
 >
   <span
     className="Button_label"
@@ -19,7 +19,7 @@ exports[`components/threading/common/button should support appended content 1`] 
 
 exports[`components/threading/common/button should support children 1`] = `
 <button
-  className="mm-button mm-button__transparent"
+  className="ThreadingButton ThreadingButton__transparent"
 >
   <span
     className="Button_label"
@@ -31,7 +31,7 @@ exports[`components/threading/common/button should support children 1`] = `
 
 exports[`components/threading/common/button should support className 1`] = `
 <button
-  className="mm-button mm-button__transparent test-class other-test-class"
+  className="ThreadingButton ThreadingButton__transparent test-class other-test-class"
 >
   <span
     className="Button_label"
@@ -41,7 +41,7 @@ exports[`components/threading/common/button should support className 1`] = `
 
 exports[`components/threading/common/button should support onClick 1`] = `
 <button
-  className="mm-button mm-button__transparent"
+  className="ThreadingButton ThreadingButton__transparent"
   onClick={[MockFunction]}
 >
   <span
@@ -52,7 +52,7 @@ exports[`components/threading/common/button should support onClick 1`] = `
 
 exports[`components/threading/common/button should support prepended content 1`] = `
 <button
-  className="mm-button mm-button__transparent"
+  className="ThreadingButton ThreadingButton__transparent"
 >
   <span
     className="Button_prepended"
