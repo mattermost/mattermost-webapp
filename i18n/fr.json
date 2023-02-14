@@ -4202,6 +4202,7 @@
   "navbar.toggle2": "Basculer la barre latérale",
   "navbar.viewPinnedPosts": "Afficher les messages épinglés",
   "navbar_dropdown.about": "À propos de {appTitle}",
+  "navbar_dropdown.accountSettings": "",
   "navbar_dropdown.addGroupsToTeam": "Ajouter des groupes à l'équipe",
   "navbar_dropdown.console": "Console système",
   "navbar_dropdown.create": "Créer une équipe",
