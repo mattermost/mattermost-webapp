@@ -4,10 +4,11 @@
 import {batchActions} from 'redux-batched-actions';
 
 import {AdminTypes} from 'mattermost-redux/action_types';
-import {General} from '../constants';
+import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Client4} from 'mattermost-redux/client';
 
-import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {General} from '../constants';
+
 import {Compliance} from '@mattermost/types/compliance';
 import {GroupSearchOpts} from '@mattermost/types/groups';
 import {
@@ -21,17 +22,24 @@ import {
 } from '@mattermost/types/channels';
 
 import {CompleteOnboardingRequest} from '@mattermost/types/setup';
+import {LogFilter} from '@mattermost/types/admin';
+import {ServerError} from '@mattermost/types/errors';
 
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
 
-export function getLogs(page = 0, perPage: number = General.LOGS_PAGE_SIZE_DEFAULT): ActionFunc {
+export function getLogs({serverNames = [], logLevels = [], dateFrom, dateTo}: LogFilter): ActionFunc {
+    const logFilter = {
+        server_names: serverNames,
+        log_levels: logLevels,
+        date_from: dateFrom,
+        date_to: dateTo,
+    };
     return bindClientFunc({
         clientFunc: Client4.getLogs,
         onSuccess: [AdminTypes.RECEIVED_LOGS],
         params: [
-            page,
-            perPage,
+            logFilter,
         ],
     });
 }
@@ -54,7 +62,7 @@ export function getConfig(): ActionFunc {
     });
 }
 
-export function updateConfig(config: Record<string, any>): ActionFunc {
+export function updateConfig(config: Record<string, unknown>): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.updateConfig,
         onSuccess: [AdminTypes.RECEIVED_CONFIG],
@@ -77,7 +85,7 @@ export function getEnvironmentConfig(): ActionFunc {
     });
 }
 
-export function testEmail(config: any): ActionFunc {
+export function testEmail(config: unknown): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.testEmail,
         params: [
@@ -95,7 +103,7 @@ export function testSiteURL(siteURL: string): ActionFunc {
     });
 }
 
-export function testS3Connection(config: any): ActionFunc {
+export function testS3Connection(config: unknown): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.testS3Connection,
         params: [
@@ -201,9 +209,9 @@ export function linkLdapGroup(key: string): ActionFunc {
         try {
             data = await Client4.linkLdapGroup(key);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             dispatch({type: AdminTypes.LINK_LDAP_GROUP_FAILURE, error, data: key});
-            dispatch(logError(error));
+            dispatch(logError(error as ServerError));
             return {error};
         }
 
@@ -226,9 +234,9 @@ export function unlinkLdapGroup(key: string): ActionFunc {
         try {
             await Client4.unlinkLdapGroup(key);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             dispatch({type: AdminTypes.UNLINK_LDAP_GROUP_FAILURE, error, data: key});
-            dispatch(logError(error));
+            dispatch(logError(error as ServerError));
             return {error};
         }
 
@@ -323,7 +331,7 @@ export function removeIdpSamlCertificate(): ActionFunc {
     });
 }
 
-export function testElasticsearch(config: any): ActionFunc {
+export function testElasticsearch(config: unknown): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.testElasticsearch,
         params: [
@@ -359,7 +367,7 @@ export function getPrevTrialLicense(): ActionFunc {
         try {
             data = await Client4.getPrevTrialLicense();
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             return {error};
         }
 
@@ -374,8 +382,8 @@ export function getAnalytics(name: string, teamId = ''): ActionFunc {
         try {
             data = await Client4.getAnalytics(name, teamId);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
+            dispatch(logError(error as ServerError));
             return {error};
         }
 
@@ -415,8 +423,8 @@ export function uploadPlugin(fileData: File, force = false): ActionFunc {
         try {
             data = await Client4.uploadPlugin(fileData, force);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
+            dispatch(logError(error as ServerError));
             return {error};
         }
 
@@ -430,8 +438,8 @@ export function installPluginFromUrl(url: string, force = false): ActionFunc {
         try {
             data = await Client4.installPluginFromUrl(url, force);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
+            dispatch(logError(error as ServerError));
             return {error};
         }
 
@@ -458,8 +466,8 @@ export function removePlugin(pluginId: string): ActionFunc {
         try {
             await Client4.removePlugin(pluginId);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
+            dispatch(logError(error as ServerError));
             return {error};
         }
 
@@ -477,8 +485,8 @@ export function enablePlugin(pluginId: string): ActionFunc {
         try {
             await Client4.enablePlugin(pluginId);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
+            dispatch(logError(error as ServerError));
             return {error};
         }
 
@@ -495,8 +503,8 @@ export function disablePlugin(pluginId: string): ActionFunc {
         try {
             await Client4.disablePlugin(pluginId);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
+            dispatch(logError(error as ServerError));
             return {error};
         }
 
@@ -532,8 +540,8 @@ export function sendWarnMetricAck(warnMetricId: string, forceAck: boolean) {
             await Client4.sendWarnMetricAck(warnMetricId, forceAck);
             return {data: true};
         } catch (e) {
-            dispatch(logError(e));
-            return {error: e.message};
+            dispatch(logError(e as ServerError));
+            return {error: (e as ServerError).message};
         }
     };
 }
@@ -544,7 +552,7 @@ export function getDataRetentionCustomPolicies(page = 0, perPage = 10): ActionFu
         try {
             data = await Client4.getDataRetentionCustomPolicies(page, perPage);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             dispatch(
                 {
                     type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICIES,
@@ -568,7 +576,7 @@ export function getDataRetentionCustomPolicy(id: string): ActionFunc {
         try {
             data = await Client4.getDataRetentionCustomPolicy(id);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             dispatch(
                 {
                     type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY,
@@ -591,7 +599,7 @@ export function deleteDataRetentionCustomPolicy(id: string): ActionFunc {
         try {
             await Client4.deleteDataRetentionCustomPolicy(id);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             dispatch(
                 {
                     type: AdminTypes.DELETE_DATA_RETENTION_CUSTOM_POLICY_FAILURE,
@@ -617,7 +625,7 @@ export function getDataRetentionCustomPolicyTeams(id: string, page = 0, perPage:
         try {
             data = await Client4.getDataRetentionCustomPolicyTeams(id, page, perPage);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             dispatch(
                 {
                     type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS,
@@ -641,7 +649,7 @@ export function getDataRetentionCustomPolicyChannels(id: string, page = 0, perPa
         try {
             data = await Client4.getDataRetentionCustomPolicyChannels(id, page, perPage);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             dispatch(
                 {
                     type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS,
@@ -665,7 +673,7 @@ export function searchDataRetentionCustomPolicyTeams(id: string, term: string, o
         try {
             data = await Client4.searchDataRetentionCustomPolicyTeams(id, term, opts);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             dispatch(
                 {
                     type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_TEAMS_SEARCH,
@@ -689,7 +697,7 @@ export function searchDataRetentionCustomPolicyChannels(id: string, term: string
         try {
             data = await Client4.searchDataRetentionCustomPolicyChannels(id, term, opts);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             dispatch(
                 {
                     type: AdminTypes.RECEIVED_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_SEARCH,
@@ -713,7 +721,7 @@ export function createDataRetentionCustomPolicy(policy: CreateDataRetentionCusto
         try {
             data = await Client4.createDataRetentionPolicy(policy);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             return {error};
         }
 
@@ -731,7 +739,7 @@ export function updateDataRetentionCustomPolicy(id: string, policy: CreateDataRe
         try {
             data = await Client4.updateDataRetentionPolicy(id, policy);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             return {error};
         }
 
@@ -759,7 +767,7 @@ export function removeDataRetentionCustomPolicyTeams(id: string, teams: string[]
         try {
             await Client4.removeDataRetentionPolicyTeams(id, teams);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             dispatch(
                 {
                     type: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_TEAMS_FAILURE,
@@ -795,7 +803,7 @@ export function removeDataRetentionCustomPolicyChannels(id: string, channels: st
         try {
             await Client4.removeDataRetentionPolicyChannels(id, channels);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             dispatch(
                 {
                     type: AdminTypes.REMOVE_DATA_RETENTION_CUSTOM_POLICY_CHANNELS_FAILURE,

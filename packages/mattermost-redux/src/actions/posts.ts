@@ -191,7 +191,8 @@ export function createPost(post: Post, files: any[] = []) {
 
         // We are retrying a pending post that had files
         if (newPost.file_ids && !files.length) {
-            files = newPost.file_ids.map((id) => state.entities.files.files[id]); // eslint-disable-line
+            // eslint-disable-next-line no-param-reassign
+            files = newPost.file_ids.map((id) => state.entities.files.files[id]);
         }
 
         if (files.length) {
@@ -1131,6 +1132,14 @@ export function getPostsByIds(ids: string[]) {
 
         return {data: {posts}};
     };
+}
+
+export function getPostEditHistory(postId: string) {
+    return bindClientFunc({
+        clientFunc: Client4.getPostEditHistory,
+        onSuccess: PostTypes.RECEIVED_POST_HISTORY,
+        params: [postId],
+    });
 }
 
 export function getNeededAtMentionedUsernames(state: GlobalState, posts: Post[]): Set<string> {

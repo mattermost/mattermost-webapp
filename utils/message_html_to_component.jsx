@@ -59,14 +59,13 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             shouldProcessNode: (node) => node.type === 'tag' && node.name === 'span' && node.attribs['data-edited-post-id'] && node.attribs['data-edited-post-id'] === options.postId,
             processNode: () => {
                 return options.postId && options.editedAt > 0 ? (
-                    <>
+                    <React.Fragment key={`edited-${options.postId}`}>
                         {' '}
                         <PostEditedIndicator
-                            key={options.postId}
                             postId={options.postId}
                             editedAt={options.editedAt}
                         />
-                    </>
+                    </React.Fragment>
                 ) : null;
             },
         },
@@ -203,7 +202,10 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             shouldProcessNode: (node) => node.attribs && node.attribs['data-latex'],
             processNode: (node) => {
                 return (
-                    <LatexBlock content={node.attribs['data-latex']}/>
+                    <LatexBlock
+                        key={node.attribs['data-latex']}
+                        content={node.attribs['data-latex']}
+                    />
                 );
             },
         });
@@ -226,6 +228,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             processNode: (node) => {
                 return (
                     <CodeBlock
+                        key={node.attribs['data-codeblock-code']}
                         code={node.attribs['data-codeblock-code']}
                         language={node.attribs['data-codeblock-language']}
                         searchedContent={node.attribs['data-codeblock-searchedcontent']}

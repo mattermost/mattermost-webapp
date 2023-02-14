@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import React from 'react';
 
 import {ClientLicense} from '@mattermost/types/config';
@@ -121,7 +119,6 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                 },
             });
         }
-        // eslint-disable-next-line react/no-did-update-set-state
         this.setState({fileSelected: false, file: null});
     }
 

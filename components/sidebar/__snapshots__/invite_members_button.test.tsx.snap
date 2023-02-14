@@ -14,6 +14,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
   }
 >
   <InviteMembersButton
+    isAdmin={false}
     onClick={[MockFunction]}
     touchedInviteMembersButton={false}
   >
@@ -51,7 +52,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
           }
           id="introTextInvite"
           modalId="invitation"
-          onClick={[MockFunction]}
+          onClick={[Function]}
         >
           <ToggleModalButton
             actions={
@@ -71,7 +72,7 @@ exports[`components/sidebar/invite_members_button should match snapshot 1`] = `
             }
             id="introTextInvite"
             modalId="invitation"
-            onClick={[MockFunction]}
+            onClick={[Function]}
           >
             <button
               aria-label="Invite Users dialog"
