@@ -2130,6 +2130,7 @@
 
     &.post-message--overflow {
         .post-message__text-container {
+            -webkit-mask-image: linear-gradient(black calc(100% - 126px), transparent calc(100% - 36px));
             mask-image: linear-gradient(black calc(100% - 126px), transparent calc(100% - 36px));
         }
     }
