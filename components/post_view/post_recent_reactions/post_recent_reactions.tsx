@@ -104,7 +104,6 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
                     <div>
                         <React.Fragment>
                             <EmojiItem
-                                // eslint-disable-next-line react/no-array-index-key
                                 emoji={emoji}
                                 onItemClick={this.handleAddEmoji}
                                 order={n}

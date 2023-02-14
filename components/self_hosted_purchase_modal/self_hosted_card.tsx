@@ -98,7 +98,12 @@ export default function SelfHostedCard(props: Props) {
                         onChange={props.updateSeats}
                     />
                 )}
-                afterButtonContent={<Consequences isCloud={false}/>}
+                afterButtonContent={
+                    <Consequences
+                        isCloud={false}
+                        licenseAgreementBtnText={intl.formatMessage({id: 'self_hosted_signup.cta', defaultMessage: 'Upgrade'})}
+                    />
+                }
                 buttonDetails={{
                     action: props.submit,
                     disabled: !props.canSubmit,
