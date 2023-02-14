@@ -3666,9 +3666,8 @@ export default class Client4 {
         );
     }
 
-    getAppsBindings = async (userID: string, channelID: string, teamID: string) => {
+    getAppsBindings = async (channelID: string, teamID: string) => {
         const params = {
-            user_id: userID,
             channel_id: channelID,
             team_id: teamID,
             user_agent: 'webapp',
