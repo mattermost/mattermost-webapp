@@ -77,7 +77,6 @@ describe('components/Root', () => {
         rhsIsExpanded: false,
         rhsIsOpen: false,
         shouldShowAppBar: false,
-        currentLocale: 'en',
     };
 
     test('should load config and license on mount and redirect to sign-up page', () => {
