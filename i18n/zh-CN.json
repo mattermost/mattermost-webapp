@@ -1337,6 +1337,7 @@
   "admin.license.renewalCard.reviewNumbers": "在下面查看您用户数量，以确保续订合适的用户数。",
   "admin.license.renewalCard.usersNumbers": "**活跃用户：** {activeUsersNum}",
   "admin.license.title": "版本和许可证",
+  "admin.license.trial-request.accept-terms": "",
   "admin.license.trial-request.embargoed": "",
   "admin.license.trial-request.startTrial": "",
   "admin.license.trial-request.title": "",
