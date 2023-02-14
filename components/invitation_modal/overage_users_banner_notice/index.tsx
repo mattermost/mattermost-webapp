@@ -96,7 +96,7 @@ const OverageUsersBannerNotice = () => {
             message={
                 <FormattedMessage
                     id='licensingPage.overageUsersBanner.noticeDescription'
-                    defaultMessage='Notify your Customer Success Manager on your next true-up check. <a>Contact Sales</a>'
+                    defaultMessage='Notify your Customer Success Manager on your next true-up check. <a></a>'
                     values={{
                         a: () => {
                             if (getRequestState === 'IDLE' || getRequestState === 'LOADING') {

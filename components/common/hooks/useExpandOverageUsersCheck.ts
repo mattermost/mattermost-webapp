@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo} from 'react';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -28,10 +28,17 @@ export const useExpandOverageUsersCheck = ({
     const dispatch = useDispatch();
     const {getRequestState, is_expandable: isExpandable}: LicenseExpandReducer = useSelector((state: GlobalState) => state.entities.cloud.subscriptionStats || {is_expandable: false, getRequestState: 'IDLE'});
     const expandableLink = useSelector(getExpandSeatsLink);
-    const [cta, setCTA] = useState(formatMessage({
-        id: 'licensingPage.overageUsersBanner.cta',
-        defaultMessage: 'Contact Sales',
-    }));
+
+    const cta = useMemo(() => (isExpandable ?
+        formatMessage({
+            id: 'licensingPage.overageUsersBanner.ctaExpandSeats',
+            defaultMessage: 'Purchase additional seats',
+        }) :
+        formatMessage({
+            id: 'licensingPage.overageUsersBanner.cta',
+            defaultMessage: 'Contact Sales',
+        })
+    ), [isExpandable]);
 
     const trackEventFn = (cta: 'Contact Sales' | 'Self Serve') => {
         trackEvent('insights', isWarningState ? 'click_true_up_warning' : 'click_true_up_error', {
@@ -45,24 +52,6 @@ export const useExpandOverageUsersCheck = ({
             dispatch(getLicenseExpandStatus());
         }
     }, [dispatch, getRequestState, licenseId, shouldRequest]);
-
-    useEffect(() => {
-        if (getRequestState === 'IDLE' || getRequestState === 'LOADING') {
-            return;
-        }
-
-        if (isExpandable) {
-            setCTA(formatMessage({
-                id: 'licensingPage.overageUsersBanner.ctaExpandSeats',
-                defaultMessage: 'Purchase additional seats',
-            }));
-        } else {
-            setCTA(formatMessage({
-                id: 'licensingPage.overageUsersBanner.cta',
-                defaultMessage: 'Contact Sales',
-            }));
-        }
-    }, [isExpandable, getRequestState, setCTA, formatMessage]);
 
     return {
         cta,
