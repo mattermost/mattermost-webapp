@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
@@ -10,64 +9,90 @@ import BackstageHeader from 'components/backstage/components/backstage_header';
 import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
+import {Team} from '@mattermost/types/teams';
 import {localizeMessage} from 'utils/utils';
 
-export default class AbstractIncomingWebhook extends React.PureComponent {
-    static propTypes = {
+interface Hook {
+    icon_url: string;
+    username: string;
+    channel_locked: boolean;
+    display_name: string;
+    channel_id: string;
+    description: string;
+}
 
-        /**
-        * The current team
-        */
-        team: PropTypes.object.isRequired,
+interface State {
+    displayName: string;
+    description: string;
+    channelId: string;
+    channelLocked: boolean;
+    username: string;
+    iconURL: string;
+    saving: boolean;
+    serverError: string;
+    clientError: JSX.Element | null;
+}
 
-        /**
-        * The header text to render, has id and defaultMessage
-        */
-        header: PropTypes.object.isRequired,
+interface Props {
 
-        /**
-        * The footer text to render, has id and defaultMessage
-        */
-        footer: PropTypes.object.isRequired,
+    /**
+    * The current team
+    */
+    team: Team;
 
-        /**
-        * The spinner loading text to render, has id and defaultMessage
-        */
-        loading: PropTypes.object.isRequired,
+    /**
+    * The header text to render, has id and defaultMessage
+    */
+    header: {id: string; defaultMessage: string};
 
-        /**
-        * The server error text after a failed action
-        */
-        serverError: PropTypes.string.isRequired,
+    /**
+    * The footer text to render, has id and defaultMessage
+    */
+    footer: {id: string; defaultMessage: string};
 
-        /**
-        * The hook used to set the initial state
-        */
-        initialHook: PropTypes.object,
+    /**
+    * The spinner loading text to render, has id and defaultMessage
+    */
+    loading: {id: string; defaultMessage: string};
 
-        /**
-        * Whether to allow configuration of the default post username.
-        */
-        enablePostUsernameOverride: PropTypes.bool.isRequired,
+    /**
+    * The server error text after a failed action
+    */
+    serverError: string;
 
-        /**
-        * Whether to allow configuration of the default post icon.
-        */
-        enablePostIconOverride: PropTypes.bool.isRequired,
+    /**
+    * The hook used to set the initial state
+    */
+    initialHook: Hook;
 
-        /**
-        * The async function to run when the action button is pressed
-        */
-        action: PropTypes.func.isRequired,
-    }
+    /**
+    * Whether to allow configuration of the default post username.
+    */
+    enablePostUsernameOverride: boolean;
 
-    constructor(props) {
+    /**
+    * Whether to allow configuration of the default post icon.
+    */
+    enablePostIconOverride: boolean;
+
+    /**
+    * The async function to run when the action button is pressed
+    */
+    action: (hook: Hook) => Promise<{
+        saving: boolean;
+        serverError: string;
+        clientError: string;
+    }>;
+}
+
+export default class AbstractIncomingWebhook extends React.PureComponent<Props, State> {
+    constructor(props: Props | Readonly<Props>) {
         super(props);
 
         this.state = this.getStateFromHook(this.props.initialHook || {});
     }
 
-    getStateFromHook = (hook) => {
+    getStateFromHook = (hook: Hook) => {
         return {
             displayName: hook.display_name || '',
             description: hook.description || '',
@@ -81,7 +106,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
         };
     }
 
-    handleSubmit = (e) => {
+    handleSubmit= (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
         if (this.state.saving) {
@@ -91,7 +116,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
         this.setState({
             saving: true,
             serverError: '',
-            clientError: '',
+            clientError: null,
         });
 
         if (!this.state.channelId) {
@@ -120,45 +145,45 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
         this.props.action(hook).then(() => this.setState({saving: false}));
     }
 
-    updateDisplayName = (e) => {
+    updateDisplayName: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         this.setState({
             displayName: e.target.value,
         });
     }
 
-    updateDescription = (e) => {
+    updateDescription: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         this.setState({
             description: e.target.value,
         });
     }
 
-    updateChannelId = (e) => {
+    updateChannelId: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
         this.setState({
             channelId: e.target.value,
         });
     }
 
-    updateChannelLocked = (e) => {
+    updateChannelLocked: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         this.setState({
             channelLocked: e.target.checked,
         });
     }
 
-    updateUsername = (e) => {
+    updateUsername: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         this.setState({
             username: e.target.value,
         });
     }
 
-    updateIconURL = (e) => {
+    updateIconURL: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         this.setState({
             iconURL: e.target.value,
         });
     }
 
     render() {
-        var headerToRender = this.props.header;
-        var footerToRender = this.props.footer;
+        const headerToRender = this.props.header;
+        const footerToRender = this.props.footer;
 
         return (
             <div className='backstage-content'>
@@ -193,7 +218,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
                                 <input
                                     id='displayName'
                                     type='text'
-                                    maxLength='64'
+                                    maxLength={64}
                                     className='form-control'
                                     value={this.state.displayName}
                                     onChange={this.updateDisplayName}
@@ -220,7 +245,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
                                 <input
                                     id='description'
                                     type='text'
-                                    maxLength='500'
+                                    maxLength={500}
                                     className='form-control'
                                     value={this.state.description}
                                     onChange={this.updateDescription}
@@ -245,11 +270,11 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
                             </label>
                             <div className='col-md-5 col-sm-8'>
                                 <ChannelSelect
-                                    id='channelId'
                                     value={this.state.channelId}
                                     onChange={this.updateChannelId}
                                     selectOpen={true}
                                     selectPrivate={true}
+                                    selectDm={false}
                                 />
                                 <div className='form__help'>
                                     <FormattedMessage
@@ -299,7 +324,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
                                     <input
                                         id='username'
                                         type='text'
-                                        maxLength='22'
+                                        maxLength={22}
                                         className='form-control'
                                         value={this.state.username}
                                         onChange={this.updateUsername}
@@ -328,7 +353,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
                                     <input
                                         id='iconURL'
                                         type='text'
-                                        maxLength='1024'
+                                        maxLength={1024}
                                         className='form-control'
                                         value={this.state.iconURL}
                                         onChange={this.updateIconURL}

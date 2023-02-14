@@ -10,7 +10,7 @@ import * as Utils from 'utils/utils';
 
 type Props = {
     channels: Channel[];
-    onChange?: () => void;
+    onChange?: React.ChangeEventHandler<HTMLSelectElement>;
     value?: string;
     selectOpen: boolean;
     selectPrivate: boolean;
