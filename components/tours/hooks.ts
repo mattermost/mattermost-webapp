@@ -9,6 +9,7 @@ import {without} from 'lodash';
 
 import {getCurrentUserId, isCurrentUserGuestUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {getWorkTemplatesLinkedProducts} from 'mattermost-redux/selectors/entities/general';
 
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {close as closeLhs, open as openLhs} from 'actions/views/lhs';
@@ -17,9 +18,11 @@ import {switchToChannels} from 'actions/views/onboarding_tasks';
 import {showRHSPlugin} from 'actions/views/rhs';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 
-import {selectProducts} from 'selectors/products';
+import {useGetRHSPluggablesIds} from 'components/work_templates/hooks';
 
 import {getHistory} from 'utils/browser_history';
+import {suitePluginIds} from 'utils/constants';
+import {useProducts} from 'utils/products';
 import {GlobalState} from 'types/store';
 
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName} from '../onboarding_tasks';
@@ -31,37 +34,43 @@ import {
     OnboardingTourSteps,
     TTNameMapToTourSteps,
     TutorialTourName,
-    WorkTemplateTourStep,
+    WorkTemplateTourSteps,
 } from './constant';
 
 export const useGetTourSteps = (tourCategory: string) => {
     const isGuestUser = useSelector((state: GlobalState) => isCurrentUserGuestUser(state));
     const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
-    const pluginProducts = useSelector(selectProducts);
+    const pluginProducts = useProducts();
+    const workTemplatesLinkedItems = useSelector((state: GlobalState) => getWorkTemplatesLinkedProducts(state));
     let tourSteps: Record<string, number> = TTNameMapToTourSteps[tourCategory];
 
+    let boardsProductEnabled = false;
+    let playbooksProductEnabled = false;
+    if (pluginProducts) {
+        boardsProductEnabled = pluginProducts.some((product) => (product.pluginId === suitePluginIds.focalboard) || (product.pluginId === suitePluginIds.boards));
+        playbooksProductEnabled = pluginProducts.some((product) => product.pluginId === suitePluginIds.playbooks);
+    }
+    const boardsPlugin = pluginsList.focalboard;
+    const playbooksPlugin = pluginsList.playbooks;
+
     if (tourCategory === TutorialTourName.EXPLORE_OTHER_TOOLS) {
-        const boards = pluginsList.focalboard;
-        const playbooks = pluginsList.playbooks;
         const steps: Record<string, number> = tourSteps as typeof ExploreOtherToolsTourSteps;
-        if (!playbooks) {
+        if (!playbooksPlugin && !playbooksProductEnabled) {
             delete steps.PLAYBOOKS_TOUR;
         }
 
-        if (!boards) {
+        if (!boardsPlugin && !boardsProductEnabled) {
             delete steps.BOARDS_TOUR;
         }
         tourSteps = steps;
     } else if (tourCategory === TutorialTourName.WORK_TEMPLATE_TUTORIAL) {
-        const pluginIds = pluginProducts.map((pluginProduct) => {
-            return pluginProduct.pluginId;
-        });
-        const steps: Record<string, number> = tourSteps as typeof WorkTemplateTourStep;
-        if (!pluginIds.includes('playbooks')) {
+        const steps: Record<string, number> = tourSteps as typeof WorkTemplateTourSteps;
+
+        if (workTemplatesLinkedItems.playbooks && workTemplatesLinkedItems.playbooks === 0) {
             delete steps.PLAYBOOKS_TOUR;
         }
 
-        if (!pluginIds.includes('boards')) {
+        if (workTemplatesLinkedItems.boards && workTemplatesLinkedItems.boards === 0) {
             delete steps.BOARDS_TOUR;
         }
         tourSteps = steps;
@@ -75,8 +84,8 @@ export const useHandleNavigationAndExtraActions = (tourCategory: string) => {
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
     const teamUrl = useSelector((state: GlobalState) => getCurrentRelativeTeamUrl(state));
-    const pluggableIds = useSelector((state: GlobalState) => state.plugins.components.RightHandSidebarComponent).map((plugin) => (plugin.id));
-    const pluggableId = useSelector((state: GlobalState) => state.views.rhs.pluggableId);
+    const {pluggableId, rhsPluggableIds} = useGetRHSPluggablesIds();
+    const pluggableIds = [rhsPluggableIds.get(suitePluginIds.boards), rhsPluggableIds.get(suitePluginIds.playbooks)];
 
     const nextStepActions = useCallback((step: number) => {
         if (tourCategory === TutorialTourName.ONBOARDING_TUTORIAL_STEP) {
@@ -162,7 +171,7 @@ export const useHandleNavigationAndExtraActions = (tourCategory: string) => {
             }
         } else if (tourCategory === TutorialTourName.WORK_TEMPLATE_TUTORIAL) {
             const navigationPluggableId = without(pluggableIds, pluggableId)[0];
-            if (step === WorkTemplateTourStep.BOARDS_TOUR || step === WorkTemplateTourStep.PLAYBOOKS_TOUR) {
+            if (navigationPluggableId && (step === WorkTemplateTourSteps.BOARDS_TOUR_TIP || step === WorkTemplateTourSteps.PLAYBOOKS_TOUR_TIP)) {
                 dispatch(showRHSPlugin(navigationPluggableId));
             }
         }

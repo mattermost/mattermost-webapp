@@ -30,4 +30,3 @@ export function getTemplateDefaultIllustration(template: WorkTemplate): string {
 
     return '';
 }
-

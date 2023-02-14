@@ -7,7 +7,7 @@ export type WorkTemplatesState = {
     categories: Category[];
     templatesInCategory: Record<string, WorkTemplate[]>;
     playbookTemplates: PlaybookTemplateType[];
-    linkedProducts: Record<string, LinkedProducts>;
+    linkedProducts: Record<string, number>;
 }
 
 interface PlaybookTemplateType {
@@ -26,12 +26,6 @@ export interface ExecuteWorkTemplateRequest {
 export interface ExecuteWorkTemplateResponse {
     channel_with_playbook_ids: string[];
     channel_ids: string[];
-}
-
-export interface LinkedProducts {
-    linkedBoardsCount: string;
-    linkedPlaybooksCount: string;
-    channelId: string;
 }
 
 export interface WorkTemplate {

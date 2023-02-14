@@ -21,7 +21,6 @@ import {
     getLastStep,
     isKeyPressed,
     KeyCodes,
-    TutorialTourName,
     useGetTourSteps,
     useHandleNavigationAndExtraActions,
 } from 'components/tours';
@@ -44,7 +43,7 @@ export const useTourTipManager = (tourCategory: string): ChannelsTourTipManager 
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
     const currentChannelId = useSelector(getCurrentChannelId);
-    const currentStep = useSelector((state: GlobalState) => getInt(state, tourCategory, tourCategory === TutorialTourName.WORK_TEMPLATE_TUTORIAL ? currentChannelId : currentUserId, 0));
+    const currentStep = useSelector((state: GlobalState) => getInt(state, tourCategory, currentUserId, 0));
     const autoTourStatus = useSelector((state: GlobalState) => getInt(state, tourCategory, TTNameMapToATStatusKey[tourCategory], 0));
     const isAutoTourEnabled = autoTourStatus === AutoTourStatus.ENABLED;
     const handleActions = useHandleNavigationAndExtraActions(tourCategory);
@@ -55,7 +54,7 @@ export const useTourTipManager = (tourCategory: string): ChannelsTourTipManager 
                 {
                     user_id: currentUserId,
                     category: tourCategory,
-                    name: tourCategory === TutorialTourName.WORK_TEMPLATE_TUTORIAL ? currentChannelId : currentUserId,
+                    name: currentUserId,
                     value: stepValue.toString(),
                 },
                 {

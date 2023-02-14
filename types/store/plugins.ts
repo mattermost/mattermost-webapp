@@ -80,6 +80,7 @@ export type Menu = {
 export type PluginComponent = {
     id: string;
     pluginId: string;
+    title?: string;
 
     /** @default null - which means 'channels'*/
     supportedProductIds?: ProductScope;

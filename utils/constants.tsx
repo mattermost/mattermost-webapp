@@ -673,10 +673,6 @@ export const CrtTutorialTriggerSteps = {
     STARTED: 1,
     FINISHED: 999,
 };
-export const AutoTourStatus = {
-    ENABLED: 0,
-    DISABLED: 1,
-};
 
 export const CrtThreadPaneSteps = {
     THREADS_PANE_POPOVER: 0,
@@ -1339,7 +1335,6 @@ export const Constants = {
     CrtTutorialSteps,
     CrtTutorialTriggerSteps,
     ExploreOtherToolsTourSteps,
-    AutoTourStatus,
     CrtThreadPaneSteps,
     PostTypes,
     ErrorPageTypes,

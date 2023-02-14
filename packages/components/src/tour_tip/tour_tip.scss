@@ -371,6 +371,10 @@
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
     }
+
+    &__transparent_backdrop {
+        background: none !important;
+    }
 }
 
 // adding important as temporary fix, will be removing tippy very soon (WIP)
