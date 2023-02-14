@@ -1380,7 +1380,6 @@
   "admin.log.locationTitle": "Log-Verzeichnis:",
   "admin.log.logLevel": "Log-Level",
   "admin.logs.bannerDesc": "Um Benutzer nach Benutzer-ID oder Token-ID zu suchen, wechsele zu Benutzerverwaltung > Benutzer und füge die ID in den Suchfilter ein.",
-  "admin.logs.prev": "Zurück",
   "admin.logs.title": "Serverprotokoll",
   "admin.manage_roles.additionalRoles": "Wähle weitere Berechtigungen für das Konto. Erfahre mehr über Rollen und Berechtigungen in der <link>Dokumentation</link>.",
   "admin.manage_roles.allowUserAccessTokens": "Erlaube diesem Konto <link>persönliche Zugriffs-Token</link> zu generieren.",
