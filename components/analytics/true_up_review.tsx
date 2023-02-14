@@ -29,14 +29,12 @@ import {GlobalState} from '@mattermost/types/store';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import store from 'stores/redux_store.jsx';
 import {pageVisited} from 'actions/telemetry_actions';
 import {DocLinks, TELEMETRY_CATEGORIES} from 'utils/constants';
-import {getIsStarterLicense} from 'utils/license_utils';
+import {getIsStarterLicense, getIsGovSku} from 'utils/license_utils';
 
 const TrueUpReview: React.FC = () => {
     const dispatch = useDispatch();
-    const getState = store.getState;
     const isCloud = useSelector(isCurrentLicenseCloud);
     const isAirGapped = !useCWSAvailabilityCheck();
     const reviewProfile = useSelector(trueUpReviewProfileSelector);
@@ -45,10 +43,15 @@ const TrueUpReview: React.FC = () => {
     const license = useSelector(getLicense);
     const isLicensed = license.IsLicensed === 'true';
     const isStarter = getIsStarterLicense(license);
+    const isGovSku = getIsGovSku(license);
 
-    // A license is eligible for true up if a licensed exists for the customer, are self-hosted (not cloud), and are not on starter/free
-    const licenseIsTrueUpEligible = isLicensed && !isCloud && !isStarter;
-    const telemetryEnabled = getConfig(getState()).EnableDiagnostics === 'true';
+    // A license is eligible for true up if:
+    // * a license exists for the customer
+    // * are self-hosted (not cloud)
+    // * are not on starter/free
+    // * are not a government sku
+    const licenseIsTrueUpEligible = isLicensed && !isCloud && !isStarter && !isGovSku;
+    const telemetryEnabled = useSelector(getConfig).EnableDiagnostics === 'true';
     const trueUpReviewError = useSelector((state: GlobalState) => {
         const errors = getSelfHostedErrors(state);
         return Boolean(errors.trueUpReview);
