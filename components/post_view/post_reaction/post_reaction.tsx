@@ -22,14 +22,12 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 
 const TOP_OFFSET = -7;
 
-type LocationTypes = 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT';
-
 export type Props = {
     channelId?: string;
     postId: string;
     teamId: string;
     getDotMenuRef: () => HTMLDivElement | null;
-    location: LocationTypes;
+    location: keyof typeof Locations;
     showEmojiPicker: boolean;
     toggleEmojiPicker: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     actions: {
@@ -38,7 +36,7 @@ export type Props = {
 }
 
 type State = {
-    location: LocationTypes;
+    location: keyof typeof Locations;
     showEmojiPicker: boolean;
 }
 

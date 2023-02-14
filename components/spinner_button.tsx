@@ -18,7 +18,7 @@ export default class SpinnerButton extends PureComponent<Props & React.ButtonHTM
     }
 
     public render(): JSX.Element {
-        const {spinning, spinningText, children, ...props} = this.props; // eslint-disable-line no-use-before-define
+        const {spinning, spinningText, children, ...props} = this.props;
 
         return (
             <button

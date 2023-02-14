@@ -11,7 +11,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions';
 
-import Constants, {AdvancedTextEditor, Locations, ModalIdentifiers, Preferences} from 'utils/constants';
+import Constants, {AdvancedTextEditor as AdvancedTextEditorConst, Locations, ModalIdentifiers, Preferences} from 'utils/constants';
 import {PreferenceType} from '@mattermost/types/preferences';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
@@ -42,7 +42,7 @@ import {
     applyMarkdown,
     ApplyMarkdownOptions,
 } from 'utils/markdown/apply_markdown';
-import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
+import AdvancedTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {TextboxClass, TextboxElement} from '../textbox';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
@@ -213,6 +213,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     private saveDraftFrame?: number | null;
 
     private isDraftSubmitting = false;
+    private isDraftEdited = false;
 
     private readonly textboxRef: React.RefObject<TextboxClass>;
     private readonly fileUploadRef: React.RefObject<FileUploadClass>;
@@ -284,7 +285,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
         window.removeEventListener('beforeunload', this.saveDraftWithShow);
-        this.saveDraftWithShow();
+        this.saveDraftOnUnmount();
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
@@ -331,6 +332,20 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                 getChannelMemberCountsByGroup(channelId, isTimezoneEnabled);
             }
         }
+    }
+
+    saveDraftOnUnmount = () => {
+        if (!this.isDraftEdited || !this.state.draft) {
+            return;
+        }
+
+        const updatedDraft = {
+            ...this.state.draft,
+            show: !isDraftEmpty(this.state.draft),
+            remote: false,
+        } as PostDraft;
+
+        this.props.onUpdateCommentDraft(updatedDraft, true);
     }
 
     saveDraftWithShow = () => {
@@ -767,18 +782,28 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         this.draftsForPost[this.props.rootId] = updatedDraft;
     }
 
-    handleDraftChange = (draft: PostDraft, rootId?: string, save = false) => {
+    handleDraftChange = (draft: PostDraft, rootId?: string, save = false, instant = false) => {
+        this.isDraftEdited = true;
+
         if (this.saveDraftFrame) {
             clearTimeout(this.saveDraftFrame);
         }
 
-        this.saveDraftFrame = window.setTimeout(() => {
+        const saveDraft = () => {
             if (typeof rootId == 'undefined') {
                 this.props.onUpdateCommentDraft(draft);
             } else {
                 this.props.updateCommentDraftWithRootId(rootId, draft, save);
             }
-        }, Constants.SAVE_DRAFT_TIMEOUT);
+        };
+
+        if (instant) {
+            saveDraft();
+        } else {
+            this.saveDraftFrame = window.setTimeout(() => {
+                saveDraft();
+            }, Constants.SAVE_DRAFT_TIMEOUT);
+        }
         this.draftsForPost[this.props.rootId] = draft;
     }
 
@@ -954,6 +979,10 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     }
 
     applyMarkdown = (options: ApplyMarkdownOptions) => {
+        if (this.props.shouldShowPreview) {
+            return;
+        }
+
         const res = applyMarkdown(options);
 
         const draft = this.state.draft!;
@@ -973,6 +1002,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     }
 
     handleFileUploadChange = () => {
+        this.isDraftEdited = true;
         this.focusTextbox();
     }
 
@@ -1017,7 +1047,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             fileInfos: newFileInfos,
             uploadsInProgress,
         };
-        this.handleDraftChange(modifiedDraft, rootId!, true);
+        this.handleDraftChange(modifiedDraft, rootId!, true, true);
         if (this.props.rootId === rootId) {
             this.setState({draft: modifiedDraft});
         }
@@ -1111,7 +1141,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         this.props.savePreferences(this.props.currentUserId, [{
             category: Preferences.ADVANCED_TEXT_EDITOR,
             user_id: this.props.currentUserId,
-            name: AdvancedTextEditor.COMMENT,
+            name: AdvancedTextEditorConst.COMMENT,
             value: String(!this.state.isFormattingBarHidden),
         }]);
     }
@@ -1158,7 +1188,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     (this.props.draft.fileInfos.length > 0 || this.props.draft.uploadsInProgress.length > 0) &&
                     <FileLimitStickyBanner/>
                 }
-                <AdvanceTextEditor
+                <AdvancedTextEditor
                     location={Locations.RHS_COMMENT}
                     textboxRef={this.textboxRef}
                     currentUserId={this.props.currentUserId}

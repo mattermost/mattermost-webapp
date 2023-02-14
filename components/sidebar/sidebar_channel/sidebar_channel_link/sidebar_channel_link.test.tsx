@@ -33,7 +33,6 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
         unreadMentions: 0,
         isUnread: false,
         isMuted: false,
-        isCollapsed: false,
         isChannelSelected: false,
         hasUrgent: false,
         showChannelsTutorialStep: false,
@@ -45,6 +44,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
             clearChannelSelection: jest.fn(),
             openLhs: jest.fn(),
             unsetEditingPost: jest.fn(),
+            closeRightHandSide: jest.fn(),
         },
     };
 

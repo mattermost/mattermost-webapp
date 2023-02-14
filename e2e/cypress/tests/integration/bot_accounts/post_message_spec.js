@@ -14,15 +14,6 @@ describe('Bot post message', () => {
     let offTopicChannel;
 
     before(() => {
-        // # Set ServiceSettings to expected values
-        const newSettings = {
-            ServiceSettings: {
-                EnableBotAccountCreation: true,
-                EnableUserAccessTokens: false,
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
-
         cy.apiInitSetup().then(({team}) => {
             cy.apiGetChannelByName(team.name, 'off-topic').then(({channel}) => {
                 offTopicChannel = channel;

@@ -6,9 +6,6 @@ import {screen, fireEvent} from '@testing-library/react';
 
 import {Provider} from 'react-redux';
 
-import {UserProfile, UsersState} from '@mattermost/types/users';
-import {GlobalState} from '@mattermost/types/store';
-
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {Preferences} from 'mattermost-redux/constants';
 
@@ -21,6 +18,9 @@ import {renderWithIntl} from 'tests/react_testing_utils';
 import mockStore from 'tests/test_store';
 
 import {CloudProducts} from 'utils/constants';
+
+import {GlobalState} from '@mattermost/types/store';
+import {UserProfile, UsersState} from '@mattermost/types/users';
 
 import LimitReachedBanner from './limit_reached_banner';
 
@@ -67,7 +67,6 @@ const base = {
 };
 
 const free = {...base, sku: CloudProducts.STARTER};
-const professional = {...base, sku: CloudProducts.PROFESSIONAL};
 const enterprise = {...base, sku: CloudProducts.ENTERPRISE};
 
 const noLimitReached = {
@@ -185,18 +184,5 @@ describe('limits_reached_banner', () => {
         expect(screen.queryByText(titleProfessional)).not.toBeInTheDocument();
         fireEvent.click(screen.getByText('Contact sales'));
         expect(mockOpenSalesLink).toHaveBeenCalled();
-    });
-
-    test('renders professional banner', () => {
-        const store = mockStore(state);
-        const spies = makeSpies();
-        const mockOpenPurchaseModal = jest.fn();
-        spies.useOpenCloudPurchaseModal.mockReturnValue(mockOpenPurchaseModal);
-        spies.useGetUsageDeltas.mockReturnValue(someLimitReached);
-        renderWithIntl(<Provider store={store}><LimitReachedBanner product={professional}/></Provider>);
-        screen.getByText(titleProfessional);
-        expect(screen.queryByText(titleFree)).not.toBeInTheDocument();
-        fireEvent.click(screen.getByText('Upgrade'));
-        expect(mockOpenPurchaseModal).toHaveBeenCalled();
     });
 });

@@ -16,15 +16,16 @@ import UserSettingsModal from 'components/user_settings/modal';
 import Pluggable from 'plugins/pluggable';
 
 import {ModalData} from 'types/actions';
+import {RhsState} from 'types/store/rhs';
 
-import Constants, {ModalIdentifiers} from 'utils/constants';
+import Constants, {ModalIdentifiers, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
 import CreateUserGroupsModal from 'components/create_user_groups_modal';
 import KeyboardShortcutsModal from '../keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 import ChannelNavigator from './channel_navigator';
-import SidebarChannelList from './sidebar_channel_list';
+import SidebarList from './sidebar_list';
 import SidebarHeader from './sidebar_header';
 import MobileSidebarHeader from './mobile_sidebar_header';
 
@@ -41,6 +42,7 @@ type Props = {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: (modalId: string) => void;
         clearChannelSelection: () => void;
+        closeRightHandSide: () => void;
     };
     isCloud: boolean;
     unreadFilterEnabled: boolean;
@@ -48,6 +50,9 @@ type Props = {
     isKeyBoardShortcutModalOpen: boolean;
     userGroupsEnabled: boolean;
     canCreateCustomGroups: boolean;
+    rhsState?: RhsState;
+    rhsOpen?: boolean;
+    showWorkTemplateButton: boolean;
 };
 
 type State = {
@@ -168,6 +173,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             modalId: ModalIdentifiers.NEW_CHANNEL_MODAL,
             dialogType: NewChannelModal,
         });
+        this.closeEditRHS();
         trackEvent('ui', 'ui_channels_create_channel_v2');
     }
 
@@ -185,6 +191,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
             this.hideMoreDirectChannelsModal();
         } else {
             this.showMoreDirectChannelsModal();
+            this.closeEditRHS();
         }
     }
 
@@ -214,6 +221,12 @@ export default class Sidebar extends React.PureComponent<Props, State> {
         );
     }
 
+    closeEditRHS = () => {
+        if (this.props.rhsOpen && this.props.rhsState === RHSStates.EDIT_HISTORY) {
+            this.props.actions.closeRightHandSide();
+        }
+    };
+
     render() {
         if (!this.props.teamId) {
             return (<div/>);
@@ -242,6 +255,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                         unreadFilterEnabled={this.props.unreadFilterEnabled}
                         userGroupsEnabled={this.props.userGroupsEnabled}
                         canCreateCustomGroups={this.props.canCreateCustomGroups}
+                        showWorkTemplateButton={this.props.showWorkTemplateButton}
                     />
                 )}
                 <div
@@ -267,7 +281,7 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 <div className='sidebar--left__icons'>
                     <Pluggable pluggableName='LeftSidebarHeader'/>
                 </div>
-                <SidebarChannelList
+                <SidebarList
                     handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}
                     onDragStart={this.onDragStart}
                     onDragEnd={this.onDragEnd}

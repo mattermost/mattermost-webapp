@@ -117,7 +117,7 @@ describe('reply-notifications', () => {
                     cy.get(`#postMessageText_${msgId}`).as('postMessageText');
 
                     // * Verify reply bar highlight
-                    cy.get(`#${msgId}_message`).should('have.class', 'mention-comment');
+                    cy.get(`#post_${msgId}`).should('have.class', 'mention-comment');
                 });
                 cy.get('@postMessageText').
                     should('be.visible').
@@ -160,7 +160,7 @@ describe('reply-notifications', () => {
                     cy.get(`#postMessageText_${msgId}`).as('postMessageText');
 
                     // * Verify reply bar highlight
-                    cy.get(`#${msgId}_message`).should('have.class', 'mention-comment');
+                    cy.get(`#post_${msgId}`).should('have.class', 'mention-comment');
                 });
                 cy.get('@postMessageText').
                     should('be.visible').
@@ -220,7 +220,7 @@ describe('reply-notifications', () => {
                             and('have.text', message);
 
                         // * Verify reply bar highlight
-                        cy.get(`#${msgId}_message`).should('have.class', 'mention-comment');
+                        cy.get(`#rhsPost_${msgId}`).should('have.class', 'mention-comment');
                     });
                 });
             });

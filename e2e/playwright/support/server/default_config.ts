@@ -168,7 +168,7 @@ const defaultServerConfig: AdminConfig = {
         CollapsedThreads: CollapsedThreads.ALWAYS_ON,
         ManagedResourcePaths: '',
         EnableCustomGroups: true,
-        SelfHostedFirstTimePurchase: false,
+        SelfHostedPurchase: false,
         AllowSyncedDrafts: true,
     },
     TeamSettings: {
@@ -530,6 +530,7 @@ const defaultServerConfig: AdminConfig = {
         EnableSharedChannels: false,
         EnableRemoteClusterService: false,
         EnableAppBar: false,
+        PatchPluginsReactDOM: false,
     },
     AnalyticsSettings: {
         MaxUsersForStatistics: 2500,
@@ -672,7 +673,7 @@ const defaultServerConfig: AdminConfig = {
         GraphQL: false,
         InsightsEnabled: true,
         CommandPalette: false,
-        BoardsProduct: false,
+        BoardsProduct: true,
         SendWelcomePost: true,
         PostPriority: false,
         PeopleProduct: false,

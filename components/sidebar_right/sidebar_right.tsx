@@ -21,6 +21,7 @@ import RhsCard from 'components/rhs_card';
 import ChannelInfoRhs from 'components/channel_info_rhs';
 import ChannelMembersRhs from 'components/channel_members_rhs';
 import Search from 'components/search/index';
+import PostEditHistory from 'components/post_edit_history';
 import LoadingScreen from 'components/loading_screen';
 
 import RhsPlugin from 'plugins/rhs_plugin';
@@ -40,6 +41,7 @@ type Props = {
     isChannelInfo: boolean;
     isChannelMembers: boolean;
     isPluginView: boolean;
+    isPostEditHistory: boolean;
     previousRhsState: RhsState;
     rhsChannel: Channel;
     selectedPostId: string;
@@ -85,6 +87,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             isChannelFiles: this.props.isChannelFiles,
             isChannelInfo: this.props.isChannelInfo,
             isChannelMembers: this.props.isChannelMembers,
+            isPostEditHistory: this.props.isPostEditHistory,
             selectedPostId: this.props.selectedPostId,
             selectedPostCardId: this.props.selectedPostCardId,
             previousRhsState: this.props.previousRhsState,
@@ -197,28 +200,32 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
 
     render() {
         const {
+            team,
+            channel,
             rhsChannel,
             postRightVisible,
             postCardVisible,
             previousRhsState,
             searchVisible,
-            isPinnedPosts,
-            isChannelFiles,
             isPluginView,
             isOpen,
             isChannelInfo,
             isChannelMembers,
             isExpanded,
-            channel,
-            team,
+            isPostEditHistory,
         } = this.props;
 
         if (!isOpen) {
             return null;
         }
 
+        const teamNeeded = true;
+        let selectedChannelNeeded;
+        let currentChannelNeeded;
         let content = null;
+
         if (postRightVisible) {
+            selectedChannelNeeded = true;
             content = (
                 <div className='post-right__container'>
                     <FileUploadOverlay overlayType='right'/>
@@ -230,23 +237,24 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         } else if (isPluginView) {
             content = <RhsPlugin/>;
         } else if (isChannelInfo) {
-            content = (
-                <ChannelInfoRhs/>
-            );
+            currentChannelNeeded = true;
+            content = <ChannelInfoRhs/>;
         } else if (isChannelMembers) {
-            content = (
-                <ChannelMembersRhs/>
-            );
+            currentChannelNeeded = true;
+            content = <ChannelMembersRhs/>;
+        } else if (isPostEditHistory) {
+            content = <PostEditHistory/>;
         }
 
-        // Sometimes the channel/team is not loaded yet, so we need to wait for it
-        const isChannelSpecificRHS = postRightVisible || postCardVisible || isPinnedPosts || isChannelFiles || isChannelInfo || isChannelMembers;
-
-        const isRHSLoading = postRightVisible ? !(team || channel) : (!team || !channel) && isChannelSpecificRHS;
+        const isRHSLoading = Boolean(
+            (teamNeeded && !team) ||
+            (selectedChannelNeeded && !rhsChannel) ||
+            (currentChannelNeeded && !channel),
+        );
 
         const channelDisplayName = rhsChannel ? rhsChannel.display_name : '';
 
-        const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible) && isExpanded;
+        const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible || isPostEditHistory) && isExpanded;
         const containerClassName = classNames('sidebar--right', 'move--left is-open', {
             'sidebar--right--expanded expanded': isSidebarRightExpanded,
         });
@@ -263,6 +271,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
                     <div className='sidebar-right-container'>
                         {isRHSLoading ? (
                             <div className='sidebar-right__body'>
+                                {/* Sometimes the channel/team is not loaded yet, so we need to wait for it */}
                                 <LoadingScreen centered={true}/>
                             </div>
                         ) : (

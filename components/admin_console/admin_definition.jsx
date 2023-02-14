@@ -76,6 +76,8 @@ import WorkspaceOptimizationDashboard from './workspace-optimization/dashboard';
 import {
     LDAPFeatureDiscovery,
     SAMLFeatureDiscovery,
+    OpenIDFeatureDiscovery,
+    OpenIDCustomFeatureDiscovery,
     AnnouncementBannerFeatureDiscovery,
     ComplianceExportFeatureDiscovery,
     CustomTermsOfServiceFeatureDiscovery,
@@ -201,8 +203,10 @@ export const it = {
     configContains: (group, setting, word) => (config) => Boolean(config[group][setting]?.includes(word)),
     enterpriseReady: (config, state, license, enterpriseReady) => enterpriseReady,
     licensed: (config, state, license) => license.IsLicensed === 'true',
+    cloudLicensed: (config, state, license) => isCloudLicense(license),
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
     licensedForSku: (skuName) => (config, state, license) => license.IsLicensed && license.SkuShortName === skuName,
+    licensedForCloudStarter: (config, state, license) => isCloudLicense(license) && license.SkuShortName === LicenseSkus.Starter,
     hidePaymentInfo: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
         const productId = cloud?.subscription?.product_id;
         const limits = cloud?.limits;
@@ -313,8 +317,13 @@ const AdminDefinition = {
         sectionTitle: t('admin.sidebar.billing'),
         sectionTitleDefault: 'Billing & Account',
         isHidden: it.any(
-            it.not(it.licensedForFeature('Cloud')),
+            it.not(it.enterpriseReady),
             it.not(it.userHasReadPermissionOnResource('billing')),
+            it.not(it.licensed),
+            it.all(
+                it.not(it.licensedForFeature('Cloud')),
+                it.configIsFalse('ServiceSettings', 'SelfHostedPurchase'),
+            ),
         ),
         subscription: {
             url: 'billing/subscription',
@@ -322,11 +331,16 @@ const AdminDefinition = {
             title_default: 'Subscription',
             searchableStrings: [
                 'admin.billing.subscription.title',
+                'admin.billing.subscription.deleteWorkspaceSection.title',
+                'admin.billing.subscription.deleteWorkspaceModal.deleteButton',
             ],
             schema: {
                 id: 'BillingSubscriptions',
                 component: BillingSubscriptions,
             },
+
+            // cloud only view
+            isHidden: it.not(it.licensedForFeature('Cloud')),
             isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         billing_history: {
@@ -353,6 +367,9 @@ const AdminDefinition = {
                 id: 'CompanyInfo',
                 component: CompanyInfo,
             },
+
+            // cloud only view
+            isHidden: it.not(it.licensedForFeature('Cloud')),
             isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         company_info_edit: {
@@ -361,13 +378,21 @@ const AdminDefinition = {
                 id: 'CompanyInfoEdit',
                 component: CompanyInfoEdit,
             },
+
+            // cloud only view
+            isHidden: it.not(it.licensedForFeature('Cloud')),
             isDisabled: it.not(it.userHasWritePermissionOnResource('billing')),
         },
         payment_info: {
             url: 'billing/payment_info',
             title: t('admin.sidebar.payment_info'),
             title_default: 'Payment Information',
-            isHidden: it.hidePaymentInfo,
+            isHidden: it.any(
+                it.hidePaymentInfo,
+
+                // cloud only view
+                it.not(it.licensedForFeature('Cloud')),
+            ),
             searchableStrings: [
                 'admin.billing.payment_info.title',
             ],
@@ -2174,7 +2199,7 @@ const AdminDefinition = {
                         label: t('admin.general.localization.serverLocaleTitle'),
                         label_default: 'Default Server Language:',
                         help_text: t('admin.general.localization.serverLocaleDescription'),
-                        help_text_default: 'Default language for system messages. Changing this will require a server restart before taking effect.',
+                        help_text_default: 'Default language for system messages.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.LOCALIZATION)),
                     },
                     {
@@ -2782,7 +2807,6 @@ const AdminDefinition = {
                             },
                         ],
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                        isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4795,7 +4819,14 @@ const AdminDefinition = {
             title: t('admin.sidebar.oauth'),
             title_default: 'OAuth 2.0',
             isHidden: it.any(
-                it.not(usesLegacyOauth),
+                it.any(
+                    it.not(it.licensed),
+                    it.licensedForSku('starter'),
+                ),
+                it.all(
+                    it.licensedForFeature('OpenId'),
+                    it.not(usesLegacyOauth),
+                ),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
             ),
             schema: {
@@ -4848,7 +4879,10 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: OpenIdConvert,
                         key: 'OpenIdConvert',
-                        isHidden: it.not(usesLegacyOauth),
+                        isHidden: it.any(
+                            it.all(it.not(it.licensedForFeature('OpenId')), it.not(it.cloudLicensed)),
+                            it.not(usesLegacyOauth),
+                        ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
@@ -4874,6 +4908,7 @@ const AdminDefinition = {
                                 value: Constants.GOOGLE_SERVICE,
                                 display_name: t('admin.oauth.google'),
                                 display_name_default: 'Google Apps',
+                                isHidden: it.all(it.not(it.licensedForFeature('GoogleOAuth')), it.not(it.cloudLicensed)),
                                 help_text: t('admin.google.EnableMarkdownDesc'),
                                 help_text_default: '1. <linkLogin>Log in</linkLogin> to your Google account.\n2. Go to <linkConsole>https://console.developers.google.com</linkConsole>, click <strong>Credentials</strong> in the left hand sidebar and enter "Mattermost - your-company-name" as the <strong>Project Name</strong>, then click <strong>Create</strong>.\n3. Click the <strong>OAuth consent screen</strong> header and enter "Mattermost" as the <strong>Product name shown to users</strong>, then click <strong>Save</strong>.\n4. Under the <strong>Credentials</strong> header, click <strong>Create credentials</strong>, choose <strong>OAuth client ID</strong> and select <strong>Web Application</strong>.\n5. Under <strong>Restrictions</strong> and <strong>Authorized redirect URIs</strong> enter <strong>your-mattermost-url/signup/google/complete</strong> (example: http://localhost:8065/signup/google/complete). Click <strong>Create</strong>.\n6. Paste the <strong>Client ID</strong> and <strong>Client Secret</strong> to the fields below, then click <strong>Save</strong>.\n7. Go to the <linkAPI>Google People API</linkAPI> and click <strong>Enable</strong>.',
                                 help_text_markdown: false,
@@ -4912,6 +4947,7 @@ const AdminDefinition = {
                                 value: Constants.OFFICE365_SERVICE,
                                 display_name: t('admin.oauth.office365'),
                                 display_name_default: 'Office 365',
+                                isHidden: it.all(it.not(it.licensedForFeature('Office365OAuth')), it.not(it.cloudLicensed)),
                                 help_text: t('admin.office365.EnableMarkdownDesc'),
                                 help_text_default: '1. <linkLogin>Log in</linkLogin> to your Microsoft or Office 365 account. Make sure it`s the account on the same <linkTenant>tenant</linkTenant> that you would like users to log in with.\n2. Go to <linkApps>https://apps.dev.microsoft.com</linkApps>, click <strong>Go to app list</strong> > <strong>Add an app</strong> and use "Mattermost - your-company-name" as the <strong>Application Name</strong>.\n3. Under <strong>Application Secrets</strong>, click <strong>Generate New Password</strong> and paste it to the <strong>Application Secret Password<strong> field below.\n4. Under <strong>Platforms</strong>, click <strong>Add Platform</strong>, choose <strong>Web</strong> and enter <strong>your-mattermost-url/signup/office365/complete</strong> (example: http://localhost:8065/signup/office365/complete) under <strong>Redirect URIs</strong>. Also uncheck <strong>Allow Implicit Flow</strong>.\n5. Finally, click <strong>Save</strong> and then paste the <strong>Application ID</strong> below.',
                                 help_text_markdown: false,
@@ -5158,7 +5194,10 @@ const AdminDefinition = {
             url: 'authentication/openid',
             title: t('admin.sidebar.openid'),
             title_default: 'OpenID Connect',
-            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
+            isHidden: it.any(
+                it.all(it.not(it.licensedForFeature('OpenId')), it.not(it.cloudLicensed)),
+                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
+            ),
             schema: {
                 id: 'OpenIdSettings',
                 name: t('admin.authentication.openid'),
@@ -5234,6 +5273,7 @@ const AdminDefinition = {
                         key: 'openidType',
                         label: t('admin.openid.select'),
                         label_default: 'Select service provider:',
+                        isHelpHidden: it.all(it.stateEquals('openidType', Constants.OPENID_SERVICE), it.licensedForCloudStarter),
                         options: [
                             {
                                 value: 'off',
@@ -5487,7 +5527,7 @@ const AdminDefinition = {
                         placeholder_default: 'Custom Button Name',
                         help_text: t('admin.openid.buttonTextDesc'),
                         help_text_default: 'The text that will show on the login button.',
-                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isHidden: it.any(it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)), it.licensedForCloudStarter),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
@@ -5498,7 +5538,7 @@ const AdminDefinition = {
                         help_text: t('admin.openid.buttonColorDesc'),
                         help_text_default: 'Specify the color of the OpenID login button for white labeling purposes. Use a hex code with a #-sign before the code.',
                         help_text_markdown: false,
-                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isHidden: it.any(it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)), it.licensedForCloudStarter),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
@@ -5511,7 +5551,7 @@ const AdminDefinition = {
                         help_text: t('admin.openid.discoveryEndpointDesc'),
                         help_text_default: 'Enter the URL of the discovery document of the OpenID Connect provider you want to connect with.',
                         help_text_markdown: false,
-                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isHidden: it.any(it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)), it.licensedForCloudStarter),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
@@ -5523,7 +5563,7 @@ const AdminDefinition = {
                         help_text_default: 'Obtaining the Client ID differs across providers. Please check you provider\'s documentation',
                         placeholder: t('admin.openid.clientIdExample'),
                         placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
-                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isHidden: it.any(it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)), it.licensedForCloudStarter),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
@@ -5535,12 +5575,43 @@ const AdminDefinition = {
                         help_text_default: 'Obtaining the Client Secret differs across providers. Please check you provider\'s documentation',
                         placeholder: t('admin.openid.clientSecretExample'),
                         placeholder_default: 'E.g.: "H8sz0Az-dDs2p15-7QzD231"',
-                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isHidden: it.any(it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)), it.licensedForCloudStarter),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        key: 'OpenIDCustomFeatureDiscovery',
+                        component: OpenIDCustomFeatureDiscovery,
+                        isHidden: it.not(it.all(it.stateEquals('openidType', Constants.OPENID_SERVICE), it.licensedForCloudStarter)),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                 ],
             },
             restrictedIndicator: getRestrictedIndicator(),
+        },
+        openid_feature_discovery: {
+            url: 'authentication/openid',
+            isDiscovery: true,
+            title: t('admin.sidebar.openid'),
+            title_default: 'OpenID Connect',
+            isHidden: it.any(
+                it.any(it.licensedForFeature('OpenId'), it.cloudLicensed),
+                it.not(it.enterpriseReady),
+            ),
+            schema: {
+                id: 'OpenIdSettings',
+                name: t('admin.authentication.openid'),
+                name_default: 'OpenID Connect',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: OpenIDFeatureDiscovery,
+                        key: 'OpenIDFeatureDiscovery',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+                    },
+                ],
+            },
+            restrictedIndicator: getRestrictedIndicator(true),
         },
         guest_access: {
             url: 'authentication/guest_access',
@@ -6826,7 +6897,11 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableSharedChannels.desc'),
                         help_text_default: 'Toggles Shared Channels',
                         help_text_markdown: false,
-                        isHidden: it.not(it.licensedForFeature('SharedChannels')),
+                        isHidden: it.not(it.any(
+                            it.licensedForFeature('SharedChannels'),
+                            it.licensedForSku(LicenseSkus.Enterprise),
+                            it.licensedForSku(LicenseSkus.Professional),
+                        )),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
                     {
@@ -6837,6 +6912,27 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableAppBar.desc'),
                         help_text_default: 'When true, all integrations move from the channel header to the App Bar. Channel header plugin icons that haven\'t explicitly registered an App Bar icon will be moved to the App Bar which may result in rendering issues. [See the documentation to learn more](https://docs.mattermost.com/welcome/what-changed-in-v70.html).',
                         help_text_markdown: true,
+                        isHidden: it.licensedForFeature('Cloud'),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ExperimentalSettings.PatchPluginsReactDOM',
+                        label: t('admin.experimental.patchPluginsReactDOM.title'),
+                        label_default: 'Patch React DOM used by plugins:',
+                        help_text: t('admin.experimental.patchPluginsReactDOM.desc'),
+                        help_text_default: 'When true, client-side plugins will be patched to use the version of React DOM provided by the web app. This should only be enabled if plugins break after upgrading to Mattermost 7.6. The server must be restarted for this setting to take effect. See the <link>Important Upgrade Notes</link> for more information.',
+                        help_text_values: {
+                            link: (msg) => (
+                                <a
+                                    href='https://docs.mattermost.com/upgrade/important-upgrade-notes.html'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        },
                         isHidden: it.licensedForFeature('Cloud'),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },

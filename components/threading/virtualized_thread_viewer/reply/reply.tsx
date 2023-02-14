@@ -1,16 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback} from 'react';
-
-import {useDispatch} from 'react-redux';
-
-import {removePost} from 'mattermost-redux/actions/posts';
-
-import RhsComment from 'components/rhs_comment';
-import {Props as TimestampProps} from 'components/timestamp/timestamp';
+import React, {memo} from 'react';
 
 import {Post} from '@mattermost/types/posts';
+
+import PostComponent from 'components/post';
+import {Props as TimestampProps} from 'components/timestamp/timestamp';
+import {Locations} from 'utils/constants';
 
 type Props = {
     a11yIndex: number;
@@ -21,11 +18,11 @@ type Props = {
     previousPostId: string;
     teamId: string;
     timestampProps?: Partial<TimestampProps>;
+    id?: Post['id'];
 }
 
 function Reply({
     a11yIndex,
-    currentUserId,
     isLastPost,
     onCardClick,
     post,
@@ -33,23 +30,16 @@ function Reply({
     teamId,
     timestampProps,
 }: Props) {
-    const dispatch = useDispatch();
-
-    const handleRemovePost = useCallback((post: Post) => {
-        dispatch(removePost(post));
-    }, []);
-
     return (
-        <RhsComment
+        <PostComponent
             a11yIndex={a11yIndex}
-            currentUserId={currentUserId}
             handleCardClick={onCardClick}
             isLastPost={isLastPost}
             post={post}
             previousPostId={previousPostId}
-            removePost={handleRemovePost}
             teamId={teamId}
             timestampProps={timestampProps}
+            location={Locations.RHS_COMMENT}
         />
     );
 }
