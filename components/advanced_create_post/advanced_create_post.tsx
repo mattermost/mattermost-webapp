@@ -931,6 +931,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         const originalSize = message.length;
         const formattedMessage = formatMarkdownMessage(clipboardData, message.trim(), this.state.caretPosition);
         const newCaretPosition = formattedMessage.length - (originalSize - this.state.caretPosition);
+        document.execCommand('insertText', false, formattedMessage);
         this.setMessageAndCaretPostion(formattedMessage, newCaretPosition);
         this.handlePostPasteDraft(formattedMessage);
     }
