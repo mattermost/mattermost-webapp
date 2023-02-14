@@ -11,6 +11,7 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import AlertBanner from 'components/alert_banner';
 import {calculateOverageUserActivated} from 'utils/overage_team';
 import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
+import {getIsGovSku} from 'utils/license_utils';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {PreferenceType} from '@mattermost/types/preferences';
@@ -33,6 +34,7 @@ const OverageUsersBannerNotice = () => {
     const stats = useSelector((state: GlobalState) => state.entities.admin.analytics) || {};
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const license = useSelector(getLicense);
+    const isGovSku = getIsGovSku(license);
     const seatsPurchased = parseInt(license.Users, 10);
     const isCloud = useSelector(isCurrentLicenseCloud);
     const getPreferencesCategory = makeGetCategory();
@@ -79,6 +81,41 @@ const OverageUsersBannerNotice = () => {
         }]));
     };
 
+    let message;
+    if (!isGovSku) {
+        message = (
+            <FormattedMessage
+                id='licensingPage.overageUsersBanner.noticeDescription'
+                defaultMessage='Notify your Customer Success Manager on your next true-up check. <a></a>'
+                values={{
+                    a: () => {
+                        if (getRequestState === 'IDLE' || getRequestState === 'LOADING') {
+                            return null;
+                        }
+
+                        const handleClick = () => {
+                            trackEventFn(isExpandable ? 'Self Serve' : 'Contact Sales');
+                        };
+
+                        return (
+                            <a
+                                className='overage_users_banner__button'
+                                href={isExpandable ? expandableLink(license.Id) : LicenseLinks.CONTACT_SALES}
+                                target='_blank'
+                                rel='noreferrer'
+                                onClick={handleClick}
+                            >
+                                {cta}
+                            </a>
+                        );
+                    },
+                }}
+            >
+                {(text) => <p className='overage_users_banner__description'>{text}</p>}
+            </FormattedMessage>
+        );
+    }
+
     return (
         <AlertBanner
             mode={isOver10PercerntPurchasedSeats ? 'danger' : 'warning'}
@@ -93,37 +130,7 @@ const OverageUsersBannerNotice = () => {
                     }}
                 />
             }
-            message={
-                <FormattedMessage
-                    id='licensingPage.overageUsersBanner.noticeDescription'
-                    defaultMessage='Notify your Customer Success Manager on your next true-up check. <a></a>'
-                    values={{
-                        a: () => {
-                            if (getRequestState === 'IDLE' || getRequestState === 'LOADING') {
-                                return null;
-                            }
-
-                            const handleClick = () => {
-                                trackEventFn(isExpandable ? 'Self Serve' : 'Contact Sales');
-                            };
-
-                            return (
-                                <a
-                                    className='overage_users_banner__button'
-                                    href={isExpandable ? expandableLink(license.Id) : LicenseLinks.CONTACT_SALES}
-                                    target='_blank'
-                                    rel='noreferrer'
-                                    onClick={handleClick}
-                                >
-                                    {cta}
-                                </a>
-                            );
-                        },
-                    }}
-                >
-                    {(text) => <p className='overage_users_banner__description'>{text}</p>}
-                </FormattedMessage>
-            }
+            message={message}
         />
     );
 };

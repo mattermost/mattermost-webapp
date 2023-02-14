@@ -471,4 +471,31 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
             banner: 'invite modal',
         });
     });
+
+    it('gov sku sees overage notice but not a call to do true up', () => {
+        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
+
+        store.entities.admin = {
+            ...store.entities.admin,
+            analytics: {
+                [StatTypes.TOTAL_USERS]: seatsMinimumFor10PercentageState,
+            },
+        };
+
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                is_expandable: false,
+                getRequestState: 'OK',
+            },
+        };
+        store.entities.general.license.IsGovSku = 'true';
+
+        renderComponent({
+            store,
+        });
+
+        screen.getByText(text10PercentageState);
+        expect(screen.queryByText(notifyText)).not.toBeInTheDocument();
+    });
 });
