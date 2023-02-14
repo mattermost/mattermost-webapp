@@ -4,11 +4,6 @@
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
-import {Role} from '@mattermost/types/roles';
-import {CloudState, Product} from '@mattermost/types/cloud';
-import {DeepPartial} from '@mattermost/types/utilities';
-import {AdminConfig, EnvironmentConfig, ClientLicense} from '@mattermost/types/config';
-
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import type {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -21,6 +16,11 @@ import AnnouncementBarController from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
 import {LhsItemType} from 'types/store/lhs';
 import {applyTheme, resetTheme} from 'utils/utils';
+
+import {Role} from '@mattermost/types/roles';
+import {CloudState, Product} from '@mattermost/types/cloud';
+import {DeepPartial} from '@mattermost/types/utilities';
+import {AdminConfig, EnvironmentConfig, ClientLicense} from '@mattermost/types/config';
 
 import AdminSidebar from './admin_sidebar';
 import Highlight from './highlight';
