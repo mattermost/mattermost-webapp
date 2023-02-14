@@ -1,11 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {components, InputActionMeta, FormatOptionLabelMeta} from 'react-select';
-import {Props as AsyncSelectProps} from 'react-select/async';
+import {components, InputActionMeta, FormatOptionLabelMeta, ValueType, OptionsType} from 'react-select';
+import AsyncCreatable from 'react-select/async-creatable';
 import classNames from 'classnames';
+
+import GuestTag from 'components/widgets/tag/guest_tag';
+
+import BotTag from 'components/widgets/tag/bot_tag';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 import {UserProfile} from '@mattermost/types/users';
@@ -14,8 +18,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MailIcon from 'components/widgets/icons/mail_icon';
 import MailPlusIcon from 'components/widgets/icons/mail_plus_icon';
 import CloseCircleSolidIcon from 'components/widgets/icons/close_circle_solid_icon';
-import GuestBadge from 'components/widgets/badges/guest_badge';
-import BotBadge from 'components/widgets/badges/bot_badge';
+
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import Avatar from 'components/widgets/users/avatar';
 import {imageURLForUser, getDisplayName, getLongDisplayNameParts} from 'utils/utils';
@@ -24,12 +27,6 @@ import {t} from 'utils/i18n';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import './users_emails_input.scss';
-
-// Faking types here to approximate what AsyncCreatable props should be. They're similar to AsyncSelectProps, but the signature for onChange is a list. we have a very out of date react-select library and these types are not exposed, and its not easy to update react-select several major versions
-type AsyncCreatableProps = {
-    onChange: (value: Array<UserProfile | EmailInvite>) => void;
-};
-const AsyncCreatable = require('react-select/lib/AsyncCreatable').default as React.ElementType<Omit<AsyncSelectProps<UserProfile | EmailInvite>, 'onChange'> & AsyncCreatableProps>; // eslint-disable-line global-require
 
 type Props = {
     placeholder: string;
@@ -76,7 +73,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         loadingMessageDefault: 'Loading',
         showError: false,
     };
-    private selectRef: React.RefObject<{handleInputChange: (newValue: string, actionMeta: InputActionMeta | {action: 'custom'}) => void}>;
+    private selectRef: RefObject<AsyncCreatable<UserProfile | EmailInvite> & {handleInputChange: (newValue: string, actionMeta: InputActionMeta | {action: 'custom'}) => string}>;
 
     constructor(props: Props) {
         super(props);
@@ -131,11 +128,11 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         let botBadge = null;
 
         if ((user as UserProfile).is_bot) {
-            botBadge = <BotBadge/>;
+            botBadge = <BotTag/>;
         }
 
         if (!isEmail((user as EmailInvite).value) && isGuest((user as UserProfile).roles)) {
-            guestBadge = <GuestBadge/>;
+            guestBadge = <GuestTag/>;
         }
 
         if (options.context === 'menu') {
@@ -179,14 +176,18 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         );
     }
 
-    onChange = (value: Array<UserProfile | EmailInvite>) => {
+    onChange = (value: ValueType<UserProfile | EmailInvite>) => {
         if (this.props.onChange) {
-            this.props.onChange(value.map((v) => {
-                if ((v as UserProfile).id) {
-                    return v as UserProfile;
-                }
-                return (v as EmailInvite).value;
-            }));
+            if (value) {
+                this.props.onChange((value as Array<UserProfile | EmailInvite>).map((v) => {
+                    if ((v as UserProfile).id) {
+                        return v as UserProfile;
+                    }
+                    return (v as EmailInvite).value;
+                }));
+            } else {
+                this.props.onChange([]);
+            }
         }
     }
 
@@ -284,8 +285,8 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         }
     }
 
-    showAddEmail = (input: string, _values: () => any[], options: UserProfile[]): boolean => {
-        return this.props.emailInvitationsEnabled && options.length === 0 && isEmail(input);
+    showAddEmail = (inputValue: string, value: ValueType<UserProfile | EmailInvite>, options: OptionsType<UserProfile | EmailInvite>): boolean => {
+        return this.props.emailInvitationsEnabled && options.length === 0 && isEmail(inputValue);
     }
 
     onFocus = () => {

@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage, IntlShape} from 'react-intl';
 
+import {getModule} from 'module_registry';
+
 import {latinise} from 'utils/latinise';
 import {t} from 'utils/i18n';
 import * as TextFormatting from 'utils/text_formatting';
@@ -59,7 +61,7 @@ export function getSiteURLFromWindowObject(obj: WindowObject): string {
 }
 
 export function getSiteURL(): string {
-    return getSiteURLFromWindowObject(window);
+    return getModule<() => string>('utils/url/getSiteURL')?.() ?? getSiteURLFromWindowObject(window);
 }
 
 export function getBasePathFromWindowObject(obj: WindowObject): string {

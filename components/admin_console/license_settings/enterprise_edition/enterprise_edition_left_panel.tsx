@@ -2,18 +2,22 @@
 // See LICENSE.txt for license information.
 
 import React, {RefObject, useEffect, useState} from 'react';
-import {FormattedDate, FormattedMessage, FormattedNumber, FormattedTime} from 'react-intl';
+import classNames from 'classnames';
+import {FormattedDate, FormattedMessage, FormattedNumber, FormattedTime, useIntl} from 'react-intl';
+
+import Tag from 'components/widgets/tag/tag';
 
 import {ClientLicense} from '@mattermost/types/config';
 
 import {Client4} from 'mattermost-redux/client';
 
 import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
-import {FileTypes, LicenseSkus} from 'utils/constants';
-
-import Badge from 'components/widgets/badges/badge';
+import {FileTypes} from 'utils/constants';
+import {getSkuDisplayName} from 'utils/subscription';
+import {calculateOverageUserActivated} from 'utils/overage_team';
 
 import './enterprise_edition.scss';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 export interface EnterpriseEditionProps {
     openEELicenseModal: () => void;
@@ -25,32 +29,8 @@ export interface EnterpriseEditionProps {
     removing: boolean;
     fileInputRef: RefObject<HTMLInputElement>;
     handleChange: () => void;
+    statsActiveUsers: number;
 }
-
-export const getSkuDisplayName = (skuShortName: string, isGovSku: boolean): string => {
-    let skuName = '';
-    switch (skuShortName) {
-    case LicenseSkus.E20:
-        skuName = 'Enterprise E20';
-        break;
-    case LicenseSkus.E10:
-        skuName = 'Enterprise E10';
-        break;
-    case LicenseSkus.Professional:
-        skuName = 'Professional';
-        break;
-    case LicenseSkus.Starter:
-        skuName = 'Starter';
-        break;
-    default:
-        skuName = 'Enterprise';
-        break;
-    }
-
-    skuName += isGovSku ? ' Gov' : '';
-
-    return skuName;
-};
 
 const EnterpriseEditionLeftPanel = ({
     openEELicenseModal,
@@ -62,32 +42,70 @@ const EnterpriseEditionLeftPanel = ({
     removing,
     fileInputRef,
     handleChange,
+    statsActiveUsers,
 }: EnterpriseEditionProps) => {
+    const {formatMessage} = useIntl();
     const [unsanitizedLicense, setUnsanitizedLicense] = useState(license);
+    const openPricingModal = useOpenPricingModal();
+
     useEffect(() => {
         async function fetchUnSanitizedLicense() {
             // This solves this the issue reported here: https://mattermost.atlassian.net/browse/MM-42906
             try {
                 const unsanitizedL = await Client4.getClientLicenseOld();
                 setUnsanitizedLicense(unsanitizedL);
-            // eslint-disable-next-line no-empty
-            } catch {}
+            } catch {
+                // do nothing
+            }
         }
         fetchUnSanitizedLicense();
     }, [license]);
 
     const skuName = getSkuDisplayName(unsanitizedLicense.SkuShortName, unsanitizedLicense.IsGovSku === 'true');
     const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(unsanitizedLicense.ExpiresAt, 10));
+
+    const viewPlansButton = (
+        <button
+            id='enterprise_edition_view_plans'
+            onClick={() => openPricingModal({trackingLocation: 'license_settings_view_plans'})}
+            className='btn btn-secondary PlanDetails__viewPlansButton'
+        >
+            {formatMessage({
+                id: 'workspace_limits.menu_limit.view_plans',
+                defaultMessage: 'View plans',
+            })}
+        </button>
+    );
+
     return (
-        <div className='EnterpriseEditionLeftPanel'>
-            <div className='pre-title'>
-                <FormattedMessage
-                    id='admin.license.enterpriseEdition'
-                    defaultMessage='Enterprise Edition'
-                />
-            </div>
-            <div className='title'>
-                {`Mattermost ${skuName}`}{freeTrialBadge(isTrialLicense)}
+        <div
+            className='EnterpriseEditionLeftPanel'
+            data-testid='EnterpriseEditionLeftPanel'
+        >
+            <div className='EnterpriseEditionLeftPanel__Grid'>
+                <div>
+                    <div className='pre-title'>
+                        <FormattedMessage
+                            id='admin.license.enterpriseEdition'
+                            defaultMessage='Enterprise Edition'
+                        />
+                    </div>
+                    <div className='title'>
+                        {`Mattermost ${skuName}`}
+                        {isTrialLicense && (
+                            <Tag
+                                text={formatMessage({
+                                    id: 'admin.license.Trial',
+                                    defaultMessage: 'Trial',
+                                })}
+                                variant={'success'}
+                                uppercase={true}
+                                size={'sm'}
+                            />
+                        )}
+                    </div>
+                </div>
+                {viewPlansButton}
             </div>
             <div className='subtitle'>
                 <FormattedMessage
@@ -115,6 +133,7 @@ const EnterpriseEditionLeftPanel = ({
                         skuName,
                         fileInputRef,
                         handleChange,
+                        statsActiveUsers,
                     )
                 }
             </div>
@@ -141,6 +160,45 @@ const EnterpriseEditionLeftPanel = ({
     );
 };
 
+type LegendValues = 'START DATE:' | 'EXPIRES:' | 'USERS:' | 'ACTIVE USERS:' | 'EDITION:' | 'LICENSE ISSUED:' | 'NAME:' | 'COMPANY / ORG:'
+
+const renderLicenseValues = (activeUsers: number, seatsPurchased: number) => ({legend, value}: {legend: LegendValues; value: string | JSX.Element | null}, index: number): React.ReactNode => {
+    if (legend === 'ACTIVE USERS:') {
+        const {isBetween5PercerntAnd10PercentPurchasedSeats, isOver10PercerntPurchasedSeats} = calculateOverageUserActivated({activeUsers, seatsPurchased});
+        return (
+            <div
+                className='item-element'
+                key={value + index.toString()}
+            >
+                <span
+                    className={classNames({
+                        legend: true,
+                        'legend--warning-over-seats-purchased': isBetween5PercerntAnd10PercentPurchasedSeats,
+                        'legend--over-seats-purchased': isOver10PercerntPurchasedSeats,
+                    })}
+                >{legend}</span>
+                <span
+                    className={classNames({
+                        value: true,
+                        'value--warning-over-seats-purchased': isBetween5PercerntAnd10PercentPurchasedSeats,
+                        'value--over-seats-purchased': isOver10PercerntPurchasedSeats,
+                    })}
+                >{value}</span>
+            </div>
+        );
+    }
+
+    return (
+        <div
+            className='item-element'
+            key={value + index.toString()}
+        >
+            <span className='legend'>{legend}</span>
+            <span className='value'>{value}</span>
+        </div>
+    );
+};
+
 const renderLicenseContent = (
     license: ClientLicense,
     isTrialLicense: boolean,
@@ -150,12 +208,14 @@ const renderLicenseContent = (
     skuName: string,
     fileInputRef: RefObject<HTMLInputElement>,
     handleChange: () => void,
+    statsActiveUsers: number,
 ) => {
     // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
 
     const sku = license.SkuShortName ? <>{`Mattermost ${toTitleCase(skuName)}${isTrialLicense ? ' License Trial' : ''}`}</> : null;
 
     const users = <FormattedNumber value={parseInt(license.Users, 10)}/>;
+    const activeUsers = <FormattedNumber value={statsActiveUsers}/>;
     const startsAt = <FormattedDate value={new Date(parseInt(license.StartsAt, 10))}/>;
     const expiresAt = <FormattedDate value={new Date(parseInt(license.ExpiresAt, 10))}/>;
 
@@ -168,15 +228,16 @@ const renderLicenseContent = (
     );
 
     const licenseValues: Array<{
-        legend: string;
+        legend: LegendValues;
         value: string;
     } | {
-        legend: string;
+        legend: LegendValues;
         value: JSX.Element | null;
     }> = [
         {legend: 'START DATE:', value: startsAt},
         {legend: 'EXPIRES:', value: expiresAt},
         {legend: 'USERS:', value: users},
+        {legend: 'ACTIVE USERS:', value: activeUsers},
         {legend: 'EDITION:', value: sku},
         {legend: 'LICENSE ISSUED:', value: issued},
         {legend: 'NAME:', value: license.Name},
@@ -185,17 +246,7 @@ const renderLicenseContent = (
 
     return (
         <div className='licenseElements'>
-            {licenseValues.map((item: {legend: string; value: JSX.Element | null | string}, i: number) => {
-                return (
-                    <div
-                        className='item-element'
-                        key={item.value + i.toString()}
-                    >
-                        <span className='legend'>{item.legend}</span>
-                        <span className='value'>{item.value}</span>
-                    </div>
-                );
-            })}
+            {licenseValues.map(renderLicenseValues(statsActiveUsers, parseInt(license.Users, 10)))}
             <hr/>
             {renderAddNewLicenseButton(fileInputRef, handleChange)}
             {renderRemoveButton(handleRemove, isDisabled, removing)}
@@ -237,7 +288,7 @@ const renderRemoveButton = (
     let removeButtonText = (
         <FormattedMessage
             id='admin.license.keyRemove'
-            defaultMessage='Remove License and Downgrade Server'
+            defaultMessage='Remove license and downgrade to Mattermost Free'
         />
     );
     if (removing) {
@@ -264,21 +315,6 @@ const renderRemoveButton = (
                 </button>
             </div>
         </>
-    );
-};
-
-const freeTrialBadge = (isTrialLicense: boolean) => {
-    if (!isTrialLicense) {
-        return null;
-    }
-
-    return (
-        <Badge className='free-trial-license'>
-            <FormattedMessage
-                id='admin.license.Trial'
-                defaultMessage='Trial'
-            />
-        </Badge>
     );
 };
 

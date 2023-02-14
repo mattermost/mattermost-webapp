@@ -2,18 +2,19 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {shallow} from 'enzyme';
 
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {CategorySorting} from '@mattermost/types/channel_categories';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import SidebarCategoryMenu from './sidebar_category_menu';
 
 describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
+    const categoryId = 'test_category_id';
     const baseProps = {
         category: {
-            id: 'category1',
+            id: categoryId,
             team_id: 'team1',
             user_id: '',
             type: CategoryTypes.CUSTOM,
@@ -23,30 +24,24 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
             muted: false,
             collapsed: false,
         },
-        currentTeamId: 'team1',
-        isMuted: false,
-        isMenuOpen: false,
-        onToggleMenu: jest.fn(),
-        actions: {
-            openModal: jest.fn(),
-            setCategoryMuted: jest.fn(),
-            setCategorySorting: jest.fn(),
-        },
+        openModal: jest.fn(),
+        setCategoryMuted: jest.fn(),
+        setCategorySorting: jest.fn(),
     };
 
     test('should match snapshot and contain correct buttons', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SidebarCategoryMenu {...baseProps}/>,
         );
 
-        expect(wrapper.find('#rename-category1')).toHaveLength(1);
-        expect(wrapper.find('#create-category1')).toHaveLength(1);
-        expect(wrapper.find('#delete-category1')).toHaveLength(1);
+        expect(wrapper.find(`#rename-${categoryId}`)).toHaveLength(1);
+        expect(wrapper.find(`#create-${categoryId}`)).toHaveLength(1);
+        expect(wrapper.find(`#delete-${categoryId}`)).toHaveLength(1);
 
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot when category is favorites', () => {
+    test('should show correct menu itemsu when category is favorites', () => {
         const props = {
             ...baseProps,
             category: {
@@ -55,13 +50,43 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SidebarCategoryMenu {...props}/>,
         );
 
-        expect(wrapper.find('#rename-category1')).toHaveLength(0);
-        expect(wrapper.find('#delete-category1')).toHaveLength(0);
+        expect(wrapper.find(`#rename-${categoryId}`)).toHaveLength(0);
+        expect(wrapper.find(`#delete-${categoryId}`)).toHaveLength(0);
+    });
 
-        expect(wrapper).toMatchSnapshot();
+    test('should show correct menu items when category is direct messages', () => {
+        const props = {
+            ...baseProps,
+            category: {
+                ...baseProps.category,
+                type: CategoryTypes.DIRECT_MESSAGES,
+            },
+        };
+
+        const wrapper = shallow(
+            <SidebarCategoryMenu {...props}/>,
+        );
+
+        expect(wrapper.find(`#mute-${categoryId}`)).toHaveLength(0);
+    });
+
+    test('should show correct menu items when category is not direct messages', () => {
+        const props = {
+            ...baseProps,
+            category: {
+                ...baseProps.category,
+                type: CategoryTypes.CUSTOM,
+            },
+        };
+
+        const wrapper = shallow(
+            <SidebarCategoryMenu {...props}/>,
+        );
+
+        expect(wrapper.find(`#mute-${categoryId}`)).toHaveLength(1);
     });
 });

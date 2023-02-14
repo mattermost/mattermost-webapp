@@ -5,6 +5,7 @@ import {Channel, ChannelType} from './channels';
 import {CustomEmoji} from './emojis';
 import {FileInfo} from './files';
 import {Reaction} from './reactions';
+import {UserProfile} from './users';
 import {
     RelationOneToOne,
     RelationOneToMany,
@@ -45,12 +46,26 @@ export type PostImage = {
     width: number;
 };
 
+export type PostAcknowledgement = {
+    post_id: Post['id'];
+    user_id: UserProfile['id'];
+    acknowledged_at: number;
+}
+
+export type PostPriorityMetadata = {
+    priority: PostPriority|'';
+    requested_ack?: boolean;
+    persistent_notifications?: boolean;
+}
+
 export type PostMetadata = {
     embeds: PostEmbed[];
     emojis: CustomEmoji[];
     files: FileInfo[];
     images: Record<string, PostImage>;
     reactions: Reaction[];
+    priority?: PostPriorityMetadata;
+    acknowledgements?: PostAcknowledgement[];
 };
 
 export type Post = {
@@ -129,6 +144,7 @@ export type PostsState = {
     openGraph: RelationOneToOne<Post, Record<string, OpenGraphMetadata>>;
     pendingPostIds: string[];
     selectedPostId: string;
+    postEditHistory: Post[];
     currentFocusedPostId: string;
     messagesHistory: MessageHistory;
     expandedURLs: Record<string, string>;
@@ -136,6 +152,7 @@ export type PostsState = {
         channels: Record<Channel['id'], number>;
         threads: Record<Post['root_id'], number>;
     };
+    acknowledgements: RelationOneToOne<Post, Record<UserProfile['id'], number>>;
 };
 
 export declare type OpenGraphMetadataImage = {
@@ -176,3 +193,13 @@ export declare type TeamsUsageResponse = {
     active: number;
     cloud_archived: number;
 };
+
+export type PostAnalytics = {
+    channel_id: string;
+    post_id: string;
+    user_actual_id: string;
+    root_id: string;
+    priority?: PostPriority|'';
+    requested_ack?: boolean;
+    persistent_notifications?: boolean;
+}

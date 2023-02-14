@@ -96,6 +96,7 @@ export type Props = {
     unreadFilterEnabled: boolean;
     userGroupsEnabled: boolean;
     canCreateCustomGroups: boolean;
+    showWorkTemplateButton: boolean;
 }
 
 const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
@@ -121,6 +122,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                 id={'sidebar-header-container'}
             >
                 <OverlayTrigger
+
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={currentTeam.description?.length ? (
@@ -132,8 +134,10 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                         className='SidebarHeaderMenuWrapper test-team-header'
                     >
                         <SidebarHeading>
-                            <span className='title'>{currentTeam.display_name}</span>
-                            <i className='icon icon-chevron-down'/>
+                            <button className='style--none sidebar-header'>
+                                <span className='title'>{currentTeam.display_name}</span>
+                                <i className='icon icon-chevron-down'/>
+                            </button>
                         </SidebarHeading>
                         <MainMenu
                             id='sidebarDropdownMenu'
@@ -157,6 +161,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                     canCreateCustomGroups={props.canCreateCustomGroups}
                     showCreateUserGroupModal={props.showCreateUserGroupModal}
                     userGroupsEnabled={props.userGroupsEnabled}
+                    showWorkTemplateButton={props.showWorkTemplateButton}
                 />
             </SidebarHeaderContainer>
         </>

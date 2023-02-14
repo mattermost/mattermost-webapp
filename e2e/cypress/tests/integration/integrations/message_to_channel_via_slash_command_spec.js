@@ -32,7 +32,7 @@ describe('Integrations', () => {
 
     beforeEach(() => {
         // # Visit town-square
-        cy.visit(`/${testTeam.name}/town-square`);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
     });
 
     it('MM-T706 Error Handling for Slash Commands', () => {

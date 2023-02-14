@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {markMostRecentPostInChannelAsUnread} from 'mattermost-redux/actions/channels';
 import {getCurrentUserId, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -14,8 +13,10 @@ import {makeGetChannelUnreadCount} from 'mattermost-redux/selectors/entities/cha
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {clearChannelSelection, multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
 import {getFirstChannelName} from 'selectors/onboarding';
-import {unsetEditingPost} from 'actions/post_actions';
+import {markMostRecentPostInChannelAsUnread, unsetEditingPost} from 'actions/post_actions';
+import {closeRightHandSide} from 'actions/views/rhs';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {GlobalState} from 'types/store';
 import {
     GenericTaskSteps,
@@ -53,9 +54,12 @@ function makeMapStateToProps() {
             unreadMsgs: unreadCount.messages,
             isUnread: unreadCount.showUnread,
             isMuted: isChannelMuted(member),
+            hasUrgent: unreadCount.hasUrgent,
             isChannelSelected: isChannelSelected(state, ownProps.channel.id),
             firstChannelName: showChannelsTutorialStep ? firstChannelName : '',
             showChannelsTutorialStep,
+            rhsState: getRhsState(state),
+            rhsOpen: getIsRhsOpen(state),
         };
     };
 }
@@ -68,6 +72,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             clearChannelSelection,
             multiSelectChannelTo,
             multiSelectChannelAdd,
+            closeRightHandSide,
         }, dispatch),
     };
 }

@@ -39,7 +39,7 @@ function mapStateToProps(state: GlobalState) {
     const moreTeamsToJoin: boolean = joinableTeams && joinableTeams.length > 0;
     const products = state.plugins.components.Product || [];
 
-    const [unreadTeamsSet, mentionsInTeamMap] = getTeamsUnreadStatuses(state);
+    const [unreadTeamsSet, mentionsInTeamMap, teamHasUrgentMap] = getTeamsUnreadStatuses(state);
 
     return {
         currentTeamId: getCurrentTeamId(state),
@@ -52,6 +52,7 @@ function mapStateToProps(state: GlobalState) {
         products,
         unreadTeamsSet,
         mentionsInTeamMap,
+        teamHasUrgentMap,
     };
 }
 

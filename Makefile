@@ -48,6 +48,7 @@ ifeq ($(CI),false)
 else
 	# This runs in CI with NODE_ENV=production which doesn't install devDependencies without this flag
 	npm ci --include=dev
+
 endif
 
 	touch $@
@@ -154,6 +155,9 @@ clean-e2e:
 
 emojis: ## Creates emoji JSON, JSX and Go files and extracts emoji images from the system font
 	SERVER_DIR=$(BUILD_SERVER_DIR) npm run make-emojis
+	@if [ -e $(BUILD_SERVER_DIR)/model/emoji_data.go ]; then \
+		gofmt -w $(BUILD_SERVER_DIR)/model/emoji_data.go; \
+	fi
 
 ## Help documentatin à la https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 help:

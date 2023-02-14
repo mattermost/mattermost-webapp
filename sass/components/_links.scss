@@ -13,6 +13,21 @@ a {
     }
 }
 
+button.style--link {
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--link-color);
+    cursor: pointer;
+    line-height: normal;
+    word-break: break-word;
+
+    &:hover,
+    &:focus {
+        text-decoration: underline;
+    }
+}
+
 .text-danger {
     color: desaturate($red, 20%);
 

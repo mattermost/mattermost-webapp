@@ -6,7 +6,7 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import {CloudProducts} from 'utils/constants';
 
-import Badge from 'components/widgets/badges/badge';
+import Tag from 'components/widgets/tag/tag';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import './plan_details.scss';
@@ -16,6 +16,7 @@ type Props = {
     isFreeTrial: boolean;
     subscriptionPlan: string | undefined;
     daysLeftOnTrial: number;
+    isYearly: boolean;
 };
 
 export const PlanDetailsTopElements = ({
@@ -23,10 +24,11 @@ export const PlanDetailsTopElements = ({
     isFreeTrial,
     subscriptionPlan,
     daysLeftOnTrial,
+    isYearly,
 }: Props) => {
     let productName;
     const openPricingModal = useOpenPricingModal();
-    const intl = useIntl();
+    const {formatMessage} = useIntl();
 
     const userCountDisplay = (
         <div className='PlanDetails__userCount'>
@@ -72,25 +74,61 @@ export const PlanDetailsTopElements = ({
         break;
     }
 
-    const trialBadge = (
-        <Badge
+    const trialBadge = isFreeTrial ? (
+        <Tag
             className='TrialBadge'
-            show={isFreeTrial}
-        >
-            <FormattedMessage
-                id='admin.billing.subscription.cloudTrialBadge.daysLeftOnTrial'
-                defaultMessage='{daysLeftOnTrial} trial days left'
-                values={{daysLeftOnTrial}}
-            />
-        </Badge>
+            text={formatMessage({
+                id: 'admin.billing.subscription.cloudTrialBadge.daysLeftOnTrial',
+                defaultMessage: '{daysLeftOnTrial} trial days left',
+            },
+            {daysLeftOnTrial},
+            )}
+        />
+    ) : null;
+
+    const monthlyBadge = (
+        <Tag
+            className='RecurringIntervalBadge'
+            text={formatMessage({
+                id: 'admin.billing.subscription.cloudMonthlyBadge',
+                defaultMessage: 'Monthly',
+            })}
+        />
     );
+
+    const yearlyBadge = (
+        <Tag
+            className='RecurringIntervalBadge'
+            text={formatMessage({
+                id: 'admin.billing.subscription.cloudYearlyBadge',
+                defaultMessage: 'Yearly',
+            })}
+        />
+    );
+
+    const getBadge = () => {
+        // no badges to show if the plan is Cloud Free
+        if (subscriptionPlan === CloudProducts.STARTER) {
+            return null;
+        }
+
+        if (isFreeTrial) {
+            return trialBadge;
+        }
+
+        if (isYearly) {
+            return yearlyBadge;
+        }
+
+        return monthlyBadge;
+    };
 
     const viewPlansButton = (
         <button
             onClick={() => openPricingModal({trackingLocation: 'billing_plan_details_view_plans'})}
             className='btn btn-secondary PlanDetails__viewPlansButton'
         >
-            {intl.formatMessage({
+            {formatMessage({
                 id: 'workspace_limits.menu_limit.view_plans',
                 defaultMessage: 'View plans',
             })}
@@ -101,9 +139,8 @@ export const PlanDetailsTopElements = ({
         <>
             <div className='PlanDetails__top'>
                 <div className='PlanDetails__productName'>
-                    {productName} {trialBadge}
+                    {productName}{getBadge()}
                 </div>
-
                 {viewPlansButton}
             </div>
             {userCountDisplay}

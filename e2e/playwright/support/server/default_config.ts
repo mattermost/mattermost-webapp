@@ -168,6 +168,8 @@ const defaultServerConfig: AdminConfig = {
         CollapsedThreads: CollapsedThreads.ALWAYS_ON,
         ManagedResourcePaths: '',
         EnableCustomGroups: true,
+        SelfHostedPurchase: false,
+        AllowSyncedDrafts: true,
     },
     TeamSettings: {
         SiteName: 'Mattermost',
@@ -528,6 +530,7 @@ const defaultServerConfig: AdminConfig = {
         EnableSharedChannels: false,
         EnableRemoteClusterService: false,
         EnableAppBar: false,
+        PatchPluginsReactDOM: false,
     },
     AnalyticsSettings: {
         MaxUsersForStatistics: 2500,
@@ -663,7 +666,6 @@ const defaultServerConfig: AdminConfig = {
         CallsMobile: false,
         CallsEnabled: true,
         BoardsFeatureFlags: '',
-        CustomGroups: true,
         BoardsDataRetention: false,
         NormalizeLdapDNs: false,
         EnableInactivityCheckJob: true,
@@ -671,7 +673,7 @@ const defaultServerConfig: AdminConfig = {
         GraphQL: false,
         InsightsEnabled: true,
         CommandPalette: false,
-        BoardsProduct: false,
+        BoardsProduct: true,
         SendWelcomePost: true,
         PostPriority: false,
         PeopleProduct: false,

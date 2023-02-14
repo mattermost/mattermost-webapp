@@ -15,7 +15,7 @@ export const adminConsoleNavigation = [
         url: 'admin_console/billing/subscription',
     },
     {
-        type: ['cloud_enterprise'],
+        type: ['cloud_enterprise', 'e20'],
         header: 'Billing History',
         sidebar: 'Billing History',
         url: 'admin_console/billing/billing_history',

@@ -9,6 +9,7 @@ import {RelationOneToOne} from '@mattermost/types/utilities';
 import {General} from 'mattermost-redux/constants';
 import {Team} from '@mattermost/types/teams';
 import {UserProfile} from '@mattermost/types/users';
+import {ClientLicense} from '@mattermost/types/config';
 
 import LoadingScreen from 'components/loading_screen';
 
@@ -20,6 +21,8 @@ import Banner from 'components/admin_console/banner';
 import LineChart from 'components/analytics/line_chart';
 import StatisticCount from 'components/analytics/statistic_count';
 import TableChart from 'components/analytics/table_chart';
+import {ActivatedUserCard} from 'components/analytics/activated_users_card';
+import TrueUpReview from 'components/analytics/true_up_review';
 
 import {getMonthLong} from 'utils/i18n';
 
@@ -43,6 +46,8 @@ type Props = {
      * The locale of the current user
      */
     locale: string;
+
+    license: ClientLicense;
 
     stats: RelationOneToOne<Team, Record<string, number | AnalyticsRow[]>>;
 
@@ -305,17 +310,13 @@ export default class TeamAnalytics extends React.PureComponent<Props, State> {
 
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
+                        <TrueUpReview/>
                         {banner}
-                        <div className='row'>
-                            <StatisticCount
-                                title={
-                                    <FormattedMessage
-                                        id='analytics.team.totalUsers'
-                                        defaultMessage='Total Activated Users'
-                                    />
-                                }
-                                icon='fa-users'
-                                count={this.getStatValue(stats[StatTypes.TOTAL_USERS])}
+                        <div className='grid-statistics'>
+                            <ActivatedUserCard
+                                activatedUsers={this.getStatValue(stats[StatTypes.TOTAL_USERS])}
+                                seatsPurchased={parseInt(this.props.license.Users, 10)}
+                                isCloud={this.props.license.Cloud === 'true'}
                             />
                             <StatisticCount
                                 title={

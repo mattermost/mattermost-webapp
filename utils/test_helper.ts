@@ -17,6 +17,7 @@ import {Session} from '@mattermost/types/sessions';
 import {ProductComponent} from 'types/store/plugins';
 import {ClientLicense} from '@mattermost/types/config';
 import {PreferenceType} from '@mattermost/types/preferences';
+import {Reaction} from '@mattermost/types/reactions';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {Invoice, Product, Subscription, CloudCustomer} from '@mattermost/types/cloud';
 
@@ -170,6 +171,7 @@ export class TestHelper {
             last_update_at: 0,
             scheme_user: true,
             scheme_admin: false,
+            urgent_mention_count: 0,
         };
         return Object.assign({}, defaultMembership, override);
     }
@@ -491,6 +493,16 @@ export class TestHelper {
             create_at: 0,
             creator_id: '',
             num_employees: 100,
+            ...override,
+        };
+    }
+
+    public static getReactionMock(override: Partial<Reaction> = {}): Reaction {
+        return {
+            user_id: '',
+            post_id: '',
+            emoji_name: '',
+            create_at: 0,
             ...override,
         };
     }
