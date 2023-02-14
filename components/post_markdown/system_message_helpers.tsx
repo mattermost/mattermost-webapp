@@ -383,7 +383,7 @@ const systemMessageRenderers = {
 
 export function renderSystemMessage(post: Post, currentTeam: Team, channel: Channel, isUserCanManageMembers?: boolean, isMilitaryTime?: boolean): ReactNode {
     const isEphemeral = Utils.isPostEphemeral(post);
-    if (isEphemeral && post.props?.type === Posts.POST_TYPES.REMINDER_ACK) {
+    if (isEphemeral && post.props?.type === Posts.POST_TYPES.REMINDER) {
         return renderReminderACKMessage(post, currentTeam, Boolean(isMilitaryTime));
     }
     if (post.props && post.props.add_channel_member) {
@@ -449,6 +449,25 @@ function renderReminderACKMessage(post: Post, currentTeam: Team, isMilitaryTime:
                 values={{
                     reminderTime,
                     reminderDate,
+                    username,
+                    permaLink,
+                }}
+            />
+        </>
+    );
+}
+
+export function renderReminderSystemBotMessage(post: Post, currentTeam: Team): ReactNode {
+    const username = post.props.username ? renderUsername(post.props.username) : '';
+    const teamUrl = `${getSiteURL()}/${post.props.team_name || currentTeam.name}`;
+    const link = `${teamUrl}/pl/${post.props.post_id}`;
+    const permaLink = renderFormattedText(`[${link}](${link})`);
+    return (
+        <>
+            <FormattedMessage
+                id={'post.reminder.systemBot'}
+                defaultMessage="Hi there, here's your reminder about this message from {username}: {permaLink}"
+                values={{
                     username,
                     permaLink,
                 }}

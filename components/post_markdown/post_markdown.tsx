@@ -8,12 +8,14 @@ import Markdown from 'components/markdown';
 
 import {MentionKey, TextFormattingOptions} from 'utils/text_formatting';
 
+import {Posts} from 'mattermost-redux/constants';
+
 import {Post} from '@mattermost/types/posts';
 import {Channel} from '@mattermost/types/channels';
 
 import {Team} from '@mattermost/types/teams';
 
-import {renderSystemMessage} from './system_message_helpers';
+import {renderReminderSystemBotMessage, renderSystemMessage} from './system_message_helpers';
 
 type Props = {
 
@@ -91,6 +93,13 @@ export default class PostMarkdown extends React.PureComponent<Props> {
             const renderedSystemMessage = renderSystemMessage(post, this.props.currentTeam, this.props.channel, this.props.isUserCanManageMembers, this.props.isMilitaryTime);
             if (renderedSystemMessage) {
                 return <div>{renderedSystemMessage}</div>;
+            }
+        }
+
+        if (post && post.type === Posts.POST_TYPES.REMINDER) {
+            const renderedSystemBotMessage = renderReminderSystemBotMessage(post, this.props.currentTeam);
+            if (renderedSystemBotMessage) {
+                return <div>{renderedSystemBotMessage}</div>;
             }
         }
 
