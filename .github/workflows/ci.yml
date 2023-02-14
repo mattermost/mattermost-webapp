@@ -185,9 +185,9 @@ jobs:
     - name: ci/aws-configure
       uses: aws-actions/configure-aws-credentials@07c2f971bac433df982ccc261983ae443861db49 # v1-node16
       with:
-        aws-region: ${{ secrets.AWS_REGION }}
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.WEBAPP_AWS_REGION }}
+        aws-access-key-id: ${{ secrets.WEBAPP_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.WEBAPP_AWS_SECRET_ACCESS_KEY }}
     # We need to sanitize the branch name before using it
     - name: ci/sanitize-branch-name
       id: branch
@@ -253,9 +253,9 @@ jobs:
     - name: ci/aws-configure
       uses: aws-actions/configure-aws-credentials@07c2f971bac433df982ccc261983ae443861db49 # v1-node16
       with:
-        aws-region: ${{ secrets.AWS_REGION }}
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.WEBAPP_AWS_REGION }}
+        aws-access-key-id: ${{ secrets.WEBAPP_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.WEBAPP_AWS_SECRET_ACCESS_KEY }}
     - name: ci/artifact-upload
       run: |
         aws s3 cp mattermost-enterprise-linux-amd64.tar.gz s3://${{secrets.AWS_S3_BUCKET_PRS}}/$REPO_NAME/commit/${{ github.event.pull_request.head.sha || github.sha }}/ --cache-control no-cache
