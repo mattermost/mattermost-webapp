@@ -1380,7 +1380,6 @@
   "admin.log.locationTitle": "Каталог с файлом журнала:",
   "admin.log.logLevel": "Уровень ведения журнала",
   "admin.logs.bannerDesc": "Чтобы найти пользователей по User ID или Token ID, перейдите в раздел \"Управление пользователями > Пользователи\" и вставьте ID в поисковый фильтр.",
-  "admin.logs.prev": "Предыдущая",
   "admin.logs.title": "Журнал сервера",
   "admin.manage_roles.additionalRoles": "Выберите дополнительные разрешения для учетной записи. <link>Подробнее о ролях и разрешениях</link> .",
   "admin.manage_roles.allowUserAccessTokens": "Разрешить этой учетной записи создавать <link>токены личного доступа</link> .",
