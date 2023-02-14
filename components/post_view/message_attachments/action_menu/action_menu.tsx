@@ -3,37 +3,16 @@
 
 import React from 'react';
 
-import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {PostAction} from '@mattermost/types/integration_actions';
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
-import {ServerError} from '@mattermost/types/errors';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
-import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
-import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
+import GenericUserProvider from 'components/suggestion/generic_user_provider';
+import GenericChannelProvider from 'components/suggestion/generic_channel_provider';
 import AutocompleteSelector from 'components/autocomplete_selector';
 import PostContext from 'components/post_view/post_context';
 
-type Error = ServerError & {id: string};
-
-type AutocompleteUsersAction =
-    (username: string) => (doDispatch: DispatchFunc) => Promise<UserProfile[]>;
-
-type AutocompleteChannelsAction = (
-    term: string,
-    success: (channels: Channel[]) => void,
-    error: (error: Error) => void
-) => (dispatch: DispatchFunc, getState: GetStateFunc) => Promise<ActionResult>;
-
-type SelectAttachmentMenuAction = (
-    postId: string,
-    actionId: string,
-    cookie: string,
-    dataSource: string | undefined,
-    text: string,
-    value: string
-) => (dispatch: DispatchFunc) => Promise<ActionResult>;
+import type {OwnProps, PropsFromRedux} from './index';
 
 type Option = {
     text: string;
@@ -44,17 +23,7 @@ type Provider = GenericUserProvider | GenericChannelProvider | MenuActionProvide
 
 type Selected = Option | UserProfile | Channel;
 
-export type Props = {
-    postId: string;
-    action: PostAction;
-    selected?: Selected;
-    disabled?: boolean;
-    actions: {
-        autocompleteChannels: AutocompleteChannelsAction;
-        selectAttachmentMenuAction: SelectAttachmentMenuAction;
-        autocompleteUsers: AutocompleteUsersAction;
-    };
-};
+export type Props = OwnProps & PropsFromRedux;
 
 type State = {
     selected?: Selected;
@@ -71,9 +40,9 @@ export default class ActionMenu extends React.PureComponent<Props, State> {
         this.providers = [];
         if (action) {
             if (action.data_source === 'users') {
-                this.providers = [new GenericUserProvider(props.actions.autocompleteUsers)];
+                this.providers = [new GenericUserProvider(props.autocompleteUsers)];
             } else if (action.data_source === 'channels') {
-                this.providers = [new GenericChannelProvider(props.actions.autocompleteChannels)];
+                this.providers = [new GenericChannelProvider(props.autocompleteChannels)];
             } else if (action.options) {
                 this.providers = [new MenuActionProvider(action.options)];
             }
@@ -128,7 +97,7 @@ export default class ActionMenu extends React.PureComponent<Props, State> {
             value = option.value;
         }
 
-        this.props.actions.selectAttachmentMenuAction(
+        this.props.selectAttachmentMenuAction(
             this.props.postId, this.props.action.id || '', this.props.action.cookie || '', this.props.action?.data_source, text, value);
 
         this.setState({value: text});

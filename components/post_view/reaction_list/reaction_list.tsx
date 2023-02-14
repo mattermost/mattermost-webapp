@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -13,7 +12,7 @@ import {isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 
 import Constants from 'utils/constants';
 import Reaction from 'components/post_view/reaction';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import AddReactionIcon from 'components/widgets/icons/add_reaction_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -97,7 +96,8 @@ export default class ReactionList extends React.PureComponent<Props, State> {
         this.setState({showEmojiPicker: false});
     }
 
-    toggleEmojiPicker = (): void => {
+    toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        e?.stopPropagation();
         this.setState({showEmojiPicker: !this.state.showEmojiPicker});
     }
 
@@ -161,7 +161,6 @@ export default class ReactionList extends React.PureComponent<Props, State> {
                         show={this.state.showEmojiPicker}
                         target={this.getTarget}
                         onHide={this.hideEmojiPicker}
-                        onEmojiClose={this.hideEmojiPicker}
                         onEmojiClick={this.handleEmojiClick}
                         rightOffset={rightOffset}
                         topOffset={-5}
@@ -213,4 +212,3 @@ export default class ReactionList extends React.PureComponent<Props, State> {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

@@ -55,6 +55,7 @@ describe('components/sidebar/invite_members_button', () => {
     const props = {
         onClick: jest.fn(),
         touchedInviteMembersButton: false,
+        isAdmin: false,
     };
 
     const store = mockStore(state);
@@ -91,7 +92,7 @@ describe('components/sidebar/invite_members_button', () => {
         expect(wrapper.find('i').exists()).toBeFalsy();
     });
 
-    test('should should fire onClick prop on click', () => {
+    test('should fire onClick prop on click', () => {
         const mock = jest.fn();
         const wrapper = mountWithIntl(
             <Provider store={store}>

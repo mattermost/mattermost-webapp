@@ -57,7 +57,7 @@ async function getProfilesAndStatusesForMembers(userIds: string[], dispatch: Dis
     await Promise.all(requests);
 }
 
-export function selectTeam(team: Team | string) {
+export function selectTeam(team: Team | Team['id']) {
     const teamId = (typeof team === 'string') ? team : team.id;
     return {
         type: TeamTypes.SELECT_TEAM,
@@ -472,15 +472,15 @@ export function addUserToTeamFromInvite(token: string, inviteId: string): Action
     });
 }
 
-export function addUserToTeam(teamId: string, userId: string): ActionFunc {
+export function addUserToTeam(teamId: string, userId: string): ActionFunc<TeamMembership, ServerError> {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let member;
         try {
             member = await Client4.addToTeam(teamId, userId);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
+            dispatch(logError(error as ServerError));
+            return {error: error as ServerError};
         }
 
         dispatch(batchActions([

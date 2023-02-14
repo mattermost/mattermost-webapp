@@ -3,11 +3,12 @@
 
 import React, {ComponentProps} from 'react';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import ChannelHeader from 'components/channel_header/channel_header';
 import ChannelInfoButton from 'components/channel_header/channel_info_button';
 import Markdown from 'components/markdown';
-import GuestBadge from 'components/widgets/badges/guest_badge';
 import Constants, {RHSStates} from 'utils/constants';
 import {TestHelper} from '../../utils/test_helper';
 import {ChannelType} from '@mattermost/types/channels';
@@ -38,6 +39,13 @@ describe('components/ChannelHeader', () => {
         isCustomStatusEnabled: false,
         isCustomStatusExpired: false,
         isFileAttachmentsEnabled: true,
+        lastActivityTimestamp: 1632146562846,
+        isLastActiveEnabled: true,
+        timestampUnits: [
+            'now',
+            'minute',
+            'hour',
+        ],
     };
 
     const populatedProps = {
@@ -256,7 +264,7 @@ describe('components/ChannelHeader', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should render the guest badges on gms', () => {
+    test('should render the guest tags on gms', () => {
         const props = {
             ...populatedProps,
             channel: TestHelper.getChannelMock({
@@ -282,7 +290,7 @@ describe('components/ChannelHeader', () => {
             <ChannelHeader {...props}/>,
         );
         expect(wrapper.containsMatchingElement(
-            <GuestBadge show={true}/>,
+            <GuestTag/>,
         )).toEqual(true);
     });
 
@@ -344,5 +352,52 @@ describe('components/ChannelHeader', () => {
         expect(wrapper.contains(
             <ChannelInfoButton channel={populatedProps.channel}/>,
         )).toEqual(true);
+    });
+
+    test('should match snapshot with last active display', () => {
+        const props = {
+            ...populatedProps,
+            channel: TestHelper.getChannelMock({
+                header: 'not the bot description',
+                type: Constants.DM_CHANNEL as ChannelType,
+                status: 'offline',
+            }),
+            dmUser: TestHelper.getUserMock({
+                id: 'user_id',
+                is_bot: false,
+                props: {
+                    show_last_active: 'true',
+                },
+            }),
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with no last active display because it is disabled', () => {
+        const props = {
+            ...populatedProps,
+            isLastActiveEnabled: false,
+            channel: TestHelper.getChannelMock({
+                header: 'not the bot description',
+                type: Constants.DM_CHANNEL as ChannelType,
+                status: 'offline',
+            }),
+            dmUser: TestHelper.getUserMock({
+                id: 'user_id',
+                is_bot: false,
+                props: {
+                    show_last_active: 'false',
+                },
+            }),
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
     });
 });

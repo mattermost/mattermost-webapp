@@ -4,8 +4,10 @@
 import {Stripe} from '@stripe/stripe-js';
 import {getCode} from 'country-list';
 
+import {getCloudCustomer, getCloudProducts, getCloudSubscription, getInvoices} from 'mattermost-redux/actions/cloud';
 import {Client4} from 'mattermost-redux/client';
-import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
+import {getCloudErrors} from 'mattermost-redux/selectors/entities/cloud';
+import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {getConfirmCardSetup} from 'components/payment_form/stripe';
 
@@ -13,6 +15,8 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
 import {CloudTypes} from 'mattermost-redux/action_types';
+import {getBlankAddressWithCountry} from 'utils/utils';
+import {Address, Feedback, WorkspaceDeletionRequest} from '@mattermost/types/cloud';
 
 // Returns true for success, and false for any error
 export function completeStripeAddPaymentMethod(
@@ -78,14 +82,26 @@ export function completeStripeAddPaymentMethod(
     };
 }
 
-export function subscribeCloudSubscription(productId: string) {
+export function subscribeCloudSubscription(
+    productId: string,
+    shippingAddress: Address = getBlankAddressWithCountry(),
+    seats = 0,
+    feedback?: Feedback,
+) {
     return async () => {
         try {
-            await Client4.subscribeCloudProduct(productId);
-        } catch (error) {
-            return error;
+            const response = await Client4.subscribeCloudProduct(
+                productId,
+                shippingAddress,
+                seats,
+                feedback,
+            );
+
+            return {data: response};
+        } catch (e: any) {
+            // In the event that the status code returned is 422, this request has been blocked by export compliance
+            return {error: e.message, data: {status: e.status_code}};
         }
-        return true;
     };
 }
 
@@ -132,6 +148,9 @@ export function validateWorkspaceBusinessEmail() {
 export function getCloudLimits(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         try {
+            dispatch({
+                type: CloudTypes.CLOUD_LIMITS_REQUEST,
+            });
             const result = await Client4.getCloudLimits();
             if (result) {
                 dispatch({
@@ -140,6 +159,9 @@ export function getCloudLimits(): ActionFunc {
                 });
             }
         } catch (error) {
+            dispatch({
+                type: CloudTypes.CLOUD_LIMITS_FAILED,
+            });
             return error;
         }
         return true;
@@ -183,38 +205,6 @@ export function getFilesUsage(): ActionFunc {
     };
 }
 
-export function getIntegrationsUsage(): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        const data = await Client4.getIntegrationsUsage();
-        dispatch({
-            type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE,
-            data: data.enabled,
-        });
-
-        return {data: true};
-    };
-}
-
-export function getBoardsUsage(): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        try {
-            const result = await Client4.getBoardsUsage();
-            if (result) {
-                dispatch({
-                    type: CloudTypes.RECEIVED_BOARDS_USAGE,
-
-                    // the views and cards properties are the limits, not usage.
-                    // So they are not passed in to the usage.
-                    data: result.used_cards,
-                });
-            }
-        } catch (error) {
-            return error;
-        }
-        return {data: true};
-    };
-}
-
 export function getTeamsUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         try {
@@ -229,5 +219,47 @@ export function getTeamsUsage(): ActionFunc {
             return error;
         }
         return {data: false};
+    };
+}
+
+export function deleteWorkspace(deletionRequest: WorkspaceDeletionRequest) {
+    return async () => {
+        try {
+            await Client4.deleteWorkspace(deletionRequest);
+        } catch (error) {
+            return error;
+        }
+        return true;
+    };
+}
+
+export function retryFailedCloudFetches() {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const errors = getCloudErrors(getState());
+        if (Object.keys(errors).length === 0) {
+            return {data: true};
+        }
+
+        if (errors.subscription) {
+            dispatch(getCloudSubscription());
+        }
+
+        if (errors.products) {
+            dispatch(getCloudProducts());
+        }
+
+        if (errors.customer) {
+            dispatch(getCloudCustomer());
+        }
+
+        if (errors.invoices) {
+            dispatch(getInvoices());
+        }
+
+        if (errors.limits) {
+            getCloudLimits()(dispatch, getState);
+        }
+
+        return {data: true};
     };
 }

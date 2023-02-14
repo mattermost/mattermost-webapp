@@ -1,9 +1,7 @@
 @charset 'UTF-8';
 
 .announcement-bar {
-    position: fixed;
     z-index: 999;
-    top: 0;
     display: flex;
     overflow: hidden;
     width: 100%;

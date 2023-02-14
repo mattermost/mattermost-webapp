@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import resolve from '@rollup/plugin-node-resolve'; //eslint-disable-line
+// eslint-disable-next-line import/no-unresolved
+import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import scss from 'rollup-plugin-scss';
-
-import ts from 'rollup-plugin-ts';
+import typescript from '@rollup/plugin-typescript';
 
 import packagejson from './package.json';
 
@@ -34,10 +34,7 @@ export default [
                 extensions: ['.ts', '.tsx'],
             }),
             commonjs(),
-            ts({
-                transpiler: 'babel',
-                browserslist: false,
-            }),
+            typescript(),
         ],
         external: (pkg) => externals.some((external) => pkg.startsWith(external)),
         watch: {

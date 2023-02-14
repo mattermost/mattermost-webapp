@@ -10,10 +10,6 @@
     background: v(center-channel-bg);
     font-size: 14px;
 
-    .Badge {
-        display: inline-block;
-    }
-
     .channel-header__trigger {
         display: flex;
         min-width: 0;
@@ -53,9 +49,8 @@
         z-index: 1;
         height: 24px;
         padding: 4px;
-        margin-left: 4px;
         border-radius: 4px;
-        color: v(center-channel-color);
+        color: var(--center-channel-color);
         float: left;
 
         &:hover {
@@ -227,10 +222,6 @@
         font-weight: 600;
         line-height: 16px;
         text-overflow: ellipsis;
-
-        .Badge {
-            font-family: "Open Sans", sans-serif;
-        }
     }
 
     .caret {
@@ -285,6 +276,7 @@
     display: flex;
     min-width: 0;
     align-items: center;
+    gap: 4px;
 }
 
 .channel-header__bot {
@@ -467,7 +459,7 @@
             position: relative;
             top: 1px;
             margin: 0 2px 0 5px;
-            content: '\2022';
+            content: "\2022";
         }
     }
 
@@ -477,6 +469,14 @@
         align-items: center;
         margin-right: 7px;
         line-height: 16px;
+
+        span.last-active__text {
+            color: rgba(var(--center-channel-color-rgb), 0.72);
+        }
+
+        .custom-emoji__wrapper {
+            padding-left: 8px;
+        }
 
         p {
             margin: 0;
@@ -509,7 +509,8 @@
     }
 
     .intro-links {
-        display: inline-block;
+        display: flex;
+        align-items: center;
         padding: 8px 16px;
         margin-bottom: 10px;
 
@@ -521,6 +522,7 @@
 
     .channel-intro-profile {
         margin: 0 0 4px;
+        gap: 8px;
 
         .user-popover {
             overflow: hidden;
@@ -587,7 +589,7 @@
             width: 100%;
             height: 100%;
             background: none;
-            content: '';
+            content: "";
             transition: all $transition-quick ease-in-out;
         }
 
@@ -812,7 +814,7 @@
         width: 30px;
         height: 30px;
         margin-right: 1px;
-        font-family: 'Open Sans', sans-serif;
+        font-family: "Open Sans", sans-serif;
         font-size: 22px;
         line-height: 26px;
         text-align: center;

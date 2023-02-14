@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 
@@ -122,7 +121,6 @@ export default class ShowMore extends React.PureComponent<Props, State> {
             className += ' post-message--expanded';
         }
 
-        const collapseGradientClass = isAttachmentText ? 'post-attachment-collapse__gradient' : 'post-collapse__gradient';
         const collapseShowMoreClass = isAttachmentText ? 'post-attachment-collapse__show-more' : 'post-collapse__show-more';
 
         let attachmentTextOverflow = null;
@@ -156,10 +154,6 @@ export default class ShowMore extends React.PureComponent<Props, State> {
             default:
                 attachmentTextOverflow = (
                     <div className='post-collapse'>
-                        <div
-                            id='collapseGradient'
-                            className={collapseGradientClass}
-                        />
                         <div className={collapseShowMoreClass}>
                             <div className='post-collapse__show-more-line'/>
                             <button
@@ -193,4 +187,3 @@ export default class ShowMore extends React.PureComponent<Props, State> {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

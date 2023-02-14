@@ -1,26 +1,33 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'types/store';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import InvitationModal from 'components/invitation_modal';
 import LocalStorageStore from 'stores/local_storage_store';
 import {ActionTypes, Constants, ModalIdentifiers} from 'utils/constants';
-import {getFirstChannelName} from '../../selectors/onboarding';
+
+import {getTeamRedirectChannelIfIsAccesible} from 'actions/global_actions';
+
+import WorkTemplateModal from 'components/work_templates';
 
 import {openModal} from './modals';
 
 export function switchToChannels() {
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
         const currentUserId = getCurrentUserId(state);
+        const user = getCurrentUser(state);
         const teamId = getCurrentTeamId(state) || LocalStorageStore.getPreviousTeamId(currentUserId);
         const team = getTeam(state, teamId || '');
-        const channelName = getFirstChannelName(state) || Constants.DEFAULT_CHANNEL;
 
-        browserHistory.push(`/${team.name}/channels/${channelName}`);
+        const channel = await getTeamRedirectChannelIfIsAccesible(user, team);
+        const channelName = channel?.name || Constants.DEFAULT_CHANNEL;
+
+        getHistory().push(`/${team.name}/channels/${channelName}`);
         return {data: true};
     };
 }
@@ -36,6 +43,23 @@ export function openInvitationsModal(timeout = 1) {
                 },
             }));
         }, timeout);
+        return {data: true};
+    };
+}
+
+export function openWorkTemplateModal(redirectToChannels = true) {
+    return (dispatch: DispatchFunc) => {
+        if (redirectToChannels) {
+            dispatch(switchToChannels());
+        }
+        setTimeout(() => {
+            dispatch(openModal({
+                modalId: ModalIdentifiers.WORK_TEMPLATE,
+                dialogType: WorkTemplateModal,
+                dialogProps: {
+                },
+            }));
+        }, redirectToChannels ? 1000 : 1);
         return {data: true};
     };
 }

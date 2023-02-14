@@ -23,10 +23,6 @@ const emptyUsage = {
         cloudArchived: 0,
         teamsLoaded: false,
     },
-    integrations: {
-        enabled: 0,
-        enabledLoaded: false,
-    },
 };
 
 // represents the usage associated with this workspace
@@ -47,15 +43,6 @@ export default function usage(state: CloudUsage = emptyUsage, action: GenericAct
             files: {
                 totalStorage: action.data,
                 totalStorageLoaded: true,
-            },
-        };
-    }
-    case CloudTypes.RECEIVED_INTEGRATIONS_USAGE: {
-        return {
-            ...state,
-            integrations: {
-                enabled: action.data,
-                enabledLoaded: true,
             },
         };
     }

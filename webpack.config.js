@@ -1,12 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable no-console, no-process-env */
+
 const childProcess = require('child_process');
+const http = require('http');
+const https = require('https');
 const path = require('path');
 
 const url = require('url');
+
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExternalTemplateRemotesPlugin = require('external-remotes-plugin');
 const webpack = require('webpack');
+const {ModuleFederationPlugin} = require('webpack').container;
 const nodeExternals = require('webpack-node-externals');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -15,120 +22,38 @@ const LiveReloadPlugin = require('webpack-livereload-plugin');
 
 // const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 
-const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
+const packageJson = require('./package.json');
+
+const NPM_TARGET = process.env.npm_lifecycle_event;
 
 const targetIsRun = NPM_TARGET?.startsWith('run');
 const targetIsTest = NPM_TARGET === 'test';
 const targetIsStats = NPM_TARGET === 'stats';
 const targetIsDevServer = NPM_TARGET?.startsWith('dev-server');
+const targetIsEslint = NPM_TARGET === 'check' || NPM_TARGET === 'fix' || process.env.VSCODE_CWD;
 
 const DEV = targetIsRun || targetIsStats || targetIsDevServer;
+
+const boardsDevServerUrl = process.env.MM_BOARDS_DEV_SERVER_URL ?? 'http://localhost:9006';
 
 const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
 ];
 
-// react-hot-loader and development source maps require eval
-const CSP_UNSAFE_EVAL_IF_DEV = DEV ? ' \'unsafe-eval\'' : '';
-
-var MYSTATS = {
-
-    // Add asset Information
-    assets: false,
-
-    // Sort assets by a field
-    assetsSort: '',
-
-    // Add information about cached (not built) modules
-    cached: true,
-
-    // Show cached assets (setting this to `false` only shows emitted files)
-    cachedAssets: true,
-
-    // Add children information
-    children: true,
-
-    // Add chunk information (setting this to `false` allows for a less verbose output)
-    chunks: true,
-
-    // Add built modules information to chunk information
-    chunkModules: true,
-
-    // Add the origins of chunks and chunk merging info
-    chunkOrigins: true,
-
-    // Sort the chunks by a field
-    chunksSort: '',
-
-    // `webpack --colors` equivalent
-    colors: true,
-
-    // Display the distance from the entry point for each module
-    depth: true,
-
-    // Display the entry points with the corresponding bundles
-    entrypoints: true,
-
-    // Add errors
-    errors: true,
-
-    // Add details to errors (like resolving log)
-    errorDetails: true,
-
-    // Exclude modules which match one of the given strings or regular expressions
-    exclude: [],
-
-    // Add the hash of the compilation
-    hash: true,
-
-    // Add built modules information
-    modules: false,
-
-    // Sort the modules by a field
-    modulesSort: '!size',
-
-    // Show performance hint when file size exceeds `performance.maxAssetSize`
-    performance: true,
-
-    // Show the exports of the modules
-    providedExports: true,
-
-    // Add public path information
-    publicPath: true,
-
-    // Add information about the reasons why modules are included
-    reasons: true,
-
-    // Add the source code of modules
-    source: true,
-
-    // Add timing information
-    timings: true,
-
-    // Show which exports of a module are used
-    usedExports: true,
-
-    // Add webpack version information
-    version: true,
-
-    // Add warnings
-    warnings: true,
-
-    // Filter warnings to be shown (since webpack 2.4.0),
-    // can be a String, Regexp, a function getting the warning and returning a boolean
-    // or an Array of a combination of the above. First match wins.
-    warningsFilter: '',
-};
-
 let publicPath = '/static/';
 
 // Allow overriding the publicPath in dev from the exported SiteURL.
 if (DEV) {
-    const siteURL = process.env.MM_SERVICESETTINGS_SITEURL || ''; //eslint-disable-line no-process-env
+    const siteURL = process.env.MM_SERVICESETTINGS_SITEURL || '';
     if (siteURL) {
         publicPath = path.join(new url.URL(siteURL).pathname, 'static') + '/';
     }
 }
+
+// Track the build time so that we can bust any caches that may have incorrectly cached remote_entry.js from before we
+// started setting Cache-Control: no-cache for that file on the server. This can be removed in 2024 after those cached
+// entries are guaranteed to have expired.
+const buildTimestamp = Date.now();
 
 var config = {
     entry: ['./root.tsx', 'root.html'],
@@ -141,7 +66,7 @@ var config = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx|ts|tsx)?$/,
+                test: /\.(js|jsx|ts|tsx)$/,
                 exclude: STANDARD_EXCLUDE,
                 use: {
                     loader: 'babel-loader',
@@ -166,7 +91,7 @@ var config = {
                 ],
             },
             {
-                test: /\.scss$/,
+                test: /\.(css|scss)$/,
                 use: [
                     DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
                     {
@@ -179,15 +104,6 @@ var config = {
                                 includePaths: ['sass'],
                             },
                         },
-                    },
-                ],
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
-                    {
-                        loader: 'css-loader',
                     },
                 ],
             },
@@ -239,6 +155,7 @@ var config = {
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
             reselect: 'packages/reselect/src',
+            '@mui/styled-engine': '@mui/styled-engine-sc',
         },
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         fallback: {
@@ -269,13 +186,14 @@ var config = {
             meta: {
                 csp: {
                     'http-equiv': 'Content-Security-Policy',
-                    content: 'script-src \'self\' cdn.rudderlabs.com/ js.stripe.com/v3 ' + CSP_UNSAFE_EVAL_IF_DEV,
+                    content: generateCSP(),
                 },
             },
         }),
         new CopyWebpackPlugin({
             patterns: [
                 {from: 'images/emoji', to: 'emoji'},
+                {from: 'images/worktemplates', to: 'worktemplates'},
                 {from: 'images/img_trans.gif', to: 'images'},
                 {from: 'images/logo-email.png', to: 'images'},
                 {from: 'images/circles.png', to: 'images'},
@@ -382,8 +300,168 @@ var config = {
     ],
 };
 
-if (!targetIsStats) {
-    config.stats = MYSTATS;
+function generateCSP() {
+    let csp = 'script-src \'self\' cdn.rudderlabs.com/ js.stripe.com/v3';
+
+    if (DEV) {
+        // react-hot-loader and development source maps require eval
+        csp += ' \'unsafe-eval\'';
+
+        csp += ' ' + boardsDevServerUrl;
+    }
+
+    return csp;
+}
+
+async function initializeModuleFederation() {
+    function makeSharedModules(packageNames, singleton) {
+        const sharedObject = {};
+
+        for (const packageName of packageNames) {
+            const version = packageJson.dependencies[packageName];
+
+            sharedObject[packageName] = {
+                requiredVersion: singleton ? version : undefined,
+                singleton,
+                strictVersion: singleton,
+                version,
+            };
+        }
+
+        return sharedObject;
+    }
+
+    function isWebpackDevServerAvailable(baseUrl) {
+        return new Promise((resolve) => {
+            if (!DEV) {
+                resolve(false);
+                return;
+            }
+
+            const requestModule = baseUrl.startsWith('https:') ? https : http;
+            const req = requestModule.request(`${baseUrl}/remote_entry.js`, (response) => {
+                return resolve(response.statusCode === 200);
+            });
+
+            req.setTimeout(100, () => {
+                // If this times out, we've connected to the dev server even if it's not ready yet
+                resolve(true);
+            });
+
+            req.on('error', () => {
+                resolve(false);
+            });
+
+            req.end();
+        });
+    }
+
+    async function getRemoteContainers() {
+        const products = [
+            {name: 'boards', baseUrl: boardsDevServerUrl},
+        ];
+
+        const remotes = {};
+
+        if (process.env.MM_DONT_INCLUDE_PRODUCTS) {
+            console.warn('Skipping initialization of products');
+        } else if (DEV) {
+            // For development, identify which product dev servers are available
+
+            // Wait for 5 seconds for product dev servers to start up if they were started at the same time as this one
+            await new Promise((resolve) => setTimeout(resolve, 5000));
+
+            const productsFound = await Promise.all(products.map((product) => isWebpackDevServerAvailable(product.baseUrl)));
+            for (let i = 0; i < products.length; i++) {
+                const product = products[i];
+                const found = productsFound[i];
+
+                if (found) {
+                    console.log(`Product ${product.name} found, adding as remote module`);
+
+                    remotes[product.name] = `${product.name}@${product.baseUrl}/remote_entry.js`;
+                } else {
+                    console.log(`Product ${product.name} not found`);
+                }
+            }
+        } else {
+            // For production, hardcode the URLs of product containers to be based on the web app URL
+            for (const product of products) {
+                remotes[product.name] = `${product.name}@[window.basename]/static/products/${product.name}/remote_entry.js?bt=${buildTimestamp}`;
+            }
+        }
+
+        const aliases = {};
+
+        for (const product of products) {
+            if (remotes[product.name]) {
+                continue;
+            }
+
+            // Add false aliases to prevent Webpack from trying to resolve the missing modules
+            aliases[product.name] = false;
+            aliases[`${product.name}/manifest`] = false;
+        }
+
+        return {remotes, aliases};
+    }
+
+    const {remotes, aliases} = await getRemoteContainers();
+
+    const moduleFederationPluginOptions = {
+        name: 'mattermost_webapp',
+        remotes,
+        shared: [
+
+            // Shared modules will be made available to other containers (ie products and plugins using module federation).
+            // To allow for better sharing, containers shouldn't require exact versions of packages like the web app does.
+
+            // Other containers will use these shared modules if their required versions match. If they don't match, the
+            // version packaged with the container will be used.
+            '@mattermost/client',
+            '@mattermost/types',
+            'prop-types',
+
+            makeSharedModules([
+                'luxon',
+            ], false),
+
+            // Other containers will be forced to use the exact versions of shared modules that the web app provides.
+            makeSharedModules([
+                'history',
+                'react',
+                'react-beautiful-dnd',
+                'react-bootstrap',
+                'react-dom',
+                'react-intl',
+                'react-redux',
+                'react-router-dom',
+            ], true),
+        ],
+    };
+
+    // Desktop specific code for remote module loading
+    moduleFederationPluginOptions.exposes = {
+        './app': 'components/app.jsx',
+        './store': 'stores/redux_store.jsx',
+        './styles': './sass/styles.scss',
+        './registry': 'module_registry',
+    };
+    moduleFederationPluginOptions.filename = `remote_entry.js?bt=${buildTimestamp}`;
+
+    config.plugins.push(new ModuleFederationPlugin(moduleFederationPluginOptions));
+
+    // Add this plugin to perform the substitution of window.basename when loading remote containers
+    config.plugins.push(new ExternalTemplateRemotesPlugin());
+
+    config.resolve.alias = {
+        ...config.resolve.alias,
+        ...aliases,
+    };
+
+    config.plugins.push(new webpack.DefinePlugin({
+        REMOTE_CONTAINERS: JSON.stringify(remotes),
+    }));
 }
 
 if (DEV) {
@@ -399,15 +477,15 @@ if (DEV) {
 const env = {};
 if (DEV) {
     env.PUBLIC_PATH = JSON.stringify(publicPath);
-    env.RUDDER_KEY = JSON.stringify(process.env.RUDDER_KEY || ''); //eslint-disable-line no-process-env
-    env.RUDDER_DATAPLANE_URL = JSON.stringify(process.env.RUDDER_DATAPLANE_URL || ''); //eslint-disable-line no-process-env
-    if (process.env.MM_LIVE_RELOAD) { //eslint-disable-line no-process-env
+    env.RUDDER_KEY = JSON.stringify(process.env.RUDDER_KEY || '');
+    env.RUDDER_DATAPLANE_URL = JSON.stringify(process.env.RUDDER_DATAPLANE_URL || '');
+    if (process.env.MM_LIVE_RELOAD) {
         config.plugins.push(new LiveReloadPlugin());
     }
 } else {
     env.NODE_ENV = JSON.stringify('production');
-    env.RUDDER_KEY = JSON.stringify(process.env.RUDDER_KEY || ''); //eslint-disable-line no-process-env
-    env.RUDDER_DATAPLANE_URL = JSON.stringify(process.env.RUDDER_DATAPLANE_URL || ''); //eslint-disable-line no-process-env
+    env.RUDDER_KEY = JSON.stringify(process.env.RUDDER_KEY || '');
+    env.RUDDER_DATAPLANE_URL = JSON.stringify(process.env.RUDDER_DATAPLANE_URL || '');
 }
 
 config.plugins.push(new webpack.DefinePlugin({
@@ -422,35 +500,33 @@ if (targetIsTest) {
 }
 
 if (targetIsDevServer) {
+    const proxyToServer = {
+        logLevel: 'silent',
+        target: process.env.MM_SERVICESETTINGS_SITEURL ?? 'http://localhost:8065',
+        xfwd: true,
+    };
+
     config = {
         ...config,
         devtool: 'eval-cheap-module-source-map',
         devServer: {
             liveReload: true,
-            proxy: [{
-                context: () => true,
-                bypass(req) {
-                    if (req.url.indexOf('/api') === 0 ||
-                        req.url.indexOf('/plugins') === 0 ||
-                        req.url.indexOf('/static/plugins/') === 0 ||
-                        req.url.indexOf('/sockjs-node/') !== -1) {
-                        return null; // send through proxy to the server
-                    }
-                    if (req.url.indexOf('/static/') === 0) {
-                        return path; // return the webpacked asset
-                    }
+            proxy: {
 
-                    // redirect (root, team routes, etc)
-                    return '/static/root.html';
+                // Forward these requests to the server
+                '/api': {
+                    ...proxyToServer,
+                    ws: true,
                 },
-                logLevel: 'silent',
-                target: 'http://localhost:8065',
-                xfwd: true,
-                ws: true,
-            }],
+                '/plugins': proxyToServer,
+                '/static/plugins': proxyToServer,
+            },
             port: 9005,
             devMiddleware: {
                 writeToDisk: false,
+            },
+            historyApiFallback: {
+                index: '/static/root.html',
             },
         },
         performance: false,
@@ -473,7 +549,7 @@ if (targetIsDevServer) {
 // not helpful.)
 // See https://reactjs.org/blog/2018/09/10/introducing-the-react-profiler.html and
 // https://gist.github.com/bvaughn/25e6233aeb1b4f0cdb8d8366e54a3977
-if (process.env.PRODUCTION_PERF_DEBUG) { //eslint-disable-line no-process-env
+if (process.env.PRODUCTION_PERF_DEBUG) {
     console.log('Enabling production performance debug settings'); //eslint-disable-line no-console
     config.resolve.alias['react-dom'] = 'react-dom/profiling';
     config.resolve.alias['schedule/tracing'] = 'schedule/tracing-profiling';
@@ -484,4 +560,14 @@ if (process.env.PRODUCTION_PERF_DEBUG) { //eslint-disable-line no-process-env
     };
 }
 
-module.exports = config;
+if (targetIsEslint) {
+    // ESLint can't handle setting an async config, so just skip the async part
+    module.exports = config;
+} else {
+    module.exports = async () => {
+        // Do this asynchronously so we can determine whether which remote modules are available
+        await initializeModuleFederation();
+
+        return config;
+    };
+}

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 // https://www.figma.com/file/MYVj0NUudT9V7GV9KepBy3/%E2%9C%85Foundations---Illustrations?node-id=665%3A9992
 
 import React from 'react';

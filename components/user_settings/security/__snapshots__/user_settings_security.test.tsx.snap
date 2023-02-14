@@ -55,7 +55,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
-    <Connect(SettingItemMin)
+    <SettingItem
+      active={false}
+      areAllSectionsInactive={false}
+      containerStyle=""
+      infoPosition="bottom"
+      max={null}
+      saving={false}
       section="password"
       title={
         <Memo(MemoizedFormattedMessage)
@@ -70,6 +76,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <Connect(MfaSection)
       active={false}
+      areAllSectionsInactive={false}
       updateSection={[Function]}
     />
     <div
@@ -80,6 +87,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <Connect(UserAccessTokenSection)
       active={false}
+      areAllSectionsInactive={false}
       setRequireConfirm={[MockFunction]}
       updateSection={[Function]}
       user={
@@ -91,13 +99,19 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItem
+      active={false}
+      areAllSectionsInactive={false}
+      containerStyle=""
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
           id="user.settings.security.emailPwd"
         />
       }
+      infoPosition="bottom"
+      max={null}
+      saving={false}
       section="signin"
       title="Sign-in Method"
       updateSection={[Function]}
@@ -113,7 +127,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AccessHistoryModal)",
           "type": [Function],
         }
       }
@@ -141,7 +154,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ActivityLogModal)",
           "type": [Function],
         }
       }
@@ -221,7 +233,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
-    <Connect(SettingItemMin)
+    <SettingItem
+      active={false}
+      areAllSectionsInactive={false}
+      containerStyle=""
+      infoPosition="bottom"
+      max={null}
+      saving={false}
       section="password"
       title={
         <Memo(MemoizedFormattedMessage)
@@ -236,6 +254,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <Connect(MfaSection)
       active={false}
+      areAllSectionsInactive={false}
       updateSection={[Function]}
     />
     <div
@@ -246,6 +265,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <Connect(UserAccessTokenSection)
       active={false}
+      areAllSectionsInactive={false}
       setRequireConfirm={[MockFunction]}
       updateSection={[Function]}
       user={
@@ -257,13 +277,19 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItem
+      active={false}
+      areAllSectionsInactive={false}
+      containerStyle=""
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
           id="user.settings.security.emailPwd"
         />
       }
+      infoPosition="bottom"
+      max={null}
+      saving={false}
       section="signin"
       title="Sign-in Method"
       updateSection={[Function]}
@@ -279,7 +305,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AccessHistoryModal)",
           "type": [Function],
         }
       }
@@ -307,7 +332,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ActivityLogModal)",
           "type": [Function],
         }
       }
@@ -387,7 +411,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
-    <Connect(SettingItemMin)
+    <SettingItem
+      active={false}
+      areAllSectionsInactive={false}
+      containerStyle=""
+      infoPosition="bottom"
+      max={null}
+      saving={false}
       section="password"
       title={
         <Memo(MemoizedFormattedMessage)
@@ -402,6 +432,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <Connect(MfaSection)
       active={false}
+      areAllSectionsInactive={false}
       updateSection={[Function]}
     />
     <div
@@ -412,6 +443,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <Connect(UserAccessTokenSection)
       active={false}
+      areAllSectionsInactive={false}
       setRequireConfirm={[MockFunction]}
       updateSection={[Function]}
       user={
@@ -423,13 +455,19 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItem
+      active={false}
+      areAllSectionsInactive={false}
+      containerStyle=""
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
           id="user.settings.security.emailPwd"
         />
       }
+      infoPosition="bottom"
+      max={null}
+      saving={false}
       section="signin"
       title="Sign-in Method"
       updateSection={[Function]}
@@ -445,7 +483,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AccessHistoryModal)",
           "type": [Function],
         }
       }
@@ -473,7 +510,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ActivityLogModal)",
           "type": [Function],
         }
       }
@@ -553,7 +589,13 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
-    <Connect(SettingItemMin)
+    <SettingItem
+      active={false}
+      areAllSectionsInactive={false}
+      containerStyle=""
+      infoPosition="bottom"
+      max={null}
+      saving={false}
       section="password"
       title={
         <Memo(MemoizedFormattedMessage)
@@ -568,6 +610,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <Connect(MfaSection)
       active={false}
+      areAllSectionsInactive={false}
       updateSection={[Function]}
     />
     <div
@@ -578,6 +621,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <Connect(UserAccessTokenSection)
       active={false}
+      areAllSectionsInactive={false}
       setRequireConfirm={[MockFunction]}
       updateSection={[Function]}
       user={
@@ -589,13 +633,19 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-light"
     />
-    <Connect(SettingItemMin)
+    <SettingItem
+      active={false}
+      areAllSectionsInactive={false}
+      containerStyle=""
       describe={
         <Memo(MemoizedFormattedMessage)
           defaultMessage="Email and Password"
           id="user.settings.security.emailPwd"
         />
       }
+      infoPosition="bottom"
+      max={null}
+      saving={false}
       section="signin"
       title="Sign-in Method"
       updateSection={[Function]}
@@ -611,7 +661,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AccessHistoryModal)",
           "type": [Function],
         }
       }
@@ -639,7 +688,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ActivityLogModal)",
           "type": [Function],
         }
       }

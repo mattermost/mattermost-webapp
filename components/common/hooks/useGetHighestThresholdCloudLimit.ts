@@ -4,7 +4,7 @@
 import {useMemo} from 'react';
 
 import {CloudUsage, Limits} from '@mattermost/types/cloud';
-import {limitThresholds} from 'utils/limits';
+import {limitThresholds, LimitTypes} from 'utils/limits';
 
 interface MaybeLimitSummary {
     id: typeof LimitTypes[keyof typeof LimitTypes];
@@ -26,13 +26,6 @@ function refineToDefined(...args: MaybeLimitSummary[]): LimitSummary[] {
     }, []);
 }
 
-export const LimitTypes = {
-    messageHistory: 'messageHistory',
-    fileStorage: 'fileStorage',
-    enabledIntegrations: 'enabledIntegrations',
-    boardsCards: 'boardsCards',
-} as const;
-
 // Hook used to tell if some limit status should be surfaced to the user
 // for further attention, for example for prompting the user to upgrade
 // from a free cloud instance to a paid cloud instance.
@@ -44,14 +37,8 @@ export default function useGetHighestThresholdCloudLimit(usage: CloudUsage, limi
         const maybeMessageHistoryLimit = limits.messages?.history;
         const messageHistoryUsage = usage.messages.history;
 
-        const maybeBoardsCardsLimit = limits.boards?.cards;
-        const boardsCardsUsage = usage.boards.cards;
-
         const maybeFileStorageLimit = limits.files?.total_storage;
         const fileStorageUsage = usage.files.totalStorage;
-
-        const maybeEnabledIntegrationsLimit = limits.integrations?.enabled;
-        const enabledIntegrationsUsage = usage.integrations.enabled;
 
         // Order matters for this array. The designs specify:
         // > Show the plan limit that is the highest.
@@ -69,16 +56,6 @@ export default function useGetHighestThresholdCloudLimit(usage: CloudUsage, limi
                 id: LimitTypes.fileStorage,
                 limit: maybeFileStorageLimit,
                 usage: fileStorageUsage,
-            },
-            {
-                id: LimitTypes.enabledIntegrations,
-                limit: maybeEnabledIntegrationsLimit,
-                usage: enabledIntegrationsUsage,
-            },
-            {
-                id: LimitTypes.boardsCards,
-                limit: maybeBoardsCardsLimit,
-                usage: boardsCardsUsage,
             },
         ).
             reduce((acc: LimitSummary | false, curr: LimitSummary) => {

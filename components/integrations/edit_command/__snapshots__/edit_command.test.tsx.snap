@@ -120,16 +120,6 @@ exports[`components/integrations/EditCommand should match snapshot 1`] = `
 />
 `;
 
-exports[`components/integrations/EditCommand should match snapshot when EnableCommands is false 1`] = `
-<LoadingScreen
-  position="relative"
-  style={Object {}}
-/>
-`;
+exports[`components/integrations/EditCommand should match snapshot when EnableCommands is false 1`] = `<LoadingScreen />`;
 
-exports[`components/integrations/EditCommand should match snapshot, loading 1`] = `
-<LoadingScreen
-  position="relative"
-  style={Object {}}
-/>
-`;
+exports[`components/integrations/EditCommand should match snapshot, loading 1`] = `<LoadingScreen />`;

@@ -176,6 +176,13 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
         };
     }
 
+    removeSection = (name: string) => {
+        const sectionIndex = sectionsList.findIndex((section) => section.name === name);
+        if (sectionIndex > -1) {
+            sectionsList.splice(sectionIndex, 1);
+        }
+    }
+
     updatePermissions = (permissions: PermissionToUpdate[]) => {
         this.props.updatePermissions(permissions);
     }
@@ -227,10 +234,13 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
 
         if (!isLicensedForCloud) {
             // Remove the billing section if it's not licensed for cloud
-            const billingSectionIndex = sectionsList.findIndex((section) => section.name === 'billing');
-            if (billingSectionIndex > -1) {
-                sectionsList.splice(billingSectionIndex, 1);
-            }
+            this.removeSection('billing');
+        }
+
+        if (isLicensedForCloud) {
+            // Remove the site configuration section if it's licensed for cloud
+            this.removeSection('about');
+            this.removeSection('environment');
         }
 
         return getSectionsListForRole(sectionsList, this.props.role.name, editedSectionsByRole).map((section: SystemSection) => {

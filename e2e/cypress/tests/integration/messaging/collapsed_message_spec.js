@@ -49,15 +49,9 @@ describe('Long message', () => {
 function verifyCollapsedPost() {
     // * Verify show more button
     cy.get('#showMoreButton').scrollIntoView().should('be.visible').and('have.text', 'Show more');
-
-    // * Verify gradient
-    cy.get('#collapseGradient').should('be.visible');
 }
 
 function verifyExpandedPost() {
     // * Verify show more button now says 'Show less'
     cy.get('#showMoreButton').scrollIntoView().should('be.visible').and('have.text', 'Show less');
-
-    // * Verify gradient
-    cy.get('#collapseGradient').should('not.be.visible');
 }

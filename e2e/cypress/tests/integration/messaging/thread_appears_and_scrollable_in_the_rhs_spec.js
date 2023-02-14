@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-//
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -9,6 +9,8 @@
 
 // Stage: @prod
 // Group: @messaging
+
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Thread Scrolling Inside RHS ', () => {
     beforeEach(function() {
@@ -72,7 +74,7 @@ describe('Thread Scrolling Inside RHS ', () => {
                     // checking messages one by one
                     // and scrolling up on every step to load more previous messages
                     this.replies.reduceRight(
-                        (chain, reply) => chain.then(() => cy.findByText(reply).scrollIntoView()),
+                        (chain, reply) => chain.then(() => cy.findByText(reply).scrollIntoView().wait(TIMEOUTS.ONE_HUNDRED_MILLIS)),
                         cy,
                     );
 

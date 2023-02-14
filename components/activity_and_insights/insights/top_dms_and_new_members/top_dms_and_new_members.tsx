@@ -1,13 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo, useEffect, useState, useCallback, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {getMyTopDMs, getNewTeamMembers} from 'mattermost-redux/actions/insights';
-
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-
 import {NewMember, TopDM} from '@mattermost/types/insights';
+
+import {CircleSkeletonLoader, RectangleSkeletonLoader} from '@mattermost/components';
+
+import {getMyTopDMs, getNewTeamMembers} from 'mattermost-redux/actions/insights';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {openModal} from 'actions/views/modals';
 import {trackEvent} from 'actions/telemetry_actions';
@@ -15,8 +17,6 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {InsightsScopes, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
-import TitleLoader from '../skeleton_loader/title_loader/title_loader';
-import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 import InsightsModal from '../insights_modal/insights_modal';
@@ -84,15 +84,23 @@ const TopDMsAndNewMembers = (props: WidgetHocProps) => {
                     className='dms-loading-container'
                     key={i}
                 >
-                    <CircleLoader
-                        size={72}
-                    />
+                    <CircleSkeletonLoader size={72}/>
                     <div className='title-line'>
-                        <TitleLoader/>
+                        <RectangleSkeletonLoader
+                            height={12}
+                            flex='1'
+                        />
                     </div>
-                    <div className='info-line'>
-                        <TitleLoader/>
-                        <TitleLoader/>
+                    <div>
+                        <RectangleSkeletonLoader
+                            height={8}
+                            width={92}
+                            margin='0 0 12px 0'
+                        />
+                        <RectangleSkeletonLoader
+                            height={8}
+                            width={72}
+                        />
                     </div>
                 </div>,
             );

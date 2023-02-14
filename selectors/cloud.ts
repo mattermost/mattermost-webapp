@@ -49,6 +49,17 @@ export const getCloudContactUsLink: (state: GlobalState) => (inquiry: InquiryTyp
     },
 );
 
+export const getExpandSeatsLink: (state: GlobalState) => (licenseId: string) => string = createSelector(
+    'getExpandSeatsLink',
+    getConfig,
+    (config) => {
+        const cwsUrl = config.CWSURL;
+        return (licenseId: string) => {
+            return `${cwsUrl}/subscribe/expand?licenseId=${licenseId}`;
+        };
+    },
+);
+
 export const getCloudDelinquentInvoices = createSelector(
     'getCloudDelinquentInvoices',
     (state: GlobalState) => state.entities.cloud.invoices as Record<string, Invoice>,

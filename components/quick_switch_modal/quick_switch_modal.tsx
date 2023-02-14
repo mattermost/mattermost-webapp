@@ -7,11 +7,12 @@ import {FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
+import {RhsState} from 'types/store/rhs';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
-import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants';
+import {getHistory} from 'utils/browser_history';
+import Constants, {RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -38,10 +39,13 @@ export type Props = {
     onExited: () => void;
 
     isMobileView: boolean;
+    rhsState?: RhsState;
+    rhsOpen?: boolean;
 
     actions: {
         joinChannelById: (channelId: string) => Promise<ActionResult>;
         switchToChannel: (channel: Channel) => Promise<ActionResult>;
+        closeRightHandSide: () => void;
     };
 }
 
@@ -118,6 +122,10 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
             return;
         }
 
+        if (this.props.rhsOpen && this.props.rhsState === RHSStates.EDIT_HISTORY) {
+            this.props.actions.closeRightHandSide();
+        }
+
         if (this.state.mode === CHANNEL_MODE) {
             const {joinChannelById, switchToChannel} = this.props.actions;
             const selectedChannel = selected.channel;
@@ -131,7 +139,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
                 }
             });
         } else {
-            browserHistory.push('/' + selected.name);
+            getHistory().push('/' + selected.name);
             this.onHide();
         }
     };
@@ -183,7 +191,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
                 restoreFocus={false}
                 role='dialog'
                 aria-labelledby='quickSwitchModalLabel'
-                aria-describedby='quickSwitchHint'
+                aria-describedby='quickSwitchHeader'
                 animation={false}
             >
                 <Modal.Header
@@ -191,7 +199,10 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
                     closeButton={true}
                 />
                 <Modal.Body>
-                    <div className='channel-switcher__header'>
+                    <div
+                        className='channel-switcher__header'
+                        id='quickSwitchHeader'
+                    >
                         {header}
                         <div
                             className='channel-switcher__hint'
@@ -212,7 +223,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
                             onItemSelected={this.handleSubmit}
                             listComponent={SuggestionList}
                             listPosition='bottom'
-                            maxLength='64'
+                            maxLength={64}
                             providers={providers}
                             completeOnTab={false}
                             spellCheck='false'

@@ -23,7 +23,7 @@ export const duration = {
  * @param {number} ms - duration in millisecond
  * @return {Promise} promise with timeout
  */
-export const wait = async (ms) => {
+export const wait = async (ms = 0) => {
     return new Promise((resolve) => setTimeout(resolve, ms));
 };
 

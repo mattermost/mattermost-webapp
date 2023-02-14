@@ -8,9 +8,6 @@ import {screen} from '@testing-library/react';
 import * as redux from 'react-redux';
 import {Provider} from 'react-redux';
 
-import {GlobalState} from '@mattermost/types/store';
-import {UserProfile, UsersState} from '@mattermost/types/users';
-
 import {renderWithIntl} from 'tests/react_testing_utils';
 import mockStore from 'tests/test_store';
 
@@ -19,19 +16,19 @@ import * as cloudActions from 'actions/cloud';
 import {FileSizes} from 'utils/file_utils';
 import {Constants, CloudProducts} from 'utils/constants';
 
+import {UserProfile, UsersState} from '@mattermost/types/users';
+import {GlobalState} from '@mattermost/types/store';
+
 import {Subscription, Product} from '@mattermost/types/cloud';
 
 import Limits from './limits';
 
 const freeLimits = {
-    integrations: {
-        enabled: 5,
-    },
     messages: {
         history: 10000,
     },
     files: {
-        total_storage: 10 * FileSizes.Gigabyte,
+        total_storage: FileSizes.Gigabyte,
     },
     teams: {
         active: 1,
@@ -54,12 +51,12 @@ function setupStore(setupOptions: SetupOptions) {
                     limits: setupOptions.isEnterprise ? {} : freeLimits,
                 },
                 subscription: {
-                    product_id: setupOptions.isEnterprise ? 'prod_enterprise' : 'prod_starter',
+                    product_id: setupOptions.isEnterprise ? 'prod_enterprise' : 'prod_free',
                 } as Subscription,
                 products: {
-                    prod_starter: {
-                        id: 'prod_starter',
-                        name: 'Cloud Starter',
+                    prod_free: {
+                        id: 'prod_free',
+                        name: 'Cloud Free',
                         sku: CloudProducts.STARTER,
                     } as Product,
                     prod_enterprise: {
@@ -77,14 +74,6 @@ function setupStore(setupOptions: SetupOptions) {
                 messages: {
                     history: 0,
                     historyLoaded: true,
-                },
-                boards: {
-                    cards: 0,
-                    cardsLoaded: true,
-                },
-                integrations: {
-                    enabled: 3,
-                    enabledLoaded: true,
                 },
                 teams: {
                     active: 0,
@@ -132,15 +121,7 @@ describe('Limits', () => {
 
         renderWithIntl(<Provider store={store}><Limits/></Provider>);
         screen.getByText('File Storage');
-        screen.getByText(/of 10GB/);
-    });
-
-    test('enabled integration count is shown', () => {
-        const store = setupStore(defaultOptions);
-
-        renderWithIntl(<Provider store={store}><Limits/></Provider>);
-        screen.getByText('Enabled Integrations');
-        screen.getByText('3 of 5 integrations (60%)');
+        screen.getByText(/of 1GB/);
     });
 
     test('renders nothing if on enterprise', () => {

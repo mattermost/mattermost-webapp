@@ -88,10 +88,7 @@ exports[`components/admin_console/manage_tokens_modal/manage_tokens_modal.tsx sh
       <div
         className="manage-teams__teams"
       >
-        <LoadingScreen
-          position="relative"
-          style={Object {}}
-        />
+        <LoadingScreen />
       </div>
     </div>
   </ModalBody>

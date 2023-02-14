@@ -19,15 +19,16 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import MainMenu from 'components/main_menu';
 import AddChannelDropdown from 'components/sidebar/add_channel_dropdown';
 import {isAddChannelDropdownOpen} from 'selectors/views/add_channel_dropdown';
-import {OnboardingTourSteps, useShowOnboardingTutorialStep} from 'components/onboarding_tour';
-import {setAddChannelDropdown} from '../../../actions/views/add_channel_dropdown';
+import {useShowOnboardingTutorialStep} from 'components/tours/onboarding_tour';
+import {OnboardingTourSteps} from 'components/tours';
+
+import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
 
 type SidebarHeaderContainerProps = {
     id?: string;
 }
 
-type SidebarHeaderProps = {
-}
+type SidebarHeaderProps = Record<string, unknown>;
 
 const SidebarHeaderContainer = styled(Flex).attrs(() => ({
     element: 'header',
@@ -43,7 +44,6 @@ const SidebarHeaderContainer = styled(Flex).attrs(() => ({
         transform: translate(0, 0);
         margin-left: 0;
         min-width: 210px;
-        max-width: 232px;
     }
 
     #SidebarContainer & .AddChannelDropdown_dropdownButton {
@@ -96,6 +96,7 @@ export type Props = {
     unreadFilterEnabled: boolean;
     userGroupsEnabled: boolean;
     canCreateCustomGroups: boolean;
+    showWorkTemplateButton: boolean;
 }
 
 const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
@@ -121,6 +122,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                 id={'sidebar-header-container'}
             >
                 <OverlayTrigger
+
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={currentTeam.description?.length ? (
@@ -132,8 +134,10 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                         className='SidebarHeaderMenuWrapper test-team-header'
                     >
                         <SidebarHeading>
-                            <span className='title'>{currentTeam.display_name}</span>
-                            <i className='icon icon-chevron-down'/>
+                            <button className='style--none sidebar-header'>
+                                <span className='title'>{currentTeam.display_name}</span>
+                                <i className='icon icon-chevron-down'/>
+                            </button>
                         </SidebarHeading>
                         <MainMenu
                             id='sidebarDropdownMenu'
@@ -157,6 +161,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                     canCreateCustomGroups={props.canCreateCustomGroups}
                     showCreateUserGroupModal={props.showCreateUserGroupModal}
                     userGroupsEnabled={props.userGroupsEnabled}
+                    showWorkTemplateButton={props.showWorkTemplateButton}
                 />
             </SidebarHeaderContainer>
         </>

@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-//
+
 import React from 'react';
 import {shallow} from 'enzyme';
 
@@ -8,9 +8,6 @@ import {AppField} from '@mattermost/types/apps';
 
 import TextSetting from 'components/widgets/settings/text_setting';
 
-import AutocompleteSelector from 'components/autocomplete_selector';
-import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
-import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 import Markdown from 'components/markdown';
 
 import AppsFormField, {Props} from './apps_form_field';
@@ -44,8 +41,8 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             inputClassName: '',
             label: (
                 <React.Fragment>
-                    {baseDialogTextProps.field.modal_label}
-                    <span className='error-text'>{' *'}</span>
+                    {textField.modal_label}
+                    {false}
                 </React.Fragment>
             ),
             maxLength: 100,
@@ -56,6 +53,32 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             id: baseDialogTextProps.name,
             helpText: (<Markdown message='The description'/>),
         };
+
+        it('subtype blank - optional field', () => {
+            const wrapper = shallow(
+                <AppsFormField
+                    {...baseDialogTextProps}
+                    field={{
+                        ...textField,
+                        label: '',
+                        is_required: false,
+                    }}
+                />,
+            );
+            expect(wrapper.matchesElement(
+                <TextSetting
+                    {...baseTextSettingProps}
+                    label={(
+                        <React.Fragment>
+                            {textField.modal_label}
+                            {<span className='light'>{' (optional)'}</span>}
+                        </React.Fragment>
+                    )}
+                    type='input'
+                />,
+            )).toEqual(true);
+        });
+
         it('subtype blank', () => {
             const wrapper = shallow(
                 <AppsFormField
@@ -187,7 +210,7 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             expect(wrapper.find(AppsFormSelectField).exists()).toBe(true);
         });
 
-        test('GenericUserProvider is used when field type is user', () => {
+        test('AppsFormSelectField is used when field type is user', () => {
             const wrapper = shallow(
                 <AppsFormField
                     {...baseDialogSelectProps}
@@ -199,11 +222,10 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
                 />,
             );
 
-            expect(wrapper.find(AutocompleteSelector).exists()).toBe(true);
-            expect(wrapper.find(AutocompleteSelector).prop('providers')[0]).toBeInstanceOf(GenericUserProvider);
+            expect(wrapper.find(AppsFormSelectField).exists()).toBe(true);
         });
 
-        test('GenericChannelProvider is used when field type is channel', () => {
+        test('AppsFormSelectField is used when field type is channel', () => {
             const wrapper = shallow(
                 <AppsFormField
                     {...baseDialogSelectProps}
@@ -215,8 +237,7 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
                 />,
             );
 
-            expect(wrapper.find(AutocompleteSelector).exists()).toBe(true);
-            expect(wrapper.find(AutocompleteSelector).prop('providers')[0]).toBeInstanceOf(GenericChannelProvider);
+            expect(wrapper.find(AppsFormSelectField).exists()).toBe(true);
         });
 
         test('AppSelectForm is rendered when options are undefined', () => {

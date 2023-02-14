@@ -8,7 +8,7 @@ import {OAuthApp} from '@mattermost/types/integrations';
 
 import {Team} from '@mattermost/types/teams';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import EditOAuthApp from 'components/integrations/edit_oauth_app/edit_oauth_app';
 
@@ -133,7 +133,6 @@ describe('components/integrations/EditOAuthApp', () => {
             },
         );
 
-        browserHistory.push = jest.fn();
         const props = {...baseProps, oauthApp};
         const wrapper = shallow<EditOAuthApp>(
             <EditOAuthApp {...props}/>,
@@ -144,7 +143,7 @@ describe('components/integrations/EditOAuthApp', () => {
         await instance.submitOAuthApp();
 
         expect(wrapper.state('serverError')).toEqual('');
-        expect(browserHistory.push).toHaveBeenCalledWith(`/${team.name}/integrations/oauth2-apps`);
+        expect(getHistory().push).toHaveBeenCalledWith(`/${team.name}/integrations/oauth2-apps`);
     });
 
     test('should have match when submitOAuthApp is called on error', async () => {

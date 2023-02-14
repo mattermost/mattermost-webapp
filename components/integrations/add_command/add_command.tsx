@@ -2,13 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React, {useState} from 'react';
+import {useHistory} from 'react-router-dom';
 
 import {Command} from '@mattermost/types/integrations.js';
 import {Team} from '@mattermost/types/teams.js';
 
 import {ActionResult} from 'mattermost-redux/types/actions.js';
 
-import {browserHistory} from 'utils/browser_history';
 import {t} from 'utils/i18n';
 
 import AbstractCommand from '../abstract_command.jsx';
@@ -34,6 +34,8 @@ export type Props = {
 };
 
 const AddCommand = ({team, actions}: Props) => {
+    const history = useHistory();
+
     const [serverError, setServerError] = useState('');
 
     const addCommand = async (command: Command) => {
@@ -41,7 +43,7 @@ const AddCommand = ({team, actions}: Props) => {
 
         const {data, error} = await actions.addCommand(command);
         if (data) {
-            browserHistory.push(`/${team.name}/integrations/commands/confirm?type=commands&id=${data.id}`);
+            history.push(`/${team.name}/integrations/commands/confirm?type=commands&id=${data.id}`);
             return;
         }
 

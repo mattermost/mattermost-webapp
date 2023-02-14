@@ -5,25 +5,29 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {Client4} from 'mattermost-redux/client';
 import {RelationOneToOne} from '@mattermost/types/utilities';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
 
-import {filterProfilesStartingWithTerm, isGuest} from 'mattermost-redux/utils/user_utils';
-import {getLongDisplayNameParts, localizeMessage} from 'utils/utils';
+import {displayUsername, filterProfilesStartingWithTerm, isGuest} from 'mattermost-redux/utils/user_utils';
+import {localizeMessage} from 'utils/utils';
 import ProfilePicture from 'components/profile_picture';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
-import GuestBadge from 'components/widgets/badges/guest_badge';
-import BotBadge from 'components/widgets/badges/bot_badge';
+
 import InvitationModal from 'components/invitation_modal';
 import ToggleModalButton from 'components/toggle_modal_button';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
 const USERS_PER_PAGE = 50;
+const USERS_FROM_DMS = 10;
+const MAX_USERS = 25;
 
 type UserProfileValue = Value & UserProfile;
 
@@ -31,9 +35,11 @@ export type Props = {
     profilesNotInCurrentChannel: UserProfileValue[];
     profilesInCurrentChannel: UserProfileValue[];
     profilesNotInCurrentTeam: UserProfileValue[];
+    profilesFromRecentDMs: UserProfile[];
     userStatuses: RelationOneToOne<UserProfile, string>;
     onExited: () => void;
     channel: Channel;
+    teammateNameDisplaySetting: string;
 
     // skipCommit = true used with onAddCallback will result in users not being committed immediately
     skipCommit?: boolean;
@@ -78,7 +84,6 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
 
     constructor(props: Props) {
         super(props);
-
         this.state = {
             values: [],
             term: '',
@@ -228,6 +233,12 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
         return option.username;
     }
 
+    private filterOutDeletedAndExcludedAndNotInTeamUsers = (users: UserProfile[], excludeUserIds: Set<string>): UserProfileValue[] => {
+        return users.filter((user) => {
+            return user.delete_at === 0 && !excludeUserIds.has(user.id);
+        }) as UserProfileValue[];
+    }
+
     renderOption = (option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
         let rowSelected = '';
         if (isSelected) {
@@ -241,6 +252,8 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
         for (let i = 0; i < ProfilesInGroup.length; i++) {
             userMapping[ProfilesInGroup[i]] = 'Already in channel';
         }
+
+        const displayName = displayUsername(option, this.props.teammateNameDisplaySetting);
 
         return (
             <div
@@ -256,24 +269,28 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                     size='md'
                     username={option.username}
                 />
-
                 <div className='more-modal__details'>
                     <div className='more-modal__name'>
                         <span>
-                            {getLongDisplayNameParts(option).displayName}
+                            {displayName}
+                            {option.is_bot && <BotTag/>}
+                            {isGuest(option.roles) && <GuestTag className='popoverlist'/>}
+                            {displayName === option.username ?
+                                null :
+                                <span
+                                    className='ml-2 light'
+                                    style={{fontSize: '12px'}}
+                                >
+                                    {'@'}{option.username}
+                                </span>
+                            }
                             <span
                                 style={{position: 'absolute', right: 20}}
                                 className='light'
-                            >{userMapping[option.id]}</span>
+                            >
+                                {userMapping[option.id]}
+                            </span>
                         </span>
-                        <BotBadge
-                            show={Boolean(option.is_bot)}
-                            className='badge-popoverlist'
-                        />
-                        <GuestBadge
-                            show={isGuest(option.roles)}
-                            className='popoverlist'
-                        />
                     </div>
                 </div>
                 <div className='more-modal__actions'>
@@ -305,17 +322,31 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
 
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
-
-        let users = filterProfilesStartingWithTerm(this.props.profilesNotInCurrentChannel.concat(this.props.profilesInCurrentChannel), this.state.term).filter((user) => {
-            return user.delete_at === 0 &&
-                !this.props.profilesNotInCurrentTeam.includes(user as UserProfileValue) &&
-                (this.props.excludeUsers !== undefined && !this.props.excludeUsers[user.id]);
-        }).map((user) => user as UserProfileValue);
-
+        let excludedAndNotInTeamUserIds: Set<string>;
+        if (this.props.excludeUsers) {
+            excludedAndNotInTeamUserIds = new Set(...this.props.profilesNotInCurrentTeam.map((user) => user.id), Object.values(this.props.excludeUsers).map((user) => user.id));
+        } else {
+            excludedAndNotInTeamUserIds = new Set(this.props.profilesNotInCurrentTeam.map((user) => user.id));
+        }
+        let users = this.filterOutDeletedAndExcludedAndNotInTeamUsers(
+            filterProfilesStartingWithTerm(
+                this.props.profilesNotInCurrentChannel.concat(this.props.profilesInCurrentChannel),
+                this.state.term),
+            excludedAndNotInTeamUserIds);
         if (this.props.includeUsers) {
             const includeUsers = Object.values(this.props.includeUsers);
             users = [...users, ...includeUsers];
         }
+        users = [
+            ...this.filterOutDeletedAndExcludedAndNotInTeamUsers(
+                filterProfilesStartingWithTerm(this.props.profilesFromRecentDMs, this.state.term),
+                excludedAndNotInTeamUserIds).
+                slice(0, USERS_FROM_DMS) as UserProfileValue[],
+            ...users,
+        ].
+            slice(0, MAX_USERS);
+
+        users = Array.from(new Set(users));
 
         const closeMembersInviteModal = () => {
             this.props.actions.closeModal(ModalIdentifiers.CHANNEL_INVITE);

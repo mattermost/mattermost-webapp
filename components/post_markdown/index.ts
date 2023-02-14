@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {connect} from 'react-redux';
 
 import {createSelector} from 'reselect';
@@ -35,7 +36,6 @@ export function makeGetMentionKeysForPost(): (
         (mentionKeysWithoutGroups, post, groupMentionKeys) => {
             let mentionKeys = mentionKeysWithoutGroups;
             if (!post?.props?.disable_group_highlight) {
-                // eslint-disable-line camelcase
                 mentionKeys = mentionKeys.concat(groupMentionKeys);
             }
 

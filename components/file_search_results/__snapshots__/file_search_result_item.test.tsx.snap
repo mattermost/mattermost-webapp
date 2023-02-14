@@ -198,14 +198,15 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       <div
         className="fileMetadata"
       >
-        <Memo(Badge)
+        <Memo(Tag)
           className="file-search-channel-name"
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="Direct Message"
-            id="search_item.file_badge.direct_message"
-          />
-        </Memo(Badge)>
+          text={
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Direct Message"
+              id="search_item.file_tag.direct_message"
+            />
+          }
+        />
         <span>
           1B
         </span>
@@ -364,14 +365,15 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       <div
         className="fileMetadata"
       >
-        <Memo(Badge)
+        <Memo(Tag)
           className="file-search-channel-name"
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="Group Message"
-            id="search_item.file_badge.group_message"
-          />
-        </Memo(Badge)>
+          text={
+            <Memo(MemoizedFormattedMessage)
+              defaultMessage="Group Message"
+              id="search_item.file_tag.group_message"
+            />
+          }
+        />
         <span>
           1B
         </span>
@@ -530,11 +532,10 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
       <div
         className="fileMetadata"
       >
-        <Memo(Badge)
+        <Memo(Tag)
           className="file-search-channel-name"
-        >
-          test
-        </Memo(Badge)>
+          text="test"
+        />
         <span>
           1B
         </span>

@@ -2,14 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import classNames from 'classnames';
 
-import AnnouncementBarController from 'components/announcement_bar';
-import SystemNotice from 'components/system_notice';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
+import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
+
 import ResetStatusModal from 'components/reset_status_modal';
-import SidebarRight from 'components/sidebar_right';
-import SidebarRightMenu from 'components/sidebar_right_menu';
-import AppBar from 'components/app_bar/app_bar';
 import Sidebar from 'components/sidebar';
 import CenterChannel from 'components/channel_layout/center_channel';
 import LoadingScreen from 'components/loading_screen';
@@ -18,16 +18,18 @@ import ProductNoticesModal from 'components/product_notices_modal';
 
 import Pluggable from 'plugins/pluggable';
 
+import {Constants} from 'utils/constants';
 import {isInternetExplorer, isEdge} from 'utils/user_agent';
-
-interface Props {
-    shouldShowAppBar: boolean;
-    fetchingChannels: boolean;
-}
 
 const BODY_CLASS_FOR_CHANNEL = ['app__body', 'channel-view'];
 
-export default function ChannelController({shouldShowAppBar, fetchingChannels}: Props) {
+type Props = {
+    shouldRenderCenterChannel: boolean;
+}
+
+export default function ChannelController(props: Props) {
+    const dispatch = useDispatch<DispatchFunc>();
+
     useEffect(() => {
         const isMsBrowser = isInternetExplorer() || isEdge();
         const platform = window.navigator.platform;
@@ -38,25 +40,32 @@ export default function ChannelController({shouldShowAppBar, fetchingChannels}: 
         };
     }, []);
 
+    useEffect(() => {
+        const loadStatusesIntervalId = setInterval(() => {
+            dispatch(loadStatusesForChannelAndSidebar());
+        }, Constants.STATUS_INTERVAL);
+
+        return () => {
+            clearInterval(loadStatusesIntervalId);
+        };
+    }, []);
+
     return (
-        <div
-            id='channel_view'
-            className='channel-view'
-        >
-            <AnnouncementBarController/>
-            <SystemNotice/>
-            <FaviconTitleHandler/>
-            <ProductNoticesModal/>
-            <div className={classNames('container-fluid channel-view-inner', {'app-bar-enabled': shouldShowAppBar})}>
-                <SidebarRight/>
-                <SidebarRightMenu/>
-                <Sidebar/>
-                {fetchingChannels ? <LoadingScreen/> : <CenterChannel/>}
-                <Pluggable pluggableName='Root'/>
-                <ResetStatusModal/>
+        <>
+            <Sidebar/>
+            <div
+                id='channel_view'
+                className='channel-view'
+            >
+                <FaviconTitleHandler/>
+                <ProductNoticesModal/>
+                <div className={classNames('container-fluid channel-view-inner')}>
+                    {props.shouldRenderCenterChannel ? <CenterChannel/> : <LoadingScreen centered={true}/>}
+                    <Pluggable pluggableName='Root'/>
+                    <ResetStatusModal/>
+                </div>
             </div>
-            <AppBar/>
-        </div>
+        </>
     );
 }
 

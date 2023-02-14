@@ -1,5 +1,635 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/ChannelHeader should match snapshot with last active display 1`] = `
+<div
+  aria-label="channel header region"
+  className="channel-header alt a11y__region"
+  data-a11y-sort-order="8"
+  data-channelid="channel_id"
+  id="channel-header"
+  role="banner"
+  tabIndex={-1}
+>
+  <div
+    className="flex-parent"
+  >
+    <div
+      className="flex-child"
+    >
+      <div
+        className="channel-header__info"
+        id="channelHeaderInfo"
+      >
+        <div
+          className="channel-header__title dropdown"
+        >
+          <div>
+            <MenuWrapper
+              animationComponent={[Function]}
+              className=""
+              onToggle={[Function]}
+            >
+              <div
+                className="channel-header__top"
+                id="channelHeaderDropdownButton"
+              >
+                <button
+                  aria-label="channel menu"
+                  className="channel-header__trigger style--none "
+                >
+                  <strong
+                    aria-level={2}
+                    className="heading"
+                    id="channelHeaderTitle"
+                    role="heading"
+                  >
+                    <span>
+                      <MemoizedFormattedMessage
+                        defaultMessage="{displayname} (you) "
+                        id="channel_header.directchannel.you"
+                        values={
+                          Object {
+                            "displayname": "some-user",
+                          }
+                        }
+                      />
+                    </span>
+                  </strong>
+                  <span
+                    aria-label="dropdown icon"
+                    className="icon icon-chevron-down header-dropdown-chevron-icon"
+                    id="channelHeaderDropdownIcon"
+                  />
+                </button>
+              </div>
+              <ChannelHeaderDropdown />
+            </MenuWrapper>
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              delayShow={400}
+              key="isFavorite-undefined"
+              onEntering={[Function]}
+              overlay={
+                <Tooltip
+                  id="favoriteTooltip"
+                >
+                  <Memo(MemoizedFormattedMessage)
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                  />
+                </Tooltip>
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <button
+                aria-label="add to favorites"
+                className="style--none color--link channel-header__favorites inactive"
+                id="toggleFavorite"
+                onClick={[Function]}
+              >
+                <i
+                  className="icon icon-star-outline"
+                />
+              </button>
+            </OverlayTrigger>
+          </div>
+        </div>
+        <div
+          className="channel-header__description"
+          dir="auto"
+          id="channelHeaderDescription"
+        >
+          <StatusIcon
+            button={false}
+            className=""
+            status="offline"
+          />
+          <span
+            className="header-status__text"
+          >
+            <span
+              className="last-active__text"
+            >
+              <MemoizedFormattedMessage
+                defaultMessage="Active {timestamp}"
+                id="channel_header.lastActive"
+                values={
+                  Object {
+                    "timestamp": <Memo(Connect(injectIntl(Timestamp)))
+                      style="short"
+                      units={
+                        Array [
+                          "now",
+                          "minute",
+                          "hour",
+                        ]
+                      }
+                      useTime={false}
+                      value={1632146562846}
+                    />,
+                  }
+                }
+              />
+            </span>
+          </span>
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderPinButton"
+            iconComponent={
+              <i
+                aria-hidden="true"
+                className="icon icon-pin-outline channel-header__pin"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-text-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
+          />
+          <div
+            className="header-popover-text-measurer"
+          >
+            <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
+              message="not the bot description"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
+            >
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
+              >
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
+                    message="not the bot description"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
+              message="not the bot description"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+    <Connect(injectIntl(ChannelHeaderPlug))
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "not the bot description",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "status": "offline",
+          "team_id": "team_id",
+          "type": "D",
+          "update_at": 0,
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "last_update_at": 0,
+          "last_viewed_at": 0,
+          "mention_count": 0,
+          "mention_count_root": 0,
+          "msg_count": 0,
+          "msg_count_root": 0,
+          "notify_props": Object {
+            "desktop": "default",
+            "email": "default",
+            "ignore_channel_mentions": "default",
+            "mark_unread": "all",
+            "push": "default",
+          },
+          "roles": "channel_user",
+          "scheme_admin": false,
+          "scheme_user": true,
+          "urgent_mention_count": 0,
+          "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "not the bot description",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "status": "offline",
+          "team_id": "team_id",
+          "type": "D",
+          "update_at": 0,
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`components/ChannelHeader should match snapshot with no last active display because it is disabled 1`] = `
+<div
+  aria-label="channel header region"
+  className="channel-header alt a11y__region"
+  data-a11y-sort-order="8"
+  data-channelid="channel_id"
+  id="channel-header"
+  role="banner"
+  tabIndex={-1}
+>
+  <div
+    className="flex-parent"
+  >
+    <div
+      className="flex-child"
+    >
+      <div
+        className="channel-header__info"
+        id="channelHeaderInfo"
+      >
+        <div
+          className="channel-header__title dropdown"
+        >
+          <div>
+            <MenuWrapper
+              animationComponent={[Function]}
+              className=""
+              onToggle={[Function]}
+            >
+              <div
+                className="channel-header__top"
+                id="channelHeaderDropdownButton"
+              >
+                <button
+                  aria-label="channel menu"
+                  className="channel-header__trigger style--none "
+                >
+                  <strong
+                    aria-level={2}
+                    className="heading"
+                    id="channelHeaderTitle"
+                    role="heading"
+                  >
+                    <span>
+                      <MemoizedFormattedMessage
+                        defaultMessage="{displayname} (you) "
+                        id="channel_header.directchannel.you"
+                        values={
+                          Object {
+                            "displayname": "some-user",
+                          }
+                        }
+                      />
+                    </span>
+                  </strong>
+                  <span
+                    aria-label="dropdown icon"
+                    className="icon icon-chevron-down header-dropdown-chevron-icon"
+                    id="channelHeaderDropdownIcon"
+                  />
+                </button>
+              </div>
+              <ChannelHeaderDropdown />
+            </MenuWrapper>
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              delayShow={400}
+              key="isFavorite-undefined"
+              onEntering={[Function]}
+              overlay={
+                <Tooltip
+                  id="favoriteTooltip"
+                >
+                  <Memo(MemoizedFormattedMessage)
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                  />
+                </Tooltip>
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <button
+                aria-label="add to favorites"
+                className="style--none color--link channel-header__favorites inactive"
+                id="toggleFavorite"
+                onClick={[Function]}
+              >
+                <i
+                  className="icon icon-star-outline"
+                />
+              </button>
+            </OverlayTrigger>
+          </div>
+        </div>
+        <div
+          className="channel-header__description"
+          dir="auto"
+          id="channelHeaderDescription"
+        >
+          <StatusIcon
+            button={false}
+            className=""
+            status="offline"
+          />
+          <span
+            className="header-status__text"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="Offline"
+              id="status_dropdown.set_offline"
+            />
+          </span>
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderPinButton"
+            iconComponent={
+              <i
+                aria-hidden="true"
+                className="icon icon-pin-outline channel-header__pin"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="pinnedPosts"
+          />
+          <HeaderIconWrapper
+            ariaLabel={true}
+            buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left"
+            buttonId="channelHeaderFilesButton"
+            iconComponent={
+              <i
+                className="icon icon-file-text-outline"
+              />
+            }
+            onClick={[Function]}
+            tooltipKey="channelFiles"
+          />
+          <div
+            className="header-popover-text-measurer"
+          >
+            <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
+              message="not the bot description"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </div>
+          <span
+            className="header-description__text"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <Overlay
+              animation={[Function]}
+              onEnter={[Function]}
+              onHide={[Function]}
+              placement="bottom"
+              rootClose={true}
+              show={false}
+              target={null}
+            >
+              <Popover
+                className="channel-header__popover"
+                id="header-popover"
+                placement="bottom"
+                popoverSize="lg"
+                popoverStyle="info"
+                style={
+                  Object {
+                    "maxWidth": "0px",
+                    "transform": "translate(0px, 0px)",
+                  }
+                }
+              >
+                <span
+                  onClick={[Function]}
+                >
+                  <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
+                    message="not the bot description"
+                    options={
+                      Object {
+                        "atMentions": true,
+                        "channelNamesMap": undefined,
+                        "mentionHighlight": false,
+                        "singleline": false,
+                      }
+                    }
+                  />
+                </span>
+              </Popover>
+            </Overlay>
+            <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
+              message="not the bot description"
+              options={
+                Object {
+                  "atMentions": true,
+                  "channelNamesMap": undefined,
+                  "mentionHighlight": false,
+                  "singleline": true,
+                }
+              }
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+    <Connect(injectIntl(ChannelHeaderPlug))
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "not the bot description",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "status": "offline",
+          "team_id": "team_id",
+          "type": "D",
+          "update_at": 0,
+        }
+      }
+      channelMember={
+        Object {
+          "channel_id": "channel_id",
+          "last_update_at": 0,
+          "last_viewed_at": 0,
+          "mention_count": 0,
+          "mention_count_root": 0,
+          "msg_count": 0,
+          "msg_count_root": 0,
+          "notify_props": Object {
+            "desktop": "default",
+            "email": "default",
+            "ignore_channel_mentions": "default",
+            "mark_unread": "all",
+            "push": "default",
+          },
+          "roles": "channel_user",
+          "scheme_admin": false,
+          "scheme_user": true,
+          "urgent_mention_count": 0,
+          "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "not the bot description",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "status": "offline",
+          "team_id": "team_id",
+          "type": "D",
+          "update_at": 0,
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
 exports[`components/ChannelHeader should render active channel files 1`] = `
 <div
   aria-label="channel header region"
@@ -147,6 +777,11 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
             className="header-popover-text-measurer"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -190,6 +825,11 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
                   onClick={[Function]}
                 >
                   <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
                     message="header"
                     options={
                       Object {
@@ -204,6 +844,11 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
               </Popover>
             </Overlay>
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -257,6 +902,7 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -434,6 +1080,11 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
             className="header-popover-text-measurer"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -477,6 +1128,11 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
                   onClick={[Function]}
                 >
                   <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
                     message="header"
                     options={
                       Object {
@@ -491,6 +1147,11 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
               </Popover>
             </Overlay>
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -544,6 +1205,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -721,6 +1383,11 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
             className="header-popover-text-measurer"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -764,6 +1431,11 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
                   onClick={[Function]}
                 >
                   <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
                     message="header"
                     options={
                       Object {
@@ -778,6 +1450,11 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
               </Popover>
             </Overlay>
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -831,6 +1508,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -1008,6 +1686,11 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
             className="header-popover-text-measurer"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -1051,6 +1734,11 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
                   onClick={[Function]}
                 >
                   <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
                     message="header"
                     options={
                       Object {
@@ -1065,6 +1753,11 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
               </Popover>
             </Overlay>
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -1118,6 +1811,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -1264,6 +1958,11 @@ exports[`components/ChannelHeader should render archived view 1`] = `
             className="header-popover-text-measurer"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -1307,6 +2006,11 @@ exports[`components/ChannelHeader should render archived view 1`] = `
                   onClick={[Function]}
                 >
                   <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
                     message="header"
                     options={
                       Object {
@@ -1321,6 +2025,11 @@ exports[`components/ChannelHeader should render archived view 1`] = `
               </Popover>
             </Overlay>
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -1374,6 +2083,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -1583,6 +2293,11 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
             className="header-popover-text-measurer"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -1626,6 +2341,11 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                   onClick={[Function]}
                 >
                   <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
                     message="header"
                     options={
                       Object {
@@ -1640,6 +2360,11 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
               </Popover>
             </Overlay>
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -1693,6 +2418,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -1870,6 +2596,11 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
             className="header-popover-text-measurer"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -1913,6 +2644,11 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
                   onClick={[Function]}
                 >
                   <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
                     message="header"
                     options={
                       Object {
@@ -1927,6 +2663,11 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
               </Popover>
             </Overlay>
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -1980,6 +2721,7 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -2063,10 +2805,6 @@ exports[`components/ChannelHeader should render properly when custom status is e
                           }
                         }
                       />
-                      <GuestBadge
-                        className=""
-                        show={false}
-                      />
                     </span>
                   </strong>
                   <span
@@ -2127,10 +2865,30 @@ exports[`components/ChannelHeader should render properly when custom status is e
           <span
             className="header-status__text"
           >
-            <MemoizedFormattedMessage
-              defaultMessage="Offline"
-              id="status_dropdown.set_offline"
-            />
+            <span
+              className="last-active__text"
+            >
+              <MemoizedFormattedMessage
+                defaultMessage="Active {timestamp}"
+                id="channel_header.lastActive"
+                values={
+                  Object {
+                    "timestamp": <Memo(Connect(injectIntl(Timestamp)))
+                      style="short"
+                      units={
+                        Array [
+                          "now",
+                          "minute",
+                          "hour",
+                        ]
+                      }
+                      useTime={false}
+                      value={1632146562846}
+                    />,
+                  }
+                }
+              />
+            </span>
           </span>
           <HeaderIconWrapper
             ariaLabel={true}
@@ -2161,6 +2919,11 @@ exports[`components/ChannelHeader should render properly when custom status is e
             className="header-popover-text-measurer"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="not the bot description"
               options={
                 Object {
@@ -2204,6 +2967,11 @@ exports[`components/ChannelHeader should render properly when custom status is e
                   onClick={[Function]}
                 >
                   <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
                     message="not the bot description"
                     options={
                       Object {
@@ -2218,6 +2986,11 @@ exports[`components/ChannelHeader should render properly when custom status is e
               </Popover>
             </Overlay>
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="not the bot description"
               options={
                 Object {
@@ -2272,6 +3045,7 @@ exports[`components/ChannelHeader should render properly when custom status is e
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -2356,10 +3130,6 @@ exports[`components/ChannelHeader should render properly when custom status is s
                           }
                         }
                       />
-                      <GuestBadge
-                        className=""
-                        show={false}
-                      />
                     </span>
                   </strong>
                   <span
@@ -2420,26 +3190,50 @@ exports[`components/ChannelHeader should render properly when custom status is s
           <span
             className="header-status__text"
           >
-            <MemoizedFormattedMessage
-              defaultMessage="Offline"
-              id="status_dropdown.set_offline"
-            />
-            <Memo(CustomStatusEmoji)
-              emojiStyle={
-                Object {
-                  "margin": "0 4px 1px",
-                  "verticalAlign": "top",
+            <span
+              className="last-active__text"
+            >
+              <MemoizedFormattedMessage
+                defaultMessage="Active {timestamp}"
+                id="channel_header.lastActive"
+                values={
+                  Object {
+                    "timestamp": <Memo(Connect(injectIntl(Timestamp)))
+                      style="short"
+                      units={
+                        Array [
+                          "now",
+                          "minute",
+                          "hour",
+                        ]
+                      }
+                      useTime={false}
+                      value={1632146562846}
+                    />,
+                  }
                 }
-              }
-              showTooltip={true}
-              tooltipDirection="bottom"
-              userID="user_id"
-            />
-            <CustomStatusText
-              className=""
-              text="In a meeting"
-              tooltipDirection="bottom"
-            />
+              />
+            </span>
+            <div
+              className="custom-emoji__wrapper"
+            >
+              <Memo(CustomStatusEmoji)
+                emojiStyle={
+                  Object {
+                    "margin": "0 4px 1px",
+                    "verticalAlign": "top",
+                  }
+                }
+                showTooltip={true}
+                tooltipDirection="bottom"
+                userID="user_id"
+              />
+              <CustomStatusText
+                className=""
+                text="In a meeting"
+                tooltipDirection="bottom"
+              />
+            </div>
           </span>
           <HeaderIconWrapper
             ariaLabel={true}
@@ -2470,6 +3264,11 @@ exports[`components/ChannelHeader should render properly when custom status is s
             className="header-popover-text-measurer"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="not the bot description"
               options={
                 Object {
@@ -2513,6 +3312,11 @@ exports[`components/ChannelHeader should render properly when custom status is s
                   onClick={[Function]}
                 >
                   <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
                     message="not the bot description"
                     options={
                       Object {
@@ -2527,6 +3331,11 @@ exports[`components/ChannelHeader should render properly when custom status is s
               </Popover>
             </Overlay>
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="not the bot description"
               options={
                 Object {
@@ -2581,6 +3390,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -2759,6 +3569,11 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
             className="header-popover-text-measurer"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -2802,6 +3617,11 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
                   onClick={[Function]}
                 >
                   <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
                     message="header"
                     options={
                       Object {
@@ -2816,6 +3636,11 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
               </Popover>
             </Overlay>
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -2869,6 +3694,7 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -3046,6 +3872,11 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
             className="header-popover-text-measurer"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -3089,6 +3920,11 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                   onClick={[Function]}
                 >
                   <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
                     message="header"
                     options={
                       Object {
@@ -3103,6 +3939,11 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
               </Popover>
             </Overlay>
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -3156,6 +3997,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -3333,6 +4175,11 @@ exports[`components/ChannelHeader should render properly when populated with cha
             className="header-popover-text-measurer"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="See ~test"
               options={
                 Object {
@@ -3380,6 +4227,11 @@ exports[`components/ChannelHeader should render properly when populated with cha
                   onClick={[Function]}
                 >
                   <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
                     message="See ~test"
                     options={
                       Object {
@@ -3398,6 +4250,11 @@ exports[`components/ChannelHeader should render properly when populated with cha
               </Popover>
             </Overlay>
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="See ~test"
               options={
                 Object {
@@ -3462,6 +4319,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -3651,6 +4509,11 @@ exports[`components/ChannelHeader should render shared view 1`] = `
             className="header-popover-text-measurer"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -3694,6 +4557,11 @@ exports[`components/ChannelHeader should render shared view 1`] = `
                   onClick={[Function]}
                 >
                   <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
                     message="header"
                     options={
                       Object {
@@ -3708,6 +4576,11 @@ exports[`components/ChannelHeader should render shared view 1`] = `
               </Popover>
             </Overlay>
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -3762,6 +4635,7 @@ exports[`components/ChannelHeader should render shared view 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -3948,6 +4822,11 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
             className="header-popover-text-measurer"
           >
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -3991,6 +4870,11 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
                   onClick={[Function]}
                 >
                   <Connect(Markdown)
+                    imageProps={
+                      Object {
+                        "hideUtilities": true,
+                      }
+                    }
                     message="header"
                     options={
                       Object {
@@ -4005,6 +4889,11 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
               </Popover>
             </Overlay>
             <Connect(Markdown)
+              imageProps={
+                Object {
+                  "hideUtilities": true,
+                }
+              }
               message="header"
               options={
                 Object {
@@ -4058,6 +4947,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }

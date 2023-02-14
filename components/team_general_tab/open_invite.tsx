@@ -5,13 +5,15 @@ import React, {useCallback, useState} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import type {ActionResult} from 'mattermost-redux/types/actions';
-import type {Team} from '@mattermost/types/teams';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
+
 import SettingItemMin from 'components/setting_item_min';
 
+import type {Team} from '@mattermost/types/teams';
+
 type Props = {
-    teamId: string;
+    teamId?: string;
     isActive: boolean;
     isGroupConstrained?: boolean;
     allowOpenInvite?: boolean;
@@ -138,7 +140,7 @@ const OpenInvite = (props: Props) => {
                 <div className='mt-5'>
                     <FormattedMessage
                         id='general_tab.openInviteDesc'
-                        defaultMessage='When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team. Changing from "Yes" to "No" will regenerate the  invitation code, create a new invitation link and invalidate the previous link.'
+                        defaultMessage='When allowed, a link to this team will be included on the landing page allowing anyone with an account to join this team. Changing from "Yes" to "No" will regenerate the invitation code, create a new invitation link and invalidate the previous link.'
                     />
                 </div>
             </fieldset>,
