@@ -126,7 +126,7 @@ function Content(props: ContentProps) {
         openDowngradeModal({trackingLocation: telemetryInfo});
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
 
-        const result = await dispatch(subscribeCloudSubscription(starterProduct.id, 0, downgradeFeedback));
+        const result = await dispatch(subscribeCloudSubscription(starterProduct.id, undefined, 0, downgradeFeedback));
 
         if (typeof result === 'boolean' && result) {
             dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
