@@ -1362,7 +1362,6 @@
   "admin.log.locationTitle": "Map voor logs:",
   "admin.log.logLevel": "Logboekniveau",
   "admin.logs.bannerDesc": "Als je gebruikers wil opzoeken op basis van gebruikers-ID of token-ID, gaat u naar Gebruikersbeheer>Gebruikers en plak je het ID in het zoekfilter.",
-  "admin.logs.prev": "Vorige",
   "admin.logs.title": "Server Logs",
   "admin.manage_roles.additionalRoles": "Selecteer aanvullende machtigingen voor het account. <link>Lees meer over rollen en machtigingen</link> .",
   "admin.manage_roles.allowUserAccessTokens": "Sta dit account toe om <link>persoonlijke toegangstokens</link> te generen.",
