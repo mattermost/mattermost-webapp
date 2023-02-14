@@ -5,15 +5,15 @@
 
 import {PreferenceType} from '@mattermost/types/preferences';
 import {SystemSetting} from '@mattermost/types/general';
-import {ClusterInfo, AnalyticsRow, SchemaMigration} from '@mattermost/types/admin';
+import {ClusterInfo, AnalyticsRow, SchemaMigration, LogFilter} from '@mattermost/types/admin';
 import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/types/apps';
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
 import {
+    Address,
     Product,
     CloudCustomer,
-    Address,
     CloudCustomerPatch,
     Invoice,
     Limits,
@@ -32,6 +32,7 @@ import {
     SelfHostedSignupBootstrapResponse,
 } from '@mattermost/types/hosted_customer';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
+
 import {
     Channel,
     ChannelMemberCountsByGroup,
@@ -152,7 +153,6 @@ export const HEADER_X_VERSION_ID = 'X-Version-Id';
 
 const AUTOCOMPLETE_LIMIT_DEFAULT = 25;
 const PER_PAGE_DEFAULT = 60;
-const LOGS_PER_PAGE_DEFAULT = 10000;
 export const DEFAULT_LIMIT_BEFORE = 30;
 export const DEFAULT_LIMIT_AFTER = 30;
 
@@ -3001,10 +3001,10 @@ export default class Client4 {
 
     // Admin Routes
 
-    getLogs = (page = 0, perPage = LOGS_PER_PAGE_DEFAULT) => {
+    getLogs = (logFilter: LogFilter) => {
         return this.doFetch<string[]>(
-            `${this.getBaseRoute()}/logs${buildQueryString({page, logs_per_page: perPage})}`,
-            {method: 'get'},
+            `${this.getBaseRoute()}/logs/query`,
+            {method: 'post', body: JSON.stringify(logFilter)},
         );
     };
 
@@ -3929,10 +3929,18 @@ export default class Client4 {
         );
     }
 
-    subscribeCloudProduct = (productId: string, seats = 0, feedback?: Feedback) => {
+    subscribeCloudProduct = (productId: string, shippingAddress?: Address, seats = 0, feedback?: Feedback) => {
+        const body = {
+            product_id: productId,
+            seats,
+            feedback,
+        } as any;
+        if (shippingAddress) {
+            body.shipping_address = shippingAddress;
+        }
         return this.doFetch<CloudCustomer>(
             `${this.getCloudRoute()}/subscription`,
-            {method: 'put', body: JSON.stringify({product_id: productId, seats, feedback})},
+            {method: 'put', body: JSON.stringify(body)},
         );
     }
 
