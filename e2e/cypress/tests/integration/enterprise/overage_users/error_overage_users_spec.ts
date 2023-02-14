@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 const seatsPurchased = parseInt(Cypress.env('numberOfTrialUsers'), 10);
 const seatsMinimumFor10PercentageState = (Math.ceil(seatsPurchased * 0.1)) + seatsPurchased;
@@ -29,11 +29,11 @@ const withEmailLicense = (email = emailTest) => {
     });
 };
 
-const withSubscriptionExpendable = (isExpendable: boolean) => {
+const withSubscriptionExpandable = (isExpandable: boolean) => {
     cy.intercept('GET', '**/api/v4/cloud/subscription/expandable', {
         statusCode: 200,
         body: {
-            is_expendable: isExpendable,
+            is_expandable: isExpandable,
         },
     });
 };
@@ -70,7 +70,7 @@ describe('Global Info Banner overage users', () => {
 
     it('should show the banner with Contact Sales CTA because the license is sales type', () => {
         withEmailLicense(createdUser.email);
-        withSubscriptionExpendable(false);
+        withSubscriptionExpandable(false);
         cy.apiLogout();
         cy.apiLogin(createdUser);
         cy.visit(url);
@@ -82,7 +82,7 @@ describe('Global Info Banner overage users', () => {
 
     it('should show the banner with Purchase additional seats CTA because the license is self serve', () => {
         withEmailLicense(createdUser.email);
-        withSubscriptionExpendable(true);
+        withSubscriptionExpandable(true);
         cy.apiLogout();
         cy.apiLogin(createdUser);
         cy.visit(url);
@@ -125,7 +125,7 @@ describe('Global Error Banner overage users', () => {
 
     it('should show the banner with Contact Sales CTA because it\'s the admin who purchased the license', () => {
         withEmailLicense(createdUser.email);
-        withSubscriptionExpendable(false);
+        withSubscriptionExpandable(false);
         cy.apiLogout();
         cy.apiLogin(createdUser);
         cy.visit(url);
@@ -137,7 +137,7 @@ describe('Global Error Banner overage users', () => {
 
     it('should show the banner with Purchase additional seats CTA because the license is self serve', () => {
         withEmailLicense(createdUser.email);
-        withSubscriptionExpendable(true);
+        withSubscriptionExpandable(true);
         cy.apiLogout();
         cy.apiLogin(createdUser);
         cy.visit(url);

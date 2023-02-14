@@ -58,7 +58,7 @@ const OverageUsersBannerNotice = () => {
         expandableLink,
         trackEventFn,
         getRequestState,
-        isExpendable,
+        isExpandable,
     } = useExpandOverageUsersCheck({
         shouldRequest: hasPermission && !adminHasDismissed({overagePreferences, preferenceName}),
         licenseId: license.Id,
@@ -104,13 +104,13 @@ const OverageUsersBannerNotice = () => {
                             }
 
                             const handleClick = () => {
-                                trackEventFn(isExpendable ? 'Self Serve' : 'Contact Sales');
+                                trackEventFn(isExpandable ? 'Self Serve' : 'Contact Sales');
                             };
 
                             return (
                                 <a
                                     className='overage_users_banner__button'
-                                    href={isExpendable ? expandableLink(license.Id) : LicenseLinks.CONTACT_SALES}
+                                    href={isExpandable ? expandableLink(license.Id) : LicenseLinks.CONTACT_SALES}
                                     target='_blank'
                                     rel='noreferrer'
                                     onClick={handleClick}

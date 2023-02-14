@@ -26,7 +26,7 @@ export const useExpandOverageUsersCheck = ({
 }: UseExpandOverageUsersCheckArgs) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
-    const {getRequestState, is_expandable: isExpendable}: LicenseExpandReducer = useSelector((state: GlobalState) => state.entities.cloud.subscriptionStats || {is_expandable: false, getRequestState: 'IDLE'});
+    const {getRequestState, is_expandable: isExpandable}: LicenseExpandReducer = useSelector((state: GlobalState) => state.entities.cloud.subscriptionStats || {is_expandable: false, getRequestState: 'IDLE'});
     const expandableLink = useSelector(getExpandSeatsLink);
     const [cta, setCTA] = useState(formatMessage({
         id: 'licensingPage.overageUsersBanner.cta',
@@ -51,7 +51,7 @@ export const useExpandOverageUsersCheck = ({
             return;
         }
 
-        if (isExpendable) {
+        if (isExpandable) {
             setCTA(formatMessage({
                 id: 'licensingPage.overageUsersBanner.ctaExpandSeats',
                 defaultMessage: 'Purchase additional seats',
@@ -62,13 +62,13 @@ export const useExpandOverageUsersCheck = ({
                 defaultMessage: 'Contact Sales',
             }));
         }
-    }, [isExpendable, getRequestState, setCTA, formatMessage]);
+    }, [isExpandable, getRequestState, setCTA, formatMessage]);
 
     return {
         cta,
         expandableLink,
         trackEventFn,
         getRequestState,
-        isExpendable,
+        isExpandable,
     };
 };

@@ -376,7 +376,7 @@ describe('components/overage_users_banner', () => {
         });
     });
 
-    it('should render the  warning banner with expansion seats CTA if the license is expendable', () => {
+    it('should render the  warning banner with expansion seats CTA if the license is expandable', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
         store.entities.cloud = {
@@ -435,7 +435,7 @@ describe('components/overage_users_banner', () => {
         });
     });
 
-    it('should render the error banner with expansion seats CTA if the license is be expendable', () => {
+    it('should render the error banner with expansion seats CTA if the license is be expandable', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
         store.entities.cloud = {

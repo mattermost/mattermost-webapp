@@ -64,7 +64,7 @@ const OverageUsersBanner = () => {
         expandableLink,
         trackEventFn,
         getRequestState,
-        isExpendable,
+        isExpandable,
     } = useExpandOverageUsersCheck({
         shouldRequest: hasPermission && !adminHasDismissed({isWarningBanner: isBetween5PercerntAnd10PercentPurchasedSeats, overagePreferences, preferenceName}),
         licenseId: license.Id,
@@ -93,7 +93,7 @@ const OverageUsersBanner = () => {
         window.open(LicenseLinks.CONTACT_SALES, '_blank');
     };
 
-    const handleClick = isExpendable ? handleUpdateSeatsSelfServeClick : handleContactSalesClick;
+    const handleClick = isExpandable ? handleUpdateSeatsSelfServeClick : handleContactSalesClick;
 
     if (!hasPermission || adminHasDismissed({isWarningBanner: isBetween5PercerntAnd10PercentPurchasedSeats, overagePreferences, preferenceName})) {
         return null;
