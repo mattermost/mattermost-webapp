@@ -4202,6 +4202,7 @@
   "navbar.toggle2": "切换侧边栏",
   "navbar.viewPinnedPosts": "查看标注消息",
   "navbar_dropdown.about": "关于 {appTitle}",
+  "navbar_dropdown.accountSettings": "",
   "navbar_dropdown.addGroupsToTeam": "添加组到团队",
   "navbar_dropdown.console": "系统控制台",
   "navbar_dropdown.create": "创建团队",
