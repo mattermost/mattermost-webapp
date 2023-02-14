@@ -67,9 +67,9 @@
         }
     }
 
-    &__server-error{
-        color: var(--error-text);
+    &__server-error {
         flex-grow: 1;
+        color: var(--error-text);
     }
 
     &__save-btn {
