@@ -33,6 +33,11 @@ export interface Props extends MuiMenuItemProps {
     labels: ReactElement;
 
     /**
+     * for some cases we have explicit requirement for labels to be in row instead of stack
+     */
+    isLabelsRowLayout?: boolean;
+
+    /**
      * The meta data element to display extra information about menu item. Could be chevron, shortcut or badge.
      * It is formed with subMenuDetail and trailingElement. If only one is passed, it will be tailingElement. If two are
      * passed, first will be subMenuDetail and second will be trailingElement.
@@ -76,6 +81,7 @@ export function MenuItem(props: Props) {
         labels,
         trailingElements,
         isDestructive,
+        isLabelsRowLayout,
         children,
         ...restProps
     } = props;
@@ -89,6 +95,7 @@ export function MenuItem(props: Props) {
             disableTouchRipple={true}
             isDestructive={isDestructive}
             hasSecondaryLabel={hasSecondaryLabel}
+            isLabelsRowLayout={isLabelsRowLayout}
             {...restProps}
         >
             {leadingElement && <div className='leading-element'>{leadingElement}</div>}
@@ -102,12 +109,14 @@ export function MenuItem(props: Props) {
 interface MenuItemStyledProps extends MuiMenuItemProps {
     isDestructive?: boolean;
     hasSecondaryLabel?: boolean;
+    isLabelsRowLayout?: boolean;
 }
 
 const MenuItemStyled = styled(MuiMenuItem, {
-    shouldForwardProp: (prop) => prop !== 'isDestructive' && prop !== 'hasSecondaryLabel',
+    shouldForwardProp: (prop) => prop !== 'isDestructive' &&
+        prop !== 'hasSecondaryLabel' && prop !== 'isLabelsRowLayout',
 })<MenuItemStyledProps>(
-    ({isDestructive = false, hasSecondaryLabel = false}) => {
+    ({isDestructive = false, hasSecondaryLabel = false, isLabelsRowLayout = false}) => {
         const hasOnlyPrimaryLabel = !hasSecondaryLabel;
         const isRegular = !isDestructive;
 
@@ -120,7 +129,7 @@ const MenuItemStyled = styled(MuiMenuItem, {
                 flexDirection: 'row',
                 flexWrap: 'nowrap',
                 justifyContent: 'flex-start',
-                alignItems: hasOnlyPrimaryLabel ? 'center' : 'flex-start',
+                alignItems: hasOnlyPrimaryLabel || isLabelsRowLayout ? 'center' : 'flex-start',
                 minHeight: '36px',
                 maxHeight: '56px',
 
@@ -195,7 +204,7 @@ const MenuItemStyled = styled(MuiMenuItem, {
                     flexDirection: 'row',
                     flexWrap: 'nowrap',
                     justifyContent: 'flex-end',
-                    color: 'rgba(var(--center-channel-color-rgb), 0.56)',
+                    color: isRegular ? 'rgba(var(--center-channel-color-rgb), 0.56)' : 'var(--error-text)',
                     gap: '4px',
                     marginInlineStart: '24px',
                     fontSize: '12px',
@@ -203,7 +212,7 @@ const MenuItemStyled = styled(MuiMenuItem, {
                     alignItems: 'center',
                 },
                 '&:hover .trailing-elements': {
-                    color: 'rgba(var(--center-channel-color-rgb), 0.72)',
+                    color: isRegular ? 'rgba(var(--center-channel-color-rgb), 0.72)' : 'var(--button-color)',
                 },
             },
         });

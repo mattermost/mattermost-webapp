@@ -50,7 +50,7 @@ type ShortcutKeyProps = {
 };
 
 const ShortcutKey = ({shortcutKey: shortcut}: ShortcutKeyProps) => (
-    <span className={'MenuItem__opacity MenuItem__right-decorator'}>
+    <span>
         {shortcut}
     </span>
 );
@@ -457,7 +457,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         const isMobile = this.props.isMobileView;
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const deleteShortcutText = (
-            <span className='MenuItem__opacity'>
+            <span>
                 {'delete'}
             </span>
         );
@@ -465,7 +465,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.canPostBeForwarded = !(isSystemMessage);
 
         const forwardPostItemText = (
-            <span className={'title-with-new-badge'}>
+            <span className={'dot-menu__item-new-badge'}>
                 <FormattedMessage
                     id='forward_post_button.label'
                     defaultMessage='Forward'
@@ -582,6 +582,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         id={`forward_post_${this.props.post.id}`}
                         data-testid={`forward_post_${this.props.post.id}`}
                         labels={forwardPostItemText}
+                        isLabelsRowLayout={true}
                         leadingElement={<ArrowRightBoldOutlineIcon size={18}/>}
                         trailingElements={<ShortcutKey shortcutKey='Shift + F'/>}
                         onClick={this.handleForwardMenuItemActivated}
