@@ -140,7 +140,7 @@ export default function DeleteWorkspaceModal(props: Props) {
         const telemetryInfo = props.callerCTA + ' > delete_workspace_modal';
         openDowngradeModal({trackingLocation: telemetryInfo});
 
-        const result = await dispatch(subscribeCloudSubscription(starterProduct.id, 0, feedback));
+        const result = await dispatch(subscribeCloudSubscription(starterProduct.id, undefined, 0, feedback));
 
         // Success
         if (typeof result === 'boolean' && result) {
