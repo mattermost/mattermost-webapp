@@ -85,6 +85,7 @@ const Customize = ({
                     placeholder={formatMessage({id: 'work_templates.customize.name_input_placeholder', defaultMessage: 'e.g. Web app, Growth, Customer Journey etc.'})}
                     value={name}
                     onChange={(e) => onNameChanged(e.target.value)}
+                    maxLength={Constants.MAX_CHANNELNAME_LENGTH}
                 />
             </div>
             <div className='visibility-section-container'>

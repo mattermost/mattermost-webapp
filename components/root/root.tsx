@@ -38,6 +38,8 @@ import {HFRoute} from 'components/header_footer_route/header_footer_route';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
 import OpenPricingModalPost from 'components/custom_open_pricing_modal_post_renderer';
+import OpenPluginInstallPost from 'components/custom_open_plugin_install_post_renderer';
+
 import AccessProblem from 'components/access_problem';
 
 import {initializePlugins} from 'plugins';
@@ -430,6 +432,7 @@ export default class Root extends React.PureComponent<Props, State> {
 
         // See figma design on issue https://mattermost.atlassian.net/browse/MM-43649
         this.props.actions.registerCustomPostRenderer('custom_up_notification', OpenPricingModalPost, 'upgrade_post_message_renderer');
+        this.props.actions.registerCustomPostRenderer('custom_pl_notification', OpenPluginInstallPost, 'plugin_install_post_message_renderer');
         this.props.actions.registerCustomPostRenderer('system_welcome_post', WelcomePostRenderer, 'welcome_post_renderer');
 
         if (this.desktopMediaQuery.addEventListener) {
