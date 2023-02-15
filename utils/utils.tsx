@@ -10,6 +10,8 @@ import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
+import {getName} from 'country-list';
+
 import Constants, {FileTypes, ValidationErrors, A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
 
 import {
@@ -72,6 +74,8 @@ import {GlobalState} from '@mattermost/types/store';
 import {focusPost} from 'components/permalink_view/actions';
 
 import {TextboxElement} from '../components/textbox';
+
+import {Address} from '@mattermost/types/cloud';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
@@ -1845,4 +1849,19 @@ export function a11yFocus(element: HTMLElement | null | undefined, keyboardOnly 
             },
         },
     ));
+}
+
+export function getBlankAddressWithCountry(country?: string): Address {
+    let c = '';
+    if (country) {
+        c = getName(country) || '';
+    }
+    return {
+        city: '',
+        country: c || '',
+        line1: '',
+        line2: '',
+        postal_code: '',
+        state: '',
+    };
 }

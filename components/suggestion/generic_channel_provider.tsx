@@ -3,8 +3,23 @@
 
 import React from 'react';
 
+import {Channel} from '@mattermost/types/channels';
+import {ServerError} from '@mattermost/types/errors';
+import {ActionResult} from 'mattermost-redux/types/actions';
+
 import Provider from './provider';
 import Suggestion from './suggestion.jsx';
+
+export type Results = {
+    matchedPretext: string;
+    terms: string[];
+    items: Channel[];
+    component: React.ElementType;
+}
+
+type ResultsCallback = (results: Results) => void;
+
+type ChannelSearchFunc = (term: string, success: (channels: Channel[]) => void, error?: (err: ServerError) => void) => (ActionResult | Promise<ActionResult | ActionResult[]>);
 
 class ChannelSuggestion extends Suggestion {
     render() {
@@ -47,28 +62,29 @@ class ChannelSuggestion extends Suggestion {
 }
 
 export default class ChannelProvider extends Provider {
-    constructor(channelSearchFunc) {
+    autocompleteChannels: ChannelSearchFunc;
+    constructor(channelSearchFunc: ChannelSearchFunc) {
         super();
 
         this.autocompleteChannels = channelSearchFunc;
     }
 
-    handlePretextChanged(pretext, resultsCallback) {
+    handlePretextChanged(pretext: string, resultsCallback: ResultsCallback) {
         const normalizedPretext = pretext.toLowerCase();
         this.startNewRequest(normalizedPretext);
 
         this.autocompleteChannels(
             normalizedPretext,
-            (data) => {
+            (data: Channel[]) => {
                 if (this.shouldCancelDispatch(normalizedPretext)) {
                     return;
                 }
 
-                const channels = Object.assign([], data);
+                const channels: Channel[] = Object.assign([], data);
 
                 resultsCallback({
                     matchedPretext: normalizedPretext,
-                    terms: channels.map((channel) => channel.display_name),
+                    terms: channels.map((channel: Channel) => channel.display_name),
                     items: channels,
                     component: ChannelSuggestion,
                 });

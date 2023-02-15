@@ -8,18 +8,13 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 type Props = {
     cancelAccountLink: any;
-    isFreeTrial: boolean;
 }
 
 const CancelSubscription = (props: Props) => {
     const {
         cancelAccountLink,
-        isFreeTrial,
     } = props;
 
-    if (isFreeTrial) {
-        return null;
-    }
     return (
         <div className='cancelSubscriptionSection'>
             <div className='cancelSubscriptionSection__text'>

@@ -17,7 +17,7 @@ import './index.scss';
 
 import {closeModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
-import GettingStartedSVG from 'components/common/svg_images_components/getting_started_svg';
+import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 
 const MIN_PROCESSING_MILLISECONDS = 5000;
 const MAX_FAKE_PROGRESS = 95;
@@ -70,7 +70,7 @@ export default function DowngradeModal() {
                         title={t('admin.billing.subscription.downgrading')}
                         subtitle={''}
                         icon={
-                            <GettingStartedSVG
+                            <CreditCardSvg
                                 width={444}
                                 height={313}
                             />
