@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import BackstageHeader from 'components/backstage/components/backstage_header';
@@ -11,15 +11,7 @@ import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import {Team} from '@mattermost/types/teams';
 import {localizeMessage} from 'utils/utils';
-
-interface Hook {
-    icon_url: string;
-    username: string;
-    channel_locked: boolean;
-    display_name: string;
-    channel_id: string;
-    description: string;
-}
+import {IncomingWebhook} from '@mattermost/types/integrations';
 
 interface State {
     displayName: string;
@@ -43,17 +35,17 @@ interface Props {
     /**
     * The header text to render, has id and defaultMessage
     */
-    header: {id: string; defaultMessage: string};
+    header: MessageDescriptor;
 
     /**
     * The footer text to render, has id and defaultMessage
     */
-    footer: {id: string; defaultMessage: string};
+    footer: MessageDescriptor;
 
     /**
     * The spinner loading text to render, has id and defaultMessage
     */
-    loading: {id: string; defaultMessage: string};
+    loading: MessageDescriptor;
 
     /**
     * The server error text after a failed action
@@ -63,7 +55,7 @@ interface Props {
     /**
     * The hook used to set the initial state
     */
-    initialHook: Hook;
+    initialHook: IncomingWebhook;
 
     /**
     * Whether to allow configuration of the default post username.
@@ -78,11 +70,7 @@ interface Props {
     /**
     * The async function to run when the action button is pressed
     */
-    action: (hook: Hook) => Promise<{
-        saving: boolean;
-        serverError: string;
-        clientError: string;
-    }>;
+    action: (hook: IncomingWebhook) => Promise<void>;
 }
 
 export default class AbstractIncomingWebhook extends React.PureComponent<Props, State> {
@@ -92,7 +80,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
         this.state = this.getStateFromHook(this.props.initialHook || {});
     }
 
-    getStateFromHook = (hook: Hook) => {
+    getStateFromHook = (hook: IncomingWebhook) => {
         return {
             displayName: hook.display_name || '',
             description: hook.description || '',
@@ -140,6 +128,12 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
             description: this.state.description,
             username: this.state.username,
             icon_url: this.state.iconURL,
+            id: this.props.initialHook.id,
+            create_at: this.props.initialHook.create_at,
+            update_at: this.props.initialHook.update_at,
+            delete_at: this.props.initialHook.delete_at,
+            team_id: this.props.initialHook.team_id,
+            user_id: this.props.initialHook.user_id,
         };
 
         this.props.action(hook).then(() => this.setState({saving: false}));

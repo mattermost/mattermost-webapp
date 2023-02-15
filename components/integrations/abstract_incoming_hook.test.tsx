@@ -4,6 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import ChannelSelect from 'components/channel_select';
+
 import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook';
 
 describe('components/integrations/AbstractIncomingWebhook', () => {
@@ -104,7 +106,7 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
         };
 
         const wrapper = shallow(<AbstractIncomingWebhook {...requiredProps}/>);
-        wrapper.find('#channelId').simulate('change', evt);
+        wrapper.find(ChannelSelect).simulate('change', evt);
 
         expect(wrapper.state('channelId')).toBe(newChannelId);
     });
