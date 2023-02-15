@@ -40,7 +40,7 @@ test('Intro to channel as regular user', async ({browser, isMobile, browserName,
     }
 
     // Hide dynamic elements of the page
-    await page.addStyleTag({content: hideTeamHeader + hidePostHeaderTime});
+    await page.addStyleTag({content: hideTeamHeader + hidePostHeaderTime + hideAppBarPlaybookIcon});
 
     // Match snapshot of channel intro page
     const testArgs = {page, isMobile, browserName, viewport};

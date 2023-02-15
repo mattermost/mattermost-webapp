@@ -90,6 +90,10 @@
     &:hover {
         cursor: pointer;
     }
+
+    &:nth-child(odd) {
+        background: rgba(var(--sys-center-channel-color-rgb), 0.04);
+    }
 }
 
 .BillingHistory__table-bottomDesc {
