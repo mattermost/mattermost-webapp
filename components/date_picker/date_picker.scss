@@ -16,24 +16,24 @@
         padding: 4px;
 
         .rdp-caption_label {
+            color: var(--center-channel-color);
             font-family: 'Metropolis';
+            font-size: 16px;
             font-style: normal;
             font-weight: 600;
-            font-size: 16px;
             line-height: 24px;
-            color: var(--center-channel-color);
         }
     }
 
     .rdp-head_cell {
+        color: rgba(var(--center-channel-color-rgb), 0.64);
         font-family: 'Open Sans';
+        font-size: 12px;
         font-style: normal;
         font-weight: 600;
-        font-size: 12px;
-        line-height: 16px;
         letter-spacing: 0.02em;
+        line-height: 16px;
         text-transform: uppercase;
-        color: rgba(var(--center-channel-color-rgb), 0.64);
     }
 
     .rdp-cell {
@@ -56,18 +56,18 @@
                 }
 
                 &:hover {
-                    color: var(--button-color);
                     background-color: var(--rdp-accent-color);
+                    color: var(--button-color);
                 }
             }
         }
-        
+
 
         &:hover {
-            color: var(--center-channel-color);
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
+            color: var(--center-channel-color);
         }
-        
+
         &:active {
             background-color: rgba(var(--button-bg-rgb), 0.12);
             color: var(--button-bg);
@@ -89,21 +89,21 @@
             &_previous {
                 margin-right: 8px;
             }
-    
+
             .icon {
-                font-weight: 400;
                 font-size: 24px;
+                font-weight: 400;
                 line-height: 24px;
             }
-    
+
             &:hover {
-                color: rgba(var(--center-channel-color-rgb), 0.72);
                 background-color: rgba(var(--center-channel-color-rgb), 0.08);
+                color: rgba(var(--center-channel-color-rgb), 0.72);
             }
-    
+
             &:active {
-                color: var(--button-bg);
                 background-color: rgba(var(--button-bg-rgb), 0.08);
+                color: var(--button-bg);
             }
 
             &[disabled] {

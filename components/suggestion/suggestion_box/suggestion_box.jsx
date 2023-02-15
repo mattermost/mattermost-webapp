@@ -282,7 +282,6 @@ export default class SuggestionBox extends React.PureComponent {
     }
 
     handleFocusOut = (e) => {
-        return;
         if (this.preventSuggestionListCloseFlag) {
             this.preventSuggestionListCloseFlag = false;
             return;
