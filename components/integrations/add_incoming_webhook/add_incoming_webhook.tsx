@@ -41,6 +41,7 @@ type Props = {
 
 type State = {
     serverError: string;
+
 };
 
 export default class AddIncomingWebhook extends React.PureComponent<Props, State> {

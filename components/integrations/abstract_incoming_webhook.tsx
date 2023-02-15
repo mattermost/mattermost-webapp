@@ -55,7 +55,7 @@ interface Props {
     /**
     * The hook used to set the initial state
     */
-    initialHook: IncomingWebhook;
+    initialHook?: IncomingWebhook | Record<string, never>;
 
     /**
     * Whether to allow configuration of the default post username.
@@ -80,14 +80,14 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
         this.state = this.getStateFromHook(this.props.initialHook || {});
     }
 
-    getStateFromHook = (hook: IncomingWebhook) => {
+    getStateFromHook = (hook: IncomingWebhook | Record<string, never>) => {
         return {
-            displayName: hook.display_name || '',
-            description: hook.description || '',
-            channelId: hook.channel_id || '',
-            channelLocked: hook.channel_locked || false,
-            username: hook.username || '',
-            iconURL: hook.icon_url || '',
+            displayName: hook?.display_name || '',
+            description: hook?.description || '',
+            channelId: hook?.channel_id || '',
+            channelLocked: hook?.channel_locked || false,
+            username: hook?.username || '',
+            iconURL: hook?.icon_url || '',
             saving: false,
             serverError: '',
             clientError: null,
@@ -128,12 +128,12 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
             description: this.state.description,
             username: this.state.username,
             icon_url: this.state.iconURL,
-            id: this.props.initialHook.id,
-            create_at: this.props.initialHook.create_at,
-            update_at: this.props.initialHook.update_at,
-            delete_at: this.props.initialHook.delete_at,
-            team_id: this.props.initialHook.team_id,
-            user_id: this.props.initialHook.user_id,
+            id: this.props.initialHook?.id || '',
+            create_at: this.props.initialHook?.create_at || 0,
+            update_at: this.props.initialHook?.update_at || 0,
+            delete_at: this.props.initialHook?.delete_at || 0,
+            team_id: this.props.initialHook?.team_id || '',
+            user_id: this.props.initialHook?.user_id || '',
         };
 
         this.props.action(hook).then(() => this.setState({saving: false}));
@@ -379,7 +379,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
                                 className='btn btn-primary'
                                 type='submit'
                                 spinning={this.state.saving}
-                                spinningText={localizeMessage(this.props.loading.id, this.props.loading.defaultMessage)}
+                                spinningText={localizeMessage(this.props.loading.id as string, this.props.loading.defaultMessage as string)}
                                 onClick={this.handleSubmit}
                                 id='saveWebhook'
                             >
