@@ -165,7 +165,7 @@ const TrueUpReview: React.FC = () => {
         >
             <FormattedMessage
                 id='admin.billing.trueUpReview.docsLinkCTA'
-                defaultMessage='Learn more about true-up here.'
+                defaultMessage='Learn more about true-up.'
             />
         </a>
     );
