@@ -77,6 +77,7 @@ import {
     LDAPFeatureDiscovery,
     SAMLFeatureDiscovery,
     OpenIDFeatureDiscovery,
+    OpenIDCustomFeatureDiscovery,
     AnnouncementBannerFeatureDiscovery,
     ComplianceExportFeatureDiscovery,
     CustomTermsOfServiceFeatureDiscovery,
@@ -205,6 +206,7 @@ export const it = {
     cloudLicensed: (config, state, license) => isCloudLicense(license),
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
     licensedForSku: (skuName) => (config, state, license) => license.IsLicensed && license.SkuShortName === skuName,
+    licensedForCloudStarter: (config, state, license) => isCloudLicense(license) && license.SkuShortName === LicenseSkus.Starter,
     hidePaymentInfo: (config, state, license, enterpriseReady, consoleAccess, cloud) => {
         const productId = cloud?.subscription?.product_id;
         const limits = cloud?.limits;
@@ -330,6 +332,8 @@ const AdminDefinition = {
             title_default: 'Subscription',
             searchableStrings: [
                 'admin.billing.subscription.title',
+                'admin.billing.subscription.deleteWorkspaceSection.title',
+                'admin.billing.subscription.deleteWorkspaceModal.deleteButton',
             ],
             schema: {
                 id: 'BillingSubscriptions',
@@ -2196,7 +2200,7 @@ const AdminDefinition = {
                         label: t('admin.general.localization.serverLocaleTitle'),
                         label_default: 'Default Server Language:',
                         help_text: t('admin.general.localization.serverLocaleDescription'),
-                        help_text_default: 'Default language for system messages. Changing this will require a server restart before taking effect.',
+                        help_text_default: 'Default language for system messages.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.LOCALIZATION)),
                     },
                     {
@@ -5401,6 +5405,7 @@ const AdminDefinition = {
                         key: 'openidType',
                         label: t('admin.openid.select'),
                         label_default: 'Select service provider:',
+                        isHelpHidden: it.all(it.stateEquals('openidType', Constants.OPENID_SERVICE), it.licensedForCloudStarter),
                         options: [
                             {
                                 value: 'off',
@@ -5654,7 +5659,7 @@ const AdminDefinition = {
                         placeholder_default: 'Custom Button Name',
                         help_text: t('admin.openid.buttonTextDesc'),
                         help_text_default: 'The text that will show on the login button.',
-                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isHidden: it.any(it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)), it.licensedForCloudStarter),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
@@ -5665,7 +5670,7 @@ const AdminDefinition = {
                         help_text: t('admin.openid.buttonColorDesc'),
                         help_text_default: 'Specify the color of the OpenID login button for white labeling purposes. Use a hex code with a #-sign before the code.',
                         help_text_markdown: false,
-                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isHidden: it.any(it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)), it.licensedForCloudStarter),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
@@ -5678,7 +5683,7 @@ const AdminDefinition = {
                         help_text: t('admin.openid.discoveryEndpointDesc'),
                         help_text_default: 'Enter the URL of the discovery document of the OpenID Connect provider you want to connect with.',
                         help_text_markdown: false,
-                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isHidden: it.any(it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)), it.licensedForCloudStarter),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
@@ -5690,7 +5695,7 @@ const AdminDefinition = {
                         help_text_default: 'Obtaining the Client ID differs across providers. Please check you provider\'s documentation',
                         placeholder: t('admin.openid.clientIdExample'),
                         placeholder_default: 'E.g.: "adf3sfa2-ag3f-sn4n-ids0-sh1hdax192qq"',
-                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isHidden: it.any(it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)), it.licensedForCloudStarter),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
@@ -5702,7 +5707,14 @@ const AdminDefinition = {
                         help_text_default: 'Obtaining the Client Secret differs across providers. Please check you provider\'s documentation',
                         placeholder: t('admin.openid.clientSecretExample'),
                         placeholder_default: 'E.g.: "H8sz0Az-dDs2p15-7QzD231"',
-                        isHidden: it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)),
+                        isHidden: it.any(it.not(it.stateEquals('openidType', Constants.OPENID_SERVICE)), it.licensedForCloudStarter),
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        key: 'OpenIDCustomFeatureDiscovery',
+                        component: OpenIDCustomFeatureDiscovery,
+                        isHidden: it.not(it.all(it.stateEquals('openidType', Constants.OPENID_SERVICE), it.licensedForCloudStarter)),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                 ],

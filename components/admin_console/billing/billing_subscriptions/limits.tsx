@@ -55,13 +55,12 @@ const Limits = (): JSX.Element | null => {
         description = intl.formatMessage(
             {
                 id: 'workspace_limits.upgrade_reasons.free',
-                defaultMessage: '{planName} is restricted to {messagesLimit} message history, {storageLimit} file storage, and {boardsCardsLimit} board cards. You can delete items to free up space or upgrade to a paid plan.',
+                defaultMessage: '{planName} is restricted to {messagesLimit} message history and {storageLimit} file storage. You can delete items to free up space or upgrade to a paid plan.',
             },
             {
                 planName: subscriptionProduct.name,
                 messagesLimit: intl.formatNumber(cloudLimits?.messages?.history || fallbackStarterLimits.messages.history),
                 storageLimit: asGBString(cloudLimits?.files?.total_storage || fallbackStarterLimits.files.totalStorage, intl.formatNumber),
-                boardsCardsLimit: cloudLimits?.boards?.cards || fallbackStarterLimits.boards.cards,
             },
         );
         currentUsage = (
@@ -112,30 +111,6 @@ const Limits = (): JSX.Element | null => {
                         percent={Math.floor((usage.messages.history / cloudLimits.messages.history) * 100)}
                         icon='icon-message-text-outline'
                     />
-                )}
-                {cloudLimits?.boards?.cards && (
-                    <LimitCard
-                        name={(
-                            <FormattedMessage
-                                id='workspace_limits.boards_cards'
-                                defaultMessage='Board Cards per Server'
-                            />
-                        )}
-                        status={(
-                            <FormattedMessage
-                                id='workspace_limits.boards_cards.usage'
-                                defaultMessage='{actual} of {limit} cards ({percent}%)'
-                                values={{
-                                    actual: usage.boards.cards,
-                                    limit: cloudLimits.boards.cards,
-                                    percent: Math.floor((usage.boards.cards / cloudLimits.boards.cards) * 100),
-                                }}
-                            />
-                        )}
-                        percent={Math.floor((usage.boards.cards / cloudLimits.boards.cards) * 100)}
-                        icon='icon-product-boards'
-                    />
-
                 )}
             </div>
         );

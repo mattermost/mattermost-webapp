@@ -135,6 +135,26 @@ export default class PluginRegistry {
         return dispatchPluginComponentAction('LinkTooltip', this.id, component);
     });
 
+    // Register a component fixed to the bottom of the create new channel modal and also registers a callback function to be called after
+    // the channel has been succesfully created
+    // Accepts a React component. Returns a unique identifier.
+    registerActionAfterChannelCreation = reArg(['component', 'action'], ({component, action}) => {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'CreateBoardFromTemplate',
+            data: {
+                id,
+                pluginId: this.id,
+                component,
+                action,
+            },
+        });
+
+        return id;
+    });
+
     // Add a button to the channel header. If there are more than one buttons registered by any
     // plugin, a dropdown menu is created to contain all the plugin buttons.
     // Accepts the following:

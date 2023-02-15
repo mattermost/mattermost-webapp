@@ -135,4 +135,80 @@ exports[`components/ConfigurationBar should match snapshot, expired, regular use
 
 exports[`components/ConfigurationBar should match snapshot, expiring, cloud license, show nothing 1`] = `""`;
 
+exports[`components/ConfigurationBar should match snapshot, expiring, trial license 1`] = `
+<Connect(AnnouncementBar)
+  handleClose={[Function]}
+  message={
+    <div
+      className="announcement-bar__configuration"
+    >
+      <React.Fragment>
+        <img
+          className="advisor-icon"
+          src={null}
+        />
+        This is the last day of your free trial. Purchase a license now to continue using Mattermost Professional and Enterprise features.
+      </React.Fragment>
+      <PurchaseLink
+        buttonTextElement={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Purchase a License Now"
+            id="announcement_bar.error.purchase_a_license_now"
+          />
+        }
+      />
+    </div>
+  }
+  showCloseButton={true}
+  tooltipMsg={
+    <React.Fragment>
+      <img
+        className="advisor-icon"
+        src={null}
+      />
+      This is the last day of your free trial. Purchase a license now to continue using Mattermost Professional and Enterprise features.
+    </React.Fragment>
+  }
+  type="critical"
+/>
+`;
+
+exports[`components/ConfigurationBar should match snapshot, expiring, trial license, mobile viewport 1`] = `
+<Connect(AnnouncementBar)
+  handleClose={[Function]}
+  message={
+    <div
+      className="announcement-bar__configuration"
+    >
+      <React.Fragment>
+        <img
+          className="advisor-icon"
+          src={null}
+        />
+        This is the last day of your free trial.
+      </React.Fragment>
+      <PurchaseLink
+        buttonTextElement={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Purchase a License Now"
+            id="announcement_bar.error.purchase_a_license_now"
+          />
+        }
+      />
+    </div>
+  }
+  showCloseButton={true}
+  tooltipMsg={
+    <React.Fragment>
+      <img
+        className="advisor-icon"
+        src={null}
+      />
+      This is the last day of your free trial.
+    </React.Fragment>
+  }
+  type="critical"
+/>
+`;
+
 exports[`components/ConfigurationBar should match snapshot, show nothing 1`] = `""`;

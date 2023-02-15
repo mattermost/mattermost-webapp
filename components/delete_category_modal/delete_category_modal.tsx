@@ -7,10 +7,11 @@ import {FormattedMessage} from 'react-intl';
 import {ChannelCategory} from '@mattermost/types/channel_categories';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import GenericModal from 'components/generic_modal';
+
+import {localizeMessage} from 'utils/utils';
 
 import '../category_modal.scss';
-import GenericModal from 'components/generic_modal';
-import {localizeMessage} from 'utils/utils';
 
 type Props = {
     category: ChannelCategory;
@@ -56,6 +57,7 @@ export default class DeleteCategoryModal extends React.PureComponent<Props, Stat
                     />
                 )}
                 confirmButtonClassName={'delete'}
+                enforceFocus={false}
             >
                 <span className='delete-category__helpText'>
                     <FormattedMarkdownMessage

@@ -1571,6 +1571,8 @@ function handleRefreshAppsBindings() {
 }
 
 export function handleAppsPluginEnabled() {
+    dispatch(handleRefreshAppsBindings());
+
     return {
         type: AppsTypes.APPS_PLUGIN_ENABLED,
     };

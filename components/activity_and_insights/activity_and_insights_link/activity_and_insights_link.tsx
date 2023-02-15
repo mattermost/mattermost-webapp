@@ -4,13 +4,18 @@
 import React, {useCallback} from 'react';
 import {Link, useRouteMatch, useLocation, matchPath} from 'react-router-dom';
 import {useIntl} from 'react-intl';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
 import Icon from '@mattermost/compass-components/foundations/icon';
 
 import {insightsAreEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
+
 import {t} from 'utils/i18n';
+import {RHSStates} from 'utils/constants';
+
 import {trackEvent} from 'actions/telemetry_actions';
+import {closeRightHandSide} from 'actions/views/rhs';
 
 import InsightsTourTip from './insights_tour_tip/insights_tour_tip';
 
@@ -18,7 +23,10 @@ import './activity_and_insights_link.scss';
 
 const ActivityAndInsightsLink = () => {
     const {formatMessage} = useIntl();
+    const dispatch = useDispatch();
     const insightsEnabled = useSelector(insightsAreEnabled);
+    const rhsOpen = useSelector(getIsRhsOpen);
+    const rhsState = useSelector(getRhsState);
 
     const {url} = useRouteMatch();
     const {pathname} = useLocation();
@@ -27,7 +35,10 @@ const ActivityAndInsightsLink = () => {
     const openInsights = useCallback((e) => {
         e.stopPropagation();
         trackEvent('insights', 'sidebar_open_insights');
-    }, []);
+        if (rhsOpen && rhsState === RHSStates.EDIT_HISTORY) {
+            dispatch(closeRightHandSide());
+        }
+    }, [rhsOpen, rhsState]);
 
     if (!insightsEnabled) {
         return null;

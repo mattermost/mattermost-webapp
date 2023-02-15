@@ -7,16 +7,18 @@ import {FormattedMessage} from 'react-intl';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider';
-import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
+import GenericChannelProvider from 'components/suggestion/generic_channel_provider';
 
 import TextSetting, {InputTypes} from 'components/widgets/settings/text_setting';
 import AutocompleteSelector from 'components/autocomplete_selector';
-import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
+import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 import BoolSetting from 'components/widgets/settings/bool_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
 import {Channel} from '@mattermost/types/channels';
 import Provider from 'components/suggestion/provider';
 import {UserAutocomplete} from '@mattermost/types/autocomplete';
+import {ServerError} from '@mattermost/types/errors';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 const TEXT_DEFAULT_MAX_LENGTH = 150;
 const TEXTAREA_DEFAULT_MAX_LENGTH = 3000;
@@ -40,7 +42,7 @@ export type Props = {
     onChange: (name: string, selected: string) => void;
     autoFocus?: boolean;
     actions: {
-        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<void>;
+        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error?: (err: ServerError) => void) => (ActionResult | Promise<ActionResult | ActionResult[]>);
         autocompleteUsers: (search: string) => Promise<UserAutocomplete>;
     };
 }

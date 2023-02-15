@@ -5,7 +5,7 @@ import {ComponentProps} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
@@ -46,7 +46,6 @@ const fetchBindings = makeFetchBindings(AppBindingLocations.POST_MENU_ITEM);
 function mapStateToProps(state: GlobalState, ownProps: Props) {
     const {post} = ownProps;
 
-    const userId = getCurrentUserId(state);
     const systemMessage = isSystemMessage(post);
 
     const apps = appsEnabled(state);
@@ -65,14 +64,13 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         isSysAdmin,
         pluginMenuItems: state.plugins.components.PostDropdownMenu,
         teamId: getCurrentTeamId(state),
-        userId,
         isMobileView: getIsMobileView(state),
     };
 }
 
 type Actions = {
     handleBindingClick: HandleBindingClick;
-    fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
+    fetchBindings: (channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
     openModal: <P>(modalData: ModalData<P>) => void;
     openAppsModal: OpenAppsModal;
     postEphemeralCallResponseForPost: PostEphemeralCallResponseForPost;

@@ -884,19 +884,17 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             serverError = null;
         }
 
-        if (message !== this.state.message) {
-            this.setState({
-                message,
-                serverError,
-            });
+        this.setState({
+            message,
+            serverError,
+        });
 
-            const draft = {
-                ...this.props.draft,
-                message,
-            };
+        const draft = {
+            ...this.props.draft,
+            message,
+        };
 
-            this.handleDraftChange(draft);
-        }
+        this.handleDraftChange(draft);
     }
 
     handleDraftChange = (draft: PostDraft, instant = false) => {
@@ -906,9 +904,14 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             clearTimeout(this.saveDraftFrame);
         }
 
-        this.saveDraftFrame = window.setTimeout(() => {
+        if (instant) {
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft, channelId);
-        }, instant ? 0 : Constants.SAVE_DRAFT_TIMEOUT);
+        } else {
+            this.saveDraftFrame = window.setTimeout(() => {
+                this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft, channelId);
+            }, Constants.SAVE_DRAFT_TIMEOUT);
+        }
+
         this.draftsForChannel[channelId] = draft;
     }
 
@@ -1006,7 +1009,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             draft.fileInfos = sortFileInfos(draft.fileInfos.concat(fileInfos), this.props.locale);
         }
 
-        this.handleDraftChange(draft);
+        this.handleDraftChange(draft, true);
     }
 
     handleUploadError = (err: string | ServerError, clientId?: string, channelId?: string) => {

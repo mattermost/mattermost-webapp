@@ -109,7 +109,6 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
     componentDidUpdate(prevProps: Props) {
         const {totalGroups, team} = this.props;
         if (prevProps.team.id !== team.id || totalGroups !== prevProps.totalGroups) {
-            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
                 totalGroups,
                 syncChecked: Boolean(team.group_constrained),
