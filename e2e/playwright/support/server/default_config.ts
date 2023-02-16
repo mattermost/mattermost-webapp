@@ -64,7 +64,7 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
 };
 
 // Should be based only from the generated default config from mattermost-server via "make config-reset"
-// Based on v7.5 server
+// Based on v7.9 server
 const defaultServerConfig: AdminConfig = {
     ServiceSettings: {
         SiteURL: '',
@@ -87,7 +87,7 @@ const defaultServerConfig: AdminConfig = {
         IdleTimeout: 60,
         MaximumLoginAttempts: 10,
         GoroutineHealthThreshold: -1,
-        EnableOAuthServiceProvider: false,
+        EnableOAuthServiceProvider: true,
         EnableIncomingWebhooks: true,
         EnableOutgoingWebhooks: true,
         EnableCommands: true,
@@ -156,7 +156,7 @@ const defaultServerConfig: AdminConfig = {
         EnableSVGs: false,
         EnableLatex: false,
         EnableInlineLatex: true,
-        PostPriority: false,
+        PostPriority: true,
         EnableAPIChannelDeletion: false,
         EnableLocalMode: false,
         LocalModeSocketLocation: '/var/tmp/mattermost_local.socket',
@@ -168,7 +168,7 @@ const defaultServerConfig: AdminConfig = {
         CollapsedThreads: CollapsedThreads.ALWAYS_ON,
         ManagedResourcePaths: '',
         EnableCustomGroups: true,
-        SelfHostedPurchase: false,
+        SelfHostedPurchase: true,
         AllowSyncedDrafts: true,
     },
     TeamSettings: {
@@ -229,6 +229,7 @@ const defaultServerConfig: AdminConfig = {
         FileLocation: '',
         EnableWebhookDebugging: true,
         EnableDiagnostics: true,
+        VerboseDiagnostics: false,
         EnableSentry: true,
         AdvancedLoggingConfig: '',
     },
@@ -556,6 +557,9 @@ const defaultServerConfig: AdminConfig = {
         BatchSize: 10000,
         RequestTimeoutSeconds: 30,
         SkipTLSVerification: false,
+        CA: '',
+        ClientCert: '',
+        ClientKey: '',
         Trace: '',
     },
     BleveSettings: {
@@ -618,7 +622,7 @@ const defaultServerConfig: AdminConfig = {
                 Enable: true,
             },
             focalboard: {
-                Enable: true,
+                Enable: false,
             },
             playbooks: {
                 Enable: true,
@@ -655,7 +659,6 @@ const defaultServerConfig: AdminConfig = {
     FeatureFlags: {
         TestFeature: 'off',
         TestBoolFeature: false,
-        CollapsedThreads: true,
         EnableRemoteClusterService: false,
         AppsEnabled: true,
         PluginPlaybooks: '',
@@ -663,7 +666,6 @@ const defaultServerConfig: AdminConfig = {
         PluginFocalboard: '',
         PluginCalls: '',
         PermalinkPreviews: true,
-        CallsMobile: false,
         CallsEnabled: true,
         BoardsFeatureFlags: '',
         BoardsDataRetention: false,
@@ -675,8 +677,16 @@ const defaultServerConfig: AdminConfig = {
         CommandPalette: false,
         BoardsProduct: true,
         SendWelcomePost: true,
-        PostPriority: false,
+        WorkTemplate: false,
+        PostPriority: true,
+        WysiwygEditor: false,
         PeopleProduct: false,
+        AnnualSubscription: false,
+        ReduceOnBoardingTaskList: false,
+        OnboardingAutoShowLinkedBoard: true,
+        ThreadsEverywhere: false,
+        GlobalDrafts: true,
+        OnboardingTourTips: true,
     },
     ImportSettings: {
         Directory: './import',

@@ -114,7 +114,7 @@ export type FilePreviewComponent = {
     id: string;
     pluginId: string;
     override: (fileInfo: FileInfo, post?: Post) => boolean;
-    component: React.ComponentType<{fileInfo: FileInfo; post?: Post}>;
+    component: React.ComponentType<{fileInfo: FileInfo; post?: Post; onModalDismissed: () => void}>;
 }
 
 export type FileDropdownPluginComponent = {

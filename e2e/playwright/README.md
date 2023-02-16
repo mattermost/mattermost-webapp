@@ -32,7 +32,7 @@ npm run test
 Change to root directory at `mattermost-webapp`, run docker container
 
 ```
-docker run -it --rm -v "$(pwd):/mattermost-webapp/" --ipc=host mcr.microsoft.com/playwright:v1.27.0-focal /bin/bash
+docker run -it --rm -v "$(pwd):/mattermost-webapp/" --ipc=host mcr.microsoft.com/playwright:v1.30.0-focal /bin/bash
 ```
 
 #### 2. Inside the docker container
@@ -41,14 +41,17 @@ docker run -it --rm -v "$(pwd):/mattermost-webapp/" --ipc=host mcr.microsoft.com
 export PW_BASE_URL=http://host.docker.internal:8065
 cd mattermost-webapp/e2e/playwright
 
-# Install npm packages
-npm i
+# Install npm packages. Use "npm ci" to match the automated environment
+npm ci
 
 # Run specific test. See https://playwright.dev/docs/test-cli.
 npm run test -- login --project=chrome
 
 # Or run all tests
 npm run test
+
+# Update snapshots
+npm run test -- login --update-snapshots
 ```
 
 ## Page/Component Object Model
