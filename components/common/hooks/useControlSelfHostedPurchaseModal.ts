@@ -15,8 +15,9 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {HostedCustomerTypes} from 'mattermost-redux/action_types';
 import {isModalOpen} from 'selectors/views/modals';
 
+import {GlobalState} from 'types/store';
+
 import {useControlModal, ControlModal} from './useControlModal';
-import { GlobalState } from 'types/store';
 
 interface HookOptions{
     onClick?: () => void;
@@ -48,7 +49,7 @@ export default function useControlSelfHostedPurchaseModal(options: HookOptions):
                 // the purchase modal is available again.
                 if (comparingPlansWhilePurchasing) {
                     dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
-                    return
+                    return;
                 }
                 const purchaseInProgress = localStorage.getItem(STORAGE_KEY_PURCHASE_IN_PROGRESS) === 'true';
 
