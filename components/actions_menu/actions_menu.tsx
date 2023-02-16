@@ -44,7 +44,6 @@ export type Props = {
     pluginMenuItems?: PluginComponent[];
     post: Post;
     teamId: string;
-    userId: string;
     handleOpenTip: () => void;
     handleNextTip: (e: React.MouseEvent) => void;
     handleDismissTip: () => void;
@@ -83,7 +82,7 @@ export type Props = {
         /**
          * Function to get the post menu bindings for this post.
          */
-        fetchBindings: (userId: string, channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
+        fetchBindings: (channelId: string, teamId: string) => Promise<{data: AppBinding[]}>;
 
     }; // TechDebt: Made non-mandatory while converting to typescript
 }
@@ -139,7 +138,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
 
     fetchBindings = () => {
         if (this.props.appsEnabled && !this.state.appBindings) {
-            this.props.actions.fetchBindings(this.props.userId, this.props.post.channel_id, this.props.teamId).then(({data}) => {
+            this.props.actions.fetchBindings(this.props.post.channel_id, this.props.teamId).then(({data}) => {
                 this.setState({appBindings: data});
             });
         }

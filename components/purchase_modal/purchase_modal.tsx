@@ -44,8 +44,8 @@ import BackgroundSvg from 'components/common/svg_images_components/background_sv
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import PricingModal from 'components/pricing_modal';
 import PlanLabel from 'components/common/plan_label';
-import Consequences from 'components/self_hosted_purchase_modal/consequences';
-import SeatsCalculator, {errorInvalidNumber, Seats} from 'components/self_hosted_purchase_modal/seats_calculator';
+import Consequences from 'components/seats_calculator/consequences';
+import SeatsCalculator, {errorInvalidNumber, Seats} from 'components/seats_calculator';
 import SwitchToYearlyPlanConfirmModal from 'components/switch_to_yearly_plan_confirm_modal';
 
 import {ModalData} from 'types/actions';
