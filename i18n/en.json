@@ -668,6 +668,8 @@
   "admin.customization.enablePublicSharedBoardsTitle": "Enable Publicly-Shared Boards:",
   "admin.customization.enableSVGsDesc": "Enable previews for SVG file attachments and allow them to appear in messages.",
   "admin.customization.enableSVGsTitle": "Enable SVGs:",
+  "admin.customization.enableChannelAutocompleteTitle": "Enable channel autocomplete:",
+  "admin.customization.enableChannelAutocompleteDescription": "When enabled, users can type the ~ character to autocomplete channel names when composing messages. When disabled, autocomplete suggestions for channel names will not be displayed.",
   "admin.customization.gfycatApiKey": "Gfycat API Key:",
   "admin.customization.gfycatApiKeyDescription": "Request an API key at <link>https://developers.gfycat.com/signup/#</link>. Enter the client ID you receive via email to this field. When blank, uses the default API key provided by Gfycat.",
   "admin.customization.gfycatApiSecret": "Gfycat API Secret:",
