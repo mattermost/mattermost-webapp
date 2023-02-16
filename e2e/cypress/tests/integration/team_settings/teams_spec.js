@@ -76,7 +76,7 @@ describe('Teams Suite', () => {
             // # Open team menu and click "Invite People"
             cy.uiOpenTeamMenu();
             cy.uiGetLHSTeamMenu().findByText('Add people to the team');
-            cy.uiGetLHSTeamMenu().findByText('Invite People').click();
+            cy.uiGetLHSTeamMenu().findByText('Invite People').click().wait(TIMEOUTS.ONE_SEC);
 
             // * Check that the Invitation Modal opened up
             cy.findByTestId('invitationModal', {timeout: TIMEOUTS.HALF_SEC}).should('be.visible');
