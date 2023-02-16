@@ -327,7 +327,7 @@ describe('fetchMyCategories', () => {
         expect(state.entities.channelCategories.byId.category2).toEqual(categories[1]);
         expect(state.entities.channelCategories.orderByTeam[teamId]).toEqual(['category1', 'category2']);
     });
-    test('should update collapse state if it s from websocket', async () => {
+    test('should update collapse state if it\'s not from websocket', async () => {
         const currentUserId = TestHelper.generateId();
         const teamId = TestHelper.generateId();
         const isWebSocket = false;
