@@ -15,7 +15,8 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
 import {CloudTypes} from 'mattermost-redux/action_types';
-import {Feedback, WorkspaceDeletionRequest} from '@mattermost/types/cloud';
+import {getBlankAddressWithCountry} from 'utils/utils';
+import {Address, Feedback, WorkspaceDeletionRequest} from '@mattermost/types/cloud';
 
 // Returns true for success, and false for any error
 export function completeStripeAddPaymentMethod(
@@ -81,14 +82,26 @@ export function completeStripeAddPaymentMethod(
     };
 }
 
-export function subscribeCloudSubscription(productId: string, seats = 0, feedback?: Feedback) {
+export function subscribeCloudSubscription(
+    productId: string,
+    shippingAddress: Address = getBlankAddressWithCountry(),
+    seats = 0,
+    feedback?: Feedback,
+) {
     return async () => {
         try {
-            await Client4.subscribeCloudProduct(productId, seats, feedback);
-        } catch (error) {
-            return error;
+            const response = await Client4.subscribeCloudProduct(
+                productId,
+                shippingAddress,
+                seats,
+                feedback,
+            );
+
+            return {data: response};
+        } catch (e: any) {
+            // In the event that the status code returned is 422, this request has been blocked by export compliance
+            return {error: e.message, data: {status: e.status_code}};
         }
-        return true;
     };
 }
 

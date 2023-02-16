@@ -5,6 +5,7 @@
 }
 
 .admin-console {
+    overflow: auto;
     height: 100%;
     color: #333;
     grid-area: center;
@@ -28,14 +29,22 @@
 
     .admin-console__wrapper {
         position: relative;
-        overflow: auto;
         height: 100%;
+        min-height: 100%;
+        max-height: 100%;
         -webkit-flex: 1 1 auto;
         flex: 1 1 auto;
         padding: 20px;
         margin-right: 5px;
         scrollbar-color: var(--center-channel-color-32) #fff0;
         scrollbar-width: thin;
+
+        > .wrapper--admin {
+            display: flex;
+            overflow: auto;
+            height: 100%;
+            flex-direction: column;
+        }
     }
 
     .admin-console__content {
@@ -170,6 +179,7 @@
 
     &.admin {
         overflow: auto;
+        height: 100%;
         min-height: 600px;
         padding: 0 40px 20px;
         background-color: #f1f1f1;
@@ -494,7 +504,6 @@
         }
 
         .reset-defaults-btn {
-            position: absolute;
             right: 0;
             padding-right: 10px;
             padding-left: 10px;
@@ -538,6 +547,12 @@
         color: $dark-gray;
         font-size: 12px;
         font-weight: 400;
+    }
+
+    .logs-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 }
 
@@ -1034,11 +1049,34 @@
 }
 
 .admin-console .admin-console__content.admin-logs-content {
+    display: flex;
     max-width: none;
+    height: 100%;
+    flex-direction: column;
 
     // We keep the banner the same width and only expand the content box.
     .banner {
         max-width: 920px;
+    }
+
+    > .btn {
+        width: fit-content;
+    }
+
+    .LogTable {
+        height: 100%;
+
+        .DataGrid {
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+
+            .DataGrid_rows {
+                overflow: auto;
+                height: 100%;
+                min-height: 100% !important;
+            }
+        }
     }
 }
 
