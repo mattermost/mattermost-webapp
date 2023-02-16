@@ -135,7 +135,6 @@
             .planLabel {
                 position: absolute;
                 top: -36px;
-                left: 52px;
                 display: flex;
                 width: auto;
                 height: 36px;
@@ -145,6 +144,13 @@
                 border-radius: 13px 13px 0 0;
                 font-weight: 600;
                 gap: 5px;
+
+                font-style: normal;
+                font-size: 12px;
+                line-height: 16px;
+                text-align: center;
+                letter-spacing: 0.02em;
+                text-transform: uppercase;
             }
 
             .top {

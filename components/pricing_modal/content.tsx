@@ -278,6 +278,14 @@ function Content(props: ContentProps) {
         return undefined;
     };
 
+    const professionalPlanLabelText = () => {
+        if (isProfessionalAnnual) {
+            return formatMessage({id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'});
+        }
+
+        return formatMessage({id: 'pricing_modal.planLabel.currentPlanMonthly', defaultMessage: 'CURRENTLY ON MONTHLY BILLING'});
+    };
+
     return (
         <div className='Content'>
             <Modal.Header className='PricingModal__header'>
@@ -382,14 +390,14 @@ function Content(props: ContentProps) {
                                 </span>
                             ),
                         })}
-                        planLabel={
-                            isProfessional ? (
-                                <PlanLabel
-                                    text={formatMessage({id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
-                                    color='var(--denim-status-online)'
-                                    bgColor='var(--center-channel-bg)'
-                                    firstSvg={<CheckMarkSvg/>}
-                                />) : undefined}
+                        planLabel={isProfessional ? (
+                            <PlanLabel
+                                text={professionalPlanLabelText()}
+                                color='var(--denim-status-online)'
+                                bgColor='var(--center-channel-bg)'
+                                left={isProfessionalAnnual ? '74px' : '10px'}
+                                firstSvg={<CheckMarkSvg/>}
+                            />) : undefined}
                         buttonDetails={professionalBtnDetails()}
                         briefing={{
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),

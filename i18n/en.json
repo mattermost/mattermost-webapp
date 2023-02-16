@@ -4539,6 +4539,7 @@
   "pricing_modal.plan_label_trialDays": "{days} DAYS LEFT ON TRIAL",
   "pricing_modal.planDisclaimer.free": "This plan has data restrictions.",
   "pricing_modal.planLabel.currentPlan": "CURRENT PLAN",
+  "pricing_modal.planLabel.currentPlanMonthly": "CURRENTLY ON MONTHLY BILLING",
   "pricing_modal.planLabel.mostPopular": "MOST POPULAR",
   "pricing_modal.planSummary.enterprise": "Administration, security, and compliance for large teams",
   "pricing_modal.planSummary.free": "Increased productivity for small teams",

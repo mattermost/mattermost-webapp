@@ -16,6 +16,7 @@ type PlanLabelProps = {
     text: string;
     bgColor: string;
     color: string;
+    left?: string;
     firstSvg: JSX.Element;
     secondSvg?: JSX.Element;
     renderLastDaysOnTrial?: boolean;
@@ -24,11 +25,13 @@ type PlanLabelProps = {
 type StyledProps = {
     bgColor?: string;
     color?: string;
+    left?: string;
 }
 
 const StyledPlanLabel = styled.div<StyledProps>`
 background-color: ${(props) => props.bgColor};
 color: ${(props) => props.color};
+left: ${(props) => props.left || '74px'};
 `;
 
 function PlanLabel(props: PlanLabelProps) {
@@ -53,6 +56,7 @@ function PlanLabel(props: PlanLabelProps) {
             className='planLabel'
             bgColor={props.bgColor}
             color={props.color}
+            left={props.left}
         >
             {props.firstSvg}
             {text}
