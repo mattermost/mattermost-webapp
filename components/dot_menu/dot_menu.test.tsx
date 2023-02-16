@@ -3,15 +3,15 @@
 
 import React from 'react';
 import {screen, fireEvent} from '@testing-library/react';
-import {Provider} from 'react-redux';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {Locations} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
-import mockStore from 'tests/test_store';
+import {renderWithIntlAndStore} from 'tests/react_testing_utils';
+import {GlobalState} from 'types/store';
 
+import {DeepPartial} from '@mattermost/types/utilities';
 import {PostType} from '@mattermost/types/posts';
-import {renderWithIntl} from '../../tests/react_testing_utils';
 
 import * as dotUtils from './utils';
 jest.mock('./utils');
@@ -26,7 +26,7 @@ describe('components/dot_menu/DotMenu', () => {
         channel_id: 'other_gm_channel',
         create_at: Date.now(),
     };
-    const state = {
+    const initialState: DeepPartial<GlobalState> = {
         entities: {
             general: {
                 config: {},
@@ -67,11 +67,12 @@ describe('components/dot_menu/DotMenu', () => {
             users: {
                 profiles: {
                     current_user_id: {roles: 'system_role'},
-                    other_user1: {
-                        id: 'other_user1',
-                        display_name: 'other_user1',
-                        username: 'other_user1',
-                    },
+                    other_user1: TestHelper.getUserMock({
+                        id: 'otherUserId',
+                        username: 'UserOther',
+                        roles: '',
+                        email: 'other-user@example.com',
+                    }),
                 },
                 currentUserId: 'current_user_id',
                 profilesInChannel: {
@@ -111,7 +112,6 @@ describe('components/dot_menu/DotMenu', () => {
             },
         },
     };
-    const store = mockStore(state);
     const baseProps = {
         post: TestHelper.getPostMock({id: 'post_id_1', is_pinned: false, type: '' as PostType}),
         isLicensed: false,
@@ -173,10 +173,9 @@ describe('components/dot_menu/DotMenu', () => {
             canEdit: true,
             canDelete: true,
         };
-        const wrapper = renderWithIntl(
-            <Provider store={store}>
-                <DotMenu {...props}/>
-            </Provider>,
+        const wrapper = renderWithIntlAndStore(
+            <DotMenu {...props}/>,
+            initialState,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -187,10 +186,9 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             showForwardPostNewLabel: true,
         };
-        const wrapper = renderWithIntl(
-            <Provider store={store}>
-                <DotMenu {...props}/>
-            </Provider>,
+        const wrapper = renderWithIntlAndStore(
+            <DotMenu {...props}/>,
+            initialState,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -201,10 +199,9 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             showForwardPostNewLabel: false,
         };
-        const wrapper = renderWithIntl(
-            <Provider store={store}>
-                <DotMenu {...props}/>
-            </Provider>,
+        const wrapper = renderWithIntlAndStore(
+            <DotMenu {...props}/>,
+            initialState,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -215,12 +212,10 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             location: Locations.CENTER,
         };
-        renderWithIntl(
-            <Provider store={store}>
-                <DotMenu {...props}/>
-            </Provider>,
+        renderWithIntlAndStore(
+            <DotMenu {...props}/>,
+            initialState,
         );
-        screen.debug(undefined, 300000);
         const button = screen.getByTestId(`PostDotMenu-Button-${baseProps.post.id}`);
         fireEvent.click(button);
         const menuItem = screen.getByTestId(`unread_post_${baseProps.post.id}`);
@@ -232,10 +227,9 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             channelIsArchived: true,
         };
-        renderWithIntl(
-            <Provider store={store}>
-                <DotMenu {...props}/>
-            </Provider>,
+        renderWithIntlAndStore(
+            <DotMenu {...props}/>,
+            initialState,
         );
         const button = screen.getByTestId(`PostDotMenu-Button-${baseProps.post.id}`);
         fireEvent.click(button);
@@ -248,10 +242,9 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             location: Locations.SEARCH,
         };
-        renderWithIntl(
-            <Provider store={store}>
-                <DotMenu {...props}/>
-            </Provider>,
+        renderWithIntlAndStore(
+            <DotMenu {...props}/>,
+            initialState,
         );
         const button = screen.getByTestId(`PostDotMenu-Button-${baseProps.post.id}`);
         fireEvent.click(button);
@@ -269,10 +262,9 @@ describe('components/dot_menu/DotMenu', () => {
                 ...baseProps,
                 ...caseProps,
             };
-            renderWithIntl(
-                <Provider store={store}>
-                    <DotMenu {...props}/>
-                </Provider>,
+            renderWithIntlAndStore(
+                <DotMenu {...props}/>,
+                initialState,
             );
             const button = screen.getByTestId(`PostDotMenu-Button-${baseProps.post.id}`);
             fireEvent.click(button);
@@ -291,10 +283,9 @@ describe('components/dot_menu/DotMenu', () => {
                 ...baseProps,
                 ...caseProps,
             };
-            renderWithIntl(
-                <Provider store={store}>
-                    <DotMenu {...props}/>
-                </Provider>,
+            renderWithIntlAndStore(
+                <DotMenu {...props}/>,
+                initialState,
             );
             const button = screen.getByTestId(`PostDotMenu-Button-${baseProps.post.id}`);
             fireEvent.click(button);
@@ -313,10 +304,9 @@ describe('components/dot_menu/DotMenu', () => {
                 ...caseProps,
                 location: Locations.RHS_ROOT,
             };
-            renderWithIntl(
-                <Provider store={store}>
-                    <DotMenu {...props}/>
-                </Provider>,
+            renderWithIntlAndStore(
+                <DotMenu {...props}/>,
+                initialState,
             );
             const button = screen.getByTestId(`PostDotMenu-Button-${baseProps.post.id}`);
             fireEvent.click(button);
@@ -341,14 +331,12 @@ describe('components/dot_menu/DotMenu', () => {
                     setThreadFollow: spySetThreadFollow,
                 },
             };
-            renderWithIntl(
-                <Provider store={store}>
-                    <DotMenu {...props}/>
-                </Provider>,
+            renderWithIntlAndStore(
+                <DotMenu {...props}/>,
+                initialState,
             );
             const button = screen.getByTestId(`PostDotMenu-Button-${baseProps.post.id}`);
             fireEvent.click(button);
-            screen.debug(undefined, 300000);
             const menuItem = screen.getByTestId(`follow_post_thread_${baseProps.post.id}`);
             expect(menuItem).toBeVisible();
             fireEvent.click(menuItem);

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {connect} from 'react-redux';
+import {connect, ConnectedProps} from 'react-redux';
 
 import {bindActionCreators, Dispatch} from 'redux';
 
@@ -34,5 +34,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
         }, dispatch),
     };
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostReminderCustomTimePicker);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+export type PropsFromRedux = ConnectedProps<typeof connector>;
+export default connector(PostReminderCustomTimePicker);

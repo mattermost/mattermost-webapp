@@ -442,18 +442,16 @@ function renderReminderACKMessage(post: Post, currentTeam: Team, isMilitaryTime:
             year='numeric'
         />);
     return (
-        <>
-            <FormattedMessage
-                id={'post.reminder.acknowledgement'}
-                defaultMessage='You will be reminded at {reminderTime}, {reminderDate} about this message from {username}: {permaLink}'
-                values={{
-                    reminderTime,
-                    reminderDate,
-                    username,
-                    permaLink,
-                }}
-            />
-        </>
+        <FormattedMessage
+            id={'post.reminder.acknowledgement'}
+            defaultMessage='You will be reminded at {reminderTime}, {reminderDate} about this message from {username}: {permaLink}'
+            values={{
+                reminderTime,
+                reminderDate,
+                username,
+                permaLink,
+            }}
+        />
     );
 }
 
@@ -463,15 +461,13 @@ export function renderReminderSystemBotMessage(post: Post, currentTeam: Team): R
     const link = `${teamUrl}/pl/${post.props.post_id}`;
     const permaLink = renderFormattedText(`[${link}](${link})`);
     return (
-        <>
-            <FormattedMessage
-                id={'post.reminder.systemBot'}
-                defaultMessage="Hi there, here's your reminder about this message from {username}: {permaLink}"
-                values={{
-                    username,
-                    permaLink,
-                }}
-            />
-        </>
+        <FormattedMessage
+            id={'post.reminder.systemBot'}
+            defaultMessage="Hi there, here's your reminder about this message from {username}: {permaLink}"
+            values={{
+                username,
+                permaLink,
+            }}
+        />
     );
 }

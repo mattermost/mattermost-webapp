@@ -14,12 +14,12 @@ import './post_reminder_custom_time_picker_modal.scss';
 import {toUTCUnix} from 'utils/datetime';
 import {localizeMessage} from 'utils/utils';
 
-type Props = {
+import {PropsFromRedux} from './index';
+
+type Props = PropsFromRedux & {
     onExited: () => void;
-    userId: string;
     postId: string;
     currentDate: Date;
-    isMilitaryTime: boolean;
     actions: {
         addPostReminder: (postId: string, userId: string, timestamp: number) => void;
     };
@@ -89,6 +89,7 @@ export default class PostReminderCustomTimePicker extends React.PureComponent<Pr
             const suffix = this.state.selectedTime.split(':')[1];
             minutes = parseInt(suffix.split(' ')[0], 10);
             const ampm = suffix.split(' ')[1];
+            hours = hours === 12 && ampm === 'AM' ? hours - 12 : hours;
             hours = ampm === 'AM' ? hours : hours + 12;
         }
         const endTime = new Date(this.state.selectedDate);
@@ -130,7 +131,10 @@ export default class PostReminderCustomTimePicker extends React.PureComponent<Pr
                     t = i.toString().padStart(2, '0') + ':' + (j * 30).toString().padStart(2, '0');
                 } else {
                     const ampm = i >= 12 ? ' PM' : ' AM';
-                    const hour = i > 12 ? i - 12 : i;
+                    let hour = i > 12 ? i - 12 : i;
+                    if (hour === 0) {
+                        hour = 12;
+                    }
                     t = hour.toString() + ':' + (j * 30).toString().padStart(2, '0') + ampm;
                 }
                 timeMenuItems.push(
@@ -181,6 +185,7 @@ export default class PostReminderCustomTimePicker extends React.PureComponent<Pr
                 handleEnterKeyPress={this.handleConfirm}
                 id='PostReminderCustomTimePickerModal'
                 className={'PostReminderModal modal-overflow'}
+                compassDesign={true}
             >
                 <div className='PostReminderModal__content'>
                     <div>

@@ -14,6 +14,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import {toUTCUnix} from 'utils/datetime';
 import PostReminderCustomTimePicker from 'components/post_reminder_time_picker_modal';
 import {addPostReminder} from 'mattermost-redux/actions/posts';
+import {t} from 'utils/i18n';
 
 import {Post} from '@mattermost/types/posts';
 
@@ -25,11 +26,11 @@ type Props = {
 }
 
 const postReminderTimes = [
-    {id: 'thirty_minutes', label: 'post_info.post_reminder.sub_menu.thirty_minutes', labelDefault: '30 mins'},
-    {id: 'one_hour', label: 'post_info.post_reminder.sub_menu.one_hour', labelDefault: '1 hour'},
-    {id: 'two_hours', label: 'post_info.post_reminder.sub_menu.two_hours', labelDefault: '2 hours'},
-    {id: 'tomorrow', label: 'post_info.post_reminder.sub_menu.tomorrow', labelDefault: 'Tomorrow'},
-    {id: 'custom', label: 'post_info.post_reminder.sub_menu.custom', labelDefault: 'Custom'},
+    {id: 'thirty_minutes', label: t('post_info.post_reminder.sub_menu.thirty_minutes'), labelDefault: '30 mins'},
+    {id: 'one_hour', label: t('post_info.post_reminder.sub_menu.one_hour'), labelDefault: '1 hour'},
+    {id: 'two_hours', label: t('post_info.post_reminder.sub_menu.two_hours'), labelDefault: '2 hours'},
+    {id: 'tomorrow', label: t('post_info.post_reminder.sub_menu.tomorrow'), labelDefault: 'Tomorrow'},
+    {id: 'custom', label: t('post_info.post_reminder.sub_menu.custom'), labelDefault: 'Custom'},
 ];
 
 export function PostReminderSubmenu(props: Props) {
@@ -81,8 +82,8 @@ export function PostReminderSubmenu(props: Props) {
                     defaultMessage={labelDefault}
                 />
             );
-            let trailing: JSX.Element | null = null;
 
+            let trailing: React.ReactNode;
             if (id === 'tomorrow') {
                 const tomorrow = getCurrentMomentForTimezone(props.timezone).add(1, 'day').toDate();
                 trailing = (

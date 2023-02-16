@@ -98,9 +98,7 @@ export default class PostMarkdown extends React.PureComponent<Props> {
 
         if (post && post.type === Posts.POST_TYPES.REMINDER) {
             const renderedSystemBotMessage = renderReminderSystemBotMessage(post, this.props.currentTeam);
-            if (renderedSystemBotMessage) {
-                return <div>{renderedSystemBotMessage}</div>;
-            }
+            return <div>{renderedSystemBotMessage}</div>;
         }
 
         // Proxy images if we have an image proxy and the server hasn't already rewritten the post's image URLs.
