@@ -13,5 +13,5 @@
             "@e2e-test.config": ["test.config.ts"]
         }
     },
-    "include": ["./**/*"],
+    "include": ["./**/*"]
 }
