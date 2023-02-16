@@ -269,7 +269,7 @@ jobs:
       id: vars
       # Extract short-sha as TAG, and repository name as REPO_NAME
       run: |
-        echo "TAG=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+        echo "TAG=`echo ${{ github.event.pull_request.head.sha || github.sha }} | cut -c1-7`" >> $GITHUB_ENV
         echo "REPO_NAME=${{github.event.repository.name}}" >> $GITHUB_ENV
     - name: cd/Login to Docker Hub
       uses: docker/login-action@3da7dc6e2b31f99ef2cb9fb4c50fb0971e0d0139 # v2.1.0
