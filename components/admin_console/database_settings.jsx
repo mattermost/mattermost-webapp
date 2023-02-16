@@ -282,7 +282,6 @@ export default class DatabaseSettings extends AdminSettings {
                                 link: (msg) => (
                                     <a
                                         href='https://dev.mysql.com/doc/refman/8.0/en/fulltext-fine-tuning.html'
-                                        referrer='noreferrer'
                                         target='_blank'
                                         rel='noreferrer'
                                     >
@@ -333,7 +332,6 @@ export default class DatabaseSettings extends AdminSettings {
                                 link: (msg) => (
                                     <a
                                         href='https://mattermost.com/pl/default-search-engine'
-                                        referrer='noreferrer'
                                         target='_blank'
                                         rel='noreferrer'
                                     >

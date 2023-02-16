@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {
     ArchiveOutlineIcon, ChevronDownIcon,
     GlobeIcon,
@@ -15,9 +16,10 @@ import {useSelector} from 'react-redux';
 
 import {components, IndicatorProps, OptionProps, SingleValueProps, ValueType} from 'react-select';
 
-import {Props as AsyncSelectProps} from 'react-select/src/Async';
+import AsyncSelect from 'react-select/async';
 
-import {Channel} from '@mattermost/types/channels';
+import BotTag from 'components/widgets/tag/bot_tag';
+import GuestTag from 'components/widgets/tag/guest_tag';
 
 import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getMyTeams, getTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -31,21 +33,12 @@ import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import ProfilePicture from 'components/profile_picture';
 import SharedChannelIndicator from 'components/shared_channel_indicator';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider';
-import BotBadge from 'components/widgets/badges/bot_badge';
-import GuestBadge from 'components/widgets/badges/guest_badge';
+
+import {ProviderResult} from 'components/suggestion/provider';
+
+import {Channel} from '@mattermost/types/channels';
 
 import {getBaseStyles} from './forward_post_channel_select_styles';
-
-const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<ChannelOption>>; // eslint-disable-line global-require
-
-type ProviderResults = {
-    matchedPretext: string;
-    terms: string[];
-
-    // The providers currently do not provide a clearly defined type and structure
-    items: Array<Record<string, any>>;
-    component?: React.ReactNode;
-}
 
 type ChannelTypeFromProvider = Channel & {
     userId?: string;
@@ -116,18 +109,11 @@ const FormattedOption = (props: ChannelOption & {className: string; isSingleValu
 
     let tag = null;
     if (details.type === Constants.DM_CHANNEL) {
-        tag = (
-            <>
-                <BotBadge
-                    show={Boolean(teammate?.is_bot)}
-                    className='badge-autocomplete'
-                />
-                <GuestBadge
-                    show={Boolean(teammate && isGuest(teammate.roles))}
-                    className='badge-autocomplete'
-                />
-            </>
-        );
+        if (teammate?.is_bot) {
+            tag = <BotTag/>;
+        } else if (isGuest(teammate?.roles ?? '')) {
+            tag = <GuestTag/>;
+        }
 
         const emojiStyle = {
             marginBottom: 2,
@@ -263,11 +249,11 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
     const getDefaultResults = () => {
         let options: GroupedOption[] = [];
 
-        const handleDefaultResults = (res: ProviderResults) => {
+        const handleDefaultResults = (res: ProviderResult) => {
             options = [
                 {
                     label: formatMessage({id: 'suggestion.mention.recent.channels', defaultMessage: 'Recent'}),
-                    options: res.items.filter((item) => isValidChannelType(item.channel)).map((item) => {
+                    options: res.items.filter((item) => item?.channel && isValidChannelType(item.channel) && !item.deactivated).map((item) => {
                         const {channel} = item;
                         return makeSelectedChannelOption(channel);
                     }),
@@ -292,24 +278,19 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
              *
              * @see {@link components/suggestion/switch_channel_provider.jsx}
              */
-            const handleResults = (res: ProviderResults) => {
-                res.items.filter((item) => isValidChannelType(item.channel)).forEach((item) => {
+            const handleResults = async (res: ProviderResult) => {
+                callCount++;
+                await res.items.filter((item) => item?.channel && isValidChannelType(item.channel) && !item.deactivated).forEach((item) => {
                     const {channel} = item;
 
-                    options.push(makeSelectedChannelOption(channel));
+                    if (options.findIndex((option) => option.value === channel.id) === -1) {
+                        options.push(makeSelectedChannelOption(channel));
+                    }
                 });
 
-                if (callCount === 1) {
-                    const filteredOptions = options.reduce((unique: ChannelOption[], o) => {
-                        if (!unique.some((obj) => obj.value === o.value)) {
-                            unique.push(o);
-                        }
-                        return unique;
-                    }, []);
-                    resolve(filteredOptions);
+                if (callCount === 2) {
+                    resolve(options);
                 }
-
-                callCount++;
             };
 
             provider.handlePretextChanged(inputValue, handleResults);

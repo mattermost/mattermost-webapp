@@ -2,11 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
 import {UserProfile} from '@mattermost/types/users';
 
-import ManageLanguages from './manage_languages';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+
+import ManageLanguages, {ManageLanguage as ManageLanguageClass} from './manage_languages';
 
 describe('components/user_settings/display/manage_languages/manage_languages', () => {
     const user = {
@@ -25,8 +26,8 @@ describe('components/user_settings/display/manage_languages/manage_languages', (
     test('submitUser() should have called updateMe', async () => {
         const updateMe = jest.fn(() => Promise.resolve({data: true}));
         const props = {...requiredProps, actions: {...requiredProps.actions, updateMe}};
-        const wrapper = shallow(<ManageLanguages {...props}/>);
-        const instance = wrapper.instance() as ManageLanguages;
+        const wrapper = shallowWithIntl(<ManageLanguages {...props}/>);
+        const instance = wrapper.instance() as ManageLanguageClass;
 
         await instance.submitUser(requiredProps.user);
 

@@ -16,9 +16,12 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {getTotalUsersStats} from 'mattermost-redux/actions/users';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import ToggleModalButton from 'components/toggle_modal_button';
 import InvitationModal from 'components/invitation_modal';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import {getAnalyticsCategory} from 'components/onboarding_tasks';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
@@ -26,6 +29,7 @@ type Props = {
     touchedInviteMembersButton: boolean;
     className?: string;
     onClick: () => void;
+    isAdmin: boolean;
 }
 
 const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null => {
@@ -40,6 +44,11 @@ const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null 
             dispatch(getTotalUsersStats());
         }
     }, []);
+
+    const handleButtonClick = () => {
+        trackEvent(getAnalyticsCategory(props.isAdmin), 'click_sidebar_invite_members_button');
+        props.onClick();
+    };
 
     let buttonClass = 'SidebarChannelNavigator_inviteMembersLhsButton';
 
@@ -62,7 +71,7 @@ const InviteMembersButton: React.FC<Props> = (props: Props): JSX.Element | null 
                 className={`intro-links color--link cursor--pointer${props.className ? ` ${props.className}` : ''}`}
                 modalId={ModalIdentifiers.INVITATION}
                 dialogType={InvitationModal}
-                onClick={props.onClick}
+                onClick={handleButtonClick}
             >
                 <li
                     className={buttonClass}

@@ -7,6 +7,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getTeamStats} from 'mattermost-redux/actions/teams';
 import {getProfilesNotInChannel, getProfilesInChannel, searchProfiles} from 'mattermost-redux/actions/users';
 import {getProfilesNotInCurrentChannel, getProfilesInCurrentChannel, getProfilesNotInCurrentTeam, getProfilesNotInTeam, getUserStatuses, makeGetProfilesNotInChannel, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Action, ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from '@mattermost/types/users';
@@ -23,6 +24,8 @@ import {loadStatusesForProfilesList} from 'actions/status_actions';
 import {closeModal} from 'actions/views/modals';
 
 import {GlobalState} from 'types/store';
+
+import {getRecentProfilesFromDMs} from 'mattermost-redux/selectors/entities/channels';
 
 import ChannelInviteModal from './channel_invite_modal';
 
@@ -58,7 +61,7 @@ function makeMapStateToProps(initialState: GlobalState, initialProps: OwnProps) 
             profilesInCurrentChannel = getProfilesInCurrentChannel(state) as UserProfileValue[];
             profilesNotInCurrentTeam = getProfilesNotInCurrentTeam(state) as UserProfileValue[];
         }
-
+        const profilesFromRecentDMs = getRecentProfilesFromDMs(state);
         const config = getConfig(state);
         const license = getLicense(state);
 
@@ -72,10 +75,14 @@ function makeMapStateToProps(initialState: GlobalState, initialProps: OwnProps) 
 
         const userStatuses = getUserStatuses(state);
 
+        const teammateNameDisplaySetting = getTeammateNameDisplaySetting(state);
+
         return {
             profilesNotInCurrentChannel,
             profilesInCurrentChannel,
             profilesNotInCurrentTeam,
+            teammateNameDisplaySetting,
+            profilesFromRecentDMs,
             userStatuses,
             canInviteGuests,
             emailInvitationsEnabled,

@@ -52,7 +52,6 @@ h6.markdown__heading {
 #rhsContainer {
     .markdown-inline-img {
         max-height: 500px;
-        margin: 5px 2px;
         border-radius: 4px;
         -moz-force-broken-image-icon: 1;
     }
@@ -73,6 +72,11 @@ h6.markdown__heading {
         }
     }
 
+    .markdown-inline-img,
+    .markdown-inline-img__container {
+        margin: 5px 2px;
+    }
+
     .markdown-inline-img__container {
         display: inline-block;
         width: calc(100% - 5px);
@@ -84,6 +88,14 @@ h6.markdown__heading {
         .image-preview-utility-buttons-container {
             top: 14px;
             right: 12px;
+        }
+
+        .image-loaded-container {
+            display: inline-block;
+        }
+
+        .markdown-inline-img {
+            margin: 0;
         }
     }
 
@@ -169,6 +181,10 @@ h6.markdown__heading {
     .broken-image {
         max-height: 18px;
         border-radius: unset;
+    }
+
+    .image-loaded-container {
+        display: inline-block;
     }
 }
 
@@ -329,13 +345,16 @@ h6.markdown__heading {
 }
 
 .post__body {
-    hr {
-        height: 4px;
-        padding: 0;
-        border: 0 none;
-        margin: 15px 0 16px;
-        background-color: #e7e7e7;
-        opacity: 0.2;
+    .post-message__text-container {
+        .post-message__text {
+            hr {
+                height: 1px;
+                padding: 0;
+                border: 0 none;
+                margin: 15px 0 16px;
+                background-color: rgba(var(--center-channel-color-rgb), 0.24);
+            }
+        }
     }
 
     .codespan__pre-wrap {

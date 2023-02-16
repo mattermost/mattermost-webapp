@@ -1,5 +1,17 @@
 @charset 'UTF-8';
 
+del .mention-link,
+del .group-mention-link {
+    text-decoration: line-through;
+}
+
+del .mention-link:hover,
+del .mention-link:focus,
+del .group-mention-link:hover,
+del .group-mention-link:focus {
+    text-decoration: line-through underline;
+}
+
 .mention {
     position: relative;
     z-index: 10;
@@ -26,11 +38,19 @@
 
 .mention--highlight {
     padding: 0 1px;
-    background-color: $yellow;
+    background-color: var(--mention-highlight-bg);
     border-radius: 4px;
+    color: var(--mention-highlight-link);
+
+    .mention-link,
+    .mention-link:hover,
+    .mention-link:focus {
+        color: var(--mention-highlight-link);
+    }
 
     .mention--highlight {
         padding: 0;
+        background: none;
     }
 }
 

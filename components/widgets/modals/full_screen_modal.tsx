@@ -21,6 +21,8 @@ type Props = {
     ariaLabel?: string;
     ariaLabelledBy?: string;
     intl: any; // TODO This needs to be replaced with IntlShape once react-intl is upgraded
+    overrideTargetEvent?: boolean;
+    ignoreExit?: boolean;
 };
 
 class FullScreenModal extends React.PureComponent<Props> {
@@ -28,13 +30,13 @@ class FullScreenModal extends React.PureComponent<Props> {
 
     public componentDidMount() {
         document.addEventListener('keydown', this.handleKeypress);
-        document.addEventListener('focus', this.enforceFocus, true);
+        document.addEventListener('focus', this.enforceFocus, this.props.overrideTargetEvent);
         this.enforceFocus();
     }
 
     public componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeypress);
-        document.removeEventListener('focus', this.enforceFocus, true);
+        document.removeEventListener('focus', this.enforceFocus, this.props.overrideTargetEvent);
     }
 
     public enforceFocus = () => {
@@ -47,7 +49,15 @@ class FullScreenModal extends React.PureComponent<Props> {
     }
 
     private handleKeypress = (e: KeyboardEvent) => {
-        if (e.key === 'Escape' && this.props.show) {
+        if (this.props.ignoreExit !== undefined && this.props.ignoreExit && e.key === 'Escape') {
+            return;
+        }
+
+        const currentActiveElement = document.activeElement;
+        if (!this.props.overrideTargetEvent && e.key === 'Escape' && this.props.show && e.target && this.modal.current && this.modal.current.contains(currentActiveElement)) {
+            this.close();
+        }
+        if (this.props.overrideTargetEvent && e.key === 'Escape' && this.props.show) {
             this.close();
         }
     }
@@ -105,4 +115,7 @@ class FullScreenModal extends React.PureComponent<Props> {
 
 const wrappedComponent = injectIntl(FullScreenModal, {forwardRef: true});
 wrappedComponent.displayName = 'injectIntl(FullScreenModal)';
+wrappedComponent.defaultProps = {
+    overrideTargetEvent: true,
+};
 export default wrappedComponent;

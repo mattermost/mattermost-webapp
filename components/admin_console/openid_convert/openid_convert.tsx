@@ -11,7 +11,7 @@ import {AdminConfig} from '@mattermost/types/config';
 
 import {BaseProps} from 'components/admin_console/admin_settings';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants';
 
 import FormError from 'components/form_error';
@@ -70,7 +70,7 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
         if (err) {
             this.setState({serverError: err.message});
         } else {
-            browserHistory.push('/admin_console/authentication/openid');
+            getHistory().push('/admin_console/authentication/openid');
         }
     }
 
@@ -86,16 +86,10 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
                 </div>
 
                 <div className='OpenIdConvert_copyWrapper'>
-                    <div className='OpenIdConvert__heading'>
-                        <FormattedMessage
-                            id='admin.openIdConvert.heading'
-                            defaultMessage='OAuth 2.0 is being deprecated and replaced by OpenID Connect.'
-                        />
-                    </div>
                     <p>
                         <FormattedMessage
                             id='admin.openIdConvert.message'
-                            defaultMessage='Convert your OAuth 2.0 configuration to the new OpenID Connect standard.'
+                            defaultMessage='You can now convert your OAuth2.0 configuration to OpenID Connect.'
                         />
                     </p>
                     <div className='OpenIdConvert_actionWrapper'>

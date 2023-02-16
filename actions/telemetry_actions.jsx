@@ -8,9 +8,9 @@ import {Preferences} from 'mattermost-redux/constants';
 import {getConfig, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
-import store from 'stores/redux_store.jsx';
+import {isDevModeEnabled} from 'selectors/general';
 
-import {isDevMode} from 'utils/utils';
+import store from 'stores/redux_store.jsx';
 
 const SUPPORTS_CLEAR_MARKS = isSupported([performance.clearMarks]);
 const SUPPORTS_MARK = isSupported([performance.mark]);
@@ -27,7 +27,7 @@ export function isTelemetryEnabled(state) {
 }
 
 export function shouldTrackPerformance(state = store.getState()) {
-    return isDevMode(state) || isTelemetryEnabled(state);
+    return isDevModeEnabled(state) || isTelemetryEnabled(state);
 }
 
 export function trackEvent(category, event, props) {
@@ -40,7 +40,8 @@ export function trackEvent(category, event, props) {
     }
 
     Client4.trackEvent(category, event, props);
-    if (isDevMode() && category === 'performance' && props) {
+
+    if (isDevModeEnabled(state) && category === 'performance' && props) {
         // eslint-disable-next-line no-console
         console.log(event + ' - ' + Object.entries(props).map(([key, value]) => `${key}: ${value}`).join(', '));
     }
@@ -239,9 +240,17 @@ function initRequestCountingIfNecessary() {
         for (const entry of entries.getEntries()) {
             const url = entry.name;
 
-            if (url.includes('/api/v4/') && (entry.initiatorType === 'fetch' || entry.initiatorType === 'xmlhttprequest')) {
-                requestCount += 1;
+            if (!url.includes('/api/v4/') && !url.includes('/api/v5/')) {
+                // Don't count requests made outside of the MM server's API
+                continue;
             }
+
+            if (entry.initiatorType !== 'fetch' && entry.initiatorType !== 'xmlhttprequest') {
+                // Only look for API requests made by code and ignore things like attachments thumbnails
+                continue;
+            }
+
+            requestCount += 1;
         }
     });
     requestObserver.observe({type: 'resource', buffered: true});

@@ -37,6 +37,7 @@ interface Props extends PropsFromRedux {
     visible: boolean;
     onEmojiClick: (emoji: Emoji) => void;
     handleFilterChange: (filter: string) => void;
+    handleEmojiPickerClose: () => void;
 }
 
 const EmojiPicker = ({
@@ -44,6 +45,7 @@ const EmojiPicker = ({
     visible,
     onEmojiClick,
     handleFilterChange,
+    handleEmojiPickerClose,
     customEmojisEnabled = false,
     customEmojiPage = 0,
     emojiMap,
@@ -417,6 +419,7 @@ const EmojiPicker = ({
                 <EmojiPickerCustomEmojiButton
                     currentTeamName={currentTeamName}
                     customEmojisEnabled={customEmojisEnabled}
+                    handleEmojiPickerClose={handleEmojiPickerClose}
                 />
             </div>
         </div>

@@ -7,10 +7,8 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getSearchMatches, getSearchResults} from 'mattermost-redux/selectors/entities/posts';
 import {getSearchFilesResults} from 'mattermost-redux/selectors/entities/files';
-import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentSearchForCurrentTeam} from 'mattermost-redux/selectors/entities/search';
-import {Post} from '@mattermost/types/posts';
-import {FileSearchResultItem} from '@mattermost/types/files';
+
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {
@@ -21,7 +19,9 @@ import {
     getIsSearchGettingMore,
 } from 'selectors/rhs';
 import {GlobalState} from 'types/store';
-import {Preferences} from 'utils/constants';
+
+import {FileSearchResultItem} from '@mattermost/types/files';
+import {Post} from '@mattermost/types/posts';
 
 import SearchResults from './search_results';
 import {StateProps, OwnProps} from './types';
@@ -77,6 +77,7 @@ function makeMapStateToProps() {
         // this is basically a hack to make ts compiler happy
         // add correct type when it is known what exactly is returned from the function
         const currentSearch = getCurrentSearchForCurrentTeam(state) as unknown as Record<string, any> || {};
+        const currentTeamName = getCurrentTeam(state)?.name ?? '';
 
         return {
             results: posts,
@@ -90,8 +91,7 @@ function makeMapStateToProps() {
             isSearchAtEnd: currentSearch.isEnd,
             isSearchFilesAtEnd: currentSearch.isFilesEnd,
             searchPage: currentSearch.params?.page,
-            compactDisplay: PreferenceSelectors.get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
-            currentTeamName: getCurrentTeam(state).name,
+            currentTeamName,
         };
     };
 }

@@ -54,7 +54,6 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
             </span>
           </div>
         </div>
-        <div />
       </div>
     </form>
   </div>
@@ -123,7 +122,6 @@ exports[`components/search_bar/SearchBar should match snapshot with search, with
             </span>
           </div>
         </div>
-        <div />
       </div>
     </form>
   </div>

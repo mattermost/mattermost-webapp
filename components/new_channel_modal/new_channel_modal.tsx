@@ -3,29 +3,40 @@
 
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useIntl} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
+import {Tooltip} from 'react-bootstrap';
 
 import classNames from 'classnames';
 
+import OverlayTrigger from 'components/overlay_trigger';
 import GenericModal from 'components/generic_modal';
 import Input from 'components/widgets/inputs/input/input';
 import PublicPrivateSelector from 'components/widgets/public-private-selector/public-private-selector';
 import URLInput from 'components/widgets/inputs/url_input/url_input';
 
+import Pluggable from 'plugins/pluggable';
+
 import {createChannel} from 'mattermost-redux/actions/channels';
 import Permissions from 'mattermost-redux/constants/permissions';
-import {switchToChannel} from 'actions/views/channel';
-import {closeModal} from 'actions/views/modals';
+import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {ChannelType, Channel} from '@mattermost/types/channels';
-import {ServerError} from '@mattermost/types/errors';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import Preferences from 'mattermost-redux/constants/preferences';
+import {setNewChannelWithBoardPreference} from 'mattermost-redux/actions/boards';
+
+import {switchToChannel} from 'actions/views/channel';
+import {closeModal} from 'actions/views/modals';
 
 import {GlobalState} from 'types/store';
+
 import Constants, {ItemStatus, ModalIdentifiers} from 'utils/constants';
 import {cleanUpUrlable, validateChannelUrl, getSiteURL} from 'utils/url';
 import {localizeMessage} from 'utils/utils';
+
+import {Board} from '@mattermost/types/boards';
+import {ChannelType, Channel} from '@mattermost/types/channels';
+import {ServerError} from '@mattermost/types/errors';
 
 import './new_channel_modal.scss';
 
@@ -69,6 +80,7 @@ const NewChannelModal = () => {
     const {formatMessage} = intl;
 
     const {id: currentTeamId, name: currentTeamName} = useSelector((state: GlobalState) => getCurrentTeam(state));
+
     const canCreatePublicChannel = useSelector((state: GlobalState) => (currentTeamId ? haveICurrentChannelPermission(state, Permissions.CREATE_PUBLIC_CHANNEL) : false));
     const canCreatePrivateChannel = useSelector((state: GlobalState) => (currentTeamId ? haveICurrentChannelPermission(state, Permissions.CREATE_PRIVATE_CHANNEL) : false));
     const dispatch = useDispatch<DispatchFunc>();
@@ -83,6 +95,14 @@ const NewChannelModal = () => {
     const [urlError, setURLError] = useState('');
     const [purposeError, setPurposeError] = useState('');
     const [serverError, setServerError] = useState('');
+
+    // create a board along with the channel
+    const pluginsComponentsList = useSelector((state: GlobalState) => state.plugins.components);
+    const createBoardFromChannelPlugin = pluginsComponentsList?.CreateBoardFromTemplate;
+    const newChannelWithBoardPulsatingDotState = useSelector((state: GlobalState) => getPreference(state, Preferences.APP_BAR, Preferences.NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED, ''));
+
+    const [canCreateFromPluggable, setCanCreateFromPluggable] = useState(true);
+    const [actionFromPluggable, setActionFromPluggable] = useState<((currentTeamId: string, channelId: string) => Promise<Board>) | undefined>(undefined);
 
     const handleOnModalConfirm = async () => {
         if (!canCreate) {
@@ -109,17 +129,50 @@ const NewChannelModal = () => {
 
         try {
             const {data: newChannel, error} = await dispatch(createChannel(channel, ''));
-
             if (error) {
                 onCreateChannelError(error);
                 return;
             }
 
             handleOnModalCancel();
+
+            // If template selected, create a new board from this template
+            if (canCreateFromPluggable && createBoardFromChannelPlugin) {
+                try {
+                    addBoardToChannel(newChannel.id);
+                } catch (e: any) {
+                    // eslint-disable-next-line no-console
+                    console.log(e.message);
+                }
+            }
             dispatch(switchToChannel(newChannel));
         } catch (e) {
             onCreateChannelError({message: formatMessage({id: 'channel_modal.error.generic', defaultMessage: 'Something went wrong. Please try again.'})});
         }
+    };
+
+    const addBoardToChannel = async (channelId: string) => {
+        if (!createBoardFromChannelPlugin) {
+            return false;
+        }
+        if (!actionFromPluggable) {
+            return false;
+        }
+
+        const action = actionFromPluggable as (currentTeamId: string, channelId: string) => Promise<Board>;
+        if (action && canCreateFromPluggable) {
+            const board = await action(channelId, currentTeamId);
+
+            if (!board?.id) {
+                return false;
+            }
+        }
+
+        // show the new channel with board tour tip
+        if (newChannelWithBoardPulsatingDotState === '') {
+            dispatch(setNewChannelWithBoardPreference({[Preferences.NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED]: false}));
+        }
+        return true;
     };
 
     const handleOnModalCancel = () => {
@@ -217,7 +270,34 @@ const NewChannelModal = () => {
         e.stopPropagation();
     };
 
-    const canCreate = displayName && !displayNameError && url && !urlError && type && !purposeError && !serverError;
+    const canCreate = displayName && !displayNameError && url && !urlError && type && !purposeError && !serverError && canCreateFromPluggable;
+
+    const newBoardInfoIcon = (
+        <OverlayTrigger
+            delayShow={Constants.OVERLAY_TIME_DELAY}
+            placement='right'
+            overlay={(
+                <Tooltip
+                    id='new-channel-with-board-tooltip'
+                >
+                    <div className='title'>
+                        <FormattedMessage
+                            id={'channel_modal.create_board.tooltip_title'}
+                            defaultMessage={'Manage your task with a board'}
+                        />
+                    </div>
+                    <div className='description'>
+                        <FormattedMessage
+                            id={'channel_modal.create_board.tooltip_description'}
+                            defaultMessage={'Use any of our templates to manage your tasks or start from scratch with your own!'}
+                        />
+                    </div>
+                </Tooltip>
+            )}
+        >
+            <i className='icon-information-outline'/>
+        </OverlayTrigger>
+    );
 
     return (
         <GenericModal
@@ -301,6 +381,14 @@ const NewChannelModal = () => {
                             </span>
                         </div>
                     )}
+                    {createBoardFromChannelPlugin &&
+                        <Pluggable
+                            pluggableName='CreateBoardFromTemplate'
+                            setCanCreate={setCanCreateFromPluggable}
+                            setAction={setActionFromPluggable}
+                            newBoardInfoIcon={newBoardInfoIcon}
+                        />
+                    }
                 </div>
             </div>
         </GenericModal>

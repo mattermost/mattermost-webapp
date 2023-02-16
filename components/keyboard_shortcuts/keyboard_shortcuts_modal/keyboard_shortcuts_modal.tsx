@@ -8,7 +8,7 @@ import {useSelector} from 'react-redux';
 
 import {GlobalState} from 'types/store';
 
-import {suitePluginIds} from 'packages/client/src/client4';
+import {suitePluginIds} from 'utils/constants';
 
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
@@ -147,6 +147,7 @@ const KeyboardShortcutsModal = ({onExited}: Props): JSX.Element => {
                                     <KeyboardShortcutSequence shortcut={KEYBOARD_SHORTCUTS.navOpenCloseSidebar}/>
                                     <KeyboardShortcutSequence shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}/>
                                     <KeyboardShortcutSequence shortcut={KEYBOARD_SHORTCUTS.navOpenChannelInfo}/>
+                                    <KeyboardShortcutSequence shortcut={KEYBOARD_SHORTCUTS.navToggleUnreads}/>
                                 </div>
                             </div>
                         </div>

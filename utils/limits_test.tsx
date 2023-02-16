@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {Limits, CloudUsage} from '@mattermost/types/cloud';
 
 interface LimitsRedux {
@@ -24,18 +25,10 @@ export function makeEmptyUsage(): CloudUsage {
             history: 0,
             historyLoaded: true,
         },
-        boards: {
-            cards: 0,
-            cardsLoaded: true,
-        },
         teams: {
             active: 0,
             cloudArchived: 0,
             teamsLoaded: true,
-        },
-        integrations: {
-            enabled: 0,
-            enabledLoaded: true,
         },
     };
 }

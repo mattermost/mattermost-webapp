@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React, {CSSProperties} from 'react';
 
@@ -193,7 +192,6 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
         return (
             <div
                 className={'attachment'}
-                ref='attachment'
                 onClick={this.handleFormattedTextClick}
             >
                 <div className='attachment__content'>
@@ -220,4 +218,3 @@ export default class EmbeddedBinding extends React.PureComponent<Props, State> {
 const style = {
     footer: {clear: 'both'} as CSSProperties,
 };
-/* eslint-enable react/no-string-refs */

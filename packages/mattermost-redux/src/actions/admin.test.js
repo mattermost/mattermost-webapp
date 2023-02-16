@@ -37,26 +37,6 @@ describe('Actions.Admin', () => {
         TestHelper.tearDown();
     });
 
-    it('getLogs', async () => {
-        nock(Client4.getBaseRoute()).
-            get('/logs').
-            query(true).
-            reply(200, [
-                '[2017/04/04 14:56:19 EDT] [INFO] Starting Server...',
-                '[2017/04/04 14:56:19 EDT] [INFO] Server is listening on :8065',
-                '[2017/04/04 15:01:48 EDT] [INFO] Stopping Server...',
-                '[2017/04/04 15:01:48 EDT] [INFO] Closing SqlStore',
-            ]);
-
-        await Actions.getLogs()(store.dispatch, store.getState);
-
-        const state = store.getState();
-
-        const logs = state.entities.admin.logs;
-        assert.ok(logs);
-        assert.ok(logs.length > 0);
-    });
-
     it('getAudits', async () => {
         nock(Client4.getBaseRoute()).
             get('/audits').
@@ -689,32 +669,6 @@ describe('Actions.Admin', () => {
         assert.ok(teamAnalytics);
         assert.ok(teamAnalytics[TestHelper.basicTeam.id]);
         assert.ok(teamAnalytics[TestHelper.basicTeam.id][Stats.USERS_WITH_POSTS_PER_DAY]);
-    });
-
-    it('overwritePlugin', async () => {
-        const data1 = fs.createReadStream('tests/setup.js');
-        const data2 = fs.createReadStream('tests/setup.js');
-        const testPlugin = {id: 'testplugin', webapp: {bundle_path: '/static/somebundle.js'}};
-
-        let scope = nock(Client4.getBaseRoute()).
-            post('/plugins', (body) => {
-                return !body.match(/Content-Disposition: form-data; name="force"\r\n\r\ntrue\r\n/);
-            }).
-            reply(200, testPlugin);
-        await Actions.uploadPlugin(data1, false)(store.dispatch, store.getState);
-
-        expect(scope.isDone()).toBe(true);
-
-        scope = nock(Client4.getBaseRoute()).
-            post('/plugins', (body) => {
-                return body.match(/Content-Disposition: form-data; name="force"\r\n\r\ntrue\r\n/);
-            }).
-            reply(200, testPlugin);
-
-        expect(scope.isDone()).not.toBe(true);
-        await Actions.uploadPlugin(data2, true)(store.dispatch, store.getState);
-
-        expect(scope.isDone()).toBe(true);
     });
 
     it('uploadPlugin', async () => {

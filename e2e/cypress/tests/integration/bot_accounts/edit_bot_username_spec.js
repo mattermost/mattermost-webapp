@@ -17,14 +17,6 @@ describe('Edit bot username', () => {
     let team;
 
     before(() => {
-        // # Set ServiceSettings to expected values
-        const newSettings = {
-            ServiceSettings: {
-                EnableBotAccountCreation: true,
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
-
         cy.apiInitSetup().then((out) => {
             team = out.team;
         });

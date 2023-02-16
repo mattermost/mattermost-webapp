@@ -12,6 +12,8 @@ import {GlobalState} from 'types/store';
 
 import webSocketClient from 'client/web_websocket_client';
 
+import PluggableErrorBoundary from './error_boundary';
+
 type Props = {
 
     /*
@@ -44,7 +46,6 @@ type Props = {
     /*
      * Accept any other prop to pass onto the plugin component
      */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [name: string]: any;
 }
 
@@ -87,11 +88,15 @@ export default function Pluggable(props: Props): JSX.Element | null {
             const Component = pc[subComponentName]! as React.ComponentType<BaseChildProps>;
 
             return (
-                <Component
-                    {...otherProps}
-                    theme={theme}
+                <PluggableErrorBoundary
                     key={pluggableName + pc.id}
-                />
+                    pluginId={pc.pluginId}
+                >
+                    <Component
+                        {...otherProps}
+                        theme={theme}
+                    />
+                </PluggableErrorBoundary>
             );
         });
     } else {
@@ -103,12 +108,16 @@ export default function Pluggable(props: Props): JSX.Element | null {
             const Component = p.component as React.ComponentType<BaseChildProps>;
 
             return (
-                <Component
-                    {...otherProps}
-                    theme={theme}
+                <PluggableErrorBoundary
                     key={pluggableName + p.id}
-                    webSocketClient={webSocketClient}
-                />
+                    pluginId={p.pluginId}
+                >
+                    <Component
+                        {...otherProps}
+                        theme={theme}
+                        webSocketClient={webSocketClient}
+                    />
+                </PluggableErrorBoundary>
             );
         });
     }

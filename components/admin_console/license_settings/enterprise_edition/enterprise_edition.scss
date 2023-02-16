@@ -59,6 +59,16 @@
 .EnterpriseEditionLeftPanel {
     font-family: Metropolis;
 
+    &__Grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 1fr;
+    }
+
+    .PlanDetails__viewPlansButton {
+        height: 33px;
+    }
+
     .pre-title {
         margin-bottom: 10px;
         color: rgba(63, 67, 80, 0.56) !important;
@@ -72,6 +82,7 @@
         color: #3f4350;
         font-size: 18px;
         font-weight: 700;
+        gap: 4px;
         line-height: 24px;
     }
 
@@ -83,19 +94,6 @@
     .license-notices {
         font-size: 12px;
         text-align: justify;
-    }
-
-    .Badge {
-        margin: 0 0 0 4px;
-
-        .free-trial-license {
-            padding: 2px 5px;
-            margin-left: 10px;
-            background: var(--denim-status-online);
-            border-radius: 4px;
-            color: #fff;
-            text-transform: uppercase;
-        }
     }
 
     .licenseInformation {
@@ -135,11 +133,29 @@
                     min-width: 150px;
                     color: rgba(var(--secondary-blue-rgb), 0.4);
                     font-weight: 600;
+
+                    &--warning-over-seats-purchased {
+                        color: var(--warning-text);
+                    }
+
+                    &--over-seats-purchased {
+                        color: var(--error-text);
+                    }
                 }
 
                 span.value {
                     margin-left: 10px;
                     color: var(--secondary-blue);
+
+                    &--warning-over-seats-purchased {
+                        color: var(--warning-text);
+                        font-weight: 600;
+                    }
+
+                    &--over-seats-purchased {
+                        color: var(--error-text);
+                        font-weight: 600;
+                    }
                 }
             }
 

@@ -30,12 +30,14 @@ import './learn_more_trial_modal.scss';
 type Props = {
     onClose?: () => void;
     onExited: () => void;
+    launchedBy?: string;
 }
 
 const LearnMoreTrialModal = (
     {
         onClose,
         onExited,
+        launchedBy = '',
     }: Props): JSX.Element | null => {
     const {formatMessage} = useIntl();
     const [embargoed, setEmbargoed] = useState(false);
@@ -60,18 +62,18 @@ const LearnMoreTrialModal = (
         <StartTrialBtn
             message={startTrialBtnMsg}
             handleEmbargoError={handleEmbargoError}
-            telemetryId='start_trial_from_learn_more_about_trial_modal'
+            telemetryId={`start_trial__learn_more_modal__${launchedBy}`}
             onClick={dismissAction}
         />
     );
 
     // no need to check if is cloud trial or if it have had prev cloud trial because the button that show this modal takes care of that
     if (isCloud) {
-        startTrialBtnMsg = formatMessage({id: 'menu.cloudFree.tryFreeFor30Days', defaultMessage: 'Try free for 30 days'});
+        startTrialBtnMsg = formatMessage({id: 'trial_btn.free.tryFreeFor30Days', defaultMessage: 'Try free for 30 days'});
         startTrialBtn = (
             <CloudStartTrialButton
                 message={startTrialBtnMsg}
-                telemetryId={'start_cloud_trial_from_learn_more_about_trial_modal'}
+                telemetryId={`start_cloud_trial__learn_more_modal__${launchedBy}`}
                 onClick={dismissAction}
                 extraClass={'btn btn-primary start-cloud-trial-btn'}
             />

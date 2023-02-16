@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Modal} from 'react-bootstrap';
+import {Modal, Fade} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 
 import {
@@ -15,6 +15,7 @@ import {AppCallResponseTypes, AppFieldTypes} from 'mattermost-redux/constants/ap
 import {DoAppCallResult} from 'types/apps';
 
 import SpinnerButton from 'components/spinner_button';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import SuggestionList from 'components/suggestion/suggestion_list';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
@@ -25,6 +26,8 @@ import Markdown from 'components/markdown';
 
 import AppsFormField from './apps_form_field';
 import AppsFormHeader from './apps_form_header';
+
+import './apps_form_component.scss';
 
 export type AppsFormProps = {
     form: AppForm;
@@ -46,6 +49,7 @@ export type State = {
     values: AppFormValues;
     formError: string | null;
     fieldErrors: {[name: string]: React.ReactNode};
+    loading: boolean;
     submitting: string | null;
     form: AppForm;
 }
@@ -74,6 +78,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
         const values = initFormValues(form);
 
         this.state = {
+            loading: false,
             show: true,
             values,
             formError: null,
@@ -159,6 +164,12 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         this.setState({fieldErrors});
         if (Object.keys(fieldErrors).length !== 0) {
+            const formError = this.props.intl.formatMessage({
+                id: 'apps.error.form.required_fields_empty',
+                defaultMessage: 'Please fix all field errors',
+            });
+
+            this.setState({formError});
             return;
         }
 
@@ -307,7 +318,9 @@ export class AppsForm extends React.PureComponent<Props, State> {
         const values = {...this.state.values, [name]: value};
 
         if (field.refresh) {
+            this.setState({loading: true});
             this.props.actions.refreshOnSelect(field, values).then((res) => {
+                this.setState({loading: false});
                 if (res.error) {
                     const errorResponse = res.error;
                     const errorMsg = errorResponse.text;
@@ -346,7 +359,9 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
     renderModal() {
         const {fields, header} = this.props.form;
-
+        const loading = Boolean(this.state.loading);
+        const bodyClass = loading ? 'apps-form-modal-body-loading' : 'apps-form-modal-body-loaded';
+        const bodyClassNames = 'apps-form-modal-body-common ' + bodyClass;
         return (
             <Modal
                 id='appsModal'
@@ -375,6 +390,15 @@ export class AppsForm extends React.PureComponent<Props, State> {
                     </Modal.Header>
                     {(fields || header) && (
                         <Modal.Body>
+                            <Fade in={loading}>
+                                <div
+                                    className={
+                                        bodyClassNames
+                                    }
+                                >
+                                    <LoadingSpinner style={{fontSize: '24px'}}/>
+                                </div>
+                            </Fade>
                             {this.renderBody()}
                         </Modal.Body>
                     )}
@@ -527,6 +551,13 @@ export class AppsForm extends React.PureComponent<Props, State> {
         return (
             <React.Fragment>
                 <div>
+                    {this.state.formError && (
+                        <div>
+                            <div className='error-text'>
+                                <Markdown message={this.state.formError}/>
+                            </div>
+                        </div>
+                    )}
                     <button
                         id='appsModalCancel'
                         type='button'
@@ -540,13 +571,6 @@ export class AppsForm extends React.PureComponent<Props, State> {
                     </button>
                     {submitButtons}
                 </div>
-                {this.state.formError && (
-                    <div>
-                        <div className='error-text'>
-                            <Markdown message={this.state.formError}/>
-                        </div>
-                    </div>
-                )}
             </React.Fragment>
         );
     }

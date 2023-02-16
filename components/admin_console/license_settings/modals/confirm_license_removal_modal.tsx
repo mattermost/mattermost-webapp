@@ -21,6 +21,7 @@ import {closeModal} from 'actions/views/modals';
 import './confirm_license_removal_modal.scss';
 
 type Props = {
+    currentLicenseSKU: string;
     onExited?: () => void;
     handleRemove?: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
 }
@@ -71,7 +72,8 @@ const ConfirmLicenseRemovalModal: React.FC<Props> = (props: Props): JSX.Element 
                     <div className='subtitle'>
                         <FormattedMessage
                             id='admin.license.confirm-license-removal.subtitle'
-                            defaultMessage='Removing the license will downgrade your server from Enterprise to Starter. You may lose information. '
+                            defaultMessage='Removing the license will downgrade your server from {currentSKU} to Free. You may lose information. '
+                            values={{currentSKU: props.currentLicenseSKU}}
                         />
                     </div>
                 </div>

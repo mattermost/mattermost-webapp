@@ -268,13 +268,34 @@
     border-color: transparent !important;
     margin: 12px 12px 0 12px;
 
+    .skin-tones-animation {
+        &-enter {
+            transform: translateX(100%);
+        }
+
+        &-enter-active {
+            transform: translateX(0%);
+            transition: transform 200ms ease-in-out;
+        }
+
+        &-exit {
+            position: absolute;
+            width: 100%;
+            transform: translateX(0%);
+        }
+
+        &-exit-active {
+            transform: translateX(90%);
+            transition: transform 200ms ease-in-out;
+        }
+    }
+
     .skin-tones {
         z-index: 10;
         display: flex;
         height: 100%;
         align-items: center;
         background: var(--center-channel-bg);
-        transition: all 0.35s ease;
 
         &--active {
             position: absolute;

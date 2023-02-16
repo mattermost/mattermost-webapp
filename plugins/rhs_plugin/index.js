@@ -5,6 +5,10 @@ import {connect} from 'react-redux';
 
 import {getPluggableId} from 'selectors/rhs';
 
+import {suitePluginIds} from 'utils/constants';
+
+import {shouldShowAutoLinkedBoard} from 'selectors/plugins';
+
 import RHSPlugin from './rhs_plugin.jsx';
 
 function mapStateToProps(state) {
@@ -14,9 +18,14 @@ function mapStateToProps(state) {
     const pluginComponent = rhsPlugins.find((element) => element.id === pluggableId);
     const pluginTitle = pluginComponent ? pluginComponent.title : '';
 
+    const isBoards = pluginComponent.pluginId === suitePluginIds.focalboard || pluginComponent.pluginId === suitePluginIds.boards;
+
+    const showAutoLinkedBoardTourTip = isBoards && shouldShowAutoLinkedBoard(state);
+
     return {
         showPluggable: Boolean(pluginComponent),
         pluggableId,
+        showAutoLinkedBoardTourTip,
         title: pluginTitle,
     };
 }

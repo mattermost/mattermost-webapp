@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 
 import * as Utils from 'utils/utils';
-import AtMentionSuggestion from 'components/suggestion/at_mention_provider/at_mention_suggestion.jsx';
+import AtMentionSuggestion from 'components/suggestion/at_mention_provider/at_mention_suggestion';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 jest.mock('components/custom_status/custom_status_emoji', () => () => <div/>);
@@ -38,8 +39,8 @@ describe('at mention suggestion', () => {
 
         expect(wrapper).toMatchSnapshot();
 
-        expect(wrapper.find('.ml-2').text()).toEqual('a b');
-        expect(wrapper.find('.ml-2').text()).not.toEqual('a b (c)');
+        expect(wrapper.find('.suggestion-list__ellipsis').text()).toContain('a b');
+        expect(wrapper.find('.suggestion-list__ellipsis').text()).not.toContain('a b (c)');
     });
 
     it('Should display nick name of non signed in user', () => {
@@ -53,6 +54,6 @@ describe('at mention suggestion', () => {
 
         expect(wrapper).toMatchSnapshot();
 
-        expect(wrapper.find('.ml-2').text()).toEqual('a b (c)');
+        expect(wrapper.find('.suggestion-list__ellipsis').text()).toContain('a b (c)');
     });
 });

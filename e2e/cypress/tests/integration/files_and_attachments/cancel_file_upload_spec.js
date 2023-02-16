@@ -20,11 +20,10 @@ describe('Upload Files', () => {
     it('MM-T307 Cancel a file upload', () => {
         const hugeImage = 'huge-image.jpg';
 
-        const options = {method: 'POST', url: '/api/v4/files'};
-        cy.server();
-
-        // # Stub response of /files endpoint
-        cy.route({...options, response: {client_ids: [], file_infos: []}});
+        // # Intercept response of /files endpoint
+        cy.intercept('POST', '/api/v4/files', {
+            body: {client_ids: [], file_infos: []},
+        });
 
         // # Post an image in center channel
         cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(hugeImage);
@@ -42,21 +41,5 @@ describe('Upload Files', () => {
         // * Check if thumbnail disappears
         cy.get('.post-image').should('not.exist');
         cy.findByLabelText('file thumbnail').should('not.exist');
-
-        // # Release response of /files endpoint
-        cy.route({...options});
-
-        // # Post a different file in center channel
-        const filename = 'long_text_post.txt';
-        cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile(filename);
-        cy.uiGetPostTextBox().clear().type('{enter}');
-
-        // * Verify the file is successfully posted as last post
-        cy.getLastPostId().then((postId) => {
-            cy.get(`#${postId}_message`).should('exist').within(() => {
-                // * Check if file name appeared
-                cy.findByText(filename).should('exist');
-            });
-        });
     });
 });

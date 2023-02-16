@@ -8,6 +8,7 @@ import {ErrorPageTypes} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 import ErrorLink from './error_link';
+import CloudArchived from './messages/cloud_archived';
 
 type Props = {
     type?: string | null;
@@ -57,6 +58,13 @@ const ErrorMessage: React.FC<Props> = ({type, message, service, isGuest}: Props)
                         id='permalink.error.access'
                         defaultMessage='Permalink belongs to a deleted message or to a channel to which you do not have access.'
                     />
+                </p>
+            );
+            break;
+        case ErrorPageTypes.CLOUD_ARCHIVED:
+            errorMessage = (
+                <p>
+                    <CloudArchived/>
                 </p>
             );
             break;

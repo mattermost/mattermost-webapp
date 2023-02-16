@@ -173,7 +173,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                     'admin.ldap_feature_discovery.call_to_action.primary',
                     'Start trial',
                 )}
-                telemetryId={'start_cloud_trial_feature_discovery'}
+                telemetryId={`start_self_hosted_trial_from_${this.props.featureName}`}
                 btnClass='btn btn-primary'
                 renderAsButton={true}
                 trackingPage={this.props.featureName}
@@ -190,7 +190,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                             'Try free for {trialLength} days',
                             {trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS},
                         )}
-                        telemetryId={'start_cloud_trial_feature_discovery'}
+                        telemetryId={`start_cloud_trial_from_${this.props.featureName}`}
                         extraClass='btn btn-primary'
                     />
                 );
@@ -254,7 +254,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                     {canRequestCloudFreeTrial ? (
                         <FormattedMessage
                             id='admin.feature_discovery.trial-request.accept-terms.cloudFree'
-                            defaultMessage='By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
+                            defaultMessage='By selecting <highlight>Try free for {trialLength} days</highlight>, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>, and receiving product emails.'
                             values={{
                                 trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS,
                                 highlight: (msg: React.ReactNode) => (
@@ -262,7 +262,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                                 ),
                                 linkEvaluation: (msg: React.ReactNode) => (
                                     <a
-                                        href={LicenseLinks.SOFTWARE_EVALUATION_AGREEMENT}
+                                        href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
                                         target='_blank'
                                         rel='noreferrer'
                                     >
@@ -283,14 +283,14 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                     ) : (
                         <FormattedMessage
                             id='admin.feature_discovery.trial-request.accept-terms'
-                            defaultMessage='By clicking <highlight>Start trial</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy> and receiving product emails.'
+                            defaultMessage='By clicking <highlight>Start trial</highlight>, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy> and receiving product emails.'
                             values={{
                                 highlight: (msg: React.ReactNode) => (
                                     <strong>{msg}</strong>
                                 ),
                                 linkEvaluation: (msg: React.ReactNode) => (
                                     <a
-                                        href={LicenseLinks.SOFTWARE_EVALUATION_AGREEMENT}
+                                        href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
                                         target='_blank'
                                         rel='noreferrer'
                                     >

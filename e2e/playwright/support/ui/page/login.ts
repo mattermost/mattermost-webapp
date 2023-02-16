@@ -3,11 +3,11 @@
 
 import {Locator, Page} from '@playwright/test';
 
-import {AdminConfig} from '@mattermost/types/lib/config';
-import {UserProfile} from '@mattermost/types/lib/users';
+import {AdminConfig} from '@mattermost/types/config';
+import {UserProfile} from '@mattermost/types/users';
 
 export default class LoginPage {
-    readonly adminConfig: AdminConfig;
+    readonly adminConfig: AdminConfig | undefined;
 
     readonly page: Page;
     readonly title: Locator;
@@ -22,11 +22,11 @@ export default class LoginPage {
     readonly fieldWithError: Locator;
     readonly formContainer: Locator;
 
-    constructor(page: Page, adminConfig: AdminConfig) {
+    constructor(page: Page, adminConfig?: AdminConfig) {
         this.page = page;
         this.adminConfig = adminConfig;
 
-        const loginInputPlaceholder = adminConfig.LdapSettings.Enable
+        const loginInputPlaceholder = adminConfig?.LdapSettings.Enable
             ? 'Email, Username or AD/LDAP Username'
             : 'Email or Username';
 
@@ -36,7 +36,7 @@ export default class LoginPage {
         this.loginPlaceholder = page.locator(`[placeholder="${loginInputPlaceholder}"]`);
         this.passwordInput = page.locator('#input_password-input');
         this.signInButton = page.locator('button:has-text("Log in")');
-        this.createAccountLink = page.locator('text=Create an account');
+        this.createAccountLink = page.locator("text=Don't have an account?");
         this.forgotPasswordLink = page.locator('text=Forgot your password?');
         this.userErrorLabel = page.locator('text=Please enter your email or username');
         this.fieldWithError = page.locator('.with-error');
@@ -47,7 +47,7 @@ export default class LoginPage {
         await this.page.goto('/login', {waitUntil: 'domcontentloaded'});
     }
 
-    async login(user: Partial<UserProfile>, useUsername = true) {
+    async login(user: UserProfile, useUsername = true) {
         await this.loginInput.fill(useUsername ? user.username : user.email);
         await this.passwordInput.fill(user.password);
         await Promise.all([this.page.waitForNavigation(), this.signInButton.click()]);

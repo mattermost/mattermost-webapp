@@ -1,10 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useCallback} from 'react';
+
+import React, {useCallback, useEffect, useState} from 'react';
 
 import {FormattedMessage} from 'react-intl';
-
-import {Group, GroupPermissions} from '@mattermost/types/groups';
 
 import NoResultsIndicator from 'components/no_results_indicator';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
@@ -17,6 +16,9 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {ModalData} from 'types/actions';
 import {ModalIdentifiers} from 'utils/constants';
 import ViewUserGroupModal from 'components/view_user_group_modal';
+
+import {Group, GroupPermissions} from '@mattermost/types/groups';
+import ADLDAPUpsellBanner from '../ad_ldap_upsell_banner';
 
 export type Props = {
     groups: Group[];
@@ -44,6 +46,14 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivEl
         actions,
     } = props;
 
+    const [overflowState, setOverflowState] = useState('overlay');
+
+    useEffect(() => {
+        if (groups.length === 1) {
+            setOverflowState('visible');
+        }
+    }, [groups]);
+
     const archiveGroup = useCallback(async (groupId: string) => {
         await actions.archiveGroup(groupId);
     }, [actions.archiveGroup]);
@@ -63,11 +73,20 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivEl
         onExited();
     }, [actions.openModal, onExited, backButtonAction]);
 
+    const groupListOpenUp = (groupListItemIndex: number): boolean => {
+        if (groups.length > 1 && groupListItemIndex === 0) {
+            return false;
+        }
+
+        return true;
+    };
+
     return (
         <div
             className='user-groups-modal__content user-groups-list'
             onScroll={onScroll}
             ref={ref}
+            style={{overflow: overflowState}}
         >
             {(groups.length === 0 && searchTerm) &&
                 <NoResultsIndicator
@@ -75,7 +94,7 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivEl
                     titleValues={{channelName: `"${searchTerm}"`}}
                 />
             }
-            {groups.map((group) => {
+            {groups.map((group, i) => {
                 return (
                     <div
                         className='group-row'
@@ -110,7 +129,7 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivEl
                                 </button>
                                 <Menu
                                     openLeft={true}
-                                    openUp={false}
+                                    openUp={groupListOpenUp(i)}
                                     className={'group-actions-menu'}
                                     ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
                                 >
@@ -146,6 +165,7 @@ const UserGroupsList = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivEl
                 (loading) &&
                 <LoadingScreen/>
             }
+            <ADLDAPUpsellBanner/>
         </div>
     );
 });

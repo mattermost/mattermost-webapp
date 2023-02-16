@@ -1,12 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
+
+import BotTag from 'components/widgets/tag/bot_tag';
 
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 import {imageURLForUser} from 'utils/utils';
 import Constants from 'utils/constants';
 import Avatar from 'components/widgets/users/avatar';
-import BotBadge from 'components/widgets/badges/bot_badge';
 import Suggestion from '../suggestion';
 
 import {Channel} from '@mattermost/types/channels';
@@ -82,15 +84,7 @@ export default class SearchChannelSuggestion extends Suggestion {
 
         const {icon, name, description} = nameObject;
 
-        let tag = null;
-        if (item.type === Constants.DM_CHANNEL) {
-            tag = (
-                <BotBadge
-                    show={Boolean(teammate && teammate.is_bot)}
-                    className='badge-popoverlist'
-                />
-            );
-        }
+        const tag = item.type === Constants.DM_CHANNEL && teammate && teammate.is_bot ? <BotTag/> : null;
 
         return (
             <div
@@ -100,13 +94,11 @@ export default class SearchChannelSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 {icon}
-                <div className={'suggestion-list__ellipsis'}>
+                <div className='suggestion-list__ellipsis'>
                     <span className='suggestion-list__main'>
                         {name}
                     </span>
-                    <span className='ml-2'>
-                        {description}
-                    </span>
+                    {description}
                 </div>
                 {tag}
             </div>

@@ -27,7 +27,7 @@ function selectedPostId(state = '', action: GenericAction) {
         }
         return state;
     case ActionTypes.UPDATE_RHS_STATE:
-        return '';
+        return action.postId ?? '';
     case ActionTypes.RHS_GO_BACK:
         return '';
     case UserTypes.LOGOUT_SUCCESS:
@@ -43,7 +43,8 @@ function selectedPostFocussedAt(state = 0, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.SELECT_POST:
         return action.timestamp || 0;
-
+    case ActionTypes.UPDATE_RHS_STATE:
+        return action.timestamp ?? state;
     case UserTypes.LOGOUT_SUCCESS:
         return 0;
     default:
@@ -112,6 +113,7 @@ function selectedChannelId(state = '', action: GenericAction) {
             RHSStates.CHANNEL_FILES,
             RHSStates.CHANNEL_INFO,
             RHSStates.CHANNEL_MEMBERS,
+            RHSStates.EDIT_HISTORY,
         ].includes(action.state)) {
             return action.channelId;
         }

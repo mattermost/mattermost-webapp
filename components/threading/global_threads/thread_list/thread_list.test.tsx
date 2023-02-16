@@ -5,16 +5,19 @@ import React, {ComponentProps} from 'react';
 
 import {shallow} from 'enzyme';
 
-import {getThreads, markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
+import {getThreads} from 'mattermost-redux/actions/threads';
 import {TestHelper} from 'utils/test_helper';
 
 jest.mock('mattermost-redux/actions/threads');
+jest.mock('actions/views/modals');
 
 import Header from 'components/widgets/header';
 
 import {Constants, WindowSizes} from 'utils/constants';
 
 import Button from '../../common/button';
+
+import {openModal} from 'actions/views/modals';
 
 import ThreadList, {ThreadFilter} from './thread_list';
 import VirtualizedThreadList from './virtualized_thread_list';
@@ -111,13 +114,13 @@ describe('components/threading/global_threads/thread_list', () => {
         expect(props.setFilter).toHaveBeenCalledWith('unread');
     });
 
-    test('should support markAllThreadsInTeamRead', () => {
+    test('should support openModal', () => {
         const wrapper = shallow(
             <ThreadList {...props}/>,
         );
 
         wrapper.find(Header).shallow().find({content: 'Mark all as read'}).find(Button).simulate('click');
-        expect(markAllThreadsInTeamRead).toHaveBeenCalledWith('uid', 'tid');
+        expect(openModal).toHaveBeenCalledTimes(1);
     });
 
     test('should support getThreads', async () => {

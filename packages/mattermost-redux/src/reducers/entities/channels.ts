@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {combineReducers} from 'redux';
-import shallowEquals from 'shallow-equals';
 import {isEqual} from 'lodash';
 
 import {AdminTypes, ChannelTypes, UserTypes, SchemeTypes, GroupTypes, PostTypes} from 'mattermost-redux/action_types';
@@ -27,6 +26,8 @@ import {
 
 import {Team} from '@mattermost/types/teams';
 import {channelListToMap, splitRoles} from 'mattermost-redux/utils/channel_utils';
+
+import {Group} from '@mattermost/types/groups';
 
 import messageCounts from './channels/message_counts';
 
@@ -391,6 +392,7 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
             channelId,
             amount,
             amountRoot,
+            amountUrgent,
             fetchedChannelMember,
         } = action.data;
 
@@ -416,11 +418,13 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
                 ...member,
                 mention_count: member.mention_count + amount,
                 mention_count_root: member.mention_count_root + amountRoot,
+                urgent_mention_count: member.urgent_mention_count + amountUrgent,
+
             },
         };
     }
     case ChannelTypes.DECREMENT_UNREAD_MENTION_COUNT: {
-        const {channelId, amount, amountRoot} = action.data;
+        const {channelId, amount, amountRoot, amountUrgent} = action.data;
 
         if (amount === 0 && amountRoot === 0) {
             return state;
@@ -439,6 +443,7 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
                 ...member,
                 mention_count: Math.max(member.mention_count - amount, 0),
                 mention_count_root: Math.max(member.mention_count_root - amountRoot, 0),
+                urgent_mention_count: Math.max(member.urgent_mention_count - amountUrgent, 0),
             },
         };
     }
@@ -488,6 +493,7 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
                 mention_count: data.mentionCount,
                 msg_count_root: data.msgCountRoot,
                 mention_count_root: data.mentionCountRoot,
+                urgent_mention_count: data.urgentMentionCount,
                 last_viewed_at: data.lastViewedAt,
             },
         };
@@ -508,15 +514,21 @@ function receiveChannelMember(state: RelationOneToOne<Channel, ChannelMembership
         return state;
     }
 
-    if (existingChannelMember && updatedChannelMember.last_viewed_at < existingChannelMember.last_viewed_at) {
+    // https://github.com/mattermost/mattermost-webapp/pull/10589 and
+    // https://github.com/mattermost/mattermost-webapp/pull/11094
+    if (existingChannelMember &&
+        updatedChannelMember.last_viewed_at < existingChannelMember.last_viewed_at &&
+        updatedChannelMember.last_update_at <= existingChannelMember.last_update_at) {
         // The last_viewed_at should almost never decrease upon receiving a member, so if it does, assume that the
         // unread state of the existing channel member is correct. See MM-44900 for more information.
         updatedChannelMember = {
             ...received,
             last_viewed_at: Math.max(existingChannelMember.last_viewed_at, received.last_viewed_at),
+            last_update_at: Math.max(existingChannelMember.last_update_at, received.last_update_at),
             msg_count: Math.max(existingChannelMember.msg_count, received.msg_count),
             msg_count_root: Math.max(existingChannelMember.msg_count_root, received.msg_count_root),
             mention_count: Math.min(existingChannelMember.mention_count, received.mention_count),
+            urgent_mention_count: Math.min(existingChannelMember.urgent_mention_count, received.urgent_mention_count),
             mention_count_root: Math.min(existingChannelMember.mention_count_root, received.mention_count_root),
         };
     }
@@ -533,10 +545,17 @@ function membersInChannel(state: RelationOneToOne<Channel, Record<string, Channe
     case ChannelTypes.RECEIVED_CHANNEL_MEMBER: {
         const member = action.data;
         const members = {...(state[member.channel_id] || {})};
-        members[member.user_id] = member;
+        if ((!members[member.user_id]) ||
+            (member.last_update_at > members[member.user_id]?.last_update_at) ||
+            (member.roles !== members[member.user_id]?.roles)) {
+            members[member.user_id] = member;
+            return {
+                ...state,
+                [member.channel_id]: members,
+            };
+        }
         return {
             ...state,
-            [member.channel_id]: members,
         };
     }
     case ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS:
@@ -850,6 +869,21 @@ export function channelMemberCountsByGroup(state: any = {}, action: GenericActio
             [channelId]: memberCountsByGroup,
         };
     }
+    case ChannelTypes.RECEIVED_CHANNEL_MEMBER_COUNTS_FROM_GROUPS_LIST: {
+        const memberCountsByGroup: ChannelMemberCountsByGroup = {};
+        action.data.forEach((group: Group) => {
+            memberCountsByGroup[group.id] = {
+                group_id: group.id,
+                channel_member_count: group.channel_member_count || 0,
+                channel_member_timezones_count: group.channel_member_timezones_count || 0,
+            };
+        });
+
+        return {
+            ...state,
+            [action.channelId]: memberCountsByGroup,
+        };
+    }
     default:
         return state;
     }
@@ -863,7 +897,7 @@ function roles(state: RelationOneToOne<Channel, Set<string>> = {}, action: Gener
         const newRoles = splitRoles(channelMember.roles);
 
         // If roles didn't change no need to update state
-        if (shallowEquals(oldRoles, newRoles)) {
+        if (isEqual(oldRoles, newRoles)) {
             return state;
         }
 
@@ -888,7 +922,7 @@ function roles(state: RelationOneToOne<Channel, Set<string>> = {}, action: Gener
             const newRoles = splitRoles(cm.roles);
 
             // If roles didn't change no need to update state
-            if (!shallowEquals(oldRoles, newRoles)) {
+            if (!isEqual(oldRoles, newRoles)) {
                 nextState[cm.channel_id] = splitRoles(cm.roles);
                 stateChanged = true;
             }

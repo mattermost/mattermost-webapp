@@ -1,10 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import classNames from 'classnames';
+
+import Tag from 'components/widgets/tag/tag';
 
 import {selectPostAndParentChannel} from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions';
@@ -26,7 +29,6 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {InsightsScopes, ModalIdentifiers} from 'utils/constants';
 import {imageURLForUser} from 'utils/utils';
 
-import Badge from 'components/widgets/badges/badge';
 import Avatar from 'components/widgets/users/avatar';
 import Avatars from 'components/widgets/users/avatars';
 import Markdown from 'components/markdown';
@@ -218,12 +220,9 @@ const TopThreadsTable = (props: Props) => {
                                         size={'xs'}
                                     />
                                     <span className='display-name'>{displayUsername(thread.user_information as UserProfile, teammateNameDisplaySetting)}</span>
-                                    <Badge>
-                                        {thread.channel_display_name}
-                                    </Badge>
+                                    <Tag text={thread.channel_display_name}/>
                                 </div>
                                 <div
-                                    aria-readonly='true'
                                     className='preview'
                                 >
                                     {getPreview(thread, isChannelMember)}

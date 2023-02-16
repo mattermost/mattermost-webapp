@@ -6,6 +6,9 @@ import {Overlay} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import classNames from 'classnames';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {displayUsername, isGuest} from 'mattermost-redux/utils/user_utils';
@@ -20,12 +23,12 @@ import SharedChannelIndicator from 'components/shared_channel_indicator';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import GuestBadge from 'components/widgets/badges/guest_badge';
-import BotBadge from 'components/widgets/badges/bot_badge';
+
 import Popover from 'components/widgets/popover';
 import CallButton from 'plugins/call_button';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusText from 'components/custom_status/custom_status_text';
+import Timestamp from 'components/timestamp';
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
 
 import {
@@ -89,6 +92,9 @@ export type Props = {
     isCustomStatusEnabled: boolean;
     isCustomStatusExpired: boolean;
     isFileAttachmentsEnabled: boolean;
+    isLastActiveEnabled: boolean;
+    timestampUnits?: string[];
+    lastActivityTimestamp?: number;
 };
 
 type State = {
@@ -255,7 +261,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
         }
 
         return (
-            <>
+            <div className='custom-emoji__wrapper'>
                 <CustomStatusEmoji
                     userID={this.props.dmUser?.id}
                     showTooltip={true}
@@ -268,7 +274,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                 <CustomStatusText
                     text={customStatus?.text}
                 />
-            </>
+            </div>
         );
     }
 
@@ -352,7 +358,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
             channelTitle = (
                 <React.Fragment>
                     {channelTitle}
-                    <GuestBadge show={isGuest(dmUser?.roles ?? '')}/>
+                    {isGuest(dmUser?.roles ?? '') && <GuestTag/>}
                 </React.Fragment>
             );
         }
@@ -388,7 +394,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                     <React.Fragment key={user?.id}>
                         {index > 0 && ', '}
                         {displayName}
-                        <GuestBadge show={isGuest(user?.roles ?? '')}/>
+                        {isGuest(user?.roles ?? '') && <GuestTag/>}
                     </React.Fragment>
                 );
             });
@@ -419,6 +425,30 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                     {this.renderCustomStatus()}
                 </span>
             );
+
+            if (this.props.isLastActiveEnabled && this.props.lastActivityTimestamp && this.props.timestampUnits) {
+                dmHeaderTextStatus = (
+                    <span className='header-status__text'>
+                        <span className='last-active__text'>
+                            <FormattedMessage
+                                id='channel_header.lastActive'
+                                defaultMessage='Active {timestamp}'
+                                values={{
+                                    timestamp: (
+                                        <Timestamp
+                                            value={this.props.lastActivityTimestamp}
+                                            units={this.props.timestampUnits}
+                                            useTime={false}
+                                            style={'short'}
+                                        />
+                                    ),
+                                }}
+                            />
+                        </span>
+                        {this.renderCustomStatus()}
+                    </span>
+                );
+            }
         }
 
         const channelFilesIconClass = classNames('channel-header__icon channel-header__icon--wide channel-header__icon--left', {
@@ -496,6 +526,9 @@ class ChannelHeader extends React.PureComponent<Props, State> {
         let headerTextContainer;
         const headerText = (isDirect && dmUser?.is_bot) ? dmUser.bot_description : channel.header;
         if (headerText) {
+            const imageProps = {
+                hideUtilities: true,
+            };
             const popoverContent = (
                 <Popover
                     id='header-popover'
@@ -511,6 +544,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                         <Markdown
                             message={headerText}
                             options={this.getPopoverMarkdownOptions(channelNamesMap)}
+                            imageProps={imageProps}
                         />
                     </span>
                 </Popover>
@@ -552,6 +586,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                         <Markdown
                             message={headerText.replace(/\n+/g, ' ')}
                             options={this.getHeaderMarkdownOptions(channelNamesMap)}
+                            imageProps={imageProps}
                         /></div>
                     <span
                         className='header-description__text'
@@ -576,6 +611,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                         <Markdown
                             message={headerText}
                             options={this.getHeaderMarkdownOptions(channelNamesMap)}
+                            imageProps={imageProps}
                         />
                     </span>
                 </div>
@@ -782,7 +818,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                             {channelTitle}
                         </span>
                     </strong>
-                    <BotBadge className='badge-popoverlist'/>
+                    <BotTag/>
                     {toggleFavorite}
                 </div>
             );
