@@ -245,6 +245,11 @@
                                 background: var(--denim-button-bg);
                                 color: var(--button-color);
                             }
+
+                            &.green {
+                                background: var(--denim-status-online);
+                                color: var(--button-color);
+                            }
                         }
                     }
 

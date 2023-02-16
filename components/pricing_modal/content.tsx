@@ -29,7 +29,8 @@ import ErrorModal from 'components/cloud_subscribe_result_modal/error';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
-import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
+import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
+import {NotifyStatus} from 'components/common/hooks/useGetNotifyAdmin';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
@@ -83,15 +84,41 @@ function Content(props: ContentProps) {
     const currentSubscriptionIsMonthlyProfessional = currentSubscriptionIsMonthly && isProfessional;
     const isProfessionalAnnual = isProfessional && currentProduct?.recurring_interval === RecurringIntervals.YEAR;
 
-    const isPreTrial = subscription?.trial_end_at === 0;
-
     let isPostTrial = false;
     if ((subscription && subscription.trial_end_at > 0) && !isEnterpriseTrial && (isStarter || isEnterprise)) {
         isPostTrial = true;
     }
 
+    const isPreTrial = !isPostTrial;
+
+    const [notifyAdminBtnTextProfessional, notifyAdminOnProfessionalFeatures, professionalNotifyRequestStatus] = useNotifyAdmin({
+        ctaText: formatMessage({id: 'pricing_modal.noitfy_cta.request', defaultMessage: 'Request admin to upgrade'}),
+        successText: (
+            <>
+                <i className='icon icon-check'/>
+                {formatMessage({id: 'pricing_modal.noitfy_cta.request_success', defaultMessage: 'Request sent'})}
+            </>),
+    }, {
+        required_feature: MattermostFeatures.ALL_PROFESSIONAL_FEATURES,
+        required_plan: LicenseSkus.Professional,
+        trial_notification: false,
+    });
+
+    const [notifyAdminBtnTextEnterprise, notifyAdminOnEnterpriseFeatures, enterpriseNotifyRequestStatus] = useNotifyAdmin({
+        ctaText: formatMessage({id: 'pricing_modal.noitfy_cta.request', defaultMessage: 'Request admin to upgrade'}),
+        successText: (
+            <>
+                <i className='icon icon-check'/>
+                {formatMessage({id: 'pricing_modal.noitfy_cta.request_success', defaultMessage: 'Request sent'})}
+            </>),
+    }, {
+        required_feature: MattermostFeatures.ALL_ENTERPRISE_FEATURES,
+        required_plan: LicenseSkus.Enterprise,
+        trial_notification: isPreTrial,
+    });
+
     const freeTierText = (!isStarter && !currentSubscriptionIsMonthly) ? formatMessage({id: 'pricing_modal.btn.contactSupport', defaultMessage: 'Contact Support'}) : formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'});
-    const professionalTierText = currentSubscriptionIsMonthlyProfessional ? formatMessage({id: 'pricing_modal.btn.switch_to_annual', defaultMessage: 'Switch to annual billing'}) : formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
+    const adminProfessionalTierText = currentSubscriptionIsMonthlyProfessional ? formatMessage({id: 'pricing_modal.btn.switch_to_annual', defaultMessage: 'Switch to annual billing'}) : formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
 
     const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
     const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
@@ -168,6 +195,88 @@ function Content(props: ContentProps) {
         formatMessage({id: 'admin.billing.subscription.planDetails.features.unlimittedUsersAndMessagingHistory', defaultMessage: 'Unlimited users & message history'}),
         formatMessage({id: 'admin.billing.subscription.planDetails.features.mfa', defaultMessage: 'Multi-Factor Authentication (MFA)'}),
     ];
+
+    const professionalBtnDetails = () => {
+        if (isAdmin) {
+            return {
+                action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button'),
+                text: adminProfessionalTierText,
+                disabled: isProfessionalAnnual || (isEnterprise && !isEnterpriseTrial),
+                customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
+            };
+        }
+
+        let trialBtnClass = ButtonCustomiserClasses.special;
+        if (isPostTrial) {
+            trialBtnClass = ButtonCustomiserClasses.special;
+        } else {
+            trialBtnClass = ButtonCustomiserClasses.active;
+        }
+
+        if (professionalNotifyRequestStatus === NotifyStatus.Success) {
+            trialBtnClass = ButtonCustomiserClasses.green;
+        }
+        return {
+            action: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                notifyAdminOnProfessionalFeatures(e, 'professional_plan_pricing_modal_card');
+            },
+            text: notifyAdminBtnTextProfessional,
+            disabled: isProfessional || (isEnterprise && !isEnterpriseTrial),
+            customClass: trialBtnClass,
+        };
+    };
+
+    const enterpriseBtnDetails = () => {
+        if (isPostTrial && isAdmin) {
+            return {
+                action: () => {
+                    trackEvent(TELEMETRY_CATEGORIES.CLOUD_PRICING, 'click_enterprise_contact_sales');
+                    window.open(contactSalesLink, '_blank');
+                },
+                text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
+                customClass: ButtonCustomiserClasses.active,
+            };
+        }
+
+        if (!isAdmin) {
+            let trialBtnClass = ButtonCustomiserClasses.special;
+            if (isPostTrial) {
+                trialBtnClass = ButtonCustomiserClasses.special;
+            } else {
+                trialBtnClass = ButtonCustomiserClasses.active;
+            }
+
+            if (enterpriseNotifyRequestStatus === NotifyStatus.Success) {
+                trialBtnClass = ButtonCustomiserClasses.green;
+            }
+            return {
+                action: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                    notifyAdminOnEnterpriseFeatures(e, 'enterprise_plan_pricing_modal_card');
+                },
+                text: notifyAdminBtnTextEnterprise,
+                disabled: isEnterprise,
+                customClass: trialBtnClass,
+            };
+        }
+
+        return undefined;
+    };
+
+    const enterpriseCustomBtnDetails = () => {
+        if (!isPostTrial && isAdmin) {
+            return (
+                <CloudStartTrialButton
+                    message={formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'})}
+                    telemetryId='start_cloud_trial_from_pricing_modal'
+                    disabled={isEnterprise || isEnterpriseTrial || isProfessional}
+                    extraClass={`plan_action_btn ${(isEnterprise || isEnterpriseTrial || isProfessional) ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}`}
+                    afterTrialRequest={closePricingModal}
+                />
+            );
+        }
+
+        return undefined;
+    };
 
     return (
         <div className='Content'>
@@ -281,22 +390,7 @@ function Content(props: ContentProps) {
                                     bgColor='var(--center-channel-bg)'
                                     firstSvg={<CheckMarkSvg/>}
                                 />) : undefined}
-                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? (
-                            <NotifyAdminCTA
-                                preTrial={isPreTrial}
-                                notifyRequestData={{
-                                    required_feature: MattermostFeatures.ALL_PROFESSIONAL_FEATURES,
-                                    required_plan: LicenseSkus.Professional,
-                                    trial_notification: isPreTrial,
-                                }}
-                                callerInfo='professional_plan_pricing_modal_card'
-                            />) : undefined}
-                        buttonDetails={{
-                            action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button'),
-                            text: professionalTierText,
-                            disabled: !isAdmin || isProfessionalAnnual || (isEnterprise && !isEnterpriseTrial),
-                            customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
-                        }}
+                        buttonDetails={professionalBtnDetails()}
                         briefing={{
                             title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: [
@@ -336,33 +430,8 @@ function Content(props: ContentProps) {
                                     firstSvg={<CheckMarkSvg/>}
                                     renderLastDaysOnTrial={true}
                                 />) : undefined}
-                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? (
-                            <NotifyAdminCTA
-                                preTrial={isPreTrial}
-                                callerInfo='enterprise_plan_pricing_modal_card'
-                                notifyRequestData={{
-                                    required_feature: MattermostFeatures.ALL_ENTERPRISE_FEATURES,
-                                    required_plan: LicenseSkus.Enterprise,
-                                    trial_notification: isPreTrial,
-                                }}
-                            />) : undefined}
-                        buttonDetails={(isPostTrial || !isAdmin) ? {
-                            action: () => {
-                                trackEvent(TELEMETRY_CATEGORIES.CLOUD_PRICING, 'click_enterprise_contact_sales');
-                                window.open(contactSalesLink, '_blank');
-                            },
-                            text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
-                            customClass: ButtonCustomiserClasses.active,
-                        } : undefined}
-                        customButtonDetails={(!isPostTrial && isAdmin) ? (
-                            <CloudStartTrialButton
-                                message={formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'})}
-                                telemetryId='start_cloud_trial_from_pricing_modal'
-                                disabled={isEnterprise || isEnterpriseTrial || isProfessional}
-                                extraClass={`plan_action_btn ${(isEnterprise || isEnterpriseTrial || isProfessional) ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}`}
-                                afterTrialRequest={closePricingModal}
-                            />
-                        ) : undefined}
+                        buttonDetails={enterpriseBtnDetails()}
+                        customButtonDetails={enterpriseCustomBtnDetails()}
                         planTrialDisclaimer={(!isPostTrial && isAdmin) ? <StartTrialCaution/> : undefined}
                         contactSalesCTA={(isPostTrial || !isAdmin) ? undefined : <ContactSalesCTA/>}
                         briefing={{
