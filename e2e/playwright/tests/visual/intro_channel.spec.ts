@@ -5,7 +5,7 @@ import {test, expect} from '@playwright/test';
 
 import {initSetup} from '@e2e-support/server';
 import {ChannelPage, LoginPage} from '@e2e-support/ui/page';
-import {hideTeamHeader, hidePostHeaderTime} from '@e2e-support/ui/style';
+import {hideTeamHeader, hidePostHeaderTime, hideAppBarPlaybookIcon} from '@e2e-support/ui/style';
 import {matchSnapshot, Applitools} from '@e2e-support/visual';
 
 let applitools: Applitools = {};
@@ -34,7 +34,7 @@ test('Intro to channel as regular user', async ({page, isMobile, browserName, vi
     await expect(channelPage.postTextbox.input).toBeVisible();
 
     // Hide dynamic elements of the page
-    await page.addStyleTag({content: hideTeamHeader + hidePostHeaderTime});
+    await page.addStyleTag({content: hideTeamHeader + hidePostHeaderTime + hideAppBarPlaybookIcon});
 
     // Match snapshot of channel intro page
     applitools = await matchSnapshot(testInfo, testArgs);
