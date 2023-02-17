@@ -1,7 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {IntlShape} from 'react-intl';
+import {IntlShape, useIntl} from 'react-intl';
+
+import {useMemo} from 'react';
+
+import {useSelector} from 'react-redux';
 
 import {createSelector} from 'reselect';
 
@@ -42,8 +46,8 @@ import {allAtMentions} from 'utils/text_formatting';
 import {isMobile} from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 
-import * as Emoticons from './emoticons';
 import EmojiMap from './emoji_map';
+import * as Emoticons from './emoticons';
 
 const CHANNEL_SWITCH_IGNORE_ENTER_THRESHOLD_MS = 500;
 
@@ -443,27 +447,44 @@ export function makeGetMentionsFromMessage(): (state: GlobalState, post: Post) =
     );
 }
 
-export function makeCreateAriaLabelForPost(): (state: GlobalState, post: Post) => (intl: IntlShape) => string {
-    const getReactionsForPost = makeGetUniqueReactionsToPost();
-    const getDisplayName = makeGetDisplayName();
-    const getMentionsFromMessage = makeGetMentionsFromMessage();
+export function usePostAriaLabel(post: Post) {
+    const intl = useIntl();
 
-    return createSelector(
-        'makeCreateAriaLabelForPost',
-        (state: GlobalState, post: Post) => post,
-        (state: GlobalState, post: Post) => getDisplayName(state, post.user_id),
-        (state: GlobalState, post: Post) => getReactionsForPost(state, post.id),
-        (state: GlobalState, post: Post) => get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
-        getEmojiMap,
-        (state: GlobalState, post: Post) => getMentionsFromMessage(state, post),
-        (state: GlobalState) => getTeammateNameDisplaySetting(state),
-        (post, author, reactions, isFlagged, emojiMap, mentions, teammateNameDisplaySetting) => {
-            return (intl: IntlShape) => createAriaLabelForPost(post, author, isFlagged, reactions ?? {}, intl, emojiMap, mentions, teammateNameDisplaySetting);
-        },
-    );
+    const getDisplayName = useMemo(() => makeGetDisplayName(), []);
+    const getReactionsForPost = useMemo(() => makeGetReactionsForPost(), []);
+    const getMentionsFromMessage = useMemo(() => makeGetMentionsFromMessage(), []);
+
+    const authorDisplayName = useSelector((state: GlobalState) => getDisplayName(state, post.user_id));
+    const reactions = useSelector((state: GlobalState) => getReactionsForPost(state, post.id));
+    const isFlagged = useSelector((state: GlobalState) => get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null);
+    const emojiMap = useSelector(getEmojiMap);
+    const mentions = useSelector((state: GlobalState) => getMentionsFromMessage(state, post));
+    const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
+
+    return useMemo(() => {
+        return createAriaLabelForPost(
+            post,
+            authorDisplayName,
+            isFlagged,
+            reactions,
+            intl,
+            emojiMap,
+            mentions,
+            teammateNameDisplaySetting,
+        );
+    }, [
+        post,
+        authorDisplayName,
+        isFlagged,
+        reactions,
+        intl,
+        emojiMap,
+        mentions,
+        teammateNameDisplaySetting,
+    ]);
 }
 
-export function createAriaLabelForPost(post: Post, author: string, isFlagged: boolean, reactions: Record<string, Reaction>, intl: IntlShape, emojiMap: EmojiMap, mentions: Record<string, UserProfile>, teammateNameDisplaySetting: string): string {
+export function createAriaLabelForPost(post: Post, author: string, isFlagged: boolean, reactions: Record<string, Reaction> | undefined, intl: IntlShape, emojiMap: EmojiMap, mentions: Record<string, UserProfile>, teammateNameDisplaySetting: string): string {
     const {formatMessage, formatTime, formatDate} = intl;
 
     let message = post.state === Posts.POST_DELETED ? formatMessage({
