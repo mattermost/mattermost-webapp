@@ -166,7 +166,7 @@ export function initialize() {
 
     WebSocketClient.addMessageListener(handleEvent);
     WebSocketClient.addFirstConnectListener(handleFirstConnect);
-    WebSocketClient.addReconnectListener(() => reconnect(false));
+    WebSocketClient.addReconnectListener(reconnect);
     WebSocketClient.addMissedMessageListener(restart);
     WebSocketClient.addCloseListener(handleClose);
 
@@ -175,11 +175,12 @@ export function initialize() {
 
 export function close() {
     WebSocketClient.close();
-}
 
-function reconnectWebSocket() {
-    close();
-    initialize();
+    WebSocketClient.removeMessageListener(handleEvent);
+    WebSocketClient.removeFirstConnectListener(handleFirstConnect);
+    WebSocketClient.removeReconnectListener(reconnect);
+    WebSocketClient.removeMissedMessageListener(restart);
+    WebSocketClient.removeCloseListener(handleClose);
 }
 
 const pluginReconnectHandlers = {};
@@ -199,10 +200,9 @@ function restart() {
     dispatch(getClientConfig());
 }
 
-export function reconnect(includeWebSocket = true) {
-    if (includeWebSocket) {
-        reconnectWebSocket();
-    }
+export function reconnect() {
+    // eslint-disable-next-line
+    console.log('Reconnecting WebSocket');
 
     dispatch({
         type: GeneralTypes.WEBSOCKET_SUCCESS,
