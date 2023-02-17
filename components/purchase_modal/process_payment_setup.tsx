@@ -244,8 +244,8 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
         } else if (this.props.isChangingToAnnual) {
             const formattedTitle = (
                 <FormattedMessage
-                    defaultMessage={'You are now switched to {selectedProductName} annual'}
-                    id={'admin.billing.subscription.switchToAnnual.title'}
+                    defaultMessage={"You're now switched to {selectedProductName} annual"}
+                    id={'admin.billing.subscription.switchedToAnnual.title'}
                     values={{selectedProductName: this.props.selectedProduct?.name}}
                 />
             );
