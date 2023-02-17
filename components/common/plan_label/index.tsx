@@ -24,7 +24,6 @@ type PlanLabelProps = {
 type StyledProps = {
     bgColor?: string;
     color?: string;
-    left?: string;
 }
 
 const StyledPlanLabel = styled.div<StyledProps>`
