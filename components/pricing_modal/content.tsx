@@ -395,7 +395,6 @@ function Content(props: ContentProps) {
                                 text={professionalPlanLabelText()}
                                 color='var(--denim-status-online)'
                                 bgColor='var(--center-channel-bg)'
-                                left={isProfessionalAnnual ? '74px' : '10px'}
                                 firstSvg={<CheckMarkSvg/>}
                             />) : undefined}
                         buttonDetails={professionalBtnDetails()}
