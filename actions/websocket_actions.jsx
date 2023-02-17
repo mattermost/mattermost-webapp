@@ -127,9 +127,13 @@ const pluginEventHandlers = {};
 
 export function initialize() {
     if (!window.WebSocket) {
-        console.log('Browser does not support websocket'); //eslint-disable-line no-console
+        // eslint-disable-next-line no-console
+        console.log('Browser does not support WebSocket');
         return;
     }
+
+    // eslint-disable-next-line no-console
+    console.log('Initializing or re-initializing WebSocket');
 
     const config = getConfig(getState());
     let connUrl = '';
@@ -194,7 +198,7 @@ export function unregisterPluginReconnectHandler(pluginId) {
 }
 
 function restart() {
-    reconnect(false);
+    reconnect();
 
     // We fetch the client config again on the server restart.
     dispatch(getClientConfig());
