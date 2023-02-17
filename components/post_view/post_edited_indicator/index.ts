@@ -6,8 +6,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-import {isTimezoneEnabled, makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
-import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
+import {getCurrentTimezone, isTimezoneEnabled} from 'mattermost-redux/selectors/entities/timezone';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getPostEditHistory} from 'mattermost-redux/actions/posts';
@@ -48,27 +47,23 @@ type DispatchProps = {
 
 export type Props = OwnProps & StateProps & DispatchProps;
 
-function makeMapStateToProps() {
-    const getUserTimezone = makeGetUserTimezone();
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+    const currentUserId = getCurrentUserId(state);
+    const post = ownProps.postId ? getPost(state, ownProps.postId) : undefined;
+    const license = getLicense(state);
+    const config = getConfig(state);
+    const channel = getChannel(state, post?.channel_id || '');
 
-    return (state: GlobalState, ownProps: OwnProps): StateProps => {
-        const currentUserId = getCurrentUserId(state);
-        const post = ownProps.postId ? getPost(state, ownProps.postId) : undefined;
-        const license = getLicense(state);
-        const config = getConfig(state);
-        const channel = getChannel(state, post?.channel_id || '');
+    let timeZone: TimestampProps['timeZone'];
 
-        let timeZone: TimestampProps['timeZone'];
+    if (isTimezoneEnabled(state)) {
+        timeZone = getCurrentTimezone(state);
+    }
+    const postOwner = post ? isPostOwner(state, post) : undefined;
 
-        if (isTimezoneEnabled(state)) {
-            timeZone = getUserCurrentTimezone(getUserTimezone(state, currentUserId)) ?? undefined;
-        }
-        const postOwner = post ? isPostOwner(state, post) : undefined;
-
-        const isMilitaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false);
-        const canEdit = post ? canEditPost(state, post, license, config, channel, currentUserId) : false;
-        return {isMilitaryTime, timeZone, postOwner, post, canEdit};
-    };
+    const isMilitaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false);
+    const canEdit = post ? canEditPost(state, post, license, config, channel, currentUserId) : false;
+    return {isMilitaryTime, timeZone, postOwner, post, canEdit};
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -80,4 +75,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect<StateProps, DispatchProps, OwnProps, GlobalState>(makeMapStateToProps, mapDispatchToProps)(PostEditedIndicator);
+export default connect<StateProps, DispatchProps, OwnProps, GlobalState>(mapStateToProps, mapDispatchToProps)(PostEditedIndicator);

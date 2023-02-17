@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {isTimezoneEnabled} from 'mattermost-redux/selectors/entities/timezone';
+import {getCurrentTimezone, isTimezoneEnabled} from 'mattermost-redux/selectors/entities/timezone';
 import {displayLastActiveLabel, getCurrentUserId, getLastActiveTimestampUnits, getLastActivityForUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {
     getCurrentTeam,
@@ -25,7 +25,6 @@ import {openDirectChannelToUserId} from 'actions/channel_actions';
 import {getMembershipForEntities} from 'actions/views/profile_popover';
 import {closeModal, openModal} from 'actions/views/modals';
 
-import {getCurrentUserTimezone} from 'selectors/general';
 import {getRhsState, getSelectedPost} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
 import {isAnyModalOpen} from 'selectors/views/modals';
@@ -112,7 +111,7 @@ function makeMapStateToProps() {
             isCustomStatusEnabled: isCustomStatusEnabled(state),
             isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
             channelId,
-            currentUserTimezone: getCurrentUserTimezone(state),
+            currentUserTimezone: getCurrentTimezone(state),
             lastActivityTimestamp,
             enableLastActiveTime,
             timestampUnits,

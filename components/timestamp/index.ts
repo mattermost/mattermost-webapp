@@ -3,8 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {isTimezoneEnabled, makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {getCurrentTimezoneFull, isTimezoneEnabled} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {UserTimezone} from '@mattermost/types/users';
@@ -23,17 +22,13 @@ type Props = {
 }
 
 export function makeMapStateToProps() {
-    const getUserTimezone = makeGetUserTimezone();
-
     return (state: GlobalState, ownProps: Props) => {
-        const currentUserId = getCurrentUserId(state);
-
         let timeZone: TimestampProps['timeZone'];
         let hourCycle: TimestampProps['hourCycle'];
         let hour12: TimestampProps['hour12'];
 
         if (isTimezoneEnabled(state)) {
-            timeZone = getUserCurrentTimezone(ownProps.userTimezone ?? getUserTimezone(state, currentUserId)) ?? undefined;
+            timeZone = getUserCurrentTimezone(ownProps.userTimezone ?? getCurrentTimezoneFull(state)) ?? undefined;
         }
 
         const useMilitaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false);

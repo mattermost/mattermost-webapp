@@ -3,8 +3,6 @@
 
 import timezones from 'timezones.json';
 
-import {getUser} from 'mattermost-redux/selectors/entities/users';
-
 import {GlobalState} from '@mattermost/types/store';
 import {UserProfile} from '@mattermost/types/users';
 import {createSelector} from 'reselect';
@@ -13,7 +11,7 @@ import {getTimezoneLabel, getUserCurrentTimezone} from 'mattermost-redux/utils/t
 
 import {getCurrentUser} from './common';
 
-export function getTimezoneForUserProfile(profile: UserProfile) {
+function getTimezoneForUserProfile(profile: UserProfile) {
     if (profile && profile.timezone) {
         return {
             ...profile.timezone,
@@ -33,19 +31,19 @@ export function isTimezoneEnabled(state: GlobalState) {
     return config.ExperimentalTimezone === 'true';
 }
 
-export const makeGetUserTimezone = () => createSelector(
-    'makeGetUserTimezone',
-    (state: GlobalState, userId: string) => getUser(state, userId),
-    (user: UserProfile) => {
-        return getTimezoneForUserProfile(user);
+export const getCurrentTimezoneFull = createSelector(
+    'getCurrentTimezoneFull',
+    getCurrentUser,
+    (currentUser) => {
+        return getTimezoneForUserProfile(currentUser);
     },
 );
 
 export const getCurrentTimezone = createSelector(
     'getCurrentTimezone',
-    getCurrentUser,
-    (currentUser) => {
-        return getUserCurrentTimezone(getTimezoneForUserProfile(currentUser));
+    getCurrentTimezoneFull,
+    (timezoneFull) => {
+        return getUserCurrentTimezone(timezoneFull);
     },
 );
 

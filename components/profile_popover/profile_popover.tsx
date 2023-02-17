@@ -15,7 +15,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as GlobalActions from 'actions/global_actions';
 
-import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from '@mattermost/types/users';
+import {UserCustomStatus, UserProfile, CustomStatusDuration} from '@mattermost/types/users';
 import {ServerError} from '@mattermost/types/errors';
 import {ModalData} from 'types/actions';
 
@@ -568,7 +568,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     <Timestamp
                         useRelative={false}
                         useDate={false}
-                        userTimezone={this.props.user?.timezone as UserTimezone | undefined}
+                        userTimezone={this.props.user?.timezone}
                         useTime={{
                             hour: 'numeric',
                             minute: 'numeric',

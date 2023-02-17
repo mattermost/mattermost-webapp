@@ -11,6 +11,7 @@ import {useRouteMatch} from 'react-router-dom';
 import {setCustomStatus, unsetCustomStatus, removeRecentCustomStatus} from 'mattermost-redux/actions/users';
 import {setCustomStatusInitialisationState} from 'mattermost-redux/actions/preferences';
 import {Preferences} from 'mattermost-redux/constants';
+import {getCurrentTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {UserCustomStatus, CustomStatusDuration} from '@mattermost/types/users';
 import {Emoji} from '@mattermost/types/emojis';
 
@@ -22,7 +23,6 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import RenderEmoji from 'components/emoji/render_emoji';
 import QuickInput, {MaxLengthInput} from 'components/quick_input';
 import {makeGetCustomStatus, getRecentCustomStatuses, showStatusDropdownPulsatingDot, isCustomStatusExpired} from 'selectors/views/custom_status';
-import {getCurrentUserTimezone} from 'selectors/general';
 import {GlobalState} from 'types/store';
 import {getCurrentMomentForTimezone} from 'utils/timezone';
 import {Constants, ModalIdentifiers} from 'utils/constants';
@@ -113,7 +113,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const [duration, setDuration] = useState<CustomStatusDuration>(initialDuration === undefined ? defaultDuration : initialDuration);
     const isStatusSet = Boolean(emoji || text);
     const firstTimeModalOpened = useSelector(showStatusDropdownPulsatingDot);
-    const timezone = useSelector(getCurrentUserTimezone);
+    const timezone = useSelector(getCurrentTimezone);
     const inCustomEmojiPath = useRouteMatch('/:team/emoji');
 
     const currentTime = getCurrentMomentForTimezone(timezone);
