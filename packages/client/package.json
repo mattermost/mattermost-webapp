@@ -11,10 +11,13 @@
     "lib"
   ],
   "main": "./lib/index.js",
-  "respository": {
+  "repository": {
     "type": "git",
     "url": "github:mattermost/mattermost-webapp",
     "directory": "packages/client"
+  },
+  "dependencies": {
+    "form-data": "4.0.0"
   },
   "devDependencies": {
     "jest": "*",

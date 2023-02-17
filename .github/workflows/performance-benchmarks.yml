@@ -1,16 +1,10 @@
 name: Performance Benchmarks
 on:
-  push:
-    branches:
-      - master
-      - release-**
-  pull_request:
-    branches:
-      - master
+  workflow_call:
 
 jobs:
   cypress-run:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest-8-cores
     name: Run Cypress benchmarks
     services:
       postgres:
@@ -38,15 +32,6 @@ jobs:
         with:
           runTests: false
           working-directory: e2e/cypress
-
-      - name: Wait for PR branch to be built
-        uses: lewagon/wait-on-check-action@v1.2.0
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          check-name: untagged-build
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
-          verbose: true
 
       - name: Download the thing
         working-directory: e2e/cypress

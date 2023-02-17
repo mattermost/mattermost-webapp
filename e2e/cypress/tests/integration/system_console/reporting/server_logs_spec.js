@@ -31,7 +31,7 @@ describe('System Console > Server Logs', () => {
         cy.get('.admin-logs-content button span').should('be.visible').and('contain', 'Reload');
 
         // * Verify that server logs are showed correctly.
-        cy.get('.admin-logs-content div.log__panel').should('be.visible').and('not.empty');
-        cy.get('.admin-logs-content div.log__panel span').eq(0).should('not.empty');
+        cy.get('.admin-logs-content div.LogTable').should('be.visible').and('not.empty');
+        cy.get('.admin-logs-content div.LogTable span').eq(0).should('not.empty');
     });
 });

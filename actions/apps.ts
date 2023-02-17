@@ -205,11 +205,11 @@ export function doAppLookup<Res=unknown>(call: AppCallRequest, intl: any): Actio
     };
 }
 
-export function makeFetchBindings(location: string): (userId: string, channelId: string, teamId: string) => ActionFunc {
-    return (userId: string, channelId: string, teamId: string): ActionFunc => {
+export function makeFetchBindings(location: string): (channelId: string, teamId: string) => ActionFunc {
+    return (channelId: string, teamId: string): ActionFunc => {
         return async () => {
             try {
-                const allBindings = await Client4.getAppsBindings(userId, channelId, teamId);
+                const allBindings = await Client4.getAppsBindings(channelId, teamId);
                 const headerBindings = allBindings.filter((b) => b.location === location);
                 const bindings = headerBindings.reduce((accum: AppBinding[], current: AppBinding) => accum.concat(current.bindings || []), []);
                 return {data: bindings};
