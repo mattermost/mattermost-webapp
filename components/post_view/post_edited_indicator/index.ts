@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-import {makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {isTimezoneEnabled, makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
@@ -17,7 +17,6 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {Preferences} from 'utils/constants';
 import {isPostOwner, canEditPost} from 'utils/post_utils';
 
-import {areTimezonesEnabledAndSupported} from '../../../selectors/general';
 import {GlobalState} from '../../../types/store';
 import {Props as TimestampProps} from '../../timestamp/timestamp';
 
@@ -61,7 +60,7 @@ function makeMapStateToProps() {
 
         let timeZone: TimestampProps['timeZone'];
 
-        if (areTimezonesEnabledAndSupported(state)) {
+        if (isTimezoneEnabled(state)) {
             timeZone = getUserCurrentTimezone(getUserTimezone(state, currentUserId)) ?? undefined;
         }
         const postOwner = post ? isPostOwner(state, post) : undefined;

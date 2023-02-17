@@ -4,12 +4,10 @@
 import {connect} from 'react-redux';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {isTimezoneEnabled, makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {UserTimezone} from '@mattermost/types/users';
-
-import {areTimezonesEnabledAndSupported} from 'selectors/general';
 
 import {GlobalState} from 'types/store';
 
@@ -34,7 +32,7 @@ export function makeMapStateToProps() {
         let hourCycle: TimestampProps['hourCycle'];
         let hour12: TimestampProps['hour12'];
 
-        if (areTimezonesEnabledAndSupported(state)) {
+        if (isTimezoneEnabled(state)) {
             timeZone = getUserCurrentTimezone(ownProps.userTimezone ?? getUserTimezone(state, currentUserId)) ?? undefined;
         }
 

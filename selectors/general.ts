@@ -5,9 +5,7 @@ import {createSelector} from 'reselect';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getTimezoneForUserProfile} from 'mattermost-redux/selectors/entities/timezone';
-
-import * as UserAgent from 'utils/user_agent';
+import {getTimezoneForUserProfile, isTimezoneEnabled} from 'mattermost-redux/selectors/entities/timezone';
 
 import type {GlobalState} from 'types/store';
 
@@ -15,15 +13,6 @@ declare global {
     interface Window {
         basename: string;
     }
-}
-
-export function areTimezonesEnabledAndSupported(state: GlobalState) {
-    if (UserAgent.isInternetExplorer()) {
-        return false;
-    }
-
-    const config = getConfig(state);
-    return config.ExperimentalTimezone === 'true';
 }
 
 export function getBasePath(state: GlobalState) {
@@ -39,7 +28,7 @@ export function getBasePath(state: GlobalState) {
 export const getCurrentUserTimezone = createSelector(
     'getCurrentUserTimezone',
     getCurrentUser,
-    areTimezonesEnabledAndSupported,
+    isTimezoneEnabled,
     (user, enabledTimezone) => {
         let timezone;
         if (enabledTimezone) {

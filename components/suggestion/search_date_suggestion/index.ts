@@ -4,10 +4,9 @@
 import {connect} from 'react-redux';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {isTimezoneEnabled, makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 
 import {getCurrentDateForTimezone} from 'utils/timezone';
-import {areTimezonesEnabledAndSupported} from 'selectors/general';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import {GlobalState} from 'types/store';
@@ -22,7 +21,7 @@ function makeMapStateToProps() {
         const userTimezone = getUserTimezone(state, currentUserId);
         const locale = getCurrentLocale(state);
 
-        const enableTimezone = areTimezonesEnabledAndSupported(state);
+        const enableTimezone = isTimezoneEnabled(state);
 
         let currentDate;
         if (enableTimezone) {
