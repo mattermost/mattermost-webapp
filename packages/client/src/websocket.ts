@@ -229,7 +229,7 @@ export default class WebSocketClient {
 
         if (this.messageListeners.size > 5) {
             // eslint-disable-next-line no-console
-            console.warn(`WebSocketClient has ${this.messageListeners} message listeners registered`);
+            console.warn(`WebSocketClient has ${this.messageListeners.size} message listeners registered`);
         }
     }
 
@@ -249,7 +249,7 @@ export default class WebSocketClient {
 
         if (this.firstConnectListeners.size > 5) {
             // eslint-disable-next-line no-console
-            console.warn(`WebSocketClient has ${this.firstConnectListeners} first connect listeners registered`);
+            console.warn(`WebSocketClient has ${this.firstConnectListeners.size} first connect listeners registered`);
         }
     }
 
@@ -269,7 +269,7 @@ export default class WebSocketClient {
 
         if (this.reconnectListeners.size > 5) {
             // eslint-disable-next-line no-console
-            console.warn(`WebSocketClient has ${this.reconnectListeners} reconnect listeners registered`);
+            console.warn(`WebSocketClient has ${this.reconnectListeners.size} reconnect listeners registered`);
         }
     }
 
@@ -289,7 +289,7 @@ export default class WebSocketClient {
 
         if (this.missedMessageListeners.size > 5) {
             // eslint-disable-next-line no-console
-            console.warn(`WebSocketClient has ${this.missedMessageListeners} missed message listeners registered`);
+            console.warn(`WebSocketClient has ${this.missedMessageListeners.size} missed message listeners registered`);
         }
     }
 
@@ -309,7 +309,7 @@ export default class WebSocketClient {
 
         if (this.errorListeners.size > 5) {
             // eslint-disable-next-line no-console
-            console.warn(`WebSocketClient has ${this.errorListeners} error listeners registered`);
+            console.warn(`WebSocketClient has ${this.errorListeners.size} error listeners registered`);
         }
     }
 
@@ -329,7 +329,7 @@ export default class WebSocketClient {
 
         if (this.closeListeners.size > 5) {
             // eslint-disable-next-line no-console
-            console.warn(`WebSocketClient has ${this.closeListeners} close listeners registered`);
+            console.warn(`WebSocketClient has ${this.closeListeners.size} close listeners registered`);
         }
     }
 
