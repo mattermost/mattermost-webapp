@@ -68,7 +68,6 @@ export function PostReminderSubmenu(props: Props) {
             dialogType: PostReminderCustomTimePicker,
             dialogProps: {
                 postId: props.post.id,
-                currentDate: new Date(),
             },
         };
         dispatch(openModal(postReminderCustomTimePicker));
