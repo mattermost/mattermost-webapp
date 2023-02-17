@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Role} from '@mattermost/types/roles';
 import {Permissions} from 'mattermost-redux/constants/index';
 
 import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
 
 describe('PolicyRolesAdapter', () => {
-    let roles = {};
-    let policies = {};
+    let roles: Record<string, any> = {};
+    let policies: Record<string, any> = {};
 
     beforeEach(() => {
         roles = {
@@ -134,13 +135,13 @@ describe('PolicyRolesAdapter', () => {
     });
 });
 
-function addPermissionToRole(permission, role) {
+function addPermissionToRole(permission: string, role: Role) {
     if (!role.permissions.includes(permission)) {
         role.permissions.push(permission);
     }
 }
 
-function removePermissionFromRole(permission, role) {
+function removePermissionFromRole(permission: string, role: Role) {
     const permissionIndex = role.permissions.indexOf(permission);
     if (permissionIndex !== -1) {
         role.permissions.splice(permissionIndex, 1);
