@@ -14,6 +14,8 @@ import './post_reminder_custom_time_picker_modal.scss';
 import {toUTCUnix} from 'utils/datetime';
 import {localizeMessage} from 'utils/utils';
 
+import {formatDate, makeTimeMenuList} from './utils';
+
 import {PropsFromRedux} from './index';
 
 type Props = PropsFromRedux & {
@@ -36,7 +38,7 @@ export default class PostReminderCustomTimePicker extends React.PureComponent<Pr
     constructor(props: Props) {
         super(props);
 
-        const {currentDate} = this.props;
+        const {currentDate, isMilitaryTime} = this.props;
         const selectedDate: Date = new Date(currentDate);
 
         // if current time is > 23:20 then we will set date to tomorrow and show all times
@@ -47,15 +49,8 @@ export default class PostReminderCustomTimePicker extends React.PureComponent<Pr
         this.state = {
             selectedDate,
             dayPickerStartDate: selectedDate,
-            ...this.makeTimeMenuList(selectedDate),
+            ...makeTimeMenuList(currentDate, selectedDate, isMilitaryTime),
         };
-    }
-
-    formatDate = (date: Date): string => {
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        const day = date.getDate().toString().padStart(2, '0');
-        const year = date.getFullYear().toString();
-        return [year, month, day].join('-');
     }
 
     getText = () => {
@@ -103,52 +98,9 @@ export default class PostReminderCustomTimePicker extends React.PureComponent<Pr
     handleDaySelection = (day: Date) => {
         this.setState({
             selectedDate: day,
-            ...this.makeTimeMenuList(day),
+            ...makeTimeMenuList(this.props.currentDate, day, this.props.isMilitaryTime),
         });
     };
-
-    makeTimeMenuList = (date: Date): {timeMenuList: string[]; selectedTime: string} => {
-        const timeMenuItems = [];
-        let h = 0;
-        let m = 0;
-        const curr = this.props.currentDate;
-
-        if (this.formatDate(curr) === this.formatDate(date)) {
-            h = curr.getHours();
-            m = curr.getMinutes();
-            if (m > 20) {
-                h++;
-                m = 0;
-            } else {
-                m = 30;
-            }
-        }
-
-        for (let i = h; i < 24; i++) {
-            for (let j = m / 30; j < 2; j++) {
-                let t;
-                if (this.props.isMilitaryTime) {
-                    t = i.toString().padStart(2, '0') + ':' + (j * 30).toString().padStart(2, '0');
-                } else {
-                    const ampm = i >= 12 ? ' PM' : ' AM';
-                    let hour = i > 12 ? i - 12 : i;
-                    if (hour === 0) {
-                        hour = 12;
-                    }
-                    t = hour.toString() + ':' + (j * 30).toString().padStart(2, '0') + ampm;
-                }
-                timeMenuItems.push(
-                    t,
-                );
-            }
-            m = 0;
-        }
-
-        return {
-            timeMenuList: timeMenuItems,
-            selectedTime: timeMenuItems[0],
-        };
-    }
 
     render() {
         const {
@@ -198,7 +150,7 @@ export default class PostReminderCustomTimePicker extends React.PureComponent<Pr
                             </div>
                             <i className='icon icon--no-spacing icon-calendar-outline icon--xs icon-14'/>
                             <DayPickerInput
-                                value={this.formatDate(selectedDate)}
+                                value={formatDate(selectedDate)}
                                 onDayChange={this.handleDaySelection}
                                 dayPickerProps={{
                                     selectedDays: selectedDate,
@@ -238,3 +190,4 @@ export default class PostReminderCustomTimePicker extends React.PureComponent<Pr
         );
     }
 }
+
