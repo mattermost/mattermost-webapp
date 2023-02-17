@@ -238,4 +238,3 @@ const notifyMe = (title, body, channel, teamId, silent, soundName, url) => (disp
         });
     }
 };
-
