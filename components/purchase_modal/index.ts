@@ -27,6 +27,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import {closeModal, openModal} from 'actions/views/modals';
 import {completeStripeAddPaymentMethod, subscribeCloudSubscription} from 'actions/cloud';
 import {ModalData} from 'types/actions';
+import {Address} from '@mattermost/types/cloud';
 import withGetCloudSubscription from 'components/common/hocs/cloud/with_get_cloud_subscription';
 import {findOnlyYearlyProducts} from 'utils/products';
 
@@ -48,6 +49,7 @@ function mapStateToProps(state: GlobalState) {
         invoices: getCloudDelinquentInvoices(state),
         isCloudDelinquencyGreaterThan90Days: isCloudDelinquencyGreaterThan90Days(state),
         isFreeTrial: subscription?.is_free_trial === 'true',
+        isComplianceBlocked: subscription?.compliance_blocked === 'true',
         contactSalesLink: getCloudContactUsLink(state)(InquiryType.Sales),
         productId: subscription?.product_id,
         customer: state.entities.cloud.customer,
@@ -62,7 +64,7 @@ type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
     getCloudProducts: () => void;
     completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
-    subscribeCloudSubscription: (productId: string, seats?: number) => Promise<boolean | null>;
+    subscribeCloudSubscription: (productId: string, shippingAddress: Address, seats?: number) => Promise<boolean | null>;
     getClientConfig: () => void;
     getCloudSubscription: () => void;
     getInvoices: () => void;

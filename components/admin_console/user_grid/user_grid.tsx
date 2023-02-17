@@ -6,12 +6,12 @@ import {FormattedMessage} from 'react-intl';
 
 import Tag from 'components/widgets/tag/tag';
 
+import {FilterOptions} from 'components/admin_console/filter/filter';
+import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
+
 import {UserProfile} from '@mattermost/types/users';
 import {TeamMembership} from '@mattermost/types/teams';
 import {ChannelMembership} from '@mattermost/types/channels';
-
-import {FilterOptions} from 'components/admin_console/filter/filter';
-import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 
 import UserGridName from './user_grid_name';
 import UserGridRemove from './user_grid_remove';
