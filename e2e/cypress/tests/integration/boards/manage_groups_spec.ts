@@ -44,7 +44,7 @@ describe('Manage groups', () => {
                 cy.contains('Orange').should('exist');
 
                 // Click on green
-                cy.contains('Green').should('be.visible').click().wait(1000); // eslint-disable-line cypress/no-unnecessary-waiting
+                cy.contains('Green').should('be.visible').click();
             });
         });
 
