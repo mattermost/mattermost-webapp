@@ -30,12 +30,8 @@ export type TestConfig = {
     workers: number;
     // Visual tests
     snapshotEnabled: boolean;
-    applitoolsEnabled: boolean;
-    applitoolsApiKey?: string;
     percyEnabled: boolean;
     percyToken?: string;
-    branch: string;
-    parentBranch: string;
 };
 
 // All process.env should be defined here
@@ -57,12 +53,8 @@ const config: TestConfig = {
     workers: process.env.PW_WORKERS ? parseInt(process.env.PW_WORKERS, 10) : 1,
     // Visual tests
     snapshotEnabled: process.env.PW_SNAPSHOT_ENABLE === 'true',
-    applitoolsEnabled: process.env.PW_APPLITOOLS_ENABLE === 'true',
-    applitoolsApiKey: process.env.APPLITOOLS_API_KEY,
     percyEnabled: process.env.PW_PERCY_ENABLE === 'true',
     percyToken: process.env.PERCY_TOKEN,
-    branch: process.env.PW_BRANCH || 'master',
-    parentBranch: process.env.PW_PARENT_BRANCH || 'master',
 };
 
 export default config;

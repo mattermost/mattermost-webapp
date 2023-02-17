@@ -6,13 +6,7 @@ import {test, expect} from '@playwright/test';
 import {initSetup} from '@e2e-support/server';
 import {ChannelPage} from '@e2e-support/ui/page';
 import {hideTeamHeader, hidePostHeaderTime} from '@e2e-support/ui/style';
-import {matchSnapshot, Applitools} from '@e2e-support/visual';
-
-let applitools: Applitools = {};
-
-test.afterAll(async () => {
-    await applitools.eyes?.close();
-});
+import {matchSnapshot} from '@e2e-support/visual';
 
 test('Intro to channel as regular user', async ({browser, isMobile, browserName, viewport}, testInfo) => {
     // Create and sign in a new user
@@ -44,5 +38,5 @@ test('Intro to channel as regular user', async ({browser, isMobile, browserName,
 
     // Match snapshot of channel intro page
     const testArgs = {page, isMobile, browserName, viewport};
-    applitools = await matchSnapshot(testInfo, testArgs);
+    await matchSnapshot(testInfo, testArgs);
 });
