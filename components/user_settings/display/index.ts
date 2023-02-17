@@ -15,7 +15,7 @@ import {autoUpdateTimezone} from 'mattermost-redux/actions/timezone';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {get, isCollapsedThreadsAllowed, getCollapsedThreadsPreference} from 'mattermost-redux/selectors/entities/preferences';
-import {getTimezoneLabel, makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {getCurrentTimezoneLabel, makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 import {CollapsedThreads} from '@mattermost/types/config';
@@ -42,7 +42,6 @@ export function makeMapStateToProps() {
         const userTimezone = getUserTimezone(state, currentUserId);
         const automaticTimezoneNotSet = userTimezone && userTimezone.useAutomaticTimezone && !userTimezone.automaticTimezone;
         const shouldAutoUpdateTimezone = !userTimezone || automaticTimezoneNotSet;
-        const timezoneLabel = getTimezoneLabel(state, currentUserId);
         const allowCustomThemes = config.AllowCustomThemes === 'true';
         const enableLinkPreviews = config.EnableLinkPreviews === 'true';
         const defaultClientLocale = config.DefaultClientLocale as string;
@@ -67,7 +66,7 @@ export function makeMapStateToProps() {
             enableThemeSelection,
             enableTimezone,
             timezones,
-            timezoneLabel,
+            timezoneLabel: getCurrentTimezoneLabel(state),
             userTimezone,
             shouldAutoUpdateTimezone,
             currentUserTimezone: getUserCurrentTimezone(userTimezone) as string,
