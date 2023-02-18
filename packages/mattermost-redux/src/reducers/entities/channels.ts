@@ -4,7 +4,7 @@
 import {combineReducers} from 'redux';
 import {isEqual} from 'lodash';
 
-import {AdminTypes, ChannelTypes, UserTypes, SchemeTypes, GroupTypes, PostTypes} from 'mattermost-redux/action_types';
+import {AdminTypes, ChannelTypes, UserTypes, SchemeTypes, GroupTypes, PostTypes, SearchTypes} from 'mattermost-redux/action_types';
 
 import {General} from 'mattermost-redux/constants';
 import {MarkUnread} from 'mattermost-redux/constants/channels';
@@ -708,6 +708,14 @@ function stats(state: RelationOneToOne<Channel, ChannelStats> = {}, action: Gene
     }
     case UserTypes.LOGOUT_SUCCESS:
         return {};
+    case SearchTypes.RECEIVED_SEARCH_PINNED_POSTS: {
+        const nextStat = {...state[action.data.channelId]};
+        nextStat.has_new_pinned_posts = false;
+        return {
+            ...state,
+            [action.data.channelId]: nextStat,
+        };
+    }
     default:
         return state;
     }
