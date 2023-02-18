@@ -17,12 +17,21 @@
 
     .header {
         display: flex;
+        height: 30px;
+        padding: 2px;
+        div {
+
+        }
         .selected {
-            background: 'blue';
+            background: lightblue;
         }
         .action {
             align-self: flex-end;
         }
+    }
+    .body {
+        overflow: scroll;
+        height: 100%;
     }
     .DebugBarTable {
         font-family: "Times New Roman", Times, serif;
@@ -32,7 +41,6 @@
         text-align: center;
         border-collapse: collapse;
         width: 100%;
-        overflow: scroll;
         td, th {
             border: 1px solid #FFFFFF;
             padding: 3px 2px;

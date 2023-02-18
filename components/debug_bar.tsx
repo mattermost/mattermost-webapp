@@ -17,10 +17,7 @@ const DebugBar = (_: Props) => {
     const debugLines = useSelector(getDebugLines).filter((v) => v.type == filter)
 
     if (hidden) {
-        return (<button
-            className='DebugBarButton'
-            onClick={() => setHidden(false)}
-        >Debug</button>)
+        return (<button className='DebugBarButton' onClick={() => setHidden(false)}>Debug</button>)
     }
     return (
         <div className='DebugBar'>
@@ -31,9 +28,11 @@ const DebugBar = (_: Props) => {
                 <button className='action' onClick={() => dispatch(clearLines())}>Clear</button>
                 <button className='action' onClick={() => setHidden(true)}>Hide</button>
             </div>
-            {filter === 'api-call' && <APICalls calls={debugLines}/>}
-            {filter === 'store-call' && <StoreCalls calls={debugLines}/>}
-            {filter === 'sql-query' && <SQLQueries queries={debugLines}/>}
+            <div className='body'>
+                {filter === 'api-call' && <APICalls calls={debugLines}/>}
+                {filter === 'store-call' && <StoreCalls calls={debugLines}/>}
+                {filter === 'sql-query' && <SQLQueries queries={debugLines}/>}
+            </div>
         </div>
     );
 };
@@ -108,17 +107,17 @@ const SQLQueries = ({queries}: SQLQueriesProps) => {
             <thead>
                 <tr>
                     <th>Time</th>
-                    <th>Query</th>
+                    <th style={{minWidth: '50%'}}>Query</th>
                     <th>Params</th>
                     <th>Duration</th>
                 </tr>
             </thead>
             <tbody>
-            {queries.map((line: {[key: string]: string}) => (
+            {queries.map((line: {[key: string]: any}) => (
                 <tr>
                     <td>{line.time}</td>
                     <td>{line.query}</td>
-                    <td>{line.params}</td>
+                    <td>{line.args ? JSON.stringify(line.args) : ''}</td>
                     <td>{line.duration}</td>
                 </tr>
             ))}
