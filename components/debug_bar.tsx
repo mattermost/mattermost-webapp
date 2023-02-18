@@ -13,8 +13,13 @@ type Props = {};
 const DebugBar = (_: Props) => {
     const [hidden, setHidden] = useState(true)
     const [filter, setFilter] = useState('api-call')
+    const [filterText, setFilterText] = useState('')
     const dispatch = useDispatch()
-    const debugLines = useSelector(getDebugLines).filter((v) => v.type == filter)
+    var debugLines = useSelector(getDebugLines).filter((v) => v.type == filter)
+
+    if (filterText != '') {
+        debugLines = debugLines.filter((v) => JSON.stringify(v).indexOf(filterText) !== -1)
+    }
 
     if (hidden) {
         return (<button className='DebugBarButton' onClick={() => setHidden(false)}>Debug</button>)
@@ -25,6 +30,7 @@ const DebugBar = (_: Props) => {
                 <button className={filter === 'api-call' ? 'selected' : ''} onClick={() => setFilter('api-call')}>Api Calls</button>
                 <button className={filter === 'store-call' ? 'selected' : ''}  onClick={() => setFilter('store-call')}>Store Calls</button>
                 <button className={filter === 'sql-query' ? 'selected' : ''}  onClick={() => setFilter('sql-query')}>SQL Queries</button>
+                <input type='text' placeholder='Filter' onChange={(e) => setFilterText(e.target.value)} value={filterText}/>
                 <button className='action' onClick={() => dispatch(clearLines())}>Clear</button>
                 <button className='action' onClick={() => setHidden(true)}>Hide</button>
             </div>
