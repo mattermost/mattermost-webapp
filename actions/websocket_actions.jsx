@@ -33,6 +33,7 @@ import {
 } from 'mattermost-redux/actions/channels';
 import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
+import {addLine} from 'mattermost-redux/actions/debug';
 
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getNewestThreadInTeam, getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
@@ -319,6 +320,10 @@ function handleClose(failCount) {
 
 export function handleEvent(msg) {
     switch (msg.event) {
+    case SocketEvents.DEBUG:
+        dispatch(addLine(msg.data));
+        break;
+
     case SocketEvents.POSTED:
     case SocketEvents.EPHEMERAL_MESSAGE:
         handleNewPostEventDebounced(msg);

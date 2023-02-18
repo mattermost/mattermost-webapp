@@ -194,6 +194,9 @@ const state: GlobalState = {
             byId: {},
             orderByTeam: {},
         },
+        debug: {
+            lines: [],
+        },
         apps: {
             main: {
                 bindings: [],

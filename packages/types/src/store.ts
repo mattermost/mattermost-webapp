@@ -72,6 +72,9 @@ export type GlobalState = {
         usage: CloudUsage;
         insights: InsightsState;
         worktemplates: WorkTemplatesState;
+        debug: {
+            lines: any[]
+        }
     };
     errors: any[];
     requests: {

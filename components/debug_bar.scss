@@ -1,0 +1,61 @@
+.DebugBarButton {
+    position: fixed;
+    width: 60px;
+    height: 30px;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.DebugBar {
+    position: fixed;
+    width: 100%;
+    height: 300px;
+    bottom: 0;
+    z-index: 1000;
+    background: white;
+
+    .header {
+        display: flex;
+        .selected {
+            background: 'blue';
+        }
+        .action {
+            align-self: flex-end;
+        }
+    }
+    .DebugBarTable {
+        font-family: "Times New Roman", Times, serif;
+        border: 1px solid #FFFFFF;
+        width: 350px;
+        height: 200px;
+        text-align: center;
+        border-collapse: collapse;
+        width: 100%;
+        overflow: scroll;
+        td, th {
+            border: 1px solid #FFFFFF;
+            padding: 3px 2px;
+        }
+        tbody td {
+            font-size: 13px;
+        }
+        tr:nth-child(even) {
+            background: #D0E4F5;
+        }
+        thead {
+            background: #0B6FA4;
+            border-bottom: 5px solid #FFFFFF;
+            th {
+                font-size: 17px;
+                font-weight: bold;
+                color: #FFFFFF;
+                text-align: center;
+                border-left: 2px solid #FFFFFF;
+            }
+            th:first-child {
+                border-left: none;
+            }
+        }
+    }
+}
