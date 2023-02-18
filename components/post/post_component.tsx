@@ -8,7 +8,8 @@ import classNames from 'classnames';
 import {Posts} from 'mattermost-redux/constants/index';
 import {
     isMeMessage as checkIsMeMessage,
-    isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
+    isPostPendingOrFailed,
+} from 'mattermost-redux/utils/post_utils';
 
 import Constants, {A11yCustomEventTypes, AppEvents, Locations} from 'utils/constants';
 
@@ -48,11 +49,10 @@ import {UserProfile} from '@mattermost/types/users';
 import {Post} from '@mattermost/types/posts';
 import {Emoji} from '@mattermost/types/emojis';
 
+import {FilePreviewInfo} from '@mattermost/types/files';
+
 import PostUserProfile from './user_profile';
 import PostOptions from './post_options';
-
-import {FilePreviewInfo} from '@mattermost/types/files';
-import {isPostUploadingFile} from 'mattermost-redux/utils/post_utils';
 
 export type Props = {
     post: Post;
@@ -600,7 +600,7 @@ const PostComponent = (props: Props): JSX.Element => {
                                 slot2={<EditPost/>}
                                 onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
                             />
-                            {post.file_ids && post.file_ids.length > 0 && filePreviews.length > 0 &&
+                            {((post.file_ids && post.file_ids.length > 0) || filePreviews.length > 0) &&
                             <FileAttachmentListContainer
                                 post={post}
                                 compactDisplay={props.compactDisplay}

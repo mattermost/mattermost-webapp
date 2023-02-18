@@ -44,9 +44,9 @@ import {General} from 'mattermost-redux/constants';
 import {getDisplayNameByUser} from 'utils/utils';
 import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 
-import PostComponent from './post_component';
-
 import {getFilePreviews} from 'mattermost-redux/selectors/entities/files';
+
+import PostComponent from './post_component';
 
 interface OwnProps {
     post?: Post | UserActivityPost;
@@ -234,7 +234,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isPostPriorityEnabled: isPostPriorityEnabled(state),
         isCardOpen: selectedCard && selectedCard.id === post.id,
         shouldShowDotMenu: shouldShowDotMenu(state, post, channel),
-        filePreviews: getFilePreviews(state, ownProps.post?.pending_post_id),
+        filePreviews: getFilePreviews(state, post.pending_post_id),
     };
 }
 
