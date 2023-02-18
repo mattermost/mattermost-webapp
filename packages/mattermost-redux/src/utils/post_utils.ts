@@ -144,8 +144,17 @@ export function isPostUploadingFile(post: Post): boolean {
     return post.id === post.pending_post_id && post.file_client_ids !== undefined && post.file_client_ids.length !== 0;
 }
 
+export function isPostDangling(state: GlobalState, post: Post) {
+    const rootPost = state.entities.posts.posts[post.root_id];
+    return rootPost && isPostPending(rootPost);
+}
+
+export function isPostPending(post: Post) {
+    return post.id === post.pending_post_id;
+}
+
 export function isPostPendingOrFailed(post: Post): boolean {
-    return post.failed || post.id === post.pending_post_id;
+    return post.failed || isPostPending(post);
 }
 
 export function comparePosts(a: Post, b: Post): number {

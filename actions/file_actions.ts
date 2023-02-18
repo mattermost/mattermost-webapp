@@ -14,9 +14,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {localizeMessage} from 'utils/utils';
 
-import {postRemoved, storePost} from 'mattermost-redux/actions/posts';
-
-import {storePendingPosts} from './post_actions';
+import {postRemoved, storePendingPosts, storePost} from 'mattermost-redux/actions/posts';
 
 export interface UploadFile {
     file: File;

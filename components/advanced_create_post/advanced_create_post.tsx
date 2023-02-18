@@ -71,7 +71,7 @@ import FileLimitStickyBanner from '../file_limit_sticky_banner';
 const KeyCodes = Constants.KeyCodes;
 
 function isDraftEmpty(draft: PostDraft): boolean {
-    return !draft || (!draft.message && draft.fileInfos.length === 0);
+    return !draft || (!draft.message && (!draft.fileInfos || draft.fileInfos.length === 0));
 }
 
 // Temporary fix for IE-11, see MM-13423

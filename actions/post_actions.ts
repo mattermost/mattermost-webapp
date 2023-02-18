@@ -14,7 +14,7 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {canEditPost, comparePosts} from 'mattermost-redux/utils/post_utils';
+import {canEditPost, comparePosts, isPostDangling} from 'mattermost-redux/utils/post_utils';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {addRecentEmoji} from 'actions/emoji_actions';
@@ -98,7 +98,7 @@ export function unflagPost(postId: string) {
 }
 
 export function createPost(post: Post, files: FileInfo[], filePreviews: FilePreviewInfo[] = []) {
-    return async (dispatch: DispatchFunc) => {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         // parse message and emit emoji event
         const emojis = matchEmoticons(post.message);
         if (emojis) {
@@ -116,47 +116,14 @@ export function createPost(post: Post, files: FileInfo[], filePreviews: FilePrev
         }
 
         if (post.root_id) {
-            dispatch(storeCommentDraft(post.root_id, null));
+            if (!isPostDangling(getState(), post)) {
+                dispatch(storeCommentDraft(post.root_id, null));
+            }
         } else {
             dispatch(storeDraft(post.channel_id, null));
         }
 
         return result;
-    };
-}
-
-export function storePendingPosts() {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
-
-        // Send posts when their uploading files are all uploaded.
-        await Promise.all(Object.entries(state.entities.files.filePreviews).map(async (entry) => {
-            const pendingPostId = entry[0];
-            let pendingPost = state.entities.posts.posts[pendingPostId];
-            if (!pendingPost) {
-                return;
-            }
-            const filePreviewInfos = entry[1];
-            if (!filePreviewInfos || filePreviewInfos.length === 0) {
-                return;
-            }
-            const clientIds = filePreviewInfos.map((f) => f.clientId);
-            const files = Object.values(state.entities.files.files).filter((f) => clientIds.includes(f.clientId));
-
-            // If post‘s uploading files are all uploaded, then send it.
-            if (filePreviewInfos.length !== files.length) {
-                return;
-            }
-            pendingPost = {
-                ...pendingPost,
-                id: '',
-                file_ids: files.map((f) => f.id),
-            };
-
-            await dispatch(PostActions.storePost(pendingPost, files));
-        }));
-
-        return {data: true};
     };
 }
 

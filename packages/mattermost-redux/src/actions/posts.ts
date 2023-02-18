@@ -28,6 +28,8 @@ import {ChannelUnread} from '@mattermost/types/channels';
 import {FetchPaginatedThreadOptions} from '@mattermost/types/client4';
 import {FileInfo, FilePreviewInfo} from '@mattermost/types/files';
 
+import {isPostDangling, isPostUploadingFile} from 'mattermost-redux/utils/post_utils';
+
 import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';
 import {
     deletePreferences,
@@ -237,7 +239,7 @@ export function createPost(post: Post, files: any[] = [], filePreviews: FilePrev
 
         dispatch(batchActions(actions, 'BATCH_CREATE_POST_INIT'));
 
-        if (filePreviews.length === 0) {
+        if (!isPostDangling(getState(), post) && filePreviews.length === 0) {
             await dispatch(storePost(newPost, files));
         }
 
@@ -286,7 +288,24 @@ export function storePost(post: Post, files: FileInfo[]) {
                 });
             }
 
-            dispatch(batchActions(actions, 'BATCH_CREATE_POST'));
+            await dispatch(batchActions(actions, 'BATCH_CREATE_POST'));
+
+            const pendingComments = Object.values(getState().entities.posts.posts).filter((p) => p.root_id === created.id);
+            if (pendingComments) {
+                for (const pendingComment of pendingComments) {
+                    if (isPostUploadingFile(pendingComment)) {
+                        // Intended to execute processing in serially within a for statement
+                        // eslint-disable-next-line no-await-in-loop
+                        await dispatch(storePendingPosts());
+                    } else {
+                        const files = Object.values(getState().entities.files.files).filter((f) => f.post_id === pendingComment.id);
+
+                        // Intended to execute processing in serially within a for statement
+                        // eslint-disable-next-line no-await-in-loop
+                        await dispatch(storePost(pendingComment, files));
+                    }
+                }
+            }
         } catch (error) {
             const data = {
                 ...post,
@@ -1437,5 +1456,42 @@ export function unacknowledgePost(postId: string) {
         });
 
         return {data};
+    };
+}
+
+export function storePendingPosts() {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+
+        // Send posts when their uploading files are all uploaded.
+        await Promise.all(Object.entries(state.entities.files.filePreviews).map(async (entry) => {
+            const pendingPostId = entry[0];
+            let pendingPost = state.entities.posts.posts[pendingPostId];
+            if (!pendingPost) {
+                return;
+            }
+            const filePreviewInfos = entry[1];
+            if (!filePreviewInfos || filePreviewInfos.length === 0) {
+                return;
+            }
+            const clientIds = filePreviewInfos.map((f) => f.clientId);
+            const files = Object.values(state.entities.files.files).filter((f) => clientIds.includes(f.clientId));
+
+            // If post‘s uploading files are all uploaded, then send it.
+            if (filePreviewInfos.length !== files.length) {
+                return;
+            }
+            pendingPost = {
+                ...pendingPost,
+                id: '',
+                file_ids: files.map((f) => f.id),
+            };
+
+            if (!isPostDangling(getState(), pendingPost)) {
+                await dispatch(storePost(pendingPost, files));
+            }
+        }));
+
+        return {data: true};
     };
 }

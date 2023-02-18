@@ -32,6 +32,7 @@ export default class FilePreview extends React.PureComponent<Props> {
     render() {
         const previews: ReactNode[] = [];
 
+        const fileInfoClientIds = this.props.fileInfos.map((f) => f.clientId);
         this.props.fileInfos.forEach((info) => {
             const type = Utils.getFileType(info.extension);
 
@@ -110,18 +111,20 @@ export default class FilePreview extends React.PureComponent<Props> {
 
         const uploadsProgressPercent = this.props.uploadsProgressPercent;
         if (uploadsProgressPercent) {
-            Object.values(uploadsProgressPercent).filter((filePreviewInfo): filePreviewInfo is FilePreviewInfo => filePreviewInfo !== undefined).forEach((fileInfo) => {
-                if (fileInfo) {
-                    previews.push(
-                        <FileProgressPreview
-                            key={fileInfo.clientId}
-                            clientId={fileInfo.clientId}
-                            fileInfo={fileInfo}
-                            handleRemove={this.handleRemove}
-                        />,
-                    );
-                }
-            });
+            Object.values(uploadsProgressPercent).
+                filter((filePreviewInfo): filePreviewInfo is FilePreviewInfo => filePreviewInfo !== undefined && !fileInfoClientIds.includes(filePreviewInfo.clientId)).
+                forEach((fileInfo) => {
+                    if (fileInfo) {
+                        previews.push(
+                            <FileProgressPreview
+                                key={fileInfo.clientId}
+                                clientId={fileInfo.clientId}
+                                fileInfo={fileInfo}
+                                handleRemove={this.handleRemove}
+                            />,
+                        );
+                    }
+                });
         }
 
         return (
