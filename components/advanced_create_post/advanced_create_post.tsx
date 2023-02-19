@@ -1011,10 +1011,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             }
         }
 
-        if (draft.fileInfos) {
-            draft.fileInfos = sortFileInfos(draft.fileInfos.concat(fileInfos), this.props.locale);
-        }
-
         this.handleDraftChange(draft, true);
     }
 
