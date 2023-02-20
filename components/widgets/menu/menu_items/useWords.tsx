@@ -11,7 +11,7 @@ import {t} from 'utils/i18n';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import {LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
-import {PaidFeatures, LicenseSkus} from 'utils/constants';
+import {MattermostFeatures, LicenseSkus} from 'utils/constants';
 
 interface Words {
     title: React.ReactNode;
@@ -54,10 +54,10 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
     let featureToNotifyOn = '';
     switch (highestLimit.id) {
     case LimitTypes.messageHistory:
-        featureToNotifyOn = PaidFeatures.UNLIMITED_MESSAGES;
+        featureToNotifyOn = MattermostFeatures.UNLIMITED_MESSAGES;
         break;
     case LimitTypes.fileStorage:
-        featureToNotifyOn = PaidFeatures.UNLIMITED_FILE_STORAGE;
+        featureToNotifyOn = MattermostFeatures.UNLIMITED_FILE_STORAGE;
         break;
     default:
         break;
