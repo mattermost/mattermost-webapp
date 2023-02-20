@@ -279,7 +279,7 @@ function Content(props: ContentProps) {
     };
 
     const professionalPlanLabelText = () => {
-        if (isProfessionalAnnual) {
+        if (isProfessionalAnnual || !isAdmin) {
             return formatMessage({id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'});
         }
 
