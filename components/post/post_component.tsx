@@ -467,7 +467,7 @@ const PostComponent = (props: Props): JSX.Element => {
             className={props.location === 'SEARCH' ? 'search-item__container' : undefined}
             data-testid={props.location === 'SEARCH' ? 'search-item-container' : undefined}
         >
-            {isSearchResultItem && <DateSeparator date={currentPostDay}/>}
+            {(isSearchResultItem || props.isPinnedPosts || props.isFlagged) && <DateSeparator date={currentPostDay}/>}
             <PostAriaLabelDiv
                 ref={postRef}
                 role='listitem'
