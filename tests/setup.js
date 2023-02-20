@@ -27,7 +27,7 @@ Object.defineProperty(window, 'location', {
     },
 });
 
-const supportedCommands = ['copy'];
+const supportedCommands = ['copy', 'insertText'];
 
 Object.defineProperty(document, 'queryCommandSupported', {
     value: (cmd) => supportedCommands.includes(cmd),
@@ -35,6 +35,7 @@ Object.defineProperty(document, 'queryCommandSupported', {
 
 Object.defineProperty(document, 'execCommand', {
     value: (cmd) => supportedCommands.includes(cmd),
+    writable: true,
 });
 
 document.documentElement.style.fontSize = '12px';
