@@ -220,48 +220,21 @@ const WorkTemplateModal = () => {
 
         return res;
     };
-    const execute = async (template: WorkTemplate, name = '', visibility: Visibility) => {
+
+    /**
+     * Creates the necessary data in the global store as long storing in DB preferences the tourtip information
+     * @param template current used worktempplate
+     */
+    const tourTipActions = async (template: WorkTemplate) => {
         const linkedProductsCount = getContentCount(template);
-        const pbTemplates = [];
-        for (const item of template.content) {
-            if (item.playbook) {
-                const pbTemplate = playbookTemplates.find((pb) => pb.title === item.playbook.template);
-                if (pbTemplate) {
-                    pbTemplates.push(pbTemplate);
-                }
-            }
-        }
-
-        const req: ExecuteWorkTemplateRequest = {
-            team_id: teamId,
-            name,
-            visibility,
-            work_template: template,
-            playbook_templates: pbTemplates,
-        };
-
-        setIsCreating(true);
-        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'executing', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility});
-        const {data, error} = await dispatch(executeWorkTemplate(req)) as ActionResult<ExecuteWorkTemplateResponse>;
-
-        if (error) {
-            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'execution_error', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility, error: error.message});
-            setErrorText(error.message);
-            return;
-        }
-
-        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'execution_success', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility});
-        let firstChannelId = '';
 
         // stepValue and pluginId are used for showing the tourtip for the used template
         let stepValue = 0;
         let pluginId;
-        if (data?.channel_with_playbook_ids.length) {
-            firstChannelId = data.channel_with_playbook_ids[0];
+        if (linkedProductsCount.playbooks) {
             pluginId = rhsPluggableIds.get(suitePluginIds.playbooks);
             stepValue = WorkTemplateTourSteps.PLAYBOOKS_TOUR_TIP;
-        } else if (data?.channel_ids.length) {
-            firstChannelId = data.channel_ids[0];
+        } else {
             pluginId = rhsPluggableIds.get(suitePluginIds.boards);
             stepValue = WorkTemplateTourSteps.BOARDS_TOUR_TIP;
         }
@@ -295,9 +268,52 @@ const WorkTemplateModal = () => {
         // store in the global state the plugins/integrations information related to the used template
         // so we can display that data in the tourtip
         await dispatch(onExecuteSuccess(linkedProductsCount));
+    };
+
+    const execute = async (template: WorkTemplate, name = '', visibility: Visibility) => {
+        const pbTemplates = [];
+        for (const item of template.content) {
+            if (item.playbook) {
+                const pbTemplate = playbookTemplates.find((pb) => pb.title === item.playbook.template);
+                if (pbTemplate) {
+                    pbTemplates.push(pbTemplate);
+                }
+            }
+        }
+
+        const req: ExecuteWorkTemplateRequest = {
+            team_id: teamId,
+            name,
+            visibility,
+            work_template: template,
+            playbook_templates: pbTemplates,
+        };
+
+        setIsCreating(true);
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'executing', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility});
+        const {data, error} = await dispatch(executeWorkTemplate(req)) as ActionResult<ExecuteWorkTemplateResponse>;
+
+        if (error) {
+            trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'execution_error', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility, error: error.message});
+            setErrorText(error.message);
+            return;
+        }
+
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'execution_success', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility});
+        let firstChannelId = '';
+
+        if (data?.channel_with_playbook_ids.length) {
+            firstChannelId = data.channel_with_playbook_ids[0];
+        } else if (data?.channel_ids.length) {
+            firstChannelId = data.channel_ids[0];
+        }
+
         if (firstChannelId) {
             dispatch(loadIfNecessaryAndSwitchToChannelById(firstChannelId));
         }
+
+        tourTipActions(template);
+
         setIsCreating(false);
         closeModal();
     };

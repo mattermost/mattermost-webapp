@@ -1,5 +1,3 @@
-@import '../../../../sass/utils/mixins';
-
 .tour-tip {
     display: flex;
 
@@ -432,14 +430,14 @@
     // style buttons while in the blue style
     .tour-tip {
         &__btn {
-            @include secondary-button;
+            background: var(--button-color);
+            color: var(--button-bg);
 
             &:hover,
             &:active,
             &:focus {
-                border: 1px solid var(--denim-button-bg) !important;
-                background: rgba(var(--center-channel-bg-rgb), 0.8) !important;
-                color: var(--button-bg) !important;
+                background: var(--button-color);
+                color: var(--button-bg);
             }
         }
 
