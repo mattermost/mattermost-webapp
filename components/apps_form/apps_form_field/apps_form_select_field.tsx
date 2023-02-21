@@ -8,9 +8,9 @@ import AsyncSelect, {Props as AsyncSelectProps} from 'react-select/async';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import ReactSelect, {ValueType} from 'react-select';
 
-import ReactSelect from 'react-select';
+import Constants from 'utils/constants';
 
 import OverlayTrigger from 'components/overlay_trigger';
 
@@ -22,6 +22,9 @@ import {UserAutocomplete} from '@mattermost/types/autocomplete';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {imageURLForUser} from 'utils/utils';
+
+import {SelectChannelOption} from './select_channel_option';
+import {SelectUserOption} from './select_user_option';
 
 type SelectValue = AppSelectOption | AppSelectOption[] | null;
 
@@ -52,22 +55,6 @@ const reactStyles = {
     }),
 };
 
-const commonComponents = {
-    MultiValueLabel: (props: {data: {label: string}}) => (
-        <div className='react-select__padded-component'>
-            {props.data.label}
-        </div>
-    ),
-};
-
-const commonProps = {
-    isClearable: true,
-    openMenuOnFocus: false,
-    classNamePrefix: 'react-select-auto react-select',
-    menuPortalTarget: document.body,
-    styles: reactStyles,
-};
-
 export default class AppsFormSelectField extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
@@ -89,15 +76,13 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
     }
 
     getCommonProps = (): Partial<AsyncSelectProps<AppSelectOption>> => {
-        const {field} = this.props;
-        const placeholder = field.hint || '';
-        const value = this.props.value;
+        const {field, value} = this.props;
 
         return {
             value,
-            placeholder,
+            onChange: this.onChange,
+            placeholder: field.hint || '',
             isDisabled: field.readonly,
-            onChange: this.onChange as any, // types are not working correctly for multiselect
             isMulti: field.multiselect || false,
             isClearable: true,
             openMenuOnFocus: false,
@@ -105,29 +90,32 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
             menuPortalTarget: document.body,
             styles: reactStyles,
             menuPlacement: 'auto',
-            components: {
-                MultiValueLabel: (props) => (
-                    <div className='react-select__padded-component'>
-                        {props.data.label}
-                    </div>
-                ),
-
-                // Remove separator between chevron and clear button, to match our autocomplete's styling
-                IndicatorSeparator: () => null,
-
-                // Use custom clear button, to match our autocomplete's styling
-                ClearIndicator: this.renderClearComponent,
-            },
+            components: this.getSharedComponents(),
         };
     }
+
+    getSharedComponents = () => ({
+        MultiValueLabel: (props: {data: {label: string}}) => (
+            <div className='react-select__padded-component'>
+                {props.data.label}
+            </div>
+        ),
+
+        // Remove separator between chevron and clear button, to match our autocomplete's styling
+        IndicatorSeparator: () => null,
+
+        // Use custom clear button, to match our autocomplete's styling
+        ClearIndicator: this.renderClearComponent,
+    });
 
     onClear = (e: React.UIEvent) => {
         e.stopPropagation();
         this.props.onClear();
     }
 
-    onChange = (selectedOption: SelectValue) => {
-        this.props.onChange(selectedOption);
+    onChange = (selectedOption?: ValueType<AppSelectOption>) => {
+        const opt = (selectedOption || null) as SelectValue;
+        this.props.onChange(opt);
     }
 
     loadDynamicOptions = async (userInput: string): Promise<AppSelectOption[]> => {
@@ -156,67 +144,43 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
 
     renderDynamicSelect() {
         const {field} = this.props;
-        const commonProps = this.getCommonProps();
 
         return (
             <div className={'react-select'}>
                 <AsyncSelect
+                    {...this.getSharedComponents()}
                     id={`AppsDynamicSelect_${field.name}`}
                     loadOptions={this.loadDynamicOptions}
                     defaultOptions={true}
-                    isMulti={field.multiselect || false}
-                    placeholder={placeholder}
-                    value={value}
-                    onChange={this.onChange as any} // types are not working correctly for multiselect
-                    isDisabled={field.readonly}
-                    components={commonComponents}
-                    {...commonProps}
+                    components={this.getSharedComponents()}
                 />
             </div>
         );
     }
 
     renderUserSelect() {
-        const {hint, name, multiselect, readonly} = this.props.field;
-        const placeholder = hint || '';
-        const value = this.props.value;
-
         return (
             <div className={'react-select'}>
                 <AsyncSelect
+                    {...this.getSharedComponents()}
                     id={`MultiInput_${name}`}
                     loadOptions={this.loadDynamicUserOptions}
                     defaultOptions={true}
-                    isMulti={multiselect || false}
-                    placeholder={placeholder}
-                    value={value}
-                    onChange={this.onChange as any} // types are not working correctly for multiselect
-                    isDisabled={readonly}
-                    components={{...commonComponents, Option: SelectUserOption}}
-                    {...commonProps}
+                    components={{...this.getSharedComponents(), Option: SelectUserOption}}
                 />
             </div>
         );
     }
 
     renderChannelSelect() {
-        const {hint, name, multiselect, readonly} = this.props.field;
-        const placeholder = hint || '';
-        const value = this.props.value;
-
         return (
             <div className={'react-select'}>
                 <AsyncSelect
+                    {...this.getCommonProps()}
                     id={`MultiInput_${name}`}
                     loadOptions={this.loadDynamicChannelOptions}
                     defaultOptions={true}
-                    isMulti={multiselect || false}
-                    placeholder={placeholder}
-                    value={value}
-                    onChange={this.onChange as any} // types are not working correctly for multiselect
-                    isDisabled={readonly}
-                    components={{...commonComponents, Option: SelectChannelOption}}
-                    {...commonProps}
+                    components={{...this.getSharedComponents(), Option: SelectChannelOption}}
                 />
             </div>
         );
@@ -225,20 +189,14 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
     renderStaticSelect() {
         const {field} = this.props;
         const options = field.options;
-        const commonProps = this.getCommonProps();
 
         return (
             <div className={'react-select'}>
                 <ReactSelect
+                    {...this.getCommonProps()}
                     id={`AppsStaticSelect_${field.name}`}
                     options={options}
-                    isMulti={field.multiselect || false}
-                    placeholder={placeholder}
-                    value={value}
-                    onChange={this.onChange as any} // types are not working correctly for multiselect
-                    isDisabled={field.readonly}
-                    components={commonComponents}
-                    {...commonProps}
+                    components={this.getSharedComponents()}
                 />
             </div>
         );
