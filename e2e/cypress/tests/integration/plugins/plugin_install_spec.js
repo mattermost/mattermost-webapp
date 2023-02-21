@@ -16,7 +16,6 @@
  * under fixtures folder.
  */
 
-// Stage: @prod
 // Group: @system_console @plugin @not_cloud @timeout_error
 
 import * as TIMEOUTS from '../../fixtures/timeouts';

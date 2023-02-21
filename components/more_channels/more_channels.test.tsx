@@ -80,6 +80,7 @@ describe('components/MoreChannels', () => {
             searchMoreChannels: jest.fn(channelActions.searchMoreChannels),
             openModal: jest.fn(),
             closeModal: jest.fn(),
+            closeRightHandSide: jest.fn(),
         },
     };
 

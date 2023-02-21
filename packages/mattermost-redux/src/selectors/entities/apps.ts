@@ -10,12 +10,6 @@ import {ClientConfig} from '@mattermost/types/config';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
-import {Locations} from 'utils/constants';
-
-// This file's contents belong to the Apps Framework feature.
-// Apps Framework feature is experimental, and the contents of this file are
-// susceptible to breaking changes without pushing the major version of this package.
-
 export const appsPluginIsEnabled = (state: GlobalState) => state.entities.apps.pluginEnabled;
 
 export const appsFeatureFlagEnabled = createSelector(
@@ -108,26 +102,3 @@ export const getAppCommandForm = (state: GlobalState, location: string) => {
 export const getAppRHSCommandForm = (state: GlobalState, location: string) => {
     return state.entities.apps.rhs.forms[location];
 };
-
-export function makeGetPostOptionBinding(): (state: GlobalState, location?: string) => AppBinding[] | null {
-    const centerBindingsSelector = makeAppBindingsSelector(AppBindingLocations.POST_MENU_ITEM);
-    const rhsBindingsSelector = makeRHSAppBindingSelector(AppBindingLocations.POST_MENU_ITEM);
-    return createSelector(
-        'postOptionsBindings',
-        centerBindingsSelector,
-        rhsBindingsSelector,
-        (state: GlobalState, location?: string) => location,
-        (centerBindings: AppBinding[], rhsBindings: AppBinding[], location?: string) => {
-            switch (location) {
-            case Locations.RHS_ROOT:
-            case Locations.RHS_COMMENT:
-                return rhsBindings;
-            case Locations.SEARCH:
-                return null;
-            case Locations.CENTER:
-            default:
-                return centerBindings;
-            }
-        },
-    );
-}

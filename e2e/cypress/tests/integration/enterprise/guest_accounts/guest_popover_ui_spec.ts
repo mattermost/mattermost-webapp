@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @guest_account
 
 /**
@@ -66,7 +65,7 @@ describe('Guest Account - Guest User Badge and Popover', () => {
         // * Verify Guest Badge when guest user posts a message in Center Channel
         cy.get('@yesterdaysPost').then((postId) => {
             cy.get(`#post_${postId}`).within(($el) => {
-                cy.wrap($el).find('.post__header .Badge').should('be.visible');
+                cy.wrap($el).find('.post__header .Tag').should('be.visible');
                 cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
             });
         });

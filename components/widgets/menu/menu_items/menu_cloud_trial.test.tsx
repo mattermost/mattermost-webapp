@@ -47,7 +47,7 @@ const limits = {
             history: 10000,
         },
         files: {
-            total_storage: 10 * FileSizes.Gigabyte,
+            total_storage: FileSizes.Gigabyte,
         },
         teams: {
             active: 1,

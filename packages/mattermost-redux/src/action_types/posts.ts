@@ -29,6 +29,7 @@ export default keyMirror({
 
     RECEIVED_POST: null,
     RECEIVED_NEW_POST: null,
+    RECEIVED_POST_HISTORY: null,
 
     RECEIVED_POSTS: null,
     RECEIVED_POSTS_AFTER: null,
@@ -54,4 +55,8 @@ export default keyMirror({
     MOVE_HISTORY_INDEX_FORWARD: null,
 
     RESET_POSTS_IN_CHANNEL: null,
+
+    CREATE_ACK_POST_SUCCESS: null,
+
+    DELETE_ACK_POST_SUCCESS: null,
 });

@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable react/jsx-no-literals */
-
 import {fireEvent, screen, act} from '@testing-library/react';
 import React from 'react';
 import * as reactRedux from 'react-redux';
@@ -23,14 +21,14 @@ const DummyModal = ({onClose, onSave}: GatherIntentModalProps) => {
                 title='Close'
                 onClick={onClose}
             />
-            <p>Body</p>
+            <p>{'Body'}</p>
             <button
                 onClick={() => {
                     onSave({ach: true, other: false, wire: true});
                 }}
                 type='button'
             >
-                Test
+                {'Test'}
             </button>
         </>
     );

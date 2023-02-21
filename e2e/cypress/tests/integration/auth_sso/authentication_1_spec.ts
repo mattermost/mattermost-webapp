@@ -38,12 +38,10 @@ describe('Authentication', () => {
     });
 
     it('MM-T1756 - Restrict Domains - Multiple - success', () => {
-        // # Enable open server and turn on user account creation and set restricted domain
+        // # Set restricted domain
         cy.apiUpdateConfig({
             TeamSettings: {
                 RestrictCreationToDomains: 'mattermost.com, test.com',
-                EnableUserCreation: true,
-                EnableOpenServer: true,
             },
         }).then(() => {
             cy.apiLogout();
@@ -52,7 +50,7 @@ describe('Authentication', () => {
             cy.visit('/login');
 
             // * Assert that create account button is visible
-            cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            cy.findByText('Don\'t have an account?', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
             // # Go to sign up with email page
             cy.visit('/signup_user_complete');
@@ -71,12 +69,10 @@ describe('Authentication', () => {
     });
 
     it('MM-T1757 - Restrict Domains - Multiple - fail', () => {
-        // # Enable open server and turn on user account creation
+        // # Set restricted domain
         cy.apiUpdateConfig({
             TeamSettings: {
                 RestrictCreationToDomains: 'mattermost.com, test.com',
-                EnableUserCreation: true,
-                EnableOpenServer: true,
             },
         }).then(() => {
             cy.apiLogin(testUserAlreadyInTeam);
@@ -102,12 +98,10 @@ describe('Authentication', () => {
     });
 
     it('MM-T1758 - Restrict Domains - Team invite closed team', () => {
-        // # Enable open server and turn off user account creation and set restricted domain
+        // # Set restricted domain
         cy.apiUpdateConfig({
             TeamSettings: {
                 RestrictCreationToDomains: 'mattermost.com, test.com',
-                EnableUserCreation: true,
-                EnableOpenServer: true,
             },
         }).then(() => {
             cy.apiLogout();
@@ -128,14 +122,10 @@ describe('Authentication', () => {
     });
 
     it('MM-T1763 - Security - Signup: Email verification not required, user immediately sees Town Square', () => {
-        // # Enable open server and turn on user account creation and set restricted domain
+        // # Disable email verification
         cy.apiUpdateConfig({
             EmailSettings: {
                 RequireEmailVerification: false,
-            },
-            TeamSettings: {
-                EnableUserCreation: true,
-                EnableOpenServer: true,
             },
         }).then(({config}) => {
             cy.apiLogout();
@@ -144,7 +134,7 @@ describe('Authentication', () => {
             cy.visit('/login');
 
             // * Assert that create account button is visible
-            cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            cy.findByText('Don\'t have an account?', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
             // # Go to sign up with email page
             cy.visit('/signup_user_complete');
@@ -171,14 +161,10 @@ describe('Authentication', () => {
     });
 
     it('MM-T1765 - Authentication - Email - Creation with email = false', () => {
-        // # Enable open server and turn on user account creation and set restricted domain
+        // # Disable user sign up and enable GitLab
         cy.apiUpdateConfig({
             EmailSettings: {
                 EnableSignUpWithEmail: false,
-            },
-            TeamSettings: {
-                EnableUserCreation: true,
-                EnableOpenServer: true,
             },
             GitLabSettings: {
                 Enable: true,

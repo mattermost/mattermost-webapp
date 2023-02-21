@@ -17,6 +17,9 @@ IE11:
 Edge:
     Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586
 
+ChromeOS Chromebook:
+    Mozilla/5.0 (X11; CrOS x86_64 8172.45.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.64 Safari/537.36
+
 Desktop App:
     Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Mattermost/1.2.1 Chrome/49.0.2623.75 Electron/0.37.8 Safari/537.36
     Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586
@@ -105,6 +108,10 @@ export function isMobile(): boolean {
 
 export function isFirefox(): boolean {
     return userAgent().indexOf('Firefox') !== -1;
+}
+
+export function isChromebook(): boolean {
+    return userAgent().indexOf('CrOS') !== -1;
 }
 
 export function isInternetExplorer(): boolean {

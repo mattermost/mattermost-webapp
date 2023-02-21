@@ -52,7 +52,6 @@ h6.markdown__heading {
 #rhsContainer {
     .markdown-inline-img {
         max-height: 500px;
-        margin: 5px 2px;
         border-radius: 4px;
         -moz-force-broken-image-icon: 1;
     }
@@ -73,6 +72,11 @@ h6.markdown__heading {
         }
     }
 
+    .markdown-inline-img,
+    .markdown-inline-img__container {
+        margin: 5px 2px;
+    }
+
     .markdown-inline-img__container {
         display: inline-block;
         width: calc(100% - 5px);
@@ -87,7 +91,11 @@ h6.markdown__heading {
         }
 
         .image-loaded-container {
-            display: inline;
+            display: inline-block;
+        }
+
+        .markdown-inline-img {
+            margin: 0;
         }
     }
 
@@ -176,7 +184,7 @@ h6.markdown__heading {
     }
 
     .image-loaded-container {
-        display: inline;
+        display: inline-block;
     }
 }
 
@@ -344,7 +352,7 @@ h6.markdown__heading {
                 padding: 0;
                 border: 0 none;
                 margin: 15px 0 16px;
-                background-color: rgba(var(--center-channel-text-rgb), 0.24);
+                background-color: rgba(var(--center-channel-color-rgb), 0.24);
             }
         }
     }

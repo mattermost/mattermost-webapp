@@ -7,8 +7,6 @@ import {useSelector} from 'react-redux';
 
 import {EyeOffOutlineIcon} from '@mattermost/compass-icons/components';
 
-import {GlobalState} from '@mattermost/types/store';
-
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -20,7 +18,9 @@ import useGetLimits from 'components/common/hooks/useGetLimits';
 import {NotifyStatus} from 'components/common/hooks/useGetNotifyAdmin';
 import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
 
-import {LicenseSkus, PaidFeatures} from 'utils/constants';
+import {LicenseSkus, MattermostFeatures} from 'utils/constants';
+
+import {GlobalState} from '@mattermost/types/store';
 
 import './index.scss';
 
@@ -60,7 +60,7 @@ export default function CenterMessageLock(props: Props) {
             defaultMessage: 'Notify Admin',
         }),
     }, {
-        required_feature: PaidFeatures.UNLIMITED_MESSAGES,
+        required_feature: MattermostFeatures.UNLIMITED_MESSAGES,
         required_plan: LicenseSkus.Professional,
         trial_notification: false,
     });
@@ -150,7 +150,7 @@ export default function CenterMessageLock(props: Props) {
 
     return (<div className='CenterMessageLock'>
         <div className='CenterMessageLock__left'>
-            <EyeOffOutlineIcon color={'rgba(var(--center-channel-text-rgb), 0.72)'}/>
+            <EyeOffOutlineIcon color={'rgba(var(--center-channel-color-rgb), 0.72)'}/>
         </div>
         <div className='CenterMessageLock__right'>
             <div className='CenterMessageLock__title'>

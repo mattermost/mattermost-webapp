@@ -57,7 +57,7 @@ export type Props<T extends Value> = {
     perPage: number;
     placeholderText?: string;
     saving?: boolean;
-    submitImmediatelyOn?: (value: T) => void;
+    submitImmediatelyOn?: (value: T) => boolean;
     totalCount?: number;
     users?: unknown[];
     valueWithImage: boolean;
@@ -109,7 +109,10 @@ export default class MultiSelect<T extends Value> extends React.PureComponent<Pr
             (inputRef as HTMLElement).addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
 
             if (this.props.focusOnLoad) {
-                this.reactSelectRef.current!.focus(); // known from ternary definition of inputRef
+                requestAnimationFrame(() => {
+                    // known from ternary definition of inputRef
+                    this.reactSelectRef.current!.focus();
+                });
             }
         }
     }

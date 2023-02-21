@@ -75,7 +75,7 @@ describe('Multi-user group header', () => {
         cy.apiLogout();
     });
 
-    it('MM-T473_1 Edit GM channel header (1/2)', () => {
+    it('MM-T473_1 Edit GM channel header', () => {
         // # open existing GM
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/${groupChannel.name}`);
@@ -99,7 +99,7 @@ describe('Multi-user group header', () => {
         cy.apiLogout();
     });
 
-    it('MM-T473_2 Edit GM channel header (2/2)', () => {
+    it('MM-T473_2 Edit GM channel header', () => {
         // # open existing GM
         cy.apiLogin(testUser);
         cy.visit(`/${testTeam.name}/channels/${groupChannel.name}`);
@@ -110,8 +110,12 @@ describe('Multi-user group header', () => {
         const header = `Header by @${testUser.username}`;
         editHeader(header);
 
-        cy.contains('#channelHeaderDescription span a.mention-link', `@${testUser.username}`).should('exist');
-        cy.contains('#channelHeaderDescription span.mention--highlight a.mention-link', `@${testUser.username}`).should('not.exist');
+        cy.get('#channelHeaderDescription').find('.header-description__text').
+            find('.mention-link').
+            should('be.visible').and('have.text', `@${testUser.username}`);
+        cy.get('#channelHeaderDescription').find('.header-description__text').
+            find('.mention--highlight').
+            should('not.exist');
     });
 
     const editHeader = (header) => {

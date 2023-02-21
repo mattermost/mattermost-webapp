@@ -14,6 +14,7 @@ import {US_STATES, CA_PROVINCES, StateCode} from 'utils/states';
 type Props = {
     country: string;
     state: string;
+    testId?: string;
     onChange: (newValue: string) => void;
     onBlur?: () => void;
 }
@@ -35,8 +36,13 @@ export default function StateSelector(props: Props) {
     }
 
     if (stateList.length > 0) {
+        const withId: {testId?: string} = {};
+        if (props.testId) {
+            withId.testId = props.testId;
+        }
         return (
             <DropdownInput
+                {...withId}
                 onChange={onStateSelected}
                 value={props.state ? {value: props.state, label: props.state} : undefined}
                 options={stateList.map((stateCode) => ({
@@ -61,6 +67,7 @@ export default function StateSelector(props: Props) {
             onBlur={props.onBlur}
             placeholder={formatMessage({id: 'admin.billing.subscription.stateprovince', defaultMessage: 'State/Province'})}
             required={true}
-        />);
+        />
+    );
 }
 

@@ -346,10 +346,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             </Provider>,
         ).find(UserSettingsDisplay);
 
-        (wrapper.instance() as UserSettingsDisplay).handleOnChange({display: 'linkPreviewDisplay'});
+        (wrapper.instance() as UserSettingsDisplay).handleOnChange({} as React.ChangeEvent, {display: 'linkPreviewDisplay'});
         expect(wrapper.state('display')).toBe('linkPreviewDisplay');
 
-        (wrapper.instance() as UserSettingsDisplay).handleOnChange({display: 'collapseDisplay'});
+        (wrapper.instance() as UserSettingsDisplay).handleOnChange({} as React.ChangeEvent, {display: 'collapseDisplay'});
         expect(wrapper.state('display')).toBe('collapseDisplay');
     });
 

@@ -241,6 +241,7 @@ describe('Actions.Posts', () => {
                         data: {
                             amount: 1,
                             amountRoot: 0,
+                            amountUrgent: 0,
                             channelId: 'other_channel_id',
                             fetchedChannelMember: false,
                             teamId: undefined,

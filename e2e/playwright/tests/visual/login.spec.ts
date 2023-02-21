@@ -2,24 +2,22 @@
 // See LICENSE.txt for license information.
 
 import {test} from '@playwright/test';
-import {Eyes, CheckSettings} from '@applitools/eyes-playwright';
 
-import {getAdminClient} from '@support/server';
-import {LoginPage} from '@support/ui/page';
-import {duration, wait} from '@support/utils';
-import {matchSnapshot} from '@support/visual';
+import {getAdminClient} from '@e2e-support/server';
+import {LoginPage} from '@e2e-support/ui/page';
+import {duration, wait} from '@e2e-support/utils';
+import {matchSnapshot, Applitools} from '@e2e-support/visual';
 
-let eyes: Eyes;
-let targetWindow: CheckSettings;
+let applitools: Applitools = {};
 
 test.afterAll(async () => {
-    await eyes?.close();
+    await applitools.eyes?.close();
 });
 
 test('/login', async ({page, isMobile, browserName, viewport}, testInfo) => {
     const testArgs = {page, isMobile, browserName, viewport};
     const {adminClient} = await getAdminClient();
-    const adminConfig = await adminClient.getConfig();
+    const adminConfig = await adminClient?.getConfig();
 
     // Go to login page
     const loginPage = new LoginPage(page, adminConfig);
@@ -30,7 +28,7 @@ test('/login', async ({page, isMobile, browserName, viewport}, testInfo) => {
     await wait(duration.one_sec);
 
     // Match snapshot of login page
-    ({eyes, targetWindow} = await matchSnapshot(testInfo, testArgs));
+    applitools = await matchSnapshot(testInfo, testArgs);
 
     // Click sign in button without entering user credential
     await loginPage.signInButton.click();
@@ -38,5 +36,5 @@ test('/login', async ({page, isMobile, browserName, viewport}, testInfo) => {
     await wait(duration.one_sec);
 
     // Match snapshot of login page with error
-    await matchSnapshot({...testInfo, title: `${testInfo.title} error`}, testArgs, {eyes, targetWindow});
+    await matchSnapshot({...testInfo, title: `${testInfo.title} error`}, testArgs, applitools);
 });

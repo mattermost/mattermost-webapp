@@ -10,7 +10,9 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import {CreateAndJoinChannelsTour, InvitePeopleTour} from 'components/onboarding_tour';
+import {CreateAndJoinChannelsTour, InvitePeopleTour} from 'components/tours/onboarding_tour';
+import {ModalIdentifiers} from 'utils/constants';
+import WorkTemplateModal from 'components/work_templates';
 
 type Props = {
     canCreateChannel: boolean;
@@ -28,6 +30,7 @@ type Props = {
     isAddChannelOpen: boolean;
     openAddChannelOpen: (open: boolean) => void;
     canCreateCustomGroups: boolean;
+    showWorkTemplateButton: boolean;
 };
 
 const AddChannelDropdown = ({
@@ -45,6 +48,7 @@ const AddChannelDropdown = ({
     isAddChannelOpen,
     openAddChannelOpen,
     canCreateCustomGroups,
+    showWorkTemplateButton,
 }: Props) => {
     const intl = useIntl();
 
@@ -61,6 +65,21 @@ const AddChannelDropdown = ({
                 {showInviteTutorialTip && <InvitePeopleTour/>}
             </Menu.Group>
         );
+
+        let workTemplate;
+        if (showWorkTemplateButton) {
+            workTemplate = (
+                <Menu.ItemToggleModalRedux
+                    id='work-template'
+                    modalId={ModalIdentifiers.WORK_TEMPLATE}
+                    dialogType={WorkTemplateModal}
+                    text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.work_template', defaultMessage: 'Create from a template'})}
+                    extraText={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.work_template_extra', defaultMessage: 'Set up a channel with linked boards, and playbooks'})}
+                    icon={<i className='icon-layers-outline'/>}
+                    className='work-template'
+                />
+            );
+        }
 
         let joinPublicChannel;
         if (canJoinPublicChannel) {
@@ -101,7 +120,7 @@ const AddChannelDropdown = ({
 
         const createDirectMessage = (
             <Menu.ItemAction
-                id={'browseDirectMessages'}
+                id={'openDirectMessageMenuItem'}
                 onClick={handleOpenDirectMessagesModal}
                 icon={<i className='icon-account-outline'/>}
                 text={intl.formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}
@@ -123,6 +142,7 @@ const AddChannelDropdown = ({
         return (
             <>
                 <Menu.Group>
+                    {workTemplate}
                     {joinPublicChannel}
                     {createChannel}
                     {createDirectMessage}

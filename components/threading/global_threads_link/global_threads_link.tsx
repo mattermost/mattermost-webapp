@@ -12,30 +12,32 @@ import {
 } from 'mattermost-redux/selectors/entities/threads';
 import {getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getThreadCounts} from 'mattermost-redux/actions/threads';
-
 import {t} from 'utils/i18n';
-
-import {useThreadRouting} from '../hooks';
 import {trackEvent} from 'actions/telemetry_actions';
-
+import {closeRightHandSide} from 'actions/views/rhs';
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
-import CRTWelcomeTutorialTip
-    from '../../crt_tour/crt_welcome_tutorial_tip/crt_welcome_tutorial_tip';
 import {GlobalState} from 'types/store';
 import {isAnyModalOpen} from 'selectors/views/modals';
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import Constants, {
     CrtTutorialSteps,
     CrtTutorialTriggerSteps,
     ModalIdentifiers,
     Preferences,
+    RHSStates,
 } from 'utils/constants';
 import CollapsedReplyThreadsModal
-    from 'components/crt_tour/collapsed_reply_threads_modal/collapsed_reply_threads_modal';
+    from 'components/tours/crt_tour/collapsed_reply_threads_modal/collapsed_reply_threads_modal';
 
-import {PulsatingDot} from '@mattermost/components';
 import {openModal} from 'actions/views/modals';
 
+import {PulsatingDot} from '@mattermost/components';
+import CRTWelcomeTutorialTip
+    from '../../tours/crt_tour/crt_welcome_tutorial_tip';
+import {useThreadRouting} from '../hooks';
+
 import ThreadsIcon from './threads_icon';
+
 import './global_threads_link.scss';
 
 const GlobalThreadsLink = () => {
@@ -53,10 +55,11 @@ const GlobalThreadsLink = () => {
     const appHaveOpenModal = useSelector(isAnyModalOpen);
     const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUserId, CrtTutorialSteps.WELCOME_POPOVER));
     const crtTutorialTrigger = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_TRIGGERED, currentUserId, Constants.CrtTutorialTriggerSteps.START));
-    const tutorialTipAutoTour = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS, currentUserId, Constants.AutoTourStatus.ENABLED)) === Constants.AutoTourStatus.ENABLED;
     const threads = useSelector(getThreadsInCurrentTeam);
     const showTutorialTip = crtTutorialTrigger === CrtTutorialTriggerSteps.STARTED && tipStep === CrtTutorialSteps.WELCOME_POPOVER && threads.length >= 1;
     const threadsCount = useSelector(getThreadCountsInCurrentTeam);
+    const rhsOpen = useSelector(getIsRhsOpen);
+    const rhsState = useSelector(getRhsState);
     const showTutorialTrigger = isFeatureEnabled && crtTutorialTrigger === Constants.CrtTutorialTriggerSteps.START && !appHaveOpenModal && Boolean(threadsCount) && threadsCount.total >= 1;
     const openThreads = useCallback((e) => {
         e.stopPropagation();
@@ -64,7 +67,10 @@ const GlobalThreadsLink = () => {
         if (showTutorialTrigger) {
             dispatch(openModal({modalId: ModalIdentifiers.COLLAPSED_REPLY_THREADS_MODAL, dialogType: CollapsedReplyThreadsModal, dialogProps: {}}));
         }
-    }, [showTutorialTrigger, threadsCount, threads]);
+        if (rhsOpen && rhsState === RHSStates.EDIT_HISTORY) {
+            dispatch(closeRightHandSide());
+        }
+    }, [showTutorialTrigger, threadsCount, threads, rhsOpen, rhsState]);
 
     useEffect(() => {
         // load counts if necessary
@@ -96,7 +102,6 @@ const GlobalThreadsLink = () => {
                     className={classNames('SidebarLink sidebar-item', {
                         'unread-title': Boolean(someUnreadThreads),
                     })}
-                    role='listitem'
                     tabIndex={0}
                 >
                     <span className='icon'>
@@ -108,11 +113,14 @@ const GlobalThreadsLink = () => {
                         </span>
                     </div>
                     {counts?.total_unread_mentions > 0 && (
-                        <ChannelMentionBadge unreadMentions={counts.total_unread_mentions}/>
+                        <ChannelMentionBadge
+                            unreadMentions={counts.total_unread_mentions}
+                            hasUrgent={Boolean(counts?.total_unread_urgent_mentions)}
+                        />
                     )}
                     {showTutorialTrigger && <PulsatingDot/>}
                 </Link>
-                {showTutorialTip && <CRTWelcomeTutorialTip autoTour={tutorialTipAutoTour}/>}
+                {showTutorialTip && <CRTWelcomeTutorialTip/>}
             </li>
         </ul>
     );

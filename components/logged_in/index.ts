@@ -11,6 +11,7 @@ import {Channel} from '@mattermost/types/channels';
 import {DispatchFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {autoUpdateTimezone} from 'mattermost-redux/actions/timezone';
+import {viewChannel} from 'mattermost-redux/actions/channels';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser, shouldShowTermsOfService} from 'mattermost-redux/selectors/entities/users';
@@ -58,6 +59,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators({
             autoUpdateTimezone,
             getChannelURLAction,
+            viewChannel,
         }, dispatch),
     };
 }

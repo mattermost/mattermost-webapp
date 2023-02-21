@@ -59,6 +59,7 @@ const EMPTY_CHANNEL_STATS = {member_count: 0, guest_count: 0, pinnedpost_count: 
 function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
     const getCustomStatus = makeGetCustomStatus();
+    let timestampUnits: string[] = [];
 
     return function mapStateToProps(state: GlobalState) {
         const channel = getCurrentChannel(state) || EMPTY_CHANNEL;
@@ -82,7 +83,6 @@ function makeMapStateToProps() {
         }
         const stats = getCurrentChannelStats(state) || EMPTY_CHANNEL_STATS;
 
-        let timestampUnits: string[] = [];
         let isLastActiveEnabled = false;
         if (dmUser) {
             isLastActiveEnabled = displayLastActiveLabel(state, dmUser.id);

@@ -19,9 +19,7 @@ import PaymentInfoDisplay from './payment_info_display';
 
 import './payment_info.scss';
 
-type Props = {
-
-};
+type Props = Record<string, never>;
 
 const PaymentInfo: React.FC<Props> = () => {
     const dispatch = useDispatch<DispatchFunc>();

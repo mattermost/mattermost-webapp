@@ -19,15 +19,12 @@ type Props = {
     redirectChannel: string;
     active: boolean;
     membersCount: number;
-    isCollapsed: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<{data: boolean}>;
     };
 };
 
-type State = {
-
-};
+type State = Record<string, never>;
 
 export default class SidebarGroupChannel extends React.PureComponent<Props, State> {
     handleLeaveChannel = (callback: () => void) => {
@@ -58,9 +55,8 @@ export default class SidebarGroupChannel extends React.PureComponent<Props, Stat
                 channel={channel}
                 link={`/${currentTeamName}/messages/${channel.name}`}
                 label={channel.display_name}
-                closeHandler={this.handleLeaveChannel}
+                channelLeaveHandler={this.handleLeaveChannel}
                 icon={this.getIcon()}
-                isCollapsed={this.props.isCollapsed}
             />
         );
     }

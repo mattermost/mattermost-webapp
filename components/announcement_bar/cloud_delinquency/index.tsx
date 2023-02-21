@@ -48,15 +48,26 @@ const CloudDelinquencyAnnouncementBar = () => {
         return null;
     }
 
-    const message = {
+    const bannerType = getBannerType();
+
+    let message = {
         id: t('cloud_delinquency.banner.title'),
         defaultMessage:
             'Update your billing information now to keep paid features.',
     };
 
+    // If critical banner, wording is different
+    if (bannerType === AnnouncementBarTypes.CRITICAL) {
+        message = {
+            id: t('cloud_delinquency.post_downgrade_banner.title'),
+            defaultMessage:
+                'Update your billing information now to re-activate paid features.',
+        };
+    }
+
     return (
         <AnnouncementBar
-            type={getBannerType()}
+            type={bannerType}
             showCloseButton={false}
             onButtonClick={() => {
                 trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'click_update_billing');

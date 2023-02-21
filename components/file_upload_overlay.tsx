@@ -45,7 +45,6 @@ const FileUploadOverlay: React.FC<Props> = (props: Props) => {
                     <img
                         className='overlay__logo'
                         src={overlayLogoImage}
-                        width='100'
                         alt='Logo'
                     />
                 </div>

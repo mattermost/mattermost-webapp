@@ -28,26 +28,10 @@ export const fallbackStarterLimits = {
         history: 10000,
     },
     files: {
-        totalStorage: FileSizes.Gigabyte * 10,
+        totalStorage: Number(FileSizes.Gigabyte),
     },
     teams: {
         active: 1,
-    },
-    integrations: {
-        enabled: 5,
-    },
-    boards: {
-        cards: 500,
-        views: 5,
-    },
-};
-
-// These are to be used when we need values
-// even if network requests are failing for some reason.
-// Use as a fallback.
-export const fallbackProfessionalLimits = {
-    files: {
-        totalStorage: FileSizes.Gigabyte * 250,
     },
 };
 
@@ -80,6 +64,4 @@ export const limitThresholds = Object.freeze({
 export const LimitTypes = {
     messageHistory: 'messageHistory',
     fileStorage: 'fileStorage',
-    enabledIntegrations: 'enabledIntegrations',
-    boardsCards: 'boardsCards',
 } as const;

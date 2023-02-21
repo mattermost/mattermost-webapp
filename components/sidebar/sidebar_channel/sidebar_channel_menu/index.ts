@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {connect} from 'react-redux';
-import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
+import {connect, ConnectedProps} from 'react-redux';
 
+import {Channel} from '@mattermost/types/channels';
 import {favoriteChannel, unfavoriteChannel, markChannelAsRead} from 'mattermost-redux/actions/channels';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {isFavoriteChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -11,27 +11,27 @@ import {getMyChannelMemberships, getCurrentUserId} from 'mattermost-redux/select
 import {getCategoryInTeamWithChannel} from 'mattermost-redux/selectors/entities/channel_categories';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {Action} from 'mattermost-redux/types/actions';
-import {Channel} from '@mattermost/types/channels';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {unmuteChannel, muteChannel} from 'actions/channel_actions';
+import {markMostRecentPostInChannelAsUnread} from 'actions/post_actions';
 import {addChannelsInSidebar} from 'actions/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
 
 import {getCategoriesForCurrentTeam, getDisplayedChannels} from 'selectors/views/channel_sidebar';
 
-import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 
 import {getSiteURL} from 'utils/url';
 
 import SidebarChannelMenu from './sidebar_channel_menu';
 
-type OwnProps = {
+export type OwnProps = {
     channel: Channel;
     channelLink: string;
     isUnread: boolean;
+    channelLeaveHandler?: (callback: () => void) => void;
+    onMenuToggle: (open: boolean) => void;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
@@ -65,28 +65,19 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     };
 }
 
-type Actions = {
-    markChannelAsRead: (channelId: string) => void;
-    favoriteChannel: (channelId: string) => void;
-    unfavoriteChannel: (channelId: string) => void;
-    muteChannel: (userId: string, channelId: string) => void;
-    unmuteChannel: (userId: string, channelId: string) => void;
-    openModal: <P>(modalData: ModalData<P>) => void;
-    addChannelsInSidebar: (categoryId: string, channelId: string) => void;
+const mapDispatchToProps = {
+    markChannelAsRead,
+    markMostRecentPostInChannelAsUnread,
+    favoriteChannel,
+    unfavoriteChannel,
+    muteChannel,
+    unmuteChannel,
+    openModal,
+    addChannelsInSidebar,
 };
 
-function mapDispatchToProps(dispatch: Dispatch) {
-    return {
-        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
-            markChannelAsRead,
-            favoriteChannel,
-            unfavoriteChannel,
-            muteChannel,
-            unmuteChannel,
-            openModal,
-            addChannelsInSidebar,
-        }, dispatch),
-    };
-}
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarChannelMenu);
+export type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(SidebarChannelMenu);

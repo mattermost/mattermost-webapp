@@ -30,16 +30,38 @@ declare namespace Cypress {
          *       // do something with bot
          *   });
          */
-        apiCreateBot({bot: BotPatch, prefix: string}): Chainable<{bot: Bot & {fullDisplayName: string}}>;
+        apiCreateBot({bot: BotPatch, prefix: string}?): Chainable<{bot: Bot & {fullDisplayName: string}}>;
 
         /**
          * Get bots.
          * See https://api.mattermost.com/#tag/bots/paths/~1bots/get
+         * @param {number} options.page - The page to select
+         * @param {number} options.perPage - The number of users per page. There is a maximum limit of 200 users per page
+         * @param {boolean} options.includeDeleted - If deleted bots should be returned
          * @returns {Bot[]} out.bots: `Bot[]` object
          *
          * @example
          *   cy.apiGetBots();
          */
-        apiGetBots(): Chainable<{bots: Bot[]}>;
+        apiGetBots(page: number, perPage: number, includeDeleted: boolean): Chainable<{bots: Bot[]}>;
+
+        /**
+         * Disable bot.
+         * See https://api.mattermost.com/#tag/bots/operation/DisableBot
+         * @param {string} userId - User ID
+         * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
+         *
+         * @example
+         *   cy.apiDisableBot('user-id);
+         */
+        apiDisableBot(userId: string): Chainable<Response>;
+
+        /**
+         * Deactivate test bots.
+         *
+         * @example
+         *   cy.apiDeactivateTestBots();
+         */
+        apiDeactivateTestBots(): Chainable<>;
     }
 }

@@ -24,6 +24,7 @@ type OwnProps = {
     postIds: Array<Post['id'] | FakePost['id']>;
     selected: Post | FakePost;
     useRelativeTimestamp: boolean;
+    onCardClick: (post: Post) => void;
 }
 
 function makeMapStateToProps() {
