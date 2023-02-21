@@ -32,6 +32,7 @@ describe('components/sidebar/sidebar_category', () => {
         limitVisibleDMsGMs: 10000,
         touchedInviteMembersButton: false,
         currentUserId: '',
+        isAdmin: false,
         actions: {
             setCategoryCollapsed: jest.fn(),
             setCategorySorting: jest.fn(),

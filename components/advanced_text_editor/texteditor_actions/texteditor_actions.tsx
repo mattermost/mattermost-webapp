@@ -4,8 +4,6 @@
 import {memo} from 'react';
 import styled, {css} from 'styled-components';
 
-/** eslint-disable no-confusing-arrow */
-
 type TexteditorActionsProps = {
     placement: 'top' | 'bottom';
     show?: boolean;

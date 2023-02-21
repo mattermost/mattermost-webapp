@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable react/no-string-refs */
-
 import React from 'react';
 
 import {getOptionValue} from 'react-select/src/builtins';
@@ -247,5 +245,3 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
         );
     }
 }
-
-/* eslint-enable react/no-string-refs */

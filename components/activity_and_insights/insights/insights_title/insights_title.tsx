@@ -11,7 +11,7 @@ import Menu from 'components/widgets/menu/menu';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 
 import * as Utils from 'utils/utils';
-import {InsightsScopes, LicenseSkus, PaidFeatures} from 'utils/constants';
+import {InsightsScopes, LicenseSkus, MattermostFeatures} from 'utils/constants';
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 
 import {useLicenseChecks} from '../hooks';
@@ -100,7 +100,7 @@ const InsightsTitle = (props: Props) => {
                     sibling={(isStarterFree || isFreeTrial) && (
                         <RestrictedIndicator
                             blocked={isStarterFree}
-                            feature={PaidFeatures.TEAM_INSIGHTS}
+                            feature={MattermostFeatures.TEAM_INSIGHTS}
                             minimumPlanRequiredForFeature={LicenseSkus.Professional}
                             tooltipMessage={formatMessage({
                                 id: 'insights.accessModal.cloudFreeTrial',

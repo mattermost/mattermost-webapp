@@ -16,7 +16,7 @@ import Logs from './logs';
 
 function mapStateToProps(state: GlobalState) {
     return {
-        logs: Selectors.getLogs(state),
+        logs: Selectors.getAllLogs(state),
     };
 }
 
