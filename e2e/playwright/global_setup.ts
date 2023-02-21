@@ -13,13 +13,14 @@ import {
     makeClient,
 } from './support/server';
 import {defaultTeam} from './support/utils';
-import testConfig from './test.config';
+import testConfig, {TestConfig} from './test.config';
+import {AdminConfig} from '@mattermost/types/config';
 
-const productsAsPlugin = ['com.mattermost.calls', 'focalboard', 'playbooks'];
+const productsAsPlugin = ['com.mattermost.calls', 'playbooks'];
 
 async function globalSetup() {
-    let adminClient: Client | null
-    let adminUser: UserProfile | null
+    let adminClient: Client | null;
+    let adminUser: UserProfile | null;
     ({adminClient, adminUser} = await getAdminClient());
 
     if (!adminClient) {
@@ -33,7 +34,9 @@ async function globalSetup() {
     if (adminClient) {
         await sysadminSetup(adminClient, adminUser);
     } else {
-        throw new Error("Failed to setup admin: Check that you're able to access the server using the same admin credential.");
+        throw new Error(
+            "Failed to setup admin: Check that you're able to access the server using the same admin credential."
+        );
     }
 }
 
@@ -43,7 +46,12 @@ async function sysadminSetup(client: Client, user: UserProfile | null) {
         await client.verifyUserEmail(client.token);
     }
 
-    await client.updateConfig(getOnPremServerConfig());
+    // Update default server config
+    const adminConfig = await client.updateConfig(getOnPremServerConfig());
+
+    // Log license and config info
+    await printLicenseInfo(client);
+    await printClientInfo(client);
 
     // Create default team if not present.
     // Otherwise, create other teams and channels other than the default team cna channels (town-square and off-topic).
@@ -70,7 +78,51 @@ async function sysadminSetup(client: Client, user: UserProfile | null) {
         );
     }
 
+    // Log boards product status
+    printBoardsProductStatus(adminConfig);
+
     // Ensure all products as plugin are installed and active.
+    await ensurePluginsLoaded(client);
+
+    // Log plugin details
+    await printPluginDetails(client);
+
+    // Ensure server deployment type is as expected
+    await ensureServerDeployment(client, testConfig);
+}
+
+async function printLicenseInfo(client: Client) {
+    const license = await client.getClientLicenseOld();
+    // eslint-disable-next-line no-console
+    console.log(`Server License:
+  - IsLicensed      = ${license.IsLicensed}
+  - IsTrial         = ${license.IsTrial}
+  - SkuName         = ${license.SkuName}
+  - SkuShortName    = ${license.SkuShortName}
+  - Cloud           = ${license.Cloud}
+  - Users           = ${license.Users}`);
+}
+
+async function printClientInfo(client: Client) {
+    const config = await client.getClientConfigOld();
+    // eslint-disable-next-line no-console
+    console.log(`Build Info:
+  - BuildNumber                 = ${config.BuildNumber}
+  - BuildDate                   = ${config.BuildDate}
+  - Version                     = ${config.Version}
+  - BuildHash                   = ${config.BuildHash}
+  - BuildHashEnterprise         = ${config.BuildHashEnterprise}
+  - BuildEnterpriseReady        = ${config.BuildEnterpriseReady}
+  - BuildHashBoards             = ${config.BuildHashBoards}
+  - BuildBoards                 = ${config.BuildBoards}
+  - BuildHashPlaybooks          = ${config.BuildHashPlaybooks}
+  - FeatureFlagAppsEnabled      = ${config.FeatureFlagAppsEnabled}
+  - FeatureFlagBoardsProduct    = ${config.FeatureFlagBoardsProduct}
+  - FeatureFlagCallsEnabled     = ${config.FeatureFlagCallsEnabled}
+  - TelemetryId                 = ${config.TelemetryId}`);
+}
+
+async function ensurePluginsLoaded(client: Client) {
     const pluginStatus = await client.getPluginStatuses();
     const plugins = await client.getPlugins();
 
@@ -84,19 +136,53 @@ async function sysadminSetup(client: Client, user: UserProfile | null) {
 
         const isActive = plugins.active.some((plugin) => plugin.id === pluginId);
         if (!isActive) {
-            const isInactive = plugins.inactive.some((plugin) => plugin.id === pluginId);
-            if (isInstalled && isInactive) {
-                await client.enablePlugin(pluginId);
-                // eslint-disable-next-line no-console
-                console.log(`${pluginId} has been activated.`);
-            } else {
-                // eslint-disable-next-line no-console
-                console.log(`${pluginId} is not active. Related visual test will fail.`);
-            }
+            await client.enablePlugin(pluginId);
+
+            // eslint-disable-next-line no-console
+            console.log(`${pluginId} is installed and has been activated.`);
+        } else {
+            // eslint-disable-next-line no-console
+            console.log(`${pluginId} is installed and active.`);
         }
     });
+}
 
-    // Ensure server deployment type is as expected
+function printBoardsProductStatus(config: AdminConfig) {
+    // Ensure boards as product is enabled
+    if (!config.FeatureFlags.BoardsProduct) {
+        // eslint-disable-next-line no-console
+        console.log('FeatureFlags.BoardsProduct is disabled. Related visual test will fail.');
+    } else {
+        // eslint-disable-next-line no-console
+        console.log('FeatureFlags.BoardsProduct is enabled.');
+    }
+}
+
+async function printPluginDetails(client: Client) {
+    const plugins = await client.getPlugins();
+
+    if (plugins.active.length) {
+        // eslint-disable-next-line no-console
+        console.log('Active plugins:');
+    }
+
+    plugins.active.forEach((plugin) => {
+        // eslint-disable-next-line no-console
+        console.log(`  - ${plugin.id}@${plugin.version} | min_server@${plugin.min_server_version}`);
+    });
+
+    if (plugins.inactive.length) {
+        // eslint-disable-next-line no-console
+        console.log('Inactive plugins:');
+    }
+
+    plugins.inactive.forEach((plugin) => {
+        // eslint-disable-next-line no-console
+        console.log(`  - ${plugin.id}@${plugin.version} | min_server@${plugin.min_server_version}`);
+    });
+}
+
+async function ensureServerDeployment(client: Client, testConfig: TestConfig) {
     if (testConfig.haClusterEnabled) {
         const {haClusterNodeCount, haClusterName} = testConfig;
 
