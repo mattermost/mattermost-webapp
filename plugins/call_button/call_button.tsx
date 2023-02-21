@@ -1,17 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useEffect, useRef} from 'react';
+import React, {CSSProperties, useState, useEffect, useRef} from 'react';
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
 import PhoneOutlineIcon from '@mattermost/compass-icons/components/phone-outline';
 import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
-
-import {useDispatch} from 'react-redux';
-
-import {createDirectChannel} from 'mattermost-redux/actions/channels';
-import {ActionResult} from 'mattermost-redux/types/actions';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
@@ -27,19 +22,13 @@ type Props = {
     channelMember?: ChannelMembership;
     pluginCallComponents: PluginComponent[];
     sidebarOpen: boolean;
-    currentUserId: string;
-    customButton?: JSX.Element;
-    userId?: string;
-    channelToStartCall?: Channel | null;
-    startCallInDM?: boolean;
 }
 
-export default function CallButton({pluginCallComponents, currentChannel, channelMember, sidebarOpen, customButton, channelToStartCall, currentUserId, userId, startCallInDM = false}: Props) {
+export default function CallButton({pluginCallComponents, currentChannel, channelMember, sidebarOpen}: Props) {
     const [active, setActive] = useState(false);
     const [clickEnabled, setClickEnabled] = useState(true);
     const prevSidebarOpen = useRef(sidebarOpen);
     const {formatMessage} = useIntl();
-    const dispatch = useDispatch();
 
     useEffect(() => {
         if (prevSidebarOpen.current && !sidebarOpen) {
@@ -55,32 +44,25 @@ export default function CallButton({pluginCallComponents, currentChannel, channe
         return null;
     }
 
-    const getDmChannel = async () => {
-        let dmChannel = channelToStartCall;
-
-        if (startCallInDM && !channelToStartCall && userId) {
-            const {data} = await dispatch(createDirectChannel(currentUserId, userId)) as ActionResult;
-            if (data) {
-                dmChannel = data;
-            }
-        }
-        return dmChannel;
+    const style = {
+        container: {
+            marginTop: 16,
+            height: 32,
+        } as CSSProperties,
     };
 
     if (pluginCallComponents.length === 1) {
         const item = pluginCallComponents[0];
-        const clickHandler = async () => {
-            const channelForCall = await getDmChannel() || currentChannel;
-            item.action?.(channelForCall, channelMember);
-        };
+        const clickHandler = () => item.action?.(currentChannel, channelMember);
 
         return (
             <div
-                className='callButtonContainer flex-child'
+                style={style.container}
+                className='flex-child'
                 onClick={clickEnabled ? clickHandler : undefined}
                 onTouchEnd={clickEnabled ? clickHandler : undefined}
             >
-                {customButton || item.button}
+                {item.button}
             </div>
         );
     }
@@ -90,10 +72,9 @@ export default function CallButton({pluginCallComponents, currentChannel, channe
             <li
                 className='MenuItem'
                 key={item.id}
-                onClick={async (e) => {
+                onClick={(e) => {
                     e.preventDefault();
-                    const channelForCall = await getDmChannel() || currentChannel;
-                    item.action?.(channelForCall, channelMember);
+                    item.action?.(currentChannel, channelMember);
                 }}
             >
                 {item.dropdownButton}
@@ -103,7 +84,8 @@ export default function CallButton({pluginCallComponents, currentChannel, channe
 
     return (
         <div
-            className='callButtonContainer flex-child'
+            style={style.container}
+            className='flex-child'
         >
             <MenuWrapper onToggle={(toggle: boolean) => setActive(toggle)}>
                 <button className={classNames('style--none call-button dropdown', {active})}>

@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 
 import {getCurrentChannel, getMyCurrentChannelMembership} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store/index';
 
@@ -16,7 +15,6 @@ function mapStateToProps(state: GlobalState) {
         pluginCallComponents: state.plugins.components.CallButton,
         channelMember: getMyCurrentChannelMembership(state),
         sidebarOpen: state.views.rhs.isSidebarOpen,
-        currentUserId: getCurrentUserId(state),
     };
 }
 
