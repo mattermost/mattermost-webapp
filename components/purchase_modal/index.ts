@@ -9,7 +9,7 @@ import {Stripe} from '@stripe/stripe-js';
 import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {getClientConfig} from 'mattermost-redux/actions/general';
 import {getCloudProducts, getCloudSubscription, getInvoices} from 'mattermost-redux/actions/cloud';
-import {Action} from 'mattermost-redux/types/actions';
+import {Action, ActionFunc} from 'mattermost-redux/types/actions';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -78,7 +78,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
                 openModal,
                 getCloudProducts,
                 completeStripeAddPaymentMethod,
-                subscribeCloudSubscription,
+                subscribeCloudSubscription: (subscribeCloudSubscription as any),
                 getClientConfig,
                 getInvoices,
                 getCloudSubscription,
