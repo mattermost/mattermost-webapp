@@ -27,7 +27,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import {closeModal, openModal} from 'actions/views/modals';
 import {completeStripeAddPaymentMethod, subscribeCloudSubscription} from 'actions/cloud';
 import {ModalData} from 'types/actions';
-import {Address} from '@mattermost/types/cloud';
+import {Address, Feedback} from '@mattermost/types/cloud';
 import withGetCloudSubscription from 'components/common/hocs/cloud/with_get_cloud_subscription';
 import {findOnlyYearlyProducts} from 'utils/products';
 
@@ -64,7 +64,7 @@ type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
     getCloudProducts: () => void;
     completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
-    subscribeCloudSubscription: (productId: string, shippingAddress: Address, seats?: number) => Promise<boolean | null>;
+    subscribeCloudSubscription: (productId: string, shippingAddress: Address, seats?: number, downgradeFeedback?: Feedback) => Promise<boolean | null>;
     getClientConfig: () => void;
     getCloudSubscription: () => void;
     getInvoices: () => void;
