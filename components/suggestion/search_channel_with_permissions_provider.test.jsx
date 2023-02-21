@@ -7,7 +7,6 @@ import {getState} from 'stores/redux_store';
 
 import mockStore from 'tests/test_store';
 
-
 jest.mock('stores/redux_store', () => ({
     dispatch: jest.fn(),
     getState: jest.fn(),
