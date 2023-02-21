@@ -26,7 +26,7 @@ export function storeCalls(state: any[] = [], action: GenericAction): any[] {
     // TODO Move the action types to the right place
     switch (action.type) {
     case 'add-line': {
-        if (action.data?.type == 'api-call') {
+        if (action.data?.type == 'store-call') {
             return [action.data, ...state];
         }
         return state
