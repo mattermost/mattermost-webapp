@@ -56,6 +56,13 @@ function loadRemoteModules() {
                     manifest: import('boards/manifest'),
                 }),
             },
+            {
+                id: 'playbooks',
+                load: () => ({
+                    index: import('playbooks'),
+                    manifest: import('playbooks/manifest'),
+                }),
+            },
         ];
 
         await Promise.all(products.map(async (product) => {

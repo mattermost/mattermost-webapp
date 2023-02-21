@@ -15,6 +15,10 @@ function getProductStartCommands() {
         commands.push({command: 'make watch-product', cwd: '../focalboard', name: 'boards', prefixColor: 'blue'});
     }
 
+    if (fs.existsSync('../mattermost-plugin-playbooks')) {
+        commands.push({command: 'make watch-product', cwd: '../mattermost-plugin-playbooks', name: 'playbooks', prefixColor: 'green'});
+    }
+
     return commands;
 }
 

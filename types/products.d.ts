@@ -17,3 +17,15 @@ declare module 'boards/manifest' {
     const module: PluginManifest;
     export default module;
 }
+
+declare module 'playbooks' {
+    export default class Plugin extends ProductPlugin {
+        initialize(registry: PluginRegistry, store: Store): void;
+        uninitialize(): void;
+    }
+}
+
+declare module 'playbooks/manifest' {
+    const module: PluginManifest;
+    export default module;
+}
