@@ -59,7 +59,7 @@ type Props = RouteComponentProps & {
     onSuccess?: () => void;
     intl: IntlShape;
     usersCount: number;
-    isChangingToAnnual: boolean;
+    isSwitchingToAnnual: boolean;
 };
 
 type State = {
@@ -241,7 +241,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
                     />
                 </>
             );
-        } else if (this.props.isChangingToAnnual) {
+        } else if (this.props.isSwitchingToAnnual) {
             const formattedTitle = (
                 <FormattedMessage
                     defaultMessage={"You're now switched to {selectedProductName} annual"}

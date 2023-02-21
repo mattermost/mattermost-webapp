@@ -160,7 +160,7 @@ type State = {
     selectedProductPrice: string | null;
     usersCount: number;
     seats: Seats;
-    isChangingToAnnual: boolean;
+    isSwitchingToAnnual: boolean;
 }
 
 /**
@@ -385,7 +385,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                 quantity: this.props.usersCount.toString(),
                 error: this.props.usersCount.toString() === '0' ? errorInvalidNumber : null,
             },
-            isChangingToAnnual: false,
+            isSwitchingToAnnual: false,
         };
     }
 
@@ -465,7 +465,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             dialogProps: {
                 confirmSwitchToYearlyFunc: () => {
                     this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > confirm_switch_to_annual_modal > confirm_click');
-                    this.setState({isChangingToAnnual: true});
+                    this.setState({isSwitchingToAnnual: true});
                 },
                 contactSalesFunc: () => {
                     trackEvent(
@@ -1026,7 +1026,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                         this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
                                         setIsUpgradeFromTrialToFalse={this.setIsUpgradeFromTrialToFalse}
                                         isUpgradeFromTrial={this.state.isUpgradeFromTrial}
-                                        isChangingToAnnual={this.state.isChangingToAnnual}
+                                        isSwitchingToAnnual={this.state.isSwitchingToAnnual}
                                         telemetryProps={{
                                             callerInfo:
                                                 this.state.buttonClickedInfo,
