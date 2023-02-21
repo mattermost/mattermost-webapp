@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {General, Posts, RequestStatus} from 'mattermost-redux/constants';
-import {leaveChannel, markChannelAsRead} from 'mattermost-redux/actions/channels';
+import {leaveChannel, markChannelAsRead, getChannel} from 'mattermost-redux/actions/channels';
 import * as UserActions from 'mattermost-redux/actions/users';
 import * as PostActions from 'mattermost-redux/actions/posts';
 
@@ -27,6 +27,10 @@ jest.mock('mattermost-redux/actions/channels', () => ({
     ...jest.requireActual('mattermost-redux/actions/channels'),
     markChannelAsRead: jest.fn(() => ({type: ''})),
     leaveChannel: jest.fn(() => ({type: ''})),
+    getChannel: jest.fn(() => ({
+        type: 'RECEIVED_CHANNEL',
+        data: {team_id: 'teamid1', id: 'non-existing-channelid', name: 'non-existing-channel', display_name: 'Channel 1', type: 'O'},
+    })),
 }));
 
 jest.mock('actions/views/rhs', () => ({
@@ -121,6 +125,19 @@ describe('channel view actions', () => {
         test('switch to gm channel', async () => {
             await store.dispatch(Actions.switchToChannel(gmChannel));
             expect(getHistory().push).toHaveBeenCalledWith(`/${team1.name}/channels/${gmChannel.name}`);
+        });
+    });
+
+    describe('loadIfNecessaryAndSwitchToChannelById', () => {
+        test('existing channel', () => {
+            store.dispatch(Actions.loadIfNecessaryAndSwitchToChannelById(channel1.id));
+            expect(getHistory().push).toHaveBeenCalledWith(`/${team1.name}/channels/${channel1.name}`);
+        });
+
+        test('non-existing channel', async () => {
+            await store.dispatch(Actions.loadIfNecessaryAndSwitchToChannelById('non-existing-channelid'));
+            expect(getChannel).toHaveBeenCalledWith('non-existing-channelid');
+            expect(getHistory().push).toHaveBeenCalledWith(`/${team1.name}/channels/non-existing-channel`);
         });
     });
 

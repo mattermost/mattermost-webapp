@@ -37,26 +37,6 @@ describe('Actions.Admin', () => {
         TestHelper.tearDown();
     });
 
-    it('getLogs', async () => {
-        nock(Client4.getBaseRoute()).
-            get('/logs').
-            query(true).
-            reply(200, [
-                '[2017/04/04 14:56:19 EDT] [INFO] Starting Server...',
-                '[2017/04/04 14:56:19 EDT] [INFO] Server is listening on :8065',
-                '[2017/04/04 15:01:48 EDT] [INFO] Stopping Server...',
-                '[2017/04/04 15:01:48 EDT] [INFO] Closing SqlStore',
-            ]);
-
-        await Actions.getLogs()(store.dispatch, store.getState);
-
-        const state = store.getState();
-
-        const logs = state.entities.admin.logs;
-        assert.ok(logs);
-        assert.ok(logs.length > 0);
-    });
-
     it('getAudits', async () => {
         nock(Client4.getBaseRoute()).
             get('/audits').

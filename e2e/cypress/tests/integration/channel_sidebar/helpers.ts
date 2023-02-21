@@ -3,10 +3,30 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-export function clickCategoryMenuItem(categoryDisplayName, menuItemText) {
-    cy.contains('.SidebarChannelGroupHeader', categoryDisplayName, {matchCase: false}).should('be.visible').within(() => {
-        cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
-        cy.findByRole('menu').findByText(menuItemText).should('be.visible').click({force: true});
-        cy.wait(TIMEOUTS.HALF_SEC);
+export function clickCategoryMenuItem(categoryDisplayName, menuItemText, isSubMenu = false) {
+    cy.get('#SidebarContainer').should('be.visible').within(() => {
+        cy.findByText(categoryDisplayName).should('exist').parents('.SidebarChannelGroupHeader').within(() => {
+            cy.findByLabelText('Category options').should('exist').click({force: true});
+        });
+    });
+
+    cy.wait(TIMEOUTS.HALF_SEC);
+
+    cy.findByRole('menu', {name: 'Edit category menu'}).should('be.visible').within(() => {
+        if (isSubMenu) {
+            cy.findByText(menuItemText).should('exist').trigger('mouseover', {force: true});
+        } else {
+            cy.findByText(menuItemText).should('exist').click({force: true});
+        }
+    });
+}
+
+export function clickSortCategoryMenuItem(categoryDisplayName, menuItemText) {
+    clickCategoryMenuItem(categoryDisplayName, 'Sort', true);
+
+    cy.wait(TIMEOUTS.HALF_SEC);
+
+    cy.findAllByRole('menu', {name: 'Sort submenu'}).should('be.visible').within(() => {
+        cy.findByText(menuItemText).should('exist').click({force: true});
     });
 }

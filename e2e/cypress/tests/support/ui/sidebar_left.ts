@@ -121,12 +121,16 @@ function uiGetSidebarInsightsButton(): ChainableT<JQuery> {
 }
 Cypress.Commands.add('uiGetSidebarInsightsButton', uiGetSidebarInsightsButton);
 
-Cypress.Commands.add('uiGetChannelSidebarMenu', (channelName) => {
-    cy.get(`#sidebarItem_${channelName}`).
-        find('.SidebarMenu_menuButton').
-        click({force: true});
+Cypress.Commands.add('uiGetChannelSidebarMenu', (channelName, isChannelId = false) => {
+    cy.uiGetLHS().within(() => {
+        if (isChannelId) {
+            cy.get(`#sidebarItem_${channelName}`).should('be.visible').find('button').should('exist').click({force: true});
+        } else {
+            cy.findByText(channelName).should('be.visible').parents('a').find('button').should('exist').click({force: true});
+        }
+    });
 
-    return cy.get('.dropdown-menu').should('be.visible');
+    return cy.findByRole('menu', {name: 'Edit channel menu'}).should('be.visible');
 });
 
 Cypress.Commands.add('uiClickSidebarItem', (name) => {
@@ -237,11 +241,12 @@ declare global {
             /**
              * Open menu of a channel in the sidebar
              * @param {string} channelName - name of channel, ex. 'town-square'
-             *
+             * @param {boolean} isChannelId - default false. If true, it will use channel id instead of channel name
              * @example
-             *   cy.uiGetChannelSidebarMenu('town-square');
+             *   cy.uiGetChannelSidebarMenu('Town Square');
+             *   cy.uiGetChannelSidebarMenu('user1212__user333', true);
              */
-            uiGetChannelSidebarMenu(channelName: string): Chainable;
+            uiGetChannelSidebarMenu(channelName: string, isChannelId?: boolean): Chainable;
 
             /**
              * Click sidebar item by channel or thread name

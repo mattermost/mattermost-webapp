@@ -23,6 +23,7 @@ import './style.scss';
 
 type Props = {
     onHide?: () => void;
+    newProductName?: string;
 };
 
 function SuccessModal(props: Props) {
@@ -56,7 +57,7 @@ function SuccessModal(props: Props) {
                                 'admin.billing.subscription.proratedPayment.title'
                             }
                             values={{
-                                selectedProductName: subscriptionProduct?.name,
+                                selectedProductName: props.newProductName ?? subscriptionProduct?.name,
                             }}
                         />
                     }
@@ -66,7 +67,7 @@ function SuccessModal(props: Props) {
                             defaultMessage={
                                 'Your final bill will be prorated. Your workspace now has {plan} limits.'
                             }
-                            values={{plan: subscriptionProduct?.name}}
+                            values={{plan: props.newProductName ?? subscriptionProduct?.name}}
                         />
                     }
                     error={false}

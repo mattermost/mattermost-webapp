@@ -37,10 +37,6 @@ exports[`components/post_view/ShowMore should match snapshot, PostAttachment on 
     className="post-collapse"
   >
     <div
-      className="post-attachment-collapse__gradient"
-      id="collapseGradient"
-    />
-    <div
       className="post-attachment-collapse__show-more"
     >
       <div
@@ -79,10 +75,6 @@ exports[`components/post_view/ShowMore should match snapshot, PostAttachment on 
   <div
     className="post-collapse"
   >
-    <div
-      className="post-attachment-collapse__gradient"
-      id="collapseGradient"
-    />
     <div
       className="post-attachment-collapse__show-more"
     >
@@ -123,10 +115,6 @@ exports[`components/post_view/ShowMore should match snapshot, PostMessageView on
     className="post-collapse"
   >
     <div
-      className="post-collapse__gradient"
-      id="collapseGradient"
-    />
-    <div
       className="post-collapse__show-more"
     >
       <div
@@ -166,10 +154,6 @@ exports[`components/post_view/ShowMore should match snapshot, PostMessageView on
     className="post-collapse"
   >
     <div
-      className="post-collapse__gradient"
-      id="collapseGradient"
-    />
-    <div
       className="post-collapse__show-more"
     >
       <div
@@ -208,10 +192,6 @@ exports[`components/post_view/ShowMore should match snapshot, PostMessageView on
   <div
     className="post-collapse"
   >
-    <div
-      className="post-collapse__gradient"
-      id="collapseGradient"
-    />
     <div
       className="post-collapse__show-more"
     >

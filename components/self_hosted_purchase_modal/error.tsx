@@ -9,10 +9,8 @@ import {useSelector} from 'react-redux';
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
 import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
-import AccessDeniedSvg from 'components/common/svg_images_components/access_denied_svg';
+import AccessDeniedHappySvg from 'components/common/svg_images_components/access_denied_happy_svg';
 import IconMessage from 'components/purchase_modal/icon_message';
-
-import {CloudLinks} from 'utils/constants';
 
 interface Props {
     nextAction: () => void;
@@ -62,25 +60,19 @@ export default function ErrorPage(props: Props) {
         formattedTitle = (
             <FormattedMessage
                 id='self_hosted_signup.failed_export.title'
-                defaultMessage='Unable to complete purchase'
+                defaultMessage='Your transaction is being reviewed'
             />
         );
 
         formattedSubtitle = (
             <FormattedMessage
                 id='self_hosted_signup.failed_export.subtitle'
-                defaultMessage='Unable to complete purchase within this application. Purchase at <a>{link}</a> or contact support for further assistance.'
-                values={{
-                    a: (chunks: React.ReactNode) => (
-                        <a href={CloudLinks.SELF_HOSTED_PRICING}>{chunks}</a>
-                    ),
-                    link: CloudLinks.SELF_HOSTED_PRICING,
-                }}
+                defaultMessage='We will check things on our side and get back to you within 3 days once your license is approved. In the meantime, please feel free to continue using the free version of our product.'
             />
         );
 
         icon = (
-            <AccessDeniedSvg
+            <AccessDeniedHappySvg
                 width={444}
                 height={313}
             />

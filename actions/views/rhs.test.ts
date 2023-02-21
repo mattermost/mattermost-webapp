@@ -34,12 +34,16 @@ import {
     updateSearchType,
     suppressRHS,
     unsuppressRHS,
-    goBack, showChannelMembers,
+    goBack,
+    showChannelMembers,
+    openShowEditHistory,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import mockStore from 'tests/test_store';
 import {ActionTypes, RHSStates, Constants} from 'utils/constants';
+import {TestHelper} from 'utils/test_helper';
 import {getBrowserUtcOffset} from 'utils/timezone';
+
 import {GlobalState} from 'types/store';
 import {ViewsState} from 'types/store/views';
 import {RhsState} from 'types/store/rhs';
@@ -415,6 +419,23 @@ describe('rhs view actions', () => {
                     channelId: currentChannelId,
                     state: RHSStates.CHANNEL_MEMBERS,
                     previousRhsState: null,
+                },
+            ]);
+        });
+    });
+
+    describe('openShowEditHistory', () => {
+        test('it dispatches the right actions', async () => {
+            const post = TestHelper.getPostMock();
+            await store.dispatch(openShowEditHistory(post));
+
+            expect(store.getActions()).toEqual([
+                {
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    state: RHSStates.EDIT_HISTORY,
+                    postId: post.root_id || post.id,
+                    channelId: post.channel_id,
+                    timestamp: POST_CREATED_TIME,
                 },
             ]);
         });

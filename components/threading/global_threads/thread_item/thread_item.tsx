@@ -191,7 +191,7 @@ function ThreadItem({
                     </div>
                 )}
                 <div className='ThreadItem__author'>{postAuthor}</div>
-                <div className='d-flex align-items-center'>
+                <div className='ThreadItem__tags'>
                     {channel && postAuthor !== channel?.display_name && (
                         <Tag
                             onClick={goToInChannelHandler}

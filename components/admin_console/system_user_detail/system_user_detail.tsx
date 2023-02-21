@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable react/no-string-refs */
-
 import React from 'react';
 import {Redirect, RouteComponentProps} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
@@ -495,4 +493,3 @@ export default class SystemUserDetail extends React.PureComponent<Props & RouteC
         );
     }
 }
-/* eslint-enable react/no-string-refs */
