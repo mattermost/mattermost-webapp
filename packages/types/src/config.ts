@@ -197,6 +197,7 @@ export type ClientConfig = {
     PostPriority: string;
     ReduceOnBoardingTaskList: string;
     PostAcknowledgements: string;
+    DebugBar: string;
 };
 
 export type License = {

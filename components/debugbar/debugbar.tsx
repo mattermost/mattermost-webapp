@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React, {memo, useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {clearLines} from 'mattermost-redux/actions/debug';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import StoreCalls from './storecalls';
 import ApiCalls from './apicalls';
@@ -16,10 +17,15 @@ import './debugbar.scss'
 type Props = {};
 
 const DebugBar = (_: Props) => {
+    const config = useSelector(getConfig)
     const [hidden, setHidden] = useState(true)
     const [tab, setTab] = useState('api')
     const [filterText, setFilterText] = useState('')
     const dispatch = useDispatch()
+
+    if (config.DebugBar !== "true") {
+        return null
+    }
 
     if (hidden) {
         return (<button className='DebugBarButton' onClick={() => setHidden(false)}>Debug</button>)
