@@ -280,7 +280,7 @@ describe('components/ProfilePopover', () => {
                 <ProfilePopover {...props}/>
             </Provider>,
         );
-        expect(wrapper.find('CallButton').exists()).toBe(true);
+        expect(wrapper.find('ProfilePopoverCallButton').exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
 });
