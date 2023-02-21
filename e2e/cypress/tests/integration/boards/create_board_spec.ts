@@ -74,7 +74,6 @@ describe('Create and delete board / card', () => {
         cy.get('.CardDetail .EditableArea.title').
             click().
             should('have.focus').
-            // wait(1000).
             type(cardTitle).
             should('have.value', cardTitle);
 
@@ -156,14 +155,10 @@ describe('Create and delete board / card', () => {
         cy.get('.KanbanCard').scrollIntoView().should('exist');
 
         // Drag card to right corner and expect scroll to occur
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.get('.Kanban').invoke('scrollLeft').should('not.equal', 0); //.wait(1000);
+        cy.get('.Kanban').invoke('scrollLeft').should('not.equal', 0);
 
-        // wait necessary to let state change propagate
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.get('.KanbanCard').
             trigger('dragstart');
-            // wait(500);
 
         // wait necessary to trigger scroll animation for some time
         // eslint-disable-next-line cypress/no-unnecessary-waiting
