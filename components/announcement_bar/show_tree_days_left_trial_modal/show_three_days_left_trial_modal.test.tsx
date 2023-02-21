@@ -240,6 +240,6 @@ describe('components/sidebar/show_three_days_left_trial_modal', () => {
         mount(
             <ShowThreeDaysLeftTrialModal/>,
         );
-        expect(mockDispatch).toHaveBeenCalledTimes(0);
+        expect(mockDispatch).toHaveBeenCalledTimes(1);
     });
 });
