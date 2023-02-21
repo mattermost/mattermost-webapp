@@ -146,43 +146,41 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
         const {field} = this.props;
 
         return (
-            <div className={'react-select'}>
-                <AsyncSelect
-                    {...this.getSharedComponents()}
-                    id={`AppsDynamicSelect_${field.name}`}
-                    loadOptions={this.loadDynamicOptions}
-                    defaultOptions={true}
-                    components={this.getSharedComponents()}
-                />
-            </div>
+            <AsyncSelect
+                {...this.getCommonProps()}
+                id={`AppsDynamicSelect_${field.name}`}
+                loadOptions={this.loadDynamicOptions}
+                defaultOptions={true}
+                components={this.getSharedComponents()}
+            />
         );
     }
 
     renderUserSelect() {
+        const {field} = this.props;
+
         return (
-            <div className={'react-select'}>
-                <AsyncSelect
-                    {...this.getSharedComponents()}
-                    id={`MultiInput_${name}`}
-                    loadOptions={this.loadDynamicUserOptions}
-                    defaultOptions={true}
-                    components={{...this.getSharedComponents(), Option: SelectUserOption}}
-                />
-            </div>
+            <AsyncSelect
+                {...this.getCommonProps()}
+                id={`UserSelect_${field.name}`}
+                loadOptions={this.loadDynamicUserOptions}
+                defaultOptions={true}
+                components={{...this.getSharedComponents(), Option: SelectUserOption}}
+            />
         );
     }
 
     renderChannelSelect() {
+        const {field} = this.props;
+
         return (
-            <div className={'react-select'}>
-                <AsyncSelect
-                    {...this.getCommonProps()}
-                    id={`MultiInput_${name}`}
-                    loadOptions={this.loadDynamicChannelOptions}
-                    defaultOptions={true}
-                    components={{...this.getSharedComponents(), Option: SelectChannelOption}}
-                />
-            </div>
+            <AsyncSelect
+                {...this.getCommonProps()}
+                id={`ChannelSelect_${field.name}`}
+                loadOptions={this.loadDynamicChannelOptions}
+                defaultOptions={true}
+                components={{...this.getSharedComponents(), Option: SelectChannelOption}}
+            />
         );
     }
 
@@ -191,14 +189,12 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
         const options = field.options;
 
         return (
-            <div className={'react-select'}>
-                <ReactSelect
-                    {...this.getCommonProps()}
-                    id={`AppsStaticSelect_${field.name}`}
-                    options={options}
-                    components={this.getSharedComponents()}
-                />
-            </div>
+            <ReactSelect
+                {...this.getCommonProps()}
+                id={`AppsStaticSelect_${field.name}`}
+                options={options}
+                components={this.getSharedComponents()}
+            />
         );
     }
 
@@ -268,7 +264,9 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
                     </label>
                 )}
                 <React.Fragment key={this.state.refreshNonce}>
-                    {selectComponent}
+                    <div className='react-select'>
+                        {selectComponent}
+                    </div>
                     <div className='help-text'>
                         {helpText}
                     </div>
