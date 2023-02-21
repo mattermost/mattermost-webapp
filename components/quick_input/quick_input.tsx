@@ -96,6 +96,14 @@ export class QuickInput extends React.PureComponent<Props> {
         tooltipPosition: 'bottom',
     };
 
+    componentDidMount() {
+        if (this.props.autoFocus) {
+            requestAnimationFrame(() => {
+                this.input?.focus();
+            });
+        }
+    }
+
     componentDidUpdate(prevProps: Props) {
         if (prevProps.value !== this.props.value) {
             if (this.props.delayInputUpdate) {

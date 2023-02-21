@@ -15,6 +15,8 @@ describe('Bot display name', () => {
     let otherSysadmin;
 
     before(() => {
+        cy.intercept('**/api/v4/**').as('resources');
+
         // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
@@ -32,6 +34,7 @@ describe('Bot display name', () => {
                     offTopicChannel = channel;
                 });
                 cy.visit(`/${team.name}/channels/off-topic`);
+                cy.wait('@resources');
             });
         });
     });

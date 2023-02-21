@@ -33,7 +33,7 @@ describe('New category badge', () => {
         });
 
         // # Move Town Square into the new category
-        cy.uiMoveChannelToCategory('town-square', categoryName);
+        cy.uiMoveChannelToCategory('Town Square', categoryName);
 
         cy.contains('.SidebarChannelGroup', categoryName, {matchCase: false}).within(() => {
             // * Verify that the new category badge and drop target have been removed
@@ -42,7 +42,7 @@ describe('New category badge', () => {
         });
 
         // # Move Town Square out of the new category
-        cy.uiMoveChannelToCategory('town-square', 'Channels');
+        cy.uiMoveChannelToCategory('Town Square', 'Channels');
 
         cy.contains('.SidebarChannelGroup', categoryName, {matchCase: false}).within(() => {
             // * Verify that Town Square has moved out of the new category

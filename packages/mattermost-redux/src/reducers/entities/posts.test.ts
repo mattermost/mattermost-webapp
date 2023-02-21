@@ -820,6 +820,34 @@ describe('postsInChannel', () => {
         });
     });
 
+    describe('receiving a postEditHistory', () => {
+        it('should replace the postEditHistory for the post', () => {
+            const state = deepFreeze({
+                channel1: [
+                    {order: ['post1'], recent: true},
+                ],
+            });
+
+            const nextState = reducers.postEditHistory(state, {
+                type: PostTypes.RECEIVED_POST_HISTORY,
+                data: {
+                    postEditHistory: [
+                        {create_at: 1, user_id: 'user1', post_id: 'post2', message: 'message2'},
+                        {create_at: 2, user_id: 'user1', post_id: 'post3', message: 'message3'},
+                    ],
+                },
+            });
+
+            expect(nextState).not.toBe(state);
+            expect(nextState).toEqual({
+                postEditHistory: [
+                    {create_at: 1, user_id: 'user1', post_id: 'post2', message: 'message2'},
+                    {create_at: 2, user_id: 'user1', post_id: 'post3', message: 'message3'},
+                ]},
+            );
+        });
+    });
+
     describe('receiving a single post', () => {
         it('should replace a previously pending post', () => {
             const state = deepFreeze({

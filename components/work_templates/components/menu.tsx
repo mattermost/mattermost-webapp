@@ -1,12 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
+import {trackEvent} from 'actions/telemetry_actions';
 import {Category, WorkTemplate} from '@mattermost/types/work_templates';
+import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import UseCaseMenuItem from './menu/use_case';
 
@@ -45,8 +47,8 @@ const CategoryButton = styled.button`
 
 const UseCases = styled.div`
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
+    justify-content: flex-start;
     width: 692px;
 `;
 
@@ -57,10 +59,15 @@ interface MenuProps {
     changeCategory: (category: Category) => void;
     workTemplates: Record<string, WorkTemplate[]>;
     currentCategoryId: string;
+    disableQuickUse: boolean;
 }
 
-const Menu = ({className, categories, workTemplates, currentCategoryId, changeCategory, onTemplateSelected}: MenuProps) => {
+const Menu = ({className, disableQuickUse, categories, workTemplates, currentCategoryId, changeCategory, onTemplateSelected}: MenuProps) => {
     const {formatMessage} = useIntl();
+
+    useEffect(() => {
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'pageview_menu');
+    }, []);
 
     const quickUse = (template: WorkTemplate) => {
         onTemplateSelected(template, true);
@@ -96,6 +103,7 @@ const Menu = ({className, categories, workTemplates, currentCategoryId, changeCa
             <UseCases>
                 {workTemplates[currentCategoryId]?.map((workTemplate) => (
                     <UseCaseMenuItem
+                        disableQuickUse={disableQuickUse}
                         key={workTemplate.id}
                         name={workTemplate.useCase}
                         illustration={workTemplate.illustration}

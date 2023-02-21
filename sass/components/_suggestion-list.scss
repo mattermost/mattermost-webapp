@@ -224,6 +224,7 @@
         align-items: center;
 
         .suggestion-list__main {
+            width: unset;
             max-width: 70%;
         }
 
@@ -333,6 +334,10 @@
         max-width: 20%;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+
+    .Tag {
+        flex-shrink: 0;
     }
 }
 

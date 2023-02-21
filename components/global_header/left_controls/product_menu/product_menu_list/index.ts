@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {Action} from 'mattermost-redux/types/actions';
-
 import {getCloudSubscription, getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 import {
     getInt,
@@ -13,7 +12,6 @@ import {
 } from 'mattermost-redux/selectors/entities/preferences';
 import {
     getConfig,
-    getFeatureFlagValue,
     getFirstAdminVisitMarketplaceStatus,
     getLicense,
     isMarketplaceEnabled,
@@ -55,7 +53,6 @@ function mapStateToProps(state: GlobalState) {
     const step = getInt(state, OnboardingTaskCategory, OnboardingTasksName.VISIT_SYSTEM_CONSOLE, 0);
     const showVisitSystemConsoleTour = step === TaskNameMapToSteps[OnboardingTasksName.VISIT_SYSTEM_CONSOLE].STARTED;
     const enableCustomUserGroups = isCustomGroupsEnabled(state);
-    const showWorkTemplateButton = getFeatureFlagValue(state, 'WorkTemplate') === 'true';
 
     const subscription = getCloudSubscription(state);
     const license = getLicense(state);
@@ -92,7 +89,6 @@ function mapStateToProps(state: GlobalState) {
         enableCustomUserGroups,
         isStarterFree,
         isFreeTrial,
-        showWorkTemplateButton,
     };
 }
 
