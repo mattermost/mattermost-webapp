@@ -21,6 +21,8 @@ import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles'
 import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetDisplayName, getCurrentUserId, getUser, UserMentionKey, getUsersByUsername} from 'mattermost-redux/selectors/entities/users';
 
+import {memoizeResult} from 'mattermost-redux/utils/helpers';
+
 import {Channel} from '@mattermost/types/channels';
 import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 import {ServerError} from '@mattermost/types/errors';
@@ -454,19 +456,21 @@ export function usePostAriaLabel(post: Post | undefined) {
     const getReactionsForPost = useMemo(() => makeGetReactionsForPost(), []);
     const getMentionsFromMessage = useMemo(() => makeGetMentionsFromMessage(), []);
 
-    const authorDisplayName = useSelector((state: GlobalState) => (post ? getDisplayName(state, post.user_id) : ''));
-    const reactions = useSelector((state: GlobalState) => (post ? getReactionsForPost(state, post?.id) : undefined));
-    const isFlagged = useSelector((state: GlobalState) => (post ? get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null : false));
-    const emojiMap = useSelector(getEmojiMap);
-    const mentions = useSelector((state: GlobalState) => (post ? getMentionsFromMessage(state, post) : undefined));
-    const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
+    const createAriaLabelMemoized = memoizeResult(createAriaLabelForPost);
 
-    return useMemo(() => {
-        if (!post || !mentions) {
+    return useSelector((state: GlobalState) => {
+        if (!post) {
             return '';
         }
 
-        return createAriaLabelForPost(
+        const authorDisplayName = getDisplayName(state, post.user_id);
+        const reactions = getReactionsForPost(state, post?.id);
+        const isFlagged = get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null;
+        const emojiMap = getEmojiMap(state);
+        const mentions = getMentionsFromMessage(state, post);
+        const teammateNameDisplaySetting = getTeammateNameDisplaySetting(state);
+
+        return createAriaLabelMemoized(
             post,
             authorDisplayName,
             isFlagged,
@@ -476,16 +480,7 @@ export function usePostAriaLabel(post: Post | undefined) {
             mentions,
             teammateNameDisplaySetting,
         );
-    }, [
-        post,
-        authorDisplayName,
-        isFlagged,
-        reactions,
-        intl,
-        emojiMap,
-        mentions,
-        teammateNameDisplaySetting,
-    ]);
+    });
 }
 
 export function createAriaLabelForPost(post: Post, author: string, isFlagged: boolean, reactions: Record<string, Reaction> | undefined, intl: IntlShape, emojiMap: EmojiMap, mentions: Record<string, UserProfile>, teammateNameDisplaySetting: string): string {
