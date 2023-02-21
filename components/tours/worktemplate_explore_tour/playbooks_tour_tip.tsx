@@ -4,20 +4,18 @@
 import React from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
+import {useShowShowTourTip} from './useShowTourTip';
 import OnboardingWorkTemplateTourTip from './worktemplate_explore_tour_tip';
 
-interface PlaybooksTourTipProps {
-    singleTip: boolean;
-    playbookCount?: string;
-}
-
-export const PlaybooksTourTip = ({singleTip, playbookCount}: PlaybooksTourTipProps) => {
+export const PlaybooksTourTip = (): JSX.Element | null => {
     const {formatMessage} = useIntl();
+    const {playbooksCount, boardsCount, showPlaybooksTour} = useShowShowTourTip();
+
     const title = (
         <FormattedMessage
             id='pluggable_rhs.tourtip.playbooks.title'
             defaultMessage={'Access your {count} linked playbook run'}
-            values={{count: playbookCount === '0' ? undefined : playbookCount}}
+            values={{count: playbooksCount === 0 ? undefined : String(playbooksCount)}}
         />
     );
 
@@ -44,13 +42,17 @@ export const PlaybooksTourTip = ({singleTip, playbookCount}: PlaybooksTourTipPro
         </ul>
     );
 
+    if (!showPlaybooksTour) {
+        return null;
+    }
+
     return (
         <OnboardingWorkTemplateTourTip
             pulsatingDotPlacement={'left'}
             pulsatingDotTranslate={{x: 10, y: -140}}
             title={title}
             screen={screen}
-            singleTip={singleTip}
+            singleTip={boardsCount === 0}
             overlayPunchOut={null}
             placement='left-start'
             hideBackdrop={true}

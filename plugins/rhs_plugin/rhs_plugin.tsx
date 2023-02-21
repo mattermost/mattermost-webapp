@@ -14,49 +14,21 @@ export type Props = {
     showPluggable: boolean;
     pluggableId: string;
     title: string | React.ReactNode;
-    tourtipsData: {
-        showPlaybooksTour: boolean;
-        showBoardsTour: boolean;
-        boardsCount: number;
-        playbooksCount: number;
-        showAutoLinkedBoardTourTip: boolean;
-    };
 }
 
 export default class RhsPlugin extends React.PureComponent<Props> {
     render() {
-        const {
-            showBoardsTour,
-            showPlaybooksTour,
-            boardsCount,
-            playbooksCount,
-            showAutoLinkedBoardTourTip,
-        } = this.props.tourtipsData;
+        const boardsTourTip = (<BoardsTourTip/>);
+        const playbooksTourtip = (<PlaybooksTourTip/>);
+        const autoLinkedBoardTourTip = (<AutoShowLinkedBoardTourTip/>);
 
-        let boardsTourTip = null;
-        let playbooksTourtip = null;
-
-        if (showBoardsTour) {
-            boardsTourTip = (
-                <BoardsTourTip
-                    singleTip={Boolean(playbooksCount === 0)}
-                    boardCount={String(boardsCount)}
-                />);
-        }
-        if (showPlaybooksTour) {
-            playbooksTourtip = (
-                <PlaybooksTourTip
-                    singleTip={Boolean(boardsCount === 0)}
-                    playbookCount={String(playbooksCount)}
-                />);
-        }
         return (
             <div
                 id='rhsContainer'
                 className='sidebar-right__body'
             >
                 <SearchResultsHeader>
-                    {showAutoLinkedBoardTourTip ? <AutoShowLinkedBoardTourTip/> : null}
+                    {autoLinkedBoardTourTip}
                     {this.props.title}
                 </SearchResultsHeader>
                 {

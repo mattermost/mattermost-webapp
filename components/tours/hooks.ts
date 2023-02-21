@@ -22,8 +22,8 @@ import {useGetRHSPluggablesIds} from 'components/work_templates/hooks';
 
 import {getHistory} from 'utils/browser_history';
 import {suitePluginIds} from 'utils/constants';
-import {useProducts} from 'utils/products';
 import {GlobalState} from 'types/store';
+import {useGetPluginsActivationState} from 'plugins/useGetPluginsActivationState';
 
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName} from '../onboarding_tasks';
 
@@ -39,19 +39,11 @@ import {
 
 export const useGetTourSteps = (tourCategory: string) => {
     const isGuestUser = useSelector((state: GlobalState) => isCurrentUserGuestUser(state));
-    const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
-    const pluginProducts = useProducts();
+
     const workTemplatesLinkedItems = useSelector((state: GlobalState) => getWorkTemplatesLinkedProducts(state));
     let tourSteps: Record<string, number> = TTNameMapToTourSteps[tourCategory];
 
-    let boardsProductEnabled = false;
-    let playbooksProductEnabled = false;
-    if (pluginProducts) {
-        boardsProductEnabled = pluginProducts.some((product) => (product.pluginId === suitePluginIds.focalboard) || (product.pluginId === suitePluginIds.boards));
-        playbooksProductEnabled = pluginProducts.some((product) => product.pluginId === suitePluginIds.playbooks);
-    }
-    const boardsPlugin = pluginsList.focalboard;
-    const playbooksPlugin = pluginsList.playbooks;
+    const {playbooksPlugin, playbooksProductEnabled, boardsPlugin, boardsProductEnabled} = useGetPluginsActivationState();
 
     if (tourCategory === TutorialTourName.EXPLORE_OTHER_TOOLS) {
         const steps: Record<string, number> = tourSteps as typeof ExploreOtherToolsTourSteps;

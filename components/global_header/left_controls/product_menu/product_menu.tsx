@@ -82,14 +82,14 @@ const ProductMenu = (): JSX.Element => {
     const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
     const playbooks = pluginsList.playbooks;
 
-    const focalboardPluginEnabled = pluginsList.focalboard;
-    let focalboardProductEnabled = false;
+    const boardsPluginEnabled = pluginsList.focalboard;
+    let boardsProductEnabled = false;
     if (products) {
-        focalboardProductEnabled = products.some((product) => product.pluginId === suitePluginIds.focalboard || product.pluginId === suitePluginIds.boards);
+        boardsProductEnabled = products.some((product) => product.pluginId === suitePluginIds.focalboard || product.pluginId === suitePluginIds.boards);
     }
-    const focalboardEnabled = focalboardPluginEnabled || focalboardProductEnabled;
+    const boardsEnabled = boardsPluginEnabled || boardsProductEnabled;
 
-    const showBoardsTour = enableTutorial && tutorialStep === ExploreOtherToolsTourSteps.BOARDS_TOUR && exploreToolsTourTriggered && focalboardEnabled;
+    const showBoardsTour = enableTutorial && tutorialStep === ExploreOtherToolsTourSteps.BOARDS_TOUR && exploreToolsTourTriggered && boardsEnabled;
     const showPlaybooksTour = enableTutorial && tutorialStep === ExploreOtherToolsTourSteps.PLAYBOOKS_TOUR && exploreToolsTourTriggered && playbooks;
 
     const handleClick = () => dispatch(setProductMenuSwitcherOpen(!switcherOpen));
@@ -121,7 +121,7 @@ const ProductMenu = (): JSX.Element => {
 
         // playbooks
         if (product.pluginId === suitePluginIds.playbooks && showPlaybooksTour) {
-            tourTip = (<PlaybooksTourTip singleTip={!focalboardEnabled}/>);
+            tourTip = (<PlaybooksTourTip singleTip={!boardsEnabled}/>);
         }
 
         return (
