@@ -149,6 +149,36 @@ describe('CRT Desktop notifications', () => {
             });
         });
     });
+
+    it('When a reply is deleted, the notification should be cleared', () => {
+        cy.visit(testChannelUrl);
+
+        // # Set users notification settings
+        setCRTDesktopNotification('MENTION');
+
+        // # Post a root message as other user
+        cy.postMessageAs({sender, message: 'a thread', channelId: testChannelId, rootId: ''});
+
+        // # Visit channel
+        cy.visit(testChannelUrl);
+
+        const replyMessage = `@${receiver.username} a reply`;
+
+        // # Get post id of message
+        cy.getLastPostId().then((postId) => {
+            // # Post a reply to the thread, which will trigger a follow
+            cy.postMessageAs({sender: receiver, message: 'following the thread', channelId: testChannelId, rootId: postId});
+
+            // # Post a reply to the thread
+            cy.postMessageAs({sender, message: replyMessage, channelId: testChannelId, rootId: postId}).then((reply) => {
+                // # Delete the reply
+                cy.apiDeletePost(reply.id);
+
+                // * Verify there is no notification
+                cy.get('#unreadMentions').should('not.exist');
+            });
+        });
+    });
 });
 
 function setCRTDesktopNotification(type) {
