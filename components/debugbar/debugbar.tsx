@@ -9,6 +9,7 @@ import StoreCalls from './storecalls';
 import ApiCalls from './apicalls';
 import SqlQueries from './sqlqueries';
 import SystemInfo from './systeminfo';
+import Logs from './logs';
 
 import './debugbar.scss'
 
@@ -29,15 +30,17 @@ const DebugBar = (_: Props) => {
                 <button className={tab === 'api' ? 'selected' : ''} onClick={() => setTab('api')}>Api Calls</button>
                 <button className={tab === 'store' ? 'selected' : ''}  onClick={() => setTab('store')}>Store Calls</button>
                 <button className={tab === 'sql' ? 'selected' : ''}  onClick={() => setTab('sql')}>SQL Queries</button>
+                <button className={tab === 'logs' ? 'selected' : ''}  onClick={() => setTab('logs')}>Server Logs</button>
                 <button className={tab === 'system' ? 'selected' : ''}  onClick={() => setTab('system')}>System Info</button>
                 {tab !== 'system' && <input type='text' placeholder='Filter' onChange={(e) => setFilterText(e.target.value)} value={filterText}/>}
-                <button className='action' onClick={() => dispatch(clearLines())}>Clear</button>
+                {tab !== 'system' && <button className='action' onClick={() => dispatch(clearLines())}>Clear</button>}
                 <button className='action' onClick={() => setHidden(true)}>Hide</button>
             </div>
             <div className='body'>
                 {tab === 'api' && <ApiCalls filter={filterText}/>}
                 {tab === 'store' && <StoreCalls filter={filterText}/>}
                 {tab === 'sql' && <SqlQueries filter={filterText}/>}
+                {tab === 'logs' && <Logs filter={filterText}/>}
                 {tab === 'system' && <SystemInfo/>}
             </div>
         </div>
