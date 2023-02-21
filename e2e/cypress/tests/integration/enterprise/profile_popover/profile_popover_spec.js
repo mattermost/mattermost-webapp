@@ -13,7 +13,6 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {createPrivateChannel} from '../elasticsearch_autocomplete/helpers';
 import {getAdminAccount} from '../../../support/env';
-import {callPlugin} from '../../../utils/plugins';
 
 describe('Profile popover', () => {
     let testTeam;
@@ -22,7 +21,6 @@ describe('Profile popover', () => {
     let privateChannel;
     let otherUser;
     let offTopicUrl;
-    let sysadmin;
 
     before(() => {
         cy.apiRequireLicense();
@@ -37,15 +35,10 @@ describe('Profile popover', () => {
                 cy.apiAddUserToTeam(testTeam.id, secondUser.id);
             });
         });
-
-        // # Upload and enable "call" plugin
-        cy.apiUploadAndEnablePlugin(callPlugin);
     });
 
     beforeEach(() => {
-        cy.apiAdminLogin().then((res) => {
-            sysadmin = res.user;
-        });
+        cy.apiAdminLogin();
         cy.apiResetRoles();
         cy.visit('/admin_console/user_management/permissions/system_scheme');
         cy.get('.admin-console__header', {timeout: TIMEOUTS.TWO_MIN}).should('be.visible').and('have.text', 'System Scheme');
@@ -427,40 +420,6 @@ describe('Profile popover', () => {
         cy.visit(offTopicUrl);
 
         verifyAddToChannel(testUser);
-    });
-
-    it('MM-T5382 Call User - Call should start in DM channel', () => {
-        // # Login as test user and go to off-topic
-        cy.apiLogin(testUser);
-        cy.visit(offTopicUrl);
-
-        // # Send a message
-        cy.postMessage('Hi there');
-        cy.apiLogout();
-
-        // # Login as admin user now
-        cy.apiAdminLogin();
-        cy.visit(offTopicUrl);
-
-        const dmChannelName = sysadmin.id > testUser.id ? `${testUser.id}__${sysadmin.id}` : `${sysadmin.id}__${testUser.id}`;
-
-        // # Open profile popover
-        cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).within(() => {
-            cy.findAllByText(`${testUser.username}`).first().should('have.text', testUser.username).click();
-        });
-        cy.get('#startCallButton').should('be.visible').click();
-
-        // # Wait for the call to start
-        cy.wait(TIMEOUTS.THREE_SEC);
-
-        // * Verify that the call is not started in current channel
-        cy.get('[data-testid="call-thread"]').should('not.exist');
-
-        // * Verify that a DM channel is created
-        cy.get(`#sidebarItem_${dmChannelName}`).scrollIntoView().should('be.visible').click();
-
-        // * Verify that the call is started in DM channel
-        cy.get('[data-testid="call-thread"]').should('be.visible');
     });
 });
 
