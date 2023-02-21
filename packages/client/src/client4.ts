@@ -428,6 +428,10 @@ export default class Client4 {
         return `${this.getBaseRoute()}/jobs`;
     }
 
+    getDebugBarRoute() {
+        return `${this.getBaseRoute()}/debugbar`;
+    }
+
     getPluginsRoute() {
         return `${this.getBaseRoute()}/plugins`;
     }
@@ -2964,6 +2968,15 @@ export default class Client4 {
             {method: 'delete', body: JSON.stringify(channels)},
         );
     };
+
+    // DebugBar system info
+    getDebugBarSystemInfo = () => {
+        return this.doFetch<any>(
+            `${this.getDebugBarRoute()}/systeminfo`,
+            {method: 'get'},
+        );
+    };
+
 
     // Jobs Routes
     getJob = (id: string) => {

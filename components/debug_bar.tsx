@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useState} from 'react';
+import React, {memo, useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {getDebugLines} from 'mattermost-redux/selectors/entities/debug';
 import {clearLines} from 'mattermost-redux/actions/debug';
+import {Client4} from 'mattermost-redux/client';
 
 import './debug_bar.scss'
 
@@ -12,14 +13,9 @@ type Props = {};
 
 const DebugBar = (_: Props) => {
     const [hidden, setHidden] = useState(true)
-    const [filter, setFilter] = useState('api-call')
+    const [tab, setTab] = useState('api')
     const [filterText, setFilterText] = useState('')
     const dispatch = useDispatch()
-    var debugLines = useSelector(getDebugLines).filter((v) => v.type == filter)
-
-    if (filterText != '') {
-        debugLines = debugLines.filter((v) => JSON.stringify(v).indexOf(filterText) !== -1)
-    }
 
     if (hidden) {
         return (<button className='DebugBarButton' onClick={() => setHidden(false)}>Debug</button>)
@@ -27,27 +23,33 @@ const DebugBar = (_: Props) => {
     return (
         <div className='DebugBar'>
             <div className='header'>
-                <button className={filter === 'api-call' ? 'selected' : ''} onClick={() => setFilter('api-call')}>Api Calls</button>
-                <button className={filter === 'store-call' ? 'selected' : ''}  onClick={() => setFilter('store-call')}>Store Calls</button>
-                <button className={filter === 'sql-query' ? 'selected' : ''}  onClick={() => setFilter('sql-query')}>SQL Queries</button>
-                <input type='text' placeholder='Filter' onChange={(e) => setFilterText(e.target.value)} value={filterText}/>
+                <button className={tab === 'api' ? 'selected' : ''} onClick={() => setTab('api')}>Api Calls</button>
+                <button className={tab === 'store' ? 'selected' : ''}  onClick={() => setTab('store')}>Store Calls</button>
+                <button className={tab === 'sql' ? 'selected' : ''}  onClick={() => setTab('sql')}>SQL Queries</button>
+                <button className={tab === 'system' ? 'selected' : ''}  onClick={() => setTab('system')}>System Info</button>
+                {tab !== 'system' && <input type='text' placeholder='Filter' onChange={(e) => setFilterText(e.target.value)} value={filterText}/>}
                 <button className='action' onClick={() => dispatch(clearLines())}>Clear</button>
                 <button className='action' onClick={() => setHidden(true)}>Hide</button>
             </div>
             <div className='body'>
-                {filter === 'api-call' && <APICalls calls={debugLines}/>}
-                {filter === 'store-call' && <StoreCalls calls={debugLines}/>}
-                {filter === 'sql-query' && <SQLQueries queries={debugLines}/>}
+                {tab === 'api' && <APICalls filter={filterText}/>}
+                {tab === 'store' && <StoreCalls filter={filterText}/>}
+                {tab === 'sql' && <SQLQueries filter={filterText}/>}
+                {tab === 'system' && <SystemInfo/>}
             </div>
         </div>
     );
 };
 
 type StoreCallsProps = {
-    calls: any[]
+    filter: string
 }
 
-const StoreCalls = ({calls}: StoreCallsProps) => {
+const StoreCalls = ({filter}: StoreCallsProps) => {
+    var calls = useSelector(getDebugLines).filter((v) => v.type == 'store-call')
+    if (filter != '') {
+        calls = calls.filter((v) => JSON.stringify(v).indexOf(filter) !== -1)
+    }
     return (
         <table className='DebugBarTable'>
             <thead>
@@ -73,10 +75,15 @@ const StoreCalls = ({calls}: StoreCallsProps) => {
 }
 
 type APICallsProps = {
-    calls: any[]
+    filter: string
 }
 
-const APICalls = ({calls}: APICallsProps) => {
+const APICalls = ({filter}: APICallsProps) => {
+    var calls = useSelector(getDebugLines).filter((v) => v.type == 'api-call')
+    if (filter != '') {
+        calls = calls.filter((v) => JSON.stringify(v).indexOf(filter) !== -1)
+    }
+
     return (
         <table className='DebugBarTable'>
             <thead>
@@ -104,10 +111,14 @@ const APICalls = ({calls}: APICallsProps) => {
 }
 
 type SQLQueriesProps = {
-    queries: any[]
+    filter: string
 }
 
-const SQLQueries = ({queries}: SQLQueriesProps) => {
+const SQLQueries = ({filter}: SQLQueriesProps) => {
+    var queries = useSelector(getDebugLines).filter((v) => v.type == 'sql-query')
+    if (filter != '') {
+        queries = queries.filter((v) => JSON.stringify(v).indexOf(filter) !== -1)
+    }
     return (
         <table className='DebugBarTable'>
             <thead>
@@ -129,6 +140,26 @@ const SQLQueries = ({queries}: SQLQueriesProps) => {
             ))}
             </tbody>
         </table>
+    )
+}
+
+const SystemInfo = () => {
+    const [systemInfo, setSystemInfo] = useState<any>(null)
+    useEffect(() => {
+        const interval = setInterval(() => {
+            Client4.getDebugBarSystemInfo().then((result) => {
+                setSystemInfo(result)
+            })
+        }, 1000)
+        return () => {
+            clearInterval(interval)
+        }
+    }, [])
+    return (
+        <div>
+            <h1>System Info</h1>
+            {JSON.stringify(systemInfo)}
+        </div>
     )
 }
 
