@@ -26,6 +26,8 @@ describe('DM/GM filtering and sorting', () => {
     it('MM-T2003 Number of direct messages to show', () => {
         const receivingUser = testUser;
 
+        cy.intercept('**/api/v4/users/status/ids**').as('userStatus');
+
         // * Verify that we can see the sidebar
         cy.uiGetLHSHeader();
 
@@ -44,8 +46,10 @@ describe('DM/GM filtering and sorting', () => {
                         channelId: channel.id,
                     });
 
+                    cy.wait('@userStatus');
+
                     // * Verify that the DM count is now correct
-                    cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES) a[id^="sidebarItem"]').should('have.length', Math.min(i + 1, 2));
+                    cy.get('.SidebarChannelGroup:contains(DIRECT MESSAGES) a[id^="sidebarItem"]').should('be.visible').should('have.length', Math.min(i + 1, 2));
 
                     // # Click on the new DM channel to mark it read
                     cy.get(`#sidebarItem_${channel.name}`).should('be.visible').click();
