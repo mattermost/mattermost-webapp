@@ -36,7 +36,7 @@ export default class LoginPage {
         this.loginPlaceholder = page.locator(`[placeholder="${loginInputPlaceholder}"]`);
         this.passwordInput = page.locator('#input_password-input');
         this.signInButton = page.locator('button:has-text("Log in")');
-        this.createAccountLink = page.locator('text=Create an account');
+        this.createAccountLink = page.locator("text=Don't have an account?");
         this.forgotPasswordLink = page.locator('text=Forgot your password?');
         this.userErrorLabel = page.locator('text=Please enter your email or username');
         this.fieldWithError = page.locator('.with-error');

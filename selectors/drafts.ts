@@ -4,7 +4,7 @@
 import {createSelector} from 'reselect';
 
 import {getMyActiveChannelIds} from 'mattermost-redux/selectors/entities/channels';
-import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {get, onboardingTourTipsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Preferences} from 'mattermost-redux/constants';
 
@@ -26,7 +26,7 @@ export type DraftSelector = (state: GlobalState) => Draft[];
 export type DraftCountSelector = (state: GlobalState) => number;
 
 export function showDraftsPulsatingDotAndTourTip(state: GlobalState): boolean {
-    if (getIsMobileView(state)) {
+    if (!onboardingTourTipsEnabled(state) || getIsMobileView(state)) {
         return false;
     }
 

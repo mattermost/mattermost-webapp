@@ -4,7 +4,7 @@
 import {ComponentProps} from 'react';
 import {connect} from 'react-redux';
 
-import {getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getInt, isCollapsedThreadsEnabled, onboardingTourTipsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getCurrentTeamId, getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
@@ -58,7 +58,7 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
         }
     }
 
-    const showThreadsTutorialTip = tipStep === CrtThreadPaneSteps.THREADS_PANE_POPOVER && isCollapsedThreadsEnabled(state);
+    const showThreadsTutorialTip = tipStep === CrtThreadPaneSteps.THREADS_PANE_POPOVER && isCollapsedThreadsEnabled(state) && onboardingTourTipsEnabled(state);
 
     return {
         isExpanded: getIsRhsExpanded(state),

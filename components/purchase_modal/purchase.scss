@@ -2,6 +2,44 @@
     overflow: hidden;
     height: 100%;
 
+    .shipping-address-section {
+        display: flex;
+        align-content: center;
+        padding: 0 96px;
+        padding-bottom: 28px;
+        font-weight: normal;
+
+        button.no-style {
+            padding-left: 0;
+            background: transparent;
+            outline: unset;
+
+            &:focus {
+                outline: unset;
+            }
+        }
+
+        #address-same-than-billing-address {
+            width: 20px;
+            height: 20px;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .Form-checkbox-label {
+            padding-left: 12px;
+            cursor: default;
+            font-family: 'Open Sans', sans-serif;
+            vertical-align: middle;
+        }
+
+        .billing_address_btn_text {
+            color: var(--center-channel-color);
+            font-family: 'Open Sans', sans-serif;
+            font-weight: normal;
+        }
+    }
+
     >div {
         &.processing {
             display: none;
@@ -181,7 +219,7 @@
             .PlanCard {
                 position: relative;
                 width: 280px;
-                height: 428px;
+                height: auto;
 
                 .planLabel {
                     position: absolute;
@@ -208,10 +246,11 @@
 
                 .bottom {
                     &:not(.delinquency, .bottom-monthly-yearly) {
-                        height: 363px;
+                        height: auto;
                     }
 
                     padding-right: 24px;
+                    padding-bottom: 24px;
                     padding-left: 24px;
                     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
                     background-color: var(--center-channel-bg);
@@ -219,17 +258,6 @@
 
                     .enable_annual_sub {
                         margin-top: 12px;
-                    }
-
-                    .save_text {
-                        margin: 20px auto 10px;
-                        color: var(--denim-status-online);
-                        font-family: 'Metropolis';
-                        font-size: 14px;
-                        font-style: normal;
-                        font-weight: 700;
-                        line-height: 18px;
-                        text-align: center;
                     }
 
                     .plan_action_btn {
@@ -490,6 +518,21 @@
                     display: block;
                     overflow: auto;
                     border-radius: 4px;
+                }
+
+                .signup-consequences {
+                    display: flex;
+                    flex-direction: column;
+                    margin-top: 24px;
+                    color: rgba(var(--center-channel-color-rgb), 0.72);
+                    font-size: 12px;
+                    font-style: normal;
+                    font-weight: 400;
+                    line-height: 16px;
+
+                    span:first-of-type {
+                        margin-bottom: 10px;
+                    }
                 }
             }
         }

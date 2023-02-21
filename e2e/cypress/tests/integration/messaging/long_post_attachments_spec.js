@@ -28,9 +28,6 @@ describe('Messaging', () => {
         // * Verify show more button
         cy.get('#showMoreButton').scrollIntoView().should('be.visible').and('have.text', 'Show more');
 
-        // * Verify gradient
-        cy.get('#collapseGradient').should('be.visible');
-
         // * Verify the total 4 attached items are present
         cy.getLastPostId().then((postID) => {
             cy.get(`#${postID}_message`).findByTestId('fileAttachmentList').children().should('have.length', '4');

@@ -670,4 +670,3 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
         );
     }
 }
-/* eslint-enable react/no-string-refs */

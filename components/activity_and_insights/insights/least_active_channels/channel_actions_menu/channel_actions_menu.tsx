@@ -3,6 +3,7 @@
 
 import React, {memo, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {useIntl} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -19,7 +20,7 @@ import {LeastActiveChannel} from '@mattermost/types/insights';
 import {GlobalState} from '@mattermost/types/store';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
-import {copyToClipboard, localizeMessage} from 'utils/utils';
+import {copyToClipboard} from 'utils/utils';
 import {getSiteURL} from 'utils/url';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -35,6 +36,7 @@ type Props = {
 
 const ChannelActionsMenu = ({channel, actionCallback}: Props) => {
     const dispatch = useDispatch();
+    const {formatMessage} = useIntl();
     const currentTeamUrl = useSelector(getCurrentRelativeTeamUrl);
     const isChannelMember = useSelector((state: GlobalState) => getMyChannelMembership(state, channel.id));
     const isDefault = channel.name === General.DEFAULT_CHANNEL;
@@ -70,20 +72,23 @@ const ChannelActionsMenu = ({channel, actionCallback}: Props) => {
                 stopPropagationOnToggle={true}
                 id={`customWrapper-${channel.id}`}
             >
-                <button className='icon action-wrapper'>
+                <button
+                    className='icon action-wrapper'
+                    aria-label={formatMessage({id: 'insights.leastActiveChannels.menuButtonAriaLabel', defaultMessage: 'Open manage channel menu'})}
+                >
                     <i className='icon icon-dots-vertical'/>
                 </button>
                 <Menu
                     openLeft={true}
                     openUp={false}
                     className={'group-actions-menu'}
-                    ariaLabel={localizeMessage('insights.leastActiveChannels.menuAriaLabel', 'Manage channel menu')}
+                    ariaLabel={formatMessage({id: 'insights.leastActiveChannels.menuAriaLabel', defaultMessage: 'Manage channel menu'})}
                 >
                     <Menu.Group>
                         <Menu.ItemAction
                             onClick={handleLeave}
                             icon={<i className='icon-logout-variant'/>}
-                            text={localizeMessage('insights.leastActiveChannels.leaveChannel', 'Leave channel')}
+                            text={formatMessage({id: 'insights.leastActiveChannels.leaveChannel', defaultMessage: 'Leave channel'})}
                             disabled={false}
                             isDangerous={true}
                             show={Boolean(isChannelMember) && !isDefault}
@@ -93,7 +98,7 @@ const ChannelActionsMenu = ({channel, actionCallback}: Props) => {
                         <Menu.ItemAction
                             onClick={copyLink}
                             icon={<i className='icon-link-variant'/>}
-                            text={localizeMessage('insights.leastActiveChannels.copyLink', 'Copy link')}
+                            text={formatMessage({id: 'insights.leastActiveChannels.copyLink', defaultMessage: 'Copy link'})}
                             disabled={false}
                         />
                     </Menu.Group>

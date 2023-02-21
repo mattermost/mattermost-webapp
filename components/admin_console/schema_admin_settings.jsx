@@ -546,13 +546,23 @@ export default class SchemaAdminSettings extends React.PureComponent {
             }
         }
 
+        // used to hide help in case of cloud-starter and open-id selection to show upgrade notice.
+        let hideHelp = false;
+        if (setting.isHelpHidden) {
+            if (typeof (setting.isHelpHidden) === 'function') {
+                hideHelp = setting.isHelpHidden(this.props.config, this.state, this.props.license, enterpriseReady);
+            } else {
+                hideHelp = setting.isHelpHidden;
+            }
+        }
+
         return (
             <DropdownSetting
                 key={this.props.schema.id + '_dropdown_' + setting.key}
                 id={setting.key}
                 values={values}
                 label={this.renderLabel(setting)}
-                helpText={this.renderHelpText(selectedOptionForHelpText || setting)}
+                helpText={hideHelp ? '' : this.renderHelpText(selectedOptionForHelpText || setting)}
                 value={selectedValue}
                 disabled={this.isDisabled(setting)}
                 setByEnv={this.isSetByEnv(setting.key)}
@@ -665,7 +675,14 @@ export default class SchemaAdminSettings extends React.PureComponent {
     }
 
     handleChange = (id, value, confirm = false, doSubmit = false, warning = false) => {
-        const saveNeeded = this.state.saveNeeded === 'permissions' ? 'both' : 'config';
+        let saveNeeded = this.state.saveNeeded === 'permissions' ? 'both' : 'config';
+
+        // Exception: Since OpenId-Custom is treated as feature discovery for Cloud Starter licenses, save button is disabled.
+        const isCloudStarter = this.props.license.Cloud === 'true' && this.props.license.SkuShortName === 'starter';
+        if (id === 'openidType' && value === 'openid' && isCloudStarter) {
+            saveNeeded = false;
+        }
+
         const clientWarning = warning === false ? this.state.clientWarning : warning;
 
         let confirmNeededId = confirm ? id : this.state.confirmNeededId;
@@ -1214,4 +1231,3 @@ export default class SchemaAdminSettings extends React.PureComponent {
         );
     }
 }
-/* eslint-disable react/no-string-refs */

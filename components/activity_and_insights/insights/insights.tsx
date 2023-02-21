@@ -30,7 +30,7 @@ import LeastActiveChannels from './least_active_channels/least_active_channels';
 import TopPlaybooks from './top_playbooks/top_playbooks';
 import TopDMsAndNewMembers from './top_dms_and_new_members/top_dms_and_new_members';
 
-import {useLicenseChecks} from './hooks';
+import {useGetFilterType} from './hooks';
 
 import './../activity_and_insights.scss';
 
@@ -55,9 +55,8 @@ const Insights = () => {
     const currentUserId = useSelector(getCurrentUserId);
     const currentTeamId = useSelector(getCurrentTeamId);
 
-    const [filterType, setFilterType] = useGlobalState(InsightsScopes.TEAM, 'insightsScope');
+    const [filterType, setFilterType] = useGetFilterType();
     const [timeFrame, setTimeFrame] = useGlobalState(TimeFrames.INSIGHTS_7_DAYS as string, 'insightsTimeFrame');
-    const {isStarterFree, isEnterpriseReady} = useLicenseChecks();
 
     const setFilterTypeTeam = useCallback(() => {
         trackEvent('insights', 'change_scope_to_team_insights');
@@ -81,10 +80,6 @@ const Insights = () => {
         if (penultimateType !== PreviousViewedTypes.INSIGHTS) {
             LocalStorageStore.setPenultimateViewedType(currentUserId, currentTeamId, penultimateType);
             LocalStorageStore.setPreviousViewedType(currentUserId, currentTeamId, PreviousViewedTypes.INSIGHTS);
-        }
-
-        if (isStarterFree || !isEnterpriseReady) {
-            setFilterType(InsightsScopes.MY);
         }
 
         return () => {
