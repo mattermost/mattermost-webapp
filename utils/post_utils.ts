@@ -447,21 +447,25 @@ export function makeGetMentionsFromMessage(): (state: GlobalState, post: Post) =
     );
 }
 
-export function usePostAriaLabel(post: Post) {
+export function usePostAriaLabel(post: Post | undefined) {
     const intl = useIntl();
 
     const getDisplayName = useMemo(() => makeGetDisplayName(), []);
     const getReactionsForPost = useMemo(() => makeGetReactionsForPost(), []);
     const getMentionsFromMessage = useMemo(() => makeGetMentionsFromMessage(), []);
 
-    const authorDisplayName = useSelector((state: GlobalState) => getDisplayName(state, post.user_id));
-    const reactions = useSelector((state: GlobalState) => getReactionsForPost(state, post.id));
-    const isFlagged = useSelector((state: GlobalState) => get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null);
+    const authorDisplayName = useSelector((state: GlobalState) => (post ? getDisplayName(state, post.user_id) : ''));
+    const reactions = useSelector((state: GlobalState) => (post ? getReactionsForPost(state, post?.id) : undefined));
+    const isFlagged = useSelector((state: GlobalState) => (post ? get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null : false));
     const emojiMap = useSelector(getEmojiMap);
-    const mentions = useSelector((state: GlobalState) => getMentionsFromMessage(state, post));
+    const mentions = useSelector((state: GlobalState) => (post ? getMentionsFromMessage(state, post) : undefined));
     const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
 
     return useMemo(() => {
+        if (!post || !mentions) {
+            return '';
+        }
+
         return createAriaLabelForPost(
             post,
             authorDisplayName,
