@@ -78,7 +78,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
                 openModal,
                 getCloudProducts,
                 completeStripeAddPaymentMethod,
-                subscribeCloudSubscription,
+                subscribeCloudSubscription: (subscribeCloudSubscription as any),
                 getClientConfig,
                 getInvoices,
                 getCloudSubscription,
