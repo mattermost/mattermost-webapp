@@ -17,6 +17,7 @@ const StoreCalls = ({filter}: Props) => {
                 <tr>
                     <th>Time</th>
                     <th>Method</th>
+                    <th>Params</th>
                     <th>Success</th>
                     <th>Duration</th>
                 </tr>
@@ -26,6 +27,7 @@ const StoreCalls = ({filter}: Props) => {
                 <tr>
                     <td>{line.time}</td>
                     <td>{line.method}</td>
+                    <td>{JSON.stringify(line.params)}</td>
                     <td>{line.success}</td>
                     <td>{line.duration}</td>
                 </tr>
