@@ -216,6 +216,7 @@ const Preview = ({template, className, pluginsEnabled}: PreviewProps) => {
                     id={'integrations'}
                     message={template.description.integration.message}
                     items={integrations}
+                    categoryId={template.category}
                 />
             )],
         });
@@ -267,7 +268,6 @@ const Preview = ({template, className, pluginsEnabled}: PreviewProps) => {
                 />
             </div>
             <div className='img-wrapper'>
-                <strong>{formatMessage({id: 'work_templates.preview.what_you_see', defaultMessage: 'Here\'s what you\'ll see:'})}</strong>
                 <CSSTransition
                     nodeRef={nodeRefForPrior}
                     in={illustrationDetails.prior.animateIn}
@@ -318,6 +318,7 @@ const StyledPreview = styled(Preview)`
     .img-wrapper {
         position: relative;
         width: 100%;
+        margin-top: 32px;
     }
 
     img {

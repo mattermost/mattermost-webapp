@@ -12,9 +12,9 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getAllUserMentionKeys} from 'mattermost-redux/selectors/entities/search';
 
-import {GlobalState} from '@mattermost/types/store';
-
+import {GlobalState} from 'types/store';
 import {getEmojiMap} from 'selectors/emojis';
+
 import {getSiteURL} from 'utils/url';
 import {ChannelNamesMap, MentionKey} from 'utils/text_formatting';
 

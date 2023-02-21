@@ -17,8 +17,8 @@ import {
     SelfHostedProducts,
 } from 'utils/constants';
 
-import Consequences from './consequences';
-import SeatsCalculator, {Seats} from './seats_calculator';
+import Consequences from '../seats_calculator/consequences';
+import SeatsCalculator, {Seats} from '../seats_calculator';
 
 // Card has a bunch of props needed for monthly/yearly payments that
 // do not apply to self-hosted.
@@ -98,7 +98,12 @@ export default function SelfHostedCard(props: Props) {
                         onChange={props.updateSeats}
                     />
                 )}
-                afterButtonContent={<Consequences isCloud={false}/>}
+                afterButtonContent={
+                    <Consequences
+                        isCloud={false}
+                        licenseAgreementBtnText={intl.formatMessage({id: 'self_hosted_signup.cta', defaultMessage: 'Upgrade'})}
+                    />
+                }
                 buttonDetails={{
                     action: props.submit,
                     disabled: !props.canSubmit,
