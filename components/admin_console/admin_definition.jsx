@@ -2963,10 +2963,10 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ChannelSettings.EnableChannelAutocomplete',
-                        label: t('admin.customization.enableChannelAutocompleteTitle'),
+                        key: 'ExperimentalSettings.EnableChannelAutocomplete',
+                        label: t('admin.experimental.enableChannelAutocomplete.title'),
                         label_default: 'Enable channel autocomplete: ',
-                        help_text: t('admin.customization.enableChannelAutocompleteDescription'),
+                        help_text: t('admin.experimental.enableChannelAutocomplete.desc'),
                         help_text_default: 'When enabled, users can type the ~ character to autocomplete channel names when composing messages. When disabled, autocomplete suggestions for channel names will not be displayed. ',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
                     },
