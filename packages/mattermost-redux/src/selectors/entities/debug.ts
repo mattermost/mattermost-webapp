@@ -3,4 +3,6 @@
 
 import {GlobalState} from '@mattermost/types/store';
 
-export const getDebugLines = (state: GlobalState) => [...state.entities.debug.lines].reverse();
+export const getApiCalls = (state: GlobalState) => state.entities.debug.apiCalls;
+export const getStoreCalls = (state: GlobalState) => state.entities.debug.storeCalls;
+export const getSqlQueries = (state: GlobalState) => state.entities.debug.sqlQueries;

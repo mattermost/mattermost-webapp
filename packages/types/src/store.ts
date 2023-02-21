@@ -73,7 +73,9 @@ export type GlobalState = {
         insights: InsightsState;
         worktemplates: WorkTemplatesState;
         debug: {
-            lines: any[]
+            apiCalls: any[],
+            storeCalls: any[],
+            sqlQueries: any[],
         }
     };
     errors: any[];

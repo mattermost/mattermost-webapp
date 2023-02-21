@@ -643,7 +643,6 @@ export default class Root extends React.PureComponent<Props, State> {
                                 transitionDirection={Animations.Reasons.EnterFromBefore}
                             />
                         )}
-                        <DebugBar/>
                         <ModalController/>
                         <AnnouncementBarController/>
                         <SystemNotice/>
@@ -705,6 +704,7 @@ export default class Root extends React.PureComponent<Props, State> {
                         <SidebarRight/>
                         <AppBar/>
                         <SidebarRightMenu/>
+                        <DebugBar/>
                     </CompassThemeProvider>
                 </Switch>
             </RootProvider>

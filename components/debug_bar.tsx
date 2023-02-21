@@ -3,7 +3,7 @@
 
 import React, {memo, useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {getDebugLines} from 'mattermost-redux/selectors/entities/debug';
+import {getApiCalls, getStoreCalls, getSqlQueries} from 'mattermost-redux/selectors/entities/debug';
 import {clearLines} from 'mattermost-redux/actions/debug';
 import {Client4} from 'mattermost-redux/client';
 
@@ -46,7 +46,7 @@ type StoreCallsProps = {
 }
 
 const StoreCalls = ({filter}: StoreCallsProps) => {
-    var calls = useSelector(getDebugLines).filter((v) => v.type == 'store-call')
+    var calls = useSelector(getStoreCalls)
     if (filter != '') {
         calls = calls.filter((v) => JSON.stringify(v).indexOf(filter) !== -1)
     }
@@ -79,7 +79,7 @@ type APICallsProps = {
 }
 
 const APICalls = ({filter}: APICallsProps) => {
-    var calls = useSelector(getDebugLines).filter((v) => v.type == 'api-call')
+    var calls = useSelector(getApiCalls)
     if (filter != '') {
         calls = calls.filter((v) => JSON.stringify(v).indexOf(filter) !== -1)
     }
@@ -115,7 +115,7 @@ type SQLQueriesProps = {
 }
 
 const SQLQueries = ({filter}: SQLQueriesProps) => {
-    var queries = useSelector(getDebugLines).filter((v) => v.type == 'sql-query')
+    var queries = useSelector(getSqlQueries)
     if (filter != '') {
         queries = queries.filter((v) => JSON.stringify(v).indexOf(filter) !== -1)
     }
@@ -157,7 +157,7 @@ const SystemInfo = () => {
     }, [])
     return (
         <div>
-            <h1>System Info</h1>
+            <h2>System Info</h2>
             {JSON.stringify(systemInfo)}
         </div>
     )
