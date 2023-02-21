@@ -140,7 +140,7 @@ const WorkTemplateModal = () => {
     // error resetter
     useEffect(() => {
         setErrorText('');
-    }, [currentCategoryId, modalState, selectedTemplate, selectedVisibility]);
+    }, [currentCategoryId, modalState, selectedTemplate, selectedVisibility, selectedName]);
 
     const changeCategory = (category: Category) => {
         trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'change_category', {category: category.id});

@@ -131,7 +131,7 @@ export function searchMoreChannels(term: string, showArchivedChannels: boolean):
     };
 }
 
-export function autocompleteChannels(term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void): ActionFunc {
+export function autocompleteChannels(term: string, success: (channels: Channel[]) => void, error?: (err: ServerError) => void): ActionFunc {
     return async (dispatch, getState) => {
         const state = getState();
         const teamId = getCurrentTeamId(state);

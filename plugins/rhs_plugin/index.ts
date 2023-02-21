@@ -7,12 +7,11 @@ import {GlobalState} from 'types/store';
 import {PluginComponent} from 'types/store/plugins';
 
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-
 import {getWorkTemplatesLinkedProducts} from 'mattermost-redux/selectors/entities/general';
-
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {getActiveRhsComponent, getPluggableId} from 'selectors/rhs';
+import {shouldShowAutoLinkedBoard} from 'selectors/plugins';
 
 import {TutorialTourName, WorkTemplateTourSteps} from 'components/tours';
 
@@ -46,14 +45,19 @@ function mapStateToProps(state: GlobalState) {
     const showBoardsTour = showProductTour && pluginId === suitePluginIds.boards && boardsCount > 0;
     const showPlaybooksTour = showProductTour && pluginId === suitePluginIds.playbooks && playbooksCount > 0;
 
+    //AB test auto-linked board code
+    const isBoards = pluginComponent && (pluginComponent.pluginId === suitePluginIds.focalboard || pluginComponent.pluginId === suitePluginIds.boards);
+    const showAutoLinkedBoardTourTip = isBoards && shouldShowAutoLinkedBoard(state);
+
     return {
         showPluggable: Boolean(pluginComponent),
         pluggableId,
-        workTemplateTourData: {
+        tourtipsData: {
             showBoardsTour,
             showPlaybooksTour,
             boardsCount: channelLinkedItems.boards,
             playbooksCount: channelLinkedItems.playbooks,
+            showAutoLinkedBoardTourTip,
         },
         title: pluginTitle,
         pluginId,

@@ -8,15 +8,18 @@ import {BoardsTourTip, PlaybooksTourTip} from 'components/tours/worktemplate_exp
 
 import Pluggable from 'plugins/pluggable';
 
+import AutoShowLinkedBoardTourTip from './auto_show_linked_board_tourtip';
+
 export type Props = {
     showPluggable: boolean;
     pluggableId: string;
     title: string | React.ReactNode;
-    workTemplateTourData: {
+    tourtipsData: {
         showPlaybooksTour: boolean;
         showBoardsTour: boolean;
         boardsCount: number;
         playbooksCount: number;
+        showAutoLinkedBoardTourTip: boolean;
     };
 }
 
@@ -27,7 +30,8 @@ export default class RhsPlugin extends React.PureComponent<Props> {
             showPlaybooksTour,
             boardsCount,
             playbooksCount,
-        } = this.props.workTemplateTourData;
+            showAutoLinkedBoardTourTip,
+        } = this.props.tourtipsData;
 
         let boardsTourTip = null;
         let playbooksTourtip = null;
@@ -52,6 +56,7 @@ export default class RhsPlugin extends React.PureComponent<Props> {
                 className='sidebar-right__body'
             >
                 <SearchResultsHeader>
+                    {showAutoLinkedBoardTourTip ? <AutoShowLinkedBoardTourTip/> : null}
                     {this.props.title}
                 </SearchResultsHeader>
                 {

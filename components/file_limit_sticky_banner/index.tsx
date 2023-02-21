@@ -20,7 +20,7 @@ import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import AlertBanner from 'components/alert_banner';
 import Tooltip from 'components/tooltip';
 
-import {CloudProducts, LicenseSkus, PaidFeatures, Preferences} from 'utils/constants';
+import {CloudProducts, LicenseSkus, MattermostFeatures, Preferences} from 'utils/constants';
 import {asGBString} from 'utils/limits';
 
 interface FileLimitSnoozePreference {
@@ -138,7 +138,7 @@ function FileLimitStickyBanner() {
                             ctaText={chunks}
                             notifyRequestData={{
                                 required_plan: LicenseSkus.Professional,
-                                required_feature: PaidFeatures.UNLIMITED_FILE_STORAGE,
+                                required_feature: MattermostFeatures.UNLIMITED_FILE_STORAGE,
                                 trial_notification: false,
                             }}
                             callerInfo='file_limit_sticky_banner'
