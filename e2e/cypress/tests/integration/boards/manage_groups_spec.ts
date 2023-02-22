@@ -1,12 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// ***************************************************************
+// - [#] indicates a test step (e.g. # Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
+
+// Stage: @prod
+// Group: @boards
+
 describe('Manage groups', () => {
-    before(() => {
-        // # Login as new user and visit off-topic
-        cy.apiInitSetup({loginAfter: true});
+    beforeEach(() => {
+        // # Login as new user
+        cy.apiAdminLogin().apiInitSetup({loginAfter: true});
         cy.clearLocalStorage();
-        cy.apiGetMe().then((me) => cy.apiBoardsWelcomePageViewed(me.user.id));
     });
 
     it('MM-T4284 Adding a group', () => {

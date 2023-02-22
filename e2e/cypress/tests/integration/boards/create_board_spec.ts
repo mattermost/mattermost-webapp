@@ -1,16 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// ***************************************************************
+// - [#] indicates a test step (e.g. # Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
+
+// Stage: @prod
+// Group: @boards
+
 describe('Create and delete board / card', () => {
     const timestamp = new Date().toLocaleString();
     const boardTitle = `Test Board (${timestamp})`;
     const cardTitle = `Test Card (${timestamp})`;
 
-    before(() => {
-        // # Login as new user and visit off-topic
-        cy.apiInitSetup({loginAfter: true});
+    beforeEach(() => {
+        // # Login as new user
+        cy.apiAdminLogin().apiInitSetup({loginAfter: true});
         cy.clearLocalStorage();
-        cy.apiGetMe().then((me) => cy.apiBoardsWelcomePageViewed(me.user.id));
     });
 
     it('MM-T4274 Create an Empty Board', () => {
@@ -189,22 +197,22 @@ describe('Create and delete board / card', () => {
             findAllByTestId('preview-element').
             click();
 
-        cy.get('.CommentsList .MarkdownEditorInput').
+        cy.get('.CommentsList .MarkdownEditor').
             type('Test Text');
 
         cy.log('**Cut comment**');
-        cy.get('.CommentsList .MarkdownEditorInput').
+        cy.get('.CommentsList .MarkdownEditor').
             type('{selectAll}').
             trigger('cut').
             should('have.text', '');
 
         cy.log('**Undo comment**');
-        cy.get('.CommentsList .MarkdownEditorInput').
+        cy.get('.CommentsList .MarkdownEditor').
             type(`{${ctrlKey}+z}`).
             should('have.text', 'Test Text');
 
         cy.log('**Redo comment**');
-        cy.get('.CommentsList .MarkdownEditorInput').
+        cy.get('.CommentsList .MarkdownEditor').
             type(`{shift+${ctrlKey}+z}`).
             should('have.text', '');
     });

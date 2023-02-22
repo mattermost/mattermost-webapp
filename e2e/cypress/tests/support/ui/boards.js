@@ -13,15 +13,11 @@ Cypress.Commands.add('uiCreateBoard', (item) => {
 Cypress.Commands.add('uiCreateEmptyBoard', () => {
     cy.log('Create new empty board');
 
-    cy.uiAddBoard('Create new board');
-
     cy.contains('Create an empty board').click({force: true}).wait(1000);
 });
 
 Cypress.Commands.add('uiAddBoard', (item) => {
-    cy.findByRole('button', {name: 'Add Board Dropdown'}).
-        should('be.visible').
-        click();
+    cy.get('.add-board-icon').should('be.visible').click();
     cy.get('.menu-contents').should('be.visible');
 
     if (item) {

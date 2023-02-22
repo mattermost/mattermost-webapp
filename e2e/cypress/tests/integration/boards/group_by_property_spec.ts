@@ -1,12 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// ***************************************************************
+// - [#] indicates a test step (e.g. # Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
+
+// Stage: @prod
+// Group: @boards
+
 describe('Group board by different properties', () => {
     before(() => {
-        // # Login as new user and visit off-topic
+        // # Login as new user
         cy.apiInitSetup({loginAfter: true});
         cy.clearLocalStorage();
-        cy.apiGetMe().then((me) => cy.apiBoardsWelcomePageViewed(me.user.id));
     });
 
     it('MM-T4291 Group by different property', () => {
