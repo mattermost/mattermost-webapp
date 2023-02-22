@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import SearchChannelWithPermissionsProvider from 'components/suggestion/search_channel_with_permissions_provider.jsx';
+
 import getState from 'stores/redux_store';
 import mockStore from 'tests/test_store';
 
