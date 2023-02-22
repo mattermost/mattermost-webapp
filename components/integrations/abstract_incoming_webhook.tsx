@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ChangeEventHandler, FormEvent, MouseEvent, PureComponent} from 'react';
 import {FormattedMessage, MessageDescriptor} from 'react-intl';
 import {Link} from 'react-router-dom';
 
@@ -73,7 +73,7 @@ interface Props {
     action: (hook: IncomingWebhook) => Promise<void>;
 }
 
-export default class AbstractIncomingWebhook extends React.PureComponent<Props, State> {
+export default class AbstractIncomingWebhook extends PureComponent<Props, State> {
     constructor(props: Props | Readonly<Props>) {
         super(props);
 
@@ -94,7 +94,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
         };
     }
 
-    handleSubmit= (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    handleSubmit = (e: MouseEvent<HTMLElement> | FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (this.state.saving) {
@@ -139,37 +139,37 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
         this.props.action(hook).then(() => this.setState({saving: false}));
     }
 
-    updateDisplayName: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    updateDisplayName: ChangeEventHandler<HTMLInputElement> = (e) => {
         this.setState({
             displayName: e.target.value,
         });
     }
 
-    updateDescription: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    updateDescription: ChangeEventHandler<HTMLInputElement> = (e) => {
         this.setState({
             description: e.target.value,
         });
     }
 
-    updateChannelId: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
+    updateChannelId: ChangeEventHandler<HTMLSelectElement> = (e) => {
         this.setState({
             channelId: e.target.value,
         });
     }
 
-    updateChannelLocked: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    updateChannelLocked: ChangeEventHandler<HTMLInputElement> = (e) => {
         this.setState({
             channelLocked: e.target.checked,
         });
     }
 
-    updateUsername: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    updateUsername: ChangeEventHandler<HTMLInputElement> = (e) => {
         this.setState({
             username: e.target.value,
         });
     }
 
-    updateIconURL: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    updateIconURL: ChangeEventHandler<HTMLInputElement> = (e) => {
         this.setState({
             iconURL: e.target.value,
         });
@@ -196,7 +196,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
                 <div className='backstage-form'>
                     <form
                         className='form-horizontal'
-                        onSubmit={this.handleSubmit}
+                        onSubmit={(e) => this.handleSubmit(e)}
                     >
                         <div className='form-group'>
                             <label
@@ -380,7 +380,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent<Props, 
                                 type='submit'
                                 spinning={this.state.saving}
                                 spinningText={localizeMessage(this.props.loading.id as string, this.props.loading.defaultMessage as string)}
-                                onClick={this.handleSubmit}
+                                onClick={(e) => this.handleSubmit(e)}
                                 id='saveWebhook'
                             >
                                 <FormattedMessage
