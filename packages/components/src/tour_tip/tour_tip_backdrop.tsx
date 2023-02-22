@@ -56,7 +56,7 @@ export const TourTipBackdrop = ({
     const backdrop = (
         <div
             onClick={onDismiss}
-            className={`tour-tip__backdrop${transparent ? '_transparent' : ''}`}
+            className={`tour-tip__backdrop ${transparent ? 'tour-tip__backdrop--transparent' : ''}`}
             style={{
                 clipPath: vertices.length ? `polygon(${vertices.join(', ')})` : undefined,
             }}

@@ -40,7 +40,7 @@ import {
 export const useGetTourSteps = (tourCategory: string) => {
     const isGuestUser = useSelector((state: GlobalState) => isCurrentUserGuestUser(state));
 
-    const workTemplatesLinkedItems = useSelector((state: GlobalState) => getWorkTemplatesLinkedProducts(state));
+    const workTemplatesLinkedItems = useSelector(getWorkTemplatesLinkedProducts);
     let tourSteps: Record<string, number> = TTNameMapToTourSteps[tourCategory];
 
     const {playbooksPlugin, playbooksProductEnabled, boardsPlugin, boardsProductEnabled} = useGetPluginsActivationState();

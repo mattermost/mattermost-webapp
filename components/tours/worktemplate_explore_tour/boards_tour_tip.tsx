@@ -5,17 +5,21 @@ import React from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import OnboardingWorkTemplateTourTip from './worktemplate_explore_tour_tip';
-import {useShowShowTourTip} from './useShowTourTip';
+import {useShowTourTip} from './useShowTourTip';
 
 export const BoardsTourTip = (): JSX.Element | null => {
     const {formatMessage} = useIntl();
 
-    const {playbooksCount, boardsCount, showBoardsTour} = useShowShowTourTip();
+    const {playbooksCount, boardsCount, showBoardsTour} = useShowTourTip();
+
+    if (!showBoardsTour) {
+        return null;
+    }
 
     const title = (
         <FormattedMessage
             id='pluggable_rhs.tourtip.boards.title'
-            defaultMessage={'Access your {count} linked boards!'}
+            defaultMessage={'Access your {count} linked {count, plural, one {board} other {boards}}!'}
             values={{count: boardsCount === 0 ? undefined : String(boardsCount)}}
         />
     );
@@ -42,10 +46,6 @@ export const BoardsTourTip = (): JSX.Element | null => {
             </li>
         </ul>
     );
-
-    if (!showBoardsTour) {
-        return null;
-    }
 
     return (
         <OnboardingWorkTemplateTourTip

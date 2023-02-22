@@ -10,7 +10,7 @@ export type WorkTemplatesState = {
     linkedProducts: Record<string, number>;
 }
 
-interface PlaybookTemplateType {
+export interface PlaybookTemplateType {
     title: string;
     template: any;
 }

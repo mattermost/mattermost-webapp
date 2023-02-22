@@ -13,7 +13,7 @@ import AutoShowLinkedBoardTourTip from './auto_show_linked_board_tourtip';
 export type Props = {
     showPluggable: boolean;
     pluggableId: string;
-    title: string | React.ReactNode;
+    title: React.ReactNode;
 }
 
 export default class RhsPlugin extends React.PureComponent<Props> {

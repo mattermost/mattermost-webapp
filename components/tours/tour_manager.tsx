@@ -71,7 +71,7 @@ export const useTourTipManager = (tourCategory: string): ChannelsTourTipManager 
                 trackEventAction(tourCategory, telemetryTag);
             }
         },
-        [currentUserId, currentChannelId],
+        [currentUserId, currentChannelId, tourCategory],
     );
 
     // Function to save the tutorial step in redux store end here

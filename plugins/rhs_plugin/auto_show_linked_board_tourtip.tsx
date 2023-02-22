@@ -26,11 +26,11 @@ const AutoShowLinkedBoardTourTip = ({
     const dispatch = useDispatch();
 
     const rhsPlugins: PluginComponent[] = useSelector((state: GlobalState) => state.plugins.components.RightHandSidebarComponent);
-    const pluggableId = useSelector((state: GlobalState) => getPluggableId(state));
+    const pluggableId = useSelector(getPluggableId);
     const pluginComponent = rhsPlugins.find((element: PluginComponent) => element.id === pluggableId);
 
     const isBoards = pluginComponent && (pluginComponent.pluginId === suitePluginIds.focalboard || pluginComponent.pluginId === suitePluginIds.boards);
-    const showAutoLinkedBoard = useSelector((state: GlobalState) => shouldShowAutoLinkedBoard(state));
+    const showAutoLinkedBoard = useSelector(shouldShowAutoLinkedBoard);
     const showAutoLinkedBoardTourTip = isBoards && showAutoLinkedBoard;
 
     const title = (

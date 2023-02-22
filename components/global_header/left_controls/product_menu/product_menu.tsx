@@ -31,6 +31,8 @@ import {ExploreOtherToolsTourSteps, suitePluginIds} from 'utils/constants';
 import {useCurrentProductId, useProducts, isChannels} from 'utils/products';
 import {GlobalState} from 'types/store';
 
+import {useGetPluginsActivationState} from 'plugins/useGetPluginsActivationState';
+
 import {useClickOutsideRef} from '../../hooks';
 
 import ProductBranding from './product_branding';
@@ -79,18 +81,12 @@ const ProductMenu = (): JSX.Element => {
     const triggerStep = useSelector((state: GlobalState) => getInt(state, OnboardingTaskCategory, OnboardingTasksName.EXPLORE_OTHER_TOOLS, FINISHED));
     const exploreToolsTourTriggered = triggerStep === GenericTaskSteps.STARTED;
 
-    const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
-    const playbooks = pluginsList.playbooks;
+    const {boardsProductEnabled, boardsPlugin, playbooksPlugin} = useGetPluginsActivationState();
 
-    const boardsPluginEnabled = pluginsList.focalboard;
-    let boardsProductEnabled = false;
-    if (products) {
-        boardsProductEnabled = products.some((product) => product.pluginId === suitePluginIds.focalboard || product.pluginId === suitePluginIds.boards);
-    }
-    const boardsEnabled = boardsPluginEnabled || boardsProductEnabled;
+    const boardsEnabled = boardsPlugin || boardsProductEnabled;
 
     const showBoardsTour = enableTutorial && tutorialStep === ExploreOtherToolsTourSteps.BOARDS_TOUR && exploreToolsTourTriggered && boardsEnabled;
-    const showPlaybooksTour = enableTutorial && tutorialStep === ExploreOtherToolsTourSteps.PLAYBOOKS_TOUR && exploreToolsTourTriggered && playbooks;
+    const showPlaybooksTour = enableTutorial && tutorialStep === ExploreOtherToolsTourSteps.PLAYBOOKS_TOUR && exploreToolsTourTriggered && playbooksPlugin;
 
     const handleClick = () => dispatch(setProductMenuSwitcherOpen(!switcherOpen));
 
@@ -116,7 +112,7 @@ const ProductMenu = (): JSX.Element => {
         // focalboard
         const boardsEnabled = product.pluginId === suitePluginIds.focalboard || product.pluginId === suitePluginIds.boards;
         if (boardsEnabled && showBoardsTour) {
-            tourTip = (<BoardsTourTip singleTip={!playbooks}/>);
+            tourTip = (<BoardsTourTip singleTip={!playbooksPlugin}/>);
         }
 
         // playbooks

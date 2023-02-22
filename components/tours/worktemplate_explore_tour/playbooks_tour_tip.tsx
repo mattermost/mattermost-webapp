@@ -4,17 +4,21 @@
 import React from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import {useShowShowTourTip} from './useShowTourTip';
+import {useShowTourTip} from './useShowTourTip';
 import OnboardingWorkTemplateTourTip from './worktemplate_explore_tour_tip';
 
 export const PlaybooksTourTip = (): JSX.Element | null => {
     const {formatMessage} = useIntl();
-    const {playbooksCount, boardsCount, showPlaybooksTour} = useShowShowTourTip();
+    const {playbooksCount, boardsCount, showPlaybooksTour} = useShowTourTip();
+
+    if (!showPlaybooksTour) {
+        return null;
+    }
 
     const title = (
         <FormattedMessage
             id='pluggable_rhs.tourtip.playbooks.title'
-            defaultMessage={'Access your {count} linked playbook run'}
+            defaultMessage={'Access your {count} linked {count, plural, one {playbook} other {playbooks}}!'}
             values={{count: playbooksCount === 0 ? undefined : String(playbooksCount)}}
         />
     );
@@ -41,10 +45,6 @@ export const PlaybooksTourTip = (): JSX.Element | null => {
             </li>
         </ul>
     );
-
-    if (!showPlaybooksTour) {
-        return null;
-    }
 
     return (
         <OnboardingWorkTemplateTourTip

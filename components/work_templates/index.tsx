@@ -42,7 +42,6 @@ import {GlobalState} from 'types/store';
 
 import {ModalIdentifiers, suitePluginIds, TELEMETRY_CATEGORIES} from 'utils/constants';
 
-import {PLUGIN_NAME_TO_ID_MAP} from 'components/preparing_workspace/steps';
 import {AutoTourStatus} from 'components/tours';
 
 import Customize from './components/customize';
@@ -50,6 +49,7 @@ import Menu from './components/menu';
 import GenericModal from './components/modal';
 import Preview from './components/preview';
 import {useGetRHSPluggablesIds} from './hooks';
+import {getContentCount} from './utils';
 
 const BackIconInHeader = styled(LocalizedIcon)`
     font-size: 24px;
@@ -191,42 +191,12 @@ const WorkTemplateModal = () => {
         setSelectedVisibility(visibility);
     };
 
-    const getContentCount = (template: WorkTemplate) => {
-        const res = {
-            playbooks: 0,
-            boards: 0,
-            jira: 0,
-            github: 0,
-            gitlab: 0,
-        };
-        for (const item of template.content) {
-            if (item.playbook) {
-                const pbTemplate = playbookTemplates.find((pb) => pb.title === item.playbook.template);
-                if (pbTemplate) {
-                    res.playbooks++;
-                }
-            } else if (item.board) {
-                res.boards++;
-            } else if (item.integration) {
-                if (item.integration.id === PLUGIN_NAME_TO_ID_MAP.jira) {
-                    res.jira = 1;
-                } else if (item.integration.id === PLUGIN_NAME_TO_ID_MAP.github) {
-                    res.github = 1;
-                } else if (item.integration.id === PLUGIN_NAME_TO_ID_MAP.gitlab) {
-                    res.gitlab = 1;
-                }
-            }
-        }
-
-        return res;
-    };
-
     /**
      * Creates the necessary data in the global store as long storing in DB preferences the tourtip information
      * @param template current used worktempplate
      */
-    const tourTipActions = async (template: WorkTemplate) => {
-        const linkedProductsCount = getContentCount(template);
+    const tourTipActions = (template: WorkTemplate) => {
+        const linkedProductsCount = getContentCount(template, playbookTemplates);
 
         // stepValue and pluginId are used for showing the tourtip for the used template
         let stepValue = 0;
@@ -239,9 +209,11 @@ const WorkTemplateModal = () => {
             stepValue = WorkTemplateTourSteps.BOARDS_TOUR_TIP;
         }
 
-        if (pluginId) {
-            dispatch(showRHSPlugin(pluginId));
+        if (!pluginId) {
+            return;
         }
+
+        dispatch(showRHSPlugin(pluginId));
 
         // store the required preferences for the tourtip
         const tourCategory = TutorialTourName.WORK_TEMPLATE_TUTORIAL;
@@ -263,11 +235,11 @@ const WorkTemplateModal = () => {
                 value: String(AutoTourStatus.ENABLED),
             },
         ];
-        await dispatch(savePreferences(currentUserId, preferences));
+        dispatch(savePreferences(currentUserId, preferences));
 
         // store in the global state the plugins/integrations information related to the used template
         // so we can display that data in the tourtip
-        await dispatch(onExecuteSuccess(linkedProductsCount));
+        dispatch(onExecuteSuccess(linkedProductsCount));
     };
 
     const execute = async (template: WorkTemplate, name = '', visibility: Visibility) => {

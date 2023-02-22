@@ -9,7 +9,7 @@ import {PluginComponent} from 'types/store/plugins';
 type HookReturnType = {
     pluggableId: string;
     rhsPluggableIds: Map<string, string>;
-    pluginComponent: PluginComponent | undefined;
+    pluginComponent?: PluginComponent;
 };
 
 export const useGetRHSPluggablesIds = (): HookReturnType => {

@@ -369,10 +369,10 @@
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
-    }
 
-    &__transparent_backdrop {
-        background: none !important;
+        &--transparent {
+            background: none !important;
+        }
     }
 }
 
