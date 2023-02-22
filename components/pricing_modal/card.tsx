@@ -28,7 +28,7 @@ type PlanAddonsInfo = {
 
 type ButtonDetails = {
     action: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    text: string | ReactNode;
+    text: ReactNode;
     disabled?: boolean;
     customClass?: ButtonCustomiserClasses;
 }

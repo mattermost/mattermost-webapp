@@ -44,16 +44,14 @@ function simulateSubscriptionWithLimitsUsage(subscription, withLimits = {}, post
         ],
     }).as('products');
 
-    if (withLimits) {
-        cy.intercept('GET', '**/api/v4/cloud/limits', {
-            statusCode: 200,
-            body: withLimits,
-        });
+    cy.intercept('GET', '**/api/v4/cloud/limits', {
+        statusCode: 200,
+        body: withLimits,
+    });
 
-        cy.intercept('GET', '**/api/v4/usage/posts', {
-            count: postsUsed,
-        });
-    }
+    cy.intercept('GET', '**/api/v4/usage/posts', {
+        count: postsUsed,
+    });
 }
 
 function simulateSubscription(subscription, withLimits = true) {

@@ -86,12 +86,12 @@ function Content(props: ContentProps) {
     const currentSubscriptionIsMonthlyProfessional = currentSubscriptionIsMonthly && isProfessional;
     const isProfessionalAnnual = isProfessional && currentProduct?.recurring_interval === RecurringIntervals.YEAR;
 
+    const isPreTrial = subscription?.trial_end_at === 0;
+
     let isPostTrial = false;
     if ((subscription && subscription.trial_end_at > 0) && !isEnterpriseTrial && (isStarter || isEnterprise)) {
         isPostTrial = true;
     }
-
-    const isPreTrial = !isPostTrial;
 
     const [notifyAdminBtnTextProfessional, notifyAdminOnProfessionalFeatures, professionalNotifyRequestStatus] = useNotifyAdmin({
         ctaText: formatMessage({id: 'pricing_modal.noitfy_cta.request', defaultMessage: 'Request admin to upgrade'}),
