@@ -13,6 +13,9 @@ import PurchaseInProgressModal from 'components/purchase_in_progress_modal';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {HostedCustomerTypes} from 'mattermost-redux/action_types';
+import {isModalOpen} from 'selectors/views/modals';
+
+import {GlobalState} from 'types/store';
 
 import {useControlModal, ControlModal} from './useControlModal';
 
@@ -25,7 +28,6 @@ interface HookOptions{
 export default function useControlSelfHostedPurchaseModal(options: HookOptions): ControlModal {
     const dispatch = useDispatch();
     const currentUser = useSelector(getCurrentUser);
-    const purchaseInProgress = localStorage.getItem(STORAGE_KEY_PURCHASE_IN_PROGRESS) === 'true';
     const controlModal = useControlModal({
         modalId: ModalIdentifiers.SELF_HOSTED_PURCHASE,
         dialogType: SelfHostedPurchaseModal,
@@ -33,11 +35,24 @@ export default function useControlSelfHostedPurchaseModal(options: HookOptions):
             productId: options.productId,
         },
     });
+    const pricingModalOpen = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.PRICING_MODAL));
+    const purchaseModalOpen = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.SELF_HOSTED_PURCHASE));
+    const comparingPlansWhilePurchasing = pricingModalOpen && purchaseModalOpen;
 
     return useMemo(() => {
         return {
             ...controlModal,
             open: async () => {
+                // check if purchase modal is already open
+                // i.e. they are allowed to compare plans from within the purchase modal
+                // if so, all we need to do is close the compare plans modal so that
+                // the purchase modal is available again.
+                if (comparingPlansWhilePurchasing) {
+                    dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
+                    return;
+                }
+                const purchaseInProgress = localStorage.getItem(STORAGE_KEY_PURCHASE_IN_PROGRESS) === 'true';
+
                 // check if user already has an open purchase modal in current browser.
                 if (purchaseInProgress) {
                     // User within the same browser session
@@ -89,5 +104,5 @@ export default function useControlSelfHostedPurchaseModal(options: HookOptions):
                 }
             },
         };
-    }, [controlModal, options.productId, options.onClick, options.trackingLocation, purchaseInProgress]);
+    }, [controlModal, options.productId, options.onClick, options.trackingLocation, comparingPlansWhilePurchasing]);
 }

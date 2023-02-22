@@ -101,7 +101,7 @@ export const PlanDetailsTopElements = ({
             className='RecurringIntervalBadge'
             text={formatMessage({
                 id: 'admin.billing.subscription.cloudYearlyBadge',
-                defaultMessage: 'Yearly',
+                defaultMessage: 'Annual',
             })}
         />
     );
