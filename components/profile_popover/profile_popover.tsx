@@ -572,8 +572,9 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                         useTime={{
                             hour: 'numeric',
                             minute: 'numeric',
-                            timeZoneName: 'short',
                         }}
+                        includeTimeDifference={true}
+                        currentTimezone={this.props.currentUserTimezone}
                     />
                 </div>,
             );

@@ -303,4 +303,58 @@ describe('components/timestamp/Timestamp', () => {
         );
         expect(wrapper.text()).toBe('19:15');
     });
+
+    test('should render with hours behind current time', () => {
+        const wrapper = mountWithIntl(
+            <Timestamp
+                useRelative={false}
+                useDate={false}
+                timeZone='America/New_York'
+                useTime={{
+                    hour: 'numeric',
+                    minute: 'numeric',
+                }}
+                includeTimeDifference={true}
+                currentTimezone={'UTC'}
+            />,
+        );
+
+        expect(wrapper.text()).toContain('(4 hr. behind)');
+    });
+
+    test('should render with hours ahead current time', () => {
+        const wrapper = mountWithIntl(
+            <Timestamp
+                useRelative={false}
+                useDate={false}
+                timeZone='UTC'
+                useTime={{
+                    hour: 'numeric',
+                    minute: 'numeric',
+                }}
+                includeTimeDifference={true}
+                currentTimezone={'America/New_York'}
+            />,
+        );
+
+        expect(wrapper.text()).toContain('(4 hr. ahead)');
+    });
+
+    test('should not render with hours diff', () => {
+        const wrapper = mountWithIntl(
+            <Timestamp
+                useRelative={false}
+                useDate={false}
+                timeZone='UTC'
+                useTime={{
+                    hour: 'numeric',
+                    minute: 'numeric',
+                }}
+                includeTimeDifference={true}
+                currentTimezone={'UTC'}
+            />,
+        );
+
+        expect(wrapper.text()).not.toContain('hr');
+    });
 });

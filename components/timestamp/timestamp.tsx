@@ -13,6 +13,8 @@ import {isValidElementType} from 'react-is';
 import moment, {Moment} from 'moment-timezone';
 import {capitalize as caps, isArray} from 'lodash';
 
+import {DateTime, Duration} from 'luxon';
+
 import {isSameYear, isWithin, isEqual, getDiff} from 'utils/datetime';
 import {Resolvable, resolve} from 'utils/resolvable';
 import {RequireOnlyOne} from '@mattermost/types/utilities';
@@ -90,6 +92,47 @@ function normalizeRangeDescriptor(unit: NonNullable<Props['units']>[number]): Ra
     return unit;
 }
 
+function timezoneDiff(timezone: string | undefined, currentTimezone: string | undefined): ReturnType< typeof FormattedMessage > | undefined {
+    if (!timezone) {
+        return undefined;
+    }
+
+    const currentDate = DateTime.local().setZone(currentTimezone);
+    const userDate = DateTime.local().setZone(timezone);
+
+    const hoursDiff = Duration.fromObject({
+        minutes: userDate.offset - currentDate.offset,
+    }).as('hours');
+
+    if (!hoursDiff) {
+        return undefined;
+    }
+
+    const aheadOrBehind = hoursDiff > 0 ? 'ahead' : 'behind';
+
+    if (aheadOrBehind === 'ahead') {
+        return (
+            <FormattedMessage
+                id='user_profile.account.hoursAhead'
+                defaultMessage=' ({hourDiff} hr. ahead)'
+                values={{
+                    hourDiff: Math.abs(hoursDiff),
+                }}
+            />
+        );
+    }
+
+    return (
+        <FormattedMessage
+            id='user_profile.account.hoursBehind'
+            defaultMessage=' ({hourDiff} hr. behind)'
+            values={{
+                hourDiff: Math.abs(hoursDiff),
+            }}
+        />
+    );
+}
+
 export type ResolvedFormats = {
     relative: RelativeOptions | SimpleRelativeOptions | false;
     date: DateTimeOptions | false;
@@ -117,6 +160,9 @@ export type Props = FormatOptions & {
     className?: string;
     label?: string;
     useSemanticOutput?: boolean;
+
+    includeTimeDifference?: boolean;
+    currentTimezone?: string;
 
     intl: IntlShape;
 }
@@ -440,6 +486,15 @@ class Timestamp extends PureComponent<Props, State> {
 
         if (children) {
             return resolve(children, {value, timeZone, formatted, ...parts}, formats);
+        }
+
+        if (this.props.includeTimeDifference) {
+            return (
+                <span>
+                    {formatted}
+                    <span>{timezoneDiff(timeZone, this.props.currentTimezone)}</span>
+                </span>
+            );
         }
 
         return formatted;
