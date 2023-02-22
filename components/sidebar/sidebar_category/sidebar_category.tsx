@@ -383,9 +383,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                 {categoryMenu}
                                             </SidebarCategoryHeader>
                                             <div
-                                                className={classNames('SidebarChannelGroup_content', {
-                                                    hasFollowingSibling: category.type === CategoryTypes.DIRECT_MESSAGES,
-                                                })}
+                                                className={classNames('SidebarChannelGroup_content')}
                                             >
                                                 <ul
                                                     role='list'
