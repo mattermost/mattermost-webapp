@@ -194,8 +194,12 @@ const state: GlobalState = {
             byId: {},
             orderByTeam: {},
         },
-        debug: {
-            lines: [],
+        debugbar: {
+            apiCalls: [],
+            storeCalls: [],
+            sqlQueries: [],
+            logs: [],
+            emailsSent: [],
         },
         apps: {
             main: {

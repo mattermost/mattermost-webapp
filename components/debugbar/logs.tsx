@@ -1,6 +1,7 @@
 import React, {memo} from 'react';
 import {useSelector} from 'react-redux';
 import {getLogs} from 'mattermost-redux/selectors/entities/debugbar';
+import {DebugBarLog} from '@mattermost/types/debugbar';
 
 type Props = {
     filter: string
@@ -22,12 +23,12 @@ const Logs = ({filter}: Props) => {
                 </tr>
             </thead>
             <tbody>
-            {logs.map((line: {[key: string]: string}) => (
+            {logs.map((log: DebugBarLog) => (
                 <tr>
-                    <td>{line.time}</td>
-                    <td>{line.level}</td>
-                    <td>{line.message}</td>
-                    <td>{JSON.stringify(line.fields)}</td>
+                    <td>{log.time}</td>
+                    <td>{log.level}</td>
+                    <td>{log.message}</td>
+                    <td>{JSON.stringify(log.fields)}</td>
                 </tr>
             ))}
             </tbody>

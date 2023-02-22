@@ -1,6 +1,7 @@
 import React, {memo} from 'react';
 import {useSelector} from 'react-redux';
 import {getStoreCalls} from 'mattermost-redux/selectors/entities/debugbar';
+import {DebugBarStoreCall} from '@mattermost/types/debugbar';
 
 type Props = {
     filter: string
@@ -23,13 +24,13 @@ const StoreCalls = ({filter}: Props) => {
                 </tr>
             </thead>
             <tbody>
-            {calls.map((line: {[key: string]: string}) => (
+            {calls.map((call: DebugBarStoreCall) => (
                 <tr>
-                    <td>{line.time}</td>
-                    <td>{line.method}</td>
-                    <td>{JSON.stringify(line.params)}</td>
-                    <td>{line.success}</td>
-                    <td>{line.duration}</td>
+                    <td>{call.time}</td>
+                    <td>{call.method}</td>
+                    <td>{JSON.stringify(call.params)}</td>
+                    <td>{call.success}</td>
+                    <td>{call.duration}</td>
                 </tr>
             ))}
             </tbody>

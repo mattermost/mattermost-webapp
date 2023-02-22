@@ -320,7 +320,7 @@ function handleClose(failCount) {
 
 export function handleEvent(msg) {
     switch (msg.event) {
-    case SocketEvents.DEBUG:
+    case SocketEvents.DEBUGBAR:
         dispatch(addLine(msg.data));
         break;
 

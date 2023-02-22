@@ -1,6 +1,7 @@
 import React, {memo} from 'react';
 import {useSelector} from 'react-redux';
 import {getSqlQueries} from 'mattermost-redux/selectors/entities/debugbar';
+import {DebugBarSQLQuery} from '@mattermost/types/debugbar';
 
 type Props = {
     filter: string
@@ -22,12 +23,12 @@ const SQLQueries = ({filter}: Props) => {
                 </tr>
             </thead>
             <tbody>
-            {queries.map((line: {[key: string]: any}) => (
+            {queries.map((query: DebugBarSQLQuery) => (
                 <tr>
-                    <td>{line.time}</td>
-                    <td>{line.query}</td>
-                    <td>{line.args ? JSON.stringify(line.args) : ''}</td>
-                    <td>{line.duration}</td>
+                    <td>{query.time}</td>
+                    <td>{query.query}</td>
+                    <td>{query.args ? JSON.stringify(query.args) : ''}</td>
+                    <td>{query.duration}</td>
                 </tr>
             ))}
             </tbody>

@@ -73,7 +73,7 @@ export type GlobalState = {
         usage: CloudUsage;
         insights: InsightsState;
         worktemplates: WorkTemplatesState;
-        debug: DebugBarState;
+        debugbar: DebugBarState;
     };
     errors: any[];
     requests: {

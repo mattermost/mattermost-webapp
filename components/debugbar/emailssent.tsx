@@ -1,6 +1,7 @@
 import React, {memo} from 'react';
 import {useSelector} from 'react-redux';
 import {getEmailsSent} from 'mattermost-redux/selectors/entities/debugbar';
+import {DebugBarEmailSent} from '@mattermost/types/debugbar';
 
 type Props = {
     filter: string
@@ -23,13 +24,13 @@ const EmailsSent = ({filter}: Props) => {
                 </tr>
             </thead>
             <tbody>
-            {emails.map((line: {[key: string]: string}) => (
+            {emails.map((email: DebugBarEmailSent) => (
                 <tr>
-                    <td>{line.time}</td>
-                    <td>{line.to}</td>
-                    <td>{line.cc}</td>
-                    <td>{line.subject}</td>
-                    <td>{line.error}</td>
+                    <td>{email.time}</td>
+                    <td>{email.to}</td>
+                    <td>{email.cc}</td>
+                    <td>{email.subject}</td>
+                    <td>{email.err}</td>
                 </tr>
             ))}
             </tbody>

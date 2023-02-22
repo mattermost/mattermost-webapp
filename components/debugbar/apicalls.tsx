@@ -1,6 +1,7 @@
 import React, {memo} from 'react';
 import {useSelector} from 'react-redux';
 import {getApiCalls} from 'mattermost-redux/selectors/entities/debugbar';
+import {DebugBarAPICall} from '@mattermost/types/debugbar';
 
 type Props = {
     filter: string
@@ -24,13 +25,13 @@ const ApiCalls = ({filter}: Props) => {
                 </tr>
             </thead>
             <tbody>
-            {calls.map((line: {[key: string]: string}) => (
+            {calls.map((call: DebugBarAPICall) => (
                 <tr>
-                    <td>{line.time}</td>
-                    <td>{line.endpoint}</td>
-                    <td>{line.method}</td>
-                    <td>{line.statusCode}</td>
-                    <td>{line.duration}</td>
+                    <td>{call.time}</td>
+                    <td>{call.endpoint}</td>
+                    <td>{call.method}</td>
+                    <td>{call.statusCode}</td>
+                    <td>{call.duration}</td>
                 </tr>
             ))}
             </tbody>

@@ -36,6 +36,20 @@ export type DebugBarLog = {
 }
 
 export type DebugBarEmailSent = {
+    time: number;
+    type: string;
+    to: string;
+    cc: string;
+    subject: string;
+    htmlBody: string;
+    embeddedFiles: any;
+    SMTPConfig: any;
+    enableComplianceFeatures: boolean;
+    messageID: string;
+    inReplyTo: string;
+    reference: string;
+    category: string;
+    err: string|null;
 }
 
 export type DebugBarState = {

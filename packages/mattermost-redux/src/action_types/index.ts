@@ -45,6 +45,7 @@ export {
     GifTypes,
     AdminTypes,
     JobTypes,
+    DebugBarTypes,
     SearchTypes,
     RoleTypes,
     SchemeTypes,
