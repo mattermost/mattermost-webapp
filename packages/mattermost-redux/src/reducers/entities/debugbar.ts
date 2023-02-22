@@ -4,17 +4,18 @@
 import {combineReducers} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
+import {DebugBarState} from 'packages/types/actions';
+import {DebugBarTypes} from 'mattermost-redux/action_types';
 
 export function emailsSent(state: any[] = [], action: GenericAction): any[] {
-    // TODO Move the action types to the right place
     switch (action.type) {
-    case 'add-line': {
+    case DebugTypes.ADD_LINE: {
         if (action.data?.type == 'email-sent') {
             return [action.data, ...state];
         }
         return state
     }
-    case 'clear-lines': {
+    case DebugTypes.CLEAR_LINES: {
         return [];
     }
     default:
@@ -23,15 +24,14 @@ export function emailsSent(state: any[] = [], action: GenericAction): any[] {
 }
 
 export function apiCalls(state: any[] = [], action: GenericAction): any[] {
-    // TODO Move the action types to the right place
     switch (action.type) {
-    case 'add-line': {
+    case DebugTypes.ADD_LINE: {
         if (action.data?.type == 'api-call') {
             return [action.data, ...state];
         }
         return state
     }
-    case 'clear-lines': {
+    case DebugTypes.CLEAR_LINES: {
         return [];
     }
     default:
@@ -40,15 +40,14 @@ export function apiCalls(state: any[] = [], action: GenericAction): any[] {
 }
 
 export function storeCalls(state: any[] = [], action: GenericAction): any[] {
-    // TODO Move the action types to the right place
     switch (action.type) {
-    case 'add-line': {
+    case DebugTypes.ADD_LINE: {
         if (action.data?.type == 'store-call') {
             return [action.data, ...state];
         }
         return state
     }
-    case 'clear-lines': {
+    case DebugTypes.CLEAR_LINES: {
         return [];
     }
     default:
@@ -57,15 +56,14 @@ export function storeCalls(state: any[] = [], action: GenericAction): any[] {
 }
 
 export function sqlQueries(state: any[] = [], action: GenericAction): any[] {
-    // TODO Move the action types to the right place
     switch (action.type) {
-    case 'add-line': {
+    case DebugTypes.ADD_LINE: {
         if (action.data?.type == 'sql-query') {
             return [action.data, ...state];
         }
         return state
     }
-    case 'clear-lines': {
+    case DebugTypes.CLEAR_LINES: {
         return [];
     }
     default:
@@ -74,15 +72,14 @@ export function sqlQueries(state: any[] = [], action: GenericAction): any[] {
 }
 
 export function logs(state: any[] = [], action: GenericAction): any[] {
-    // TODO Move the action types to the right place
     switch (action.type) {
-    case 'add-line': {
+    case DebugTypes.ADD_LINE: {
         if (action.data?.type == 'log-line') {
             return [action.data, ...state];
         }
         return state
     }
-    case 'clear-lines': {
+    case DebugTypes.CLEAR_LINES: {
         return [];
     }
     default:
@@ -97,4 +94,4 @@ export default (combineReducers({
     sqlQueries,
     logs,
     emailsSent,
-}) as (b: {apiCalls: any[], storeCalls: any[], sqlQueries: any[], logs: any[], emailsSent: any[]}, a: GenericAction) => {apiCalls: any[], storeCalls: any[], sqlQueries: any[], logs: any[], emailsSent: any[]});
+}) as (b: DebugBarState, a: GenericAction) => DebugBarState);

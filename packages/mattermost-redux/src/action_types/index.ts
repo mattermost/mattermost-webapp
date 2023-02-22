@@ -15,6 +15,7 @@ import EmojiTypes from './emojis';
 import GifTypes from './gifs';
 import AdminTypes from './admin';
 import JobTypes from './jobs';
+import DebugBarTypes from './debugbar';
 import SearchTypes from './search';
 import RoleTypes from './roles';
 import SchemeTypes from './schemes';

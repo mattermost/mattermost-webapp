@@ -9,6 +9,7 @@ import {CloudState, CloudUsage} from './cloud';
 import {HostedCustomerState} from './hosted_customer';
 import {EmojisState} from './emojis';
 import {FilesState} from './files';
+import {DebugBarState} from './debugbar';
 import {GeneralState} from './general';
 import {GroupsState} from './groups';
 import {IntegrationsState} from './integrations';
@@ -72,13 +73,7 @@ export type GlobalState = {
         usage: CloudUsage;
         insights: InsightsState;
         worktemplates: WorkTemplatesState;
-        debug: {
-            apiCalls: any[],
-            storeCalls: any[],
-            sqlQueries: any[],
-            logs: any[],
-            emailsSent: any[],
-        }
+        debug: DebugBarState;
     };
     errors: any[];
     requests: {

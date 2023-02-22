@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {useSelector} from 'react-redux';
-import {getLogs} from 'mattermost-redux/selectors/entities/debug';
+import {getLogs} from 'mattermost-redux/selectors/entities/debugbar';
 
 type Props = {
     filter: string

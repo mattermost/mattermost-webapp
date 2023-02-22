@@ -3,7 +3,7 @@
 
 import React, {memo, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {clearLines} from 'mattermost-redux/actions/debug';
+import {clearLines} from 'mattermost-redux/actions/debugbar';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import StoreCalls from './storecalls';

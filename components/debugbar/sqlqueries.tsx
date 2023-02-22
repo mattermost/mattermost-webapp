@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {useSelector} from 'react-redux';
-import {getSqlQueries} from 'mattermost-redux/selectors/entities/debug';
+import {getSqlQueries} from 'mattermost-redux/selectors/entities/debugbar';
 
 type Props = {
     filter: string
