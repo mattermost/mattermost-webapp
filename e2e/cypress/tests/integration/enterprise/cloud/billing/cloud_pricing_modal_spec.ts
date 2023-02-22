@@ -207,7 +207,7 @@ describe('Pricing modal', () => {
 
         // * Check that on professsional card there a button for non admin user to request upgrade and it's disabled
         cy.get('#pricingModal').should('be.visible');
-        cy.get('.planLabel').should('have.text', 'CURRENTLY ON MONTHLY BILLING');
+        cy.get('.planLabel').should('have.text', 'CURRENT PLAN');
         cy.get('#professional > .bottom > .bottom_container').find('#professional_action').should('have.text', 'Request admin to upgrade').should('be.not.enabled');
 
         // * Check that on enterprise card there a button for non admin user to request upgrade
