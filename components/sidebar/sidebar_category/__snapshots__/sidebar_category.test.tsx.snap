@@ -346,7 +346,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when sorting 
     </OverlayTrigger>
   </SidebarCategoryHeader>
   <div
-    className="SidebarChannelGroup_content hasFollowingSibling"
+    className="SidebarChannelGroup_content"
   >
     <ul
       className="NavGroupContent"
@@ -471,7 +471,7 @@ exports[`components/sidebar/sidebar_category should match snapshot when the cate
     </OverlayTrigger>
   </SidebarCategoryHeader>
   <div
-    className="SidebarChannelGroup_content hasFollowingSibling"
+    className="SidebarChannelGroup_content"
   >
     <ul
       className="NavGroupContent"
