@@ -265,7 +265,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_1',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -285,7 +285,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_3',
             is_free_trial: 'true',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -300,7 +300,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_1',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -345,7 +345,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_3',
             is_free_trial: 'true',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -379,7 +379,7 @@ describe('Pricing modal', () => {
             is_free_trial: 'false',
             trial_end_at: 100000000, // signifies that this subscription has trialled before
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -418,7 +418,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_2', //professional monthly
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
@@ -460,7 +460,7 @@ describe('Pricing modal', () => {
             is_free_trial: 'false',
             trial_end_at: 100000000, // signifies that this subscription has trialled before
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -488,7 +488,7 @@ describe('Pricing modal', () => {
             is_free_trial: 'false',
             trial_end_at: 100000000, // signifies that this subscription has trialled before
         };
-        simulateSubscription(subscription, false);
+        cy.simulateSubscription(subscription, false);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -510,7 +510,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_2',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -533,7 +533,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_3',
             is_free_trial: 'true',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -556,7 +556,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_3',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -588,7 +588,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_4',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -609,7 +609,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_2',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -632,7 +632,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_2',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -659,7 +659,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_4',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
@@ -678,7 +678,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_2',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');

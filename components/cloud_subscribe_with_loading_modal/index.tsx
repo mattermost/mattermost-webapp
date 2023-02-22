@@ -11,7 +11,7 @@ import {GlobalState} from 'types/store';
 import {subscribeCloudSubscription} from 'actions/cloud';
 import {closeModal} from 'actions/views/modals';
 import {Team} from '@mattermost/types/teams';
-import {Product} from '@mattermost/types/cloud';
+import {Feedback, Product} from '@mattermost/types/cloud';
 import {t} from 'utils/i18n';
 import {isModalOpen} from 'selectors/views/modals';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
@@ -29,6 +29,7 @@ type Props = RouteComponentProps & {
     onClose?: () => void;
     teamToKeep?: Team;
     selectedProduct?: Product | null | undefined;
+    downgradeFeedback?: Feedback;
 };
 
 const MIN_PROCESSING_MILLISECONDS = 8000;
@@ -58,7 +59,7 @@ function CloudSubscribeWithLoad(props: Props) {
         }
 
         const productUpdated = await dispatch(subscribeCloudSubscription(
-            props.selectedProduct?.id as string,
+            props.selectedProduct?.id as string, undefined, 0, props.downgradeFeedback,
         ));
 
         // the action subscribeCloudSubscription returns a true boolean when successful and an error when it fails
