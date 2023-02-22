@@ -21,7 +21,9 @@ export async function initSetup({
     try {
         const {adminClient, adminUser} = await getAdminClient();
         if (!adminClient) {
-            throw new Error("Failed to setup admin: Check that you're able to access the server using the same admin credential.");
+            throw new Error(
+                "Failed to setup admin: Check that you're able to access the server using the same admin credential."
+            );
         }
 
         const adminConfig = await adminClient.updateConfig(getOnPremServerConfig());
@@ -36,7 +38,9 @@ export async function initSetup({
 
         const {client: userClient} = await makeClient(user);
         if (!userClient) {
-            throw new Error("Failed to setup user: Check that you're able to access the server using the same credential for user");
+            throw new Error(
+                "Failed to setup user: Check that you're able to access the server using the same credential for user"
+            );
         }
 
         if (withDefaultProfileImage) {
