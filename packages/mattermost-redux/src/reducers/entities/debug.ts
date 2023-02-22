@@ -5,6 +5,23 @@ import {combineReducers} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
+export function emailsSent(state: any[] = [], action: GenericAction): any[] {
+    // TODO Move the action types to the right place
+    switch (action.type) {
+    case 'add-line': {
+        if (action.data?.type == 'email-sent') {
+            return [action.data, ...state];
+        }
+        return state
+    }
+    case 'clear-lines': {
+        return [];
+    }
+    default:
+        return state;
+    }
+}
+
 export function apiCalls(state: any[] = [], action: GenericAction): any[] {
     // TODO Move the action types to the right place
     switch (action.type) {
@@ -79,4 +96,5 @@ export default (combineReducers({
     storeCalls,
     sqlQueries,
     logs,
-}) as (b: {apiCalls: any[], storeCalls: any[], sqlQueries: any[], logs: any[]}, a: GenericAction) => {apiCalls: any[], storeCalls: any[], sqlQueries: any[], logs: any[]});
+    emailsSent,
+}) as (b: {apiCalls: any[], storeCalls: any[], sqlQueries: any[], logs: any[], emailsSent: any[]}, a: GenericAction) => {apiCalls: any[], storeCalls: any[], sqlQueries: any[], logs: any[], emailsSent: any[]});

@@ -77,6 +77,7 @@ export type GlobalState = {
             storeCalls: any[],
             sqlQueries: any[],
             logs: any[],
+            emailsSent: any[],
         }
     };
     errors: any[];

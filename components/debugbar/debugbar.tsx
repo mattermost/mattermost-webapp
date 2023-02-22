@@ -10,6 +10,7 @@ import StoreCalls from './storecalls';
 import ApiCalls from './apicalls';
 import SqlQueries from './sqlqueries';
 import SystemInfo from './systeminfo';
+import EmailsSent from './emailssent';
 import Logs from './logs';
 
 import './debugbar.scss'
@@ -37,6 +38,7 @@ const DebugBar = (_: Props) => {
                 <button className={tab === 'store' ? 'selected' : ''}  onClick={() => setTab('store')}>Store Calls</button>
                 <button className={tab === 'sql' ? 'selected' : ''}  onClick={() => setTab('sql')}>SQL Queries</button>
                 <button className={tab === 'logs' ? 'selected' : ''}  onClick={() => setTab('logs')}>Server Logs</button>
+                <button className={tab === 'emails' ? 'selected' : ''}  onClick={() => setTab('emails')}>Emails</button>
                 <button className={tab === 'system' ? 'selected' : ''}  onClick={() => setTab('system')}>System Info</button>
                 {tab !== 'system' && <input type='text' placeholder='Filter' onChange={(e) => setFilterText(e.target.value)} value={filterText}/>}
                 {tab !== 'system' && <button className='action' onClick={() => dispatch(clearLines())}>Clear</button>}
@@ -47,6 +49,7 @@ const DebugBar = (_: Props) => {
                 {tab === 'store' && <StoreCalls filter={filterText}/>}
                 {tab === 'sql' && <SqlQueries filter={filterText}/>}
                 {tab === 'logs' && <Logs filter={filterText}/>}
+                {tab === 'emails' && <EmailsSent filter={filterText}/>}
                 {tab === 'system' && <SystemInfo/>}
             </div>
         </div>
