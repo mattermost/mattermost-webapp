@@ -29,6 +29,7 @@ describe('System Console - Company Information section', () => {
         cy.get('body').then(($body) => {
             if ($body.find('.cancel-button').length > 0) {
                 cy.get('.cancel-button').click();
+                cy.get('#confirmModalButton').click();
             }
         });
     });

@@ -79,6 +79,7 @@ function FeedbackModal(props: Props) {
             />
             {reason === optionOther &&
                 <textarea
+                    data-testid={'FeedbackModal__TextInput'}
                     className='FeedbackModal__FreeFormText'
                     placeholder={props.freeformTextPlaceholder}
                     rows={3}
