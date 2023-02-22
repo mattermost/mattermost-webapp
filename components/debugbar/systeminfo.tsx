@@ -16,7 +16,9 @@ const SystemInfo = () => {
     return (
         <div>
             <h2>System Info</h2>
-            {JSON.stringify(systemInfo)}
+            <pre>
+                {JSON.stringify(systemInfo, null, 4)}
+            </pre>
         </div>
     )
 }

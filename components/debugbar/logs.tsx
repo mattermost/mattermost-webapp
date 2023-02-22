@@ -16,8 +16,8 @@ const Logs = ({filter}: Props) => {
         <table className='DebugBarTable'>
             <thead>
                 <tr>
-                    <th>Time</th>
-                    <th>Level</th>
+                    <th className='time'>Time</th>
+                    <th className='level'>Level</th>
                     <th>Message</th>
                     <th>Fields</th>
                 </tr>
@@ -25,10 +25,10 @@ const Logs = ({filter}: Props) => {
             <tbody>
             {logs.map((log: DebugBarLog) => (
                 <tr>
-                    <td>{log.time}</td>
-                    <td>{log.level}</td>
+                    <td className='time'>{log.time}</td>
+                    <td className='level'>{log.level}</td>
                     <td>{log.message}</td>
-                    <td>{JSON.stringify(log.fields)}</td>
+                    <td><pre>{JSON.stringify(log.fields, null, 4)}</pre></td>
                 </tr>
             ))}
             </tbody>

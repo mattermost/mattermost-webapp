@@ -16,19 +16,19 @@ const SQLQueries = ({filter}: Props) => {
         <table className='DebugBarTable'>
             <thead>
                 <tr>
-                    <th>Time</th>
+                    <th className='time'>Time</th>
                     <th style={{minWidth: '50%'}}>Query</th>
                     <th>Params</th>
-                    <th>Duration</th>
+                    <th className='duration'>Duration</th>
                 </tr>
             </thead>
             <tbody>
             {queries.map((query: DebugBarSQLQuery) => (
                 <tr>
-                    <td>{query.time}</td>
+                    <td className='time'>{query.time}</td>
                     <td>{query.query}</td>
-                    <td>{query.args ? JSON.stringify(query.args) : ''}</td>
-                    <td>{query.duration}</td>
+                    <td><pre>{query.args ? JSON.stringify(query.args, null, 4) : ''}</pre></td>
+                    <td className='duration'>{query.duration}</td>
                 </tr>
             ))}
             </tbody>

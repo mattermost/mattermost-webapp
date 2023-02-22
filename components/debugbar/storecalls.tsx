@@ -16,21 +16,21 @@ const StoreCalls = ({filter}: Props) => {
         <table className='DebugBarTable'>
             <thead>
                 <tr>
-                    <th>Time</th>
+                    <th className='time'>Time</th>
                     <th>Method</th>
                     <th>Params</th>
-                    <th>Success</th>
-                    <th>Duration</th>
+                    <th className='success'>Success</th>
+                    <th className='duration'>Duration</th>
                 </tr>
             </thead>
             <tbody>
             {calls.map((call: DebugBarStoreCall) => (
                 <tr>
-                    <td>{call.time}</td>
+                    <td className='time'>{call.time}</td>
                     <td>{call.method}</td>
-                    <td>{JSON.stringify(call.params)}</td>
-                    <td>{call.success}</td>
-                    <td>{call.duration}</td>
+                    <td><pre>{JSON.stringify(call.params, null, 4)}</pre></td>
+                    <td className='success'>{call.success}</td>
+                    <td className='duration'>{call.duration}</td>
                 </tr>
             ))}
             </tbody>

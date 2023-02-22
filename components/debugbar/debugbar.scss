@@ -34,17 +34,27 @@
     .DebugBarTable {
         font-family: "Times New Roman", Times, serif;
         border: 1px solid #FFFFFF;
-        width: 350px;
-        height: 200px;
         text-align: center;
         border-collapse: collapse;
+        table-layout: fixed;
         width: 100%;
         td, th {
             border: 1px solid #FFFFFF;
             padding: 3px 2px;
+            &.time, &.duration {
+                width: 150px;
+            }
+            &.level, &.statusCode, &.success {
+                width: 100px;
+            }
         }
         tbody td {
             font-size: 13px;
+            pre {
+                text-align: left;
+                background: none;
+                border: 0;
+            }
         }
         tr:nth-child(even) {
             background: #D0E4F5;

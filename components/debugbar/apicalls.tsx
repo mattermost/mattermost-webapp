@@ -17,21 +17,21 @@ const ApiCalls = ({filter}: Props) => {
         <table className='DebugBarTable'>
             <thead>
                 <tr>
-                    <th>Time</th>
+                    <th className='time'>Time</th>
                     <th>Endpoint</th>
                     <th>Method</th>
-                    <th>Status Code</th>
-                    <th>Duration</th>
+                    <th className='statusCode'>Status Code</th>
+                    <th className='duration'>Duration</th>
                 </tr>
             </thead>
             <tbody>
             {calls.map((call: DebugBarAPICall) => (
                 <tr>
-                    <td>{call.time}</td>
+                    <td className='time'>{call.time}</td>
                     <td>{call.endpoint}</td>
                     <td>{call.method}</td>
-                    <td>{call.statusCode}</td>
-                    <td>{call.duration}</td>
+                    <td className='statusCode'>{call.statusCode}</td>
+                    <td className='duration'>{call.duration}</td>
                 </tr>
             ))}
             </tbody>

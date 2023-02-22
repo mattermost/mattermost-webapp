@@ -16,7 +16,7 @@ const EmailsSent = ({filter}: Props) => {
         <table className='DebugBarTable'>
             <thead>
                 <tr>
-                    <th>Time</th>
+                    <th className='time'>Time</th>
                     <th>To</th>
                     <th>CC</th>
                     <th>Subject</th>
@@ -26,7 +26,7 @@ const EmailsSent = ({filter}: Props) => {
             <tbody>
             {emails.map((email: DebugBarEmailSent) => (
                 <tr>
-                    <td>{email.time}</td>
+                    <td className='time'>{email.time}</td>
                     <td>{email.to}</td>
                     <td>{email.cc}</td>
                     <td>{email.subject}</td>
