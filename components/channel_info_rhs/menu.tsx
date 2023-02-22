@@ -135,7 +135,7 @@ const Menu = ({channel, channelStats, isArchived, className, actions}: MenuProps
                 icon={<i className='icon icon-file-text-outline'/>}
                 text={formatMessage({id: 'channel_info_rhs.menu.files', defaultMessage: 'Files'})}
                 opensSubpanel={true}
-                badge={channelStats?.files_count}
+                badge={channelStats?.files_count >= 0 ? channelStats?.files_count : 0}
                 onClick={() => actions.showChannelFiles(channel.id)}
             />
         </div>
