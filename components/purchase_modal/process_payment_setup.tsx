@@ -8,7 +8,7 @@ import {RouteComponentProps, withRouter} from 'react-router-dom';
 
 import ComplianceScreenFailedSvg from 'components/common/svg_images_components/access_denied_happy_svg';
 
-import {Address, Product} from '@mattermost/types/cloud';
+import {Address, Feedback, Product} from '@mattermost/types/cloud';
 
 import {BillingDetails} from 'types/cloud/sku';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
@@ -46,7 +46,7 @@ type Props = RouteComponentProps & {
         isDevMode: boolean
     ) => Promise<boolean | null>;
     subscribeCloudSubscription:
-    | ((productId: string, shippingAddress: Address, seats?: number) => Promise<boolean | null> | ComplianceError)
+    | ((productId: string, shippingAddress: Address, seats?: number, feedback?: Feedback) => Promise<boolean | null> | ComplianceError)
     | null;
     onBack: () => void;
     onClose: () => void;

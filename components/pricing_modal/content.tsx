@@ -22,6 +22,7 @@ import {
 } from 'mattermost-redux/selectors/entities/cloud';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
+import {Feedback} from '@mattermost/types/cloud';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import SuccessModal from 'components/cloud_subscribe_result_modal/success';
@@ -30,6 +31,7 @@ import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
+import DowngradeFeedbackModal from 'components/feedback_modal/downgrade_feedback';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
@@ -111,7 +113,11 @@ function Content(props: ContentProps) {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
     };
 
-    const downgrade = async (callerInfo: string) => {
+    const handleClickDowngrade = (downgradeFeedback?: Feedback) => {
+        downgrade('click_pricing_modal_free_card_downgrade_button', downgradeFeedback);
+    };
+
+    const downgrade = async (callerInfo: string, downgradeFeedback?: Feedback) => {
         if (!starterProduct) {
             return;
         }
@@ -120,7 +126,7 @@ function Content(props: ContentProps) {
         openDowngradeModal({trackingLocation: telemetryInfo});
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
 
-        const result = await dispatch(subscribeCloudSubscription(starterProduct.id));
+        const result = await dispatch(subscribeCloudSubscription(starterProduct.id, undefined, 0, downgradeFeedback));
 
         if (typeof result === 'boolean' && result) {
             dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
@@ -246,7 +252,15 @@ function Content(props: ContentProps) {
                                         }),
                                     );
                                 } else {
-                                    downgrade('click_pricing_modal_free_card_downgrade_button');
+                                    dispatch(
+                                        openModal({
+                                            modalId: ModalIdentifiers.FEEDBACK,
+                                            dialogType: DowngradeFeedbackModal,
+                                            dialogProps: {
+                                                onSubmit: handleClickDowngrade,
+                                            },
+                                        }),
+                                    );
                                 }
                             },
                             text: freeTierText,
