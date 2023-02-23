@@ -53,16 +53,21 @@ export default function ProfilePopoverCallButton({pluginCallComponents, channelM
     };
 
     const item = pluginCallComponents[0];
-    const clickHandler = async () => {
+    const handleStartCall = async () => {
         const channelForCall = await getDmChannel();
         item.action?.(channelForCall, channelMember);
+    };
+    const clickHandler = async () => {
+        if (clickEnabled) {
+            handleStartCall();
+        }
     };
 
     return (
         <div
             className='callButtonContainer flex-child'
-            onClick={clickEnabled ? clickHandler : undefined}
-            onTouchEnd={clickEnabled ? clickHandler : undefined}
+            onClick={clickHandler}
+            onTouchEnd={clickHandler}
         >
             {customButton}
         </div>
