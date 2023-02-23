@@ -11,7 +11,7 @@ import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 
 import TextSetting, {InputTypes} from 'components/widgets/settings/text_setting';
 import AutocompleteSelector from 'components/autocomplete_selector';
-import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
+import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 import BoolSetting from 'components/widgets/settings/bool_setting';
 
 import Markdown from 'components/markdown';

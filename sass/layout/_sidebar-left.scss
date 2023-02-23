@@ -285,13 +285,16 @@ $sidebarOpacityAnimationDuration: 0.15s;
         height: 30px;
 
         .dropdown-menu {
-            min-width: 0;
+            min-width: 250px;
             margin-top: 0;
             line-height: 19px;
 
             span {
                 color: rgba(var(--center-channel-color-rgb), 0.9);
-                white-space: nowrap;
+
+                &:not(.MenuItem__help-text) {
+                    white-space: nowrap;
+                }
             }
 
             button {
@@ -479,7 +482,9 @@ $sidebarOpacityAnimationDuration: 0.15s;
     }
 
     .SidebarMenu_menuButton {
-        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         padding: 0;
         border: none;
         background: transparent;
@@ -506,6 +511,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
         .scrollbar--view {
             z-index: unset !important;
+            margin-top: 8px;
         }
 
         .scrollbar--view ~ div {
@@ -667,7 +673,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
                 background-color: rgba(255, 255, 255, 0.08);
             }
 
-            &.additionalClass {
+            &.sortingMenu {
                 margin: 0;
             }
         }
@@ -895,12 +901,8 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
     .SidebarChannelGroup.capture {
         .SidebarChannelGroup_content {
-            padding-bottom: 14px;
+            padding-bottom: 6px;
             margin-bottom: 0;
-
-            &.hasFollowingSibling {
-                padding-bottom: 0;
-            }
         }
 
         .followingSibling {
@@ -963,11 +965,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
     /* Content */
     .SidebarChannelGroup_content {
         min-height: 2px;
-        margin-bottom: 14px;
-
-        &.hasFollowingSibling {
-            margin-bottom: 0;
-        }
+        margin-bottom: 6px;
     }
 
     .followingSibling {
@@ -978,10 +976,6 @@ $sidebarOpacityAnimationDuration: 0.15s;
     .SidebarChannelGroup.a11y--active .SidebarChannelGroup_content {
         padding-bottom: 14px;
         margin-bottom: 0;
-
-        &.hasFollowingSibling {
-            padding-bottom: 0;
-        }
     }
 
     .SidebarChannelGroup.a11y--active .followingSibling {

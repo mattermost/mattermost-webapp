@@ -55,7 +55,7 @@ export default class SidebarGroupChannel extends React.PureComponent<Props, Stat
                 channel={channel}
                 link={`/${currentTeamName}/messages/${channel.name}`}
                 label={channel.display_name}
-                closeHandler={this.handleLeaveChannel}
+                channelLeaveHandler={this.handleLeaveChannel}
                 icon={this.getIcon()}
             />
         );

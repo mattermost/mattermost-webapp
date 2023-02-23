@@ -1,17 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {General, Permissions} from 'mattermost-redux/constants';
+
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
+
+import {sortChannelsByDisplayName, getDirectChannelName} from 'mattermost-redux/utils/channel_utils';
+
+import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
+
 import {Channel} from '@mattermost/types/channels';
 import {GlobalState} from '@mattermost/types/store';
 
-import {General, Permissions} from 'mattermost-redux/constants';
-import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-
 import mergeObjects from '../../../test/merge_objects';
 import TestHelper from '../../..//test/test_helper';
-
-import {sortChannelsByDisplayName, getDirectChannelName} from 'mattermost-redux/utils/channel_utils';
-import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 
 import * as Selectors from './channels';
 
@@ -2364,7 +2366,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
         const unreadMeta = Selectors.basicUnreadMeta(unreadStatus);
 
         expect(unreadMeta.isUnread).toBe(true); // channelA and channelB are unread, but only channelB is counted because of its mark_unread
-        expect(unreadStatus).toBe(myMemberA.mention_count + myMemberB.mention_count);
+        expect(unreadStatus).toBe(myMemberB.mention_count); // channelA and channelB are unread, but only channelB is counted because of its mark_unread
     });
 
     test('should count mentions from DM channels', () => {

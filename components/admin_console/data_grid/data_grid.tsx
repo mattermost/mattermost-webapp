@@ -30,7 +30,7 @@ export type Column = {
 
 export type Row = {
     cells: {
-        [key: string]: JSX.Element | string;
+        [key: string]: JSX.Element | string | null;
     };
     onClick?: () => void;
 }
@@ -57,7 +57,7 @@ type Props = {
     onSearch?: (term: string) => void;
     term?: string;
     searchPlaceholder?: string;
-
+    extraComponent?: JSX.Element;
     filterProps?: {
         options: FilterOptions;
         keys: string[];
@@ -104,6 +104,11 @@ class DataGrid extends React.PureComponent<Props, State> {
         window.addEventListener('resize', this.handleResize);
     }
 
+    componentDidUpdate(prevProps: Props) {
+        if (this.props.columns !== prevProps.columns) {
+            this.setState({visibleColumns: this.props.columns});
+        }
+    }
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
     }
@@ -203,6 +208,7 @@ class DataGrid extends React.PureComponent<Props, State> {
                     placeholder={this.props.searchPlaceholder}
                     term={this.props.term}
                     filterProps={this.props.filterProps}
+                    extraComponent={this.props.extraComponent}
                 />
             );
         }

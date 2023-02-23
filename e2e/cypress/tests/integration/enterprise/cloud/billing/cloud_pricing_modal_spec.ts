@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -9,62 +11,6 @@
 
 // Stage: @prod
 // Group: @cloud_only @cloud_trial
-
-function simulateSubscription(subscription, withLimits = true) {
-    cy.intercept('GET', '**/api/v4/cloud/subscription', {
-        statusCode: 200,
-        body: subscription,
-    });
-
-    cy.intercept('GET', '**/api/v4/cloud/products**', {
-        statusCode: 200,
-        body: [
-            {
-                id: 'prod_1',
-                sku: 'cloud-starter',
-                price_per_seat: 0,
-                recurring_interval: 'month',
-                name: 'Cloud Free',
-                cross_sells_to: '',
-            },
-            {
-                id: 'prod_2',
-                sku: 'cloud-professional',
-                price_per_seat: 10,
-                recurring_interval: 'month',
-                name: 'Cloud Professional',
-                cross_sells_to: 'prod_4',
-            },
-            {
-                id: 'prod_3',
-                sku: 'cloud-enterprise',
-                price_per_seat: 30,
-                recurring_interval: 'month',
-                name: 'Cloud Enterprise',
-                cross_sells_to: '',
-            },
-            {
-                id: 'prod_4',
-                sku: 'cloud-professional',
-                price_per_seat: 96,
-                recurring_interval: 'year',
-                name: 'Cloud Professional Yearly',
-                cross_sells_to: 'prod_2',
-            },
-        ],
-    });
-
-    if (withLimits) {
-        cy.intercept('GET', '**/api/v4/cloud/limits', {
-            statusCode: 200,
-            body: {
-                messages: {
-                    history: 10000,
-                },
-            },
-        });
-    }
-}
 
 describe('Pricing modal', () => {
     let urlL;
@@ -77,7 +23,7 @@ describe('Pricing modal', () => {
         };
         cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
             urlL = url;
-            simulateSubscription(subscription);
+            cy.simulateSubscription(subscription);
             cy.apiLogin(user);
             cy.visit(url);
         });
@@ -93,7 +39,7 @@ describe('Pricing modal', () => {
     //         is_free_trial: 'false',
     //     };
 
-    //     simulateSubscription(subscription);
+    //     cy.simulateSubscription(subscription);
     //     cy.apiLogout();
     //     cy.apiLogin(createdUser);
     //     cy.visit(urlL);
@@ -121,7 +67,7 @@ describe('Pricing modal', () => {
     //         is_free_trial: 'false',
     //     };
 
-    //     simulateSubscription(subscription);
+    //     cy.simulateSubscription(subscription);
     //     cy.apiLogout();
     //     cy.apiLogin(createdUser);
     //     cy.visit(urlL);
@@ -156,7 +102,7 @@ describe('Pricing modal', () => {
     //         is_free_trial: 'true',
     //     };
 
-    //     simulateSubscription(subscription);
+    //     cy.simulateSubscription(subscription);
     //     cy.apiLogout();
     //     cy.apiLogin(createdUser);
     //     cy.visit(urlL);
@@ -190,7 +136,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_1',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -210,7 +156,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_3',
             is_free_trial: 'true',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -225,7 +171,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_1',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -270,7 +216,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_3',
             is_free_trial: 'true',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -304,7 +250,7 @@ describe('Pricing modal', () => {
             is_free_trial: 'false',
             trial_end_at: 100000000, // signifies that this subscription has trialled before
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -337,6 +283,26 @@ describe('Pricing modal', () => {
         cy.get('#enterprise_action').contains('Contact Sales');
     });
 
+    it('should open pricing modal when Switch to Yearly is button clicked while in monthly professional', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_2', //professional monthly
+            is_free_trial: 'false',
+        };
+        cy.simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist').should('be.visible');
+
+        // * Check that professsional card Switch to Yearly button opens purchase modal
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#professional > .bottom > .bottom_container').find('#professional_action').should('be.enabled').should('have.text', 'Switch to annual billing').click();
+        cy.get('.PurchaseModal').should('exist');
+    });
+
     it('should open cloud limits modal when free disclaimer CTA is clicked', () => {
         const subscription = {
             id: 'sub_test1',
@@ -344,7 +310,7 @@ describe('Pricing modal', () => {
             is_free_trial: 'false',
             trial_end_at: 100000000, // signifies that this subscription has trialled before
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -372,7 +338,7 @@ describe('Pricing modal', () => {
             is_free_trial: 'false',
             trial_end_at: 100000000, // signifies that this subscription has trialled before
         };
-        simulateSubscription(subscription, false);
+        cy.simulateSubscription(subscription, false);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -394,7 +360,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_2',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -417,7 +383,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_3',
             is_free_trial: 'true',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -440,7 +406,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_3',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -472,7 +438,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_4',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -484,8 +450,7 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').should('exist');
         cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
 
-        // * Check that free card Downgrade button is disabled
-        cy.get('#pricingModal').get('#free').get('#free_action').should('be.disabled').contains('Downgrade');
+        cy.get('#pricingModal').get('#free').get('#free_action').should('not.be.disabled').contains('Contact Support');
     });
 
     it('should not allow starting a trial from professional plans', () => {
@@ -494,7 +459,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_2',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -511,74 +476,13 @@ describe('Pricing modal', () => {
         cy.get('#start_cloud_trial_btn').should('be.disabled');
     });
 
-    it('should switch between monthly and yearly prices when the yearly/monthly toggle is clicked', () => {
-        const subscription = {
-            id: 'sub_test1',
-            product_id: 'prod_1',
-            is_free_trial: 'false',
-        };
-        simulateSubscription(subscription);
-        cy.apiLogout();
-        cy.apiAdminLogin();
-        cy.visit(urlL);
-
-        const professionalMonthlySubscription = {
-            id: 'sub_test2',
-            product_id: 'prod_2',
-            price_per_seat: 10,
-            recurring_interval: 'month',
-            is_free_trial: 'false',
-            cross_sells_to: 'sub_test3',
-        };
-
-        const professionalYearlySubscription = {
-            id: 'sub_test3',
-            product_id: 'prod_4',
-            price_per_seat: 96,
-            recurring_interval: 'year',
-            is_free_trial: 'false',
-            cross_sells_to: 'sub_test2',
-        };
-
-        // # Open the pricing modal
-        cy.get('#UpgradeButton').should('exist').click();
-
-        // * Pricing modal should be open
-        cy.get('#pricingModal').should('exist');
-        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
-
-        // * check that the save with yearly text exists
-        cy.get('#pricingModal').get('.save-text').contains('Save 20% with Yearly!');
-
-        // * check that the toggle exists and that its initial state is monthly
-        cy.get('#pricingModal').get('#text-selected').contains('Monthly');
-        cy.get('#pricingModal').get('#text-unselected').contains('Yearly');
-        cy.get('#pricingModal').get('#professional').get('.plan_price_rate_section').contains(professionalMonthlySubscription.price_per_seat);
-
-        // # click on the "Yearly" label
-        cy.get('#pricingModal').get('#text-unselected').click();
-
-        // * check that the "yearly" label is selected and the price matches the yearly product's price
-        cy.get('#pricingModal').get('#text-unselected').contains('Monthly');
-        cy.get('#pricingModal').get('#text-selected').contains('Yearly');
-        cy.get('#pricingModal').get('#professional').get('.plan_price_rate_section').contains(professionalYearlySubscription.price_per_seat / 12);
-
-        // # click on the "Monthly" label
-        cy.get('#pricingModal').get('#text-unselected').click();
-
-        // * check that the "monthly" label is selected and the price matches the monthly product's price
-        cy.get('#pricingModal').get('#text-selected').contains('Monthly');
-        cy.get('#pricingModal').get('#text-unselected').contains('Yearly');
-        cy.get('#pricingModal').get('#professional').get('.plan_price_rate_section').contains(professionalMonthlySubscription.price_per_seat);
-    });
-
-    it('Should display downgrade modal when downgrading from professional to free', () => {
+    it('Should display downgrade modal when downgrading from monthly professional to free', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_2',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -589,11 +493,51 @@ describe('Pricing modal', () => {
         // * Pricing modal should be open
         cy.get('#pricingModal').should('exist');
 
+        cy.wait(TIMEOUTS.TWO_SEC);
+
         // * Click the free action (downgrade).
         cy.get('#free').should('exist');
         cy.get('#free_action').should('be.enabled').click();
 
         // * Check that the downgrade modal has appeard.
         cy.get('div.DowngradeTeamRemovalModal__body').should('exist');
+    });
+
+    it('Should display a "Contact Support" CTA for downgrading when the current subscription is yearly and not on starter', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_4',
+            is_free_trial: 'false',
+        };
+        cy.simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+
+        // * Click the free action (downgrade).
+        cy.get('#free').should('exist').contains('Contact Support');
+        cy.get('#free_action').should('be.enabled').click();
+    });
+
+    it('Should not display a "Contact Support" CTA for downgrading when the current subscription is monthly and not on starter', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_2',
+            is_free_trial: 'false',
+        };
+        cy.simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+
+        // # The free action button should not be disabled and contain the text "Downgrade".
+        cy.get('#free').should('exist').contains('Downgrade');
+        cy.get('#free_action').should('not.be.disabled');
     });
 });

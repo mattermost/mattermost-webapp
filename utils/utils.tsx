@@ -10,6 +10,8 @@ import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
+import {getName} from 'country-list';
+
 import Constants, {FileTypes, ValidationErrors, A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
 
 import {
@@ -72,6 +74,8 @@ import {GlobalState} from '@mattermost/types/store';
 import {focusPost} from 'components/permalink_view/actions';
 
 import {TextboxElement} from '../components/textbox';
+
+import {Address} from '@mattermost/types/cloud';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
@@ -486,41 +490,6 @@ export function applyTheme(theme: Theme) {
         changeCss('.app__body .emoji-picker .nav-tabs li a', 'fill:' + theme.centerChannelColor);
         changeCss('.app__body .post .post-collapse__show-more-button', `border-color:${changeOpacity(theme.centerChannelColor, 0.1)}`);
         changeCss('.app__body .post .post-collapse__show-more-line', `background-color:${changeOpacity(theme.centerChannelColor, 0.1)}`);
-
-        if (theme.centerChannelBg) {
-            const hoveredPostBg = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.04);
-            const hoveredPostBgLight = blendColors(theme.centerChannelBg, theme.centerChannelColor, 0.04);
-
-            // Fade out effect for collapsed posts that are being hovered over
-            changeCss(
-                '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__gradient, ' +
-                '.app__body .sidebar-right__body .post:hover .post-collapse__gradient, ' +
-                '.app__body .ThreadPane .post:hover .post-collapse__gradient ',
-                `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg})`,
-            );
-            changeCss(
-                '@media(min-width: 768px){.app__body .post-list__table .post:hover .post-collapse__show-more, ' +
-                '.app__body .sidebar-right__body .post:hover .post-collapse__show-more, ' +
-                '.app__body .ThreadPane .post:hover .post-collapse__show-more',
-                `background:${hoveredPostBg}`,
-            );
-            changeCss(
-                '@media(max-width: 768px){.app__body .post-list__table .post.current--user:hover .post-collapse__show-more',
-                `background:${hoveredPostBgLight}`,
-            );
-            changeCss(
-                '.app__body .post-list__table .post.post--hovered .post-collapse__gradient, ' +
-                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__gradient, ' +
-                '.app__body .ThreadPane .post.post--hovered .post-collapse__gradient',
-                `background:linear-gradient(${changeOpacity(hoveredPostBg, 0)}, ${hoveredPostBg})`,
-            );
-            changeCss(
-                '.app__body .post-list__table .post.post--hovered .post-collapse__show-more, ' +
-                '.app__body .sidebar-right__body .post.post--hovered .post-collapse__show-more, ' +
-                '.app__body .ThreadPane .post.post--hovered .post-collapse__show-more',
-                `background:${hoveredPostBg}`,
-            );
-        }
     }
 
     if (theme.newMessageSeparator) {
@@ -571,8 +540,6 @@ export function applyTheme(theme: Theme) {
         changeCss('.app__body .search-highlight', 'background:' + theme.mentionHighlightBg);
         changeCss('.app__body .post.post--comment .post__body.mention-comment', 'border-color:' + theme.mentionHighlightBg);
         changeCss('.app__body .post.post--highlight', 'background:' + changeOpacity(theme.mentionHighlightBg, 0.5));
-        changeCss('.app__body .post.post--highlight .post-collapse__gradient', 'background:' + changeOpacity(theme.mentionHighlightBg, 0.5));
-        changeCss('.app__body .post.post--highlight .post-collapse__show-more', 'background:' + changeOpacity(theme.mentionHighlightBg, 0.5));
     }
 
     if (theme.mentionHighlightLink) {
@@ -1866,6 +1833,13 @@ export function getRoleFromTrackFlow() {
     return {started_by_role: startedByRole};
 }
 
+export function getMediumFromTrackFlow() {
+    const params = new URLSearchParams(window.location.search);
+    const source = params.get('md') ?? '';
+
+    return {source};
+}
+
 export function a11yFocus(element: HTMLElement | null | undefined, keyboardOnly = true) {
     document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
         A11yCustomEventTypes.FOCUS, {
@@ -1875,4 +1849,19 @@ export function a11yFocus(element: HTMLElement | null | undefined, keyboardOnly 
             },
         },
     ));
+}
+
+export function getBlankAddressWithCountry(country?: string): Address {
+    let c = '';
+    if (country) {
+        c = getName(country) || '';
+    }
+    return {
+        city: '',
+        country: c || '',
+        line1: '',
+        line2: '',
+        postal_code: '',
+        state: '',
+    };
 }

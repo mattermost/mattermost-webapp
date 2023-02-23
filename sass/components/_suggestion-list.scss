@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .app__body {
     .suggestion--selected {
@@ -195,15 +195,17 @@
     white-space: nowrap;
 
     .suggestion-list__ellipsis {
+        display: flex;
         overflow: hidden;
         max-width: 89%;
         color: rgba(var(--center-channel-color-rgb), 0.56);
+        gap: 8px;
         text-overflow: ellipsis;
         white-space: nowrap;
 
         .suggestion-list__main {
             overflow: hidden;
-            max-width: 89%;
+            width: 100%;
             color: rgba(var(--center-channel-color-rgb), 1);
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -221,6 +223,7 @@
         align-items: center;
 
         .suggestion-list__main {
+            width: unset;
             max-width: 70%;
         }
 
@@ -230,15 +233,6 @@
             width: 20px;
             height: 16px;
             margin-left: 8px;
-        }
-
-        .badge-autocomplete,
-        .shared-channel-icon {
-            margin: 0 0 0 8px;
-        }
-
-        .Badge {
-            margin: 0;
         }
     }
 
@@ -339,6 +333,10 @@
         max-width: 20%;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+
+    .Tag {
+        flex-shrink: 0;
     }
 }
 

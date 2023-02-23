@@ -8,7 +8,7 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions';
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
-import {Constants, LicenseSkus, ModalIdentifiers, PaidFeatures} from 'utils/constants';
+import {Constants, LicenseSkus, ModalIdentifiers, MattermostFeatures} from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
@@ -30,6 +30,7 @@ import Menu from 'components/widgets/menu/menu';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
+import {trackEvent} from 'actions/telemetry_actions';
 import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 import {UserProfile} from '@mattermost/types/users';
@@ -174,6 +175,7 @@ export class MainMenu extends React.PureComponent<Props> {
                         defaultMessage: 'Add people to the team',
                     })}
                     icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+                    onClick={() => trackEvent('ui', 'click_sidebar_team_dropdown_invite_people')}
                 />
             );
         }
@@ -481,7 +483,7 @@ export class MainMenu extends React.PureComponent<Props> {
                             text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
                             sibling={createTeamRestricted && (
                                 <RestrictedIndicator
-                                    feature={PaidFeatures.CREATE_MULTIPLE_TEAMS}
+                                    feature={MattermostFeatures.CREATE_MULTIPLE_TEAMS}
                                     minimumPlanRequiredForFeature={LicenseSkus.Professional}
                                     blocked={!this.props.isFreeTrial}
                                     tooltipMessage={formatMessage({
