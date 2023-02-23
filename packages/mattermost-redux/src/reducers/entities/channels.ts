@@ -706,8 +706,6 @@ function stats(state: RelationOneToOne<Channel, ChannelStats> = {}, action: Gene
 
         return state;
     }
-    case UserTypes.LOGOUT_SUCCESS:
-        return {};
     case SearchTypes.RECEIVED_SEARCH_PINNED_POSTS: {
         const nextStat = {...state[action.data.channelId]};
         nextStat.has_new_pinned_posts = false;
@@ -716,6 +714,8 @@ function stats(state: RelationOneToOne<Channel, ChannelStats> = {}, action: Gene
             [action.data.channelId]: nextStat,
         };
     }
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
