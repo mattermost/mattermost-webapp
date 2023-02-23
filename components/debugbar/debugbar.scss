@@ -8,7 +8,7 @@
 }
 
 .DebugBar {
-    height: 300px;
+    height: 400px;
     background: white;
     grid-row: 4;
     grid-column: 1/span 5;
@@ -26,6 +26,9 @@
         .action {
             align-self: flex-end;
         }
+        button, input {
+            margin: 0 5px;
+        }
     }
     .body {
         overflow: scroll;
@@ -41,7 +44,7 @@
         td, th {
             border: 1px solid #FFFFFF;
             padding: 3px 2px;
-            &.time, &.duration {
+            &.time, &.duration, &.actions {
                 width: 150px;
             }
             &.level, &.statusCode, &.success {

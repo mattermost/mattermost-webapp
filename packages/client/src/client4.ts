@@ -2969,11 +2969,18 @@ export default class Client4 {
         );
     };
 
-    // DebugBar system info
+    // DebugBar Routes
     getDebugBarSystemInfo = () => {
         return this.doFetch<any>(
             `${this.getDebugBarRoute()}/systeminfo`,
             {method: 'get'},
+        );
+    };
+
+    getExplainQuery = (query: string, args: any[]) => {
+        return this.doFetch<any>(
+            `${this.getDebugBarRoute()}/queryexplain`,
+            {method: 'post', body: JSON.stringify({query, args})},
         );
     };
 
