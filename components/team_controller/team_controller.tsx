@@ -71,7 +71,7 @@ function TeamController(props: Props) {
             const currentTime = Date.now();
             if ((currentTime - lastTime.current) > WAKEUP_THRESHOLD) {
                 console.log('computer woke up - fetching latest'); //eslint-disable-line no-console
-                reconnect(false);
+                reconnect();
             }
             lastTime.current = currentTime;
         }, WAKEUP_CHECK_INTERVAL);
