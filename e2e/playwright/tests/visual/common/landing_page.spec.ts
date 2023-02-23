@@ -7,10 +7,10 @@ import {LandingLoginPage} from '@e2e-support/ui/page';
 import {matchSnapshot} from '@e2e-support/visual';
 
 test('/landing#/login', async ({page, isMobile, browserName, viewport}, testInfo) => {
-    const landingLoginPage = new LandingLoginPage(page);
-
     // Go to landing login page
+    const landingLoginPage = new LandingLoginPage(page, isMobile);
     await landingLoginPage.goto();
+    await landingLoginPage.toBeVisible();
 
     // Match snapshot of landing page
     await matchSnapshot(testInfo, {page, isMobile, browserName, viewport});

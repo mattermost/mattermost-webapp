@@ -5,6 +5,7 @@ import {UserProfile} from '@mattermost/types/users';
 
 import testConfig from '@e2e-test.config';
 
+import {shouldHaveBoardsEnabled} from './boards';
 import {createRandomChannel} from './channel';
 import Client from './client';
 import {getOnPremServerConfig} from './default_config';
@@ -19,19 +20,17 @@ type UserRequest = {
 };
 
 type ClientCache = {
-    client: Client | null;
+    client: Client;
     user: UserProfile | null;
-    err?: any;
 };
 
 const clients: Record<string, ClientCache> = {};
 
 export async function makeClient(userRequest?: UserRequest, useCache = true): Promise<ClientCache> {
-    try {
-        const client = new Client();
-        client.logToConsole = false;
-        client.setUrl(testConfig.baseURL);
+    const client = new Client();
+    client.setUrl(testConfig.baseURL);
 
+    try {
         if (!userRequest) {
             return {client, user: null};
         }
@@ -43,6 +42,8 @@ export async function makeClient(userRequest?: UserRequest, useCache = true): Pr
 
         const userProfile = await client.login(userRequest.username, userRequest.password);
         const user = {...userProfile, password: userRequest.password};
+        const config = await client.getClientConfigOld();
+        client.setUseBoardsProduct(config.FeatureFlagBoardsProduct === 'true');
 
         if (useCache) {
             clients[cacheKey] = {client, user};
@@ -50,7 +51,10 @@ export async function makeClient(userRequest?: UserRequest, useCache = true): Pr
 
         return {client, user};
     } catch (err) {
-        return {client: null, user: null, err};
+        // log an error for debugging
+        // eslint-disable-next-line no-console
+        console.log('makeClient', err);
+        return {client, user: null};
     }
 }
 
@@ -63,4 +67,5 @@ export {
     createRandomTeam,
     createRandomUser,
     getDefaultAdminUser,
+    shouldHaveBoardsEnabled,
 };

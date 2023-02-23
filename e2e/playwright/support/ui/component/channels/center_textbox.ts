@@ -3,7 +3,7 @@
 
 import {expect, Locator, Page} from '@playwright/test';
 
-export default class PostTextbox {
+export default class ChannelsCenterTextbox {
     readonly page: Page;
     readonly input: Locator;
     readonly attachment: Locator;
@@ -22,6 +22,6 @@ export default class PostTextbox {
     }
 
     async toBeVisible() {
-        expect(await this.input).toBeVisible();
+        await expect(this.input).toBeVisible();
     }
 }

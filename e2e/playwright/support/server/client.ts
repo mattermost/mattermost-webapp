@@ -17,6 +17,16 @@ import {PluginManifest} from '@mattermost/types/plugins';
 import {License} from '@mattermost/types/config';
 
 export default class Client extends Client4 {
+    getFormDataOptions = (formData: FormData): Options => {
+        return {
+            method: 'post',
+            body: formData,
+            headers: {
+                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
+            },
+        };
+    };
+
     uploadProfileImageX = (userId: string, filePath: string) => {
         const fileData = fs.readFileSync(filePath);
         const formData = new FormData();
@@ -120,13 +130,32 @@ export default class Client extends Client4 {
         return this.doFetch<PluginManifest>(this.getPluginsRoute(), options);
     };
 
-    getFormDataOptions = (formData: FormData): Options => {
-        return {
-            method: 'post',
-            body: formData,
-            headers: {
-                'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-            },
+    // *****************************************************************************
+    // Boards client
+    // based on https://github.com/mattermost/focalboard/blob/main/webapp/src/octoClient.ts
+    // *****************************************************************************
+
+    async patchUserConfig(userID: string, patch: UserConfigPatch): Promise<UserPreference[] | undefined> {
+        const path = `/users/${encodeURIComponent(userID)}/config`;
+        const options = {
+            method: 'put',
+            body: JSON.stringify(patch),
         };
-    };
+
+        return this.doFetch<UserPreference[]>(this.getBoardsRoute() + path, options);
+    }
+}
+
+// Boards types
+
+interface UserPreference {
+    user_id: string;
+    category: string;
+    name: string;
+    value: any;
+}
+
+interface UserConfigPatch {
+    updatedFields?: Record<string, string>;
+    deletedFields?: string[];
 }

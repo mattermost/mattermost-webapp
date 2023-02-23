@@ -1,12 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Locator, Page} from '@playwright/test';
+import {expect, Locator, Page} from '@playwright/test';
+
+import {duration, wait} from '@e2e-support/utils';
 
 export default class SignupPage {
     readonly page: Page;
     readonly title: Locator;
     readonly subtitle: Locator;
+    readonly bodyCard: Locator;
     readonly emailInput: Locator;
     readonly usernameInput: Locator;
     readonly passwordInput: Locator;
@@ -15,13 +18,13 @@ export default class SignupPage {
     readonly emailError: Locator;
     readonly usernameError: Locator;
     readonly passwordError: Locator;
-    readonly formContainer: Locator;
 
     constructor(page: Page) {
         this.page = page;
 
-        this.title = page.locator('h1:has-text("Let\'s get started")');
+        this.title = page.locator('h1:has-text("Let’s get started")');
         this.subtitle = page.locator('text=Create your Mattermost account to start collaborating with your team');
+        this.bodyCard = page.locator('.signup-body-card');
         this.emailInput = page.locator('#input_email');
         this.usernameInput = page.locator('#input_name');
         this.passwordInput = page.locator('#input_password-input');
@@ -32,12 +35,20 @@ export default class SignupPage {
             'text=Usernames have to begin with a lowercase letter and be 3-22 characters long. You can use lowercase letters, numbers, periods, dashes, and underscores.'
         );
         this.passwordError = page.locator('text=Must be 5-64 characters long.');
-        this.formContainer = page.locator('.signup-team__container');
+    }
+
+    async toBeVisible() {
+        await this.page.waitForLoadState('networkidle');
+        await this.page.waitForLoadState('domcontentloaded');
+        await wait(duration.half_sec);
+        await expect(this.title).toBeVisible();
+        await expect(this.emailInput).toBeVisible();
+        await expect(this.usernameInput).toBeVisible();
+        await expect(this.passwordInput).toBeVisible();
     }
 
     async goto() {
-        await this.page.goto('/signup_email', {waitUntil: 'networkidle'});
-        await this.title.waitFor();
+        await this.page.goto('/signup_email');
     }
 
     async create(user: {email: string; username: string; password: string}, waitForRedirect = true) {

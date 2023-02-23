@@ -12,11 +12,11 @@ export default defineConfig({
     globalSetup: require.resolve('./global_setup'),
     forbidOnly: testConfig.isCI,
     outputDir: './test-results',
-    retries: 1,
     testDir: 'tests',
     timeout: duration.one_min,
     workers: testConfig.workers,
     expect: {
+        timeout: duration.ten_sec,
         toMatchSnapshot: {
             threshold: 0.4,
             maxDiffPixelRatio: 0.0001,
@@ -26,11 +26,14 @@ export default defineConfig({
         baseURL: testConfig.baseURL,
         headless: testConfig.headless,
         locale: 'en-US',
+        launchOptions: {
+            slowMo: testConfig.slowMo,
+        },
         screenshot: 'only-on-failure',
         timezoneId: 'America/Los_Angeles',
         trace: 'off',
         video: 'on-first-retry',
-        actionTimeout: duration.ten_sec,
+        actionTimeout: duration.half_min,
         storageState: {
             cookies: [],
             origins: [
