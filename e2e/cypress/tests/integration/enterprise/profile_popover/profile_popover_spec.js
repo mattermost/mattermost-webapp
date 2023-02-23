@@ -87,7 +87,8 @@ describe('Profile popover', () => {
         // * Verify that all the sub-checkboxes are disabled
         verifyPermissionSubSections('all_users', 'private', false);
 
-        cy.findByTestId('saveSetting').should('be.visible').click();
+        cy.findByTestId('saveSetting').as('saveButton').scrollIntoView();
+        cy.get('@saveButton').should('be.visible').click();
 
         cy.apiLogout();
 
@@ -121,7 +122,8 @@ describe('Profile popover', () => {
         // * Verify that all the sub-checkboxes are enabled
         verifyPermissionSubSections('all_users', 'private', true);
 
-        cy.findByTestId('saveSetting').should('be.visible').click();
+        cy.findByTestId('saveSetting').as('saveButton').scrollIntoView();
+        cy.get('@saveButton').should('be.visible').click();
 
         cy.apiLogout();
 
@@ -168,7 +170,8 @@ describe('Profile popover', () => {
         // * Verify that all the sub-checkboxes are disabled
         verifyPermissionSubSections('channel_admin', 'private', false);
 
-        cy.findByTestId('saveSetting').should('be.visible').click();
+        cy.findByTestId('saveSetting').as('saveButton').scrollIntoView();
+        cy.get('@saveButton').should('be.visible').click();
 
         // # Remove testUser from channel
         cy.removeUserFromChannel(testChannel.id, testUser.id);
@@ -241,7 +244,8 @@ describe('Profile popover', () => {
         // * Verify that all the sub-checkboxes are enabled
         verifyPermissionSubSections('team_admin', 'private', true);
 
-        cy.findByTestId('saveSetting').should('be.visible').click();
+        cy.findByTestId('saveSetting').as('saveButton').scrollIntoView();
+        cy.get('@saveButton').should('be.visible').click();
 
         // # Remove testUser from channel
         cy.removeUserFromChannel(testChannel.id, testUser.id);
@@ -381,7 +385,8 @@ describe('Profile popover', () => {
         // * Verify that all the sub-checkboxes are disabled.
         verifyPermissionSubSections('team_admin', 'private', false);
 
-        cy.findByTestId('saveSetting').should('be.visible').click();
+        cy.findByTestId('saveSetting').as('saveButton').scrollIntoView();
+        cy.get('@saveButton').should('be.visible').click();
 
         cy.apiLogout();
 
