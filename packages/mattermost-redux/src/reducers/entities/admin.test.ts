@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 import {AdminTypes, UserTypes} from 'mattermost-redux/action_types';
 import reducer, {convertAnalyticsRowsToStats} from 'mattermost-redux/reducers/entities/admin';
 import PluginState from 'mattermost-redux/constants/plugins';
+import {GenericAction} from 'mattermost-redux/types/actions';
+
+type ReducerState = ReturnType<typeof reducer>;
 
 describe('reducers.entities.admin', () => {
     describe('pluginStatuses', () => {
@@ -15,8 +16,8 @@ describe('reducers.entities.admin', () => {
             const action = {};
             const expectedState = {};
 
-            const actualState = reducer({pluginStatuses: state}, action);
-            assert.deepEqual(actualState.pluginStatuses, expectedState);
+            const actualState = reducer({pluginStatuses: state} as ReducerState, action as GenericAction);
+            expect(actualState.pluginStatuses).toEqual(expectedState);
         });
 
         it('RECEIVED_PLUGIN_STATUSES, empty initial state', () => {
@@ -93,8 +94,8 @@ describe('reducers.entities.admin', () => {
                 },
             };
 
-            const actualState = reducer({pluginStatuses: state}, action);
-            assert.deepEqual(actualState.pluginStatuses, expectedState);
+            const actualState = reducer({pluginStatuses: state} as ReducerState, action);
+            expect(actualState.pluginStatuses).toEqual(expectedState);
         });
 
         it('RECEIVED_PLUGIN_STATUSES, previously populated state', () => {
@@ -204,8 +205,8 @@ describe('reducers.entities.admin', () => {
                 },
             };
 
-            const actualState = reducer({pluginStatuses: state}, action);
-            assert.deepEqual(actualState.pluginStatuses, expectedState);
+            const actualState = reducer({pluginStatuses: state} as ReducerState, action);
+            expect(actualState.pluginStatuses).toEqual(expectedState);
         });
 
         it('ENABLE_PLUGIN_REQUEST, plugin_0', () => {
@@ -288,8 +289,8 @@ describe('reducers.entities.admin', () => {
                 },
             };
 
-            const actualState = reducer({pluginStatuses: state}, action);
-            assert.deepEqual(actualState.pluginStatuses, expectedState);
+            const actualState = reducer({pluginStatuses: state} as ReducerState, action);
+            expect(actualState.pluginStatuses).toEqual(expectedState);
         });
 
         it('DISABLE_PLUGIN_REQUEST, plugin_0', () => {
@@ -372,8 +373,8 @@ describe('reducers.entities.admin', () => {
                 },
             };
 
-            const actualState = reducer({pluginStatuses: state}, action);
-            assert.deepEqual(actualState.pluginStatuses, expectedState);
+            const actualState = reducer({pluginStatuses: state} as ReducerState, action);
+            expect(actualState.pluginStatuses).toEqual(expectedState);
         });
 
         it('DISABLE_PLUGIN_REQUEST, plugin_1', () => {
@@ -456,8 +457,8 @@ describe('reducers.entities.admin', () => {
                 },
             };
 
-            const actualState = reducer({pluginStatuses: state}, action);
-            assert.deepEqual(actualState.pluginStatuses, expectedState);
+            const actualState = reducer({pluginStatuses: state} as ReducerState, action);
+            expect(actualState.pluginStatuses).toEqual(expectedState);
         });
 
         it('REMOVED_PLUGIN, plugin_0', () => {
@@ -515,8 +516,8 @@ describe('reducers.entities.admin', () => {
                 },
             };
 
-            const actualState = reducer({pluginStatuses: state}, action);
-            assert.deepEqual(actualState.pluginStatuses, expectedState);
+            const actualState = reducer({pluginStatuses: state} as ReducerState, action);
+            expect(actualState.pluginStatuses).toEqual(expectedState);
         });
 
         it('REMOVED_PLUGIN, plugin_1', () => {
@@ -543,8 +544,8 @@ describe('reducers.entities.admin', () => {
             };
             const expectedState = {};
 
-            const actualState = reducer({pluginStatuses: state}, action);
-            assert.deepEqual(actualState.pluginStatuses, expectedState);
+            const actualState = reducer({pluginStatuses: state} as ReducerState, action);
+            expect(actualState.pluginStatuses).toEqual(expectedState);
         });
 
         it('LOGOUT_SUCCESS, previously populated state', () => {
@@ -585,8 +586,8 @@ describe('reducers.entities.admin', () => {
             };
             const expectedState = {};
 
-            const actualState = reducer({pluginStatuses: state}, action);
-            assert.deepEqual(actualState.pluginStatuses, expectedState);
+            const actualState = reducer({pluginStatuses: state} as ReducerState, action);
+            expect(actualState.pluginStatuses).toEqual(expectedState);
         });
     });
 
@@ -604,8 +605,8 @@ describe('reducers.entities.admin', () => {
             const action = {};
             const expectedState = {};
 
-            const actualState = reducer({ldapGroups: state}, action);
-            assert.deepEqual(actualState.ldapGroups, expectedState);
+            const actualState = reducer({ldapGroups: state} as ReducerState, action as GenericAction);
+            expect(actualState.ldapGroups).toEqual(expectedState);
         });
 
         it('RECEIVED_LDAP_GROUPS, empty initial state', () => {
@@ -645,8 +646,8 @@ describe('reducers.entities.admin', () => {
                 },
             };
 
-            const actualState = reducer({ldapGroups: state}, action);
-            assert.deepEqual(actualState.ldapGroups, expectedState);
+            const actualState = reducer({ldapGroups: state} as ReducerState, action);
+            expect(actualState.ldapGroups).toEqual(expectedState);
         });
 
         it('RECEIVED_LDAP_GROUPS, previously populated', () => {
@@ -699,8 +700,8 @@ describe('reducers.entities.admin', () => {
                 },
             };
 
-            const actualState = reducer({ldapGroups: state}, action);
-            assert.deepEqual(actualState.ldapGroups, expectedState);
+            const actualState = reducer({ldapGroups: state} as ReducerState, action);
+            expect(actualState.ldapGroups).toEqual(expectedState);
         });
 
         it('LINKED_LDAP_GROUP', () => {
@@ -742,8 +743,8 @@ describe('reducers.entities.admin', () => {
                 },
             };
 
-            const actualState = reducer({ldapGroups: state}, action);
-            assert.deepEqual(actualState.ldapGroups, expectedState);
+            const actualState = reducer({ldapGroups: state} as ReducerState, action);
+            expect(actualState.ldapGroups).toEqual(expectedState);
         });
 
         it('UNLINKED_LDAP_GROUP', () => {
@@ -775,14 +776,14 @@ describe('reducers.entities.admin', () => {
                 test2: {
                     primary_key: 'test2',
                     name: 'test2',
-                    mattermost_group_id: null,
-                    has_syncables: null,
+                    mattermost_group_id: undefined,
+                    has_syncables: undefined,
                     failed: false,
                 },
             };
 
-            const actualState = reducer({ldapGroups: state}, action);
-            assert.deepEqual(actualState.ldapGroups, expectedState);
+            const actualState = reducer({ldapGroups: state} as ReducerState, action);
+            expect(actualState.ldapGroups).toEqual(expectedState);
         });
 
         it('LINK_LDAP_GROUP_FAILURE', () => {
@@ -820,8 +821,8 @@ describe('reducers.entities.admin', () => {
                 },
             };
 
-            const actualState = reducer({ldapGroups: state}, action);
-            assert.deepEqual(actualState.ldapGroups, expectedState);
+            const actualState = reducer({ldapGroups: state} as ReducerState, action);
+            expect(actualState.ldapGroups).toEqual(expectedState);
         });
 
         it('LINK_LDAP_GROUP_FAILURE', () => {
@@ -859,8 +860,8 @@ describe('reducers.entities.admin', () => {
                 },
             };
 
-            const actualState = reducer({ldapGroups: state}, action);
-            assert.deepEqual(actualState.ldapGroups, expectedState);
+            const actualState = reducer({ldapGroups: state} as ReducerState, action);
+            expect(actualState.ldapGroups).toEqual(expectedState);
         });
     });
 
@@ -870,8 +871,8 @@ describe('reducers.entities.admin', () => {
             const action = {};
             const expectedState = {};
 
-            const actualState = reducer({dataRetentionCustomPolicies: state}, action);
-            assert.deepStrictEqual(actualState.dataRetentionCustomPolicies, expectedState);
+            const actualState = reducer({dataRetentionCustomPolicies: state} as ReducerState, action as GenericAction);
+            expect(actualState.dataRetentionCustomPolicies).toEqual(expectedState);
         });
 
         it('RECEIVED_DATA_RETENTION_CUSTOM_POLICIES', () => {
@@ -915,8 +916,8 @@ describe('reducers.entities.admin', () => {
                 },
             };
 
-            const actualState = reducer({dataRetentionCustomPolicies: state}, action);
-            assert.deepStrictEqual(actualState.dataRetentionCustomPolicies, expectedState);
+            const actualState = reducer({dataRetentionCustomPolicies: state} as ReducerState, action);
+            expect(actualState.dataRetentionCustomPolicies).toEqual(expectedState);
         });
 
         it('RECEIVED_DATA_RETENTION_CUSTOM_POLICY', () => {
@@ -941,8 +942,8 @@ describe('reducers.entities.admin', () => {
                 },
             };
 
-            const actualState = reducer({dataRetentionCustomPolicies: state}, action);
-            assert.deepStrictEqual(actualState.dataRetentionCustomPolicies, expectedState);
+            const actualState = reducer({dataRetentionCustomPolicies: state} as ReducerState, action);
+            expect(actualState.dataRetentionCustomPolicies).toEqual(expectedState);
         });
 
         it('DELETE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS', () => {
@@ -963,8 +964,8 @@ describe('reducers.entities.admin', () => {
             };
             const expectedState = {};
 
-            const actualState = reducer({dataRetentionCustomPolicies: state}, action);
-            assert.deepStrictEqual(actualState.dataRetentionCustomPolicies, expectedState);
+            const actualState = reducer({dataRetentionCustomPolicies: state} as unknown as ReducerState, action);
+            expect(actualState.dataRetentionCustomPolicies).toEqual(expectedState);
         });
 
         it('CREATE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS', () => {
@@ -989,8 +990,8 @@ describe('reducers.entities.admin', () => {
                 },
             };
 
-            const actualState = reducer({dataRetentionCustomPolicies: state}, action);
-            assert.deepStrictEqual(actualState.dataRetentionCustomPolicies, expectedState);
+            const actualState = reducer({dataRetentionCustomPolicies: state} as ReducerState, action);
+            expect(actualState.dataRetentionCustomPolicies).toEqual(expectedState);
         });
 
         it('UPDATE_DATA_RETENTION_CUSTOM_POLICY_SUCCESS', () => {
@@ -1023,8 +1024,8 @@ describe('reducers.entities.admin', () => {
                 },
             };
 
-            const actualState = reducer({dataRetentionCustomPolicies: state}, action);
-            assert.deepStrictEqual(actualState.dataRetentionCustomPolicies, expectedState);
+            const actualState = reducer({dataRetentionCustomPolicies: state} as unknown as ReducerState, action);
+            expect(actualState.dataRetentionCustomPolicies).toEqual(expectedState);
         });
     });
 });

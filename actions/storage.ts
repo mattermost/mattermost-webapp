@@ -1,11 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+
 import {StorageTypes} from 'utils/constants';
 import {getPrefix} from 'utils/storage_utils';
 
-export function setItem(name, value) {
-    return (dispatch, getState) => {
+export function setItem(name: string, value: string) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const prefix = getPrefix(state);
         dispatch({
@@ -16,8 +18,8 @@ export function setItem(name, value) {
     };
 }
 
-export function removeItem(name) {
-    return (dispatch, getState) => {
+export function removeItem(name: string) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const prefix = getPrefix(state);
         dispatch({
@@ -28,15 +30,15 @@ export function removeItem(name) {
     };
 }
 
-export function setGlobalItem(name, value) {
+export function setGlobalItem(name: string, value: any) {
     return {
         type: StorageTypes.SET_GLOBAL_ITEM,
         data: {name, value, timestamp: new Date()},
     };
 }
 
-export function removeGlobalItem(name) {
-    return (dispatch) => {
+export function removeGlobalItem(name: string) {
+    return (dispatch: DispatchFunc) => {
         dispatch({
             type: StorageTypes.REMOVE_GLOBAL_ITEM,
             data: {name},
@@ -45,7 +47,7 @@ export function removeGlobalItem(name) {
     };
 }
 
-export function actionOnGlobalItemsWithPrefix(prefix, action) {
+export function actionOnGlobalItemsWithPrefix(prefix: string, action: (key: string, value: any) => any) {
     return {
         type: StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX,
         data: {prefix, action},

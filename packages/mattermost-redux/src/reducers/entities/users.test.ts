@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import {UserTypes, ChannelTypes} from 'mattermost-redux/action_types';
+import {GenericAction} from 'mattermost-redux/types/actions';
 import reducer from 'mattermost-redux/reducers/entities/users';
+type ReducerState = ReturnType<typeof reducer>;
 
 describe('Reducers.users', () => {
     describe('profilesInChannel', () => {
@@ -15,8 +15,8 @@ describe('Reducers.users', () => {
                 profilesInChannel: {},
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesInChannel, expectedState.profilesInChannel);
+            const newState = reducer(state, action as GenericAction);
+            expect(newState.profilesInChannel).toEqual(expectedState.profilesInChannel);
         });
 
         it('UserTypes.RECEIVED_PROFILE_IN_CHANNEL, no existing profiles', () => {
@@ -36,8 +36,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesInChannel, expectedState.profilesInChannel);
+            const newState = reducer(state as ReducerState, action);
+            expect(newState.profilesInChannel).toEqual(expectedState.profilesInChannel);
         });
 
         it('UserTypes.RECEIVED_PROFILE_IN_CHANNEL, existing profiles', () => {
@@ -61,8 +61,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesInChannel, expectedState.profilesInChannel);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesInChannel).toEqual(expectedState.profilesInChannel);
         });
 
         it('UserTypes.RECEIVED_PROFILES_LIST_IN_CHANNEL, no existing profiles', () => {
@@ -87,8 +87,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesInChannel, expectedState.profilesInChannel);
+            const newState = reducer(state as ReducerState, action);
+            expect(newState.profilesInChannel).toEqual(expectedState.profilesInChannel);
         });
 
         it('UserTypes.RECEIVED_PROFILES_LIST_IN_CHANNEL, existing profiles', () => {
@@ -117,8 +117,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesInChannel, expectedState.profilesInChannel);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesInChannel).toEqual(expectedState.profilesInChannel);
         });
 
         it('UserTypes.RECEIVED_PROFILES_IN_CHANNEL, no existing profiles', () => {
@@ -143,8 +143,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesInChannel, expectedState.profilesInChannel);
+            const newState = reducer(state as ReducerState, action);
+            expect(newState.profilesInChannel).toEqual(expectedState.profilesInChannel);
         });
 
         it('UserTypes.RECEIVED_PROFILES_IN_CHANNEL, existing profiles', () => {
@@ -173,8 +173,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesInChannel, expectedState.profilesInChannel);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesInChannel).toEqual(expectedState.profilesInChannel);
         });
 
         it('UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL, unknown user id', () => {
@@ -193,8 +193,8 @@ describe('Reducers.users', () => {
             };
             const expectedState = state;
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesInChannel, expectedState.profilesInChannel);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesInChannel).toEqual(expectedState.profilesInChannel);
         });
 
         it('UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL, known user id', () => {
@@ -218,8 +218,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesInChannel, expectedState.profilesInChannel);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesInChannel).toEqual(expectedState.profilesInChannel);
         });
 
         it('ChannelTypes.CHANNEL_MEMBER_REMOVED, unknown user id', () => {
@@ -238,8 +238,8 @@ describe('Reducers.users', () => {
             };
             const expectedState = state;
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesInChannel, expectedState.profilesInChannel);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesInChannel).toEqual(expectedState.profilesInChannel);
         });
 
         it('ChannelTypes.CHANNEL_MEMBER_REMOVED, known user id', () => {
@@ -263,8 +263,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesInChannel, expectedState.profilesInChannel);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesInChannel).toEqual(expectedState.profilesInChannel);
         });
 
         it('UserTypes.LOGOUT_SUCCESS, existing profiles', () => {
@@ -281,8 +281,8 @@ describe('Reducers.users', () => {
                 profilesInChannel: {},
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesInChannel, expectedState.profilesInChannel);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesInChannel).toEqual(expectedState.profilesInChannel);
         });
     });
 
@@ -294,8 +294,8 @@ describe('Reducers.users', () => {
                 profilesNotInChannel: {},
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesNotInChannel, expectedState.profilesNotInChannel);
+            const newState = reducer(state, action as GenericAction);
+            expect(newState.profilesNotInChannel).toEqual(expectedState.profilesNotInChannel);
         });
 
         it('UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL, no existing profiles', () => {
@@ -315,8 +315,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesNotInChannel, expectedState.profilesNotInChannel);
+            const newState = reducer(state as ReducerState, action);
+            expect(newState.profilesNotInChannel).toEqual(expectedState.profilesNotInChannel);
         });
 
         it('UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL, existing profiles', () => {
@@ -340,8 +340,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesNotInChannel, expectedState.profilesNotInChannel);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesNotInChannel).toEqual(expectedState.profilesNotInChannel);
         });
 
         it('UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_CHANNEL, no existing profiles', () => {
@@ -366,8 +366,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesNotInChannel, expectedState.profilesNotInChannel);
+            const newState = reducer(state as ReducerState, action);
+            expect(newState.profilesNotInChannel).toEqual(expectedState.profilesNotInChannel);
         });
 
         it('UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_CHANNEL, existing profiles', () => {
@@ -396,8 +396,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesNotInChannel, expectedState.profilesNotInChannel);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesNotInChannel).toEqual(expectedState.profilesNotInChannel);
         });
 
         it('UserTypes.RECEIVED_PROFILES_NOT_IN_CHANNEL, no existing profiles', () => {
@@ -422,8 +422,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesNotInChannel, expectedState.profilesNotInChannel);
+            const newState = reducer(state as ReducerState, action);
+            expect(newState.profilesNotInChannel).toEqual(expectedState.profilesNotInChannel);
         });
 
         it('UserTypes.RECEIVED_PROFILES_NOT_IN_CHANNEL, existing profiles', () => {
@@ -452,8 +452,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesNotInChannel, expectedState.profilesNotInChannel);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesNotInChannel).toEqual(expectedState.profilesNotInChannel);
         });
 
         it('UserTypes.RECEIVED_PROFILE_IN_CHANNEL, unknown user id', () => {
@@ -472,8 +472,8 @@ describe('Reducers.users', () => {
             };
             const expectedState = state;
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesNotInChannel, expectedState.profilesNotInChannel);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesNotInChannel).toEqual(expectedState.profilesNotInChannel);
         });
 
         it('UserTypes.RECEIVED_PROFILE_IN_CHANNEL, known user id', () => {
@@ -497,8 +497,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesNotInChannel, expectedState.profilesNotInChannel);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesNotInChannel).toEqual(expectedState.profilesNotInChannel);
         });
 
         it('ChannelTypes.CHANNEL_MEMBER_ADDED, unknown user id', () => {
@@ -517,8 +517,8 @@ describe('Reducers.users', () => {
             };
             const expectedState = state;
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesNotInChannel, expectedState.profilesNotInChannel);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesNotInChannel).toEqual(expectedState.profilesNotInChannel);
         });
 
         it('ChannelTypes.CHANNEL_MEMBER_ADDED, known user id', () => {
@@ -542,8 +542,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesNotInChannel, expectedState.profilesNotInChannel);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesNotInChannel).toEqual(expectedState.profilesNotInChannel);
         });
 
         it('UserTypes.LOGOUT_SUCCESS, existing profiles', () => {
@@ -560,8 +560,8 @@ describe('Reducers.users', () => {
                 profilesNotInChannel: {},
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesNotInChannel, expectedState.profilesNotInChannel);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesNotInChannel).toEqual(expectedState.profilesNotInChannel);
         });
 
         it('UserTypes.RECEIVED_FILTERED_USER_STATS', () => {
@@ -574,8 +574,8 @@ describe('Reducers.users', () => {
                 filteredStats: {total_users_count: 1},
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.filteredStats, expectedState.filteredStats);
+            const newState = reducer(state as ReducerState, action);
+            expect(newState.filteredStats).toEqual(expectedState.filteredStats);
         });
     });
     describe('profilesNotInGroup', () => {
@@ -586,8 +586,8 @@ describe('Reducers.users', () => {
                 profilesNotInGroup: {},
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesNotInGroup, expectedState.profilesNotInGroup);
+            const newState = reducer(state, action as GenericAction);
+            expect(newState.profilesNotInGroup).toEqual(expectedState.profilesNotInGroup);
         });
 
         it('UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_GROUP, no existing profiles', () => {
@@ -612,8 +612,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesNotInGroup, expectedState.profilesNotInGroup);
+            const newState = reducer(state as ReducerState, action);
+            expect(newState.profilesNotInGroup).toEqual(expectedState.profilesNotInGroup);
         });
 
         it('UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_GROUP, existing profiles', () => {
@@ -642,8 +642,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesNotInGroup, expectedState.profilesNotInGroup);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesNotInGroup).toEqual(expectedState.profilesNotInGroup);
         });
 
         it('UserTypes.RECEIVED_PROFILES_FOR_GROUP, existing profiles', () => {
@@ -669,8 +669,8 @@ describe('Reducers.users', () => {
                 },
             };
 
-            const newState = reducer(state, action);
-            assert.deepEqual(newState.profilesNotInGroup, expectedState.profilesNotInGroup);
+            const newState = reducer(state as unknown as ReducerState, action);
+            expect(newState.profilesNotInGroup).toEqual(expectedState.profilesNotInGroup);
         });
     });
 });

@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import nock from 'nock';
 
 import {SyncableType} from '@mattermost/types/groups';
@@ -10,11 +8,11 @@ import {SyncableType} from '@mattermost/types/groups';
 import * as Actions from 'mattermost-redux/actions/groups';
 import {Client4} from 'mattermost-redux/client';
 
-import TestHelper from 'mattermost-redux/test/test_helper';
-import configureStore from 'mattermost-redux/test/test_store';
+import TestHelper from '../../test/test_helper';
+import configureStore from '../../test/test_store';
 
 describe('Actions.Groups', () => {
-    let store;
+    let store = configureStore();
 
     beforeEach(() => {
         TestHelper.initBasic(Client4);
@@ -94,11 +92,11 @@ describe('Actions.Groups', () => {
         const state = store.getState();
 
         const groupSyncables = state.entities.groups.syncables[groupID];
-        assert.ok(groupSyncables);
+        expect(groupSyncables).toBeTruthy();
 
         for (let i = 0; i < 2; i++) {
-            assert.ok(JSON.stringify(groupSyncables.teams[i]) === JSON.stringify(groupTeams[i]));
-            assert.ok(JSON.stringify(groupSyncables.channels[i]) === JSON.stringify(groupChannels[i]));
+            expect(JSON.stringify(groupSyncables.teams[i]) === JSON.stringify(groupTeams[i])).toBeTruthy();
+            expect(JSON.stringify(groupSyncables.channels[i]) === JSON.stringify(groupChannels[i])).toBeTruthy();
         }
     });
 
@@ -127,9 +125,9 @@ describe('Actions.Groups', () => {
         const state = store.getState();
 
         const groups = state.entities.groups.groups;
-        assert.ok(groups);
-        assert.ok(groups[groupID]);
-        assert.ok(JSON.stringify(response) === JSON.stringify(groups[groupID]));
+        expect(groups).toBeTruthy();
+        expect(groups[groupID]).toBeTruthy();
+        expect(JSON.stringify(response) === JSON.stringify(groups[groupID])).toBeTruthy();
     });
 
     it('linkGroupSyncable', async () => {
@@ -164,15 +162,15 @@ describe('Actions.Groups', () => {
             post(`/groups/${groupID}/channels/${channelID}/link`).
             reply(200, groupChannelResponse);
 
-        await Actions.linkGroupSyncable(groupID, teamID, SyncableType.Team)(store.dispatch, store.getState);
-        await Actions.linkGroupSyncable(groupID, channelID, SyncableType.Channel)(store.dispatch, store.getState);
+        await (Actions.linkGroupSyncable as any)(groupID, teamID, SyncableType.Team)(store.dispatch, store.getState);
+        await (Actions.linkGroupSyncable as any)(groupID, channelID, SyncableType.Channel)(store.dispatch, store.getState);
 
         const state = store.getState();
         const syncables = state.entities.groups.syncables;
-        assert.ok(syncables[groupID]);
+        expect(syncables[groupID]).toBeTruthy();
 
-        assert.ok(JSON.stringify(syncables[groupID].teams[0]) === JSON.stringify(groupTeamResponse));
-        assert.ok(JSON.stringify(syncables[groupID].channels[0]) === JSON.stringify(groupChannelResponse));
+        expect(JSON.stringify(syncables[groupID].teams[0]) === JSON.stringify(groupTeamResponse)).toBeTruthy();
+        expect(JSON.stringify(syncables[groupID].channels[0]) === JSON.stringify(groupChannelResponse)).toBeTruthy();
     });
 
     it('unlinkGroupSyncable', async () => {
@@ -206,15 +204,15 @@ describe('Actions.Groups', () => {
             post(`/groups/${groupID}/channels/${channelID}/link`).
             reply(200, groupChannelResponse);
 
-        await Actions.linkGroupSyncable(groupID, teamID, SyncableType.Team)(store.dispatch, store.getState);
-        await Actions.linkGroupSyncable(groupID, channelID, SyncableType.Channel)(store.dispatch, store.getState);
+        await (Actions.linkGroupSyncable as any)(groupID, teamID, SyncableType.Team)(store.dispatch, store.getState);
+        await (Actions.linkGroupSyncable as any)(groupID, channelID, SyncableType.Channel)(store.dispatch, store.getState);
 
         let state = store.getState();
         let syncables = state.entities.groups.syncables;
-        assert.ok(syncables[groupID]);
+        expect(syncables[groupID]).toBeTruthy();
 
-        assert.ok(JSON.stringify(syncables[groupID].teams[0]) === JSON.stringify(groupTeamResponse));
-        assert.ok(JSON.stringify(syncables[groupID].channels[0]) === JSON.stringify(groupChannelResponse));
+        expect(JSON.stringify(syncables[groupID].teams[0]) === JSON.stringify(groupTeamResponse)).toBeTruthy();
+        expect(JSON.stringify(syncables[groupID].channels[0]) === JSON.stringify(groupChannelResponse)).toBeTruthy();
 
         const beforeTeamsLength = syncables[groupID].teams.length;
         const beforeChannelsLength = syncables[groupID].channels.length;
@@ -233,9 +231,9 @@ describe('Actions.Groups', () => {
         state = store.getState();
         syncables = state.entities.groups.syncables;
 
-        assert.ok(syncables[groupID]);
-        assert.ok(syncables[groupID].teams.length === beforeTeamsLength - 1);
-        assert.ok(syncables[groupID].channels.length === beforeChannelsLength - 1);
+        expect(syncables[groupID]).toBeTruthy();
+        expect(syncables[groupID].teams.length === beforeTeamsLength - 1).toBeTruthy();
+        expect(syncables[groupID].channels.length === beforeChannelsLength - 1).toBeTruthy();
     });
 
     it('getGroups', async () => {
@@ -282,11 +280,11 @@ describe('Actions.Groups', () => {
         const state = store.getState();
 
         const groups = state.entities.groups.groups;
-        assert.ok(groups);
-        assert.strictEqual(response1.length, groups.length);
+        expect(groups).toBeTruthy();
+        expect((response1 as any).length).toEqual(groups.length);
         for (const id of Object.keys(groups)) {
             const index = Object.keys(groups).indexOf(id);
-            assert.ok(JSON.stringify(groups[id]) === JSON.stringify(response1.groups[index]));
+            expect(JSON.stringify(groups[id]) === JSON.stringify(response1.groups[index])).toBeTruthy();
         }
     });
 
@@ -350,9 +348,9 @@ describe('Actions.Groups', () => {
         const state = store.getState();
 
         const groupIDs = state.entities.teams.groupsAssociatedToTeam[teamID].ids;
-        assert.strictEqual(groupIDs.length, response.groups.length);
-        groupIDs.forEach((id) => {
-            assert.ok(response.groups.map((group) => group.id).includes(id));
+        expect(groupIDs.length).toEqual(response.groups.length);
+        groupIDs.forEach((id: string) => {
+            expect(response.groups.map((group) => group.id).includes(id)).toBeTruthy();
         });
     });
 
@@ -397,20 +395,20 @@ describe('Actions.Groups', () => {
             get(`/teams/${teamID}/groups?page=100&per_page=60&q=0&include_member_count=true&filter_allow_reference=false`).
             reply(200, response);
 
-        await Actions.getGroupsAssociatedToTeam(teamID, 0, 100)(store.dispatch, store.getState);
+        await Actions.getGroupsAssociatedToTeam(teamID, '0', 100)(store.dispatch, store.getState);
 
         const state = store.getState();
 
         const groupIDs = state.entities.teams.groupsAssociatedToTeam[teamID].ids;
         const expectedIDs = ['tnd8zod9f3fdtqosxjmhwucbth', 'qhdp6g7aubbpiyja7c4sgpe7tc'];
-        assert.strictEqual(groupIDs.length, expectedIDs.length);
-        groupIDs.forEach((id) => {
-            assert.ok(expectedIDs.includes(id));
-            assert.ok(state.entities.groups.groups[id]);
+        expect(groupIDs.length).toEqual(expectedIDs.length);
+        groupIDs.forEach((id: string) => {
+            expect(expectedIDs.includes(id)).toBeTruthy();
+            expect(state.entities.groups.groups[id]).toBeTruthy();
         });
 
         const count = state.entities.teams.groupsAssociatedToTeam[teamID].totalCount;
-        assert.equal(count, response.total_group_count);
+        expect(count).toEqual(response.total_group_count);
     });
 
     it('getGroupsNotAssociatedToTeam', async () => {
@@ -446,14 +444,14 @@ describe('Actions.Groups', () => {
             get(`/groups?not_associated_to_team=${teamID}&page=100&per_page=60&q=0&include_member_count=true`).
             reply(200, response);
 
-        await Actions.getGroupsNotAssociatedToTeam(teamID, 0, 100)(store.dispatch, store.getState);
+        await Actions.getGroupsNotAssociatedToTeam(teamID, '0', 100)(store.dispatch, store.getState);
 
         const state = store.getState();
         const groupIDs = state.entities.teams.groupsAssociatedToTeam[teamID].ids;
         const expectedIDs = ['existing2'].concat(response.map((group) => group.id));
-        assert.strictEqual(groupIDs.length, expectedIDs.length);
-        groupIDs.forEach((id) => {
-            assert.ok(expectedIDs.includes(id));
+        expect(groupIDs.length).toEqual(expectedIDs.length);
+        groupIDs.forEach((id: string) => {
+            expect(expectedIDs.includes(id)).toBeTruthy();
         });
     });
 
@@ -514,9 +512,9 @@ describe('Actions.Groups', () => {
         const state = store.getState();
 
         const groupIDs = state.entities.channels.groupsAssociatedToChannel[channelID].ids;
-        assert.strictEqual(groupIDs.length, response.groups.length);
-        groupIDs.forEach((id) => {
-            assert.ok(response.groups.map((group) => group.id).includes(id));
+        expect(groupIDs.length).toEqual(response.groups.length);
+        groupIDs.forEach((id: string) => {
+            expect(response.groups.map((group) => group.id).includes(id)).toBeTruthy();
         });
     });
 
@@ -614,9 +612,9 @@ describe('Actions.Groups', () => {
         let state = store.getState();
 
         let groupIDs = state.entities.channels.groupsAssociatedToChannel[channelID1].ids;
-        assert.strictEqual(groupIDs.length, response1.groups[channelID1].length);
-        groupIDs.forEach((id) => {
-            assert.ok(response1.groups[channelID1].map((group) => group.id).includes(id));
+        expect(groupIDs.length).toEqual(response1.groups[channelID1].length);
+        groupIDs.forEach((id: string) => {
+            expect(response1.groups[channelID1].map((group) => group.id).includes(id)).toBeTruthy();
         });
 
         await Actions.getAllGroupsAssociatedToChannelsInTeam(teamID, true)(store.dispatch, store.getState);
@@ -624,9 +622,9 @@ describe('Actions.Groups', () => {
         state = store.getState();
 
         groupIDs = state.entities.channels.groupsAssociatedToChannel[channelID1].ids;
-        assert.strictEqual(groupIDs.length, response2.groups[channelID1].length);
-        groupIDs.forEach((id) => {
-            assert.ok(response2.groups[channelID1].map((group) => group.id).includes(id));
+        expect(groupIDs.length).toEqual(response2.groups[channelID1].length);
+        groupIDs.forEach((id: string) => {
+            expect(response2.groups[channelID1].map((group) => group.id).includes(id)).toBeTruthy();
         });
     });
 
@@ -671,20 +669,20 @@ describe('Actions.Groups', () => {
             get(`/channels/${channelID}/groups?page=100&per_page=60&q=0&include_member_count=true&filter_allow_reference=false`).
             reply(200, response);
 
-        await Actions.getGroupsAssociatedToChannel(channelID, 0, 100)(store.dispatch, store.getState);
+        await Actions.getGroupsAssociatedToChannel(channelID, '0', 100)(store.dispatch, store.getState);
 
         const state = store.getState();
 
         const groupIDs = state.entities.channels.groupsAssociatedToChannel[channelID].ids;
         const expectedIDs = ['tnd8zod9f3fdtqosxjmhwucbth', 'qhdp6g7aubbpiyja7c4sgpe7tc'];
-        assert.strictEqual(groupIDs.length, expectedIDs.length);
-        groupIDs.forEach((id) => {
-            assert.ok(expectedIDs.includes(id));
-            assert.ok(state.entities.groups.groups[id]);
+        expect(groupIDs.length).toEqual(expectedIDs.length);
+        groupIDs.forEach((id: string) => {
+            expect(expectedIDs.includes(id)).toBeTruthy();
+            expect(state.entities.groups.groups[id]).toBeTruthy();
         });
 
         const count = state.entities.channels.groupsAssociatedToChannel[channelID].totalCount;
-        assert.equal(count, response.total_group_count);
+        expect(count).toEqual(response.total_group_count);
     });
 
     it('getGroupsNotAssociatedToChannel', async () => {
@@ -720,15 +718,15 @@ describe('Actions.Groups', () => {
             get(`/groups?not_associated_to_channel=${channelID}&page=100&per_page=60&q=0&include_member_count=true`).
             reply(200, response);
 
-        await Actions.getGroupsNotAssociatedToChannel(channelID, 0, 100)(store.dispatch, store.getState);
+        await Actions.getGroupsNotAssociatedToChannel(channelID, '0', 100)(store.dispatch, store.getState);
 
         const state = store.getState();
 
         const groupIDs = state.entities.channels.groupsAssociatedToChannel[channelID].ids;
         const expectedIDs = ['existing2'].concat(response.map((group) => group.id));
-        assert.strictEqual(groupIDs.length, expectedIDs.length);
-        groupIDs.forEach((id) => {
-            assert.ok(expectedIDs.includes(id));
+        expect(groupIDs.length).toEqual(expectedIDs.length);
+        groupIDs.forEach((id: string) => {
+            expect(expectedIDs.includes(id)).toBeTruthy();
         });
     });
 
@@ -775,13 +773,13 @@ describe('Actions.Groups', () => {
 
         const state = store.getState();
         const groupSyncables = state.entities.groups.syncables[groupID];
-        assert.ok(groupSyncables);
+        expect(groupSyncables).toBeTruthy();
 
-        assert.ok(groupSyncables.teams[0].auto_add === groupSyncablePatch.auto_add);
-        assert.ok(groupSyncables.channels[0].auto_add === groupSyncablePatch.auto_add);
+        expect(groupSyncables.teams[0].auto_add === groupSyncablePatch.auto_add).toBeTruthy();
+        expect(groupSyncables.channels[0].auto_add === groupSyncablePatch.auto_add).toBeTruthy();
 
-        assert.ok(groupSyncables.teams[0].scheme_admin === groupSyncablePatch.scheme_admin);
-        assert.ok(groupSyncables.channels[0].scheme_admin === groupSyncablePatch.scheme_admin);
+        expect(groupSyncables.teams[0].scheme_admin === groupSyncablePatch.scheme_admin).toBeTruthy();
+        expect(groupSyncables.channels[0].scheme_admin === groupSyncablePatch.scheme_admin).toBeTruthy();
     });
 
     it('patchGroup', async () => {
@@ -814,10 +812,10 @@ describe('Actions.Groups', () => {
         let state = store.getState();
 
         let groups = state.entities.groups.groups;
-        assert.ok(groups);
-        assert.ok(groups[groupID]);
-        assert.ok(groups[groupID].allow_reference === groupPatch.allow_reference);
-        assert.ok(JSON.stringify(response) === JSON.stringify(groups[groupID]));
+        expect(groups).toBeTruthy();
+        expect(groups[groupID]).toBeTruthy();
+        expect(groups[groupID].allow_reference === groupPatch.allow_reference).toBeTruthy();
+        expect(JSON.stringify(response) === JSON.stringify(groups[groupID])).toBeTruthy();
 
         //with allow_reference=false
         groupPatch.allow_reference = false;
@@ -832,13 +830,13 @@ describe('Actions.Groups', () => {
         state = store.getState();
 
         groups = state.entities.groups.groups;
-        assert.ok(groups);
-        assert.ok(groups[groupID]);
-        assert.ok(groups[groupID].allow_reference === groupPatch.allow_reference);
-        assert.ok(JSON.stringify(response) === JSON.stringify(groups[groupID]));
+        expect(groups).toBeTruthy();
+        expect(groups[groupID]).toBeTruthy();
+        expect(groups[groupID].allow_reference === groupPatch.allow_reference).toBeTruthy();
+        expect(JSON.stringify(response) === JSON.stringify(groups[groupID])).toBeTruthy();
 
         //with name="newname"
-        groupPatch.name = 'newname';
+        (groupPatch as any).name = 'newname';
         response.name = 'newname';
 
         nock(Client4.getBaseRoute()).
@@ -850,10 +848,10 @@ describe('Actions.Groups', () => {
         state = store.getState();
 
         groups = state.entities.groups.groups;
-        assert.ok(groups);
-        assert.ok(groups[groupID]);
-        assert.ok(groups[groupID].name === groupPatch.name);
-        assert.ok(JSON.stringify(response) === JSON.stringify(groups[groupID]));
+        expect(groups).toBeTruthy();
+        expect(groups[groupID]).toBeTruthy();
+        expect(groups[groupID].name === (groupPatch as any).name).toBeTruthy();
+        expect(JSON.stringify(response) === JSON.stringify(groups[groupID])).toBeTruthy();
     });
 
     it('getGroupStats', async () => {
@@ -873,9 +871,9 @@ describe('Actions.Groups', () => {
         const state = store.getState();
 
         const stats = state.entities.groups.stats;
-        assert.ok(stats);
-        assert.ok(stats[groupID]);
-        assert.ok(JSON.stringify(response) === JSON.stringify(stats[groupID]));
+        expect(stats).toBeTruthy();
+        expect(stats[groupID]).toBeTruthy();
+        expect(JSON.stringify(response) === JSON.stringify(stats[groupID])).toBeTruthy();
     });
 });
 

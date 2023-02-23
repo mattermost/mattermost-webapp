@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 import * as Selectors from 'mattermost-redux/selectors/entities/bots';
 
@@ -57,15 +55,15 @@ describe('Selectors.Bots', () => {
 
     it('getBotAccounts', () => {
         const botsById = Selectors.getBotAccounts(testState);
-        assert.equal(botsById[bot1.user_id], bot1);
-        assert.equal(botsById[bot2.user_id], bot2);
-        assert.equal(Object.keys(botsById).length, 2);
+        expect(botsById[bot1.user_id]).toEqual(bot1);
+        expect(botsById[bot2.user_id]).toEqual(bot2);
+        expect(Object.keys(botsById).length).toEqual(2);
     });
 
     it('getExternalBotAccounts', () => {
         const expected = {
             currentUser: bot1,
         };
-        assert.deepEqual(Selectors.getExternalBotAccounts(testState), expected);
+        expect(Selectors.getExternalBotAccounts(testState)).toEqual(expected);
     });
 });

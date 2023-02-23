@@ -48,7 +48,7 @@ export function generateMfaSecret(userId: string): ActionFunc {
     });
 }
 
-export function createUser(user: UserProfile, token: string, inviteId: string, redirect: string): ActionFunc {
+export function createUser(user: UserProfile, token?: string, inviteId?: string, redirect?: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let created;
 
@@ -353,7 +353,7 @@ export function getProfilesInTeam(teamId: string, page: number, perPage: number 
     };
 }
 
-export function getProfilesNotInTeam(teamId: string, groupConstrained: boolean, page: number, perPage: number = General.PROFILE_CHUNK_SIZE): ActionFunc {
+export function getProfilesNotInTeam(teamId: string, groupConstrained: boolean, page?: number, perPage: number = General.PROFILE_CHUNK_SIZE): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let profiles;
         try {

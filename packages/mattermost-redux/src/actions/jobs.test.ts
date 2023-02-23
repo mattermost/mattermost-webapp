@@ -1,20 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import nock from 'nock';
 
+import {Job} from '@mattermost/types/jobs';
 import * as Actions from 'mattermost-redux/actions/jobs';
 import {Client4} from 'mattermost-redux/client';
 
-import TestHelper from 'mattermost-redux/test/test_helper';
-import configureStore from 'mattermost-redux/test/test_store';
+import TestHelper from '../../test/test_helper';
+import configureStore from '../../test/test_store';
 
 const OK_RESPONSE = {status: 'OK'};
 
 describe('Actions.Jobs', () => {
-    let store;
+    let store = configureStore();
     beforeAll(() => {
         TestHelper.initBasic(Client4);
     });
@@ -30,7 +29,7 @@ describe('Actions.Jobs', () => {
     it('createJob', async () => {
         const job = {
             type: 'data_retention',
-        };
+        } as Job;
 
         nock(Client4.getBaseRoute()).
             post('/jobs').
@@ -46,7 +45,7 @@ describe('Actions.Jobs', () => {
 
         const state = store.getState();
         const jobs = state.entities.jobs.jobs;
-        assert.ok(jobs.six4h67ja7ntdkek6g13dp3wka);
+        expect(jobs.six4h67ja7ntdkek6g13dp3wka).toBeTruthy();
     });
 
     it('getJob', async () => {
@@ -64,7 +63,7 @@ describe('Actions.Jobs', () => {
 
         const state = store.getState();
         const jobs = state.entities.jobs.jobs;
-        assert.ok(jobs.six4h67ja7ntdkek6g13dp3wka);
+        expect(jobs.six4h67ja7ntdkek6g13dp3wka).toBeTruthy();
     });
 
     it('cancelJob', async () => {
@@ -76,7 +75,7 @@ describe('Actions.Jobs', () => {
 
         const state = store.getState();
         const jobs = state.entities.jobs.jobs;
-        assert.ok(!jobs.six4h67ja7ntdkek6g13dp3wka);
+        expect(!jobs.six4h67ja7ntdkek6g13dp3wka).toBeTruthy();
     });
 
     it('getJobs', async () => {
@@ -95,7 +94,7 @@ describe('Actions.Jobs', () => {
 
         const state = store.getState();
         const jobs = state.entities.jobs.jobs;
-        assert.ok(jobs.six4h67ja7ntdkek6g13dp3wka);
+        expect(jobs.six4h67ja7ntdkek6g13dp3wka).toBeTruthy();
     });
 
     it('getJobsByType', async () => {
@@ -115,10 +114,10 @@ describe('Actions.Jobs', () => {
         const state = store.getState();
 
         const jobs = state.entities.jobs.jobs;
-        assert.ok(jobs.six4h67ja7ntdkek6g13dp3wka);
+        expect(jobs.six4h67ja7ntdkek6g13dp3wka).toBeTruthy();
 
         const jobsByType = state.entities.jobs.jobsByTypeList;
-        assert.ok(jobsByType.data_retention);
-        assert.ok(jobsByType.data_retention.length === 1);
+        expect(jobsByType.data_retention).toBeTruthy();
+        expect(jobsByType.data_retention.length === 1).toBeTruthy();
     });
 });

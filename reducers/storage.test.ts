@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
+import {GenericAction} from 'mattermost-redux/types/actions';
 import storageReducer from 'reducers/storage';
 import {StorageTypes} from 'utils/constants';
+
+type ReducerState = ReturnType<typeof storageReducer>;
 
 describe('Reducers.Storage', () => {
     const now = new Date();
@@ -13,7 +14,7 @@ describe('Reducers.Storage', () => {
         const nextState = storageReducer(
             {
                 storage: {},
-            },
+            } as ReducerState,
             {
                 type: StorageTypes.SET_ITEM,
                 data: {
@@ -24,19 +25,16 @@ describe('Reducers.Storage', () => {
                 },
             },
         );
-        assert.deepEqual(
-            nextState.storage,
-            {
-                user_id_key: {value: 'value', timestamp: now},
-            },
-        );
+        expect(nextState.storage).toEqual({
+            user_id_key: {value: 'value', timestamp: now},
+        });
     });
 
     it('Storage.SET_GLOBAL_ITEM', () => {
         const nextState = storageReducer(
             {
                 storage: {},
-            },
+            } as ReducerState,
             {
                 type: StorageTypes.SET_GLOBAL_ITEM,
                 data: {
@@ -46,21 +44,18 @@ describe('Reducers.Storage', () => {
                 },
             },
         );
-        assert.deepEqual(
-            nextState.storage,
-            {
-                key: {value: 'value', timestamp: now},
-            },
-        );
+        expect(nextState.storage).toEqual({
+            key: {value: 'value', timestamp: now},
+        });
     });
 
     it('Storage.REMOVE_ITEM', () => {
-        var nextState = storageReducer(
+        let nextState = storageReducer(
             {
                 storage: {
                     user_id_key: 'value',
                 },
-            },
+            } as unknown as ReducerState,
             {
                 type: StorageTypes.REMOVE_ITEM,
                 data: {
@@ -69,14 +64,11 @@ describe('Reducers.Storage', () => {
                 },
             },
         );
-        assert.deepEqual(
-            nextState.storage,
-            {},
-        );
+        expect(nextState.storage).toEqual({});
         nextState = storageReducer(
             {
                 storage: {},
-            },
+            } as ReducerState,
             {
                 type: StorageTypes.REMOVE_ITEM,
                 data: {
@@ -85,19 +77,16 @@ describe('Reducers.Storage', () => {
                 },
             },
         );
-        assert.deepEqual(
-            nextState.storage,
-            {},
-        );
+        expect(nextState.storage).toEqual({});
     });
 
     it('Storage.REMOVE_GLOBAL_ITEM', () => {
-        var nextState = storageReducer(
+        let nextState = storageReducer(
             {
                 storage: {
                     key: 'value',
                 },
-            },
+            } as unknown as ReducerState,
             {
                 type: StorageTypes.REMOVE_GLOBAL_ITEM,
                 data: {
@@ -105,14 +94,11 @@ describe('Reducers.Storage', () => {
                 },
             },
         );
-        assert.deepEqual(
-            nextState.storage,
-            {},
-        );
+        expect(nextState.storage).toEqual({});
         nextState = storageReducer(
             {
                 storage: {},
-            },
+            } as ReducerState,
             {
                 type: StorageTypes.REMOVE_GLOBAL_ITEM,
                 data: {
@@ -120,10 +106,7 @@ describe('Reducers.Storage', () => {
                 },
             },
         );
-        assert.deepEqual(
-            nextState.storage,
-            {},
-        );
+        expect(nextState.storage).toEqual({});
     });
 
     describe('Storage.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX', () => {
@@ -134,13 +117,13 @@ describe('Reducers.Storage', () => {
                     prefix_key2: {value: 2, timestamp: now},
                     not_prefix_key: {value: 3, timestamp: now},
                 },
-            }, {});
+            } as unknown as ReducerState, {} as GenericAction);
 
             const nextState = storageReducer(state, {
                 type: StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX,
                 data: {
                     prefix: 'prefix',
-                    action: (key, value) => value + 5,
+                    action: (_key: string, value: number) => value + 5,
                 },
             });
 
@@ -159,13 +142,13 @@ describe('Reducers.Storage', () => {
                     prefix_key2: {value: 2, timestamp: now},
                     not_prefix_key: {value: 3, timestamp: now},
                 },
-            }, {});
+            } as unknown as ReducerState, {} as GenericAction);
 
             const nextState = storageReducer(state, {
                 type: StorageTypes.ACTION_ON_GLOBAL_ITEMS_WITH_PREFIX,
                 data: {
                     prefix: 'prefix',
-                    action: (key, value) => value,
+                    action: (key: string, value: number) => value,
                 },
             });
 
@@ -174,19 +157,16 @@ describe('Reducers.Storage', () => {
     });
 
     it('Storage.STORAGE_REHYDRATE', () => {
-        var nextState = storageReducer(
+        let nextState = storageReducer(
             {
                 storage: {},
-            },
+            } as ReducerState,
             {
                 type: StorageTypes.STORAGE_REHYDRATE,
                 data: {test: '123'},
             },
         );
-        assert.deepEqual(
-            nextState.storage,
-            {test: '123'},
-        );
+        expect(nextState.storage).toEqual({test: '123'});
         nextState = storageReducer(
             nextState,
             {
@@ -194,10 +174,7 @@ describe('Reducers.Storage', () => {
                 data: {test: '456'},
             },
         );
-        assert.deepEqual(
-            nextState.storage,
-            {test: '456'},
-        );
+        expect(nextState.storage).toEqual({test: '456'});
         nextState = storageReducer(
             nextState,
             {
@@ -205,9 +182,6 @@ describe('Reducers.Storage', () => {
                 data: {test2: '789'},
             },
         );
-        assert.deepEqual(
-            nextState.storage,
-            {test: '456', test2: '789'},
-        );
+        expect(nextState.storage).toEqual({test: '456', test2: '789'});
     });
 });

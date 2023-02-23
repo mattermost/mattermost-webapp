@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import {WorkTemplatesType} from 'mattermost-redux/action_types';
 import reducer from 'mattermost-redux/reducers/entities/work_templates';
+
+type ReducerState = ReturnType<typeof reducer>;
 
 describe('Reducers.worktemplates', () => {
     it('categories', () => {
@@ -27,8 +27,8 @@ describe('Reducers.worktemplates', () => {
             ],
         };
 
-        const newState = reducer(state, action);
-        assert.deepEqual(newState.categories, expectedState.categories);
+        const newState = reducer(state as unknown as ReducerState, action);
+        expect(newState.categories).toEqual(expectedState.categories);
     });
 
     it('work templates in a category', () => {
@@ -91,7 +91,7 @@ describe('Reducers.worktemplates', () => {
             },
         };
 
-        const newState = reducer(state, action);
-        assert.deepEqual(newState.templatesInCategory, expectedState.templatesInCategory);
+        const newState = reducer(state as ReducerState, action);
+        expect(newState.templatesInCategory).toEqual(expectedState.templatesInCategory);
     });
 });

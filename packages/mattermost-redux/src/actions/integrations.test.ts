@@ -1,21 +1,22 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import nock from 'nock';
+
+import {DialogSubmission, IncomingWebhook, OutgoingWebhook} from '@mattermost/types/integrations';
 
 import * as Actions from 'mattermost-redux/actions/integrations';
 import * as TeamsActions from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 
-import TestHelper from 'mattermost-redux/test/test_helper';
-import configureStore from 'mattermost-redux/test/test_store';
+import TestHelper from '../../test/test_helper';
+import configureStore from '../../test/test_store';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 const OK_RESPONSE = {status: 'OK'};
 
 describe('Actions.Integrations', () => {
-    let store;
+    let store = configureStore();
     beforeAll(() => {
         TestHelper.initBasic(Client4);
     });
@@ -35,17 +36,17 @@ describe('Actions.Integrations', () => {
 
         const {data: created} = await Actions.createIncomingHook(
             {
-                channel_id: TestHelper.basicChannel.id,
+                channel_id: TestHelper.basicChannel!.id,
                 display_name: 'test',
                 description: 'test',
-            },
-        )(store.dispatch, store.getState);
+            } as IncomingWebhook,
+        )(store.dispatch, store.getState) as ActionResult;
 
         const state = store.getState();
 
         const hooks = state.entities.integrations.incomingHooks;
-        assert.ok(hooks);
-        assert.ok(hooks[created.id]);
+        expect(hooks).toBeTruthy();
+        expect(hooks[created.id]).toBeTruthy();
     });
 
     it('getIncomingWebhook', async () => {
@@ -55,11 +56,11 @@ describe('Actions.Integrations', () => {
 
         const {data: created} = await Actions.createIncomingHook(
             {
-                channel_id: TestHelper.basicChannel.id,
+                channel_id: TestHelper.basicChannel!.id,
                 display_name: 'test',
                 description: 'test',
-            },
-        )(store.dispatch, store.getState);
+            } as IncomingWebhook,
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get(`/hooks/incoming/${created.id}`).
@@ -70,8 +71,8 @@ describe('Actions.Integrations', () => {
         const state = store.getState();
 
         const hooks = state.entities.integrations.incomingHooks;
-        assert.ok(hooks);
-        assert.ok(hooks[created.id]);
+        expect(hooks).toBeTruthy();
+        expect(hooks[created.id]).toBeTruthy();
     });
 
     it('getIncomingWebhooks', async () => {
@@ -81,24 +82,24 @@ describe('Actions.Integrations', () => {
 
         const {data: created} = await Actions.createIncomingHook(
             {
-                channel_id: TestHelper.basicChannel.id,
+                channel_id: TestHelper.basicChannel!.id,
                 display_name: 'test',
                 description: 'test',
-            },
-        )(store.dispatch, store.getState);
+            } as IncomingWebhook,
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get('/hooks/incoming').
             query(true).
             reply(200, [created]);
 
-        await Actions.getIncomingHooks(TestHelper.basicTeam.id)(store.dispatch, store.getState);
+        await Actions.getIncomingHooks(TestHelper.basicTeam!.id)(store.dispatch, store.getState);
 
         const state = store.getState();
 
         const hooks = state.entities.integrations.incomingHooks;
-        assert.ok(hooks);
-        assert.ok(hooks[created.id]);
+        expect(hooks).toBeTruthy();
+        expect(hooks[created.id]).toBeTruthy();
     });
 
     it('removeIncomingHook', async () => {
@@ -108,11 +109,11 @@ describe('Actions.Integrations', () => {
 
         const {data: created} = await Actions.createIncomingHook(
             {
-                channel_id: TestHelper.basicChannel.id,
+                channel_id: TestHelper.basicChannel!.id,
                 display_name: 'test',
                 description: 'test',
-            },
-        )(store.dispatch, store.getState);
+            } as IncomingWebhook,
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             delete(`/hooks/incoming/${created.id}`).
@@ -123,7 +124,7 @@ describe('Actions.Integrations', () => {
         const state = store.getState();
 
         const hooks = state.entities.integrations.incomingHooks;
-        assert.ok(!hooks[created.id]);
+        expect(!hooks[created.id]).toBeTruthy();
     });
 
     it('updateIncomingHook', async () => {
@@ -133,11 +134,11 @@ describe('Actions.Integrations', () => {
 
         const {data: created} = await Actions.createIncomingHook(
             {
-                channel_id: TestHelper.basicChannel.id,
+                channel_id: TestHelper.basicChannel!.id,
                 display_name: 'test',
                 description: 'test',
-            },
-        )(store.dispatch, store.getState);
+            } as IncomingWebhook,
+        )(store.dispatch, store.getState) as ActionResult;
 
         const updated = {...created};
         updated.display_name = 'test2';
@@ -150,8 +151,8 @@ describe('Actions.Integrations', () => {
         const state = store.getState();
 
         const hooks = state.entities.integrations.incomingHooks;
-        assert.ok(hooks[created.id]);
-        assert.ok(hooks[created.id].display_name === updated.display_name);
+        expect(hooks[created.id]).toBeTruthy();
+        expect(hooks[created.id].display_name === updated.display_name).toBeTruthy();
     });
 
     it('createOutgoingHook', async () => {
@@ -161,19 +162,19 @@ describe('Actions.Integrations', () => {
 
         const {data: created} = await Actions.createOutgoingHook(
             {
-                channel_id: TestHelper.basicChannel.id,
-                team_id: TestHelper.basicTeam.id,
+                channel_id: TestHelper.basicChannel!.id,
+                team_id: TestHelper.basicTeam!.id,
                 display_name: 'test',
                 trigger_words: [TestHelper.generateId()],
                 callback_urls: ['http://localhost/notarealendpoint'],
-            },
-        )(store.dispatch, store.getState);
+            } as OutgoingWebhook,
+        )(store.dispatch, store.getState) as ActionResult;
 
         const state = store.getState();
 
         const hooks = state.entities.integrations.outgoingHooks;
-        assert.ok(hooks);
-        assert.ok(hooks[created.id]);
+        expect(hooks).toBeTruthy();
+        expect(hooks[created.id]).toBeTruthy();
     });
 
     it('getOutgoingWebhook', async () => {
@@ -183,13 +184,13 @@ describe('Actions.Integrations', () => {
 
         const {data: created} = await Actions.createOutgoingHook(
             {
-                channel_id: TestHelper.basicChannel.id,
-                team_id: TestHelper.basicTeam.id,
+                channel_id: TestHelper.basicChannel!.id,
+                team_id: TestHelper.basicTeam!.id,
                 display_name: 'test',
                 trigger_words: [TestHelper.generateId()],
                 callback_urls: ['http://localhost/notarealendpoint'],
-            },
-        )(store.dispatch, store.getState);
+            } as OutgoingWebhook,
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get(`/hooks/outgoing/${created.id}`).
@@ -200,8 +201,8 @@ describe('Actions.Integrations', () => {
         const state = store.getState();
 
         const hooks = state.entities.integrations.outgoingHooks;
-        assert.ok(hooks);
-        assert.ok(hooks[created.id]);
+        expect(hooks).toBeTruthy();
+        expect(hooks[created.id]).toBeTruthy();
     });
 
     it('getOutgoingWebhooks', async () => {
@@ -211,26 +212,26 @@ describe('Actions.Integrations', () => {
 
         const {data: created} = await Actions.createOutgoingHook(
             {
-                channel_id: TestHelper.basicChannel.id,
-                team_id: TestHelper.basicTeam.id,
+                channel_id: TestHelper.basicChannel!.id,
+                team_id: TestHelper.basicTeam!.id,
                 display_name: 'test',
                 trigger_words: [TestHelper.generateId()],
                 callback_urls: ['http://localhost/notarealendpoint'],
-            },
-        )(store.dispatch, store.getState);
+            } as OutgoingWebhook,
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get('/hooks/outgoing').
             query(true).
             reply(200, [TestHelper.testOutgoingHook()]);
 
-        await Actions.getOutgoingHooks(TestHelper.basicChannel.id)(store.dispatch, store.getState);
+        await Actions.getOutgoingHooks(TestHelper.basicChannel!.id)(store.dispatch, store.getState);
 
         const state = store.getState();
 
         const hooks = state.entities.integrations.outgoingHooks;
-        assert.ok(hooks);
-        assert.ok(hooks[created.id]);
+        expect(hooks).toBeTruthy();
+        expect(hooks[created.id]).toBeTruthy();
     });
 
     it('removeOutgoingHook', async () => {
@@ -240,13 +241,13 @@ describe('Actions.Integrations', () => {
 
         const {data: created} = await Actions.createOutgoingHook(
             {
-                channel_id: TestHelper.basicChannel.id,
-                team_id: TestHelper.basicTeam.id,
+                channel_id: TestHelper.basicChannel!.id,
+                team_id: TestHelper.basicTeam!.id,
                 display_name: 'test',
                 trigger_words: [TestHelper.generateId()],
                 callback_urls: ['http://localhost/notarealendpoint'],
-            },
-        )(store.dispatch, store.getState);
+            } as OutgoingWebhook,
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             delete(`/hooks/outgoing/${created.id}`).
@@ -257,7 +258,7 @@ describe('Actions.Integrations', () => {
         const state = store.getState();
 
         const hooks = state.entities.integrations.outgoingHooks;
-        assert.ok(!hooks[created.id]);
+        expect(!hooks[created.id]).toBeTruthy();
     });
 
     it('updateOutgoingHook', async () => {
@@ -267,13 +268,13 @@ describe('Actions.Integrations', () => {
 
         const {data: created} = await Actions.createOutgoingHook(
             {
-                channel_id: TestHelper.basicChannel.id,
-                team_id: TestHelper.basicTeam.id,
+                channel_id: TestHelper.basicChannel!.id,
+                team_id: TestHelper.basicTeam!.id,
                 display_name: 'test',
                 trigger_words: [TestHelper.generateId()],
                 callback_urls: ['http://localhost/notarealendpoint'],
-            },
-        )(store.dispatch, store.getState);
+            } as OutgoingWebhook,
+        )(store.dispatch, store.getState) as ActionResult;
 
         const updated = {...created};
         updated.display_name = 'test2';
@@ -285,8 +286,8 @@ describe('Actions.Integrations', () => {
         const state = store.getState();
 
         const hooks = state.entities.integrations.outgoingHooks;
-        assert.ok(hooks[created.id]);
-        assert.ok(hooks[created.id].display_name === updated.display_name);
+        expect(hooks[created.id]).toBeTruthy();
+        expect(hooks[created.id].display_name === updated.display_name).toBeTruthy();
     });
 
     it('regenOutgoingHookToken', async () => {
@@ -296,13 +297,13 @@ describe('Actions.Integrations', () => {
 
         const {data: created} = await Actions.createOutgoingHook(
             {
-                channel_id: TestHelper.basicChannel.id,
-                team_id: TestHelper.basicTeam.id,
+                channel_id: TestHelper.basicChannel!.id,
+                team_id: TestHelper.basicTeam!.id,
                 display_name: 'test',
                 trigger_words: [TestHelper.generateId()],
                 callback_urls: ['http://localhost/notarealendpoint'],
-            },
-        )(store.dispatch, store.getState);
+            } as OutgoingWebhook,
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             post(`/hooks/outgoing/${created.id}/regen_token`).
@@ -312,14 +313,14 @@ describe('Actions.Integrations', () => {
         const state = store.getState();
 
         const hooks = state.entities.integrations.outgoingHooks;
-        assert.ok(hooks[created.id]);
-        assert.ok(hooks[created.id].token !== created.token);
+        expect(hooks[created.id]).toBeTruthy();
+        expect(hooks[created.id].token !== created.token).toBeTruthy();
     });
 
     it('getCommands', async () => {
         const noTeamCommands = store.getState().entities.integrations.commands;
         const noSystemCommands = store.getState().entities.integrations.systemCommands;
-        assert.equal(Object.keys({...noTeamCommands, ...noSystemCommands}).length, 0);
+        expect(Object.keys({...noTeamCommands, ...noSystemCommands}).length).toEqual(0);
 
         nock(Client4.getBaseRoute()).
             post('/teams').
@@ -327,7 +328,7 @@ describe('Actions.Integrations', () => {
 
         const {data: team} = await TeamsActions.createTeam(
             TestHelper.fakeTeam(),
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         const teamCommand = TestHelper.testCommand(team.id);
 
@@ -337,7 +338,7 @@ describe('Actions.Integrations', () => {
 
         const {data: created} = await Actions.addCommand(
             teamCommand,
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get('/commands').
@@ -352,13 +353,13 @@ describe('Actions.Integrations', () => {
 
         const teamCommands = store.getState().entities.integrations.commands;
         const executableCommands = store.getState().entities.integrations.executableCommands;
-        assert.ok(Object.keys({...teamCommands, ...executableCommands}).length);
+        expect(Object.keys({...teamCommands, ...executableCommands}).length).toBeTruthy();
     });
 
     it('getAutocompleteCommands', async () => {
         const noTeamCommands = store.getState().entities.integrations.commands;
         const noSystemCommands = store.getState().entities.integrations.systemCommands;
-        assert.equal(Object.keys({...noTeamCommands, ...noSystemCommands}).length, 0);
+        expect(Object.keys({...noTeamCommands, ...noSystemCommands}).length).toEqual(0);
 
         nock(Client4.getBaseRoute()).
             post('/teams').
@@ -366,7 +367,7 @@ describe('Actions.Integrations', () => {
 
         const {data: team} = await TeamsActions.createTeam(
             TestHelper.fakeTeam(),
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         const teamCommandWithAutocomplete = TestHelper.testCommand(team.id);
 
@@ -376,7 +377,7 @@ describe('Actions.Integrations', () => {
 
         const {data: createdWithAutocomplete} = await Actions.addCommand(
             teamCommandWithAutocomplete,
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get(`/teams/${team.id}/commands/autocomplete`).
@@ -391,7 +392,7 @@ describe('Actions.Integrations', () => {
 
         const teamCommands = store.getState().entities.integrations.commands;
         const systemCommands = store.getState().entities.integrations.systemCommands;
-        assert.equal(Object.keys({...teamCommands, ...systemCommands}).length, 2);
+        expect(Object.keys({...teamCommands, ...systemCommands}).length).toEqual(2);
     });
 
     it('getCustomTeamCommands', async () => {
@@ -401,7 +402,7 @@ describe('Actions.Integrations', () => {
 
         const {data: team} = await TeamsActions.createTeam(
             TestHelper.fakeTeam(),
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get('/commands').
@@ -413,7 +414,7 @@ describe('Actions.Integrations', () => {
         )(store.dispatch, store.getState);
 
         const noCommands = store.getState().entities.integrations.commands;
-        assert.equal(Object.keys(noCommands).length, 0);
+        expect(Object.keys(noCommands).length).toEqual(0);
 
         const command = TestHelper.testCommand(team.id);
 
@@ -423,7 +424,7 @@ describe('Actions.Integrations', () => {
 
         const {data: created} = await Actions.addCommand(
             command,
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get('/commands').
@@ -435,11 +436,11 @@ describe('Actions.Integrations', () => {
         )(store.dispatch, store.getState);
 
         const {commands} = store.getState().entities.integrations;
-        assert.ok(commands[created.id]);
-        assert.equal(Object.keys(commands).length, 1);
+        expect(commands[created.id]).toBeTruthy();
+        expect(Object.keys(commands).length).toEqual(1);
         const actual = commands[created.id];
         const expected = created;
-        assert.equal(JSON.stringify(actual), JSON.stringify(expected));
+        expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
     });
 
     it('executeCommand', async () => {
@@ -449,10 +450,10 @@ describe('Actions.Integrations', () => {
 
         const {data: team} = await TeamsActions.createTeam(
             TestHelper.fakeTeam(),
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         const args = {
-            channel_id: TestHelper.basicChannel.id,
+            channel_id: TestHelper.basicChannel!.id,
             team_id: team.id,
         };
 
@@ -470,7 +471,7 @@ describe('Actions.Integrations', () => {
 
         const {data: team} = await TeamsActions.createTeam(
             TestHelper.fakeTeam(),
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         const expected = TestHelper.testCommand(team.id);
 
@@ -478,27 +479,27 @@ describe('Actions.Integrations', () => {
             post('/commands').
             reply(201, {...expected, token: TestHelper.generateId(), id: TestHelper.generateId()});
 
-        const {data: created} = await Actions.addCommand(expected)(store.dispatch, store.getState);
+        const {data: created} = await Actions.addCommand(expected)(store.dispatch, store.getState) as ActionResult;
 
         const {commands} = store.getState().entities.integrations;
-        assert.ok(commands[created.id]);
+        expect(commands[created.id]).toBeTruthy();
         const actual = commands[created.id];
 
-        assert.ok(actual.token);
-        assert.equal(actual.create_at, actual.update_at);
-        assert.equal(actual.delete_at, 0);
-        assert.ok(actual.creator_id);
-        assert.equal(actual.team_id, team.id);
-        assert.equal(actual.trigger, expected.trigger);
-        assert.equal(actual.method, expected.method);
-        assert.equal(actual.username, expected.username);
-        assert.equal(actual.icon_url, expected.icon_url);
-        assert.equal(actual.auto_complete, expected.auto_complete);
-        assert.equal(actual.auto_complete_desc, expected.auto_complete_desc);
-        assert.equal(actual.auto_complete_hint, expected.auto_complete_hint);
-        assert.equal(actual.display_name, expected.display_name);
-        assert.equal(actual.description, expected.description);
-        assert.equal(actual.url, expected.url);
+        expect(actual.token).toBeTruthy();
+        expect(actual.create_at).toEqual(actual.update_at);
+        expect(actual.delete_at).toEqual(0);
+        expect(actual.creator_id).toBeTruthy();
+        expect(actual.team_id).toEqual(team.id);
+        expect(actual.trigger).toEqual(expected.trigger);
+        expect(actual.method).toEqual(expected.method);
+        expect(actual.username).toEqual(expected.username);
+        expect(actual.icon_url).toEqual(expected.icon_url);
+        expect(actual.auto_complete).toEqual(expected.auto_complete);
+        expect(actual.auto_complete_desc).toEqual(expected.auto_complete_desc);
+        expect(actual.auto_complete_hint).toEqual(expected.auto_complete_hint);
+        expect(actual.display_name).toEqual(expected.display_name);
+        expect(actual.description).toEqual(expected.description);
+        expect(actual.url).toEqual(expected.url);
     });
 
     it('regenCommandToken', async () => {
@@ -508,7 +509,7 @@ describe('Actions.Integrations', () => {
 
         const {data: team} = await TeamsActions.createTeam(
             TestHelper.fakeTeam(),
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         const command = TestHelper.testCommand(team.id);
 
@@ -518,7 +519,7 @@ describe('Actions.Integrations', () => {
 
         const {data: created} = await Actions.addCommand(
             command,
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             put(`/commands/${created.id}/regen_token`).
@@ -529,26 +530,26 @@ describe('Actions.Integrations', () => {
         )(store.dispatch, store.getState);
 
         const {commands} = store.getState().entities.integrations;
-        assert.ok(commands[created.id]);
+        expect(commands[created.id]).toBeTruthy();
         const updated = commands[created.id];
 
-        assert.equal(updated.id, created.id);
-        assert.notEqual(updated.token, created.token);
-        assert.equal(updated.create_at, created.create_at);
-        assert.equal(updated.update_at, created.update_at);
-        assert.equal(updated.delete_at, created.delete_at);
-        assert.equal(updated.creator_id, created.creator_id);
-        assert.equal(updated.team_id, created.team_id);
-        assert.equal(updated.trigger, created.trigger);
-        assert.equal(updated.method, created.method);
-        assert.equal(updated.username, created.username);
-        assert.equal(updated.icon_url, created.icon_url);
-        assert.equal(updated.auto_complete, created.auto_complete);
-        assert.equal(updated.auto_complete_desc, created.auto_complete_desc);
-        assert.equal(updated.auto_complete_hint, created.auto_complete_hint);
-        assert.equal(updated.display_name, created.display_name);
-        assert.equal(updated.description, created.description);
-        assert.equal(updated.url, created.url);
+        expect(updated.id).toEqual(created.id);
+        expect(updated.token).not.toEqual(created.token);
+        expect(updated.create_at).toEqual(created.create_at);
+        expect(updated.update_at).toEqual(created.update_at);
+        expect(updated.delete_at).toEqual(created.delete_at);
+        expect(updated.creator_id).toEqual(created.creator_id);
+        expect(updated.team_id).toEqual(created.team_id);
+        expect(updated.trigger).toEqual(created.trigger);
+        expect(updated.method).toEqual(created.method);
+        expect(updated.username).toEqual(created.username);
+        expect(updated.icon_url).toEqual(created.icon_url);
+        expect(updated.auto_complete).toEqual(created.auto_complete);
+        expect(updated.auto_complete_desc).toEqual(created.auto_complete_desc);
+        expect(updated.auto_complete_hint).toEqual(created.auto_complete_hint);
+        expect(updated.display_name).toEqual(created.display_name);
+        expect(updated.description).toEqual(created.description);
+        expect(updated.url).toEqual(created.url);
     });
 
     it('editCommand', async () => {
@@ -558,7 +559,7 @@ describe('Actions.Integrations', () => {
 
         const {data: team} = await TeamsActions.createTeam(
             TestHelper.fakeTeam(),
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         const command = TestHelper.testCommand(team.id);
 
@@ -568,7 +569,7 @@ describe('Actions.Integrations', () => {
 
         const {data: created} = await Actions.addCommand(
             command,
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         const expected = Object.assign({}, created);
         expected.trigger = 'modified';
@@ -585,12 +586,12 @@ describe('Actions.Integrations', () => {
         )(store.dispatch, store.getState);
 
         const {commands} = store.getState().entities.integrations;
-        assert.ok(commands[created.id]);
+        expect(commands[created.id]).toBeTruthy();
         const actual = commands[created.id];
 
-        assert.notEqual(actual.update_at, expected.update_at);
+        expect(actual.update_at).not.toEqual(expected.update_at);
         expected.update_at = actual.update_at;
-        assert.equal(JSON.stringify(actual), JSON.stringify(expected));
+        expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
     });
 
     it('deleteCommand', async () => {
@@ -600,7 +601,7 @@ describe('Actions.Integrations', () => {
 
         const {data: team} = await TeamsActions.createTeam(
             TestHelper.fakeTeam(),
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         const command = TestHelper.testCommand(team.id);
 
@@ -610,7 +611,7 @@ describe('Actions.Integrations', () => {
 
         const {data: created} = await Actions.addCommand(
             command,
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             delete(`/commands/${created.id}`).
@@ -621,7 +622,7 @@ describe('Actions.Integrations', () => {
         )(store.dispatch, store.getState);
 
         const {commands} = store.getState().entities.integrations;
-        assert.ok(!commands[created.id]);
+        expect(!commands[created.id]).toBeTruthy();
     });
 
     it('addOAuthApp', async () => {
@@ -629,10 +630,10 @@ describe('Actions.Integrations', () => {
             post('/oauth/apps').
             reply(201, TestHelper.fakeOAuthAppWithId());
 
-        const {data: created} = await Actions.addOAuthApp(TestHelper.fakeOAuthApp())(store.dispatch, store.getState);
+        const {data: created} = await Actions.addOAuthApp(TestHelper.fakeOAuthApp())(store.dispatch, store.getState) as ActionResult;
 
         const {oauthApps} = store.getState().entities.integrations;
-        assert.ok(oauthApps[created.id]);
+        expect(oauthApps[created.id]).toBeTruthy();
     });
 
     it('getOAuthApp', async () => {
@@ -640,7 +641,7 @@ describe('Actions.Integrations', () => {
             post('/oauth/apps').
             reply(201, TestHelper.fakeOAuthAppWithId());
 
-        const {data: created} = await Actions.addOAuthApp(TestHelper.fakeOAuthApp())(store.dispatch, store.getState);
+        const {data: created} = await Actions.addOAuthApp(TestHelper.fakeOAuthApp())(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get(`/oauth/apps/${created.id}`).
@@ -649,7 +650,7 @@ describe('Actions.Integrations', () => {
         await Actions.getOAuthApp(created.id)(store.dispatch, store.getState);
 
         const {oauthApps} = store.getState().entities.integrations;
-        assert.ok(oauthApps[created.id]);
+        expect(oauthApps[created.id]).toBeTruthy();
     });
 
     it('editOAuthApp', async () => {
@@ -657,7 +658,7 @@ describe('Actions.Integrations', () => {
             post('/oauth/apps').
             reply(201, TestHelper.fakeOAuthAppWithId());
 
-        const {data: created} = await Actions.addOAuthApp(TestHelper.fakeOAuthApp())(store.dispatch, store.getState);
+        const {data: created} = await Actions.addOAuthApp(TestHelper.fakeOAuthApp())(store.dispatch, store.getState) as ActionResult;
 
         const expected = Object.assign({}, created);
         expected.name = 'modified';
@@ -675,13 +676,15 @@ describe('Actions.Integrations', () => {
         await Actions.editOAuthApp(expected)(store.dispatch, store.getState);
 
         const {oauthApps} = store.getState().entities.integrations;
-        assert.ok(oauthApps[created.id]);
+        expect(oauthApps[created.id]).toBeTruthy();
 
         const actual = oauthApps[created.id];
 
-        assert.notEqual(actual.update_at, expected.update_at);
-        expected.update_at = actual.update_at;
-        assert.equal(JSON.stringify(actual), JSON.stringify(expected));
+        expect(actual.update_at).not.toEqual(expected.update_at);
+        const actualWithoutUpdateAt = {...actual};
+        delete actualWithoutUpdateAt.update_at;
+        delete expected.update_at;
+        expect(JSON.stringify(actualWithoutUpdateAt)).toEqual(JSON.stringify(expected));
     });
 
     it('getOAuthApps', async () => {
@@ -689,35 +692,17 @@ describe('Actions.Integrations', () => {
             post('/oauth/apps').
             reply(201, TestHelper.fakeOAuthAppWithId());
 
-        const {data: created} = await Actions.addOAuthApp(TestHelper.fakeOAuthApp())(store.dispatch, store.getState);
-
-        nock(Client4.getBaseRoute()).
-            get('/oauth/apps').
-            query(true).
-            reply(200, [created]);
-
-        await Actions.getOAuthApps()(store.dispatch, store.getState);
-
-        const {oauthApps} = store.getState().entities.integrations;
-        assert.ok(oauthApps);
-    });
-
-    it('getAuthorizedOAuthApps', async () => {
-        nock(Client4.getBaseRoute()).
-            post('/oauth/apps').
-            reply(201, TestHelper.fakeOAuthAppWithId());
-
-        const {data: created} = await Actions.addOAuthApp(TestHelper.fakeOAuthApp())(store.dispatch, store.getState);
+        const {data: created} = await Actions.addOAuthApp(TestHelper.fakeOAuthApp())(store.dispatch, store.getState) as ActionResult;
 
         const user = TestHelper.basicUser;
         nock(Client4.getBaseRoute()).
-            get(`/users/${user.id}/oauth/apps/authorized`).
+            get(`/users/${user!.id}/oauth/apps/authorized`).
             reply(200, [created]);
 
         await Actions.getAuthorizedOAuthApps()(store.dispatch, store.getState);
 
         const {oauthApps} = store.getState().entities.integrations;
-        assert.ok(oauthApps);
+        expect(oauthApps).toBeTruthy();
     });
 
     it('deleteOAuthApp', async () => {
@@ -725,7 +710,7 @@ describe('Actions.Integrations', () => {
             post('/oauth/apps').
             reply(201, TestHelper.fakeOAuthAppWithId());
 
-        const {data: created} = await Actions.addOAuthApp(TestHelper.fakeOAuthApp())(store.dispatch, store.getState);
+        const {data: created} = await Actions.addOAuthApp(TestHelper.fakeOAuthApp())(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             delete(`/oauth/apps/${created.id}`).
@@ -734,7 +719,7 @@ describe('Actions.Integrations', () => {
         await Actions.deleteOAuthApp(created.id)(store.dispatch, store.getState);
 
         const {oauthApps} = store.getState().entities.integrations;
-        assert.ok(!oauthApps[created.id]);
+        expect(!oauthApps[created.id]).toBeTruthy();
     });
 
     it('regenOAuthAppSecret', async () => {
@@ -742,7 +727,7 @@ describe('Actions.Integrations', () => {
             post('/oauth/apps').
             reply(201, TestHelper.fakeOAuthAppWithId());
 
-        const {data: created} = await Actions.addOAuthApp(TestHelper.fakeOAuthApp())(store.dispatch, store.getState);
+        const {data: created} = await Actions.addOAuthApp(TestHelper.fakeOAuthApp())(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             post(`/oauth/apps/${created.id}/regen_secret`).
@@ -751,7 +736,7 @@ describe('Actions.Integrations', () => {
         await Actions.regenOAuthAppSecret(created.id)(store.dispatch, store.getState);
 
         const {oauthApps} = store.getState().entities.integrations;
-        assert.ok(oauthApps[created.id].client_secret !== created.client_secret);
+        expect(oauthApps[created.id].client_secret !== created.client_secret).toBeTruthy();
     });
 
     it('submitInteractiveDialog', async () => {
@@ -759,18 +744,20 @@ describe('Actions.Integrations', () => {
             post('/actions/dialogs/submit').
             reply(200, {errors: {name: 'some error'}});
 
-        const submit = {
+        const submit: DialogSubmission = {
             url: 'https://mattermost.com',
             callback_id: '123',
             state: '123',
             channel_id: TestHelper.generateId(),
             team_id: TestHelper.generateId(),
             submission: {name: 'value'},
+            cancelled: false,
+            user_id: '',
         };
 
         const {data} = await store.dispatch(Actions.submitInteractiveDialog(submit));
 
-        assert.ok(data.errors);
-        assert.equal(data.errors.name, 'some error');
+        expect(data.errors).toBeTruthy();
+        expect(data.errors.name).toEqual('some error');
     });
 });

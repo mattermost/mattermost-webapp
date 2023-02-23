@@ -1,18 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import {TeamTypes, AdminTypes} from 'mattermost-redux/action_types';
+import {GenericAction} from 'mattermost-redux/types/actions';
 import teamsReducer from 'mattermost-redux/reducers/entities/teams';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 
+type ReducerState = ReturnType<typeof teamsReducer>;
+
 describe('Reducers.teams.myMembers', () => {
     it('initial state', async () => {
-        let state = {};
+        let state = {} as ReducerState;
 
-        state = teamsReducer(state, {});
-        assert.deepEqual(state.myMembers, {}, 'initial state');
+        state = teamsReducer(state, {} as GenericAction);
+        expect(state.myMembers).toEqual({});
     });
 
     it('RECEIVED_MY_TEAM_MEMBER', async () => {
@@ -20,7 +21,7 @@ describe('Reducers.teams.myMembers', () => {
         const myMember2 = {user_id: 'user_id_2', team_id: 'team_id_2', delete_at: 0, mention_count: 0, mention_count_root: 0, msg_count: 0, msg_count_root: 0};
         const myMember3 = {user_id: 'user_id_3', team_id: 'team_id_3', delete_at: 1, mention_count: 0, mention_count_root: 0, msg_count: 0, msg_count_root: 0};
 
-        let state = {myMembers: {team_id_1: myMember1}};
+        let state = {myMembers: {team_id_1: myMember1}} as unknown as ReducerState;
         const testAction = {
             type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
             data: myMember2,
@@ -28,15 +29,15 @@ describe('Reducers.teams.myMembers', () => {
         };
 
         state = teamsReducer(state, testAction);
-        assert.deepEqual(state.myMembers, testAction.result);
+        expect(state.myMembers).toEqual(testAction.result);
 
         testAction.data = myMember3;
-        state = teamsReducer(state, {});
-        assert.deepEqual(state.myMembers, testAction.result);
+        state = teamsReducer(state, {} as GenericAction);
+        expect(state.myMembers).toEqual(testAction.result);
     });
 
     it('RECEIVED_MY_TEAM_MEMBERS', async () => {
-        let state = {};
+        let state = {} as ReducerState;
         const myMember1 = {user_id: 'user_id_1', team_id: 'team_id_1', delete_at: 0, mention_count: 0, mention_count_root: 0, msg_count: 0, msg_count_root: 0};
         const myMember2 = {user_id: 'user_id_2', team_id: 'team_id_2', delete_at: 0, mention_count: 0, mention_count_root: 0, msg_count: 0, msg_count_root: 0};
         const myMember3 = {user_id: 'user_id_3', team_id: 'team_id_3', delete_at: 1, mention_count: 0, mention_count_root: 0, msg_count: 0, msg_count_root: 0};
@@ -47,10 +48,10 @@ describe('Reducers.teams.myMembers', () => {
         };
 
         state = teamsReducer(state, testAction);
-        assert.deepEqual(state.myMembers, testAction.result);
+        expect(state.myMembers).toEqual(testAction.result);
 
-        state = teamsReducer(state, {});
-        assert.deepEqual(state.myMembers, testAction.result);
+        state = teamsReducer(state, {} as GenericAction);
+        expect(state.myMembers).toEqual(testAction.result);
     });
 
     it('RECEIVED_TEAMS_LIST', async () => {
@@ -63,7 +64,7 @@ describe('Reducers.teams.myMembers', () => {
                 team_id_1: {...team1, msg_count: 0, mention_count: 0},
                 team_id_2: {...team2, msg_count: 0, mention_count: 0},
             },
-        };
+        } as unknown as ReducerState;
 
         const testAction = {
             type: TeamTypes.RECEIVED_TEAMS_LIST,
@@ -76,13 +77,13 @@ describe('Reducers.teams.myMembers', () => {
 
         // do not add a team when it's not on the teams.myMembers list
         state = teamsReducer(state, testAction);
-        assert.deepEqual(state.myMembers, testAction.result);
+        expect(state.myMembers).toEqual(testAction.result);
 
         // remove deleted team to teams.myMembers list
         team2.delete_at = 1;
         testAction.data = [team2];
         state = teamsReducer(state, testAction);
-        assert.deepEqual(state.myMembers, {team_id_1: {...team1, msg_count: 0, mention_count: 0}});
+        expect(state.myMembers).toEqual({team_id_1: {...team1, msg_count: 0, mention_count: 0}});
     });
 
     it('RECEIVED_TEAMS', async () => {
@@ -90,7 +91,7 @@ describe('Reducers.teams.myMembers', () => {
         const myMember2 = {user_id: 'user_id_2', team_id: 'team_id_2', delete_at: 0, mention_count: 0, mention_count_root: 0, msg_count: 0, msg_count_root: 0};
         const myMember3 = {user_id: 'user_id_3', team_id: 'team_id_3', delete_at: 0, mention_count: 0, mention_count_root: 0, msg_count: 0, msg_count_root: 0};
 
-        let state = {myMembers: {team_id_1: myMember1, team_id_2: myMember2}};
+        let state = {myMembers: {team_id_1: myMember1, team_id_2: myMember2}} as unknown as ReducerState;
 
         const testAction = {
             type: TeamTypes.RECEIVED_TEAMS,
@@ -100,13 +101,13 @@ describe('Reducers.teams.myMembers', () => {
 
         // do not add a team when it's not on the teams.myMembers list
         state = teamsReducer(state, testAction);
-        assert.deepEqual(state.myMembers, testAction.result);
+        expect(state.myMembers).toEqual(testAction.result);
 
         // remove deleted team to teams.myMembers list
         myMember2.delete_at = 1;
-        testAction.data = {team_id_2: myMember2};
+        testAction.data = {team_id_2: myMember2} as any;
         state = teamsReducer(state, testAction);
-        assert.deepEqual(state.myMembers, {team_id_1: myMember1});
+        expect(state.myMembers).toEqual({team_id_1: myMember1});
     });
 });
 describe('Data Retention Teams', () => {

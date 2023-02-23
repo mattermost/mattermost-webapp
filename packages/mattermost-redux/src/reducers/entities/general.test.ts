@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import reducer from 'mattermost-redux/reducers/entities/general';
 import {GeneralTypes} from 'mattermost-redux/action_types';
+import {GenericAction} from 'mattermost-redux/types/actions';
+
+type ReducerState = ReturnType<typeof reducer>
 
 describe('reducers.entities.general', () => {
     describe('firstAdminVisitMarketplaceStatus', () => {
@@ -13,8 +14,8 @@ describe('reducers.entities.general', () => {
             const action = {};
             const expectedState = {};
 
-            const actualState = reducer({firstAdminVisitMarketplaceStatus: state}, action);
-            assert.deepStrictEqual(actualState.firstAdminVisitMarketplaceStatus, expectedState);
+            const actualState = reducer({firstAdminVisitMarketplaceStatus: state} as ReducerState, action as GenericAction);
+            expect(actualState.firstAdminVisitMarketplaceStatus).toEqual(expectedState);
         });
 
         it('FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED, empty initial state', () => {
@@ -25,8 +26,8 @@ describe('reducers.entities.general', () => {
             };
             const expectedState = true;
 
-            const actualState = reducer({firstAdminVisitMarketplaceStatus: state}, action);
-            assert.deepStrictEqual(actualState.firstAdminVisitMarketplaceStatus, expectedState);
+            const actualState = reducer({firstAdminVisitMarketplaceStatus: state} as ReducerState, action);
+            expect(actualState.firstAdminVisitMarketplaceStatus).toEqual(expectedState);
         });
 
         it('FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED, previously populated state', () => {
@@ -37,8 +38,8 @@ describe('reducers.entities.general', () => {
             };
             const expectedState = true;
 
-            const actualState = reducer({firstAdminVisitMarketplaceStatus: state}, action);
-            assert.deepStrictEqual(actualState.firstAdminVisitMarketplaceStatus, expectedState);
+            const actualState = reducer({firstAdminVisitMarketplaceStatus: state} as ReducerState, action);
+            expect(actualState.firstAdminVisitMarketplaceStatus).toEqual(expectedState);
         });
     });
 });

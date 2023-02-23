@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import LocalStorageStore, {getPenultimateChannelNameKey} from 'stores/local_storage_store';
 
 describe('stores/LocalStorageStore', () => {
@@ -13,8 +11,8 @@ describe('stores/LocalStorageStore', () => {
         const teamId2 = 'teamId2';
         LocalStorageStore.setPreviousTeamId(userId1, teamId1);
         LocalStorageStore.setPreviousTeamId(userId2, teamId2);
-        assert.equal(LocalStorageStore.getPreviousTeamId(userId1), teamId1);
-        assert.equal(LocalStorageStore.getPreviousTeamId(userId2), teamId2);
+        expect(LocalStorageStore.getPreviousTeamId(userId1)).toEqual(teamId1);
+        expect(LocalStorageStore.getPreviousTeamId(userId2)).toEqual(teamId2);
     });
 
     test('should persist previous channel name per team and user', () => {
@@ -28,41 +26,41 @@ describe('stores/LocalStorageStore', () => {
         LocalStorageStore.setPreviousChannelName(userId1, teamId1, channel1);
         LocalStorageStore.setPreviousChannelName(userId2, teamId1, channel2);
         LocalStorageStore.setPreviousChannelName(userId2, teamId2, channel3);
-        assert.equal(LocalStorageStore.getPreviousChannelName(userId1, teamId1), channel1);
-        assert.equal(LocalStorageStore.getPreviousChannelName(userId2, teamId1), channel2);
-        assert.equal(LocalStorageStore.getPreviousChannelName(userId2, teamId2), channel3);
+        expect(LocalStorageStore.getPreviousChannelName(userId1, teamId1)).toEqual(channel1);
+        expect(LocalStorageStore.getPreviousChannelName(userId2, teamId1)).toEqual(channel2);
+        expect(LocalStorageStore.getPreviousChannelName(userId2, teamId2)).toEqual(channel3);
     });
 
     describe('should persist separately for different subpaths', () => {
         test('getWasLoggedIn', () => {
-            delete window.basename;
+            delete (window as any).basename;
 
             // Initially false
-            assert.equal(LocalStorageStore.getWasLoggedIn(), false);
+            expect(LocalStorageStore.getWasLoggedIn()).toEqual(false);
 
             // True after set
             LocalStorageStore.setWasLoggedIn(true);
-            assert.equal(LocalStorageStore.getWasLoggedIn(), true);
+            expect(LocalStorageStore.getWasLoggedIn()).toEqual(true);
 
             // Still true when basename explicitly set
             window.basename = '/';
-            assert.equal(LocalStorageStore.getWasLoggedIn(), true);
+            expect(LocalStorageStore.getWasLoggedIn()).toEqual(true);
 
             // Different with different basename
             window.basename = '/subpath';
-            assert.equal(LocalStorageStore.getWasLoggedIn(), false);
+            expect(LocalStorageStore.getWasLoggedIn()).toEqual(false);
             LocalStorageStore.setWasLoggedIn(true);
-            assert.equal(LocalStorageStore.getWasLoggedIn(), true);
+            expect(LocalStorageStore.getWasLoggedIn()).toEqual(true);
 
             // Back to old value with original basename
             window.basename = '/';
-            assert.equal(LocalStorageStore.getWasLoggedIn(), true);
+            expect(LocalStorageStore.getWasLoggedIn()).toEqual(true);
             LocalStorageStore.setWasLoggedIn(false);
-            assert.equal(LocalStorageStore.getWasLoggedIn(), false);
+            expect(LocalStorageStore.getWasLoggedIn()).toEqual(false);
 
             // Value with different basename remains unchanged.
             window.basename = '/subpath';
-            assert.equal(LocalStorageStore.getWasLoggedIn(), true);
+            expect(LocalStorageStore.getWasLoggedIn()).toEqual(true);
         });
     });
 
@@ -74,13 +72,13 @@ describe('stores/LocalStorageStore', () => {
             const channel2 = 'channel2';
 
             LocalStorageStore.setPreviousChannelName(userId1, teamId1, channel1);
-            assert.equal(LocalStorageStore.getPreviousChannelName(userId1, teamId1), channel1);
+            expect(LocalStorageStore.getPreviousChannelName(userId1, teamId1)).toEqual(channel1);
 
             LocalStorageStore.setPenultimateChannelName(userId1, teamId1, channel2);
-            assert.equal(LocalStorageStore.getPenultimateChannelName(userId1, teamId1), channel2);
+            expect(LocalStorageStore.getPenultimateChannelName(userId1, teamId1)).toEqual(channel2);
 
             LocalStorageStore.removePreviousChannelName(userId1, teamId1);
-            assert.equal(LocalStorageStore.getPreviousChannelName(userId1, teamId1), channel2);
+            expect(LocalStorageStore.getPreviousChannelName(userId1, teamId1)).toEqual(channel2);
         });
 
         test('should remove previous channel using subpath', () => {
@@ -91,13 +89,13 @@ describe('stores/LocalStorageStore', () => {
 
             window.basename = '/subpath';
             LocalStorageStore.setPreviousChannelName(userId1, teamId1, channel1);
-            assert.equal(LocalStorageStore.getPreviousChannelName(userId1, teamId1), channel1);
+            expect(LocalStorageStore.getPreviousChannelName(userId1, teamId1)).toEqual(channel1);
 
             LocalStorageStore.setPenultimateChannelName(userId1, teamId1, channel2);
-            assert.equal(LocalStorageStore.getPenultimateChannelName(userId1, teamId1), channel2);
+            expect(LocalStorageStore.getPenultimateChannelName(userId1, teamId1)).toEqual(channel2);
 
             LocalStorageStore.removePreviousChannelName(userId1, teamId1);
-            assert.equal(LocalStorageStore.getPreviousChannelName(userId1, teamId1), channel2);
+            expect(LocalStorageStore.getPreviousChannelName(userId1, teamId1)).toEqual(channel2);
         });
     });
 
@@ -109,14 +107,14 @@ describe('stores/LocalStorageStore', () => {
             const channel2 = 'channel2';
 
             LocalStorageStore.setPreviousChannelName(userId1, teamId1, channel1);
-            assert.equal(LocalStorageStore.getPreviousChannelName(userId1, teamId1), channel1);
+            expect(LocalStorageStore.getPreviousChannelName(userId1, teamId1)).toEqual(channel1);
 
             LocalStorageStore.setPenultimateChannelName(userId1, teamId1, channel2);
-            assert.equal(LocalStorageStore.getPenultimateChannelName(userId1, teamId1), channel2);
+            expect(LocalStorageStore.getPenultimateChannelName(userId1, teamId1)).toEqual(channel2);
 
             LocalStorageStore.removePenultimateChannelName(userId1, teamId1);
-            assert.equal(LocalStorageStore.getPreviousChannelName(userId1, teamId1), channel1);
-            assert.equal(LocalStorageStore.getItem(getPenultimateChannelNameKey(userId1, teamId1)), undefined);
+            expect(LocalStorageStore.getPreviousChannelName(userId1, teamId1)).toEqual(channel1);
+            expect(LocalStorageStore.getItem(getPenultimateChannelNameKey(userId1, teamId1))).toEqual(null);
         });
     });
 });

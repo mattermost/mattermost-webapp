@@ -7,16 +7,16 @@ import store from 'stores/redux_store.jsx';
 import {getBasePath} from 'selectors/general';
 import {PreviousViewedTypes} from 'utils/constants';
 
-const getPreviousTeamIdKey = (userId) => ['user_prev_team', userId].join(':');
-const getPreviousChannelNameKey = (userId, teamId) => ['user_team_prev_channel', userId, teamId].join(':');
-const getPreviousViewedTypeKey = (userId, teamId) => ['user_team_prev_viewed_type', userId, teamId].join(':');
-const getPenultimateViewedTypeKey = (userId, teamId) => ['user_team_penultimate_viewed_type', userId, teamId].join(':');
-export const getPenultimateChannelNameKey = (userId, teamId) => ['user_team_penultimate_channel', userId, teamId].join(':');
-const getRecentEmojisKey = (userId) => ['recent_emojis', userId].join(':');
+const getPreviousTeamIdKey = (userId: string) => ['user_prev_team', userId].join(':');
+const getPreviousChannelNameKey = (userId: string | null, teamId: string) => ['user_team_prev_channel', userId, teamId].join(':');
+const getPreviousViewedTypeKey = (userId: string | null, teamId: string) => ['user_team_prev_viewed_type', userId, teamId].join(':');
+const getPenultimateViewedTypeKey = (userId: string, teamId: string) => ['user_team_penultimate_viewed_type', userId, teamId].join(':');
+export const getPenultimateChannelNameKey = (userId: string, teamId: string) => ['user_team_penultimate_channel', userId, teamId].join(':');
+const getRecentEmojisKey = (userId: string) => ['recent_emojis', userId].join(':');
 const getWasLoggedInKey = () => 'was_logged_in';
 const teamIdJoinedOnLoadKey = 'teamIdJoinedOnLoad';
 
-const getPathScopedKey = (path, key) => {
+const getPathScopedKey = (path: string, key: string) => {
     if (path === '' || path === '/') {
         return key;
     }
@@ -33,85 +33,85 @@ const getPathScopedKey = (path, key) => {
 // Lets open a separate issue to refactor local storage and state interactions.
 // This whole store can be connected to redux
 class LocalStorageStoreClass {
-    getItem(key, state = store.getState()) {
+    getItem(key: string, state = store.getState()) {
         const basePath = getBasePath(state);
 
         return localStorage.getItem(getPathScopedKey(basePath, key));
     }
 
-    setItem(key, value) {
+    setItem(key: string, value: string | null) {
         const state = store.getState();
         const basePath = getBasePath(state);
 
-        localStorage.setItem(getPathScopedKey(basePath, key), value);
+        localStorage.setItem(getPathScopedKey(basePath, key), value === null ? 'null' : value);
     }
 
-    getPreviousChannelName(userId, teamId, state = store.getState()) {
+    getPreviousChannelName(userId: string | null, teamId: string, state = store.getState()) {
         return this.getItem(getPreviousChannelNameKey(userId, teamId), state) || getRedirectChannelNameForTeam(state, teamId);
     }
 
-    getPreviousViewedType(userId, teamId, state = store.getState()) {
+    getPreviousViewedType(userId: string | null, teamId: string, state = store.getState()) {
         return this.getItem(getPreviousViewedTypeKey(userId, teamId), state) ?? PreviousViewedTypes.CHANNELS;
     }
 
-    removeItem(key) {
+    removeItem(key: string) {
         const state = store.getState();
         const basePath = getBasePath(state);
 
         localStorage.removeItem(getPathScopedKey(basePath, key));
     }
 
-    setPreviousChannelName(userId, teamId, channelName) {
+    setPreviousChannelName(userId: string, teamId: string, channelName: string) {
         this.setItem(getPreviousChannelNameKey(userId, teamId), channelName);
     }
 
-    setPreviousViewedType(userId, teamId, channelType) {
+    setPreviousViewedType(userId: string, teamId: string, channelType: string) {
         this.setItem(getPreviousViewedTypeKey(userId, teamId), channelType);
     }
 
-    getPenultimateViewedType(userId, teamId, state = store.getState()) {
+    getPenultimateViewedType(userId: string, teamId: string, state = store.getState()) {
         return this.getItem(getPenultimateViewedTypeKey(userId, teamId), state) ?? PreviousViewedTypes.CHANNELS;
     }
 
-    setPenultimateViewedType(userId, teamId, channelType) {
+    setPenultimateViewedType(userId: string, teamId: string, channelType: string) {
         this.setItem(getPenultimateViewedTypeKey(userId, teamId), channelType);
     }
-    getPenultimateChannelName(userId, teamId, state = store.getState()) {
+    getPenultimateChannelName(userId: string, teamId: string, state = store.getState()) {
         return this.getItem(getPenultimateChannelNameKey(userId, teamId), state) || getRedirectChannelNameForTeam(state, teamId);
     }
 
-    setPenultimateChannelName(userId, teamId, channelName) {
+    setPenultimateChannelName(userId: string, teamId: string, channelName: string) {
         this.setItem(getPenultimateChannelNameKey(userId, teamId), channelName);
     }
 
-    removePreviousChannelName(userId, teamId, state = store.getState()) {
+    removePreviousChannelName(userId: string, teamId: string, state = store.getState()) {
         this.setItem(getPreviousChannelNameKey(userId, teamId), this.getPenultimateChannelName(userId, teamId, state));
         this.removeItem(getPenultimateChannelNameKey(userId, teamId));
     }
 
-    removePreviousChannelType(userId, teamId, state = store.getStore()) {
+    removePreviousChannelType(userId: string, teamId: string, state = store.getStore()) {
         this.setItem(getPreviousViewedTypeKey(userId, teamId), this.getPenultimateViewedType(userId, teamId, state));
         this.removeItem(getPenultimateViewedTypeKey(userId, teamId));
     }
 
-    removePreviousChannel(userId, teamId, state = store.getStore()) {
+    removePreviousChannel(userId: string, teamId: string, state = store.getStore()) {
         this.removePreviousChannelName(userId, teamId, state);
         this.removePreviousChannelType(userId, teamId, state);
     }
 
-    removePenultimateChannelName(userId, teamId) {
+    removePenultimateChannelName(userId: string, teamId: string) {
         this.removeItem(getPenultimateChannelNameKey(userId, teamId));
     }
 
-    removePenultimateViewedType(userId, teamId) {
+    removePenultimateViewedType(userId: string, teamId: string) {
         this.removeItem(getPenultimateViewedTypeKey(userId, teamId));
     }
 
-    getPreviousTeamId(userId) {
+    getPreviousTeamId(userId: string) {
         return this.getItem(getPreviousTeamIdKey(userId));
     }
 
-    setPreviousTeamId(userId, teamId) {
+    setPreviousTeamId(userId: string, teamId: string) {
         this.setItem(getPreviousTeamIdKey(userId), teamId);
     }
 
@@ -127,7 +127,7 @@ class LocalStorageStoreClass {
      * // do something with the emoji list
      * }
      **/
-    getRecentEmojis(userId) {
+    getRecentEmojis(userId: string) {
         const recentEmojis = this.getItem(getRecentEmojisKey(userId));
         if (!recentEmojis) {
             return null;
@@ -140,11 +140,11 @@ class LocalStorageStoreClass {
         return this.getItem(teamIdJoinedOnLoadKey);
     }
 
-    setTeamIdJoinedOnLoad(teamId) {
+    setTeamIdJoinedOnLoad(teamId: string | null) {
         this.setItem(teamIdJoinedOnLoadKey, teamId);
     }
 
-    setWasLoggedIn(wasLoggedIn) {
+    setWasLoggedIn(wasLoggedIn: boolean) {
         if (wasLoggedIn) {
             this.setItem(getWasLoggedInKey(), 'true');
         } else {

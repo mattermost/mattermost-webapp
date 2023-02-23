@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import {PostTypes} from 'mattermost-redux/action_types';
 import {
     files as filesReducer,
@@ -13,7 +11,7 @@ import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 
 describe('reducers/entities/files', () => {
     describe('files', () => {
-        const testForSinglePost = (actionType) => () => {
+        const testForSinglePost = (actionType: string) => () => {
             it('no post metadata attribute', () => {
                 const state = deepFreeze({});
                 const action = {
@@ -25,7 +23,7 @@ describe('reducers/entities/files', () => {
 
                 const nextState = filesReducer(state, action);
 
-                assert.equal(nextState, state);
+                expect(nextState).toEqual(state);
             });
 
             it('empty post metadata attribute', () => {
@@ -40,7 +38,7 @@ describe('reducers/entities/files', () => {
 
                 const nextState = filesReducer(state, action);
 
-                assert.equal(nextState, state);
+                expect(nextState).toEqual(state);
             });
 
             it('no files in post metadata', () => {
@@ -57,7 +55,7 @@ describe('reducers/entities/files', () => {
 
                 const nextState = filesReducer(state, action);
 
-                assert.equal(nextState, state);
+                expect(nextState).toEqual(state);
             });
 
             it('should save files', () => {
@@ -74,8 +72,8 @@ describe('reducers/entities/files', () => {
 
                 const nextState = filesReducer(state, action);
 
-                assert.notEqual(nextState, state);
-                assert.deepEqual(nextState, {
+                expect(nextState).not.toEqual(state);
+                expect(nextState).toEqual({
                     file1: {id: 'file1', post_id: 'post'},
                     file2: {id: 'file2', post_id: 'post'},
                 });
@@ -105,8 +103,8 @@ describe('reducers/entities/files', () => {
 
                 const nextState = filesReducer(state, action);
 
-                assert.notStrictEqual(nextState, state);
-                assert.deepStrictEqual(nextState, {
+                expect(nextState).not.toEqual(state);
+                expect(nextState).toEqual({
                     file1: {id: 'file1', post_id: 'post'},
                     file2: {id: 'file2', post_id: 'post'},
                 });
@@ -132,7 +130,7 @@ describe('reducers/entities/files', () => {
 
                 const nextState = filesReducer(state, action);
 
-                assert.equal(nextState, state);
+                expect(nextState).toEqual(state);
             });
 
             it('no files in post metadata', () => {
@@ -151,7 +149,7 @@ describe('reducers/entities/files', () => {
 
                 const nextState = filesReducer(state, action);
 
-                assert.equal(nextState, state);
+                expect(nextState).toEqual(state);
             });
 
             it('should save files', () => {
@@ -172,8 +170,8 @@ describe('reducers/entities/files', () => {
 
                 const nextState = filesReducer(state, action);
 
-                assert.notEqual(nextState, state);
-                assert.deepEqual(nextState, {
+                expect(nextState).not.toEqual(state);
+                expect(nextState).toEqual({
                     file1: {id: 'file1', post_id: 'post'},
                     file2: {id: 'file2', post_id: 'post'},
                 });
@@ -203,8 +201,8 @@ describe('reducers/entities/files', () => {
 
                 const nextState = filesReducer(state, action);
 
-                assert.notEqual(nextState, state);
-                assert.deepEqual(nextState, {
+                expect(nextState).not.toEqual(state);
+                expect(nextState).toEqual({
                     file1: {id: 'file1', post_id: 'post1'},
                     file2: {id: 'file2', post_id: 'post1'},
                     file3: {id: 'file3', post_id: 'post2'},
@@ -256,8 +254,8 @@ describe('reducers/entities/files', () => {
 
                 const nextState = filesReducer(state, action);
 
-                assert.notStrictEqual(nextState, state);
-                assert.deepStrictEqual(nextState, {
+                expect(nextState).not.toEqual(state);
+                expect(nextState).toEqual({
                     file1: {id: 'file1', post_id: 'post'},
                     file2: {id: 'file2', post_id: 'post'},
                     file3: {id: 'file3', post_id: 'post'},
@@ -277,14 +275,14 @@ describe('reducers/entities/files', () => {
             },
         };
         const nextState = filesFromSearchReducer(state, action);
-        assert.deepEqual(nextState, {
+        expect(nextState).toEqual({
             file1: {id: 'file1', post_id: 'post'},
             file2: {id: 'file2', post_id: 'post'},
         });
     });
 
     describe('fileIdsByPostId', () => {
-        const testForSinglePost = (actionType) => () => {
+        const testForSinglePost = (actionType: string) => () => {
             describe('no post metadata', () => {
                 const action = {
                     type: actionType,
@@ -297,7 +295,7 @@ describe('reducers/entities/files', () => {
                     const state = deepFreeze({});
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.equal(nextState, state);
+                    expect(nextState).toEqual(state);
                 });
 
                 it('with previous state', () => {
@@ -306,7 +304,7 @@ describe('reducers/entities/files', () => {
                     });
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.equal(nextState, state);
+                    expect(nextState).toEqual(state);
                 });
             });
 
@@ -323,7 +321,7 @@ describe('reducers/entities/files', () => {
                     const state = deepFreeze({});
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.equal(nextState, state);
+                    expect(nextState).toEqual(state);
                 });
 
                 it('with previous state', () => {
@@ -332,7 +330,7 @@ describe('reducers/entities/files', () => {
                     });
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.equal(nextState, state);
+                    expect(nextState).toEqual(state);
                 });
             });
 
@@ -351,8 +349,8 @@ describe('reducers/entities/files', () => {
                     const state = deepFreeze({});
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.notEqual(nextState, state);
-                    assert.deepEqual(nextState, {
+                    expect(nextState).not.toEqual(state);
+                    expect(nextState).toEqual({
                         post: [],
                     });
                 });
@@ -363,8 +361,8 @@ describe('reducers/entities/files', () => {
                     });
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.notEqual(nextState, state);
-                    assert.deepEqual(nextState, {
+                    expect(nextState).not.toEqual(state);
+                    expect(nextState).toEqual({
                         post: [],
                     });
                 });
@@ -385,8 +383,8 @@ describe('reducers/entities/files', () => {
                     const state = deepFreeze({});
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.notEqual(nextState, state);
-                    assert.deepEqual(nextState, {
+                    expect(nextState).not.toEqual(state);
+                    expect(nextState).toEqual({
                         post: ['file1', 'file2'],
                     });
                 });
@@ -397,8 +395,8 @@ describe('reducers/entities/files', () => {
                     });
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.notEqual(nextState, state);
-                    assert.deepEqual(nextState, {
+                    expect(nextState).not.toEqual(state);
+                    expect(nextState).toEqual({
                         post: ['file1', 'file2'],
                     });
                 });
@@ -429,8 +427,8 @@ describe('reducers/entities/files', () => {
                     const state = deepFreeze({});
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.notStrictEqual(nextState, state);
-                    assert.deepStrictEqual(nextState, {
+                    expect(nextState).not.toEqual(state);
+                    expect(nextState).toEqual({
                         post: ['file1', 'file2'],
                     });
                 });
@@ -441,9 +439,8 @@ describe('reducers/entities/files', () => {
                     });
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.notStrictEqual(nextState, state);
-                    assert.deepStrictEqual(nextState, {
-
+                    expect(nextState).not.toEqual(state);
+                    expect(nextState).toEqual({
                         post: ['file1', 'file2'],
                     });
                 });
@@ -470,7 +467,7 @@ describe('reducers/entities/files', () => {
                     const state = deepFreeze({});
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.equal(nextState, state);
+                    expect(nextState).toEqual(state);
                 });
 
                 it('with previous state', () => {
@@ -479,7 +476,7 @@ describe('reducers/entities/files', () => {
                     });
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.equal(nextState, state);
+                    expect(nextState).toEqual(state);
                 });
             });
 
@@ -500,7 +497,7 @@ describe('reducers/entities/files', () => {
                     const state = deepFreeze({});
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.equal(nextState, state);
+                    expect(nextState).toEqual(state);
                 });
 
                 it('with previous state', () => {
@@ -509,7 +506,7 @@ describe('reducers/entities/files', () => {
                     });
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.equal(nextState, state);
+                    expect(nextState).toEqual(state);
                 });
             });
 
@@ -532,8 +529,8 @@ describe('reducers/entities/files', () => {
                     const state = deepFreeze({});
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.notEqual(nextState, state);
-                    assert.deepEqual(nextState, {
+                    expect(nextState).not.toEqual(state);
+                    expect(nextState).toEqual({
                         post: [],
                     });
                 });
@@ -544,8 +541,8 @@ describe('reducers/entities/files', () => {
                     });
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.notEqual(nextState, state);
-                    assert.deepEqual(nextState, {
+                    expect(nextState).not.toEqual(state);
+                    expect(nextState).toEqual({
                         post: [],
                     });
                 });
@@ -570,8 +567,8 @@ describe('reducers/entities/files', () => {
                     const state = deepFreeze({});
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.notEqual(nextState, state);
-                    assert.deepEqual(nextState, {
+                    expect(nextState).not.toEqual(state);
+                    expect(nextState).toEqual({
                         post: ['file1', 'file2'],
                     });
                 });
@@ -582,8 +579,8 @@ describe('reducers/entities/files', () => {
                     });
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.notEqual(nextState, state);
-                    assert.deepEqual(nextState, {
+                    expect(nextState).not.toEqual(state);
+                    expect(nextState).toEqual({
                         post: ['file1', 'file2'],
                     });
                 });
@@ -619,8 +616,8 @@ describe('reducers/entities/files', () => {
                     const state = deepFreeze({});
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.notStrictEqual(nextState, state);
-                    assert.deepStrictEqual(nextState, {
+                    expect(nextState).not.toEqual(state);
+                    expect(nextState).toEqual({
                         post: ['file1', 'file2'],
                     });
                 });
@@ -631,8 +628,8 @@ describe('reducers/entities/files', () => {
                     });
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.notStrictEqual(nextState, state);
-                    assert.deepStrictEqual(nextState, {
+                    expect(nextState).not.toEqual(state);
+                    expect(nextState).toEqual({
                         post: ['file1', 'file2'],
                     });
                 });
@@ -665,8 +662,8 @@ describe('reducers/entities/files', () => {
                     });
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.notEqual(nextState, state);
-                    assert.deepEqual(nextState, {
+                    expect(nextState).not.toEqual(state);
+                    expect(nextState).toEqual({
                         post1: ['file1', 'file2'],
                         post2: ['file3', 'file4'],
                     });
@@ -679,8 +676,8 @@ describe('reducers/entities/files', () => {
                     });
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.notEqual(nextState, state);
-                    assert.deepEqual(nextState, {
+                    expect(nextState).not.toEqual(state);
+                    expect(nextState).toEqual({
                         post1: ['file1', 'file2'],
                         post2: ['file3', 'file4'],
                     });
@@ -734,8 +731,8 @@ describe('reducers/entities/files', () => {
                     });
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.notStrictEqual(nextState, state);
-                    assert.deepStrictEqual(nextState, {
+                    expect(nextState).not.toEqual(state);
+                    expect(nextState).toEqual({
                         post1: ['file1', 'file2'],
                         post2: ['file3', 'file4'],
                     });
@@ -748,8 +745,8 @@ describe('reducers/entities/files', () => {
                     });
                     const nextState = fileIdsByPostIdReducer(state, action);
 
-                    assert.notStrictEqual(nextState, state);
-                    assert.deepStrictEqual(nextState, {
+                    expect(nextState).not.toEqual(state);
+                    expect(nextState).toEqual({
                         post1: ['file1', 'file2'],
                         post2: ['file3', 'file4'],
                     });

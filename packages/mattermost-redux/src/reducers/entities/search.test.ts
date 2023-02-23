@@ -1,29 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import {
     PostTypes,
     SearchTypes,
     UserTypes,
 } from 'mattermost-redux/action_types';
+import {GenericAction} from 'mattermost-redux/types/actions';
 import reducer from 'mattermost-redux/reducers/entities/search';
+
+type SearchState = ReturnType<typeof reducer>;
 
 describe('reducers.entities.search', () => {
     describe('results', () => {
         it('initial state', () => {
             const inputState = undefined; // eslint-disable-line no-undef
             const action = {};
-            const expectedState = [];
+            const expectedState: any = [];
 
-            const actualState = reducer({results: inputState}, action);
-            assert.deepEqual(actualState.results, expectedState);
+            const actualState = reducer({results: inputState} as SearchState, action as GenericAction);
+            expect(actualState.results).toEqual(expectedState);
         });
 
         describe('SearchTypes.RECEIVED_SEARCH_POSTS', () => {
             it('first results received', () => {
-                const inputState = [];
+                const inputState: string[] = [];
                 const action = {
                     type: SearchTypes.RECEIVED_SEARCH_POSTS,
                     data: {
@@ -36,8 +37,8 @@ describe('reducers.entities.search', () => {
                 };
                 const expectedState = ['abcd', 'efgh'];
 
-                const actualState = reducer({results: inputState}, action);
-                assert.deepEqual(actualState.results, expectedState);
+                const actualState = reducer({results: inputState} as SearchState, action);
+                expect(actualState.results).toEqual(expectedState);
             });
 
             it('multiple results received', () => {
@@ -54,8 +55,8 @@ describe('reducers.entities.search', () => {
                 };
                 const expectedState = ['abcd', 'efgh'];
 
-                const actualState = reducer({results: inputState}, action);
-                assert.deepEqual(actualState.results, expectedState);
+                const actualState = reducer({results: inputState} as SearchState, action);
+                expect(actualState.results).toEqual(expectedState);
             });
         });
 
@@ -70,8 +71,8 @@ describe('reducers.entities.search', () => {
                 };
                 const expectedState = ['abcd'];
 
-                const actualState = reducer({results: inputState}, action);
-                assert.deepEqual(actualState.results, expectedState);
+                const actualState = reducer({results: inputState} as SearchState, action);
+                expect(actualState.results).toEqual(expectedState);
             });
 
             it('post not in results', () => {
@@ -84,9 +85,9 @@ describe('reducers.entities.search', () => {
                 };
                 const expectedState = ['abcd', 'efgh'];
 
-                const actualState = reducer({results: inputState}, action);
-                assert.deepEqual(actualState.results, expectedState);
-                assert.equal(actualState.results, inputState);
+                const actualState = reducer({results: inputState} as SearchState, action);
+                expect(actualState.results).toEqual(expectedState);
+                expect(actualState.results).toEqual(inputState);
             });
         });
 
@@ -95,10 +96,10 @@ describe('reducers.entities.search', () => {
             const action = {
                 type: SearchTypes.REMOVE_SEARCH_POSTS,
             };
-            const expectedState = [];
+            const expectedState: string[] = [];
 
-            const actualState = reducer({results: inputState}, action);
-            assert.deepEqual(actualState.results, expectedState);
+            const actualState = reducer({results: inputState} as SearchState, action);
+            expect(actualState.results).toEqual(expectedState);
         });
 
         describe('UserTypes.LOGOUT_SUCCESS', () => {
@@ -106,10 +107,10 @@ describe('reducers.entities.search', () => {
             const action = {
                 type: UserTypes.LOGOUT_SUCCESS,
             };
-            const expectedState = [];
+            const expectedState: string[] = [];
 
-            const actualState = reducer({results: inputState}, action);
-            assert.deepEqual(actualState.results, expectedState);
+            const actualState = reducer({results: inputState} as SearchState, action);
+            expect(actualState.results).toEqual(expectedState);
         });
     });
 
@@ -117,15 +118,15 @@ describe('reducers.entities.search', () => {
         it('initial state', () => {
             const inputState = undefined; // eslint-disable-line no-undef
             const action = {};
-            const expectedState = [];
+            const expectedState: string[] = [];
 
-            const actualState = reducer({fileResults: inputState}, action);
-            assert.deepEqual(actualState.fileResults, expectedState);
+            const actualState = reducer({fileResults: inputState} as SearchState, action as GenericAction);
+            expect(actualState.fileResults).toEqual(expectedState);
         });
 
         describe('SearchTypes.RECEIVED_SEARCH_POSTS', () => {
             it('first file results received', () => {
-                const inputState = [];
+                const inputState: string[] = [];
                 const action = {
                     type: SearchTypes.RECEIVED_SEARCH_FILES,
                     data: {
@@ -138,8 +139,8 @@ describe('reducers.entities.search', () => {
                 };
                 const expectedState = ['abcd', 'efgh'];
 
-                const actualState = reducer({fileResults: inputState}, action);
-                assert.deepEqual(actualState.fileResults, expectedState);
+                const actualState = reducer({fileResults: inputState} as SearchState, action);
+                expect(actualState.fileResults).toEqual(expectedState);
             });
 
             it('multiple file results received', () => {
@@ -156,8 +157,8 @@ describe('reducers.entities.search', () => {
                 };
                 const expectedState = ['abcd', 'efgh'];
 
-                const actualState = reducer({fileResults: inputState}, action);
-                assert.deepEqual(actualState.fileResults, expectedState);
+                const actualState = reducer({fileResults: inputState} as SearchState, action);
+                expect(actualState.fileResults).toEqual(expectedState);
             });
         });
 
@@ -166,10 +167,10 @@ describe('reducers.entities.search', () => {
             const action = {
                 type: SearchTypes.REMOVE_SEARCH_FILES,
             };
-            const expectedState = [];
+            const expectedState: string[] = [];
 
-            const actualState = reducer({fileResults: inputState}, action);
-            assert.deepEqual(actualState.fileResults, expectedState);
+            const actualState = reducer({fileResults: inputState} as SearchState, action);
+            expect(actualState.fileResults).toEqual(expectedState);
         });
 
         describe('UserTypes.LOGOUT_SUCCESS', () => {
@@ -177,10 +178,10 @@ describe('reducers.entities.search', () => {
             const action = {
                 type: UserTypes.LOGOUT_SUCCESS,
             };
-            const expectedState = [];
+            const expectedState: string[] = [];
 
-            const actualState = reducer({fileResults: inputState}, action);
-            assert.deepEqual(actualState.fileResults, expectedState);
+            const actualState = reducer({fileResults: inputState} as SearchState, action);
+            expect(actualState.fileResults).toEqual(expectedState);
         });
     });
 
@@ -190,8 +191,8 @@ describe('reducers.entities.search', () => {
             const action = {};
             const expectedState = {};
 
-            const actualState = reducer({matches: inputState}, action);
-            assert.deepEqual(actualState.matches, expectedState);
+            const actualState = reducer({matches: inputState} as SearchState, action as GenericAction);
+            expect(actualState.matches).toEqual(expectedState);
         });
 
         describe('SearchTypes.RECEIVED_SEARCH_POSTS', () => {
@@ -209,8 +210,8 @@ describe('reducers.entities.search', () => {
                 };
                 const expectedState = {};
 
-                const actualState = reducer({matches: inputState}, action);
-                assert.deepEqual(actualState.matches, expectedState);
+                const actualState = reducer({matches: inputState} as SearchState, action);
+                expect(actualState.matches).toEqual(expectedState);
             });
 
             it('first results received', () => {
@@ -234,8 +235,8 @@ describe('reducers.entities.search', () => {
                     efgh: ['tests'],
                 };
 
-                const actualState = reducer({matches: inputState}, action);
-                assert.deepEqual(actualState.matches, expectedState);
+                const actualState = reducer({matches: inputState} as SearchState, action);
+                expect(actualState.matches).toEqual(expectedState);
             });
 
             it('multiple results received', () => {
@@ -262,8 +263,8 @@ describe('reducers.entities.search', () => {
                     efgh: ['tests'],
                 };
 
-                const actualState = reducer({matches: inputState}, action);
-                assert.deepEqual(actualState.matches, expectedState);
+                const actualState = reducer({matches: inputState} as SearchState, action);
+                expect(actualState.matches).toEqual(expectedState);
             });
         });
 
@@ -283,8 +284,8 @@ describe('reducers.entities.search', () => {
                     abcd: ['test', 'testing'],
                 };
 
-                const actualState = reducer({matches: inputState}, action);
-                assert.deepEqual(actualState.matches, expectedState);
+                const actualState = reducer({matches: inputState} as SearchState, action);
+                expect(actualState.matches).toEqual(expectedState);
             });
 
             it('post not in results', () => {
@@ -303,9 +304,9 @@ describe('reducers.entities.search', () => {
                     efgh: ['tests'],
                 };
 
-                const actualState = reducer({matches: inputState}, action);
-                assert.deepEqual(actualState.matches, expectedState);
-                assert.equal(actualState.matches, inputState);
+                const actualState = reducer({matches: inputState} as SearchState, action);
+                expect(actualState.matches).toEqual(expectedState);
+                expect(actualState.matches).toEqual(inputState);
             });
         });
 
@@ -319,8 +320,8 @@ describe('reducers.entities.search', () => {
             };
             const expectedState = {};
 
-            const actualState = reducer({matches: inputState}, action);
-            assert.deepEqual(actualState.matches, expectedState);
+            const actualState = reducer({matches: inputState} as SearchState, action);
+            expect(actualState.matches).toEqual(expectedState);
         });
 
         describe('UserTypes.LOGOUT_SUCCESS', () => {
@@ -333,8 +334,8 @@ describe('reducers.entities.search', () => {
             };
             const expectedState = {};
 
-            const actualState = reducer({matches: inputState}, action);
-            assert.deepEqual(actualState.matches, expectedState);
+            const actualState = reducer({matches: inputState} as SearchState, action);
+            expect(actualState.matches).toEqual(expectedState);
         });
     });
 
@@ -352,8 +353,8 @@ describe('reducers.entities.search', () => {
                 },
             };
 
-            const actualState = reducer({pinned: inputState}, action);
-            assert.deepEqual(actualState.pinned, inputState);
+            const actualState = reducer({pinned: inputState} as unknown as SearchState, action);
+            expect(actualState.pinned).toEqual(inputState);
         });
     });
 });

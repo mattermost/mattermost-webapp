@@ -1,13 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import reducerRegistry from 'mattermost-redux/store/reducer_registry';
-import configureStore from 'mattermost-redux/test/test_store';
+import configureStore from '../../test/test_store';
 
 describe('ReducerRegistry', () => {
-    let store;
+    let store = configureStore();
 
     function testReducer() {
         return 'teststate';
@@ -19,13 +17,13 @@ describe('ReducerRegistry', () => {
 
     it('register reducer', () => {
         reducerRegistry.register('testReducer', testReducer);
-        assert.equal(store.getState().testReducer, 'teststate');
+        expect(store.getState().testReducer).toBe('teststate');
     });
 
     it('get reducers', () => {
         reducerRegistry.register('testReducer', testReducer);
         const reducers = reducerRegistry.getReducers();
-        assert.ok(reducers.testReducer);
+        expect(reducers.testReducer).toBeTruthy();
     });
 });
 
