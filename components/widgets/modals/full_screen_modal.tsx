@@ -22,6 +22,7 @@ type Props = {
     ariaLabelledBy?: string;
     intl: any; // TODO This needs to be replaced with IntlShape once react-intl is upgraded
     overrideTargetEvent?: boolean;
+    ignoreExit?: boolean;
 };
 
 class FullScreenModal extends React.PureComponent<Props> {
@@ -48,6 +49,10 @@ class FullScreenModal extends React.PureComponent<Props> {
     }
 
     private handleKeypress = (e: KeyboardEvent) => {
+        if (this.props.ignoreExit !== undefined && this.props.ignoreExit && e.key === 'Escape') {
+            return;
+        }
+
         const currentActiveElement = document.activeElement;
         if (!this.props.overrideTargetEvent && e.key === 'Escape' && this.props.show && e.target && this.modal.current && this.modal.current.contains(currentActiveElement)) {
             this.close();
