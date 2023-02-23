@@ -1,19 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import timeouts from '../../fixtures/timeouts';
+
 /* eslint-disable cypress/no-unnecessary-waiting */
 Cypress.Commands.add('uiCreateBoard', (item) => {
     cy.log(`Create new board: ${item}`);
 
     cy.uiAddBoard('Create new board');
     cy.contains(item).click();
-    cy.contains('Use this template').click({force: true}).wait(1000);
+    cy.contains('Use this template').click({force: true}).wait(timeouts.ONE_SEC);
 });
 
 Cypress.Commands.add('uiCreateEmptyBoard', () => {
     cy.log('Create new empty board');
 
-    cy.contains('Create an empty board').click({force: true}).wait(1000);
+    cy.contains('Create an empty board').click({force: true}).wait(timeouts.ONE_SEC);
 });
 
 Cypress.Commands.add('uiAddBoard', (item) => {
@@ -29,14 +31,14 @@ Cypress.Commands.add('uiCreateNewBoard', (title) => {
     cy.log('**Create new empty board**');
     cy.uiCreateEmptyBoard();
 
-    cy.findByPlaceholderText('Untitled board').should('exist');
-    cy.wait(10);
+    cy.findByPlaceholderText('Untitled board').should('be.visible');
+    cy.wait(timeouts.QUARTER_SEC);
     if (title) {
         cy.log('**Rename board**');
         cy.findByPlaceholderText('Untitled board').type(`${title}{enter}`);
         cy.findByRole('textbox', {name: title}).should('exist');
     }
-    cy.wait(500);
+    cy.wait(timeouts.HALF_SEC);
 });
 
 Cypress.Commands.add('uiAddNewGroup', (name) => {
@@ -49,7 +51,7 @@ Cypress.Commands.add('uiAddNewGroup', (name) => {
         cy.findByRole('textbox', {name: 'New group'}).type(`{selectall}${name}{enter}`);
         cy.findByRole('textbox', {name}).should('exist');
     }
-    cy.wait(500);
+    cy.wait(timeouts.HALF_SEC);
 });
 
 Cypress.Commands.add('uiAddNewCard', (title, columnIndex) => {

@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @boards
 
+import timeouts from '../../fixtures/timeouts';
+
 describe('Create and delete board / card', () => {
     const timestamp = new Date().toLocaleString();
     const boardTitle = `Test Board (${timestamp})`;
@@ -35,10 +37,11 @@ describe('Create and delete board / card', () => {
         // Create empty board
         cy.findByText('Create an empty board').should('exist').click({force: true});
         cy.get('.BoardComponent').should('exist');
-        cy.get('.Editable.title').invoke('attr', 'placeholder').should('contain', 'Untitled board');
 
         // Change Title
-        cy.get('.Editable.title').
+        cy.findByPlaceholderText('Untitled board').should('be.visible').wait(timeouts.HALF_SEC).as('editableTitle');
+        cy.get('@editableTitle').should('be.visible').
+            clear().
             type('Testing').
             type('{enter}').
             should('have.value', 'Testing');
@@ -172,7 +175,7 @@ describe('Create and delete board / card', () => {
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.get('.Kanban').
             trigger('dragover', {clientX: 400, clientY: Cypress.config().viewportHeight / 2}).
-            wait(5000).
+            wait(timeouts.TEN_SEC).
             trigger('dragend');
 
         cy.get('.Kanban').invoke('scrollLeft').should('equal', 0);
