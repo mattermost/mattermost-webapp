@@ -50,7 +50,7 @@ import PasswordInput from 'components/widgets/inputs/password_input/password_inp
 import SaveButton from 'components/save_button';
 
 import {Constants, ItemStatus, ValidationErrors} from 'utils/constants';
-import {isValidUsername, isValidPassword, getPasswordConfig, getRoleFromTrackFlow, getMediumFromTrackFlow} from 'utils/utils';
+import {isValidUsername, isValidPassword, getPasswordConfig, getRoleFromTrackFlow, getMediumFromTrackFlow, getSbr} from 'utils/utils';
 
 import './signup.scss';
 
@@ -97,6 +97,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         CustomBrandText,
         TermsOfServiceLink,
         PrivacyPolicyLink,
+        DiagnosticId,
     } = config;
     const {IsLicensed} = useSelector(getLicense);
     const loggedIn = Boolean(useSelector(getCurrentUserId));
@@ -281,6 +282,8 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
 
     useEffect(() => {
         dispatch(removeGlobalItem('team'));
+        sendFirstAdminUserTelemetryEvents('landing_on_create_account_page');
+
         trackEvent('signup', 'signup_user_01_welcome', {...getRoleFromTrackFlow(), ...getMediumFromTrackFlow()});
 
         onWindowResize();
@@ -455,6 +458,13 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         }
     };
 
+    function sendFirstAdminUserTelemetryEvents(errorId: string) {
+        const sbr = getSbr();
+        if (!sbr) {
+            trackEvent('create_account_first_admin', errorId, {serverId: DiagnosticId});
+        }
+    }
+
     const isUserValid = () => {
         let isValid = true;
 
@@ -462,9 +472,11 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
 
         if (!providedEmail) {
             setEmailError(formatMessage({id: 'signup_user_completed.required', defaultMessage: 'This field is required'}));
+            sendFirstAdminUserTelemetryEvents('not_email_provided_when_trying_to_create_account');
             isValid = false;
         } else if (!isEmail(providedEmail)) {
             setEmailError(formatMessage({id: 'signup_user_completed.validEmail', defaultMessage: 'Please enter a valid email address'}));
+            sendFirstAdminUserTelemetryEvents('provided_email_is_not_a_valid_email');
             isValid = false;
         }
 
@@ -474,10 +486,12 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
             const usernameError = isValidUsername(providedUsername);
 
             if (usernameError) {
-                setNameError(usernameError.id === ValidationErrors.RESERVED_NAME ? (
-                    formatMessage({id: 'signup_user_completed.reserved', defaultMessage: 'This username is reserved, please choose a new one.'})
-                ) : (
-                    formatMessage(
+                let nameError = '';
+                if (usernameError.id === ValidationErrors.RESERVED_NAME) {
+                    sendFirstAdminUserTelemetryEvents('provided_username_reserved_name');
+                    nameError = formatMessage({id: 'signup_user_completed.reserved', defaultMessage: 'This username is reserved, please choose a new one.'})
+                } else {
+                    nameError = formatMessage(
                         {
                             id: 'signup_user_completed.usernameLength',
                             defaultMessage: 'Usernames have to begin with a lowercase letter and be {min}-{max} characters long. You can use lowercase letters, numbers, periods, dashes, and underscores.',
@@ -486,20 +500,24 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                             min: Constants.MIN_USERNAME_LENGTH,
                             max: Constants.MAX_USERNAME_LENGTH,
                         },
-                    )
-                ));
+                    );
+                    sendFirstAdminUserTelemetryEvents('provided_username_format_error');
+                }
+                setNameError(nameError);
                 isValid = false;
             }
         } else {
             setNameError(formatMessage({id: 'signup_user_completed.required', defaultMessage: 'This field is required'}));
+            sendFirstAdminUserTelemetryEvents('not_provided_user_name_when_trying_to_create_account');
             isValid = false;
         }
 
         const providedPassword = passwordInput.current?.value ?? '';
-        const {error} = isValidPassword(providedPassword, getPasswordConfig(config), intl);
+        const {error, errorId} = isValidPassword(providedPassword, getPasswordConfig(config), intl);
 
         if (error) {
             setPasswordError(error as string);
+            sendFirstAdminUserTelemetryEvents(`password_error_${errorId}`);
             isValid = false;
         }
 
@@ -513,6 +531,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const handleSubmit = async (e: React.MouseEvent | React.KeyboardEvent) => {
         e.preventDefault();
         trackEvent('signup_email', 'click_create_account', getRoleFromTrackFlow());
+        sendFirstAdminUserTelemetryEvents('click_create_account');
         setIsWaiting(true);
 
         if (isUserValid()) {

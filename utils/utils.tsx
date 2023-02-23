@@ -1427,7 +1427,7 @@ export function isValidPassword(password: string, passwordConfig: ReturnType<typ
         );
     }
 
-    return {valid, error};
+    return {valid, error, errorId};
 }
 
 function isChannelOrPermalink(link: string) {
@@ -1825,9 +1825,14 @@ export function getRoleForTrackFlow() {
     return {started_by_role: startedByRole};
 }
 
-export function getRoleFromTrackFlow() {
+export function getSbr() {
     const params = new URLSearchParams(window.location.search);
     const sbr = params.get('sbr') ?? '';
+    return sbr;
+}
+
+export function getRoleFromTrackFlow() {
+    const sbr = getSbr();
     const startedByRole = TrackFlowRoles[sbr] ?? '';
 
     return {started_by_role: startedByRole};
