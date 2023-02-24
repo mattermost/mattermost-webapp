@@ -68,9 +68,14 @@ export function unregisterPluginTranslationsSource(pluginId: string) {
 export function loadTranslations(locale: string, url: string) {
     return async (dispatch: DispatchFunc) => {
         const translations = {...en};
-        Object.values(pluginTranslationSources).forEach(async (pluginFunc) => {
-            Object.assign(translations, await pluginFunc(locale));
-        });
+
+        const ps = [];
+        for (const pluginFunc of Object.values(pluginTranslationSources)) {
+            ps.push(pluginFunc(locale));
+        }
+        for (const pluginTranslations of await Promise.all(ps)) {
+            Object.assign(translations, pluginTranslations);
+        }
 
         // Need to go to the server for languages other than English
         if (locale !== 'en') {
