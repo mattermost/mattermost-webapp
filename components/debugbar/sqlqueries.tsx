@@ -79,6 +79,18 @@ function SQLQueries({filter, height}: Props) {
                         args={viewQuery.args}
                         inline={false}
                     />
+                    <h3>Raw query:</h3>
+                    <Code
+                        code={viewQuery.query}
+                        language='sql'
+                        inline={false}
+                    />
+                    <h3>Args:</h3>
+                    <Code
+                        code={JSON.stringify(viewQuery.args, null, 4)}
+                        language='json'
+                        inline={false}
+                    />
                     <h3>Explain:</h3>
                     <Code
                         code={explain}

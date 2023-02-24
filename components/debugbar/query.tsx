@@ -17,12 +17,19 @@ function Sql({query, args, inline}: Props) {
             /\$\b\d\b/gm,
             (pl: string) => {
                 const index = Number(pl.replace('$', ''));
-                if (args?.length && args[index - 1]) {
+                if (args?.length && args[index - 1] !== undefined) {
                     const val = args[index - 1];
-                    if (isNaN(Number(val))) {
-                        if (val === 'true' || val === 'false') {
-                            return val;
+                    if (typeof val === 'number') {
+                        return val;
+                    }
+                    if (typeof val === 'boolean') {
+                        if (val) {
+                            return 'true';
+                        } else{
+                            return 'false';
                         }
+                    }
+                    if (typeof val === 'string') {
                         return `"${val}"`;
                     }
                     return val;
