@@ -3,11 +3,14 @@
 
 import emojiRegex from 'emoji-regex';
 
+import EmojiMap from 'utils/emoji_map';
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
 
 import {formatText, autolinkAtMentions, highlightSearchTerms, handleUnicodeEmoji, parseSearchTerms} from 'utils/text_formatting';
 import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
+
+const emptyEmojiMap = new EmojiMap(new Map());
 
 describe('formatText', () => {
     test('jumbo emoji should be able to handle up to 3 spaces before the emoji character', () => {
@@ -16,18 +19,18 @@ describe('formatText', () => {
 
         for (let i = 0; i < 3; i++) {
             spaces += ' ';
-            const output = formatText(`${spaces}${emoji}`, {});
+            const output = formatText(`${spaces}${emoji}`, {}, emptyEmojiMap);
             expect(output).toBe(`<span class="all-emoji"><p>${spaces}<span data-emoticon="slightly_smiling_face">${emoji}</span></p></span>`);
         }
     });
 
     test('code blocks newlines are not converted into <br/> with inline markdown image in the post', () => {
-        const output = formatText('```\nsome text\nsecond line\n```\n ![](https://example.com/image.png)');
+        const output = formatText('```\nsome text\nsecond line\n```\n ![](https://example.com/image.png)', {}, emptyEmojiMap);
         expect(output).not.toContain('<br/>');
     });
 
     test('newlines in post text are converted into <br/> with inline markdown image in the post', () => {
-        const output = formatText('some text\nand some more ![](https://example.com/image.png)');
+        const output = formatText('some text\nand some more ![](https://example.com/image.png)', {}, emptyEmojiMap);
         expect(output).toContain('<br/>');
     });
 });
@@ -169,7 +172,7 @@ describe('highlightSearchTerms', () => {
 
         const output = highlightSearchTerms(text, tokens, searchPatterns);
         expect(output).toBe('$MM_SEARCHTERM1$');
-        expect(tokens.get('$MM_SEARCHTERM1$').value).toBe('<span class="search-highlight">$MM_HASHTAG0$</span>');
+        expect(tokens.get('$MM_SEARCHTERM1$')!.value).toBe('<span class="search-highlight">$MM_HASHTAG0$</span>');
     });
 });
 
@@ -223,7 +226,7 @@ describe('handleUnicodeEmoji', () => {
     }
 
     test('without emojiMap, should work as unsupported emoji', () => {
-        const output = handleUnicodeEmoji('👍', undefined, UNICODE_EMOJI_REGEX);
+        const output = handleUnicodeEmoji('👍', undefined as unknown as EmojiMap, UNICODE_EMOJI_REGEX);
         expect(output).toBe('<span class="emoticon emoticon--unicode">👍</span>');
     });
 });
@@ -232,21 +235,21 @@ describe('linkOnlyMarkdown', () => {
     const options = {markdown: false, renderer: new LinkOnlyRenderer()};
     test('link without a title', () => {
         const text = 'Do you like https://www.mattermost.com?';
-        const output = formatText(text, options);
+        const output = formatText(text, options, emptyEmojiMap);
         expect(output).toBe(
             'Do you like <a class="theme markdown__link" href="https://www.mattermost.com" target="_blank">' +
             'https://www.mattermost.com</a>?');
     });
     test('link with a title', () => {
         const text = 'Do you like [Mattermost](https://www.mattermost.com)?';
-        const output = formatText(text, options);
+        const output = formatText(text, options, emptyEmojiMap);
         expect(output).toBe(
             'Do you like <a class="theme markdown__link" href="https://www.mattermost.com" target="_blank">' +
             'Mattermost</a>?');
     });
     test('link with header signs to skip', () => {
         const text = '#### Do you like [Mattermost](https://www.mattermost.com)?';
-        const output = formatText(text, options);
+        const output = formatText(text, options, emptyEmojiMap);
         expect(output).toBe(
             'Do you like <a class="theme markdown__link" href="https://www.mattermost.com" target="_blank">' +
             'Mattermost</a>?');
@@ -257,7 +260,7 @@ describe('parseSearchTerms', () => {
     const tests = [
         {
             description: 'no input',
-            input: undefined,
+            input: undefined as unknown as string,
             expected: [],
         },
         {

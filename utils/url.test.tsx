@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import {
     getRelativeChannelURL,
     getSiteURL,
@@ -116,10 +114,9 @@ describe('Utils.URL', () => {
 
         testCases.forEach((testCase) => it(testCase.description, () => {
             const returnedErrors = validateChannelUrl(testCase.url).map((error) => (typeof error === 'string' ? error : error.key));
-            assert.deepEqual(
-                returnedErrors.sort(),
-                testCase.expectedErrors.sort(),
-            );
+            returnedErrors.sort();
+            testCase.expectedErrors.sort();
+            expect(returnedErrors).toEqual(testCase.expectedErrors);
         }));
     });
 
