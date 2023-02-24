@@ -3,20 +3,19 @@
 
 import fs from 'fs';
 
-import assert from 'assert';
-
 import nock from 'nock';
 
 import * as Actions from 'mattermost-redux/actions/emojis';
 import {Client4} from 'mattermost-redux/client';
 
-import TestHelper from 'mattermost-redux/test/test_helper';
-import configureStore from 'mattermost-redux/test/test_store';
+import TestHelper from '../../test/test_helper';
+import configureStore from '../../test/test_store';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 const OK_RESPONSE = {status: 'OK'};
 
 describe('Actions.Emojis', () => {
-    let store;
+    let store = configureStore();
     beforeAll(() => {
         TestHelper.initBasic(Client4);
     });
@@ -34,21 +33,21 @@ describe('Actions.Emojis', () => {
 
         nock(Client4.getBaseRoute()).
             post('/emoji').
-            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser.id, name: TestHelper.generateId()});
+            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser!.id, name: TestHelper.generateId()});
 
         const {data: created} = await Actions.createCustomEmoji(
             {
                 name: TestHelper.generateId(),
-                creator_id: TestHelper.basicUser.id,
+                creator_id: TestHelper.basicUser!.id,
             },
             testImageData,
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         const state = store.getState();
 
         const emojis = state.entities.emojis.customEmoji;
-        assert.ok(emojis);
-        assert.ok(emojis[created.id]);
+        expect(emojis).toBeTruthy();
+        expect(emojis[created.id]).toBeTruthy();
     });
 
     it('getCustomEmojis', async () => {
@@ -56,15 +55,15 @@ describe('Actions.Emojis', () => {
 
         nock(Client4.getBaseRoute()).
             post('/emoji').
-            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser.id, name: TestHelper.generateId()});
+            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser!.id, name: TestHelper.generateId()});
 
         const {data: created} = await Actions.createCustomEmoji(
             {
                 name: TestHelper.generateId(),
-                creator_id: TestHelper.basicUser.id,
+                creator_id: TestHelper.basicUser!.id,
             },
             testImageData,
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get('/emoji').
@@ -76,8 +75,8 @@ describe('Actions.Emojis', () => {
         const state = store.getState();
 
         const emojis = state.entities.emojis.customEmoji;
-        assert.ok(emojis);
-        assert.ok(emojis[created.id]);
+        expect(emojis).toBeTruthy();
+        expect(emojis[created.id]).toBeTruthy();
     });
 
     it('deleteCustomEmoji', async () => {
@@ -85,14 +84,14 @@ describe('Actions.Emojis', () => {
 
         nock(Client4.getBaseRoute()).
             post('/emoji').
-            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser.id, name: TestHelper.generateId()});
+            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser!.id, name: TestHelper.generateId()});
         const {data: created} = await Actions.createCustomEmoji(
             {
                 name: TestHelper.generateId(),
-                creator_id: TestHelper.basicUser.id,
+                creator_id: TestHelper.basicUser!.id,
             },
             testImageData,
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             delete(`/emoji/${created.id}`).
@@ -103,7 +102,7 @@ describe('Actions.Emojis', () => {
         const state = store.getState();
 
         const emojis = state.entities.emojis.customEmoji;
-        assert.ok(!emojis[created.id]);
+        expect(!emojis[created.id]).toBeTruthy();
     });
 
     it('loadProfilesForCustomEmojis', async () => {
@@ -111,22 +110,22 @@ describe('Actions.Emojis', () => {
         fakeUser.id = TestHelper.generateId();
         const junkUserId = TestHelper.generateId();
 
-        const testEmojis = [{
+        const testEmojis = [TestHelper.getCustomEmojiMock({
             name: TestHelper.generateId(),
-            creator_id: TestHelper.basicUser.id,
-        },
-        {
+            creator_id: TestHelper.basicUser!.id,
+        }),
+        TestHelper.getCustomEmojiMock({
             name: TestHelper.generateId(),
-            creator_id: TestHelper.basicUser.id,
-        },
-        {
+            creator_id: TestHelper.basicUser!.id,
+        }),
+        TestHelper.getCustomEmojiMock({
             name: TestHelper.generateId(),
             creator_id: fakeUser.id,
-        },
-        {
+        }),
+        TestHelper.getCustomEmojiMock({
             name: TestHelper.generateId(),
             creator_id: junkUserId,
-        }];
+        })];
 
         nock(Client4.getUsersRoute()).
             post('/ids').
@@ -136,9 +135,9 @@ describe('Actions.Emojis', () => {
 
         const state = store.getState();
         const profiles = state.entities.users.profiles;
-        assert.ok(profiles[TestHelper.basicUser.id]);
-        assert.ok(profiles[fakeUser.id]);
-        assert.ok(!profiles[junkUserId]);
+        expect(profiles[TestHelper.basicUser!.id]).toBeTruthy();
+        expect(profiles[fakeUser.id]).toBeTruthy();
+        expect(!profiles[junkUserId]).toBeTruthy();
     });
 
     it('searchCustomEmojis', async () => {
@@ -146,15 +145,15 @@ describe('Actions.Emojis', () => {
 
         nock(Client4.getBaseRoute()).
             post('/emoji').
-            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser.id, name: TestHelper.generateId()});
+            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser!.id, name: TestHelper.generateId()});
 
         const {data: created} = await Actions.createCustomEmoji(
             {
                 name: TestHelper.generateId(),
-                creator_id: TestHelper.basicUser.id,
+                creator_id: TestHelper.basicUser!.id,
             },
             testImageData,
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             post('/emoji/search').
@@ -165,8 +164,8 @@ describe('Actions.Emojis', () => {
         const state = store.getState();
 
         const emojis = state.entities.emojis.customEmoji;
-        assert.ok(emojis);
-        assert.ok(emojis[created.id]);
+        expect(emojis).toBeTruthy();
+        expect(emojis[created.id]).toBeTruthy();
     });
 
     it('autocompleteCustomEmojis', async () => {
@@ -174,15 +173,15 @@ describe('Actions.Emojis', () => {
 
         nock(Client4.getBaseRoute()).
             post('/emoji').
-            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser.id, name: TestHelper.generateId()});
+            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser!.id, name: TestHelper.generateId()});
 
         const {data: created} = await Actions.createCustomEmoji(
             {
                 name: TestHelper.generateId(),
-                creator_id: TestHelper.basicUser.id,
+                creator_id: TestHelper.basicUser!.id,
             },
             testImageData,
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get('/emoji/autocomplete').
@@ -194,8 +193,8 @@ describe('Actions.Emojis', () => {
         const state = store.getState();
 
         const emojis = state.entities.emojis.customEmoji;
-        assert.ok(emojis);
-        assert.ok(emojis[created.id]);
+        expect(emojis).toBeTruthy();
+        expect(emojis[created.id]).toBeTruthy();
     });
 
     it('getCustomEmoji', async () => {
@@ -203,15 +202,15 @@ describe('Actions.Emojis', () => {
 
         nock(Client4.getBaseRoute()).
             post('/emoji').
-            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser.id, name: TestHelper.generateId()});
+            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser!.id, name: TestHelper.generateId()});
 
         const {data: created} = await Actions.createCustomEmoji(
             {
                 name: TestHelper.generateId(),
-                creator_id: TestHelper.basicUser.id,
+                creator_id: TestHelper.basicUser!.id,
             },
             testImageData,
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get(`/emoji/${created.id}`).
@@ -222,8 +221,8 @@ describe('Actions.Emojis', () => {
         const state = store.getState();
 
         const emojis = state.entities.emojis.customEmoji;
-        assert.ok(emojis);
-        assert.ok(emojis[created.id]);
+        expect(emojis).toBeTruthy();
+        expect(emojis[created.id]).toBeTruthy();
     });
 
     it('getCustomEmojiByName', async () => {
@@ -231,15 +230,15 @@ describe('Actions.Emojis', () => {
 
         nock(Client4.getBaseRoute()).
             post('/emoji').
-            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser.id, name: TestHelper.generateId()});
+            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser!.id, name: TestHelper.generateId()});
 
         const {data: created} = await Actions.createCustomEmoji(
             {
                 name: TestHelper.generateId(),
-                creator_id: TestHelper.basicUser.id,
+                creator_id: TestHelper.basicUser!.id,
             },
             testImageData,
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get(`/emoji/name/${created.name}`).
@@ -250,8 +249,8 @@ describe('Actions.Emojis', () => {
         let state = store.getState();
 
         const emojis = state.entities.emojis.customEmoji;
-        assert.ok(emojis);
-        assert.ok(emojis[created.id]);
+        expect(emojis).toBeTruthy();
+        expect(emojis[created.id]).toBeTruthy();
 
         const missingName = TestHelper.generateId();
 
@@ -262,7 +261,7 @@ describe('Actions.Emojis', () => {
         await Actions.getCustomEmojiByName(missingName)(store.dispatch, store.getState);
 
         state = store.getState();
-        assert.ok(state.entities.emojis.nonExistentEmoji.has(missingName));
+        expect(state.entities.emojis.nonExistentEmoji.has(missingName)).toBeTruthy();
     });
 
     it('getCustomEmojisByName', async () => {
@@ -270,15 +269,15 @@ describe('Actions.Emojis', () => {
 
         nock(Client4.getBaseRoute()).
             post('/emoji').
-            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser.id, name: TestHelper.generateId()});
+            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser!.id, name: TestHelper.generateId()});
 
         const {data: created} = await Actions.createCustomEmoji(
             {
                 name: TestHelper.generateId(),
-                creator_id: TestHelper.basicUser.id,
+                creator_id: TestHelper.basicUser!.id,
             },
             testImageData,
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get(`/emoji/name/${created.name}`).
@@ -293,8 +292,8 @@ describe('Actions.Emojis', () => {
         await Actions.getCustomEmojisByName([created.name, missingName])(store.dispatch, store.getState);
 
         const state = store.getState();
-        assert.ok(state.entities.emojis.customEmoji[created.id]);
-        assert.ok(state.entities.emojis.nonExistentEmoji.has(missingName));
+        expect(state.entities.emojis.customEmoji[created.id]).toBeTruthy();
+        expect(state.entities.emojis.nonExistentEmoji.has(missingName)).toBeTruthy();
     });
 
     it('getCustomEmojisInText', async () => {
@@ -302,15 +301,15 @@ describe('Actions.Emojis', () => {
 
         nock(Client4.getBaseRoute()).
             post('/emoji').
-            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser.id, name: TestHelper.generateId()});
+            reply(201, {id: TestHelper.generateId(), create_at: 1507918415696, update_at: 1507918415696, delete_at: 0, creator_id: TestHelper.basicUser!.id, name: TestHelper.generateId()});
 
         const {data: created} = await Actions.createCustomEmoji(
             {
                 name: TestHelper.generateId(),
-                creator_id: TestHelper.basicUser.id,
+                creator_id: TestHelper.basicUser!.id,
             },
             testImageData,
-        )(store.dispatch, store.getState);
+        )(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get(`/emoji/name/${created.name}`).
@@ -325,7 +324,7 @@ describe('Actions.Emojis', () => {
         await Actions.getCustomEmojisInText(`some text :${created.name}: :${missingName}:`)(store.dispatch, store.getState);
 
         const state = store.getState();
-        assert.ok(state.entities.emojis.customEmoji[created.id]);
-        assert.ok(state.entities.emojis.nonExistentEmoji.has(missingName));
+        expect(state.entities.emojis.customEmoji[created.id]).toBeTruthy();
+        expect(state.entities.emojis.nonExistentEmoji.has(missingName)).toBeTruthy();
     });
 });

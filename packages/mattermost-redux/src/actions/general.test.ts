@@ -1,23 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import nock from 'nock';
 
 import {GeneralTypes} from 'mattermost-redux/action_types';
 import * as Actions from 'mattermost-redux/actions/general';
 import {Client4} from 'mattermost-redux/client';
 
-import TestHelper from 'mattermost-redux/test/test_helper';
-import configureStore from 'mattermost-redux/test/test_store';
+import TestHelper from '../../test/test_helper';
+import configureStore from '../../test/test_store';
 
-import {FormattedError} from './helpers.ts';
+import {ActionResult} from 'mattermost-redux/types/actions';
+
+import {FormattedError} from './helpers';
 
 const OK_RESPONSE = {status: 'OK'};
 
 describe('Actions.General', () => {
-    let store;
+    let store = configureStore();
     beforeAll(() => {
         TestHelper.initBasic(Client4);
     });
@@ -44,9 +44,9 @@ describe('Actions.General', () => {
             query(true).
             reply(401, {error: 'ping error', code: 401});
 
-        const {error} = await Actions.getPing()(store.dispatch, store.getState);
+        const {error} = await Actions.getPing()(store.dispatch, store.getState) as ActionResult;
         Client4.setUrl(serverUrl);
-        assert.deepEqual(error, pingError);
+        expect(error).toEqual(pingError);
     });
 
     it('getPing', async () => {
@@ -60,8 +60,8 @@ describe('Actions.General', () => {
             query(true).
             reply(200, response);
 
-        const {data} = await Actions.getPing()(store.dispatch, store.getState);
-        assert.deepEqual(data, response);
+        const {data} = await Actions.getPing()(store.dispatch, store.getState) as ActionResult;
+        expect(data).toEqual(response);
     });
 
     it('getClientConfig', async () => {
@@ -75,10 +75,10 @@ describe('Actions.General', () => {
         const clientConfig = store.getState().entities.general.config;
 
         // Check a few basic fields since they may change over time
-        assert.ok(clientConfig.Version);
-        assert.ok(clientConfig.BuildNumber);
-        assert.ok(clientConfig.BuildDate);
-        assert.ok(clientConfig.BuildHash);
+        expect(clientConfig.Version).toBeTruthy();
+        expect(clientConfig.BuildNumber).toBeTruthy();
+        expect(clientConfig.BuildDate).toBeTruthy();
+        expect(clientConfig.BuildHash).toBeTruthy();
     });
 
     it('getLicenseConfig', async () => {
@@ -92,7 +92,7 @@ describe('Actions.General', () => {
         const licenseConfig = store.getState().entities.general.license;
 
         // Check a few basic fields since they may change over time
-        assert.notStrictEqual(licenseConfig.IsLicensed, undefined);
+        expect(licenseConfig.IsLicensed).not.toEqual(undefined);
     });
 
     it('setServerVersion', async () => {
@@ -100,7 +100,7 @@ describe('Actions.General', () => {
         await Actions.setServerVersion(version)(store.dispatch, store.getState);
         await TestHelper.wait(100);
         const {serverVersion} = store.getState().entities.general;
-        assert.deepEqual(serverVersion, version);
+        expect(serverVersion).toEqual(version);
     });
 
     it('getDataRetentionPolicy', async () => {
@@ -119,7 +119,7 @@ describe('Actions.General', () => {
         await Actions.getDataRetentionPolicy()(store.dispatch, store.getState);
         await TestHelper.wait(100);
         const {dataRetentionPolicy} = store.getState().entities.general;
-        assert.deepEqual(dataRetentionPolicy, responseData);
+        expect(dataRetentionPolicy).toEqual(responseData);
     });
 
     it('getWarnMetricsStatus', async () => {
@@ -135,8 +135,8 @@ describe('Actions.General', () => {
 
         await Actions.getWarnMetricsStatus()(store.dispatch, store.getState);
         const {warnMetricsStatus} = store.getState().entities.general;
-        assert.deepEqual(warnMetricsStatus.metric1, true);
-        assert.deepEqual(warnMetricsStatus.metric2, false);
+        expect(warnMetricsStatus.metric1).toEqual(true);
+        expect(warnMetricsStatus.metric2).toEqual(false);
     });
 
     describe('getRedirectLocation', () => {
@@ -149,10 +149,10 @@ describe('Actions.General', () => {
 
             // Should return the original link
             const result = await store.dispatch(Actions.getRedirectLocation('http://examp.le'));
-            assert.deepEqual(result.data, {location: 'http://examp.le'});
+            expect(result.data).toEqual({location: 'http://examp.le'});
 
             // Should not call the API on an old server
-            assert.equal(mock.isDone(), false);
+            expect(mock.isDone()).toEqual(false);
         });
 
         it('should save the correct location', async () => {
@@ -167,13 +167,13 @@ describe('Actions.General', () => {
             await store.dispatch(Actions.getRedirectLocation('http://examp.le'));
 
             const existingURL = store.getState().entities.posts.expandedURLs['http://examp.le'];
-            assert.equal(existingURL, 'https://example.com');
+            expect(existingURL).toEqual('https://example.com');
 
             // Save the found URL if it finds one
             await store.dispatch(Actions.getRedirectLocation('http://nonexisting.url'));
 
             const nonexistingURL = store.getState().entities.posts.expandedURLs['http://nonexisting.url'];
-            assert.equal(nonexistingURL, 'http://nonexisting.url');
+            expect(nonexistingURL).toEqual('http://nonexisting.url');
         });
     });
 
@@ -190,7 +190,7 @@ describe('Actions.General', () => {
 
         await Actions.getFirstAdminVisitMarketplaceStatus()(store.dispatch, store.getState);
         const {firstAdminVisitMarketplaceStatus} = store.getState().entities.general;
-        assert.strictEqual(firstAdminVisitMarketplaceStatus, false);
+        expect(firstAdminVisitMarketplaceStatus).toEqual(false);
     });
 
     it('setFirstAdminVisitMarketplaceStatus', async () => {
@@ -201,6 +201,6 @@ describe('Actions.General', () => {
         await Actions.setFirstAdminVisitMarketplaceStatus()(store.dispatch, store.getState);
 
         const {firstAdminVisitMarketplaceStatus} = store.getState().entities.general;
-        assert.strictEqual(firstAdminVisitMarketplaceStatus, true);
+        expect(firstAdminVisitMarketplaceStatus).toEqual(true);
     });
 });

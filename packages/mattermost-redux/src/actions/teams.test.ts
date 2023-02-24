@@ -3,8 +3,6 @@
 
 import fs from 'fs';
 
-import assert from 'assert';
-
 import nock from 'nock';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -15,7 +13,7 @@ import {GeneralTypes, UserTypes} from 'mattermost-redux/action_types';
 import TestHelper from '../../test/test_helper';
 import configureStore from '../../test/test_store';
 import {General, RequestStatus} from 'mattermost-redux/constants';
-import { Team } from '@mattermost/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 const OK_RESPONSE = {status: 'OK'};
 
@@ -187,8 +185,8 @@ describe('Actions.Teams', () => {
         const {teams, myMembers, currentTeamId} = store.getState().entities.teams;
 
         const teamId = Object.keys(teams)[0];
-        assert.strictEqual(Object.keys(teams).length, 1);
-        assert.strictEqual(currentTeamId, teamId);
+        expect(Object.keys(teams).length).toEqual(1);
+        expect(currentTeamId).toEqual(teamId);
         expect(myMembers[teamId]).toBeTruthy();
     });
 
@@ -227,8 +225,12 @@ describe('Actions.Teams', () => {
         )(store.dispatch, store.getState);
 
         const {teams, myMembers} = store.getState().entities.teams;
-        assert.ifError(teams[secondTeam.id]);
-        assert.ifError(myMembers[secondTeam.id]);
+        if (teams[secondTeam.id]) {
+            throw new Error('unexpected teams[secondTeam.id]');
+        }
+        if (myMembers[secondTeam.id]) {
+            throw new Error('unexpected myMembers[secondTeam.id]');
+        }
     });
 
     it('unarchiveTeam', async () => {
@@ -274,7 +276,7 @@ describe('Actions.Teams', () => {
         )(store.dispatch, store.getState);
 
         const {teams} = store.getState().entities.teams;
-        assert.deepStrictEqual(teams[secondTeam.id], secondTeam);
+        expect(teams[secondTeam.id]).toEqual(secondTeam);
     });
 
     it('updateTeam', async () => {
@@ -295,8 +297,8 @@ describe('Actions.Teams', () => {
         const updated = teams[TestHelper.basicTeam!.id];
 
         expect(updated).toBeTruthy();
-        assert.strictEqual(updated.display_name, displayName);
-        assert.strictEqual(updated.description, description);
+        expect(updated.display_name).toEqual(displayName);
+        expect(updated.description).toEqual(description);
     });
 
     it('patchTeam', async () => {
@@ -317,8 +319,8 @@ describe('Actions.Teams', () => {
         const patched = teams[TestHelper.basicTeam!.id];
 
         expect(patched).toBeTruthy();
-        assert.strictEqual(patched.display_name, displayName);
-        assert.strictEqual(patched.description, description);
+        expect(patched.display_name).toEqual(displayName);
+        expect(patched.description).toEqual(description);
     });
 
     it('regenerateTeamInviteId', async () => {
@@ -337,8 +339,8 @@ describe('Actions.Teams', () => {
         const patched = teams[TestHelper.basicTeam!.id];
 
         expect(patched).toBeTruthy();
-        assert.notStrictEqual(patched.invite_id, team!.invite_id);
-        assert.strictEqual(patched.invite_id, patchedInviteId);
+        expect(patched.invite_id).not.toEqual(team!.invite_id);
+        expect(patched.invite_id).toEqual(patchedInviteId);
     });
 
     it('Join Open Team', async () => {
@@ -703,7 +705,7 @@ describe('Actions.Teams', () => {
 
         expect(members[TestHelper.basicTeam!.id]).toBeTruthy();
         expect(members[TestHelper.basicTeam!.id][user.id]).toBeTruthy();
-        expect(members[TestHelper.basicTeam!.id][user.id].roles).toEqual(roles.split(' ');
+        expect(members[TestHelper.basicTeam!.id][user.id].roles).toEqual(roles.split(' '));
     });
 
     it('sendEmailInvitesToTeam', async () => {
@@ -798,12 +800,12 @@ describe('Actions.Teams', () => {
         const perPage = 63;
 
         nock(Client4.getBaseRoute()).get(
-            `/teams/${teamID}/members_minus_group_members?group_ids=${groupIDs.join(',')}&page=${page}&per_page=${perPage}!`).
+            `/teams/${teamID}/members_minus_group_members?group_ids=${groupIDs.join(',')}&page=${page}&per_page=${perPage}`).
             reply(200, {users: [], total_count: 0});
 
         const {error} = await Actions.membersMinusGroupMembers(teamID, groupIDs, page, perPage)(store.dispatch, store.getState) as ActionResult;
 
-        expect(error).toEqual(null);
+        expect(error).toEqual(undefined);
     });
 
     it('searchTeams', async () => {

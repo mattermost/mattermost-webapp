@@ -3,8 +3,6 @@
 
 import fs from 'fs';
 
-import assert from 'assert';
-
 import nock from 'nock';
 
 import * as Actions from 'mattermost-redux/actions/users';
@@ -14,8 +12,8 @@ import TestHelper from '../../test/test_helper';
 import configureStore from '../../test/test_store';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {UserTypes} from 'mattermost-redux/action_types';
-import { ActionResult } from 'mattermost-redux/types/actions';
-import { UserProfile } from '@mattermost/types/users';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {UserProfile} from '@mattermost/types/users';
 
 const OK_RESPONSE = {status: 'OK'};
 
@@ -149,31 +147,80 @@ describe('Actions.Users', () => {
             throw new Error(JSON.stringify(logoutRequest.error));
         }
 
-        assert.deepStrictEqual(general.config, {}, 'config not empty');
-        assert.deepStrictEqual(general.license, {}, 'license not empty');
-        assert.strictEqual(users.currentUserId, '', 'current user id not empty');
-        assert.deepStrictEqual(users.mySessions, [], 'user sessions not empty');
-        assert.deepStrictEqual(users.myAudits, [], 'user audits not empty');
-        assert.deepStrictEqual(users.profiles, {}, 'user profiles not empty');
-        assert.deepStrictEqual(users.profilesInTeam, {}, 'users profiles in team not empty');
-        assert.deepStrictEqual(users.profilesInChannel, {}, 'users profiles in channel not empty');
-        assert.deepStrictEqual(users.profilesNotInChannel, {}, 'users profiles NOT in channel not empty');
-        assert.deepStrictEqual(users.statuses, {}, 'users statuses not empty');
-        assert.strictEqual(teams.currentTeamId, '', 'current team id is not empty');
-        assert.deepStrictEqual(teams.teams, {}, 'teams is not empty');
-        assert.deepStrictEqual(teams.myMembers, {}, 'team members is not empty');
-        assert.deepStrictEqual(teams.membersInTeam, {}, 'members in team is not empty');
-        assert.deepStrictEqual(teams.stats, {}, 'team stats is not empty');
-        assert.strictEqual(channels.currentChannelId, '', 'current channel id is not empty');
-        assert.deepStrictEqual(channels.channels, {}, 'channels is not empty');
-        assert.deepStrictEqual(channels.channelsInTeam, {}, 'channelsInTeam is not empty');
-        assert.deepStrictEqual(channels.myMembers, {}, 'channel members is not empty');
-        assert.deepStrictEqual(channels.stats, {}, 'channel stats is not empty');
-        assert.strictEqual(posts.selectedPostId, '', 'selected post id is not empty');
-        assert.strictEqual(posts.currentFocusedPostId, '', 'current focused post id is not empty');
-        assert.deepStrictEqual(posts.posts, {}, 'posts is not empty');
-        assert.deepStrictEqual(posts.postsInChannel, {}, 'posts by channel is not empty');
-        assert.deepStrictEqual(preferences.myPreferences, {}, 'user preferences not empty');
+        // config not empty
+        expect(general.config).toEqual({});
+
+        // license not empty
+        expect(general.license).toEqual({});
+
+        // current user id not empty
+        expect(users.currentUserId).toEqual('');
+
+        // user sessions not empty
+        expect(users.mySessions).toEqual([]);
+
+        // user audits not empty
+        expect(users.myAudits).toEqual([]);
+
+        // user profiles not empty
+        expect(users.profiles).toEqual({});
+
+        // users profiles in team not empty
+        expect(users.profilesInTeam).toEqual({});
+
+        // users profiles in channel not empty
+        expect(users.profilesInChannel).toEqual({});
+
+        // users profiles NOT in channel not empty
+        expect(users.profilesNotInChannel).toEqual({});
+
+        // users statuses not empty
+        expect(users.statuses).toEqual({});
+
+        // current team id is not empty
+        expect(teams.currentTeamId).toEqual('');
+
+        // teams is not empty
+        expect(teams.teams).toEqual({});
+
+        // team members is not empty
+        expect(teams.myMembers).toEqual({});
+
+        // members in team is not empty
+        expect(teams.membersInTeam).toEqual({});
+
+        // team stats is not empty
+        expect(teams.stats).toEqual({});
+
+        // current channel id is not empty
+        expect(channels.currentChannelId).toEqual('');
+
+        // channels is not empty
+        expect(channels.channels).toEqual({});
+
+        // channelsInTeam is not empty
+        expect(channels.channelsInTeam).toEqual({});
+
+        // channel members is not empty
+        expect(channels.myMembers).toEqual({});
+
+        // channel stats is not empty
+        expect(channels.stats).toEqual({});
+
+        // selected post id is not empty
+        expect(posts.selectedPostId).toEqual('');
+
+        // current focused post id is not empty
+        expect(posts.currentFocusedPostId).toEqual('');
+
+        // posts is not empty
+        expect(posts.posts).toEqual({});
+
+        // posts by channel is not empty
+        expect(posts.postsInChannel).toEqual({});
+
+        // user preferences not empty
+        expect(preferences.myPreferences).toEqual({});
 
         nock(Client4.getBaseRoute()).
             post('/users/login').
@@ -257,6 +304,7 @@ describe('Actions.Users', () => {
 
         expect(team).toBeTruthy();
         expect(team.has(TestHelper.basicUser!.id)).toBeTruthy();
+
         // profiles != profiles in team
         expect(Object.keys(profiles).length).toEqual(team.size);
     });
@@ -320,6 +368,7 @@ describe('Actions.Users', () => {
 
         const channel = profilesInChannel[TestHelper.basicChannel!.id];
         expect(channel.has(TestHelper.basicUser!.id)).toBeTruthy();
+
         // profiles != profiles in channel
         expect(Object.keys(profiles).length).toEqual(channel.size);
     });
@@ -353,6 +402,7 @@ describe('Actions.Users', () => {
 
         const channel = profilesNotInChannel[TestHelper.basicChannel!.id];
         expect(channel.has(user.id)).toBeTruthy();
+
         // profiles != profiles in channel
         expect(Object.keys(profiles).length).toEqual(channel.size);
     });
@@ -370,6 +420,7 @@ describe('Actions.Users', () => {
 
         expect(group).toBeTruthy();
         expect(group.has(TestHelper.basicUser!.id)).toBeTruthy();
+
         // profiles != profiles in group
         expect(Object.keys(profiles).length).toEqual(group.size);
     });
@@ -602,7 +653,7 @@ describe('Actions.Users', () => {
         await TestHelper.basicClient4!.logout();
         let sessions = store.getState().entities.users.mySessions;
 
-        assert.strictEqual(sessions.length, 0);
+        expect(sessions.length).toBe(0);
 
         TestHelper.mockLogin();
         store.dispatch({
@@ -642,7 +693,7 @@ describe('Actions.Users', () => {
 
         sessions = store.getState().entities.users.mySessions;
 
-        assert.strictEqual(sessions.length, 0);
+        expect(sessions.length).toBe(0);
 
         nock(Client4.getBaseRoute()).
             post('/users/login').
@@ -658,7 +709,7 @@ describe('Actions.Users', () => {
         await TestHelper.basicClient4!.logout();
         let sessions = store.getState().entities.users.mySessions;
 
-        assert.strictEqual(sessions.length, 0);
+        expect(sessions.length).toBe(0);
 
         TestHelper.mockLogin();
         store.dispatch({
@@ -698,7 +749,7 @@ describe('Actions.Users', () => {
 
         sessions = store.getState().entities.users.mySessions;
 
-        assert.strictEqual(sessions.length, 0);
+        expect(sessions.length).toBe(0);
 
         nock(Client4.getBaseRoute()).
             post('/users/login').

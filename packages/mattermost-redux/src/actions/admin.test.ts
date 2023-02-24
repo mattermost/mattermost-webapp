@@ -3,16 +3,16 @@
 
 import fs from 'fs';
 
-import assert from 'assert';
-
 import nock from 'nock';
 
 import * as Actions from 'mattermost-redux/actions/admin';
 import {Client4} from 'mattermost-redux/client';
 
 import {RequestStatus, Stats} from '../constants';
-import TestHelper from 'mattermost-redux/test/test_helper';
-import configureStore from 'mattermost-redux/test/test_store';
+import TestHelper from '../../test/test_helper';
+import configureStore from '../../test/test_store';
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {CreateDataRetentionCustomPolicy} from '@mattermost/types/data_retention';
 
 const OK_RESPONSE = {status: 'OK'};
 const NO_GROUPS_RESPONSE = {count: 0, groups: []};
@@ -22,7 +22,7 @@ const samlIdpDescriptorURL = 'http://idpdescriptorurl';
 const samlIdpPublicCertificateText = 'MIIC4jCCAcqgAwIBAgIQE9soWni/eL9ChsWeJCEKNDANBgkqhkiG9w0BAQsFADAtMSswKQYDVQQDEyJBREZTIFNpZ25pbmcgLSBhZGZzLnBhcm5hc2FkZXYuY29tMB4XDTE2MDcwMTE1MDgwN1oXDTE3MDcwMTE1MDgwN1owLTErMCkGA1UEAxMiQURGUyBTaWduaW5nIC0gYWRmcy5wYXJuYXNhZGV2LmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANDxoju4k5q4H6sQ5v4/4wQSgrE9+ybLnz6+HPdmGd9gAS0qVafy8P1FbciEe+cBkpConYAMdGcBjmEdFOu5OAjsBgov1GMIHaPy4SwEyfn/FDmYSjCUSm7s5pxouAMP5mRJLdApQNwGeNxQNuFCUu3aM6X29ba/twwyQVaKIf1U1HVOY2UEs/X7qKU4ECwTy3Nxt1gaMISTPwxRU+d5dHbbI+2GKqzTriJd4alMHqnbBNWuuIDggOYT/zaRnGl9DAW/F6XgloWdO6SROnXH056fTZs7O5nJ9en9F82r7NOq5rBr/KI+R9eUlJHhfr/FtCYRrnPfTuubRFF2XtmrFwECAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAhZwCiYNFO2BuLH1UWmqG9lN7Ns/GjRDOuTt0hOUPHYFy2Es5iqmEakRrnecTz5KJxrO7SguaVK+VvTtssWszFnB2kRWIF98B2yjEjXjJHO1UhqjcKwbZScmmTukWf6lqlz+5uqyqPS/rxcNsBgNIwsJCl0z44Y5XHgpgGs+DXQx39RMyAvlmPWUY5dELVxAiEzKkOXAGDeJ5wIqiT61rmPkQuGjUBb/DZiFFBYmbp7npjVOb5XBrLErndIrHYiTZuIhpwCS+J3LHAOIL3eKD4iUcyB/lZjF6py1E2h+xVbpxHF9ENKQjsLkDjzIdhP269Gh8YUoOxkG63TXq8n6a3A==';
 
 describe('Actions.Admin', () => {
-    let store;
+    let store = configureStore();
     beforeAll(() => {
         TestHelper.initBasic(Client4);
     });
@@ -58,8 +58,8 @@ describe('Actions.Admin', () => {
         const state = store.getState();
 
         const audits = state.entities.admin.audits;
-        assert.ok(audits);
-        assert.ok(Object.keys(audits).length > 0);
+        expect(audits).toBeTruthy();
+        expect(Object.keys(audits).length > 0).toBeTruthy();
     });
 
     it('getConfig', async () => {
@@ -85,9 +85,9 @@ describe('Actions.Admin', () => {
         const state = store.getState();
 
         const config = state.entities.admin.config;
-        assert.ok(config);
-        assert.ok(config.TeamSettings);
-        assert.ok(config.TeamSettings.SiteName === 'Mattermost');
+        expect(config).toBeTruthy();
+        expect(config.TeamSettings).toBeTruthy();
+        expect(config.TeamSettings.SiteName === 'Mattermost').toBeTruthy();
     });
 
     it('updateConfig', async () => {
@@ -99,7 +99,7 @@ describe('Actions.Admin', () => {
                 },
             });
 
-        const {data} = await Actions.getConfig()(store.dispatch, store.getState);
+        const {data} = await Actions.getConfig()(store.dispatch, store.getState) as ActionResult;
         const updated = JSON.parse(JSON.stringify(data));
         const oldSiteName = updated.TeamSettings.SiteName;
         const testSiteName = 'MattermostReduxTest';
@@ -114,9 +114,9 @@ describe('Actions.Admin', () => {
         let state = store.getState();
 
         let config = state.entities.admin.config;
-        assert.ok(config);
-        assert.ok(config.TeamSettings);
-        assert.ok(config.TeamSettings.SiteName === testSiteName);
+        expect(config).toBeTruthy();
+        expect(config.TeamSettings).toBeTruthy();
+        expect(config.TeamSettings.SiteName === testSiteName).toBeTruthy();
 
         updated.TeamSettings.SiteName = oldSiteName;
 
@@ -129,9 +129,9 @@ describe('Actions.Admin', () => {
         state = store.getState();
 
         config = state.entities.admin.config;
-        assert.ok(config);
-        assert.ok(config.TeamSettings);
-        assert.ok(config.TeamSettings.SiteName === oldSiteName);
+        expect(config).toBeTruthy();
+        expect(config.TeamSettings).toBeTruthy();
+        expect(config.TeamSettings.SiteName === oldSiteName).toBeTruthy();
     });
 
     it('reloadConfig', async () => {
@@ -161,11 +161,11 @@ describe('Actions.Admin', () => {
         const state = store.getState();
 
         const config = state.entities.admin.environmentConfig;
-        assert.ok(config);
-        assert.ok(config.ServiceSettings);
-        assert.ok(config.ServiceSettings.SiteURL);
-        assert.ok(config.TeamSettings);
-        assert.ok(config.TeamSettings.SiteName);
+        expect(config).toBeTruthy();
+        expect(config.ServiceSettings).toBeTruthy();
+        expect(config.ServiceSettings.SiteURL).toBeTruthy();
+        expect(config.TeamSettings).toBeTruthy();
+        expect(config.TeamSettings.SiteName).toBeTruthy();
     });
 
     it('testEmail', async () => {
@@ -173,7 +173,7 @@ describe('Actions.Admin', () => {
             get('/config').
             reply(200, {});
 
-        const {data: config} = await Actions.getConfig()(store.dispatch, store.getState);
+        const {data: config} = await Actions.getConfig()(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             post('/email/test').
@@ -199,7 +199,7 @@ describe('Actions.Admin', () => {
             get('/config').
             reply(200, {});
 
-        const {data: config} = await Actions.getConfig()(store.dispatch, store.getState);
+        const {data: config} = await Actions.getConfig()(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             post('/file/s3_test').
@@ -255,7 +255,7 @@ describe('Actions.Admin', () => {
                 emails: 'joram@example.com',
             });
 
-        const {data: created} = await Actions.createComplianceReport(job)(store.dispatch, store.getState);
+        const {data: created} = await Actions.createComplianceReport(job)(store.dispatch, store.getState) as ActionResult;
 
         const state = store.getState();
         const request = state.requests.admin.createCompliance;
@@ -264,8 +264,8 @@ describe('Actions.Admin', () => {
         }
 
         const reports = state.entities.admin.complianceReports;
-        assert.ok(reports);
-        assert.ok(reports[created.id]);
+        expect(reports).toBeTruthy();
+        expect(reports[created.id]).toBeTruthy();
     });
 
     it('getComplianceReport', async () => {
@@ -293,7 +293,7 @@ describe('Actions.Admin', () => {
                 emails: 'joram@example.com',
             });
 
-        const {data: report} = await Actions.createComplianceReport(job)(store.dispatch, store.getState);
+        const {data: report} = await Actions.createComplianceReport(job)(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get(`/compliance/reports/${report.id}`).
@@ -304,8 +304,8 @@ describe('Actions.Admin', () => {
         const state = store.getState();
 
         const reports = state.entities.admin.complianceReports;
-        assert.ok(reports);
-        assert.ok(reports[report.id]);
+        expect(reports).toBeTruthy();
+        expect(reports[report.id]).toBeTruthy();
     });
 
     it('getComplianceReports', async () => {
@@ -333,7 +333,7 @@ describe('Actions.Admin', () => {
                 emails: 'joram@example.com',
             });
 
-        const {data: report} = await Actions.createComplianceReport(job)(store.dispatch, store.getState);
+        const {data: report} = await Actions.createComplianceReport(job)(store.dispatch, store.getState) as ActionResult;
 
         nock(Client4.getBaseRoute()).
             get('/compliance/reports').
@@ -345,8 +345,8 @@ describe('Actions.Admin', () => {
         const state = store.getState();
 
         const reports = state.entities.admin.complianceReports;
-        assert.ok(reports);
-        assert.ok(reports[report.id]);
+        expect(reports).toBeTruthy();
+        expect(reports[report.id]).toBeTruthy();
     });
 
     it('uploadBrandImage', async () => {
@@ -356,7 +356,7 @@ describe('Actions.Admin', () => {
             post('/brand/image').
             reply(200, OK_RESPONSE);
 
-        await Actions.uploadBrandImage(testImageData)(store.dispatch, store.getState);
+        await Actions.uploadBrandImage(testImageData as any)(store.dispatch, store.getState);
 
         expect(nock.isDone()).toBe(true);
     });
@@ -386,9 +386,9 @@ describe('Actions.Admin', () => {
         const state = store.getState();
 
         const clusterInfo = state.entities.admin.clusterInfo;
-        assert.ok(clusterInfo);
-        assert.ok(clusterInfo.length === 1);
-        assert.ok(clusterInfo[0].id === 'someid');
+        expect(clusterInfo).toBeTruthy();
+        expect(clusterInfo.length === 1).toBeTruthy();
+        expect(clusterInfo[0].id === 'someid').toBeTruthy();
     });
 
     it('testLdap', async () => {
@@ -425,10 +425,10 @@ describe('Actions.Admin', () => {
         const state = store.getState();
 
         const certStatus = state.entities.admin.samlCertStatus;
-        assert.ok(certStatus);
-        assert.ok(certStatus.idp_certificate_file);
-        assert.ok(certStatus.private_key_file);
-        assert.ok(certStatus.public_certificate_file);
+        expect(certStatus).toBeTruthy();
+        expect(certStatus.idp_certificate_file).toBeTruthy();
+        expect(certStatus.private_key_file).toBeTruthy();
+        expect(certStatus.public_certificate_file).toBeTruthy();
     });
 
     it('uploadPublicSamlCertificate', async () => {
@@ -438,7 +438,7 @@ describe('Actions.Admin', () => {
             post('/saml/certificate/public').
             reply(200, OK_RESPONSE);
 
-        await Actions.uploadPublicSamlCertificate(testFileData)(store.dispatch, store.getState);
+        await Actions.uploadPublicSamlCertificate(testFileData as any)(store.dispatch, store.getState);
 
         expect(nock.isDone()).toBe(true);
     });
@@ -450,7 +450,7 @@ describe('Actions.Admin', () => {
             post('/saml/certificate/private').
             reply(200, OK_RESPONSE);
 
-        await Actions.uploadPrivateSamlCertificate(testFileData)(store.dispatch, store.getState);
+        await Actions.uploadPrivateSamlCertificate(testFileData as any)(store.dispatch, store.getState);
 
         expect(nock.isDone()).toBe(true);
     });
@@ -462,7 +462,7 @@ describe('Actions.Admin', () => {
             post('/saml/certificate/idp').
             reply(200, OK_RESPONSE);
 
-        await Actions.uploadIdpSamlCertificate(testFileData)(store.dispatch, store.getState);
+        await Actions.uploadIdpSamlCertificate(testFileData as any)(store.dispatch, store.getState);
 
         expect(nock.isDone()).toBe(true);
     });
@@ -504,7 +504,7 @@ describe('Actions.Admin', () => {
             post('/ldap/certificate/public').
             reply(200, OK_RESPONSE);
 
-        await Actions.uploadPublicLdapCertificate(testFileData)(store.dispatch, store.getState);
+        await Actions.uploadPublicLdapCertificate(testFileData as any)(store.dispatch, store.getState);
 
         expect(nock.isDone()).toBe(true);
     });
@@ -516,7 +516,7 @@ describe('Actions.Admin', () => {
             post('/ldap/certificate/private').
             reply(200, OK_RESPONSE);
 
-        await Actions.uploadPrivateLdapCertificate(testFileData)(store.dispatch, store.getState);
+        await Actions.uploadPrivateLdapCertificate(testFileData as any)(store.dispatch, store.getState);
 
         expect(nock.isDone()).toBe(true);
     });
@@ -568,7 +568,7 @@ describe('Actions.Admin', () => {
             post('/license').
             reply(200, OK_RESPONSE);
 
-        await Actions.uploadLicense(testFileData)(store.dispatch, store.getState);
+        await Actions.uploadLicense(testFileData as any)(store.dispatch, store.getState);
 
         expect(nock.isDone()).toBe(true);
     });
@@ -591,18 +591,18 @@ describe('Actions.Admin', () => {
             reply(200, [{name: 'channel_open_count', value: 495}, {name: 'channel_private_count', value: 19}, {name: 'post_count', value: 2763}, {name: 'unique_user_count', value: 316}, {name: 'team_count', value: 159}, {name: 'total_websocket_connections', value: 1}, {name: 'total_master_db_connections', value: 8}, {name: 'total_read_db_connections', value: 0}, {name: 'daily_active_users', value: 22}, {name: 'monthly_active_users', value: 114}, {name: 'registered_users', value: 500}]);
 
         await Actions.getStandardAnalytics()(store.dispatch, store.getState);
-        await Actions.getStandardAnalytics(TestHelper.basicTeam.id)(store.dispatch, store.getState);
+        await Actions.getStandardAnalytics(TestHelper.basicTeam!.id)(store.dispatch, store.getState);
 
         const state = store.getState();
 
         const analytics = state.entities.admin.analytics;
-        assert.ok(analytics);
-        assert.ok(analytics[Stats.TOTAL_PUBLIC_CHANNELS] > 0);
+        expect(analytics).toBeTruthy();
+        expect(analytics[Stats.TOTAL_PUBLIC_CHANNELS] > 0).toBeTruthy();
 
         const teamAnalytics = state.entities.admin.teamAnalytics;
-        assert.ok(teamAnalytics);
-        assert.ok(teamAnalytics[TestHelper.basicTeam.id]);
-        assert.ok(teamAnalytics[TestHelper.basicTeam.id][Stats.TOTAL_PUBLIC_CHANNELS] > 0);
+        expect(teamAnalytics).toBeTruthy();
+        expect(teamAnalytics[TestHelper.basicTeam!.id]).toBeTruthy();
+        expect(teamAnalytics[TestHelper.basicTeam!.id][Stats.TOTAL_PUBLIC_CHANNELS] > 0).toBeTruthy();
     });
 
     it('getAdvancedAnalytics', async () => {
@@ -613,18 +613,18 @@ describe('Actions.Admin', () => {
             reply(200, [{name: 'file_post_count', value: 24}, {name: 'hashtag_post_count', value: 876}, {name: 'incoming_webhook_count', value: 16}, {name: 'outgoing_webhook_count', value: 18}, {name: 'command_count', value: 14}, {name: 'session_count', value: 149}]);
 
         await Actions.getAdvancedAnalytics()(store.dispatch, store.getState);
-        await Actions.getAdvancedAnalytics(TestHelper.basicTeam.id)(store.dispatch, store.getState);
+        await Actions.getAdvancedAnalytics(TestHelper.basicTeam!.id)(store.dispatch, store.getState);
 
         const state = store.getState();
 
         const analytics = state.entities.admin.analytics;
-        assert.ok(analytics);
-        assert.ok(analytics[Stats.TOTAL_SESSIONS] > 0);
+        expect(analytics).toBeTruthy();
+        expect(analytics[Stats.TOTAL_SESSIONS] > 0).toBeTruthy();
 
         const teamAnalytics = state.entities.admin.teamAnalytics;
-        assert.ok(teamAnalytics);
-        assert.ok(teamAnalytics[TestHelper.basicTeam.id]);
-        assert.ok(teamAnalytics[TestHelper.basicTeam.id][Stats.TOTAL_SESSIONS] > 0);
+        expect(teamAnalytics).toBeTruthy();
+        expect(teamAnalytics[TestHelper.basicTeam!.id]).toBeTruthy();
+        expect(teamAnalytics[TestHelper.basicTeam!.id][Stats.TOTAL_SESSIONS] > 0).toBeTruthy();
     });
 
     it('getPostsPerDayAnalytics', async () => {
@@ -635,18 +635,18 @@ describe('Actions.Admin', () => {
             reply(200, [{name: '2017-06-18', value: 16}, {name: '2017-06-16', value: 209}, {name: '2017-06-12', value: 35}, {name: '2017-06-08', value: 227}, {name: '2017-06-07', value: 27}, {name: '2017-06-06', value: 136}, {name: '2017-06-05', value: 127}, {name: '2017-06-04', value: 39}, {name: '2017-06-02', value: 3}, {name: '2017-05-31', value: 52}, {name: '2017-05-30', value: 52}, {name: '2017-05-29', value: 9}, {name: '2017-05-26', value: 198}, {name: '2017-05-25', value: 144}, {name: '2017-05-24', value: 1130}, {name: '2017-05-23', value: 146}]);
 
         await Actions.getPostsPerDayAnalytics()(store.dispatch, store.getState);
-        await Actions.getPostsPerDayAnalytics(TestHelper.basicTeam.id)(store.dispatch, store.getState);
+        await Actions.getPostsPerDayAnalytics(TestHelper.basicTeam!.id)(store.dispatch, store.getState);
 
         const state = store.getState();
 
         const analytics = state.entities.admin.analytics;
-        assert.ok(analytics);
-        assert.ok(analytics[Stats.POST_PER_DAY]);
+        expect(analytics).toBeTruthy();
+        expect(analytics[Stats.POST_PER_DAY]).toBeTruthy();
 
         const teamAnalytics = state.entities.admin.teamAnalytics;
-        assert.ok(teamAnalytics);
-        assert.ok(teamAnalytics[TestHelper.basicTeam.id]);
-        assert.ok(teamAnalytics[TestHelper.basicTeam.id][Stats.POST_PER_DAY]);
+        expect(teamAnalytics).toBeTruthy();
+        expect(teamAnalytics[TestHelper.basicTeam!.id]).toBeTruthy();
+        expect(teamAnalytics[TestHelper.basicTeam!.id][Stats.POST_PER_DAY]).toBeTruthy();
     });
 
     it('getUsersPerDayAnalytics', async () => {
@@ -657,18 +657,18 @@ describe('Actions.Admin', () => {
             reply(200, [{name: '2017-06-18', value: 2}, {name: '2017-06-16', value: 47}, {name: '2017-06-12', value: 4}, {name: '2017-06-08', value: 55}, {name: '2017-06-07', value: 2}, {name: '2017-06-06', value: 1}, {name: '2017-06-05', value: 2}, {name: '2017-06-04', value: 13}, {name: '2017-06-02', value: 1}, {name: '2017-05-31', value: 3}, {name: '2017-05-30', value: 4}, {name: '2017-05-29', value: 3}, {name: '2017-05-26', value: 40}, {name: '2017-05-25', value: 26}, {name: '2017-05-24', value: 43}, {name: '2017-05-23', value: 3}]);
 
         await Actions.getUsersPerDayAnalytics()(store.dispatch, store.getState);
-        await Actions.getUsersPerDayAnalytics(TestHelper.basicTeam.id)(store.dispatch, store.getState);
+        await Actions.getUsersPerDayAnalytics(TestHelper.basicTeam!.id)(store.dispatch, store.getState);
 
         const state = store.getState();
 
         const analytics = state.entities.admin.analytics;
-        assert.ok(analytics);
-        assert.ok(analytics[Stats.USERS_WITH_POSTS_PER_DAY]);
+        expect(analytics).toBeTruthy();
+        expect(analytics[Stats.USERS_WITH_POSTS_PER_DAY]).toBeTruthy();
 
         const teamAnalytics = state.entities.admin.teamAnalytics;
-        assert.ok(teamAnalytics);
-        assert.ok(teamAnalytics[TestHelper.basicTeam.id]);
-        assert.ok(teamAnalytics[TestHelper.basicTeam.id][Stats.USERS_WITH_POSTS_PER_DAY]);
+        expect(teamAnalytics).toBeTruthy();
+        expect(teamAnalytics[TestHelper.basicTeam!.id]).toBeTruthy();
+        expect(teamAnalytics[TestHelper.basicTeam!.id][Stats.USERS_WITH_POSTS_PER_DAY]).toBeTruthy();
     });
 
     it('uploadPlugin', async () => {
@@ -678,7 +678,7 @@ describe('Actions.Admin', () => {
         nock(Client4.getBaseRoute()).
             post('/plugins').
             reply(200, testPlugin);
-        await Actions.uploadPlugin(testFileData, false)(store.dispatch, store.getState);
+        await Actions.uploadPlugin(testFileData as any, false)(store.dispatch, store.getState);
 
         expect(nock.isDone()).toBe(true);
     });
@@ -730,11 +730,11 @@ describe('Actions.Admin', () => {
         const state = store.getState();
 
         const plugins = state.entities.admin.plugins;
-        assert.ok(plugins);
-        assert.ok(plugins[testPlugin.id]);
-        assert.ok(plugins[testPlugin.id].active);
-        assert.ok(plugins[testPlugin2.id]);
-        assert.ok(!plugins[testPlugin2.id].active);
+        expect(plugins).toBeTruthy();
+        expect(plugins[testPlugin.id]).toBeTruthy();
+        expect(plugins[testPlugin.id].active).toBeTruthy();
+        expect(plugins[testPlugin2.id]).toBeTruthy();
+        expect(!plugins[testPlugin2.id].active).toBeTruthy();
     });
 
     it('getPluginStatuses', async () => {
@@ -756,11 +756,11 @@ describe('Actions.Admin', () => {
         const state = store.getState();
 
         const pluginStatuses = state.entities.admin.pluginStatuses;
-        assert.ok(pluginStatuses);
-        assert.ok(pluginStatuses[testPluginStatus.plugin_id]);
-        assert.ok(pluginStatuses[testPluginStatus.plugin_id].active);
-        assert.ok(pluginStatuses[testPluginStatus2.plugin_id]);
-        assert.ok(!pluginStatuses[testPluginStatus2.plugin_id].active);
+        expect(pluginStatuses).toBeTruthy();
+        expect(pluginStatuses[testPluginStatus.plugin_id]).toBeTruthy();
+        expect(pluginStatuses[testPluginStatus.plugin_id].active).toBeTruthy();
+        expect(pluginStatuses[testPluginStatus2.plugin_id]).toBeTruthy();
+        expect(!pluginStatuses[testPluginStatus2.plugin_id].active).toBeTruthy();
     });
 
     it('removePlugin', async () => {
@@ -774,8 +774,8 @@ describe('Actions.Admin', () => {
 
         let state = store.getState();
         let plugins = state.entities.admin.plugins;
-        assert.ok(plugins);
-        assert.ok(plugins[testPlugin.id]);
+        expect(plugins).toBeTruthy();
+        expect(plugins[testPlugin.id]).toBeTruthy();
 
         nock(Client4.getBaseRoute()).
             delete(`/plugins/${testPlugin.id}`).
@@ -785,8 +785,8 @@ describe('Actions.Admin', () => {
 
         state = store.getState();
         plugins = state.entities.admin.plugins;
-        assert.ok(plugins);
-        assert.ok(!plugins[testPlugin.id]);
+        expect(plugins).toBeTruthy();
+        expect(!plugins[testPlugin.id]).toBeTruthy();
     });
 
     it('enablePlugin', async () => {
@@ -800,9 +800,9 @@ describe('Actions.Admin', () => {
 
         let state = store.getState();
         let plugins = state.entities.admin.plugins;
-        assert.ok(plugins);
-        assert.ok(plugins[testPlugin.id]);
-        assert.ok(!plugins[testPlugin.id].active);
+        expect(plugins).toBeTruthy();
+        expect(plugins[testPlugin.id]).toBeTruthy();
+        expect(!plugins[testPlugin.id].active).toBeTruthy();
 
         nock(Client4.getBaseRoute()).
             post(`/plugins/${testPlugin.id}/enable`).
@@ -812,9 +812,9 @@ describe('Actions.Admin', () => {
 
         state = store.getState();
         plugins = state.entities.admin.plugins;
-        assert.ok(plugins);
-        assert.ok(plugins[testPlugin.id]);
-        assert.ok(plugins[testPlugin.id].active);
+        expect(plugins).toBeTruthy();
+        expect(plugins[testPlugin.id]).toBeTruthy();
+        expect(plugins[testPlugin.id].active).toBeTruthy();
     });
 
     it('disablePlugin', async () => {
@@ -828,9 +828,9 @@ describe('Actions.Admin', () => {
 
         let state = store.getState();
         let plugins = state.entities.admin.plugins;
-        assert.ok(plugins);
-        assert.ok(plugins[testPlugin.id]);
-        assert.ok(plugins[testPlugin.id].active);
+        expect(plugins).toBeTruthy();
+        expect(plugins[testPlugin.id]).toBeTruthy();
+        expect(plugins[testPlugin.id].active).toBeTruthy();
 
         nock(Client4.getBaseRoute()).
             post(`/plugins/${testPlugin.id}/disable`).
@@ -840,9 +840,9 @@ describe('Actions.Admin', () => {
 
         state = store.getState();
         plugins = state.entities.admin.plugins;
-        assert.ok(plugins);
-        assert.ok(plugins[testPlugin.id]);
-        assert.ok(!plugins[testPlugin.id].active);
+        expect(plugins).toBeTruthy();
+        expect(plugins[testPlugin.id]).toBeTruthy();
+        expect(!plugins[testPlugin.id].active).toBeTruthy();
     });
 
     it('getLdapGroups', async () => {
@@ -858,14 +858,14 @@ describe('Actions.Admin', () => {
             get('/ldap/groups?page=0&per_page=100').
             reply(200, ldapGroups);
 
-        await Actions.getLdapGroups(0, 100, null)(store.dispatch, store.getState);
+        await Actions.getLdapGroups(0, 100, null as any)(store.dispatch, store.getState);
 
         const state = store.getState();
 
         const groups = state.entities.admin.ldapGroups;
-        assert.ok(groups);
-        assert.ok(groups[ldapGroups.groups[0].primary_key]);
-        assert.ok(groups[ldapGroups.groups[1].primary_key]);
+        expect(groups).toBeTruthy();
+        expect(groups[ldapGroups.groups[0].primary_key]).toBeTruthy();
+        expect(groups[ldapGroups.groups[1].primary_key]).toBeTruthy();
     });
 
     it('getLdapGroups is_linked', async () => {
@@ -935,7 +935,7 @@ describe('Actions.Admin', () => {
             get('/ldap/groups?page=0&per_page=100').
             reply(200, ldapGroups);
 
-        await Actions.getLdapGroups(0, 100, null)(store.dispatch, store.getState);
+        await Actions.getLdapGroups(0, 100, null as any)(store.dispatch, store.getState);
 
         const key = 'test1';
 
@@ -947,9 +947,9 @@ describe('Actions.Admin', () => {
 
         const state = store.getState();
         const groups = state.entities.admin.ldapGroups;
-        assert.ok(groups[key]);
-        assert.ok(groups[key].mattermost_group_id === 'new-mattermost-id');
-        assert.ok(groups[key].has_syncables === false);
+        expect(groups[key]).toBeTruthy();
+        expect(groups[key].mattermost_group_id === 'new-mattermost-id').toBeTruthy();
+        expect(groups[key].has_syncables === false).toBeTruthy();
     });
 
     it('unlinkLdapGroup', async () => {
@@ -965,7 +965,7 @@ describe('Actions.Admin', () => {
             get('/ldap/groups?page=0&per_page=100').
             reply(200, ldapGroups);
 
-        await Actions.getLdapGroups(0, 100, null)(store.dispatch, store.getState);
+        await Actions.getLdapGroups(0, 100, null as any)(store.dispatch, store.getState);
 
         const key = 'test2';
 
@@ -977,9 +977,9 @@ describe('Actions.Admin', () => {
 
         const state = store.getState();
         const groups = state.entities.admin.ldapGroups;
-        assert.ok(groups[key]);
-        assert.ok(groups[key].mattermost_group_id === undefined);
-        assert.ok(groups[key].has_syncables === undefined);
+        expect(groups[key]).toBeTruthy();
+        expect(groups[key].mattermost_group_id === undefined).toBeTruthy();
+        expect(groups[key].has_syncables === undefined).toBeTruthy();
     });
 
     it('getSamlMetadataFromIdp', async () => {
@@ -991,14 +991,14 @@ describe('Actions.Admin', () => {
                 idp_public_certificate: samlIdpPublicCertificateText,
             });
 
-        await Actions.getSamlMetadataFromIdp()(store.dispatch, store.getState);
+        await Actions.getSamlMetadataFromIdp('')(store.dispatch, store.getState);
 
         const state = store.getState();
         const metadataResponse = state.entities.admin.samlMetadataResponse;
-        assert.ok(metadataResponse);
-        assert.ok(metadataResponse.idp_url === samlIdpURL);
-        assert.ok(metadataResponse.idp_descriptor_url === samlIdpDescriptorURL);
-        assert.ok(metadataResponse.idp_public_certificate === samlIdpPublicCertificateText);
+        expect(metadataResponse).toBeTruthy();
+        expect(metadataResponse.idp_url === samlIdpURL).toBeTruthy();
+        expect(metadataResponse.idp_descriptor_url === samlIdpDescriptorURL).toBeTruthy();
+        expect(metadataResponse.idp_public_certificate === samlIdpPublicCertificateText).toBeTruthy();
     });
 
     it('setSamlIdpCertificateFromMetadata', async () => {
@@ -1019,7 +1019,7 @@ describe('Actions.Admin', () => {
             post('/warn_metrics/ack/metric1').
             reply(200, OK_RESPONSE);
 
-        await Actions.sendWarnMetricAck(warnMetricAck.id, false)(store.dispatch, store.getState);
+        await Actions.sendWarnMetricAck(warnMetricAck.id, false)(store.dispatch);
 
         expect(nock.isDone()).toBe(true);
     });
@@ -1052,19 +1052,19 @@ describe('Actions.Admin', () => {
 
         const state = store.getState();
         const policesState = state.entities.admin.dataRetentionCustomPolicies;
-        assert.ok(policesState);
+        expect(policesState).toBeTruthy();
 
-        assert.ok(policesState.id1.id === 'id1');
-        assert.ok(policesState.id1.display_name === 'Test Policy');
-        assert.ok(policesState.id1.post_duration === 100);
-        assert.ok(policesState.id1.team_count === 2);
-        assert.ok(policesState.id1.channel_count === 1);
+        expect(policesState.id1.id === 'id1').toBeTruthy();
+        expect(policesState.id1.display_name === 'Test Policy').toBeTruthy();
+        expect(policesState.id1.post_duration === 100).toBeTruthy();
+        expect(policesState.id1.team_count === 2).toBeTruthy();
+        expect(policesState.id1.channel_count === 1).toBeTruthy();
 
-        assert.ok(policesState.id2.id === 'id2');
-        assert.ok(policesState.id2.display_name === 'Test Policy 2');
-        assert.ok(policesState.id2.post_duration === 365);
-        assert.ok(policesState.id2.team_count === 0);
-        assert.ok(policesState.id2.channel_count === 9);
+        expect(policesState.id2.id === 'id2').toBeTruthy();
+        expect(policesState.id2.display_name === 'Test Policy 2').toBeTruthy();
+        expect(policesState.id2.post_duration === 365).toBeTruthy();
+        expect(policesState.id2.team_count === 0).toBeTruthy();
+        expect(policesState.id2.channel_count === 9).toBeTruthy();
     });
 
     it('getDataRetentionCustomPolicy', async () => {
@@ -1083,13 +1083,13 @@ describe('Actions.Admin', () => {
 
         const state = store.getState();
         const policesState = state.entities.admin.dataRetentionCustomPolicies;
-        assert.ok(policesState);
+        expect(policesState).toBeTruthy();
 
-        assert.ok(policesState.id1.id === 'id1');
-        assert.ok(policesState.id1.display_name === 'Test Policy');
-        assert.ok(policesState.id1.post_duration === 100);
-        assert.ok(policesState.id1.team_count === 2);
-        assert.ok(policesState.id1.channel_count === 1);
+        expect(policesState.id1.id === 'id1').toBeTruthy();
+        expect(policesState.id1.display_name === 'Test Policy').toBeTruthy();
+        expect(policesState.id1.post_duration === 100).toBeTruthy();
+        expect(policesState.id1.team_count === 2).toBeTruthy();
+        expect(policesState.id1.channel_count === 1).toBeTruthy();
     });
 
     it('getDataRetentionCustomPolicyTeams', async () => {
@@ -1112,8 +1112,8 @@ describe('Actions.Admin', () => {
         const state = store.getState();
         const teamsState = state.entities.teams.teams;
 
-        assert.ok(teamsState);
-        assert.ok(teamsState.teamId1.policy_id === 'id1');
+        expect(teamsState).toBeTruthy();
+        expect(teamsState.teamId1.policy_id === 'id1').toBeTruthy();
     });
 
     it('getDataRetentionCustomPolicyChannels', async () => {
@@ -1136,8 +1136,8 @@ describe('Actions.Admin', () => {
         const state = store.getState();
         const teamsState = state.entities.channels.channels;
 
-        assert.ok(teamsState);
-        assert.ok(teamsState.channelId1.policy_id === 'id1');
+        expect(teamsState).toBeTruthy();
+        expect(teamsState.channelId1.policy_id === 'id1').toBeTruthy();
     });
 
     it('searchDataRetentionCustomPolicyTeams', async () => {
@@ -1145,9 +1145,9 @@ describe('Actions.Admin', () => {
             post('/data_retention/policies/id1/teams/search').
             reply(200, [TestHelper.basicTeam]);
 
-        const response = await store.dispatch(Actions.searchDataRetentionCustomPolicyTeams('id1', 'test'));
+        const response = await store.dispatch(Actions.searchDataRetentionCustomPolicyTeams('id1', 'test', {}));
 
-        assert.ok(response.data.length === 1);
+        expect(response.data.length === 1).toBeTruthy();
     });
 
     it('searchDataRetentionCustomPolicyChannels', async () => {
@@ -1155,9 +1155,9 @@ describe('Actions.Admin', () => {
             post('/data_retention/policies/id1/channels/search').
             reply(200, [TestHelper.basicChannel]);
 
-        const response = await store.dispatch(Actions.searchDataRetentionCustomPolicyChannels('id1', 'test'));
+        const response = await store.dispatch(Actions.searchDataRetentionCustomPolicyChannels('id1', 'test', {}));
 
-        assert.ok(response.data.length === 1);
+        expect(response.data.length === 1).toBeTruthy();
     });
 
     it('createDataRetentionCustomPolicy', async () => {
@@ -1180,13 +1180,13 @@ describe('Actions.Admin', () => {
 
         const state = store.getState();
         const policesState = state.entities.admin.dataRetentionCustomPolicies;
-        assert.ok(policesState);
+        expect(policesState).toBeTruthy();
 
-        assert.ok(policesState.id1.id === 'id1');
-        assert.ok(policesState.id1.display_name === 'Test');
-        assert.ok(policesState.id1.post_duration === 100);
-        assert.ok(policesState.id1.team_count === 2);
-        assert.ok(policesState.id1.channel_count === 1);
+        expect(policesState.id1.id === 'id1').toBeTruthy();
+        expect(policesState.id1.display_name === 'Test').toBeTruthy();
+        expect(policesState.id1.post_duration === 100).toBeTruthy();
+        expect(policesState.id1.team_count === 2).toBeTruthy();
+        expect(policesState.id1.channel_count === 1).toBeTruthy();
     });
 
     it('updateDataRetentionCustomPolicy', async () => {
@@ -1199,17 +1199,17 @@ describe('Actions.Admin', () => {
                 team_count: 2,
                 channel_count: 1,
             });
-        await Actions.updateDataRetentionCustomPolicy('id1', {display_name: 'Test123', post_duration: 365})(store.dispatch, store.getState);
+        await Actions.updateDataRetentionCustomPolicy('id1', {display_name: 'Test123', post_duration: 365} as CreateDataRetentionCustomPolicy)(store.dispatch, store.getState);
 
         const updateState = store.getState();
         const policyState = updateState.entities.admin.dataRetentionCustomPolicies;
-        assert.ok(policyState);
+        expect(policyState).toBeTruthy();
 
-        assert.ok(policyState.id1.id === 'id1');
-        assert.ok(policyState.id1.display_name === 'Test123');
-        assert.ok(policyState.id1.post_duration === 365);
-        assert.ok(policyState.id1.team_count === 2);
-        assert.ok(policyState.id1.channel_count === 1);
+        expect(policyState.id1.id === 'id1').toBeTruthy();
+        expect(policyState.id1.display_name === 'Test123').toBeTruthy();
+        expect(policyState.id1.post_duration === 365).toBeTruthy();
+        expect(policyState.id1.team_count === 2).toBeTruthy();
+        expect(policyState.id1.channel_count === 1).toBeTruthy();
     });
 
     it('createDataRetentionCustomPolicy', async () => {
@@ -1232,13 +1232,13 @@ describe('Actions.Admin', () => {
 
         const state = store.getState();
         const policesState = state.entities.admin.dataRetentionCustomPolicies;
-        assert.ok(policesState);
+        expect(policesState).toBeTruthy();
 
-        assert.ok(policesState.id1.id === 'id1');
-        assert.ok(policesState.id1.display_name === 'Test');
-        assert.ok(policesState.id1.post_duration === 100);
-        assert.ok(policesState.id1.team_count === 2);
-        assert.ok(policesState.id1.channel_count === 1);
+        expect(policesState.id1.id === 'id1').toBeTruthy();
+        expect(policesState.id1.display_name === 'Test').toBeTruthy();
+        expect(policesState.id1.post_duration === 100).toBeTruthy();
+        expect(policesState.id1.team_count === 2).toBeTruthy();
+        expect(policesState.id1.channel_count === 1).toBeTruthy();
     });
 
     it('removeDataRetentionCustomPolicyTeams', async () => {
@@ -1272,8 +1272,8 @@ describe('Actions.Admin', () => {
         const state = store.getState();
         const teamsState = state.entities.teams.teams;
 
-        assert.ok(teamsState);
-        assert.ok(teamsState.teamId2.policy_id === null);
+        expect(teamsState).toBeTruthy();
+        expect(teamsState.teamId2.policy_id === null).toBeTruthy();
     });
 
     it('removeDataRetentionCustomPolicyChannels', async () => {
@@ -1307,7 +1307,7 @@ describe('Actions.Admin', () => {
         const state = store.getState();
         const channelsState = state.entities.channels.channels;
 
-        assert.ok(channelsState);
-        assert.ok(channelsState.channelId2.policy_id === null);
+        expect(channelsState).toBeTruthy();
+        expect(channelsState.channelId2.policy_id === null).toBeTruthy();
     });
 });

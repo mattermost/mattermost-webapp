@@ -1,23 +1,22 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import nock from 'nock';
 
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 import * as Actions from 'mattermost-redux/actions/preferences';
 import {loadMeREST} from 'mattermost-redux/actions/users';
 import {UserTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from '../constants';
 
-import TestHelper from 'mattermost-redux/test/test_helper';
-import configureStore from 'mattermost-redux/test/test_store';
+import TestHelper from '../../test/test_helper';
+import configureStore from '../../test/test_store';
 
 const OK_RESPONSE = {status: 'OK'};
 
 describe('Actions.Preferences', () => {
-    let store;
+    let store = configureStore();
     beforeAll(() => {
         TestHelper.initBasic(Client4);
     });
@@ -26,7 +25,7 @@ describe('Actions.Preferences', () => {
         store = configureStore({
             entities: {
                 users: {
-                    currentUserId: TestHelper.basicUser.id,
+                    currentUserId: TestHelper.basicUser!.id,
                 },
                 general: {
                     config: {
@@ -42,7 +41,7 @@ describe('Actions.Preferences', () => {
     });
 
     it('getMyPreferences', async () => {
-        const user = TestHelper.basicUser;
+        const user = TestHelper.basicUser!;
         const existingPreferences = [
             {
                 user_id: user.id,
@@ -59,7 +58,7 @@ describe('Actions.Preferences', () => {
         ];
 
         nock(Client4.getUsersRoute()).
-            put(`/${TestHelper.basicUser.id}/preferences`).
+            put(`/${TestHelper.basicUser!.id}/preferences`).
             reply(200, OK_RESPONSE);
         await Client4.savePreferences(user.id, existingPreferences);
 
@@ -71,14 +70,17 @@ describe('Actions.Preferences', () => {
         const state = store.getState();
         const {myPreferences} = state.entities.preferences;
 
-        assert.ok(myPreferences['test--test1'], 'first preference doesn\'t exist');
-        assert.deepEqual(existingPreferences[0], myPreferences['test--test1']);
-        assert.ok(myPreferences['test--test2'], 'second preference doesn\'t exist');
-        assert.deepEqual(existingPreferences[1], myPreferences['test--test2']);
+        // first preference doesn't exist
+        expect(myPreferences['test--test1']).toBeTruthy();
+        expect(existingPreferences[0]).toEqual(myPreferences['test--test1']);
+
+        // second preference doesn't exist
+        expect(myPreferences['test--test2']).toBeTruthy();
+        expect(existingPreferences[1]).toEqual(myPreferences['test--test2']);
     });
 
     it('savePrefrences', async () => {
-        const user = TestHelper.basicUser;
+        const user = TestHelper.basicUser!;
         const existingPreferences = [
             {
                 user_id: user.id,
@@ -89,7 +91,7 @@ describe('Actions.Preferences', () => {
         ];
 
         nock(Client4.getUsersRoute()).
-            put(`/${TestHelper.basicUser.id}/preferences`).
+            put(`/${TestHelper.basicUser!.id}/preferences`).
             reply(200, OK_RESPONSE);
         await Client4.savePreferences(user.id, existingPreferences);
 
@@ -114,23 +116,28 @@ describe('Actions.Preferences', () => {
         ];
 
         nock(Client4.getUsersRoute()).
-            put(`/${TestHelper.basicUser.id}/preferences`).
+            put(`/${TestHelper.basicUser!.id}/preferences`).
             reply(200, OK_RESPONSE);
-        await Actions.savePreferences(user.id, preferences)(store.dispatch, store.getState);
+        await Actions.savePreferences(user.id, preferences)(store.dispatch);
 
         const state = store.getState();
         const {myPreferences} = state.entities.preferences;
 
-        assert.ok(myPreferences['test--test1'], 'first preference doesn\'t exist');
-        assert.deepEqual(existingPreferences[0], myPreferences['test--test1']);
-        assert.ok(myPreferences['test--test2'], 'second preference doesn\'t exist');
-        assert.deepEqual(preferences[0], myPreferences['test--test2']);
-        assert.ok(myPreferences['test--test3'], 'third preference doesn\'t exist');
-        assert.deepEqual(preferences[1], myPreferences['test--test3']);
+        // first preference doesn't exist
+        expect(myPreferences['test--test1']).toBeTruthy();
+        expect(existingPreferences[0]).toEqual(myPreferences['test--test1']);
+
+        // second preference doesn't exist
+        expect(myPreferences['test--test2']).toBeTruthy();
+        expect(preferences[0]).toEqual(myPreferences['test--test2']);
+
+        // third preference doesn't exist
+        expect(myPreferences['test--test3']).toBeTruthy();
+        expect(preferences[1]).toEqual(myPreferences['test--test3']);
     });
 
     it('deletePreferences', async () => {
-        const user = TestHelper.basicUser;
+        const user = TestHelper.basicUser!;
         const existingPreferences = [
             {
                 user_id: user.id,
@@ -153,7 +160,7 @@ describe('Actions.Preferences', () => {
         ];
 
         nock(Client4.getUsersRoute()).
-            put(`/${TestHelper.basicUser.id}/preferences`).
+            put(`/${TestHelper.basicUser!.id}/preferences`).
             reply(200, OK_RESPONSE);
         await Client4.savePreferences(user.id, existingPreferences);
 
@@ -163,7 +170,7 @@ describe('Actions.Preferences', () => {
         await Actions.getMyPreferences()(store.dispatch, store.getState);
 
         nock(Client4.getUsersRoute()).
-            post(`/${TestHelper.basicUser.id}/preferences/delete`).
+            post(`/${TestHelper.basicUser!.id}/preferences/delete`).
             reply(200, OK_RESPONSE);
         await Actions.deletePreferences(user.id, [
             existingPreferences[0],
@@ -173,14 +180,19 @@ describe('Actions.Preferences', () => {
         const state = store.getState();
         const {myPreferences} = state.entities.preferences;
 
-        assert.ok(!myPreferences['test--test1'], 'deleted preference still exists');
-        assert.ok(myPreferences['test--test2'], 'second preference doesn\'t exist');
-        assert.deepEqual(existingPreferences[1], myPreferences['test--test2']);
-        assert.ok(!myPreferences['test--test3'], 'third preference doesn\'t exist');
+        // deleted preference still exists
+        expect(!myPreferences['test--test1']).toBeTruthy();
+
+        // second preference doesn't exist
+        expect(myPreferences['test--test2']).toBeTruthy();
+        expect(existingPreferences[1]).toEqual(myPreferences['test--test2']);
+
+        // third preference doesn't exist
+        expect(!myPreferences['test--test3']).toBeTruthy();
     });
 
     it('makeDirectChannelVisibleIfNecessary', async () => {
-        const user = TestHelper.basicUser;
+        const user = TestHelper.basicUser!;
 
         nock(Client4.getBaseRoute()).
             post('/users').
@@ -195,49 +207,59 @@ describe('Actions.Preferences', () => {
 
         // Test that a new preference is created if none exists
         nock(Client4.getUsersRoute()).
-            put(`/${TestHelper.basicUser.id}/preferences`).
+            put(`/${TestHelper.basicUser!.id}/preferences`).
             reply(200, OK_RESPONSE);
         await Actions.makeDirectChannelVisibleIfNecessary(user2.id)(store.dispatch, store.getState);
 
         let state = store.getState();
         let myPreferences = state.entities.preferences.myPreferences;
         let preference = myPreferences[`${Preferences.CATEGORY_DIRECT_CHANNEL_SHOW}--${user2.id}`];
-        assert.ok(preference, 'preference for showing direct channel doesn\'t exist');
-        assert.equal(preference.value, 'true', 'preference for showing direct channel is not true');
+
+        // preference for showing direct channel doesn't exist
+        expect(preference).toBeTruthy();
+
+        // preference for showing direct channel is not true
+        expect(preference.value).toBe('true');
 
         // Test that nothing changes if the preference already exists and is true
         nock(Client4.getUsersRoute()).
-            put(`/${TestHelper.basicUser.id}/preferences`).
+            put(`/${TestHelper.basicUser!.id}/preferences`).
             reply(200, OK_RESPONSE);
         await Actions.makeDirectChannelVisibleIfNecessary(user2.id)(store.dispatch, store.getState);
 
         const state2 = store.getState();
-        assert.equal(state, state2, 'store should not change since direct channel is already visible');
+
+        // store should not change since direct channel is already visible
+        expect(state).toEqual(state2);
 
         // Test that the preference is updated if it already exists and is false
         nock(Client4.getUsersRoute()).
-            put(`/${TestHelper.basicUser.id}/preferences`).
+            put(`/${TestHelper.basicUser!.id}/preferences`).
             reply(200, OK_RESPONSE);
         Actions.savePreferences(user.id, [{
             ...preference,
             value: 'false',
-        }])(store.dispatch, store.getState);
+        }])(store.dispatch);
 
         nock(Client4.getUsersRoute()).
-            put(`/${TestHelper.basicUser.id}/preferences`).
+            put(`/${TestHelper.basicUser!.id}/preferences`).
             reply(200, OK_RESPONSE);
         await Actions.makeDirectChannelVisibleIfNecessary(user2.id)(store.dispatch, store.getState);
 
         state = store.getState();
         myPreferences = state.entities.preferences.myPreferences;
         preference = myPreferences[`${Preferences.CATEGORY_DIRECT_CHANNEL_SHOW}--${user2.id}`];
-        assert.ok(preference, 'preference for showing direct channel doesn\'t exist');
-        assert.equal(preference.value, 'true', 'preference for showing direct channel is not true');
+
+        // preference for showing direct channel doesn't exist
+        expect(preference).toBeTruthy();
+
+        // preference for showing direct channel is not true
+        expect(preference.value).toEqual('true');
     });
 
     it('saveTheme', async () => {
-        const user = TestHelper.basicUser;
-        const team = TestHelper.basicTeam;
+        const user = TestHelper.basicUser!;
+        const team = TestHelper.basicTeam!;
         const existingPreferences = [
             {
                 user_id: user.id,
@@ -250,7 +272,7 @@ describe('Actions.Preferences', () => {
         ];
 
         nock(Client4.getUsersRoute()).
-            put(`/${TestHelper.basicUser.id}/preferences`).
+            put(`/${TestHelper.basicUser!.id}/preferences`).
             reply(200, OK_RESPONSE);
         await Client4.savePreferences(user.id, existingPreferences);
 
@@ -261,21 +283,22 @@ describe('Actions.Preferences', () => {
 
         const newTheme = {
             type: 'Mattermost Dark',
-        };
+        } as unknown as Theme;
         nock(Client4.getUsersRoute()).
-            put(`/${TestHelper.basicUser.id}/preferences`).
+            put(`/${TestHelper.basicUser!.id}/preferences`).
             reply(200, OK_RESPONSE);
         await Actions.saveTheme(team.id, newTheme)(store.dispatch, store.getState);
 
         const state = store.getState();
         const {myPreferences} = state.entities.preferences;
 
-        assert.ok(myPreferences[`theme--${team.id}`], 'theme preference doesn\'t exist');
-        assert.deepEqual(myPreferences[`theme--${team.id}`].value, JSON.stringify(newTheme));
+        // theme preference doesn't exist
+        expect(myPreferences[`theme--${team.id}`]).toBeTruthy();
+        expect(myPreferences[`theme--${team.id}`].value).toEqual(JSON.stringify(newTheme));
     });
 
     it('deleteTeamSpecificThemes', async () => {
-        const user = TestHelper.basicUser;
+        const user = TestHelper.basicUser!;
         TestHelper.mockLogin();
         store.dispatch({
             type: UserTypes.LOGIN_SUCCESS,
@@ -328,7 +351,9 @@ describe('Actions.Preferences', () => {
         const state = store.getState();
         const {myPreferences} = state.entities.preferences;
 
-        assert.equal(Object.entries(myPreferences).length, 1);
-        assert.ok(myPreferences['theme--'], 'theme preference doesn\'t exist');
+        expect(Object.entries(myPreferences).length).toBe(1);
+
+        // theme preference doesn't exist
+        expect(myPreferences['theme--']).toBeTruthy();
     });
 });

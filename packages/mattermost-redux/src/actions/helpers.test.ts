@@ -1,14 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import {ClientError} from '@mattermost/client';
 
 import {UserTypes} from 'mattermost-redux/action_types';
 import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
 import {Client4} from 'mattermost-redux/client';
-import configureStore, {mockDispatch} from 'mattermost-redux/test/test_store';
+import configureStore, {mockDispatch} from '../../test/test_store';
 
 describe('Actions.Helpers', () => {
     describe('forceLogoutIfNecessary', () => {
@@ -33,10 +31,10 @@ describe('Actions.Helpers', () => {
                 url: '/api/v4/foo/bar',
             });
 
-            forceLogoutIfNecessary(error, dispatch, store.getState);
+            forceLogoutIfNecessary(error, dispatch as any, store.getState);
 
-            assert.equal(Client4.token, token);
-            assert.deepEqual(dispatch.actions, []);
+            expect(Client4.token).toEqual(token);
+            expect(dispatch.actions).toEqual([]);
         });
 
         it('should do nothing when passed a non-401 server error', async () => {
@@ -55,10 +53,10 @@ describe('Actions.Helpers', () => {
                 url: '/api/v4/foo/bar',
             });
 
-            forceLogoutIfNecessary(error, dispatch, store.getState);
+            forceLogoutIfNecessary(error, dispatch as any, store.getState);
 
-            assert.equal(Client4.token, token);
-            assert.deepEqual(dispatch.actions, []);
+            expect(Client4.token).toEqual(token);
+            expect(dispatch.actions).toEqual([]);
         });
 
         it('should trigger logout when passed a 401 server error', async () => {
@@ -77,10 +75,10 @@ describe('Actions.Helpers', () => {
                 url: '/api/v4/foo/bar',
             });
 
-            forceLogoutIfNecessary(error, dispatch, store.getState);
+            forceLogoutIfNecessary(error, dispatch as any, store.getState);
 
-            assert.notEqual(Client4.token, token);
-            assert.deepEqual(dispatch.actions, [{type: UserTypes.LOGOUT_SUCCESS, data: {}}]);
+            expect(Client4.token).not.toEqual(token);
+            expect(dispatch.actions).toEqual([{type: UserTypes.LOGOUT_SUCCESS, data: {}}]);
         });
 
         it('should do nothing when failing to log in', async () => {
@@ -99,10 +97,10 @@ describe('Actions.Helpers', () => {
                 url: '/api/v4/login',
             });
 
-            forceLogoutIfNecessary(error, dispatch, store.getState);
+            forceLogoutIfNecessary(error, dispatch as any, store.getState);
 
-            assert.equal(Client4.token, token);
-            assert.deepEqual(dispatch.actions, []);
+            expect(Client4.token).toEqual(token);
+            expect(dispatch.actions).toEqual([]);
         });
 
         it('should do nothing when not logged in', async () => {
@@ -121,10 +119,10 @@ describe('Actions.Helpers', () => {
                 url: '/api/v4/foo/bar',
             });
 
-            forceLogoutIfNecessary(error, dispatch, store.getState);
+            forceLogoutIfNecessary(error, dispatch as any, store.getState);
 
-            assert.equal(Client4.token, token);
-            assert.deepEqual(dispatch.actions, []);
+            expect(Client4.token).toEqual(token);
+            expect(dispatch.actions).toEqual([]);
         });
     });
 });

@@ -1,9 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import * as Selectors from 'selectors/rhs';
+import {GlobalState} from 'types/store';
 
 describe('Selectors.Rhs', () => {
     describe('should return the last time a post was selected', () => {
@@ -11,9 +10,9 @@ describe('Selectors.Rhs', () => {
             it(`when open is ${expected}`, () => {
                 const state = {views: {rhs: {
                     selectedPostFocussedAt: expected,
-                }}};
+                }}} as GlobalState;
 
-                assert.strictEqual(expected, Selectors.getSelectedPostFocussedAt(state));
+                expect(Selectors.getSelectedPostFocussedAt(state)).toEqual(expected);
             });
         });
     });
@@ -23,9 +22,9 @@ describe('Selectors.Rhs', () => {
             it(`when open is ${expected}`, () => {
                 const state = {views: {rhs: {
                     isSidebarOpen: expected,
-                }}};
+                }}} as GlobalState;
 
-                assert.strictEqual(expected, Selectors.getIsRhsOpen(state));
+                expect(Selectors.getIsRhsOpen(state)).toEqual(expected);
             });
         });
     });
@@ -35,9 +34,9 @@ describe('Selectors.Rhs', () => {
             it(`when open is ${expected}`, () => {
                 const state = {views: {rhs: {
                     isMenuOpen: expected,
-                }}};
+                }}} as GlobalState;
 
-                assert.strictEqual(expected, Selectors.getIsRhsMenuOpen(state));
+                expect(Selectors.getIsRhsMenuOpen(state)).toEqual(expected);
             });
         });
     });
@@ -46,9 +45,9 @@ describe('Selectors.Rhs', () => {
         test.each(['42', ''])('when id is %s', (expected) => {
             const state = {views: {rhs: {
                 highlightedPostId: expected,
-            }}};
+            }}} as GlobalState;
 
-            assert.strictEqual(expected, Selectors.getHighlightedPostId(state));
+            expect(Selectors.getHighlightedPostId(state)).toEqual(expected);
         });
     });
 
@@ -61,8 +60,8 @@ describe('Selectors.Rhs', () => {
             const state = {
                 views: {rhs: {
                     previousRhsStates: previousArray,
-                }}};
-            assert.strictEqual(previous, Selectors.getPreviousRhsState(state));
+                }}} as GlobalState;
+            expect(Selectors.getPreviousRhsState(state)).toEqual(previous);
         });
     });
 });

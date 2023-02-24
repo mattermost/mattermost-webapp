@@ -1,19 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import nock from 'nock';
 
 import * as BotActions from 'mattermost-redux/actions/bots';
 import * as UserActions from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 
-import TestHelper from 'mattermost-redux/test/test_helper';
-import configureStore from 'mattermost-redux/test/test_store';
+import TestHelper from '../../test/test_helper';
+import configureStore from '../../test/test_store';
 
 describe('Actions.Bots', () => {
-    let store;
+    let store = configureStore();
     beforeAll(() => {
         TestHelper.initBasic(Client4);
     });
@@ -37,7 +35,7 @@ describe('Actions.Bots', () => {
 
         const state = store.getState();
         const botsResult = state.entities.bots.accounts;
-        assert.equal(bots.length, Object.values(botsResult).length);
+        expect(bots.length).toEqual(Object.values(botsResult).length);
     });
 
     it('loadBot', async () => {
@@ -51,7 +49,7 @@ describe('Actions.Bots', () => {
 
         const state = store.getState();
         const botsResult = state.entities.bots.accounts[bot.user_id];
-        assert.equal(bot.username, botsResult.username);
+        expect(bot.username).toEqual(botsResult.username);
     });
 
     it('createBot', async () => {
@@ -63,7 +61,7 @@ describe('Actions.Bots', () => {
 
         const state = store.getState();
         const botsResult = state.entities.bots.accounts[bot.user_id];
-        assert.equal(bot.username, botsResult.username);
+        expect(bot.username).toEqual(botsResult.username);
     });
 
     it('patchBot', async () => {
@@ -78,11 +76,11 @@ describe('Actions.Bots', () => {
         nock(Client4.getBaseRoute()).
             put(`/bots/${bot.user_id}`).
             reply(200, bot);
-        await store.dispatch(BotActions.patchBot(bot.user_id, bot));
+        await store.dispatch(BotActions.patchBot(bot.user_id, bot as any));
 
         const state = store.getState();
         const botsResult = state.entities.bots.accounts[bot.user_id];
-        assert.equal(bot.username, botsResult.username);
+        expect(bot.username).toEqual(botsResult.username);
     });
 
     it('disableBot', async () => {
@@ -101,7 +99,7 @@ describe('Actions.Bots', () => {
 
         const state = store.getState();
         const botsResult = state.entities.bots.accounts[bot.user_id];
-        assert.equal(bot.delete_at, botsResult.delete_at);
+        expect(bot.delete_at).toEqual(botsResult.delete_at);
 
         bot.delete_at = 0;
         nock(Client4.getBotRoute(bot.user_id)).
@@ -111,7 +109,7 @@ describe('Actions.Bots', () => {
 
         const state2 = store.getState();
         const botsResult2 = state2.entities.bots.accounts[bot.user_id];
-        assert.equal(bot.delete_at, botsResult2.delete_at);
+        expect(bot.delete_at).toEqual(botsResult2.delete_at);
     });
 
     it('assignBot', async () => {
@@ -129,7 +127,7 @@ describe('Actions.Bots', () => {
 
         const state = store.getState();
         const botsResult = state.entities.bots.accounts[bot.user_id];
-        assert.equal(bot.owner_id, botsResult.owner_id);
+        expect(bot.owner_id).toEqual(botsResult.owner_id);
     });
 
     it('logout', async () => {
@@ -148,6 +146,6 @@ describe('Actions.Bots', () => {
 
         // Check is clear
         const state = store.getState();
-        assert.equal(0, Object.keys(state.entities.bots.accounts).length);
+        expect(0).toEqual(Object.keys(state.entities.bots.accounts).length);
     });
 });
