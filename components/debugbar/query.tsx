@@ -8,9 +8,10 @@ import Code from './code';
 type Props = {
     query: string;
     args?: string[];
+    inline?: boolean;
 }
 
-function Sql({query, args}: Props) {
+function Sql({query, args, inline}: Props) {
     const code = useMemo(() => {
         return query.replace(
             /\$\b\d\b/gm,
@@ -35,6 +36,7 @@ function Sql({query, args}: Props) {
         <Code
             code={code}
             language='sql'
+            inline={inline}
         />
     );
 }

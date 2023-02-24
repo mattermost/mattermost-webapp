@@ -13,6 +13,7 @@ import 'highlight.js/lib/languages/json';
 const Block = styled.div`
     border: 0;
     background: none;
+    white-space: pre-wrap;
 `;
 
 type Props = {

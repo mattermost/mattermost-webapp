@@ -12,6 +12,20 @@
     z-index: 1000;
 }
 
+.DebugBarModal {
+    min-width: 600px;
+    width: 50%;
+    z-index: 1100;
+    .modal-content {
+        max-height: 90%;
+        .modal-body {
+            overflow: scroll;
+            margin-bottom: 25px;
+        }
+    }
+}
+
+
 .DebugBar {
     height: 400px;
     width: 100%;
@@ -20,7 +34,6 @@
     grid-column: 1/span 5;
     border: 1px solid #aaa;
     border-top: 3px solid var(--sidebar-text-active-border);
-    z-index: 10000;
     box-shadow: var(--elevation-2);
 
     .debug {
