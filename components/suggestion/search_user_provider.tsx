@@ -3,8 +3,9 @@
 
 import React from 'react';
 
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import * as Utils from 'utils/utils';
-import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 import SharedUserIndicator from 'components/shared_user_indicator';
 
@@ -65,13 +66,8 @@ class SearchUserSuggestion extends Suggestion {
                     <span className='suggestion-list__main'>
                         {'@'}{username}
                     </span>
-                    <BotBadge
-                        show={Boolean(item.is_bot)}
-                        className='badge-autocomplete'
-                    />
-                    <span className='ml-2'>
-                        {description}
-                    </span>
+                    {item.is_bot && <BotTag/>}
+                    {description}
                 </div>
                 {sharedIcon}
             </div>

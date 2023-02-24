@@ -38,16 +38,6 @@ const FeatureList = (props: FeatureListProps) => {
                 limit: asGBString(limits.files?.total_storage ?? fallbackStarterLimits.files.totalStorage, intl.formatNumber),
             },
         ),
-        intl.formatMessage(
-            {
-                id: 'admin.billing.subscription.planDetails.features.limitedBoardCards',
-                defaultMessage: 'Limited to {limit} board cards per workspace',
-            },
-            {
-
-                limit: intl.formatNumber(limits.boards?.cards ?? fallbackStarterLimits.boards.cards),
-            },
-        ),
         intl.formatMessage({
             id: 'admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging',
             defaultMessage: 'Group and one-to-one messaging, file sharing, and search',

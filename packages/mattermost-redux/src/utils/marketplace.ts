@@ -3,9 +3,6 @@
 
 import {MarketplaceApp, MarketplacePlugin} from '@mattermost/types/marketplace';
 
-// This file's contents belong to the Apps Framework feature.
-// Apps Framework feature is experimental, and the contents of this file are
-// susceptible to breaking changes without pushing the major version of this package.
 export function isPlugin(item: MarketplacePlugin | MarketplaceApp): item is MarketplacePlugin {
     return (item as MarketplacePlugin).manifest.id !== undefined;
 }

@@ -17,14 +17,6 @@ describe('Messaging', () => {
     let newChannel;
 
     before(() => {
-        // # Set ServiceSettings to expected values
-        const newSettings = {
-            ServiceSettings: {
-                EnableBotAccountCreation: true,
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
-
         // # Create and visit new channel
         cy.apiInitSetup().then(({team, channel}) => {
             newChannel = channel;

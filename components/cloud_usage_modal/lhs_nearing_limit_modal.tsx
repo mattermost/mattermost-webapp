@@ -58,12 +58,11 @@ export default function LHSNearingLimitsModal() {
 
     let description: Message = {
         id: t('workspace_limits.modals.informational.description.freeLimits'),
-        defaultMessage: '{planName} is restricted to {messages} message history, {storage} file storage, and {boards} board cards.',
+        defaultMessage: '{planName} is restricted to {messages} message history and {storage} file storage.',
         values: {
             planName: product?.name,
             messages: intl.formatNumber(limits?.messages?.history ?? fallbackStarterLimits.messages.history),
             storage: asGBString(limits?.files?.total_storage ?? fallbackStarterLimits.files.totalStorage, intl.formatNumber),
-            boards: limits?.boards?.cards ?? fallbackStarterLimits.boards.cards,
         },
     };
 

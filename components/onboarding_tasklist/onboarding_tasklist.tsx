@@ -6,29 +6,37 @@ import {useDispatch, useSelector} from 'react-redux';
 import styled, {css} from 'styled-components';
 
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
+
 import {FormattedMessage} from 'react-intl';
 
-import {useFirstAdminUser, useIsCurrentUserSystemAdmin} from 'components/global_header/hooks';
-
-import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {getShowTaskListBool} from 'selectors/onboarding';
-import {getBool, getMyPreferences as getMyPreferencesSelector} from 'mattermost-redux/selectors/entities/preferences';
+import {shouldShowAutoLinkedBoard} from 'selectors/plugins';
+
+import {
+    getBool,
+    getMyPreferences as getMyPreferencesSelector,
+} from 'mattermost-redux/selectors/entities/preferences';
 import {getMyPreferences, savePreferences} from 'mattermost-redux/actions/preferences';
+import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {trackEvent} from 'actions/telemetry_actions';
-import checklistImg from 'images/onboarding-checklist.svg';
+
 import {
     useTasksListWithStatus,
     OnboardingTaskCategory,
     OnboardingTaskList,
 } from 'components/onboarding_tasks';
+import {useFirstAdminUser, useIsCurrentUserSystemAdmin} from 'components/global_header/hooks';
 import {useHandleOnBoardingTaskTrigger} from 'components/onboarding_tasks/onboarding_tasks_manager';
-import {openModal} from 'actions/views/modals';
-import {GlobalState} from 'types/store';
 import OnBoardingVideoModal from 'components/onboarding_tasks/onboarding_video_modal/onboarding_video_modal';
 
-import {Preferences, RecommendedNextStepsLegacy} from 'utils/constants';
+import {openModal} from 'actions/views/modals';
+import {GlobalState} from 'types/store';
+import {showRHSPlugin} from 'actions/views/rhs';
+import {trackEvent} from 'actions/telemetry_actions';
+import checklistImg from 'images/onboarding-checklist.svg';
+
+import {Preferences, RecommendedNextStepsLegacy, suitePluginIds} from 'utils/constants';
 
 import {TaskListPopover} from './onboarding_tasklist_popover';
 import {Task} from './onboarding_tasklist_task';
@@ -183,9 +191,22 @@ const OnBoardingTaskList = (): JSX.Element | null => {
     const isEnableOnboardingFlow = useSelector((state: GlobalState) => getConfig(state).EnableOnboardingFlow === 'true');
     const [showTaskList, firstTimeOnboarding] = useSelector(getShowTaskListBool);
 
+    // a/b test auto show linked boards
+    const autoShowLinkedBoard = useSelector((state: GlobalState) => shouldShowAutoLinkedBoard(state));
+    const pluginsComponentsList = useSelector((state: GlobalState) => state.plugins.components);
+
     const startTask = (taskName: string) => {
         toggleTaskList();
         handleTaskTrigger(taskName);
+    };
+
+    const findRhsPluginId = (pluginId: string) => {
+        const rhsPlugins = pluginsComponentsList.RightHandSidebarComponent;
+
+        if (rhsPlugins.length) {
+            return rhsPlugins.find((plugin) => plugin.pluginId === pluginId)?.id;
+        }
+        return null;
     };
 
     const initOnboardingPrefs = async () => {
@@ -271,6 +292,16 @@ const OnBoardingTaskList = (): JSX.Element | null => {
         }];
         dispatch(savePreferences(currentUserId, preferences));
         trackEvent(OnboardingTaskCategory, open ? OnboardingTaskList.ONBOARDING_TASK_LIST_CLOSE : OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN);
+
+        // check if the AB test FF is set and also check that the linkedBoard has only been shown once, then open the RHS
+        if (autoShowLinkedBoard && open) {
+            const boardsId = findRhsPluginId(suitePluginIds.boards);
+            if (!boardsId) {
+                return;
+            }
+
+            dispatch(showRHSPlugin(boardsId));
+        }
     }, [open, currentUserId]);
 
     const openVideoModal = useCallback(() => {

@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import * as TIMEOUTS from '../../../../fixtures/timeouts';
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -9,6 +11,48 @@
 
 // Stage: @prod
 // Group: @cloud_only @cloud_trial
+
+function simulateSubscriptionWithLimitsUsage(subscription, withLimits = {}, postsUsed) {
+    cy.intercept('GET', '**/api/v4/cloud/subscription', {
+        statusCode: 200,
+        body: subscription,
+    }).as('subscription');
+
+    cy.intercept('GET', '**/api/v4/cloud/products**', {
+        statusCode: 200,
+        body: [
+            {
+                id: 'prod_1',
+                sku: 'cloud-starter',
+                price_per_seat: 0,
+                name: 'Cloud Free',
+            },
+            {
+                id: 'prod_2',
+                sku: 'cloud-professional',
+                price_per_seat: 10,
+                name: 'Cloud Professional',
+                recurring_interval: 'month',
+            },
+            {
+                id: 'prod_3',
+                sku: 'cloud-enterprise',
+                price_per_seat: 30,
+                name: 'Cloud Enterprise',
+                recurring_interval: 'month',
+            },
+        ],
+    }).as('products');
+
+    cy.intercept('GET', '**/api/v4/cloud/limits', {
+        statusCode: 200,
+        body: withLimits,
+    });
+
+    cy.intercept('GET', '**/api/v4/usage/posts', {
+        count: postsUsed,
+    });
+}
 
 function simulateSubscription(subscription, withLimits = true) {
     cy.intercept('GET', '**/api/v4/cloud/subscription', {
@@ -68,6 +112,7 @@ function simulateSubscription(subscription, withLimits = true) {
 
 describe('Pricing modal', () => {
     let urlL;
+    let nonAdminUser;
 
     it('should not show Upgrade button in global header for non admin users', () => {
         const subscription = {
@@ -77,6 +122,7 @@ describe('Pricing modal', () => {
         };
         cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
             urlL = url;
+            nonAdminUser = user;
             simulateSubscription(subscription);
             cy.apiLogin(user);
             cy.visit(url);
@@ -86,103 +132,130 @@ describe('Pricing modal', () => {
         cy.get('#UpgradeButton').should('not.exist');
     });
 
-    // it('should not ping admin twice before cool off period', () => {
-    //     const subscription = {
-    //         id: 'sub_test1',
-    //         product_id: 'prod_1',
-    //         is_free_trial: 'false',
-    //     };
+    it('should check for ability to request upgrades for non admin users on free plans', () => {
+        cy.apiLogout();
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_1',
+            is_free_trial: 'false',
+        };
 
-    //     simulateSubscription(subscription);
-    //     cy.apiLogout();
-    //     cy.apiLogin(createdUser);
-    //     cy.visit(urlL);
+        const messageHistoryLimit = 8000;
+        const messagesUsed = 4000;
 
-    //     // # Open the pricing modal
-    //     cy.get('#UpgradeButton').should('exist').click();
+        const limits = {
+            messages: {
+                history: messageHistoryLimit,
+            },
+            teams: {
+                active: 0,
+                teamsLoaded: true,
+            },
+        };
 
-    //     // # Click NotifyAdmin CTA
-    //     cy.get('#notify_admin_cta').click();
+        simulateSubscriptionWithLimitsUsage(subscription, limits, messagesUsed);
+        cy.apiLogin(nonAdminUser);
+        cy.visit(urlL);
 
-    //     // * Check that notified the admin
-    //     cy.get('#notify_admin_cta').contains('Notified!');
+        cy.get('#product_switch_menu').click();
+        cy.get('#view_plans_cta').should('be.visible').click();
 
-    //     // # Click NotifyAdmin CTA again
-    //     cy.get('#notify_admin_cta').click();
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').find('.PricingModal__header').contains('Select a plan');
 
-    //     // * Notifying the admin again is forbidden depending on server notification cool off time
-    //     cy.get('#notify_admin_cta').contains('Already notified!');
-    // });
+        // * Check that on professsional card there a button for non admin user to request upgrade
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#professional > .bottom > .bottom_container').find('#professional_action').should('be.enabled').should('have.text', 'Request admin to upgrade');
 
-    // it('should ping admin when NotifyAdmin CTA is clicked for non admin users while in Starter', () => {
-    //     const subscription = {
-    //         id: 'sub_test1',
-    //         product_id: 'prod_1',
-    //         is_free_trial: 'false',
-    //     };
+        // * Check that on enterprise card there a button for non admin user to request upgrade
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#enterprise > .bottom > .bottom_container').find('#enterprise_action').should('be.enabled').should('have.text', 'Request admin to upgrade');
+    });
 
-    //     simulateSubscription(subscription);
-    //     cy.apiLogout();
-    //     cy.apiLogin(createdUser);
-    //     cy.visit(urlL);
+    it('should check for ability to request upgrades to enterprise for non admin users on professional monthly plans', () => {
+        cy.apiLogout();
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_2',
+            is_free_trial: 'false',
+        };
 
-    //     // # Open the pricing modal
-    //     cy.get('#UpgradeButton').should('exist').click();
+        const messageHistoryLimit = 8000;
+        const messagesUsed = 4000;
 
-    //     // # Click NotifyAdmin CTA
-    //     cy.get('#notify_admin_cta').click();
+        const limits = {
+            messages: {
+                history: messageHistoryLimit,
+            },
+            teams: {
+                active: 0,
+                teamsLoaded: true,
+            },
+        };
 
-    //     // * Check that notified the admin
-    //     cy.get('#notify_admin_cta').contains('Notified!');
+        simulateSubscriptionWithLimitsUsage(subscription, limits, messagesUsed);
+        cy.apiLogin(nonAdminUser);
+        cy.visit(urlL);
 
-    //     // # Switch to admin view to check system-bot message
-    //     cy.apiLogout();
-    //     cy.apiAdminLogin();
-    //     cy.visit(urlL);
+        cy.get('#product_switch_menu').click();
+        cy.get('#view_plans_cta').should('be.visible').click();
 
-    //     // # Open system-bot and admin DM
-    //     cy.get('.SidebarChannelLinkLabel').contains('system-bot').click();
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').find('.PricingModal__header').contains('Select a plan');
 
-    //     // * Check for the post from the system-bot
-    //     cy.getLastPostId().then((postId) => {
-    //         cy.get(`#${postId}_message`).contains(`A member of ${createdTeam.name} has notified you to upgrade this workspace.`);
-    //     });
-    // });
+        // * Check that on professsional card there a button for non admin user to request upgrade and it's disabled
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('.planLabel').should('have.text', 'CURRENT PLAN');
+        cy.get('#professional > .bottom > .bottom_container').find('#professional_action').should('have.text', 'Request admin to upgrade').should('be.not.enabled');
 
-    // it('should ping admin when NotifyAdmin CTA is clicked for non admin users while in Enterprise Trial', () => {
-    //     const subscription = {
-    //         id: 'sub_test1',
-    //         product_id: 'prod_3',
-    //         is_free_trial: 'true',
-    //     };
+        // * Check that on enterprise card there a button for non admin user to request upgrade
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#enterprise > .bottom > .bottom_container').find('#enterprise_action').should('be.enabled').should('have.text', 'Request admin to upgrade');
+    });
 
-    //     simulateSubscription(subscription);
-    //     cy.apiLogout();
-    //     cy.apiLogin(createdUser);
-    //     cy.visit(urlL);
+    it('should not allow any requests for upgrades when on enterprise', () => {
+        cy.apiLogout();
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_3',
+            is_free_trial: 'false',
+        };
 
-    //     // # Open the pricing modal
-    //     cy.get('#UpgradeButton').should('exist').click();
+        const messageHistoryLimit = 8000;
+        const messagesUsed = 4000;
 
-    //     // # Click NotifyAdmin CTA
-    //     cy.get('#notify_admin_cta').click();
+        const limits = {
+            messages: {
+                history: messageHistoryLimit,
+            },
+            teams: {
+                active: 0,
+                teamsLoaded: true,
+            },
+        };
 
-    //     // * Check that notified the admin
-    //     cy.get('#notify_admin_cta').contains('Notified!');
+        simulateSubscriptionWithLimitsUsage(subscription, limits, messagesUsed);
+        cy.apiLogin(nonAdminUser);
+        cy.visit(urlL);
 
-    //     // # Switch to admin view to check system-bot message
-    //     cy.apiLogout();
-    //     cy.apiAdminLogin();
-    //     cy.visit(urlL);
+        cy.get('#product_switch_menu').click();
+        cy.get('#view_plans_cta').should('be.visible').click();
 
-    //     // # Open system-bot and admin DM
-    //     cy.get('.SidebarChannelLinkLabel').contains('system-bot').click();
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').find('.PricingModal__header').contains('Select a plan');
 
-    //     // * Check for the post from the system-bot
-    //     cy.getLastPostId().then((postId) => {
-    //         cy.get(`#${postId}_message`).contains(`A member of ${createdTeam.name} has notified you to upgrade this workspace.`);
-    //     });
-    // });
+        // * Check that on professsional card there a button for non admin user to request upgrade and it's disabled
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#professional > .bottom > .bottom_container').find('#professional_action').should('have.text', 'Request admin to upgrade').should('be.not.enabled');
+
+        // * Check that on enterprise card there a button for non admin user to request upgrade
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('.planLabel').should('have.text', 'CURRENT PLAN');
+        cy.get('#enterprise > .bottom > .bottom_container').find('#enterprise_action').should('have.text', 'Request admin to upgrade').should('be.not.enabled');
+    });
 
     it('should show Upgrade button in global header for admin users and free sku', () => {
         const subscription = {
@@ -190,7 +263,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_1',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -210,7 +283,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_3',
             is_free_trial: 'true',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -225,7 +298,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_1',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -270,7 +343,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_3',
             is_free_trial: 'true',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -304,7 +377,7 @@ describe('Pricing modal', () => {
             is_free_trial: 'false',
             trial_end_at: 100000000, // signifies that this subscription has trialled before
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -337,6 +410,47 @@ describe('Pricing modal', () => {
         cy.get('#enterprise_action').contains('Contact Sales');
     });
 
+    it('should open pricing modal when Switch to Yearly is button clicked while in monthly professional', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_2', //professional monthly
+            is_free_trial: 'false',
+        };
+        cy.simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist').should('be.visible');
+
+        // * Check that professsional card Switch to Yearly button opens purchase modal
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('.planLabel').should('have.text', 'CURRENTLY ON MONTHLY BILLING');
+        cy.get('#professional > .bottom > .bottom_container').find('#professional_action').should('be.enabled').should('have.text', 'Switch to annual billing').click();
+        cy.get('.PurchaseModal').should('exist');
+    });
+
+    it('should have Upgrade button disabled while in yearly professional', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_4', //professional yearly
+            is_free_trial: 'false',
+        };
+        simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist').should('be.visible');
+
+        // * Check that professsional card Switch to Yearly button opens purchase modal
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('.planLabel').should('have.text', 'CURRENT PLAN');
+        cy.get('#professional > .bottom > .bottom_container').find('#professional_action').should('not.be.enabled').should('have.text', 'Upgrade');
+    });
+
     it('should open cloud limits modal when free disclaimer CTA is clicked', () => {
         const subscription = {
             id: 'sub_test1',
@@ -344,7 +458,7 @@ describe('Pricing modal', () => {
             is_free_trial: 'false',
             trial_end_at: 100000000, // signifies that this subscription has trialled before
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -372,7 +486,7 @@ describe('Pricing modal', () => {
             is_free_trial: 'false',
             trial_end_at: 100000000, // signifies that this subscription has trialled before
         };
-        simulateSubscription(subscription, false);
+        cy.simulateSubscription(subscription, false);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -394,7 +508,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_2',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -417,7 +531,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_3',
             is_free_trial: 'true',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -440,7 +554,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_3',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -472,7 +586,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_4',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -484,8 +598,7 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').should('exist');
         cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
 
-        // * Check that free card Downgrade button is disabled
-        cy.get('#pricingModal').get('#free').get('#free_action').should('be.disabled').contains('Downgrade');
+        cy.get('#pricingModal').get('#free').get('#free_action').should('not.be.disabled').contains('Contact Support');
     });
 
     it('should not allow starting a trial from professional plans', () => {
@@ -494,7 +607,7 @@ describe('Pricing modal', () => {
             product_id: 'prod_2',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -511,74 +624,13 @@ describe('Pricing modal', () => {
         cy.get('#start_cloud_trial_btn').should('be.disabled');
     });
 
-    it('should switch between monthly and yearly prices when the yearly/monthly toggle is clicked', () => {
-        const subscription = {
-            id: 'sub_test1',
-            product_id: 'prod_1',
-            is_free_trial: 'false',
-        };
-        simulateSubscription(subscription);
-        cy.apiLogout();
-        cy.apiAdminLogin();
-        cy.visit(urlL);
-
-        const professionalMonthlySubscription = {
-            id: 'sub_test2',
-            product_id: 'prod_2',
-            price_per_seat: 10,
-            recurring_interval: 'month',
-            is_free_trial: 'false',
-            cross_sells_to: 'sub_test3',
-        };
-
-        const professionalYearlySubscription = {
-            id: 'sub_test3',
-            product_id: 'prod_4',
-            price_per_seat: 96,
-            recurring_interval: 'year',
-            is_free_trial: 'false',
-            cross_sells_to: 'sub_test2',
-        };
-
-        // # Open the pricing modal
-        cy.get('#UpgradeButton').should('exist').click();
-
-        // * Pricing modal should be open
-        cy.get('#pricingModal').should('exist');
-        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
-
-        // * check that the save with yearly text exists
-        cy.get('#pricingModal').get('.save-text').contains('Save 20% with Yearly!');
-
-        // * check that the toggle exists and that its initial state is monthly
-        cy.get('#pricingModal').get('#text-selected').contains('Monthly');
-        cy.get('#pricingModal').get('#text-unselected').contains('Yearly');
-        cy.get('#pricingModal').get('#professional').get('.plan_price_rate_section').contains(professionalMonthlySubscription.price_per_seat);
-
-        // # click on the "Yearly" label
-        cy.get('#pricingModal').get('#text-unselected').click();
-
-        // * check that the "yearly" label is selected and the price matches the yearly product's price
-        cy.get('#pricingModal').get('#text-unselected').contains('Monthly');
-        cy.get('#pricingModal').get('#text-selected').contains('Yearly');
-        cy.get('#pricingModal').get('#professional').get('.plan_price_rate_section').contains(professionalYearlySubscription.price_per_seat / 12);
-
-        // # click on the "Monthly" label
-        cy.get('#pricingModal').get('#text-unselected').click();
-
-        // * check that the "monthly" label is selected and the price matches the monthly product's price
-        cy.get('#pricingModal').get('#text-selected').contains('Monthly');
-        cy.get('#pricingModal').get('#text-unselected').contains('Yearly');
-        cy.get('#pricingModal').get('#professional').get('.plan_price_rate_section').contains(professionalMonthlySubscription.price_per_seat);
-    });
-
-    it('Should display downgrade modal when downgrading from professional to free', () => {
+    it('Should display downgrade modal when downgrading from monthly professional to free', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_2',
             is_free_trial: 'false',
         };
-        simulateSubscription(subscription);
+        cy.simulateSubscription(subscription);
         cy.apiLogout();
         cy.apiAdminLogin();
         cy.visit(urlL);
@@ -589,11 +641,51 @@ describe('Pricing modal', () => {
         // * Pricing modal should be open
         cy.get('#pricingModal').should('exist');
 
+        cy.wait(TIMEOUTS.TWO_SEC);
+
         // * Click the free action (downgrade).
         cy.get('#free').should('exist');
         cy.get('#free_action').should('be.enabled').click();
 
         // * Check that the downgrade modal has appeard.
         cy.get('div.DowngradeTeamRemovalModal__body').should('exist');
+    });
+
+    it('Should display a "Contact Support" CTA for downgrading when the current subscription is yearly and not on starter', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_4',
+            is_free_trial: 'false',
+        };
+        cy.simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+
+        // * Click the free action (downgrade).
+        cy.get('#free').should('exist').contains('Contact Support');
+        cy.get('#free_action').should('be.enabled').click();
+    });
+
+    it('Should not display a "Contact Support" CTA for downgrading when the current subscription is monthly and not on starter', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_2',
+            is_free_trial: 'false',
+        };
+        cy.simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+
+        // # The free action button should not be disabled and contain the text "Downgrade".
+        cy.get('#free').should('exist').contains('Downgrade');
+        cy.get('#free_action').should('not.be.disabled');
     });
 });

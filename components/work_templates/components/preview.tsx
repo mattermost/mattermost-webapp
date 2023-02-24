@@ -4,22 +4,17 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
-
 import {CSSTransition} from 'react-transition-group';
-
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {AccordionItemType} from 'components/common/accordion/accordion';
-
-import {fetchListing} from 'actions/marketplace';
-
+import {trackEvent} from 'actions/telemetry_actions';
 import {GlobalState} from 'types/store';
+import {TELEMETRY_CATEGORIES} from 'utils/constants';
+import {Board, Channel, Integration, Playbook, WorkTemplate} from '@mattermost/types/work_templates';
+import {MarketplacePlugin} from '@mattermost/types/marketplace';
 
 import {getTemplateDefaultIllustration} from '../utils';
-
-import {Board, Channel, Integration, Playbook, WorkTemplate} from '@mattermost/types/work_templates';
-
-import {MarketplacePlugin} from '@mattermost/types/marketplace';
 
 import Accordion from './preview/accordion';
 import Chip from './preview/chip';
@@ -28,6 +23,7 @@ import PreviewSection from './preview/section';
 export interface PreviewProps {
     className?: string;
     template: WorkTemplate;
+    pluginsEnabled: boolean;
 }
 
 interface IllustrationAnimations {
@@ -47,9 +43,8 @@ const ANIMATE_TIMEOUTS = {
     exit: 200,
 };
 
-const Preview = ({template, className}: PreviewProps) => {
+const Preview = ({template, className, pluginsEnabled}: PreviewProps) => {
     const {formatMessage} = useIntl();
-    const dispatch = useDispatch();
 
     const nodeRefForPrior = useRef(null);
     const nodeRefForCurrent = useRef(null);
@@ -73,7 +68,7 @@ const Preview = ({template, className}: PreviewProps) => {
     });
 
     useEffect(() => {
-        dispatch(fetchListing());
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'pageview_preview');
     }, []);
 
     useEffect(() => {
@@ -91,13 +86,20 @@ const Preview = ({template, className}: PreviewProps) => {
         }
     }, [illustrationDetails.prior.animateIn]);
 
-    const handleIllustrationUpdate = (illustration: string) => setIllustrationDetails({
-        prior: {...illustrationDetails.current},
-        current: {
-            animateIn: false,
-            illustration,
-        },
-    });
+    const handleIllustrationUpdate = (illustration: string) => {
+        // don't refresh if this is the same illustration
+        if (illustrationDetails.current.illustration === illustration) {
+            return;
+        }
+
+        setIllustrationDetails({
+            prior: {...illustrationDetails.current},
+            current: {
+                animateIn: false,
+                illustration,
+            },
+        });
+    };
 
     const [channels, boards, playbooks, availableIntegrations] = useMemo(() => {
         const channels: Channel[] = [];
@@ -122,6 +124,9 @@ const Preview = ({template, className}: PreviewProps) => {
     }, [template.content]);
 
     useEffect(() => {
+        if (!pluginsEnabled) {
+            return;
+        }
         const intg =
             availableIntegrations?.
                 flatMap((integration) => {
@@ -144,13 +149,14 @@ const Preview = ({template, className}: PreviewProps) => {
         if (intg?.length) {
             setIntegrations(intg);
         }
-    }, [plugins, availableIntegrations]);
+    }, [plugins, availableIntegrations, pluginsEnabled]);
 
     // building accordion items
     const accordionItemsData: AccordionItemType[] = [];
     if (channels.length > 0) {
         accordionItemsData.push({
             id: 'channels',
+            icon: <i className='icon-product-channels'/>,
             title: formatMessage({id: 'work_templates.preview.accordion_title_channels', defaultMessage: 'Channels'}),
             extraContent: <Chip>{channels.length}</Chip>,
             items: [(
@@ -167,6 +173,7 @@ const Preview = ({template, className}: PreviewProps) => {
     if (boards.length > 0) {
         accordionItemsData.push({
             id: 'boards',
+            icon: <i className='icon-product-boards'/>,
             title: formatMessage({id: 'work_templates.preview.accordion_title_boards', defaultMessage: 'Boards'}),
             extraContent: <Chip>{boards.length}</Chip>,
             items: [(
@@ -183,6 +190,7 @@ const Preview = ({template, className}: PreviewProps) => {
     if (playbooks.length > 0) {
         accordionItemsData.push({
             id: 'playbooks',
+            icon: <i className='icon-product-playbooks'/>,
             title: formatMessage({id: 'work_templates.preview.accordion_title_playbooks', defaultMessage: 'Playbooks'}),
             extraContent: <Chip>{playbooks.length}</Chip>,
             items: [(
@@ -196,9 +204,10 @@ const Preview = ({template, className}: PreviewProps) => {
             )],
         });
     }
-    if (integrations?.length) {
+    if (integrations?.length && pluginsEnabled) {
         accordionItemsData.push({
             id: 'integrations',
+            icon: <i className='icon-power-plug-outline'/>,
             title: 'Integrations',
             extraContent: <Chip>{integrations.length}</Chip>,
             items: [(
@@ -207,6 +216,7 @@ const Preview = ({template, className}: PreviewProps) => {
                     id={'integrations'}
                     message={template.description.integration.message}
                     items={integrations}
+                    categoryId={template.category}
                 />
             )],
         });
@@ -214,6 +224,7 @@ const Preview = ({template, className}: PreviewProps) => {
 
     // When opening an accordion section, change the illustration to whatever has been open
     const handleItemOpened = (index: number) => {
+        trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'expand_preview_section', {section: accordionItemsData[index].id, category: template.category, template: template.id});
         const item = accordionItemsData[index];
         const newPrior = {
             ...illustrationDetails.current,
@@ -240,9 +251,6 @@ const Preview = ({template, className}: PreviewProps) => {
             return;
         }
 
-        if (newCurrent.illustration === newPrior.illustration) {
-            return;
-        }
         setIllustrationDetails({
             prior: newPrior,
             current: newCurrent,
@@ -252,8 +260,7 @@ const Preview = ({template, className}: PreviewProps) => {
     return (
         <div className={className}>
             <div className='content-side'>
-                <strong>{formatMessage({id: 'work_templates.preview.included_in_template_title', defaultMessage: 'Included in template'})}</strong>
-
+                <strong>{formatMessage({id: 'work_templates.preview.what_you_get', defaultMessage: 'Here\'s what you\'ll get:'})}</strong>
                 <Accordion
                     accordionItemsData={accordionItemsData}
                     openFirstElement={true}
@@ -293,6 +300,7 @@ const StyledPreview = styled(Preview)`
 
     .content-side {
         min-width: 387px;
+        width: 387px;
         height: 416px;
         padding-right: 32px;
     }
@@ -310,6 +318,7 @@ const StyledPreview = styled(Preview)`
     .img-wrapper {
         position: relative;
         width: 100%;
+        margin-top: 32px;
     }
 
     img {

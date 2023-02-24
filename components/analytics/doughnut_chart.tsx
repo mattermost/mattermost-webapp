@@ -87,4 +87,3 @@ export default class DoughnutChart extends React.PureComponent<Props> {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

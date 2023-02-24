@@ -5,14 +5,15 @@ import React from 'react';
 
 import {components, OptionProps} from 'react-select';
 
-import {AppSelectOption} from '@mattermost/types/apps';
 import Avatar from 'components/widgets/users/avatar/avatar';
 
 import * as Utils from 'utils/utils';
-import BotBadge from 'components/widgets/badges/bot_badge';
-import GuestBadge from 'components/widgets/badges/guest_badge';
+import BotTag from 'components/widgets/tag/bot_tag';
+import GuestTag from 'components/widgets/tag/guest_tag';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 import {imageURLForUser} from 'utils/utils';
+
+import {AppSelectOption} from '@mattermost/types/apps';
 import {UserProfile} from '@mattermost/types/users';
 
 const getDescription = (data: UserProfile): string => {
@@ -52,8 +53,8 @@ export const SelectUserOption = (props: OptionProps<AppSelectOption>) => {
                         {description}
                     </span>
                 </div>
-                <BotBadge show={Boolean(props.data.is_bot)}/>
-                <GuestBadge show={isGuest(props.data.roles)}/>
+                {props.data.is_bot && <BotTag/>}
+                {isGuest(props.data.roles) && <GuestTag/>}
             </div>
         </Option>
     );

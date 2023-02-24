@@ -19,14 +19,6 @@ describe('Bot accounts - CRUD Testing', () => {
     let testBot;
 
     before(() => {
-        // # Set ServiceSettings to expected values
-        const newSettings = {
-            ServiceSettings: {
-                EnableBotAccountCreation: true,
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
-
         // # Create and visit new channel
         cy.apiInitSetup().then(({team}) => {
             newTeam = team;

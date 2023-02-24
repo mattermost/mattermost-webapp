@@ -10,10 +10,6 @@
     background: v(center-channel-bg);
     font-size: 14px;
 
-    .Badge {
-        display: inline-block;
-    }
-
     .channel-header__trigger {
         display: flex;
         min-width: 0;
@@ -53,9 +49,8 @@
         z-index: 1;
         height: 24px;
         padding: 4px;
-        margin-left: 4px;
         border-radius: 4px;
-        color: v(center-channel-color);
+        color: var(--center-channel-color);
         float: left;
 
         &:hover {
@@ -227,10 +222,6 @@
         font-weight: 600;
         line-height: 16px;
         text-overflow: ellipsis;
-
-        .Badge {
-            font-family: "Open Sans", sans-serif;
-        }
     }
 
     .caret {
@@ -285,6 +276,7 @@
     display: flex;
     min-width: 0;
     align-items: center;
+    gap: 4px;
 }
 
 .channel-header__bot {
@@ -530,6 +522,7 @@
 
     .channel-intro-profile {
         margin: 0 0 4px;
+        gap: 8px;
 
         .user-popover {
             overflow: hidden;

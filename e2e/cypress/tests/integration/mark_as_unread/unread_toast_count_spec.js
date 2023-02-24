@@ -64,7 +64,7 @@ describe('Verify unread toast appears after repeated manual marking post as unre
         // * Check that the toast is visible
         cy.get('div.toast').should('be.visible').then(() => {
             // * Check that the message is correct and all the mentions and replies are counted in toast
-            cy.get('div.toast__message>span').should('be.visible').contains('32 new messages');
+            cy.get('div.toast__message>span').should('be.visible').contains('30 new messages');
 
             cy.get(`#sidebarItem_${currentChannel.name}`).
                 scrollIntoView().

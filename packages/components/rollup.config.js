@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import resolve from '@rollup/plugin-node-resolve'; //eslint-disable-line
+// eslint-disable-next-line import/no-unresolved
+import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import scss from 'rollup-plugin-scss';
 import typescript from '@rollup/plugin-typescript';

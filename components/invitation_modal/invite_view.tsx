@@ -81,7 +81,7 @@ export default function InviteView(props: Props) {
     const {formatMessage} = useIntl();
 
     const inviteURL = useMemo(() => {
-        return `${getSiteURL()}/signup_user_complete/?id=${props.currentTeam.invite_id}&sbr=${getTrackFlowRole()}`;
+        return `${getSiteURL()}/signup_user_complete/?id=${props.currentTeam.invite_id}&md=link&sbr=${getTrackFlowRole()}`;
     }, [props.currentTeam.invite_id]);
 
     const copyText = useCopyText({
