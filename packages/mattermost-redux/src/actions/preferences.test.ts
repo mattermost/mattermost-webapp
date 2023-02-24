@@ -197,7 +197,7 @@ describe('Actions.Preferences', () => {
         nock(Client4.getBaseRoute()).
             post('/users').
             reply(201, TestHelper.fakeUserWithId());
-        const user2 = await TestHelper.createClient4().createUser(TestHelper.fakeUser());
+        const user2 = await TestHelper.createClient4().createUser(TestHelper.fakeUser(), '', '');
 
         TestHelper.mockLogin();
         store.dispatch({

@@ -52,7 +52,7 @@ describe('Actions.Users', () => {
             post('/users').
             reply(201, {...userToCreate, id: TestHelper.generateId()});
 
-        const {data: user} = await Actions.createUser(userToCreate)(store.dispatch, store.getState) as ActionResult;
+        const {data: user} = await Actions.createUser(userToCreate, '', '')(store.dispatch, store.getState) as ActionResult;
 
         const state = store.getState();
         const {profiles} = state.entities.users;
@@ -245,7 +245,7 @@ describe('Actions.Users', () => {
             post('/users').
             reply(200, TestHelper.fakeUserWithId());
 
-        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser());
+        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser(), '', '');
 
         nock(Client4.getBaseRoute()).
             post('/users/ids').
@@ -262,7 +262,7 @@ describe('Actions.Users', () => {
             post('/users').
             reply(200, TestHelper.fakeUserWithId());
 
-        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser());
+        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser(), '', '');
 
         nock(Client4.getBaseRoute()).
             post('/users/ids').
@@ -279,7 +279,7 @@ describe('Actions.Users', () => {
             post('/users').
             reply(200, TestHelper.fakeUserWithId());
 
-        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser());
+        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser(), '', '');
 
         nock(Client4.getBaseRoute()).
             post('/users/usernames').
@@ -316,14 +316,14 @@ describe('Actions.Users', () => {
             post('/users').
             reply(200, TestHelper.fakeUserWithId());
 
-        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser());
+        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser(), '', '');
 
         nock(Client4.getBaseRoute()).
             get('/users').
             query(true).
             reply(200, [user]);
 
-        await Actions.getProfilesNotInTeam(team!.id, false)(store.dispatch, store.getState);
+        await Actions.getProfilesNotInTeam(team!.id, false, 0)(store.dispatch, store.getState);
 
         const {profilesNotInTeam} = store.getState().entities.users;
         const notInTeam = profilesNotInTeam[team!.id];
@@ -337,7 +337,7 @@ describe('Actions.Users', () => {
             post('/users').
             reply(200, TestHelper.fakeUserWithId());
 
-        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser());
+        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser(), '', '');
 
         nock(Client4.getBaseRoute()).
             get('/users').
@@ -381,8 +381,8 @@ describe('Actions.Users', () => {
 
         const user = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -430,7 +430,7 @@ describe('Actions.Users', () => {
             post('/users').
             reply(200, TestHelper.fakeUserWithId());
 
-        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser());
+        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser(), '', '');
 
         nock(Client4.getBaseRoute()).
             get(`/users/${user.id}`).
@@ -466,7 +466,7 @@ describe('Actions.Users', () => {
             post('/users').
             reply(200, TestHelper.fakeUserWithId());
 
-        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser());
+        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser(), '', '');
 
         nock(Client4.getBaseRoute()).
             get(`/users/username/${user.username}`).
@@ -488,7 +488,7 @@ describe('Actions.Users', () => {
             post('/users').
             reply(200, TestHelper.fakeUserWithId());
 
-        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser());
+        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser(), '', '');
 
         nock(Client4.getBaseRoute()).
             get(`/users/email/${user.email}`).
@@ -779,8 +779,8 @@ describe('Actions.Users', () => {
 
         const user = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -817,8 +817,8 @@ describe('Actions.Users', () => {
 
         const user = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -1028,7 +1028,7 @@ describe('Actions.Users', () => {
             post('/users').
             reply(200, TestHelper.fakeUserWithId());
 
-        const {data: user} = await Actions.createUser(TestHelper.fakeUser())(store.dispatch, store.getState) as ActionResult;
+        const {data: user} = await Actions.createUser(TestHelper.fakeUser(), '', '')(store.dispatch, store.getState) as ActionResult;
 
         const beforeTime = new Date().getTime();
 

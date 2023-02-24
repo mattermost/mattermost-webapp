@@ -87,8 +87,8 @@ describe('Actions.Channels', () => {
 
         const user = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -163,8 +163,8 @@ describe('Actions.Channels', () => {
 
         const user = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -175,8 +175,8 @@ describe('Actions.Channels', () => {
 
         const user2 = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -365,8 +365,8 @@ describe('Actions.Channels', () => {
 
         const user = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -439,8 +439,8 @@ describe('Actions.Channels', () => {
 
         const user = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -543,8 +543,8 @@ describe('Actions.Channels', () => {
 
         const user = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -1562,8 +1562,8 @@ describe('Actions.Channels', () => {
 
         const user = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -1615,8 +1615,8 @@ describe('Actions.Channels', () => {
 
         const user = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -1668,8 +1668,8 @@ describe('Actions.Channels', () => {
 
         const user = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -1712,8 +1712,8 @@ describe('Actions.Channels', () => {
 
         const user = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -1784,8 +1784,8 @@ describe('Actions.Channels', () => {
 
         const user = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -1846,8 +1846,8 @@ describe('Actions.Channels', () => {
 
         const user = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -1958,8 +1958,8 @@ describe('Actions.Channels', () => {
 
         const user = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -2029,8 +2029,8 @@ describe('Actions.Channels', () => {
 
         const user = await TestHelper.basicClient4!.createUser(
             TestHelper.fakeUser(),
-            undefined,
-            undefined,
+            '',
+            '',
             TestHelper.basicTeam!.invite_id,
         );
 
@@ -2101,7 +2101,7 @@ describe('Actions.Channels', () => {
             post('/users').
             reply(201, TestHelper.fakeUserWithId());
 
-        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser());
+        const user = await TestHelper.basicClient4!.createUser(TestHelper.fakeUser(), '', '');
 
         nock(Client4.getTeamsRoute()).
             post(`/${TestHelper.basicChannel!.id}/members`).
