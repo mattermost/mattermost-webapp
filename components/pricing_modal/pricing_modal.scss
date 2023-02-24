@@ -135,16 +135,25 @@
             .planLabel {
                 position: absolute;
                 top: -36px;
-                left: 52px;
+                right: 0;
+                left: 0;
                 display: flex;
                 width: auto;
                 height: 36px;
                 align-items: center;
                 justify-content: center;
                 padding: 14px;
+                margin-right: auto;
+                margin-left: auto;
                 border-radius: 13px 13px 0 0;
+                font-size: 12px;
+                font-style: normal;
                 font-weight: 600;
                 gap: 5px;
+                letter-spacing: 0.02em;
+                line-height: 16px;
+                text-align: center;
+                text-transform: uppercase;
             }
 
             .top {
@@ -243,6 +252,11 @@
 
                             &.special {
                                 background: var(--denim-button-bg);
+                                color: var(--button-color);
+                            }
+
+                            &.green {
+                                background: var(--denim-status-online);
                                 color: var(--button-color);
                             }
                         }
