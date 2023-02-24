@@ -1,18 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Team} from '@mattermost/types/teams';
 import {General} from 'mattermost-redux/constants';
+import {TestHelper as TH} from 'utils/test_helper';
 
 import * as TeamUtils from 'utils/team_utils';
 
 describe('TeamUtils.filterAndSortTeamsByDisplayName', () => {
-    const teamA = {id: 'team_id_a', name: 'team-a', display_name: 'Team A', delete_at: 0};
-    const teamB = {id: 'team_id_b', name: 'team-b', display_name: 'Team A', delete_at: 0};
-    const teamC = {id: 'team_id_c', name: 'team-c', display_name: 'Team C', delete_at: null};
-    const teamD = {id: 'team_id_d', name: 'team-d', display_name: 'Team D'};
-    const teamE = {id: 'team_id_e', name: 'team-e', display_name: 'Team E', delete_at: 1};
-    const teamF = {id: 'team_id_i', name: 'team-f', display_name: null};
-    const teamG = null;
+    const teamA = TH.getTeamMock({id: 'team_id_a', name: 'team-a', display_name: 'Team A', delete_at: 0});
+    const teamB = TH.getTeamMock({id: 'team_id_b', name: 'team-b', display_name: 'Team A', delete_at: 0});
+    const teamC = TH.getTeamMock({id: 'team_id_c', name: 'team-c', display_name: 'Team C', delete_at: null as unknown as number});
+    const teamD = TH.getTeamMock({id: 'team_id_d', name: 'team-d', display_name: 'Team D'});
+    const teamE = TH.getTeamMock({id: 'team_id_e', name: 'team-e', display_name: 'Team E', delete_at: 1});
+    const teamF = TH.getTeamMock({id: 'team_id_i', name: 'team-f', display_name: null as unknown as string});
+    const teamG = null as unknown as Team;
 
     test('should return correct sorted teams', () => {
         for (const data of [

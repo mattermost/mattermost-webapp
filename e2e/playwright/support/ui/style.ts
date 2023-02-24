@@ -5,4 +5,3 @@ const visibilityHidden = 'visibility: hidden !important;';
 
 export const hideTeamHeader = `.test-team-header {${visibilityHidden}} `;
 export const hidePostHeaderTime = `.post__time {${visibilityHidden}} `;
-export const hideAppBarPlaybookIcon = `.icon__plugin {${visibilityHidden}} `;

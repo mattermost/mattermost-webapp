@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 
 import * as TextFormatting from 'utils/text_formatting';
+import EmojiMap from 'utils/emoji_map';
+const emojiMap = new EmojiMap(new Map());
 
 describe('TextFormatting.searchHighlighting', () => {
     const testCases = [{
@@ -97,13 +99,12 @@ describe('TextFormatting.searchHighlighting', () => {
     for (const testCase of testCases) {
         it(testCase.name, () => {
             const options = {
-                atMentions: 'atMentions' in testCase ? testCase.atMentions : true,
-                mentionHighlight: 'mentionHighlight' in testCase ? testCase.mentionHighlight : true,
-                mentionKeys: testCase.mentionKeys,
+                atMentions: true,
+                mentionHighlight: true,
                 searchMatches: testCase.searchMatches,
                 searchTerm: testCase.searchTerm || '',
             };
-            const output = TextFormatting.formatText(testCase.input, options).trim();
+            const output = TextFormatting.formatText(testCase.input, options, emojiMap).trim();
 
             expect(output).toEqual(testCase.expected);
         });
@@ -119,8 +120,8 @@ describe('TextFormatting.searchHighlighting', () => {
         assertTextMatch('foo bar', 'foo *', 'foo', ' bar');
         assertTextMatch('foo⺑bar', 'foo⺑*', 'foo⺑', 'bar');
 
-        function assertTextMatch(input, search, expectedMatch, afterMatch) {
-            expect(TextFormatting.formatText(input, {searchTerm: search}).trim()).
+        function assertTextMatch(input: string, search: string, expectedMatch: string, afterMatch: string) {
+            expect(TextFormatting.formatText(input, {searchTerm: search}, emojiMap).trim()).
                 toEqual(`<p><span class="search-highlight">${expectedMatch}</span>${afterMatch}</p>`);
         }
     });
