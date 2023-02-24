@@ -39,7 +39,6 @@ describe('components/actions_menu/ActionsMenu', () => {
         pluginMenuItems: [],
         post: TestHelper.getPostMock({id: 'post_id_1', is_pinned: false, type: '' as PostType}),
         showTutorialTip: false,
-        userId: 'user_id_1',
         components: {},
         handleOpenTip: jest.fn(),
         handleNextTip: jest.fn(),

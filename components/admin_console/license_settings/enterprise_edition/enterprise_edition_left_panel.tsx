@@ -17,6 +17,7 @@ import {getSkuDisplayName} from 'utils/subscription';
 import {calculateOverageUserActivated} from 'utils/overage_team';
 
 import './enterprise_edition.scss';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 export interface EnterpriseEditionProps {
     openEELicenseModal: () => void;
@@ -45,6 +46,8 @@ const EnterpriseEditionLeftPanel = ({
 }: EnterpriseEditionProps) => {
     const {formatMessage} = useIntl();
     const [unsanitizedLicense, setUnsanitizedLicense] = useState(license);
+    const openPricingModal = useOpenPricingModal();
+
     useEffect(() => {
         async function fetchUnSanitizedLicense() {
             // This solves this the issue reported here: https://mattermost.atlassian.net/browse/MM-42906
@@ -60,30 +63,49 @@ const EnterpriseEditionLeftPanel = ({
 
     const skuName = getSkuDisplayName(unsanitizedLicense.SkuShortName, unsanitizedLicense.IsGovSku === 'true');
     const expirationDays = getRemainingDaysFromFutureTimestamp(parseInt(unsanitizedLicense.ExpiresAt, 10));
+
+    const viewPlansButton = (
+        <button
+            id='enterprise_edition_view_plans'
+            onClick={() => openPricingModal({trackingLocation: 'license_settings_view_plans'})}
+            className='btn btn-secondary PlanDetails__viewPlansButton'
+        >
+            {formatMessage({
+                id: 'workspace_limits.menu_limit.view_plans',
+                defaultMessage: 'View plans',
+            })}
+        </button>
+    );
+
     return (
         <div
             className='EnterpriseEditionLeftPanel'
             data-testid='EnterpriseEditionLeftPanel'
         >
-            <div className='pre-title'>
-                <FormattedMessage
-                    id='admin.license.enterpriseEdition'
-                    defaultMessage='Enterprise Edition'
-                />
-            </div>
-            <div className='title'>
-                {`Mattermost ${skuName}`}
-                {isTrialLicense && (
-                    <Tag
-                        text={formatMessage({
-                            id: 'admin.license.Trial',
-                            defaultMessage: 'Trial',
-                        })}
-                        variant={'success'}
-                        uppercase={true}
-                        size={'sm'}
-                    />
-                )}
+            <div className='EnterpriseEditionLeftPanel__Grid'>
+                <div>
+                    <div className='pre-title'>
+                        <FormattedMessage
+                            id='admin.license.enterpriseEdition'
+                            defaultMessage='Enterprise Edition'
+                        />
+                    </div>
+                    <div className='title'>
+                        {`Mattermost ${skuName}`}
+                        {isTrialLicense && (
+                            <Tag
+                                text={formatMessage({
+                                    id: 'admin.license.Trial',
+                                    defaultMessage: 'Trial',
+                                })}
+                                variant={'success'}
+                                uppercase={true}
+                                size={'sm'}
+                            />
+                        )}
+                    </div>
+                </div>
+                {viewPlansButton}
             </div>
             <div className='subtitle'>
                 <FormattedMessage

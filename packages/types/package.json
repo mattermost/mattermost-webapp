@@ -14,7 +14,7 @@
     "./*": "./lib/*.js"
   },
   "types": "./lib/*.d.ts",
-  "respository": {
+  "repository": {
     "type": "git",
     "url": "github:mattermost/mattermost-webapp",
     "directory": "packages/types"

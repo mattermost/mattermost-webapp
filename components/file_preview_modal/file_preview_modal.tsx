@@ -379,6 +379,7 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                         <preview.component
                             fileInfo={fileInfo}
                             post={this.props.post}
+                            onModalDismissed={this.handleModalClose}
                         />
                     );
                     break;
