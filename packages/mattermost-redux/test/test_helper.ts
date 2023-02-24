@@ -5,13 +5,15 @@ import nock from 'nock';
 
 import {randomUUID} from 'crypto';
 
+import {DialogElement} from '@mattermost/types/integrations';
+import {SystemEmoji, CustomEmoji} from '@mattermost/types/emojis';
 import {Bot} from '@mattermost/types/bots';
 import {Team, TeamMembership} from '@mattermost/types/teams';
 import {Role} from '@mattermost/types/roles';
 import {Post, PostMetadata} from '@mattermost/types/posts';
-import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {Channel, ChannelNotifyProps, ChannelMembership} from '@mattermost/types/channels';
 import {Group} from '@mattermost/types/groups';
-import {UserProfile} from '@mattermost/types/users';
+import {UserProfile, UserNotifyProps} from '@mattermost/types/users';
 import {Scheme} from '@mattermost/types/schemes';
 import {FileInfo} from '@mattermost/types/files';
 
@@ -110,6 +112,47 @@ class TestHelper {
             mfa_active: false,
             last_activity_at: 0,
             bot_description: '',
+        };
+    };
+
+    getUserMock = (override: Partial<UserProfile>): UserProfile => {
+        return {
+            email: '',
+            password: '',
+            locale: '',
+            username: '',
+            first_name: '',
+            last_name: '',
+            create_at: 0,
+            delete_at: 0,
+            roles: '',
+            id: '',
+            auth_service: '',
+            nickname: '',
+            position: '',
+            terms_of_service_create_at: 0,
+            terms_of_service_id: '',
+            update_at: 0,
+            is_bot: false,
+            props: {},
+            notify_props: {
+                channel: 'false',
+                comments: 'never',
+                desktop: 'default',
+                desktop_sound: 'false',
+                email: 'false',
+                first_name: 'false',
+                mark_unread: 'mention',
+                mention_keys: '',
+                push: 'none',
+                push_status: 'offline',
+            },
+            last_picture_update: 0,
+            last_password_update: 0,
+            mfa_active: false,
+            last_activity_at: 0,
+            bot_description: '',
+            ...override,
         };
     };
 
@@ -324,6 +367,27 @@ class TestHelper {
         };
     };
 
+    fakeChannelOverride = (override: Partial<Channel>): Channel => {
+        return {
+            name: '',
+            team_id: '',
+            display_name: '',
+            type: 'O',
+            delete_at: 0,
+            scheme_id: '',
+            id: '',
+            create_at: 0,
+            update_at: 0,
+            header: '',
+            purpose: '',
+            last_post_at: 0,
+            last_root_post_at: 0,
+            creator_id: '',
+            group_constrained: false,
+            ...override,
+        };
+    };
+
     getChannelMock = (override?: Partial<Channel>) => {
         return Object.assign(this.fakeChannel(override?.team_id || ''), override);
     }
@@ -380,6 +444,33 @@ class TestHelper {
         };
     };
 
+    fakeChannelNotifyProps = (override: Partial<ChannelNotifyProps>): ChannelNotifyProps => {
+        return {
+            desktop: 'default',
+            email: 'default',
+            mark_unread: 'mention',
+            push: 'default',
+            ignore_channel_mentions: 'default',
+            ...override,
+        };
+    }
+
+    fakeUserNotifyProps = (override: Partial<UserNotifyProps>): UserNotifyProps => {
+        return {
+            desktop: 'default',
+            desktop_sound: 'true',
+            email: 'true',
+            mark_unread: 'all',
+            push: 'default',
+            push_status: 'ooo',
+            comments: 'never',
+            first_name: 'true',
+            channel: 'true',
+            mention_keys: '',
+            ...override,
+        };
+    }
+
     fakePost = (channelId: string): Post => {
         return {
             channel_id: channelId,
@@ -408,6 +499,35 @@ class TestHelper {
         };
     };
 
+    fakePostOverride = (override: Partial<Post>): Post => {
+        return {
+            channel_id: '',
+            message: '',
+            type: '',
+            edit_at: 0,
+            original_id: '',
+            hashtags: '',
+            pending_post_id: '',
+            reply_count: 0,
+            metadata: {
+                embeds: [],
+                emojis: [],
+                images: {},
+                reactions: [],
+                files: [],
+            },
+            create_at: 0,
+            delete_at: 0,
+            id: '',
+            is_pinned: false,
+            props: {},
+            root_id: '',
+            update_at: 0,
+            user_id: '',
+            ...override,
+        };
+    }
+
     getPostMock = (override?: Partial<Post>) => {
         return Object.assign(this.fakePost(override?.channel_id || ''), override);
     }
@@ -419,6 +539,26 @@ class TestHelper {
             create_at: 1507840900004,
             update_at: 1507840900004,
             delete_at: 0,
+        };
+    };
+
+    getFileInfoMock = (override: Partial<FileInfo>): FileInfo => {
+        return {
+            id: '',
+            user_id: '',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            name: '',
+            extension: '',
+            size: 0,
+            mime_type: '',
+            has_preview_image: false,
+            width: 0,
+            height: 0,
+            clientId: '',
+            archived: false,
+            ...override,
         };
     };
 
@@ -508,6 +648,66 @@ class TestHelper {
             delete_at: 0,
         };
     };
+
+    getCustomEmojiMock(override: Partial<CustomEmoji>): CustomEmoji {
+        return {
+            id: 'emoji_id',
+            name: 'emoji',
+            category: 'custom',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            creator_id: 'user_id',
+            ...override,
+        };
+    }
+
+    getSystemEmojiMock(override: Partial<SystemEmoji>): SystemEmoji {
+        return {
+            name: '',
+            category: 'recent',
+            image: '',
+            short_name: '',
+            short_names: [],
+            batch: 0,
+            unified: '',
+            ...override,
+        };
+    }
+
+    getDialogElementMock(override: Partial<DialogElement>): DialogElement {
+        return {
+            display_name: '',
+            name: '',
+            type: '',
+            subtype: '',
+            default: '',
+            placeholder: '',
+            help_text: '',
+            optional: false,
+            min_length: 0,
+            max_length: 0,
+            data_source: '',
+            options: [],
+            ...override,
+        };
+    }
+
+    getRoleMock(override: Partial<Role>): Role {
+        return {
+            id: '',
+            name: '',
+            display_name: '',
+            description: '',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            permissions: [],
+            scheme_managed: false,
+            built_in: false,
+            ...override,
+        };
+    }
 
     mockLogin = () => {
         const clientBaseRoute = this.basicClient4!.getBaseRoute();

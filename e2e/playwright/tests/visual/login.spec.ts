@@ -6,13 +6,7 @@ import {test} from '@playwright/test';
 import {getAdminClient} from '@e2e-support/server';
 import {LoginPage} from '@e2e-support/ui/page';
 import {duration, wait} from '@e2e-support/utils';
-import {matchSnapshot, Applitools} from '@e2e-support/visual';
-
-let applitools: Applitools = {};
-
-test.afterAll(async () => {
-    await applitools.eyes?.close();
-});
+import {matchSnapshot} from '@e2e-support/visual';
 
 test('/login', async ({page, isMobile, browserName, viewport}, testInfo) => {
     const testArgs = {page, isMobile, browserName, viewport};
@@ -28,7 +22,7 @@ test('/login', async ({page, isMobile, browserName, viewport}, testInfo) => {
     await wait(duration.one_sec);
 
     // Match snapshot of login page
-    applitools = await matchSnapshot(testInfo, testArgs);
+    await matchSnapshot(testInfo, testArgs);
 
     // Click sign in button without entering user credential
     await loginPage.signInButton.click();
@@ -36,5 +30,5 @@ test('/login', async ({page, isMobile, browserName, viewport}, testInfo) => {
     await wait(duration.one_sec);
 
     // Match snapshot of login page with error
-    await matchSnapshot({...testInfo, title: `${testInfo.title} error`}, testArgs, applitools);
+    await matchSnapshot({...testInfo, title: `${testInfo.title} error`}, testArgs);
 });

@@ -44,7 +44,7 @@ export default class LoginPage {
     }
 
     async goto() {
-        await this.page.goto('/login', {waitUntil: 'domcontentloaded'});
+        await this.page.goto('/login', {waitUntil: 'networkidle'});
     }
 
     async login(user: UserProfile, useUsername = true) {
