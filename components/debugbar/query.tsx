@@ -14,11 +14,14 @@ function Sql({query, args}: Props) {
     const code = useMemo(() => {
         return query.replace(
             /\$\b\d\b/gm,
-            (pl) => {
+            (pl: string) => {
                 const index = Number(pl.replace('$', ''));
                 if (args?.length && args[index - 1]) {
                     const val = args[index - 1];
                     if (isNaN(Number(val))) {
+                        if (val === 'true' || val === 'false') {
+                            return val;
+                        }
                         return `"${val}"`;
                     }
                     return val;

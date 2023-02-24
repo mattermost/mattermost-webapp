@@ -1,41 +1,45 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import React, {memo} from 'react';
 import {useSelector} from 'react-redux';
+import cn from 'classnames';
+
 import {getEmailsSent} from 'mattermost-redux/selectors/entities/debugbar';
+
 import {DebugBarEmailSent} from '@mattermost/types/debugbar';
 
+import Time from './time';
+
 type Props = {
-    filter: string
+    filter: string;
 }
 
-const EmailsSent = ({filter}: Props) => {
-    var emails = useSelector(getEmailsSent)
-    if (filter != '') {
-        emails = emails.filter((v) => JSON.stringify(v).indexOf(filter) !== -1)
+function EmailsSent({filter}: Props) {
+    let emails = useSelector(getEmailsSent);
+    if (filter !== '') {
+        emails = emails.filter((v) => JSON.stringify(v).indexOf(filter) !== -1);
     }
+
     return (
-        <table className='DebugBarTable'>
-            <thead>
-                <tr>
-                    <th className='time'>Time</th>
-                    <th>To</th>
-                    <th>CC</th>
-                    <th>Subject</th>
-                    <th>Error</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div className='DebugBarTable'>
             {emails.map((email: DebugBarEmailSent) => (
-                <tr>
-                    <td className='time'>{email.time}</td>
-                    <td>{email.to}</td>
-                    <td>{email.cc}</td>
-                    <td>{email.subject}</td>
-                    <td>{email.err}</td>
-                </tr>
+                <div
+                    key={email.time + '_' + email.subject}
+                    className='DebugBarTable__row'
+                >
+                    <div className={cn('time', {error: email.err})}>
+                        <Time time={email.time}/>
+                    </div>
+                    <div className='address pl-2'>{email.to}</div>
+                    <div className='address pl-2'>{email.cc}</div>
+                    <div className='subject pl-2'>
+                        {email.subject}
+                    </div>
+                </div>
             ))}
-            </tbody>
-        </table>
-    )
+        </div>
+    );
 }
 
 export default memo(EmailsSent);

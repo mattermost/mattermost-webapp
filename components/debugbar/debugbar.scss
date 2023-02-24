@@ -107,6 +107,7 @@
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
+                text-align: right;
             }
 
             .calls {
@@ -124,6 +125,15 @@
                 overflow: hidden;
                 padding: 0 6px;
                 text-transform: uppercase;
+                font-weight: bold;
+            }
+
+            .address {
+                width: 300px;
+            }
+
+            .subject {
+                width: 100%;
                 font-weight: bold;
             }
 
@@ -146,45 +156,6 @@
 
             &:nth-child(even) {
                 background: rgba(var(--center-channel-color-rgb), 0.04);
-            }
-        }
-
-        td, th {
-            border: 1px solid #FFFFFF;
-            padding: 3px 2px;
-            height: 30px;
-            &.time, &.duration, &.actions {
-                width: 150px;
-            }
-            &.level, &.statusCode, &.success {
-                width: 100px;
-            }
-        }
-
-        tbody td {
-            font-size: 13px;
-            code,
-            pre {
-                text-align: left;
-                background: none;
-                border: 0;
-            }
-        }
-        tr:nth-child(even) {
-            background: #D0E4F5;
-        }
-        thead {
-            background: #0B6FA4;
-            border-bottom: 5px solid #FFFFFF;
-            th {
-                font-size: 17px;
-                font-weight: bold;
-                color: #FFFFFF;
-                text-align: center;
-                border-left: 2px solid #FFFFFF;
-            }
-            th:first-child {
-                border-left: none;
             }
         }
     }
