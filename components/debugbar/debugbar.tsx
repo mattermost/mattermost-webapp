@@ -127,11 +127,11 @@ function DebugBar() {
                 </div>
             </div>
             <div className='body'>
-                {tab === 'api' && <ApiCalls filter={filterText}/>}
-                {tab === 'store' && <StoreCalls filter={filterText}/>}
-                {tab === 'sql' && <SqlQueries filter={filterText}/>}
-                {tab === 'logs' && <Logs filter={filterText}/>}
-                {tab === 'emails' && <EmailsSent filter={filterText}/>}
+                {tab === 'api' && <ApiCalls filter={filterText} height={height}/>}
+                {tab === 'store' && <StoreCalls filter={filterText} height={height}/>}
+                {tab === 'sql' && <SqlQueries filter={filterText} height={height}/>}
+                {tab === 'logs' && <Logs filter={filterText} height={height}/>}
+                {tab === 'emails' && <EmailsSent filter={filterText} height={height}/>}
                 {tab === 'system' && <SystemInfo/>}
             </div>
         </div>

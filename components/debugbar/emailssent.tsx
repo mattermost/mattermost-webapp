@@ -4,6 +4,7 @@
 import React, {memo} from 'react';
 import {useSelector} from 'react-redux';
 import cn from 'classnames';
+import {FixedSizeList as List} from 'react-window';
 
 import {getEmailsSent} from 'mattermost-redux/selectors/entities/debugbar';
 
@@ -13,9 +14,35 @@ import Time from './time';
 
 type Props = {
     filter: string;
+    height: number;
 }
 
-function EmailsSent({filter}: Props) {
+type RowProps = {
+    data: DebugBarEmailSent[];
+    index: number;
+    style: any;
+}
+
+function Row({data, index, style}: RowProps) {
+    return (
+        <div
+            key={data[index].time + '_' + data[index].subject}
+            className='DebugBarTable__row'
+            style={style}
+        >
+            <div className={cn('time', {error: data[index].err})}>
+                <Time time={data[index].time}/>
+            </div>
+            <div className='address pl-2'>{data[index].to}</div>
+            <div className='address pl-2'>{data[index].cc}</div>
+            <div className='subject pl-2'>
+                {data[index].subject}
+            </div>
+        </div>
+    )
+}
+
+function EmailsSent({filter, height}: Props) {
     let emails = useSelector(getEmailsSent);
     if (filter !== '') {
         emails = emails.filter((v) => JSON.stringify(v).indexOf(filter) !== -1);
@@ -23,21 +50,15 @@ function EmailsSent({filter}: Props) {
 
     return (
         <div className='DebugBarTable'>
-            {emails.map((email: DebugBarEmailSent) => (
-                <div
-                    key={email.time + '_' + email.subject}
-                    className='DebugBarTable__row'
-                >
-                    <div className={cn('time', {error: email.err})}>
-                        <Time time={email.time}/>
-                    </div>
-                    <div className='address pl-2'>{email.to}</div>
-                    <div className='address pl-2'>{email.cc}</div>
-                    <div className='subject pl-2'>
-                        {email.subject}
-                    </div>
-                </div>
-            ))}
+            <List
+                itemData={emails}
+                itemCount={emails.length}
+                itemSize={50}
+                height={height}
+                width={window.innerWidth-2}
+            >
+                {Row}
+            </List>
         </div>
     );
 }

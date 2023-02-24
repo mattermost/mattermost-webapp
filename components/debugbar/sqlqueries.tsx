@@ -3,6 +3,7 @@
 
 import React, {memo, useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
+import {FixedSizeList as List} from 'react-window';
 
 import {Client4} from 'mattermost-redux/client';
 import {getSqlQueries} from 'mattermost-redux/selectors/entities/debugbar';
@@ -16,11 +17,39 @@ import Time from './time';
 
 type Props = {
     filter: string;
+    height: number;
 }
 
-function SQLQueries({filter}: Props) {
+type RowProps = {
+    data: DebugBarSQLQuery[];
+    index: number;
+    style: any;
+}
+
+
+function SQLQueries({filter, height}: Props) {
     const [explain, setExplain] = useState('');
     const [viewQuery, setViewQuery] = useState<DebugBarSQLQuery|null>(null)
+
+    function Row({data, index, style}: RowProps) {
+        return (
+            <div
+                key={data[index].time + '_' + data[index].duration}
+                className='DebugBarTable__row'
+                onDoubleClick={() => setViewQuery(data[index])}
+                style={style}
+            >
+                <div className={'time'}><Time time={data[index].time}/></div>
+                <Query
+                    query={data[index].query}
+                    args={data[index].args}
+                />
+                <div className='duration'>
+                    <small className='duration'>{(data[index].duration * 1000).toFixed(4) + 'ms'}</small>
+                </div>
+            </div>
+        )
+    }
 
     useEffect(() => {
         if (viewQuery !== null) {
@@ -68,22 +97,15 @@ function SQLQueries({filter}: Props) {
     return (
         <div className='DebugBarTable'>
             {modal}
-            {queries.map((query: DebugBarSQLQuery) => (
-                <div
-                    key={query.time + '_' + query.duration}
-                    className='DebugBarTable__row'
-                    onDoubleClick={() => setViewQuery(query)}
-                >
-                    <div className={'time'}><Time time={query.time}/></div>
-                    <Query
-                        query={query.query}
-                        args={query.args}
-                    />
-                    <div className='duration'>
-                        <small className='duration'>{(query.duration * 1000).toFixed(4) + 'ms'}</small>
-                    </div>
-                </div>
-            ))}
+            <List
+                itemData={queries}
+                itemCount={queries.length}
+                itemSize={50}
+                height={height}
+                width={window.innerWidth-2}
+            >
+                {Row}
+            </List>
         </div>
     );
 }

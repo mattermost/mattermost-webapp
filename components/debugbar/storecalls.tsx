@@ -4,6 +4,7 @@
 import React, {memo} from 'react';
 import {useSelector} from 'react-redux';
 import cn from 'classnames';
+import {FixedSizeList as List} from 'react-window';
 
 import {getStoreCalls} from 'mattermost-redux/selectors/entities/debugbar';
 
@@ -14,9 +15,44 @@ import Time from './time';
 
 type Props = {
     filter: string;
+    height: number;
 }
 
-function StoreCalls({filter}: Props) {
+type RowProps = {
+    data: DebugBarStoreCall[];
+    index: number;
+    style: any;
+}
+
+function Row({data, index, style}: RowProps) {
+    return (
+        <div
+            key={data[index].time + '_' + data[index].method + '_' + data[index].duration}
+            className='DebugBarTable__row'
+            style={style}
+        >
+            <div className={cn('time', {error: !data[index].success})}><Time time={data[index].time}/></div>
+            <div
+                className='calls'
+                title={data[index].method}
+            >
+                <Code
+                    code={data[index].method}
+                    language='golang'
+                />
+            </div>
+            <Code
+                code={JSON.stringify(data[index].params)}
+                language='json'
+            />
+            <div className='duration'>
+                <small className='duration'>{(data[index].duration * 1000).toFixed(4) + 'ms'}</small>
+            </div>
+        </div>
+    )
+}
+
+function StoreCalls({filter, height}: Props) {
     let calls = useSelector(getStoreCalls);
 
     if (filter !== '') {
@@ -25,30 +61,15 @@ function StoreCalls({filter}: Props) {
 
     return (
         <div className='DebugBarTable'>
-            {calls.map((call: DebugBarStoreCall) => (
-                <div
-                    key={call.time + '_' + call.method + '_' + call.duration}
-                    className='DebugBarTable__row'
-                >
-                    <div className={cn('time', {error: !call.success})}><Time time={call.time}/></div>
-                    <div
-                        className='calls'
-                        title={call.method}
-                    >
-                        <Code
-                            code={call.method}
-                            language='golang'
-                        />
-                    </div>
-                    <Code
-                        code={JSON.stringify(call.params)}
-                        language='json'
-                    />
-                    <div className='duration'>
-                        <small className='duration'>{(call.duration * 1000).toFixed(4) + 'ms'}</small>
-                    </div>
-                </div>
-            ))}
+            <List
+                itemData={calls}
+                itemCount={calls.length}
+                itemSize={50}
+                height={height}
+                width={window.innerWidth-2}
+            >
+                {Row}
+            </List>
         </div>
     );
 }

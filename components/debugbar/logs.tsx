@@ -4,6 +4,7 @@
 import React, {memo} from 'react';
 import {useSelector} from 'react-redux';
 import cn from 'classnames';
+import {FixedSizeList as List} from 'react-window';
 
 import {getLogs} from 'mattermost-redux/selectors/entities/debugbar';
 
@@ -14,9 +15,40 @@ import Time from './time';
 
 type Props = {
     filter: string;
+    height: number;
 }
 
-function Logs({filter}: Props) {
+type RowProps = {
+    data: DebugBarLog[];
+    index: number;
+    style: any;
+}
+
+function Row({data, index, style}: RowProps) {
+    return (
+        <div
+            key={data[index].time + '_' + data[index].message}
+            className='DebugBarTable__row'
+            style={style}
+        >
+            <div className={cn('time', {error: data[index].level === 'error'})}><Time time={data[index].time}/></div>
+            <div
+                className='json'
+                title={JSON.stringify(data[index].fields)}
+            >
+                <Code
+                    code={JSON.stringify(data[index].fields)}
+                    language='json'
+                />
+            </div>
+            <div className='level'>
+                <small className={data[index].level}>{data[index].level}</small>
+            </div>
+        </div>
+    )
+}
+
+function Logs({filter, height}: Props) {
     let logs = useSelector(getLogs);
 
     if (filter !== '') {
@@ -25,26 +57,15 @@ function Logs({filter}: Props) {
 
     return (
         <div className='DebugBarTable'>
-            {logs.map((log: DebugBarLog) => (
-                <div
-                    key={log.time + '_' + log.message}
-                    className='DebugBarTable__row'
-                >
-                    <div className={cn('time', {error: log.level === 'error'})}><Time time={log.time}/></div>
-                    <div
-                        className='json'
-                        title={JSON.stringify(log.fields)}
-                    >
-                        <Code
-                            code={JSON.stringify(log.fields)}
-                            language='json'
-                        />
-                    </div>
-                    <div className='level'>
-                        <small className={log.level}>{log.level}</small>
-                    </div>
-                </div>
-            ))}
+            <List
+                itemData={logs}
+                itemCount={logs.length}
+                itemSize={50}
+                height={height}
+                width={window.innerWidth-2}
+            >
+                {Row}
+            </List>
         </div>
     );
 }
