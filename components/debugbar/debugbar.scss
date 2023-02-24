@@ -1,3 +1,8 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+@import 'utils/mixins';
+
 .DebugBarButton {
     position: fixed;
     width: 60px;
@@ -9,41 +14,145 @@
 
 .DebugBar {
     height: 400px;
+    width: 100%;
     background: white;
     grid-row: 4;
     grid-column: 1/span 5;
+    border: 1px solid #aaa;
+    border-top: 3px solid var(--sidebar-text-active-border);
+    z-index: 10000;
+    box-shadow: var(--elevation-2);
+
+    .debug {
+        color: rgba(var(--semantic-color-general), 0.5);
+    }
+
+    .success {
+        color: rgb(var(--semantic-color-success));
+    }
+
+    .info {
+        color: rgb(var(--semantic-color-info));
+    }
+
+    .warn {
+        color: rgb(var(--semantic-color-warning));
+    }
+
+    .error {
+        color: rgb(var(--semantic-color-danger));
+    }
+
+    &__Actions {
+        display: flex;
+        margin-left: auto;
+    }
+
+    &__Tab {
+        + .DebugBar__Tab {
+            border-left: 1px solid rgba(0,0,0, 0.07);
+        }
+    }
 
     .header {
         display: flex;
-        height: 30px;
-        padding: 2px;
-        div {
+        background-color: #f5f5f5;
 
-        }
-        .selected {
-            background: lightblue;
-        }
-        .action {
-            align-self: flex-end;
-        }
-        button, input {
-            margin: 0 5px;
+        &__Button {
+            @include button-style--none;
+            padding: 6px 10px;
+            border-radius: 0;
+
+            &.selected,
+            &:hover {
+                @include tertiary-button;
+                font-weight: normal;
+            }
         }
     }
+
     .body {
         overflow: scroll;
         height: 100%;
     }
+
     .DebugBarTable {
         font-family: "Times New Roman", Times, serif;
-        border: 1px solid #FFFFFF;
-        text-align: center;
-        border-collapse: collapse;
-        table-layout: fixed;
         width: 100%;
+        background: var(--center-channel-bg);
+
+        &__row {
+            display: flex;
+            align-items: center;
+            padding: 3px 2px;
+            flex-wrap: nowrap;
+            overflow: hidden;
+            width: 100%;
+            height: 50px;
+
+            > .div {
+                text-align: left;
+                padding: 0 10px;
+            }
+
+            .time {
+                width: 100px;
+                flex-shrink: 0;
+            }
+
+            .duration {
+                flex-shrink: 0;
+                width: 100px;
+                margin-left: auto;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
+            .calls {
+                text-align: left;
+                width: 300px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                flex-shrink: 0;
+            }
+
+            .method {
+                flex-shrink: 0;
+                width: 50px;
+                overflow: hidden;
+                padding: 0 6px;
+                text-transform: uppercase;
+                font-weight: bold;
+            }
+
+            .level {
+                flex-shrink: 0;
+                width: 100px;
+                margin-left: auto;
+                overflow: hidden;
+                padding: 0 6px;
+                text-align: right;
+                text-transform: uppercase;
+                font-weight: bold;
+            }
+
+            .inline {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
+            &:nth-child(even) {
+                background: rgba(var(--center-channel-color-rgb), 0.04);
+            }
+        }
+
         td, th {
             border: 1px solid #FFFFFF;
             padding: 3px 2px;
+            height: 30px;
             &.time, &.duration, &.actions {
                 width: 150px;
             }
@@ -51,8 +160,10 @@
                 width: 100px;
             }
         }
+
         tbody td {
             font-size: 13px;
+            code,
             pre {
                 text-align: left;
                 background: none;

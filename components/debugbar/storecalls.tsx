@@ -1,41 +1,56 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import React, {memo} from 'react';
 import {useSelector} from 'react-redux';
+import cn from 'classnames';
+
 import {getStoreCalls} from 'mattermost-redux/selectors/entities/debugbar';
+
 import {DebugBarStoreCall} from '@mattermost/types/debugbar';
 
+import Code from './code';
+import Time from './time';
+
 type Props = {
-    filter: string
+    filter: string;
 }
 
-const StoreCalls = ({filter}: Props) => {
-    var calls = useSelector(getStoreCalls)
-    if (filter != '') {
-        calls = calls.filter((v) => JSON.stringify(v).indexOf(filter) !== -1)
+function StoreCalls({filter}: Props) {
+    let calls = useSelector(getStoreCalls);
+
+    if (filter !== '') {
+        calls = calls.filter((v) => JSON.stringify(v).indexOf(filter) !== -1);
     }
+
     return (
-        <table className='DebugBarTable'>
-            <thead>
-                <tr>
-                    <th className='time'>Time</th>
-                    <th>Method</th>
-                    <th>Params</th>
-                    <th className='success'>Success</th>
-                    <th className='duration'>Duration</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div className='DebugBarTable'>
             {calls.map((call: DebugBarStoreCall) => (
-                <tr>
-                    <td className='time'>{call.time}</td>
-                    <td>{call.method}</td>
-                    <td><pre>{JSON.stringify(call.params, null, 4)}</pre></td>
-                    <td className='success'>{call.success}</td>
-                    <td className='duration'>{call.duration}</td>
-                </tr>
+                <div
+                    key={call.time + '_' + call.method + '_' + call.duration}
+                    className='DebugBarTable__row'
+                >
+                    <div className={cn('time', {error: !call.success})}><Time time={call.time}/></div>
+                    <div
+                        className='calls'
+                        title={call.method}
+                    >
+                        <Code
+                            code={call.method}
+                            language='golang'
+                        />
+                    </div>
+                    <Code
+                        code={JSON.stringify(call.params)}
+                        language='json'
+                    />
+                    <div className='duration'>
+                        <small className='duration'>{(call.duration * 1000).toFixed(4) + 'ms'}</small>
+                    </div>
+                </div>
             ))}
-            </tbody>
-        </table>
-    )
+        </div>
+    );
 }
 
 export default memo(StoreCalls);

@@ -1,26 +1,34 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import React, {useEffect, useState, memo} from 'react';
 import {Client4} from 'mattermost-redux/client';
 
+import Code from './code';
+
 const SystemInfo = () => {
-    const [systemInfo, setSystemInfo] = useState<any>(null)
+    const [systemInfo, setSystemInfo] = useState<any>(null);
+
     useEffect(() => {
         const interval = setInterval(() => {
             Client4.getDebugBarSystemInfo().then((result) => {
-                setSystemInfo(result)
-            })
-        }, 1000)
+                setSystemInfo(result);
+            });
+        }, 1000);
         return () => {
-            clearInterval(interval)
-        }
-    }, [])
-    return (
-        <div>
-            <h2>System Info</h2>
-            <pre>
-                {JSON.stringify(systemInfo, null, 4)}
-            </pre>
-        </div>
-    )
-}
+            clearInterval(interval);
+        };
+    }, []);
 
-export default memo(SystemInfo)
+    return (
+        <div className='p-2'>
+            <Code
+                code={JSON.stringify(systemInfo, null, 4)}
+                language='json'
+                inline={false}
+            />
+        </div>
+    );
+};
+
+export default memo(SystemInfo);

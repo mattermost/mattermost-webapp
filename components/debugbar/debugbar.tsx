@@ -6,6 +6,8 @@ import {useSelector, useDispatch} from 'react-redux';
 import {clearLines} from 'mattermost-redux/actions/debugbar';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import QuickInput from 'components/quick_input';
+
 import StoreCalls from './storecalls';
 import ApiCalls from './apicalls';
 import SqlQueries from './sqlqueries';
@@ -13,36 +15,96 @@ import SystemInfo from './systeminfo';
 import EmailsSent from './emailssent';
 import Logs from './logs';
 
-import './debugbar.scss'
+import './debugbar.scss';
 
-type Props = {};
+const ITEMS = [
+    {tab: 'api', text: 'Api Calls'},
+    {tab: 'store', text: 'Store Calls'},
+    {tab: 'sql', text: 'SQL Queries'},
+    {tab: 'logs', text: 'Server'},
+    {tab: 'emails', text: 'Emails'},
+    {tab: 'system', text: 'System Info'},
+];
 
-const DebugBar = (_: Props) => {
-    const config = useSelector(getConfig)
-    const [hidden, setHidden] = useState(true)
-    const [tab, setTab] = useState('api')
-    const [filterText, setFilterText] = useState('')
-    const dispatch = useDispatch()
+function DebugBar() {
+    const config = useSelector(getConfig);
+    const [hidden, setHidden] = useState(true);
+    const [tab, setTab] = useState('api');
+    const [filterText, setFilterText] = useState('');
+    const dispatch = useDispatch();
 
-    if (config.DebugBar !== "true") {
-        return null
+    if (config.DebugBar !== 'true') {
+        return null;
+    }
+
+    function makeSetTab(tab: string) {
+        return () => {
+            return setTab(tab);
+        };
+    }
+
+    function isSelected(current: string): boolean {
+        return tab === current;
+    }
+
+    function makeItem({tab, text}: {tab: string; text: string}) {
+        return (
+            <div className='DebugBar__Tab'>
+                <button
+                    key={tab}
+                    className={'header__Button ' + (isSelected(tab) ? 'selected' : '')}
+                    onClick={makeSetTab(tab)}
+                >
+                    {text}
+                </button>
+            </div>
+        );
     }
 
     if (hidden) {
-        return (<button className='DebugBarButton' onClick={() => setHidden(false)}>Debug</button>)
+        return (
+            <button
+                className='DebugBarButton'
+                onClick={() => setHidden(false)}
+            >
+                {'Debug'}
+            </button>
+        );
     }
+
     return (
         <div className='DebugBar'>
             <div className='header'>
-                <button className={tab === 'api' ? 'selected' : ''} onClick={() => setTab('api')}>Api Calls</button>
-                <button className={tab === 'store' ? 'selected' : ''}  onClick={() => setTab('store')}>Store Calls</button>
-                <button className={tab === 'sql' ? 'selected' : ''}  onClick={() => setTab('sql')}>SQL Queries</button>
-                <button className={tab === 'logs' ? 'selected' : ''}  onClick={() => setTab('logs')}>Server Logs</button>
-                <button className={tab === 'emails' ? 'selected' : ''}  onClick={() => setTab('emails')}>Emails</button>
-                <button className={tab === 'system' ? 'selected' : ''}  onClick={() => setTab('system')}>System Info</button>
-                {tab !== 'system' && <input type='text' placeholder='Filter' onChange={(e) => setFilterText(e.target.value)} value={filterText}/>}
-                {tab !== 'system' && <button className='action' onClick={() => dispatch(clearLines())}>Clear</button>}
-                <button className='action' onClick={() => setHidden(true)}>Hide</button>
+                {ITEMS.map(makeItem)}
+                {tab !== 'system' && (
+                    <QuickInput
+                        id='searchChannelsTextbox'
+                        placeholder='Filter'
+                        className='form-control filter-textbox'
+                        value={filterText}
+                        onChange={(e) => setFilterText(e.target.value)}
+                    />
+                )}
+                <div className='DebugBar__Actions'>
+                    {tab !== 'system' && (
+                        <div className='DebugBar__Tab'>
+                            <button
+                                className='header__Button'
+                                onClick={() => dispatch(clearLines())}
+                            >
+                                {'Clear'}
+                            </button>
+                        </div>
+                    )}
+                    <div className='DebugBar__Tab'>
+                        <button
+                            className='header__Button'
+                            onClick={() => setHidden(true)}
+                        >
+                            {'Hide'}
+                        </button>
+                    </div>
+                </div>
             </div>
             <div className='body'>
                 {tab === 'api' && <ApiCalls filter={filterText}/>}
@@ -54,6 +116,6 @@ const DebugBar = (_: Props) => {
             </div>
         </div>
     );
-};
+}
 
 export default memo(DebugBar);
