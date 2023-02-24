@@ -52,7 +52,7 @@ describe('Actions.Users', () => {
             post('/users').
             reply(201, {...userToCreate, id: TestHelper.generateId()});
 
-        const {data: user} = await Actions.createUser(userToCreate, '', '')(store.dispatch, store.getState) as ActionResult;
+        const {data: user} = await Actions.createUser(userToCreate, '', '', '')(store.dispatch, store.getState) as ActionResult;
 
         const state = store.getState();
         const {profiles} = state.entities.users;
@@ -1028,7 +1028,7 @@ describe('Actions.Users', () => {
             post('/users').
             reply(200, TestHelper.fakeUserWithId());
 
-        const {data: user} = await Actions.createUser(TestHelper.fakeUser(), '', '')(store.dispatch, store.getState) as ActionResult;
+        const {data: user} = await Actions.createUser(TestHelper.fakeUser(), '', '', '')(store.dispatch, store.getState) as ActionResult;
 
         const beforeTime = new Date().getTime();
 

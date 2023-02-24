@@ -48,7 +48,7 @@ export function generateMfaSecret(userId: string): ActionFunc {
     });
 }
 
-export function createUser(user: UserProfile, token: string, inviteId: string, redirect?: string): ActionFunc {
+export function createUser(user: UserProfile, token: string, inviteId: string, redirect: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let created;
 
