@@ -21,12 +21,14 @@ type Props = {
     inline?: boolean;
 }
 
-function Json({code, language, inline = true}: Props) {
+function Code({code, language, inline = true}: Props) {
     const [content, setContent] = useState(TextFormatting.sanitizeHtml(code));
 
     useEffect(() => {
-        SyntaxHighlighting.highlight(language, code).then((content) => setContent(content));
-    }, [language, code]);
+        SyntaxHighlighting.highlight(language, code).then((content) =>
+            setContent(inline ? content : content.replaceAll(/\n/gm, '<br />')),
+        );
+    }, [language, code, inline]);
 
     return (
         <Block
@@ -36,4 +38,4 @@ function Json({code, language, inline = true}: Props) {
     );
 }
 
-export default memo(Json);
+export default memo(Code);

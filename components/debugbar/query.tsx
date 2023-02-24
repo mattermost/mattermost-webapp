@@ -17,7 +17,11 @@ function Sql({query, args}: Props) {
             (pl) => {
                 const index = Number(pl.replace('$', ''));
                 if (args?.length && args[index - 1]) {
-                    return `"${args[index - 1]}"`;
+                    const val = args[index - 1];
+                    if (isNaN(Number(val))) {
+                        return `"${val}"`;
+                    }
+                    return val;
                 }
                 return pl;
             },
