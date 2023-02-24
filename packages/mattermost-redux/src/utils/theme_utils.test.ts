@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import * as ThemeUtils from 'mattermost-redux/utils/theme_utils';
 import {Preferences} from '../constants';
 
@@ -12,35 +10,35 @@ describe('ThemeUtils', () => {
             const input = 'ff77aa';
             const expected = {red: 255, green: 119, blue: 170, alpha: 1};
 
-            assert.deepEqual(ThemeUtils.getComponents(input), expected);
+            expect(ThemeUtils.getComponents(input)).toEqual(expected);
         });
 
         it('3 digit hex color', () => {
             const input = '4a3';
             const expected = {red: 68, green: 170, blue: 51, alpha: 1};
 
-            assert.deepEqual(ThemeUtils.getComponents(input), expected);
+            expect(ThemeUtils.getComponents(input)).toEqual(expected);
         });
 
         it('hex color with leading number sign', () => {
             const input = '#cda43d';
             const expected = {red: 205, green: 164, blue: 61, alpha: 1};
 
-            assert.deepEqual(ThemeUtils.getComponents(input), expected);
+            expect(ThemeUtils.getComponents(input)).toEqual(expected);
         });
 
         it('rgb', () => {
             const input = 'rgb(123,231,67)';
             const expected = {red: 123, green: 231, blue: 67, alpha: 1};
 
-            assert.deepEqual(ThemeUtils.getComponents(input), expected);
+            expect(ThemeUtils.getComponents(input)).toEqual(expected);
         });
 
         it('rgba', () => {
             const input = 'rgb(45,67,89,0.04)';
             const expected = {red: 45, green: 67, blue: 89, alpha: 0.04};
 
-            assert.deepEqual(ThemeUtils.getComponents(input), expected);
+            expect(ThemeUtils.getComponents(input)).toEqual(expected);
         });
     });
 
@@ -49,21 +47,21 @@ describe('ThemeUtils', () => {
             const input = 'ff77aa';
             const expected = 'rgba(255,119,170,0.5)';
 
-            assert.deepEqual(ThemeUtils.changeOpacity(input, 0.5), expected);
+            expect(ThemeUtils.changeOpacity(input, 0.5)).toEqual(expected);
         });
 
         it('rgb', () => {
             const input = 'rgb(123,231,67)';
             const expected = 'rgba(123,231,67,0.3)';
 
-            assert.deepEqual(ThemeUtils.changeOpacity(input, 0.3), expected);
+            expect(ThemeUtils.changeOpacity(input, 0.3)).toEqual(expected);
         });
 
         it('rgba', () => {
             const input = 'rgb(45,67,89,0.4)';
             const expected = 'rgba(45,67,89,0.2)';
 
-            assert.deepEqual(ThemeUtils.changeOpacity(input, 0.5), expected);
+            expect(ThemeUtils.changeOpacity(input, 0.5)).toEqual(expected);
         });
     });
 
@@ -73,23 +71,23 @@ describe('ThemeUtils', () => {
             const expected = {...Preferences.THEMES.denim};
             delete expected.type;
 
-            assert.deepEqual(ThemeUtils.setThemeDefaults(input), expected);
+            expect(ThemeUtils.setThemeDefaults(input)).toEqual(expected);
         });
 
         it('correctly updates the sidebarTeamBarBg variable', () => {
             const input = {sidebarHeaderBg: '#ffaa55'};
 
-            assert.equal(ThemeUtils.setThemeDefaults(input).sidebarTeamBarBg, '#cc8844');
+            expect(ThemeUtils.setThemeDefaults(input).sidebarTeamBarBg).toEqual('#cc8844');
         });
 
         it('set defaults on unset properties only', () => {
             const input = {buttonColor: '#7600ff'};
-            assert.equal(ThemeUtils.setThemeDefaults(input).buttonColor, '#7600ff');
+            expect(ThemeUtils.setThemeDefaults(input).buttonColor).toEqual('#7600ff');
         });
 
         it('ignore type', () => {
-            const input = {type: 'sometype'};
-            assert.equal(ThemeUtils.setThemeDefaults(input).type, 'sometype');
+            const input = {type: 'sometype' as any};
+            expect(ThemeUtils.setThemeDefaults(input).type).toEqual('sometype');
         });
     });
 });

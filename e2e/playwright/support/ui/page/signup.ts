@@ -36,7 +36,7 @@ export default class SignupPage {
     }
 
     async goto() {
-        await this.page.goto('/signup_email', {waitUntil: 'domcontentloaded'});
+        await this.page.goto('/signup_email', {waitUntil: 'networkidle'});
         await this.title.waitFor();
     }
 
