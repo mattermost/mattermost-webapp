@@ -8,7 +8,7 @@ export type CloudState = {
     products?: Record<string, Product>;
     customer?: CloudCustomer;
     invoices?: Record<string, Invoice>;
-    subscriptionStats?: LicenseExpandReducer;
+    subscriptionStats?: LicenseStatusReducer;
     limits: {
         limitsLoaded: boolean;
         limits: Limits;
@@ -105,7 +105,7 @@ export type LicenseStatus = {
 }
 
 type RequestState = 'IDLE' | 'LOADING' | 'ERROR' | 'OK'
-export interface LicenseExpandReducer extends LicenseStatus {
+export interface LicenseStatusReducer extends LicenseStatus {
     getRequestState: RequestState;
 }
 
