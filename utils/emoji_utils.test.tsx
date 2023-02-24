@@ -4,44 +4,45 @@
 import React from 'react';
 
 import {EmojiIndicesByAlias, Emojis} from 'utils/emoji';
+import {TestHelper as TH} from 'utils/test_helper';
 
 import {compareEmojis, convertEmojiSkinTone, wrapEmojis} from './emoji_utils';
 
 describe('compareEmojis', () => {
     test('should sort an array of emojis alphabetically', () => {
-        const goatEmoji = {
+        const goatEmoji = TH.getCustomEmojiMock({
             name: 'goat',
-        };
+        });
 
-        const dashEmoji = {
+        const dashEmoji = TH.getCustomEmojiMock({
             name: 'dash',
-        };
+        });
 
-        const smileEmoji = {
+        const smileEmoji = TH.getCustomEmojiMock({
             name: 'smile',
-        };
+        });
 
         const emojiArray = [goatEmoji, dashEmoji, smileEmoji];
-        emojiArray.sort((a, b) => compareEmojis(a, b));
+        emojiArray.sort((a, b) => compareEmojis(a, b, ''));
 
         expect(emojiArray).toEqual([dashEmoji, goatEmoji, smileEmoji]);
     });
 
     test('should have partial matched emoji first', () => {
-        const goatEmoji = {
+        const goatEmoji = TH.getSystemEmojiMock({
             short_name: 'goat',
             short_names: ['goat'],
-        };
+        });
 
-        const dashEmoji = {
+        const dashEmoji = TH.getSystemEmojiMock({
             short_name: 'dash',
             short_names: ['dash'],
-        };
+        });
 
-        const smileEmoji = {
+        const smileEmoji = TH.getSystemEmojiMock({
             short_name: 'smile',
             short_names: ['smile'],
-        };
+        });
 
         const emojiArray = [goatEmoji, dashEmoji, smileEmoji];
         emojiArray.sort((a, b) => compareEmojis(a, b, 'smi'));
@@ -50,80 +51,80 @@ describe('compareEmojis', () => {
     });
 
     test('should be able to sort on aliases', () => {
-        const goatEmoji = {
+        const goatEmoji = TH.getSystemEmojiMock({
             short_names: [':goat:'],
             short_name: ':goat:',
-        };
+        });
 
-        const dashEmoji = {
+        const dashEmoji = TH.getSystemEmojiMock({
             short_names: [':dash:'],
             short_name: ':dash:',
-        };
+        });
 
-        const smileEmoji = {
+        const smileEmoji = TH.getSystemEmojiMock({
             short_names: [':smile:'],
             short_name: ':smile:',
-        };
+        });
 
         const emojiArray = [goatEmoji, dashEmoji, smileEmoji];
-        emojiArray.sort((a, b) => compareEmojis(a, b));
+        emojiArray.sort((a, b) => compareEmojis(a, b, ''));
 
         expect(emojiArray).toEqual([dashEmoji, goatEmoji, smileEmoji]);
     });
 
     test('special case for thumbsup emoji should sort it before thumbsdown by aliases', () => {
-        const thumbsUpEmoji = {
+        const thumbsUpEmoji = TH.getSystemEmojiMock({
             short_names: ['+1'],
             short_name: '+1',
-        };
+        });
 
-        const thumbsDownEmoji = {
+        const thumbsDownEmoji = TH.getSystemEmojiMock({
             short_names: ['-1'],
             short_name: '-1',
-        };
+        });
 
-        const smileEmoji = {
+        const smileEmoji = TH.getSystemEmojiMock({
             short_names: ['smile'],
             short_name: 'smile',
-        };
+        });
 
         const emojiArray = [thumbsDownEmoji, thumbsUpEmoji, smileEmoji];
-        emojiArray.sort((a, b) => compareEmojis(a, b));
+        emojiArray.sort((a, b) => compareEmojis(a, b, ''));
 
         expect(emojiArray).toEqual([thumbsUpEmoji, thumbsDownEmoji, smileEmoji]);
     });
 
     test('special case for thumbsup emoji should sort it before thumbsdown by names', () => {
-        const thumbsUpEmoji = {
+        const thumbsUpEmoji = TH.getSystemEmojiMock({
             short_name: 'thumbsup',
-        };
+        });
 
-        const thumbsDownEmoji = {
+        const thumbsDownEmoji = TH.getSystemEmojiMock({
             short_name: 'thumbsdown',
-        };
+        });
 
-        const smileEmoji = {
+        const smileEmoji = TH.getSystemEmojiMock({
             short_name: 'smile',
-        };
+        });
 
         const emojiArray = [thumbsDownEmoji, thumbsUpEmoji, smileEmoji];
-        emojiArray.sort((a, b) => compareEmojis(a, b));
+        emojiArray.sort((a, b) => compareEmojis(a, b, ''));
 
         expect(emojiArray).toEqual([smileEmoji, thumbsUpEmoji, thumbsDownEmoji]);
     });
 
     test('special case for thumbsup emoji should sort it when emoji is matched', () => {
-        const thumbsUpEmoji = {
+        const thumbsUpEmoji = TH.getSystemEmojiMock({
             short_name: 'thumbsup',
-        };
+        });
 
-        const thumbsDownEmoji = {
+        const thumbsDownEmoji = TH.getSystemEmojiMock({
             short_name: 'thumbsdown',
-        };
+        });
 
-        const smileEmoji = {
+        const smileEmoji = TH.getSystemEmojiMock({
             short_name: 'smile',
-        };
+        });
 
         const emojiArray = [thumbsDownEmoji, thumbsUpEmoji, smileEmoji];
         emojiArray.sort((a, b) => compareEmojis(a, b, 'thumb'));
@@ -132,20 +133,20 @@ describe('compareEmojis', () => {
     });
 
     test('special case for thumbsup emoji should sort custom "thumb" emojis after system', () => {
-        const thumbsUpEmoji = {
+        const thumbsUpEmoji = TH.getSystemEmojiMock({
             short_names: ['+1', 'thumbsup'],
-            category: 'default',
-        };
+            category: 'people-body',
+        });
 
-        const thumbsDownEmoji = {
+        const thumbsDownEmoji = TH.getSystemEmojiMock({
             short_name: 'thumbsdown',
-            category: 'default',
-        };
+            category: 'people-body',
+        });
 
-        const thumbsUpCustomEmoji = {
+        const thumbsUpCustomEmoji = TH.getSystemEmojiMock({
             short_name: 'thumbsup-custom',
             category: 'custom',
-        };
+        });
 
         const emojiArray = [thumbsUpCustomEmoji, thumbsDownEmoji, thumbsUpEmoji];
         emojiArray.sort((a, b) => compareEmojis(a, b, 'thumb'));
@@ -392,6 +393,6 @@ describe('convertEmojiSkinTone', () => {
     });
 });
 
-function getEmoji(name) {
-    return Emojis[EmojiIndicesByAlias.get(name)];
+function getEmoji(name: string) {
+    return Emojis[EmojiIndicesByAlias.get(name)!];
 }

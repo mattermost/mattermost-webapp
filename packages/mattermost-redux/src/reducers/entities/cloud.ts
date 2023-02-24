@@ -106,6 +106,9 @@ export function limits(state: LimitsReducer = emptyLimits, action: GenericAction
             limitsLoaded: true,
         };
     }
+    case CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION: {
+        return emptyLimits;
+    }
     default:
         return state;
     }

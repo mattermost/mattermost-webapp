@@ -8,7 +8,7 @@ describe('Channel Utils', () => {
         test('no channels are unread', () => {
             const curChannelId = '3';
             const allChannelIds = ['1', '2', '3', '4', '5'];
-            const unreadChannelIds = [];
+            const unreadChannelIds: string[] = [];
 
             expect(Utils.findNextUnreadChannelId(curChannelId, allChannelIds, unreadChannelIds, 1)).toEqual(-1);
         });
