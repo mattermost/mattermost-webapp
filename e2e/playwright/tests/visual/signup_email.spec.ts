@@ -6,13 +6,7 @@ import {test} from '@playwright/test';
 import {getAdminClient} from '@e2e-support/server';
 import {LoginPage, SignupPage} from '@e2e-support/ui/page';
 import {duration, wait} from '@e2e-support/utils';
-import {matchSnapshot, Applitools} from '@e2e-support/visual';
-
-let applitools: Applitools = {};
-
-test.afterAll(async () => {
-    await applitools.eyes?.close();
-});
+import {matchSnapshot} from '@e2e-support/visual';
 
 test('/signup_email', async ({page, isMobile, browserName, viewport}, testInfo) => {
     const testArgs = {page, isMobile, browserName, viewport};
@@ -33,7 +27,7 @@ test('/signup_email', async ({page, isMobile, browserName, viewport}, testInfo) 
     await page.waitForLoadState('domcontentloaded');
 
     // Match snapshot of signup_email page
-    applitools = await matchSnapshot(testInfo, testArgs);
+    await matchSnapshot(testInfo, testArgs);
 
     // Click sign in button without entering user credential
     const signupPage = new SignupPage(page);
@@ -46,5 +40,5 @@ test('/signup_email', async ({page, isMobile, browserName, viewport}, testInfo) 
     await page.waitForLoadState('domcontentloaded');
 
     // Match snapshot of signup_email page
-    await matchSnapshot({...testInfo, title: `${testInfo.title} error`}, testArgs, applitools);
+    await matchSnapshot({...testInfo, title: `${testInfo.title} error`}, testArgs);
 });
