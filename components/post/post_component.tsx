@@ -259,7 +259,7 @@ const PostComponent = (props: Props): JSX.Element => {
             'post--comment': post.root_id && post.root_id.length > 0 && !props.isCollapsedThreadsEnabled,
             'post--compact': props.compactDisplay,
             'post--hovered': hovered,
-            'same--user': props.isConsecutivePost && !(props.currentUserId === post.user_id),
+            'same--user': props.isConsecutivePost && !props.compactDisplay,
             'cursor--pointer': alt && !props.channelIsArchived,
             'post--hide-controls': post.failed || post.state === Posts.POST_DELETED,
             'post--comment same--root': fromAutoResponder,
@@ -481,7 +481,7 @@ const PostComponent = (props: Props): JSX.Element => {
                 onMouseOver={handleMouseOver}
                 onMouseLeave={handleMouseLeave}
             >
-                {(Boolean(isSearchResultItem) || props.location === Locations.SEARCH) &&
+                {(Boolean(isSearchResultItem) || props.isFlagged) &&
                     <div
                         className='search-channel__name__container'
                         aria-hidden='true'
