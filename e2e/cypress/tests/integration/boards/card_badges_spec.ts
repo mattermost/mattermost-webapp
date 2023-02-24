@@ -17,7 +17,7 @@ describe('Card badges', () => {
         cy.clearLocalStorage();
     });
 
-    it('Shows and hides card badges', () => {
+    it('MM-T5395 Shows and hides card badges', () => {
         cy.visit('/boards');
 
         // Create new board
