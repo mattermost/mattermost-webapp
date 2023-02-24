@@ -47,7 +47,7 @@ describe('Create and delete board / card', () => {
             should('have.value', 'Testing');
     });
 
-    it('Can create and delete a board and a card', () => {
+    it('MM-T5397 Can create and delete a board and a card', () => {
         // Visit a page and create new empty board
         cy.visit('/boards');
         cy.uiCreateEmptyBoard();
