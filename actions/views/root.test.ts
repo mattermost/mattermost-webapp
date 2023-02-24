@@ -58,6 +58,11 @@ describe('root view actions', () => {
     });
 
     describe('registerPluginTranslationsSource', () => {
+        const translations = {
+            keyA: 'valA',
+            keyB: 'valB',
+        };
+
         test('Should not dispatch action when getTranslation is empty', () => {
             const testStore = mockStore({});
 
@@ -68,17 +73,33 @@ describe('root view actions', () => {
             expect(testStore.getActions()).toEqual([]);
         });
 
-        test('Should dispatch action when getTranslation is not empty', () => {
+        test('Should dispatch action when getTranslation is not empty - sync', async () => {
             const testStore = mockStore({});
 
             jest.spyOn(i18nSelectors, 'getTranslations').mockReturnValue({});
             jest.spyOn(i18nSelectors, 'getCurrentLocale').mockReturnValue('en');
 
-            testStore.dispatch(Actions.registerPluginTranslationsSource('plugin_id', jest.fn()));
+            await testStore.dispatch(Actions.registerPluginTranslationsSource('plugin_id', jest.fn().mockReturnValue(translations)));
             expect(testStore.getActions()).toEqual([{
                 data: {
                     locale: 'en',
-                    translations: {},
+                    translations,
+                },
+                type: ActionTypes.RECEIVED_TRANSLATIONS,
+            }]);
+        });
+
+        test('Should dispatch action when getTranslation is not empty - async', async () => {
+            const testStore = mockStore({});
+
+            jest.spyOn(i18nSelectors, 'getTranslations').mockReturnValue({});
+            jest.spyOn(i18nSelectors, 'getCurrentLocale').mockReturnValue('en');
+
+            await testStore.dispatch(Actions.registerPluginTranslationsSource('plugin_id', jest.fn().mockResolvedValue(translations)));
+            expect(testStore.getActions()).toEqual([{
+                data: {
+                    locale: 'en',
+                    translations,
                 },
                 type: ActionTypes.RECEIVED_TRANSLATIONS,
             }]);

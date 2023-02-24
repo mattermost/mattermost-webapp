@@ -14,7 +14,7 @@ import en from 'i18n/en.json';
 
 const pluginTranslationSources: Record<string, TranslationPluginFunction> = {};
 
-export type TranslationPluginFunction = (locale: string) => Translations
+export type TranslationPluginFunction = (locale: string) => Translations | Promise<Translations>
 
 export function loadConfigAndMe() {
     return async (dispatch: DispatchFunc) => {
@@ -42,14 +42,14 @@ export function loadConfigAndMe() {
 
 export function registerPluginTranslationsSource(pluginId: string, sourceFunction: TranslationPluginFunction) {
     pluginTranslationSources[pluginId] = sourceFunction;
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
         const locale = getCurrentLocale(state);
         const immutableTranslations = getTranslations(state, locale);
         const translations = {};
         Object.assign(translations, immutableTranslations);
         if (immutableTranslations) {
-            Object.assign(translations, sourceFunction(locale));
+            Object.assign(translations, await sourceFunction(locale));
             dispatch({
                 type: ActionTypes.RECEIVED_TRANSLATIONS,
                 data: {
@@ -68,8 +68,8 @@ export function unregisterPluginTranslationsSource(pluginId: string) {
 export function loadTranslations(locale: string, url: string) {
     return async (dispatch: DispatchFunc) => {
         const translations = {...en};
-        Object.values(pluginTranslationSources).forEach((pluginFunc) => {
-            Object.assign(translations, pluginFunc(locale));
+        Object.values(pluginTranslationSources).forEach(async (pluginFunc) => {
+            Object.assign(translations, await pluginFunc(locale));
         });
 
         // Need to go to the server for languages other than English
