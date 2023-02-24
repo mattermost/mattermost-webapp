@@ -29,6 +29,7 @@ const ITEMS = [
 function DebugBar() {
     const config = useSelector(getConfig);
     const [hidden, setHidden] = useState(true);
+    const [height, setHeight] = useState(300);
     const [tab, setTab] = useState('api');
     const [filterText, setFilterText] = useState('');
     const dispatch = useDispatch();
@@ -73,7 +74,26 @@ function DebugBar() {
     }
 
     return (
-        <div className='DebugBar'>
+        <div
+            className='DebugBar'
+            style={{
+                height,
+            }}
+        >
+            <div
+                className='handler'
+                draggable
+                onDragEnd={() => {
+                    document.removeEventListener("dragover", (e) => {
+                        setHeight(window.innerHeight - e.pageY)
+                    })
+                }}
+                onDragStart={() => {
+                    document.addEventListener("dragover", (e) => {
+                        setHeight(window.innerHeight - e.pageY)
+                    })
+                }}
+            />
             <div className='header'>
                 {ITEMS.map(makeItem)}
                 {tab !== 'system' && (

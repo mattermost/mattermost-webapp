@@ -33,7 +33,6 @@
     grid-row: 4;
     grid-column: 1/span 5;
     border: 1px solid #aaa;
-    border-top: 3px solid var(--sidebar-text-active-border);
     box-shadow: var(--elevation-2);
 
     .debug {
@@ -67,6 +66,12 @@
         }
     }
 
+    .handler {
+        width: 100%;
+        padding-top: 4px;
+        background: var(--sidebar-text-active-border);
+        cursor: ns-resize;
+    }
     .header {
         display: flex;
         background-color: #f5f5f5;
