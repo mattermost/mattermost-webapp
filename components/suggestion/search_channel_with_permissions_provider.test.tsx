@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import SearchChannelWithPermissionsProvider from 'components/suggestion/search_channel_with_permissions_provider.jsx';
+import SearchChannelWithPermissionsProvider from 'components/suggestion/search_channel_with_permissions_provider';
 
 import getState from 'stores/redux_store';
 import mockStore from 'tests/test_store';
