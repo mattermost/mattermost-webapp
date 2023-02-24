@@ -54,11 +54,17 @@ type Props = {
 export class FaviconTitleHandlerClass extends React.PureComponent<Props> {
     componentDidUpdate(prevProps: Props) {
         this.updateTitle();
+
         const oldBadgeStatus = this.getBadgeStatus(prevProps.unreadStatus);
         const newBadgeStatus = this.getBadgeStatus(this.props.unreadStatus);
-
         if (oldBadgeStatus !== newBadgeStatus) {
             this.updateFavicon(newBadgeStatus);
+        }
+
+        const oldUnreadStatus = prevProps.unreadStatus;
+        const newUnreadStatus = this.props.unreadStatus;
+        if (oldUnreadStatus !== newUnreadStatus) {
+            this.updateAppBadge(newUnreadStatus);
         }
     }
 
@@ -176,6 +182,22 @@ export class FaviconTitleHandlerClass extends React.PureComponent<Props> {
             link64x64!.href = getFavicon(faviconDefault64x64);
             link96x96!.href = getFavicon(faviconDefault96x96);
         }
+        }
+    }
+
+    updateAppBadge = (unreadStatus: BasicUnreadStatus) => {
+        if(!('setAppBadge' in navigator && 'clearAppBadge' in navigator)) {
+            return;
+        }
+
+        const {isUnread, unreadMentionCount} = basicUnreadMeta(unreadStatus);
+
+        if (unreadMentionCount > 0) {
+            navigator.setAppBadge(unreadMentionCount);
+        } else if (isUnread) {
+            navigator.setAppBadge();
+        } else {
+            navigator.clearAppBadge();
         }
     }
 
