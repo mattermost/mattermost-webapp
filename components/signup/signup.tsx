@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, {useState, useEffect, useRef, useCallback, FocusEvent} from 'react';
+
 import {useIntl} from 'react-intl';
 import {useLocation, useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
@@ -282,7 +283,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
 
     useEffect(() => {
         dispatch(removeGlobalItem('team'));
-        sendFirstAdminUserTelemetryEvents('landing_on_create_account_page');
+        sendFirstAdminUserTelemetryEvents('landing');
 
         trackEvent('signup', 'signup_user_01_welcome', {...getRoleFromTrackFlow(), ...getMediumFromTrackFlow()});
 
@@ -461,7 +462,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     function sendFirstAdminUserTelemetryEvents(errorId: string) {
         const sbr = getSbr();
         if (!sbr) {
-            trackEvent('create_account_first_admin', errorId, {serverId: DiagnosticId});
+            trackEvent('first_admin_sign_up_page', errorId, {serverId: DiagnosticId});
         }
     }
 
@@ -472,11 +473,11 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
 
         if (!providedEmail) {
             setEmailError(formatMessage({id: 'signup_user_completed.required', defaultMessage: 'This field is required'}));
-            sendFirstAdminUserTelemetryEvents('not_email_provided_when_trying_to_create_account');
+            sendFirstAdminUserTelemetryEvents('click_create_account_with_no_email_provided');
             isValid = false;
         } else if (!isEmail(providedEmail)) {
             setEmailError(formatMessage({id: 'signup_user_completed.validEmail', defaultMessage: 'Please enter a valid email address'}));
-            sendFirstAdminUserTelemetryEvents('provided_email_is_not_a_valid_email');
+            sendFirstAdminUserTelemetryEvents('click_create_account_with_invalid_email');
             isValid = false;
         }
 
@@ -488,8 +489,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
             if (usernameError) {
                 let nameError = '';
                 if (usernameError.id === ValidationErrors.RESERVED_NAME) {
-                    sendFirstAdminUserTelemetryEvents('provided_username_reserved_name');
-                    nameError = formatMessage({id: 'signup_user_completed.reserved', defaultMessage: 'This username is reserved, please choose a new one.'})
+                    nameError = formatMessage({id: 'signup_user_completed.reserved', defaultMessage: 'This username is reserved, please choose a new one.'});
                 } else {
                     nameError = formatMessage(
                         {
@@ -501,14 +501,14 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                             max: Constants.MAX_USERNAME_LENGTH,
                         },
                     );
-                    sendFirstAdminUserTelemetryEvents('provided_username_format_error');
                 }
+                sendFirstAdminUserTelemetryEvents(`click_create_account_with_username_error_${(usernameError.id).toLowerCase()}`);
                 setNameError(nameError);
                 isValid = false;
             }
         } else {
             setNameError(formatMessage({id: 'signup_user_completed.required', defaultMessage: 'This field is required'}));
-            sendFirstAdminUserTelemetryEvents('not_provided_user_name_when_trying_to_create_account');
+            sendFirstAdminUserTelemetryEvents('click_create_account_with_no_provided_username');
             isValid = false;
         }
 
@@ -517,7 +517,9 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
 
         if (error) {
             setPasswordError(error as string);
-            sendFirstAdminUserTelemetryEvents(`password_error_${errorId}`);
+            const passwordErrorsArr = errorId.split('.');
+            const passwordErrorsStr = passwordErrorsArr?.length && passwordErrorsArr.pop();
+            sendFirstAdminUserTelemetryEvents(`click_create_account_with_password_with_error_${passwordErrorsStr ?? ''}`);
             isValid = false;
         }
 
@@ -568,6 +570,14 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     };
 
     const handleReturnButtonOnClick = () => history.replace('/');
+
+    const handleOnBlur = (e: FocusEvent<HTMLInputElement>, inputId: string) => {
+        const text = e.target.value;
+        if (!text) {
+            return;
+        }
+        sendFirstAdminUserTelemetryEvents(`typed_input_${inputId}`);
+    };
 
     const getContent = () => {
         if (!enableSignUpWithEmail && !enableExternalSignup) {
@@ -690,6 +700,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                                         disabled={isWaiting || Boolean(parsedEmail)}
                                         autoFocus={true}
                                         customMessage={emailCustomLabelForInput}
+                                        onBlur={(e) => handleOnBlur(e, 'email')}
                                     />
                                     <Input
                                         ref={nameInput}
@@ -711,6 +722,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                                                 value: formatMessage({id: 'signup_user_completed.userHelp', defaultMessage: 'You can use lowercase letters, numbers, periods, dashes, and underscores.'}),
                                             }
                                         }
+                                        onBlur={(e) => handleOnBlur(e, 'username')}
                                     />
                                     <PasswordInput
                                         ref={passwordInput}
@@ -722,6 +734,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                                         createMode={true}
                                         info={passwordInfo as string}
                                         error={passwordError}
+                                        onBlur={(e) => handleOnBlur(e, 'password')}
                                     />
                                     <SaveButton
                                         extraClasses='signup-body-card-form-button-submit large'
