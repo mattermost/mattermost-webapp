@@ -20,7 +20,7 @@ describe('Card URL Property', () => {
     const url = 'https://mattermost.com';
     const changedURL = 'https://mattermost.com/blog';
 
-    it('Allows to create and edit URL property', () => {
+    it('MM-T5396 Allows to create and edit URL property', () => {
         cy.visit('/boards');
 
         // Create new board
