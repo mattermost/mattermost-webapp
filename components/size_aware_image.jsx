@@ -15,6 +15,8 @@ import Tooltip from 'components/tooltip';
 import OverlayTrigger from 'components/overlay_trigger';
 import {getFileMiniPreviewUrl} from 'mattermost-redux/utils/file_utils';
 
+import ExternalLink from './external_link';
+
 const MIN_IMAGE_SIZE = 48;
 const MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS = 100;
 const MAX_IMAGE_HEIGHT = 350;
@@ -278,20 +280,19 @@ export default class SizeAwareImage extends React.PureComponent {
                 overlay={downloadTooltip}
                 rootClose={true}
             >
-                <a
+                <ExternalLink
                     href={this.isInternalImage ? fileURL : src}
                     className='style--none size-aware-image__download'
-                    target='_blank'
-                    rel='noopener noreferrer'
                     download={true}
                     role={this.isInternalImage ? 'button' : undefined}
                     aria-label={localizeMessage('single_image_view.download_tooltip', 'Download')}
+                    location='size_aware_image'
                 >
                     <DownloadOutlineIcon
                         className={'style--none'}
                         size={20}
                     />
-                </a>
+                </ExternalLink>
             </OverlayTrigger>
         );
 

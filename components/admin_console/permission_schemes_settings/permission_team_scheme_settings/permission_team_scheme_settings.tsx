@@ -34,6 +34,8 @@ import PermissionsTreePlaybooks from '../permissions_tree_playbooks';
 
 import GeneralConstants from 'mattermost-redux/constants/general';
 
+import ExternalLink from 'components/external_link';
+
 import TeamInList from './team_in_list';
 
 type RolesMap = {
@@ -612,22 +614,20 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
                                         defaultMessage='<linkTeamOverride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>.'
                                         values={{
                                             linkTeamOverride: (msg: React.ReactNode) => (
-                                                <a
+                                                <ExternalLink
                                                     href='https://docs.mattermost.com/onboard/advanced-permissions.html'
-                                                    target='_blank'
-                                                    rel='noreferrer'
+                                                    location='permission_team_scheme_settings'
                                                 >
                                                     {msg}
-                                                </a>
+                                                </ExternalLink>
                                             ),
                                             linkSystemScheme: (msg: React.ReactNode) => (
-                                                <a
+                                                <ExternalLink
                                                     href='https://mattermost.com/pl/advanced-permissions/'
-                                                    target='_blank'
-                                                    rel='noreferrer'
+                                                    location='permission_team_scheme_settings'
                                                 >
                                                     {msg}
-                                                </a>
+                                                </ExternalLink>
                                             ),
                                         }}
                                     />

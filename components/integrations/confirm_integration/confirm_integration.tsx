@@ -16,6 +16,7 @@ import CopyText from 'components/copy_text';
 import BackstageHeader from 'components/backstage/components/backstage_header';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {Bot} from '@mattermost/types/bots';
+import ExternalLink from 'components/external_link';
 
 type Props = {
     team: Team;
@@ -73,13 +74,12 @@ const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks,
                     defaultMessage='Your slash command is set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (details at <link>Slash Commands</link>).'
                     values={{
                         link: (msg: string) => (
-                            <a
+                            <ExternalLink
                                 href='https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/'
-                                target='_blank'
-                                rel='noreferrer'
+                                location='confirm_integration'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />
@@ -111,13 +111,12 @@ const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks,
                     defaultMessage='Your incoming webhook is set up. Please send data to the following URL (details at <link>Incoming Webhooks</link>).'
                     values={{
                         link: (msg: string) => (
-                            <a
+                            <ExternalLink
                                 href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'
-                                target='_blank'
-                                rel='noreferrer'
+                                location='confirm_integration'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />
@@ -149,13 +148,12 @@ const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks,
                     defaultMessage='Your outgoing webhook is set up. The following token will be sent in the outgoing payload. Please use it to verify that the request came from your Mattermost team (details at <link>Outgoing Webhooks</link>).'
                     values={{
                         link: (msg: string) => (
-                            <a
+                            <ExternalLink
                                 href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/'
-                                target='_blank'
-                                rel='noreferrer'
+                                location='confirm_integration'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />
@@ -190,13 +188,12 @@ const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks,
                     defaultMessage='Your OAuth 2.0 application is set up. Please use the following Client ID and Client Secret when requesting authorization for your application (details at <link>oAuth 2 Applications</link>).'
                     values={{
                         link: (msg: string) => (
-                            <a
+                            <ExternalLink
                                 href='https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/'
-                                target='_blank'
-                                rel='noreferrer'
+                                location='confirm_integration'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />
@@ -264,13 +261,12 @@ const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks,
                         botname: bot.display_name || bot.username,
                         strong: (msg: string) => <strong>{msg}</strong>,
                         link: (msg: string) => (
-                            <a
+                            <ExternalLink
                                 href='https://mattermost.com/pl/default-bot-accounts'
-                                target='_blank'
-                                rel='noreferrer'
+                                location='confirm_integration'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />
@@ -291,13 +287,12 @@ const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks,
                     defaultMessage='Make sure to add this bot account to teams and channels you want it to interact in. See <link>documentation</link> to learn more.'
                     values={{
                         link: (msg: string) => (
-                            <a
+                            <ExternalLink
                                 href='https://mattermost.com/pl/default-bot-accounts'
-                                target='_blank'
-                                rel='noreferrer'
+                                location='confirm_integration'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />

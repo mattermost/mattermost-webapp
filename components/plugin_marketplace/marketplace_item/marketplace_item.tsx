@@ -12,6 +12,7 @@ import PluginIcon from 'components/widgets/icons/plugin_icon';
 
 import {Constants} from 'utils/constants';
 import Tag from 'components/widgets/tag/tag';
+import ExternalLink from 'components/external_link';
 
 // Label renders a tag showing a name and a description in a tooltip.
 // If a URL is provided, clicking on the tag will open the URL in a new tab.
@@ -45,15 +46,14 @@ export const Label = ({name, description, url}: MarketplaceLabel): JSX.Element =
 
     if (url) {
         return (
-            <a
+            <ExternalLink
                 aria-label={name.toLowerCase()}
                 className='style--none more-modal__row--link marketplace__tag'
-                target='_blank'
-                rel='noopener noreferrer'
                 href={url}
+                location='marketplace_item'
             >
                 {label}
-            </a>
+            </ExternalLink>
         );
     }
 
@@ -115,25 +115,23 @@ export default class MarketplaceItem extends React.PureComponent <MarketplaceIte
         if (this.props.homepageUrl) {
             pluginDetails = (
                 <>
-                    <a
+                    <ExternalLink
                         aria-label={this.props.name.toLowerCase()}
                         className='style--none more-modal__row--link'
-                        target='_blank'
-                        rel='noopener noreferrer'
                         href={this.props.homepageUrl}
+                        location='marketplace_item'
                     >
                         {pluginDetailsInner}
-                    </a>
+                    </ExternalLink>
                     {labelComponents}
-                    <a
+                    <ExternalLink
                         aria-label="Plugin's website"
                         className='style--none more-modal__row--link'
-                        target='_blank'
-                        rel='noopener noreferrer'
                         href={this.props.homepageUrl}
+                        location='marketplace_item'
                     >
                         {description}
-                    </a>
+                    </ExternalLink>
                 </>
             );
         } else {

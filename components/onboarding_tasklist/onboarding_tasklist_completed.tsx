@@ -18,6 +18,7 @@ import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 import completedImg from 'images/completed.svg';
+import ExternalLink from 'components/external_link';
 
 const CompletedWrapper = styled.div`
     display: flex;
@@ -209,13 +210,12 @@ const Completed = (props: Props): JSX.Element => {
                                 defaultMessage='Now that you’re all set up, <link>download our apps.</link>!'
                                 values={{
                                     link: (msg: React.ReactNode) => (
-                                        <a
+                                        <ExternalLink
                                             href='https://mattermost.com/download'
-                                            target='_blank'
-                                            rel='noreferrer'
+                                            location='onboarding_tasklist_completed'
                                         >
                                             {msg}
-                                        </a>
+                                        </ExternalLink>
                                     ),
                                 }}
                             />
@@ -228,22 +228,20 @@ const Completed = (props: Props): JSX.Element => {
                                 defaultMessage='By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software and Services License Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
                                 values={{
                                     linkEvaluation: (msg: React.ReactNode) => (
-                                        <a
+                                        <ExternalLink
                                             href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
-                                            target='_blank'
-                                            rel='noreferrer'
+                                            location='onboarding_tasklist_completed'
                                         >
                                             {msg}
-                                        </a>
+                                        </ExternalLink>
                                     ),
                                     linkPrivacy: (msg: React.ReactNode) => (
-                                        <a
+                                        <ExternalLink
                                             href={AboutLinks.PRIVACY_POLICY}
-                                            target='_blank'
-                                            rel='noreferrer'
+                                            location='onboarding_tasklist_completed'
                                         >
                                             {msg}
-                                        </a>
+                                        </ExternalLink>
                                     ),
                                 }}
                             />

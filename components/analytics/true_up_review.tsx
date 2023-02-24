@@ -33,6 +33,7 @@ import store from 'stores/redux_store.jsx';
 import {pageVisited} from 'actions/telemetry_actions';
 import {DocLinks, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {getIsStarterLicense} from 'utils/license_utils';
+import ExternalLink from 'components/external_link';
 
 const TrueUpReview: React.FC = () => {
     const dispatch = useDispatch();
@@ -158,16 +159,15 @@ const TrueUpReview: React.FC = () => {
     );
 
     const trueUpDocsLink = (
-        <a
+        <ExternalLink
             href={DocLinks.TRUE_UP_REVIEW}
-            target='_blank'
-            rel='noreferrer'
+            location='true_up_review'
         >
             <FormattedMessage
                 id='admin.billing.trueUpReview.docsLinkCTA'
                 defaultMessage='Learn more about true-up here.'
             />
-        </a>
+        </ExternalLink>
     );
 
     const reviewDetails = (

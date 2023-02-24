@@ -17,6 +17,7 @@ import {PreferenceType} from '@mattermost/types/preferences';
 import {LicenseLinks, StatTypes, Preferences} from 'utils/constants';
 
 import './overage_users_banner_notice.scss';
+import ExternalLink from 'components/external_link';
 
 type AdminHasDismissedArgs = {
     preferenceName: string;
@@ -87,14 +88,13 @@ const OverageUsersBannerNotice = () => {
                     values={{
                         a: (chunks: React.ReactNode) => {
                             return (
-                                <a
+                                <ExternalLink
                                     className='overage_users_banner__button'
                                     href={LicenseLinks.CONTACT_SALES}
-                                    target='_blank'
-                                    rel='noreferrer'
+                                    location='overage_users_banner_notice'
                                 >
                                     {chunks}
-                                </a>
+                                </ExternalLink>
                             );
                         },
                     }}

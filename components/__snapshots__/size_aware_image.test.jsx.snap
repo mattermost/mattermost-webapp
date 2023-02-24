@@ -105,20 +105,19 @@ exports[`components/SizeAwareImage should load download and copy link buttons wh
             ]
           }
         >
-          <a
+          <ExternalLink
             aria-label="Download"
             className="style--none size-aware-image__download"
             download={true}
             href="https://example.com/image.png"
-            rel="noopener noreferrer"
+            location="size_aware_image"
             role="button"
-            target="_blank"
           >
             <DownloadOutlineIcon
               className="style--none"
               size={20}
             />
-          </a>
+          </ExternalLink>
         </OverlayTrigger>
       </span>
     </figure>
@@ -231,19 +230,18 @@ exports[`components/SizeAwareImage should match snapshot when handleSmallImageCo
             ]
           }
         >
-          <a
+          <ExternalLink
             aria-label="Download"
             className="style--none size-aware-image__download"
             download={true}
-            rel="noopener noreferrer"
+            location="size_aware_image"
             role="button"
-            target="_blank"
           >
             <DownloadOutlineIcon
               className="style--none"
               size={20}
             />
-          </a>
+          </ExternalLink>
         </OverlayTrigger>
       </span>
     </figure>
@@ -370,19 +368,18 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
             ]
           }
         >
-          <a
+          <ExternalLink
             aria-label="Download"
             className="style--none size-aware-image__download"
             download={true}
-            rel="noopener noreferrer"
+            location="size_aware_image"
             role="button"
-            target="_blank"
           >
             <DownloadOutlineIcon
               className="style--none"
               size={20}
             />
-          </a>
+          </ExternalLink>
         </OverlayTrigger>
       </span>
     </figure>

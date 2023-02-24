@@ -20,6 +20,7 @@ import {AboutLinks, LicenseLinks, Preferences, Unique} from 'utils/constants';
 
 import {GlobalState} from 'types/store';
 import store from 'stores/redux_store.jsx';
+import ExternalLink from 'components/external_link';
 
 interface TrialBannerProps {
     isDisabled: boolean;
@@ -192,13 +193,12 @@ const TrialBanner = ({
                             defaultMessage='Trial license could not be retrieved. Visit <link>{trialInfoLink}</link> to request a license.'
                             values={{
                                 link: (msg: React.ReactNode) => (
-                                    <a
+                                    <ExternalLink
+                                        location='trial_banner'
                                         href={LicenseLinks.TRIAL_INFO_LINK}
-                                        target='_blank'
-                                        rel='noreferrer'
                                     >
                                         {msg}
-                                    </a>
+                                    </ExternalLink>
                                 ),
                                 trialInfoLink: LicenseLinks.TRIAL_INFO_LINK,
                             }}
@@ -228,22 +228,20 @@ const TrialBanner = ({
                     values={{
                         strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
                         linkEvaluation: (msg: React.ReactNode) => (
-                            <a
+                            <ExternalLink
                                 href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
-                                target='_blank'
-                                rel='noreferrer'
+                                location='trial_banner'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                         linkPrivacy: (msg: React.ReactNode) => (
-                            <a
+                            <ExternalLink
                                 href={AboutLinks.PRIVACY_POLICY}
-                                target='_blank'
-                                rel='noreferrer'
+                                location='trial_banner'
                             >
                                 {msg}
-                            </a>
+                            </ExternalLink>
                         ),
                     }}
                 />
@@ -298,22 +296,20 @@ const TrialBanner = ({
                         values={{
                             strong: (msg: React.ReactNode) => <strong>{msg}</strong>,
                             linkEvaluation: (msg: React.ReactNode) => (
-                                <a
+                                <ExternalLink
                                     href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
-                                    target='_blank'
-                                    rel='noreferrer'
+                                    location='trial_banner'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                             linkPrivacy: (msg: React.ReactNode) => (
-                                <a
+                                <ExternalLink
                                     href={AboutLinks.PRIVACY_POLICY}
-                                    target='_blank'
-                                    rel='noreferrer'
+                                    location='trial_banner'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                         }}
                     />

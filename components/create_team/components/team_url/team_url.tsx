@@ -17,6 +17,7 @@ import logoImage from 'images/logo.png';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
+import ExternalLink from 'components/external_link';
 
 type State = {
     isLoading: boolean;
@@ -124,22 +125,31 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
 
         for (let index = 0; index < Constants.RESERVED_TEAM_NAMES.length; index++) {
             if (cleanedName.indexOf(Constants.RESERVED_TEAM_NAMES[index]) === 0) {
-                this.setState({nameError: (
-                    <FormattedMessage
-                        id='create_team.team_url.taken'
-                        defaultMessage='This URL <link>starts with a reserved word</link> or is unavailable. Please try another.'
-                        values={{
-                            link: (msg: React.ReactNode) => (
-                                <a
-                                    href='https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url'
-                                    target='_blank'
-                                    rel='noreferrer'
-                                >
-                                    {msg}
-                                </a>
-                            ),
-                        }}
-                    />),
+                this.setState({
+                    nameError: (
+                        <FormattedMessage
+                            id='create_team.team_url.taken'
+                            defaultMessage='This URL <link>starts with a reserved word</link> or is unavailable. Please try another.'
+                            values={{
+                                link: (msg: React.ReactNode) => (
+                                    <>
+                                        <ExternalLink
+                                            href='https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url'
+                                            location='team_url'
+                                        >
+                                            {msg}
+                                        </ExternalLink>
+                                        <ExternalLink
+                                            href='https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url'
+                                            location='team_url'
+                                        >
+                                            {msg}
+                                        </ExternalLink>
+                                    </>
+                                ),
+                            }}
+                        />
+                    ),
                 });
                 return;
             }

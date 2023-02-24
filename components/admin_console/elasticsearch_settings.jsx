@@ -9,6 +9,8 @@ import {JobStatuses, JobTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 
+import ExternalLink from 'components/external_link';
+
 import AdminSettings from './admin_settings';
 import BooleanSetting from './boolean_setting';
 import JobsTable from './jobs';
@@ -156,16 +158,15 @@ export default class ElasticsearchSettings extends AdminSettings {
                             defaultMessage='When true, indexing of new posts occurs automatically. Search queries will use database search until "Enable Elasticsearch for search queries" is enabled. {documentationLink}'
                             values={{
                                 documentationLink: (
-                                    <a
+                                    <ExternalLink
+                                        location='elasticsearch_settings'
                                         href='https://docs.mattermost.com/scale/elasticsearch.html'
-                                        rel='noopener noreferrer'
-                                        target='_blank'
                                     >
                                         <FormattedMessage
                                             id='admin.elasticsearch.enableIndexingDescription.documentationLinkText'
                                             defaultMessage='Learn more about Elasticsearch in our documentation.'
                                         />
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />
@@ -190,16 +191,15 @@ export default class ElasticsearchSettings extends AdminSettings {
                             defaultMessage='The address of the Elasticsearch server. {documentationLink}'
                             values={{
                                 documentationLink: (
-                                    <a
+                                    <ExternalLink
+                                        location='elasticsearch_settings'
                                         href='https://docs.mattermost.com/scale/elasticsearch.html'
-                                        rel='noopener noreferrer'
-                                        target='_blank'
                                     >
                                         <FormattedMessage
                                             id='admin.elasticsearch.connectionUrlExample.documentationLinkText'
                                             defaultMessage='Please see documentation with server setup instructions.'
                                         />
-                                    </a>
+                                    </ExternalLink>
                                 ),
                             }}
                         />

@@ -13,6 +13,7 @@ import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import RevokeTokenButton from 'components/admin_console/revoke_token_button';
 import LoadingScreen from 'components/loading_screen';
 import Avatar from 'components/widgets/users/avatar';
+import ExternalLink from 'components/external_link';
 
 export type Props = {
 
@@ -157,22 +158,20 @@ export default class ManageTokensModal extends React.PureComponent<Props, State>
                         defaultMessage='Personal access tokens function similarly to session tokens and can be used by integrations to <linkAuthentication>interact with this Mattermost server</linkAuthentication>. Tokens are disabled if the user is deactivated. Learn more about <linkPersonalAccessTokens>personal access tokens</linkPersonalAccessTokens>.'
                         values={{
                             linkAuthentication: (msg: React.ReactNode) => (
-                                <a
+                                <ExternalLink
                                     href='https://api.mattermost.com/#tag/authentication'
-                                    target='_blank'
-                                    rel='noreferrer'
+                                    location='manage_tokens_modal'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                             linkPersonalAccessTokens: (msg: React.ReactNode) => (
-                                <a
+                                <ExternalLink
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
-                                    target='_blank'
-                                    rel='noreferrer'
+                                    location='manage_tokens_modal'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                         }}
                     />

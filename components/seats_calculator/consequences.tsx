@@ -13,6 +13,7 @@ import {
 } from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
+import ExternalLink from 'components/external_link';
 
 export function seeHowBillingWorks(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, cloud: boolean) {
     e.preventDefault();
@@ -56,13 +57,12 @@ export default function Consequences(props: Props) {
                 buttonContent: props.licenseAgreementBtnText.toLowerCase(),
                 legalText: LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT_TEXT,
                 linkAgreement: (legalText: React.ReactNode) => (
-                    <a
+                    <ExternalLink
                         href={LicenseLinks.SOFTWARE_SERVICES_LICENSE_AGREEMENT}
-                        target='_blank'
-                        rel='noreferrer'
+                        location='seats_calculator_consequences'
                     >
                         {legalText}
-                    </a>
+                    </ExternalLink>
                 ),
             }}
         />
