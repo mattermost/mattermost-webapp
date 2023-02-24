@@ -181,7 +181,7 @@ describe('Create and delete board / card', () => {
         cy.get('.Kanban').invoke('scrollLeft').should('equal', 0);
     });
 
-    it('GH-2520 make cut/undo/redo work in comments', () => {
+    it('MM-T5398 cut/undo/redo work in comments', () => {
         const isMAC = navigator.userAgent.indexOf('Mac') !== -1;
         const ctrlKey = isMAC ? 'meta' : 'ctrl';
 
