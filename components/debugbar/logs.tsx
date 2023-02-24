@@ -32,9 +32,7 @@ function Row({data, index, style}: RowProps) {
             style={style}
         >
             <div className={cn('time', {error: data[index].level === 'error'})}><Time time={data[index].time}/></div>
-            <div className='logMessage'>
-                <small>{data[index].message}</small>
-            </div>
+            <div className='logMessage'>{data[index].message}</div>
             <div
                 className='json'
                 title={JSON.stringify(data[index].fields)}
