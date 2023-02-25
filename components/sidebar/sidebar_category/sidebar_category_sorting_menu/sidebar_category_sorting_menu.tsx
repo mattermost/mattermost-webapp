@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {MouseEvent, memo, useState} from 'react';
+import React, {MouseEvent, memo, useState, KeyboardEvent} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 
@@ -28,7 +28,7 @@ import type {PropsFromRedux} from './index';
 
 type OwnProps = {
     category: ChannelCategory;
-    handleOpenDirectMessagesModal: (e: MouseEvent<HTMLLIElement>) => void;
+    handleOpenDirectMessagesModal: (e: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) => void;
 };
 
 type Props = OwnProps & PropsFromRedux;
@@ -37,7 +37,7 @@ const SidebarCategorySortingMenu = (props: Props) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const {formatMessage} = useIntl();
 
-    function handleSortDirectMessages(event: MouseEvent<HTMLLIElement>, sorting: CategorySorting) {
+    function handleSortDirectMessages(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>, sorting: CategorySorting) {
         event.preventDefault();
 
         props.setCategorySorting(props.category.id, sorting);
@@ -103,7 +103,7 @@ const SidebarCategorySortingMenu = (props: Props) => {
 
     );
 
-    function handlelimitVisibleDMsGMs(event: MouseEvent<HTMLLIElement>, number: number) {
+    function handlelimitVisibleDMsGMs(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>, number: number) {
         event.preventDefault();
         props.savePreferences(props.currentUserId, [{
             user_id: props.currentUserId,

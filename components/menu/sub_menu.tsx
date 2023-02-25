@@ -13,7 +13,8 @@ import {isAnyModalOpen} from 'selectors/views/modals';
 
 import {openModal, closeModal} from 'actions/views/modals';
 
-import {A11yClassNames} from 'utils/constants';
+import Constants, {A11yClassNames} from 'utils/constants';
+import {isKeyPressed} from 'utils/utils';
 
 import CompassDesignProvider from 'components/compass_design_provider';
 import GenericModal from 'components/generic_modal';
@@ -73,17 +74,21 @@ export function SubMenu({id, leadingElement, labels, trailingElements, isDestruc
 
     // This handleKeyDown is on the menu item which opens the submenu
     function handleSubMenuParentItemKeyDown(event: KeyboardEvent<HTMLLIElement>) {
-        if (event.key === 'ArrowRight' || event.key === 'Enter') {
+        if (
+            isKeyPressed(event, Constants.KeyCodes.ENTER) ||
+            isKeyPressed(event, Constants.KeyCodes.SPACE) ||
+            isKeyPressed(event, Constants.KeyCodes.RIGHT)
+        ) {
             event.preventDefault();
             setAnchorElement(event.currentTarget);
         }
     }
 
     function handleSubMenuKeyDown(event: KeyboardEvent<HTMLUListElement>) {
-        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        if (isKeyPressed(event, Constants.KeyCodes.UP) || isKeyPressed(event, Constants.KeyCodes.DOWN)) {
             // Stop the event from propagating upwards since that causes navigation to move by 2 items at a time
             event.stopPropagation();
-        } else if (event.key === 'ArrowLeft' || event.key === 'Escape') {
+        } else if (isKeyPressed(event, Constants.KeyCodes.ESCAPE) || isKeyPressed(event, Constants.KeyCodes.LEFT)) {
             event.preventDefault();
             setAnchorElement(null);
         }
