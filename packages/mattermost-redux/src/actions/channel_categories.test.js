@@ -369,7 +369,7 @@ describe('fetchMyCategories', () => {
         expect(categoriesById.category1.collapsed).toEqual(false);
         expect(categoriesById.category2.collapsed).toEqual(true);
     });
-    test('should not update collapse state if it s from websocket', async () => {
+    test('should not update collapse state if it\'s from websocket', async () => {
         const currentUserId = TestHelper.generateId();
         const teamId = TestHelper.generateId();
         const isWebSocket = true;
