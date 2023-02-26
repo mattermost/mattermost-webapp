@@ -6,12 +6,12 @@ import {injectIntl, IntlShape, MessageDescriptor} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 
-import {UserProfile} from '@mattermost/types/users';
-
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {t} from 'utils/i18n';
 import Markdown from 'components/markdown';
+
+import {UserProfile} from '@mattermost/types/users';
 
 import LastUsers from './last_users';
 
@@ -238,7 +238,10 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
         return usernames;
     }
 
-    getUsernamesByIds = (userIds: string[] = []): string[] => {
+    getUsernamesByIds = (userIds: string | string[] = []): string[] => {
+        if (!Array.isArray(userIds)) {
+            userIds = [userIds];
+        }
         const {currentUserId, currentUsername} = this.props;
         const allUsernames = this.getAllUsernames();
 
@@ -251,7 +254,8 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
             }).
             map((userId) => {
                 return allUsernames[userId] ? `@${allUsernames[userId]}` : someone;
-            }).filter((username) => {
+            }).
+            filter((username) => {
                 return username && username !== '';
             });
 
@@ -261,7 +265,15 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
             usernames.unshift(allUsernames[currentUsername]);
         }
 
-        return usernames;
+        // check for duplicates in usernames
+        const reduceNames = (acc: string[], username: string) => {
+            if (!acc.includes(username)) {
+                acc.push(username);
+            }
+            return acc;
+        };
+
+        return usernames.reduce(reduceNames, []);
     }
 
     renderFormattedMessage(postType: string, userIds: string[], actorId?: string): JSX.Element {
