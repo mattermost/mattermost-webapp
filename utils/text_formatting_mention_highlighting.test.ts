@@ -2,6 +2,9 @@
 // See LICENSE.txt for license information.
 
 import * as TextFormatting from 'utils/text_formatting';
+import EmojiMap from 'utils/emoji_map';
+
+const emojiMap = new EmojiMap(new Map());
 
 describe('TextFormatting.mentionHighlighting', () => {
     const testCases = [{
@@ -83,7 +86,7 @@ describe('TextFormatting.mentionHighlighting', () => {
                 mentionHighlight: 'mentionHighlight' in testCase ? testCase.mentionHighlight : true,
                 mentionKeys: testCase.mentionKeys,
             };
-            const output = TextFormatting.formatText(testCase.input, options).trim();
+            const output = TextFormatting.formatText(testCase.input, options, emojiMap).trim();
 
             expect(output).toEqual(testCase.expected);
         });
