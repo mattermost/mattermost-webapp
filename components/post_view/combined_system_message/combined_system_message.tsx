@@ -239,16 +239,14 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
     }
 
     getUsernamesByIds = (userIds: string | string[] = []): string[] => {
-        if (!Array.isArray(userIds)) {
-            userIds = [userIds];
-        }
+        const userIdsArray = Array.isArray(userIds) ? userIds : [userIds];
         const {currentUserId, currentUsername} = this.props;
         const allUsernames = this.getAllUsernames();
 
         const {formatMessage} = this.props.intl;
         const someone = formatMessage({id: t('channel_loader.someone'), defaultMessage: 'Someone'});
 
-        const usernames = userIds.
+        const usernames = userIdsArray.
             filter((userId) => {
                 return userId !== currentUserId && userId !== currentUsername;
             }).
@@ -259,9 +257,9 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
                 return username && username !== '';
             });
 
-        if (userIds.includes(currentUserId)) {
+        if (userIdsArray.includes(currentUserId)) {
             usernames.unshift(allUsernames[currentUserId]);
-        } else if (userIds.includes(currentUsername)) {
+        } else if (userIdsArray.includes(currentUsername)) {
             usernames.unshift(allUsernames[currentUsername]);
         }
 
