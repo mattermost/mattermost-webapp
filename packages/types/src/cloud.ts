@@ -8,7 +8,7 @@ export type CloudState = {
     products?: Record<string, Product>;
     customer?: CloudCustomer;
     invoices?: Record<string, Invoice>;
-    subscriptionStats?: LicenseStatusReducer;
+    subscriptionStats?: LicenseSelfServeStatusReducer;
     limits: {
         limitsLoaded: boolean;
         limits: Limits;
@@ -99,13 +99,13 @@ export type CloudCustomer = {
     payment_method: PaymentMethod;
 } & CustomerMetadataGatherWireTransfer
 
-export type LicenseStatus = {
+export type LicenseSelfServeStatus = {
     is_expandable?: boolean;
     is_renewable?: boolean;
 }
 
 type RequestState = 'IDLE' | 'LOADING' | 'ERROR' | 'OK'
-export interface LicenseStatusReducer extends LicenseStatus {
+export interface LicenseSelfServeStatusReducer extends LicenseSelfServeStatus {
     getRequestState: RequestState;
 }
 
