@@ -93,7 +93,7 @@ function FeedbackModal(props: Props) {
                         maxLength={200}
                     />
                     <span className='FeedbackModal__FreeFormTextLimit'>
-                        {comments.length}/{maxFreeFormTextLength}
+                        {comments.length + '/' + maxFreeFormTextLength}
                     </span>
                 </>
             }
