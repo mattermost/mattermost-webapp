@@ -74,11 +74,14 @@ export default function DeleteWorkspaceCTA() {
                         id='admin.billing.subscription.deleteWorkspaceSection.description'
                         defaultMessage='Deleting {workspaceLink} is final and cannot be reversed.'
                         values={{
-                            workspaceLink: <a href={`${workspaceUrl}`}>{workspaceUrl}</a>,
+                            workspaceLink: (
+                                <a href={`${workspaceUrl}`}>{workspaceUrl}</a>
+                            ),
                         }}
                     />
                 </div>
                 <ExternalLink
+                    href=''
                     location='delete_workspace_cta'
                     className='cancelSubscriptionSection__contactUs'
                     onClick={handleOnClickDelete}
