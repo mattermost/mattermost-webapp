@@ -18,7 +18,7 @@ export default class LandingLoginPage {
     }
 
     async goto() {
-        await this.page.goto('/landing#/login', {waitUntil: 'domcontentloaded'});
+        await this.page.goto('/landing#/login', {waitUntil: 'networkidle'});
         await this.viewInBrowserButton.waitFor();
     }
 }
