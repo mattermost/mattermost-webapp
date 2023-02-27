@@ -259,12 +259,13 @@ const PostComponent = (props: Props): JSX.Element => {
             'post--comment': post.root_id && post.root_id.length > 0 && !props.isCollapsedThreadsEnabled,
             'post--compact': props.compactDisplay,
             'post--hovered': hovered,
-            'same--user': props.isConsecutivePost,
+            'same--user': props.isConsecutivePost && !props.compactDisplay,
             'cursor--pointer': alt && !props.channelIsArchived,
             'post--hide-controls': post.failed || post.state === Posts.POST_DELETED,
             'post--comment same--root': fromAutoResponder,
             'post--pinned-or-flagged': (post.is_pinned || props.isFlagged) && props.location === Locations.CENTER,
             'mention-comment': props.isCommentMention,
+            'post--thread': props.location === Locations.RHS_COMMENT || Locations.RHS_ROOT,
         });
     };
 
@@ -480,7 +481,7 @@ const PostComponent = (props: Props): JSX.Element => {
                 onMouseOver={handleMouseOver}
                 onMouseLeave={handleMouseLeave}
             >
-                {Boolean(isSearchResultItem) &&
+                {(Boolean(isSearchResultItem) || (props.location !== Locations.CENTER && props.isFlagged)) &&
                     <div
                         className='search-channel__name__container'
                         aria-hidden='true'
