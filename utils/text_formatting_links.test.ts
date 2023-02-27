@@ -1,35 +1,31 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import * as Markdown from 'utils/markdown';
 import * as TextFormatting from 'utils/text_formatting';
 
+import EmojiMap from 'utils/emoji_map';
+const emojiMap = new EmojiMap(new Map());
+
 describe('Markdown.Links', () => {
     it('Not links', () => {
-        assert.equal(
-            Markdown.format('example.com').trim(),
+        expect(Markdown.format('example.com').trim()).toBe(
             '<p>example.com</p>',
         );
 
-        assert.equal(
-            Markdown.format('readme.md').trim(),
+        expect(Markdown.format('readme.md').trim()).toBe(
             '<p>readme.md</p>',
         );
 
-        assert.equal(
-            Markdown.format('@example.com').trim(),
+        expect(Markdown.format('@example.com').trim()).toBe(
             '<p>@example.com</p>',
         );
 
-        assert.equal(
-            Markdown.format('./make-compiled-client.sh').trim(),
+        expect(Markdown.format('./make-compiled-client.sh').trim()).toBe(
             '<p>./make-compiled-client.sh</p>',
         );
 
-        assert.equal(
-            Markdown.format('`https://example.com`').trim(),
+        expect(Markdown.format('`https://example.com`').trim()).toBe(
             '<p>' +
                 '<span class="codespan__pre-wrap">' +
                     '<code>' +
@@ -39,452 +35,368 @@ describe('Markdown.Links', () => {
             '</p>',
         );
 
-        assert.equal(
-            Markdown.format('[link](example.com').trim(),
+        expect(Markdown.format('[link](example.com').trim()).toBe(
             '<p>[link](example.com</p>',
         );
     });
 
     it('External links', () => {
-        assert.equal(
-            Markdown.format('test.:test').trim(),
+        expect(Markdown.format('test.:test').trim()).toBe(
             '<p><a class="theme markdown__link" href="test.:test" rel="noreferrer" target="_blank">test.:test</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('http://example.com').trim(),
+        expect(Markdown.format('http://example.com').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">http://example.com</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('https://example.com').trim(),
+        expect(Markdown.format('https://example.com').trim()).toBe(
             '<p><a class="theme markdown__link" href="https://example.com" rel="noreferrer" target="_blank">https://example.com</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('www.example.com').trim(),
+        expect(Markdown.format('www.example.com').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://www.example.com" rel="noreferrer" target="_blank">www.example.com</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('www.example.com/index').trim(),
+        expect(Markdown.format('www.example.com/index').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://www.example.com/index" rel="noreferrer" target="_blank">www.example.com/index</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('www.example.com/index.html').trim(),
+        expect(Markdown.format('www.example.com/index.html').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://www.example.com/index.html" rel="noreferrer" target="_blank">www.example.com/index.html</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('www.example.com/index/sub').trim(),
+        expect(Markdown.format('www.example.com/index/sub').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://www.example.com/index/sub" rel="noreferrer" target="_blank">www.example.com/index/sub</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('www1.example.com').trim(),
+        expect(Markdown.format('www1.example.com').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://www1.example.com" rel="noreferrer" target="_blank">www1.example.com</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('example.com/index').trim(),
+        expect(Markdown.format('example.com/index').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://example.com/index" rel="noreferrer" target="_blank">example.com/index</a></p>',
         );
     });
 
     it('IP addresses', () => {
-        assert.equal(
-            Markdown.format('http://127.0.0.1').trim(),
+        expect(Markdown.format('http://127.0.0.1').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://127.0.0.1" rel="noreferrer" target="_blank">http://127.0.0.1</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('http://192.168.1.1:4040').trim(),
+        expect(Markdown.format('http://192.168.1.1:4040').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://192.168.1.1:4040" rel="noreferrer" target="_blank">http://192.168.1.1:4040</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('http://[::1]:80').trim(),
+        expect(Markdown.format('http://[::1]:80').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://[::1]:80" rel="noreferrer" target="_blank">http://[::1]:80</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('http://[::1]:8065').trim(),
+        expect(Markdown.format('http://[::1]:8065').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://[::1]:8065" rel="noreferrer" target="_blank">http://[::1]:8065</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('https://[::1]:80').trim(),
+        expect(Markdown.format('https://[::1]:80').trim()).toBe(
             '<p><a class="theme markdown__link" href="https://[::1]:80" rel="noreferrer" target="_blank">https://[::1]:80</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('http://[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:80').trim(),
+        expect(Markdown.format('http://[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:80').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:80" rel="noreferrer" target="_blank">http://[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:80</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('http://[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:8065').trim(),
+        expect(Markdown.format('http://[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:8065').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:8065" rel="noreferrer" target="_blank">http://[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:8065</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('https://[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:443').trim(),
+        expect(Markdown.format('https://[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:443').trim()).toBe(
             '<p><a class="theme markdown__link" href="https://[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:443" rel="noreferrer" target="_blank">https://[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:443</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('http://username:password@127.0.0.1').trim(),
+        expect(Markdown.format('http://username:password@127.0.0.1').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://username:password@127.0.0.1" rel="noreferrer" target="_blank">http://username:password@127.0.0.1</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('http://username:password@[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:80').trim(),
+        expect(Markdown.format('http://username:password@[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:80').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://username:password@[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:80" rel="noreferrer" target="_blank">http://username:password@[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:80</a></p>',
         );
     });
 
     it('Links with anchors', () => {
-        assert.equal(
-            Markdown.format('https://en.wikipedia.org/wiki/URLs#Syntax').trim(),
+        expect(Markdown.format('https://en.wikipedia.org/wiki/URLs#Syntax').trim()).toBe(
             '<p><a class="theme markdown__link" href="https://en.wikipedia.org/wiki/URLs#Syntax" rel="noreferrer" target="_blank">https://en.wikipedia.org/wiki/URLs#Syntax</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('https://groups.google.com/forum/#!msg').trim(),
+        expect(Markdown.format('https://groups.google.com/forum/#!msg').trim()).toBe(
             '<p><a class="theme markdown__link" href="https://groups.google.com/forum/#!msg" rel="noreferrer" target="_blank">https://groups.google.com/forum/#!msg</a></p>',
         );
     });
 
     it('Links with parameters', () => {
-        assert.equal(
-            Markdown.format('www.example.com/index?params=1').trim(),
+        expect(Markdown.format('www.example.com/index?params=1').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://www.example.com/index?params=1" rel="noreferrer" target="_blank">www.example.com/index?params=1</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('www.example.com/index?params=1&other=2').trim(),
+        expect(Markdown.format('www.example.com/index?params=1&other=2').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://www.example.com/index?params=1&amp;other=2" rel="noreferrer" target="_blank">www.example.com/index?params=1&amp;other=2</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('www.example.com/index?params=1;other=2').trim(),
+        expect(Markdown.format('www.example.com/index?params=1;other=2').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://www.example.com/index?params=1;other=2" rel="noreferrer" target="_blank">www.example.com/index?params=1;other=2</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('http://example.com:8065').trim(),
+        expect(Markdown.format('http://example.com:8065').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://example.com:8065" rel="noreferrer" target="_blank">http://example.com:8065</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('http://username:password@example.com').trim(),
+        expect(Markdown.format('http://username:password@example.com').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://username:password@example.com" rel="noreferrer" target="_blank">http://username:password@example.com</a></p>',
         );
     });
 
     it('Special characters', () => {
-        assert.equal(
-            Markdown.format('http://www.example.com/_/page').trim(),
+        expect(Markdown.format('http://www.example.com/_/page').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://www.example.com/_/page" rel="noreferrer" target="_blank">http://www.example.com/_/page</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('www.example.com/_/page').trim(),
+        expect(Markdown.format('www.example.com/_/page').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://www.example.com/_/page" rel="noreferrer" target="_blank">www.example.com/_/page</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('https://en.wikipedia.org/wiki/🐬').trim(),
+        expect(Markdown.format('https://en.wikipedia.org/wiki/🐬').trim()).toBe(
             '<p><a class="theme markdown__link" href="https://en.wikipedia.org/wiki/🐬" rel="noreferrer" target="_blank">https://en.wikipedia.org/wiki/🐬</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('http://✪df.ws/1234').trim(),
+        expect(Markdown.format('http://✪df.ws/1234').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://✪df.ws/1234" rel="noreferrer" target="_blank">http://✪df.ws/1234</a></p>',
         );
     });
 
     it('Brackets', () => {
-        assert.equal(
-            Markdown.format('https://en.wikipedia.org/wiki/Rendering_(computer_graphics)').trim(),
+        expect(Markdown.format('https://en.wikipedia.org/wiki/Rendering_(computer_graphics)').trim()).toBe(
             '<p><a class="theme markdown__link" href="https://en.wikipedia.org/wiki/Rendering_(computer_graphics)" rel="noreferrer" target="_blank">https://en.wikipedia.org/wiki/Rendering_(computer_graphics)</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('http://example.com/more_(than)_one_(parens)').trim(),
+        expect(Markdown.format('http://example.com/more_(than)_one_(parens)').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://example.com/more_(than)_one_(parens)" rel="noreferrer" target="_blank">http://example.com/more_(than)_one_(parens)</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('http://example.com/(something)?after=parens').trim(),
+        expect(Markdown.format('http://example.com/(something)?after=parens').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://example.com/(something)?after=parens" rel="noreferrer" target="_blank">http://example.com/(something)?after=parens</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('http://foo.com/unicode_(✪)_in_parens').trim(),
+        expect(Markdown.format('http://foo.com/unicode_(✪)_in_parens').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://foo.com/unicode_(✪)_in_parens" rel="noreferrer" target="_blank">http://foo.com/unicode_(✪)_in_parens</a></p>',
         );
     });
 
     it('Email addresses', () => {
-        assert.equal(
-            Markdown.format('test@example.com').trim(),
+        expect(Markdown.format('test@example.com').trim()).toBe(
             '<p><a class="theme" href="mailto:test@example.com" rel="noreferrer" target="_blank">test@example.com</a></p>',
         );
-        assert.equal(
-            Markdown.format('test_underscore@example.com').trim(),
+        expect(Markdown.format('test_underscore@example.com').trim()).toBe(
             '<p><a class="theme" href="mailto:test_underscore@example.com" rel="noreferrer" target="_blank">test_underscore@example.com</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('mailto:test@example.com').trim(),
+        expect(Markdown.format('mailto:test@example.com').trim()).toBe(
             '<p><a class="theme markdown__link" href="mailto:test@example.com" rel="noreferrer" target="_blank">mailto:test@example.com</a></p>',
         );
     });
 
     it('Formatted links', () => {
-        assert.equal(
-            Markdown.format('*https://example.com*').trim(),
+        expect(Markdown.format('*https://example.com*').trim()).toBe(
             '<p><em><a class="theme markdown__link" href="https://example.com" rel="noreferrer" target="_blank">https://example.com</a></em></p>',
         );
 
-        assert.equal(
-            Markdown.format('_https://example.com_').trim(),
+        expect(Markdown.format('_https://example.com_').trim()).toBe(
             '<p><em><a class="theme markdown__link" href="https://example.com" rel="noreferrer" target="_blank">https://example.com</a></em></p>',
         );
 
-        assert.equal(
-            Markdown.format('**https://example.com**').trim(),
+        expect(Markdown.format('**https://example.com**').trim()).toBe(
             '<p><strong><a class="theme markdown__link" href="https://example.com" rel="noreferrer" target="_blank">https://example.com</a></strong></p>',
         );
 
-        assert.equal(
-            Markdown.format('__https://example.com__').trim(),
+        expect(Markdown.format('__https://example.com__').trim()).toBe(
             '<p><strong><a class="theme markdown__link" href="https://example.com" rel="noreferrer" target="_blank">https://example.com</a></strong></p>',
         );
 
-        assert.equal(
-            Markdown.format('***https://example.com***').trim(),
+        expect(Markdown.format('***https://example.com***').trim()).toBe(
             '<p><strong><em><a class="theme markdown__link" href="https://example.com" rel="noreferrer" target="_blank">https://example.com</a></em></strong></p>',
         );
 
-        assert.equal(
-            Markdown.format('___https://example.com___').trim(),
+        expect(Markdown.format('___https://example.com___').trim()).toBe(
             '<p><strong><em><a class="theme markdown__link" href="https://example.com" rel="noreferrer" target="_blank">https://example.com</a></em></strong></p>',
         );
 
-        assert.equal(
-            Markdown.format('<https://example.com>').trim(),
+        expect(Markdown.format('<https://example.com>').trim()).toBe(
             '<p><a class="theme markdown__link" href="https://example.com" rel="noreferrer" target="_blank">https://example.com</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('<https://en.wikipedia.org/wiki/Rendering_(computer_graphics)>').trim(),
+        expect(Markdown.format('<https://en.wikipedia.org/wiki/Rendering_(computer_graphics)>').trim()).toBe(
             '<p><a class="theme markdown__link" href="https://en.wikipedia.org/wiki/Rendering_(computer_graphics)" rel="noreferrer" target="_blank">https://en.wikipedia.org/wiki/Rendering_(computer_graphics)</a></p>',
         );
     });
 
     it('Links with text', () => {
-        assert.equal(
-            Markdown.format('[example link](example.com)').trim(),
+        expect(Markdown.format('[example link](example.com)').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">example link</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('[example.com](example.com)').trim(),
+        expect(Markdown.format('[example.com](example.com)').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">example.com</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('[example.com/other](example.com)').trim(),
+        expect(Markdown.format('[example.com/other](example.com)').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">example.com/other</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('[example.com/other_link](example.com/example)').trim(),
+        expect(Markdown.format('[example.com/other_link](example.com/example)').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://example.com/example" rel="noreferrer" target="_blank">example.com/other_link</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('[link with spaces](example.com/ spaces in the url)').trim(),
+        expect(Markdown.format('[link with spaces](example.com/ spaces in the url)').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://example.com/ spaces in the url" rel="noreferrer" target="_blank">link with spaces</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('[This whole #sentence should be a link](https://example.com)').trim(),
+        expect(Markdown.format('[This whole #sentence should be a link](https://example.com)').trim()).toBe(
             '<p><a class="theme markdown__link" href="https://example.com" rel="noreferrer" target="_blank">This whole #sentence should be a link</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('[email link](mailto:test@example.com)').trim(),
+        expect(Markdown.format('[email link](mailto:test@example.com)').trim()).toBe(
             '<p><a class="theme markdown__link" href="mailto:test@example.com" rel="noreferrer" target="_blank">email link</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('[other link](ts3server://example.com)').trim(),
+        expect(Markdown.format('[other link](ts3server://example.com)').trim()).toBe(
             '<p><a class="theme markdown__link" href="ts3server://example.com" rel="noreferrer" target="_blank">other link</a></p>',
         );
     });
 
     it('Links with tooltips', () => {
-        assert.equal(
-            Markdown.format('[link](example.com "catch phrase!")').trim(),
+        expect(Markdown.format('[link](example.com "catch phrase!")').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank" title="catch phrase!">link</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('[link](example.com "title with "quotes"")').trim(),
+        expect(Markdown.format('[link](example.com "title with "quotes"")').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank" title="title with &quot;quotes&quot;">link</a></p>',
         );
-        assert.equal(
-            Markdown.format('[link with spaces](example.com/ spaces in the url "and a title")').trim(),
+        expect(Markdown.format('[link with spaces](example.com/ spaces in the url "and a title")').trim()).toBe(
             '<p><a class="theme markdown__link" href="http://example.com/ spaces in the url" rel="noreferrer" target="_blank" title="and a title">link with spaces</a></p>',
         );
     });
 
     it('Links with surrounding text', () => {
-        assert.equal(
-            Markdown.format('This is a sentence with a http://example.com in it.').trim(),
+        expect(Markdown.format('This is a sentence with a http://example.com in it.').trim()).toBe(
             '<p>This is a sentence with a <a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">http://example.com</a> in it.</p>',
         );
 
-        assert.equal(
-            Markdown.format('This is a sentence with a http://example.com/_/underscore in it.').trim(),
+        expect(Markdown.format('This is a sentence with a http://example.com/_/underscore in it.').trim()).toBe(
             '<p>This is a sentence with a <a class="theme markdown__link" href="http://example.com/_/underscore" rel="noreferrer" target="_blank">http://example.com/_/underscore</a> in it.</p>',
         );
 
-        assert.equal(
-            Markdown.format('This is a sentence with a http://192.168.1.1:4040 in it.').trim(),
+        expect(Markdown.format('This is a sentence with a http://192.168.1.1:4040 in it.').trim()).toBe(
             '<p>This is a sentence with a <a class="theme markdown__link" href="http://192.168.1.1:4040" rel="noreferrer" target="_blank">http://192.168.1.1:4040</a> in it.</p>',
         );
 
-        assert.equal(
-            Markdown.format('This is a sentence with a https://[::1]:80 in it.').trim(),
+        expect(Markdown.format('This is a sentence with a https://[::1]:80 in it.').trim()).toBe(
             '<p>This is a sentence with a <a class="theme markdown__link" href="https://[::1]:80" rel="noreferrer" target="_blank">https://[::1]:80</a> in it.</p>',
         );
     });
 
     it('Links with trailing punctuation', () => {
-        assert.equal(
-            Markdown.format('This is a link to http://example.com.').trim(),
+        expect(Markdown.format('This is a link to http://example.com.').trim()).toBe(
             '<p>This is a link to <a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">http://example.com</a>.</p>',
         );
 
-        assert.equal(
-            Markdown.format('This is a link containing http://example.com/something?with,commas,in,url, but not at the end').trim(),
+        expect(Markdown.format('This is a link containing http://example.com/something?with,commas,in,url, but not at the end').trim()).toBe(
             '<p>This is a link containing <a class="theme markdown__link" href="http://example.com/something?with,commas,in,url" rel="noreferrer" target="_blank">http://example.com/something?with,commas,in,url</a>, but not at the end</p>',
         );
 
-        assert.equal(
-            Markdown.format('This is a question about a link http://example.com?').trim(),
+        expect(Markdown.format('This is a question about a link http://example.com?').trim()).toBe(
             '<p>This is a question about a link <a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">http://example.com</a>?</p>',
         );
     });
 
     it('Links with surrounding brackets', () => {
-        assert.equal(
-            Markdown.format('(http://example.com)').trim(),
+        expect(Markdown.format('(http://example.com)').trim()).toBe(
             '<p>(<a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">http://example.com</a>)</p>',
         );
 
-        assert.equal(
-            Markdown.format('(see http://example.com)').trim(),
+        expect(Markdown.format('(see http://example.com)').trim()).toBe(
             '<p>(see <a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">http://example.com</a>)</p>',
         );
 
-        assert.equal(
-            Markdown.format('(http://example.com watch this)').trim(),
+        expect(Markdown.format('(http://example.com watch this)').trim()).toBe(
             '<p>(<a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">http://example.com</a> watch this)</p>',
         );
 
-        assert.equal(
-            Markdown.format('(www.example.com)').trim(),
+        expect(Markdown.format('(www.example.com)').trim()).toBe(
             '<p>(<a class="theme markdown__link" href="http://www.example.com" rel="noreferrer" target="_blank">www.example.com</a>)</p>',
         );
 
-        assert.equal(
-            Markdown.format('(see www.example.com)').trim(),
+        expect(Markdown.format('(see www.example.com)').trim()).toBe(
             '<p>(see <a class="theme markdown__link" href="http://www.example.com" rel="noreferrer" target="_blank">www.example.com</a>)</p>',
         );
 
-        assert.equal(
-            Markdown.format('(www.example.com watch this)').trim(),
+        expect(Markdown.format('(www.example.com watch this)').trim()).toBe(
             '<p>(<a class="theme markdown__link" href="http://www.example.com" rel="noreferrer" target="_blank">www.example.com</a> watch this)</p>',
         );
-        assert.equal(
-            Markdown.format('([link](http://example.com))').trim(),
+        expect(Markdown.format('([link](http://example.com))').trim()).toBe(
             '<p>(<a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">link</a>)</p>',
         );
 
-        assert.equal(
-            Markdown.format('(see [link](http://example.com))').trim(),
+        expect(Markdown.format('(see [link](http://example.com))').trim()).toBe(
             '<p>(see <a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">link</a>)</p>',
         );
 
-        assert.equal(
-            Markdown.format('([link](http://example.com) watch this)').trim(),
+        expect(Markdown.format('([link](http://example.com) watch this)').trim()).toBe(
             '<p>(<a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">link</a> watch this)</p>',
         );
 
-        assert.equal(
-            Markdown.format('(test@example.com)').trim(),
+        expect(Markdown.format('(test@example.com)').trim()).toBe(
             '<p>(<a class="theme" href="mailto:test@example.com" rel="noreferrer" target="_blank">test@example.com</a>)</p>',
         );
 
-        assert.equal(
-            Markdown.format('(email test@example.com)').trim(),
+        expect(Markdown.format('(email test@example.com)').trim()).toBe(
             '<p>(email <a class="theme" href="mailto:test@example.com" rel="noreferrer" target="_blank">test@example.com</a>)</p>',
         );
 
-        assert.equal(
-            Markdown.format('(test@example.com email)').trim(),
+        expect(Markdown.format('(test@example.com email)').trim()).toBe(
             '<p>(<a class="theme" href="mailto:test@example.com" rel="noreferrer" target="_blank">test@example.com</a> email)</p>',
         );
 
-        assert.equal(
-            Markdown.format('This is a sentence with a [link](http://example.com) in it.').trim(),
+        expect(Markdown.format('This is a sentence with a [link](http://example.com) in it.').trim()).toBe(
             '<p>This is a sentence with a <a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">link</a> in it.</p>',
         );
 
-        assert.equal(
-            Markdown.format('This is a sentence with a link (http://example.com) in it.').trim(),
+        expect(Markdown.format('This is a sentence with a link (http://example.com) in it.').trim()).toBe(
             '<p>This is a sentence with a link (<a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">http://example.com</a>) in it.</p>',
         );
 
-        assert.equal(
-            Markdown.format('This is a sentence with a (https://en.wikipedia.org/wiki/Rendering_(computer_graphics)) in it.').trim(),
+        expect(Markdown.format('This is a sentence with a (https://en.wikipedia.org/wiki/Rendering_(computer_graphics)) in it.').trim()).toBe(
             '<p>This is a sentence with a (<a class="theme markdown__link" href="https://en.wikipedia.org/wiki/Rendering_(computer_graphics)" rel="noreferrer" target="_blank">https://en.wikipedia.org/wiki/Rendering_(computer_graphics)</a>) in it.</p>',
         );
     });
 
     it('Searching for links', () => {
-        assert.equal(
-            TextFormatting.formatText('https://en.wikipedia.org/wiki/Unix', {searchTerm: 'wikipedia'}).trim(),
+        expect(TextFormatting.formatText('https://en.wikipedia.org/wiki/Unix', {searchTerm: 'wikipedia'}, emojiMap).trim()).toBe(
             '<p><a class="theme markdown__link search-highlight" href="https://en.wikipedia.org/wiki/Unix" rel="noreferrer" target="_blank">https://en.wikipedia.org/wiki/Unix</a></p>',
         );
 
-        assert.equal(
-            TextFormatting.formatText('[Link](https://en.wikipedia.org/wiki/Unix)', {searchTerm: 'unix'}).trim(),
+        expect(TextFormatting.formatText('[Link](https://en.wikipedia.org/wiki/Unix)', {searchTerm: 'unix'}, emojiMap).trim()).toBe(
             '<p><a class="theme markdown__link search-highlight" href="https://en.wikipedia.org/wiki/Unix" rel="noreferrer" target="_blank">Link</a></p>',
         );
     });
 
     it('Links containing %', () => {
-        assert.equal(
-            Markdown.format('https://en.wikipedia.org/wiki/%C3%89').trim(),
+        expect(Markdown.format('https://en.wikipedia.org/wiki/%C3%89').trim()).toBe(
             '<p><a class="theme markdown__link" href="https://en.wikipedia.org/wiki/%C3%89" rel="noreferrer" target="_blank">https://en.wikipedia.org/wiki/%C3%89</a></p>',
         );
 
-        assert.equal(
-            Markdown.format('https://en.wikipedia.org/wiki/%E9').trim(),
+        expect(Markdown.format('https://en.wikipedia.org/wiki/%E9').trim()).toBe(
             '<p><a class="theme markdown__link" href="https://en.wikipedia.org/wiki/%E9" rel="noreferrer" target="_blank">https://en.wikipedia.org/wiki/%E9</a></p>',
         );
     });
 
     it('Relative link', () => {
-        assert.equal(
-            Markdown.format('[A Relative Link](/static/files/5b4a7904a3e041018526a00dba59ee48.png)').trim(),
+        expect(Markdown.format('[A Relative Link](/static/files/5b4a7904a3e041018526a00dba59ee48.png)').trim()).toBe(
             '<p><a class="theme markdown__link" href="/static/files/5b4a7904a3e041018526a00dba59ee48.png" rel="noreferrer" target="_blank">A Relative Link</a></p>',
         );
     });
@@ -566,7 +478,7 @@ describe('Markdown.Links', () => {
     });
 });
 
-function link(href, text, title) {
+function link(href: string, text?: string, title?: string) {
     let out = `<a class="theme markdown__link" href="${href}" rel="noreferrer" target="_blank"`;
 
     if (title) {

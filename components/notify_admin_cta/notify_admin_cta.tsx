@@ -26,6 +26,7 @@ const Button = styled.button<{notified: boolean}>`
 
 type HookProps = {
     ctaText?: React.ReactNode;
+    successText?: React.ReactNode;
     preTrial?: boolean;
 }
 
@@ -44,6 +45,7 @@ export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props:
         switch (status) {
         case NotifyStatus.Started:
         case NotifyStatus.Success:
+            return props.successText || formatMessage(btnFormaText(NotifyStatus.Success));
         case NotifyStatus.AlreadyComplete:
         case NotifyStatus.Failed:
             return formatMessage(btnFormaText(status));

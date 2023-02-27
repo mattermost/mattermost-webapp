@@ -12,8 +12,107 @@ import * as TIMEOUTS from '../../../../fixtures/timeouts';
 // Stage: @prod
 // Group: @cloud_only @cloud_trial
 
+function simulateSubscriptionWithLimitsUsage(subscription, withLimits = {}, postsUsed) {
+    cy.intercept('GET', '**/api/v4/cloud/subscription', {
+        statusCode: 200,
+        body: subscription,
+    }).as('subscription');
+
+    cy.intercept('GET', '**/api/v4/cloud/products**', {
+        statusCode: 200,
+        body: [
+            {
+                id: 'prod_1',
+                sku: 'cloud-starter',
+                price_per_seat: 0,
+                name: 'Cloud Free',
+            },
+            {
+                id: 'prod_2',
+                sku: 'cloud-professional',
+                price_per_seat: 10,
+                name: 'Cloud Professional',
+                recurring_interval: 'month',
+            },
+            {
+                id: 'prod_3',
+                sku: 'cloud-enterprise',
+                price_per_seat: 30,
+                name: 'Cloud Enterprise',
+                recurring_interval: 'month',
+            },
+        ],
+    }).as('products');
+
+    cy.intercept('GET', '**/api/v4/cloud/limits', {
+        statusCode: 200,
+        body: withLimits,
+    });
+
+    cy.intercept('GET', '**/api/v4/usage/posts', {
+        count: postsUsed,
+    });
+}
+
+function simulateSubscription(subscription, withLimits = true) {
+    cy.intercept('GET', '**/api/v4/cloud/subscription', {
+        statusCode: 200,
+        body: subscription,
+    });
+
+    cy.intercept('GET', '**/api/v4/cloud/products**', {
+        statusCode: 200,
+        body: [
+            {
+                id: 'prod_1',
+                sku: 'cloud-starter',
+                price_per_seat: 0,
+                recurring_interval: 'month',
+                name: 'Cloud Free',
+                cross_sells_to: '',
+            },
+            {
+                id: 'prod_2',
+                sku: 'cloud-professional',
+                price_per_seat: 10,
+                recurring_interval: 'month',
+                name: 'Cloud Professional',
+                cross_sells_to: 'prod_4',
+            },
+            {
+                id: 'prod_3',
+                sku: 'cloud-enterprise',
+                price_per_seat: 30,
+                recurring_interval: 'month',
+                name: 'Cloud Enterprise',
+                cross_sells_to: '',
+            },
+            {
+                id: 'prod_4',
+                sku: 'cloud-professional',
+                price_per_seat: 96,
+                recurring_interval: 'year',
+                name: 'Cloud Professional Yearly',
+                cross_sells_to: 'prod_2',
+            },
+        ],
+    });
+
+    if (withLimits) {
+        cy.intercept('GET', '**/api/v4/cloud/limits', {
+            statusCode: 200,
+            body: {
+                messages: {
+                    history: 10000,
+                },
+            },
+        });
+    }
+}
+
 describe('Pricing modal', () => {
     let urlL;
+    let nonAdminUser;
 
     it('should not show Upgrade button in global header for non admin users', () => {
         const subscription = {
@@ -23,7 +122,8 @@ describe('Pricing modal', () => {
         };
         cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
             urlL = url;
-            cy.simulateSubscription(subscription);
+            nonAdminUser = user;
+            simulateSubscription(subscription);
             cy.apiLogin(user);
             cy.visit(url);
         });
@@ -32,103 +132,130 @@ describe('Pricing modal', () => {
         cy.get('#UpgradeButton').should('not.exist');
     });
 
-    // it('should not ping admin twice before cool off period', () => {
-    //     const subscription = {
-    //         id: 'sub_test1',
-    //         product_id: 'prod_1',
-    //         is_free_trial: 'false',
-    //     };
+    it('should check for ability to request upgrades for non admin users on free plans', () => {
+        cy.apiLogout();
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_1',
+            is_free_trial: 'false',
+        };
 
-    //     cy.simulateSubscription(subscription);
-    //     cy.apiLogout();
-    //     cy.apiLogin(createdUser);
-    //     cy.visit(urlL);
+        const messageHistoryLimit = 8000;
+        const messagesUsed = 4000;
 
-    //     // # Open the pricing modal
-    //     cy.get('#UpgradeButton').should('exist').click();
+        const limits = {
+            messages: {
+                history: messageHistoryLimit,
+            },
+            teams: {
+                active: 0,
+                teamsLoaded: true,
+            },
+        };
 
-    //     // # Click NotifyAdmin CTA
-    //     cy.get('#notify_admin_cta').click();
+        simulateSubscriptionWithLimitsUsage(subscription, limits, messagesUsed);
+        cy.apiLogin(nonAdminUser);
+        cy.visit(urlL);
 
-    //     // * Check that notified the admin
-    //     cy.get('#notify_admin_cta').contains('Notified!');
+        cy.get('#product_switch_menu').click();
+        cy.get('#view_plans_cta').should('be.visible').click();
 
-    //     // # Click NotifyAdmin CTA again
-    //     cy.get('#notify_admin_cta').click();
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').find('.PricingModal__header').contains('Select a plan');
 
-    //     // * Notifying the admin again is forbidden depending on server notification cool off time
-    //     cy.get('#notify_admin_cta').contains('Already notified!');
-    // });
+        // * Check that on professsional card there a button for non admin user to request upgrade
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#professional > .bottom > .bottom_container').find('#professional_action').should('be.enabled').should('have.text', 'Request admin to upgrade');
 
-    // it('should ping admin when NotifyAdmin CTA is clicked for non admin users while in Starter', () => {
-    //     const subscription = {
-    //         id: 'sub_test1',
-    //         product_id: 'prod_1',
-    //         is_free_trial: 'false',
-    //     };
+        // * Check that on enterprise card there a button for non admin user to request upgrade
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#enterprise > .bottom > .bottom_container').find('#enterprise_action').should('be.enabled').should('have.text', 'Request admin to upgrade');
+    });
 
-    //     cy.simulateSubscription(subscription);
-    //     cy.apiLogout();
-    //     cy.apiLogin(createdUser);
-    //     cy.visit(urlL);
+    it('should check for ability to request upgrades to enterprise for non admin users on professional monthly plans', () => {
+        cy.apiLogout();
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_2',
+            is_free_trial: 'false',
+        };
 
-    //     // # Open the pricing modal
-    //     cy.get('#UpgradeButton').should('exist').click();
+        const messageHistoryLimit = 8000;
+        const messagesUsed = 4000;
 
-    //     // # Click NotifyAdmin CTA
-    //     cy.get('#notify_admin_cta').click();
+        const limits = {
+            messages: {
+                history: messageHistoryLimit,
+            },
+            teams: {
+                active: 0,
+                teamsLoaded: true,
+            },
+        };
 
-    //     // * Check that notified the admin
-    //     cy.get('#notify_admin_cta').contains('Notified!');
+        simulateSubscriptionWithLimitsUsage(subscription, limits, messagesUsed);
+        cy.apiLogin(nonAdminUser);
+        cy.visit(urlL);
 
-    //     // # Switch to admin view to check system-bot message
-    //     cy.apiLogout();
-    //     cy.apiAdminLogin();
-    //     cy.visit(urlL);
+        cy.get('#product_switch_menu').click();
+        cy.get('#view_plans_cta').should('be.visible').click();
 
-    //     // # Open system-bot and admin DM
-    //     cy.get('.SidebarChannelLinkLabel').contains('system-bot').click();
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').find('.PricingModal__header').contains('Select a plan');
 
-    //     // * Check for the post from the system-bot
-    //     cy.getLastPostId().then((postId) => {
-    //         cy.get(`#${postId}_message`).contains(`A member of ${createdTeam.name} has notified you to upgrade this workspace.`);
-    //     });
-    // });
+        // * Check that on professsional card there a button for non admin user to request upgrade and it's disabled
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('.planLabel').should('have.text', 'CURRENT PLAN');
+        cy.get('#professional > .bottom > .bottom_container').find('#professional_action').should('have.text', 'Request admin to upgrade').should('be.not.enabled');
 
-    // it('should ping admin when NotifyAdmin CTA is clicked for non admin users while in Enterprise Trial', () => {
-    //     const subscription = {
-    //         id: 'sub_test1',
-    //         product_id: 'prod_3',
-    //         is_free_trial: 'true',
-    //     };
+        // * Check that on enterprise card there a button for non admin user to request upgrade
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#enterprise > .bottom > .bottom_container').find('#enterprise_action').should('be.enabled').should('have.text', 'Request admin to upgrade');
+    });
 
-    //     cy.simulateSubscription(subscription);
-    //     cy.apiLogout();
-    //     cy.apiLogin(createdUser);
-    //     cy.visit(urlL);
+    it('should not allow any requests for upgrades when on enterprise', () => {
+        cy.apiLogout();
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_3',
+            is_free_trial: 'false',
+        };
 
-    //     // # Open the pricing modal
-    //     cy.get('#UpgradeButton').should('exist').click();
+        const messageHistoryLimit = 8000;
+        const messagesUsed = 4000;
 
-    //     // # Click NotifyAdmin CTA
-    //     cy.get('#notify_admin_cta').click();
+        const limits = {
+            messages: {
+                history: messageHistoryLimit,
+            },
+            teams: {
+                active: 0,
+                teamsLoaded: true,
+            },
+        };
 
-    //     // * Check that notified the admin
-    //     cy.get('#notify_admin_cta').contains('Notified!');
+        simulateSubscriptionWithLimitsUsage(subscription, limits, messagesUsed);
+        cy.apiLogin(nonAdminUser);
+        cy.visit(urlL);
 
-    //     // # Switch to admin view to check system-bot message
-    //     cy.apiLogout();
-    //     cy.apiAdminLogin();
-    //     cy.visit(urlL);
+        cy.get('#product_switch_menu').click();
+        cy.get('#view_plans_cta').should('be.visible').click();
 
-    //     // # Open system-bot and admin DM
-    //     cy.get('.SidebarChannelLinkLabel').contains('system-bot').click();
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist');
+        cy.get('#pricingModal').find('.PricingModal__header').contains('Select a plan');
 
-    //     // * Check for the post from the system-bot
-    //     cy.getLastPostId().then((postId) => {
-    //         cy.get(`#${postId}_message`).contains(`A member of ${createdTeam.name} has notified you to upgrade this workspace.`);
-    //     });
-    // });
+        // * Check that on professsional card there a button for non admin user to request upgrade and it's disabled
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#professional > .bottom > .bottom_container').find('#professional_action').should('have.text', 'Request admin to upgrade').should('be.not.enabled');
+
+        // * Check that on enterprise card there a button for non admin user to request upgrade
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('.planLabel').should('have.text', 'CURRENT PLAN');
+        cy.get('#enterprise > .bottom > .bottom_container').find('#enterprise_action').should('have.text', 'Request admin to upgrade').should('be.not.enabled');
+    });
 
     it('should show Upgrade button in global header for admin users and free sku', () => {
         const subscription = {
@@ -299,8 +426,29 @@ describe('Pricing modal', () => {
 
         // * Check that professsional card Switch to Yearly button opens purchase modal
         cy.get('#pricingModal').should('be.visible');
+        cy.get('.planLabel').should('have.text', 'CURRENTLY ON MONTHLY BILLING');
         cy.get('#professional > .bottom > .bottom_container').find('#professional_action').should('be.enabled').should('have.text', 'Switch to annual billing').click();
         cy.get('.PurchaseModal').should('exist');
+    });
+
+    it('should have Upgrade button disabled while in yearly professional', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_4', //professional yearly
+            is_free_trial: 'false',
+        };
+        simulateSubscription(subscription);
+        cy.apiLogout();
+        cy.apiAdminLogin();
+        cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
+
+        // * Pricing modal should be open
+        cy.get('#pricingModal').should('exist').should('be.visible');
+
+        // * Check that professsional card Switch to Yearly button opens purchase modal
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('.planLabel').should('have.text', 'CURRENT PLAN');
+        cy.get('#professional > .bottom > .bottom_container').find('#professional_action').should('not.be.enabled').should('have.text', 'Upgrade');
     });
 
     it('should open cloud limits modal when free disclaimer CTA is clicked', () => {
