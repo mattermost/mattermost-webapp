@@ -3896,7 +3896,7 @@ export default class Client4 {
         );
     }
 
-    getLicenseExpandStatus = () => {
+    getLicenseStatus = () => {
         return this.doFetch<LicenseStatus>(
             `${this.getCloudRoute()}/subscription/checks`, {method: 'get'},
         );
