@@ -7,7 +7,6 @@ dotenv.config();
 
 export type TestArgs = {
     page: Page;
-    isMobile?: boolean;
     browserName: string;
     viewport?: ViewportSize | null;
 };

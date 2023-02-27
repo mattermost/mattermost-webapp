@@ -3,7 +3,7 @@
 
 import {expect, Locator, Page} from '@playwright/test';
 
-import {duration, wait} from '@e2e-support/utils';
+import {duration, wait} from '@e2e-support/util';
 
 export default class SignupPage {
     readonly page: Page;
@@ -62,3 +62,5 @@ export default class SignupPage {
         }
     }
 }
+
+export {SignupPage};

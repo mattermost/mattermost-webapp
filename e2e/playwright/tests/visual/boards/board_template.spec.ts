@@ -1,42 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {test} from '@playwright/test';
-
-import {initSetup, shouldHaveBoardsEnabled} from '@e2e-support/server';
-import {shouldSkipInSmallScreen} from '@e2e-support/utils';
-import {BoardsCreatePage, ChannelsPage} from '@e2e-support/ui/page';
-import {matchSnapshot} from '@e2e-support/visual';
+import {test} from '@e2e-support/test_fixture';
+import {shouldSkipInSmallScreen} from '@e2e-support/flag';
 
 shouldSkipInSmallScreen();
 
-test.beforeAll(async () => {
-    await shouldHaveBoardsEnabled();
-});
+test('Board template', async ({pw, pages, browserName, viewport}, testInfo) => {
+    await pw.shouldHaveBoardsEnabled();
 
-test('Board template', async ({browser, isMobile, browserName, viewport}, testInfo) => {
     // Create and sign in a new user
-    const {user, testBrowser} = await initSetup(browser);
+    const {user} = await pw.initSetup();
 
     // Log in a user in new browser context
-    const context = await testBrowser.login(user);
-    const page = await context.newPage();
-
-    // Visit a default channel page
-    await page.goto('/');
-
-    // Should have redirected to channel page
-    const channelsPage = new ChannelsPage(page);
-    await channelsPage.toBeVisible();
-
-    // Switch to Boards page
-    await channelsPage.globalHeader.switchProduct('Boards');
+    const {page} = await pw.testBrowser.login(user);
 
     // Should have redirected to boards create page
-    const boardsCreatePage = new BoardsCreatePage(page);
+    const boardsCreatePage = new pages.BoardsCreatePage(page);
+    await boardsCreatePage.goto();
     await boardsCreatePage.toBeVisible();
 
     // Match snapshot of create board page
-    const testArgs = {page, isMobile, browserName, viewport};
-    await matchSnapshot(testInfo, testArgs);
+    const testArgs = {page, browserName, viewport};
+    await pw.matchSnapshot(testInfo, testArgs);
 });

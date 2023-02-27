@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import os from 'os';
+import os from 'node:os';
 
 import chalk from 'chalk';
 import {expect, TestInfo} from '@playwright/test';
 
-import {illegalRe} from '@e2e-support/utils';
+import {illegalRe} from '@e2e-support/util';
 import testConfig, {TestArgs} from '@e2e-test.config';
 
 import snapshotWithPercy from './percy';

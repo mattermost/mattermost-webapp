@@ -1,45 +1,37 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {expect, test} from '@playwright/test';
-
-import {initSetup, shouldHaveBoardsEnabled} from '@e2e-support/server';
-import {shouldSkipInSmallScreen} from '@e2e-support/utils';
-import {BoardsCreatePage, BoardsViewPage, ChannelsPage} from '@e2e-support/ui/page';
+import {expect, test} from '@e2e-support/test_fixture';
+import {shouldSkipInSmallScreen} from '@e2e-support/flag';
 
 shouldSkipInSmallScreen();
 
-test.beforeAll(async () => {
-    await shouldHaveBoardsEnabled();
-});
+test('MM-T4274 Create an Empty Board', async ({pw, pages}) => {
+    await pw.shouldHaveBoardsEnabled();
 
-test('MM-T4274 Create an Empty Board', async ({browser}) => {
     // Create and sign in a new user
-    const {user, testBrowser} = await initSetup(browser);
+    const {user} = await pw.initSetup();
 
     // Log in a user in new browser context
-    const context = await testBrowser.login(user);
-    const page = await context.newPage();
+    const {page} = await pw.testBrowser.login(user);
 
     // Visit a default channel page
-    await page.goto('/');
-
-    // Should have redirected to channel page
-    const channelsPage = new ChannelsPage(page);
+    const channelsPage = new pages.ChannelsPage(page);
+    await channelsPage.goto();
     await channelsPage.toBeVisible();
 
     // Switch to Boards page
     await channelsPage.globalHeader.switchProduct('Boards');
 
     // Should have redirected to boards create page
-    const boardsCreatePage = new BoardsCreatePage(page);
+    const boardsCreatePage = new pages.BoardsCreatePage(page);
     await boardsCreatePage.toBeVisible();
 
     // Create empty board
     await boardsCreatePage.createEmptyBoard();
 
     // Should have redirected to boards view page
-    const boardsViewPage = new BoardsViewPage(page);
+    const boardsViewPage = new pages.BoardsViewPage(page);
     await boardsViewPage.toBeVisible();
     await boardsViewPage.shouldHaveUntitledBoard();
 
@@ -50,5 +42,5 @@ test('MM-T4274 Create an Empty Board', async ({browser}) => {
 
     // Should update the title in heading and in sidebar
     expect(await boardsViewPage.editableTitle.getAttribute('value')).toBe(title);
-    await page.getByRole('button', {name: ` ${title}`}).isVisible();
+    await boardsViewPage.sidebar.waitForTitle(title);
 });

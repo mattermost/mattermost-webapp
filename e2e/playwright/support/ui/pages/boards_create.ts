@@ -3,12 +3,11 @@
 
 import {expect, Locator, Page} from '@playwright/test';
 
-import {BoardsSidebar, GlobalHeader} from '@e2e-support/ui/component';
+import {GlobalHeader} from '@e2e-support/ui/components';
 
 export default class BoardsCreatePage {
     readonly boards = 'Boards';
     readonly page: Page;
-    readonly boardsSidebar: BoardsSidebar;
     readonly globalHeader: GlobalHeader;
     readonly createBoardHeading: Locator;
     readonly createEmptyBoardButton: Locator;
@@ -16,11 +15,19 @@ export default class BoardsCreatePage {
 
     constructor(page: Page) {
         this.page = page;
-        this.boardsSidebar = new BoardsSidebar(page);
-        this.globalHeader = new GlobalHeader(page);
+        this.globalHeader = new GlobalHeader(this.page.locator('#global-header'));
         this.createBoardHeading = page.getByRole('heading', {name: 'Create a board'});
         this.createEmptyBoardButton = page.getByRole('button', {name: ' Create an empty board'});
         this.useTemplateButton = page.getByRole('button', {name: 'Use this template'});
+    }
+
+    async goto(teamId = '') {
+        let boardsUrl = '/boards';
+        if (teamId) {
+            boardsUrl += `/team/${teamId}`;
+        }
+
+        await this.page.goto(boardsUrl);
     }
 
     async toBeVisible() {
@@ -34,3 +41,5 @@ export default class BoardsCreatePage {
         await this.createEmptyBoardButton.click();
     }
 }
+
+export {BoardsCreatePage};

@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import merge from 'deepmerge';
+
 import {
     AdminConfig,
     ExperimentalSettings,
@@ -13,7 +14,6 @@ import {
     ClusterSettings,
     CollapsedThreads,
 } from '@mattermost/types/config';
-
 import testConfig from '@e2e-test.config';
 
 export function getOnPremServerConfig(): AdminConfig {

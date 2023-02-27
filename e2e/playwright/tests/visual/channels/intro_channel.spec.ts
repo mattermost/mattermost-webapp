@@ -1,31 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {expect, test} from '@playwright/test';
+import {expect, test} from '@e2e-support/test_fixture';
+import {duration, isSmallScreen, wait} from '@e2e-support/util';
 
-import {initSetup} from '@e2e-support/server';
-import {ChannelsPage} from '@e2e-support/ui/page';
-import {hideDynamicChannelsContent} from '@e2e-support/ui/style';
-import {isSmallScreen} from '@e2e-support/utils';
-import {matchSnapshot} from '@e2e-support/visual';
-
-test('Intro to channel as regular user', async ({browser, isMobile, browserName, viewport}, testInfo) => {
+test('Intro to channel as regular user', async ({pw, pages, browserName, viewport}, testInfo) => {
     // Create and sign in a new user
-    const {user, testBrowser} = await initSetup(browser);
+    const {user} = await pw.initSetup();
 
     // Log in a user in new browser context
-    const context = await testBrowser.login(user);
-    const page = await context.newPage();
+    const {page} = await pw.testBrowser.login(user);
 
     // Visit a default channel page
-    await page.goto('/');
-
-    // Should have redirected to channel page
-    const channelsPage = new ChannelsPage(page);
+    const channelsPage = new pages.ChannelsPage(page);
+    await channelsPage.goto();
     await channelsPage.toBeVisible();
 
     // Wait for Boards' bot image to be loaded
-    await channelsPage.channelsPost.boardsProfileImage.waitFor({state: 'visible'});
+    await pw.shouldHaveFeatureFlag('OnboardingAutoShowLinkedBoard', true);
+    const boardsWelcomePost = await channelsPage.getFirstPost();
+    await expect(await boardsWelcomePost.getProfileImage('boards')).toBeVisible();
+    await wait(duration.one_sec);
 
     // Wait for Playbooks icon to be loaded in App bar, except in iphone
     if (!isSmallScreen(viewport)) {
@@ -33,9 +28,9 @@ test('Intro to channel as regular user', async ({browser, isMobile, browserName,
     }
 
     // Hide dynamic elements of Channels page
-    await hideDynamicChannelsContent(page);
+    await pw.hideDynamicChannelsContent(page);
 
     // Match snapshot of channel intro page
-    const testArgs = {page, isMobile, browserName, viewport};
-    await matchSnapshot(testInfo, testArgs);
+    const testArgs = {page, browserName, viewport};
+    await pw.matchSnapshot(testInfo, testArgs);
 });

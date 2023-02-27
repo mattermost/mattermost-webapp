@@ -12,7 +12,7 @@ import {
     getOnPremServerConfig,
     makeClient,
 } from './support/server';
-import {defaultTeam} from './support/utils';
+import {defaultTeam} from './support/util';
 import testConfig from './test.config';
 import {AdminConfig} from '@mattermost/types/config';
 

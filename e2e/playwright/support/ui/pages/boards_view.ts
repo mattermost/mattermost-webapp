@@ -3,11 +3,12 @@
 
 import {expect, Locator, Page} from '@playwright/test';
 
-import {GlobalHeader} from '@e2e-support/ui/component';
+import {BoardsSidebar, GlobalHeader} from '@e2e-support/ui/components';
 
 export default class BoardsViewPage {
     readonly boards = 'Boards';
     readonly page: Page;
+    readonly sidebar: BoardsSidebar;
     readonly globalHeader: GlobalHeader;
     readonly topHead: Locator;
     readonly editableTitle: Locator;
@@ -15,10 +16,29 @@ export default class BoardsViewPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.globalHeader = new GlobalHeader(page);
+        this.sidebar = new BoardsSidebar(page.locator('.octo-sidebar'));
+        this.globalHeader = new GlobalHeader(this.page.locator('#global-header'));
         this.topHead = page.locator('.top-head');
         this.editableTitle = this.topHead.getByPlaceholder('Untitled board');
         this.shareButton = page.getByRole('button', {name: '󰍁 Share'});
+    }
+
+    async goto(teamId = '', boardId = '', viewId = '', cardId = '') {
+        let boardsUrl = '/boards';
+        if (teamId) {
+            boardsUrl += `/team/${teamId}`;
+            if (boardId) {
+                boardsUrl += `/${boardId}`;
+                if (viewId) {
+                    boardsUrl += `/${viewId}`;
+                    if (cardId) {
+                        boardsUrl += `/${cardId}`;
+                    }
+                }
+            }
+        }
+
+        await this.page.goto(boardsUrl);
     }
 
     async toBeVisible() {
@@ -34,3 +54,5 @@ export default class BoardsViewPage {
         await expect(this.page.getByTitle('(Untitled Board)')).toBeVisible();
     }
 }
+
+export {BoardsViewPage};

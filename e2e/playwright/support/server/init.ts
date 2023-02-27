@@ -1,12 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import path from 'path';
-import {expect, Browser} from '@playwright/test';
+import path from 'node:path';
+import {expect} from '@playwright/test';
 
 import {PreferenceType} from '@mattermost/types/preferences';
-
-import {TestBrowser} from '@e2e-support/browser_context';
 import testConfig from '@e2e-test.config';
 
 import {makeClient} from '.';
@@ -22,15 +20,12 @@ const boardsUserConfigPatch = {
     },
 };
 
-export async function initSetup(
-    browser: Browser,
-    {
-        userPrefix = 'user',
-        teamPrefix = {name: 'team', displayName: 'Team'},
-        withDefaultProfileImage = true,
-        skipBoardsUserConfig = true,
-    } = {}
-) {
+export async function initSetup({
+    userPrefix = 'user',
+    teamPrefix = {name: 'team', displayName: 'Team'},
+    withDefaultProfileImage = true,
+    skipBoardsUserConfig = true,
+} = {}) {
     try {
         // Login the admin user via API
         const {adminClient, adminUser} = await getAdminClient();
@@ -57,7 +52,7 @@ export async function initSetup(
 
         if (withDefaultProfileImage) {
             // Set user profile image
-            const fullPath = path.join(path.resolve(__dirname), '../', 'fixtures/mattermost-icon_128x128.png');
+            const fullPath = path.join(path.resolve(__dirname), '../', 'asset/mattermost-icon_128x128.png');
             await userClient.uploadProfileImageX(user.id, fullPath);
         }
 
@@ -75,7 +70,6 @@ export async function initSetup(
             adminClient,
             adminUser,
             adminConfig,
-            testBrowser: new TestBrowser(browser),
             user,
             userClient,
             team,

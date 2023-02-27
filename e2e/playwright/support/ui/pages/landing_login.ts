@@ -35,3 +35,5 @@ export default class LandingLoginPage {
         await this.page.goto('/landing#/login');
     }
 }
+
+export {LandingLoginPage};

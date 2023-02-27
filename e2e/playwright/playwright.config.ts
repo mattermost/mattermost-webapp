@@ -3,7 +3,7 @@
 
 import {defineConfig, devices} from '@playwright/test';
 
-import {duration} from '@e2e-support/utils';
+import {duration} from '@e2e-support/util';
 import testConfig from '@e2e-test.config';
 
 const defaultOutputFolder = 'playwright-report';

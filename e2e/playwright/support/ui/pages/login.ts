@@ -62,3 +62,5 @@ export default class LoginPage {
         await Promise.all([this.page.waitForNavigation(), this.signInButton.click()]);
     }
 }
+
+export {LoginPage};
