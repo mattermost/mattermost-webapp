@@ -99,15 +99,13 @@ const OverageUsersBannerNotice = () => {
                         };
 
                         return (
-                            <a
+                            <ExternalLink
                                 className='overage_users_banner__button'
                                 href={isExpandable ? expandableLink(license.Id) : LicenseLinks.CONTACT_SALES}
-                                target='_blank'
-                                rel='noreferrer'
                                 onClick={handleClick}
                             >
                                 {cta}
-                            </a>
+                            </ExternalLink>
                         );
                     },
                 }}
