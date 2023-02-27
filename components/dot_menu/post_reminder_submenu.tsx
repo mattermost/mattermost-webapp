@@ -12,7 +12,7 @@ import {getCurrentMomentForTimezone} from 'utils/timezone';
 import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import {toUTCUnix} from 'utils/datetime';
-import PostReminderCustomTimePicker from 'components/post_reminder_time_picker_modal';
+import PostReminderCustomTimePicker from 'components/post_reminder_custom_time_picker_modal';
 import {addPostReminder} from 'mattermost-redux/actions/posts';
 import {t} from 'utils/i18n';
 

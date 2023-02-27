@@ -50,6 +50,8 @@ type MenuButtonTooltipProps = {
 
 type MenuProps = {
     id: string;
+    width: string;
+    closeMenuManually?: boolean;
     'aria-label'?: string;
 
     /**
@@ -102,6 +104,14 @@ export function Menu(props: Props) {
     function handleMenuClick() {
         setAnchorElement(null);
     }
+
+    useEffect(() => {
+        console.log('closeMenuManually', props.menu.closeMenuManually);
+
+        if (props.menu.closeMenuManually) {
+            setAnchorElement(null);
+        }
+    }, [props.menu.closeMenuManually]);
 
     function handleMenuKeyDown(event: KeyboardEvent<HTMLDivElement>) {
         if (isKeyPressed(event, Constants.KeyCodes.ENTER) || isKeyPressed(event, Constants.KeyCodes.SPACE)) {
@@ -221,6 +231,7 @@ export function Menu(props: Props) {
                         exit: MENU_CLOSE_ANIMATION_DURATION,
                     },
                 }}
+                width={props.menu.width}
             >
                 {props.children}
             </MuiMenuStyled>

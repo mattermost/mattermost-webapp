@@ -144,7 +144,7 @@ type Props = {
 }
 
 type State = {
-    openUp: boolean;
+    closeMenuManually: boolean;
     canEdit: boolean;
     canDelete: boolean;
 }
@@ -165,7 +165,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.editDisableAction = new DelayedAction(this.handleEditDisable);
 
         this.state = {
-            openUp: false,
+            closeMenuManually: false,
             canEdit: props.canEdit && !props.isReadOnly,
             canDelete: props.canDelete && !props.isReadOnly,
         };
@@ -320,7 +320,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         } else {
             followingThread = !isFollowingThread;
         }
-        console.log('handleSetThreadFollow', e);
         if (followingThread) {
             trackDotMenuEvent(e, TELEMETRY_LABELS.FOLLOW);
         } else {
@@ -354,66 +353,71 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         switch (true) {
         case Utils.isKeyPressed(e, Constants.KeyCodes.R):
             this.handleCommentClick(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
             // edit post
         case Utils.isKeyPressed(e, Constants.KeyCodes.E):
             this.handleEditMenuItemActivated(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
             // follow thread
         case Utils.isKeyPressed(e, Constants.KeyCodes.F) && !isShiftKeyPressed:
             this.handleSetThreadFollow(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
             // forward post
         case Utils.isKeyPressed(e, Constants.KeyCodes.F) && isShiftKeyPressed:
             this.handleForwardMenuItemActivated(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
             // copy link
         case Utils.isKeyPressed(e, Constants.KeyCodes.K):
             this.copyLink(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
             // copy text
         case Utils.isKeyPressed(e, Constants.KeyCodes.C):
             this.copyText(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
             // delete post
         case Utils.isKeyPressed(e, Constants.KeyCodes.DELETE):
             this.handleDeleteMenuItemActivated(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
             // pin / unpin
         case Utils.isKeyPressed(e, Constants.KeyCodes.P):
             this.handlePinMenuItemActivated(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
             // save / unsave
         case Utils.isKeyPressed(e, Constants.KeyCodes.S):
             this.handleFlagMenuItemActivated(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
 
             // mark as unread
         case Utils.isKeyPressed(e, Constants.KeyCodes.U):
             this.handleMarkPostAsUnread(e);
-            this.props.handleDropdownOpened(false);
+            this.handleDropdownOpened(false);
             break;
         }
     }
 
     handleDropdownOpened = (open: boolean) => {
+        this.props.handleDropdownOpened?.(open);
+        this.setState({closeMenuManually: true});
+    }
+
+    handleMenuToggle = (open: boolean) => {
         this.props.handleDropdownOpened?.(open);
     }
 
@@ -521,7 +525,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     id: `PostDotMenu-MenuList-${this.props.post.id}`,
                     'aria-label': this.props.intl.formatMessage({id: 'post_info.menuAriaLabel', defaultMessage: 'Post extra options'}),
                     onKeyDown: this.onShortcutKeyDown,
-                    onToggle: this.handleDropdownOpened,
+                    width: '264px',
+                    onToggle: this.handleMenuToggle,
+                    closeMenuManually: this.state.closeMenuManually,
                 }}
                 menuButtonTooltip={{
                     id: `PostDotMenu-ButtonTooltip-${this.props.post.id}`,
