@@ -3,12 +3,22 @@
 
 /* eslint-disable global-require */
 
+// to enable being a typescript file
+export const a = '';
+import type {showNotification} from './notifications';
+
+declare global {
+    interface Window {
+        Notification: any;
+    }
+}
+
 describe('Notifications.showNotification', () => {
-    let Notifications;
+    let Notifications: {showNotification: typeof showNotification};
 
     beforeEach(() => {
         jest.resetModules();
-        Notifications = require('utils/notifications.tsx');
+        Notifications = require('utils/notifications');
     });
 
     it('should throw an exception if Notification is not defined on window', async () => {
@@ -37,7 +47,7 @@ describe('Notifications.showNotification', () => {
 
     it('should request permissions, callback style, if not previously requested, do nothing', async () => {
         window.Notification = {
-            requestPermission: (callback) => {
+            requestPermission: (callback: NotificationPermissionCallback) => {
                 if (callback) {
                     callback('denied');
                 }
@@ -59,6 +69,7 @@ describe('Notifications.showNotification', () => {
             body: 'body',
             requireInteraction: true,
             silent: false,
+            title: '',
         })).resolves.toBeTruthy();
         await expect(window.Notification.mock.calls.length).toBe(1);
         const call = window.Notification.mock.calls[0];
@@ -73,7 +84,7 @@ describe('Notifications.showNotification', () => {
 
     it('should request permissions, callback style, if not previously requested, handling success', async () => {
         window.Notification = jest.fn();
-        window.Notification.requestPermission = (callback) => {
+        window.Notification.requestPermission = (callback: NotificationPermissionCallback) => {
             if (callback) {
                 callback('granted');
             }
@@ -87,6 +98,7 @@ describe('Notifications.showNotification', () => {
             body: 'body',
             requireInteraction: true,
             silent: false,
+            title: '',
         })).resolves.toBeTruthy();
         await expect(window.Notification.mock.calls.length).toBe(1);
         const call = window.Notification.mock.calls[0];

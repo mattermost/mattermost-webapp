@@ -45,7 +45,7 @@ type Props = RouteComponentProps & {
         isDevMode: boolean
     ) => Promise<boolean | null>;
     subscribeCloudSubscription:
-    | ((productId: string, shippingAddress: Address, seats?: number, feedback?: Feedback) => Promise<ActionResult<Subscription, ComplianceError>>)
+    | ((productId: string, shippingAddress: Address, seats?: number, downgradeFeedback?: Feedback) => Promise<ActionResult<Subscription, ComplianceError>>)
     | null;
     onBack: () => void;
     onClose: () => void;
@@ -58,6 +58,7 @@ type Props = RouteComponentProps & {
     onSuccess?: () => void;
     intl: IntlShape;
     usersCount: number;
+    isSwitchingToAnnual: boolean;
 };
 
 type State = {
@@ -191,7 +192,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
         this.props.onBack();
     }
 
-    private sucessPage = () => {
+    private successPage = () => {
         const {error} = this.state;
         const formattedBtnText = (
             <FormattedMessage
@@ -235,6 +236,35 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
                         }
                         formattedButtonText={formattedBtnText}
                         buttonHandler={this.props.onClose}
+                        className={'success'}
+                    />
+                </>
+            );
+        } else if (this.props.isSwitchingToAnnual) {
+            const formattedTitle = (
+                <FormattedMessage
+                    defaultMessage={"You're now switched to {selectedProductName} annual"}
+                    id={'admin.billing.subscription.switchedToAnnual.title'}
+                    values={{selectedProductName: this.props.selectedProduct?.name}}
+                />
+            );
+            return (
+                <>
+                    <IconMessage
+                        formattedTitle={formattedTitle}
+                        icon={
+                            <PaymentSuccessStandardSvg
+                                width={444}
+                                height={313}
+                            />
+                        }
+                        formattedButtonText={formattedBtnText}
+                        buttonHandler={this.props.onClose}
+                        tertiaryBtnText={t('admin.billing.subscription.viewBilling')}
+                        tertiaryButtonHandler={() => {
+                            this.props.onClose();
+                            this.props.history.push('/admin_console/billing/subscription');
+                        }}
                         className={'success'}
                     />
                 </>
@@ -331,7 +361,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
                 />
             );
         case ProcessState.SUCCESS:
-            return this.sucessPage();
+            return this.successPage();
         case ProcessState.FAILED_COMPLIANCE_SCREEN:
             return (
                 <IconMessage

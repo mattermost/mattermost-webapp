@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
-import {Posts, Preferences} from '../constants';
+import {GlobalState} from '@mattermost/types/store';
+import {Post} from '@mattermost/types/posts';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
+import {Posts, Preferences} from '../constants';
+import TestHelper from '../../test/test_helper';
 
 import {
     COMBINED_USER_ACTIVITY,
@@ -53,14 +54,14 @@ describe('makeFilterPostsAndAddSeparators', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
         const lastViewedAt = Number.POSITIVE_INFINITY;
         const postIds = ['1002', '1001'];
         const indicateNewMessages = true;
 
         // Defaults to show post
         let now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt, indicateNewMessages});
-        assert.deepEqual(now, [
+        expect(now).toEqual([
             '1002',
             '1001',
             'date-' + today.getTime(),
@@ -80,13 +81,13 @@ describe('makeFilterPostsAndAddSeparators', () => {
                             name: Preferences.ADVANCED_FILTER_JOIN_LEAVE,
                             value: 'true',
                         },
-                    },
+                    } as GlobalState['entities']['preferences']['myPreferences'],
                 },
             },
         };
 
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt, indicateNewMessages});
-        assert.deepEqual(now, [
+        expect(now).toEqual([
             '1002',
             '1001',
             'date-' + today.getTime(),
@@ -106,13 +107,13 @@ describe('makeFilterPostsAndAddSeparators', () => {
                             name: Preferences.ADVANCED_FILTER_JOIN_LEAVE,
                             value: 'false',
                         },
-                    },
+                    } as GlobalState['entities']['preferences']['myPreferences'],
                 },
             },
         };
 
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt, indicateNewMessages});
-        assert.deepEqual(now, [
+        expect(now).toEqual([
             '1001',
             'date-' + today.getTime(),
         ]);
@@ -130,11 +131,11 @@ describe('makeFilterPostsAndAddSeparators', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt, indicateNewMessages});
 
-        assert.deepEqual(now, [
+        expect(now).toEqual([
             '1002',
             '1001',
             'date-' + today.getTime(),
@@ -168,21 +169,21 @@ describe('makeFilterPostsAndAddSeparators', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const postIds = ['1010', '1005', '1000']; // Remember that we list the posts backwards
 
         // Do not show new messages indicator before all posts
         let now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt: 0, indicateNewMessages: true});
-        assert.deepEqual(now, [
+        expect(now).toEqual([
             '1010',
             '1005',
             '1000',
             'date-' + (today.getTime() + 1000),
         ]);
 
-        now = filterPostsAndAddSeparators(state, {postIds, indicateNewMessages: true});
-        assert.deepEqual(now, [
+        now = filterPostsAndAddSeparators(state, {postIds, indicateNewMessages: true, lastViewedAt: 0});
+        expect(now).toEqual([
             '1010',
             '1005',
             '1000',
@@ -190,7 +191,7 @@ describe('makeFilterPostsAndAddSeparators', () => {
         ]);
 
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt: time + 999, indicateNewMessages: false});
-        assert.deepEqual(now, [
+        expect(now).toEqual([
             '1010',
             '1005',
             '1000',
@@ -199,7 +200,7 @@ describe('makeFilterPostsAndAddSeparators', () => {
 
         // Show new messages indicator before all posts
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt: time + 999, indicateNewMessages: true});
-        assert.deepEqual(now, [
+        expect(now).toEqual([
             '1010',
             '1005',
             '1000',
@@ -209,7 +210,7 @@ describe('makeFilterPostsAndAddSeparators', () => {
 
         // Show indicator between posts
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt: time + 1003, indicateNewMessages: true});
-        assert.deepEqual(now, [
+        expect(now).toEqual([
             '1010',
             '1005',
             START_OF_NEW_MESSAGES,
@@ -218,7 +219,7 @@ describe('makeFilterPostsAndAddSeparators', () => {
         ]);
 
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt: time + 1006, indicateNewMessages: true});
-        assert.deepEqual(now, [
+        expect(now).toEqual([
             '1010',
             START_OF_NEW_MESSAGES,
             '1005',
@@ -228,7 +229,7 @@ describe('makeFilterPostsAndAddSeparators', () => {
 
         // Don't show indicator when all posts are read
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt: time + 1020});
-        assert.deepEqual(now, [
+        expect(now).toEqual([
             '1010',
             '1005',
             '1000',
@@ -248,8 +249,8 @@ describe('makeFilterPostsAndAddSeparators', () => {
             1002: {id: '1002', create_at: time + 5, type: ''},
             1003: {id: '1003', create_at: time + 10, type: ''},
             1004: {id: '1004', create_at: tomorrow, type: ''},
-            1005: {id: '1005', create_at: tomorrow + 5, type: ''},
-            1006: {id: '1006', create_at: tomorrow + 10, type: Posts.POST_TYPES.JOIN_CHANNEL},
+            1005: {id: '1005', create_at: tomorrow as any + 5, type: ''},
+            1006: {id: '1006', create_at: tomorrow as any + 10, type: Posts.POST_TYPES.JOIN_CHANNEL},
         };
         let state = {
             entities: {
@@ -275,7 +276,7 @@ describe('makeFilterPostsAndAddSeparators', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         let postIds = [
             '1006',
@@ -286,7 +287,7 @@ describe('makeFilterPostsAndAddSeparators', () => {
         let lastViewedAt = initialPosts['1001'].create_at + 1;
 
         let now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt, indicateNewMessages: true});
-        assert.deepEqual(now, [
+        expect(now).toEqual([
             '1006',
             '1004',
             'date-' + tomorrow.getTime(),
@@ -299,8 +300,8 @@ describe('makeFilterPostsAndAddSeparators', () => {
         // No changes
         let prev = now;
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt, indicateNewMessages: true});
-        assert.equal(now, prev);
-        assert.deepEqual(now, [
+        expect(now).toEqual(prev);
+        expect(now).toEqual([
             '1006',
             '1004',
             'date-' + tomorrow.getTime(),
@@ -315,8 +316,8 @@ describe('makeFilterPostsAndAddSeparators', () => {
 
         prev = now;
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt, indicateNewMessages: true});
-        assert.equal(now, prev);
-        assert.deepEqual(now, [
+        expect(now).toEqual(prev);
+        expect(now).toEqual([
             '1006',
             '1004',
             'date-' + tomorrow.getTime(),
@@ -331,8 +332,8 @@ describe('makeFilterPostsAndAddSeparators', () => {
 
         prev = now;
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt, indicateNewMessages: true});
-        assert.notEqual(now, prev);
-        assert.deepEqual(now, [
+        expect(now).not.toEqual(prev);
+        expect(now).toEqual([
             '1006',
             '1004',
             START_OF_NEW_MESSAGES,
@@ -344,8 +345,8 @@ describe('makeFilterPostsAndAddSeparators', () => {
 
         prev = now;
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt, indicateNewMessages: true});
-        assert.equal(now, prev);
-        assert.deepEqual(now, [
+        expect(now).toEqual(prev);
+        expect(now).toEqual([
             '1006',
             '1004',
             START_OF_NEW_MESSAGES,
@@ -360,8 +361,8 @@ describe('makeFilterPostsAndAddSeparators', () => {
 
         prev = now;
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt, indicateNewMessages: true});
-        assert.equal(now, prev);
-        assert.deepEqual(now, [
+        expect(now).toEqual(prev);
+        expect(now).toEqual([
             '1006',
             '1004',
             START_OF_NEW_MESSAGES,
@@ -384,12 +385,12 @@ describe('makeFilterPostsAndAddSeparators', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         prev = now;
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt, indicateNewMessages: true});
-        assert.equal(now, prev);
-        assert.deepEqual(now, [
+        expect(now).toEqual(prev);
+        expect(now).toEqual([
             '1006',
             '1004',
             START_OF_NEW_MESSAGES,
@@ -416,8 +417,8 @@ describe('makeFilterPostsAndAddSeparators', () => {
 
         prev = now;
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt, indicateNewMessages: true});
-        assert.equal(now, prev);
-        assert.deepEqual(now, [
+        expect(now).toEqual(prev);
+        expect(now).toEqual([
             '1006',
             '1004',
             START_OF_NEW_MESSAGES,
@@ -441,15 +442,15 @@ describe('makeFilterPostsAndAddSeparators', () => {
                             name: Preferences.ADVANCED_FILTER_JOIN_LEAVE,
                             value: 'false',
                         },
-                    },
+                    } as unknown as GlobalState['entities']['preferences']['myPreferences'],
                 },
             },
         };
 
         prev = now;
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt, indicateNewMessages: true});
-        assert.notEqual(now, prev);
-        assert.deepEqual(now, [
+        expect(now).not.toEqual(prev);
+        expect(now).toEqual([
             '1004',
             START_OF_NEW_MESSAGES,
             'date-' + tomorrow.getTime(),
@@ -460,8 +461,8 @@ describe('makeFilterPostsAndAddSeparators', () => {
 
         prev = now;
         now = filterPostsAndAddSeparators(state, {postIds, lastViewedAt, indicateNewMessages: true});
-        assert.equal(now, prev);
-        assert.deepEqual(now, [
+        expect(now).toEqual(prev);
+        expect(now).toEqual([
             '1004',
             START_OF_NEW_MESSAGES,
             'date-' + tomorrow.getTime(),
@@ -476,14 +477,14 @@ describe('makeCombineUserActivityPosts', () => {
     test('should do nothing if no post IDs are provided', () => {
         const combineUserActivityPosts = makeCombineUserActivityPosts();
 
-        const postIds = [];
+        const postIds: string[] = [];
         const state = {
             entities: {
                 posts: {
                     posts: {},
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const result = combineUserActivityPosts(state, postIds);
 
@@ -512,7 +513,7 @@ describe('makeCombineUserActivityPosts', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const result = combineUserActivityPosts(state, postIds);
 
@@ -537,7 +538,7 @@ describe('makeCombineUserActivityPosts', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const result = combineUserActivityPosts(state, postIds);
 
@@ -565,7 +566,7 @@ describe('makeCombineUserActivityPosts', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const result = combineUserActivityPosts(state, postIds);
 
@@ -599,7 +600,7 @@ describe('makeCombineUserActivityPosts', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const result = combineUserActivityPosts(state, postIds);
 
@@ -629,7 +630,7 @@ describe('makeCombineUserActivityPosts', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const result = combineUserActivityPosts(state, postIds);
 
@@ -663,7 +664,7 @@ describe('makeCombineUserActivityPosts', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const result = combineUserActivityPosts(state, postIds);
 
@@ -680,13 +681,13 @@ describe('makeCombineUserActivityPosts', () => {
     test('should not combine more than 100 posts', () => {
         const combineUserActivityPosts = makeCombineUserActivityPosts();
 
-        const postIds = [];
-        const posts = {};
+        const postIds: string[] = [];
+        const posts: Record<string, Post> = {};
         for (let i = 0; i < 110; i++) {
             const postId = `post${i}`;
 
             postIds.push(postId);
-            posts[postId] = {id: postId, type: Posts.POST_TYPES.JOIN_CHANNEL};
+            posts[postId] = TestHelper.getPostMock({id: postId, type: Posts.POST_TYPES.JOIN_CHANNEL});
         }
 
         const state = {
@@ -695,7 +696,7 @@ describe('makeCombineUserActivityPosts', () => {
                     posts,
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const result = combineUserActivityPosts(state, postIds);
 
@@ -713,7 +714,7 @@ describe('makeCombineUserActivityPosts', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         test('should not recalculate when nothing has changed', () => {
             const combineUserActivityPosts = makeCombineUserActivityPosts();
@@ -783,7 +784,7 @@ describe('makeCombineUserActivityPosts', () => {
                         ...state.entities.posts,
                         posts: {
                             ...state.entities.posts.posts,
-                            post3: {id: 'post3'},
+                            post3: TestHelper.getPostMock({id: 'post3'}),
                         },
                     },
                 },
@@ -994,7 +995,7 @@ describe('makeGenerateCombinedPost', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
         const combinedId = 'user-activity-post1_post2_post3';
 
         const result = generateCombinedPost(state, combinedId);
@@ -1050,48 +1051,48 @@ describe('makeGenerateCombinedPost', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
         const initialCombinedId = 'user-activity-post1_post2';
 
         test('should not recalculate when called twice with the same ID', () => {
             const generateCombinedPost = makeGenerateCombinedPost();
 
-            expect(generateCombinedPost.recomputations()).toBe(0);
+            expect((generateCombinedPost as any).recomputations()).toBe(0);
 
             generateCombinedPost(initialState, initialCombinedId);
 
-            expect(generateCombinedPost.recomputations()).toBe(1);
+            expect((generateCombinedPost as any).recomputations()).toBe(1);
 
             generateCombinedPost(initialState, initialCombinedId);
 
-            expect(generateCombinedPost.recomputations()).toBe(1);
+            expect((generateCombinedPost as any).recomputations()).toBe(1);
         });
 
         test('should recalculate when called twice with different IDs', () => {
             const generateCombinedPost = makeGenerateCombinedPost();
 
-            expect(generateCombinedPost.recomputations()).toBe(0);
+            expect((generateCombinedPost as any).recomputations()).toBe(0);
 
             let combinedId = initialCombinedId;
             generateCombinedPost(initialState, combinedId);
 
-            expect(generateCombinedPost.recomputations()).toBe(1);
+            expect((generateCombinedPost as any).recomputations()).toBe(1);
 
             combinedId = 'user-activity-post2';
             generateCombinedPost(initialState, combinedId);
 
-            expect(generateCombinedPost.recomputations()).toBe(2);
+            expect((generateCombinedPost as any).recomputations()).toBe(2);
         });
 
         test('should not recalculate when a different post changes', () => {
             const generateCombinedPost = makeGenerateCombinedPost();
 
-            expect(generateCombinedPost.recomputations()).toBe(0);
+            expect((generateCombinedPost as any).recomputations()).toBe(0);
 
             let state = initialState;
             generateCombinedPost(state, initialCombinedId);
 
-            expect(generateCombinedPost.recomputations()).toBe(1);
+            expect((generateCombinedPost as any).recomputations()).toBe(1);
 
             state = {
                 ...state,
@@ -1101,25 +1102,25 @@ describe('makeGenerateCombinedPost', () => {
                         ...state.entities.posts,
                         posts: {
                             ...state.entities.posts.posts,
-                            post3: {id: 'post3'},
+                            post3: TestHelper.getPostMock({id: 'post3'}),
                         },
                     },
                 },
             };
             generateCombinedPost(state, initialCombinedId);
 
-            expect(generateCombinedPost.recomputations()).toBe(1);
+            expect((generateCombinedPost as any).recomputations()).toBe(1);
         });
 
         test('should recalculate when one of the included posts change', () => {
             const generateCombinedPost = makeGenerateCombinedPost();
 
-            expect(generateCombinedPost.recomputations()).toBe(0);
+            expect((generateCombinedPost as any).recomputations()).toBe(0);
 
             let state = initialState;
             generateCombinedPost(state, initialCombinedId);
 
-            expect(generateCombinedPost.recomputations()).toBe(1);
+            expect((generateCombinedPost as any).recomputations()).toBe(1);
 
             state = {
                 ...state,
@@ -1129,14 +1130,14 @@ describe('makeGenerateCombinedPost', () => {
                         ...state.entities.posts,
                         posts: {
                             ...state.entities.posts.posts,
-                            post2: {id: 'post2', update_at: 1234},
+                            post2: TestHelper.getPostMock({id: 'post2', update_at: 1234}),
                         },
                     },
                 },
             };
             generateCombinedPost(state, initialCombinedId);
 
-            expect(generateCombinedPost.recomputations()).toBe(2);
+            expect((generateCombinedPost as any).recomputations()).toBe(2);
         });
     });
 });
@@ -1145,36 +1146,36 @@ describe('combineUserActivitySystemPost', () => {
     const PostTypes = Posts.POST_TYPES;
 
     it('should return null', () => {
-        assert.equal(Boolean(combineUserActivitySystemPost()), false);
-        assert.equal(Boolean(combineUserActivitySystemPost([])), false);
+        expect(Boolean(combineUserActivitySystemPost())).toBe(false);
+        expect(Boolean(combineUserActivitySystemPost([]))).toBe(false);
     });
 
-    const postAddToChannel1 = {type: PostTypes.ADD_TO_CHANNEL, user_id: 'user_id_1', props: {addedUserId: 'added_user_id_1', addedUsername: 'added_username_1'}};
-    const postAddToChannel2 = {type: PostTypes.ADD_TO_CHANNEL, user_id: 'user_id_1', props: {addedUserId: 'added_user_id_2', addedUsername: 'added_username_2'}};
-    const postAddToChannel3 = {type: PostTypes.ADD_TO_CHANNEL, user_id: 'user_id_1', props: {addedUserId: 'added_user_id_3', addedUsername: 'added_username_3'}};
-    const postAddToChannel4 = {type: PostTypes.ADD_TO_CHANNEL, user_id: 'user_id_2', props: {addedUserId: 'added_user_id_4', addedUsername: 'added_username_4'}};
-    const postAddToChannel5 = {type: PostTypes.ADD_TO_CHANNEL, user_id: 'user_id_1', props: {addedUsername: 'added_username_1'}};
+    const postAddToChannel1 = TestHelper.getPostMock({type: PostTypes.ADD_TO_CHANNEL, user_id: 'user_id_1', props: {addedUserId: 'added_user_id_1', addedUsername: 'added_username_1'}});
+    const postAddToChannel2 = TestHelper.getPostMock({type: PostTypes.ADD_TO_CHANNEL, user_id: 'user_id_1', props: {addedUserId: 'added_user_id_2', addedUsername: 'added_username_2'}});
+    const postAddToChannel3 = TestHelper.getPostMock({type: PostTypes.ADD_TO_CHANNEL, user_id: 'user_id_1', props: {addedUserId: 'added_user_id_3', addedUsername: 'added_username_3'}});
+    const postAddToChannel4 = TestHelper.getPostMock({type: PostTypes.ADD_TO_CHANNEL, user_id: 'user_id_2', props: {addedUserId: 'added_user_id_4', addedUsername: 'added_username_4'}});
+    const postAddToChannel5 = TestHelper.getPostMock({type: PostTypes.ADD_TO_CHANNEL, user_id: 'user_id_1', props: {addedUsername: 'added_username_1'}});
     it('should match return for ADD_TO_CHANNEL', () => {
         const out1 = {
             allUserIds: ['added_user_id_1', 'user_id_1'],
             allUsernames: [],
             messageData: [{actorId: 'user_id_1', postType: PostTypes.ADD_TO_CHANNEL, userIds: ['added_user_id_1']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postAddToChannel1]), out1);
+        expect(combineUserActivitySystemPost([postAddToChannel1])).toEqual(out1);
 
         const out2 = {
             allUserIds: ['added_user_id_1', 'added_user_id_2', 'user_id_1'],
             allUsernames: [],
             messageData: [{actorId: 'user_id_1', postType: PostTypes.ADD_TO_CHANNEL, userIds: ['added_user_id_1', 'added_user_id_2']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postAddToChannel1, postAddToChannel2]), out2);
+        expect(combineUserActivitySystemPost([postAddToChannel1, postAddToChannel2])).toEqual(out2);
 
         const out3 = {
             allUserIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3', 'user_id_1'],
             allUsernames: [],
             messageData: [{actorId: 'user_id_1', postType: PostTypes.ADD_TO_CHANNEL, userIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postAddToChannel1, postAddToChannel2, postAddToChannel3]), out3);
+        expect(combineUserActivitySystemPost([postAddToChannel1, postAddToChannel2, postAddToChannel3])).toEqual(out3);
 
         const out4 = {
             allUserIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3', 'user_id_1', 'added_user_id_4', 'user_id_2'],
@@ -1184,14 +1185,14 @@ describe('combineUserActivitySystemPost', () => {
                 {actorId: 'user_id_2', postType: PostTypes.ADD_TO_CHANNEL, userIds: ['added_user_id_4']},
             ],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postAddToChannel1, postAddToChannel2, postAddToChannel3, postAddToChannel4]), out4);
+        expect(combineUserActivitySystemPost([postAddToChannel1, postAddToChannel2, postAddToChannel3, postAddToChannel4])).toEqual(out4);
 
         const out5 = {
             allUserIds: ['user_id_1'],
             allUsernames: ['added_username_1'],
             messageData: [{actorId: 'user_id_1', postType: PostTypes.ADD_TO_CHANNEL, userIds: ['added_username_1']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postAddToChannel5]), out5);
+        expect(combineUserActivitySystemPost([postAddToChannel5])).toEqual(out5);
 
         const out6 = {
             allUserIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3', 'user_id_1', 'added_user_id_4', 'user_id_2'],
@@ -1201,7 +1202,7 @@ describe('combineUserActivitySystemPost', () => {
                 {actorId: 'user_id_2', postType: PostTypes.ADD_TO_CHANNEL, userIds: ['added_user_id_4']},
             ],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postAddToChannel1, postAddToChannel2, postAddToChannel3, postAddToChannel4, postAddToChannel5]), out6);
+        expect(combineUserActivitySystemPost([postAddToChannel1, postAddToChannel2, postAddToChannel3, postAddToChannel4, postAddToChannel5])).toEqual(out6);
     });
 
     it('should match return for ADD_TO_CHANNEL, backward compatibility with addedUsername', () => {
@@ -1210,14 +1211,14 @@ describe('combineUserActivitySystemPost', () => {
             allUsernames: ['added_user_name_1'],
             messageData: [{actorId: 'user_id_1', postType: PostTypes.ADD_TO_CHANNEL, userIds: ['added_user_name_1']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([{...postAddToChannel1, props: {addedUsername: 'added_user_name_1'}}]), out1);
+        expect(combineUserActivitySystemPost([{...postAddToChannel1, props: {addedUsername: 'added_user_name_1'}}])).toEqual(out1);
 
         const out2 = {
             allUserIds: ['added_user_id_2', 'user_id_1'],
             allUsernames: ['added_user_name_1'],
             messageData: [{actorId: 'user_id_1', postType: PostTypes.ADD_TO_CHANNEL, userIds: ['added_user_name_1', 'added_user_id_2']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([{...postAddToChannel1, props: {addedUsername: 'added_user_name_1'}}, postAddToChannel2]), out2);
+        expect(combineUserActivitySystemPost([{...postAddToChannel1, props: {addedUsername: 'added_user_name_1'}}, postAddToChannel2])).toEqual(out2);
 
         const out3 = {
             allUserIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3', 'user_id_1', 'user_id_2'],
@@ -1227,34 +1228,34 @@ describe('combineUserActivitySystemPost', () => {
                 {actorId: 'user_id_2', postType: PostTypes.ADD_TO_CHANNEL, userIds: ['added_user_name_4']},
             ],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postAddToChannel1, postAddToChannel2, postAddToChannel3, {...postAddToChannel4, props: {addedUsername: 'added_user_name_4'}}]), out3);
+        expect(combineUserActivitySystemPost([postAddToChannel1, postAddToChannel2, postAddToChannel3, {...postAddToChannel4, props: {addedUsername: 'added_user_name_4'}}])).toEqual(out3);
     });
 
-    const postAddToTeam1 = {type: PostTypes.ADD_TO_TEAM, user_id: 'user_id_1', props: {addedUserId: 'added_user_id_1'}};
-    const postAddToTeam2 = {type: PostTypes.ADD_TO_TEAM, user_id: 'user_id_1', props: {addedUserId: 'added_user_id_2'}};
-    const postAddToTeam3 = {type: PostTypes.ADD_TO_TEAM, user_id: 'user_id_1', props: {addedUserId: 'added_user_id_3'}};
-    const postAddToTeam4 = {type: PostTypes.ADD_TO_TEAM, user_id: 'user_id_2', props: {addedUserId: 'added_user_id_4'}};
+    const postAddToTeam1 = TestHelper.getPostMock({type: PostTypes.ADD_TO_TEAM, user_id: 'user_id_1', props: {addedUserId: 'added_user_id_1'}});
+    const postAddToTeam2 = TestHelper.getPostMock({type: PostTypes.ADD_TO_TEAM, user_id: 'user_id_1', props: {addedUserId: 'added_user_id_2'}});
+    const postAddToTeam3 = TestHelper.getPostMock({type: PostTypes.ADD_TO_TEAM, user_id: 'user_id_1', props: {addedUserId: 'added_user_id_3'}});
+    const postAddToTeam4 = TestHelper.getPostMock({type: PostTypes.ADD_TO_TEAM, user_id: 'user_id_2', props: {addedUserId: 'added_user_id_4'}});
     it('should match return for ADD_TO_TEAM', () => {
         const out1 = {
             allUserIds: ['added_user_id_1', 'user_id_1'],
             allUsernames: [],
             messageData: [{actorId: 'user_id_1', postType: PostTypes.ADD_TO_TEAM, userIds: ['added_user_id_1']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postAddToTeam1]), out1);
+        expect(combineUserActivitySystemPost([postAddToTeam1])).toEqual(out1);
 
         const out2 = {
             allUserIds: ['added_user_id_1', 'added_user_id_2', 'user_id_1'],
             allUsernames: [],
             messageData: [{actorId: 'user_id_1', postType: PostTypes.ADD_TO_TEAM, userIds: ['added_user_id_1', 'added_user_id_2']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postAddToTeam1, postAddToTeam2]), out2);
+        expect(combineUserActivitySystemPost([postAddToTeam1, postAddToTeam2])).toEqual(out2);
 
         const out3 = {
             allUserIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3', 'user_id_1'],
             allUsernames: [],
             messageData: [{actorId: 'user_id_1', postType: PostTypes.ADD_TO_TEAM, userIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postAddToTeam1, postAddToTeam2, postAddToTeam3]), out3);
+        expect(combineUserActivitySystemPost([postAddToTeam1, postAddToTeam2, postAddToTeam3])).toEqual(out3);
 
         const out4 = {
             allUserIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3', 'user_id_1', 'added_user_id_4', 'user_id_2'],
@@ -1264,7 +1265,7 @@ describe('combineUserActivitySystemPost', () => {
                 {actorId: 'user_id_2', postType: PostTypes.ADD_TO_TEAM, userIds: ['added_user_id_4']},
             ],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postAddToTeam1, postAddToTeam2, postAddToTeam3, postAddToTeam4]), out4);
+        expect(combineUserActivitySystemPost([postAddToTeam1, postAddToTeam2, postAddToTeam3, postAddToTeam4])).toEqual(out4);
     });
 
     it('should match return for ADD_TO_TEAM, backward compatibility with addedUsername', () => {
@@ -1273,14 +1274,14 @@ describe('combineUserActivitySystemPost', () => {
             allUsernames: ['added_user_name_1'],
             messageData: [{actorId: 'user_id_1', postType: PostTypes.ADD_TO_TEAM, userIds: ['added_user_name_1']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([{...postAddToTeam1, props: {addedUsername: 'added_user_name_1'}}]), out1);
+        expect(combineUserActivitySystemPost([{...postAddToTeam1, props: {addedUsername: 'added_user_name_1'}}])).toEqual(out1);
 
         const out2 = {
             allUserIds: ['added_user_id_2', 'user_id_1'],
             allUsernames: ['added_user_name_1'],
             messageData: [{actorId: 'user_id_1', postType: PostTypes.ADD_TO_TEAM, userIds: ['added_user_name_1', 'added_user_id_2']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([{...postAddToTeam1, props: {addedUsername: 'added_user_name_1'}}, postAddToTeam2]), out2);
+        expect(combineUserActivitySystemPost([{...postAddToTeam1, props: {addedUsername: 'added_user_name_1'}}, postAddToTeam2])).toEqual(out2);
 
         const out3 = {
             allUserIds: ['added_user_id_1', 'added_user_id_2', 'added_user_id_3', 'user_id_1', 'user_id_2'],
@@ -1290,211 +1291,211 @@ describe('combineUserActivitySystemPost', () => {
                 {actorId: 'user_id_2', postType: PostTypes.ADD_TO_TEAM, userIds: ['added_user_name_4']},
             ],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postAddToTeam1, postAddToTeam2, postAddToTeam3, {...postAddToTeam4, props: {addedUsername: 'added_user_name_4'}}]), out3);
+        expect(combineUserActivitySystemPost([postAddToTeam1, postAddToTeam2, postAddToTeam3, {...postAddToTeam4, props: {addedUsername: 'added_user_name_4'}}])).toEqual(out3);
     });
 
-    const postJoinChannel1 = {type: PostTypes.JOIN_CHANNEL, user_id: 'user_id_1'};
-    const postJoinChannel2 = {type: PostTypes.JOIN_CHANNEL, user_id: 'user_id_2'};
-    const postJoinChannel3 = {type: PostTypes.JOIN_CHANNEL, user_id: 'user_id_3'};
-    const postJoinChannel4 = {type: PostTypes.JOIN_CHANNEL, user_id: 'user_id_4'};
+    const postJoinChannel1 = TestHelper.getPostMock({type: PostTypes.JOIN_CHANNEL, user_id: 'user_id_1'});
+    const postJoinChannel2 = TestHelper.getPostMock({type: PostTypes.JOIN_CHANNEL, user_id: 'user_id_2'});
+    const postJoinChannel3 = TestHelper.getPostMock({type: PostTypes.JOIN_CHANNEL, user_id: 'user_id_3'});
+    const postJoinChannel4 = TestHelper.getPostMock({type: PostTypes.JOIN_CHANNEL, user_id: 'user_id_4'});
     it('should match return for JOIN_CHANNEL', () => {
         const out1 = {
             allUserIds: ['user_id_1'],
             allUsernames: [],
             messageData: [{postType: PostTypes.JOIN_CHANNEL, userIds: ['user_id_1']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postJoinChannel1]), out1);
+        expect(combineUserActivitySystemPost([postJoinChannel1])).toEqual(out1);
 
         const out2 = {
             allUserIds: ['user_id_1', 'user_id_2'],
             allUsernames: [],
             messageData: [{postType: PostTypes.JOIN_CHANNEL, userIds: ['user_id_1', 'user_id_2']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postJoinChannel1, postJoinChannel2]), out2);
+        expect(combineUserActivitySystemPost([postJoinChannel1, postJoinChannel2])).toEqual(out2);
 
         const out3 = {
             allUserIds: ['user_id_1', 'user_id_2', 'user_id_3'],
             allUsernames: [],
             messageData: [{postType: PostTypes.JOIN_CHANNEL, userIds: ['user_id_1', 'user_id_2', 'user_id_3']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postJoinChannel1, postJoinChannel2, postJoinChannel3]), out3);
+        expect(combineUserActivitySystemPost([postJoinChannel1, postJoinChannel2, postJoinChannel3])).toEqual(out3);
 
         const out4 = {
             allUserIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'],
             allUsernames: [],
             messageData: [{postType: PostTypes.JOIN_CHANNEL, userIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postJoinChannel1, postJoinChannel2, postJoinChannel3, postJoinChannel4]), out4);
+        expect(combineUserActivitySystemPost([postJoinChannel1, postJoinChannel2, postJoinChannel3, postJoinChannel4])).toEqual(out4);
     });
 
-    const postJoinTeam1 = {type: PostTypes.JOIN_TEAM, user_id: 'user_id_1'};
-    const postJoinTeam2 = {type: PostTypes.JOIN_TEAM, user_id: 'user_id_2'};
-    const postJoinTeam3 = {type: PostTypes.JOIN_TEAM, user_id: 'user_id_3'};
-    const postJoinTeam4 = {type: PostTypes.JOIN_TEAM, user_id: 'user_id_4'};
+    const postJoinTeam1 = TestHelper.getPostMock({type: PostTypes.JOIN_TEAM, user_id: 'user_id_1'});
+    const postJoinTeam2 = TestHelper.getPostMock({type: PostTypes.JOIN_TEAM, user_id: 'user_id_2'});
+    const postJoinTeam3 = TestHelper.getPostMock({type: PostTypes.JOIN_TEAM, user_id: 'user_id_3'});
+    const postJoinTeam4 = TestHelper.getPostMock({type: PostTypes.JOIN_TEAM, user_id: 'user_id_4'});
     it('should match return for JOIN_TEAM', () => {
         const out1 = {
             allUserIds: ['user_id_1'],
             allUsernames: [],
             messageData: [{postType: PostTypes.JOIN_TEAM, userIds: ['user_id_1']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postJoinTeam1]), out1);
+        expect(combineUserActivitySystemPost([postJoinTeam1])).toEqual(out1);
 
         const out2 = {
             allUserIds: ['user_id_1', 'user_id_2'],
             allUsernames: [],
             messageData: [{postType: PostTypes.JOIN_TEAM, userIds: ['user_id_1', 'user_id_2']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postJoinTeam1, postJoinTeam2]), out2);
+        expect(combineUserActivitySystemPost([postJoinTeam1, postJoinTeam2])).toEqual(out2);
 
         const out3 = {
             allUserIds: ['user_id_1', 'user_id_2', 'user_id_3'],
             allUsernames: [],
             messageData: [{postType: PostTypes.JOIN_TEAM, userIds: ['user_id_1', 'user_id_2', 'user_id_3']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postJoinTeam1, postJoinTeam2, postJoinTeam3]), out3);
+        expect(combineUserActivitySystemPost([postJoinTeam1, postJoinTeam2, postJoinTeam3])).toEqual(out3);
 
         const out4 = {
             allUserIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'],
             allUsernames: [],
             messageData: [{postType: PostTypes.JOIN_TEAM, userIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postJoinTeam1, postJoinTeam2, postJoinTeam3, postJoinTeam4]), out4);
+        expect(combineUserActivitySystemPost([postJoinTeam1, postJoinTeam2, postJoinTeam3, postJoinTeam4])).toEqual(out4);
     });
 
-    const postLeaveChannel1 = {type: PostTypes.LEAVE_CHANNEL, user_id: 'user_id_1'};
-    const postLeaveChannel2 = {type: PostTypes.LEAVE_CHANNEL, user_id: 'user_id_2'};
-    const postLeaveChannel3 = {type: PostTypes.LEAVE_CHANNEL, user_id: 'user_id_3'};
-    const postLeaveChannel4 = {type: PostTypes.LEAVE_CHANNEL, user_id: 'user_id_4'};
+    const postLeaveChannel1 = TestHelper.getPostMock({type: PostTypes.LEAVE_CHANNEL, user_id: 'user_id_1'});
+    const postLeaveChannel2 = TestHelper.getPostMock({type: PostTypes.LEAVE_CHANNEL, user_id: 'user_id_2'});
+    const postLeaveChannel3 = TestHelper.getPostMock({type: PostTypes.LEAVE_CHANNEL, user_id: 'user_id_3'});
+    const postLeaveChannel4 = TestHelper.getPostMock({type: PostTypes.LEAVE_CHANNEL, user_id: 'user_id_4'});
     it('should match return for LEAVE_CHANNEL', () => {
         const out1 = {
             allUserIds: ['user_id_1'],
             allUsernames: [],
             messageData: [{postType: PostTypes.LEAVE_CHANNEL, userIds: ['user_id_1']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postLeaveChannel1]), out1);
+        expect(combineUserActivitySystemPost([postLeaveChannel1])).toEqual(out1);
 
         const out2 = {
             allUserIds: ['user_id_1', 'user_id_2'],
             allUsernames: [],
             messageData: [{postType: PostTypes.LEAVE_CHANNEL, userIds: ['user_id_1', 'user_id_2']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postLeaveChannel1, postLeaveChannel2]), out2);
+        expect(combineUserActivitySystemPost([postLeaveChannel1, postLeaveChannel2])).toEqual(out2);
 
         const out3 = {
             allUserIds: ['user_id_1', 'user_id_2', 'user_id_3'],
             allUsernames: [],
             messageData: [{postType: PostTypes.LEAVE_CHANNEL, userIds: ['user_id_1', 'user_id_2', 'user_id_3']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postLeaveChannel1, postLeaveChannel2, postLeaveChannel3]), out3);
+        expect(combineUserActivitySystemPost([postLeaveChannel1, postLeaveChannel2, postLeaveChannel3])).toEqual(out3);
 
         const out4 = {
             allUserIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'],
             allUsernames: [],
             messageData: [{postType: PostTypes.LEAVE_CHANNEL, userIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postLeaveChannel1, postLeaveChannel2, postLeaveChannel3, postLeaveChannel4]), out4);
+        expect(combineUserActivitySystemPost([postLeaveChannel1, postLeaveChannel2, postLeaveChannel3, postLeaveChannel4])).toEqual(out4);
     });
 
-    const postLeaveTeam1 = {type: PostTypes.LEAVE_TEAM, user_id: 'user_id_1'};
-    const postLeaveTeam2 = {type: PostTypes.LEAVE_TEAM, user_id: 'user_id_2'};
-    const postLeaveTeam3 = {type: PostTypes.LEAVE_TEAM, user_id: 'user_id_3'};
-    const postLeaveTeam4 = {type: PostTypes.LEAVE_TEAM, user_id: 'user_id_4'};
+    const postLeaveTeam1 = TestHelper.getPostMock({type: PostTypes.LEAVE_TEAM, user_id: 'user_id_1'});
+    const postLeaveTeam2 = TestHelper.getPostMock({type: PostTypes.LEAVE_TEAM, user_id: 'user_id_2'});
+    const postLeaveTeam3 = TestHelper.getPostMock({type: PostTypes.LEAVE_TEAM, user_id: 'user_id_3'});
+    const postLeaveTeam4 = TestHelper.getPostMock({type: PostTypes.LEAVE_TEAM, user_id: 'user_id_4'});
     it('should match return for LEAVE_TEAM', () => {
         const out1 = {
             allUserIds: ['user_id_1'],
             allUsernames: [],
             messageData: [{postType: PostTypes.LEAVE_TEAM, userIds: ['user_id_1']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postLeaveTeam1]), out1);
+        expect(combineUserActivitySystemPost([postLeaveTeam1])).toEqual(out1);
 
         const out2 = {
             allUserIds: ['user_id_1', 'user_id_2'],
             allUsernames: [],
             messageData: [{postType: PostTypes.LEAVE_TEAM, userIds: ['user_id_1', 'user_id_2']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postLeaveTeam1, postLeaveTeam2]), out2);
+        expect(combineUserActivitySystemPost([postLeaveTeam1, postLeaveTeam2])).toEqual(out2);
 
         const out3 = {
             allUserIds: ['user_id_1', 'user_id_2', 'user_id_3'],
             allUsernames: [],
             messageData: [{postType: PostTypes.LEAVE_TEAM, userIds: ['user_id_1', 'user_id_2', 'user_id_3']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postLeaveTeam1, postLeaveTeam2, postLeaveTeam3]), out3);
+        expect(combineUserActivitySystemPost([postLeaveTeam1, postLeaveTeam2, postLeaveTeam3])).toEqual(out3);
 
         const out4 = {
             allUserIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'],
             allUsernames: [],
             messageData: [{postType: PostTypes.LEAVE_TEAM, userIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postLeaveTeam1, postLeaveTeam2, postLeaveTeam3, postLeaveTeam4]), out4);
+        expect(combineUserActivitySystemPost([postLeaveTeam1, postLeaveTeam2, postLeaveTeam3, postLeaveTeam4])).toEqual(out4);
     });
 
-    const postRemoveFromChannel1 = {type: PostTypes.REMOVE_FROM_CHANNEL, user_id: 'user_id_1', props: {removedUserId: 'removed_user_id_1'}};
-    const postRemoveFromChannel2 = {type: PostTypes.REMOVE_FROM_CHANNEL, user_id: 'user_id_1', props: {removedUserId: 'removed_user_id_2'}};
-    const postRemoveFromChannel3 = {type: PostTypes.REMOVE_FROM_CHANNEL, user_id: 'user_id_1', props: {removedUserId: 'removed_user_id_3'}};
-    const postRemoveFromChannel4 = {type: PostTypes.REMOVE_FROM_CHANNEL, user_id: 'user_id_1', props: {removedUserId: 'removed_user_id_4'}};
+    const postRemoveFromChannel1 = TestHelper.getPostMock({type: PostTypes.REMOVE_FROM_CHANNEL, user_id: 'user_id_1', props: {removedUserId: 'removed_user_id_1'}});
+    const postRemoveFromChannel2 = TestHelper.getPostMock({type: PostTypes.REMOVE_FROM_CHANNEL, user_id: 'user_id_1', props: {removedUserId: 'removed_user_id_2'}});
+    const postRemoveFromChannel3 = TestHelper.getPostMock({type: PostTypes.REMOVE_FROM_CHANNEL, user_id: 'user_id_1', props: {removedUserId: 'removed_user_id_3'}});
+    const postRemoveFromChannel4 = TestHelper.getPostMock({type: PostTypes.REMOVE_FROM_CHANNEL, user_id: 'user_id_1', props: {removedUserId: 'removed_user_id_4'}});
     it('should match return for REMOVE_FROM_CHANNEL', () => {
         const out1 = {
             allUserIds: ['removed_user_id_1', 'user_id_1'],
             allUsernames: [],
             messageData: [{actorId: 'user_id_1', postType: PostTypes.REMOVE_FROM_CHANNEL, userIds: ['removed_user_id_1']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postRemoveFromChannel1]), out1);
+        expect(combineUserActivitySystemPost([postRemoveFromChannel1])).toEqual(out1);
 
         const out2 = {
             allUserIds: ['removed_user_id_1', 'removed_user_id_2', 'user_id_1'],
             allUsernames: [],
             messageData: [{actorId: 'user_id_1', postType: PostTypes.REMOVE_FROM_CHANNEL, userIds: ['removed_user_id_1', 'removed_user_id_2']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postRemoveFromChannel1, postRemoveFromChannel2]), out2);
+        expect(combineUserActivitySystemPost([postRemoveFromChannel1, postRemoveFromChannel2])).toEqual(out2);
 
         const out3 = {
             allUserIds: ['removed_user_id_1', 'removed_user_id_2', 'removed_user_id_3', 'user_id_1'],
             allUsernames: [],
             messageData: [{actorId: 'user_id_1', postType: PostTypes.REMOVE_FROM_CHANNEL, userIds: ['removed_user_id_1', 'removed_user_id_2', 'removed_user_id_3']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postRemoveFromChannel1, postRemoveFromChannel2, postRemoveFromChannel3]), out3);
+        expect(combineUserActivitySystemPost([postRemoveFromChannel1, postRemoveFromChannel2, postRemoveFromChannel3])).toEqual(out3);
 
         const out4 = {
             allUserIds: ['removed_user_id_1', 'removed_user_id_2', 'removed_user_id_3', 'removed_user_id_4', 'user_id_1'],
             allUsernames: [],
             messageData: [{actorId: 'user_id_1', postType: PostTypes.REMOVE_FROM_CHANNEL, userIds: ['removed_user_id_1', 'removed_user_id_2', 'removed_user_id_3', 'removed_user_id_4']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postRemoveFromChannel1, postRemoveFromChannel2, postRemoveFromChannel3, postRemoveFromChannel4]), out4);
+        expect(combineUserActivitySystemPost([postRemoveFromChannel1, postRemoveFromChannel2, postRemoveFromChannel3, postRemoveFromChannel4])).toEqual(out4);
     });
 
-    const postRemoveFromTeam1 = {type: PostTypes.REMOVE_FROM_TEAM, user_id: 'user_id_1'};
-    const postRemoveFromTeam2 = {type: PostTypes.REMOVE_FROM_TEAM, user_id: 'user_id_2'};
-    const postRemoveFromTeam3 = {type: PostTypes.REMOVE_FROM_TEAM, user_id: 'user_id_3'};
-    const postRemoveFromTeam4 = {type: PostTypes.REMOVE_FROM_TEAM, user_id: 'user_id_4'};
+    const postRemoveFromTeam1 = TestHelper.getPostMock({type: PostTypes.REMOVE_FROM_TEAM, user_id: 'user_id_1'});
+    const postRemoveFromTeam2 = TestHelper.getPostMock({type: PostTypes.REMOVE_FROM_TEAM, user_id: 'user_id_2'});
+    const postRemoveFromTeam3 = TestHelper.getPostMock({type: PostTypes.REMOVE_FROM_TEAM, user_id: 'user_id_3'});
+    const postRemoveFromTeam4 = TestHelper.getPostMock({type: PostTypes.REMOVE_FROM_TEAM, user_id: 'user_id_4'});
     it('should match return for REMOVE_FROM_TEAM', () => {
         const out1 = {
             allUserIds: ['user_id_1'],
             allUsernames: [],
             messageData: [{postType: PostTypes.REMOVE_FROM_TEAM, userIds: ['user_id_1']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postRemoveFromTeam1]), out1);
+        expect(combineUserActivitySystemPost([postRemoveFromTeam1])).toEqual(out1);
 
         const out2 = {
             allUserIds: ['user_id_1', 'user_id_2'],
             allUsernames: [],
             messageData: [{postType: PostTypes.REMOVE_FROM_TEAM, userIds: ['user_id_1', 'user_id_2']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postRemoveFromTeam1, postRemoveFromTeam2]), out2);
+        expect(combineUserActivitySystemPost([postRemoveFromTeam1, postRemoveFromTeam2])).toEqual(out2);
 
         const out3 = {
             allUserIds: ['user_id_1', 'user_id_2', 'user_id_3'],
             allUsernames: [],
             messageData: [{postType: PostTypes.REMOVE_FROM_TEAM, userIds: ['user_id_1', 'user_id_2', 'user_id_3']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postRemoveFromTeam1, postRemoveFromTeam2, postRemoveFromTeam3]), out3);
+        expect(combineUserActivitySystemPost([postRemoveFromTeam1, postRemoveFromTeam2, postRemoveFromTeam3])).toEqual(out3);
 
         const out4 = {
             allUserIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4'],
             allUsernames: [],
             messageData: [{postType: PostTypes.REMOVE_FROM_TEAM, userIds: ['user_id_1', 'user_id_2', 'user_id_3', 'user_id_4']}],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postRemoveFromTeam1, postRemoveFromTeam2, postRemoveFromTeam3, postRemoveFromTeam4]), out4);
+        expect(combineUserActivitySystemPost([postRemoveFromTeam1, postRemoveFromTeam2, postRemoveFromTeam3, postRemoveFromTeam4])).toEqual(out4);
     });
 
     it('should match return on combination', () => {
@@ -1506,7 +1507,7 @@ describe('combineUserActivitySystemPost', () => {
                 {actorId: 'user_id_1', postType: PostTypes.ADD_TO_CHANNEL, userIds: ['added_user_id_1', 'added_user_id_2']},
             ],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postAddToChannel1, postAddToChannel2, postAddToTeam1, postAddToTeam2]), out1);
+        expect(combineUserActivitySystemPost([postAddToChannel1, postAddToChannel2, postAddToTeam1, postAddToTeam2])).toEqual(out1);
 
         const out2 = {
             allUserIds: ['user_id_1', 'user_id_2'],
@@ -1516,7 +1517,7 @@ describe('combineUserActivitySystemPost', () => {
                 {postType: PostTypes.JOIN_CHANNEL, userIds: ['user_id_1', 'user_id_2']},
             ],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postJoinChannel1, postJoinChannel2, postJoinTeam1, postJoinTeam2]), out2);
+        expect(combineUserActivitySystemPost([postJoinChannel1, postJoinChannel2, postJoinTeam1, postJoinTeam2])).toEqual(out2);
 
         const out3 = {
             allUserIds: ['user_id_1', 'user_id_2'],
@@ -1526,7 +1527,7 @@ describe('combineUserActivitySystemPost', () => {
                 {postType: PostTypes.LEAVE_CHANNEL, userIds: ['user_id_1', 'user_id_2']},
             ],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postLeaveChannel1, postLeaveChannel2, postLeaveTeam1, postLeaveTeam2]), out3);
+        expect(combineUserActivitySystemPost([postLeaveChannel1, postLeaveChannel2, postLeaveTeam1, postLeaveTeam2])).toEqual(out3);
 
         const out4 = {
             allUserIds: ['removed_user_id_1', 'removed_user_id_2', 'user_id_1', 'user_id_2'],
@@ -1536,7 +1537,7 @@ describe('combineUserActivitySystemPost', () => {
                 {actorId: 'user_id_1', postType: PostTypes.REMOVE_FROM_CHANNEL, userIds: ['removed_user_id_1', 'removed_user_id_2']},
             ],
         };
-        assert.deepEqual(combineUserActivitySystemPost([postRemoveFromChannel1, postRemoveFromChannel2, postRemoveFromTeam1, postRemoveFromTeam2]), out4);
+        expect(combineUserActivitySystemPost([postRemoveFromChannel1, postRemoveFromChannel2, postRemoveFromTeam1, postRemoveFromTeam2])).toEqual(out4);
 
         const out5 = {
             allUserIds: ['added_user_id_1', 'added_user_id_2', 'user_id_1', 'user_id_2', 'removed_user_id_1', 'removed_user_id_2'],
@@ -1548,7 +1549,7 @@ describe('combineUserActivitySystemPost', () => {
                 {actorId: 'user_id_1', postType: PostTypes.REMOVE_FROM_CHANNEL, userIds: ['removed_user_id_1', 'removed_user_id_2']},
             ],
         };
-        assert.deepEqual(combineUserActivitySystemPost([
+        expect(combineUserActivitySystemPost([
             postAddToChannel1,
             postJoinChannel1,
             postLeaveChannel1,
@@ -1557,7 +1558,7 @@ describe('combineUserActivitySystemPost', () => {
             postJoinChannel2,
             postLeaveChannel2,
             postRemoveFromChannel2,
-        ]), out5);
+        ])).toEqual(out5);
 
         const out6 = {
             allUserIds: ['added_user_id_3', 'user_id_1', 'added_user_id_4', 'user_id_2', 'user_id_3', 'user_id_4'],
@@ -1570,7 +1571,7 @@ describe('combineUserActivitySystemPost', () => {
                 {postType: PostTypes.REMOVE_FROM_TEAM, userIds: ['user_id_3', 'user_id_4']},
             ],
         };
-        assert.deepEqual(combineUserActivitySystemPost([
+        expect(combineUserActivitySystemPost([
             postAddToTeam3,
             postJoinTeam3,
             postLeaveTeam3,
@@ -1579,7 +1580,7 @@ describe('combineUserActivitySystemPost', () => {
             postJoinTeam4,
             postLeaveTeam4,
             postRemoveFromTeam4,
-        ]), out6);
+        ])).toEqual(out6);
 
         const out7 = {
             allUserIds: ['added_user_id_3', 'added_user_id_1', 'added_user_id_2', 'user_id_1', 'added_user_id_4', 'user_id_2', 'user_id_3', 'user_id_4', 'removed_user_id_1', 'removed_user_id_2', 'removed_user_id_3', 'removed_user_id_4'],
@@ -1597,7 +1598,7 @@ describe('combineUserActivitySystemPost', () => {
                 {actorId: 'user_id_1', postType: PostTypes.REMOVE_FROM_CHANNEL, userIds: ['removed_user_id_1', 'removed_user_id_2', 'removed_user_id_3', 'removed_user_id_4']},
             ],
         };
-        assert.deepEqual(combineUserActivitySystemPost([
+        expect(combineUserActivitySystemPost([
             postAddToTeam3,
             postJoinTeam3,
             postLeaveTeam3,
@@ -1633,7 +1634,7 @@ describe('combineUserActivitySystemPost', () => {
             postJoinTeam2,
             postLeaveTeam2,
             postRemoveFromTeam2,
-        ]), out7);
+        ])).toEqual(out7);
 
         const out8 = {
             allUserIds: ['added_user_id_3', 'user_id_1', 'user_id_3', 'added_user_id_1', 'removed_user_id_1'],
@@ -1649,7 +1650,7 @@ describe('combineUserActivitySystemPost', () => {
                 {actorId: 'user_id_1', postType: PostTypes.REMOVE_FROM_CHANNEL, userIds: ['removed_user_id_1']},
             ],
         };
-        assert.deepEqual(combineUserActivitySystemPost([
+        expect(combineUserActivitySystemPost([
             postAddToTeam3,
             postAddToTeam3,
             postJoinTeam3,
@@ -1667,7 +1668,7 @@ describe('combineUserActivitySystemPost', () => {
             postLeaveChannel1,
             postRemoveFromChannel1,
             postRemoveFromChannel1,
-        ]), out8);
+        ])).toEqual(out8);
     });
 });
 
@@ -1698,16 +1699,16 @@ describe('comparePostTypes', () => {
         [{postType: JOIN_CHANNEL}, {postType: LEAVE_CHANNEL}, {postType: JOIN_CHANNEL}, {postType: REMOVE_FROM_CHANNEL}, {postType: ADD_TO_CHANNEL}],
     ];
 
-    it('should sort post type correctly', () => {
-        for (const testCase of testCases) {
-            let previousType;
-            testCase.sort(comparePostTypes).forEach((sortedTestCase, index) => {
+    for (const testCase of testCases) {
+        let previousType = '';
+        testCase.sort(comparePostTypes as any).forEach((sortedTestCase, index) => {
+            it(`should sort post type correctly: ${previousType} should come first before ${sortedTestCase.postType}`, () => {
                 if (index > 0) {
-                    assert.ok(postTypePriority[previousType] <= postTypePriority[sortedTestCase.postType], `${previousType} should come first before ${sortedTestCase.postType}`);
+                    expect(postTypePriority[previousType] <= postTypePriority[sortedTestCase.postType]).toBeTruthy();
                 }
 
                 previousType = sortedTestCase.postType;
             });
-        }
-    });
+        });
+    }
 });
