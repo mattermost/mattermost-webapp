@@ -4,7 +4,6 @@ import {TestBrowser} from './browser_context';
 import {shouldHaveBoardsEnabled, shouldHaveFeatureFlag, shouldSkipInSmallScreen, shouldRunInLinux} from './flag';
 import {initSetup, getAdminClient} from './server';
 import {hideDynamicChannelsContent, waitForAnimationEnd} from './test_action';
-import {components} from './ui/components';
 import {pages} from './ui/pages';
 import {matchSnapshot} from './visual';
 
@@ -12,7 +11,6 @@ export {expect} from '@playwright/test';
 
 type ExtendedFixtures = {
     pw: PlaywrightExtended;
-    components: typeof components;
     pages: typeof pages;
 };
 
@@ -20,10 +18,6 @@ export const test = base.extend<ExtendedFixtures>({
     pw: async ({browser}, use) => {
         const pw = new PlaywrightExtended(browser);
         await use(pw);
-    },
-    // eslint-disable-next-line no-empty-pattern
-    components: async ({}, use) => {
-        await use(components);
     },
     // eslint-disable-next-line no-empty-pattern
     pages: async ({}, use) => {

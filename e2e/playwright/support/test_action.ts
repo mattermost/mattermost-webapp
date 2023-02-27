@@ -6,9 +6,10 @@ import {Locator, Page} from '@playwright/test';
 const visibilityHidden = 'visibility: hidden !important;';
 const hideTeamHeader = `.test-team-header {${visibilityHidden}} `;
 const hidePostHeaderTime = `.post__time {${visibilityHidden}} `;
+const hidePostProfileIcon = `.profile-icon {${visibilityHidden}} `;
 
 export async function hideDynamicChannelsContent(page: Page) {
-    await page.addStyleTag({content: hideTeamHeader + hidePostHeaderTime});
+    await page.addStyleTag({content: hideTeamHeader + hidePostHeaderTime + hidePostProfileIcon});
 }
 
 export async function waitForAnimationEnd(locator: Locator) {

@@ -53,7 +53,7 @@ const config: TestConfig = {
     slowMo: parseNumber(process.env.PW_SLOWMO, 0),
     workers: parseNumber(process.env.PW_WORKERS, 1),
     // Visual tests
-    snapshotEnabled: parseBool(process.env.PW_SNAPSHOT_ENABLE, true),
+    snapshotEnabled: parseBool(process.env.PW_SNAPSHOT_ENABLE, false),
     percyEnabled: parseBool(process.env.PW_PERCY_ENABLE, false),
     percyToken: process.env.PERCY_TOKEN,
 };
