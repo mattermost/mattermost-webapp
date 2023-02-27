@@ -11,7 +11,8 @@ import {getIsMobileView} from 'selectors/views/browser';
 
 import {openModal, closeModal} from 'actions/views/modals';
 
-import {A11yClassNames} from 'utils/constants';
+import Constants, {A11yClassNames} from 'utils/constants';
+import {isKeyPressed} from 'utils/utils';
 
 import CompassDesignProvider from 'components/compass_design_provider';
 import Tooltip from 'components/tooltip';
@@ -92,12 +93,14 @@ export function Menu(props: Props) {
     }
 
     function handleMenuKeyDown(event: KeyboardEvent<HTMLDivElement>) {
-        if (event.key === 'Enter') {
+        if (isKeyPressed(event, Constants.KeyCodes.ENTER) || isKeyPressed(event, Constants.KeyCodes.SPACE)) {
             const target = event.target as HTMLElement;
-            const ariaHasPopup = target?.getAttribute('aria-haspopup') === 'true';
+            const ariaHasPopupAttribute = target?.getAttribute('aria-haspopup') === 'true';
+            const ariaHasExpandedAttribute = target?.getAttribute('aria-expanded') !== null ?? false;
 
-            // Avoid closing the sub menu item on enter
-            if (!ariaHasPopup) {
+            if (ariaHasPopupAttribute && ariaHasExpandedAttribute) {
+                // Avoid closing the sub menu item on enter
+            } else {
                 setAnchorElement(null);
             }
         }
@@ -105,6 +108,7 @@ export function Menu(props: Props) {
 
     function handleMenuButtonClick(event: SyntheticEvent<HTMLButtonElement>) {
         event.preventDefault();
+        event.stopPropagation();
 
         if (isMobileView) {
             dispatch(
@@ -229,10 +233,7 @@ function MenuModal(props: MenuModalProps) {
     function handleModalClickCapture(event: MouseEvent<HTMLDivElement>) {
         if (event && event.currentTarget.contains(event.target as Node)) {
             for (const currentElement of event.currentTarget.children) {
-                if (
-                    currentElement.contains(event.target as Node) &&
-                    !currentElement.ariaHasPopup
-                ) {
+                if (currentElement.contains(event.target as Node) && !currentElement.ariaHasPopup) {
                     // We check for property ariaHasPopup because we don't want to close the menu
                     // if the user clicks on a submenu item or menu item which open modal. And let submenu component handle the click.
                     handleModalExited();

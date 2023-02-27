@@ -9,12 +9,13 @@ import {Modal} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {Team} from '@mattermost/types/teams';
-import {Product} from '@mattermost/types/cloud';
+import {Feedback, Product} from '@mattermost/types/cloud';
 import {t} from 'utils/i18n';
 import RadioButtonGroup from 'components/common/radio_group';
 import DropdownInput, {ValueType} from 'components/dropdown_input';
 import CloudSubscribeWithLoadingModal from 'components/cloud_subscribe_with_loading_modal';
 import useGetUsage from 'components/common/hooks/useGetUsage';
+import DowngradeFeedback from 'components/feedback_modal/downgrade_feedback';
 import {getTeams} from 'mattermost-redux/actions/teams';
 import {getActiveTeamsList} from 'mattermost-redux/selectors/entities/teams';
 import {closeModal, openModal} from 'actions/views/modals';
@@ -57,6 +58,16 @@ function DowngradeTeamRemovalModal(props: Props) {
     const onConfirmDowngrade = async () => {
         dispatch(closeModal(ModalIdentifiers.CLOUD_DOWNGRADE_CHOOSE_TEAM));
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
+        dispatch(openModal({
+            modalId: ModalIdentifiers.FEEDBACK,
+            dialogType: DowngradeFeedback,
+            dialogProps: {
+                onSubmit: downgrade,
+            },
+        }));
+    };
+
+    const downgrade = (downgradeFeedback: Feedback) => {
         const teamToKeep = getSelectedTeam();
         dispatch(openModal({
             modalId: ModalIdentifiers.CLOUD_SUBSCRIBE_WITH_LOADING_MODAL,
@@ -82,6 +93,7 @@ function DowngradeTeamRemovalModal(props: Props) {
                 },
                 teamToKeep,
                 selectedProduct: props.starterProduct,
+                downgradeFeedback,
             },
         }));
     };

@@ -79,6 +79,10 @@ export function getIsStarterLicense(license: ClientLicense) {
     return license?.SkuShortName === LicenseSkus.Starter;
 }
 
+export function getIsGovSku(license: ClientLicense) {
+    return license?.IsGovSku === 'true';
+}
+
 export function isEnterpriseOrE20License(license: ClientLicense) {
     return license?.SkuShortName === LicenseSkus.Enterprise || license?.SkuShortName === LicenseSkus.E20;
 }

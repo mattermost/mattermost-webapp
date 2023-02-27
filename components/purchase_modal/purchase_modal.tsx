@@ -17,7 +17,7 @@ import ComplianceScreenFailedSvg from 'components/common/svg_images_components/a
 import AddressForm from 'components/payment_form/address_form';
 
 import {t} from 'utils/i18n';
-import {Address, CloudCustomer, Product, Invoice, areShippingDetailsValid} from '@mattermost/types/cloud';
+import {Address, CloudCustomer, Product, Invoice, areShippingDetailsValid, Feedback} from '@mattermost/types/cloud';
 
 import {localizeMessage, getNextBillingDate, getBlankAddressWithCountry} from 'utils/utils';
 
@@ -139,6 +139,7 @@ type Props = {
             productId: string,
             shippingAddress: Address,
             seats?: number,
+            downgradeFeedback?: Feedback,
         ) => Promise<boolean | null>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
@@ -161,6 +162,7 @@ type State = {
     selectedProductPrice: string | null;
     usersCount: number;
     seats: Seats;
+    isSwitchingToAnnual: boolean;
 }
 
 /**
@@ -385,6 +387,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                 quantity: this.props.usersCount.toString(),
                 error: this.props.usersCount.toString() === '0' ? errorInvalidNumber : null,
             },
+            isSwitchingToAnnual: false,
         };
     }
 
@@ -462,7 +465,10 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             modalId: ModalIdentifiers.CONFIRM_SWITCH_TO_YEARLY,
             dialogType: SwitchToYearlyPlanConfirmModal,
             dialogProps: {
-                confirmSwitchToYearlyFunc: () => this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > confirm_switch_to_annual_modal > confirm_click'),
+                confirmSwitchToYearlyFunc: () => {
+                    this.handleSubmitClick(this.props.callerCTA + '> purchase_modal > confirm_switch_to_annual_modal > confirm_click');
+                    this.setState({isSwitchingToAnnual: true});
+                },
                 contactSalesFunc: () => {
                     trackEvent(
                         TELEMETRY_CATEGORIES.CLOUD_ADMIN,
@@ -1020,6 +1026,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                         this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
                                         setIsUpgradeFromTrialToFalse={this.setIsUpgradeFromTrialToFalse}
                                         isUpgradeFromTrial={this.state.isUpgradeFromTrial}
+                                        isSwitchingToAnnual={this.state.isSwitchingToAnnual}
                                         telemetryProps={{
                                             callerInfo:
                                                 this.state.buttonClickedInfo,
