@@ -50,16 +50,15 @@ type MenuButtonTooltipProps = {
 
 type MenuProps = {
     id: string;
-    width: string;
-    closeMenuManually?: boolean;
     'aria-label'?: string;
 
     /**
      * @warning Make the styling of your components such a way that they dont need this handler
      */
     onToggle?: (isOpen: boolean) => void;
-
+    closeMenuManually?: boolean;
     onKeyDown?: KeyboardEventHandler<HTMLDivElement>;
+    width?: string;
 }
 
 interface Props {
@@ -106,8 +105,6 @@ export function Menu(props: Props) {
     }
 
     useEffect(() => {
-        console.log('closeMenuManually', props.menu.closeMenuManually);
-
         if (props.menu.closeMenuManually) {
             setAnchorElement(null);
         }

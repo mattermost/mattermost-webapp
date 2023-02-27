@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {screen, fireEvent} from '@testing-library/react';
+
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {Locations} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
