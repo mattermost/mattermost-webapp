@@ -7,9 +7,12 @@ import {shallow} from 'enzyme';
 import {FormattedMessage} from 'react-intl';
 import {Button} from 'react-bootstrap';
 
+import {Provider} from 'react-redux';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import TeamUrl from 'components/create_team/components/team_url/team_url';
 import Constants from 'utils/constants';
+import mockStore from 'tests/test_store';
 
 jest.mock('images/logo.png', () => 'logo.png');
 
@@ -120,10 +123,21 @@ describe('/components/create_team/components/display_name', () => {
     });
 
     test('should display teamUrl taken error', () => {
-        const wrapper = mountWithIntl(<TeamUrl {...defaultProps}/>);
+        const store = mockStore({
+            entities: {
+                general: {
+                    config: {},
+                },
+                users: {
+                    currentUserId: 'currentUserId',
+                },
+            },
+        });
+
+        const wrapper = mountWithIntl(<Provider store={store}><TeamUrl {...defaultProps}/></Provider>);
         (wrapper.find('.form-control').instance() as unknown as HTMLInputElement).value = 'channel';
         wrapper.find('.form-control').simulate('change');
         wrapper.find('button').simulate('click', {preventDefault: () => jest.fn()});
-        expect((wrapper as any).state('nameError').props.id).toEqual('create_team.team_url.taken');
+        expect((wrapper as any).find(TeamUrl).state('nameError').props.id).toEqual('create_team.team_url.taken');
     });
 });

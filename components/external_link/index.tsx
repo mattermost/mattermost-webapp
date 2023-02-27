@@ -10,6 +10,7 @@ import {GlobalState} from 'types/store';
 
 import {isTelemetryEnabled} from 'actions/telemetry_actions';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
 type ExternalLinkQueryParams = {
     utm_source?: string;
@@ -20,7 +21,7 @@ type ExternalLinkQueryParams = {
 }
 
 type Props = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-    href: string;
+    href?: string;
     target?: string;
     rel?: string;
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
@@ -30,12 +31,12 @@ type Props = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
 };
 
 export default function ExternalLink(props: Props) {
-    const userId = useSelector((state: GlobalState) => state.entities.users.currentUserId);
+    const userId = useSelector(getCurrentUserId);
     const telemetryEnabled = useSelector((state: GlobalState) => isTelemetryEnabled(state));
     const config = useSelector(getConfig);
     const license = useSelector(getLicense);
     let href = props.href;
-    if (telemetryEnabled && href.includes('mattermost.com')) {
+    if (telemetryEnabled && href?.includes('mattermost.com')) {
         // encode this stuff so it's not so transparent to the user?
         const queryParams = {
             utm_source: 'mattermost',

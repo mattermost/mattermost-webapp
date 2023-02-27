@@ -31,6 +31,9 @@ jest.mock('mattermost-redux/actions/preferences', () => ({
 
 jest.mock('actions/telemetry_actions', () => ({
     trackEvent: jest.fn(),
+
+    // Disable any additional query parameteres from being added in the event of a link-out
+    isTelemetryEnabled: jest.fn().mockReturnValue(false),
 }));
 
 const seatsPurchased = 40;
