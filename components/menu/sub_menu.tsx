@@ -49,7 +49,7 @@ export function SubMenu({id, leadingElement, labels, trailingElements, isDestruc
 
     const dispatch = useDispatch();
 
-    function handleSubMenuOpen(event: MouseEvent<HTMLLIElement>) {
+    function handleSubMenuOpen(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) {
         event.preventDefault();
 
         if (isMobileView) {
