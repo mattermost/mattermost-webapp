@@ -138,7 +138,7 @@ type Props = {
             productId: string,
             shippingAddress: Address,
             seats?: number,
-            feedback?: Feedback,
+            downgradeFeedback?: Feedback,
         ) => Promise<boolean | null>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
