@@ -206,18 +206,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.disableCanEditPostByTime();
     }
 
-    componentDidUpdate(prevProps: Props): void {
-        if (!prevProps.isMenuOpen && this.props.isMenuOpen) {
-            window.addEventListener('keydown', this.onShortcutKeyDown);
-        }
-
-        if (prevProps.isMenuOpen && !this.props.isMenuOpen) {
-            window.removeEventListener('keydown', this.onShortcutKeyDown);
-        }
-    }
-
     componentWillUnmount(): void {
-        window.removeEventListener('keydown', this.onShortcutKeyDown);
         this.editDisableAction.cancel();
     }
 
@@ -236,7 +225,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     // listen to clicks/taps on add reaction menu item and pass to parent handler
-    handleAddReactionMenuItemActivated = (e: React.MouseEvent): void => {
+    handleAddReactionMenuItemActivated = (e: ChangeEvent): void => {
         e.preventDefault();
 
         // to be safe, make sure the handler function has been defined
@@ -352,11 +341,11 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.props.handleCommentClick?.(e);
     }
 
-    isKeyboardEvent = (e: KeyboardEvent): any => {
+    isKeyboardEvent = (e: React.KeyboardEvent): any => {
         return (e).getModifierState !== undefined;
     }
 
-    onShortcutKeyDown = (e: KeyboardEvent): void => {
+    onShortcutKeyDown = (e: React.KeyboardEvent): void => {
         e.preventDefault();
         if (!this.isKeyboardEvent(e)) {
             return;
@@ -424,31 +413,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             this.props.handleDropdownOpened(false);
             break;
         }
-    }
-
-    handleDropdownOpened = (open: boolean) => {
-        this.props.handleDropdownOpened?.(open);
-
-        if (!open) {
-            return;
-        }
-
-        const buttonRect = this.buttonRef.current?.getBoundingClientRect();
-        let y;
-        if (typeof buttonRect?.y === 'undefined') {
-            y = typeof buttonRect?.top == 'undefined' ? 0 : buttonRect?.top;
-        } else {
-            y = buttonRect?.y;
-        }
-        const windowHeight = window.innerHeight;
-
-        const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
-        const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
-        const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
-
-        this.setState({
-            openUp: (spaceOnTop > spaceOnBottom),
-        });
     }
 
     render(): JSX.Element {
@@ -554,7 +518,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                 menu={{
                     id: `PostDotMenu-MenuList-${this.props.post.id}`,
                     'aria-label': this.props.intl.formatMessage({id: 'post_info.menuAriaLabel', defaultMessage: 'Post extra options'}),
-                    onToggle: this.handleDropdownOpened,
+                    onKeyDown: this.onShortcutKeyDown,
                 }}
                 menuButtonTooltip={{
                     id: `PostDotMenu-ButtonTooltip-${this.props.post.id}`,

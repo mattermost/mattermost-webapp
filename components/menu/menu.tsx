@@ -1,7 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode, useState, MouseEvent, useEffect, KeyboardEvent, SyntheticEvent} from 'react';
+import React, {
+    ReactNode,
+    useState,
+    MouseEvent,
+    useEffect,
+    KeyboardEvent,
+    SyntheticEvent,
+    KeyboardEventHandler,
+} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import MuiMenuList from '@mui/material/MenuList';
 
@@ -48,6 +56,8 @@ type MenuProps = {
      * @warning Make the styling of your components such a way that they dont need this handler
      */
     onToggle?: (isOpen: boolean) => void;
+
+    onKeyDown?: KeyboardEventHandler<HTMLDivElement>;
 }
 
 interface Props {
@@ -105,6 +115,7 @@ export function Menu(props: Props) {
                 setAnchorElement(null);
             }
         }
+        props.menu.onKeyDown?.(event);
     }
 
     function handleMenuButtonClick(event: SyntheticEvent<HTMLButtonElement>) {
