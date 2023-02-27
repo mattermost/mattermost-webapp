@@ -197,7 +197,6 @@ export type ClientConfig = {
     PostPriority: string;
     ReduceOnBoardingTaskList: string;
     PostAcknowledgements: string;
-    TelemetryId: string;
 };
 
 export type License = {
