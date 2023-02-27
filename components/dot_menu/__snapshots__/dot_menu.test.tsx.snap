@@ -220,6 +220,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     Object {
       "aria-label": "Post extra options",
       "id": "PostDotMenu-MenuList-post_id_1",
+      "onKeyDown": [Function],
       "onToggle": [Function],
     }
   }

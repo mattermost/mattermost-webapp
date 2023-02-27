@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {screen, fireEvent} from '@testing-library/react';
-
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {Locations} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
@@ -339,7 +338,7 @@ describe('components/dot_menu/DotMenu', () => {
             fireEvent.click(button);
             const menuItem = screen.getByTestId(`follow_post_thread_${baseProps.post.id}`);
             expect(menuItem).toBeVisible();
-            fireEvent.click(menuItem);
+            fireEvent.mouseDown(menuItem);
             expect(spy).toHaveBeenCalled();
             expect(spySetThreadFollow).toHaveBeenCalledWith(
                 'user_id_1',

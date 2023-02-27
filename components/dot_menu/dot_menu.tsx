@@ -320,7 +320,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         } else {
             followingThread = !isFollowingThread;
         }
-
+        console.log('handleSetThreadFollow', e);
         if (followingThread) {
             trackDotMenuEvent(e, TELEMETRY_LABELS.FOLLOW);
         } else {
@@ -411,6 +411,10 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             this.props.handleDropdownOpened(false);
             break;
         }
+    }
+
+    handleDropdownOpened = (open: boolean) => {
+        this.props.handleDropdownOpened?.(open);
     }
 
     render(): JSX.Element {
@@ -517,6 +521,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     id: `PostDotMenu-MenuList-${this.props.post.id}`,
                     'aria-label': this.props.intl.formatMessage({id: 'post_info.menuAriaLabel', defaultMessage: 'Post extra options'}),
                     onKeyDown: this.onShortcutKeyDown,
+                    onToggle: this.handleDropdownOpened,
                 }}
                 menuButtonTooltip={{
                     id: `PostDotMenu-ButtonTooltip-${this.props.post.id}`,
