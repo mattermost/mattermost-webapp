@@ -55,8 +55,6 @@ const ShortcutKey = ({shortcutKey: shortcut}: ShortcutKeyProps) => (
     </span>
 );
 
-const MENU_BOTTOM_MARGIN = 80;
-
 type Props = {
     intl: IntlShape;
     post: Post;
