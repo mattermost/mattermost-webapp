@@ -116,7 +116,7 @@ function creatNewTeamNotification() {
     });
     cy.get('#FeatureRestrictedModal').should('exist');
     cy.get('#button-plans').as('notifyButton').should('have.text', 'Notify admin').click();
-    cy.get('@notifyButton').should('have.text', 'Notified!');
+    cy.get('@notifyButton').should('have.text', 'Admin notified!');
     cy.get('@notifyButton').click();
     cy.get('@notifyButton').should('have.text', 'Already notified!').should('be.disabled');
     cy.get('.close').click();
@@ -131,7 +131,7 @@ function createMessageLimitNotification() {
 function createFilesNotificationForProfessionalFeatures() {
     cy.get('#product_switch_menu').click().then((() => {
         cy.findByText('Notify admin').should('be.visible').click();
-        cy.findByText('Notified!').should('be.visible').click();
+        cy.findByText('Admin notified!').should('be.visible').click();
         cy.findByText('Already notified!').should('be.visible').should('be.disabled');
     }));
 }
