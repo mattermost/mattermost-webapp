@@ -107,6 +107,9 @@ export function Menu(props: Props) {
     useEffect(() => {
         if (props.menu.closeMenuManually) {
             setAnchorElement(null);
+            if (isMobileView) {
+                handleMenuModalClose(props.menu.id);
+            }
         }
     }, [props.menu.closeMenuManually]);
 
@@ -140,6 +143,7 @@ export function Menu(props: Props) {
                         menuAriaLabel: props.menu?.['aria-label'] ?? '',
                         onModalClose: handleMenuModalClose,
                         children: props.children,
+                        onKeyDown: props.menu.onKeyDown,
                     },
                 }),
             );
@@ -242,6 +246,7 @@ interface MenuModalProps {
     menuAriaLabel: MenuProps['aria-label'];
     onModalClose: (modalId: MenuProps['id']) => void;
     children: Props['children'];
+    onKeyDown?: KeyboardEventHandler<HTMLDivElement>;
 }
 
 function MenuModal(props: MenuModalProps) {
@@ -263,6 +268,11 @@ function MenuModal(props: MenuModalProps) {
             }
         }
     }
+    function handleKeydown(event?: React.KeyboardEvent<HTMLDivElement>) {
+        if (event && props.onKeyDown) {
+            props.onKeyDown(event);
+        }
+    }
 
     return (
         <CompassDesignProvider theme={theme}>
@@ -273,6 +283,7 @@ function MenuModal(props: MenuModalProps) {
                 ariaLabel={props.menuAriaLabel}
                 onExited={handleModalExited}
                 enforceFocus={false}
+                handleKeydown={handleKeydown}
             >
                 <MuiMenuList // serves as backdrop for modals
                     component='div'
