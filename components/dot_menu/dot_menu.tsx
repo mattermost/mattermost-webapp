@@ -513,7 +513,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         return (
             <Menu.Container
                 menuButton={{
-                    id: `PostDotMenu-Button-${this.props.post.id}`,
+                    id: `${this.props.location}_button_${this.props.post.id}`,
                     dateTestId: `PostDotMenu-Button-${this.props.post.id}`,
                     class: classNames('post-menu__item', {
                         'post-menu__item--active': this.props.isMenuOpen,
@@ -522,7 +522,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     children: <DotsHorizontalIcon size={16}/>,
                 }}
                 menu={{
-                    id: `PostDotMenu-MenuList-${this.props.post.id}`,
+                    id: `${this.props.location}_dropdown_${this.props.post.id}`,
                     'aria-label': this.props.intl.formatMessage({id: 'post_info.menuAriaLabel', defaultMessage: 'Post extra options'}),
                     onKeyDown: this.onShortcutKeyDown,
                     width: '264px',

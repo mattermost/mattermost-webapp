@@ -6,13 +6,13 @@ Object {
   "baseElement": <body>
     <div>
       <button
-        aria-controls="PostDotMenu-MenuList-post_id_1"
+        aria-controls="CENTER_dropdown_post_id_1"
         aria-expanded="false"
         aria-haspopup="true"
         aria-label="Actions"
         class="post-menu__item"
         data-testid="PostDotMenu-Button-post_id_1"
-        id="PostDotMenu-Button-post_id_1"
+        id="CENTER_button_post_id_1"
       >
         <svg
           fill="currentColor"
@@ -31,13 +31,13 @@ Object {
   </body>,
   "container": <div>
     <button
-      aria-controls="PostDotMenu-MenuList-post_id_1"
+      aria-controls="CENTER_dropdown_post_id_1"
       aria-expanded="false"
       aria-haspopup="true"
       aria-label="Actions"
       class="post-menu__item"
       data-testid="PostDotMenu-Button-post_id_1"
-      id="PostDotMenu-Button-post_id_1"
+      id="CENTER_button_post_id_1"
     >
       <svg
         fill="currentColor"
@@ -113,13 +113,13 @@ Object {
   "baseElement": <body>
     <div>
       <button
-        aria-controls="PostDotMenu-MenuList-post_id_1"
+        aria-controls="CENTER_dropdown_post_id_1"
         aria-expanded="false"
         aria-haspopup="true"
         aria-label="Actions"
         class="post-menu__item"
         data-testid="PostDotMenu-Button-post_id_1"
-        id="PostDotMenu-Button-post_id_1"
+        id="CENTER_button_post_id_1"
       >
         <svg
           fill="currentColor"
@@ -138,13 +138,13 @@ Object {
   </body>,
   "container": <div>
     <button
-      aria-controls="PostDotMenu-MenuList-post_id_1"
+      aria-controls="CENTER_dropdown_post_id_1"
       aria-expanded="false"
       aria-haspopup="true"
       aria-label="Actions"
       class="post-menu__item"
       data-testid="PostDotMenu-Button-post_id_1"
-      id="PostDotMenu-Button-post_id_1"
+      id="CENTER_button_post_id_1"
     >
       <svg
         fill="currentColor"
@@ -220,7 +220,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     Object {
       "aria-label": "Post extra options",
       "closeMenuManually": false,
-      "id": "PostDotMenu-MenuList-post_id_1",
+      "id": "CENTER_dropdown_post_id_1",
       "onKeyDown": [Function],
       "onToggle": [Function],
       "width": "264px",
@@ -234,7 +234,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       />,
       "class": "post-menu__item",
       "dateTestId": "PostDotMenu-Button-post_id_1",
-      "id": "PostDotMenu-Button-post_id_1",
+      "id": "CENTER_button_post_id_1",
     }
   }
   menuButtonTooltip={
@@ -490,13 +490,13 @@ Object {
   "baseElement": <body>
     <div>
       <button
-        aria-controls="PostDotMenu-MenuList-post_id_1"
+        aria-controls="CENTER_dropdown_post_id_1"
         aria-expanded="false"
         aria-haspopup="true"
         aria-label="Actions"
         class="post-menu__item"
         data-testid="PostDotMenu-Button-post_id_1"
-        id="PostDotMenu-Button-post_id_1"
+        id="CENTER_button_post_id_1"
       >
         <svg
           fill="currentColor"
@@ -515,13 +515,13 @@ Object {
   </body>,
   "container": <div>
     <button
-      aria-controls="PostDotMenu-MenuList-post_id_1"
+      aria-controls="CENTER_dropdown_post_id_1"
       aria-expanded="false"
       aria-haspopup="true"
       aria-label="Actions"
       class="post-menu__item"
       data-testid="PostDotMenu-Button-post_id_1"
-      id="PostDotMenu-Button-post_id_1"
+      id="CENTER_button_post_id_1"
     >
       <svg
         fill="currentColor"
