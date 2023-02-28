@@ -153,7 +153,7 @@ declare namespace Cypress {
         apiSaveDraftsTourTipPreference(userId: string, value: boolean): Chainable<Response>;
 
         /**
-         * Save drafts tour tip preference.
+         * Mark Boards welcome page as viewed.
          * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
          * @param {string} userId - User ID
          * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
