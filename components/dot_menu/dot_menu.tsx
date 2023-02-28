@@ -634,7 +634,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                 }
                 {Boolean(!isSystemMessage && !this.props.isReadOnly) &&
                     <Menu.Item
-                        id={`pin_post_${this.props.post.id}`}
+                        id={`${this.props.post.is_pinned ? 'unpin' : 'pin'}_post_${this.props.post.id}`}
                         data-testid={`pin_post_${this.props.post.id}`}
                         labels={this.props.post.is_pinned ? unPinPost : pinPost}
                         leadingElement={this.props.post.is_pinned ? <PinIcon size={18}/> : <PinOutlineIcon size={18}/>}

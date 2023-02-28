@@ -69,6 +69,7 @@ describe('Message', () => {
 
             // # Open the "..." menu on a post in the main to move the focus out of the main input box
             cy.clickPostDotMenu(postId);
+            cy.get(`#CENTER_dropdown_${postId}`).should('be.visible').type('{esc}');
 
             // # Push a character key such as "A"
             cy.uiGetPostTextBox().type('A');
