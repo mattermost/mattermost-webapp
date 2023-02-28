@@ -14,8 +14,6 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as GlobalActions from 'actions/global_actions';
 
-import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from '@mattermost/types/users';
-import {ServerError} from '@mattermost/types/errors';
 import {Channel} from '@mattermost/types/channels';
 import {ModalData} from 'types/actions';
 
@@ -40,6 +38,9 @@ import ExpiryTime from 'components/custom_status/expiry_time';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import ProfilePopoverCallButton from 'components/profile_popover_call_button';
+
+import {ServerError} from '@mattermost/types/errors';
+import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from '@mattermost/types/users';
 
 import './profile_popover.scss';
 import BotTag from '../widgets/tag/bot_tag';
@@ -520,6 +521,23 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 {userName}
             </div>,
         );
+        const email = this.props.user.email || '';
+        if (email && !this.props.user.is_bot && !haveOverrideProp) {
+            dataContent.push(
+                <div
+                    data-toggle='tooltip'
+                    title={email}
+                    key='user-popover-email'
+                >
+                    <a
+                        href={'mailto:' + email}
+                        className='text-nowrap text-lowercase user-popover__email pb-1'
+                    >
+                        {email}
+                    </a>
+                </div>,
+            );
+        }
         if (this.props.user.position && !haveOverrideProp) {
             const position = (this.props.user?.position || '').substring(
                 0,
