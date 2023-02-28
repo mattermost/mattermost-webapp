@@ -86,7 +86,7 @@ export function subscribeCloudSubscription(
     productId: string,
     shippingAddress: Address = getBlankAddressWithCountry(),
     seats = 0,
-    feedback?: Feedback,
+    downgradeFeedback?: Feedback,
 ) {
     return async () => {
         try {
@@ -94,7 +94,7 @@ export function subscribeCloudSubscription(
                 productId,
                 shippingAddress,
                 seats,
-                feedback,
+                downgradeFeedback,
             );
 
             return true;

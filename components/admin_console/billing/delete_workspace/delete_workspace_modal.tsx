@@ -102,7 +102,7 @@ export default function DeleteWorkspaceModal(props: Props) {
     };
 
     // Processes the workspace deletion, opening and closing the appropriate modals (progress, success/failure).
-    const deleteWorkspace = async (feedback: Feedback) => {
+    const deleteWorkspace = async (deleteFeedback: Feedback) => {
         dispatch(openModal({
             modalId: ModalIdentifiers.DELETE_WORKSPACE_PROGRESS,
             dialogType: DeleteWorkspaceProgressModal,
@@ -113,7 +113,7 @@ export default function DeleteWorkspaceModal(props: Props) {
             return;
         }
 
-        const result = await dispatch(deleteWorkspaceRequest({subscription_id: subscription?.id, feedback}));
+        const result = await dispatch(deleteWorkspaceRequest({subscription_id: subscription?.id, delete_feedback: deleteFeedback}));
 
         if (typeof result === 'boolean' && result) {
             dispatch(closeModal(ModalIdentifiers.DELETE_WORKSPACE_PROGRESS));
@@ -132,7 +132,7 @@ export default function DeleteWorkspaceModal(props: Props) {
     };
 
     // Processes the workspace downgrade, opening and closing the appropriate modals (progress, success/failure).
-    const downgradeWorkspace = async (feedback: Feedback) => {
+    const downgradeWorkspace = async (downgradeFeedback: Feedback) => {
         if (!starterProduct) {
             return;
         }
@@ -140,7 +140,7 @@ export default function DeleteWorkspaceModal(props: Props) {
         const telemetryInfo = props.callerCTA + ' > delete_workspace_modal';
         openDowngradeModal({trackingLocation: telemetryInfo});
 
-        const result = await dispatch(subscribeCloudSubscription(starterProduct.id, undefined, 0, feedback));
+        const result = await dispatch(subscribeCloudSubscription(starterProduct.id, undefined, 0, downgradeFeedback));
 
         // Success
         if (typeof result === 'boolean' && result) {
