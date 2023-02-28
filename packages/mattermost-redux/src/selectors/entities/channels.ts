@@ -34,6 +34,25 @@ import {
 } from 'mattermost-redux/selectors/entities/users';
 
 import {
+    calculateUnreadCount,
+    completeDirectChannelDisplayName,
+    completeDirectChannelInfo,
+    completeDirectGroupInfo,
+    filterChannelsMatchingTerm,
+    getChannelByName as getChannelByNameHelper,
+    getUserIdFromChannelName,
+    isChannelMuted,
+    isDefault,
+    isDirectChannel,
+    newCompleteDirectChannelInfo,
+    sortChannelsByDisplayName,
+} from 'mattermost-redux/utils/channel_utils';
+
+import {createIdsSelector} from 'mattermost-redux/utils/helpers';
+
+import {createSelector} from 'reselect';
+
+import {
     Channel,
     ChannelMemberCountsByGroup,
     ChannelMembership,
@@ -51,23 +70,6 @@ import {
     RelationOneToManyUnique,
     RelationOneToOne,
 } from '@mattermost/types/utilities';
-
-import {
-    calculateUnreadCount,
-    completeDirectChannelDisplayName,
-    completeDirectChannelInfo,
-    completeDirectGroupInfo,
-    filterChannelsMatchingTerm,
-    getChannelByName as getChannelByNameHelper,
-    getUserIdFromChannelName,
-    isChannelMuted,
-    isDefault,
-    isDirectChannel,
-    newCompleteDirectChannelInfo,
-    sortChannelsByDisplayName,
-} from 'mattermost-redux/utils/channel_utils';
-import {createIdsSelector} from 'mattermost-redux/utils/helpers';
-import {createSelector} from 'reselect';
 
 import {getThreadCounts, getThreadCountsIncludingDirect} from './threads';
 import {isPostPriorityEnabled} from './posts';
@@ -560,6 +562,7 @@ export function basicUnreadMeta(unreadStatus: BasicUnreadStatus): BasicUnreadMet
     };
 }
 
+// muted channel will not be counted towards unreads
 export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = createSelector(
     'getUnreadStatus',
     getAllChannels,
@@ -611,7 +614,7 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
             }
 
             const mentions = collapsedThreads ? membership.mention_count_root : membership.mention_count;
-            if (mentions) {
+            if (mentions && !isChannelMuted(membership)) {
                 counts.mentions += mentions;
             }
 
