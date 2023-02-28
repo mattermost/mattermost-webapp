@@ -12,6 +12,7 @@ import {Team, TeamMembership} from '@mattermost/types/teams';
 import {Role} from '@mattermost/types/roles';
 import {Post, PostMetadata} from '@mattermost/types/posts';
 import {Channel, ChannelNotifyProps, ChannelMembership} from '@mattermost/types/channels';
+import {ChannelCategory, CategorySorting} from '@mattermost/types/channel_categories';
 import {Group} from '@mattermost/types/groups';
 import {UserProfile, UserNotifyProps} from '@mattermost/types/users';
 import {Scheme} from '@mattermost/types/schemes';
@@ -453,6 +454,21 @@ class TestHelper {
             mark_unread: 'mention',
             push: 'default',
             ignore_channel_mentions: 'default',
+            ...override,
+        };
+    }
+
+    fakeChannelCategory = (override: Partial<ChannelCategory>): ChannelCategory => {
+        return {
+            id: '',
+            user_id: '',
+            team_id: '',
+            type: 'favorites',
+            display_name: '',
+            sorting: CategorySorting.Default,
+            channel_ids: [],
+            muted: false,
+            collapsed: false,
             ...override,
         };
     }

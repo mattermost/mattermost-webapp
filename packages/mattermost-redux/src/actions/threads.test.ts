@@ -3,6 +3,8 @@
 
 import nock from 'nock';
 
+import {UserThread} from '@mattermost/types/threads';
+
 import {
     getThread as fetchThread,
     getThreads as fetchThreads,
@@ -17,8 +19,8 @@ import {
 
 import {Client4} from 'mattermost-redux/client';
 
-import TestHelper from 'mattermost-redux/test/test_helper';
-import configureStore from 'mattermost-redux/test/test_store';
+import TestHelper from '../../test/test_helper';
+import configureStore from '../../test/test_store';
 
 const ID_PAD = 'a0b1c2z9n7';
 
@@ -31,12 +33,9 @@ function mockUserThread({
     otherUserId = `uid${uniq + 1}`.padEnd(26, ID_PAD),
     channelId = `cid${uniq}`.padEnd(26, ID_PAD),
     postId = `pid${uniq}`.padEnd(26, ID_PAD),
-} = {}) {
+} = {} as {uniq?: number; userId?: string; otherUserId?: string; channelId?: string; postId?: string}): [UserThread, {userId: string; otherUserId: string; channelId: string; postId: string; threadId: string}] {
     const threadId = postId;
 
-    /**
-     * @type {import('../types/threads').UserThread}
-     */
     const thread = {
         id: threadId,
         reply_count: 5,
@@ -68,13 +67,13 @@ function mockUserThread({
         },
         unread_replies: 0,
         unread_mentions: 0,
-    };
+    } as unknown as UserThread;
 
     return [thread, {userId, otherUserId, channelId, postId, threadId}];
 }
 
 describe('Actions.Threads', () => {
-    let store;
+    let store = configureStore();
     beforeAll(() => {
         TestHelper.initBasic(Client4);
     });

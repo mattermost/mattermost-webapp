@@ -7,11 +7,12 @@ import * as Actions from 'mattermost-redux/actions/roles';
 import {Client4} from 'mattermost-redux/client';
 import {RequestStatus} from '../constants';
 
-import TestHelper from 'mattermost-redux/test/test_helper';
-import configureStore from 'mattermost-redux/test/test_store';
+import TestHelper from '../../test/test_helper';
+import configureStore from '../../test/test_store';
+import {GlobalState} from '@mattermost/types/store';
 
 describe('Actions.Roles', () => {
-    let store;
+    let store = configureStore();
 
     beforeAll(() => {
         TestHelper.initBasic(Client4);
@@ -28,7 +29,7 @@ describe('Actions.Roles', () => {
     it('getRolesByNames', async () => {
         nock(Client4.getRolesRoute()).
             post('/names').
-            reply(200, [TestHelper.basicRoles.system_admin]);
+            reply(200, [TestHelper.basicRoles!.system_admin]);
         await Actions.getRolesByNames(['system_admin'])(store.dispatch, store.getState);
 
         const state = store.getState();
@@ -40,13 +41,13 @@ describe('Actions.Roles', () => {
         }
 
         expect(roles.system_admin.name).toEqual('system_admin');
-        expect(roles.system_admin.permissions).toEqual(TestHelper.basicRoles.system_admin.permissions);
+        expect(roles.system_admin.permissions).toEqual(TestHelper.basicRoles!.system_admin.permissions);
     });
 
     it('getRoleByName', async () => {
         nock(Client4.getRolesRoute()).
             get('/name/system_admin').
-            reply(200, TestHelper.basicRoles.system_admin);
+            reply(200, TestHelper.basicRoles!.system_admin);
         await Actions.getRoleByName('system_admin')(store.dispatch, store.getState);
 
         const state = store.getState();
@@ -58,15 +59,15 @@ describe('Actions.Roles', () => {
         }
 
         expect(roles.system_admin.name).toEqual('system_admin');
-        expect(roles.system_admin.permissions).toEqual(TestHelper.basicRoles.system_admin.permissions);
+        expect(roles.system_admin.permissions).toEqual(TestHelper.basicRoles!.system_admin.permissions);
     });
 
     it('getRole', async () => {
         nock(Client4.getRolesRoute()).
-            get('/' + TestHelper.basicRoles.system_admin.id).
-            reply(200, TestHelper.basicRoles.system_admin);
+            get('/' + TestHelper.basicRoles!.system_admin.id).
+            reply(200, TestHelper.basicRoles!.system_admin);
 
-        await Actions.getRole(TestHelper.basicRoles.system_admin.id)(store.dispatch, store.getState);
+        await Actions.getRole(TestHelper.basicRoles!.system_admin.id)(store.dispatch, store.getState);
 
         const state = store.getState();
         const request = state.requests.roles.getRole;
@@ -77,7 +78,7 @@ describe('Actions.Roles', () => {
         }
 
         expect(roles.system_admin.name).toEqual('system_admin');
-        expect(roles.system_admin.permissions).toEqual(TestHelper.basicRoles.system_admin.permissions);
+        expect(roles.system_admin.permissions).toEqual(TestHelper.basicRoles!.system_admin.permissions);
     });
 
     it('loadRolesIfNeeded', async () => {
@@ -98,13 +99,13 @@ describe('Actions.Roles', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
         await Actions.loadRolesIfNeeded(['test'])(store.dispatch, () => fakeState);
         expect(mock1.isDone()).toBe(false);
         expect(mock2.isDone()).toBe(false);
 
         fakeState.entities.roles.pending = new Set();
-        fakeState.entities.general.serverVersion = null;
+        fakeState.entities.general.serverVersion = null as any;
         await Actions.loadRolesIfNeeded(['test', 'test2'])(store.dispatch, () => fakeState);
         expect(mock1.isDone()).toBe(false);
         expect(mock2.isDone()).toBe(false);
@@ -117,12 +118,12 @@ describe('Actions.Roles', () => {
     });
 
     it('editRole', async () => {
-        const roleId = TestHelper.basicRoles.system_admin.id;
+        const roleId = TestHelper.basicRoles!.system_admin.id;
         const mock = nock(Client4.getRolesRoute()).
             put('/' + roleId + '/patch', JSON.stringify({id: roleId, test: 'test'})).
             reply(200, {});
 
-        await Actions.editRole({id: roleId, test: 'test'})(store.dispatch, store.state);
+        await Actions.editRole({id: roleId, test: 'test'} as any)(store.dispatch, store.state);
         expect(mock.isDone()).toBe(true);
     });
 });
