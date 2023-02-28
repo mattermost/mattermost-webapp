@@ -61,7 +61,6 @@ function linkedProducts(state: Record<string, number> = {}, action: GenericActio
     switch (action.type) {
     case WorkTemplatesType.EXECUTE_SUCCESS: {
         return {
-            ...state,
             ...action.data,
         };
     }

@@ -195,7 +195,7 @@ const WorkTemplateModal = () => {
      * Creates the necessary data in the global store as long storing in DB preferences the tourtip information
      * @param template current used worktempplate
      */
-    const tourTipActions = (template: WorkTemplate) => {
+    const tourTipActions = async (template: WorkTemplate) => {
         const linkedProductsCount = getContentCount(template, playbookTemplates);
 
         // stepValue and pluginId are used for showing the tourtip for the used template
@@ -213,7 +213,9 @@ const WorkTemplateModal = () => {
             return;
         }
 
-        dispatch(showRHSPlugin(pluginId));
+        // store in the global state the plugins/integrations information related to the used template
+        // so we can display that data in the tourtip
+        await dispatch(onExecuteSuccess(linkedProductsCount));
 
         // store the required preferences for the tourtip
         const tourCategory = TutorialTourName.WORK_TEMPLATE_TUTORIAL;
@@ -235,11 +237,10 @@ const WorkTemplateModal = () => {
                 value: String(AutoTourStatus.ENABLED),
             },
         ];
-        dispatch(savePreferences(currentUserId, preferences));
 
-        // store in the global state the plugins/integrations information related to the used template
-        // so we can display that data in the tourtip
-        dispatch(onExecuteSuccess(linkedProductsCount));
+        await dispatch(savePreferences(currentUserId, preferences));
+
+        dispatch(showRHSPlugin(pluginId));
     };
 
     const execute = async (template: WorkTemplate, name = '', visibility: Visibility) => {
@@ -284,7 +285,7 @@ const WorkTemplateModal = () => {
             dispatch(loadIfNecessaryAndSwitchToChannelById(firstChannelId));
         }
 
-        tourTipActions(template);
+        await tourTipActions(template);
 
         setIsCreating(false);
         closeModal();

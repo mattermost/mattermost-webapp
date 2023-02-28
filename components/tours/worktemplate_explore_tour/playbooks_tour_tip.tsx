@@ -55,8 +55,6 @@ export const PlaybooksTourTip = (): JSX.Element | null => {
             singleTip={boardsCount === 0}
             overlayPunchOut={null}
             placement='left-start'
-            hideBackdrop={true}
-            tippyBlueStyle={true}
             showOptOut={false}
         />
     );

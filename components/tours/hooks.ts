@@ -79,6 +79,10 @@ export const useHandleNavigationAndExtraActions = (tourCategory: string) => {
     const {pluggableId, rhsPluggableIds} = useGetRHSPluggablesIds();
     const pluggableIds = [rhsPluggableIds.get(suitePluginIds.boards), rhsPluggableIds.get(suitePluginIds.playbooks)];
 
+    const channelLinkedItems = useSelector(getWorkTemplatesLinkedProducts);
+    const boardsCount = channelLinkedItems?.boards || 0;
+    const playbooksCount = channelLinkedItems?.playbooks || 0;
+
     const nextStepActions = useCallback((step: number) => {
         if (tourCategory === TutorialTourName.ONBOARDING_TUTORIAL_STEP) {
             switch (step) {
@@ -163,7 +167,22 @@ export const useHandleNavigationAndExtraActions = (tourCategory: string) => {
             }
         } else if (tourCategory === TutorialTourName.WORK_TEMPLATE_TUTORIAL) {
             const navigationPluggableId = without(pluggableIds, pluggableId)[0];
-            if (navigationPluggableId && (step === WorkTemplateTourSteps.BOARDS_TOUR_TIP || step === WorkTemplateTourSteps.PLAYBOOKS_TOUR_TIP)) {
+            const stepMatches = step === WorkTemplateTourSteps.BOARDS_TOUR_TIP || step === WorkTemplateTourSteps.PLAYBOOKS_TOUR_TIP;
+            const multiStep = Boolean(boardsCount && playbooksCount);
+
+            if (!multiStep) {
+                const preferences = [
+                    {
+                        user_id: currentUserId,
+                        category: TutorialTourName.WORK_TEMPLATE_TUTORIAL,
+                        name: currentUserId,
+                        value: FINISHED.toString(),
+                    },
+                ];
+                dispatch(savePreferences(currentUserId, preferences));
+                return;
+            }
+            if (navigationPluggableId && stepMatches) {
                 dispatch(showRHSPlugin(navigationPluggableId));
             }
         }
