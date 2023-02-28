@@ -1,10 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactElement, ReactNode, Children} from 'react';
+import React, {ReactElement, ReactNode, Children, KeyboardEvent, MouseEvent} from 'react';
 import {styled} from '@mui/material/styles';
 import MuiMenuItem from '@mui/material/MenuItem';
 import type {MenuItemProps as MuiMenuItemProps} from '@mui/material/MenuItem';
+
+import Constants from 'utils/constants';
+import {isKeyPressed} from 'utils/utils';
 
 export interface Props extends MuiMenuItemProps {
 
@@ -55,6 +58,8 @@ export interface Props extends MuiMenuItemProps {
      */
     isDestructive?: boolean;
 
+    onClick: (event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) => void;
+
     /**
      * ONLY to support submenus. Avoid passing children to this component. Support for children is only added to support submenus.
      */
@@ -77,11 +82,18 @@ export function MenuItem(props: Props) {
         trailingElements,
         isDestructive,
         children,
+        onClick,
         ...restProps
     } = props;
 
     // When both primary and secondary labels are passed, we need to apply minor changes to the styling. Check below in styled component for more details.
     const hasSecondaryLabel = labels && labels.props && labels.props.children && Children.count(labels.props.children) === 2;
+
+    function handleClick(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) {
+        if (isCorrectKeyPressedOnMenuItem(event)) {
+            onClick(event);
+        }
+    }
 
     return (
         <MenuItemStyled
@@ -89,6 +101,8 @@ export function MenuItem(props: Props) {
             disableTouchRipple={true}
             isDestructive={isDestructive}
             hasSecondaryLabel={hasSecondaryLabel}
+            onKeyDown={handleClick}
+            onMouseDown={handleClick}
             {...restProps}
         >
             {leadingElement && <div className='leading-element'>{leadingElement}</div>}
@@ -209,3 +223,28 @@ const MenuItemStyled = styled(MuiMenuItem, {
         });
     },
 );
+
+/**
+ * Use this function to check if the menu item was pressed as per WAI-ARIA guidelines.
+ * @param event - The event to check if the menu item was pressed by mouse or keyboard. Either a mouse event or a keyboard event.
+ * @returns true if the menu item was pressed by mouse's "Primary" key or keyboard's "Space" or "Enter" key
+ **/
+function isCorrectKeyPressedOnMenuItem(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) {
+    if (event.type === 'keydown') {
+        const keyboardEvent = event as KeyboardEvent<HTMLLIElement>;
+        if (isKeyPressed(keyboardEvent, Constants.KeyCodes.ENTER) || isKeyPressed(keyboardEvent, Constants.KeyCodes.SPACE)) {
+            return true;
+        }
+
+        return false;
+    } else if (event.type === 'mousedown') {
+        const mouseEvent = event as MouseEvent<HTMLLIElement>;
+        if (mouseEvent.button === 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    return false;
+}
