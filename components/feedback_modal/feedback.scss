@@ -17,7 +17,7 @@
     }
 
     &__FreeFormTextLimit {
-        color: red;
+        color: var(--dnd-indicator);
         float: right;
     }
 }
