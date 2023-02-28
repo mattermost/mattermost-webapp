@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import * as PreferencesSelectors from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'types/store';
 
@@ -40,7 +38,7 @@ describe('Selectors.Lhs', () => {
                     },
                 };
 
-                assert.deepStrictEqual(expected, Lhs.getIsLhsOpen(state as GlobalState));
+                expect(Lhs.getIsLhsOpen(state as GlobalState)).toEqual(expected);
             });
         });
     });

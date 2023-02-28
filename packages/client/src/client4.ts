@@ -3930,11 +3930,11 @@ export default class Client4 {
         );
     }
 
-    subscribeCloudProduct = (productId: string, shippingAddress?: Address, seats = 0, feedback?: Feedback) => {
+    subscribeCloudProduct = (productId: string, shippingAddress?: Address, seats = 0, downgradeFeedback?: Feedback) => {
         const body = {
             product_id: productId,
             seats,
-            feedback,
+            downgrade_feedback: downgradeFeedback,
         } as any;
         if (shippingAddress) {
             body.shipping_address = shippingAddress;

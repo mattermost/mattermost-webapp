@@ -180,6 +180,9 @@ async function printPluginDetails(client: Client) {
         // eslint-disable-next-line no-console
         console.log(`  - ${plugin.id}@${plugin.version} | min_server@${plugin.min_server_version}`);
     });
+
+    // eslint-disable-next-line no-console
+    console.log('');
 }
 
 async function ensureServerDeployment(client: Client, testConfig: TestConfig) {

@@ -207,6 +207,14 @@ class Runner {
         } else {
             this.buffer.push({tag: '', text: 'Line not recognized correctly: ' + line});
         }
+
+        // Keep the buffer from using too much memory by removing the oldest chunk of it every time it goes over 5000 lines
+        const bufferCapacity = 5000;
+        const capacityReduction = 1000;
+
+        if (this.buffer.length > bufferCapacity) {
+            this.buffer = this.buffer.slice(this.buffer.length - capacityReduction);
+        }
     }
 
     // Event handlers
