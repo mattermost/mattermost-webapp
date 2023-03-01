@@ -189,9 +189,12 @@ export default class WebSocketClient {
                         console.log('long timeout, or server restart, or sequence number is not found.'); //eslint-disable-line no-console
 
                         this.missedEventCallback?.();
-                        this.missedMessageListeners.forEach((listener) => listener());
 
-                        this.serverSequence = 0;
+                        try {
+                            this.missedMessageListeners.forEach((listener) => listener());
+                        } finally {
+                            this.serverSequence = 0;
+                        }
                     }
 
                     // If it's a fresh connection, we have to set the connectionId regardless.
