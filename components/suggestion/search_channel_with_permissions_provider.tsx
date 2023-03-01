@@ -30,7 +30,7 @@ interface WrappedChannel {
     type: Channel['type'];
 }
 
-type ChannelSearchFunction= (teamId: string, channelPrefix: string) => Promise<ActionResult>
+type ChannelSearchFunction = (teamId: string, channelPrefix: string) => Promise<ActionResult>
 
 class SearchChannelWithPermissionsSuggestion extends Suggestion {
     node: HTMLDivElement | null | undefined;
