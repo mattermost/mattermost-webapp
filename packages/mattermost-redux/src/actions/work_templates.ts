@@ -5,6 +5,7 @@ import {WorkTemplatesType} from 'mattermost-redux/action_types';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 import {Client4} from 'mattermost-redux/client';
+
 import {ExecuteWorkTemplateRequest} from '@mattermost/types/work_templates';
 
 export function getWorkTemplateCategories(): ActionFunc {
@@ -41,6 +42,14 @@ export function clearCategories(): ActionFunc {
 export function clearWorkTemplates(): ActionFunc {
     return async (dispatch) => {
         dispatch({type: WorkTemplatesType.CLEAR_WORK_TEMPLATES});
+        return [];
+    };
+}
+
+// stores the linked product information in the state so it can be used to show the tourtip
+export function onExecuteSuccess(data: Record<string, number>): ActionFunc {
+    return async (dispatch) => {
+        dispatch({type: WorkTemplatesType.EXECUTE_SUCCESS, data});
         return [];
     };
 }

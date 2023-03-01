@@ -58,7 +58,7 @@ describe('Messaging', () => {
                 cy.clickPostDotMenu(postId);
 
                 // # Click on "Copy Link"
-                cy.uiClickCopyLink(permalink);
+                cy.uiClickCopyLink(permalink, postId);
 
                 // # Post the message on the channel
                 postMessageOnChannel(testChannel, otherUser, permalink);

@@ -2145,6 +2145,15 @@ export default class Client4 {
         );
     }
 
+    addPostReminder = (userId: string, postId: string, timestamp: number) => {
+        this.trackEvent('api', 'api_post_set_reminder');
+
+        return this.doFetch<StatusOK>(
+            `${this.getUserRoute(userId)}/posts/${postId}/reminder`,
+            {method: 'post', body: JSON.stringify({target_time: timestamp})},
+        );
+    }
+
     pinPost = (postId: string) => {
         this.trackEvent('api', 'api_posts_pin');
 
@@ -3939,7 +3948,7 @@ export default class Client4 {
         if (shippingAddress) {
             body.shipping_address = shippingAddress;
         }
-        return this.doFetch<CloudCustomer>(
+        return this.doFetch<Subscription>(
             `${this.getCloudRoute()}/subscription`,
             {method: 'put', body: JSON.stringify(body)},
         );

@@ -42,6 +42,7 @@ describe('Archived channels', () => {
 
                 // * Reply post menu item should not be visible
                 cy.findByText('Reply').should('not.exist');
+                cy.get(`#CENTER_dropdown_${postId}`).should('be.visible').type('{esc}');
             });
         });
 
@@ -66,6 +67,7 @@ describe('Archived channels', () => {
 
             // * Reply post menu item should be visible
             cy.findByText('Reply').should('be.visible');
+            cy.get(`#CENTER_dropdown_${postId}`).should('be.visible').type('{esc}');
         });
     });
 });
