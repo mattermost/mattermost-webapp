@@ -18,6 +18,7 @@ import AddressForm from 'components/payment_form/address_form';
 
 import {t} from 'utils/i18n';
 import {Address, CloudCustomer, Product, Invoice, areShippingDetailsValid, Feedback} from '@mattermost/types/cloud';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {localizeMessage, getNextBillingDate, getBlankAddressWithCountry} from 'utils/utils';
 
@@ -139,7 +140,7 @@ type Props = {
             shippingAddress: Address,
             seats?: number,
             downgradeFeedback?: Feedback,
-        ) => Promise<boolean | null>;
+        ) => Promise<ActionResult>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
         getInvoices: () => void;

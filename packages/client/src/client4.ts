@@ -3948,7 +3948,7 @@ export default class Client4 {
         if (shippingAddress) {
             body.shipping_address = shippingAddress;
         }
-        return this.doFetch<CloudCustomer>(
+        return this.doFetch<Subscription>(
             `${this.getCloudRoute()}/subscription`,
             {method: 'put', body: JSON.stringify(body)},
         );
