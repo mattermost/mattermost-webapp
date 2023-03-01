@@ -7,8 +7,6 @@ import keyMirror from 'key-mirror';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {CustomStatusDuration} from '@mattermost/types/users';
-
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import audioIcon from 'images/icons/audio.svg';
@@ -28,6 +26,8 @@ import solarizedLightIcon from 'images/themes/code_themes/solarized-light.png';
 import logoWebhook from 'images/webhook_icon.jpg';
 
 import {t} from 'utils/i18n';
+
+import {CustomStatusDuration} from '@mattermost/types/users';
 
 import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css';
 
@@ -409,6 +409,7 @@ export const ModalIdentifiers = {
     SUCCESS_MODAL: 'success_modal',
     ERROR_MODAL: 'error_modal',
     DND_CUSTOM_TIME_PICKER: 'dnd_custom_time_picker',
+    POST_REMINDER_CUSTOM_TIME_PICKER: 'post_reminder_custom_time_picker',
     CUSTOM_STATUS: 'custom_status',
     COMMERCIAL_SUPPORT: 'commercial_support',
     NO_INTERNET_CONNECTION: 'no_internet_connection',
@@ -678,10 +679,6 @@ export const CrtTutorialTriggerSteps = {
     STARTED: 1,
     FINISHED: 999,
 };
-export const AutoTourStatus = {
-    ENABLED: 0,
-    DISABLED: 1,
-};
 
 export const CrtThreadPaneSteps = {
     THREADS_PANE_POPOVER: 0,
@@ -775,28 +772,29 @@ export const TELEMETRY_LABELS = {
 };
 
 export const PostTypes = {
-    JOIN_LEAVE: 'system_join_leave' as const,
-    JOIN_CHANNEL: 'system_join_channel' as const,
-    LEAVE_CHANNEL: 'system_leave_channel' as const,
-    ADD_TO_CHANNEL: 'system_add_to_channel' as const,
-    REMOVE_FROM_CHANNEL: 'system_remove_from_channel' as const,
-    ADD_REMOVE: 'system_add_remove' as const,
-    JOIN_TEAM: 'system_join_team' as const,
-    LEAVE_TEAM: 'system_leave_team' as const,
-    ADD_TO_TEAM: 'system_add_to_team' as const,
-    REMOVE_FROM_TEAM: 'system_remove_from_team' as const,
-    HEADER_CHANGE: 'system_header_change' as const,
-    DISPLAYNAME_CHANGE: 'system_displayname_change' as const,
-    CONVERT_CHANNEL: 'system_convert_channel' as const,
-    PURPOSE_CHANGE: 'system_purpose_change' as const,
-    CHANNEL_DELETED: 'system_channel_deleted' as const,
-    CHANNEL_UNARCHIVED: 'system_channel_restored' as const,
-    SYSTEM_GENERIC: 'system_generic' as const,
-    FAKE_PARENT_DELETED: 'system_fake_parent_deleted' as const,
-    EPHEMERAL: 'system_ephemeral' as const,
-    EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel' as const,
-    REMOVE_LINK_PREVIEW: 'remove_link_preview' as const,
-    ME: 'me' as const,
+    JOIN_LEAVE: 'system_join_leave',
+    JOIN_CHANNEL: 'system_join_channel',
+    LEAVE_CHANNEL: 'system_leave_channel',
+    ADD_TO_CHANNEL: 'system_add_to_channel',
+    REMOVE_FROM_CHANNEL: 'system_remove_from_channel',
+    ADD_REMOVE: 'system_add_remove',
+    JOIN_TEAM: 'system_join_team',
+    LEAVE_TEAM: 'system_leave_team',
+    ADD_TO_TEAM: 'system_add_to_team',
+    REMOVE_FROM_TEAM: 'system_remove_from_team',
+    HEADER_CHANGE: 'system_header_change',
+    DISPLAYNAME_CHANGE: 'system_displayname_change',
+    CONVERT_CHANNEL: 'system_convert_channel',
+    PURPOSE_CHANGE: 'system_purpose_change',
+    CHANNEL_DELETED: 'system_channel_deleted',
+    CHANNEL_UNARCHIVED: 'system_channel_restored',
+    SYSTEM_GENERIC: 'system_generic',
+    FAKE_PARENT_DELETED: 'system_fake_parent_deleted',
+    EPHEMERAL: 'system_ephemeral',
+    EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
+    REMOVE_LINK_PREVIEW: 'remove_link_preview',
+    ME: 'me',
+    REMINDER: 'reminder',
 };
 
 export const StatTypes = keyMirror({
@@ -1346,7 +1344,6 @@ export const Constants = {
     CrtTutorialSteps,
     CrtTutorialTriggerSteps,
     ExploreOtherToolsTourSteps,
-    AutoTourStatus,
     CrtThreadPaneSteps,
     PostTypes,
     ErrorPageTypes,

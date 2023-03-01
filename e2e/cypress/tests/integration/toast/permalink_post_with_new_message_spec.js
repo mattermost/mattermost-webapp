@@ -60,7 +60,7 @@ describe('Toast', () => {
             cy.clickPostDotMenu(id);
 
             // * Click on "Copy Link" and verify the permalink in clipboard is same as we formed
-            cy.uiClickCopyLink(permalink);
+            cy.uiClickCopyLink(permalink, id);
 
             // # Post the permalink in the channel
             cy.postMessage(permalink);

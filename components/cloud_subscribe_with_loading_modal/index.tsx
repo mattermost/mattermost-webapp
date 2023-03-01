@@ -23,6 +23,7 @@ import ProgressBar, {ProcessState} from 'components/icon_message_with_progress_b
 import {
     archiveAllTeamsExcept,
 } from 'mattermost-redux/actions/teams';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 type Props = RouteComponentProps & {
     onBack: () => void;
@@ -38,7 +39,7 @@ const MAX_FAKE_PROGRESS = 95;
 function CloudSubscribeWithLoad(props: Props) {
     const intervalId = useRef<NodeJS.Timeout>({} as NodeJS.Timeout);
     const [progress, setProgress] = useState(0);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<DispatchFunc>();
     const [error, setError] = useState(false);
     const [processingState, setProcessingState] = useState(ProcessState.PROCESSING);
     const modalOpen = useSelector((state: GlobalState) =>
@@ -58,12 +59,12 @@ function CloudSubscribeWithLoad(props: Props) {
             await dispatch(archiveAllTeamsExcept(props.teamToKeep.id));
         }
 
-        const productUpdated = await dispatch(subscribeCloudSubscription(
+        const result = await dispatch(subscribeCloudSubscription(
             props.selectedProduct?.id as string, undefined, 0, props.downgradeFeedback,
         ));
 
         // the action subscribeCloudSubscription returns a true boolean when successful and an error when it fails
-        if (typeof productUpdated !== 'boolean') {
+        if (result.error) {
             setError(true);
             setProcessingState(ProcessState.FAILED);
             return;
