@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {MouseEvent, KeyboardEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Draggable, Droppable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
@@ -37,6 +37,7 @@ type Props = {
     draggingState: DraggingState;
     currentUserId: string;
     touchedInviteMembersButton: boolean;
+    isAdmin: boolean;
     actions: {
         setCategoryCollapsed: (categoryId: string, collapsed: boolean) => void;
         setCategorySorting: (categoryId: string, sorting: CategorySorting) => void;
@@ -99,7 +100,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         this.a11yKeyDownRegistered = false;
     }
 
-    handleA11yKeyDown = (e: KeyboardEvent) => {
+    handleA11yKeyDown = (e: KeyboardEvent<HTMLButtonElement>['nativeEvent']) => {
         if (isKeyPressed(e, Constants.KeyCodes.ENTER)) {
             this.handleCollapse();
         }
@@ -133,28 +134,17 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
         this.props.actions.setCategoryCollapsed(category.id, !category.collapsed);
     }
 
-    handleSortDirectMessages = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        const {category} = this.props;
-        e.stopPropagation();
-
-        const newSorting = category.sorting === CategorySorting.Recency ? CategorySorting.Alphabetical : CategorySorting.Recency;
-        this.props.actions.setCategorySorting(category.id, newSorting);
-        trackEvent('ui', `ui_sidebar_sort_dm_${newSorting}`);
-    }
     removeAnimation = () => {
         if (this.newDropBoxRef.current) {
             this.newDropBoxRef.current.classList.remove('animating');
         }
     }
 
-    handleOpenDirectMessagesModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.stopPropagation();
-        this.props.handleOpenMoreDirectChannelsModal(e.nativeEvent);
-        trackEvent('ui', 'ui_sidebar_create_direct_message');
-    }
+    handleOpenDirectMessagesModal = (event: MouseEvent<HTMLLIElement | HTMLButtonElement> | KeyboardEvent<HTMLLIElement | HTMLButtonElement>) => {
+        event.preventDefault();
 
-    handleMenuToggle = (open: boolean) => {
-        this.setState({isMenuOpen: open});
+        this.props.handleOpenMoreDirectChannelsModal(event.nativeEvent);
+        trackEvent('ui', 'ui_sidebar_create_direct_message');
     }
 
     isDropDisabled = () => {
@@ -269,13 +259,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 </div>
             );
 
-            categoryMenu = (
-                <SidebarCategoryMenu
-                    category={category}
-                    isMenuOpen={this.state.isMenuOpen}
-                    onToggleMenu={this.handleMenuToggle}
-                />
-            );
+            categoryMenu = <SidebarCategoryMenu category={category}/>;
         } else if (category.type === CategoryTypes.DIRECT_MESSAGES) {
             const addHelpLabel = localizeMessage('sidebar.createDirectMessage', 'Create new direct message');
 
@@ -298,9 +282,6 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                     <SidebarCategorySortingMenu
                         category={category}
                         handleOpenDirectMessagesModal={this.handleOpenDirectMessagesModal}
-                        isCollapsed={category.collapsed}
-                        isMenuOpen={this.state.isMenuOpen}
-                        onToggleMenu={this.handleMenuToggle}
                     />
                     <OverlayTrigger
                         delayShow={500}
@@ -322,13 +303,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                 isCollapsible = false;
             }
         } else {
-            categoryMenu = (
-                <SidebarCategoryMenu
-                    category={category}
-                    isMenuOpen={this.state.isMenuOpen}
-                    onToggleMenu={this.handleMenuToggle}
-                />
-            );
+            categoryMenu = <SidebarCategoryMenu category={category}/>;
         }
 
         let displayName = category.display_name;
@@ -349,6 +324,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                             <InviteMembersButton
                                 className='followingSibling'
                                 touchedInviteMembersButton={this.props.touchedInviteMembersButton}
+                                isAdmin={this.props.isAdmin}
                                 onClick={() => {
                                     if (!this.props.touchedInviteMembersButton) {
                                         this.props.actions.savePreferences(
@@ -407,9 +383,7 @@ export default class SidebarCategory extends React.PureComponent<Props, State> {
                                                 {categoryMenu}
                                             </SidebarCategoryHeader>
                                             <div
-                                                className={classNames('SidebarChannelGroup_content', {
-                                                    hasFollowingSibling: category.type === CategoryTypes.DIRECT_MESSAGES,
-                                                })}
+                                                className={classNames('SidebarChannelGroup_content')}
                                             >
                                                 <ul
                                                     role='list'

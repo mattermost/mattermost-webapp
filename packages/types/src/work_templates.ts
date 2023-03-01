@@ -6,7 +6,26 @@ import {RequireOnlyOne} from './utilities';
 export type WorkTemplatesState = {
     categories: Category[];
     templatesInCategory: Record<string, WorkTemplate[]>;
-    playbookTemplates: [];
+    playbookTemplates: PlaybookTemplateType[];
+    linkedProducts: Record<string, number>;
+}
+
+export interface PlaybookTemplateType {
+    title: string;
+    template: any;
+}
+
+export interface ExecuteWorkTemplateRequest {
+    team_id: string;
+    name: string;
+    visibility: Visibility;
+    work_template: WorkTemplate;
+    playbook_templates?: PlaybookTemplateType[];
+}
+
+export interface ExecuteWorkTemplateResponse {
+    channel_with_playbook_ids: string[];
+    channel_ids: string[];
 }
 
 export interface WorkTemplate {
@@ -29,16 +48,19 @@ export interface Channel {
     id: string;
     name: string;
     illustration: string;
+    playbook?: string;
 }
 export interface Board {
     id: string;
     name: string;
     illustration: string;
+    channel?: string;
 }
 export interface Playbook {
     id: string;
     name: string;
     illustration: string;
+    template: string;
 }
 export interface Integration {
     id: string;

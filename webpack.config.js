@@ -155,6 +155,7 @@ var config = {
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
             reselect: 'packages/reselect/src',
+            '@mui/styled-engine': '@mui/styled-engine-sc',
         },
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         fallback: {
@@ -192,6 +193,7 @@ var config = {
         new CopyWebpackPlugin({
             patterns: [
                 {from: 'images/emoji', to: 'emoji'},
+                {from: 'images/worktemplates', to: 'worktemplates'},
                 {from: 'images/img_trans.gif', to: 'images'},
                 {from: 'images/logo-email.png', to: 'images'},
                 {from: 'images/circles.png', to: 'images'},
@@ -319,9 +321,15 @@ async function initializeModuleFederation() {
             const version = packageJson.dependencies[packageName];
 
             sharedObject[packageName] = {
-                requiredVersion: singleton ? version : undefined,
+
+                // Ensure only one copy of this package is ever loaded
                 singleton,
+
+                // Setting this to true causes the app to error out if the required version is not satisfied
                 strictVersion: singleton,
+
+                // Set these to match the specific version that the web app includes
+                requiredVersion: singleton ? version : undefined,
                 version,
             };
         }
@@ -375,11 +383,11 @@ async function initializeModuleFederation() {
                 const found = productsFound[i];
 
                 if (found) {
-                    console.log(`Product ${product.name} found, adding as remote module`);
+                    console.log(`Product ${product.name} found at ${product.baseUrl}, adding as remote module`);
 
                     remotes[product.name] = `${product.name}@${product.baseUrl}/remote_entry.js`;
                 } else {
-                    console.log(`Product ${product.name} not found`);
+                    console.log(`Product ${product.name} not found at ${product.baseUrl}`);
                 }
             }
         } else {
@@ -416,12 +424,11 @@ async function initializeModuleFederation() {
 
             // Other containers will use these shared modules if their required versions match. If they don't match, the
             // version packaged with the container will be used.
-            '@mattermost/client',
-            '@mattermost/types',
-            'prop-types',
-
             makeSharedModules([
+                '@mattermost/client',
+                '@mattermost/types',
                 'luxon',
+                'prop-types',
             ], false),
 
             // Other containers will be forced to use the exact versions of shared modules that the web app provides.
@@ -434,6 +441,7 @@ async function initializeModuleFederation() {
                 'react-intl',
                 'react-redux',
                 'react-router-dom',
+                'styled-components',
             ], true),
         ],
     };

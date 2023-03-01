@@ -135,11 +135,8 @@ describe('Post PreHeader', () => {
                     cy.get('div.post-pre-header').should('be.visible');
 
                     // * Check that the post pre-header has the saved icon
-                    cy.get('span.icon--post-pre-header').
-                        should('be.visible').
-                        within(() => {
-                            cy.get('svg').should('have.attr', 'aria-label', 'Saved Icon');
-                        });
+                    cy.get('span.icon--post-pre-header').should('be.visible').
+                        find('svg').should('have.attr', 'aria-label', 'Saved Icon');
 
                     // * Check that the post pre-header has the pinned icon
                     cy.get('span.icon--post-pre-header.icon-pin').should('be.visible');

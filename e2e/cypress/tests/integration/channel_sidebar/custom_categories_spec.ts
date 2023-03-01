@@ -47,21 +47,7 @@ describe('Channel sidebar', () => {
         const newCategoryName = `category-${getRandomId()}`;
 
         // # Move to a new category
-        cy.get('#sidebarItem_off-topic').parent().then((element) => {
-            // # Get id of the channel
-            const id = element[0].getAttribute('data-rbd-draggable-id');
-            cy.get('#sidebarItem_off-topic').parent('li').within(() => {
-                // # Open dropdown next to channel name
-                cy.get('.SidebarMenu').invoke('show').get('.SidebarMenu_menuButton').should('be.visible').click({force: true});
-
-                // # Open sub menu
-                cy.get(`#moveTo-${id}`).parent('.SubMenuItem').trigger('mouseover');
-
-                // # Click on move to new category
-                cy.get(`#moveToNewCategory-${id}`).parent('.SubMenuItem').click();
-            });
-        });
-        cy.get('#editCategoryModal input').type(newCategoryName).type('{enter}');
+        cy.uiMoveChannelToCategory('Off-Topic', newCategoryName, true);
 
         // * Check if the newly created category exists
         cy.findByLabelText(newCategoryName).should('be.visible');

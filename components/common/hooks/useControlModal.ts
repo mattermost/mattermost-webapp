@@ -8,6 +8,7 @@ import {ModalData} from 'types/actions';
 import {openModal, closeModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import AirGappedSelfHostedPurchaseModal from 'components/air_gapped_self_hosted_purchase_modal';
+import ScreeningInProgressModal from 'components/screening_in_progress_modal';
 
 export interface ControlModal {
     open: () => void;
@@ -18,6 +19,13 @@ export function useControlAirGappedSelfHostedPurchaseModal(): ControlModal {
     return useControlModal({
         modalId: ModalIdentifiers.AIR_GAPPED_SELF_HOSTED_PURCHASE,
         dialogType: AirGappedSelfHostedPurchaseModal,
+    });
+}
+
+export function useControlScreeningInProgressModal(): ControlModal {
+    return useControlModal({
+        modalId: ModalIdentifiers.SCREENING_IN_PROGRESS,
+        dialogType: ScreeningInProgressModal,
     });
 }
 
