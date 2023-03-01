@@ -2993,7 +2993,6 @@ export default class Client4 {
         );
     };
 
-
     // Jobs Routes
     getJob = (id: string) => {
         return this.doFetch<Job>(

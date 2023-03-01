@@ -49,7 +49,7 @@ function Row({data, index, style}: RowProps) {
                 <small className='duration'>{(data[index].duration * 1000).toFixed(4) + 'ms'}</small>
             </div>
         </div>
-    )
+    );
 }
 
 function StoreCalls({filter, height}: Props) {
@@ -66,7 +66,7 @@ function StoreCalls({filter, height}: Props) {
                 itemCount={calls.length}
                 itemSize={50}
                 height={height}
-                width={window.innerWidth-2}
+                width={window.innerWidth - 2}
             >
                 {Row}
             </List>

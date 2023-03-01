@@ -10,10 +10,10 @@ import {DebugBarTypes} from 'mattermost-redux/action_types';
 export function emailsSent(state: any[] = [], action: GenericAction): any[] {
     switch (action.type) {
     case DebugBarTypes.ADD_LINE: {
-        if (action.data?.type == 'email-sent') {
+        if (action.data?.type === 'email-sent') {
             return [action.data, ...state];
         }
-        return state
+        return state;
     }
     case DebugBarTypes.CLEAR_LINES: {
         return [];
@@ -26,10 +26,10 @@ export function emailsSent(state: any[] = [], action: GenericAction): any[] {
 export function apiCalls(state: any[] = [], action: GenericAction): any[] {
     switch (action.type) {
     case DebugBarTypes.ADD_LINE: {
-        if (action.data?.type == 'api-call') {
+        if (action.data?.type === 'api-call') {
             return [action.data, ...state];
         }
-        return state
+        return state;
     }
     case DebugBarTypes.CLEAR_LINES: {
         return [];
@@ -42,10 +42,10 @@ export function apiCalls(state: any[] = [], action: GenericAction): any[] {
 export function storeCalls(state: any[] = [], action: GenericAction): any[] {
     switch (action.type) {
     case DebugBarTypes.ADD_LINE: {
-        if (action.data?.type == 'store-call') {
+        if (action.data?.type === 'store-call') {
             return [action.data, ...state];
         }
-        return state
+        return state;
     }
     case DebugBarTypes.CLEAR_LINES: {
         return [];
@@ -58,10 +58,10 @@ export function storeCalls(state: any[] = [], action: GenericAction): any[] {
 export function sqlQueries(state: any[] = [], action: GenericAction): any[] {
     switch (action.type) {
     case DebugBarTypes.ADD_LINE: {
-        if (action.data?.type == 'sql-query') {
+        if (action.data?.type === 'sql-query') {
             return [action.data, ...state];
         }
-        return state
+        return state;
     }
     case DebugBarTypes.CLEAR_LINES: {
         return [];
@@ -74,10 +74,10 @@ export function sqlQueries(state: any[] = [], action: GenericAction): any[] {
 export function logs(state: any[] = [], action: GenericAction): any[] {
     switch (action.type) {
     case DebugBarTypes.ADD_LINE: {
-        if (action.data?.type == 'log-line') {
+        if (action.data?.type === 'log-line') {
             return [action.data, ...state];
         }
-        return state
+        return state;
     }
     case DebugBarTypes.CLEAR_LINES: {
         return [];

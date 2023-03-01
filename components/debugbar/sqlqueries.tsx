@@ -26,10 +26,9 @@ type RowProps = {
     style: any;
 }
 
-
 function SQLQueries({filter, height}: Props) {
     const [explain, setExplain] = useState('');
-    const [viewQuery, setViewQuery] = useState<DebugBarSQLQuery|null>(null)
+    const [viewQuery, setViewQuery] = useState<DebugBarSQLQuery|null>(null);
 
     function Row({data, index, style}: RowProps) {
         return (
@@ -48,25 +47,25 @@ function SQLQueries({filter, height}: Props) {
                     <small className='duration'>{(data[index].duration * 1000).toFixed(4) + 'ms'}</small>
                 </div>
             </div>
-        )
+        );
     }
 
     useEffect(() => {
         if (viewQuery !== null) {
             Client4.getExplainQuery(viewQuery.query, viewQuery.args).then((result) => {
-                setExplain(result.explain)
-            })
+                setExplain(result.explain);
+            });
         }
     }, [viewQuery]);
-    var queries = useSelector(getSqlQueries)
+    let queries = useSelector(getSqlQueries);
 
-    let modal
+    let modal;
     if (viewQuery !== null) {
         modal = (
             <GenericModal
                 onExited={() => {
-                    setViewQuery(null)
-                    setExplain('')
+                    setViewQuery(null);
+                    setExplain('');
                 }}
                 show={true}
                 modalHeaderText='Sql Query'
@@ -79,19 +78,19 @@ function SQLQueries({filter, height}: Props) {
                         args={viewQuery.args}
                         inline={false}
                     />
-                    <h3>Raw query:</h3>
+                    <h3>{'Raw query:'}</h3>
                     <Code
                         code={viewQuery.query}
                         language='sql'
                         inline={false}
                     />
-                    <h3>Args:</h3>
+                    <h3>{'Args:'}</h3>
                     <Code
                         code={JSON.stringify(viewQuery.args, null, 4)}
                         language='json'
                         inline={false}
                     />
-                    <h3>Explain:</h3>
+                    <h3>{'Explain:'}</h3>
                     <Code
                         code={explain}
                         language='sql'
@@ -99,7 +98,7 @@ function SQLQueries({filter, height}: Props) {
                     />
                 </div>
             </GenericModal>
-        )
+        );
     }
 
     if (filter !== '') {
@@ -114,7 +113,7 @@ function SQLQueries({filter, height}: Props) {
                 itemCount={queries.length}
                 itemSize={50}
                 height={height}
-                width={window.innerWidth-2}
+                width={window.innerWidth - 2}
             >
                 {Row}
             </List>

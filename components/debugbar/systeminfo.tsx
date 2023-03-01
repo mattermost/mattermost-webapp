@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect, useState, memo} from 'react';
+
 import {Client4} from 'mattermost-redux/client';
 
 import Code from './code';

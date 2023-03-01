@@ -25,7 +25,7 @@ type RowProps = {
 }
 
 function EmailsSent({filter, height}: Props) {
-    const [viewEmail, setViewEmail] = useState<DebugBarEmailSent|null>(null)
+    const [viewEmail, setViewEmail] = useState<DebugBarEmailSent|null>(null);
     let emails = useSelector(getEmailsSent);
     if (filter !== '') {
         emails = emails.filter((v) => JSON.stringify(v).indexOf(filter) !== -1);
@@ -48,10 +48,10 @@ function EmailsSent({filter, height}: Props) {
                     {data[index].subject}
                 </div>
             </div>
-        )
+        );
     }
 
-    let modal
+    let modal;
     if (viewEmail !== null) {
         modal = (
             <GenericModal
@@ -63,24 +63,24 @@ function EmailsSent({filter, height}: Props) {
             >
                 <div>
                     <div>
-                        <b>To:</b>
+                        <b>{'To:'}</b>
                         <span>{viewEmail.to}</span>
                     </div>
                     <div>
-                        <b>Cc:</b>
+                        <b>{'Cc:'}</b>
                         <span>{viewEmail.cc}</span>
                     </div>
                     <div>
-                        <b>Subject:</b>
+                        <b>{'Subject:'}</b>
                         <span>{viewEmail.subject}</span>
                     </div>
-                    <h3>Body:</h3>
+                    <h3>{'Body:'}</h3>
                     <div
                         dangerouslySetInnerHTML={{__html: viewEmail.htmlBody}}
                     />
                 </div>
             </GenericModal>
-        )
+        );
     }
 
     return (
@@ -91,7 +91,7 @@ function EmailsSent({filter, height}: Props) {
                 itemCount={emails.length}
                 itemSize={50}
                 height={height}
-                width={window.innerWidth-2}
+                width={window.innerWidth - 2}
             >
                 {Row}
             </List>

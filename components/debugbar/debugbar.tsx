@@ -3,6 +3,7 @@
 
 import React, {memo, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+
 import {clearLines} from 'mattermost-redux/actions/debugbar';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
@@ -82,16 +83,16 @@ function DebugBar() {
         >
             <div
                 className='handler'
-                draggable
+                draggable={true}
                 onDragEnd={() => {
-                    document.removeEventListener("dragover", (e) => {
-                        setHeight(window.innerHeight - e.pageY)
-                    })
+                    document.removeEventListener('dragover', (e) => {
+                        setHeight(window.innerHeight - e.pageY);
+                    });
                 }}
                 onDragStart={() => {
-                    document.addEventListener("dragover", (e) => {
-                        setHeight(window.innerHeight - e.pageY)
-                    })
+                    document.addEventListener('dragover', (e) => {
+                        setHeight(window.innerHeight - e.pageY);
+                    });
                 }}
             />
             <div className='header'>
@@ -127,11 +128,31 @@ function DebugBar() {
                 </div>
             </div>
             <div className='body'>
-                {tab === 'api' && <ApiCalls filter={filterText} height={height}/>}
-                {tab === 'store' && <StoreCalls filter={filterText} height={height}/>}
-                {tab === 'sql' && <SqlQueries filter={filterText} height={height}/>}
-                {tab === 'logs' && <Logs filter={filterText} height={height}/>}
-                {tab === 'emails' && <EmailsSent filter={filterText} height={height}/>}
+                {tab === 'api' &&
+                    <ApiCalls
+                        filter={filterText}
+                        height={height}
+                    />}
+                {tab === 'store' &&
+                    <StoreCalls
+                        filter={filterText}
+                        height={height}
+                    />}
+                {tab === 'sql' &&
+                    <SqlQueries
+                        filter={filterText}
+                        height={height}
+                    />}
+                {tab === 'logs' &&
+                    <Logs
+                        filter={filterText}
+                        height={height}
+                    />}
+                {tab === 'emails' &&
+                    <EmailsSent
+                        filter={filterText}
+                        height={height}
+                    />}
                 {tab === 'system' && <SystemInfo/>}
             </div>
         </div>

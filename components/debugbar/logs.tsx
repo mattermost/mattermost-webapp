@@ -46,7 +46,7 @@ function Row({data, index, style}: RowProps) {
                 <small className={data[index].level}>{data[index].level}</small>
             </div>
         </div>
-    )
+    );
 }
 
 function Logs({filter, height}: Props) {
@@ -63,7 +63,7 @@ function Logs({filter, height}: Props) {
                 itemCount={logs.length}
                 itemSize={50}
                 height={height}
-                width={window.innerWidth-2}
+                width={window.innerWidth - 2}
             >
                 {Row}
             </List>

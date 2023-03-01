@@ -53,7 +53,7 @@ function Row({data, index, style}: RowProps) {
                 </small>
             </div>
         </div>
-    )
+    );
 }
 
 function ApiCalls({filter, height}: Props) {
@@ -69,7 +69,7 @@ function ApiCalls({filter, height}: Props) {
                 itemCount={calls.length}
                 itemSize={50}
                 height={height}
-                width={window.innerWidth-2}
+                width={window.innerWidth - 2}
             >
                 {Row}
             </List>

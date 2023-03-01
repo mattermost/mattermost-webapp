@@ -25,9 +25,8 @@ function Sql({query, args, inline}: Props) {
                     if (typeof val === 'boolean') {
                         if (val) {
                             return 'true';
-                        } else{
-                            return 'false';
                         }
+                        return 'false';
                     }
                     if (typeof val === 'string') {
                         return `"${val}"`;
