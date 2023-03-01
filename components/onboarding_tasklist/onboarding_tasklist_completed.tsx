@@ -211,8 +211,8 @@ const Completed = (props: Props): JSX.Element => {
                                 values={{
                                     link: (msg: React.ReactNode) => (
                                         <ExternalLink
-                                            href='https://mattermost.com/download'
                                             location='onboarding_tasklist_completed'
+                                            href='https://mattermost.com/download/#desktop'
                                         >
                                             {msg}
                                         </ExternalLink>
