@@ -58,7 +58,7 @@ import {getSelectedPost, getSelectedPostId} from 'selectors/rhs';
 import {getHistory} from 'utils/browser_history';
 import {Constants, ActionTypes, EventTypes, PostRequestTypes} from 'utils/constants';
 import {isMobile} from 'utils/utils';
-import LocalStorageStore from 'stores/local_storage_store.jsx';
+import LocalStorageStore from 'stores/local_storage_store';
 import {isArchivedChannel} from 'utils/channel_utils';
 import type {GlobalState} from 'types/store';
 

@@ -11,14 +11,11 @@ import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/sele
 import {getCurrentTeamId, getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-
+import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserTimezone} from 'selectors/general';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
-
 import {GenericAction} from 'mattermost-redux/types/actions';
-
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
-
 import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 
@@ -77,6 +74,7 @@ function makeMapStateToProps() {
         const currentTeam = getCurrentTeam(state) || {};
         const team = getTeam(state, channel.team_id);
         const teamUrl = `${getSiteURL()}/${team?.name || currentTeam.name}`;
+        const isMilitaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false);
 
         const systemMessage = isSystemMessage(post);
         const collapsedThreads = isCollapsedThreadsEnabled(state);
@@ -132,6 +130,8 @@ function makeMapStateToProps() {
             threadReplyCount,
             isMobileView: getIsMobileView(state),
             showForwardPostNewLabel,
+            timezone: getCurrentUserTimezone(state),
+            isMilitaryTime,
         };
     };
 }

@@ -46,7 +46,7 @@ export type MentionKey = {
 export type Team = {
     id: string;
     name: string;
-    displayName: string;
+    display_name: string;
 };
 
 interface TextFormattingOptionsBase {
