@@ -23,7 +23,7 @@ import {Channel} from '@mattermost/types/channels';
 import Provider, {ProviderResult} from './provider';
 import Suggestion from './suggestion.jsx';
 
-interface WrappedChannel{
+interface WrappedChannel {
     channel: Channel;
     name: Channel['name'];
     deactivated: boolean;
