@@ -5,7 +5,7 @@ import React from 'react';
 
 import Popover from 'components/widgets/popover';
 
-type SuggestionItem = {
+export type SuggestionItem = {
     key: string;
     ref: string;
     item: SuggestionItem;

@@ -9,6 +9,8 @@ import {Channel} from '@mattermost/types/channels';
 
 import {GlobalState} from 'types/store';
 
+import {UserProfile} from '@mattermost/types/users';
+
 import SearchChannelSuggestion from './search_channel_suggestion';
 
 type OwnProps = {
@@ -17,8 +19,8 @@ type OwnProps = {
 
 const mapStateToProps = (state: GlobalState, ownProps: OwnProps) => {
     return {
-        teammate: getDirectTeammate(state, ownProps.item.id),
-        currentUser: getCurrentUserId(state),
+        teammate: getDirectTeammate(state, ownProps.item.id) as UserProfile,
+        currentUser: getCurrentUserId(state) as string,
     };
 };
 

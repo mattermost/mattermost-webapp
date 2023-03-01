@@ -13,8 +13,9 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import Avatar from 'components/widgets/users/avatar';
 
+import Suggestion from 'components/suggestion/suggestion';
+
 import Provider from './provider';
-import Suggestion from './suggestion.jsx';
 import {UserAutocomplete, UserProfile} from './command_provider/app_command_parser/app_command_parser_dependencies.js';
 
 export type ProviderResults = {
@@ -24,7 +25,7 @@ export type ProviderResults = {
     component?: React.ReactNode;
 }
 
-class UserSuggestion extends Suggestion {
+class UserSuggestion extends Suggestion<ProviderResults> {
     render() {
         const {item, isSelection} = this.props;
 

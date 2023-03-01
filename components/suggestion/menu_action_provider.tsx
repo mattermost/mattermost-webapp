@@ -3,10 +3,11 @@
 
 import React from 'react';
 
+import Suggestion from 'components/suggestion/suggestion';
+
 import {ProviderResults} from './generic_user_provider';
 
 import Provider from './provider';
-import Suggestion from './suggestion.jsx';
 
 class MenuActionSuggestion extends Suggestion {
     render() {

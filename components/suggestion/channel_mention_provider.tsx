@@ -14,8 +14,9 @@ import store from 'stores/redux_store.jsx';
 
 import {Constants} from 'utils/constants';
 
+import Suggestion from 'components/suggestion/suggestion';
+
 import Provider from './provider';
-import Suggestion from './suggestion.jsx';
 
 export type Results = {
     matchedPretext: string;

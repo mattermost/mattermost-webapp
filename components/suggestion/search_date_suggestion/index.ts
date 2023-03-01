@@ -34,7 +34,7 @@ function makeMapStateToProps() {
         }
 
         return {
-            currentDate,
+            currentDate: currentDate as Date,
             locale,
         };
     };

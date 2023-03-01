@@ -3,12 +3,12 @@
 
 import React from 'react';
 
+import Suggestion from 'components/suggestion/suggestion';
 import {Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import Provider from './provider';
-import Suggestion from './suggestion.jsx';
 
 export type Results = {
     matchedPretext: string;

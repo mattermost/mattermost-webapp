@@ -12,8 +12,9 @@ import SharedUserIndicator from 'components/shared_user_indicator';
 import {UserProfile} from '@mattermost/types/users';
 import {UserAutocomplete} from '@mattermost/types/autocomplete';
 
+import Suggestion from 'components/suggestion/suggestion';
+
 import Provider from './provider';
-import Suggestion from './suggestion.jsx';
 import {ProviderResults} from './generic_user_provider';
 
 class SearchUserSuggestion extends Suggestion {

@@ -37,6 +37,7 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
       "timeZone": "Etc/UTC",
     }
   }
+  isSelection={false}
   item={
     Object {
       "first_name": "a",
@@ -47,6 +48,8 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
     }
   }
   matchedPretext="@"
+  onClick={[Function]}
+  onMouseMove={[Function]}
   term="@user"
 >
   <div
@@ -146,6 +149,7 @@ exports[`at mention suggestion Should not display nick name of the signed in use
       "timeZone": "Etc/UTC",
     }
   }
+  isSelection={false}
   item={
     Object {
       "first_name": "a",
@@ -157,6 +161,8 @@ exports[`at mention suggestion Should not display nick name of the signed in use
     }
   }
   matchedPretext="@"
+  onClick={[Function]}
+  onMouseMove={[Function]}
   term="@user"
 >
   <div
