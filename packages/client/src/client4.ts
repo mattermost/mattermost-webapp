@@ -3898,7 +3898,7 @@ export default class Client4 {
 
     getLicenseSelfServeStatus = () => {
         return this.doFetch<LicenseSelfServeStatus>(
-            `${this.getCloudRoute()}/subscription/checks`, {method: 'get'},
+            `${this.getCloudRoute()}/subscription/self-serve-status`, {method: 'get'},
         );
     }
 
