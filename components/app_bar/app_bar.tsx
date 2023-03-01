@@ -75,17 +75,7 @@ export default function AppBar() {
 
     return (
         <div className={'app-bar'}>
-            <div
-                // eslint-disable-next-line react/no-unknown-property
-                css={`
-                    height: 100%;
-                    padding-top: 16px;
-                    border-left: solid 1px rgba(var(--center-channel-color-rgb), 0.12);
-                    background-color: rgba(var(--center-channel-color-rgb), 0.04);
-                `}
-            >
-                {items}
-            </div>
+            {items}
         </div>
     );
 }

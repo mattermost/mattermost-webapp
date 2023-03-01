@@ -30,7 +30,7 @@ export const BoardsTourTip = ({singleTip}: BoardsTourTipProps) => {
         </p>
     );
 
-    const overlayPunchOut = useMeasurePunchouts(['product-menu-item-focalboard'], []);
+    const overlayPunchOut = useMeasurePunchouts(['product-menu-item-boards'], []);
 
     return (
         <OnboardingExploreToolsTourTip
