@@ -17,6 +17,7 @@ const boardsUserConfigPatch = {
         welcomePageViewed: '1',
         onboardingTourStep: '999',
         tourCategory: 'board',
+        version72MessageCanceled: 'true',
     },
 };
 
