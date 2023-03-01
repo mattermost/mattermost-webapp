@@ -28,6 +28,7 @@ import './true_up_review.scss';
 import {GlobalState} from '@mattermost/types/store';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import { getLicense } from 'mattermost-redux/selectors/entities/general';
 
 const TrueUpReview: React.FC = () => {
     const dispatch = useDispatch();
@@ -36,6 +37,7 @@ const TrueUpReview: React.FC = () => {
     const reviewProfile = useSelector(trueUpReviewProfileSelector);
     const reviewStatus = useSelector(trueUpReviewStatusSelector);
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
+    const license = useSelector(getLicense)
     const [submitted, setSubmitted] = useState(false);
     const trueUpReviewError = useSelector((state: GlobalState) => {
         const errors = getSelfHostedErrors(state);
@@ -50,14 +52,13 @@ const TrueUpReview: React.FC = () => {
     useEffect(() => {
         if (submitted && isAirGapped) {
             // Create the bundle as a blob containing base64 encoded json data and assign it to a link element.
-            const dataBuffer = Buffer.from(JSON.stringify(reviewProfile));
-            const blob = new Blob([dataBuffer.toString('base64')], {type: 'application/text'});
+            const blob = new Blob([reviewProfile.content], {type: 'application/text'});
             const href = URL.createObjectURL(blob);
 
             const link = document.createElement('a');
             const date = moment().format('MM-DD-YYYY');
             link.href = href;
-            link.download = `True Up-${reviewProfile.license_id}-${date}.txt`;
+            link.download = `True Up-${license.Id}-${date}.txt`;
 
             document.body.appendChild(link);
             link.click();
