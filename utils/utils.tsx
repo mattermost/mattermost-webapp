@@ -49,6 +49,7 @@ import {addUserToTeam} from 'actions/team_actions';
 import {searchForTerm} from 'actions/post_actions';
 import {getHistory} from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent';
+import {isDesktopApp} from 'utils/user_agent';
 import bing from 'sounds/bing.mp3';
 import crackle from 'sounds/crackle.mp3';
 import down from 'sounds/down.mp3';
@@ -1838,6 +1839,25 @@ export function getMediumFromTrackFlow() {
     const source = params.get('md') ?? '';
 
     return {source};
+}
+
+const TrackFlowSources: Record<string, string> = {
+    wd: 'webapp-desktop',
+    wm: 'webapp-mobile',
+    d: 'desktop-app',
+};
+
+function getTrackFlowSource() {
+    if (isMobile()) {
+        return TrackFlowSources.wm;
+    } else if (isDesktopApp()) {
+        return TrackFlowSources.d;
+    }
+    return TrackFlowSources.wd;
+}
+
+export function getSourceForTrackFlow() {
+    return {source: getTrackFlowSource()};
 }
 
 export function a11yFocus(element: HTMLElement | null | undefined, keyboardOnly = true) {

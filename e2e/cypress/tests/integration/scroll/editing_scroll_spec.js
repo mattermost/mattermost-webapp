@@ -53,7 +53,7 @@ describe('Scroll', () => {
             const multilineMessageID = postId;
 
             postListOfMessages({sender: otherUser, channelId: testChannelId});
-            scrollCurrentChannelFromTop('90%');
+            scrollCurrentChannelFromTop('100%');
 
             // # Get the text of the first visible post
             cy.get('.post-message__text:visible').first().then((postMessage) => {

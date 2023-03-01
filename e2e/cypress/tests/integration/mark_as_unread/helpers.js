@@ -16,7 +16,7 @@ export function markAsUnreadFromPost(post, rhs = false) {
 export function markAsUnreadShouldBeAbsent(postId, prefix = 'post', location = 'CENTER') {
     cy.get(`#${prefix}_${postId}`).trigger('mouseover');
     cy.clickPostDotMenu(postId, location);
-    cy.get('.dropdown-menu').
+    cy.get(`#CENTER_dropdown_${postId}`).
         should('be.visible').
         within(() => {
             cy.findByText('Mark as Unread').should('not.exist');

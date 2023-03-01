@@ -210,7 +210,7 @@ const Completed = (props: Props): JSX.Element => {
                                 values={{
                                     link: (msg: React.ReactNode) => (
                                         <a
-                                            href='https://mattermost.com/download'
+                                            href='https://mattermost.com/download/#desktop'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
