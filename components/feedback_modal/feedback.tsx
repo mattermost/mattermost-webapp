@@ -24,7 +24,7 @@ type Props = {
 } & WrappedComponentProps
 
 function FeedbackModal(props: Props) {
-    const maxFreeFormTextLength = 200;
+    const maxFreeFormTextLength = 500;
     const optionOther = props.intl.formatMessage({id: 'feedback.other', defaultMessage: 'Other'});
     const feedbackModalOptions: string[] = [
         ...props.feedbackOptions,
@@ -90,7 +90,7 @@ function FeedbackModal(props: Props) {
                         onChange={(e) => {
                             setComments(e.target.value);
                         }}
-                        maxLength={200}
+                        maxLength={maxFreeFormTextLength}
                     />
                     <span className='FeedbackModal__FreeFormTextLimit'>
                         {comments.length + '/' + maxFreeFormTextLength}
