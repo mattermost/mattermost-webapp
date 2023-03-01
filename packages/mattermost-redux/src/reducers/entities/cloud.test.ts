@@ -54,4 +54,15 @@ describe('limits reducer', () => {
         );
         expect(unchangedLimits).toEqual({limits: {...updatedLimits}, limitsLoaded: true});
     });
+
+    test('clears limits when new subscription received', () => {
+        const emptyLimits = limits(
+            minimalLimits,
+            {
+                type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
+                data: {},
+            },
+        );
+        expect(emptyLimits).toEqual({limits: {}, limitsLoaded: false});
+    });
 });

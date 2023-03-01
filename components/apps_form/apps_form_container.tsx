@@ -80,6 +80,7 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
             this.setState({form: callResp.form});
             break;
         case AppCallResponseTypes.NAVIGATE:
+            break;
         default:
             return {error: makeCallErrorResponse(makeErrorMsg(this.props.intl.formatMessage(
                 {

@@ -89,7 +89,7 @@ describe('Archived channels', () => {
                 cy.clickPostDotMenu(id);
 
                 // # Click on "Copy Link"
-                cy.uiClickCopyLink(permalink);
+                cy.uiClickCopyLink(permalink, id);
 
                 // # Post the message in another channel
                 cy.get('#sidebarItem_off-topic').click();

@@ -9,12 +9,6 @@
             }
         }
 
-        &.failed {
-            > .IconMessage__svg-wrapper {
-                margin-left: 60px;
-            }
-        }
-
         display: flex;
         flex-direction: column;
         align-content: center;
@@ -36,16 +30,18 @@
         }
 
         .IconMessage-sub {
-            &.error {
-                color: #db3214;
-            }
-
+            max-width: 560px;
+            align-self: center;
             margin-top: 16px;
             color: var(--center-channel-color);
             font-size: 14px;
             font-style: normal;
             font-weight: normal;
             line-height: 20px;
+
+            &.error {
+                color: #db3214;
+            }
         }
 
         .IconMessage-buttons {

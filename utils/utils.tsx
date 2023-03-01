@@ -10,6 +10,8 @@ import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
+import {getName} from 'country-list';
+
 import Constants, {FileTypes, ValidationErrors, A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
 
 import {
@@ -47,6 +49,7 @@ import {addUserToTeam} from 'actions/team_actions';
 import {searchForTerm} from 'actions/post_actions';
 import {getHistory} from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent';
+import {isDesktopApp} from 'utils/user_agent';
 import bing from 'sounds/bing.mp3';
 import crackle from 'sounds/crackle.mp3';
 import down from 'sounds/down.mp3';
@@ -72,6 +75,8 @@ import {GlobalState} from '@mattermost/types/store';
 import {focusPost} from 'components/permalink_view/actions';
 
 import {TextboxElement} from '../components/textbox';
+
+import {Address} from '@mattermost/types/cloud';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
@@ -1836,6 +1841,25 @@ export function getMediumFromTrackFlow() {
     return {source};
 }
 
+const TrackFlowSources: Record<string, string> = {
+    wd: 'webapp-desktop',
+    wm: 'webapp-mobile',
+    d: 'desktop-app',
+};
+
+function getTrackFlowSource() {
+    if (isMobile()) {
+        return TrackFlowSources.wm;
+    } else if (isDesktopApp()) {
+        return TrackFlowSources.d;
+    }
+    return TrackFlowSources.wd;
+}
+
+export function getSourceForTrackFlow() {
+    return {source: getTrackFlowSource()};
+}
+
 export function a11yFocus(element: HTMLElement | null | undefined, keyboardOnly = true) {
     document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
         A11yCustomEventTypes.FOCUS, {
@@ -1845,4 +1869,19 @@ export function a11yFocus(element: HTMLElement | null | undefined, keyboardOnly 
             },
         },
     ));
+}
+
+export function getBlankAddressWithCountry(country?: string): Address {
+    let c = '';
+    if (country) {
+        c = getName(country) || '';
+    }
+    return {
+        city: '',
+        country: c || '',
+        line1: '',
+        line2: '',
+        postal_code: '',
+        state: '',
+    };
 }

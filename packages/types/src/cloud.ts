@@ -40,6 +40,7 @@ export type Subscription = {
     trial_end_at: number;
     is_free_trial: string;
     delinquent_since?: number;
+    compliance_blocked?: string;
 }
 
 export type Product = {
@@ -218,6 +219,12 @@ export interface CreateSubscriptionRequest {
     internal_purchase_order?: string;
 }
 
+export const areShippingDetailsValid = (address: Address | null | undefined): boolean => {
+    if (!address) {
+        return false;
+    }
+    return Boolean(address.city && address.country && address.line1 && address.postal_code && address.state);
+};
 export type Feedback = {
     reason: string;
     comments: string;
@@ -225,5 +232,5 @@ export type Feedback = {
 
 export type WorkspaceDeletionRequest = {
     subscription_id: string;
-    feedback: Feedback;
+    delete_feedback: Feedback;
 }

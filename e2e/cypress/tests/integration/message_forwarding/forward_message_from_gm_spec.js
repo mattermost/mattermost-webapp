@@ -93,7 +93,7 @@ describe('Forward Message', () => {
 
     it('MM-T4937_1 Forward reply post from GM (with at least 2 other users)', () => {
         // # Check if ... button is visible in last post right side
-        cy.get(`#CENTER_button_${testPost.id}`).should('not.exist');
+        cy.get(`#CENTER_button_${testPost.id}`).should('not.be.visible');
 
         // # Click on ... button of last post
         cy.clickPostDotMenu(testPost.id);
@@ -136,7 +136,7 @@ describe('Forward Message', () => {
 
     it('MM-T4937_3 Forward post from GM (with at least 2 other users) - Cancel using X', () => {
         // # Check if ... button is visible in last post right side
-        cy.get(`#CENTER_button_${testPost.id}`).should('not.exist');
+        cy.get(`#CENTER_button_${testPost.id}`).should('not.be.visible');
 
         // # Click on ... button of last post
         cy.clickPostDotMenu(testPost.id);

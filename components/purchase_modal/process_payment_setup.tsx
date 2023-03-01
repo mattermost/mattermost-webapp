@@ -6,6 +6,11 @@ import {Stripe} from '@stripe/stripe-js';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 
+import ComplianceScreenFailedSvg from 'components/common/svg_images_components/access_denied_happy_svg';
+
+import {Address, Feedback, Product} from '@mattermost/types/cloud';
+import {ActionResult} from 'mattermost-redux/types/actions';
+
 import {BillingDetails} from 'types/cloud/sku';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
 import {RecurringIntervals, TELEMETRY_CATEGORIES} from 'utils/constants';
@@ -18,14 +23,18 @@ import CreditCardSvg from 'components/common/svg_images_components/credit_card_s
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
 import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
 
-import {Product} from '@mattermost/types/cloud';
-
 import IconMessage from './icon_message';
 
 import './process_payment.css';
 
+type ComplianceError = {
+    error: string;
+    status: number;
+}
+
 type Props = RouteComponentProps & {
     billingDetails: BillingDetails | null;
+    shippingAddress: Address | null;
     stripe: Promise<Stripe | null>;
     isDevMode: boolean;
     contactSupportLink: string;
@@ -36,7 +45,7 @@ type Props = RouteComponentProps & {
         isDevMode: boolean
     ) => Promise<boolean | null>;
     subscribeCloudSubscription:
-    | ((productId: string, seats?: number) => Promise<boolean | null>)
+    | ((productId: string, shippingAddress: Address, seats?: number, downgradeFeedback?: Feedback) => Promise<ActionResult<Subscription, ComplianceError>>)
     | null;
     onBack: () => void;
     onClose: () => void;
@@ -49,6 +58,7 @@ type Props = RouteComponentProps & {
     onSuccess?: () => void;
     intl: IntlShape;
     usersCount: number;
+    isSwitchingToAnnual: boolean;
 };
 
 type State = {
@@ -60,7 +70,8 @@ type State = {
 enum ProcessState {
     PROCESSING = 0,
     SUCCESS,
-    FAILED
+    FAILED,
+    FAILED_COMPLIANCE_SCREEN,
 }
 
 const MIN_PROCESSING_MILLISECONDS = 5000;
@@ -125,10 +136,20 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
         }
 
         if (subscribeCloudSubscription) {
-            const productUpdated = await subscribeCloudSubscription(this.props.selectedProduct?.id as string, this.props.usersCount);
+            const result = await subscribeCloudSubscription(this.props.selectedProduct?.id as string, this.props.shippingAddress as Address, this.props.usersCount);
 
             // the action subscribeCloudSubscription returns a true boolean when successful and an error when it fails
-            if (typeof productUpdated !== 'boolean') {
+            if (result.error) {
+                trackEvent('cloud_admin', 'complete_payment_failed_compliance_screen', {
+                    callerInfo: this.props.telemetryProps?.callerInfo,
+                });
+                if (result.error.status === 422) {
+                    this.setState({
+                        error: true,
+                        state: ProcessState.FAILED_COMPLIANCE_SCREEN,
+                    });
+                    return;
+                }
                 trackEvent('cloud_admin', 'complete_payment_failed', {
                     callerInfo: this.props.telemetryProps?.callerInfo,
                 });
@@ -171,7 +192,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
         this.props.onBack();
     }
 
-    private sucessPage = () => {
+    private successPage = () => {
         const {error} = this.state;
         const formattedBtnText = (
             <FormattedMessage
@@ -215,6 +236,35 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
                         }
                         formattedButtonText={formattedBtnText}
                         buttonHandler={this.props.onClose}
+                        className={'success'}
+                    />
+                </>
+            );
+        } else if (this.props.isSwitchingToAnnual) {
+            const formattedTitle = (
+                <FormattedMessage
+                    defaultMessage={"You're now switched to {selectedProductName} annual"}
+                    id={'admin.billing.subscription.switchedToAnnual.title'}
+                    values={{selectedProductName: this.props.selectedProduct?.name}}
+                />
+            );
+            return (
+                <>
+                    <IconMessage
+                        formattedTitle={formattedTitle}
+                        icon={
+                            <PaymentSuccessStandardSvg
+                                width={444}
+                                height={313}
+                            />
+                        }
+                        formattedButtonText={formattedBtnText}
+                        buttonHandler={this.props.onClose}
+                        tertiaryBtnText={t('admin.billing.subscription.viewBilling')}
+                        tertiaryButtonHandler={() => {
+                            this.props.onClose();
+                            this.props.history.push('/admin_console/billing/subscription');
+                        }}
                         className={'success'}
                     />
                 </>
@@ -311,7 +361,34 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
                 />
             );
         case ProcessState.SUCCESS:
-            return this.sucessPage();
+            return this.successPage();
+        case ProcessState.FAILED_COMPLIANCE_SCREEN:
+            return (
+                <IconMessage
+                    title={t(
+                        'admin.billing.subscription.complianceScreenFailed.title',
+                    )}
+                    subtitle={t(
+                        'admin.billing.subscription.complianceScreenFailed.subtitle',
+                    )}
+                    icon={
+                        <ComplianceScreenFailedSvg
+                            width={444}
+                            height={313}
+                        />
+                    }
+                    error={error}
+                    buttonText={t(
+                        'admin.billing.subscription.complianceScreenFailed.button',
+                    )}
+                    buttonHandler={() => this.props.onClose()}
+                    linkText={t(
+                        'admin.billing.subscription.privateCloudCard.contactSupport',
+                    )}
+                    linkURL={this.props.contactSupportLink}
+                    className={'failed'}
+                />
+            );
         case ProcessState.FAILED:
             return (
                 <IconMessage

@@ -4,13 +4,7 @@
 import {test} from '@playwright/test';
 
 import {LandingLoginPage} from '@e2e-support/ui/page';
-import {matchSnapshot, Applitools} from '@e2e-support/visual';
-
-let applitools: Applitools = {};
-
-test.afterAll(async () => {
-    await applitools.eyes?.close();
-});
+import {matchSnapshot} from '@e2e-support/visual';
 
 test('/landing#/login', async ({page, isMobile, browserName, viewport}, testInfo) => {
     const landingLoginPage = new LandingLoginPage(page);
@@ -19,5 +13,5 @@ test('/landing#/login', async ({page, isMobile, browserName, viewport}, testInfo
     await landingLoginPage.goto();
 
     // Match snapshot of landing page
-    applitools = await matchSnapshot(testInfo, {page, isMobile, browserName, viewport});
+    await matchSnapshot(testInfo, {page, isMobile, browserName, viewport});
 });

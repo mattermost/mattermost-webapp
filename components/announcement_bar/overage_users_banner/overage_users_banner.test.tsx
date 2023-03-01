@@ -7,9 +7,10 @@ import {fireEvent, screen} from '@testing-library/react';
 import {DeepPartial} from '@mattermost/types/utilities';
 import {GlobalState} from 'types/store';
 import {General} from 'mattermost-redux/constants';
-import {OverActiveUserLimits, Preferences, StatTypes} from 'utils/constants';
+import {LicenseLinks, OverActiveUserLimits, Preferences, StatTypes} from 'utils/constants';
 import {renderWithIntlAndStore} from 'tests/react_testing_utils';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {trackEvent} from 'actions/telemetry_actions';
 import {getLicenseExpandStatus} from 'mattermost-redux/actions/cloud';
 import {TestHelper} from 'utils/test_helper';
 import {generateId} from 'utils/utils';
@@ -34,6 +35,10 @@ jest.mock('mattermost-redux/actions/preferences', () => ({
 
 jest.mock('mattermost-redux/actions/cloud', () => ({
     getLicenseExpandStatus: jest.fn(),
+}));
+
+jest.mock('actions/telemetry_actions', () => ({
+    trackEvent: jest.fn(),
 }));
 
 const seatsPurchased = 40;
@@ -220,6 +225,38 @@ describe('components/overage_users_banner', () => {
         expect(screen.getByText(contactSalesTextLink)).toBeInTheDocument();
     });
 
+    it('should track if the admin click Contact Sales CTA in a 10% overage state', () => {
+        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
+
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                is_expandable: false,
+                getRequestState: 'OK',
+            },
+        };
+
+        store.entities.admin = {
+            ...store.entities.admin,
+            analytics: {
+                [StatTypes.TOTAL_USERS]: seatsMinimumFor5PercentageState,
+            },
+        };
+
+        renderComponent({
+            store,
+        });
+
+        fireEvent.click(screen.getByText(contactSalesTextLink));
+        expect(windowSpy).toBeCalledTimes(1);
+        expect(windowSpy).toBeCalledWith(LicenseLinks.CONTACT_SALES, '_blank');
+        expect(trackEvent).toBeCalledTimes(1);
+        expect(trackEvent).toBeCalledWith('insights', 'click_true_up_warning', {
+            cta: 'Contact Sales',
+            banner: 'global banner',
+        });
+    });
+
     it('should render the banner because we are over 5% and we have preferences from one old banner', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
@@ -307,7 +344,39 @@ describe('components/overage_users_banner', () => {
         expect(screen.getByText(contactSalesTextLink)).toBeInTheDocument();
     });
 
-    it('should render the  warning banner with expansion seats CTA if the license is expendable', () => {
+    it('should track if the admin click Contact Sales CTA in a 10% overage state', () => {
+        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
+
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                is_expandable: false,
+                getRequestState: 'OK',
+            },
+        };
+
+        store.entities.admin = {
+            ...store.entities.admin,
+            analytics: {
+                [StatTypes.TOTAL_USERS]: seatsMinimumFor10PercentageState,
+            },
+        };
+
+        renderComponent({
+            store,
+        });
+
+        fireEvent.click(screen.getByText(contactSalesTextLink));
+        expect(windowSpy).toBeCalledTimes(1);
+        expect(windowSpy).toBeCalledWith(LicenseLinks.CONTACT_SALES, '_blank');
+        expect(trackEvent).toBeCalledTimes(1);
+        expect(trackEvent).toBeCalledWith('insights', 'click_true_up_error', {
+            cta: 'Contact Sales',
+            banner: 'global banner',
+        });
+    });
+
+    it('should render the  warning banner with expansion seats CTA if the license is expandable', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
         store.entities.cloud = {
@@ -333,7 +402,40 @@ describe('components/overage_users_banner', () => {
         expect(screen.getByText(expandSeatsTextLink)).toBeInTheDocument();
     });
 
-    it('should render the error banner with expansion seats CTA if the license is be expendable', () => {
+    it('should track if the admin click expansion seats CTA in a 5% overage state', () => {
+        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
+
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                ...store.entities.cloud.subscriptionStats,
+                is_expandable: true,
+                getRequestState: 'OK',
+            },
+        };
+
+        store.entities.admin = {
+            ...store.entities.admin,
+            analytics: {
+                [StatTypes.TOTAL_USERS]: seatsMinimumFor5PercentageState,
+            },
+        };
+
+        renderComponent({
+            store,
+        });
+
+        fireEvent.click(screen.getByText(expandSeatsTextLink));
+        expect(windowSpy).toBeCalledTimes(1);
+        expect(windowSpy).toBeCalledWith(`http://testing/subscribe/expand?licenseId=${licenseId}`, '_blank');
+        expect(trackEvent).toBeCalledTimes(1);
+        expect(trackEvent).toBeCalledWith('insights', 'click_true_up_warning', {
+            cta: 'Self Serve',
+            banner: 'global banner',
+        });
+    });
+
+    it('should render the error banner with expansion seats CTA if the license is be expandable', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
         store.entities.cloud = {
@@ -357,5 +459,38 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.getByText(expandSeatsTextLink)).toBeInTheDocument();
+    });
+
+    it('should track if the admin click expansion seats CTA in a 10% overage state', () => {
+        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
+
+        store.entities.cloud = {
+            ...store.entities.cloud,
+            subscriptionStats: {
+                ...store.entities.cloud.subscriptionStats,
+                is_expandable: true,
+                getRequestState: 'OK',
+            },
+        };
+
+        store.entities.admin = {
+            ...store.entities.admin,
+            analytics: {
+                [StatTypes.TOTAL_USERS]: seatsMinimumFor10PercentageState,
+            },
+        };
+
+        renderComponent({
+            store,
+        });
+
+        fireEvent.click(screen.getByText(expandSeatsTextLink));
+        expect(windowSpy).toBeCalledTimes(1);
+        expect(windowSpy).toBeCalledWith(`http://testing/subscribe/expand?licenseId=${licenseId}`, '_blank');
+        expect(trackEvent).toBeCalledTimes(1);
+        expect(trackEvent).toBeCalledWith('insights', 'click_true_up_error', {
+            cta: 'Self Serve',
+            banner: 'global banner',
+        });
     });
 });
