@@ -72,7 +72,7 @@ describe('Forward Message', () => {
 
     it('MM-T4935_1 Forward root post from private channel', () => {
         // # Check if ... button is visible in last post right side
-        cy.get(`#CENTER_button_${testPost.id}`).should('not.exist');
+        cy.get(`#CENTER_button_${testPost.id}`).should('not.be.visible');
 
         // # Click on ... button of last post
         cy.clickPostDotMenu(testPost.id);
@@ -115,7 +115,7 @@ describe('Forward Message', () => {
 
     it('MM-T4935_3 Forward post from private channel - Cancel', () => {
         // # Check if ... button is visible in last post right side
-        cy.get(`#CENTER_button_${testPost.id}`).should('not.exist');
+        cy.get(`#CENTER_button_${testPost.id}`).should('not.be.visible');
 
         // # Click on ... button of last post
         cy.clickPostDotMenu(testPost.id);

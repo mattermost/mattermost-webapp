@@ -115,7 +115,7 @@ describe('Forward Message', () => {
 
     it('MM-T4934_1 Forward root post from public channel to another public channel', () => {
         // # Check if ... button is visible in last post right side
-        cy.get(`#CENTER_button_${testPost.id}`).should('not.exist');
+        cy.get(`#CENTER_button_${testPost.id}`).should('not.be.visible');
 
         // # Click on ... button of last post
         cy.clickPostDotMenu(testPost.id);
@@ -137,7 +137,7 @@ describe('Forward Message', () => {
         const longMessage = 'M'.repeat(6000);
 
         // # Check if ... button is visible in last post right side
-        cy.get(`#CENTER_button_${testPost.id}`).should('not.exist');
+        cy.get(`#CENTER_button_${testPost.id}`).should('not.be.visible');
 
         // # Click on ... button of last post
         cy.clickPostDotMenu(testPost.id);
@@ -229,7 +229,7 @@ describe('Forward Message', () => {
 
     it('MM-T4934_6 Forward public channel post to Private channel', () => {
         // # Check if ... button is visible in last post right side
-        cy.get(`#CENTER_button_${testPost.id}`).should('not.exist');
+        cy.get(`#CENTER_button_${testPost.id}`).should('not.be.visible');
 
         // # Click on ... button of last post
         cy.clickPostDotMenu(testPost.id);
@@ -249,7 +249,7 @@ describe('Forward Message', () => {
 
     it('MM-T4934_7 Forward public channel post to GM', () => {
         // # Check if ... button is visible in last post right side
-        cy.get(`#CENTER_button_${testPost.id}`).should('not.exist');
+        cy.get(`#CENTER_button_${testPost.id}`).should('not.be.visible');
 
         // # Click on ... button of last post
         cy.clickPostDotMenu(testPost.id);
@@ -270,7 +270,7 @@ describe('Forward Message', () => {
 
     it('MM-T4934_8 Forward public channel post to DM', () => {
         // # Check if ... button is visible in last post right side
-        cy.get(`#CENTER_button_${testPost.id}`).should('not.exist');
+        cy.get(`#CENTER_button_${testPost.id}`).should('not.be.visible');
 
         // # Click on ... button of last post
         cy.clickPostDotMenu(testPost.id);
