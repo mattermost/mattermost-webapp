@@ -8,9 +8,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import LocalizedIcon from 'components/localized_icon';
+import {TTNameMapToATStatusKey, TutorialTourName, WorkTemplateTourSteps} from 'components/tours/constant';
+
 import {closeModal as closeModalAction} from 'actions/views/modals';
 import {trackEvent} from 'actions/telemetry_actions';
-import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {showRHSPlugin} from 'actions/views/rhs';
+import {fetchRemoteListing} from 'actions/marketplace';
+import {loadIfNecessaryAndSwitchToChannelById} from 'actions/views/channel';
 
 import {
     clearCategories,
@@ -18,19 +22,34 @@ import {
     executeWorkTemplate,
     getWorkTemplateCategories,
     getWorkTemplates,
+    onExecuteSuccess,
 } from 'mattermost-redux/actions/work_templates';
-import {Category, ExecuteWorkTemplateRequest, ExecuteWorkTemplateResponse, Visibility, WorkTemplate} from '@mattermost/types/work_templates';
-import {GlobalState} from '@mattermost/types/store';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {fetchRemoteListing} from 'actions/marketplace';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {loadIfNecessaryAndSwitchToChannelById} from 'actions/views/channel';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
+
+import {
+    Category,
+    ExecuteWorkTemplateRequest,
+    ExecuteWorkTemplateResponse,
+    Visibility,
+    WorkTemplate,
+} from '@mattermost/types/work_templates';
+
+import {GlobalState} from 'types/store';
+
+import {ModalIdentifiers, suitePluginIds, TELEMETRY_CATEGORIES} from 'utils/constants';
+
+import {AutoTourStatus} from 'components/tours';
 
 import Customize from './components/customize';
 import Menu from './components/menu';
 import GenericModal from './components/modal';
 import Preview from './components/preview';
+import {useGetRHSPluggablesIds} from './hooks';
+import {getContentCount} from './utils';
 
 const BackIconInHeader = styled(LocalizedIcon)`
     font-size: 24px;
@@ -88,6 +107,8 @@ const WorkTemplateModal = () => {
     const pluginsEnabled = config.PluginsEnabled === 'true' && config.EnableMarketplace === 'true' && config.IsDefaultMarketplace === 'true';
     const teamId = useSelector(getCurrentTeamId);
     const playbookTemplates = useSelector((state: GlobalState) => state.entities.worktemplates.playbookTemplates);
+    const {rhsPluggableIds} = useGetRHSPluggablesIds();
+    const currentUserId = useSelector(getCurrentUserId);
 
     useEffect(() => {
         trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'open_modal');
@@ -170,6 +191,58 @@ const WorkTemplateModal = () => {
         setSelectedVisibility(visibility);
     };
 
+    /**
+     * Creates the necessary data in the global store as long storing in DB preferences the tourtip information
+     * @param template current used worktempplate
+     */
+    const tourTipActions = async (template: WorkTemplate) => {
+        const linkedProductsCount = getContentCount(template, playbookTemplates);
+
+        // stepValue and pluginId are used for showing the tourtip for the used template
+        let stepValue = 0;
+        let pluginId;
+        if (linkedProductsCount.playbooks) {
+            pluginId = rhsPluggableIds.get(suitePluginIds.playbooks);
+            stepValue = WorkTemplateTourSteps.PLAYBOOKS_TOUR_TIP;
+        } else {
+            pluginId = rhsPluggableIds.get(suitePluginIds.boards);
+            stepValue = WorkTemplateTourSteps.BOARDS_TOUR_TIP;
+        }
+
+        if (!pluginId) {
+            return;
+        }
+
+        // store in the global state the plugins/integrations information related to the used template
+        // so we can display that data in the tourtip
+        await dispatch(onExecuteSuccess(linkedProductsCount));
+
+        // store the required preferences for the tourtip
+        const tourCategory = TutorialTourName.WORK_TEMPLATE_TUTORIAL;
+        const preferences = [
+
+            // here reset the step value to be able to show the tour again (if we dedide to show the tour only once, this must be removed)
+            {
+                user_id: currentUserId,
+                category: tourCategory,
+                name: currentUserId,
+                value: stepValue.toString(),
+            },
+
+            // this one is for defining the auto tour start for the tour tip
+            {
+                user_id: currentUserId,
+                category: tourCategory,
+                name: TTNameMapToATStatusKey[tourCategory],
+                value: String(AutoTourStatus.ENABLED),
+            },
+        ];
+
+        await dispatch(savePreferences(currentUserId, preferences));
+
+        dispatch(showRHSPlugin(pluginId));
+    };
+
     const execute = async (template: WorkTemplate, name = '', visibility: Visibility) => {
         const pbTemplates = [];
         for (const item of template.content) {
@@ -195,21 +268,26 @@ const WorkTemplateModal = () => {
 
         if (error) {
             trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'execution_error', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility, error: error.message});
-            setIsCreating(false);
             setErrorText(error.message);
             return;
         }
 
         trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'execution_success', {category: template.category, template: template.id, customized_name: name !== '', customized_visibility: visibility !== template.visibility});
         let firstChannelId = '';
+
         if (data?.channel_with_playbook_ids.length) {
             firstChannelId = data.channel_with_playbook_ids[0];
         } else if (data?.channel_ids.length) {
             firstChannelId = data.channel_ids[0];
         }
+
         if (firstChannelId) {
             dispatch(loadIfNecessaryAndSwitchToChannelById(firstChannelId));
         }
+
+        await tourTipActions(template);
+
+        setIsCreating(false);
         closeModal();
     };
 
