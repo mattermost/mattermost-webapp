@@ -1,6 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// enable to be compiled under tsc --isolatedModules flag
+export {};
+
 // Set up a global hooks to make debugging tests less of a pain
 beforeAll(() => {
     process.on('unhandledRejection', (reason) => {
