@@ -43,7 +43,7 @@
             align-self: flex-start;
 
             .login-body-message-title {
-                padding-right: 60px;
+                padding-right: 48px;
                 color: var(--title-color-indigo-500);
                 font-family: Metropolis;
                 font-size: 80px;
@@ -235,7 +235,7 @@
     }
 }
 
-@media screen and (max-width: 1199px) {
+@media screen and (max-width: 1019px) {
     .login-body {
         .login-body-alternate-link {
             padding-right: 24px;
