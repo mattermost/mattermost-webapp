@@ -44,6 +44,9 @@ describe('Workspace deletion', () => {
         // Text is separated by an html <a> tag, just get the last half.
         cy.findByText('Delete your workspace').should('not.exist');
         cy.findByText(`${host}`).should('not.exist');
+
+        cy.findByText('Cancel your subscription').should('exist');
+        cy.findByText('At this time, deleting a workspace can only be done with the help of a customer support representative.').should('exist');
     });
 
     it('Workspace deletion cta is not visible for cloud enterprise with a yearly plan', () => {
@@ -59,6 +62,9 @@ describe('Workspace deletion', () => {
         // Text is separated by an html <a> tag, just get the last half.
         cy.findByText('Delete your workspace').should('not.exist');
         cy.findByText(`${host}`).should('not.exist');
+
+        cy.findByText('Cancel your subscription').should('exist');
+        cy.findByText('At this time, deleting a workspace can only be done with the help of a customer support representative.').should('exist');
     });
 
     it('Workspace deletion cta is visible for cloud free', () => {
@@ -102,6 +108,9 @@ describe('Workspace deletion', () => {
         // Text is separated by an html <a> tag, just get the last half.
         cy.findByText('Delete your workspace').should('not.exist');
         cy.findByText(`${host}`).should('not.exist');
+
+        cy.findByText('Cancel your subscription').should('exist');
+        cy.findByText('At this time, deleting a workspace can only be done with the help of a customer support representative.').should('exist');
     });
 
     it('Workspace deletion modal > downgrade button is not visible for cloud free', () => {
@@ -132,19 +141,6 @@ describe('Workspace deletion', () => {
         cy.findByText('Delete Workspace').click();
         cy.findByText('Are you sure you want to delete?').should('exist');
         cy.findByText('Downgrade To Free').should('exist');
-    });
-
-    it('Workspace deletion modal > delete workspace button is not visible for cloud enterprise', () => {
-        // Free.
-        const subscription = {
-            id: 'sub_test1',
-            product_id: 'prod_3',
-            is_free_trial: 'false',
-        };
-        cy.simulateSubscription(subscription);
-        cy.visit('/admin_console/billing/subscription');
-
-        cy.findByText('Delete Workspace').should('not.exist');
     });
 
     it('Workspace deletion modal > downgrade button is not visible for free trials', () => {

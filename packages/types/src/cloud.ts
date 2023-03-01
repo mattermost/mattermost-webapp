@@ -232,5 +232,5 @@ export type Feedback = {
 
 export type WorkspaceDeletionRequest = {
     subscription_id: string;
-    feedback: Feedback;
+    delete_feedback: Feedback;
 }
