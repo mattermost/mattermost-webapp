@@ -1,0 +1,35 @@
+@import '../../sass/utils/module';
+
+.post-reminder-modal {
+    width: 600px;
+
+    .modal &.GenericModal .modal {
+        &-body {
+            overflow: visible;
+        }
+
+        &-content {
+            width: 100%;
+            padding: 28px 8px 24px 24px;
+        }
+
+        &-footer {
+            padding: 0;
+            padding-right: 16px;
+            margin-top: 22px;
+        }
+    }
+
+    .dateTime {
+        width: 100%;
+        margin: unset;
+
+        .dateTime__date {
+            margin-right: 16px;
+        }
+
+        .dateTime__input {
+            width: 260px;
+        }
+    }
+}

@@ -4,14 +4,18 @@
 import React from 'react';
 import memoize from 'memoize-one';
 
-import {Post} from '@mattermost/types/posts';
-import {Channel} from '@mattermost/types/channels';
-
 import Markdown from 'components/markdown';
 
 import {MentionKey, TextFormattingOptions} from 'utils/text_formatting';
 
-import {renderSystemMessage} from './system_message_helpers';
+import {Posts} from 'mattermost-redux/constants';
+
+import {Post} from '@mattermost/types/posts';
+import {Channel} from '@mattermost/types/channels';
+
+import {Team} from '@mattermost/types/teams';
+
+import {renderReminderSystemBotMessage, renderSystemMessage} from './system_message_helpers';
 
 type Props = {
 
@@ -40,6 +44,7 @@ type Props = {
      */
     channelId?: string;
     channel: Channel;
+    currentTeam: Team;
     options?: TextFormattingOptions;
     pluginHooks?: Array<Record<string, any>>;
 
@@ -55,6 +60,11 @@ type Props = {
      * @default true
      */
     showPostEditedIndicator?: boolean;
+
+    /**
+     * Whether the user prefers Military time
+     */
+    isMilitaryTime?: boolean;
 }
 
 export default class PostMarkdown extends React.PureComponent<Props> {
@@ -80,10 +90,15 @@ export default class PostMarkdown extends React.PureComponent<Props> {
         const {post, mentionKeys} = this.props;
 
         if (post) {
-            const renderedSystemMessage = renderSystemMessage(post, this.props.channel, this.props.isUserCanManageMembers);
+            const renderedSystemMessage = renderSystemMessage(post, this.props.currentTeam, this.props.channel, this.props.isUserCanManageMembers, this.props.isMilitaryTime);
             if (renderedSystemMessage) {
                 return <div>{renderedSystemMessage}</div>;
             }
+        }
+
+        if (post && post.type === Posts.POST_TYPES.REMINDER) {
+            const renderedSystemBotMessage = renderReminderSystemBotMessage(post, this.props.currentTeam);
+            return <div>{renderedSystemBotMessage}</div>;
         }
 
         // Proxy images if we have an image proxy and the server hasn't already rewritten the post's image URLs.

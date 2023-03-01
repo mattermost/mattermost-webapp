@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import expect from 'expect';
 
 import {Post, PostOrderBlock} from '@mattermost/types/posts';
@@ -295,7 +293,7 @@ describe('posts', () => {
 
             const nextState = reducers.handlePosts(state, action);
 
-            assert.deepEqual(nextState.postsInChannel, {});
+            expect(nextState.postsInChannel).toEqual({});
         });
     });
 
@@ -3436,7 +3434,7 @@ describe('removeUnneededMetadata', () => {
 
         const nextPost = reducers.removeUnneededMetadata(post);
 
-        assert.equal(nextPost, post);
+        expect(nextPost).toEqual(post);
     });
 
     it('with empty metadata', () => {
@@ -3447,7 +3445,7 @@ describe('removeUnneededMetadata', () => {
 
         const nextPost = reducers.removeUnneededMetadata(post);
 
-        assert.equal(nextPost, post);
+        expect(nextPost).toEqual(post);
     });
 
     it('should remove emojis', () => {
@@ -3460,8 +3458,8 @@ describe('removeUnneededMetadata', () => {
 
         const nextPost = reducers.removeUnneededMetadata(post);
 
-        assert.notEqual(nextPost, post);
-        assert.deepEqual(nextPost, {
+        expect(nextPost).not.toEqual(post);
+        expect(nextPost).toEqual({
             id: 'post',
             metadata: {},
         });
@@ -3477,8 +3475,8 @@ describe('removeUnneededMetadata', () => {
 
         const nextPost = reducers.removeUnneededMetadata(post);
 
-        assert.notEqual(nextPost, post);
-        assert.deepEqual(nextPost, {
+        expect(nextPost).not.toEqual(post);
+        expect(nextPost).toEqual({
             id: 'post',
             metadata: {},
         });
@@ -3498,8 +3496,8 @@ describe('removeUnneededMetadata', () => {
 
         const nextPost = reducers.removeUnneededMetadata(post);
 
-        assert.notEqual(nextPost, post);
-        assert.deepEqual(nextPost, {
+        expect(nextPost).not.toEqual(post);
+        expect(nextPost).toEqual({
             id: 'post',
             metadata: {},
         });
@@ -3526,8 +3524,8 @@ describe('removeUnneededMetadata', () => {
 
         const nextPost = reducers.removeUnneededMetadata(post);
 
-        assert.notEqual(nextPost, post);
-        assert.deepEqual(nextPost, {
+        expect(nextPost).not.toEqual(post);
+        expect(nextPost).toEqual({
             id: 'post',
             metadata: {
                 embeds: [{
@@ -3556,7 +3554,7 @@ describe('removeUnneededMetadata', () => {
 
         const nextPost = reducers.removeUnneededMetadata(post);
 
-        assert.equal(nextPost, post);
+        expect(nextPost).toEqual(post);
     });
 });
 
@@ -3577,7 +3575,7 @@ describe('reactions', () => {
 
                 const nextState = reducers.reactions(state, action);
 
-                assert.equal(nextState, state);
+                expect(nextState).toEqual(state);
             });
 
             it('no reactions in post metadata', () => {
@@ -3592,8 +3590,8 @@ describe('reactions', () => {
 
                 const nextState = reducers.reactions(state, action);
 
-                assert.notEqual(nextState, state);
-                assert.deepEqual(nextState, {
+                expect(nextState).not.toEqual(state);
+                expect(nextState).toEqual({
                     post: {},
                 });
             });
@@ -3610,7 +3608,7 @@ describe('reactions', () => {
 
                 const nextState = reducers.reactions(state, action);
 
-                assert.deepEqual(nextState, {
+                expect(nextState).toEqual({
                     post: {name: 'smiley', post_id: 'post'},
                 });
             });
@@ -3633,8 +3631,8 @@ describe('reactions', () => {
 
                 const nextState = reducers.reactions(state, action);
 
-                assert.notEqual(nextState, state);
-                assert.deepEqual(nextState, {
+                expect(nextState).not.toEqual(state);
+                expect(nextState).toEqual({
                     post: {
                         'abcd-+1': {user_id: 'abcd', emoji_name: '+1'},
                         'efgh-+1': {user_id: 'efgh', emoji_name: '+1'},
@@ -3655,7 +3653,7 @@ describe('reactions', () => {
 
                 const nextState = reducers.reactions(state, action);
 
-                assert.equal(nextState, state);
+                expect(nextState).toEqual(state);
             });
         });
     }
@@ -3676,7 +3674,7 @@ describe('reactions', () => {
 
             const nextState = reducers.reactions(state, action);
 
-            assert.equal(nextState, state);
+            expect(nextState).toEqual(state);
         });
 
         it('no reactions in post metadata', () => {
@@ -3695,8 +3693,8 @@ describe('reactions', () => {
 
             const nextState = reducers.reactions(state, action);
 
-            assert.notEqual(nextState, state);
-            assert.deepEqual(nextState, {
+            expect(nextState).not.toEqual(state);
+            expect(nextState).toEqual({
                 post: {},
             });
         });
@@ -3723,8 +3721,8 @@ describe('reactions', () => {
 
             const nextState = reducers.reactions(state, action);
 
-            assert.notEqual(nextState, state);
-            assert.deepEqual(nextState, {
+            expect(nextState).not.toEqual(state);
+            expect(nextState).toEqual({
                 post: {
                     'abcd-+1': {user_id: 'abcd', emoji_name: '+1'},
                     'efgh-+1': {user_id: 'efgh', emoji_name: '+1'},
@@ -3761,8 +3759,8 @@ describe('reactions', () => {
 
             const nextState = reducers.reactions(state, action);
 
-            assert.notEqual(nextState, state);
-            assert.deepEqual(nextState, {
+            expect(nextState).not.toEqual(state);
+            expect(nextState).toEqual({
                 post1: {
                     'abcd-+1': {user_id: 'abcd', emoji_name: '+1'},
                 },
@@ -3801,8 +3799,8 @@ describe('reactions', () => {
 
             const nextState = reducers.reactions(state, action);
 
-            assert.notEqual(nextState, state);
-            assert.deepEqual(nextState, {
+            expect(nextState).not.toEqual(state);
+            expect(nextState).toEqual({
                 post1: {
                     'abcd-+1': {user_id: 'abcd', emoji_name: '+1'},
                 },
@@ -3828,7 +3826,7 @@ describe('opengraph', () => {
 
                 const nextState = reducers.openGraph(state, action);
 
-                assert.equal(nextState, state);
+                expect(nextState).toEqual(state);
             });
 
             it('no embeds in post metadata', () => {
@@ -3843,7 +3841,7 @@ describe('opengraph', () => {
 
                 const nextState = reducers.openGraph(state, action);
 
-                assert.equal(nextState, state);
+                expect(nextState).toEqual(state);
             });
 
             it('other types of embeds in post metadata', () => {
@@ -3865,7 +3863,7 @@ describe('opengraph', () => {
 
                 const nextState = reducers.openGraph(state, action);
 
-                assert.equal(nextState, state);
+                expect(nextState).toEqual(state);
             });
 
             it('should save opengraph data', () => {
@@ -3889,8 +3887,8 @@ describe('opengraph', () => {
 
                 const nextState = reducers.openGraph(state, action);
 
-                assert.notEqual(nextState, state);
-                assert.deepEqual(nextState, {
+                expect(nextState).not.toEqual(state);
+                expect(nextState).toEqual({
                     post: {'https://example.com': action.data.metadata.embeds[0].data},
                 });
             });
@@ -3913,7 +3911,7 @@ describe('opengraph', () => {
 
             const nextState = reducers.openGraph(state, action);
 
-            assert.equal(nextState, state);
+            expect(nextState).toEqual(state);
         });
 
         it('no embeds in post metadata', () => {
@@ -3932,7 +3930,7 @@ describe('opengraph', () => {
 
             const nextState = reducers.openGraph(state, action);
 
-            assert.equal(nextState, state);
+            expect(nextState).toEqual(state);
         });
 
         it('other types of embeds in post metadata', () => {
@@ -3958,7 +3956,7 @@ describe('opengraph', () => {
 
             const nextState = reducers.openGraph(state, action);
 
-            assert.equal(nextState, state);
+            expect(nextState).toEqual(state);
         });
 
         it('should save opengraph data', () => {
@@ -3986,8 +3984,8 @@ describe('opengraph', () => {
 
             const nextState = reducers.openGraph(state, action);
 
-            assert.notEqual(nextState, state);
-            assert.deepEqual(nextState, {
+            expect(nextState).not.toEqual(state);
+            expect(nextState).toEqual({
                 post1: {'https://example.com': action.data.posts.post1.metadata.embeds[0].data},
             });
         });
@@ -4030,8 +4028,8 @@ describe('opengraph', () => {
 
             const nextState = reducers.openGraph(state, action);
 
-            assert.notEqual(nextState, state);
-            assert.deepEqual(nextState, {
+            expect(nextState).not.toEqual(state);
+            expect(nextState).toEqual({
                 post1: {'https://example.com': action.data.posts.post1.metadata.embeds[0].data},
                 post2: {'https://google.ca': action.data.posts.post2.metadata.embeds[0].data},
             });
@@ -4051,8 +4049,8 @@ describe('expandedURLs', () => {
         };
 
         const nextState = reducers.expandedURLs(state, action);
-        assert.notEqual(state, nextState);
-        assert.deepEqual(nextState, {
+        expect(state).not.toEqual(nextState);
+        expect(nextState).toEqual({
             a: 'b',
         });
     });
@@ -4067,8 +4065,8 @@ describe('expandedURLs', () => {
         };
 
         const nextState = reducers.expandedURLs(state, action);
-        assert.notEqual(state, nextState);
-        assert.deepEqual(nextState, {
+        expect(state).not.toEqual(nextState);
+        expect(nextState).toEqual({
             b: 'b',
         });
     });
@@ -4085,7 +4083,7 @@ describe('removeNonRecentEmptyPostBlocks', () => {
         }];
 
         const filteredBlocks = reducers.removeNonRecentEmptyPostBlocks(blocks);
-        assert.deepEqual(filteredBlocks, [{
+        expect(filteredBlocks).toEqual([{
             order: ['1', '2'],
             recent: false,
         }]);
@@ -4104,7 +4102,7 @@ describe('removeNonRecentEmptyPostBlocks', () => {
         }];
 
         const filteredBlocks = reducers.removeNonRecentEmptyPostBlocks(blocks);
-        assert.deepEqual(filteredBlocks, [{
+        expect(filteredBlocks).toEqual([{
             order: [],
             recent: true,
         }, {
