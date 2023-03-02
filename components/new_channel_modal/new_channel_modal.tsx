@@ -8,7 +8,7 @@ import {Tooltip} from 'react-bootstrap';
 
 import classNames from 'classnames';
 
-import {lib as CryptoJS} from 'crypto-js';
+import { random as cryptoJSRandomWordArray} from 'crypto-js/lib-typedarrays';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import GenericModal from 'components/generic_modal';
@@ -113,7 +113,7 @@ const NewChannelModal = () => {
 
         const channel: Channel = {
             team_id: currentTeamId,
-            name: url || CryptoJS.WordArray.random(16).toString(),
+            name: url || cryptoJSRandomWordArray(16).toString(),
             display_name: displayName,
             purpose,
             header: '',
