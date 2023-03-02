@@ -33,4 +33,7 @@ test('Intro to channel as regular user', async ({pw, pages, browserName, viewpor
     // Match snapshot of channel intro page
     const testArgs = {page, browserName, viewport};
     await pw.matchSnapshot(testInfo, testArgs);
+
+    // Explicitly close the page
+    await page.close();
 });

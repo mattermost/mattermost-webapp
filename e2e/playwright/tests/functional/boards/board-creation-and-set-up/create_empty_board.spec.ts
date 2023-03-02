@@ -43,4 +43,7 @@ test('MM-T4274 Create an Empty Board', async ({pw, pages}) => {
     // Should update the title in heading and in sidebar
     expect(await boardsViewPage.editableTitle.getAttribute('value')).toBe(title);
     await boardsViewPage.sidebar.waitForTitle(title);
+
+    // Explicitly close the page
+    await page.close();
 });

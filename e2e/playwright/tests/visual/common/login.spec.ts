@@ -25,4 +25,7 @@ test('/login', async ({pw, pages, page, browserName, viewport}, testInfo) => {
 
     // Match snapshot of login page with error
     await pw.matchSnapshot({...testInfo, title: `${testInfo.title} error`}, testArgs);
+
+    // Explicitly close the page
+    await page.close();
 });

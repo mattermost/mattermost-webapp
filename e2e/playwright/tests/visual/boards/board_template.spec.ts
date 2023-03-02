@@ -23,4 +23,7 @@ test('Board template', async ({pw, pages, browserName, viewport}, testInfo) => {
     // Match snapshot of create board page
     const testArgs = {page, browserName, viewport};
     await pw.matchSnapshot(testInfo, testArgs);
+
+    // Explicitly close the page
+    await page.close();
 });

@@ -11,4 +11,7 @@ test('/landing#/login', async ({pw, pages, page, isMobile, browserName, viewport
 
     // Match snapshot of landing page
     await pw.matchSnapshot(testInfo, {page, browserName, viewport});
+
+    // Explicitly close the page
+    await page.close();
 });
