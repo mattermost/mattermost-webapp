@@ -4,6 +4,7 @@
 @import 'utils/mixins';
 
 .DebugBarButton {
+    @include primary-button;
     position: fixed;
     z-index: 1000;
     bottom: 20px;
@@ -30,8 +31,8 @@
 .DebugBar {
     width: 100%;
     height: 400px;
-    border: 1px solid #aaa;
-    background: white;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
+    background: var(--center-channel-bg-rgb);
     box-shadow: var(--elevation-2);
     grid-column: 1/span 5;
     grid-row: 4;
@@ -70,25 +71,33 @@
     .handler {
         width: 100%;
         padding-top: 4px;
-        background: var(--sidebar-text-active-border);
+        background: rgba(var(--center-channel-color-rgb), 0.12);
         cursor: ns-resize;
     }
 
     .header {
         display: flex;
-        background-color: #f5f5f5;
+        color: var(--sidebar-text);
+        background-color: var(--sidebar-bg);
 
         &__Button {
             @include button-style--none;
 
             padding: 6px 10px;
-            border-radius: 0;
+            border-radius: 0 4px 4px 0;
+            border-left: 2px solid rgba(var(--sidebar-text-active-border), 0);
 
             &.selected,
             &:hover {
                 @include tertiary-button;
 
+                color: var(--sidebar-text-active-color);
                 font-weight: normal;
+            }
+
+            &.selected {
+                background: rgba(var(--sidebar-text-rgb), 0.1);
+                border-left: 2px solid var(--sidebar-text-active-border);
             }
         }
     }
@@ -101,7 +110,6 @@
     .DebugBarTable {
         width: 100%;
         background: var(--center-channel-bg);
-        font-family: "Times New Roman", Times, serif;
 
         &__row {
             display: flex;
