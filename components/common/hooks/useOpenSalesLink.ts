@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 
 import {getCloudCustomer} from 'mattermost-redux/selectors/entities/cloud';
 import {LicenseLinks} from 'utils/constants';
-import {goToCloudSupportForm} from 'utils/zendesk';
+import {goToCloudSupportForm} from 'utils/contact';
 
 export default function useOpenSalesLink(): [() => void, string] {
     // const contactSalesLink = useSelector(getCloudContactUsLink)(inquireType, issue);

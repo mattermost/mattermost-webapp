@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 const baseZendeskFormURL = 'https://support.mattermost.com/hc/en-us/requests/new';
+const baseContactSalesURL = 'https://mattermost.com/contact-sales';
 
 export enum ZendeskSupportForm {
     SELF_HOSTED_SUPPORT_FORM = '11184911962004',
@@ -77,5 +78,15 @@ export const goToCloudSupportForm = (email: string, subject: string, workspaceUR
         {id: ZendeskFormFieldIDs.SUBJECT, val: subject},
     ]);
     url = url.concat(`&tf_${ZendeskFormFieldIDs.CLOUD_WORKSPACE_URL}=${workspaceURL}`);
+    window.open(url, '_blank');
+};
+
+const buildMMURL = (baseURL: string, firstName: string, lastName: string, companyName: string, businessEmail: string) => {
+    const mmURL = `${baseURL}?fn=${firstName}&ln=${lastName}&cn=${companyName}&bn=${businessEmail}`;
+    return mmURL;
+};
+
+export const goToMattermostContactForm = (firstName: string, lastName: string, companyName: string, businessEmail: string) => {
+    const url = buildMMURL(baseContactSalesURL, firstName, lastName, companyName, businessEmail);
     window.open(url, '_blank');
 };

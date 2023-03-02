@@ -5,15 +5,10 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
+import {useOpenCloudZendeskSupportForm} from 'components/common/hooks/useOpenSalesLink';
 
-type Props = {
-    cancelAccountLink: any;
-}
-
-const CancelSubscription = (props: Props) => {
-    const {
-        cancelAccountLink,
-    } = props;
+const CancelSubscription = () => {
+    const openContactSupport = useOpenCloudZendeskSupportForm('Delete workspace');
 
     return (
         <div className='cancelSubscriptionSection'>
@@ -31,11 +26,13 @@ const CancelSubscription = (props: Props) => {
                     />
                 </div>
                 <a
-                    href={cancelAccountLink}
-                    rel='noopener noreferrer'
-                    target='_blank'
                     className='cancelSubscriptionSection__contactUs'
-                    onClick={() => trackEvent('cloud_admin', 'click_contact_us')}
+                    onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+                        event.preventDefault();
+                        trackEvent('cloud_admin', 'click_contact_us');
+                        openContactSupport();
+                    }
+                    }
                 >
                     <FormattedMessage
                         id='admin.billing.subscription.cancelSubscriptionSection.contactUs'

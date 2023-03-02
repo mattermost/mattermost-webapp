@@ -14,6 +14,7 @@ import {
     LicenseLinks,
     ModalIdentifiers,
 } from 'utils/constants';
+import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 
 import NoInternetConnection from '../no_internet_connection/no_internet_connection';
 
@@ -31,6 +32,9 @@ export interface RenewalLinkProps {
 const RenewalLink = (props: RenewalLinkProps) => {
     const [renewalLink, setRenewalLink] = useState('');
     const [manualInterventionRequired, setManualInterventionRequired] = useState(false);
+
+    const [openContactSales] = useOpenSalesLink();
+
     useEffect(() => {
         Client4.getRenewalLink().then(({renewal_link: renewalLinkParam}) => {
             try {
@@ -55,7 +59,7 @@ const RenewalLink = (props: RenewalLinkProps) => {
                 }
                 window.open(renewalLink, '_blank');
             } else if (manualInterventionRequired) {
-                window.open(LicenseLinks.CONTACT_SALES, '_blank'); // use hook
+                openContactSales();
             } else {
                 showConnectionErrorModal();
             }

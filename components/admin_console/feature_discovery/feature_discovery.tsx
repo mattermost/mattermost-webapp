@@ -6,9 +6,6 @@ import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import {AnalyticsRow} from '@mattermost/types/admin';
-import {ClientLicense} from '@mattermost/types/config';
-
 import {EmbargoedEntityTrialError} from 'components/admin_console/license_settings/trial_banner/trial_banner';
 import AlertBanner from 'components/alert_banner';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
@@ -21,10 +18,14 @@ import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_tria
 import {ModalIdentifiers, TELEMETRY_CATEGORIES, AboutLinks, LicenseLinks, LicenseSkus} from 'utils/constants';
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import * as Utils from 'utils/utils';
+import {goToMattermostContactForm} from 'utils/contact';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
 import {ModalData} from 'types/actions';
+
+import {ClientLicense} from '@mattermost/types/config';
+import {AnalyticsRow} from '@mattermost/types/admin';
 
 import './feature_discovery.scss';
 
@@ -55,7 +56,6 @@ type Props = {
     hadPrevCloudTrial: boolean;
     isSubscriptionLoaded: boolean;
     isPaidSubscription: boolean;
-    contactSalesLink: string;
 }
 
 type State = {
@@ -96,6 +96,10 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         });
     }
 
+    contactSalesFunc = () => {
+        goToMattermostContactForm('', '', '', '');
+    }
+
     renderPostTrialCta = () => {
         const {
             minimumSKURequiredForFeature,
@@ -109,7 +113,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                         data-testid='featureDiscovery_primaryCallToAction'
                         onClick={() => {
                             trackEvent(TELEMETRY_CATEGORIES.SELF_HOSTED_ADMIN, 'click_enterprise_contact_sales_feature_discovery');
-                            window.open(LicenseLinks.CONTACT_SALES, '_blank'); // use hook func
+                            this.contactSalesFunc();
                         }}
                     >
                         <FormattedMessage
@@ -161,7 +165,6 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             hadPrevCloudTrial,
             isPaidSubscription,
             minimumSKURequiredForFeature,
-            contactSalesLink,
         } = this.props;
 
         const canRequestCloudFreeTrial = isCloud && !isCloudTrial && !hadPrevCloudTrial && !isPaidSubscription;
@@ -217,11 +220,10 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                             onClick={() => {
                                 if (isCloud) {
                                     trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_enterprise_contact_sales_feature_discovery');
-                                    window.open(contactSalesLink, '_blank');
                                 } else {
                                     trackEvent(TELEMETRY_CATEGORIES.SELF_HOSTED_ADMIN, 'click_enterprise_contact_sales_feature_discovery');
-                                    window.open(LicenseLinks.CONTACT_SALES, '_blank'); // move to hook
                                 }
+                                this.contactSalesFunc();
                             }}
                         >
                             <FormattedMessage

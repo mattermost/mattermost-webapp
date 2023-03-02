@@ -10,20 +10,18 @@ import {CloudLinks, CloudProducts} from 'utils/constants';
 import PrivateCloudSvg from 'components/common/svg_images_components/private_cloud_svg';
 import CloudTrialSvg from 'components/common/svg_images_components/cloud_trial_svg';
 import {TelemetryProps} from 'components/common/hooks/useOpenPricingModal';
+import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 
 type Props = {
-    contactSalesLink: any;
     isFreeTrial: boolean;
-    trialQuestionsLink: any;
     subscriptionPlan: string | undefined;
     onUpgradeMattermostCloud: (telemetryProps?: TelemetryProps | undefined) => void;
 }
 
 const ContactSalesCard = (props: Props) => {
+    const [openSalesLink, contactSalesLink] = useOpenSalesLink();
     const {
-        contactSalesLink,
         isFreeTrial,
-        trialQuestionsLink,
         subscriptionPlan,
         onUpgradeMattermostCloud,
     } = props;
@@ -144,7 +142,7 @@ const ContactSalesCard = (props: Props) => {
                 </div>
                 {(isFreeTrial || subscriptionPlan === CloudProducts.ENTERPRISE || isCloudLegacyPlan) &&
                     <a
-                        href={isFreeTrial ? trialQuestionsLink : contactSalesLink} // modify hook to also return link for usecases like these
+                        href={contactSalesLink}
                         rel='noopener noreferrer'
                         target='_blank'
                         className='PrivateCloudCard__actionButton'
@@ -164,7 +162,7 @@ const ContactSalesCard = (props: Props) => {
                             if (subscriptionPlan === CloudProducts.STARTER) {
                                 onUpgradeMattermostCloud({trackingLocation: 'admin_console_subscription_card_upgrade_now_button'});
                             } else {
-                                window.open(contactSalesLink, '_blank'); // move to hook
+                                openSalesLink();
                             }
                         }}
                         className='PrivateCloudCard__actionButton'

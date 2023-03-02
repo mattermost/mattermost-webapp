@@ -37,12 +37,14 @@ import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurch
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
+import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
 import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
+
 
 import './content.scss';
 
@@ -122,6 +124,7 @@ function Content(props: ContentProps) {
     const freeTierText = (!isStarter && !currentSubscriptionIsMonthly) ? formatMessage({id: 'pricing_modal.btn.contactSupport', defaultMessage: 'Contact Support'}) : formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'});
     const adminProfessionalTierText = currentSubscriptionIsMonthlyProfessional ? formatMessage({id: 'pricing_modal.btn.switch_to_annual', defaultMessage: 'Switch to annual billing'}) : formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
 
+    const [openContactSales] = useOpenSalesLink();
     const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
     const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
         isDelinquencyModal: true,
@@ -237,7 +240,7 @@ function Content(props: ContentProps) {
             return {
                 action: () => {
                     trackEvent(TELEMETRY_CATEGORIES.CLOUD_PRICING, 'click_enterprise_contact_sales');
-                    window.open(contactSalesLink, '_blank'); // use hook
+                    openContactSales();
                 },
                 text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
                 customClass: ButtonCustomiserClasses.active,

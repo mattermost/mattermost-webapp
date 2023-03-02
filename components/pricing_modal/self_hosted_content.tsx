@@ -26,6 +26,7 @@ import PlanLabel from 'components/common/plan_label';
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 
 import useCanSelfHostedSignup from 'components/common/hooks/useCanSelfHostedSignup';
+import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 
 import {
     useControlAirGappedSelfHostedPurchaseModal,
@@ -88,6 +89,7 @@ function SelfHostedContent(props: ContentProps) {
     const isEnterprise = license.SkuShortName === LicenseSkus.Enterprise;
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
 
+    const [openContactSales] = useOpenSalesLink();
     const controlScreeningInProgressModal = useControlScreeningInProgressModal();
     const controlAirgappedModal = useControlAirGappedSelfHostedPurchaseModal();
 
@@ -287,7 +289,7 @@ function SelfHostedContent(props: ContentProps) {
                         buttonDetails={(isPostSelfHostedEnterpriseTrial || !isAdmin) ? {
                             action: () => {
                                 trackEvent('self_hosted_pricing', 'click_enterprise_contact_sales');
-                                window.open(LicenseLinks.CONTACT_SALES, '_blank'); // use hook
+                                openContactSales();
                             },
                             text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
                             customClass: ButtonCustomiserClasses.active,
