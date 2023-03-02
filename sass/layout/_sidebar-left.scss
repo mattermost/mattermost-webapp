@@ -511,6 +511,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
         .scrollbar--view {
             z-index: unset !important;
+            margin-top: 8px;
         }
 
         .scrollbar--view ~ div {
@@ -900,12 +901,8 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
     .SidebarChannelGroup.capture {
         .SidebarChannelGroup_content {
-            padding-bottom: 14px;
+            padding-bottom: 6px;
             margin-bottom: 0;
-
-            &.hasFollowingSibling {
-                padding-bottom: 0;
-            }
         }
 
         .followingSibling {
@@ -968,11 +965,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
     /* Content */
     .SidebarChannelGroup_content {
         min-height: 2px;
-        margin-bottom: 14px;
-
-        &.hasFollowingSibling {
-            margin-bottom: 0;
-        }
+        margin-bottom: 6px;
     }
 
     .followingSibling {
@@ -983,10 +976,6 @@ $sidebarOpacityAnimationDuration: 0.15s;
     .SidebarChannelGroup.a11y--active .SidebarChannelGroup_content {
         padding-bottom: 14px;
         margin-bottom: 0;
-
-        &.hasFollowingSibling {
-            padding-bottom: 0;
-        }
     }
 
     .SidebarChannelGroup.a11y--active .followingSibling {

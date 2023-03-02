@@ -19,7 +19,7 @@ import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
 import {getAnalyticsCategory} from 'components/onboarding_tasks';
 
 import {t} from 'utils/i18n';
-import {getTrackFlowRole, getRoleForTrackFlow} from 'utils/utils';
+import {getTrackFlowRole, getRoleForTrackFlow, getSourceForTrackFlow} from 'utils/utils';
 
 import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
 import InviteAs, {InviteType} from './invite_as';
@@ -85,7 +85,7 @@ export default function InviteView(props: Props) {
     }, [props.currentTeam.invite_id]);
 
     const copyText = useCopyText({
-        trackCallback: () => trackEvent(getAnalyticsCategory(props.isAdmin), 'click_copy_invite_link', getRoleForTrackFlow()),
+        trackCallback: () => trackEvent(getAnalyticsCategory(props.isAdmin), 'click_copy_invite_link', {...getRoleForTrackFlow(), ...getSourceForTrackFlow()}),
         text: inviteURL,
     });
 

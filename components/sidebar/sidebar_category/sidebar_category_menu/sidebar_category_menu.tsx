@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, MouseEvent, useState} from 'react';
+import React, {memo, MouseEvent, useState, KeyboardEvent} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 
@@ -44,7 +44,7 @@ const SidebarCategoryMenu = (props: Props) => {
 
     let muteUnmuteCategoryMenuItem: JSX.Element | null = null;
     if (props.category.type !== CategoryTypes.DIRECT_MESSAGES) {
-        function toggleCategoryMute(event: MouseEvent<HTMLLIElement>) {
+        function toggleCategoryMute(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>) {
             event.preventDefault();
             props.setCategoryMuted(props.category.id, !props.category.muted);
         }
@@ -127,7 +127,7 @@ const SidebarCategoryMenu = (props: Props) => {
         );
     }
 
-    function handleSortChannels(event: MouseEvent<HTMLLIElement>, sorting: CategorySorting) {
+    function handleSortChannels(event: MouseEvent<HTMLLIElement> | KeyboardEvent<HTMLLIElement>, sorting: CategorySorting) {
         event.preventDefault();
 
         props.setCategorySorting(props.category.id, sorting);

@@ -16,7 +16,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import './feedback.scss';
 
 type Props = {
-    onSubmit: (feedback: Feedback) => void;
+    onSubmit: (deleteFeedback: Feedback) => void;
     title: string;
     submitText: string;
     feedbackOptions: string[];
@@ -79,6 +79,7 @@ function FeedbackModal(props: Props) {
             />
             {reason === optionOther &&
                 <textarea
+                    data-testid={'FeedbackModal__TextInput'}
                     className='FeedbackModal__FreeFormText'
                     placeholder={props.freeformTextPlaceholder}
                     rows={3}

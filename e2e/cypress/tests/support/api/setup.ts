@@ -18,6 +18,7 @@ interface SetupParam {
     userPrefix?: string;
     teamPrefix?: {name: string; displayName: string};
     channelPrefix?: {name: string; displayName: string};
+    skipBoardsWelcomePage?: boolean;
 }
 function apiInitSetup(arg: SetupParam = {}): ChainableT<SetupResult> {
     const {
@@ -27,6 +28,7 @@ function apiInitSetup(arg: SetupParam = {}): ChainableT<SetupResult> {
         userPrefix,
         teamPrefix = {name: 'team', displayName: 'Team'},
         channelPrefix = {name: 'channel', displayName: 'Channel'},
+        skipBoardsWelcomePage = true,
     } = arg;
 
     return (cy.apiCreateTeam(teamPrefix.name, teamPrefix.displayName) as any).then(({team}) => {
@@ -38,6 +40,10 @@ function apiInitSetup(arg: SetupParam = {}): ChainableT<SetupResult> {
 
                     // Only hide start trial modal for admin since it's not applicable to other users
                     cy.apiSaveStartTrialModal(user.id, hideAdminTrialModal.toString());
+                }
+
+                if (skipBoardsWelcomePage) {
+                    cy.apiBoardsWelcomePageViewed(user.id);
                 }
 
                 return cy.apiAddUserToTeam(team.id, user.id).then(() => {

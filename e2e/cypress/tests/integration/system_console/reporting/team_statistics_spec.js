@@ -35,7 +35,7 @@ describe('System Console > Team Statistics', () => {
         cy.get('.team-statistics__header span').should('be.visible').should('contain', 'Team Statistics for');
 
         // * Check that the rows for the table were generated.
-        cy.get('.grid-statistics__card').should('have.length', 3);
+        cy.get('.grid-statistics__card').should('have.length', 4);
 
         // * Check that the title content for the stats is as expected.
         cy.get('.admin-console__content').eq(0).find('.title').eq(0).should('contain', 'Total Active Users');
