@@ -11,8 +11,6 @@ import {useRouteMatch} from 'react-router-dom';
 import {setCustomStatus, unsetCustomStatus, removeRecentCustomStatus} from 'mattermost-redux/actions/users';
 import {setCustomStatusInitialisationState} from 'mattermost-redux/actions/preferences';
 import {Preferences} from 'mattermost-redux/constants';
-import {UserCustomStatus, CustomStatusDuration} from '@mattermost/types/users';
-import {Emoji} from '@mattermost/types/emojis';
 
 import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import {closeModal} from 'actions/views/modals';
@@ -32,6 +30,9 @@ import {localizeMessage} from 'utils/utils';
 import CustomStatusSuggestion from 'components/custom_status/custom_status_suggestion';
 import ExpiryMenu from 'components/custom_status/expiry_menu';
 import DateTimeInput, {getRoundedTime} from 'components/custom_status/date_time_input';
+
+import {Emoji} from '@mattermost/types/emojis';
+import {UserCustomStatus, CustomStatusDuration} from '@mattermost/types/users';
 
 import 'components/category_modal.scss';
 import './custom_status.scss';
@@ -315,6 +316,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
 
     return (
         <GenericModal
+            enforceFocus={false}
             onExited={props.onExited}
             modalHeaderText={
                 <FormattedMessage

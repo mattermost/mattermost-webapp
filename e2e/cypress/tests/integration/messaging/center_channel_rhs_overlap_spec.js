@@ -722,7 +722,7 @@ describe('Messaging', () => {
 
             // # Click on post dot menu so we can edit
             cy.clickPostDotMenu(postId, 'SEARCH');
-            cy.get('.dropdown-menu').should('be.visible').within(() => {
+            cy.get(`#SEARCH_dropdown_${postId}`).should('be.visible').within(() => {
                 cy.findByText('Edit').click();
             });
 

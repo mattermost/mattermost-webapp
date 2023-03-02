@@ -4,15 +4,8 @@
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
-import {FetchPaginatedThreadOptions} from '@mattermost/types/client4';
-import {ChannelUnread} from '@mattermost/types/channels';
-import {GlobalState} from '@mattermost/types/store';
-import {Post, PostList, PostAcknowledgement} from '@mattermost/types/posts';
-import {Reaction} from '@mattermost/types/reactions';
-import {UserProfile} from '@mattermost/types/users';
-
 import {Client4, DEFAULT_LIMIT_AFTER, DEFAULT_LIMIT_BEFORE} from 'mattermost-redux/client';
-import {General, Preferences, Posts} from '../constants';
+
 import {PostTypes, ChannelTypes, FileTypes, IntegrationTypes} from 'mattermost-redux/action_types';
 
 import {getCurrentChannelId, getMyChannelMember as getMyChannelMemberSelector} from 'mattermost-redux/selectors/entities/channels';
@@ -25,6 +18,14 @@ import {isCombinedUserActivityPost} from 'mattermost-redux/utils/post_list';
 import {ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {getUnreadScrollPositionPreference, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
+import {General, Preferences, Posts} from '../constants';
+import {UserProfile} from '@mattermost/types/users';
+import {Reaction} from '@mattermost/types/reactions';
+import {Post, PostList, PostAcknowledgement} from '@mattermost/types/posts';
+import {GlobalState} from '@mattermost/types/store';
+import {ChannelUnread} from '@mattermost/types/channels';
+import {FetchPaginatedThreadOptions} from '@mattermost/types/client4';
 
 import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';
 import {
@@ -1238,6 +1239,19 @@ export function unflagPost(postId: string) {
         Client4.trackEvent('action', 'action_posts_unflag');
 
         return deletePreferences(currentUserId, [preference])(dispatch, getState);
+    };
+}
+
+export function addPostReminder(userId: string, postId: string, timestamp: number) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        try {
+            await Client4.addPostReminder(userId, postId, timestamp);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+        return {data: true};
     };
 }
 
