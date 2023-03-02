@@ -4,10 +4,17 @@
 import {combineReducers} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {DebugBarState} from '@mattermost/types/debugbar';
+import {
+    DebugBarState,
+    DebugBarAPICall,
+    DebugBarSQLQuery,
+    DebugBarStoreCall,
+    DebugBarEmailSent,
+    DebugBarLog,
+} from '@mattermost/types/debugbar';
 import {DebugBarTypes} from 'mattermost-redux/action_types';
 
-export function emailsSent(state: any[] = [], action: GenericAction): any[] {
+export function emailsSent(state: DebugBarEmailSent[] = [], action: GenericAction): DebugBarEmailSent[] {
     switch (action.type) {
     case DebugBarTypes.ADD_LINE: {
         if (action.data?.type === 'email-sent') {
@@ -23,7 +30,7 @@ export function emailsSent(state: any[] = [], action: GenericAction): any[] {
     }
 }
 
-export function apiCalls(state: any[] = [], action: GenericAction): any[] {
+export function apiCalls(state: DebugBarAPICall[] = [], action: GenericAction): DebugBarAPICall[] {
     switch (action.type) {
     case DebugBarTypes.ADD_LINE: {
         if (action.data?.type === 'api-call') {
@@ -39,7 +46,7 @@ export function apiCalls(state: any[] = [], action: GenericAction): any[] {
     }
 }
 
-export function storeCalls(state: any[] = [], action: GenericAction): any[] {
+export function storeCalls(state: DebugBarStoreCall[] = [], action: GenericAction): DebugBarStoreCall[] {
     switch (action.type) {
     case DebugBarTypes.ADD_LINE: {
         if (action.data?.type === 'store-call') {
@@ -55,7 +62,7 @@ export function storeCalls(state: any[] = [], action: GenericAction): any[] {
     }
 }
 
-export function sqlQueries(state: any[] = [], action: GenericAction): any[] {
+export function sqlQueries(state: DebugBarSQLQuery[] = [], action: GenericAction): DebugBarSQLQuery[] {
     switch (action.type) {
     case DebugBarTypes.ADD_LINE: {
         if (action.data?.type === 'sql-query') {
@@ -71,7 +78,7 @@ export function sqlQueries(state: any[] = [], action: GenericAction): any[] {
     }
 }
 
-export function logs(state: any[] = [], action: GenericAction): any[] {
+export function logs(state: DebugBarLog[] = [], action: GenericAction): DebugBarLog[] {
     switch (action.type) {
     case DebugBarTypes.ADD_LINE: {
         if (action.data?.type === 'log-line') {
