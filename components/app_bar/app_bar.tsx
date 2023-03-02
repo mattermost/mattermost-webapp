@@ -12,8 +12,11 @@ import {getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
 import {getAppBarPluginComponents, getChannelHeaderPluginComponents, shouldShowAppBar} from 'selectors/plugins';
 import {suitePluginIds} from 'utils/constants';
 
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+
 import AppBarPluginComponent, {isAppBarPluginComponent} from './app_bar_plugin_component';
 import AppBarBinding, {isAppBinding} from './app_bar_binding';
+import AppBarMarketplace from './app_bar_marketplace';
 
 import './app_bar.scss';
 
@@ -24,6 +27,7 @@ export default function AppBar() {
     const currentProduct = useCurrentProduct();
     const currentProductId = useCurrentProductId();
     const enabled = useSelector(shouldShowAppBar);
+    const isAdmin = useSelector(isCurrentUserSystemAdmin);
 
     if (
         !enabled ||
@@ -76,6 +80,7 @@ export default function AppBar() {
     return (
         <div className={'app-bar'}>
             {items}
+            {isAdmin && <AppBarMarketplace/>}
         </div>
     );
 }

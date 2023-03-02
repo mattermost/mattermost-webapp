@@ -7,7 +7,7 @@ import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 import ChannelHeaderPlug from 'plugins/channel_header_plug/channel_header_plug';
-import {mountWithIntl} from '../../tests/helpers/intl-test-helper';
+import {mountWithIntl, shallowWithIntl} from '../../tests/helpers/intl-test-helper';
 import {PluginComponent} from 'types/store/plugins';
 
 describe('plugins/ChannelHeaderPlug', () => {
@@ -32,10 +32,12 @@ describe('plugins/ChannelHeaderPlug', () => {
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
+                    openModal: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}
                 shouldShowAppBar={false}
+                isAdmin={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -53,10 +55,12 @@ describe('plugins/ChannelHeaderPlug', () => {
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
+                    openModal: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}
                 shouldShowAppBar={false}
+                isAdmin={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -90,10 +94,12 @@ describe('plugins/ChannelHeaderPlug', () => {
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
+                    openModal: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}
                 shouldShowAppBar={false}
+                isAdmin={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -116,12 +122,39 @@ describe('plugins/ChannelHeaderPlug', () => {
                     handleBindingClick: jest.fn(),
                     postEphemeralCallResponseForChannel: jest.fn(),
                     openAppsModal: jest.fn(),
+                    openModal: jest.fn(),
                 }}
                 appBindings={[]}
                 appsEnabled={false}
                 shouldShowAppBar={true}
+                isAdmin={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should show marketplace for system admin', () => {
+        const wrapper = shallowWithIntl(
+            <ChannelHeaderPlug
+                components={[testPlug]}
+                channel={{} as Channel}
+                channelMember={{} as ChannelMembership}
+                theme={{} as Theme}
+                sidebarOpen={false}
+                actions={{
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
+                    openModal: jest.fn(),
+                }}
+                appBindings={[]}
+                appsEnabled={false}
+                shouldShowAppBar={false}
+                isAdmin={true}
+            />,
+        );
+
+        const marketplaceItem = wrapper.find('HeaderIconWrapper').at(1);
+        expect(marketplaceItem.prop('buttonId')).toEqual('channel_header_plug_marketplace');
     });
 });

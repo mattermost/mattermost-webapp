@@ -11,7 +11,9 @@ $app-bar-width: 48px;
     }
 
     position: relative;
+    display: flex;
     width: $app-bar-width;
+    flex-flow: column;
     padding-top: 16px;
     background-color: var(--center-channel-bg);
     -ms-overflow-style: none;
@@ -40,6 +42,11 @@ $app-bar-width: 48px;
         border-left: none;
         margin-bottom: 16px;
         cursor: pointer;
+
+        &--bottom {
+            margin-top: auto;
+            margin-bottom: 36px;
+        }
 
         &--active {
             &::before {

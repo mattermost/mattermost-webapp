@@ -97,6 +97,7 @@ export type MarketplaceModalProps = {
     siteURL: string;
     pluginStatuses?: Record<string, PluginStatusRedux>;
     firstAdminVisitMarketplaceStatus: boolean;
+    openedFrom?: string;
     actions: {
         closeModal: () => void;
         fetchListing(localOnly?: boolean): Promise<{error?: Error}>;
@@ -131,7 +132,7 @@ export default class MarketplaceModal extends React.PureComponent<MarketplaceMod
     }
 
     componentDidMount(): void {
-        trackEvent('plugins', 'ui_marketplace_opened');
+        trackEvent('plugins', 'ui_marketplace_opened', {from: this.props.openedFrom ?? ''});
 
         this.fetchListing();
         this.props.actions.getPluginStatuses();

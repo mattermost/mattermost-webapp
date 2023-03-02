@@ -213,6 +213,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                         modalId={ModalIdentifiers.PLUGIN_MARKETPLACE}
                         show={isMessaging && !isMobile && enablePluginMarketplace}
                         dialogType={MarketplaceModal}
+                        dialogProps={{openedFrom: 'product_menu'}}
                         text={formatMessage({id: 'navbar_dropdown.marketplace', defaultMessage: 'Marketplace'})}
                         icon={
                             <Icon

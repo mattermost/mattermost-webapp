@@ -13,7 +13,13 @@ import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForChannel} 
 import {handleBindingClick, openAppsModal, postEphemeralCallResponseForChannel} from 'actions/apps';
 import {GlobalState} from 'types/store';
 
+import {openModal} from 'actions/views/modals';
+
 import {getChannelHeaderPluginComponents, shouldShowAppBar} from 'selectors/plugins';
+
+import {ModalData} from 'types/actions';
+
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import ChannelHeaderPlug from './channel_header_plug';
 
@@ -27,6 +33,7 @@ function mapStateToProps(state: GlobalState) {
         theme: getTheme(state),
         sidebarOpen: state.views.rhs.isSidebarOpen,
         shouldShowAppBar: shouldShowAppBar(state),
+        isAdmin: isCurrentUserSystemAdmin(state),
     };
 }
 
@@ -34,6 +41,7 @@ type Actions = {
     handleBindingClick: HandleBindingClick;
     postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
     openAppsModal: OpenAppsModal;
+    openModal: <P>(modalData: ModalData<P>) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -42,6 +50,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             handleBindingClick,
             postEphemeralCallResponseForChannel,
             openAppsModal,
+            openModal,
         }, dispatch),
     };
 }

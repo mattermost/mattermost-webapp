@@ -6,6 +6,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot when the App Bar is vis
     Object {
       "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "openModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -92,6 +93,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot when the App Bar is vis
       "timeZone": "Etc/UTC",
     }
   }
+  isAdmin={false}
   shouldShowAppBar={true}
   sidebarOpen={false}
   theme={Object {}}
@@ -104,6 +106,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with no extended compon
     Object {
       "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "openModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -147,6 +150,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with no extended compon
       "timeZone": "Etc/UTC",
     }
   }
+  isAdmin={false}
   shouldShowAppBar={false}
   sidebarOpen={false}
   theme={Object {}}
@@ -159,6 +163,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
     Object {
       "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "openModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -215,6 +220,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
       "timeZone": "Etc/UTC",
     }
   }
+  isAdmin={false}
   shouldShowAppBar={false}
   sidebarOpen={false}
   theme={Object {}}
@@ -338,6 +344,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
     Object {
       "handleBindingClick": [MockFunction],
       "openAppsModal": [MockFunction],
+      "openModal": [MockFunction],
       "postEphemeralCallResponseForChannel": [MockFunction],
     }
   }
@@ -534,6 +541,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
       "timeZone": "Etc/UTC",
     }
   }
+  isAdmin={false}
   shouldShowAppBar={false}
   sidebarOpen={false}
   theme={Object {}}

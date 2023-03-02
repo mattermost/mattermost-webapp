@@ -147,6 +147,11 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
       teamId=""
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "openedFrom": "product_menu",
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -350,6 +355,11 @@ exports[`components/global/product_switcher_menu should match snapshot with most
       teamId=""
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "openedFrom": "product_menu",
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),
@@ -673,6 +683,11 @@ exports[`components/global/product_switcher_menu should show integrations should
       teamId=""
     >
       <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "openedFrom": "product_menu",
+          }
+        }
         dialogType={
           Object {
             "$$typeof": Symbol(react.memo),

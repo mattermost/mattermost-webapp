@@ -139,7 +139,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                 return {error: {message: localizeMessage('marketplace_command.disabled', 'The marketplace is disabled. Please contact your System Administrator for details.')}};
             }
 
-            dispatch(openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal}));
+            dispatch(openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal, dialogProps: {openedFrom: 'command'}}));
             return {data: true};
         case '/templates': {
             const workTemplateEnabled = areWorkTemplatesEnabled(state);
