@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {LicenseLinks} from './constants';
+
 const baseZendeskFormURL = 'https://support.mattermost.com/hc/en-us/requests/new';
-const baseContactSalesURL = 'https://mattermost.com/contact-sales';
 
 export enum ZendeskSupportForm {
     SELF_HOSTED_SUPPORT_FORM = '11184911962004',
@@ -87,6 +88,6 @@ const buildMMURL = (baseURL: string, firstName: string, lastName: string, compan
 };
 
 export const goToMattermostContactForm = (firstName: string, lastName: string, companyName: string, businessEmail: string) => {
-    const url = buildMMURL(baseContactSalesURL, firstName, lastName, companyName, businessEmail);
+    const url = buildMMURL(LicenseLinks.CONTACT_SALES, firstName, lastName, companyName, businessEmail);
     window.open(url, '_blank');
 };

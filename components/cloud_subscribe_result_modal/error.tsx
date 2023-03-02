@@ -13,7 +13,7 @@ import PaymentFailedSvg from 'components/common/svg_images_components/payment_fa
 import IconMessage from 'components/purchase_modal/icon_message';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
-import {useOpenCloudZendeskSupportForm} from 'components/common/hooks/useOpenSalesLink';
+import {useOpenCloudZendeskSupportForm} from 'components/common/hooks/useOpenZendeskForm';
 
 import {closeModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';

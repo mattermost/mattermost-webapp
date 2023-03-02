@@ -10,8 +10,6 @@ import {CloudLinks, CloudProducts, LicenseSkus, ModalIdentifiers, MattermostFeat
 import {fallbackStarterLimits, asGBString, hasSomeLimits} from 'utils/limits';
 import {findOnlyYearlyProducts, findProductBySku} from 'utils/products';
 
-import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
-
 import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal, openModal} from 'actions/views/modals';
 import {subscribeCloudSubscription} from 'actions/cloud';
@@ -38,6 +36,7 @@ import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurch
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
 import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
+import { useOpenCloudZendeskSupportForm } from 'components/common/hooks/useOpenZendeskForm';
 
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
@@ -64,14 +63,11 @@ function Content(props: ContentProps) {
     const openPricingModalBackAction = useOpenPricingModal();
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
-    const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.UpgradeEnterprise);
 
     const subscription = useSelector(selectCloudSubscription);
     const currentProduct = useSelector(selectSubscriptionProduct);
     const products = useSelector(selectCloudProducts);
     const yearlyProducts = findOnlyYearlyProducts(products || {}); // pricing modal should now only show yearly products
-
-    const contactSupportLink = useSelector(getCloudContactUsLink)(InquiryType.Technical);
 
     const currentSubscriptionIsMonthly = currentProduct?.recurring_interval === RecurringIntervals.MONTH;
     const isEnterprise = currentProduct?.sku === CloudProducts.ENTERPRISE;
@@ -125,6 +121,7 @@ function Content(props: ContentProps) {
     const adminProfessionalTierText = currentSubscriptionIsMonthlyProfessional ? formatMessage({id: 'pricing_modal.btn.switch_to_annual', defaultMessage: 'Switch to annual billing'}) : formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
 
     const [openContactSales] = useOpenSalesLink();
+    const openContactSupport = useOpenCloudZendeskSupportForm('Delete workspace');
     const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
     const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
         isDelinquencyModal: true,
@@ -352,7 +349,7 @@ function Content(props: ContentProps) {
                         buttonDetails={{
                             action: () => {
                                 if (!isStarter && !currentSubscriptionIsMonthly) {
-                                    window.open(contactSupportLink, '_blank');
+                                    openContactSupport();
                                     return;
                                 }
 

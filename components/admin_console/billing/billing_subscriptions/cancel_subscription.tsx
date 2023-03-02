@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {useOpenCloudZendeskSupportForm} from 'components/common/hooks/useOpenSalesLink';
+import {useOpenCloudZendeskSupportForm} from 'components/common/hooks/useOpenZendeskForm';
 
 const CancelSubscription = () => {
     const openContactSupport = useOpenCloudZendeskSupportForm('Delete workspace');

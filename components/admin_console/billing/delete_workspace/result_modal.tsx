@@ -14,7 +14,7 @@ import {GlobalState} from 'types/store';
 
 import './result_modal.scss';
 
-import {useOpenCloudZendeskSupportForm} from 'components/common/hooks/useOpenSalesLink';
+import {useOpenCloudZendeskSupportForm} from 'components/common/hooks/useOpenZendeskForm';
 
 type Props = {
     onHide?: () => void;
