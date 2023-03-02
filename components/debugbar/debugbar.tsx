@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useState, useCallback} from 'react';
+import React, {memo, useState, useCallback, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import cn from 'classnames';
 
@@ -44,18 +44,30 @@ function Tab({tab, text, selected, onClick}: {tab: string; text: string, selecte
 
 function DebugBar() {
     const config = useSelector(getConfig);
+    const [hidden, setHidden] = useState(true);
+    const [height, setHeight] = useState(300);
+    const [windowHeight, setWindowHeight] = useState(0);
     const setBarHeight = useCallback((e) => {
-        var newHeight = window.innerHeight - e.pageY;
+        var newHeight = windowHeight - e.pageY;
         if (newHeight < 34) {
             newHeight = 34;
         }
         setHeight(newHeight);
-    }, []);
-    const [hidden, setHidden] = useState(true);
-    const [height, setHeight] = useState(300);
+    }, [windowHeight]);
     const [tab, setTab] = useState('api');
     const [filterText, setFilterText] = useState('');
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        const handleSize = () => {
+            setWindowHeight(window.innerHeight)
+        }
+        handleSize()
+        window.addEventListener('resize', handleSize)
+        return () => {
+            window.removeEventListener('resize', handleSize)
+        }
+    }, [])
 
     if (config.DebugBar !== 'true') {
         return null;
