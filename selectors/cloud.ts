@@ -33,6 +33,7 @@ export enum SalesInquiryIssue {
 
 type Issue = SalesInquiryIssue | TechnicalInquiryIssue
 
+// might need to remove
 export const getCloudContactUsLink: (state: GlobalState) => (inquiry: InquiryType, inquiryIssue?: Issue) => string = createSelector(
     'getCloudContactUsLink',
     getConfig,

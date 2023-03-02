@@ -287,7 +287,7 @@ function SelfHostedContent(props: ContentProps) {
                         buttonDetails={(isPostSelfHostedEnterpriseTrial || !isAdmin) ? {
                             action: () => {
                                 trackEvent('self_hosted_pricing', 'click_enterprise_contact_sales');
-                                window.open(LicenseLinks.CONTACT_SALES, '_blank');
+                                window.open(LicenseLinks.CONTACT_SALES, '_blank'); // use hook
                             },
                             text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
                             customClass: ButtonCustomiserClasses.active,

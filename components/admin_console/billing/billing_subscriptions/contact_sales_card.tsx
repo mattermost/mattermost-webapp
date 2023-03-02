@@ -144,7 +144,7 @@ const ContactSalesCard = (props: Props) => {
                 </div>
                 {(isFreeTrial || subscriptionPlan === CloudProducts.ENTERPRISE || isCloudLegacyPlan) &&
                     <a
-                        href={isFreeTrial ? trialQuestionsLink : contactSalesLink}
+                        href={isFreeTrial ? trialQuestionsLink : contactSalesLink} // modify hook to also return link for usecases like these
                         rel='noopener noreferrer'
                         target='_blank'
                         className='PrivateCloudCard__actionButton'
@@ -164,7 +164,7 @@ const ContactSalesCard = (props: Props) => {
                             if (subscriptionPlan === CloudProducts.STARTER) {
                                 onUpgradeMattermostCloud({trackingLocation: 'admin_console_subscription_card_upgrade_now_button'});
                             } else {
-                                window.open(contactSalesLink, '_blank');
+                                window.open(contactSalesLink, '_blank'); // move to hook
                             }
                         }}
                         className='PrivateCloudCard__actionButton'

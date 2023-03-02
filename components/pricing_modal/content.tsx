@@ -237,7 +237,7 @@ function Content(props: ContentProps) {
             return {
                 action: () => {
                     trackEvent(TELEMETRY_CATEGORIES.CLOUD_PRICING, 'click_enterprise_contact_sales');
-                    window.open(contactSalesLink, '_blank');
+                    window.open(contactSalesLink, '_blank'); // use hook
                 },
                 text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
                 customClass: ButtonCustomiserClasses.active,

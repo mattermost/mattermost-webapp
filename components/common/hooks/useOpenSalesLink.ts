@@ -3,11 +3,22 @@
 
 import {useSelector} from 'react-redux';
 
-import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
+import {getCloudCustomer} from 'mattermost-redux/selectors/entities/cloud';
+import {LicenseLinks} from 'utils/constants';
+import {goToCloudSupportForm} from 'utils/zendesk';
 
-export default function useOpenSalesLink(issue?: SalesInquiryIssue, inquireType: InquiryType = InquiryType.Sales) {
-    const contactSalesLink = useSelector(getCloudContactUsLink)(inquireType, issue);
-
-    return () => window.open(contactSalesLink, '_blank');
+export default function useOpenSalesLink(): [() => void, string] {
+    // const contactSalesLink = useSelector(getCloudContactUsLink)(inquireType, issue);
+    const contactSalesLink = LicenseLinks.CONTACT_SALES;
+    const goToSalesLinkFunc = () => {
+        window.open(contactSalesLink, '_blank');
+    };
+    return [goToSalesLinkFunc, contactSalesLink];
 }
 
+export function useOpenCloudZendeskSupportForm(subject: string) {
+    const customer = useSelector(getCloudCustomer);
+    const customerEmail = customer?.email || '';
+
+    return () => goToCloudSupportForm(customerEmail, subject, window.location.host);
+}

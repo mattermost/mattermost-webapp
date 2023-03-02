@@ -109,7 +109,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                         data-testid='featureDiscovery_primaryCallToAction'
                         onClick={() => {
                             trackEvent(TELEMETRY_CATEGORIES.SELF_HOSTED_ADMIN, 'click_enterprise_contact_sales_feature_discovery');
-                            window.open(LicenseLinks.CONTACT_SALES, '_blank');
+                            window.open(LicenseLinks.CONTACT_SALES, '_blank'); // use hook func
                         }}
                     >
                         <FormattedMessage
@@ -220,7 +220,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                                     window.open(contactSalesLink, '_blank');
                                 } else {
                                     trackEvent(TELEMETRY_CATEGORIES.SELF_HOSTED_ADMIN, 'click_enterprise_contact_sales_feature_discovery');
-                                    window.open(LicenseLinks.CONTACT_SALES, '_blank');
+                                    window.open(LicenseLinks.CONTACT_SALES, '_blank'); // move to hook
                                 }
                             }}
                         >

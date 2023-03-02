@@ -55,7 +55,7 @@ const RenewalLink = (props: RenewalLinkProps) => {
                 }
                 window.open(renewalLink, '_blank');
             } else if (manualInterventionRequired) {
-                window.open(LicenseLinks.CONTACT_SALES, '_blank');
+                window.open(LicenseLinks.CONTACT_SALES, '_blank'); // use hook
             } else {
                 showConnectionErrorModal();
             }

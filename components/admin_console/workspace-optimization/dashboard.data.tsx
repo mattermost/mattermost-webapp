@@ -85,7 +85,7 @@ const useMetricsData = () => {
     const isStarterLicense = getIsStarterLicense(license);
 
     const trialOrEnterpriseCtaConfig = {
-        configUrl: canStartTrial ? ConsolePages.LICENSE : LicenseLinks.CONTACT_SALES,
+        configUrl: canStartTrial ? ConsolePages.LICENSE : LicenseLinks.CONTACT_SALES, // use hook
         configText: canStartTrial ? formatMessage({id: 'admin.reporting.workspace_optimization.cta.startTrial', defaultMessage: 'Start trial'}) : formatMessage({id: 'admin.reporting.workspace_optimization.cta.upgradeLicense', defaultMessage: 'Contact sales'}),
     };
 

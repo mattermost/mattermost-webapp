@@ -14,8 +14,7 @@ import {GlobalState} from 'types/store';
 
 import './result_modal.scss';
 
-import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
-import {InquiryType} from 'selectors/cloud';
+import {useOpenCloudZendeskSupportForm} from 'components/common/hooks/useOpenSalesLink';
 
 type Props = {
     onHide?: () => void;
@@ -33,7 +32,7 @@ type Props = {
 export default function ResultModal(props: Props) {
     const dispatch = useDispatch();
 
-    const openContactUs = useOpenSalesLink(undefined, InquiryType.Technical);
+    const openContactSupport = useOpenCloudZendeskSupportForm('Delete workspace');
 
     const isResultModalOpen = useSelector((state: GlobalState) =>
         isModalOpen(state, props.identifier),
@@ -71,7 +70,7 @@ export default function ResultModal(props: Props) {
                             /> :
                             undefined
                     }
-                    tertiaryButtonHandler={props.contactSupportButtonVisible ? openContactUs : undefined}
+                    tertiaryButtonHandler={props.contactSupportButtonVisible ? openContactSupport : undefined}
                 />
             </div>
         </FullScreenModal>

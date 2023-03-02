@@ -90,7 +90,7 @@ const OverageUsersBanner = () => {
     const handleContactSalesClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         trackEventFn('Contact Sales');
-        window.open(LicenseLinks.CONTACT_SALES, '_blank');
+        window.open(LicenseLinks.CONTACT_SALES, '_blank'); // use hook
     };
 
     const handleClick = isExpandable ? handleUpdateSeatsSelfServeClick : handleContactSalesClick;

@@ -19,7 +19,7 @@ const ContactUsButton: React.FC<Props> = (props: Props) => {
     const handleContactUsLinkClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         trackEvent('admin', props.eventID || 'in_trial_contact_sales');
-        window.open(LicenseLinks.CONTACT_SALES, '_blank');
+        window.open(LicenseLinks.CONTACT_SALES, '_blank'); // use hook
     };
 
     return (
