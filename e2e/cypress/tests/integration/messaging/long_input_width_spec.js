@@ -19,7 +19,7 @@ describe('Messaging', () => {
 
     beforeEach(() => {
         cy.get('.textarea-wrapper').invoke('width').then((width) => {
-            // # Get the width when first render
+            // # Get the width of the wrapper
             cy.wrap(width).as('initialPostTextBoxWrapperWidth');
         });
     });
@@ -33,6 +33,7 @@ describe('Messaging', () => {
     });
 
     it('textarea should have not width equal to wrapper when show Formatting bar is false', () => {
+        // # set the show formatting bar to false
         cy.get('#toggleFormattingBarButton').click();
         cy.uiGetPostTextBox().invoke('width').then((width) => {
             // # add the padding to textArea width
