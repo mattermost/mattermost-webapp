@@ -103,7 +103,7 @@ function DebugBar() {
                     <QuickInput
                         id='searchChannelsTextbox'
                         placeholder='Filter'
-                        className='form-control filter-textbox'
+                        className='form-control'
                         value={filterText}
                         onChange={(e) => setFilterText(e.target.value)}
                     />
