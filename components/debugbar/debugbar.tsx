@@ -3,6 +3,7 @@
 
 import React, {memo, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import cn from 'classnames';
 
 import {clearLines} from 'mattermost-redux/actions/debugbar';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -54,7 +55,7 @@ function DebugBar() {
             <div className='DebugBar__Tab'>
                 <button
                     key={tab}
-                    className={'header__Button ' + (isSelected(tab) ? 'selected' : '')}
+                    className={cn('header__Button', {selected: isSelected(tab)})}
                     onClick={makeSetTab(tab)}
                 >
                     {text}
