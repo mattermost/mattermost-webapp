@@ -18,8 +18,8 @@ describe('Selectors.Integrations', () => {
 
     const hooks = {[hook1.id]: hook1, [hook2.id]: hook2, [hook3.id]: hook3};
 
-    const command1 = {id: TestHelper.generateId(), ...TestHelper.testCommand(team1.id), auto_complete: false};
-    const command2 = {id: TestHelper.generateId(), ...TestHelper.testCommand(team2.id)};
+    const command1 = {...TestHelper.testCommand(team1.id), id: TestHelper.generateId(), auto_complete: false};
+    const command2 = {...TestHelper.testCommand(team2.id), id: TestHelper.generateId()};
     const command3 = TestHelper.testCommand(team1.id);
     const command4 = TestHelper.testCommand(team2.id);
 

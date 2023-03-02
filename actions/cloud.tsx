@@ -86,21 +86,21 @@ export function subscribeCloudSubscription(
     productId: string,
     shippingAddress: Address = getBlankAddressWithCountry(),
     seats = 0,
-    feedback?: Feedback,
+    downgradeFeedback?: Feedback,
 ) {
     return async () => {
         try {
-            await Client4.subscribeCloudProduct(
+            const subscription = await Client4.subscribeCloudProduct(
                 productId,
                 shippingAddress,
                 seats,
-                feedback,
+                downgradeFeedback,
             );
 
-            return true;
+            return {data: subscription};
         } catch (e: any) {
             // In the event that the status code returned is 422, this request has been blocked by export compliance
-            return {error: e.message, data: {status: e.status_code}};
+            return {data: false, error: {error: e.message, status: e.status_code}};
         }
     };
 }

@@ -3,13 +3,18 @@
 
 import React, {useCallback} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {Placement} from 'tippy.js';
 
 import {setAutoShowLinkedBoardPreference} from 'mattermost-redux/actions/boards';
 
 import {TourTip} from '@mattermost/components';
+import {shouldShowAutoLinkedBoard} from 'selectors/plugins';
+import {suitePluginIds} from 'utils/constants';
+import {getPluggableId} from 'selectors/rhs';
+import {PluginComponent} from 'types/store/plugins';
+import {GlobalState} from 'types/store';
 
 type Props = {
     pulsatingDotPlacement?: Omit<Placement, 'auto'| 'auto-end'>;
@@ -19,6 +24,14 @@ const AutoShowLinkedBoardTourTip = ({
     pulsatingDotPlacement = 'auto',
 }: Props): JSX.Element | null => {
     const dispatch = useDispatch();
+
+    const rhsPlugins: PluginComponent[] = useSelector((state: GlobalState) => state.plugins.components.RightHandSidebarComponent);
+    const pluggableId = useSelector(getPluggableId);
+    const pluginComponent = rhsPlugins.find((element: PluginComponent) => element.id === pluggableId);
+
+    const isBoards = pluginComponent && (pluginComponent.pluginId === suitePluginIds.focalboard || pluginComponent.pluginId === suitePluginIds.boards);
+    const showAutoLinkedBoard = useSelector(shouldShowAutoLinkedBoard);
+    const showAutoLinkedBoardTourTip = isBoards && showAutoLinkedBoard;
 
     const title = (
         <FormattedMessage
@@ -42,7 +55,6 @@ const AutoShowLinkedBoardTourTip = ({
     const handleOpen = useCallback((e: React.MouseEvent) => {
         e.stopPropagation();
         e.preventDefault();
-
         dispatch(setAutoShowLinkedBoardPreference());
     }, []);
 
@@ -52,6 +64,10 @@ const AutoShowLinkedBoardTourTip = ({
             defaultMessage={'Done'}
         />
     );
+
+    if (!showAutoLinkedBoardTourTip) {
+        return null;
+    }
 
     return (
         <TourTip
@@ -70,7 +86,7 @@ const AutoShowLinkedBoardTourTip = ({
             handlePrevious={handleDismiss}
             pulsatingDotTranslate={{x: -10, y: 70}}
             tippyBlueStyle={true}
-            showBackdrop={false}
+            hideBackdrop={true}
             nextBtn={nextBtn}
             handleNext={handleDismiss}
         />

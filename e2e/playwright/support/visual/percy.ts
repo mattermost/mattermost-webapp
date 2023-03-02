@@ -7,7 +7,7 @@ import testConfig, {TestArgs} from '@e2e-test.config';
 
 export default async function snapshotWithPercy(name: string, testArgs: TestArgs) {
     if (testArgs.browserName === 'chromium' && testConfig.percyEnabled && testArgs.viewport) {
-        if (!process.env.PERCY_TOKEN) {
+        if (!testConfig.percyToken) {
             // eslint-disable-next-line no-console
             console.error('Error: Token is missing! Please set using: "export PERCY_TOKEN=<change_me>"');
         }

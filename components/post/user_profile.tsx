@@ -7,12 +7,12 @@ import {FormattedMessage} from 'react-intl';
 import Constants, {Locations} from 'utils/constants';
 import {fromAutoResponder, isFromWebhook} from 'utils/post_utils';
 
-import {Post} from '@mattermost/types/posts';
-
 import Tag from 'components/widgets/tag/tag';
 import BotTag from 'components/widgets/tag/bot_tag';
 import UserProfile from 'components/user_profile';
 import PostHeaderCustomStatus from 'components/post_view/post_header_custom_status/post_header_custom_status';
+
+import {Post} from '@mattermost/types/posts';
 
 type Props = {
     post: Post;
@@ -151,7 +151,7 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
         {userProfile}
         {colon}
         {botIndicator}
-        {props.location === Locations.CENTER && (props.currentUserId === post.user_id) && customStatus}
+        {customStatus}
     </div>);
 };
 
