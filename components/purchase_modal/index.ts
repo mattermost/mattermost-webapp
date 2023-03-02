@@ -27,7 +27,6 @@ import {ModalIdentifiers} from 'utils/constants';
 import {closeModal, openModal} from 'actions/views/modals';
 import {completeStripeAddPaymentMethod, subscribeCloudSubscription} from 'actions/cloud';
 import {ModalData} from 'types/actions';
-import {Address, Feedback} from '@mattermost/types/cloud';
 import withGetCloudSubscription from 'components/common/hocs/cloud/with_get_cloud_subscription';
 import {findOnlyYearlyProducts} from 'utils/products';
 
@@ -64,7 +63,7 @@ type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
     getCloudProducts: () => void;
     completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
-    subscribeCloudSubscription: (productId: string, shippingAddress: Address, seats?: number, downgradeFeedback?: Feedback) => Promise<boolean | null>;
+    subscribeCloudSubscription: typeof subscribeCloudSubscription;
     getClientConfig: () => void;
     getCloudSubscription: () => void;
     getInvoices: () => void;
@@ -78,7 +77,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
                 openModal,
                 getCloudProducts,
                 completeStripeAddPaymentMethod,
-                subscribeCloudSubscription: (subscribeCloudSubscription as any),
+                subscribeCloudSubscription,
                 getClientConfig,
                 getInvoices,
                 getCloudSubscription,

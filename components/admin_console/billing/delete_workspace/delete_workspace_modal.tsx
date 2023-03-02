@@ -28,6 +28,7 @@ import SuccessModal from 'components/cloud_subscribe_result_modal/success';
 import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 import {isCloudLicense} from 'utils/license_utils';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {trackEvent} from 'actions/telemetry_actions';
 import useGetSubscription from 'components/common/hooks/useGetSubscription';
 
@@ -39,7 +40,7 @@ type Props = {
 }
 
 export default function DeleteWorkspaceModal(props: Props) {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<DispatchFunc>();
     const openDowngradeModal = useOpenDowngradeModal();
 
     // License/product checks.
@@ -143,7 +144,7 @@ export default function DeleteWorkspaceModal(props: Props) {
         const result = await dispatch(subscribeCloudSubscription(starterProduct.id, undefined, 0, downgradeFeedback));
 
         // Success
-        if (typeof result === 'boolean' && result) {
+        if (result.data) {
             dispatch(closeModal(ModalIdentifiers.DOWNGRADE_MODAL));
             dispatch(
                 openModal({

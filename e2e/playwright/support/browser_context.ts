@@ -1,7 +1,11 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import {writeFile} from 'node:fs/promises';
+
 import {request, Browser} from '@playwright/test';
 
 import {UserProfile} from '@mattermost/types/users';
-
 import testConfig from '@e2e-test.config';
 
 export class TestBrowser {
@@ -17,8 +21,9 @@ export class TestBrowser {
 
         // Sign in a user in new browser context
         const context = await this.browser.newContext({storageState: storagePath});
+        const page = await context.newPage();
 
-        return context;
+        return {context, page};
     }
 }
 
@@ -46,8 +51,15 @@ export async function loginByAPI(loginId: string, password: string, token = '', 
     const storagePath = `storage_state/${Date.now()}_${loginId}_${password}${token ? '_' + token : ''}${
         ldapOnly ? '_ldap' : ''
     }.json`;
-    await requestContext.storageState({path: storagePath});
+    const storageState = await requestContext.storageState();
     await requestContext.dispose();
+
+    // Append origins to bypass seeing landing page then write to file
+    storageState.origins.push({
+        origin: testConfig.baseURL,
+        localStorage: [{name: '__landingPageSeen__', value: 'true'}],
+    });
+    await writeFile(storagePath, JSON.stringify(storageState));
 
     return storagePath;
 }
