@@ -28,7 +28,7 @@ const ITEMS = [
     {tab: 'system', text: 'System Info'},
 ];
 
-function Tab({tab, text, selected, onClick}: {tab: string; text: string, selected: boolean; onClick: (tab: string) => void}) {
+function Tab({tab, text, selected, onClick}: {tab: string; text: string; selected: boolean; onClick: (tab: string) => void}) {
     return (
         <div className='DebugBar__Tab'>
             <button
@@ -41,7 +41,6 @@ function Tab({tab, text, selected, onClick}: {tab: string; text: string, selecte
     );
 }
 
-
 function DebugBar() {
     const config = useSelector(getConfig);
     const [hidden, setHidden] = useState(true);
@@ -49,7 +48,7 @@ function DebugBar() {
     const [windowWidth, setWindowWidth] = useState(0);
     const [windowHeight, setWindowHeight] = useState(0);
     const setBarHeight = useCallback((e) => {
-        var newHeight = windowHeight - e.pageY;
+        let newHeight = windowHeight - e.pageY;
         if (newHeight < 34) {
             newHeight = 34;
         }
@@ -61,15 +60,15 @@ function DebugBar() {
 
     useEffect(() => {
         const handleSize = () => {
-            setWindowHeight(window.innerHeight)
-            setWindowWidth(window.innerWidth)
-        }
-        handleSize()
-        window.addEventListener('resize', handleSize)
+            setWindowHeight(window.innerHeight);
+            setWindowWidth(window.innerWidth);
+        };
+        handleSize();
+        window.addEventListener('resize', handleSize);
         return () => {
-            window.removeEventListener('resize', handleSize)
-        }
-    }, [])
+            window.removeEventListener('resize', handleSize);
+        };
+    }, []);
 
     if (config.DebugBar !== 'true') {
         return null;

@@ -5,6 +5,7 @@
 
 .DebugBarButton {
     @include primary-button;
+
     position: fixed;
     z-index: 1100;
     bottom: 20px;
@@ -72,8 +73,8 @@
 
     .header {
         display: flex;
-        color: var(--sidebar-text);
         background-color: var(--sidebar-bg);
+        color: var(--sidebar-text);
 
         &__Button {
             @include button-style--none;
@@ -85,15 +86,15 @@
             &:hover {
                 @include tertiary-button;
 
-                transition: none;
                 color: var(--sidebar-text-active-color);
                 font-weight: normal;
+                transition: none;
             }
 
             &.selected {
-                border-radius: 0 4px 4px 0;
-                background: rgba(var(--sidebar-text-rgb), 0.1);
                 border-left: 2px solid var(--sidebar-text-active-border);
+                background: rgba(var(--sidebar-text-rgb), 0.1);
+                border-radius: 0 4px 4px 0;
             }
         }
     }
