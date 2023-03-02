@@ -38,5 +38,6 @@ export const useShowTourTip = () => {
         showPlaybooksTour,
         boardsCount,
         playbooksCount,
+        showProductTour,
     };
 };

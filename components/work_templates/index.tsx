@@ -9,6 +9,7 @@ import styled from 'styled-components';
 
 import LocalizedIcon from 'components/localized_icon';
 import {TTNameMapToATStatusKey, TutorialTourName, WorkTemplateTourSteps} from 'components/tours/constant';
+import {useShowTourTip} from 'components/tours/worktemplate_explore_tour/useShowTourTip';
 
 import {closeModal as closeModalAction} from 'actions/views/modals';
 import {trackEvent} from 'actions/telemetry_actions';
@@ -109,6 +110,7 @@ const WorkTemplateModal = () => {
     const playbookTemplates = useSelector((state: GlobalState) => state.entities.worktemplates.playbookTemplates);
     const {rhsPluggableIds} = useGetRHSPluggablesIds();
     const currentUserId = useSelector(getCurrentUserId);
+    const {showProductTour} = useShowTourTip();
 
     useEffect(() => {
         trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'open_modal');
@@ -219,26 +221,24 @@ const WorkTemplateModal = () => {
 
         // store the required preferences for the tourtip
         const tourCategory = TutorialTourName.WORK_TEMPLATE_TUTORIAL;
-        const preferences = [
 
-            // here reset the step value to be able to show the tour again (if we dedide to show the tour only once, this must be removed)
-            {
-                user_id: currentUserId,
-                category: tourCategory,
-                name: currentUserId,
-                value: stepValue.toString(),
-            },
-
-            // this one is for defining the auto tour start for the tour tip
-            {
-                user_id: currentUserId,
-                category: tourCategory,
-                name: TTNameMapToATStatusKey[tourCategory],
-                value: String(AutoTourStatus.ENABLED),
-            },
-        ];
-
-        await dispatch(savePreferences(currentUserId, preferences));
+        if (showProductTour) {
+            const preferences = [
+                {
+                    user_id: currentUserId,
+                    category: tourCategory,
+                    name: currentUserId,
+                    value: stepValue.toString(),
+                },
+                {
+                    user_id: currentUserId,
+                    category: tourCategory,
+                    name: TTNameMapToATStatusKey[tourCategory],
+                    value: String(AutoTourStatus.ENABLED),
+                },
+            ];
+            await dispatch(savePreferences(currentUserId, preferences));
+        }
 
         dispatch(showRHSPlugin(pluginId));
     };
