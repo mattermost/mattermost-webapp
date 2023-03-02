@@ -51,7 +51,7 @@ import PasswordInput from 'components/widgets/inputs/password_input/password_inp
 import SaveButton from 'components/save_button';
 
 import {Constants, ItemStatus, ValidationErrors} from 'utils/constants';
-import {isValidUsername, isValidPassword, getPasswordConfig, getRoleFromTrackFlow, getMediumFromTrackFlow, getSbr} from 'utils/utils';
+import {isValidUsername, isValidPassword, getPasswordConfig, getRoleFromTrackFlow, getMediumFromTrackFlow} from 'utils/utils';
 
 import './signup.scss';
 
@@ -98,7 +98,6 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         CustomBrandText,
         TermsOfServiceLink,
         PrivacyPolicyLink,
-        DiagnosticId,
     } = config;
     const {IsLicensed} = useSelector(getLicense);
     const loggedIn = Boolean(useSelector(getCurrentUserId));
