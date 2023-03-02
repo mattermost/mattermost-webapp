@@ -44,7 +44,13 @@ function Tab({tab, text, selected, onClick}: {tab: string; text: string, selecte
 
 function DebugBar() {
     const config = useSelector(getConfig);
-    const setBarHeight = useCallback((e) => {setHeight(window.innerHeight - e.pageY)}, []);
+    const setBarHeight = useCallback((e) => {
+        var newHeight = window.innerHeight - e.pageY;
+        if (newHeight < 34) {
+            newHeight = 34;
+        }
+        setHeight(newHeight);
+    }, []);
     const [hidden, setHidden] = useState(true);
     const [height, setHeight] = useState(300);
     const [tab, setTab] = useState('api');
