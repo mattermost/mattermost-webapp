@@ -11,6 +11,9 @@ const SystemInfo = () => {
     const [systemInfo, setSystemInfo] = useState<any>(null);
 
     useEffect(() => {
+        Client4.getDebugBarSystemInfo().then((result) => {
+            setSystemInfo(result);
+        });
         const interval = setInterval(() => {
             Client4.getDebugBarSystemInfo().then((result) => {
                 setSystemInfo(result);

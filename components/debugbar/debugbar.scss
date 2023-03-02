@@ -62,12 +62,6 @@
         margin-left: auto;
     }
 
-    &__Tab {
-        + .DebugBar__Tab {
-            border-left: 1px solid rgba(0, 0, 0, 0.07);
-        }
-    }
-
     .handler {
         width: 100%;
         padding-top: 4px;
@@ -84,18 +78,19 @@
             @include button-style--none;
 
             padding: 6px 10px;
-            border-radius: 0 4px 4px 0;
             border-left: 2px solid rgba(var(--sidebar-text-active-border), 0);
 
             &.selected,
             &:hover {
                 @include tertiary-button;
 
+                transition: none;
                 color: var(--sidebar-text-active-color);
                 font-weight: normal;
             }
 
             &.selected {
+                border-radius: 0 4px 4px 0;
                 background: rgba(var(--sidebar-text-rgb), 0.1);
                 border-left: 2px solid var(--sidebar-text-active-border);
             }
