@@ -28,6 +28,20 @@ const ITEMS = [
     {tab: 'system', text: 'System Info'},
 ];
 
+function Tab({tab, text, selected, onClick}: {tab: string; text: string, selected: boolean; onClick: (tab: string) => void}) {
+    return (
+        <div className='DebugBar__Tab'>
+            <button
+                className={cn('header__Button', {selected})}
+                onClick={() => onClick(tab)}
+            >
+                {text}
+            </button>
+        </div>
+    );
+}
+
+
 function DebugBar() {
     const config = useSelector(getConfig);
     const [hidden, setHidden] = useState(true);
@@ -38,30 +52,6 @@ function DebugBar() {
 
     if (config.DebugBar !== 'true') {
         return null;
-    }
-
-    function makeSetTab(tab: string) {
-        return () => {
-            return setTab(tab);
-        };
-    }
-
-    function isSelected(current: string): boolean {
-        return tab === current;
-    }
-
-    function makeItem({tab, text}: {tab: string; text: string}) {
-        return (
-            <div className='DebugBar__Tab'>
-                <button
-                    key={tab}
-                    className={cn('header__Button', {selected: isSelected(tab)})}
-                    onClick={makeSetTab(tab)}
-                >
-                    {text}
-                </button>
-            </div>
-        );
     }
 
     if (hidden) {
@@ -97,7 +87,15 @@ function DebugBar() {
                 }}
             />
             <div className='header'>
-                {ITEMS.map(makeItem)}
+                {ITEMS.map((item) => (
+                    <Tab
+                        key={item.tab}
+                        tab={item.tab}
+                        text={item.text}
+                        onClick={setTab}
+                        selected={tab === item.tab}
+                    />
+                ))}
                 {tab !== 'system' && (
                     <QuickInput
                         id='searchChannelsTextbox'
