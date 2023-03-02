@@ -15,12 +15,12 @@ import {createPrivateChannel} from '../elasticsearch_autocomplete/helpers';
 import {getAdminAccount} from '../../../support/env';
 
 describe('Profile popover', () => {
-    let testTeam;
-    let testUser;
-    let testChannel;
-    let privateChannel;
-    let otherUser;
-    let offTopicUrl;
+    let testTeam: Cypress.Team;
+    let testUser: Cypress.UserProfile;
+    let testChannel: Cypress.Channel;
+    let privateChannel: Cypress.Channel;
+    let otherUser: Cypress.UserProfile;
+    let offTopicUrl: string;
 
     before(() => {
         cy.apiRequireLicense();
@@ -423,8 +423,8 @@ describe('Profile popover', () => {
     });
 });
 
-const verifyPermissionSubSections = (category, publicOrPrivate, checked) => {
-    let classCondition;
+const verifyPermissionSubSections = (category: string, publicOrPrivate: string, checked: boolean) => {
+    let classCondition: string;
     if (checked) {
         classCondition = 'have.class';
     } else {
@@ -445,7 +445,7 @@ const verifyPermissionSubSections = (category, publicOrPrivate, checked) => {
     cy.findByTestId(`${category}-${publicOrPrivate}_channel-delete_${publicOrPrivate}_channel-checkbox`).should(classCondition, 'checked');
 };
 
-const verifyAddToChannel = (user, visible = true) => {
+const verifyAddToChannel = (user: Cypress.UserProfile, visible = true) => {
     // # Open profile popover
     cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).within(() => {
         cy.findAllByText(user.username).first().should('have.text', user.username).click();
@@ -460,7 +460,7 @@ const verifyAddToChannel = (user, visible = true) => {
     }
 };
 
-const clickAddToChannel = (user) => {
+const clickAddToChannel = (user: Cypress.UserProfile) => {
     // # Open profile popover
     cy.get('#postListContent', {timeout: TIMEOUTS.ONE_MIN}).within(() => {
         cy.findAllByText(`${user.username}`).first().should('have.text', user.username).click();
@@ -470,7 +470,7 @@ const clickAddToChannel = (user) => {
     cy.get('#addToChannelButton').should('be.visible').click();
 };
 
-const promoteToChannelOrTeamAdmin = (user, id, channelsOrTeams = 'channels') => {
+const promoteToChannelOrTeamAdmin = (user: Cypress.UserProfile, id: string, channelsOrTeams = 'channels') => {
     cy.externalRequest({
         user: getAdminAccount(),
         method: 'put',
@@ -482,7 +482,7 @@ const promoteToChannelOrTeamAdmin = (user, id, channelsOrTeams = 'channels') => 
     });
 };
 
-const demoteToChannelOrTeamMember = (user, id, channelsOrTeams = 'channels') => {
+const demoteToChannelOrTeamMember = (user: Cypress.UserProfile, id: string, channelsOrTeams = 'channels') => {
     cy.externalRequest({
         user: getAdminAccount(),
         method: 'put',

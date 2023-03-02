@@ -11,9 +11,9 @@
 // Group: @enterprise @profile_popover
 
 describe('Profile popover User A & B', () => {
-    let testTeam;
-    let testUser;
-    let otherUser;
+    let testTeam: Cypress.Team;
+    let testUser: Cypress.UserProfile;
+    let otherUser: Cypress.UserProfile;
 
     before(() => {
         cy.apiRequireLicense();
