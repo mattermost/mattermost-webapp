@@ -75,7 +75,7 @@ function makeMapStateToProps() {
             isUserCanManageMembers: channel && canManageMembers(state, channel),
             mentionKeys: getMentionKeysForPost(state, ownProps.post, channel),
             isMilitaryTime: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false),
-            timeZone: getCurrentUserTimezone(state),
+            timezone: getCurrentUserTimezone(state),
         };
     };
 }
