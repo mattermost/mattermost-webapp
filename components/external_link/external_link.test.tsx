@@ -97,4 +97,68 @@ describe('components/external_link', () => {
             ),
         );
     });
+
+    it("should not attach parameters if href isn't *.mattermost.com enabled", () => {
+        const state = {
+            ...initialState,
+            entities: {
+                ...initialState.entities,
+                general: {
+                    ...initialState?.entities?.general,
+                    config: {
+                        DiagnosticsEnabled: 'true',
+                    },
+                },
+            },
+        };
+        const store: GlobalState = JSON.parse(JSON.stringify(state));
+        renderWithIntlAndStore(
+            <ExternalLink href='https://google.com'>
+                {'Click Me'}
+            </ExternalLink>,
+            store,
+        );
+
+        expect(screen.queryByText('Click Me')).toHaveAttribute(
+            'href',
+            expect.not.stringContaining(
+                'utm_source=mattermost&utm_medium=in-product-cloud&utm_content=&userId=currentUserId&serverId=',
+            ),
+        );
+    });
+
+    it('should be able to override target, rel', () => {
+        const state = {
+            ...initialState,
+            entities: {
+                ...initialState.entities,
+                general: {
+                    ...initialState?.entities?.general,
+                    config: {
+                        DiagnosticsEnabled: 'true',
+                    },
+                },
+            },
+        };
+        const store: GlobalState = JSON.parse(JSON.stringify(state));
+        renderWithIntlAndStore(
+            <ExternalLink
+                target='test'
+                rel='test'
+                href='https://google.com'
+            >{'Click Me'}</ExternalLink>,
+            store,
+        );
+
+        expect(screen.queryByText('Click Me')).toHaveAttribute(
+            'target',
+            expect.stringMatching(
+                'test',
+            ),
+        );
+        expect(screen.queryByText('Click Me')).toHaveAttribute(
+            'rel',
+            expect.stringMatching('test'),
+        );
+    });
 });
