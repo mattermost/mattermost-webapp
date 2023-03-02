@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useState} from 'react';
+import React, {memo, useState, useCallback} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import cn from 'classnames';
 
@@ -44,6 +44,7 @@ function Tab({tab, text, selected, onClick}: {tab: string; text: string, selecte
 
 function DebugBar() {
     const config = useSelector(getConfig);
+    const setBarHeight = useCallback((e) => {setHeight(window.innerHeight - e.pageY)}, []);
     const [hidden, setHidden] = useState(true);
     const [height, setHeight] = useState(300);
     const [tab, setTab] = useState('api');
@@ -76,14 +77,10 @@ function DebugBar() {
                 className='handler'
                 draggable={true}
                 onDragEnd={() => {
-                    document.removeEventListener('dragover', (e) => {
-                        setHeight(window.innerHeight - e.pageY);
-                    });
+                    document.removeEventListener('dragover', setBarHeight);
                 }}
                 onDragStart={() => {
-                    document.addEventListener('dragover', (e) => {
-                        setHeight(window.innerHeight - e.pageY);
-                    });
+                    document.addEventListener('dragover', setBarHeight);
                 }}
             />
             <div className='header'>
