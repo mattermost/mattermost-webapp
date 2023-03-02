@@ -12,6 +12,7 @@ import {
     getOnPremServerConfig,
     makeClient,
 } from './support/server';
+import {boardsPluginId, callsPluginId, playbooksPluginId} from './support/constant';
 import {defaultTeam} from './support/util';
 import testConfig from './test.config';
 import {AdminConfig} from '@mattermost/types/config';
@@ -119,10 +120,10 @@ async function printClientInfo(client: Client) {
 }
 
 function getProductsAsPlugin() {
-    const productsAsPlugin = ['com.mattermost.calls', 'playbooks'];
+    const productsAsPlugin = [callsPluginId, playbooksPluginId];
 
     if (!testConfig.boardsProductEnabled) {
-        productsAsPlugin.push('focalboard');
+        productsAsPlugin.push(boardsPluginId);
     }
 
     return productsAsPlugin;

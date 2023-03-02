@@ -35,4 +35,7 @@ test('/signup_email', async ({pw, pages, page, browserName, viewport}, testInfo)
 
     // Match snapshot of signup_email page
     await pw.matchSnapshot({...testInfo, title: `${testInfo.title} error`}, testArgs);
+
+    // Explicitly close the page
+    await page.close();
 });
