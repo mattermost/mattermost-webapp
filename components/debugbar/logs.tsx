@@ -16,6 +16,7 @@ import Time from './time';
 type Props = {
     filter: string;
     height: number;
+    width: number;
 }
 
 type RowProps = {
@@ -49,7 +50,7 @@ function Row({data, index, style}: RowProps) {
     );
 }
 
-function Logs({filter, height}: Props) {
+function Logs({filter, height, width}: Props) {
     let logs = useSelector(getLogs);
 
     if (filter !== '') {
@@ -63,7 +64,7 @@ function Logs({filter, height}: Props) {
                 itemCount={logs.length}
                 itemSize={50}
                 height={height}
-                width={window.innerWidth - 2}
+                width={width - 2}
             >
                 {Row}
             </List>

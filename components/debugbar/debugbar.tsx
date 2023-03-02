@@ -46,6 +46,7 @@ function DebugBar() {
     const config = useSelector(getConfig);
     const [hidden, setHidden] = useState(true);
     const [height, setHeight] = useState(300);
+    const [windowWidth, setWindowWidth] = useState(0);
     const [windowHeight, setWindowHeight] = useState(0);
     const setBarHeight = useCallback((e) => {
         var newHeight = windowHeight - e.pageY;
@@ -61,6 +62,7 @@ function DebugBar() {
     useEffect(() => {
         const handleSize = () => {
             setWindowHeight(window.innerHeight)
+            setWindowWidth(window.innerWidth)
         }
         handleSize()
         window.addEventListener('resize', handleSize)
@@ -146,26 +148,31 @@ function DebugBar() {
                     <ApiCalls
                         filter={filterText}
                         height={height}
+                        width={windowWidth}
                     />}
                 {tab === 'store' &&
                     <StoreCalls
                         filter={filterText}
                         height={height}
+                        width={windowWidth}
                     />}
                 {tab === 'sql' &&
                     <SqlQueries
                         filter={filterText}
                         height={height}
+                        width={windowWidth}
                     />}
                 {tab === 'logs' &&
                     <Logs
                         filter={filterText}
                         height={height}
+                        width={windowWidth}
                     />}
                 {tab === 'emails' &&
                     <EmailsSent
                         filter={filterText}
                         height={height}
+                        width={windowWidth}
                     />}
                 {tab === 'system' && <SystemInfo/>}
             </div>

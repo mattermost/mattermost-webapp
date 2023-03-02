@@ -16,6 +16,7 @@ import Time from './time';
 type Props = {
     filter: string;
     height: number;
+    width: number;
 }
 
 type RowProps = {
@@ -24,7 +25,7 @@ type RowProps = {
     style: any;
 }
 
-function EmailsSent({filter, height}: Props) {
+function EmailsSent({filter, height, width}: Props) {
     const [viewEmail, setViewEmail] = useState<DebugBarEmailSent|null>(null);
     let emails = useSelector(getEmailsSent);
     if (filter !== '') {
@@ -91,7 +92,7 @@ function EmailsSent({filter, height}: Props) {
                 itemCount={emails.length}
                 itemSize={50}
                 height={height}
-                width={window.innerWidth - 2}
+                width={width - 2}
             >
                 {Row}
             </List>

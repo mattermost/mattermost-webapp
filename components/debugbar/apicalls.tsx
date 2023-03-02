@@ -15,6 +15,7 @@ import Time from './time';
 type Props = {
     filter: string;
     height: number;
+    width: number;
 }
 
 type RowProps = {
@@ -56,7 +57,7 @@ function Row({data, index, style}: RowProps) {
     );
 }
 
-function ApiCalls({filter, height}: Props) {
+function ApiCalls({filter, height, width}: Props) {
     let calls = useSelector(getApiCalls);
     if (filter !== '') {
         calls = calls.filter((v) => JSON.stringify(v).indexOf(filter) !== -1);
@@ -69,7 +70,7 @@ function ApiCalls({filter, height}: Props) {
                 itemCount={calls.length}
                 itemSize={50}
                 height={height}
-                width={window.innerWidth - 2}
+                width={width - 2}
             >
                 {Row}
             </List>

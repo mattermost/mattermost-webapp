@@ -18,6 +18,7 @@ import Time from './time';
 type Props = {
     filter: string;
     height: number;
+    width: number;
 }
 
 type RowProps = {
@@ -26,7 +27,7 @@ type RowProps = {
     style: any;
 }
 
-function SQLQueries({filter, height}: Props) {
+function SQLQueries({filter, height, width}: Props) {
     const [explain, setExplain] = useState('');
     const [viewQuery, setViewQuery] = useState<DebugBarSQLQuery|null>(null);
 
@@ -113,7 +114,7 @@ function SQLQueries({filter, height}: Props) {
                 itemCount={queries.length}
                 itemSize={50}
                 height={height}
-                width={window.innerWidth - 2}
+                width={width - 2}
             >
                 {Row}
             </List>
