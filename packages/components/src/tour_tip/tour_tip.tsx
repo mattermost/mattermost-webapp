@@ -8,6 +8,7 @@ import {Placement} from 'tippy.js';
 import classNames from 'classnames';
 
 import {PunchOutCoordsHeightAndWidth} from '../common/hooks/useMeasurePunchouts';
+import {useClickOutsideRef} from '../common/hooks/useClickOutsideRef';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
@@ -89,13 +90,12 @@ export const TourTip = ({
 }: Props) => {
     const FIRST_STEP_INDEX = 0;
     const triggerRef = useRef(null);
-    const [useBackdrop, setUseBackdrop] = useState(showBackdrop);
+    const [useBackdrop, setUseBackdrop] = useState(!hideBackdrop);
     const onJump = (event: React.MouseEvent, jumpToStep: number) => {
         handleJump?.(event, jumpToStep);
     };
 
-    useClickOutsideRef(triggerRef, (e: any) => {
-        handleDismiss?.(e);
+    useClickOutsideRef(triggerRef, () => {
         setUseBackdrop(false);
     });
 
@@ -214,15 +214,16 @@ export const TourTip = ({
             >
                 <PulsatingDot/>
             </div>
-            {useBackdrop && <TourTipBackdrop
-                show={show}
-                onDismiss={handleDismiss}
-                onPunchOut={handlePunchOut}
-                interactivePunchOut={interactivePunchOut}
-                overlayPunchOut={overlayPunchOut}
-                appendTo={rootPortal!}
-                transparent={hideBackdrop}
-            />
+            {useBackdrop &&
+                <TourTipBackdrop
+                    show={show}
+                    onDismiss={handleDismiss}
+                    onPunchOut={handlePunchOut}
+                    interactivePunchOut={interactivePunchOut}
+                    overlayPunchOut={overlayPunchOut}
+                    appendTo={rootPortal!}
+                    transparent={hideBackdrop}
+                />
             }
             {show && (
                 <Tippy
