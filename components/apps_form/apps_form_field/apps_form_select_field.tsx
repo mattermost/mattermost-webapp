@@ -91,7 +91,7 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
         const usersSearchResults: UserAutocomplete = await this.props.actions.autocompleteUsers(userInput.toLowerCase());
 
         return usersSearchResults.users
-        .filter((user) => !user.is_bot) // Filters out bots from user list
+        .filter((user) => !user.is_bot)
         .map((user) => {
             const label = this.props.teammateNameDisplay ? displayUsername(user, this.props.teammateNameDisplay) : user.username;
 
