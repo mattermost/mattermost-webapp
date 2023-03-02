@@ -64,28 +64,25 @@ describe('Post Header', () => {
 
         cy.getLastPostId().then((postId) => {
             // * Check that the center dot menu' button and dropdown are hidden
-            cy.get(`#post_${postId}`).should('be.visible').within(() => {
-                cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
-                cy.get('.dropdown-menu').should('not.exist');
-            });
+            cy.get(`#post_${postId}`).should('be.visible');
+            cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
+            cy.get(`#CENTER_dropdown_${postId}`).should('not.exist');
 
             // # Click dot menu of a post
             cy.clickPostDotMenu(postId);
 
             // * Check that the center dot menu button and dropdown are visible
-            cy.get(`#post_${postId}`).should('be.visible').within(() => {
-                cy.get(`#CENTER_button_${postId}`).should('be.visible');
-                cy.get('.dropdown-menu').should('be.visible');
-            });
+            cy.get(`#post_${postId}`).should('be.visible');
+            cy.get(`#CENTER_button_${postId}`).should('be.visible');
+            cy.get(`#CENTER_dropdown_${postId}`).should('be.visible').type('{esc}');
 
             // # Click to other location like post textbox
             cy.uiGetPostTextBox().click();
 
             // * Check that the center dot menu and dropdown are hidden
-            cy.get(`#post_${postId}`).should('be.visible').within(() => {
-                cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
-                cy.get('.dropdown-menu').should('not.exist');
-            });
+            cy.get(`#post_${postId}`).should('be.visible');
+            cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
+            cy.get(`#CENTER_dropdown_${postId}`).should('not.exist');
         });
     });
 

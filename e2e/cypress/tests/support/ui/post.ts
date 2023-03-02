@@ -76,6 +76,7 @@ export function verifySavedPost(postId, message) {
     // * Check that the dotmenu item is changed accordingly
     cy.findAllByTestId(`post-menu-${postId}`).eq(0).should('be.visible');
     cy.findByText('Remove from Saved').scrollIntoView().should('be.visible');
+    cy.get(`#CENTER_dropdown_${postId}`).should('be.visible').type('{esc}');
 
     // * Check that the post is highlighted
     cy.get(`#post_${postId}`).should('have.class', 'post--pinned-or-flagged');
@@ -134,6 +135,7 @@ export function verifyUnsavedPost(postId) {
     // * Check that the dotmenu item is changed accordingly
     cy.findAllByTestId(`post-menu-${postId}`).eq(0).should('be.visible');
     cy.findByText('Save').scrollIntoView().should('be.visible');
+    cy.get(`#CENTER_dropdown_${postId}`).should('be.visible').type('{esc}');
 
     // * Check that the post is highlighted
     cy.get(`#post_${postId}`).should('not.have.class', 'post--pinned-or-flagged');

@@ -2,9 +2,11 @@
 // See LICENSE.txt for license information.
 
 import merge from 'deepmerge';
+
 import {
     AdminConfig,
     ExperimentalSettings,
+    FeatureFlags,
     PasswordSettings,
     ServiceSettings,
     TeamSettings,
@@ -12,7 +14,6 @@ import {
     ClusterSettings,
     CollapsedThreads,
 } from '@mattermost/types/config';
-
 import testConfig from '@e2e-test.config';
 
 export function getOnPremServerConfig(): AdminConfig {
@@ -22,6 +23,7 @@ export function getOnPremServerConfig(): AdminConfig {
 type TestAdminConfig = {
     ClusterSettings: Partial<ClusterSettings>;
     ExperimentalSettings: Partial<ExperimentalSettings>;
+    FeatureFlags: Partial<FeatureFlags>;
     PasswordSettings: Partial<PasswordSettings>;
     PluginSettings: Partial<PluginSettings>;
     ServiceSettings: Partial<ServiceSettings>;
@@ -38,6 +40,9 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
         ExperimentalSettings: {
             EnableAppBar: true,
         },
+        FeatureFlags: {
+            BoardsProduct: testConfig.boardsProductEnabled,
+        },
         PasswordSettings: {
             MinimumLength: 5,
             Lowercase: false,
@@ -50,6 +55,11 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
             Plugins: {
                 'com.mattermost.calls': {
                     defaultenabled: true,
+                },
+            },
+            PluginStates: {
+                focalboard: {
+                    Enable: !testConfig.boardsProductEnabled,
                 },
             },
         },
