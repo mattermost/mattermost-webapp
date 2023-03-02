@@ -1,16 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Moment} from 'moment-timezone';
 
 import GenericModal from 'components/generic_modal';
-import {localizeMessage} from 'utils/utils';
+import {isKeyPressed, localizeMessage} from 'utils/utils';
 import DateTimeInput, {getRoundedTime} from 'components/custom_status/date_time_input';
 
 import {toUTCUnix} from 'utils/datetime';
 import {getCurrentMomentForTimezone} from 'utils/timezone';
+
+import Constants from 'utils/constants';
 
 import {PropsFromRedux} from './index';
 
@@ -45,6 +47,22 @@ function PostReminderCustomTimePicker({userId, timezone, onExited, postId, actio
         actions.addPostReminder(userId, postId, toUTCUnix(customReminderTime.toDate()));
     }, [customReminderTime]);
 
+    const [isDatePickerOpen, setIsDatePickerOpen] = useState<boolean>(false);
+
+    const handleKeyDown = useCallback((event: KeyboardEvent) => {
+        if (isKeyPressed(event, Constants.KeyCodes.ESCAPE) && !isDatePickerOpen) {
+            onExited();
+        }
+    }, [isDatePickerOpen, onExited]);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleKeyDown]);
+
     return (
         <GenericModal
             ariaLabel={localizeMessage('post_reminder_custom_time_picker_modal.defaultMsg', 'Set a reminder')}
@@ -57,11 +75,13 @@ function PostReminderCustomTimePicker({userId, timezone, onExited, postId, actio
             className={'post-reminder-modal'}
             compassDesign={true}
             enforceFocus={true}
+            keyboardEscape={false}
         >
             <DateTimeInput
                 time={customReminderTime}
                 handleChange={setCustomReminderTime}
                 timezone={timezone}
+                setIsDatePickerOpen={setIsDatePickerOpen}
             />
         </GenericModal>
     );

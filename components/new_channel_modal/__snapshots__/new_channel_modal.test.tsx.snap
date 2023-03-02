@@ -15,6 +15,7 @@ exports[`components/new_channel_modal should match snapshot 1`] = `
   handleEnterKeyPress={[Function]}
   id="new-channel-modal"
   isConfirmDisabled={true}
+  keyboardEscape={true}
   modalHeaderText="Create a new channel"
   onExited={[Function]}
   show={true}
