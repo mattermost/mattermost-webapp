@@ -77,10 +77,13 @@ export default function AppBar() {
         return null;
     }
 
+    if (isAdmin) {
+        items.push(<AppBarMarketplace key={'app_bar_marketplace'}/>);
+    }
+
     return (
         <div className={'app-bar'}>
             {items}
-            {isAdmin && <AppBarMarketplace/>}
         </div>
     );
 }

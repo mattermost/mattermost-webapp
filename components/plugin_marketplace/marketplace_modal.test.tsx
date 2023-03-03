@@ -119,7 +119,7 @@ describe('components/marketplace/', () => {
             pluginStatuses: {},
             siteURL: 'http://example.com',
             firstAdminVisitMarketplaceStatus: false,
-            openedFrom: '',
+            openedFrom: 'actions_menu',
             actions: {
                 closeModal: jest.fn(),
                 fetchListing: jest.fn(() => {
@@ -192,12 +192,12 @@ describe('components/marketplace/', () => {
             wrapper.setState({filter: 'nps'});
             wrapper.instance().doSearch();
 
-            expect(trackEvent).toHaveBeenCalledWith('plugins', 'ui_marketplace_opened', {from: ''});
+            expect(trackEvent).toHaveBeenCalledWith('plugins', 'ui_marketplace_opened', {from: 'actions_menu'});
             expect(trackEvent).toHaveBeenCalledWith('plugins', 'ui_marketplace_search', {filter: 'nps'});
         });
 
         test('Should call for opened track event on mount', () => {
-            const openedFrom = 'section';
+            const openedFrom = 'actions_menu';
 
             shallow<MarketplaceModal>(
                 <MarketplaceModal
