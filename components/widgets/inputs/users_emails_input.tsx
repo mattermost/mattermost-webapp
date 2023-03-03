@@ -3,7 +3,7 @@
 
 import React, {RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
-import {components, InputActionMeta, FormatOptionLabelMeta, ValueType, OptionsType} from 'react-select';
+import {components, InputActionMeta, FormatOptionLabelMeta, ValueType, OptionsType, Styles} from 'react-select';
 import AsyncCreatable from 'react-select/async-creatable';
 import classNames from 'classnames';
 
@@ -310,6 +310,30 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
 
         const Msg: any = components.NoOptionsMessage;
 
+        const styles: Partial<Styles> = {
+            placeholder: (css) => ({
+                ...css,
+
+                pointerEvents: 'none',
+                userSelect: 'none',
+            }),
+            input: (css) => ({
+                ...css,
+
+                display: 'flex',
+                flex: '1 1 auto',
+
+                '> div': {
+                    width: '100%',
+                },
+
+                input: {
+                    width: '100% !important',
+                    textAlign: 'left',
+                },
+            }),
+        };
+
         return (
             <>
                 <AsyncCreatable
@@ -343,6 +367,7 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
                     value={values}
                     aria-label={this.props.ariaLabel}
                     autoFocus={this.props.autoFocus}
+                    styles={styles}
                 />
                 {this.props.showError && (
                     <div className='InputErrorBox'>

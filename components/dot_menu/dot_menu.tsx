@@ -419,6 +419,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
     handleMenuToggle = (open: boolean) => {
         this.props.handleDropdownOpened?.(open);
+        this.setState({closeMenuManually: false});
     }
 
     render(): JSX.Element {

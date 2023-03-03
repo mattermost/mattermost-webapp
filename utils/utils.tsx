@@ -10,6 +10,8 @@ import cssVars from 'css-vars-ponyfill';
 
 import moment from 'moment';
 
+import type {Locale} from 'date-fns';
+
 import {getName} from 'country-list';
 
 import Constants, {FileTypes, ValidationErrors, A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
@@ -1832,6 +1834,20 @@ export function getRoleFromTrackFlow() {
     const startedByRole = TrackFlowRoles[sbr] ?? '';
 
     return {started_by_role: startedByRole};
+}
+
+export function getDatePickerLocalesForDateFns(locale: string, loadedLocales: Record<string, Locale>) {
+    if (locale && locale !== 'en' && !loadedLocales[locale]) {
+        try {
+            /* eslint-disable global-require */
+            loadedLocales[locale] = require(`date-fns/locale/${locale}/index.js`);
+            /* eslint-disable global-require */
+        } catch (e) {
+            console.log(e); // eslint-disable-line no-console
+        }
+    }
+
+    return loadedLocales;
 }
 
 export function getMediumFromTrackFlow() {
