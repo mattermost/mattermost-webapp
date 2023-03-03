@@ -57,7 +57,7 @@ type Props = {
     hadPrevCloudTrial: boolean;
     isSubscriptionLoaded: boolean;
     isPaidSubscription: boolean;
-    customer: CloudCustomer;
+    customer?: CloudCustomer;
 }
 
 type State = {

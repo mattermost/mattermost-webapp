@@ -8,8 +8,6 @@ import FeatureDiscovery from 'components/admin_console/feature_discovery/feature
 
 import {LicenseSkus} from 'utils/constants';
 
-import {CloudCustomer} from '@mattermost/types/cloud';
-
 import SamlSVG from './features/images/saml_svg';
 
 describe('components/feature_discovery', () => {
@@ -33,7 +31,6 @@ describe('components/feature_discovery', () => {
                     hadPrevCloudTrial={false}
                     isSubscriptionLoaded={true}
                     isPaidSubscription={false}
-                    customer={{} as CloudCustomer}
                     actions={{
                         getPrevTrialLicense: jest.fn(),
                         getCloudSubscription: jest.fn(),
@@ -61,7 +58,6 @@ describe('components/feature_discovery', () => {
                     isCloudTrial={false}
                     hadPrevCloudTrial={false}
                     isPaidSubscription={false}
-                    customer={{} as CloudCustomer}
                     isSubscriptionLoaded={true}
                     actions={{
                         getPrevTrialLicense: jest.fn(),
@@ -92,7 +88,6 @@ describe('components/feature_discovery', () => {
                     hadPrevCloudTrial={false}
                     isSubscriptionLoaded={false}
                     isPaidSubscription={false}
-                    customer={{} as CloudCustomer}
                     actions={{
                         getPrevTrialLicense: jest.fn(),
                         openModal: jest.fn(),
