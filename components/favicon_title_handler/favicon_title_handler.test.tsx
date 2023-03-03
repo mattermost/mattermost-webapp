@@ -140,23 +140,23 @@ describe('components/FaviconTitleHandler', () => {
         const wrapper = shallowWithIntl(
             <FaviconTitleHandler {...defaultProps}/>,
         ) as unknown as ShallowWrapper<Props, any, FaviconTitleHandlerClass>;
-        const instance = wrapper.instance();
-        instance.updateAppBadge = jest.fn();
+        const setAppBadge = jest.fn();
+        global.navigator.setAppBadge = setAppBadge;
 
         wrapper.setProps({
             unreadStatus: 3,
         });
-        expect(instance.updateAppBadge).lastCalledWith(3);
+        expect(setAppBadge).lastCalledWith(3);
 
         wrapper.setProps({
             unreadStatus: true,
         });
-        expect(instance.updateAppBadge).lastCalledWith(true);
+        expect(setAppBadge).lastCalledWith();
 
         wrapper.setProps({
             unreadStatus: false,
         });
-        expect(instance.updateAppBadge).lastCalledWith(false);
+        expect(setAppBadge).lastCalledWith(0);
     });
 
     test('should display correct title when in drafts', () => {

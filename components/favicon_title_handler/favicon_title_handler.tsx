@@ -186,7 +186,7 @@ export class FaviconTitleHandlerClass extends React.PureComponent<Props> {
     }
 
     updateAppBadge = (unreadStatus: BasicUnreadStatus) => {
-        if(!('setAppBadge' in navigator && 'clearAppBadge' in navigator)) {
+        if (!navigator.setAppBadge) {
             return;
         }
 
@@ -197,7 +197,7 @@ export class FaviconTitleHandlerClass extends React.PureComponent<Props> {
         } else if (isUnread) {
             navigator.setAppBadge();
         } else {
-            navigator.clearAppBadge();
+            navigator.setAppBadge(0);
         }
     }
 
