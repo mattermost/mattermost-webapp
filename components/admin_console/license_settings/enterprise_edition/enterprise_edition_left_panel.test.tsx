@@ -16,9 +16,10 @@ import {GlobalState} from '@mattermost/types/store';
 import mockStore from 'tests/test_store';
 
 import EnterpriseEditionLeftPanel, {EnterpriseEditionProps} from './enterprise_edition_left_panel';
+import moment from 'moment-timezone';
 
 describe('components/admin_console/license_settings/enterprise_edition/enterprise_edition_left_panel', () => {
-    const license = {
+    let license = {
         IsLicensed: 'true',
         IssuedAt: '1517714643650',
         StartsAt: '1517714643650',
@@ -45,6 +46,9 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
             },
             general: {
                 license,
+                config: {
+                    BuildEnterpriseReady: 'true',
+                }
             },
             preferences: {
                 myPreferences: {},
@@ -152,5 +156,33 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
         expect(screen.getByText('ACTIVE USERS:')).toHaveClass('legend');
         expect(screen.getByText('ACTIVE USERS:')).not.toHaveClass('legend--warning-over-seats-purchased');
         expect(screen.getByText('ACTIVE USERS:')).toHaveClass('legend--over-seats-purchased');
+    });
+
+    test('should add warning class to days expired indicator when there are more than 10 days until expiry', async() => {
+        license.ExpiresAt = moment().add(30, 'days').valueOf().toString();
+        const store = await mockStore(initialState);
+        renderWithIntl(
+            <Provider store={store}>
+                <EnterpriseEditionLeftPanel
+                    {...props}
+                />
+            </Provider>,
+        );
+
+        expect(screen.getByText('Expires in 30 days')).toHaveClass('expiration-days-warning');
+    });
+
+    test('should add danger class to days expired indicator when there are at least 10 days until expiry', async() => {
+        license.ExpiresAt = moment().add(10, 'days').valueOf().toString();
+        const store = await mockStore(initialState);
+        renderWithIntl(
+            <Provider store={store}>
+                <EnterpriseEditionLeftPanel
+                    {...props}
+                />
+            </Provider>,
+        );
+
+        expect(screen.getByText('Expires in 10 days')).toHaveClass('expiration-days-danger');
     });
 });

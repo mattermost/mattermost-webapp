@@ -20,6 +20,8 @@ import {getConfig} from 'mattermost-redux/selectors/entities/admin';
 
 import './enterprise_edition.scss';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import useCanSelfHostedExpand from 'components/common/hooks/useCanSelfHostedExpand';
+import {getExpandSeatsLink} from 'selectors/cloud';
 
 export interface EnterpriseEditionProps {
     openEELicenseModal: () => void;
@@ -49,6 +51,8 @@ const EnterpriseEditionLeftPanel = ({
     const {formatMessage} = useIntl();
     const [unsanitizedLicense, setUnsanitizedLicense] = useState(license);
     const openPricingModal = useOpenPricingModal();
+    const canExpand = useCanSelfHostedExpand();
+    const expandableLink = useSelector(getExpandSeatsLink);
 
     useEffect(() => {
         async function fetchUnSanitizedLicense() {
@@ -79,6 +83,12 @@ const EnterpriseEditionLeftPanel = ({
             })}
         </button>
     );
+
+    const handleClickAddSeats = () => {
+        if (!isSelfHostedExpansionEnabled) {
+            window.open(expandableLink(unsanitizedLicense.Id), '_blank');
+        }
+    }
 
     return (
         <div
@@ -120,8 +130,11 @@ const EnterpriseEditionLeftPanel = ({
             <div className='licenseInformation'>
                 <div className='license-details-top'>
                     <span className='title'>{'License details'}</span>
-                    {isSelfHostedExpansionEnabled &&
-                        <button className='add-seats-button btn btn-primary'>
+                    {(canExpand && expirationDays > 60) &&
+                        <button
+                            className='add-seats-button btn btn-primary'
+                            onClick={handleClickAddSeats}
+                        >
                             <FormattedMessage
                                 id={'admin.license.enterpriseEdition.add.seats'}
                                 defaultMessage='+ Add seats'
@@ -204,8 +217,8 @@ const renderLicenseValues = (activeUsers: number, seatsPurchased: number, expira
                 {(expirationDays <= 30) &&
                 <span
                     className={classNames('expiration-days', {
-                        'expiration-days-warning': expirationDays >= 30,
-                        'expiration-days-danger': expirationDays < 30,
+                        'expiration-days-warning': expirationDays > 10,
+                        'expiration-days-danger': expirationDays <= 10,
                     })}
                 >
                     {`Expires in ${expirationDays} day${expirationDays > 1 ? 's' : ''}`}

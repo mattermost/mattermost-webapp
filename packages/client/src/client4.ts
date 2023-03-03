@@ -4266,6 +4266,13 @@ export default class Client4 {
             {method: 'delete', body: JSON.stringify(deletionRequest)},
         );
     }
+
+    getAvailabilitySelfHostedExpansion = () => {
+        return this.doFetch<void>(
+            `${this.getHostedCustomerRoute()}/expansion_available`,
+            {method: 'get'},
+        );
+    }
 }
 
 export function parseAndMergeNestedHeaders(originalHeaders: any) {
