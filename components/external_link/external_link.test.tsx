@@ -46,29 +46,6 @@ describe('components/external_link', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('should not attach parameters if telemetry is disabled', () => {
-        const state = {
-            ...initialState,
-            entities: {
-                ...initialState.entities,
-                general: {
-                    config: {
-                        DiagnosticsEnabled: 'false',
-                    },
-                },
-            },
-        };
-        const store: GlobalState = JSON.parse(JSON.stringify(state));
-        renderWithIntlAndStore(
-            <ExternalLink
-                href='https://mattermost.com'
-            >{'Click Me'}</ExternalLink>,
-            store,
-        );
-
-        expect(screen.queryByText('Click Me')).toHaveAttribute('href', 'https://mattermost.com');
-    });
-
     it('should attach parameters if telemetry is enabled', () => {
         const state = {
             ...initialState,
@@ -92,7 +69,7 @@ describe('components/external_link', () => {
 
         expect(screen.queryByText('Click Me')).toHaveAttribute(
             'href',
-            expect.stringMatching('utm_source=mattermost&utm_medium=in-product-cloud&utm_content=&userId=currentUserId&serverId='),
+            expect.stringMatching('utm_source=mattermost&utm_medium=in-product-cloud&utm_content=&uid=currentUserId&sid='),
         );
     });
 
@@ -119,7 +96,7 @@ describe('components/external_link', () => {
 
         expect(screen.queryByText('Click Me')).toHaveAttribute(
             'href',
-            'https://mattermost.com?utm_source=mattermost&utm_medium=in-product-cloud&utm_content=&userId=currentUserId&serverId=&test=true',
+            'https://mattermost.com?utm_source=mattermost&utm_medium=in-product-cloud&utm_content=&uid=currentUserId&sid=&test=true',
         );
     });
 
@@ -146,7 +123,7 @@ describe('components/external_link', () => {
 
         expect(screen.queryByText('Click Me')).not.toHaveAttribute(
             'href',
-            'utm_source=mattermost&utm_medium=in-product-cloud&utm_content=&userId=currentUserId&serverId=',
+            'utm_source=mattermost&utm_medium=in-product-cloud&utm_content=&uid=currentUserId&sid=',
         );
     });
 

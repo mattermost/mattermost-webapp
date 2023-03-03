@@ -6,7 +6,7 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 
-import {isTelemetryEnabled} from 'actions/telemetry_actions';
+import {trackEvent} from 'actions/telemetry_actions';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
@@ -30,11 +30,10 @@ type Props = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
 
 export default function ExternalLink(props: Props) {
     const userId = useSelector(getCurrentUserId);
-    const telemetryEnabled = useSelector(isTelemetryEnabled);
     const config = useSelector(getConfig);
     const license = useSelector(getLicense);
     let href = props.href;
-    if (telemetryEnabled && href?.includes('mattermost.com')) {
+    if (href?.includes('mattermost.com')) {
         // encode this stuff so it's not so transparent to the user?
         const existingURLSearchParams = new URL(href).searchParams;
         const existingQueryParamsObj = Object.fromEntries(existingURLSearchParams.entries());
@@ -42,8 +41,8 @@ export default function ExternalLink(props: Props) {
             utm_source: 'mattermost',
             utm_medium: license.Cloud === 'true' ? 'in-product-cloud' : 'in-product',
             utm_content: props.location || '',
-            userId,
-            serverId: config.TelemetryId || '',
+            uid: userId,
+            sid: config.TelemetryId || '',
             ...props.queryParams,
             ...existingQueryParamsObj,
         };
@@ -54,6 +53,8 @@ export default function ExternalLink(props: Props) {
             href = href?.split('?')[0];
         }
         href = `${href}?${queryString}`;
+
+        trackEvent('link_out', 'click_external_link', queryParams);
     }
 
     return (

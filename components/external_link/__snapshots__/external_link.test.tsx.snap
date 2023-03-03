@@ -17,7 +17,7 @@ exports[`components/external_link should match snapshot 1`] = `
     href="https://mattermost.com"
   >
     <a
-      href="https://mattermost.com"
+      href="https://mattermost.com?utm_source=mattermost&utm_medium=in-product-cloud&utm_content=&uid=currentUserId&sid="
       rel="noopener noreferrer"
       target="_blank"
     >
