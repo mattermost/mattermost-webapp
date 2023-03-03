@@ -55,7 +55,7 @@ export async function loginByAPI(loginId: string, password: string, token = '', 
     const storagePath = `storage_state/${Date.now()}_${loginId}_${password}${token ? '_' + token : ''}${
         ldapOnly ? '_ldap' : ''
     }.json`;
-    const storageState = await requestContext.storageState();
+    const storageState = await requestContext.storageState({path: storagePath});
     await requestContext.dispose();
 
     // Append origins to bypass seeing landing page then write to file
