@@ -122,8 +122,6 @@ const InsightsTitle = (props: Props) => {
                                         location='insights_title'
                                         onClick={openTeamInsightsDoc}
                                         href={'https://docs.mattermost.com/welcome/insights.html#team-insights'}
-                                        rel='noopener noreferrer'
-                                        target='_blank'
                                     >
                                         <FormattedMessage
                                             id='insights.accessModal.teamDocsLink'

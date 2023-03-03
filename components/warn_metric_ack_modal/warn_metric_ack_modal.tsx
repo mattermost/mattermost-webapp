@@ -282,21 +282,17 @@ export default class WarnMetricAckModal extends React.PureComponent<Props, State
 type ErrorLinkProps = {
     defaultMessage: string;
     messageId: string;
-    onClickHandler: (e: React.MouseEvent<HTMLAnchorElement>) => Promise<void>;
+    onClickHandler: (e: React.MouseEvent) => Promise<void>;
     url: string;
     forceAck: boolean;
-}
+};
 
 const WarnMetricAckErrorLink: React.FC<ErrorLinkProps> = ({defaultMessage, messageId, onClickHandler, url, forceAck}: ErrorLinkProps) => {
     return (
         <ExternalLink
             href={url}
             data-forceAck={forceAck}
-            onClick={
-                (e: any) => {
-                    onClickHandler(e);
-                }
-            }
+            onClick={onClickHandler}
             location='warn_metric_ack_modal'
         >
             <FormattedMessage

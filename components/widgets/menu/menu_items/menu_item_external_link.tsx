@@ -14,8 +14,6 @@ type Props = {
 }
 export const MenuItemExternalLinkImpl: React.FC<Props> = ({url, text, onClick}: Props) => (
     <ExternalLink
-        target='_blank'
-        rel='noopener noreferrer'
         href={url}
         onClick={onClick}
         location='menu_item_external_link'

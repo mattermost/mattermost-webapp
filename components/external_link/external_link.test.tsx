@@ -92,9 +92,34 @@ describe('components/external_link', () => {
 
         expect(screen.queryByText('Click Me')).toHaveAttribute(
             'href',
-            expect.stringContaining(
-                'utm_source=mattermost&utm_medium=in-product-cloud&utm_content=&userId=currentUserId&serverId=',
-            ),
+            expect.stringMatching('utm_source=mattermost&utm_medium=in-product-cloud&utm_content=&userId=currentUserId&serverId='),
+        );
+    });
+
+    it('should preserve query params that already exist in the href', () => {
+        const state = {
+            ...initialState,
+            entities: {
+                ...initialState.entities,
+                general: {
+                    ...initialState?.entities?.general,
+                    config: {
+                        DiagnosticsEnabled: 'true',
+                    },
+                },
+            },
+        };
+        const store: GlobalState = JSON.parse(JSON.stringify(state));
+        renderWithIntlAndStore(
+            <ExternalLink href='https://mattermost.com?test=true'>
+                {'Click Me'}
+            </ExternalLink>,
+            store,
+        );
+
+        expect(screen.queryByText('Click Me')).toHaveAttribute(
+            'href',
+            'https://mattermost.com?utm_source=mattermost&utm_medium=in-product-cloud&utm_content=&userId=currentUserId&serverId=&test=true',
         );
     });
 
@@ -119,11 +144,9 @@ describe('components/external_link', () => {
             store,
         );
 
-        expect(screen.queryByText('Click Me')).toHaveAttribute(
+        expect(screen.queryByText('Click Me')).not.toHaveAttribute(
             'href',
-            expect.not.stringContaining(
-                'utm_source=mattermost&utm_medium=in-product-cloud&utm_content=&userId=currentUserId&serverId=',
-            ),
+            'utm_source=mattermost&utm_medium=in-product-cloud&utm_content=&userId=currentUserId&serverId=',
         );
     });
 

@@ -132,20 +132,12 @@ export default class TeamUrl extends React.PureComponent<Props, State> {
                             defaultMessage='This URL <link>starts with a reserved word</link> or is unavailable. Please try another.'
                             values={{
                                 link: (msg: React.ReactNode) => (
-                                    <>
-                                        <ExternalLink
-                                            href='https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url'
-                                            location='team_url'
-                                        >
-                                            {msg}
-                                        </ExternalLink>
-                                        <ExternalLink
-                                            href='https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url'
-                                            location='team_url'
-                                        >
-                                            {msg}
-                                        </ExternalLink>
-                                    </>
+                                    <ExternalLink
+                                        href='https://docs.mattermost.com/help/getting-started/creating-teams.html#team-url'
+                                        location='team_url'
+                                    >
+                                        {msg}
+                                    </ExternalLink>
                                 ),
                             }}
                         />

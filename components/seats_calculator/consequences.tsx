@@ -15,37 +15,46 @@ import {
 import {trackEvent} from 'actions/telemetry_actions';
 import ExternalLink from 'components/external_link';
 
-export function seeHowBillingWorks(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, cloud: boolean) {
-    e.preventDefault();
-    if (cloud) {
-        trackEvent(TELEMETRY_CATEGORIES.CLOUD_PURCHASING, 'click_see_how_billing_works');
-        window.open(CloudLinks.BILLING_DOCS, '_blank');
-    } else {
-        trackEvent(TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING, 'click_see_how_billing_works');
-        window.open(HostedCustomerLinks.BILLING_DOCS, '_blank');
-    }
-}
-
 type Props = {
     isCloud: boolean;
     licenseAgreementBtnText: string;
 }
 
 export default function Consequences(props: Props) {
+    let telemetryHandler = () => {};
+    if (props.isCloud) {
+        telemetryHandler = () =>
+            trackEvent(
+                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                'click_see_how_billing_works',
+            );
+    } else {
+        telemetryHandler = () =>
+            trackEvent(
+                TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING,
+                'click_see_how_billing_works',
+            );
+    }
     let text = (
         <FormattedMessage
-            defaultMessage={'You will be billed today. Your license will be applied automatically. <a>See how billing works.</a>'}
+            defaultMessage={
+                'You will be billed today. Your license will be applied automatically. <a>See how billing works.</a>'
+            }
             id={'self_hosted_signup.signup_consequences'}
             values={{
                 a: (chunks: React.ReactNode) => (
                     <a
-                        onClick={(e) => seeHowBillingWorks(e, props.isCloud)}
+                        onClick={telemetryHandler}
+                        href={
+                            props.isCloud ? CloudLinks.BILLING_DOCS : HostedCustomerLinks.BILLING_DOCS
+                        }
                     >
                         {chunks}
                     </a>
                 ),
             }}
-        />);
+        />
+    );
 
     const licenseAgreement = (
         <FormattedMessage
@@ -75,11 +84,12 @@ export default function Consequences(props: Props) {
                 id={'cloud_signup.signup_consequences'}
                 values={{
                     a: (chunks: React.ReactNode) => (
-                        <a
-                            onClick={(e) => seeHowBillingWorks(e, props.isCloud)}
+                        <ExternalLink
+                            onClick={telemetryHandler}
+                            href={props.isCloud ? CloudLinks.BILLING_DOCS : HostedCustomerLinks.BILLING_DOCS}
                         >
                             {chunks}
-                        </a>
+                        </ExternalLink>
                     ),
                 }}
             />);

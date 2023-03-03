@@ -18,7 +18,6 @@ exports[`components/external_link should match snapshot 1`] = `
   >
     <a
       href="https://mattermost.com"
-      onClick={[Function]}
       rel="noopener noreferrer"
       target="_blank"
     >

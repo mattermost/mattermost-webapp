@@ -5805,11 +5805,12 @@ const AdminDefinition = {
                         help_text_default: 'When true, incoming webhooks will be allowed. To help combat phishing attacks, all posts from webhooks will be labelled by a BOT tag. See <link>documentation</link> to learn more.',
                         help_text_values: {
                             link: (msg) => (
-                                <a
+                                <ExternalLink
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'
+                                    location='admin_console'
                                 >
                                     {msg}
-                                </a>
+                                </ExternalLink>
                             ),
                         },
                         help_text_markdown: false,

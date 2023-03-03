@@ -19,8 +19,6 @@ describe('components/MenuItemExternalLink', () => {
             <ExternalLink
               href="http://test.com"
               location="menu_item_external_link"
-              rel="noopener noreferrer"
-              target="_blank"
             >
               <span
                 className="MenuItem__primary-text"

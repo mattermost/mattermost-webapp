@@ -48,9 +48,12 @@ export const EmbargoedEntityTrialError = () => {
             defaultMessage='We were unable to process the request due to limitations for embargoed countries. <link>Learn more in our documentation</link>, or reach out to legal@mattermost.com for questions around export limitations.'
             values={{
                 link: (text: string) => (
-                    <a href={LicenseLinks.EMBARGOED_COUNTRIES}>
+                    <ExternalLink
+                        location='trial_banner'
+                        href={LicenseLinks.EMBARGOED_COUNTRIES}
+                    >
                         {text}
-                    </a>
+                    </ExternalLink>
                 ),
             }}
         />
