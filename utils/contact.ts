@@ -86,7 +86,7 @@ const encodeString = (s: string) => {
     return Buffer.from(s).toString('base64');
 };
 
-const buildMMURL = (baseURL: string, firstName: string, lastName: string, companyName: string, businessEmail: string) => {
+export const buildMMURL = (baseURL: string, firstName: string, lastName: string, companyName: string, businessEmail: string) => {
     const mmURL = `${baseURL}?qk=${encodeString(firstName)}&qp=${encodeString(lastName)}&qw=${encodeString(companyName)}&qx=${encodeString(businessEmail)}`;
     return mmURL;
 };

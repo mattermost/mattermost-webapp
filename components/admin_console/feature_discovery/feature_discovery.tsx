@@ -26,6 +26,7 @@ import {ModalData} from 'types/actions';
 
 import {ClientLicense} from '@mattermost/types/config';
 import {AnalyticsRow} from '@mattermost/types/admin';
+import {CloudCustomer} from '@mattermost/types/cloud';
 
 import './feature_discovery.scss';
 
@@ -56,6 +57,7 @@ type Props = {
     hadPrevCloudTrial: boolean;
     isSubscriptionLoaded: boolean;
     isPaidSubscription: boolean;
+    customer: CloudCustomer;
 }
 
 type State = {
@@ -97,7 +99,12 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
     }
 
     contactSalesFunc = () => {
-        goToMattermostContactSalesForm('', '', '', '');
+        const {customer} = this.props;
+        const customerEmail = customer?.email || '';
+        const firstName = customer?.contact_first_name || '';
+        const lastName = customer?.contact_last_name || '';
+        const companyName = customer?.name || '';
+        goToMattermostContactSalesForm(firstName, lastName, companyName, customerEmail);
     }
 
     renderPostTrialCta = () => {
