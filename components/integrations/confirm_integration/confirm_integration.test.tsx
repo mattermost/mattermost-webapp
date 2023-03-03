@@ -24,6 +24,9 @@ describe('components/integrations/ConfirmIntegration', () => {
         entities: {
             general: {
                 config: {},
+                license: {
+                    Cloud: 'false',
+                },
             },
             users: {
                 currentUserId: 'currentUserId',

@@ -24,6 +24,9 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
         entities: {
             general: {
                 config: {},
+                license: {
+                    Cloud: 'false',
+                },
             },
             users: {
                 currentUserId: 'currentUserId',

@@ -127,6 +127,9 @@ describe('/components/create_team/components/display_name', () => {
             entities: {
                 general: {
                     config: {},
+                    license: {
+                        Cloud: 'false',
+                    },
                 },
                 users: {
                     currentUserId: 'currentUserId',

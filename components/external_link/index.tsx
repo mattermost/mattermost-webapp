@@ -54,8 +54,6 @@ export default function ExternalLink(props: Props) {
             href = href?.split('?')[0];
         }
         href = `${href}?${queryString}`;
-
-        trackEvent('link_out', 'click_external_link', queryParams);
     }
 
     const handleClick = (e: React.MouseEvent<HTMLElement>) => {

@@ -138,6 +138,9 @@ describe('components/AboutBuildModal', () => {
             entities: {
                 general: {
                     config: {},
+                    license: {
+                        Cloud: 'false',
+                    },
                 },
                 users: {
                     currentUserId: 'currentUserId',
@@ -165,6 +168,9 @@ describe('components/AboutBuildModal', () => {
             entities: {
                 general: {
                     config: {},
+                    license: {
+                        Cloud: 'false',
+                    },
                 },
                 users: {
                     currentUserId: 'currentUserId',
@@ -181,8 +187,18 @@ describe('components/AboutBuildModal', () => {
             </Provider>,
         );
 
-        expect(wrapper.find(AboutBuildModal).find('a#tosLink').props().href).toBe(AboutLinks.TERMS_OF_SERVICE);
-        expect(wrapper.find(AboutBuildModal).find('a#privacyLink').props().href).toBe(AboutLinks.PRIVACY_POLICY);
+        expect(
+            wrapper.find(AboutBuildModal).find('a#tosLink').props().href,
+        ).toBe(
+            AboutLinks.TERMS_OF_SERVICE +
+                '?utm_source=mattermost&utm_medium=in-product&utm_content=about_build_modal&uid=currentUserId&sid=',
+        );
+        expect(
+            wrapper.find(AboutBuildModal).find('a#privacyLink').props().href,
+        ).toBe(
+            AboutLinks.PRIVACY_POLICY +
+                '?utm_source=mattermost&utm_medium=in-product&utm_content=about_build_modal&uid=currentUserId&sid=',
+        );
 
         expect(wrapper.find(AboutBuildModal).find('a#tosLink').props().href).not.toBe(config?.TermsOfServiceLink);
         expect(wrapper.find(AboutBuildModal).find('a#privacyLink').props().href).not.toBe(config?.PrivacyPolicyLink);
