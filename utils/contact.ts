@@ -82,12 +82,16 @@ export const goToCloudSupportForm = (email: string, subject: string, workspaceUR
     window.open(url, '_blank');
 };
 
+const encodeString = (s: string) => {
+    return Buffer.from(s).toString('base64');
+};
+
 const buildMMURL = (baseURL: string, firstName: string, lastName: string, companyName: string, businessEmail: string) => {
-    const mmURL = `${baseURL}?fn=${firstName}&ln=${lastName}&cn=${companyName}&bn=${businessEmail}`;
+    const mmURL = `${baseURL}?qk=${encodeString(firstName)}&qp=${encodeString(lastName)}&qw=${encodeString(companyName)}&qx=${encodeString(businessEmail)}`;
     return mmURL;
 };
 
-export const goToMattermostContactForm = (firstName: string, lastName: string, companyName: string, businessEmail: string) => {
+export const goToMattermostContactSalesForm = (firstName: string, lastName: string, companyName: string, businessEmail: string) => {
     const url = buildMMURL(LicenseLinks.CONTACT_SALES, firstName, lastName, companyName, businessEmail);
     window.open(url, '_blank');
 };
