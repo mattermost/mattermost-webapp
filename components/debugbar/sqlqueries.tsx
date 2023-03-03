@@ -33,6 +33,7 @@ const ModalBody = styled.div`
     height: ${({height}: {height: number}) => `calc(100% - ${height}px)`};
     padding: 40px;
     overflow: scroll;
+    word-break: break-word;
 `;
 
 const Content = styled.div`

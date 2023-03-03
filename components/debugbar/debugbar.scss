@@ -3,32 +3,6 @@
 
 @import 'utils/mixins';
 
-.DebugBarButton {
-    @include primary-button;
-
-    position: fixed;
-    z-index: 1100;
-    bottom: 20px;
-    left: 20px;
-    width: 60px;
-    height: 30px;
-}
-
-.DebugBarModal {
-    z-index: 1100;
-    width: 50%;
-    min-width: 600px;
-
-    .modal-content {
-        max-height: 90%;
-
-        .modal-body {
-            overflow: scroll;
-            margin-bottom: 25px;
-        }
-    }
-}
-
 .DebugBar {
     z-index: 1100;
     width: 100%;
