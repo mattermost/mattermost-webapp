@@ -1990,6 +1990,8 @@
   "admin.requestButton.requestFailure": "Test Failure: {error}",
   "admin.requestButton.requestSuccess": "Test Successful",
   "admin.reset_email.cancel": "Cancel",
+  "admin.reset_email.currentPassword": "Current Password",
+  "admin.reset_email.missing_current_password": "Please enter your current password.",
   "admin.reset_email.newEmail": "New Email",
   "admin.reset_email.reset": "Reset",
   "admin.reset_email.titleReset": "Update Email",
