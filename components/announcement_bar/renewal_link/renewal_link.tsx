@@ -11,7 +11,6 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {ModalData} from 'types/actions';
 
 import {
-    LicenseLinks,
     ModalIdentifiers,
 } from 'utils/constants';
 import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';

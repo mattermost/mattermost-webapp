@@ -36,14 +36,13 @@ import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurch
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useOpenDowngradeModal from 'components/common/hooks/useOpenDowngradeModal';
 import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
-import { useOpenCloudZendeskSupportForm } from 'components/common/hooks/useOpenZendeskForm';
+import {useOpenCloudZendeskSupportForm} from 'components/common/hooks/useOpenZendeskForm';
 
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
 import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
-
 
 import './content.scss';
 
