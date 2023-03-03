@@ -24,9 +24,9 @@ type Props = {
 }
 
 type RowProps = {
-    data: DebugBarSQLQuery[];
+    data: Array<{query: DebugBarSQLQuery; onDoubleClick: (query: DebugBarSQLQuery) => void}>;
     index: number;
-    style: any;
+    style: React.CSSProperties;
 }
 
 const ModalBody = styled.div`
@@ -47,29 +47,31 @@ const Title = styled.h4`
     margin-bottom: 20px;
 `;
 
+function Row({data, index, style}: RowProps) {
+    const {query, onDoubleClick} = data[index];
+
+    return (
+        <div
+            key={query.time + '_' + query.duration}
+            className='DebugBarTable__row'
+            onDoubleClick={() => onDoubleClick((query))}
+            style={style}
+        >
+            <div className={'time'}><Time time={query.time}/></div>
+            <Query
+                query={query.query}
+                args={query.args}
+            />
+            <div className='duration'>
+                <small className='duration'>{(query.duration * 1000).toFixed(4) + 'ms'}</small>
+            </div>
+        </div>
+    );
+}
+
 function SQLQueries({filter, height, width}: Props) {
     const [explain, setExplain] = useState('');
     const [viewQuery, setViewQuery] = useState<DebugBarSQLQuery|null>(null);
-
-    function Row({data, index, style}: RowProps) {
-        return (
-            <div
-                key={data[index].time + '_' + data[index].duration}
-                className='DebugBarTable__row'
-                onDoubleClick={() => setViewQuery(data[index])}
-                style={style}
-            >
-                <div className={'time'}><Time time={data[index].time}/></div>
-                <Query
-                    query={data[index].query}
-                    args={data[index].args}
-                />
-                <div className='duration'>
-                    <small className='duration'>{(data[index].duration * 1000).toFixed(4) + 'ms'}</small>
-                </div>
-            </div>
-        );
-    }
 
     useEffect(() => {
         if (viewQuery !== null) {
@@ -78,6 +80,7 @@ function SQLQueries({filter, height, width}: Props) {
             });
         }
     }, [viewQuery]);
+
     let queries = useSelector(getSqlQueries);
 
     const modal = (
@@ -132,11 +135,13 @@ function SQLQueries({filter, height, width}: Props) {
         queries = queries.filter((v) => JSON.stringify(v).indexOf(filter) !== -1);
     }
 
+    const data = queries.map((query) => ({query, onDoubleClick: () => setViewQuery(query)}));
+
     return (
         <div className='DebugBarTable'>
             {modal}
             <List
-                itemData={queries}
+                itemData={data}
                 itemCount={queries.length}
                 itemSize={50}
                 height={height}
