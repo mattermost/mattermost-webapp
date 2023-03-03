@@ -41,7 +41,11 @@ const Content = styled.div`
     gap: 30px;
 `;
 
-const Title = styled.h4``;
+const Title = styled.h4`
+    border-bottom: 1px dashed currentColor;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+`;
 
 function SQLQueries({filter, height, width}: Props) {
     const [explain, setExplain] = useState('');
