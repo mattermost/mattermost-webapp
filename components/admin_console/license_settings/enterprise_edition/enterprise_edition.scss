@@ -115,10 +115,10 @@
             }
 
             .add-seats-button {
+                border-radius: 4px;
                 font-family: 'Open Sans', sans-serif;
                 font-size: 12px;
                 font-weight: 600;
-                border-radius: 4px;
             }
         }
 
@@ -161,9 +161,9 @@
 
                 span.expiration-days {
                     margin-left: auto;
-                    font-weight: 600;
-                    font-size: 14px;
                     float: right;
+                    font-size: 14px;
+                    font-weight: 600;
 
                     &-warning {
                         color: var(--sys-away-indicator);

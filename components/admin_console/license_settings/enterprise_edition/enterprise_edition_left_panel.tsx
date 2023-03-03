@@ -121,7 +121,12 @@ const EnterpriseEditionLeftPanel = ({
                 <div className='license-details-top'>
                     <span className='title'>{'License details'}</span>
                     {isSelfHostedExpansionEnabled &&
-                        <button className='add-seats-button btn btn-primary'>+ Add seats</button>
+                        <button className='add-seats-button btn btn-primary'>
+                            <FormattedMessage
+                                id={'admin.license.enterpriseEdition.add.seats'}
+                                defaultMessage='+ Add seats'
+                            />
+                        </button>
                     }
                 </div>
                 {
@@ -194,18 +199,20 @@ const renderLicenseValues = (activeUsers: number, seatsPurchased: number, expira
                 className='item-element'
                 key={value + index.toString()}
             >
-            <span className='legend'>{legend}</span>
-            <span className='value'>{value}</span>
-            {(expirationDays <= 30) &&
-                <span className={classNames('expiration-days', { 
-                    'expiration-days-warning': expirationDays >= 30,
-                    'expiration-days-danger': expirationDays < 30,
-                })}>
+                <span className='legend'>{legend}</span>
+                <span className='value'>{value}</span>
+                {(expirationDays <= 30) &&
+                <span
+                    className={classNames('expiration-days', {
+                        'expiration-days-warning': expirationDays >= 30,
+                        'expiration-days-danger': expirationDays < 30,
+                    })}
+                >
                     {`Expires in ${expirationDays} day${expirationDays > 1 ? 's' : ''}`}
                 </span>
-            }
+                }
             </div>
-        )
+        );
     }
 
     return (
