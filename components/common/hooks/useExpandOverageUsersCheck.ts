@@ -6,10 +6,12 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {GlobalState} from 'types/store';
-import {LicenseExpandReducer} from '@mattermost/types/cloud';
+
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {getExpandSeatsLink} from 'selectors/cloud';
-import {getLicenseExpandStatus} from 'mattermost-redux/actions/cloud';
+import {getLicenseSelfServeStatus} from 'mattermost-redux/actions/cloud';
+
+import {LicenseSelfServeStatusReducer} from '@mattermost/types/cloud';
 
 type UseExpandOverageUsersCheckArgs = {
     isWarningState: boolean;
@@ -26,18 +28,16 @@ export const useExpandOverageUsersCheck = ({
 }: UseExpandOverageUsersCheckArgs) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
-    const {getRequestState, is_expandable: isExpandable}: LicenseExpandReducer = useSelector((state: GlobalState) => state.entities.cloud.subscriptionStats || {is_expandable: false, getRequestState: 'IDLE'});
+    const {getRequestState, is_expandable: isExpandable}: LicenseSelfServeStatusReducer = useSelector((state: GlobalState) => state.entities.cloud.subscriptionStats || {is_expandable: false, getRequestState: 'IDLE'});
     const expandableLink = useSelector(getExpandSeatsLink);
 
-    const cta = useMemo(() => (isExpandable ?
-        formatMessage({
-            id: 'licensingPage.overageUsersBanner.ctaExpandSeats',
-            defaultMessage: 'Purchase additional seats',
-        }) :
-        formatMessage({
-            id: 'licensingPage.overageUsersBanner.cta',
-            defaultMessage: 'Contact Sales',
-        })
+    const cta = useMemo(() => (isExpandable ? formatMessage({
+        id: 'licensingPage.overageUsersBanner.ctaExpandSeats',
+        defaultMessage: 'Purchase additional seats',
+    }) : formatMessage({
+        id: 'licensingPage.overageUsersBanner.cta',
+        defaultMessage: 'Contact Sales',
+    })
     ), [isExpandable]);
 
     const trackEventFn = (cta: 'Contact Sales' | 'Self Serve') => {
@@ -49,7 +49,7 @@ export const useExpandOverageUsersCheck = ({
 
     useEffect(() => {
         if (shouldRequest && licenseId && getRequestState === 'IDLE') {
-            dispatch(getLicenseExpandStatus());
+            dispatch(getLicenseSelfServeStatus());
         }
     }, [dispatch, getRequestState, licenseId, shouldRequest]);
 
