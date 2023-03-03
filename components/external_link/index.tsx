@@ -33,11 +33,12 @@ export default function ExternalLink(props: Props) {
     const config = useSelector(getConfig);
     const license = useSelector(getLicense);
     let href = props.href;
+    let queryParams = {};
     if (href?.includes('mattermost.com')) {
         // encode this stuff so it's not so transparent to the user?
         const existingURLSearchParams = new URL(href).searchParams;
         const existingQueryParamsObj = Object.fromEntries(existingURLSearchParams.entries());
-        const queryParams = {
+        queryParams = {
             utm_source: 'mattermost',
             utm_medium: license.Cloud === 'true' ? 'in-product-cloud' : 'in-product',
             utm_content: props.location || '',
@@ -57,12 +58,19 @@ export default function ExternalLink(props: Props) {
         trackEvent('link_out', 'click_external_link', queryParams);
     }
 
+    const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+        trackEvent('link_out', 'click_external_link', queryParams);
+        if (typeof props.onClick === 'function') {
+            props.onClick(e);
+        }
+    };
+
     return (
         <a
             {...props}
             target={props.target || '_blank'}
             rel={props.rel || 'noopener noreferrer'}
-            onClick={props.onClick}
+            onClick={handleClick}
             href={href}
         >
             {props.children}
