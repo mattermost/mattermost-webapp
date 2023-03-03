@@ -37,38 +37,41 @@ import RhsHeaderPost from './rhs_header_post';
 
 type OwnProps = Pick<ComponentProps<typeof RhsHeaderPost>, 'rootPostId'>
 
-function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
-    let isFollowingThread = false;
-
-    const collapsedThreads = isCollapsedThreadsEnabled(state);
-    const root = getPost(state, rootPostId);
-    const currentUserId = getCurrentUserId(state);
-    const tipStep = getInt(state, Preferences.CRT_THREAD_PANE_STEP, currentUserId);
+function makeMapStateToProps() {
     const getThreadOrSynthetic = makeGetThreadOrSynthetic();
 
-    if (root && collapsedThreads) {
-        const thread = getThreadOrSynthetic(state, root);
-        isFollowingThread = thread.is_following;
+    return function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
+        let isFollowingThread = false;
 
-        if (isFollowingThread === null && thread.reply_count === 0) {
-            const currentUserMentionKeys = getCurrentUserMentionKeys(state);
-            const rootMessageMentionKeys = allAtMentions(root.message);
+        const collapsedThreads = isCollapsedThreadsEnabled(state);
+        const root = getPost(state, rootPostId);
+        const currentUserId = getCurrentUserId(state);
+        const tipStep = getInt(state, Preferences.CRT_THREAD_PANE_STEP, currentUserId);
 
-            isFollowingThread = matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
+        if (root && collapsedThreads) {
+            const thread = getThreadOrSynthetic(state, root);
+            isFollowingThread = thread.is_following;
+
+            if (isFollowingThread === null && thread.reply_count === 0) {
+                const currentUserMentionKeys = getCurrentUserMentionKeys(state);
+                const rootMessageMentionKeys = allAtMentions(root.message);
+
+                isFollowingThread = matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
+            }
         }
-    }
 
-    const showThreadsTutorialTip = tipStep === CrtThreadPaneSteps.THREADS_PANE_POPOVER && isCollapsedThreadsEnabled(state) && onboardingTourTipsEnabled(state);
+        const showThreadsTutorialTip = tipStep === CrtThreadPaneSteps.THREADS_PANE_POPOVER && isCollapsedThreadsEnabled(state) && onboardingTourTipsEnabled(state);
 
-    return {
-        isExpanded: getIsRhsExpanded(state),
-        isMobileView: getIsMobileView(state),
-        relativeTeamUrl: getCurrentRelativeTeamUrl(state),
-        currentTeamId: getCurrentTeamId(state),
-        currentUserId,
-        isCollapsedThreadsEnabled: collapsedThreads,
-        isFollowingThread,
-        showThreadsTutorialTip,
+        return {
+            isExpanded: getIsRhsExpanded(state),
+            isMobileView: getIsMobileView(state),
+            relativeTeamUrl: getCurrentRelativeTeamUrl(state),
+            currentTeamId: getCurrentTeamId(state),
+            currentUserId,
+            isCollapsedThreadsEnabled: collapsedThreads,
+            isFollowingThread,
+            showThreadsTutorialTip,
+        };
     };
 }
 
@@ -85,4 +88,4 @@ const actions = {
     goBack,
 };
 
-export default connect(mapStateToProps, actions)(RhsHeaderPost);
+export default connect(makeMapStateToProps, actions)(RhsHeaderPost);
