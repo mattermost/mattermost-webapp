@@ -13,9 +13,9 @@
 
     .truncate {
         overflow: hidden;
+        min-width: 0;
         text-overflow: ellipsis;
         white-space: nowrap;
-        min-width: 0;
     }
 
     .debug {
@@ -181,9 +181,7 @@
                 background: rgba(var(--center-channel-color-rgb), 0.04);
             }
         }
-    }
 
-    .DebugBarTable {
         .Footer {
             display: flex;
             align-items: center;
@@ -201,7 +199,7 @@
 
                 &.active {
                     font-weight: bold;
-                    text-decoration: underline
+                    text-decoration: underline;
                 }
             }
 
@@ -211,7 +209,7 @@
 
                 &.active {
                     font-weight: bold;
-                    text-decoration: underline
+                    text-decoration: underline;
                 }
             }
 
@@ -221,10 +219,9 @@
 
                 &.active {
                     font-weight: bold;
-                    text-decoration: underline
+                    text-decoration: underline;
                 }
             }
         }
     }
 }
-
