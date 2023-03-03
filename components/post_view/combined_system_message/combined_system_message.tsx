@@ -263,7 +263,7 @@ export class CombinedSystemMessage extends React.PureComponent<Props> {
             usernames.unshift(allUsernames[currentUsername]);
         }
 
-        // check for duplicates in usernames
+        Array.from(new Set(usernames));
         const reduceNames = (acc: string[], username: string) => {
             if (!acc.includes(username)) {
                 acc.push(username);
