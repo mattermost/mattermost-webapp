@@ -49,6 +49,13 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
             preferences: {
                 myPreferences: {},
             },
+            admin: {
+                config: {
+                    ServiceSettings: {
+                        SelfHostedExpansion: true
+                    }
+                }
+            }
         },
     };
 
