@@ -53,19 +53,19 @@
 
             display: inline-flex;
             align-items: center;
-            border-radius: 0;
             padding: 6px 10px;
             border-left: 2px solid rgba(var(--sidebar-text-active-border), 0);
+            border-radius: 0;
 
             &.selected,
             &:hover {
                 @include tertiary-button;
 
+                border-left: 2px solid rgba(var(--sidebar-text-active-border), 0);
                 border-radius: 0;
                 color: var(--sidebar-text-active-color);
                 font-weight: normal;
                 transition: none;
-                border-left: 2px solid rgba(var(--sidebar-text-active-border), 0);
             }
 
             &.selected {
