@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import {useSelector} from 'react-redux';
 import cn from 'classnames';
 import {FixedSizeList as List} from 'react-window';
@@ -10,7 +10,7 @@ import {getApiCalls} from 'mattermost-redux/selectors/entities/debugbar';
 
 import {DebugBarAPICall} from '@mattermost/types/debugbar';
 
-import Time from './components/time';
+import {Empty, Footer, Time, Input} from './components';
 
 type Props = {
     height: number;
@@ -57,19 +57,32 @@ function Row({data, index, style}: RowProps) {
 }
 
 function ApiCalls({height, width}: Props) {
-    const calls = useSelector(getApiCalls);
+    const [regex, setRegex] = useState<RegExp>();
+
+    let calls = useSelector(getApiCalls);
+    if (regex) {
+        calls = calls.filter((v) => regex.test(JSON.stringify(v)));
+    }
 
     return (
         <div className='DebugBarTable'>
-            <List
-                itemData={calls}
-                itemCount={calls.length}
-                itemSize={50}
-                height={height}
-                width={width - 2}
-            >
-                {Row}
-            </List>
+            {calls.length > 0 ? (
+                <List
+                    itemData={calls}
+                    itemCount={calls.length}
+                    itemSize={50}
+                    height={height - 32}
+                    width={width - 2}
+                >
+                    {Row}
+                </List>
+            ) : (
+                <Empty height={height - 32}/>
+            )}
+
+            <Footer>
+                <Input onChange={setRegex}/>
+            </Footer>
         </div>
     );
 }
