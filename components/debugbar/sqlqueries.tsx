@@ -4,12 +4,14 @@
 import React, {memo, useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {FixedSizeList as List} from 'react-window';
+import styled from 'styled-components';
 
 import {Client4} from 'mattermost-redux/client';
 import {getSqlQueries} from 'mattermost-redux/selectors/entities/debugbar';
+import FullScreenModal from 'components/widgets/modals/full_screen_modal';
+import RootPortal from 'components/root_portal';
 
 import {DebugBarSQLQuery} from '@mattermost/types/debugbar';
-import {GenericModal} from '@mattermost/components';
 
 import Query from './query';
 import Code from './code';
@@ -26,6 +28,20 @@ type RowProps = {
     index: number;
     style: any;
 }
+
+const ModalBody = styled.div`
+    height: ${({height}: {height: number}) => `calc(100% - ${height}px)`};
+    padding: 40px;
+    overflow: scroll;
+`;
+
+const Content = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+`;
+
+const Title = styled.h4``;
 
 function SQLQueries({filter, height, width}: Props) {
     const [explain, setExplain] = useState('');
@@ -60,47 +76,53 @@ function SQLQueries({filter, height, width}: Props) {
     }, [viewQuery]);
     let queries = useSelector(getSqlQueries);
 
-    let modal;
-    if (viewQuery !== null) {
-        modal = (
-            <GenericModal
-                onExited={() => {
-                    setViewQuery(null);
-                    setExplain('');
-                }}
-                show={true}
-                modalHeaderText='Sql Query'
-                compassDesign={true}
-                className='DebugBarModal'
+    const modal = (
+        <RootPortal>
+            <FullScreenModal
+                onClose={() => setViewQuery(null)}
+                show={viewQuery !== null}
             >
-                <div>
-                    <Query
-                        query={viewQuery.query}
-                        args={viewQuery.args}
-                        inline={false}
-                    />
-                    <h3>{'Raw query:'}</h3>
-                    <Code
-                        code={viewQuery.query}
-                        language='sql'
-                        inline={false}
-                    />
-                    <h3>{'Args:'}</h3>
-                    <Code
-                        code={JSON.stringify(viewQuery.args, null, 4)}
-                        language='json'
-                        inline={false}
-                    />
-                    <h3>{'Explain:'}</h3>
-                    <Code
-                        code={explain}
-                        language='sql'
-                        inline={false}
-                    />
-                </div>
-            </GenericModal>
-        );
-    }
+                <ModalBody height={height}>
+                    {viewQuery !== null && (
+                        <Content>
+                            <div>
+                                <Title>{'Query'}</Title>
+                                <Query
+                                    query={viewQuery.query}
+                                    args={viewQuery.args}
+                                    inline={false}
+                                />
+                            </div>
+                            <div>
+                                <Title>{'Raw Query'}</Title>
+                                <Code
+                                    code={viewQuery.query}
+                                    language='sql'
+                                    inline={false}
+                                />
+                            </div>
+                            <div>
+                                <Title>{'Args'}</Title>
+                                <Code
+                                    code={JSON.stringify(viewQuery.args, null, 4)}
+                                    language='json'
+                                    inline={false}
+                                />
+                            </div>
+                            <div>
+                                <Title>{'Explain'}</Title>
+                                <Code
+                                    code={explain}
+                                    language='sql'
+                                    inline={false}
+                                />
+                            </div>
+                        </Content>
+                    )}
+                </ModalBody>
+            </FullScreenModal>
+        </RootPortal>
+    );
 
     if (filter !== '') {
         queries = queries.filter((v) => JSON.stringify(v).indexOf(filter) !== -1);
