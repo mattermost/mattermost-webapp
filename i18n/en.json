@@ -3182,7 +3182,6 @@
   "custom_status.expiry_dropdown.thirty_minutes": "30 minutes",
   "custom_status.expiry_dropdown.this_week": "This week",
   "custom_status.expiry_dropdown.today": "Today",
-  "custom_status.expiry.date_picker.title": "Date",
   "custom_status.expiry.time_picker.title": "Time",
   "custom_status.expiry.until": "Until",
   "custom_status.modal_cancel": "Clear Status",

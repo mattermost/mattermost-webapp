@@ -381,10 +381,10 @@ const systemMessageRenderers = {
     [Posts.POST_TYPES.ME]: renderMeMessage,
 };
 
-export function renderSystemMessage(post: Post, currentTeam: Team, channel: Channel, isUserCanManageMembers?: boolean, isMilitaryTime?: boolean): ReactNode {
+export function renderSystemMessage(post: Post, currentTeam: Team, channel: Channel, isUserCanManageMembers?: boolean, isMilitaryTime?: boolean, timezone?: string): ReactNode {
     const isEphemeral = Utils.isPostEphemeral(post);
     if (isEphemeral && post.props?.type === Posts.POST_TYPES.REMINDER) {
-        return renderReminderACKMessage(post, currentTeam, Boolean(isMilitaryTime));
+        return renderReminderACKMessage(post, currentTeam, Boolean(isMilitaryTime), timezone);
     }
     if (post.props && post.props.add_channel_member) {
         if (channel && (channel.type === General.PRIVATE_CHANNEL || channel.type === General.OPEN_CHANNEL) &&
@@ -422,7 +422,7 @@ export function renderSystemMessage(post: Post, currentTeam: Team, channel: Chan
     return null;
 }
 
-function renderReminderACKMessage(post: Post, currentTeam: Team, isMilitaryTime: boolean): ReactNode {
+function renderReminderACKMessage(post: Post, currentTeam: Team, isMilitaryTime: boolean, timezone?: string): ReactNode {
     const username = renderUsername(post.props.username);
     const teamUrl = `${getSiteURL()}/${post.props.team_name || currentTeam.name}`;
     const link = `${teamUrl}/pl/${post.props.post_id}`;
@@ -433,6 +433,7 @@ function renderReminderACKMessage(post: Post, currentTeam: Team, isMilitaryTime:
         <FormattedTime
             value={localTime}
             hour12={!isMilitaryTime}
+            timeZone={timezone}
         />);
     const reminderDate = (
         <FormattedDate
@@ -440,6 +441,7 @@ function renderReminderACKMessage(post: Post, currentTeam: Team, isMilitaryTime:
             day='2-digit'
             month='short'
             year='numeric'
+            timeZone={timezone}
         />);
     return (
         <FormattedMessage
