@@ -10,10 +10,9 @@ import {getApiCalls} from 'mattermost-redux/selectors/entities/debugbar';
 
 import {DebugBarAPICall} from '@mattermost/types/debugbar';
 
-import Time from './time';
+import Time from './components/time';
 
 type Props = {
-    filter: string;
     height: number;
     width: number;
 }
@@ -21,7 +20,7 @@ type Props = {
 type RowProps = {
     data: DebugBarAPICall[];
     index: number;
-    style: any;
+    style: React.CSSProperties;
 }
 
 function Row({data, index, style}: RowProps) {
@@ -57,11 +56,8 @@ function Row({data, index, style}: RowProps) {
     );
 }
 
-function ApiCalls({filter, height, width}: Props) {
-    let calls = useSelector(getApiCalls);
-    if (filter !== '') {
-        calls = calls.filter((v) => JSON.stringify(v).indexOf(filter) !== -1);
-    }
+function ApiCalls({height, width}: Props) {
+    const calls = useSelector(getApiCalls);
 
     return (
         <div className='DebugBarTable'>

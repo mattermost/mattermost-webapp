@@ -59,3 +59,12 @@ export type DebugBarState = {
     logs: DebugBarLog[];
     emailsSent: DebugBarEmailSent[];
 }
+
+export enum DebugBarKeys {
+    API = 'api',
+    STORE = 'store',
+    SQL = 'sql',
+    LOGS = 'logs',
+    EMAILS = 'emails',
+    SYSTEM = 'system',
+}

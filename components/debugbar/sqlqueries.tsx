@@ -13,12 +13,9 @@ import RootPortal from 'components/root_portal';
 
 import {DebugBarSQLQuery} from '@mattermost/types/debugbar';
 
-import Query from './query';
-import Code from './code';
-import Time from './time';
+import {Code, Query, Time, Input, Footer, Empty} from './components';
 
 type Props = {
-    filter: string;
     height: number;
     width: number;
 }
@@ -30,7 +27,7 @@ type RowProps = {
 }
 
 const ModalBody = styled.div`
-    height: ${({height}: {height: number}) => `calc(100% - ${height}px)`};
+    height: ${({height}: {height: number}) => `calc(100% - ${height + 32}px)`};
     padding: 40px;
     overflow: scroll;
     word-break: break-word;
@@ -70,9 +67,10 @@ function Row({data, index, style}: RowProps) {
     );
 }
 
-function SQLQueries({filter, height, width}: Props) {
+function SQLQueries({height, width}: Props) {
     const [explain, setExplain] = useState('');
     const [viewQuery, setViewQuery] = useState<DebugBarSQLQuery|null>(null);
+    const [regex, setRegex] = useState<RegExp>();
 
     useEffect(() => {
         if (viewQuery !== null) {
@@ -132,8 +130,8 @@ function SQLQueries({filter, height, width}: Props) {
         </RootPortal>
     );
 
-    if (filter !== '') {
-        queries = queries.filter((v) => JSON.stringify(v).indexOf(filter) !== -1);
+    if (regex) {
+        queries = queries.filter((v) => regex.test(JSON.stringify(v)));
     }
 
     const data = queries.map((query) => ({query, onDoubleClick: () => setViewQuery(query)}));
@@ -141,15 +139,23 @@ function SQLQueries({filter, height, width}: Props) {
     return (
         <div className='DebugBarTable'>
             {modal}
-            <List
-                itemData={data}
-                itemCount={queries.length}
-                itemSize={50}
-                height={height}
-                width={width - 2}
-            >
-                {Row}
-            </List>
+            {queries.length > 0 ? (
+                <List
+                    itemData={data}
+                    itemCount={queries.length}
+                    itemSize={50}
+                    height={height - 32}
+                    width={width - 2}
+                >
+                    {Row}
+                </List>
+            ) : (
+                <Empty height={height - 32}/>
+            )}
+
+            <Footer>
+                <Input onChange={setRegex}/>
+            </Footer>
         </div>
     );
 }

@@ -13,10 +13,11 @@ export function addLine(data: any): ActionFunc {
     };
 }
 
-export function clearLines(): ActionFunc {
+export function clearLines(key?: string): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         return dispatch({
             type: DebugBarTypes.CLEAR_LINES,
+            key,
         });
     };
 }

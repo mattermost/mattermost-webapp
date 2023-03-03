@@ -5,10 +5,10 @@ import React, {useEffect, useState, memo} from 'react';
 
 import {Client4} from 'mattermost-redux/client';
 
-import Code from './code';
+import Code from './components/code';
 
 const SystemInfo = () => {
-    const [systemInfo, setSystemInfo] = useState<any>(null);
+    const [systemInfo, setSystemInfo] = useState<Record<string, unknown>|null>(null);
 
     useEffect(() => {
         Client4.getDebugBarSystemInfo().then((result) => {

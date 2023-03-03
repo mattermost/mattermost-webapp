@@ -10,11 +10,10 @@ import {getStoreCalls} from 'mattermost-redux/selectors/entities/debugbar';
 
 import {DebugBarStoreCall} from '@mattermost/types/debugbar';
 
-import Code from './code';
-import Time from './time';
+import {Code, Time} from './components';
 
 type Props = {
-    filter: string;
+    filter?: string;
     height: number;
     width: number;
 }
@@ -22,7 +21,7 @@ type Props = {
 type RowProps = {
     data: DebugBarStoreCall[];
     index: number;
-    style: any;
+    style: React.CSSProperties;
 }
 
 function Row({data, index, style}: RowProps) {
@@ -56,7 +55,7 @@ function Row({data, index, style}: RowProps) {
 function StoreCalls({filter, height, width}: Props) {
     let calls = useSelector(getStoreCalls);
 
-    if (filter !== '') {
+    if (filter) {
         calls = calls.filter((v) => JSON.stringify(v).indexOf(filter) !== -1);
     }
 
