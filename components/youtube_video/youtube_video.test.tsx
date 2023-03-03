@@ -10,8 +10,6 @@ import {Provider} from 'react-redux';
 
 import ExternalImage from 'components/external_image';
 
-import ExternalLink from 'components/external_link';
-
 import mockStore from 'tests/test_store';
 
 import {GlobalState} from 'types/store';
