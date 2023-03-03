@@ -385,9 +385,6 @@ export function combineUserActivitySystemPost(systemPosts: Post[] = []) {
             if (postType === Posts.POST_TYPES.REMOVE_FROM_CHANNEL) {
                 actorId = '';
             }
-            if (!post.user_id || !post.props) {
-                throw new Error(`Invalid post object: ${JSON.stringify(post)}`);
-            }
             const userId = post.props.addedUserId || post.props.removedUserId;
             const username = post.props.addedUsername || post.props.removedUsername;
 

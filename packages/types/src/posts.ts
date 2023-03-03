@@ -203,7 +203,7 @@ export type PostAnalytics = {
     persistent_notifications?: boolean;
 }
 export type ActivityEntry = {
-    postType: Post['type']
+    postType: Post['type'];
     actorId: string;
     userIds?: string[];
     usernames?: string[];
