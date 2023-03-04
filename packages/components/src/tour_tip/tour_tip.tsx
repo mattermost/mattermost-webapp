@@ -8,7 +8,6 @@ import {Placement} from 'tippy.js';
 import classNames from 'classnames';
 
 import {PunchOutCoordsHeightAndWidth} from '../common/hooks/useMeasurePunchouts';
-import {useClickOutsideRef} from '../common/hooks/useClickOutsideRef';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
@@ -40,7 +39,7 @@ type Props = {
     width?: string | number;
     zIndex?: number;
     className?: string;
-    showBackdrop?: boolean;
+    hideBackdrop?: boolean;
     tippyBlueStyle?: boolean;
 
     // if you don't want punchOut just assign null, keep null as hook may return null first than actual value
@@ -85,7 +84,7 @@ export const TourTip = ({
     showOptOut = true,
     width = 352,
     zIndex = 999,
-    showBackdrop = true,
+    hideBackdrop = false,
     tippyBlueStyle = false,
 }: Props) => {
     const FIRST_STEP_INDEX = 0;
@@ -95,12 +94,6 @@ export const TourTip = ({
             handleJump(event, jumpToStep);
         }
     };
-
-    useClickOutsideRef(triggerRef, (e: any) => {
-        if (!showBackdrop && handleDismiss) {
-            handleDismiss(e);
-        }
-    });
 
     // This needs to be changed if root-portal node isn't available to maybe body
     const rootPortal = document.getElementById('root-portal');
@@ -217,16 +210,15 @@ export const TourTip = ({
             >
                 <PulsatingDot/>
             </div>
-            {showBackdrop &&
-                <TourTipBackdrop
-                    show={show}
-                    onDismiss={handleDismiss}
-                    onPunchOut={handlePunchOut}
-                    interactivePunchOut={interactivePunchOut}
-                    overlayPunchOut={overlayPunchOut}
-                    appendTo={rootPortal!}
-                />
-            }
+            <TourTipBackdrop
+                show={show}
+                onDismiss={handleDismiss}
+                onPunchOut={handlePunchOut}
+                interactivePunchOut={interactivePunchOut}
+                overlayPunchOut={overlayPunchOut}
+                appendTo={rootPortal!}
+                transparent={hideBackdrop}
+            />
             {show && (
                 <Tippy
                     showOnCreate={show}

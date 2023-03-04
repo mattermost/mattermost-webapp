@@ -9,7 +9,7 @@ import {Feedback} from '@mattermost/types/cloud';
 import FeedbackModal from 'components/feedback_modal/feedback';
 
 type Props = {
-    onSubmit: (feedback: Feedback) => void;
+    onSubmit: (downgradeFeedback: Feedback) => void;
 } &WrappedComponentProps
 
 const DowngradeFeedbackModal = (props: Props) => {

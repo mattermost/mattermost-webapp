@@ -43,12 +43,12 @@
             align-self: flex-start;
 
             .login-body-message-title {
-                padding-right: 60px;
+                padding-right: 48px;
                 color: var(--title-color-indigo-500);
                 font-family: Metropolis;
                 font-size: 80px;
                 font-weight: 600;
-                letter-spacing: -0.05em;
+                letter-spacing: -0.01em;
                 line-height: 88px;
             }
 
@@ -229,7 +229,7 @@
         }
 
         .login-body-message .login-body-message-title {
-            padding-right: 130px;
+            padding-right: 110px;
             margin-top: 48px;
         }
     }
@@ -254,7 +254,7 @@
                 padding: 24px;
 
                 .login-body-message-title {
-                    padding-right: 210px;
+                    padding-right: 180px;
                     font-size: 64px;
                     line-height: 76px;
                 }

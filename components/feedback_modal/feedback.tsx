@@ -16,7 +16,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import './feedback.scss';
 
 type Props = {
-    onSubmit: (feedback: Feedback) => void;
+    onSubmit: (deleteFeedback: Feedback) => void;
     title: string;
     submitText: string;
     feedbackOptions: string[];

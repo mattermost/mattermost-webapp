@@ -121,7 +121,7 @@ function makeMapStateToProps() {
             isCurrentUserInCall: isCallsEnabled ? checkUserInCall(state, currentUserId) : undefined,
             isCallsDefaultEnabledOnAllChannels: callsConfig?.DefaultEnabled,
             isCallsCanBeDisabledOnSpecificChannels: callsConfig?.AllowEnableCalls,
-            dMChannelId: getChannelByName(state, getDirectChannelName(currentUserId, userId))?.id,
+            dMChannel: getChannelByName(state, getDirectChannelName(currentUserId, userId)),
             teammateNameDisplay: getTeammateNameDisplaySetting(state),
             isAnyModalOpen: isAnyModalOpen(state),
         };

@@ -259,6 +259,7 @@ const state: GlobalState = {
             categories: [],
             templatesInCategory: {},
             playbookTemplates: [],
+            linkedProducts: {},
         },
     },
     errors: [],
