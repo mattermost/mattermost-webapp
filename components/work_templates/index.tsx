@@ -8,8 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import LocalizedIcon from 'components/localized_icon';
-import {TTNameMapToATStatusKey, TutorialTourName, WorkTemplateTourSteps} from 'components/tours/constant';
-import {useShowTourTip} from 'components/tours/worktemplate_explore_tour/useShowTourTip';
+import {TTNameMapToATStatusKey, TutorialTourName} from 'components/tours/constant';
 
 import {closeModal as closeModalAction} from 'actions/views/modals';
 import {trackEvent} from 'actions/telemetry_actions';
@@ -110,7 +109,6 @@ const WorkTemplateModal = () => {
     const playbookTemplates = useSelector((state: GlobalState) => state.entities.worktemplates.playbookTemplates);
     const {rhsPluggableIds} = useGetRHSPluggablesIds();
     const currentUserId = useSelector(getCurrentUserId);
-    const {showProductTour} = useShowTourTip();
 
     useEffect(() => {
         trackEvent(TELEMETRY_CATEGORIES.WORK_TEMPLATES, 'open_modal');
@@ -197,18 +195,15 @@ const WorkTemplateModal = () => {
      * Creates the necessary data in the global store as long storing in DB preferences the tourtip information
      * @param template current used worktempplate
      */
-    const tourTipActions = async (template: WorkTemplate) => {
-        const linkedProductsCount = getContentCount(template, playbookTemplates);
+    const tourTipActions = async (template: WorkTemplate, firstChannelId: string) => {
+        const linkedProductsCount = getContentCount(template, playbookTemplates, firstChannelId);
 
         // stepValue and pluginId are used for showing the tourtip for the used template
-        let stepValue = 0;
         let pluginId;
         if (linkedProductsCount.playbooks) {
             pluginId = rhsPluggableIds.get(suitePluginIds.playbooks);
-            stepValue = WorkTemplateTourSteps.PLAYBOOKS_TOUR_TIP;
         } else {
             pluginId = rhsPluggableIds.get(suitePluginIds.boards);
-            stepValue = WorkTemplateTourSteps.BOARDS_TOUR_TIP;
         }
 
         if (!pluginId) {
@@ -222,23 +217,15 @@ const WorkTemplateModal = () => {
         // store the required preferences for the tourtip
         const tourCategory = TutorialTourName.WORK_TEMPLATE_TUTORIAL;
 
-        if (showProductTour) {
-            const preferences = [
-                {
-                    user_id: currentUserId,
-                    category: tourCategory,
-                    name: currentUserId,
-                    value: stepValue.toString(),
-                },
-                {
-                    user_id: currentUserId,
-                    category: tourCategory,
-                    name: TTNameMapToATStatusKey[tourCategory],
-                    value: String(AutoTourStatus.ENABLED),
-                },
-            ];
-            await dispatch(savePreferences(currentUserId, preferences));
-        }
+        const preferences = [
+            {
+                user_id: currentUserId,
+                category: tourCategory,
+                name: TTNameMapToATStatusKey[tourCategory],
+                value: String(AutoTourStatus.ENABLED),
+            },
+        ];
+        await dispatch(savePreferences(currentUserId, preferences));
 
         dispatch(showRHSPlugin(pluginId));
     };
@@ -285,7 +272,7 @@ const WorkTemplateModal = () => {
             dispatch(loadIfNecessaryAndSwitchToChannelById(firstChannelId));
         }
 
-        await tourTipActions(template);
+        await tourTipActions(template, firstChannelId);
 
         setIsCreating(false);
         closeModal();
