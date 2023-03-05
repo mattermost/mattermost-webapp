@@ -338,18 +338,12 @@ function extractUserActivityData(userActivities: ActivityEntry[]) {
                     allUsernames.push(...usernames);
                 }
                 allUserIds.push(actorId);
-            } else {
-                throw new Error('Invalid Post activity data');
             }
         } else {
             const {postType, actorId} = activity;
-            const userIds = actorId;
-            if (actorId) {
-                messageData.push({postType, userIds});
-                allUserIds.push(userIds);
-            } else {
-                throw new Error('Invalid Post activity data');
-            }
+            const userIds = [actorId];
+            messageData.push({postType, userIds});
+            allUserIds.push(...userIds);
         }
     });
     function reduceUsers(acc: string[], curr: string) {
@@ -376,42 +370,27 @@ export function combineUserActivitySystemPost(systemPosts: Post[] = []) {
         return null;
     }
     const userActivities: ActivityEntry[] = [];
-    let prevPost: any = {};
     systemPosts.reverse().forEach((post: Post) => {
         const postType = post.type;
-        let actorId: string = post.user_id;
-        if (isUsersRelatedPost(postType)) {
-            // sets the propsUserId to an empty string, this allows the function to combine different "remove" messages with different actors.
-            if (postType === Posts.POST_TYPES.REMOVE_FROM_CHANNEL) {
-                actorId = '';
-            }
-            const userId = post.props.addedUserId || post.props.removedUserId;
-            const username = post.props.addedUsername || post.props.removedUsername;
+        const actorId = post.user_id;
+        const userIds = isUsersRelatedPost(postType) ? post.props.addedUserId || post.props.removedUserId : [];
+        const usernames = isUsersRelatedPost(postType) ? post.props.addedUsername || post.props.removedUsername : [];
 
-            // if the post has the same type and userId as the last one, combine them
-            if (prevPost.type === post.type && prevPost.user_id === post.user_id) {
-                // combine userIds and push to userActivities
-                const lastEntry = userActivities[userActivities.length - 1];
-                if (lastEntry) {
-                    lastEntry.userIds?.push(userId);
-                    lastEntry.usernames?.push(username);
-                }
-            } else {
-                userActivities.push({
-                    actorId,
-                    userIds: [userId],
-                    usernames: [username],
-                    postType,
-                });
-            }
+        const prevPost = userActivities[userActivities.length - 1];
+        const isSamePostType = prevPost && prevPost.postType === post.type;
+        const isSameActor = prevPost && prevPost.actorId === post.user_id;
+
+        if (isSamePostType && isSameActor && prevPost) {
+            prevPost.userIds.push(userIds);
+            prevPost.usernames.push(usernames);
         } else {
             userActivities.push({
-                postType,
                 actorId,
+                userIds: [userIds],
+                usernames: [usernames],
+                postType,
             });
         }
-
-        prevPost = post;
     });
     return extractUserActivityData(userActivities);
 }
