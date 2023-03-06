@@ -6,7 +6,7 @@ import {shouldSkipInSmallScreen} from '@e2e-support/flag';
 
 shouldSkipInSmallScreen();
 
-test.skip('MM-T4274 Create an Empty Board', async ({pw, pages}) => {
+test('MM-T4274 Create an Empty Board', async ({pw, pages}) => {
     await pw.shouldHaveBoardsEnabled();
 
     // Create and sign in a new user
@@ -45,7 +45,7 @@ test.skip('MM-T4274 Create an Empty Board', async ({pw, pages}) => {
     await boardsViewPage.sidebar.waitForTitle(title);
 });
 
-test.skip('MM-T4290: Duplicating and deleting a board', async ({pw, pages}) => {
+test('MM-T4290: Duplicating and deleting a board', async ({pw, pages}) => {
     await pw.shouldHaveBoardsEnabled();
 
     // Create and sign in a new user
@@ -132,7 +132,7 @@ test('MM-T4277: Set up Views', async ({pw, pages}) => {
     await boardsViewPage.sidebar.waitForTitle(title);
 
     await boardsCreatePage.assertTableViewisSelected();
-    await boardsViewPage.sidebar.assertTitleToBe('Table view');
+    await boardsViewPage.sidebar.assertTitleToBeVisible('Table view');
     await boardsCreatePage.assertGalleryViewisSelected();
-    await boardsViewPage.sidebar.assertTitleToBe('Gallery view');
+    await boardsViewPage.sidebar.assertTitleToBeVisible('Gallery view');
 });

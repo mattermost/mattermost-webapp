@@ -7,19 +7,23 @@ import {BoardsSidebar, GlobalHeader, BoardsCreateModal} from '@e2e-support/ui/co
 
 export default class BoardsViewPage {
     readonly boards = 'Boards';
-    readonly page: Page;
-    readonly sidebar: BoardsSidebar;
+    readonly boardsAPIUrl: string;
+    readonly boardsDuplicateURL: string;
     readonly boardsCreateModal: BoardsCreateModal;
-    readonly globalHeader: GlobalHeader;
-    readonly topHead: Locator;
-    readonly editableTitle: Locator;
-    readonly shareButton: Locator;
     readonly duplicateBoardButton: Locator;
     readonly deleteBoardButton: Locator;
     readonly deleteBoardConfirmationButton: Locator;
+    readonly editableTitle: Locator;
+    readonly globalHeader: GlobalHeader;
+    readonly page: Page;
+    readonly sidebar: BoardsSidebar;
+    readonly shareButton: Locator;
+    readonly topHead: Locator;
 
     constructor(page: Page) {
         this.page = page;
+        this.boardsAPIUrl = 'plugins/boards/api/v2/boards';
+        this.boardsDuplicateURL = 'duplicate?asTemplate=false';
         this.boardsCreateModal = new BoardsCreateModal(page.locator('.menu-contents'));
         this.sidebar = new BoardsSidebar(page.locator('.octo-sidebar'));
         this.globalHeader = new GlobalHeader(this.page.locator('#global-header'));
@@ -63,11 +67,12 @@ export default class BoardsViewPage {
     }
 
     async createDuplicateBoard(boardName: string) {
-        await this.page.hover(`div[title='${boardName}']`);
-        await this.page.locator(`//div[@title='${boardName}']/following-sibling::div`).click();
+        await (await this.sidebar.getBoardItem(boardName)).hover();
+        await this.sidebar.activeBoardMenuIcon.click();
+        await this.sidebar.boardMenuDraw.isVisible();
         await this.duplicateBoardButton.click();
         await this.page.waitForResponse(
-            (response) => response.url().includes('duplicate?asTemplate=false') && response.status() === 200
+            (response) => response.url().includes(this.boardsDuplicateURL) && response.status() === 200
         );
         expect(await this.editableTitle.getAttribute('value')).toBe(`${boardName} copy`);
     }
@@ -78,18 +83,15 @@ export default class BoardsViewPage {
     }
 
     async deleteBoard(boardName: string) {
-        await this.page.hover(`div[title='${boardName}']`);
-        await this.page.locator(`//div[@title='${boardName}']/following-sibling::div`).click();
+        await (await this.sidebar.getBoardItem(boardName)).hover();
+        await this.sidebar.activeBoardMenuIcon.click();
+        await this.sidebar.boardMenuDraw.isVisible();
         await this.deleteBoardButton.click();
         await this.deleteBoardConfirmationButton.click();
         await this.page.waitForResponse(
-            (response) => response.url().includes('plugins/boards/api/v2/boards') && response.status() === 200
+            (response) => response.url().includes(this.boardsAPIUrl) && response.status() === 200
         );
-        await this.waitforElementToNotExists(`div[title='${boardName}']`);
-    }
-
-    async waitforElementToNotExists(locator: string) {
-        return await this.page.waitForFunction((locator) => !!document.querySelector(locator), locator);
+        expect((await this.sidebar.getBoardItem(boardName)).isHidden());
     }
 }
 
