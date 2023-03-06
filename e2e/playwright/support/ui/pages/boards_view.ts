@@ -66,10 +66,14 @@ export default class BoardsViewPage {
         await expect(this.page.getByTitle('(Untitled Board)')).toBeVisible();
     }
 
-    async createDuplicateBoard(boardName: string) {
+    async openBoardsMenuFor(boardName: string) {
         await (await this.sidebar.getBoardItem(boardName)).hover();
         await this.sidebar.activeBoardMenuIcon.click();
         await this.sidebar.boardMenuDraw.isVisible();
+    }
+
+    async createDuplicateBoard(boardName: string) {
+        await this.openBoardsMenuFor(boardName);
         await this.duplicateBoardButton.click();
         await this.page.waitForResponse(
             (response) => response.url().includes(this.boardsDuplicateURL) && response.status() === 200
@@ -83,9 +87,7 @@ export default class BoardsViewPage {
     }
 
     async deleteBoard(boardName: string) {
-        await (await this.sidebar.getBoardItem(boardName)).hover();
-        await this.sidebar.activeBoardMenuIcon.click();
-        await this.sidebar.boardMenuDraw.isVisible();
+        await this.openBoardsMenuFor(boardName);
         await this.deleteBoardButton.click();
         await this.deleteBoardConfirmationButton.click();
         await this.page.waitForResponse(
