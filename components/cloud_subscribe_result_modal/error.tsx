@@ -31,7 +31,7 @@ function ErrorModal(props: Props) {
     const dispatch = useDispatch();
     const subscriptionProduct = useSelector(getSubscriptionProduct);
 
-    const openContactSupport = useOpenCloudZendeskSupportForm('Cloud Subscription');
+    const openContactSupport = useOpenCloudZendeskSupportForm('Cloud Subscription', '');
 
     const isSuccessModalOpen = useSelector((state: GlobalState) =>
         isModalOpen(state, ModalIdentifiers.ERROR_MODAL),

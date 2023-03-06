@@ -7,14 +7,13 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import IconMessage from 'components/purchase_modal/icon_message';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
+import {useOpenCloudZendeskSupportForm} from 'components/common/hooks/useOpenZendeskForm';
 
 import {closeModal} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
 
 import './result_modal.scss';
-
-import {useOpenCloudZendeskSupportForm} from 'components/common/hooks/useOpenZendeskForm';
 
 type Props = {
     onHide?: () => void;
@@ -32,7 +31,7 @@ type Props = {
 export default function ResultModal(props: Props) {
     const dispatch = useDispatch();
 
-    const openContactSupport = useOpenCloudZendeskSupportForm('Delete workspace');
+    const openContactSupport = useOpenCloudZendeskSupportForm('Delete workspace', '');
 
     const isResultModalOpen = useSelector((state: GlobalState) =>
         isModalOpen(state, props.identifier),
@@ -63,12 +62,11 @@ export default function ResultModal(props: Props) {
                     buttonHandler={props.primaryButtonHandler}
                     className={'success'}
                     formattedTertiaryButonText={
-                        props.contactSupportButtonVisible ?
+                        props.contactSupportButtonVisible ? (
                             <FormattedMessage
                                 id={'admin.billing.deleteWorkspace.resultModal.ContactSupport'}
                                 defaultMessage={'Contact Support'}
-                            /> :
-                            undefined
+                            />) : undefined
                     }
                     tertiaryButtonHandler={props.contactSupportButtonVisible ? openContactSupport : undefined}
                 />

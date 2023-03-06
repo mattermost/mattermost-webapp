@@ -6,11 +6,11 @@ import {useSelector} from 'react-redux';
 import {getCloudCustomer} from 'mattermost-redux/selectors/entities/cloud';
 import {getSelfHostedSupportLink, goToCloudSupportForm, goToSelfHostedSupportForm} from 'utils/contact_support_sales';
 
-export function useOpenCloudZendeskSupportForm(subject: string) {
+export function useOpenCloudZendeskSupportForm(subject: string, description: string) {
     const customer = useSelector(getCloudCustomer);
     const customerEmail = customer?.email || '';
 
-    return () => goToCloudSupportForm(customerEmail, subject, window.location.host);
+    return () => goToCloudSupportForm(customerEmail, subject, description, window.location.host);
 }
 
 export function useOpenSelfHostedZendeskSupportForm(subject: string): [() => void, string] {

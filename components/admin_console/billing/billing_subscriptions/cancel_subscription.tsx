@@ -8,7 +8,8 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {useOpenCloudZendeskSupportForm} from 'components/common/hooks/useOpenZendeskForm';
 
 const CancelSubscription = () => {
-    const openContactSupport = useOpenCloudZendeskSupportForm('Delete workspace');
+    const description = `I am requesting that workspace "${window.location.host}" be deleted`;
+    const openContactSupport = useOpenCloudZendeskSupportForm('Request workspace be deleted', description);
 
     return (
         <div className='cancelSubscriptionSection'>

@@ -20,6 +20,7 @@ export enum ZendeskFormFieldIDs {
     BILLING_SALES_CATEGORY = '360031056451',
     EMAIL = 'anonymous_requester_email',
     SUBJECT = 'subject',
+    DESCRIPTION = 'description'
 }
 
 export enum ZendeskFormFieldValues {
@@ -83,11 +84,12 @@ export const getSelfHostedSupportLink = (email: string, subject: string) => {
     return url;
 };
 
-export const goToCloudSupportForm = (email: string, subject: string, workspaceURL: string) => {
+export const goToCloudSupportForm = (email: string, subject: string, description: string, workspaceURL: string) => {
     const form = ZendeskSupportForm.CLOUD_SUPPORT_FORM;
     let url = buildZendeskSupportForm(form, [
         {id: ZendeskFormFieldIDs.EMAIL, val: email},
         {id: ZendeskFormFieldIDs.SUBJECT, val: subject},
+        {id: ZendeskFormFieldIDs.DESCRIPTION, val: description},
     ]);
     url = url.concat(`&tf_${ZendeskFormFieldIDs.CLOUD_WORKSPACE_URL}=${workspaceURL}`);
     window.open(url, '_blank');
