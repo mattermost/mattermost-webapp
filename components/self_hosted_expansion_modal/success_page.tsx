@@ -4,16 +4,18 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import IconMessage from 'components/purchase_modal/icon_message';
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
-import {ConsolePages} from 'utils/constants';
+import {ConsolePages, ModalIdentifiers} from 'utils/constants';
+import {NavLink} from 'react-router-dom';
+import BackgroundSvg from 'components/common/svg_images_components/background_svg';
+import {closeModal} from 'actions/views/modals';
+import {useDispatch} from 'react-redux';
 import './success_page.scss';
 
-interface Props {
-    onClose: () => void;
-}
-
-export default function SuccessPage(props: Props) {
+export default function SelfHostedExpansionSuccessPage() {
+    const dispatch = useDispatch();
     const titleText = (
         <FormattedMessage
             id={'self_hosted_expansion.expand_success'}
@@ -27,17 +29,18 @@ export default function SuccessPage(props: Props) {
             defaultMessage={'The license has been automatically applied to your Mattermost instance. Your updated invoice will be visible in the <billing>Billing section</billing> of the system console.'}
             values={{
                 billing: (billingText: React.ReactNode) => (
-                    <a
-                        href={ConsolePages.BILLING_HISTORY}
+                    <NavLink
+                        to={ConsolePages.BILLING_HISTORY}
                         target='_blank'
                         rel='noreferrer'
                     >
                         {billingText}
-                    </a>
+                    </NavLink>
                 ),
             }}
         />
     );
+
     const formattedButtonText = (
         <FormattedMessage
             id={'self_hosted_expansion.close'}
@@ -51,18 +54,27 @@ export default function SuccessPage(props: Props) {
             height={313}
         />
     );
+
     return (
-        <div className='success'>
-            <IconMessage
-                className={'selfHostedExpansionModal__success'}
-                formattedTitle={titleText}
-                formattedSubtitle={formattedSubtitleText}
-                testId='selfHostedExpansionSuccess'
-                icon={icon}
-                formattedButtonText={formattedButtonText}
-                buttonHandler={props.onClose}
-            />
-        </div>
+        <FullScreenModal
+            show={true}
+            onClose={() => dispatch(closeModal(ModalIdentifiers.SUCCESS_MODAL))}
+        >
+            <div className='self_hosted_expansion_success'>
+                <IconMessage
+                    className={'selfHostedExpansionModal__success'}
+                    formattedTitle={titleText}
+                    formattedSubtitle={formattedSubtitleText}
+                    testId='selfHostedExpansionSuccess'
+                    icon={icon}
+                    formattedButtonText={formattedButtonText}
+                    buttonHandler={() => dispatch(closeModal(ModalIdentifiers.SUCCESS_MODAL))}
+                />
+                <div className='background-svg'>
+                    <BackgroundSvg/>
+                </div>
+            </div>
+        </FullScreenModal>
     );
 }
 
