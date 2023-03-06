@@ -3,12 +3,13 @@
 
 import {expect, Locator, Page} from '@playwright/test';
 
-import {BoardsSidebar, GlobalHeader} from '@e2e-support/ui/components';
+import {BoardsSidebar, GlobalHeader, BoardsCreateModal} from '@e2e-support/ui/components';
 
 export default class BoardsViewPage {
     readonly boards = 'Boards';
     readonly page: Page;
     readonly sidebar: BoardsSidebar;
+    readonly boardsCreateModal: BoardsCreateModal;
     readonly globalHeader: GlobalHeader;
     readonly topHead: Locator;
     readonly editableTitle: Locator;
@@ -19,6 +20,7 @@ export default class BoardsViewPage {
 
     constructor(page: Page) {
         this.page = page;
+        this.boardsCreateModal = new BoardsCreateModal(page.locator('.menu-contents'));
         this.sidebar = new BoardsSidebar(page.locator('.octo-sidebar'));
         this.globalHeader = new GlobalHeader(this.page.locator('#global-header'));
         this.topHead = page.locator('.top-head');
@@ -64,7 +66,9 @@ export default class BoardsViewPage {
         await this.page.hover(`div[title='${boardName}']`);
         await this.page.locator(`//div[@title='${boardName}']/following-sibling::div`).click();
         await this.duplicateBoardButton.click();
-        await this.page.waitForResponse(response => response.url().includes('duplicate?asTemplate=false') && response.status() === 200);
+        await this.page.waitForResponse(
+            (response) => response.url().includes('duplicate?asTemplate=false') && response.status() === 200
+        );
         expect(await this.editableTitle.getAttribute('value')).toBe(`${boardName} copy`);
     }
 
@@ -78,12 +82,14 @@ export default class BoardsViewPage {
         await this.page.locator(`//div[@title='${boardName}']/following-sibling::div`).click();
         await this.deleteBoardButton.click();
         await this.deleteBoardConfirmationButton.click();
-        await this.page.waitForResponse(response => response.url().includes('plugins/boards/api/v2/boards') && response.status() === 200);
-        await this.waitforElementToNotExists(`div[title='${boardName}']`)
+        await this.page.waitForResponse(
+            (response) => response.url().includes('plugins/boards/api/v2/boards') && response.status() === 200
+        );
+        await this.waitforElementToNotExists(`div[title='${boardName}']`);
     }
 
-    async waitforElementToNotExists(locator: string){
-        return await this.page.waitForFunction(locator => !!document.querySelector(locator), locator);
+    async waitforElementToNotExists(locator: string) {
+        return await this.page.waitForFunction((locator) => !!document.querySelector(locator), locator);
     }
 }
 

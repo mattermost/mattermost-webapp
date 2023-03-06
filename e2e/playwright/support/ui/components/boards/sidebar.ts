@@ -22,6 +22,10 @@ export default class BoardsSidebar {
     async waitForTitle(name: string) {
         await this.container.getByRole('button', {name: ` ${name}`}).waitFor({state: 'visible'});
     }
+
+    async assertTitleToBe(name: string) {
+        await this.titles.getByText(name).isVisible();
+    }
 }
 
 export {BoardsSidebar};
