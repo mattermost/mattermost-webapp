@@ -800,7 +800,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                                         hasError={hasError}
                                         disabled={isWaiting}
                                     />
-                                    {(enableSignInWithUsername || enableSignUpWithEmail) && (
+                                    {(enableSignInWithUsername || enableSignInWithEmail) && (
                                         <div className='login-body-card-form-link'>
                                             <Link to='/reset_password'>
                                                 {formatMessage({id: 'login.forgot', defaultMessage: 'Forgot your password?'})}

@@ -65,6 +65,7 @@ type Props = {
      * Whether the user prefers Military time
      */
     isMilitaryTime?: boolean;
+    timezone?: string;
 }
 
 export default class PostMarkdown extends React.PureComponent<Props> {
@@ -90,7 +91,12 @@ export default class PostMarkdown extends React.PureComponent<Props> {
         const {post, mentionKeys} = this.props;
 
         if (post) {
-            const renderedSystemMessage = renderSystemMessage(post, this.props.currentTeam, this.props.channel, this.props.isUserCanManageMembers, this.props.isMilitaryTime);
+            const renderedSystemMessage = renderSystemMessage(post,
+                this.props.currentTeam,
+                this.props.channel,
+                this.props.isUserCanManageMembers,
+                this.props.isMilitaryTime,
+                this.props.timezone);
             if (renderedSystemMessage) {
                 return <div>{renderedSystemMessage}</div>;
             }
