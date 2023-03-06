@@ -4,6 +4,7 @@
 // Browser APIs not yet supported by supported by two or more major browser engines are not included in official TypeScript definitions
 
 interface Navigator extends Navigator {
+
     // App Badging API, currently Chromium-only
-    setAppBadge: (contents?: Number) => Promise<void>;
+    setAppBadge: (contents?: number) => Promise<void>;
 }
