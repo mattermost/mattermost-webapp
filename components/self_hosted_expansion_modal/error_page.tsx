@@ -14,6 +14,8 @@ import IconMessage from 'components/purchase_modal/icon_message';
 import {closeModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 
+import './error_page.scss';
+
 export default function SelfHostedExpansionErrorPage() {
     const dispatch = useDispatch();
     const contactSupportLink = useSelector(getCloudContactUsLink)(InquiryType.Technical);
@@ -27,7 +29,7 @@ export default function SelfHostedExpansionErrorPage() {
 
     const formattedButtonText = (
         <FormattedMessage
-            id='self_hosted_expansion.retry'
+            id='error_modal.try_again'
             defaultMessage='Try again'
         />
     );
@@ -44,7 +46,7 @@ export default function SelfHostedExpansionErrorPage() {
             id='self_hosted_expansion.contact_support'
             defaultMessage={'Contact Support'}
         />
-    )
+    );
 
     const icon = (
         <PaymentFailedSvg
@@ -58,7 +60,7 @@ export default function SelfHostedExpansionErrorPage() {
             show={true}
             onClose={() => dispatch(closeModal(ModalIdentifiers.SUCCESS_MODAL))}
         >
-            <div className='failed'>
+            <div className='self_hosted_expansion_failed'>
                 <IconMessage
                     formattedTitle={formattedTitle}
                     formattedSubtitle={formattedSubtitle}
@@ -69,7 +71,7 @@ export default function SelfHostedExpansionErrorPage() {
                         //TODO: Open self hosted expansion modal
                     }}
                     formattedTertiaryButonText={tertiaryButtonText}
-                    tertiaryButtonHandler={() => window.open(contactSupportLink, '_blank', 'noopener noreferrer')}
+                    tertiaryButtonHandler={() => window.open(contactSupportLink, '_blank', 'noreferrer')}
                 />
             </div>
         </FullScreenModal>

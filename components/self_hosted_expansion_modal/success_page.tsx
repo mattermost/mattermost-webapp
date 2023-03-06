@@ -4,14 +4,17 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {NavLink} from 'react-router-dom';
+
+import {useDispatch} from 'react-redux';
+
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import IconMessage from 'components/purchase_modal/icon_message';
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
 import {ConsolePages, ModalIdentifiers} from 'utils/constants';
-import {NavLink} from 'react-router-dom';
 import BackgroundSvg from 'components/common/svg_images_components/background_svg';
 import {closeModal} from 'actions/views/modals';
-import {useDispatch} from 'react-redux';
+
 import './success_page.scss';
 
 export default function SelfHostedExpansionSuccessPage() {
