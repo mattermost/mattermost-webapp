@@ -14,7 +14,6 @@ import {DebugBarEmailSent} from '@mattermost/types/debugbar';
 import {Empty, Time} from './components';
 
 type Props = {
-    filter?: string;
     height: number;
     width: number;
 }
