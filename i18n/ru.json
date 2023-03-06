@@ -3175,7 +3175,6 @@
   "create_team.team_url.unavailable": "Этот URL занят или недоступен. Пожалуйста, попробуйте другой.",
   "create_team.team_url.webAddress": "Выберите адрес вашей новой команды:",
   "custom_emoji.header": "Пользовательские смайлы",
-  "custom_status.expiry.date_picker.title": "Дата",
   "custom_status.expiry.time_picker.title": "Время",
   "custom_status.expiry.until": "До",
   "custom_status.expiry_dropdown.choose_date_and_time": "Выберите дату и время",
