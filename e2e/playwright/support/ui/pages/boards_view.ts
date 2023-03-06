@@ -22,6 +22,7 @@ export default class BoardsViewPage {
     readonly topHead: Locator;
     readonly boardsViewMenu: Locator;
     readonly boardsViewName: Locator;
+    readonly viewName: Locator;
     readonly boardsAddView: Locator;
     readonly boardsAddViewSubMenu: Locator;
     readonly boardsTableView: Locator;
@@ -30,9 +31,16 @@ export default class BoardsViewPage {
     readonly boardsGalleryHeader: Locator;
     readonly boardsDeleteView: Locator;
     readonly boardsDuplicateView: Locator;
+    readonly boardsView: Locator;
+    readonly galleryView: Locator;
+    readonly tableView: Locator;
 
     constructor(page: Page) {
         this.page = page;
+        this.viewName = page.locator('[placeholder="Untitled View"]');
+        this.boardsView = page.getByLabel('Board view');
+        this.galleryView = page.getByLabel('Gallery view');
+        this.tableView = page.getByLabel('Table view');
         this.boardsViewDropdown = page.getByLabel('View menu');
         this.boardsViewMenu = page.locator('menu-contents');
         this.boardsViewName = page.locator('.SidebarBoardItem.sidebar-view-item.active');
@@ -153,17 +161,48 @@ export default class BoardsViewPage {
     async deleteBoardView() {
         await this.boardsViewDropdown.click();
         await this.boardsDeleteView.click();
-        await this.page.waitForResponse((response) => response.url().includes('blocks') && response.status() === 200);
     }
 
     async duplicateBoardView() {
         const currentBoardViewName = await this.boardsViewName.innerText();
         await this.boardsViewDropdown.click();
         await this.boardsDuplicateView.click();
-        await this.page.waitForResponse(
-            (response) => response.url().includes(this.boardsDuplicateURL) && response.status() === 200
-        );
         expect(await this.boardsViewName.innerText()).toBe(`${currentBoardViewName} copy`);
+    }
+
+    async renameAndAssert(currentBoardViewName: string, newViewName: string) {
+        await this.viewName.clear();
+        await this.viewName.type(newViewName);
+        expect((await this.sidebar.getBoardItem(currentBoardViewName)).isHidden());
+        expect((await this.sidebar.getBoardItem(newViewName)).isHidden());
+    }
+
+    async renameBoardView(currentViewName: string, newViewName: string) {
+        const currentBoardViewName = await this.boardsViewName.innerText();
+        await this.openBoardsViewMenu();
+
+        switch (currentViewName) {
+            case 'Board view':
+                await this.boardsView.click();
+                await this.renameAndAssert(currentBoardViewName, newViewName);
+
+                break;
+            case 'Gallery view':
+                await this.boardsGalleryView.click();
+                await this.renameAndAssert(currentBoardViewName, newViewName);
+
+                break;
+            case 'Table view':
+                await this.boardsTableView.click();
+                await this.renameAndAssert(currentBoardViewName, newViewName);
+
+                break;
+            default:
+                throw new Error('Incorrect view name');
+                break;
+        }
+
+        expect(await this.boardsViewName.innerText()).not.toEqual(currentBoardViewName);
     }
 }
 

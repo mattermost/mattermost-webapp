@@ -140,7 +140,7 @@ test('MM-T4277: Set up Views', async ({pw, pages}) => {
     await boardsViewPage.sidebar.assertTitleToBeVisible('Gallery view');
 });
 
-test.only('MM-T4278: Managing and navigating views', async ({pw, pages}) => {
+test('MM-T4278: Managing and navigating views', async ({pw, pages}) => {
     await pw.shouldHaveBoardsEnabled();
 
     // Create and sign in a new user
@@ -186,7 +186,21 @@ test.only('MM-T4278: Managing and navigating views', async ({pw, pages}) => {
     await boardsViewPage.assertGalleryViewisSelected();
     await boardsViewPage.sidebar.assertTitleToBeVisible('Gallery view');
 
+    const renameTesting1Board = 'Testing 1 Board';
+    const renameTesting2Table = 'Testing 2 Table';
+    const renameTesting3Gallery = 'Testing 3 Gallery';
+
     // Should duplicate and delete the view
     await boardsViewPage.duplicateBoardView();
     await boardsViewPage.deleteBoardView();
+
+    // Should rename Table view and assert new name in the sidebar
+    await boardsViewPage.renameBoardView('Table view', renameTesting2Table);
+    await boardsViewPage.sidebar.assertTitleToBeVisible(renameTesting2Table);
+
+    await boardsViewPage.renameBoardView('Gallery view', renameTesting3Gallery);
+    await boardsViewPage.sidebar.assertTitleToBeVisible(renameTesting3Gallery);
+
+    await boardsViewPage.renameBoardView('Board view', renameTesting1Board);
+    await boardsViewPage.sidebar.assertTitleToBeVisible(renameTesting1Board);
 });
