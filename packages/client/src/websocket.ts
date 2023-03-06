@@ -190,11 +190,14 @@ export default class WebSocketClient {
 
                         this.missedEventCallback?.();
 
-                        try {
-                            this.missedMessageListeners.forEach((listener) => listener());
-                        } finally {
-                            this.serverSequence = 0;
+                        for (const listener of this.missedMessageListeners) {
+                            try {
+                                listener();
+                            } catch (e) {
+                                console.log(`missed message listener "${listener.name}" failed: ${e}`); // eslint-disable-line no-console
+                            }
                         }
+                        this.serverSequence = 0;
                     }
 
                     // If it's a fresh connection, we have to set the connectionId regardless.
