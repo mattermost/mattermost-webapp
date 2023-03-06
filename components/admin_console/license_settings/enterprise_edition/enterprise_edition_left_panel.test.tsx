@@ -61,6 +61,9 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
                     },
                 },
             },
+            cloud: {
+                subscription: undefined
+            }
         },
     };
 
