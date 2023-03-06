@@ -12,11 +12,9 @@ export default class BoardsCreatePage {
     readonly createBoardHeading: Locator;
     readonly createEmptyBoardButton: Locator;
     readonly useTemplateButton: Locator;
-    readonly boardsViewTitle: Locator;
 
     constructor(page: Page) {
         this.page = page;
-        this.boardsViewTitle = page.locator('[placeholder="Untitled View"]');
         this.createBoardHeading = page.getByRole('heading', {name: 'Create a board'});
         this.createEmptyBoardButton = page.getByRole('button', {name: ' Create an empty board'});
         this.globalHeader = new GlobalHeader(this.page.locator('#global-header'));
