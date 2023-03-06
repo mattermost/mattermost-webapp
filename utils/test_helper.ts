@@ -12,11 +12,12 @@ import {Post} from '@mattermost/types/posts';
 import {CategorySorting, ChannelCategory} from '@mattermost/types/channel_categories';
 import {Command, IncomingWebhook} from '@mattermost/types/integrations';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {CustomEmoji} from '@mattermost/types/emojis';
+import {SystemEmoji, CustomEmoji} from '@mattermost/types/emojis';
 import {Session} from '@mattermost/types/sessions';
 import {ProductComponent} from 'types/store/plugins';
 import {ClientLicense} from '@mattermost/types/config';
 import {PreferenceType} from '@mattermost/types/preferences';
+import {Reaction} from '@mattermost/types/reactions';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {Invoice, Product, Subscription, CloudCustomer} from '@mattermost/types/cloud';
 
@@ -385,6 +386,18 @@ export class TestHelper {
             ...override,
         };
     }
+    public static getSystemEmojiMock(override: Partial<SystemEmoji>): SystemEmoji {
+        return {
+            name: '',
+            category: 'recent',
+            image: '',
+            short_name: '',
+            short_names: [],
+            batch: 0,
+            unified: '',
+            ...override,
+        };
+    }
     public static getLicenseMock(override: ClientLicense = {}): ClientLicense {
         return {
             ...override,
@@ -492,6 +505,16 @@ export class TestHelper {
             create_at: 0,
             creator_id: '',
             num_employees: 100,
+            ...override,
+        };
+    }
+
+    public static getReactionMock(override: Partial<Reaction> = {}): Reaction {
+        return {
+            user_id: '',
+            post_id: '',
+            emoji_name: '',
+            create_at: 0,
             ...override,
         };
     }

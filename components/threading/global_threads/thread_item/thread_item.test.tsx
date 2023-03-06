@@ -4,13 +4,14 @@
 import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
 
+import Tag from 'components/widgets/tag/tag';
+
 import {UserThread} from '@mattermost/types/threads';
 import {Post} from '@mattermost/types/posts';
 import {Channel} from '@mattermost/types/channels';
 
 import * as Utils from 'utils/utils';
 import ThreadMenu from '../thread_menu';
-import Badge from 'components/widgets/badges/badge';
 
 import {WindowSizes} from 'utils/constants';
 
@@ -155,7 +156,7 @@ describe('components/threading/global_threads/thread_item', () => {
 
     test('should show channel name', () => {
         const wrapper = shallow(<ThreadItem {...props}/>);
-        expect(wrapper.find(Badge).childAt(0).text()).toContain('Team name');
+        expect(wrapper.find(Tag).props().text).toContain('Team name');
     });
 
     test('should pass required props to ThreadMenu', () => {

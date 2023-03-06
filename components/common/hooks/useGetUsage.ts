@@ -10,7 +10,6 @@ import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {
     getMessagesUsage,
     getFilesUsage,
-    getBoardsUsage,
     getTeamsUsage,
 } from 'actions/cloud';
 import {useIsLoggedIn} from 'components/global_header/hooks';
@@ -37,14 +36,6 @@ export default function useGetUsage(): CloudUsage {
             setRequestedStorage(true);
         }
     }, [isLoggedIn, isCloud, requestedStorage, usage.files.totalStorageLoaded]);
-
-    const [requestedBoardsUsage, setRequestedBoardsUsage] = useState(false);
-    useEffect(() => {
-        if (isLoggedIn && isCloud && !requestedBoardsUsage && !usage.boards.cardsLoaded) {
-            dispatch(getBoardsUsage());
-            setRequestedBoardsUsage(true);
-        }
-    }, [isLoggedIn, isCloud, requestedBoardsUsage, usage.boards.cardsLoaded, isCloud]);
 
     const [requestedTeamsUsage, setRequestedTeamsUsage] = useState(false);
     useEffect(() => {

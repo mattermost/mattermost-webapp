@@ -8,14 +8,8 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import {StripeCardElementChangeEvent} from '@stripe/stripe-js';
 
-import {
-    SelfHostedSignupProgress,
-    SelfHostedSignupCustomerResponse,
-} from '@mattermost/types/hosted_customer';
-import {UserProfile} from '@mattermost/types/users';
-import {ValueOf} from '@mattermost/types/utilities';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {getSelfHostedProducts, getSelfHostedSignupProgress} from 'mattermost-redux/selectors/entities/hosted_customer';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -30,6 +24,7 @@ import {confirmSelfHostedSignup} from 'actions/hosted_customer';
 import {GlobalState} from 'types/store';
 
 import {isModalOpen} from 'selectors/views/modals';
+import {isDevModeEnabled} from 'selectors/general';
 
 import {COUNTRIES} from 'utils/countries';
 
@@ -53,13 +48,21 @@ import useLoadStripe from 'components/common/hooks/useLoadStripe';
 import useControlSelfHostedPurchaseModal from 'components/common/hooks/useControlSelfHostedPurchaseModal';
 import useFetchStandardAnalytics from 'components/common/hooks/useFetchStandardAnalytics';
 
-import StripeProvider from './stripe_provider';
-import SelfHostedCard from './self_hosted_card';
-import SuccessPage from './success_page';
+import {ValueOf} from '@mattermost/types/utilities';
+import {UserProfile} from '@mattermost/types/users';
+import {
+    SelfHostedSignupProgress,
+    SelfHostedSignupCustomerResponse,
+} from '@mattermost/types/hosted_customer';
+
+import {Seats, errorInvalidNumber} from '../seats_calculator';
+
 import ContactSalesLink from './contact_sales_link';
 import Submitting, {convertProgressToBar} from './submitting';
 import ErrorPage from './error';
-import {Seats, errorInvalidNumber} from './seats_calculator';
+import SuccessPage from './success_page';
+import SelfHostedCard from './self_hosted_card';
+import StripeProvider from './stripe_provider';
 import Terms from './terms';
 import useNoEscape from './useNoEscape';
 
@@ -67,7 +70,9 @@ import {SetPrefix, UnionSetActions} from './types';
 
 import './self_hosted_purchase_modal.scss';
 
-interface State {
+import {STORAGE_KEY_PURCHASE_IN_PROGRESS} from './constants';
+
+export interface State {
     address: string;
     address2: string;
     city: string;
@@ -100,27 +105,29 @@ interface ClearError {
 type SetActions = UnionSetActions<State>;
 
 type Action = SetActions | UpdateProgressBarFake | UpdateSucceeded | ClearError
-
-const initialState: State = {
-    address: '',
-    address2: '',
-    city: '',
-    state: '',
-    country: '',
-    postalCode: '',
-    cardName: '',
-    organization: '',
-    agreedTerms: false,
-    cardFilled: false,
-    seats: {
-        quantity: '0',
-        error: errorInvalidNumber,
-    },
-    submitting: false,
-    succeeded: false,
-    progressBar: 0,
-    error: '',
-};
+export function makeInitialState(): State {
+    return {
+        address: '',
+        address2: '',
+        city: '',
+        state: '',
+        country: '',
+        postalCode: '',
+        cardName: '',
+        organization: '',
+        agreedTerms: false,
+        cardFilled: false,
+        seats: {
+            quantity: '0',
+            error: errorInvalidNumber,
+        },
+        submitting: false,
+        succeeded: false,
+        progressBar: 0,
+        error: '',
+    };
+}
+const initialState = makeInitialState();
 
 const maxFakeProgress = 90;
 const maxFakeProgressIncrement = 5;
@@ -202,67 +209,57 @@ function reducer(state: State, action: Action): State {
     case 'succeeded':
         return {...state, submitting: false, succeeded: true};
     default:
-        // eslint-disable-next-line
-        console.error(`Exhaustiveness failure for self hosted purchase modal. action: ${JSON.stringify(action)}`)
+        // eslint-disable-next-line no-console
+        console.error(`Exhaustiveness failure for self hosted purchase modal. action: ${JSON.stringify(action)}`);
         return state;
     }
 }
 
-function canSubmit(state: State, progress: ValueOf<typeof SelfHostedSignupProgress>) {
+export function canSubmit(state: State, progress: ValueOf<typeof SelfHostedSignupProgress>) {
     if (state.submitting) {
         return false;
     }
 
-    if (progress === SelfHostedSignupProgress.PAID ||
-         progress === SelfHostedSignupProgress.CREATED_LICENSE ||
-         progress === SelfHostedSignupProgress.CREATED_SUBSCRIPTION
-    ) {
-        // in these cases, the server has all the data it needs, all it needs is resubmit.
+    const validAddress = Boolean(
+        state.organization &&
+            state.address &&
+            state.city &&
+            state.state &&
+            state.postalCode &&
+            state.country,
+    );
+    const validCard = Boolean(
+        state.cardName &&
+        state.cardFilled,
+    );
+    const validSeats = !state.seats.error;
+    switch (progress) {
+    case SelfHostedSignupProgress.PAID:
+    case SelfHostedSignupProgress.CREATED_LICENSE:
+    case SelfHostedSignupProgress.CREATED_SUBSCRIPTION:
         return true;
-    }
-
-    if (progress === SelfHostedSignupProgress.CONFIRMED_INTENT) {
+    case SelfHostedSignupProgress.CONFIRMED_INTENT: {
         return Boolean(
-
-            // address
-            state.address &&
-            state.city &&
-            state.state &&
-            state.postalCode &&
-            state.country &&
-
-            // product/license
-            !state.seats.error &&
-            state.organization &&
-
-            // legal
+            validAddress &&
+            validSeats &&
             state.agreedTerms,
         );
     }
-
-    if (progress === SelfHostedSignupProgress.START || progress === SelfHostedSignupProgress.CREATED_CUSTOMER) {
+    case SelfHostedSignupProgress.START:
+    case SelfHostedSignupProgress.CREATED_CUSTOMER:
+    case SelfHostedSignupProgress.CREATED_INTENT:
         return Boolean(
-
-            // card
-            state.cardName &&
-            state.cardFilled &&
-
-            // address
-            state.address &&
-            state.city &&
-            state.state &&
-            state.postalCode &&
-            state.country &&
-
-            // product/license
-            !state.seats.error &&
-            state.organization &&
-
-            // legal
+            validCard &&
+            validAddress &&
+            validSeats &&
             state.agreedTerms,
         );
+    default: {
+    // eslint-disable-next-line no-console
+        console.log(`Unexpected progress state: ${progress}`);
+        return false;
     }
-    return true;
+    }
 }
 
 interface Props {
@@ -297,7 +294,8 @@ export default function SelfHostedPurchaseModal(props: Props) {
     const desiredProductName = desiredProduct?.name || '';
     const desiredPlanName = getPlanNameFromProductName(desiredProductName);
     const currentUsers = analytics[StatTypes.TOTAL_USERS] as number;
-    const isDevMode = useSelector(getConfig).EnableDeveloper === 'true';
+    const isDevMode = useSelector(isDevModeEnabled);
+    const hasLicense = Object.keys(useSelector(getLicense) || {}).length > 0;
 
     const intl = useIntl();
     const fakeProgressRef = useRef<FakeProgress>({
@@ -327,6 +325,11 @@ export default function SelfHostedPurchaseModal(props: Props) {
             TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
             'pageview_self_hosted_purchase',
         );
+
+        localStorage.setItem(STORAGE_KEY_PURCHASE_IN_PROGRESS, 'true');
+        return () => {
+            localStorage.removeItem(STORAGE_KEY_PURCHASE_IN_PROGRESS);
+        };
     }, []);
 
     useEffect(() => {
@@ -456,7 +459,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
             }
             dispatch({type: 'set_submitting', data: false});
         } catch (e) {
-            // eslint-disable-next-line
+            // eslint-disable-next-line no-console
             console.error('could not complete setup', e);
             dispatch({type: 'set_error', data: 'unable to complete signup'});
         }
@@ -513,9 +516,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                             TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING,
                             'click_close_purchasing_screen',
                         );
-                        if (!canRetry) {
-                            resetToken();
-                        }
+                        resetToken();
                         controlModal.close();
                     }}
                 >
@@ -700,7 +701,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                 />
                             </div>
                         </div>}
-                        {(state.succeeded || progress === SelfHostedSignupProgress.CREATED_LICENSE) && (
+                        {((state.succeeded || progress === SelfHostedSignupProgress.CREATED_LICENSE) && hasLicense) && !state.error && !state.submitting && (
                             <SuccessPage
                                 onClose={controlModal.close}
                                 planName={desiredPlanName}

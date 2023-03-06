@@ -2,6 +2,8 @@
 @import 'utils/mixins';
 
 .PreparingWorkspace {
+    width: 100vw;
+
     &__logo {
         position: fixed;
         z-index: 1;
@@ -79,4 +81,15 @@
 
     // centering
     margin: 0 auto;
+}
+
+@media screen and (max-width: 768px) {
+    #root {
+        overflow-y: visible;
+    }
+
+    .PreparingWorkspacePageContainer .Plugins-body {
+        padding-top: 200px;
+        overflow-y: visible;
+    }
 }

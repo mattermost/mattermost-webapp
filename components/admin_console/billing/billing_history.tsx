@@ -62,6 +62,7 @@ const BillingHistory = () => {
         dispatch(isCloud ? getInvoices() : getSelfHostedInvoicesAction());
     }, [isCloud]);
     const billingHistoryTable = invoices && <BillingHistoryTable invoices={invoices}/>;
+    const areInvoicesEmpty = Object.keys(invoices || {}).length === 0;
     return (
         <div className='wrapper--fixed BillingHistory'>
             <FormattedAdminHeader
@@ -83,7 +84,7 @@ const BillingHistory = () => {
                                 <div className='BillingHistory__cardHeaderText-bottom'>
                                     <FormattedMessage
                                         id='admin.billing.history.allPaymentsShowHere'
-                                        defaultMessage='All of your monthly payments will show here'
+                                        defaultMessage='All of your invoices will be shown here'
                                     />
                                 </div>
                             </div>
@@ -92,7 +93,7 @@ const BillingHistory = () => {
                         <div className='BillingHistory__cardBody'>
                             {invoices != null && (
                                 <>
-                                    {invoices ? billingHistoryTable : noBillingHistorySection}
+                                    {areInvoicesEmpty ? noBillingHistorySection : billingHistoryTable}
                                 </>
                             )}
                             {invoices == null && (

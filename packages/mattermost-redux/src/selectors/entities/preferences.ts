@@ -227,10 +227,7 @@ export function getCollapsedThreadsPreference(state: GlobalState): string {
 }
 
 export function isCollapsedThreadsAllowed(state: GlobalState): boolean {
-    return (
-        getFeatureFlagValue(state, 'CollapsedThreads') === 'true' &&
-        getConfig(state).CollapsedThreads !== CollapsedThreads.DISABLED
-    );
+    return Boolean(getConfig(state)) && getConfig(state).CollapsedThreads !== undefined && getConfig(state).CollapsedThreads !== CollapsedThreads.DISABLED;
 }
 
 export function isCollapsedThreadsEnabled(state: GlobalState): boolean {
@@ -263,10 +260,6 @@ export function isGraphQLEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'GraphQL') === 'true';
 }
 
-export function isAnnualSubscriptionEnabled(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'AnnualSubscription') === 'true';
-}
-
 export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): boolean {
     return getBool(state, Preferences.CATEGORY_UPGRADE_CLOUD, Preferences.SYSTEM_CONSOLE_LIMIT_REACHED, false);
 }
@@ -297,4 +290,12 @@ export function isReduceOnBoardingTaskList(state: GlobalState): boolean {
 export function getVisibleDmGmLimit(state: GlobalState) {
     const defaultLimit = 40;
     return getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, defaultLimit);
+}
+
+export function autoShowLinkedBoardFFEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'OnboardingAutoShowLinkedBoard') === 'true';
+}
+
+export function onboardingTourTipsEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'OnboardingTourTips') === 'true';
 }

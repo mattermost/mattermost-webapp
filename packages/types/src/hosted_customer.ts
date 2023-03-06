@@ -21,6 +21,11 @@ export interface SelfHostedSignupForm {
     organization: string;
 }
 
+export interface SelfHostedSignupBootstrapResponse {
+    progress: ValueOf<typeof SelfHostedSignupProgress>;
+    email: string;
+}
+
 export interface SelfHostedSignupCustomerResponse {
     customer_id: string;
     setup_intent_id: string;
@@ -45,6 +50,27 @@ export type HostedCustomerState = {
     errors: {
         products?: true;
         invoices?: true;
+        trueUpReview?: true;
     };
     signupProgress: ValueOf<typeof SelfHostedSignupProgress>;
+    trueUpReviewStatus: TrueUpReviewStatusReducer;
+    trueUpReviewProfile: TrueUpReviewProfileReducer;
+}
+
+export type TrueUpReviewProfile = {
+    content: string;
+}
+
+export type TrueUpReviewStatus = {
+    due_date: number;
+    complete: boolean;
+}
+
+type RequestState = 'IDLE' | 'LOADING' | 'OK'
+export interface TrueUpReviewProfileReducer extends TrueUpReviewProfile {
+    getRequestState: RequestState;
+}
+
+export interface TrueUpReviewStatusReducer extends TrueUpReviewStatus {
+    getRequestState: RequestState;
 }

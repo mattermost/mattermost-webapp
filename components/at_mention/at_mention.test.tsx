@@ -229,10 +229,10 @@ describe('components/AtMention', () => {
         instance.buttonRef = {
             current: {
                 getBoundingClientRect: () => ({
-                    top: 400,
+                    top: 550,
                 }),
             },
-        }as RefObject<HTMLButtonElement>;
+        }as RefObject<HTMLAnchorElement>;
 
         wrapper.instance().handleClick({preventDefault: jest.fn(), target: AtMention} as any);
         expect(wrapper.state('placement')).toEqual('top');
@@ -240,11 +240,11 @@ describe('components/AtMention', () => {
         instance.buttonRef = {
             current: {
                 getBoundingClientRect: () => ({
-                    top: 200,
-                    bottom: 400,
+                    top: 500,
+                    bottom: 100,
                 }),
             },
-        }as RefObject<HTMLButtonElement>;
+        }as RefObject<HTMLAnchorElement>;
 
         wrapper.instance().handleClick({preventDefault: jest.fn(), target: AtMention} as any);
         expect(wrapper.state('placement')).toEqual('bottom');
@@ -256,7 +256,7 @@ describe('components/AtMention', () => {
                     bottom: 1000,
                 }),
             },
-        } as RefObject<HTMLButtonElement>;
+        } as RefObject<HTMLAnchorElement>;
 
         wrapper.instance().handleClick({preventDefault: jest.fn(), target: AtMention} as any);
         expect(wrapper.state('placement')).toEqual('left');

@@ -34,6 +34,25 @@ import {
 } from 'mattermost-redux/selectors/entities/users';
 
 import {
+    calculateUnreadCount,
+    completeDirectChannelDisplayName,
+    completeDirectChannelInfo,
+    completeDirectGroupInfo,
+    filterChannelsMatchingTerm,
+    getChannelByName as getChannelByNameHelper,
+    getUserIdFromChannelName,
+    isChannelMuted,
+    isDefault,
+    isDirectChannel,
+    newCompleteDirectChannelInfo,
+    sortChannelsByDisplayName,
+} from 'mattermost-redux/utils/channel_utils';
+
+import {createIdsSelector} from 'mattermost-redux/utils/helpers';
+
+import {createSelector} from 'reselect';
+
+import {
     Channel,
     ChannelMemberCountsByGroup,
     ChannelMembership,
@@ -51,23 +70,6 @@ import {
     RelationOneToManyUnique,
     RelationOneToOne,
 } from '@mattermost/types/utilities';
-
-import {
-    calculateUnreadCount,
-    completeDirectChannelDisplayName,
-    completeDirectChannelInfo,
-    completeDirectGroupInfo,
-    filterChannelsMatchingTerm,
-    getChannelByName as getChannelByNameHelper,
-    getUserIdFromChannelName,
-    isChannelMuted,
-    isDefault,
-    isDirectChannel,
-    newCompleteDirectChannelInfo,
-    sortChannelsByDisplayName,
-} from 'mattermost-redux/utils/channel_utils';
-import {createIdsSelector} from 'mattermost-redux/utils/helpers';
-import {createSelector} from 'reselect';
 
 import {getThreadCounts, getThreadCountsIncludingDirect} from './threads';
 import {isPostPriorityEnabled} from './posts';
@@ -560,6 +562,7 @@ export function basicUnreadMeta(unreadStatus: BasicUnreadStatus): BasicUnreadMet
     };
 }
 
+// muted channel will not be counted towards unreads
 export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = createSelector(
     'getUnreadStatus',
     getAllChannels,
@@ -611,7 +614,7 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
             }
 
             const mentions = collapsedThreads ? membership.mention_count_root : membership.mention_count;
-            if (mentions) {
+            if (mentions && !isChannelMuted(membership)) {
                 counts.mentions += mentions;
             }
 
@@ -1374,4 +1377,52 @@ export const getMyActiveChannelIds = createSelector(
         }
         return chan.id;
     }),
+);
+export const getRecentProfilesFromDMs: (state: GlobalState) => UserProfile[] = createSelector(
+    'getRecentProfilesFromDMs',
+    getAllChannels,
+    getUsers,
+    getCurrentUser,
+    getMyChannelMemberships,
+    (allChannels: IDMappedObjects<Channel>, users: IDMappedObjects<UserProfile>, currentUser: UserProfile, memberships: RelationOneToOne<Channel, ChannelMembership>) => {
+        if (!allChannels || !users) {
+            return [];
+        }
+        const recentChannelIds = Object.values(memberships).sort((aMembership, bMembership) => {
+            return bMembership.last_viewed_at - aMembership.last_viewed_at;
+        }).map((membership) => membership.channel_id);
+        const groupChannels = Object.values(allChannels).filter((channel: Channel) => channel.type === General.GM_CHANNEL);
+        const dmChannels = Object.values(allChannels).filter((channel: Channel) => channel.type === General.DM_CHANNEL);
+
+        const userProfilesByChannel: {[key: string]: UserProfile[]} = {};
+
+        dmChannels.forEach((channel) => {
+            if (channel.name) {
+                const otherUserId = getUserIdFromChannelName(currentUser.id, channel.name);
+                const userProfile = users[otherUserId];
+                if (userProfile) {
+                    userProfilesByChannel[channel.id] = [userProfile];
+                }
+            }
+        });
+
+        groupChannels.forEach((channel) => {
+            if (channel.display_name) {
+                const memberUsernames = channel.display_name.split(',').map((username) => username.trim()).filter((username) => username !== currentUser.username).sort();
+                const memberProfiles = memberUsernames.map((username) => {
+                    return Object.values(users).find((profile) => profile.username === username);
+                });
+                if (memberProfiles) {
+                    userProfilesByChannel[channel.id] = memberProfiles as UserProfile[];
+                }
+            }
+        });
+        const sortedUserProfiles: Set<UserProfile> = new Set<UserProfile>();
+        recentChannelIds.forEach((cid: string) => {
+            if (userProfilesByChannel[cid]) {
+                userProfilesByChannel[cid].forEach((user) => sortedUserProfiles.add(user));
+            }
+        });
+        return [...sortedUserProfiles];
+    },
 );

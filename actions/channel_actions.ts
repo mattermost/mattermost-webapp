@@ -131,7 +131,7 @@ export function searchMoreChannels(term: string, showArchivedChannels: boolean):
     };
 }
 
-export function autocompleteChannels(term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void): ActionFunc {
+export function autocompleteChannels(term: string, success: (channels: Channel[]) => void, error?: (err: ServerError) => void): ActionFunc {
     return async (dispatch, getState) => {
         const state = getState();
         const teamId = getCurrentTeamId(state);
@@ -231,7 +231,7 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
                 channelMembersResponse = [...channelMembersResponse, ...data.channelMembers];
             } while (responsesPerPage === CHANNELS_AND_CHANNEL_MEMBERS_PER_PAGE);
         } catch (error) {
-            dispatch(logError(error as ServerError, true, true));
+            dispatch(logError(error as ServerError));
             return {error: error as ServerError};
         }
 

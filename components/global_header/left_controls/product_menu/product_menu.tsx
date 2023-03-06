@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useRef} from 'react';
+import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -29,6 +30,8 @@ import {
 import {ExploreOtherToolsTourSteps, suitePluginIds} from 'utils/constants';
 import {useCurrentProductId, useProducts, isChannels} from 'utils/products';
 import {GlobalState} from 'types/store';
+
+import {useGetPluginsActivationState} from 'plugins/useGetPluginsActivationState';
 
 import {useClickOutsideRef} from '../../hooks';
 
@@ -65,6 +68,7 @@ export const ProductMenuButton = styled(IconButton).attrs(() => ({
 `;
 
 const ProductMenu = (): JSX.Element => {
+    const {formatMessage} = useIntl();
     const products = useProducts();
     const dispatch = useDispatch();
     const switcherOpen = useSelector(isSwitcherOpen);
@@ -77,12 +81,12 @@ const ProductMenu = (): JSX.Element => {
     const triggerStep = useSelector((state: GlobalState) => getInt(state, OnboardingTaskCategory, OnboardingTasksName.EXPLORE_OTHER_TOOLS, FINISHED));
     const exploreToolsTourTriggered = triggerStep === GenericTaskSteps.STARTED;
 
-    const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
-    const boards = pluginsList.focalboard;
-    const playbooks = pluginsList.playbooks;
+    const {boardsProductEnabled, boardsPlugin, playbooksPlugin} = useGetPluginsActivationState();
 
-    const showBoardsTour = enableTutorial && tutorialStep === ExploreOtherToolsTourSteps.BOARDS_TOUR && exploreToolsTourTriggered && boards;
-    const showPlaybooksTour = enableTutorial && tutorialStep === ExploreOtherToolsTourSteps.PLAYBOOKS_TOUR && exploreToolsTourTriggered && playbooks;
+    const boardsEnabled = boardsPlugin || boardsProductEnabled;
+
+    const showBoardsTour = enableTutorial && tutorialStep === ExploreOtherToolsTourSteps.BOARDS_TOUR && exploreToolsTourTriggered && boardsEnabled;
+    const showPlaybooksTour = enableTutorial && tutorialStep === ExploreOtherToolsTourSteps.PLAYBOOKS_TOUR && exploreToolsTourTriggered && playbooksPlugin;
 
     const handleClick = () => dispatch(setProductMenuSwitcherOpen(!switcherOpen));
 
@@ -106,13 +110,14 @@ const ProductMenu = (): JSX.Element => {
         let tourTip;
 
         // focalboard
-        if (product.pluginId === suitePluginIds.focalboard && showBoardsTour) {
-            tourTip = (<BoardsTourTip singleTip={!playbooks}/>);
+        const boardsEnabled = product.pluginId === suitePluginIds.focalboard || product.pluginId === suitePluginIds.boards;
+        if (boardsEnabled && showBoardsTour) {
+            tourTip = (<BoardsTourTip singleTip={!playbooksPlugin}/>);
         }
 
         // playbooks
         if (product.pluginId === suitePluginIds.playbooks && showPlaybooksTour) {
-            tourTip = (<PlaybooksTourTip singleTip={!boards}/>);
+            tourTip = (<PlaybooksTourTip singleTip={!boardsEnabled}/>);
         }
 
         return (
@@ -137,13 +142,16 @@ const ProductMenu = (): JSX.Element => {
                 <ProductMenuContainer onClick={handleClick}>
                     <ProductMenuButton
                         active={switcherOpen}
-                        aria-label='Select to open product switch menu.'
+                        aria-expanded={switcherOpen}
+                        aria-label={formatMessage({id: 'global_header.productSwitchMenu', defaultMessage: 'Product switch menu'})}
+                        aria-controls='product-switcher-menu'
                     />
                     <ProductBranding/>
                 </ProductMenuContainer>
                 <Menu
                     listId={'product-switcher-menu-dropdown'}
                     className={'product-switcher-menu'}
+                    id={'product-switcher-menu'}
                     ariaLabel={'switcherOpen'}
                 >
                     <ProductMenuItem

@@ -19,7 +19,7 @@ import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
 import {getAnalyticsCategory} from 'components/onboarding_tasks';
 
 import {t} from 'utils/i18n';
-import {getTrackFlowRole, getRoleForTrackFlow} from 'utils/utils';
+import {getTrackFlowRole, getRoleForTrackFlow, getSourceForTrackFlow} from 'utils/utils';
 
 import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
 import InviteAs, {InviteType} from './invite_as';
@@ -69,6 +69,7 @@ export type Props = InviteState & {
     canAddUsers: boolean;
     townSquareDisplayName: string;
     channelToInvite?: Channel;
+    onPaste?: (e: ClipboardEvent) => void;
 }
 
 export default function InviteView(props: Props) {
@@ -81,11 +82,11 @@ export default function InviteView(props: Props) {
     const {formatMessage} = useIntl();
 
     const inviteURL = useMemo(() => {
-        return `${getSiteURL()}/signup_user_complete/?id=${props.currentTeam.invite_id}&sbr=${getTrackFlowRole()}`;
+        return `${getSiteURL()}/signup_user_complete/?id=${props.currentTeam.invite_id}&md=link&sbr=${getTrackFlowRole()}`;
     }, [props.currentTeam.invite_id]);
 
     const copyText = useCopyText({
-        trackCallback: () => trackEvent(getAnalyticsCategory(props.isAdmin), 'click_copy_invite_link', getRoleForTrackFlow()),
+        trackCallback: () => trackEvent(getAnalyticsCategory(props.isAdmin), 'click_copy_invite_link', {...getRoleForTrackFlow(), ...getSourceForTrackFlow()}),
         text: inviteURL,
     });
 
@@ -93,7 +94,12 @@ export default function InviteView(props: Props) {
         <button
             onClick={copyText.onClick}
             data-testid='InviteView__copyInviteLink'
-            aria-label='team invite link'
+            aria-label={
+                formatMessage({
+                    id: 'invite_modal.copy_link.url_aria',
+                    defaultMessage: 'team invite link {inviteURL}',
+                }, {inviteURL})
+            }
             className='InviteView__copyLink'
         >
             {!copyText.copiedRecently && (
@@ -164,6 +170,16 @@ export default function InviteView(props: Props) {
         return props.usersEmails.length > 0;
     }, [props.inviteType, props.inviteChannels.channels, props.usersEmails]);
 
+    const inviteModalPeople = formatMessage({
+        id: 'invite_modal.people',
+        defaultMessage: 'people',
+    });
+
+    const inviteModalGuest = formatMessage({
+        id: 'invite_modal.guests',
+        defaultMessage: 'guests',
+    });
+
     return (
         <>
             <Modal.Header className={props.headerClass}>
@@ -173,15 +189,7 @@ export default function InviteView(props: Props) {
                         defaultMessage={'Invite {inviteType} to {team_name}'}
                         values={{
                             inviteType: (
-                                props.inviteType === InviteType.MEMBER ?
-                                    <FormattedMessage
-                                        id='invite_modal.people'
-                                        defaultMessage='people'
-                                    /> :
-                                    <FormattedMessage
-                                        id='invite_modal.guests'
-                                        defaultMessage='guests'
-                                    />
+                                props.inviteType === InviteType.MEMBER ? inviteModalPeople : inviteModalGuest
                             ),
                             team_name: props.currentTeam.display_name,
                         }}
@@ -224,6 +232,7 @@ export default function InviteView(props: Props) {
                     inputValue={props.usersEmailsSearch}
                     emailInvitationsEnabled={props.emailInvitationsEnabled}
                     autoFocus={true}
+                    onPaste={props.onPaste}
                 />
                 {props.canInviteGuests && props.canAddUsers &&
                 <InviteAs

@@ -51,32 +51,34 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     hasUrgent={false}
     unreadMentions={0}
   />
-  <Connect(Component)
-    channel={
-      Object {
-        "create_at": 0,
-        "creator_id": "",
-        "delete_at": 0,
-        "display_name": "channel_display_name",
-        "group_constrained": false,
-        "header": "",
-        "id": "channel_id",
-        "last_post_at": 0,
-        "last_root_post_at": 0,
-        "name": "",
-        "purpose": "",
-        "scheme_id": "",
-        "team_id": "",
-        "type": "O",
-        "update_at": 0,
+  <div
+    className="SidebarMenu MenuWrapper"
+  >
+    <Connect(Component)
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "",
+          "delete_at": 0,
+          "display_name": "channel_display_name",
+          "group_constrained": false,
+          "header": "",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "",
+          "purpose": "",
+          "scheme_id": "",
+          "team_id": "",
+          "type": "O",
+          "update_at": 0,
+        }
       }
-    }
-    channelLink="http://a.fake.link"
-    isCollapsed={false}
-    isMenuOpen={false}
-    isUnread={false}
-    onToggleMenu={[Function]}
-  />
+      channelLink="http://a.fake.link"
+      isUnread={false}
+      onMenuToggle={[Function]}
+    />
+  </div>
 </Link>
 `;
 
@@ -131,32 +133,34 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     hasUrgent={false}
     unreadMentions={0}
   />
-  <Connect(Component)
-    channel={
-      Object {
-        "create_at": 0,
-        "creator_id": "",
-        "delete_at": 0,
-        "display_name": "channel_display_name",
-        "group_constrained": false,
-        "header": "",
-        "id": "channel_id",
-        "last_post_at": 0,
-        "last_root_post_at": 0,
-        "name": "",
-        "purpose": "",
-        "scheme_id": "",
-        "team_id": "",
-        "type": "O",
-        "update_at": 0,
+  <div
+    className="SidebarMenu MenuWrapper"
+  >
+    <Connect(Component)
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "",
+          "delete_at": 0,
+          "display_name": "channel_display_name",
+          "group_constrained": false,
+          "header": "",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "",
+          "purpose": "",
+          "scheme_id": "",
+          "team_id": "",
+          "type": "O",
+          "update_at": 0,
+        }
       }
-    }
-    channelLink="http://a.fake.link"
-    isCollapsed={false}
-    isMenuOpen={false}
-    isUnread={false}
-    onToggleMenu={[Function]}
-  />
+      channelLink="http://a.fake.link"
+      isUnread={false}
+      onMenuToggle={[Function]}
+    />
+  </div>
 </Link>
 `;
 
@@ -235,32 +239,34 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     hasUrgent={false}
     unreadMentions={0}
   />
-  <Connect(Component)
-    channel={
-      Object {
-        "create_at": 0,
-        "creator_id": "",
-        "delete_at": 0,
-        "display_name": "channel_display_name",
-        "group_constrained": false,
-        "header": "",
-        "id": "channel_id",
-        "last_post_at": 0,
-        "last_root_post_at": 0,
-        "name": "",
-        "purpose": "",
-        "scheme_id": "",
-        "team_id": "",
-        "type": "O",
-        "update_at": 0,
+  <div
+    className="SidebarMenu MenuWrapper"
+  >
+    <Connect(Component)
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "",
+          "delete_at": 0,
+          "display_name": "channel_display_name",
+          "group_constrained": false,
+          "header": "",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "",
+          "purpose": "",
+          "scheme_id": "",
+          "team_id": "",
+          "type": "O",
+          "update_at": 0,
+        }
       }
-    }
-    channelLink="http://a.fake.link"
-    isCollapsed={false}
-    isMenuOpen={false}
-    isUnread={false}
-    onToggleMenu={[Function]}
-  />
+      channelLink="http://a.fake.link"
+      isUnread={false}
+      onMenuToggle={[Function]}
+    />
+  </div>
 </Link>
 `;
 
@@ -315,31 +321,33 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
     hasUrgent={false}
     unreadMentions={2}
   />
-  <Connect(Component)
-    channel={
-      Object {
-        "create_at": 0,
-        "creator_id": "",
-        "delete_at": 0,
-        "display_name": "channel_display_name",
-        "group_constrained": false,
-        "header": "",
-        "id": "channel_id",
-        "last_post_at": 0,
-        "last_root_post_at": 0,
-        "name": "",
-        "purpose": "",
-        "scheme_id": "",
-        "team_id": "",
-        "type": "O",
-        "update_at": 0,
+  <div
+    className="SidebarMenu MenuWrapper"
+  >
+    <Connect(Component)
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "",
+          "delete_at": 0,
+          "display_name": "channel_display_name",
+          "group_constrained": false,
+          "header": "",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "",
+          "purpose": "",
+          "scheme_id": "",
+          "team_id": "",
+          "type": "O",
+          "update_at": 0,
+        }
       }
-    }
-    channelLink="http://a.fake.link"
-    isCollapsed={false}
-    isMenuOpen={false}
-    isUnread={true}
-    onToggleMenu={[Function]}
-  />
+      channelLink="http://a.fake.link"
+      isUnread={true}
+      onMenuToggle={[Function]}
+    />
+  </div>
 </Link>
 `;

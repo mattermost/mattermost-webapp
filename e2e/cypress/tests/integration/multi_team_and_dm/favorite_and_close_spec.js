@@ -46,7 +46,9 @@ describe('Close group messages', () => {
             cy.uiGetLhsSection('FAVORITES').find('.SidebarChannel').first().should('contain', channel.display_name.replace(`, ${testUser.username}`, ''));
 
             // # Click on the x button on the sidebar channel item
-            cy.uiGetChannelSidebarMenu(channel.name).findByText('Close Conversation').click();
+            cy.uiGetChannelSidebarMenu(channel.name, true).within(() => {
+                cy.findByText('Close Conversation').click();
+            });
 
             verifyChannelWasProperlyClosed(channel.name);
         });

@@ -14,13 +14,11 @@ import useGetLimits from './useGetLimits';
 // 10MB files used, minus 1000MB limit = value < 0, limit not exceeded.
 // etc.
 // withBackupValue will set the limit arbitrarily high in the event that the limit isn't set
-const withBackupValue = (maybeLimit: number | undefined, limitsLoaded: boolean) => (limitsLoaded ? maybeLimit ?? Number.MAX_VALUE : 0);
+export const withBackupValue = (maybeLimit: number | undefined, limitsLoaded: boolean) => (limitsLoaded ? (maybeLimit ?? Number.MAX_VALUE) : Number.MAX_VALUE);
 
 export default function useGetUsageDeltas(): CloudUsage {
     const usage = useGetUsage();
-    const cloudLimits = useGetLimits();
-    const limits = cloudLimits[0];
-    const limitsLoaded = cloudLimits[1];
+    const [limits, limitsLoaded] = useGetLimits();
 
     const usageDelta = useMemo(() => {
         return (
@@ -33,10 +31,6 @@ export default function useGetUsageDeltas(): CloudUsage {
                     history: usage.messages.history - withBackupValue(limits.messages?.history, limitsLoaded),
                     historyLoaded: usage.messages.historyLoaded,
                 },
-                boards: {
-                    cards: usage.boards.cards - withBackupValue(limits.boards?.cards, limitsLoaded),
-                    cardsLoaded: usage.boards.cardsLoaded,
-                },
                 teams: {
                     active: usage.teams.active - withBackupValue(limits.teams?.active, limitsLoaded),
 
@@ -46,7 +40,7 @@ export default function useGetUsageDeltas(): CloudUsage {
                 },
             }
         );
-    }, [usage, limits]);
+    }, [usage, limits, limitsLoaded]);
 
     return usageDelta;
 }

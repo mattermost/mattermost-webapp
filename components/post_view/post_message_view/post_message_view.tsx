@@ -30,6 +30,7 @@ type Props = {
     currentRelativeTeamUrl: string;
     overflowType?: AttachmentTextOverflowType;
     maxHeight?: number; /* The max height used by the show more component */
+    showPostEditedIndicator?: boolean; /* Whether or not to render the post edited indicator */
 }
 
 type State = {
@@ -159,6 +160,7 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
                         post={post}
                         channelId={post.channel_id}
                         mentionKeys={[]}
+                        showPostEditedIndicator={this.props.showPostEditedIndicator}
                     />
                 </div>
                 <Pluggable

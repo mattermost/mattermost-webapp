@@ -135,6 +135,26 @@ export default class PluginRegistry {
         return dispatchPluginComponentAction('LinkTooltip', this.id, component);
     });
 
+    // Register a component fixed to the bottom of the create new channel modal and also registers a callback function to be called after
+    // the channel has been succesfully created
+    // Accepts a React component. Returns a unique identifier.
+    registerActionAfterChannelCreation = reArg(['component', 'action'], ({component, action}) => {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'CreateBoardFromTemplate',
+            data: {
+                id,
+                pluginId: this.id,
+                component,
+                action,
+            },
+        });
+
+        return id;
+    });
+
     // Add a button to the channel header. If there are more than one buttons registered by any
     // plugin, a dropdown menu is created to contain all the plugin buttons.
     // Accepts the following:
@@ -188,19 +208,20 @@ export default class PluginRegistry {
     // Accepts the following:
     // - icon - React element to use as the button's icon
     // - action - a function called when the button is clicked, passed the channel and channel member as arguments
-    // - tooltipText - string or React element shown for tooltip appear on hover
+    // - text - a localized string to use as the button's text
     registerChannelIntroButtonAction = reArg([
         'icon',
         'action',
-        'tooltipText',
+        'text',
     ], ({
         icon,
         action,
-        tooltipText,
+        text,
     }: {
         icon: ReactResolvable;
         action: PluginComponent['action'];
-        tooltipText: ReactResolvable;
+        tooltipText: string;
+        text: string;
     }) => {
         const id = generateId();
 
@@ -209,18 +230,12 @@ export default class PluginRegistry {
             pluginId: this.id,
             icon: resolveReactElement(icon),
             action,
-            tooltipText: resolveReactElement(tooltipText),
+            text,
         };
 
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
             name: 'ChannelIntroButton',
-            data,
-        });
-
-        store.dispatch({
-            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
-            name: 'MobileChannelIntroButton',
             data,
         });
 

@@ -120,7 +120,6 @@ export default class Reaction extends React.PureComponent<Props, State> {
             const reactedClass = currentUserReacted ? 'Reaction--reacted' : 'Reaction--unreacted';
 
             this.animating = false;
-            /* eslint-disable-next-line react/no-did-update-set-state */
             this.setState({
                 displayNumber: this.props.reactionCount,
                 reactedClass,
@@ -236,9 +235,9 @@ export default class Reaction extends React.PureComponent<Props, State> {
                     ref={this.reactionButtonRef}
                 >
                     <span className='d-flex align-items-center'>
-                        <span
+                        <img
                             className='Reaction__emoji emoticon'
-                            style={{backgroundImage: 'url(' + this.props.emojiImageUrl + ')'}}
+                            src={this.props.emojiImageUrl}
                         />
                         <span
                             ref={this.reactionCountRef}

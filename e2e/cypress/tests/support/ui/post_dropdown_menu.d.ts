@@ -26,7 +26,7 @@ declare namespace Cypress {
          *   const permalink = 'http://localhost:8065/team-name/pl/post-id';
          *   cy.uiClickCopyLink(permalink);
          */
-        uiClickCopyLink(permalink: string): Chainable;
+        uiClickCopyLink(permalink: string, postId: string): Chainable;
 
         /**
          * Click dropdown menu of a post by post ID.
