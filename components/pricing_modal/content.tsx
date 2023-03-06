@@ -120,7 +120,7 @@ function Content(props: ContentProps) {
     const adminProfessionalTierText = currentSubscriptionIsMonthlyProfessional ? formatMessage({id: 'pricing_modal.btn.switch_to_annual', defaultMessage: 'Switch to annual billing'}) : formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
 
     const [openContactSales] = useOpenSalesLink();
-    const openContactSupport = useOpenCloudZendeskSupportForm('Delete workspace');
+    const openContactSupport = useOpenCloudZendeskSupportForm('Workspace downggrade');
     const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
     const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
         isDelinquencyModal: true,

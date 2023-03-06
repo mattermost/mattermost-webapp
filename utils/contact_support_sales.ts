@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Buffer} from 'buffer';
+
 import {LicenseLinks} from './constants';
 
 const baseZendeskFormURL = 'https://support.mattermost.com/hc/en-us/requests/new';
@@ -72,14 +74,33 @@ export const goToSelfHostedSupportForm = (email: string, subject: string) => {
     window.open(url, '_blank');
 };
 
-export const goToCloudSupportForm = (email: string, subject: string, workspaceURL: string) => {
+export const getSelfHostedSupportLink = (email: string, subject: string) => {
     const form = ZendeskSupportForm.SELF_HOSTED_SUPPORT_FORM;
+    const url = buildZendeskSupportForm(form, [
+        {id: ZendeskFormFieldIDs.EMAIL, val: email},
+        {id: ZendeskFormFieldIDs.SUBJECT, val: subject},
+    ]);
+    return url;
+};
+
+export const goToCloudSupportForm = (email: string, subject: string, workspaceURL: string) => {
+    const form = ZendeskSupportForm.CLOUD_SUPPORT_FORM;
     let url = buildZendeskSupportForm(form, [
         {id: ZendeskFormFieldIDs.EMAIL, val: email},
         {id: ZendeskFormFieldIDs.SUBJECT, val: subject},
     ]);
     url = url.concat(`&tf_${ZendeskFormFieldIDs.CLOUD_WORKSPACE_URL}=${workspaceURL}`);
     window.open(url, '_blank');
+};
+
+export const getCloudSupportLink = (email: string, subject: string, workspaceURL: string) => {
+    const form = ZendeskSupportForm.CLOUD_SUPPORT_FORM;
+    let url = buildZendeskSupportForm(form, [
+        {id: ZendeskFormFieldIDs.EMAIL, val: email},
+        {id: ZendeskFormFieldIDs.SUBJECT, val: subject},
+    ]);
+    url = url.concat(`&tf_${ZendeskFormFieldIDs.CLOUD_WORKSPACE_URL}=${workspaceURL}`);
+    return url;
 };
 
 const encodeString = (s: string) => {
@@ -95,3 +116,9 @@ export const goToMattermostContactSalesForm = (firstName: string, lastName: stri
     const url = buildMMURL(LicenseLinks.CONTACT_SALES, firstName, lastName, companyName, businessEmail);
     window.open(url, '_blank');
 };
+
+export const getCloudContactSalesLink = (firstName: string, lastName: string, companyName: string, businessEmail: string) => {
+    const url = buildMMURL(LicenseLinks.CONTACT_SALES, firstName, lastName, companyName, businessEmail);
+    return url;
+};
+
