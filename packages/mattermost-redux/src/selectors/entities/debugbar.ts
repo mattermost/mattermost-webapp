@@ -45,7 +45,7 @@ export const getApiCalls = createSelector(
 );
 
 export const getStoreCalls = createSelector(
-    'getStoreCals',
+    'getStoreCalls',
     (state: GlobalState) => state.entities.debugbar.storeCalls,
     (_state: GlobalState, regex: RegExp|undefined) => regex,
     regexFilter,
