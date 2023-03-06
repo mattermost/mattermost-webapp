@@ -10,6 +10,7 @@ export default class BoardsViewPage {
     readonly boardsAPIUrl: string;
     readonly boardsDuplicateURL: string;
     readonly boardsCreateModal: BoardsCreateModal;
+    readonly boardsViewDropdown: Locator;
     readonly duplicateBoardButton: Locator;
     readonly deleteBoardButton: Locator;
     readonly deleteBoardConfirmationButton: Locator;
@@ -19,9 +20,30 @@ export default class BoardsViewPage {
     readonly sidebar: BoardsSidebar;
     readonly shareButton: Locator;
     readonly topHead: Locator;
+    readonly boardsViewMenu: Locator;
+    readonly boardsViewName: Locator;
+    readonly boardsAddView: Locator;
+    readonly boardsAddViewSubMenu: Locator;
+    readonly boardsTableView: Locator;
+    readonly boardsTableHeader: Locator;
+    readonly boardsGalleryView: Locator;
+    readonly boardsGalleryHeader: Locator;
+    readonly boardsDeleteView: Locator;
+    readonly boardsDuplicateView: Locator;
 
     constructor(page: Page) {
         this.page = page;
+        this.boardsViewDropdown = page.getByLabel('View menu');
+        this.boardsViewMenu = page.locator('menu-contents');
+        this.boardsViewName = page.locator('.SidebarBoardItem.sidebar-view-item.active');
+        this.boardsGalleryHeader = page.locator('.Gallery > .octo-gallery-new');
+        this.boardsGalleryView = page.getByLabel('Gallery');
+        this.boardsDuplicateView = page.getByLabel('Duplicate view');
+        this.boardsDeleteView = page.getByLabel('Delete view');
+        this.boardsTableHeader = page.locator('div.octo-table-body');
+        this.boardsTableView = page.getByLabel('Table');
+        this.boardsAddViewSubMenu = page.locator('div.subMenu');
+        this.boardsAddView = page.locator('#__addView');
         this.boardsAPIUrl = 'plugins/boards/api/v2/boards';
         this.boardsDuplicateURL = 'duplicate?asTemplate=false';
         this.boardsCreateModal = new BoardsCreateModal(page.locator('.menu-contents'));
@@ -94,6 +116,54 @@ export default class BoardsViewPage {
             (response) => response.url().includes(this.boardsAPIUrl) && response.status() === 200
         );
         expect((await this.sidebar.getBoardItem(boardName)).isHidden());
+    }
+
+    async openBoardsViewMenu() {
+        await this.boardsViewDropdown.click();
+        await this.boardsViewMenu.isVisible();
+    }
+
+    async hoverOnAddViewOption() {
+        await this.boardsAddView.hover();
+        await this.boardsAddViewSubMenu.isVisible();
+    }
+
+    async selectTableView() {
+        await this.boardsTableView.click();
+        await this.boardsTableHeader.isVisible();
+    }
+
+    async selectGalleryView() {
+        await this.boardsGalleryView.click();
+        await this.boardsGalleryHeader.isVisible();
+    }
+
+    async assertTableViewisSelected() {
+        await this.openBoardsViewMenu();
+        await this.hoverOnAddViewOption();
+        await this.selectTableView();
+    }
+
+    async assertGalleryViewisSelected() {
+        await this.openBoardsViewMenu();
+        await this.hoverOnAddViewOption();
+        await this.selectGalleryView();
+    }
+
+    async deleteBoardView() {
+        await this.boardsViewDropdown.click();
+        await this.boardsDeleteView.click();
+        await this.page.waitForResponse((response) => response.url().includes('blocks') && response.status() === 200);
+    }
+
+    async duplicateBoardView() {
+        const currentBoardViewName = await this.boardsViewName.innerText();
+        await this.boardsViewDropdown.click();
+        await this.boardsDuplicateView.click();
+        await this.page.waitForResponse(
+            (response) => response.url().includes(this.boardsDuplicateURL) && response.status() === 200
+        );
+        expect(await this.boardsViewName.innerText()).toBe(`${currentBoardViewName} copy`);
     }
 }
 
