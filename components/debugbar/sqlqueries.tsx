@@ -12,6 +12,7 @@ import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
 
 import {DebugBarSQLQuery} from '@mattermost/types/debugbar';
+import {GlobalState} from '@mattermost/types/store';
 
 import {Code, Query, Time, Input, Footer, Empty} from './components';
 
@@ -80,7 +81,8 @@ function SQLQueries({height, width}: Props) {
         }
     }, [viewQuery]);
 
-    let queries = useSelector(getSqlQueries);
+    const queries = useSelector((state) => getSqlQueries(state as GlobalState, regex));
+    const data = queries.map((query) => ({query, onDoubleClick: () => setViewQuery(query)}));
 
     const modal = (
         <RootPortal>
@@ -129,12 +131,6 @@ function SQLQueries({height, width}: Props) {
             </FullScreenModal>
         </RootPortal>
     );
-
-    if (regex) {
-        queries = queries.filter((v) => regex.test(JSON.stringify(v)));
-    }
-
-    const data = queries.map((query) => ({query, onDoubleClick: () => setViewQuery(query)}));
 
     return (
         <div className='DebugBarTable'>

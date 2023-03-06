@@ -25,12 +25,9 @@ type RowProps = {
     style: React.CSSProperties;
 }
 
-function EmailsSent({filter, height, width}: Props) {
+function EmailsSent({height, width}: Props) {
     const [viewEmail, setViewEmail] = useState<DebugBarEmailSent|null>(null);
-    let emails = useSelector(getEmailsSent);
-    if (filter) {
-        emails = emails.filter((v) => JSON.stringify(v).indexOf(filter) !== -1);
-    }
+    const emails = useSelector(getEmailsSent);
 
     function Row({data, index, style}: RowProps) {
         return (

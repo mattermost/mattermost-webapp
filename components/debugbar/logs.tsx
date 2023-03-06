@@ -8,7 +8,8 @@ import {FixedSizeList as List} from 'react-window';
 
 import {getLogs} from 'mattermost-redux/selectors/entities/debugbar';
 
-import {DebugBarLog} from '@mattermost/types/debugbar';
+import type {DebugBarLog} from '@mattermost/types/debugbar';
+import type {GlobalState} from '@mattermost/types/store';
 
 import {Input, Footer, Empty, Code, Time} from './components';
 
@@ -59,17 +60,7 @@ function Logs({height, width}: Props) {
     const [level, setLevel] = useState('warn');
     const [regex, setRegex] = useState<RegExp>();
 
-    let logs = useSelector(getLogs);
-
-    if (regex) {
-        logs = logs.filter((v) => regex.test(JSON.stringify(v)));
-    }
-
-    if (level === 'warn') {
-        logs = logs.filter((v) => v.level.toLowerCase() !== 'debug');
-    } else if (level === 'error') {
-        logs = logs.filter((v) => v.level.toLowerCase() === 'error');
-    }
+    const logs = useSelector((state) => getLogs(state as GlobalState, level, regex));
 
     return (
         <div className='DebugBarTable'>

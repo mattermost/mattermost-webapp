@@ -9,6 +9,7 @@ import {FixedSizeList as List} from 'react-window';
 import {getApiCalls} from 'mattermost-redux/selectors/entities/debugbar';
 
 import {DebugBarAPICall} from '@mattermost/types/debugbar';
+import {GlobalState} from '@mattermost/types/store';
 
 import {Empty, Footer, Time, Input} from './components';
 
@@ -58,11 +59,7 @@ function Row({data, index, style}: RowProps) {
 
 function ApiCalls({height, width}: Props) {
     const [regex, setRegex] = useState<RegExp>();
-
-    let calls = useSelector(getApiCalls);
-    if (regex) {
-        calls = calls.filter((v) => regex.test(JSON.stringify(v)));
-    }
+    const calls = useSelector((state) => getApiCalls(state as GlobalState, regex));
 
     return (
         <div className='DebugBarTable'>
