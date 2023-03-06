@@ -4661,7 +4661,7 @@
   "search_item.file_tag.group_message": "Group Message",
   "search_item.jump": "Jump",
   "search_item.thread": "Thread in {channel}",
-  "search_item.thread_direct": "Thread in Direct Message with {username}",
+  "search_item.thread_direct": "Thread in Direct Message (with {username})",
   "search_list_option.after": "Messages after a date",
   "search_list_option.before": "Messages before a date",
   "search_list_option.exclude": "Exclude search terms",
