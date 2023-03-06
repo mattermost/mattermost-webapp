@@ -18,7 +18,7 @@ import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_tria
 import {ModalIdentifiers, TELEMETRY_CATEGORIES, AboutLinks, LicenseLinks, LicenseSkus} from 'utils/constants';
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import * as Utils from 'utils/utils';
-import {goToMattermostContactSalesForm} from 'utils/contact';
+import {goToMattermostContactSalesForm} from 'utils/contact_support_sales';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
