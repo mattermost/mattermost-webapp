@@ -131,8 +131,11 @@ test('MM-T4277: Set up Views', async ({pw, pages}) => {
     expect(await boardsViewPage.editableTitle.getAttribute('value')).toBe(title);
     await boardsViewPage.sidebar.waitForTitle(title);
 
+    // Should select Table view and assert its visible
     await boardsCreatePage.assertTableViewisSelected();
     await boardsViewPage.sidebar.assertTitleToBeVisible('Table view');
+
+    // Should select Gallery view and assert its visible
     await boardsCreatePage.assertGalleryViewisSelected();
     await boardsViewPage.sidebar.assertTitleToBeVisible('Gallery view');
 });

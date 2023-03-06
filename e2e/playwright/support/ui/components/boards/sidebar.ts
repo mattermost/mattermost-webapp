@@ -23,16 +23,16 @@ export default class BoardsSidebar {
         this.boardMenuDraw = container.locator('div.SidebarBoardItem.subitem.active .menu-contents');
     }
 
-    async waitForTitle(name: string) {
-        await this.container.getByRole('button', {name: ` ${name}`}).waitFor({state: 'visible'});
-    }
-
     async assertTitleToBeVisible(name: string) {
         await this.titles.getByText(name).isVisible();
     }
 
     async getBoardItem(name: string) {
         return this.titles.filter({hasText: name});
+    }
+
+    async waitForTitle(name: string) {
+        await this.container.getByRole('button', {name: ` ${name}`}).waitFor({state: 'visible'});
     }
 }
 
