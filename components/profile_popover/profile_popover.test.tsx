@@ -66,7 +66,9 @@ describe('components/ProfilePopover', () => {
             general: {
                 config: {},
             },
-            users: {},
+            users: {
+                currentUserId: '',
+            },
             preferences: {
                 myPreferences: {},
             },
@@ -278,7 +280,7 @@ describe('components/ProfilePopover', () => {
                 <ProfilePopover {...props}/>
             </Provider>,
         );
-        expect(wrapper.find('CallButton').exists()).toBe(true);
+        expect(wrapper.find('ProfilePopoverCallButton').exists()).toBe(true);
         expect(wrapper).toMatchSnapshot();
     });
 });

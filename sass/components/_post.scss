@@ -2281,6 +2281,16 @@
 
     .modal-footer {
         padding-top: 28px;
+        text-align: center;
+    }
+
+    .GenericModal__button {
+        margin: 0 4px;
+
+        &.cancel-button {
+            background-color: rgba(var(--button-bg-rgb), 0.08);
+            border-radius: 4px;
+        }
     }
 }
 
@@ -2313,19 +2323,6 @@
         border: none;
         background: none;
         font-size: 12px;
-    }
-}
-
-.modal-footer {
-    text-align: center;
-
-    .GenericModal__button {
-        margin: 0 4px;
-
-        &.cancel-button {
-            background-color: rgba(var(--button-bg-rgb), 0.08);
-            border-radius: 4px;
-        }
     }
 }
 
