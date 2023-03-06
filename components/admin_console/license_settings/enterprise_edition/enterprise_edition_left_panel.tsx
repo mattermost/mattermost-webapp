@@ -88,7 +88,7 @@ const EnterpriseEditionLeftPanel = ({
         if (!isSelfHostedExpansionEnabled) {
             window.open(expandableLink(unsanitizedLicense.Id), '_blank');
         }
-    }
+    };
 
     return (
         <div

@@ -6,6 +6,8 @@ import {screen} from '@testing-library/react';
 
 import {Provider} from 'react-redux';
 
+import moment from 'moment-timezone';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {renderWithIntl} from 'tests/react_testing_utils';
 import {OverActiveUserLimits} from 'utils/constants';
@@ -16,10 +18,9 @@ import {GlobalState} from '@mattermost/types/store';
 import mockStore from 'tests/test_store';
 
 import EnterpriseEditionLeftPanel, {EnterpriseEditionProps} from './enterprise_edition_left_panel';
-import moment from 'moment-timezone';
 
 describe('components/admin_console/license_settings/enterprise_edition/enterprise_edition_left_panel', () => {
-    let license = {
+    const license = {
         IsLicensed: 'true',
         IssuedAt: '1517714643650',
         StartsAt: '1517714643650',
@@ -48,7 +49,7 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
                 license,
                 config: {
                     BuildEnterpriseReady: 'true',
-                }
+                },
             },
             preferences: {
                 myPreferences: {},
@@ -56,10 +57,10 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
             admin: {
                 config: {
                     ServiceSettings: {
-                        SelfHostedExpansion: true
-                    }
-                }
-            }
+                        SelfHostedExpansion: true,
+                    },
+                },
+            },
         },
     };
 
@@ -91,9 +92,9 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
 
         const item = wrapper.find('.item-element').filterWhere((n) => {
             return n.children().length === 2 &&
-                   n.childAt(0).type() === 'span' &&
-                   !n.childAt(0).text().includes('ACTIVE') &&
-                   n.childAt(0).text().includes('USERS');
+                n.childAt(0).type() === 'span' &&
+                !n.childAt(0).text().includes('ACTIVE') &&
+                n.childAt(0).text().includes('USERS');
         });
 
         expect(item.text()).toContain('1,000,000');
@@ -158,7 +159,7 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
         expect(screen.getByText('ACTIVE USERS:')).toHaveClass('legend--over-seats-purchased');
     });
 
-    test('should add warning class to days expired indicator when there are more than 10 days until expiry', async() => {
+    test('should add warning class to days expired indicator when there are more than 10 days until expiry', async () => {
         license.ExpiresAt = moment().add(30, 'days').valueOf().toString();
         const store = await mockStore(initialState);
         renderWithIntl(
@@ -172,7 +173,7 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
         expect(screen.getByText('Expires in 30 days')).toHaveClass('expiration-days-warning');
     });
 
-    test('should add danger class to days expired indicator when there are at least 10 days until expiry', async() => {
+    test('should add danger class to days expired indicator when there are at least 10 days until expiry', async () => {
         license.ExpiresAt = moment().add(10, 'days').valueOf().toString();
         const store = await mockStore(initialState);
         renderWithIntl(
