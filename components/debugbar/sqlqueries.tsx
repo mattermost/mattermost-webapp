@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useState, useEffect} from 'react';
+import React, {memo, useState, useEffect, useMemo} from 'react';
+import cn from 'classnames';
 import {useSelector} from 'react-redux';
 import {FixedSizeList as List} from 'react-window';
 import styled from 'styled-components';
@@ -22,7 +23,7 @@ type Props = {
 }
 
 type RowProps = {
-    data: Array<{query: DebugBarSQLQuery; onDoubleClick: (query: DebugBarSQLQuery) => void}>;
+    data: Array<{query: DebugBarSQLQuery; onDoubleClick: (e: React.MouseEvent) => void; highlight: boolean}>;
     index: number;
     style: React.CSSProperties;
 }
@@ -47,13 +48,13 @@ const Title = styled.h4`
 `;
 
 function Row({data, index, style}: RowProps) {
-    const {query, onDoubleClick} = data[index];
+    const {query, onDoubleClick, highlight} = data[index];
 
     return (
         <div
             key={query.time + '_' + query.duration}
-            className='DebugBarTable__row'
-            onDoubleClick={() => onDoubleClick((query))}
+            className={cn('DebugBarTable__row', {'DebugBarTable__row--highlight': highlight})}
+            onDoubleClick={onDoubleClick}
             style={style}
         >
             <div className={'time'}><Time time={query.time}/></div>
@@ -82,7 +83,14 @@ function SQLQueries({height, width}: Props) {
     }, [viewQuery]);
 
     const queries = useSelector((state) => getSqlQueries(state as GlobalState, regex));
-    const data = queries.map((query) => ({query, onDoubleClick: () => setViewQuery(query)}));
+
+    const data = useMemo(() => {
+        return queries.map((query) => ({
+            query,
+            highlight: JSON.stringify(query) === JSON.stringify(viewQuery),
+            onDoubleClick: () => setViewQuery(query),
+        }));
+    }, [queries, viewQuery]);
 
     const modal = (
         <RootPortal>
@@ -135,10 +143,10 @@ function SQLQueries({height, width}: Props) {
     return (
         <div className='DebugBarTable'>
             {modal}
-            {queries.length > 0 ? (
+            {data.length > 0 ? (
                 <List
                     itemData={data}
-                    itemCount={queries.length}
+                    itemCount={data.length}
                     itemSize={50}
                     height={height - 32}
                     width={width - 2}

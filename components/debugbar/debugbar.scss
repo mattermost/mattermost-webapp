@@ -179,6 +179,14 @@
 
             &:nth-child(even) {
                 background: rgba(var(--center-channel-color-rgb), 0.04);
+
+                &.DebugBarTable__row--highlight {
+                    background: rgb(var(--pinned-highlight-bg-mixed-rgb));
+                }
+            }
+
+            &--highlight {
+                background: rgb(var(--pinned-highlight-bg-mixed-rgb));
             }
         }
 
