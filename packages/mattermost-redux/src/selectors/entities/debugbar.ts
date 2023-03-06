@@ -26,8 +26,13 @@ export const getLogs = createSelector(
 
         if (level && level !== 'debug') {
             const levels = ['error'];
-            if (level === 'warn') {
+
+            if (level === 'warn' || level === 'info') {
                 levels.push('warn');
+            }
+
+            if (level === 'info') {
+                levels.push('info');
             }
 
             filtered = filtered.filter((v) => levels.includes(v.level.toLowerCase()));

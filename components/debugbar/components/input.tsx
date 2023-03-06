@@ -5,7 +5,7 @@ import React, {memo, useState} from 'react';
 import styled from 'styled-components';
 
 const Filter = styled.input`
-    width: 80%;
+    width: 70%;
     height: 80%;
     margin-left: 8px;
     border-radius: 4px;

@@ -199,36 +199,21 @@
                 margin-left: auto;
             }
 
+            .warn,
+            .error,
+            .info,
             .debug {
                 @include button-style--none;
                 @include button-small;
 
+                &.active {
+                    font-weight: bold;
+                    text-decoration: underline;
+                }
+            }
+
+            .debug {
                 color: rgba(var(--sidebar-text-rgb), 0.8);
-
-                &.active {
-                    font-weight: bold;
-                    text-decoration: underline;
-                }
-            }
-
-            .warn {
-                @include button-style--none;
-                @include button-small;
-
-                &.active {
-                    font-weight: bold;
-                    text-decoration: underline;
-                }
-            }
-
-            .error {
-                @include button-style--none;
-                @include button-small;
-
-                &.active {
-                    font-weight: bold;
-                    text-decoration: underline;
-                }
             }
         }
     }

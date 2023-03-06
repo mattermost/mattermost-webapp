@@ -57,7 +57,7 @@ function Row({data, index, style}: RowProps) {
 }
 
 function Logs({height, width}: Props) {
-    const [level, setLevel] = useState('warn');
+    const [level, setLevel] = useState('info');
     const [regex, setRegex] = useState<RegExp>();
 
     const logs = useSelector((state) => getLogs(state as GlobalState, level, regex));
@@ -87,6 +87,12 @@ function Logs({height, width}: Props) {
                         onClick={() => setLevel('debug')}
                     >
                         {'DEBUG'}
+                    </button>
+                    <button
+                        className={cn('info', {active: level === 'info'})}
+                        onClick={() => setLevel('info')}
+                    >
+                        {'INFO'}
                     </button>
                     <button
                         className={cn('warn', {active: level === 'warn'})}
