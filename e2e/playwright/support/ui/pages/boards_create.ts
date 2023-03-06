@@ -66,7 +66,7 @@ export default class BoardsCreatePage {
 
     async hoverOnAddViewOption() {
         await this.boardsAddView.hover();
-        await this.boardsAddViewSubMenu.isVisible({timeout: 10});
+        await this.boardsAddViewSubMenu.isVisible();
     }
 
     async selectTableView() {
@@ -75,8 +75,8 @@ export default class BoardsCreatePage {
     }
 
     async selectGalleryView() {
-        await this.boardsGalleryView.hover();
-        await this.boardsGalleryHeader.isVisible({timeout: 10});
+        await this.boardsGalleryView.click();
+        await this.boardsGalleryHeader.isVisible();
     }
 
     async assertTableViewisSelected() {
