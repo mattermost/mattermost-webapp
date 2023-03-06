@@ -13,28 +13,28 @@ import IconMessage from 'components/purchase_modal/icon_message';
 
 export default function ErrorPage() {
     const contactSupportLink = useSelector(getCloudContactUsLink)(InquiryType.Technical);
-    let formattedTitle = (
+    const formattedTitle = (
         <FormattedMessage
             id='admin.billing.subscription.paymentVerificationFailed'
             defaultMessage='Sorry, the payment verification failed'
         />
     );
 
-    let formattedButtonText = (
+    const formattedButtonText = (
         <FormattedMessage
             id='self_hosted_expansion.retry'
             defaultMessage='Try again'
         />
     );
 
-    let formattedSubtitle = (
+    const formattedSubtitle = (
         <FormattedMessage
             id='admin.billing.subscription.paymentFailed'
             defaultMessage='Payment failed. Please try again or contact support.'
         />
     );
 
-    let icon = (
+    const icon = (
         <PaymentFailedSvg
             width={444}
             height={313}
