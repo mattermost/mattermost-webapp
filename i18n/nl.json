@@ -3173,7 +3173,6 @@
   "create_team.team_url.unavailable": "Deze URL is al in gebruik of niet beschikbaar. Probeer het nog eens.",
   "create_team.team_url.webAddress": "Kies het web adres van uw nieuw team:",
   "custom_emoji.header": "Aangepaste emoticon",
-  "custom_status.expiry.date_picker.title": "Datum",
   "custom_status.expiry.time_picker.title": "Tijd",
   "custom_status.expiry.until": "Tot",
   "custom_status.expiry_dropdown.choose_date_and_time": "Kies datum en tijd",

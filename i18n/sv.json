@@ -3172,7 +3172,6 @@
   "create_team.team_url.unavailable": "Denna URL används redan eller är inte tillgänglig. Testa en annan.",
   "create_team.team_url.webAddress": "Välj webbadress för ditt nya team:",
   "custom_emoji.header": "Anpassad emoij",
-  "custom_status.expiry.date_picker.title": "Datum",
   "custom_status.expiry.time_picker.title": "Tid",
   "custom_status.expiry.until": "Till",
   "custom_status.expiry_dropdown.choose_date_and_time": "Välj datum och tid",
