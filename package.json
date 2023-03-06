@@ -39,7 +39,7 @@
     "emoji-datasource": "6.1.1",
     "emoji-datasource-apple": "6.0.1",
     "emoji-regex": "10.2.1",
-    "eslint-plugin-mattermost": "github:mattermost/eslint-plugin-mattermost#9372e95228f2517c45f83418ea9c4d5b1e390cde",
+    "eslint-plugin-mattermost": "github:mattermost/eslint-plugin-mattermost#5b0c972eacf19286e4c66221b39113bf8728a99e",
     "exif2css": "1.3.0",
     "fast-deep-equal": "3.1.3",
     "flexsearch": "0.6.32",
