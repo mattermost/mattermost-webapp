@@ -140,7 +140,7 @@ test('MM-T4277: Set up Views', async ({pw, pages}) => {
     await boardsViewPage.sidebar.assertTitleToBeVisible('Gallery view');
 });
 
-test('MM-T4278: Managing and navigating views', async ({pw, pages}) => {
+test('MM-T4278: Managing and navigating views and MM-T4290: Duplicating and deleting a board', async ({pw, pages}) => {
     await pw.shouldHaveBoardsEnabled();
 
     // Create and sign in a new user
