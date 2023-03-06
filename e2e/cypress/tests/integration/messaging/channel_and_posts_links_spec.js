@@ -151,7 +151,7 @@ describe('Message permalink', () => {
             cy.clickPostDotMenu(id);
 
             // # Click on "Copy Link"
-            cy.uiClickCopyLink(permalink);
+            cy.uiClickCopyLink(permalink, id);
 
             // # Leave the channel
             cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -183,7 +183,7 @@ describe('Message permalink', () => {
                 cy.clickPostDotMenu(id);
 
                 // # Click on "Copy Link"
-                cy.uiClickCopyLink(permalink);
+                cy.uiClickCopyLink(permalink, id);
 
                 // # Leave the channel
                 cy.visit(`/${testTeam.name}/channels/town-square`);

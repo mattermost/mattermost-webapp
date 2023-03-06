@@ -37,12 +37,12 @@ export function getCloudCustomer(): ActionFunc {
     });
 }
 
-export function getLicenseExpandStatus(): ActionFunc {
+export function getLicenseSelfServeStatus(): ActionFunc {
     return bindClientFunc({
-        clientFunc: Client4.getLicenseExpandStatus,
-        onRequest: CloudTypes.CLOUD_EXPAND_STATS_REQUEST,
-        onSuccess: [CloudTypes.RECEIVED_CLOUD_EXPAND_STATS],
-        onFailure: CloudTypes.CLOUD_EXPAND_STATS_FAILED,
+        clientFunc: Client4.getLicenseSelfServeStatus,
+        onRequest: CloudTypes.LICENSE_SELF_SERVE_STATS_REQUEST,
+        onSuccess: [CloudTypes.RECEIVED_LICENSE_SELF_SERVE_STATS],
+        onFailure: CloudTypes.LICENSE_SELF_SERVE_STATS_FAILED,
     });
 }
 
