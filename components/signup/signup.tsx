@@ -460,18 +460,21 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
         trackEvent('signup', telemetryId, props);
     }
 
+    type TelemetryErrorList = {errors: Array<{field: string; rule: string}>; success: boolean};
+
     const isUserValid = () => {
         let isValid = true;
 
         const providedEmail = emailInput.current?.value.trim();
+        const telemetryEvents: TelemetryErrorList = {errors: [], success: true};
 
         if (!providedEmail) {
             setEmailError(formatMessage({id: 'signup_user_completed.required', defaultMessage: 'This field is required'}));
-            sendSignUpTelemetryEvents('click_create_account', {errors: [{field: 'email', rule: 'not_provided'}], sucess: false});
+            telemetryEvents.errors.push({field: 'email', rule: 'not_provided'});
             isValid = false;
         } else if (!isEmail(providedEmail)) {
             setEmailError(formatMessage({id: 'signup_user_completed.validEmail', defaultMessage: 'Please enter a valid email address'}));
-            sendSignUpTelemetryEvents('click_create_account', {errors: [{field: 'email', rule: 'invalid_email'}], sucess: false});
+            telemetryEvents.errors.push({field: 'email', rule: 'invalid_email'});
             isValid = false;
         }
 
@@ -496,13 +499,13 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
                         },
                     );
                 }
-                sendSignUpTelemetryEvents('click_create_account', {errors: [{field: 'username', rule: usernameError.id.toLowerCase()}], sucess: false});
+                telemetryEvents.errors.push({field: 'username', rule: usernameError.id.toLowerCase()});
                 setNameError(nameError);
                 isValid = false;
             }
         } else {
             setNameError(formatMessage({id: 'signup_user_completed.required', defaultMessage: 'This field is required'}));
-            sendSignUpTelemetryEvents('click_create_account', {errors: [{field: 'username', rule: 'not_provided'}], sucess: false});
+            telemetryEvents.errors.push({field: 'username', rule: 'not_provided'});
             isValid = false;
         }
 
@@ -511,9 +514,15 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
 
         if (error) {
             setPasswordError(error as string);
-            sendSignUpTelemetryEvents('click_create_account', {errors: telemetryErrorIds, success: false});
+            telemetryEvents.errors = [...telemetryEvents.errors, ...telemetryErrorIds];
             isValid = false;
         }
+
+        if (telemetryEvents.errors.length) {
+            telemetryEvents.success = false;
+        }
+
+        sendSignUpTelemetryEvents('click_create_account', telemetryEvents);
 
         return isValid;
     };
