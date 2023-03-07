@@ -67,7 +67,7 @@ const ProfileTimezone = (
                 {profileTimezoneShort ? (
                     <FormattedMessage
                         id='user_profile.account.localTimeWithTimezone'
-                        defaultMessage='Local Time {timezone}'
+                        defaultMessage='Local Time ({timezone})'
                         values={{
                             timezone: profileTimezoneShort,
                         }}
