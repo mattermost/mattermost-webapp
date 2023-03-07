@@ -23,7 +23,7 @@ export default function useOpenSalesLink(): [() => void, string] {
         lastName = customer.contact_last_name || '';
         companyName = customer.name || '';
     } else {
-        customerEmail = currentUser.email;
+        customerEmail = currentUser.email || '';
     }
 
     const contactSalesLink = buildMMURL(LicenseLinks.CONTACT_SALES, firstName, lastName, companyName, customerEmail);
