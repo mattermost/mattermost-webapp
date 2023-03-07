@@ -1,19 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {PlaywrightTestConfig, devices} from '@playwright/test';
+import {defineConfig, devices} from '@playwright/test';
 
 import {duration} from '@e2e-support/utils';
 import testConfig from '@e2e-test.config';
 
-const config: PlaywrightTestConfig = {
+const defaultOutputFolder = 'playwright-report';
+
+export default defineConfig({
     globalSetup: require.resolve('./global_setup'),
-    forbidOnly: !!process.env.CI,
+    forbidOnly: testConfig.isCI,
     outputDir: './test-results',
     retries: 1,
     testDir: 'tests',
     timeout: duration.one_min,
-    workers: process.env.CI && process.env.PW_WORKERS ? parseInt(process.env.PW_WORKERS, 10) : 1,
+    workers: testConfig.workers,
     expect: {
         toMatchSnapshot: {
             threshold: 0.4,
@@ -22,7 +24,7 @@ const config: PlaywrightTestConfig = {
     },
     use: {
         baseURL: testConfig.baseURL,
-        headless: true,
+        headless: testConfig.headless,
         locale: 'en-US',
         screenshot: 'only-on-failure',
         timezoneId: 'America/Los_Angeles',
@@ -72,11 +74,9 @@ const config: PlaywrightTestConfig = {
         },
     ],
     reporter: [
-        ['html', {open: 'never'}],
-        ['json', {outputFile: 'playwright-report/results.json'}],
-        ['junit', {outputFile: 'playwright-report/results.xml'}],
+        ['html', {open: 'never', outputFolder: defaultOutputFolder}],
+        ['json', {outputFile: `${defaultOutputFolder}/results.json`}],
+        ['junit', {outputFile: `${defaultOutputFolder}/results.xml`}],
         ['list'],
     ],
-};
-
-export default config;
+});

@@ -2,10 +2,11 @@
 // See LICENSE.txt for license information.
 
 import path from 'path';
-import {expect} from '@playwright/test';
+import {expect, Browser} from '@playwright/test';
 
 import {PreferenceType} from '@mattermost/types/preferences';
 
+import {TestBrowser} from '@e2e-support/browser_context';
 import testConfig from '@e2e-test.config';
 
 import {makeClient} from '.';
@@ -13,12 +14,12 @@ import {getOnPremServerConfig} from './default_config';
 import {createRandomTeam} from './team';
 import {createRandomUser} from './user';
 
-export async function initSetup({
-    userPrefix = 'user',
-    teamPrefix = {name: 'team', displayName: 'Team'},
-    withDefaultProfileImage = true,
-} = {}) {
+export async function initSetup(
+    browser: Browser,
+    {userPrefix = 'user', teamPrefix = {name: 'team', displayName: 'Team'}, withDefaultProfileImage = true} = {}
+) {
     try {
+        // Login the admin user via API
         const {adminClient, adminUser} = await getAdminClient();
         if (!adminClient) {
             throw new Error(
@@ -26,16 +27,19 @@ export async function initSetup({
             );
         }
 
+        // Reset server config
         const adminConfig = await adminClient.updateConfig(getOnPremServerConfig());
 
+        // Create new team
         const team = await adminClient.createTeam(createRandomTeam(teamPrefix.name, teamPrefix.displayName));
 
+        // Create new user and add to newly created team
         const randomUser = createRandomUser(userPrefix);
         const user = await adminClient.createUser(randomUser, '', '');
         user.password = randomUser.password;
-
         await adminClient.addToTeam(team.id, user.id);
 
+        // Log in new user via API
         const {client: userClient} = await makeClient(user);
         if (!userClient) {
             throw new Error(
@@ -44,10 +48,12 @@ export async function initSetup({
         }
 
         if (withDefaultProfileImage) {
+            // Set user profile image
             const fullPath = path.join(path.resolve(__dirname), '../', 'fixtures/mattermost-icon_128x128.png');
             await userClient.uploadProfileImageX(user.id, fullPath);
         }
 
+        // Update user preference
         const preferences: PreferenceType[] = [
             {user_id: user.id, category: 'tutorial_step', name: user.id, value: '999'},
         ];
@@ -57,6 +63,7 @@ export async function initSetup({
             adminClient,
             adminUser,
             adminConfig,
+            testBrowser: new TestBrowser(browser),
             user,
             userClient,
             team,
