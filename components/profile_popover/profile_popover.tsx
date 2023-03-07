@@ -7,10 +7,6 @@ import classNames from 'classnames';
 
 import {AccountOutlineIcon, AccountPlusOutlineIcon, CloseIcon, EmoticonHappyOutlineIcon, PhoneInTalkIcon, SendIcon} from '@mattermost/compass-icons/components';
 
-import {DateTime, Duration} from 'luxon';
-
-import moment from 'moment-timezone';
-
 import Pluggable from 'plugins/pluggable';
 
 import {displayUsername, isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
@@ -44,94 +40,14 @@ import Tooltip from 'components/tooltip';
 import ProfilePopoverCallButton from 'components/profile_popover_call_button';
 
 import {ServerError} from '@mattermost/types/errors';
-import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from '@mattermost/types/users';
+import {UserCustomStatus, UserProfile, CustomStatusDuration} from '@mattermost/types/users';
 
 import './profile_popover.scss';
 import BotTag from '../widgets/tag/bot_tag';
 import GuestTag from '../widgets/tag/guest_tag';
 import Tag from '../widgets/tag/tag';
 
-type ProfileTimezoneProps = {
-    profileUserTimezone?: UserTimezone;
-
-    // this.props.currentUserTimezone
-    currentUserTimezone: string | undefined;
-}
-const ProfileTimezone = (
-    {
-        currentUserTimezone,
-        profileUserTimezone,
-    }: ProfileTimezoneProps,
-) => {
-    const returnTimeDiff = () => {
-        const currentUserDate = DateTime.local().setZone(currentUserTimezone);
-        const profileUserDate = DateTime.local().setZone(profileUserTimezone?.manualTimezone || profileUserTimezone?.automaticTimezone);
-
-        const hoursDiff = Duration.fromObject({
-            minutes: profileUserDate.offset - currentUserDate.offset,
-        }).as('hours');
-
-        if (!hoursDiff) {
-            return undefined;
-        }
-
-        const aheadOrBehind = hoursDiff > 0 ? 'ahead' : 'behind';
-
-        if (aheadOrBehind === 'ahead') {
-            return (
-                <FormattedMessage
-                    id='user_profile.account.hoursAhead'
-                    defaultMessage='({hourDiff} hr. ahead)'
-                    values={{
-                        hourDiff: Math.abs(hoursDiff),
-                    }}
-                />
-            );
-        }
-
-        return (
-            <FormattedMessage
-                id='user_profile.account.hoursBehind'
-                defaultMessage='({hourDiff} hr. behind)'
-                values={{
-                    hourDiff: Math.abs(hoursDiff),
-                }}
-            />
-        );
-    };
-
-    const profileTimezone = profileUserTimezone?.manualTimezone || profileUserTimezone?.automaticTimezone;
-
-    return (
-        <div
-            key='user-popover-local-time'
-            className='user-popover__time-status-container'
-        >
-            <span className='user-popover__subtitle' >
-                <FormattedMessage
-                    id='user_profile.account.localTime'
-                    defaultMessage='Local Time {timezone}'
-                    values={{
-                        timezone: profileTimezone ? `(${moment.tz(profileTimezone).format('z')})` : '',
-                    }}
-                />
-            </span>
-            <span>
-                <Timestamp
-                    useRelative={false}
-                    useDate={false}
-                    userTimezone={profileUserTimezone}
-                    useTime={{
-                        hour: 'numeric',
-                        minute: 'numeric',
-                    }}
-                />
-                <span>{returnTimeDiff()}</span>
-            </span>
-
-        </div>
-    );
-};
+import {ProfileTimezone} from './profile_localtime';
 
 interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'> {
 
@@ -663,6 +579,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 <ProfileTimezone
                     currentUserTimezone={this.props.currentUserTimezone}
                     profileUserTimezone={this.props.user.timezone}
+                    key='user-popover-local-time'
                 />,
             );
         }
