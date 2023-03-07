@@ -52,7 +52,7 @@ test.afterEach(async () => {
     await adminChannelsPage.page.close();
 });
 
-test('MM-Txxx_1 Join a call from channel header button', async () => {
+test('MM-T5400_1 Join a call from channel header button', async () => {
     // Join a call from header and verify Calls widget becomes visible
     await userChannelsPage.joinCallFromHeader();
     await userChannelsPage.callsWidget.toBeVisible();
@@ -62,7 +62,7 @@ test('MM-Txxx_1 Join a call from channel header button', async () => {
     await userChannelsPage.callsWidget.toBeHidden();
 });
 
-test('MM-Txxx_2 Join a call from channel toast', async () => {
+test('MM-T5400_2 Join a call from channel toast', async () => {
     // Start a call from toast and verify Calls widget becomes visible
     await userChannelsPage.joinCallFromToast();
     await userChannelsPage.callsWidget.toBeVisible();
@@ -72,7 +72,7 @@ test('MM-Txxx_2 Join a call from channel toast', async () => {
     await userChannelsPage.callsWidget.toBeHidden();
 });
 
-test('MM-Txxx_3 Join a call from center post', async () => {
+test('MM-T5400_3 Join a call from center post', async () => {
     const userCallsPost = await userChannelsPage.getLastPost();
     await userCallsPost.body.getByText('Join call').click();
 
@@ -85,7 +85,7 @@ test('MM-Txxx_3 Join a call from center post', async () => {
     await userChannelsPage.callsWidget.toBeHidden();
 });
 
-test('MM-Txxx_4 Join a call from RHS post', async () => {
+test('MM-T5400_4 Join a call from RHS post', async () => {
     // Click reply to post and verify the RHS has opened
     const centerPost = await userChannelsPage.getLastPost();
     await centerPost.openRHS();

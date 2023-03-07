@@ -6,7 +6,7 @@ import {shouldSkipInSmallScreen} from '@e2e-support/flag';
 
 shouldSkipInSmallScreen();
 
-test('MM-Txxx Start and leave a call', async ({pw, pages}) => {
+test('MM-T5399 Start and leave a call', async ({pw, pages}) => {
     await pw.shouldHaveCallsEnabled();
 
     // Create and sign in a new user
