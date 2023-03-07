@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState, useEffect, useRef} from 'react';
+import React, {CSSProperties, useState, useEffect, useRef} from 'react';
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
@@ -22,10 +22,9 @@ type Props = {
     channelMember?: ChannelMembership;
     pluginCallComponents: PluginComponent[];
     sidebarOpen: boolean;
-    customButton?: JSX.Element;
 }
 
-export default function CallButton({pluginCallComponents, currentChannel, channelMember, sidebarOpen, customButton}: Props) {
+export default function CallButton({pluginCallComponents, currentChannel, channelMember, sidebarOpen}: Props) {
     const [active, setActive] = useState(false);
     const [clickEnabled, setClickEnabled] = useState(true);
     const prevSidebarOpen = useRef(sidebarOpen);
@@ -45,17 +44,25 @@ export default function CallButton({pluginCallComponents, currentChannel, channe
         return null;
     }
 
+    const style = {
+        container: {
+            marginTop: 16,
+            height: 32,
+        } as CSSProperties,
+    };
+
     if (pluginCallComponents.length === 1) {
         const item = pluginCallComponents[0];
         const clickHandler = () => item.action?.(currentChannel, channelMember);
 
         return (
             <div
-                className='callButtonContainer flex-child'
+                style={style.container}
+                className='flex-child'
                 onClick={clickEnabled ? clickHandler : undefined}
                 onTouchEnd={clickEnabled ? clickHandler : undefined}
             >
-                {customButton || item.button}
+                {item.button}
             </div>
         );
     }
@@ -77,7 +84,8 @@ export default function CallButton({pluginCallComponents, currentChannel, channe
 
     return (
         <div
-            className='callButtonContainer flex-child'
+            style={style.container}
+            className='flex-child'
         >
             <MenuWrapper onToggle={(toggle: boolean) => setActive(toggle)}>
                 <button className={classNames('style--none call-button dropdown', {active})}>

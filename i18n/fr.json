@@ -2974,7 +2974,6 @@
   "create_team.team_url.unavailable": "Cette URL est déjà prise ou est indisponible. Veuillez en spécifier une autre.",
   "create_team.team_url.webAddress": "Spécifiez l'URL que vous souhaitez pour votre nouvelle équipe :",
   "custom_emoji.header": "Émoticônes personnalisées",
-  "custom_status.expiry.date_picker.title": "Date",
   "custom_status.expiry.time_picker.title": "Heure",
   "custom_status.expiry.until": "Jusqu'à",
   "custom_status.expiry_dropdown.choose_date_and_time": "Choisir une date et une heure",

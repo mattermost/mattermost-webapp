@@ -5,7 +5,7 @@ import nock from 'nock';
 
 import {randomUUID} from 'crypto';
 
-import {DialogElement} from '@mattermost/types/integrations';
+import {Command, DialogElement, OAuthApp} from '@mattermost/types/integrations';
 import {SystemEmoji, CustomEmoji} from '@mattermost/types/emojis';
 import {Bot} from '@mattermost/types/bots';
 import {Team, TeamMembership} from '@mattermost/types/teams';
@@ -308,8 +308,10 @@ class TestHelper {
         };
     }
 
-    testCommand = (teamId: string) => {
+    testCommand = (teamId: string): Command => {
         return {
+            id: '',
+            token: '',
             trigger: this.generateId(),
             method: 'P',
             create_at: 1507841118796,
@@ -586,8 +588,12 @@ class TestHelper {
         return files;
     };
 
-    fakeOAuthApp = () => {
+    fakeOAuthApp = (): OAuthApp => {
         return {
+            id: '',
+            creator_id: '',
+            create_at: 0,
+            client_secret: '',
             name: this.generateId(),
             callback_urls: ['http://localhost/notrealurl'],
             homepage: 'http://localhost/notrealurl',

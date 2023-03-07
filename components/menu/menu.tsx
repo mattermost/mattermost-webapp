@@ -1,7 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode, useState, MouseEvent, useEffect, KeyboardEvent, SyntheticEvent} from 'react';
+import React, {
+    ReactNode,
+    useState,
+    MouseEvent,
+    useEffect,
+    KeyboardEvent,
+    SyntheticEvent,
+    KeyboardEventHandler,
+} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import MuiMenuList from '@mui/material/MenuList';
 
@@ -11,7 +19,8 @@ import {getIsMobileView} from 'selectors/views/browser';
 
 import {openModal, closeModal} from 'actions/views/modals';
 
-import {A11yClassNames} from 'utils/constants';
+import Constants, {A11yClassNames} from 'utils/constants';
+import {isKeyPressed} from 'utils/utils';
 
 import CompassDesignProvider from 'components/compass_design_provider';
 import Tooltip from 'components/tooltip';
@@ -26,6 +35,7 @@ const MENU_CLOSE_ANIMATION_DURATION = 100;
 
 type MenuButtonProps = {
     id: string;
+    dateTestId?: string;
     'aria-label'?: string;
     class?: string;
     children: ReactNode;
@@ -46,6 +56,9 @@ type MenuProps = {
      * @warning Make the styling of your components such a way that they dont need this handler
      */
     onToggle?: (isOpen: boolean) => void;
+    closeMenuManually?: boolean;
+    onKeyDown?: KeyboardEventHandler<HTMLDivElement>;
+    width?: string;
 }
 
 interface Props {
@@ -91,20 +104,33 @@ export function Menu(props: Props) {
         setAnchorElement(null);
     }
 
-    function handleMenuKeyDown(event: KeyboardEvent<HTMLDivElement>) {
-        if (event.key === 'Enter') {
-            const target = event.target as HTMLElement;
-            const ariaHasPopup = target?.getAttribute('aria-haspopup') === 'true';
+    useEffect(() => {
+        if (props.menu.closeMenuManually) {
+            setAnchorElement(null);
+            if (isMobileView) {
+                handleMenuModalClose(props.menu.id);
+            }
+        }
+    }, [props.menu.closeMenuManually]);
 
-            // Avoid closing the sub menu item on enter
-            if (!ariaHasPopup) {
+    function handleMenuKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+        if (isKeyPressed(event, Constants.KeyCodes.ENTER) || isKeyPressed(event, Constants.KeyCodes.SPACE)) {
+            const target = event.target as HTMLElement;
+            const ariaHasPopupAttribute = target?.getAttribute('aria-haspopup') === 'true';
+            const ariaHasExpandedAttribute = target?.getAttribute('aria-expanded') !== null ?? false;
+
+            if (ariaHasPopupAttribute && ariaHasExpandedAttribute) {
+                // Avoid closing the sub menu item on enter
+            } else {
                 setAnchorElement(null);
             }
         }
+        props.menu.onKeyDown?.(event);
     }
 
     function handleMenuButtonClick(event: SyntheticEvent<HTMLButtonElement>) {
         event.preventDefault();
+        event.stopPropagation();
 
         if (isMobileView) {
             dispatch(
@@ -117,6 +143,7 @@ export function Menu(props: Props) {
                         menuAriaLabel: props.menu?.['aria-label'] ?? '',
                         onModalClose: handleMenuModalClose,
                         children: props.children,
+                        onKeyDown: props.menu.onKeyDown,
                     },
                 }),
             );
@@ -135,6 +162,7 @@ export function Menu(props: Props) {
         const triggerElement = (
             <button
                 id={props.menuButton.id}
+                data-testid={props.menuButton.dateTestId}
                 aria-controls={props.menu.id}
                 aria-haspopup={true}
                 aria-expanded={isMenuOpen}
@@ -204,6 +232,7 @@ export function Menu(props: Props) {
                         exit: MENU_CLOSE_ANIMATION_DURATION,
                     },
                 }}
+                width={props.menu.width}
             >
                 {props.children}
             </MuiMenuStyled>
@@ -217,6 +246,7 @@ interface MenuModalProps {
     menuAriaLabel: MenuProps['aria-label'];
     onModalClose: (modalId: MenuProps['id']) => void;
     children: Props['children'];
+    onKeyDown?: KeyboardEventHandler<HTMLDivElement>;
 }
 
 function MenuModal(props: MenuModalProps) {
@@ -229,16 +259,18 @@ function MenuModal(props: MenuModalProps) {
     function handleModalClickCapture(event: MouseEvent<HTMLDivElement>) {
         if (event && event.currentTarget.contains(event.target as Node)) {
             for (const currentElement of event.currentTarget.children) {
-                if (
-                    currentElement.contains(event.target as Node) &&
-                    !currentElement.ariaHasPopup
-                ) {
+                if (currentElement.contains(event.target as Node) && !currentElement.ariaHasPopup) {
                     // We check for property ariaHasPopup because we don't want to close the menu
                     // if the user clicks on a submenu item or menu item which open modal. And let submenu component handle the click.
                     handleModalExited();
                     break;
                 }
             }
+        }
+    }
+    function handleKeydown(event?: React.KeyboardEvent<HTMLDivElement>) {
+        if (event && props.onKeyDown) {
+            props.onKeyDown(event);
         }
     }
 
@@ -251,6 +283,7 @@ function MenuModal(props: MenuModalProps) {
                 ariaLabel={props.menuAriaLabel}
                 onExited={handleModalExited}
                 enforceFocus={false}
+                handleKeydown={handleKeydown}
             >
                 <MuiMenuList // serves as backdrop for modals
                     component='div'

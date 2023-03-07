@@ -23,6 +23,9 @@ export type ChannelsTourTipProps = {
     offset?: [number, number];
     width?: string | number;
     tourCategory: string;
+    hideBackdrop?: boolean;
+    tippyBlueStyle?: boolean;
+    showOptOut?: boolean;
 }
 
 export const ChannelsTourTip = ({
@@ -37,6 +40,9 @@ export const ChannelsTourTip = ({
     placement = 'right-start',
     width = 320,
     tourCategory,
+    hideBackdrop = false,
+    tippyBlueStyle = false,
+    showOptOut = true,
 }: ChannelsTourTipProps) => {
     const {
         show,
@@ -115,6 +121,9 @@ export const ChannelsTourTip = ({
             handlePrevious={handlePrevious}
             handleSkip={handleSkip}
             handleJump={handleJump}
+            hideBackdrop={hideBackdrop}
+            tippyBlueStyle={tippyBlueStyle}
+            showOptOut={showOptOut}
         />
     );
 };
