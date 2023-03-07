@@ -171,7 +171,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: (modalId: string) => void;
-        openDirectChannelToUserId: (userId?: string) => Promise<{ error: ServerError }>;
+        openDirectChannelToUserId: (userId?: string) => Promise<{error: ServerError}>;
         getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
     };
     intl: IntlShape;
