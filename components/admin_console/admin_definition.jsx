@@ -331,6 +331,8 @@ const AdminDefinition = {
             title_default: 'Subscription',
             searchableStrings: [
                 'admin.billing.subscription.title',
+                'admin.billing.subscription.deleteWorkspaceSection.title',
+                'admin.billing.subscription.deleteWorkspaceModal.deleteButton',
             ],
             schema: {
                 id: 'BillingSubscriptions',
@@ -1977,7 +1979,7 @@ const AdminDefinition = {
                         label: t('admin.service.developerTitle'),
                         label_default: 'Enable Developer Mode: ',
                         help_text: t('admin.service.developerDesc'),
-                        help_text_default: 'When true, JavaScript errors are shown in a purple bar at the top of the user interface. Not recommended for use in production.',
+                        help_text_default: 'When true, JavaScript errors are shown in a purple bar at the top of the user interface. Not recommended for use in production. Changing this requires a server restart before taking effect.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.DEVELOPER)),
                     },
                     {
@@ -1986,7 +1988,7 @@ const AdminDefinition = {
                         label: t('admin.service.performanceDebuggingTitle'),
                         label_default: 'Enable Client Performance Debugging: ',
                         help_text: t('admin.service.performanceDebuggingDescription'),
-                        help_text_default: 'When true, users can access debugging settings for their account in **Settings > Advanced > Performance Debugging** to assist in diagnosing performance issues.',
+                        help_text_default: 'When true, users can access debugging settings for their account in **Settings > Advanced > Performance Debugging** to assist in diagnosing performance issues. Changing this requires a server restart before taking effect.',
                         help_text_markdown: true,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.DEVELOPER)),
                     },
@@ -1998,7 +2000,7 @@ const AdminDefinition = {
                         placeholder: t('admin.service.internalConnectionsEx'),
                         placeholder_default: 'webhooks.internal.example.com 127.0.0.1 10.0.16.0/28',
                         help_text: t('admin.service.internalConnectionsDesc'),
-                        help_text_default: 'A whitelist of local network addresses that can be requested by the Mattermost server on behalf of a client. Care should be used when configuring this setting to prevent unintended access to your local network. See <link>documentation</link> to learn more.',
+                        help_text_default: 'A whitelist of local network addresses that can be requested by the Mattermost server on behalf of a client. Care should be used when configuring this setting to prevent unintended access to your local network. See <link>documentation</link> to learn more. Changing this requires a server restart before taking effect.',
                         help_text_values: {
                             link: (msg) => (
                                 <a
@@ -3135,7 +3137,6 @@ const AdminDefinition = {
                         help_text_default: 'New user accounts are restricted to the above specified email domain (e.g. "mattermost.com") or list of comma-separated domains (e.g. "corp.mattermost.com, mattermost.com"). New teams can only be created by users from the above domain(s). This setting only affects email login for users.',
                         placeholder: t('admin.team.restrictExample'),
                         placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.com"',
-                        isHidden: it.licensed,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
                     },
                     {

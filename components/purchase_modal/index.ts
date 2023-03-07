@@ -48,6 +48,7 @@ function mapStateToProps(state: GlobalState) {
         invoices: getCloudDelinquentInvoices(state),
         isCloudDelinquencyGreaterThan90Days: isCloudDelinquencyGreaterThan90Days(state),
         isFreeTrial: subscription?.is_free_trial === 'true',
+        isComplianceBlocked: subscription?.compliance_blocked === 'true',
         contactSalesLink: getCloudContactUsLink(state)(InquiryType.Sales),
         productId: subscription?.product_id,
         customer: state.entities.cloud.customer,
@@ -62,7 +63,7 @@ type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
     getCloudProducts: () => void;
     completeStripeAddPaymentMethod: (stripe: Stripe, billingDetails: BillingDetails, isDevMode: boolean) => Promise<boolean | null>;
-    subscribeCloudSubscription: (productId: string, seats?: number) => Promise<boolean | null>;
+    subscribeCloudSubscription: typeof subscribeCloudSubscription;
     getClientConfig: () => void;
     getCloudSubscription: () => void;
     getInvoices: () => void;

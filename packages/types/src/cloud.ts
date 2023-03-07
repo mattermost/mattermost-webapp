@@ -8,7 +8,7 @@ export type CloudState = {
     products?: Record<string, Product>;
     customer?: CloudCustomer;
     invoices?: Record<string, Invoice>;
-    subscriptionStats?: LicenseExpandReducer;
+    subscriptionStats?: LicenseSelfServeStatusReducer;
     limits: {
         limitsLoaded: boolean;
         limits: Limits;
@@ -40,6 +40,7 @@ export type Subscription = {
     trial_end_at: number;
     is_free_trial: string;
     delinquent_since?: number;
+    compliance_blocked?: string;
 }
 
 export type Product = {
@@ -98,12 +99,13 @@ export type CloudCustomer = {
     payment_method: PaymentMethod;
 } & CustomerMetadataGatherWireTransfer
 
-export type LicenseExpandStatus = {
-    is_expandable: boolean;
+export type LicenseSelfServeStatus = {
+    is_expandable?: boolean;
+    is_renewable?: boolean;
 }
 
 type RequestState = 'IDLE' | 'LOADING' | 'ERROR' | 'OK'
-export interface LicenseExpandReducer extends LicenseExpandStatus {
+export interface LicenseSelfServeStatusReducer extends LicenseSelfServeStatus {
     getRequestState: RequestState;
 }
 
@@ -216,4 +218,20 @@ export interface CreateSubscriptionRequest {
     add_ons: string[];
     seats: number;
     internal_purchase_order?: string;
+}
+
+export const areShippingDetailsValid = (address: Address | null | undefined): boolean => {
+    if (!address) {
+        return false;
+    }
+    return Boolean(address.city && address.country && address.line1 && address.postal_code && address.state);
+};
+export type Feedback = {
+    reason: string;
+    comments: string;
+}
+
+export type WorkspaceDeletionRequest = {
+    subscription_id: string;
+    delete_feedback: Feedback;
 }

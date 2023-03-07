@@ -55,7 +55,7 @@ describe('Message permalink', () => {
             cy.clickPostDotMenu(postId);
 
             // # Click on "Copy Link"
-            cy.uiClickCopyLink(permalink);
+            cy.uiClickCopyLink(permalink, postId);
 
             const dmChannelLink = `/${testTeam.name}/messages/@${otherUser.username}`;
             cy.apiSaveMessageDisplayPreference('compact');

@@ -13,6 +13,7 @@ type Props = {
     onDismiss?: (e: React.MouseEvent) => void;
     onPunchOut?: (e: React.MouseEvent) => void;
     appendTo: HTMLElement;
+    transparent?: boolean;
 }
 
 const TourTipRootPortal = ({children, show, element}: {children: React.ReactNode ; show: boolean; element: Element}) =>
@@ -28,6 +29,7 @@ export const TourTipBackdrop = ({
     onDismiss,
     onPunchOut,
     appendTo,
+    transparent,
 }: Props) => {
     const vertices = [];
     if (overlayPunchOut) {
@@ -54,7 +56,7 @@ export const TourTipBackdrop = ({
     const backdrop = (
         <div
             onClick={onDismiss}
-            className={'tour-tip__backdrop'}
+            className={`tour-tip__backdrop ${transparent ? 'tour-tip__backdrop--transparent' : ''}`}
             style={{
                 clipPath: vertices.length ? `polygon(${vertices.join(', ')})` : undefined,
             }}
