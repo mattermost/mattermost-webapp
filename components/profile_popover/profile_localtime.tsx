@@ -61,7 +61,7 @@ const ProfileTimezone = (
         <div
             className='user-popover__time-status-container'
         >
-            <span className='user-popover__subtitle' >
+            <span className='user-popover__subtitle'>
                 <FormattedMessage
                     id='user_profile.account.localTime'
                     defaultMessage='Local Time {timezone}'
