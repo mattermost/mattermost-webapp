@@ -3,10 +3,15 @@
 
 import React from 'react';
 
-export default () => (
+type SvgProps = {
+    width?: number;
+    height?: number;
+}
+
+export default (props: SvgProps) => (
     <svg
-        width='41'
-        height='41'
+        width={props.width ? props.width : 41}
+        height={props.height ? props.height : 41}
         viewBox='0 0 41 41'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
