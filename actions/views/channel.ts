@@ -12,6 +12,7 @@ import {
     markChannelAsRead,
     unfavoriteChannel,
     deleteChannel as deleteChannelRedux,
+    getChannel as loadChannel,
 } from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {TeamTypes} from 'mattermost-redux/action_types';
@@ -57,7 +58,7 @@ import {getSelectedPost, getSelectedPostId} from 'selectors/rhs';
 import {getHistory} from 'utils/browser_history';
 import {Constants, ActionTypes, EventTypes, PostRequestTypes} from 'utils/constants';
 import {isMobile} from 'utils/utils';
-import LocalStorageStore from 'stores/local_storage_store.jsx';
+import LocalStorageStore from 'stores/local_storage_store';
 import {isArchivedChannel} from 'utils/channel_utils';
 import type {GlobalState} from 'types/store';
 
@@ -93,6 +94,18 @@ export function switchToChannelById(channelId: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const channel = getChannel(state, channelId);
+        return dispatch(switchToChannel(channel));
+    };
+}
+
+export function loadIfNecessaryAndSwitchToChannelById(channelId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        let channel = getChannel(state, channelId);
+        if (!channel) {
+            const res = await dispatch(loadChannel(channelId));
+            channel = res.data;
+        }
         return dispatch(switchToChannel(channel));
     };
 }

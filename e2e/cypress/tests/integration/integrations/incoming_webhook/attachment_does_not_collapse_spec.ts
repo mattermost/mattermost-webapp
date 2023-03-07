@@ -64,9 +64,6 @@ describe('Integrations/Incoming Webhook', () => {
             cy.get(postMessageId).within(() => {
                 // * Verify "show more" button says "Show less"
                 cy.get('#showMoreButton').scrollIntoView().should('be.visible').and('have.text', 'Show less');
-
-                // * Verify gradient
-                cy.get('#collapseGradient').should('not.be.visible');
             });
         });
     });

@@ -6,6 +6,8 @@ import classNames from 'classnames';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {FocusTrap} from '../focus_trap';
+
 export type Props = {
     className?: string;
     onExited: () => void;
@@ -14,6 +16,7 @@ export type Props = {
     handleCancel?: () => void;
     handleConfirm?: () => void;
     handleEnterKeyPress?: () => void;
+    handleKeydown?: (event?: React.KeyboardEvent<HTMLDivElement>) => void;
     confirmButtonText?: React.ReactNode;
     confirmButtonClassName?: string;
     cancelButtonText?: React.ReactNode;
@@ -23,6 +26,11 @@ export type Props = {
     id: string;
     autoCloseOnCancelButton?: boolean;
     autoCloseOnConfirmButton?: boolean;
+
+    /**
+     * If false, bootrap's Modal will not enforce focus on the modal and will
+     * transfer the mechanism to the FocusTrap component instead.
+     */
     enforceFocus?: boolean;
     container?: React.ReactNode | React.ReactNodeArray;
     ariaLabel?: string;
@@ -30,11 +38,14 @@ export type Props = {
     compassDesign?: boolean;
     backdrop?: boolean;
     backdropClassName?: string;
+    tabIndex?: number;
     children: React.ReactNode;
+    keyboardEscape?: boolean;
 };
 
 type State = {
     show: boolean;
+    isFocalTrapActive: boolean;
 }
 
 export class GenericModal extends React.PureComponent<Props, State> {
@@ -44,6 +55,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
         autoCloseOnCancelButton: true,
         autoCloseOnConfirmButton: true,
         enforceFocus: true,
+        keyboardEscape: true,
     };
 
     constructor(props: Props) {
@@ -51,6 +63,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
 
         this.state = {
             show: props.show!,
+            isFocalTrapActive: false,
         };
     }
 
@@ -78,7 +91,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
         }
     }
 
-    private onEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    private onEnterKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
         if (event.key === 'Enter') {
             if (this.props.autoCloseOnConfirmButton) {
                 this.onHide();
@@ -86,6 +99,13 @@ export class GenericModal extends React.PureComponent<Props, State> {
             if (this.props.handleEnterKeyPress) {
                 this.props.handleEnterKeyPress();
             }
+        }
+        this.props.handleKeydown?.(event);
+    }
+
+    private handleShow = () => {
+        if (this.props.enforceFocus === false) {
+            this.setState({isFocalTrapActive: true});
         }
     }
 
@@ -148,50 +168,56 @@ export class GenericModal extends React.PureComponent<Props, State> {
             </div>
         );
 
+        const isFocusTrapActive = this.props.enforceFocus === false ? this.state.isFocalTrapActive : false;
+
         return (
             <Modal
-                dialogClassName={classNames('a11y__modal GenericModal', {GenericModal__compassDesign: this.props.compassDesign}, this.props.className)}
-                show={this.state.show}
-                onHide={this.onHide}
-                onExited={this.props.onExited}
-                enforceFocus={this.props.enforceFocus}
-                restoreFocus={true}
+                id={this.props.id}
                 role='dialog'
                 aria-label={this.props.ariaLabel}
                 aria-labelledby={this.props.ariaLabel ? undefined : 'genericModalLabel'}
-                id={this.props.id}
-                container={this.props.container}
+                dialogClassName={classNames('a11y__modal GenericModal', {GenericModal__compassDesign: this.props.compassDesign}, this.props.className)}
+                show={this.state.show}
+                onShow={this.handleShow}
+                restoreFocus={true}
+                enforceFocus={this.props.enforceFocus}
+                onHide={this.onHide}
+                onExited={this.props.onExited}
                 backdrop={this.props.backdrop}
                 backdropClassName={this.props.backdropClassName}
+                container={this.props.container}
+                keyboard={this.props.keyboardEscape}
             >
-                <div
-                    onKeyDown={this.onEnterKeyDown}
-                    tabIndex={0}
-                    className='GenericModal__wrapper-enter-key-press-catcher'
-                >
-                    <Modal.Header closeButton={true}>
-                        {this.props.compassDesign && headerText}
-                    </Modal.Header>
-                    <Modal.Body>
-                        {this.props.compassDesign ? (
-                            this.props.errorText && (
-                                <div className='genericModalError'>
-                                    <i className='icon icon-alert-outline'/>
-                                    <span>{this.props.errorText}</span>
-                                </div>
-                            )
-                        ) : (
-                            headerText
-                        )}
-                        <div className='GenericModal__body'>
-                            {this.props.children}
-                        </div>
-                    </Modal.Body>
-                    {(cancelButton || confirmButton) && <Modal.Footer>
-                        {cancelButton}
-                        {confirmButton}
-                    </Modal.Footer>}
-                </div>
+                <FocusTrap active={isFocusTrapActive}>
+                    <div
+                        onKeyDown={this.onEnterKeyDown}
+                        tabIndex={this.props.tabIndex || 0}
+                        className='GenericModal__wrapper-enter-key-press-catcher'
+                    >
+                        <Modal.Header closeButton={true}>
+                            {this.props.compassDesign && headerText}
+                        </Modal.Header>
+                        <Modal.Body>
+                            {this.props.compassDesign ? (
+                                this.props.errorText && (
+                                    <div className='genericModalError'>
+                                        <i className='icon icon-alert-outline'/>
+                                        <span>{this.props.errorText}</span>
+                                    </div>
+                                )
+                            ) : (
+                                headerText
+                            )}
+                            <div className='GenericModal__body'>
+                                {this.props.children}
+                            </div>
+                        </Modal.Body>
+                        {(cancelButton || confirmButton) && <Modal.Footer>
+                            {cancelButton}
+                            {confirmButton}
+                        </Modal.Footer>}
+                    </div>
+                </FocusTrap>
             </Modal>
         );
     }

@@ -59,6 +59,16 @@
 .EnterpriseEditionLeftPanel {
     font-family: Metropolis;
 
+    &__Grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 1fr;
+    }
+
+    .PlanDetails__viewPlansButton {
+        height: 33px;
+    }
+
     .pre-title {
         margin-bottom: 10px;
         color: rgba(63, 67, 80, 0.56) !important;

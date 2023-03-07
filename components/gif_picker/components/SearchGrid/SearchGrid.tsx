@@ -68,7 +68,6 @@ export default class SearchGrid extends PureComponent<Props, State> {
     componentDidMount() {
         this.container = document.getElementById('search-grid-container');
         if (this.container) {
-            // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
                 ...this.state,
                 containerWidth: this.container.offsetWidth - WEBKIT_SCROLLBAR_WIDTH,

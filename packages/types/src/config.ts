@@ -18,10 +18,13 @@ export type ClientConfig = {
     BannerColor: string;
     BannerText: string;
     BannerTextColor: string;
+    BuildBoards: string;
     BuildDate: string;
     BuildEnterpriseReady: string;
     BuildHash: string;
+    BuildHashBoards: string;
     BuildHashEnterprise: string;
+    BuildHashPlaybooks: string;
     BuildNumber: string;
     CollapsedThreads: CollapsedThreads;
     CustomBrandText: string;
@@ -115,9 +118,10 @@ export type ClientConfig = {
     ExperimentalTimezone: string;
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
+    FeatureFlagAppsEnabled: string;
     FeatureFlagBoardsProduct: string;
+    FeatureFlagCallsEnabled: string;
     FeatureFlagGraphQL: string;
-    FeatureFlagAnnualSubscription: string;
     GfycatAPIKey: string;
     GfycatAPISecret: string;
     GoogleDeveloperKey: string;
@@ -178,6 +182,7 @@ export type ClientConfig = {
     SiteURL: string;
     SQLDriverName: string;
     SupportEmail: string;
+    TelemetryId: string;
     TeammateNameDisplay: string;
     TermsOfServiceLink: string;
     TimeBetweenUserTypingUpdatesMilliseconds: string;
@@ -359,6 +364,7 @@ export type ServiceSettings = {
     EnableCustomGroups: boolean;
     SelfHostedPurchase: boolean;
     AllowSyncedDrafts: boolean;
+    SelfHostedExpansion: boolean;
 };
 
 export type TeamSettings = {
@@ -421,6 +427,7 @@ export type LogSettings = {
     FileLocation: string;
     EnableWebhookDebugging: boolean;
     EnableDiagnostics: boolean;
+    VerboseDiagnostics: boolean;
     EnableSentry: boolean;
     AdvancedLoggingConfig: string;
 };
@@ -745,6 +752,9 @@ export type ElasticsearchSettings = {
     BatchSize: number;
     RequestTimeoutSeconds: number;
     SkipTLSVerification: boolean;
+    CA: string;
+    ClientCert: string;
+    ClientKey: string;
     Trace: string;
 };
 

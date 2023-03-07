@@ -14,7 +14,9 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {clearChannelSelection, multiSelectChannelAdd, multiSelectChannelTo} from 'actions/views/channel_sidebar';
 import {getFirstChannelName} from 'selectors/onboarding';
 import {markMostRecentPostInChannelAsUnread, unsetEditingPost} from 'actions/post_actions';
+import {closeRightHandSide} from 'actions/views/rhs';
 import {isChannelSelected} from 'selectors/views/channel_sidebar';
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {GlobalState} from 'types/store';
 import {
     GenericTaskSteps,
@@ -56,6 +58,8 @@ function makeMapStateToProps() {
             isChannelSelected: isChannelSelected(state, ownProps.channel.id),
             firstChannelName: showChannelsTutorialStep ? firstChannelName : '',
             showChannelsTutorialStep,
+            rhsState: getRhsState(state),
+            rhsOpen: getIsRhsOpen(state),
         };
     };
 }
@@ -68,6 +72,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             clearChannelSelection,
             multiSelectChannelTo,
             multiSelectChannelAdd,
+            closeRightHandSide,
         }, dispatch),
     };
 }

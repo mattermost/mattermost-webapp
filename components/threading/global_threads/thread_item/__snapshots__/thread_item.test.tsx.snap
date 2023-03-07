@@ -14,7 +14,7 @@ exports[`components/threading/global_threads/thread_item should report total num
       Someone
     </div>
     <div
-      className="d-flex align-items-center"
+      className="ThreadItem__tags"
     >
       <Memo(Tag)
         onClick={[Function]}
@@ -138,7 +138,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
       Someone
     </div>
     <div
-      className="d-flex align-items-center"
+      className="ThreadItem__tags"
     >
       <Memo(Tag)
         onClick={[Function]}
@@ -260,7 +260,7 @@ exports[`components/threading/global_threads/thread_item should report unread me
       Someone
     </div>
     <div
-      className="d-flex align-items-center"
+      className="ThreadItem__tags"
     >
       <Memo(Tag)
         onClick={[Function]}

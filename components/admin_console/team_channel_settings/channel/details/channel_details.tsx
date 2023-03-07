@@ -133,7 +133,6 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
     componentDidUpdate(prevProps: ChannelDetailsProps) {
         const {channel, totalGroups, actions} = this.props;
         if (channel.id !== prevProps.channel.id || totalGroups !== prevProps.totalGroups) {
-            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
                 totalGroups,
                 isSynced: Boolean(channel.group_constrained),
