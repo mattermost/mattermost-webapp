@@ -7,6 +7,10 @@ import classNames from 'classnames';
 
 import {AccountOutlineIcon, AccountPlusOutlineIcon, CloseIcon, EmoticonHappyOutlineIcon, PhoneInTalkIcon, SendIcon} from '@mattermost/compass-icons/components';
 
+import {DateTime, Duration} from 'luxon';
+
+import moment from 'moment-timezone';
+
 import Pluggable from 'plugins/pluggable';
 
 import {displayUsername, isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
@@ -46,6 +50,88 @@ import './profile_popover.scss';
 import BotTag from '../widgets/tag/bot_tag';
 import GuestTag from '../widgets/tag/guest_tag';
 import Tag from '../widgets/tag/tag';
+
+type ProfileTimezoneProps = {
+    profileUserTimezone?: UserTimezone;
+
+    // this.props.currentUserTimezone
+    currentUserTimezone: string | undefined;
+}
+const ProfileTimezone = (
+    {
+        currentUserTimezone,
+        profileUserTimezone,
+    }: ProfileTimezoneProps,
+) => {
+    const returnTimeDiff = () => {
+        const currentUserDate = DateTime.local().setZone(currentUserTimezone);
+        const profileUserDate = DateTime.local().setZone(profileUserTimezone?.manualTimezone || profileUserTimezone?.automaticTimezone);
+
+        const hoursDiff = Duration.fromObject({
+            minutes: profileUserDate.offset - currentUserDate.offset,
+        }).as('hours');
+
+        if (!hoursDiff) {
+            return undefined;
+        }
+
+        const aheadOrBehind = hoursDiff > 0 ? 'ahead' : 'behind';
+
+        if (aheadOrBehind === 'ahead') {
+            return (
+                <FormattedMessage
+                    id='user_profile.account.hoursAhead'
+                    defaultMessage='({hourDiff} hr. ahead)'
+                    values={{
+                        hourDiff: Math.abs(hoursDiff),
+                    }}
+                />
+            );
+        }
+
+        return (
+            <FormattedMessage
+                id='user_profile.account.hoursBehind'
+                defaultMessage='({hourDiff} hr. behind)'
+                values={{
+                    hourDiff: Math.abs(hoursDiff),
+                }}
+            />
+        );
+    };
+
+    const profileTimezone = profileUserTimezone?.manualTimezone || profileUserTimezone?.automaticTimezone;
+
+    return (
+        <div
+            key='user-popover-local-time'
+            className='user-popover__time-status-container'
+        >
+            <span className='user-popover__subtitle' >
+                <FormattedMessage
+                    id='user_profile.account.localTime'
+                    defaultMessage='Local Time {timezone}'
+                    values={{
+                        timezone: profileTimezone ? `(${moment.tz(profileTimezone).format('z')})` : '',
+                    }}
+                />
+            </span>
+            <span>
+                <Timestamp
+                    useRelative={false}
+                    useDate={false}
+                    userTimezone={profileUserTimezone}
+                    useTime={{
+                        hour: 'numeric',
+                        minute: 'numeric',
+                    }}
+                />
+                <span>{returnTimeDiff()}</span>
+            </span>
+
+        </div>
+    );
+};
 
 interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'> {
 
@@ -169,7 +255,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: (modalId: string) => void;
-        openDirectChannelToUserId: (userId?: string) => Promise<{error: ServerError}>;
+        openDirectChannelToUserId: (userId?: string) => Promise<{ error: ServerError }>;
         getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
     };
     intl: IntlShape;
@@ -285,7 +371,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             return;
         }
         this.setState({loadingDMChannel: user.id});
-        actions.openDirectChannelToUserId(user.id).then((result: {error: ServerError}) => {
+        actions.openDirectChannelToUserId(user.id).then((result: { error: ServerError }) => {
             if (!result.error) {
                 if (this.props.isMobileView) {
                     GlobalActions.emitCloseRightHandSide();
@@ -574,28 +660,10 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             !haveOverrideProp
         ) {
             dataContent.push(
-                <div
-                    key='user-popover-local-time'
-                    className='user-popover__time-status-container'
-                >
-                    <span className='user-popover__subtitle' >
-                        <FormattedMessage
-                            id='user_profile.account.localTime'
-                            defaultMessage='Local Time'
-                        />
-                    </span>
-                    <Timestamp
-                        useRelative={false}
-                        useDate={false}
-                        userTimezone={this.props.user?.timezone as UserTimezone | undefined}
-                        useTime={{
-                            hour: 'numeric',
-                            minute: 'numeric',
-                        }}
-                        includeTimeDifference={true}
-                        currentTimezone={this.props.currentUserTimezone}
-                    />
-                </div>,
+                <ProfileTimezone
+                    currentUserTimezone={this.props.currentUserTimezone}
+                    profileUserTimezone={this.props.user.timezone}
+                />,
             );
         }
 
