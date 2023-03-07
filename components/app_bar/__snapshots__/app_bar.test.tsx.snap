@@ -1,11 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
-.c0:last-child,
-.c0:first-child {
-  display: none;
-}
-
 <AppBar>
   <div
     className="app-bar"
@@ -85,14 +80,10 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
         </OverlayTrigger>
       </OverlayTrigger>
     </AppBarPluginComponent>
-    <_StyledHr
+    <hr
       className="app-bar__divider"
       key="divider"
-    >
-      <hr
-        className="c0 app-bar__divider"
-      />
-    </_StyledHr>
+    />
     <AppBarBinding
       binding={
         Object {

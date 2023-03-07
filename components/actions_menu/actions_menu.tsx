@@ -50,6 +50,7 @@ export type Props = {
     handleDismissTip: () => void;
     showPulsatingDot?: boolean;
     showTutorialTip: boolean;
+    canOpenMarketplace: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -344,7 +345,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         const {formatMessage} = this.props.intl;
 
         let marketPlace = null;
-        if (this.props.isSysAdmin) {
+        if (this.props.canOpenMarketplace) {
             marketPlace = (
                 <React.Fragment key={'marketplace'}>
                     {this.renderDivider('marketplace')}
@@ -366,11 +367,11 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         const hasPluginItems = Boolean(pluginItems?.length);
 
         const hasPluginMenuItems = hasPluginItems || hasApps || hasPluggables;
-        if (!this.props.isSysAdmin && !hasPluginMenuItems) {
+        if (!this.props.canOpenMarketplace && !hasPluginMenuItems) {
             return null;
         }
 
-        if (hasPluginItems || hasApps || hasPluggables) {
+        if (hasPluginMenuItems) {
             const pluggable = (
                 <Pluggable
                     postId={this.props.post.id}

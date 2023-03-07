@@ -37,7 +37,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 appBindings={[]}
                 appsEnabled={false}
                 shouldShowAppBar={false}
-                isAdmin={false}
+                canOpenMarketplace={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -60,7 +60,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 appBindings={[]}
                 appsEnabled={false}
                 shouldShowAppBar={false}
-                isAdmin={false}
+                canOpenMarketplace={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -99,7 +99,7 @@ describe('plugins/ChannelHeaderPlug', () => {
                 appBindings={[]}
                 appsEnabled={false}
                 shouldShowAppBar={false}
-                isAdmin={false}
+                canOpenMarketplace={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
@@ -127,13 +127,13 @@ describe('plugins/ChannelHeaderPlug', () => {
                 appBindings={[]}
                 appsEnabled={false}
                 shouldShowAppBar={true}
-                isAdmin={false}
+                canOpenMarketplace={false}
             />,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should show marketplace for system admin', () => {
+    test('should not show marketplace if disabled or user does not have SYSCONSOLE_WRITE_PLUGINS permission', () => {
         const wrapper = shallowWithIntl(
             <ChannelHeaderPlug
                 components={[testPlug]}
@@ -150,11 +150,38 @@ describe('plugins/ChannelHeaderPlug', () => {
                 appBindings={[]}
                 appsEnabled={false}
                 shouldShowAppBar={false}
-                isAdmin={true}
+                canOpenMarketplace={false}
             />,
         );
 
-        const marketplaceItem = wrapper.find('HeaderIconWrapper').at(1);
-        expect(marketplaceItem.prop('buttonId')).toEqual('channel_header_plug_marketplace');
+        const marketplaceItems = wrapper.find('HeaderIconWrapper');
+        expect(marketplaceItems.length).toEqual(1);
+        expect(marketplaceItems.at(0).prop('buttonId')).not.toEqual('channel_header_plug_marketplace');
+    });
+
+    test('should show marketplace if enabled and user has SYSCONSOLE_WRITE_PLUGINS permission', () => {
+        const wrapper = shallowWithIntl(
+            <ChannelHeaderPlug
+                components={[testPlug]}
+                channel={{} as Channel}
+                channelMember={{} as ChannelMembership}
+                theme={{} as Theme}
+                sidebarOpen={false}
+                actions={{
+                    handleBindingClick: jest.fn(),
+                    postEphemeralCallResponseForChannel: jest.fn(),
+                    openAppsModal: jest.fn(),
+                    openModal: jest.fn(),
+                }}
+                appBindings={[]}
+                appsEnabled={false}
+                shouldShowAppBar={false}
+                canOpenMarketplace={true}
+            />,
+        );
+
+        const marketplaceItems = wrapper.find('HeaderIconWrapper');
+        expect(marketplaceItems.length).toEqual(2);
+        expect(marketplaceItems.at(1).prop('buttonId')).toEqual('channel_header_plug_marketplace');
     });
 });

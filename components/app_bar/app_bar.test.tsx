@@ -10,6 +10,7 @@ import {AppBinding} from '@mattermost/types/apps';
 import {PluginComponent} from 'types/store/plugins';
 import {GlobalState} from 'types/store';
 
+import {Permissions} from 'mattermost-redux/constants';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
 import AppBar from './app_bar';
@@ -90,6 +91,13 @@ describe('components/app_bar/app_bar', () => {
                         },
                     },
                 } as any,
+                roles: {
+                    roles: {
+                        system_user: {
+                            permissions: [],
+                        },
+                    },
+                } as any,
             },
         } as GlobalState;
     });
@@ -143,12 +151,39 @@ describe('components/app_bar/app_bar', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should show marketplace for system admin', async () => {
-        mockState.entities.users = {
-            currentUserId: 'user1',
-            profiles: {
-                user1: {
-                    roles: 'system_admin',
+    test('should not show marketplace if disabled or user does not have SYSCONSOLE_WRITE_PLUGINS permission', async () => {
+        mockState.entities.general = {
+            config: {
+                EnableAppBar: 'true',
+                FeatureFlagAppsEnabled: 'true',
+                EnableMarketplace: 'true',
+                PluginsEnabled: 'true',
+            },
+        } as any;
+
+        const wrapper = shallow(
+            <AppBar/>,
+        );
+
+        expect(wrapper.find('AppBarMarketplace').exists()).toEqual(false);
+    });
+
+    test('should show marketplace if enabled and user has SYSCONSOLE_WRITE_PLUGINS permission', async () => {
+        mockState.entities.general = {
+            config: {
+                EnableAppBar: 'true',
+                FeatureFlagAppsEnabled: 'true',
+                EnableMarketplace: 'true',
+                PluginsEnabled: 'true',
+            },
+        } as any;
+
+        mockState.entities.roles = {
+            roles: {
+                system_user: {
+                    permissions: [
+                        Permissions.SYSCONSOLE_WRITE_PLUGINS,
+                    ],
                 },
             },
         } as any;

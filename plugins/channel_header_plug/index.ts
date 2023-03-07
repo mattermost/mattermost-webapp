@@ -4,8 +4,10 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
+import {Permissions} from 'mattermost-redux/constants';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {appBarEnabled, appsEnabled, getChannelHeaderAppBindings} from 'mattermost-redux/selectors/entities/apps';
+import {haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForChannel} from 'types/apps';
@@ -19,7 +21,7 @@ import {getChannelHeaderPluginComponents, shouldShowAppBar} from 'selectors/plug
 
 import {ModalData} from 'types/actions';
 
-import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {isMarketplaceEnabled} from 'mattermost-redux/selectors/entities/general';
 
 import ChannelHeaderPlug from './channel_header_plug';
 
@@ -33,7 +35,10 @@ function mapStateToProps(state: GlobalState) {
         theme: getTheme(state),
         sidebarOpen: state.views.rhs.isSidebarOpen,
         shouldShowAppBar: shouldShowAppBar(state),
-        isAdmin: isCurrentUserSystemAdmin(state),
+        canOpenMarketplace: (
+            isMarketplaceEnabled(state) &&
+            haveICurrentTeamPermission(state, Permissions.SYSCONSOLE_WRITE_PLUGINS)
+        ),
     };
 }
 

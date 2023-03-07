@@ -12,6 +12,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot when the App Bar is vis
   }
   appBindings={Array []}
   appsEnabled={false}
+  canOpenMarketplace={false}
   channel={Object {}}
   channelMember={Object {}}
   components={
@@ -93,7 +94,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot when the App Bar is vis
       "timeZone": "Etc/UTC",
     }
   }
-  isAdmin={false}
   shouldShowAppBar={true}
   sidebarOpen={false}
   theme={Object {}}
@@ -112,6 +112,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with no extended compon
   }
   appBindings={Array []}
   appsEnabled={false}
+  canOpenMarketplace={false}
   channel={Object {}}
   channelMember={Object {}}
   components={Array []}
@@ -150,7 +151,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with no extended compon
       "timeZone": "Etc/UTC",
     }
   }
-  isAdmin={false}
   shouldShowAppBar={false}
   sidebarOpen={false}
   theme={Object {}}
@@ -169,6 +169,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
   }
   appBindings={Array []}
   appsEnabled={false}
+  canOpenMarketplace={false}
   channel={Object {}}
   channelMember={Object {}}
   components={
@@ -220,7 +221,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
       "timeZone": "Etc/UTC",
     }
   }
-  isAdmin={false}
   shouldShowAppBar={false}
   sidebarOpen={false}
   theme={Object {}}
@@ -350,6 +350,7 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
   }
   appBindings={Array []}
   appsEnabled={false}
+  canOpenMarketplace={false}
   channel={Object {}}
   channelMember={Object {}}
   components={
@@ -541,7 +542,6 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with six extended compo
       "timeZone": "Etc/UTC",
     }
   }
-  isAdmin={false}
   shouldShowAppBar={false}
   sidebarOpen={false}
   theme={Object {}}

@@ -110,7 +110,7 @@ type ChannelHeaderPlugProps = {
     theme: Theme;
     sidebarOpen: boolean;
     shouldShowAppBar: boolean;
-    isAdmin: boolean;
+    canOpenMarketplace: boolean;
     actions: {
         handleBindingClick: HandleBindingClick;
         postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
@@ -387,7 +387,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
                 componentButtons = componentButtons.concat(appBindings.map(this.createAppBindingButton));
             }
 
-            if (this.props.isAdmin) {
+            if (this.props.canOpenMarketplace) {
                 componentButtons.push(this.createMarketplaceButton());
             }
 
